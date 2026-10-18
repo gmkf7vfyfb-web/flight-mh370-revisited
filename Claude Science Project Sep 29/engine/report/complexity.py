@@ -26,7 +26,7 @@ from matplotlib.backends.backend_pdf import PdfPages  # noqa: E402
 from matplotlib.colors import LogNorm  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
-DAVEY = HERE.parent / ".sources/davey-2016/fig10-3-bfo-latitude-pdf.csv"
+DAVEY = HERE.parent / ".sources/davey-2016/fig10-3-bto-bfo-latitude-pdf-vector.csv"  # vector recovery (Pete 18 Oct 2026)
 INK, MUTED, OURS, DAVEY_COLOUR = "#0b0b0b", "#52514e", "#2a78d6", "#eb6834"
 CLASSES = [(0, 0, "0"), (1, 2, "1–2"), (3, 4, "3–4"), (5, 999, "5 or more")]
 CLASS_COLOURS = ["#c6dbef", "#6baed6", "#2171b5", "#08306b"]  # ordinal: light = simple, dark = complex

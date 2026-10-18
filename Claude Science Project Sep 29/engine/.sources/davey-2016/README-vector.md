@@ -10,6 +10,6 @@ Calibration comes from the axis tick marks. The overlay check image shows the re
 | bottom, old hand CSV (fig10-3-bfo-latitude-pdf.csv) | 37.532 S | 39.378-34.903 S | 0.250 (0.2406 on the old 0.05 deg grid) | overlap with vector 0.958 |
 | top (BTO only), southern part renormalised | 38.876 S | 40.522-35.964 S | 0.114 | tip clipped at the 0.4 frame, 39.34-39.11 S (about 0.006 of area); 0.886 of mass is south of 0; northern mode near 45 N |
 
-PROPOSAL (needs Pete's agreement): use the vector bottom curve as the project's Davey reference in place of the hand CSV.
+ADOPTED (Pete, 18 Oct 2026): the vector bottom curve is the project's Davey reference. Canonical engine-readable file: `fig10-3-bto-bfo-latitude-pdf-vector.csv` (one header line, ascending unique latitudes, no comments; same points as fig10-3-bottom-bto-bfo-vector.csv).
 
 Values corrected 18 Oct 2026: exact interval integrals on a 0.001 deg grid (the first version used a 0.05 deg grid that dropped the 36.5 S edge point).

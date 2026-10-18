@@ -39,5 +39,7 @@ convergence criterion, and audits the engine against it. Several things this pro
 treating as settled were in fact inferred from secondary sources while the PDF was absent; that
 note marks which ones survived contact with the original.
 
+**SUPERSEDED 18 Oct 2026 (Pete):** use `fig10-3-bto-bfo-latitude-pdf-vector.csv` (vector recovery; see README-vector.md). The text below describes the old hand copy.
+
 `fig10-3-bfo-latitude-pdf.csv` in this directory is the digitised published posterior from
 Fig. 10.3 (bottom panel), the curve `config/davey2016.toml` compares against.

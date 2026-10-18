@@ -216,7 +216,9 @@ reference curve and the scripts that built the environment grids.
 | `era5-wind-temperature.bin` | Temperature, u/v wind; 17:00–02:00 UTC hourly, 12 pressure altitudes, 0.5° global | ECMWF ERA5 via `gs://gcp-public-data-arco-era5`; `.sources/era5-weather/extract.py` (17:00–01:00), `extend.py` (02:00, same selection and interpolation, after re-extracting 01:00 byte-identically). The cruise filter reads nothing after 00:19 |
 | `igrf14-declination.bin` | Magnetic declination, 12 altitudes, 0.5° global, epoch 2014.18 | IGRF-14 (`pyIGRF14.zip`); `.sources/igrf14-declination/build.py` |
 | `fuel-tables.json` (not in git; never commit or redistribute) | 777-200ER / Trent 892 FPPM grids by flight level and weight: LRC, M0.84, holding, MRC, CI 52, engine-out; per-cell source class | Ulich 9M-MRO fuel model V5.6 (public copy), Boeing-derived and partly marked confidential; raw tables only, not its endurance model; `.sources/fuel-performance/extract.py`. `.sources/fuel-performance/validate.py` checks a fuel model against SIR App. 1.6E Tables 3–4 |
-| `.sources/davey-2016/fig10-3-bfo-latitude-pdf.csv` | Digitised Fig. 10.3 (bottom), density per degree | `paper.pdf`, book p. 90 |
+| `.sources/davey-2016/fig10-3-bto-bfo-latitude-pdf-vector.csv` | **Canonical** Fig. 10.3 (bottom, BTO+BFO), recovered from the PDF vector paths, density per degree (from 18 Oct 2026) | `results/davey-2016.pdf`, book p. 90 |
+| `.sources/davey-2016/fig10-3-top-bto-only-vector.csv` | Fig. 10.3 (top, BTO only), vector recovery; tip clipped at 0.4 | same |
+| `.sources/davey-2016/fig10-3-bfo-latitude-pdf.csv` | SUPERSEDED hand copy of Fig. 10.3 (bottom); kept for the record | `paper.pdf`, book p. 90 |
 
 Binary layouts are documented in `crates/flight/src/environment.rs`.
 

@@ -26,7 +26,7 @@ ephemeris = "../data/satellite-ephemeris.csv"
 era5 = "../data/era5-wind-temperature.bin"
 igrf = "../data/igrf14-declination.bin"
 # Digitised Fig. 10.3 (bottom): the published curve this estimate is compared against.
-reference_curve = "../.sources/davey-2016/fig10-3-bfo-latitude-pdf.csv"
+reference_curve = "../.sources/davey-2016/fig10-3-bto-bfo-latitude-pdf-vector.csv"  # vector recovery, Pete 18 Oct 2026 (was the hand copy fig10-3-bfo-latitude-pdf.csv)
 
 # Ch. 4: prior at the penultimate radar point. Davey does not tabulate the mean
 # state numerically.
