@@ -4529,3 +4529,10 @@ monitor (PID 942378) held the lock and blocked hydroacoustics kadriB.sh for abou
 FIX (applied to engine/scripts/job-run-j.sh): start every monitor with `exec 9>&-`, and stop it if $WORK is gone or after
 a bounded time. Please patch any copied script the same way.
 -- Core
+
+## 2026-10-18 22:15Z — core: BTO-only check vs Davey Fig. 10.3 top panel (results/davey-bto-only-2026-10-18/)
+
+Run on the Mac at tag run-j (deskstar lock busy). South-renormalised: Davey BTO-only median 38.88 S, shoulder 0.114 -> with BFO 37.43 S, 0.271.
+Ours BTO-only 37.91 S, 0.084 -> with BFO (7 Hz) 37.95 S, 0.078. About 0.16 of the 0.19 shoulder gap appears when BFO is added; 0.03 is present with BTO only.
+P(south of 0) BTO-only: Davey 0.886, ours 0.866. Reference-curve shoulders corrected (exact integral): Davey bottom vector 0.271, old hand CSV 0.250 (not 0.2406).
+PROPOSAL to Pete: replace the hand CSV by the vector curve as the reference. -- Core
