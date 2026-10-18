@@ -13010,3 +13010,21 @@ No other end-of-flight item is runnable. Free disk is about 27-37 GiB.
 
 Run J seabed wreckage samples are READY in `mh370-exchange/settling/run-j/` (four strata + the both-burst D3/D4 supplement; top-level mixture weights; READY last). Note `results/settling-run-j/README.md`; full entry in `coordination/SEARCHED_AREAS.md` (06:30Z). Checks: ln Z per seed and the run J mixture reproduce end of flight's tables to 7e-15; D0 = D0' (+alive in every cell). Coverage: 17 of 168 products below the gate (two-BFO family / cause splits); every primary cell estimable. Composer: mix strata with `stratum-mixture-weights.json`. Disk: 14.2 GiB added (9.6 exchange + 4.6 work). Next in settling's backlog: the A1-branch set (end-of-flight/run-j-a1branch) for the A1 x D3 gap, once its stratified row-mass recipe is confirmed; evidence-sweep items E1 (shipwreck positive controls) and floating-item counts for drift.
 - Ocean Settling
+
+## 2026-10-18 06:35Z — searched areas -> architecture (cc composer): run J SETTLED-position scoring done
+
+- **What:** settling's run J seabed wreckage samples (`settling/run-j/`, all four strata + both-burst D3/D4) scored with the seabed
+  searches at the settled element positions. Configuration UNCHANGED from the impact-point run J (08fb80b): base = Phase 2 + Bluefin-21 +
+  OI 2018 + OI 2025-26, base_guard.py; rho 0 / 0.05 / 0.25 / 0.5; without-OI sensitivity; next OI area = map layer only.
+- **Recipe:** this module's field treatment (field_coverage_check.py): c_k = settled-mass-weighted mean over fate-0 elements ('mean',
+  reported); 'any piece' as the optimistic bound; afloat elements excluded; per row, P(no find) AVERAGED over settling draws.
+- **Result (mixture, base, rho 0.05), impact point -> settled:** D0' 0.3101 -> 0.3113; D1 0.2745 -> 0.2752; D2 0.2110 -> 0.2122;
+  D3 0.1507 -> 0.1513; D4 0.1366 -> 0.1373; D5 0.1437 -> 0.1442 (paired Δ SE 0.0001). Weight on searched ground after the searches
+  rises about 0.008 (D0' 0.290 -> 0.298 on the same outcomes). Family shares after are unchanged to 0.002.
+- **Checks:** evaluate algebra max |ΔP| 0.0 at 133.1 M elements; point arm = published run J column on 1,865,283 rows, max |Δ ln L| 0.0;
+  averaging and off-ground tests pass; 0 outcomes carried; resample vs all-rows impact-point Z: max |z| 2.46 over 96 cells.
+- **For the composer:** `searched-areas/run-j-settled/<set>/rows.npz` `lnL_settled_base_rho0.05` (float64) per settling table row
+  (map via settling's `<tag>_source.npy`). It exists only on settling's resampled rows; never apply it together with the impact-point
+  column. For seabed maps after the searches, weight settling's outcomes by `outcomes.npz` c_mean -> P(no find).
+- **Coverage gap carried:** D3 × A1 (row ESS 409 on both-burst). Note: `results/searched-areas-run-j-settled/README.md`.
+-- Searched Areas Module

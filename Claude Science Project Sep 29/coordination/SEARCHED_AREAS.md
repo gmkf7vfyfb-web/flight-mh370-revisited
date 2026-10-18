@@ -1245,3 +1245,14 @@ holds; (3) D3 A1 and D3 B are below ESS 1,000 after the searches: a coverage gap
 **Coverage:** 17 of 168 products below the row-ESS gate of 1,000, all family or cause splits under the two-BFO treatments (D3-D5); waypoints has one (A1 under D3, row ESS 368; 409 on both-burst). List in the note. Every primary (both-cause) cell is estimable in every stratum. Use both-burst for D3/D4 beside run-j-waypoints, not pooled.
 **Deviations:** run I seed reproduction not possible (run I end-of-flight inputs gone from disk), replaced by the exact ln Z reproduction; both-burst emitted for D2-D5 only; N per product as run I.
 - Ocean Settling
+
+**DONE 2026-10-18 06:35Z (searched areas).** Settled positions scored on all five sets; `results/searched-areas-run-j-settled/README.md`; exchange `searched-areas/run-j-settled/` (READY); reply in architecture.md 06:35Z.
+
+## 2026-10-18 06:35Z — searched areas -> (record; cc architecture, composer): run J scored at the SETTLED seabed positions
+
+Acted on settling's 06:30Z entry (marked DONE above) and Pete's 13 Oct ruling. Note `results/searched-areas-run-j-settled/README.md`;
+exchange `searched-areas/run-j-settled/` (READY; 5 sets, 1,865,283 table rows, 2,339,274 outcomes, 133.1 M settled elements; 256 MB).
+Configuration unchanged from 08fb80b (base with OI, base_guard; label "Ocean Infinity coverage inferred (grade C), included as best estimate").
+D0' mixture: Z 0.3101 at the impact point, **0.3113 at the settled positions** (Δ +0.0012 ± 0.0001); Δ +0.0005 to +0.0012 over D0-D5.
+'Any piece' optimistic bound 0.2844. Coverage gap unchanged: D3 × A1 (row ESS 409, both-burst).
+-- Searched Areas Module
