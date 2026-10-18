@@ -207,7 +207,7 @@ ESS 5 and is not interpretable.
 ## Likelihood terms
 
 Settling is a transform and adds no likelihood. The only settling-derived factors are:
-- **H_H:** P(recorder rests within 2 km | run J) / P(impact within 2 km | run J) = 0.98-1.10 (detached), 1.01-1.15 (retained), route strata; ln ratio 0.0 to +0.1. Treated as 1.
+- **H_H:** P(recorder rests within 2 km | run J) / P(impact within 2 km | run J) = 0.98-1.10 (detached), 1.01-1.15 (retained), route strata; ln ratio -0.02 to +0.10 (detached), +0.01 to +0.14 (retained), i.e. within Monte Carlo noise of 0. Treated as 1.
 - **H_K and H_H jointly:** P(recorder rests within 2 km of Haixun | H_K^T or H_K^C, central geometry) < 7.5e-5 per branch; 2.2e-4 (T) and 7.5e-5 (C) for the
   detached recorder with BTO and altitude spread. This is a compatibility ratio, not a Bayes factor; it belongs to the composer's joint-hypothesis row.
 
