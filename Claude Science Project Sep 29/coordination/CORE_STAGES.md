@@ -4501,3 +4501,5 @@ Pete asked whether the far-north endings form a separate mode. Yes, weakly: on a
 second mode at 25–28 S (waypoints 0.27%/deg at 26–25 S) above a low near 30–31 S (0.13%/deg); 28–25 S exceeds
 32–30 S in every seed (24/24, 18/18, 16/16, 16/16). Mass 31.5–25 S: waypoints 1.3%, free 3.1%, descent-climb 2.0%,
 Davey 4.7% (before drift and search evidence). Few independent paths carry it (waypoints about 120 north of 33 S).
+
+Free-flight version: results/run-j/reports/run-j-latitude-wide-free.* — second mode 25–28 S holds 3.1% (per-seed 1.1–8.2%), highest 1-deg band 27–26 S 0.76%/deg vs lowest 32–31 S 0.21%/deg (ratio 3.6; 2.9 without seed 1, which makes the 26.3 S spike); 18/18 seeds.
