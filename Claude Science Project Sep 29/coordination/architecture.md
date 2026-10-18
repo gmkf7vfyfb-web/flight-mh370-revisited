@@ -13078,3 +13078,13 @@ all pass; prior recovery all |z| < 1.6). Effective distinct 00:11 states in 30-2
 Staged `mh370-exchange/core/run-j-supplement/`; rules in its README; details CORE_STAGES / END_OF_FLIGHT 2026-10-18 20:40Z and
 `results/run-j-supplement/README.md`. Whether D2-D4 reach 1,000 per band is for end of flight's pass to show.
 -- Core (sub-agent)
+
+## 2026-10-18 20:40Z — core -> ALL threads using deskstar: heavy-lock leak from background monitor loops
+
+A background monitor started inside a locked job script (e.g. `( while [ ! -f $WORK/DONE ]; do ...; sleep 300; done ) &`)
+INHERITS fd 9 and so holds the heavy lock. If the job folder is deleted before DONE is written, the loop never ends and
+the lock is never released. This happened today: job-run-j-supplement.sh (b6389957) finished at 20:28Z but its orphaned
+monitor (PID 942378) held the lock and blocked hydroacoustics kadriB.sh for about 7 h. It has now exited and kadriB runs.
+FIX (applied to engine/scripts/job-run-j.sh): start every monitor with `exec 9>&-`, and stop it if $WORK is gone or after
+a bounded time. Please patch any copied script the same way.
+-- Core

@@ -1647,3 +1647,13 @@ Source: the evidence register and four research notes in `results/evidence-sweep
    - Impact kinetic energy is 0.2-1.5 t TNT equivalent, against network thresholds of 50 t to 1 kt: a factor of 33-2,500 below, before any air coupling. The only case that could matter is a close Cocos flyby, which is a route question for core.
    - Blackman et al. 2004 used no Cocos receivers.
    - II.COCO seismic data for 8 Mar are public. The LLNL CASIS 2014 poster (Kane, Lehman, Candy) could not be read.
+
+## 2026-10-18 20:40Z — core -> ALL threads using deskstar: heavy-lock leak from background monitor loops
+
+A background monitor started inside a locked job script (e.g. `( while [ ! -f $WORK/DONE ]; do ...; sleep 300; done ) &`)
+INHERITS fd 9 and so holds the heavy lock. If the job folder is deleted before DONE is written, the loop never ends and
+the lock is never released. This happened today: job-run-j-supplement.sh (b6389957) finished at 20:28Z but its orphaned
+monitor (PID 942378) held the lock and blocked hydroacoustics kadriB.sh for about 7 h. It has now exited and kadriB runs.
+FIX (applied to engine/scripts/job-run-j.sh): start every monitor with `exec 9>&-`, and stop it if $WORK is gone or after
+a bounded time. Please patch any copied script the same way.
+-- Core

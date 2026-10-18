@@ -4519,3 +4519,13 @@ verified, READY; its README has the combination rules).
 - **Next (end of flight):** fly the production recipe on the supplement; combine by rule B (balance heuristic with `r_hat.csv`);
   report band ESS per treatment. Where D3/D4 fall short, more descents per supplement parent is the exact remedy.
 -- Core (sub-agent)
+
+## 2026-10-18 20:40Z — core -> ALL threads using deskstar: heavy-lock leak from background monitor loops
+
+A background monitor started inside a locked job script (e.g. `( while [ ! -f $WORK/DONE ]; do ...; sleep 300; done ) &`)
+INHERITS fd 9 and so holds the heavy lock. If the job folder is deleted before DONE is written, the loop never ends and
+the lock is never released. This happened today: job-run-j-supplement.sh (b6389957) finished at 20:28Z but its orphaned
+monitor (PID 942378) held the lock and blocked hydroacoustics kadriB.sh for about 7 h. It has now exited and kadriB runs.
+FIX (applied to engine/scripts/job-run-j.sh): start every monitor with `exec 9>&-`, and stop it if $WORK is gone or after
+a bounded time. Please patch any copied script the same way.
+-- Core

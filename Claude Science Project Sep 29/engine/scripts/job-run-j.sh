@@ -83,10 +83,10 @@ for k in $KEYS; do
   [ -f $PF/$k/run.json ] && [ -f $PF/$k/bto-bfo/seed-1/trace.npy ] || { rm -f $RJ/tiny.toml; fail 5 "preflight $k (run.json or trace.npy missing)"; }
   tl "preflight $k GO"
 done; rm -f $RJ/tiny.toml; rm -rf $PF/*/
-# 9. production
+# 9. production (the monitor closes fd 9 so it cannot keep the heavy lock; it stops after 48 h or if WORK is deleted)
 case $STRATUM in smoke) KEYS=sampler;; esac
 RUNS=$WORK/runs-j; mkdir -p $RUNS; touch $WORK/STARTED
-( while [ ! -f $WORK/DONE ]; do echo "$(date -u +%FT%TZ) df $(df -h --output=avail $HOME | tail -1) mem $(( $(cat /sys/fs/cgroup/memory.current) / 1073741824 ))G" >> $WORK/monitor.txt; sleep 300; done ) &
+( exec 9>&-; n=0; while [ ! -f $WORK/DONE ] && [ -d $WORK ] && [ $n -lt 576 ]; do n=$((n+1)); echo "$(date -u +%FT%TZ) df $(df -h --output=avail $HOME | tail -1) mem $(( $(cat /sys/fs/cgroup/memory.current) / 1073741824 ))G" >> $WORK/monitor.txt; sleep 300; done ) &
 rcall=0
 for k in $KEYS; do
   C=$(chain $k)

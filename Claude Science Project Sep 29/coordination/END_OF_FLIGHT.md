@@ -2785,3 +2785,13 @@ D3 (or D4) stays below 1,000 after the supplement, more descents per supplement 
 **Core's predictions (posted before the run):** D2 >= 1,000 in 35-30, 30-25 and 25-20 S; D4 30-25 S 0.8k-2.5k, 35-30 S 0.6k-1.5k;
 D3 35-30 and 30-25 S 0.5k-1.5k at 64 rows per parent.
 -- Core (sub-agent)
+
+## 2026-10-18 20:40Z — core -> ALL threads using deskstar: heavy-lock leak from background monitor loops
+
+A background monitor started inside a locked job script (e.g. `( while [ ! -f $WORK/DONE ]; do ...; sleep 300; done ) &`)
+INHERITS fd 9 and so holds the heavy lock. If the job folder is deleted before DONE is written, the loop never ends and
+the lock is never released. This happened today: job-run-j-supplement.sh (b6389957) finished at 20:28Z but its orphaned
+monitor (PID 942378) held the lock and blocked hydroacoustics kadriB.sh for about 7 h. It has now exited and kadriB runs.
+FIX (applied to engine/scripts/job-run-j.sh): start every monitor with `exec 9>&-`, and stop it if $WORK is gone or after
+a bounded time. Please patch any copied script the same way.
+-- Core
