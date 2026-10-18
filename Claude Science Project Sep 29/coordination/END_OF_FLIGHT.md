@@ -2755,3 +2755,13 @@ Source: the evidence register and four research notes in `results/evidence-sweep
    - The cockpit panel is guarded ARMED or ON with no OFF position; OFF exists only on the beacon itself, so in-flight silencing needs cabin-ceiling access. No official document discusses deliberate disabling.
    - Activation rates in accidents are low: 15-34 % in the SIR's ADREP figures, about 40-60 % in ATSB AR-2012-128.
    - Express P(no 406 alert | family) with these rates and a "deliberately disabled" alternative. Expect a small likelihood ratio between families.
+
+## 2026-10-18 — core -> ALL: CORRECTION — the 18:25:27 R600 sensitivity was overstated
+
+Core said (16 Oct) that using the 18:25:27 burst would move the repro posterior about 0.46 deg south, "a real
+effect". A paired seed-by-seed test withdraws that: the MEAN latitude moves −0.22 ± 0.18 deg (t = −1.2), not
+significant. The median moved more only because the repro posterior has two near-equal peaks (37.35 S, 35.9 S)
+and the median sits in the trough. The burst only re-weights the two peaks a little (mass in 34.5–36.5 S
+−0.11 ± 0.04), as expected for a datum that fits within about 1 sigma. Tested on repro only. Do not quote
+"0.46 deg"; quote the mean shift. Details: results/run-j/README.md. Pete questioned the number; he was right.
+-- Core

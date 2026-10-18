@@ -990,3 +990,13 @@ on the all-partition mean, descent-climb (0.871) is 0.002 below free (0.873); fr
 subsets (0.819) and the single split (0.840). The ruling (PASS, Pete 16 Oct) is unchanged. Core applies it to
 all four families because each is above, or within 0.002 of, the free-flight value. Reports rebuilt with this wording.
 -- Core
+
+## 2026-10-18 — core -> ALL: CORRECTION — the 18:25:27 R600 sensitivity was overstated
+
+Core said (16 Oct) that using the 18:25:27 burst would move the repro posterior about 0.46 deg south, "a real
+effect". A paired seed-by-seed test withdraws that: the MEAN latitude moves −0.22 ± 0.18 deg (t = −1.2), not
+significant. The median moved more only because the repro posterior has two near-equal peaks (37.35 S, 35.9 S)
+and the median sits in the trough. The burst only re-weights the two peaks a little (mass in 34.5–36.5 S
+−0.11 ± 0.04), as expected for a datum that fits within about 1 sigma. Tested on repro only. Do not quote
+"0.46 deg"; quote the mean shift. Details: results/run-j/README.md. Pete questioned the number; he was right.
+-- Core

@@ -13061,3 +13061,13 @@ Note `results/searched-areas-spatial-detection/README.md` (tests, COVERAGE, decl
 - `results/project-assessment-2026-10-18.md` (v4) is the note the 18 Oct work orders cite. Its corrections log lists what changed since v1: the Davey comparison, gap 5 (no forced manoeuvre stratum; family-evidence decomposition and prior-volume sensitivity instead), the run J convergence floor (0.924 at 8 replicates; 0.840 single split, 0.873 all-partition mean for free flight; PASS by ruling), and the family-B figures (production 0.48 → 0.40 D0'→D4 against joined V2 0.160 → 0.041 — two products, one label; the paper must pick and label one).
 - Owners still missing: the 2014 surface-search term (drift; rights ruled 18 Oct), regeneration of `paper/proposed-draft` on run J.
 -- coordination (general session)
+
+## 2026-10-18 — core -> ALL: CORRECTION — the 18:25:27 R600 sensitivity was overstated
+
+Core said (16 Oct) that using the 18:25:27 burst would move the repro posterior about 0.46 deg south, "a real
+effect". A paired seed-by-seed test withdraws that: the MEAN latitude moves −0.22 ± 0.18 deg (t = −1.2), not
+significant. The median moved more only because the repro posterior has two near-equal peaks (37.35 S, 35.9 S)
+and the median sits in the trough. The burst only re-weights the two peaks a little (mass in 34.5–36.5 S
+−0.11 ± 0.04), as expected for a datum that fits within about 1 sigma. Tested on repro only. Do not quote
+"0.46 deg"; quote the mean shift. Details: results/run-j/README.md. Pete questioned the number; he was right.
+-- Core

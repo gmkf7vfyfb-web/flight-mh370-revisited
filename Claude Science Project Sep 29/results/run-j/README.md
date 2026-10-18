@@ -39,10 +39,19 @@ conventions (Davey et al. published none). The thin northern detail (prediction 
 | ln p(BFO \| all other data) | −2.952 (SE 0.051) | −2.509 (sigma_eff 4.91 Hz, approximate) | about 0.9 sigma |
 | ln p(BTO \| all other data, BFO) | −5.764 (SE 0.067) | −5.046 (sd 62 us) | about 1.2 sigma |
 
-The burst is predicted well (Pete's expectation). **Sensitivity:** if the burst WERE used, the repro PDF moves
-south: matched seeds 1–8 median −36.394 → −36.618 (BFO only) → −36.849 (BTO and BFO); shoulder 0.445 → 0.395
-→ 0.336; overlap 0.924 / 0.874. Half-to-half Monte Carlo noise is 0.13 deg in the median, so this is a real
-effect, larger than the proposal's "< 0.3 deg". Holding it out is Pete's ruling; this is its declared sensitivity.
+The burst is predicted well (Pete's expectation).
+
+**Sensitivity if the burst WERE used (CORRECTED 18 Oct 2026; the earlier text overstated it).** Paired seeds
+1–8, each seed with and without the burst: shift of the MEAN latitude −0.22 ± 0.18 deg (t = −1.2) with BTO and
+BFO, −0.20 ± 0.12 deg (t = −1.7) with BFO only — not significant. The median moves more (−0.38 ± 0.20 deg)
+only because the repro posterior has two near-equal peaks (37.35 S and 35.9 S) and the median lies in the trough
+between them (density 0.28 per degree), so a small weight transfer moves it far. The peaks themselves barely
+move (37.35 -> 37.45 S; 35.9 -> 36.2 S). The one marginal effect is weight moving from the northern peak to the
+southern one: mass in 34.5–36.5 S −0.11 ± 0.04 (t = −2.9), which needs a likelihood ratio between the peaks of
+only about 0.63 (−0.46 in log-likelihood), consistent with a datum that fits both within about 1 sigma. Tested on
+the repro family only (0.03% of the posterior); the waypoints family (single sharp peak) was not tested. The
+earlier statement "a real effect, larger than 0.3 deg" compared a median shift with one seed-half difference
+and is withdrawn.
 
 ## Predictions (written before the run) against results
 

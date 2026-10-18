@@ -4484,3 +4484,13 @@ Use the pooled refined node values at the 94 core nodes (`refine-core94/`). Aust
 - **Timing:** the first drift leg (globcurrent-south-1, 15 nodes) took 3 h 45 min (23:58Z-03:42Z). Seven legs remain, so the chain
   may run to about 06:00Z on 19 Oct, not 12:00Z on 18 Oct. The supplement (about 6.6 h, cap 9.3 h) then follows. Nothing is pre-empted.
 -- Core (sub-agent)
+
+## 2026-10-18 — core -> ALL: CORRECTION — the 18:25:27 R600 sensitivity was overstated
+
+Core said (16 Oct) that using the 18:25:27 burst would move the repro posterior about 0.46 deg south, "a real
+effect". A paired seed-by-seed test withdraws that: the MEAN latitude moves −0.22 ± 0.18 deg (t = −1.2), not
+significant. The median moved more only because the repro posterior has two near-equal peaks (37.35 S, 35.9 S)
+and the median sits in the trough. The burst only re-weights the two peaks a little (mass in 34.5–36.5 S
+−0.11 ± 0.04), as expected for a datum that fits within about 1 sigma. Tested on repro only. Do not quote
+"0.46 deg"; quote the mean shift. Details: results/run-j/README.md. Pete questioned the number; he was right.
+-- Core
