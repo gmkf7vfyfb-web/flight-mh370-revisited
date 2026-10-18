@@ -122,9 +122,9 @@ Hook: `ring_hook.py EXCHANGE LAT LON R_IN R_OUT [HOUR]` re-runs the forward and 
 
 ## 6. Figures
 
-- [fig-forward-drift-5apr.png]({/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/artifacts/proj_9cc1a5a85f63/a2e049c7-7acf-48dd-be87-165513950007/v898b1595_fig-forward-drift-5apr.png}) — where floating debris from the bearing is at 03:15 UTC on 5 Apr.
-- [fig-backward-origin-ring.png]({/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/artifacts/proj_9cc1a5a85f63/ab3b86b3-1601-4e63-b81e-d8732129608e/v42afca60_fig-backward-origin-ring.png}) — where objects in the 70-110 km ring started on 8 Mar (provisional grid).
-- [fig-drift-llr-kadri.png]({/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/artifacts/proj_9cc1a5a85f63/d6d8d7b8-1594-4d2e-8ecd-b1fc9d314076/ve0253f08_fig-drift-llr-kadri.png}) — log-likelihood ratios along the arc and by 00:19 option.
+- [fig-forward-drift-5apr.png](fig-forward-drift-5apr.png) — where floating debris from the bearing is at 03:15 UTC on 5 Apr.
+- [fig-backward-origin-ring.png](fig-backward-origin-ring.png) — where objects in the 70-110 km ring started on 8 Mar (provisional grid).
+- [fig-drift-llr-kadri.png](fig-drift-llr-kadri.png) — log-likelihood ratios along the arc and by 00:19 option.
 
 ## 7. COVERAGE
 
