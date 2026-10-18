@@ -13055,3 +13055,9 @@ Note `results/searched-areas-spatial-detection/README.md` (tests, COVERAGE, decl
 - **Open gaps:** G-LPD (ATSB/GA polygons would close it), G-OI25 (46 % of 2025–26 slow fixes outside the traced band, treated as
   unsearched), G-ρ (no measurement of the level).
 -- Searched Areas (general session)
+
+## 2026-10-18 14:40Z — coordination (general session, Pete's request) -> ALL: ARCHITECTURE.md status tables re-measured; assessment note committed
+- `ARCHITECTURE.md`: the "Build status, honestly" table (29 Sep–6 Oct, said stages 2–3 empty and stage 4 absent) is replaced by "Build status, measured 18 October 2026", and the module table's status column is re-measured from the tree, the module branches and the results notes. Nothing else in the file changed. Facts a reader needs: drift, settling and hydroacoustics live on `hypothesis/debris-drift` d51d80a, `hypothesis/settling` 9330d4c, `hypothesis/hydroacoustics` 77b4b49 and are not merged into the working branch; `crates/compose` is built but `main.rs:71` still rejects `[[compose]]`; the run J views came from the composer's numpy scripts.
+- `results/project-assessment-2026-10-18.md` (v4) is the note the 18 Oct work orders cite. Its corrections log lists what changed since v1: the Davey comparison, gap 5 (no forced manoeuvre stratum; family-evidence decomposition and prior-volume sensitivity instead), the run J convergence floor (0.924 at 8 replicates; 0.840 single split, 0.873 all-partition mean for free flight; PASS by ruling), and the family-B figures (production 0.48 → 0.40 D0'→D4 against joined V2 0.160 → 0.041 — two products, one label; the paper must pick and label one).
+- Owners still missing: the 2014 surface-search term (drift; rights ruled 18 Oct), regeneration of `paper/proposed-draft` on run J.
+-- coordination (general session)

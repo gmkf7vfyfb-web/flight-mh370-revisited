@@ -52,17 +52,21 @@ core, in the `lib.rs` doc comment for a hypothesis — never left implicit.
    Results are shown per end-of-flight hypothesis first; any average across them appears only
    beside a prior sensitivity.
 
-### Build status, honestly
+### Build status, measured 18 October 2026
 
-| stage | interface | model |
-|---|---|---|
-| 1 core filter | **built**, 53 tests pass | **built and validated** against Fig. 10.3 |
-| 2 end of flight | **built** — `Terminal` trait (`families`, `latent_columns`, `takeover_time`, `descend`), `handoff.npy`, `terminal.rs`, `impacts.rs` | **placeholder only** — `hypotheses/arc-kernel` is plumbing, not a model; it returns NaN impact energies |
-| 3 impact modules | **built** — `ImpactView`, `impact_log_likelihood`, `predict`, `mh370 evaluate` | **none** |
-| 4 composer | **not built** — `main.rs:71` rejects a `[[compose]]` section | **specified**, in `ISO Sept 28 Status/threads/master-prompts/core-stages.txt` §D6; needs no prompt of its own |
+Measured on `claude-science-sep29` at a6360d4 and the module branches named below; the previous version of this
+table (29 Sep–6 Oct) said stages 2–3 were empty frames and stage 4 did not exist, and was two weeks out of date.
+Re-measure before quoting; do not publish a status claim from this table without checking the results note it cites.
 
-So stage 1 is finished science, stages 2 and 3 are empty frames, and stage 4 does not exist. Any
-plan that treats the downstream modules as nearly-done is wrong.
+| stage | interface | model | latest evidence |
+|---|---|---|---|
+| 1 core filter | **built** | **built and validated**; run J (tag `run-j` 1244b7c, 74 seeds in four strata) accepted as a convergence PASS by project ruling 16 Oct | `results/run-j/README.md`; northern supplement (16 new waypoint seeds, tilted 00:11 hand-off) running on deskstar from 18 Oct 13:43Z, `results/run-j-supplement/DESIGN.md` |
+| 2 end of flight | **built** (`Terminal` trait, hand-off, `terminal.rs`, `impacts.rs`) | **built, physics PROVISIONAL** — `hypotheses/end-of-flight` on `hypothesis/end-of-flight`; families A1/A2/B, two-factor 00:19 model (D0–D5 × C1/C2), round-3 laws; uncontrolled arm not calibrated | `results/eof-run-j-oct17/`, `eof-run-j-joined-v2-oct17/`, `eof-a1-branch-oct18/` |
+| 3 impact modules | **built** (`ImpactView`, `impact_log_likelihood`, `predict`, `mh370 evaluate`) | **built per module, see the table below**; run J columns delivered by drift, settling, Pléiades, hydroacoustics; searched areas scored by a composer stand-in pending the module's run J columns | module rows below |
+| 4 composer | **crate built** — `crates/compose` (stage 4 bookkeeping: evidence sets, alternatives by name, per-(replicate, mode) increments). The runner still rejects a `[[compose]]` section (`main.rs:71`) | **views produced** — §0 views (evidence alone on an arc-uniform prior, core + E, leave-one-out, all; disagreement, influence, ρ sweep) on run J for six 00:19 treatments, computed by the composer's numpy scripts | `results/composer-views-run-j.md` (v2, 18 Oct, Ocean Infinity included), tables in `mh370-exchange/composer/run-j-views/` |
+
+Headline products exist for every stage; the open questions are now about the models inside them (end-of-flight physics,
+the searched-areas detection model, ocean-model dependence) and about sampling north of 33 S, not about missing frames.
 
 ### The hook API
 
@@ -114,21 +118,21 @@ One session per module. The directory is the unit of ownership; two sessions edi
 the failure mode this document exists to prevent. The module set is the one established on
 28 September, mapped onto this workspace's layout.
 
-| module | owns | status |
+| module | owns | status (measured 18 Oct 2026) |
 |---|---|---|
-| **architecture** | this file, `RUNBOOK.md`, merge order, `ImpactView` and hook changes. Writes no module code. | — |
-| **core estimation & sampler** | `engine/crates/{geo,satcom,flight}`, `crates/mh370/src/{filter,config}.rs`, `config/davey2016.toml`, sampler configs | validated; convergence work ongoing |
-| **fuel & performance** | `crates/flight/src/fuel.rs`, `config/sensitivity/{stage2,stage3,endurance,reject,fuel-smoke}*` | complete, validated, used by 16 of 51 configs |
-| **core stages & composer** | `crates/mh370/src/{handoff,terminal,impacts,main}.rs`, `crates/hypothesis` | stages 1–3 built, **stage 4 to build**, plus two core requests: the three `ImpactView` additions, and the wreckage-sample stage of decision 2 |
-| **end of flight** | `hypotheses/end-of-flight` (to create); descent families, breakup | placeholder only |
-| **shared ocean transport** | `crates/ocean` on `core/ocean-transport`. No hypothesis, no likelihood | not started. Created by decision 4; **three consumers wait on it**, so its API is specified from drift, settling and Pleiades together before it builds |
-| **ocean drift** | `hypotheses/debris-drift` only — `crates/ocean` is **no longer** drift's, see decision 4 | not started; brief written, and stale on that ownership |
-| **impact to seafloor (settling)** | `hypotheses/settling` | not started; brief revised as `threads/master-prompts/settling.md`. Emits **wreckage samples**, not summary columns. Uncommitted prior work in `ISO Sept 28 Status/code/uncommitted/settling-untracked.tar.gz` |
-| **searched areas** | `hypotheses/seabed-search` | not started; rulings in `seabed-search-rulings.md` |
-| **hydroacoustics** | `hypotheses/hydroacoustics` | not started |
-| **Pleiades / COSMO-SkyMed** | `hypotheses/pleiades` | not started; sightings note exists |
-| **antenna gain** | `hypotheses/antenna-gain` | **parked** deliberately, not integrated |
-| **reporting & paper** | `engine/report/*.py`, `paper/` | report at 8 pages |
+| **architecture** | this file, `RUNBOOK.md`, merge order, `ImpactView` and hook changes. Writes no module code. | the long-lived architecture thread is inactive; coordination is done by whichever session is active, through the inboxes |
+| **core estimation & sampler** | `engine/crates/{geo,satcom,flight}`, `crates/mh370/src/{filter,config}.rs`, `config/davey2016.toml`, sampler configs | run J accepted (PASS by ruling 16 Oct); northern supplement running; route turn model fly-by + leg tracking; Mach to 0.87 (ruling 12 Oct) |
+| **fuel & performance** | `crates/flight/src/fuel.rs`, `config/sensitivity/{stage2,stage3,endurance,reject,fuel-smoke}*` | complete; fuel-fixes s1–s8 in every run J job; the model costs about 2.2 nat against the fuel-free reproduction on corrected tables |
+| **core stages & composer** | `crates/mh370/src/{handoff,terminal,impacts,main}.rs`, `crates/hypothesis`, `crates/compose` | stages 1–3 built; `crates/compose` built; `[[compose]]` not wired into the runner; composer views v2 on run J delivered; views v3 (three-way split table, Davey eq. 11.2 blocks) requested by the searched-areas order of 18 Oct; end-to-end calibration protocol in design (composer thread, 18 Oct) |
+| **end of flight** | `hypotheses/end-of-flight` (branch `hypothesis/end-of-flight` 5d060f0) | built; run J products for all four strata; joined V2 at 24 seeds; A1-under-D3 coverage gap closed 18 Oct; physics PROVISIONAL (uncontrolled arm, breakup); pre-00:11 B under D2/D4 not estimable (parent-limited) |
+| **shared ocean transport** | `crates/ocean` (on the working branch; branch `core/ocean-transport` c54bf93) | built: GLORYS12 and GlobCurrent currents, WAVERYS Stokes drift, ERA5 wind, GSHHG coast, bathymetry; GDP replay error model (`results/ocean-transport-error-*.md`) |
+| **ocean drift** | `hypotheses/debris-drift` (branch `hypothesis/debris-drift` d51d80a, **not merged** into the working branch) | built; run J columns delivered (`results/drift-runj-2026-10-17/`, by family 18 Oct); two ocean models marginalised jointly; Western Australia non-recovery term carried as a labelled sensitivity; 2014 surface-search term (register A1) not built — rights ruled 18 Oct, needs a thread |
+| **impact to seafloor (settling)** | `hypotheses/settling` (branch `hypothesis/settling` 9330d4c, **not merged**) | built; run J settled outcome sets (`results/settling-run-j/`, five sets); PROVISIONAL physics; Kadri/Haixun settling leg 18 Oct |
+| **searched areas** | `hypotheses/seabed-search` (on the working branch; branch `hypothesis/seabed-search` c6501cd) | built for ATSB Phase 2 and Bluefin-21 with GA 5 m coverage; Ocean Infinity 2018 and 2025–26 layers at grade C (base by ruling 13 Oct); no run J columns from the module yet (composer stand-in used); **work order 18 Oct**: per-cell q(x) and ρ(x) from the GA bathymetry and ATSB Fig. 73 (`threads/work-orders/searched-areas-spatial-detection-2026-10-18.md`), in execution |
+| **hydroacoustics** | `hypotheses/hydroacoustics` (branch `hypothesis/hydroacoustics` 77b4b49, **not merged**) | built (KRAKEN/RAM TL, F-35A-calibrated coupling, IMS H01W/H08S/H08N and IMOS); contributes **no factor** to the composed posterior by ruling (no detection probability); Kadri preferred-signal conditional pre-registered and reported 18 Oct (disfavoured to indeterminate); coverage in `results/hydroacoustics-coverage.md` |
+| **Pleiades / COSMO-SkyMed** | `hypotheses/pleiades` (branch `hypothesis/pleiades` a1a54b5) | built; enters as a likelihood conditional on object identity H; no Bayes factor for H; open blockers in `coordination/PLEIADES.md` |
+| **antenna gain** | `hypotheses/antenna-gain` | **parked** deliberately, not integrated; registered as D2 in the 17 Oct evidence register |
+| **reporting & paper** | `engine/report/*.py`, `paper/` | citation ledger and JoN rules done; `paper/proposed-draft` v2 is built on composer pass 2 / run I and must be regenerated on run J; `nav.cls` not yet obtained |
 
 WSPR remains a low-priority option, worth doing mainly to establish whether it works at all.
 
