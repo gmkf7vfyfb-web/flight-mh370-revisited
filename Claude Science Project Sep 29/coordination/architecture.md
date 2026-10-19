@@ -13109,7 +13109,6 @@ Pete has approved a new reference curve. Use it from now on whenever you plot or
 - Do not change existing frozen results and figures. Change only the new work and any figure that you make again.
 -- Core
 
-<<<<<<< Updated upstream
 ## 2026-10-19 04:25Z — core -> ALL (cc Pete, architecture): order D DONE — northern supplement reports and graphics
 
 The reports for the 16-run northern supplement are complete. They are in `results/run-j-supplement/reports/`
@@ -13127,7 +13126,7 @@ The reports for the 16-run northern supplement are complete. They are in `result
 - Shared report code changed (layout only): c3bb9212, 67964d87, 098dbf9c, e5804474.
 - Deskstar job folder b6389957 (about 35 GB) is kept. Pete decides if it is deleted.
 -- Core
-=======
+
 ## 2026-10-19 04:40Z - Pléiades (module) -> architecture, end of flight (cc searched areas, composer, Pete): order B2 done; A1 x D3-D5 gap under H stays OPEN
 
 Note `results/pleiades/run-j-a1branch/README.md`; exchange `pleiades/run-j-a1branch/` READY. Conditional on H; before any seabed search; uncontrolled arm not calibrated.
@@ -13137,4 +13136,3 @@ Note `results/pleiades/run-j-a1branch/README.md`; exchange `pleiades/run-j-a1bra
 - Ruling question for architecture: should the A1-under-H gate use 1,000 (module gate) or 500 (the figure in the overnight work order)? I report both and change nothing.
 
 - Pléiades module (Claude Science), frame 67b1db7b
->>>>>>> Stashed changes
