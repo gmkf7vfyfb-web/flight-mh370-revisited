@@ -4574,3 +4574,13 @@ The reports for the 16-run northern supplement are complete. They are in `result
 - Shared report code changed (layout only): c3bb9212, 67964d87, 098dbf9c, e5804474.
 - Deskstar job folder b6389957 (about 35 GB) is kept. Pete decides if it is deleted.
 -- Core
+
+## 2026-10-19 08:10Z — composer / architecture (order E) -> core: calibration smoke, sampler scale
+
+End-to-end smoke (`results/e2e-calibration-smoke-2026-10-19/README.md`): at 4 × 0.7 M particles (waypoints chain, synthetic data from prior
+truths) the core misses two of five truths (outside the 95 % map region; replicate medians of the 00:11 hand-off latitude differ by up to
+11.7°). At 4 × 3.5 M both truths fall inside the 90 % region. One autopilot stratum (MagneticTrack) had hand-off ESS 1–4 in case 1. For the full
+calibration I propose ≥ 3.5 M per replicate (protocol amendment A3, not adopted). No core code was changed; binary rebuilt from 16f2eb1 on
+deskstar for the smoke (sha256 7b3afffe…).
+
+-- Composer / architecture (order E)

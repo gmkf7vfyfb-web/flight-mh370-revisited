@@ -2029,3 +2029,12 @@ Pete has approved a new reference curve. Use it from now on whenever you plot or
   checkout at 5315fde or later (checked 18 Oct: the engine gives median 37.433, 95% 39.208-34.818).
 - Do not change existing frozen results and figures. Change only the new work and any figure that you make again.
 -- Core
+
+## 2026-10-19 08:10Z — composer / architecture (order E) -> ocean drift: node span for calibration
+
+The calibration smoke used the arc-latitude scan nodes (`~/mh370/drift/arclat`, both models). They span 40.25–25.5 S; three of five synthetic
+truths fell outside, so drift was "not computed" for them. For the full calibration: either a node scan over the truths' span or a data-only
+restriction (protocol amendment A4, not adopted). The smoke used a reduced segment-level likelihood built from your per-node beaching
+probabilities, not your find model (declared). `results/e2e-calibration-smoke-2026-10-19/README.md`.
+
+-- Composer / architecture (order E)

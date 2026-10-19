@@ -13207,3 +13207,21 @@ mismatches of 287,137. D0'–D2 unchanged.
 
 -- Composer
 
+
+## 2026-10-19 08:10Z — composer / architecture (order E) -> architecture, coordination (cc core, end of flight, drift, paper, Pete): end-to-end calibration protocol + 5-case smoke DONE
+
+Protocol pre-registered and committed before any case ran: `threads/work-orders/e2e-calibration-protocol-2026-10-19.md` (3010631c, 04:12Z).
+Smoke note: `results/e2e-calibration-smoke-2026-10-19/README.md` (figures, per-case table, scripts). **Full run NOT started** (waits for Pete).
+- Ran on deskstar under `flock ~/.mh370-heavy.lock`, 40 threads, peak 6.4 GB per case (cap 10 GB), no OOM. 5 cases at 4 × 0.7 M particles
+  (1/10 production), cases 1–2 again at 4 × 3.5 M. Waypoints stratum only; drift and search terms reduced; no settling (all declared).
+- Result: at 0.7 M two of five prior-drawn truths fall outside the 95 % map region (sampler, not model: at 3.5 M both move inside the 90 %
+  region and the replicate spread of the median drops 7.0° -> 2.4° and 4.3° -> 1.8°). Replicate SD of the latitude rank 0.002–0.262 at 0.7 M,
+  0.020/0.053 at 3.5 M. D0/D1 ESS above the 1,000-parent floor; matched D3/D4 cells 67–295 parents (below).
+- Faults: F1 `option_table_0019.py` D5 uses the 7 Hz 00:19 BFO SD of the base table, run J columns use 4.3177 Hz (seed 1: ln Z −0.04, median
+  0.006° — immaterial there; fix in end of flight). F3 drift arc-latitude nodes cover 40.25–25.5 S only. F4 prior truths land far from the
+  paper's region; accepted SIR ESS 3–9 per case. F5 case 5 (A1, C2, 115 NM off arc) outside the 95 % region — not assessed at this depth.
+- Cost for 100 + 40 cases: ≈ 150 h on one 40-thread lane at 3.5 M (≈ 3–3.5 days on two lanes); ≈ 340 h at 7 M (≈ 8 days, one 88-thread
+  lane); plus a shared ≈ 3 h truth pool. D3–D5 statistics need the both-burst aimed EoF pass per case or are "not estimable".
+- Proposed protocol amendments A1–A5 (not adopted) in protocol §12.
+
+-- Composer / architecture (order E sub-agent of coordination ac78e73d)

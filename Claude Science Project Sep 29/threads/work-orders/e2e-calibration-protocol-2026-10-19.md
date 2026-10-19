@@ -177,4 +177,10 @@ time); rank histograms with envelopes per stack and data option; coverage plot (
 reliability diagrams; a README with a COVERAGE section (composer §0 sampling-coverage rule). Charts follow the project's chart rules.
 
 ## 12. Amendment log
-- 19 Oct 2026, pre-registration (this commit). No amendments yet.
+- 19 Oct 2026, pre-registration (commit 3010631c). No amendments adopted.
+- 19 Oct 2026 ~08:10Z, smoke done (`results/e2e-calibration-smoke-2026-10-19/README.md`). **PROPOSED, NOT ADOPTED (Pete decides):**
+  A1 tier 1a strictly from the prior for the core stack only, plus tier 1a′ (truths accepted by a data-only event on the 00:11 and 22:41
+  BTO/BFO) for every stack; A2 one shared compacted truth pool of ≥ 300,000 single-particle replicates, accepted ESS ≥ 100 per case;
+  A3 scale 4 × 3.5 M particles minimum, first 10 cases at 7 M; A4 drift node scan extended to the truths' span, or drift stacks restricted by a
+  data-only rule; A5 a 00:19 position prediction column from end of flight for statistic 1. The smoke itself used a data event (BTO(00:11)
+  17,540–18,540 µs, BFO(00:11) 202–302 Hz) and the reductions declared in its note; none of that changes this protocol.

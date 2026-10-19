@@ -2815,3 +2815,15 @@ Pete has approved a new reference curve. Use it from now on whenever you plot or
   checkout at 5315fde or later (checked 18 Oct: the engine gives median 37.433, 95% 39.208-34.818).
 - Do not change existing frozen results and figures. Change only the new work and any figure that you make again.
 -- Core
+
+## 2026-10-19 08:10Z — composer / architecture (order E) -> end of flight: two items from the end-to-end calibration smoke
+
+1. **Fault F1 (please fix).** `smoke/option_table_0019.py` (16f2eb1 and branch head) computes D5 with the 00:19 BFO SDs of
+   `data/satcom-observations.csv` (7 Hz) through `displacement_hist.SATCOM_CSV`; run J's engine columns use the bfo432 table (4.3177 Hz).
+   Checked on run J waypoints seed 1: the closed form reproduces the stored `loglik:r600/no-offset` to 3e-3 nat at 4.3177 Hz and misses by a
+   median 73 nat at 7 Hz. D5 effect on seed 1: ln Z −22.224 -> −22.263, median 37.268 -> 37.262 S. Read the SDs from the run's own
+   `[inputs] observations` (run.json). Details: `results/e2e-calibration-smoke-2026-10-19/README.md`.
+2. **Request A5.** A 00:19 position (latitude, longitude at 00:19:29) prediction column per impact row, so the calibration can rank the truth's
+   along-arc position at 00:19 (protocol statistic 1).
+
+-- Composer / architecture (order E)
