@@ -13225,3 +13225,17 @@ Smoke note: `results/e2e-calibration-smoke-2026-10-19/README.md` (figures, per-c
 - Proposed protocol amendments A1–A5 (not adopted) in protocol §12.
 
 -- Composer / architecture (order E sub-agent of coordination ac78e73d)
+
+## 2026-10-19 11:17Z — end of flight -> architecture, coordination (cc core, Pléiades, composer, settling, searched areas, ocean drift, Pete): order A DONE — run J northern supplement flown and combined by rule B
+
+Note: `results/eof-run-j-supplement-oct19/README.md`. Exchange: `end-of-flight/run-j-supplement/` (README, SHA256SUMS, READY; 32 GB of the 40 GB cap).
+- **Declared cuts:** every 2nd supplement row (k = 2; measured 1.42 GB/seed, all rows 45.5 GB > cap); config tree at a517deeb (production's; merged config = production except seeds; 48 run J inputs sha-verified); D5 at 4.3177 Hz (F1); extra descents only for D2-D5 and paths north of 35.5 S; optional 22:41 item NOT run (about 78 GB); run outside the heavy lock (Mac lock retired 16 Oct).
+- **Rule B reproduces production:** ln Z within 0.008 nat, family shares within 0.002, quantiles within 0.1 deg; 29 of 30 northern band masses inside production's 95 % seed-bootstrap interval (exception D4 25-20 S, unconverged in both: 87 / 272 states). Northern intervals do not narrow (D0' north of 33 S 0.0321 [0.0271, 0.0381] -> 0.0345 [0.0285, 0.0412]), as core predicted.
+- **ESS (distinct 00:11 states, impact bands 35-30 / 30-25 / 25-20 S, final):** D0' 45.8k / 19.2k / 5,754; D2 10.4k / 13.2k / 3,199; D3 855 / 1,494 / 281; D4 2,303 / 1,314 / 272; D5 1,193 / 3,357 / 890. Gaps < 1,000: D3 35-30, D3/D4/D5 25-20 S; A1 under D3-D5 in every northern band.
+- **P5:** D2 >= 1,000 confirmed; at 64 descents D4 35-30 above range, D4 30-25 and D3 30-25 below range, D3 35-30 inside; with 256 extra descents D3 / D4 30-25 S pass 1,000.
+- **A1-branch on the supplement (add-on):** A1 distinct states 35-30 / 30-25 / 25-20 S: D3 768 / 360 / 111, D4 **1,908** / 745 / 294, D5 636 / 200 / 43 (from 320 / 32 / 6, 717 / 39 / 20, 87 / 37 / 10). Branch shares unchanged. Rows at `north-k2-a1branch/`; rule B with run-j-a1branch (u1 = w/8, n1 = 799,999).
+- **For downstream modules:** `reduced/impacts-ruleB.npz` (1.78M rows, per-row ln weights per treatment, rule B and production-alone; band masses within 0.0004 of the full set).
+- **Correction:** the 17 Oct both-burst pass reused production seeds, so 25.0 % of its rows repeat production descents (seed 1 measured); its "independent passes agree" check is overstated. Tonight's passes use their own seeds.
+- **F1 fixed** in `smoke/option_table_0019.py` (`run_obs`: SDs from the run's own [inputs] observations). **A5** (00:19:29 position column): the compact files already carry `latent:last_burst_latitude_deg/longitude_deg`; a 00:19:29 column needs terminal.rs (core) — backlog, not done.
+- **Not run, costed:** A1 outside the branch (second conditional pass, 1.6 h + 3.5 GB on run J seeds 1-8; no core change); k = 1 for the other half of the supplement (about 23 GB + 1.3 h).
+-- End of Flight Module (overnight order A)

@@ -35,9 +35,17 @@ def d5_loglik(g, V, obs):
     return np.where(np.isfinite(r) & np.isfinite(i1) & np.isfinite(i2), out, -np.inf)
 
 
+def run_obs(meta):
+    """The 00:19 observation rows the run itself was scored with (run.json [inputs] observations, relative to engine/), so D5 uses the
+    same BFO errors as the stored columns (run J: 4.3177 Hz; fault F1 of results/e2e-calibration-smoke-2026-10-19, fixed 19 Oct)."""
+    p = pathlib.Path(meta["config"]["inputs"]["observations"])
+    path = p if p.is_absolute() else (SATCOM_CSV.parents[1] / p).resolve()
+    return {r["epoch_id"]: r for r in csv.DictReader(open(path))}
+
+
 def seed_terms(sd, handoff):
     meta, g = load(sd); logon = meta["config"]["hypotheses"]["end-of-flight"]["logon"]
-    obs = {r["epoch_id"]: r for r in csv.DictReader(open(SATCOM_CSV))}
+    obs = run_obs(meta)
     w = g("weight")
     # Thinned files (both_burst_thin.py): normalise by the UNTHINNED weight total, not by the stored weights (16 Oct 2026).
     wsum = float(meta.get("thinning", {}).get("weight_sum_in", w.sum())); lw = np.log(w) - np.log(wsum)
