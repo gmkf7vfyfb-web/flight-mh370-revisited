@@ -81,3 +81,20 @@ Cap 5 GB.
    supplement seeds, built on deskstar from the job folder's final files, under the heavy lock.
 3. Save the PDFs and figures to the repo (`results/run-j-supplement/reports/`) and to the exchange; do not delete the
    deskstar job folder (Pete decides after the reports exist).
+
+## E. End-to-end calibration: protocol and 5-case smoke (Pete approved 19 Oct about 04:00Z)
+
+Source proposal: the composer/architecture thread's three-tier design (tier 1a strict SBC, 1b coverage by latitude band, tier 2
+wrong-model stress tests, tier 3 real known-truth links), answering `results/project-assessment-2026-10-18.md` §6 item 2.
+
+1. Write and commit the pre-registered protocol `threads/work-orders/e2e-calibration-protocol-2026-10-19.md` BEFORE any case
+   runs: truths from the engine prior (18:01 radar prior, route family, mode, speed/altitude, fuel, end-of-flight family and
+   latents, ocean model, windage); synthetic BTO/BFO at every handshake with the model noise and bias drift, 00:19 per data
+   option; synthetic finds from drift forward transport; Bernoulli search outcome from q and ρ (detected cases kept);
+   statistics (rank of truth for along-arc position at 00:19, impact latitude and time, cross-arc distance; 50/90/95 % HPD
+   coverage; reliability of family, end-of-flight family, 00:19 cause), per factor stack (core; core+drift; core+searches;
+   all evidence); sample sizes (100 for 1a, about 10 per 5 deg band for 1b); pass criteria; what a failure triggers.
+2. Run a 5-case smoke at reduced scale: deskstar under the heavy lock (queue behind order D's report build if it holds the
+   lock), at most 40 threads, deskstar disk cap 10 GB; Mac use light only. Record per-case Monte Carlo noise and wall time;
+   give the cost estimate for 100 + 40 cases at the scale the ESS floor needs.
+3. Do not start the full run; it waits for Pete's review of the smoke.
