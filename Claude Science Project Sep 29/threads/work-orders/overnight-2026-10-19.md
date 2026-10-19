@@ -8,7 +8,7 @@ Item 5 (end-to-end calibration) is NOT approved yet and does not run.
 - Work only in `Claude Science Project Sep 29/` on branch `claude-science-sep29`; the Sep 28 ISO tree is frozen.
 - Never delete anything under `/Users/pete`. Move superseded outputs aside; Pete removes them.
 - **Mac disk:** total budget tonight 48 GB across all orders. Per-order caps are below. Every writer checks `df` free on
-  `/System/Volumes/Data` before each large write and **pauses (does not delete) if free < 25 GiB**, then reports.
+  `/System/Volumes/Data` before each large write and **pauses (does not delete) if free < 5 GB** (Pete, 19 Oct about 04:15Z: floor lowered from 25 GiB to 5 GB), then reports.
 - **Mac CPU:** order A may use 12 threads; orders B, C, D at most 4 threads each.
 - **deskstar:** only order D uses it, under the heavy lock (`lockf -k /tmp/.mh370-heavy.lock`); note the 18 Oct fd-9 leak fix
   (25fe59a8) for background monitors.
@@ -30,7 +30,7 @@ P5; `r_hat.csv`). Rows: `north/seed-1001..1016/handoff-m0011-supplement`. Repo n
 
 1. Fly the production recipe exactly as run J waypoints (`results/eof-run-j-waypoints-oct16`, binary `mh370-eof-rj1`, sha256
    19031f41748ecb0c, round-3 laws, the same children and scored selection). Standalone weights w x exp(log_correction).
-2. Disk cap 35 GB. Fly all rows if the projected size fits; otherwise a fixed every-k-th-row subset (k declared; rule B
+2. Disk cap 40 GB (19 Oct 04:15Z; was 35, then 30 at the 25 GiB floor). Fly all rows if the projected size fits; otherwise a fixed every-k-th-row subset (k declared; rule B
    multiplies u2 by k). Measure the rate on one seed before committing to k.
 3. Combine with run J production by rule B (`r_hat.csv`, r = 0.1 outside its range). Report per 00:11 and impact latitude band
    (35-30, 30-25, 25-20 S) and per treatment D0', D1-D5: ESS as rows / parents / distinct states against 1,000; test P5
