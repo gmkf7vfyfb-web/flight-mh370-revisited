@@ -10,7 +10,7 @@ Item 5 (end-to-end calibration) is NOT approved yet and does not run.
 - **Mac disk:** total budget tonight 48 GB across all orders. Per-order caps are below. Every writer checks `df` free on
   `/System/Volumes/Data` before each large write and **pauses (does not delete) if free < 5 GB** (Pete, 19 Oct about 04:15Z: floor lowered from 25 GiB to 5 GB), then reports.
 - **Mac CPU:** order A may use 12 threads; orders B, C, D at most 4 threads each.
-- **deskstar:** only order D uses it, under the heavy lock (`lockf -k /tmp/.mh370-heavy.lock`); note the 18 Oct fd-9 leak fix
+- **deskstar:** orders D and E use it, under the heavy lock (`flock ~/.mh370-heavy.lock`; corrected 19 Oct 04:30Z, deskstar has no lockf); note the 18 Oct fd-9 leak fix
   (25fe59a8) for background monitors.
 - Davey Fig. 10.3 reference: the vector-recovered curve
   (`engine/.sources/davey-2016/fig10-3-bto-bfo-latitude-pdf-vector.csv`, 5315fde), labelled "Davey et al. (2016), Fig. 10.3".
@@ -94,7 +94,7 @@ wrong-model stress tests, tier 3 real known-truth links), answering `results/pro
    statistics (rank of truth for along-arc position at 00:19, impact latitude and time, cross-arc distance; 50/90/95 % HPD
    coverage; reliability of family, end-of-flight family, 00:19 cause), per factor stack (core; core+drift; core+searches;
    all evidence); sample sizes (100 for 1a, about 10 per 5 deg band for 1b); pass criteria; what a failure triggers.
-2. Run a 5-case smoke at reduced scale: deskstar under the heavy lock (queue behind order D's report build if it holds the
+2. Run a 5-case smoke at reduced scale: deskstar under the heavy lock (`flock ~/.mh370-heavy.lock`; queue behind order D's report build if it holds the
    lock), at most 40 threads, deskstar disk cap 10 GB; Mac use light only. Record per-case Monte Carlo noise and wall time;
    give the cost estimate for 100 + 40 cases at the scale the ESS floor needs.
 3. Do not start the full run; it waits for Pete's review of the smoke.
