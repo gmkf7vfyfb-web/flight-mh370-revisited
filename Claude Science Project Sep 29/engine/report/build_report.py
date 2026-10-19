@@ -287,7 +287,11 @@ def run_summary_lines(run_json, case, arc_summary):
     s = case["stats"]
     lines.append(("body", f"median {abs(s['median']):.2f}°S, mode {abs(s['mode']):.2f}°S"))
     lines.append(("body", f"95% {abs(s['q975']):.2f}–{abs(s['q025']):.2f}°S"))
-    lines.append(("body", f"replicates {len(case['reps'])}, split-half {case['split_half_overlap']:.3f}"))
+    # The project split-half statistic is the mean over balanced partitions, never the single
+    # first-half/second-half draw stored in summary.json (19 Oct 2026).
+    from model_comparison import split_half_all
+    sh = split_half_all([np.asarray(r["density"]) for r in case["reps"]], GRID[1] - GRID[0])["mean"] if len(case["reps"]) > 1 else float("nan")
+    lines.append(("body", f"replicates {len(case['reps'])}, split-half {sh:.3f} (mean, all partitions)"))
     # Largest share of the posterior carried by one prior draw: a sampling diagnostic, not a
     # property of the posterior, and the first thing to check when a region looks lumpy.
     biggest = 0.0
@@ -820,7 +824,7 @@ def main():
         for r in bfo["reps"]:
             ax2.plot(GRID, r["density"], color=OURS, lw=0.5, alpha=0.45)
         ax2.plot(GRID, bfo["density"], color=OURS, label=f"This recreation, pooled over {len(seeds)} replicates (thin: each)")
-        ax2.plot(GRID, davey, color=DAVEY, ls=(0, (5, 2)), label="Davey et al. (2016) Fig. 10.3, digitised")
+        ax2.plot(GRID, davey, color=DAVEY, ls=(0, (5, 2)), label="Davey et al. (2016), Fig. 10.3")
         if base:
             ax2.plot(GRID, base["density"], color=MUTED, ls=(0, (1, 1.5)), lw=1.2, label=os.environ.get("BASELINE_LABEL", "Base estimate (no hypotheses)"))
         ax2.set_title(("(b) " if ax1 is not None else "") + "BTO and BFO, compared with the published curve (note expanded scale)", loc="left", color=INK)
@@ -940,7 +944,7 @@ def main():
         text_block(fig, 0.08, 0.14, """
             Figure 3 and Table 1. Posterior summaries with BTO and BFO, pooled over replicates, alongside the
             statements in Davey et al. (2016), sec. 10.2–10.4. Book values of the latitude pdf come from the
-            digitised Fig. 10.3 (bottom); other book values are quoted from the text.""", size=8, colour=MUTED, width=128)
+            Fig. 10.3 (bottom), vector-recovered curve; other book values are quoted from the text.""", size=8, colour=MUTED, width=128)
         save_page(pdf, fig, out)
         plt.close(fig)
 
