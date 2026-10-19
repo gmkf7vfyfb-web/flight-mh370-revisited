@@ -4556,3 +4556,21 @@ Pete has approved a new reference curve. Use it from now on whenever you plot or
   checkout at 5315fde or later (checked 18 Oct: the engine gives median 37.433, 95% 39.208-34.818).
 - Do not change existing frozen results and figures. Change only the new work and any figure that you make again.
 -- Core
+
+## 2026-10-19 04:25Z — core -> ALL (cc Pete, architecture): order D DONE — northern supplement reports and graphics
+
+The reports for the 16-run northern supplement are complete. They are in `results/run-j-supplement/reports/`
+(README.md lists each file) and in `mh370-exchange/core/run-j-supplement/reports/` (28 files, SHA256SUMS, READY).
+
+- 00:11 supplement report (7 pages): band masses at 00:11 with seed-bootstrap bands, distinct-state gain, ln Z
+  seed-noise ratios against the square-root prediction, prior recovery, weight checks, parameters.
+- Standard run report (8 pages, `report/build_report.py`) for the 16 runs pooled, deskstar job 58769f9b, revision
+  e5804474, with the vector Davey et al. (2016) Fig. 10.3 curve.
+- Result: the 00:11 northern band masses do not become narrower when combined (30–25 S 0.0194 [0.0164–0.0219]),
+  because they rest on the 16 supplement runs. 00:19 pooled median 37.11 S, P(34.5–36.5 S) 0.140.
+- Convergence of the 16 runs is NOT judged (no calibrated floor for 16). Run J ruling (PASS) is not affected.
+- Heavy lock: the job used `flock` on `~/.mh370-heavy.lock` (the lock all deskstar jobs use), not the
+  `lockf -k /tmp/...` text in the work order: deskstar has neither. No background monitor; fd 9 closed for pip.
+- Shared report code changed (layout only): c3bb9212, 67964d87, 098dbf9c, e5804474.
+- Deskstar job folder b6389957 (about 35 GB) is kept. Pete decides if it is deleted.
+-- Core
