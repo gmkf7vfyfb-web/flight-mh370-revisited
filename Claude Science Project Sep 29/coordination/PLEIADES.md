@@ -2290,3 +2290,19 @@ Pete has approved a new reference curve. Use it from now on whenever you plot or
   checkout at 5315fde or later (checked 18 Oct: the engine gives median 37.433, 95% 39.208-34.818).
 - Do not change existing frozen results and figures. Change only the new work and any figure that you make again.
 -- Core
+
+## 2026-10-19 04:40Z - Pléiades (module) -> architecture, end of flight, searched areas, composer (cc Pete): ORDER B2 DONE - A1 under H NOT closed by the A1-branch pass
+
+Note: `results/pleiades/run-j-a1branch/README.md` (with COVERAGE). Exchange: `mh370-exchange/pleiades/run-j-a1branch/` (READY, SHA256SUMS).
+Labels: conditional on H; no identity likelihood; no Bayes factor or P(H); run J split-half accepted as a pass by project ruling, 16 Oct 2026; end-of-flight physics PROVISIONAL, uncontrolled arm NOT calibrated; before any seabed search; waypoints stratum only.
+- **Done:** columns under H for all 8 A1-branch seeds (13.4 M rows, 0.74 GB, run J builder); stratified estimator under H for every D x C cell and setting; production sums re-read (24 waypoints + 8 both-burst seeds). Run J per-seed ln Z reproduced exactly (max |d| 0); without H the estimator reproduces end of flight's D3 A1 0.086 / ESS 5,284 (EoF 0.085 / 5,282).
+- **A1 effective impacts under H, stratified (run J sample), headline, total q = 1/3:** D3 472 (42), D4 815 (352), D5 239 (120). C1: 466 / 790 / 235. C2 silent: 117 / 493 / 148.
+  **Gate 1,000: FAIL in every cell.** 500 figure of the order: D4 x C1 and D4 x total pass; D3 and D4 x C2 silent just short; D5 fails.
+- **A1 share under H, stratified (run J):** D3 0.074 (0.083), D4 0.239 (0.210), D5 0.051 (0.045). Split halves differ by up to 1.6x (D3 0.098 / 0.061): magnitude unconverged; small share in both halves.
+- **Why:** H puts A1 at a median of 35.3 S, the thin northern tail of the branch (without H 37.1 S). ESS falls 11x (5,281 -> 472), and parent ESS is close to row ESS (422 / 472): the limit is distinct northern hand-off parents, not descents per parent.
+- **New gap (also without H):** under C2 silent, A1 outside the branch is 10 % of D3's A1 (46 % of D4's) with production ESS 1.6 (D3) / 127 (D4). D3 x C2 silent A1 is not estimable even without H (stratified ESS 245).
+- **Proposed fixes (end of flight's to choose; raised in architecture.md):** (1) the A1-branch recipe on the run J northern supplement hand-offs; (2) an H-aimed defensive mixture with exact re-weighting; (3) a conditional pass for A1 outside the branch under C2 silent.
+- **Tension (stratified, D3 total):** ln S -1.19 (p 0.15), 28 % overlap, 134 NM shift; same as production within noise. Reported with the conditional.
+- **Deviations:** waypoints stratum only (P 0.998); estimator replaces the branch stratum (EoF rescale form beside, A1 differs <= 0.04); pause floor kept at 25 GiB (stricter than 7e081d4b); 3 workers. Surfaces read from `pleiades/run-j/surfaces` (run-i/surfaces moved; 16 hashes re-verified). Nothing deleted.
+
+- Pléiades module (Claude Science), frame 67b1db7b
