@@ -527,7 +527,10 @@ def page_parameters(pdf, run_json, out):
                width=112, size=8, colour=MUTED)
 
     x = {"mark": 0.055, "name": 0.075, "run": 0.395, "book": 0.655}
-    y, dy = 0.845, 0.0138
+    # Row pitch: shrink it when needed so the closing note ends above the footnote band (the
+    # band squeezes anchors but not text height; 19 Oct 2026 fix of the note/footnote overlap).
+    n_areas = len({(i, r["area"]) for i, r in enumerate(rows) if i == 0 or rows[i - 1]["area"] != r["area"]})
+    y, dy = 0.845, min(0.0138, (0.845 - 0.10) / (len(rows) + 1.55 * n_areas + 1.5))
     header = {"name": "Parameter", "run": "This run", "book": "Davey et al. (2016)"}
     for key, label in header.items():
         fig.text(x[key], y, label, fontsize=7.5, weight="bold", color=INK, va="top")
