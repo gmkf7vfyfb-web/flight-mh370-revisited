@@ -18,7 +18,7 @@ vector paths (`engine/.sources/davey-2016/fig10-3-bto-bfo-latitude-pdf-vector.cs
 | `table2-correction-checks.*` | Weight-sum and rule B / rule C checks, with the paired z for P(north of 30 S) |
 | `table3-parameters.*` | Run parameters: particles per mode, seeds, revision, runtime, data options |
 | `report-numbers.json` | All the numbers in the figures and tables, in machine-readable form |
-| `run-j-supplement-north-report.pdf` | Standard run report (`report/build_report.py`, 8 pages) for the 16 supplement runs pooled; PNG pages in `standard-report-png/` |
+| `run-j-supplement-north-report.pdf` | Standard run report (`report/build_report.py`, 8 pages) for the 16 supplement runs pooled; PNG pages are in `standard-report-png/` in the exchange copy only (the project .gitignore excludes `*-png/`) |
 | `run-j-supplement-north-report-convergence.json` | Split-half overlap: all 6,435 balanced partitions 0.883 (range 0.779–0.963); random 8-run subsets 0.837 (5–95 % 0.805–0.884) |
 | `supplement-merged-summary.json` | `mh370 summarise` output for the 16 pooled runs (vector Davey curve) |
 
