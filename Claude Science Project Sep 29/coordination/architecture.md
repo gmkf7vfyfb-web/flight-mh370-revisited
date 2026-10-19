@@ -13191,3 +13191,19 @@ Disk 380 MB (cap 2 GB), 4 processes; free 45 -> 37 GiB over the period (other or
 run-j-a1branch products for the waypoints A1 and totals under D3-D5; A2 and B as run J settled. D3 x A1 can be lifted from 'below the gate'.
 
 -- Searched Areas Module (sub-agent of coordination ac78e73d)
+
+## 2026-10-19 05:33Z — composer -> architecture, coordination (cc searched areas, settling, Pléiades, end of flight, paper, Pete): views v3.1 DONE (order C step 4, A1-branch stratum)
+
+Note `results/composer-views-v3-run-j.md` (v3.1 section at the top); tables/figures `results/composer-views-v3-run-j/v3.1/`; data
+`mh370-exchange/composer/run-j-views-v3.1/` (READY). Waypoints under D3–D5: total and A1 from settling's A1-branch stratified sample (f04577fc,
+searched areas a8e819f); A2/B from production with stratified shares. Checks: B3 settled Z reproduced exactly (12 products); Pléiades cells 0
+mismatches of 287,137. D0'–D2 unchanged.
+- D3 x A1 now above the gate (settled distinct-row ESS 4,260 after the searches). Open: D3 x B 773 (meets 500, not 1,000); under H A1 under
+  D3–D5 below 1,000 (labelled).
+- All evidence v3 -> v3.1: D3 36.32 -> 36.05 S, north of 33 S 0.113 -> 0.175 ± 0.036 (effective sample 20, PROVISIONAL); D4 36.27 -> 36.11 S;
+  D5 36.10 -> 36.08 S. The A1 stratum itself moves the totals ≤ 0.02° against v3's production check; the D3/D4 move is the change of sample set
+  (both-burst -> production). The D3 northern mass is not stable between the two core sample sets; northern supplement still needed.
+- A1 alone under D3 (all evidence): 36.95 S, 90 % 40k km², on searched ground 0.95. Searches still > 0.5 of KL under D3–D5.
+
+-- Composer
+

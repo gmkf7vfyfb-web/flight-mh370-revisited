@@ -23,10 +23,14 @@ V = C.V
 import score_spatial_run_j as SS
 X = C.X
 SET = sys.argv[1]; OUTP = pathlib.Path(sys.argv[2])
-SD = X / 'settling/run-j' / SET
+SD = X / ('settling/run-j-a1branch/run-j-waypoints' if SET == 'run-j-a1branch-waypoints' else f'settling/run-j/{SET}')
 EOF_ROOT = {'run-j-waypoints': 'end-of-flight/run-j/run-j-waypoints', 'run-j-free': 'end-of-flight/run-j/run-j-free',
             'run-j-descent-climb': 'end-of-flight/run-j/run-j-descent-climb', 'run-j-repro-radar': 'end-of-flight/run-j/run-j-repro-radar',
-            'run-j-both-burst-waypoints': 'end-of-flight/run-j-both-burst/run-j-waypoints'}[SET]
+            'run-j-both-burst-waypoints': 'end-of-flight/run-j-both-burst/run-j-waypoints',
+            'run-j-a1branch-waypoints': 'end-of-flight/run-j/run-j-waypoints'}[SET]
+# A1-branch folder (v3.1): two sources, source stratum 0 = production waypoints, 1 = A1-branch pass (settling rja1_source.npy)
+EOF_SRC = {0: EOF_ROOT, 1: 'end-of-flight/run-j-a1branch/run-j-waypoints'}
+PLE_SRC = {0: X / 'pleiades/run-j/run-j-waypoints', 1: X / 'pleiades/run-j-a1branch/run-j-waypoints'}
 PLE_ROOT = {'run-j-waypoints': X / 'pleiades/run-j/run-j-waypoints', 'run-j-both-burst-waypoints': X / 'pleiades/run-j/both-burst/run-j-waypoints'}.get(SET)
 VARS = list(SS.VARIANTS)
 SF_VARS = ['V0_scalar', 'V1_central', 'V1_oi_uniform', 'V1_without_oi', 'V2_pessimistic']   # searched fraction depends only on grid / OI mode
@@ -40,7 +44,7 @@ info = json.loads((SD / f'{tag}_info.json').read_text())
 imp = np.memmap(SD / f'{tag}_impacts.f64', dtype='<f8', mode='r').reshape(-1, 14)
 el = np.memmap(SD / f'{tag}_elements.f64', dtype='<f8', mode='r').reshape(-1, 8)
 src = np.load(SD / f'{tag}_source.npy'); dr = np.load(SD / f'{tag}_draws.npz')
-summ = json.loads((X / 'searched-areas/run-j-spatial' / SET / 'summary.json').read_text())
+summ = json.loads(((X / 'searched-areas/run-j-a1branch/settled_summary.json') if SET == 'run-j-a1branch-waypoints' else (X / 'searched-areas/run-j-spatial' / SET / 'summary.json')).read_text())
 n_rows = imp.shape[0]
 key = el[:, 0].astype(np.int64) * STRIDE + el[:, 1].astype(np.int64)
 assert not np.any(np.diff(key) < 0)
@@ -99,22 +103,25 @@ zmax = 0.0
 for (j, p, o), sp in zip(prods, [q for q in summ['products'] if q['cell'] == 'total']):
     assert sp['D'] == p['D'] and sp['subset'] == p['subset']
     for v in ('V0_scalar', 'V1_central', 'V2_pessimistic', 'V3_optimistic', 'V1_rho0.5'):
-        zmax = max(zmax, abs(float(Pv[v][pos[o]].mean()) - sp[v]['Z']))
+        zref = sp['variants_vs_V0'][v]['Z'] if 'variants_vs_V0' in sp else sp[v]['Z']
+        zmax = max(zmax, abs(float(Pv[v][pos[o]].mean()) - zref))
 chk['module_Z_max_abs_diff'] = zmax
 
 # impact-point factors per row
 D = C.Drift(); dl = D.lnL(ilat, ilon); PL = C.Pleiades(); pj = PL.lnJ(ilat, ilon)
-seed = src[urow, 1].astype(np.int64); erow = src[urow, 2].astype(np.int64)
+srcs = src[urow, 0].astype(np.int64); seed = src[urow, 1].astype(np.int64) + 100 * srcs; erow = src[urow, 2].astype(np.int64)
 blat = np.full(nU, np.nan); blon = np.full(nU, np.nan); fam4 = np.full(nU, -1, np.int64); elat = np.full(nU, np.nan)
 pcell_mis = 0; pcell_n = 0
 for k in np.unique(seed):
-    rk = np.where(seed == k)[0]; I32 = np.load(X / EOF_ROOT / f'seed-{int(k)}' / 'impacts32.npy', mmap_mode='r')
+    rk = np.where(seed == k)[0]; sk_, kk_ = int(k) // 100, int(k) % 100
+    I32 = np.load(X / (EOF_SRC[sk_] if SET == 'run-j-a1branch-waypoints' else EOF_ROOT) / f'seed-{kk_}' / 'impacts32.npy', mmap_mode='r')
     ix = erow[rk]; o_ = np.argsort(ix); ixs = ix[o_]
     A = np.asarray(I32[ixs])
     blat[rk[o_]] = A[:, CI['latent:last_burst_latitude_deg']]; blon[rk[o_]] = A[:, CI['latent:last_burst_longitude_deg']]
     fam4[rk[o_]] = A[:, CI['family4_code']].astype(np.int64); elat[rk[o_]] = A[:, CI['latitude_deg']]
-    if PLE_ROOT is not None and (PLE_ROOT / f'seed-{int(k)}' / 'pleiades-lnL.npy').exists():
-        cell = np.load(PLE_ROOT / f'seed-{int(k)}' / 'pleiades-lnL.npy', mmap_mode='r')['cell']
+    PR_ = PLE_SRC[sk_] if SET == 'run-j-a1branch-waypoints' else PLE_ROOT
+    if PR_ is not None and (PR_ / f'seed-{kk_}' / 'pleiades-lnL.npy').exists():
+        cell = np.load(PR_ / f'seed-{kk_}' / 'pleiades-lnL.npy', mmap_mode='r')['cell']
         cc = np.asarray(cell[ixs]).astype(np.int64); pi, pj_, ok = PL.cell(ilat[rk[o_]], ilon[rk[o_]])
         mine = np.where(ok, pi * PL.nn + pj_, 0xFFFFFFFF); pcell_mis += int((mine != cc).sum()); pcell_n += len(cc)
 chk['eof_latitude_max_abs_diff'] = float(np.nanmax(np.abs(elat - ilat)))
@@ -124,7 +131,7 @@ sarc = np.where(noburst, np.nan, V.arc_s(np.where(noburst, 0.0, blat), np.where(
 fam = np.full(nU, -1, np.int8); fam[fam4 == 1] = 0; fam[fam4 == 2] = 1; fam[np.isin(fam4, (3, 6))] = 2
 chk['family_other_outcomes'] = int((fam < 0).sum()); chk['drift_inside_dedicated_span_share'] = float(dl['inside_dedicated_span'].mean())
 
-out = {'seed': seed.astype(np.int16), 'erow': erow, 'fam': fam, 'sarc': sarc, 'ilat': ilat, 'ilon': ilon, 'slat': latm, 'slon': lonm,
+out = {'seed': seed.astype(np.int16), 'src': srcs.astype(np.int8), 'erow': erow, 'fam': fam, 'sarc': sarc, 'ilat': ilat, 'ilon': ilon, 'slat': latm, 'slon': lonm,
        'carried': carried, 'drift_inside': dl['inside_dedicated_span'],
        'cell_o': co.astype(np.int32), 'cell_b': cb.astype(np.int32), 'cell_w': cw, 'sub_o': so.astype(np.int32), 'sub_b': sb.astype(np.int32), 'sub_w': sw,
        'chk': json.dumps(chk), 'products': json.dumps([{**{k: p[k] for k in ('option', 'D', 'cell', 'subset', 'N', 'row_ess_kish', 'share_of_option')}, 'j': j} for j, p, _ in prods])}

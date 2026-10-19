@@ -4,7 +4,8 @@ import json, sys, pathlib
 import numpy as np, matplotlib as mpl, matplotlib.pyplot as plt
 HERE = pathlib.Path(globals().get('HERE_V3', '.')).resolve(); sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parent / 'composer-views-run-j'))
 import views_common as V, views_lib as VL
-EX = pathlib.Path('/Users/pete/Downloads/mh370-exchange/composer/run-j-views-v3')
+EX = pathlib.Path(globals().get('EX_V3', '/Users/pete/Downloads/mh370-exchange/composer/run-j-views-v3'))
+OUTD = pathlib.Path(globals().get('OUT_V3', str(HERE))); SUF = globals().get('SUF_V3', '')
 R = json.load(open(EX / 'views-v3-run-j.json')); PDF = np.load(EX / 'pdf01-v3.npz'); MAPS = np.load(EX / 'maps-v3.npz'); VAI = np.load(EX / 'view-a-i-v3.npz')
 try:
     apply_figure_style(sizes=(8, 7, 6))
@@ -25,7 +26,7 @@ TECH_BASE = ("Technical: core run J (tag 1244b7c; split-half accepted by ruling 
              "Infinity coverage inferred (grade C), included as best estimate. Drift: finds only, dedicated arc-latitude run 26-40 S (run A outside), "
              "GLORYS12 + GlobCurrent marginalised jointly. Hydroacoustics zero weight by ruling; Pleiades conditional; Australian non-recovery excluded "
              "(sensitivity); planned next Ocean Infinity area is a map layer only. North of 33 S is the production sample (northern supplement not used); "
-             "north of 33 S under-sampled (effective sample in the tables).")
+             "north of 33 S under-sampled (effective sample in the tables)." + globals().get('TECH_ADD', ''))
 
 def footnotes(fig, ste, tech, y=0.005, width=190):
     import textwrap
@@ -34,7 +35,7 @@ def footnotes(fig, ste, tech, y=0.005, width=190):
 
 def save(fig, name):
     for ext in ('png', 'pdf'):
-        fig.savefig(HERE / f'{name}.{ext}', dpi=300 if ext == 'png' else None)
+        fig.savefig(OUTD / f'{name}{SUF}.{ext}', dpi=300 if ext == 'png' else None)
 
 def smooth(h, k=25):
     ker = np.ones(k) / k; return np.convolve(h, ker, mode='same')
@@ -122,7 +123,7 @@ axs[1, 0].set_title('b  Detection level of the search model', loc='left', fontsi
 h = [Line2D([], [], color=DCOL[d], marker='o', ms=3, lw=0.9, label=DNAME[d].replace('\n', ' ')) for d in DK]
 fig.legend(handles=h, loc='upper center', ncol=3, frameon=False, bbox_to_anchor=(0.5, 0.995), fontsize=6)
 fig.suptitle('A higher chance of a missed wreck moves the median south and puts more probability on searched ground', x=0.01, y=0.915, ha='left', fontsize=8)
-fig.subplots_adjust(left=0.07, right=0.99, top=0.84, bottom=0.3, wspace=0.55, hspace=0.6)
+fig.subplots_adjust(left=0.07, right=0.99, top=0.84, bottom=0.35, wspace=0.55, hspace=0.6)
 footnotes(fig, STE_BASE + ' Top: the chance that the search did not find a wreck that was there, at 0, 1, 5 and 10 times the central value. '
           'Bottom: four levels of search quality; the open squares show two other ways to model the Ocean Infinity searches.',
           TECH_BASE + ' rho0 = 0 / 0.05 / 0.25 / 0.5 with the same terrain weight (V1_rho0, V1_central, V1_rho0.25, V1_rho0.5); levels V3, V1, V0, V2 '

@@ -31,8 +31,12 @@ FAMS = ['all', 'A1', 'A2', 'B']
 MIXW = json.load(open(X / 'settling/run-j/stratum-mixture-weights.json'))['weights_per_cell']
 ARCR = np.load(X / 'composer/run-j-views/work/arc-r.npz'); U_ARC = ARCR['u']; SPAN = ARCR['span']
 
+import os
+V31 = os.environ.get('V31') == '1'   # views v3.1 (19 Oct 2026): A1-branch stratified samples for waypoints totals and A1 under D3-D5
+A1D = ('D3', 'D4', 'D5')
+P0 = json.load(open(X / 'settling/run-j-a1branch/run-j-waypoints/rja1_pass0.json'))['cells'] if V31 else None
 T = {}
-for s in STRATA + ['run-j-both-burst-waypoints']:
+for s in STRATA + ['run-j-both-burst-waypoints'] + (['run-j-a1branch-waypoints'] if V31 else []):
     z = np.load(W / f'{s}.npz'); T[s] = {k: z[k] for k in z.files}; T[s]['products'] = json.loads(str(T[s]['products'])); T[s]['chk'] = json.loads(str(T[s]['chk']))
     print('loaded', s, flush=True)
 OPTION = {p['D']: p['option'] for p in T['run-j-waypoints']['products']}
@@ -84,7 +88,9 @@ for s in T:
     T[s]['nxt'] = next_area_mask(T[s]['slat'], T[s]['slon']).astype(float)
 
 
-def folder(s, d, variant):
+def folder(s, d, variant, f='all'):
+    if V31 and variant == 'head' and s == 'run-j-waypoints' and d in A1D:
+        return 'run-j-a1branch-waypoints' if f in ('all', 'A1') else 'run-j-waypoints'
     if s == 'run-j-waypoints' and d in ('D3', 'D4') and variant == 'head':
         return 'run-j-both-burst-waypoints'
     return s
@@ -95,14 +101,17 @@ def base_sample(d, f, ctx, variant='head'):
     blocks = []
     strata = STRATA if ctx == 'mix' else [ctx]
     for s in strata:
-        fs = folder(s, d, variant); t = T[fs]
+        fs = folder(s, d, variant, f); t = T[fs]
         pj = [p for p in t['products'] if p['D'] == d and p['subset'] == f]
         if not pj:
             continue
         p = pj[0]; o = t[f"prod_{p['j']}"]
-        pi = MIXW[f"{p['option']} | total"][s] * (p['share_of_option'] if f != 'all' else 1.0)
+        sh = p['share_of_option']
+        if V31 and variant == 'head' and s == 'run-j-waypoints' and d in A1D and f in ('A2', 'B'):
+            sh = P0[d][f'{f}_share_stratified']   # single measure: A2 / B shares of the stratified total (settling rja1_pass0.json)
+        pi = MIXW[f"{p['option']} | total"][s] * (sh if f != 'all' else 1.0)
         u, cnt = np.unique(o, return_counts=True)
-        blocks.append({'s': s, 'fs': fs, 'idx': u, 'w0': pi * cnt / p['N'], 'N': p['N'], 'row_ess': p['row_ess_kish'], 'share': p['share_of_option']})
+        blocks.append({'s': s, 'fs': fs, 'idx': u, 'w0': pi * cnt / p['N'], 'N': p['N'], 'row_ess': p['row_ess_kish'], 'share': sh})
     tot = sum(b['w0'].sum() for b in blocks)
     for b in blocks:
         b['w0'] = b['w0'] / tot
@@ -249,8 +258,11 @@ def boot(blocks, Wt, prods, d, f):
     nseed = sum(len(us) for _, us, _ in keys); off = np.cumsum([0] + [len(us) for _, us, _ in keys])
     M = np.zeros((NB, nseed))
     for (bi, us, _), o0 in zip(keys, off[:-1]):
+        grp = us // 100   # resample seeds within each source (A1-branch folder: production 1-24, pass 101-108)
         for k in range(NB):
-            M[k, o0:o0 + len(us)] = np.bincount(rng.integers(0, len(us), len(us)), minlength=len(us))
+            for g in np.unique(grp):
+                ix = np.where(grp == g)[0]
+                M[k, o0 + ix] = np.bincount(rng.integers(0, len(ix), len(ix)), minlength=len(ix))
     per = {}
     for p in set(prods) | {'core', 'S', 'D', 'DS', 'DSP', 'SP', 'DP', 'ABS', 'AB'}:
         H = np.zeros((nseed, len(V.L01_MID))); MP = np.zeros((nseed, V.NY * V.NX)); SFs = np.zeros(nseed); Z = np.zeros(nseed)

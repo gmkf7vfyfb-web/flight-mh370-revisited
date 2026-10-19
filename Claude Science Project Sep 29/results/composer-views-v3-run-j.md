@@ -1,3 +1,56 @@
+# Composer views v3.1 on run J — A1-branch stratum added for waypoint routes under D3–D5 (19 Oct 2026)
+
+**What changed from v3 (order C step 4, coordination follow-up).** Settling B1 (f04577fc, `settling/run-j-a1branch/`) and searched areas B3
+(a8e819f, `searched-areas/run-j-a1branch/`) are READY. For waypoint routes under D3, D4 and D5 the total and the A1 product now come from
+settling's A1-branch stratified sample (production rows + A1-branch pass rows, one measure, SCALE 0.141); A2 and B come from the production
+waypoints products with their stratified shares (`rja1_pass0.json`). Source and seed from `rja1_source.npy` (seeds keyed 1–24 production,
+101–108 pass; the seed bootstrap resamples within each source). D0'–D2 and the other strata are unchanged (max |Δ| 0.0 against v3).
+Scripts: the same files, run with `V31=1` (`compose_v3.py`) and the A1-branch folder in `build_outcomes_v3.py`; tables and figures
+`results/composer-views-v3-run-j/v3.1/`; data `mh370-exchange/composer/run-j-views-v3.1/`.
+
+**Checks.** Searched-areas Z of all 12 A1-branch products (V0, V1, V2, V3, ρ0 0.5) reproduced exactly from my per-outcome recomputation
+(max |Δ| 0.0 against B3's `settled_summary.json`); Pléiades cells equal the module's columns on all 287,137 outcomes (production and pass);
+end-of-flight latitude equal for both sources.
+
+**Gates.** D3 × A1 is now **above the gate**: settling row ESS 5,283 before the searches; B3 gives 4,260 distinct rows after the searches
+at the settled positions (500 and 1,000 met). Remaining open cell: **D3 × B** — 773 after the searches on production (meets 500, not 1,000).
+**Under H (Pléiades) A1 stays below 1,000** (Pléiades B2: D3 472, D4 815, D5 239): the all-given-H A1 cells under D3–D5 are labelled
+below the gate.
+
+**What moved (all evidence, four-stratum mixture):**
+
+| 00:19 treatment | v3 (both-burst waypoints) median / 90 % / N of 33 S / on searched ground | v3 check, production waypoints | **v3.1** (A1-branch stratified) | A1 share core → all, v3 → v3.1 |
+|---|---|---|---|---|
+| D3 both BFOs as recorded | 36.32 S / 144k / 0.113 / 0.604 | 36.06 S / 157k / 0.170 / 0.598 | **36.05 S ± 0.15 / 160k / 0.175 ± 0.036 / 0.599** | 0.080 → 0.057 ; 0.086 → 0.054 |
+| D4 both BFOs, Holland transient bias added | 36.27 S / 159k / 0.164 / 0.678 | 36.13 S / 172k / 0.192 / 0.682 | **36.11 S ± 0.14 / 175k / 0.190 ± 0.015 / 0.665** | 0.248 → 0.223 ; 0.258 → 0.230 |
+| D5 R600 + R1200 BFOs, Holland transient bias added | 36.10 S / 172k / 0.154 / 0.633 | (= v3) | **36.08 S ± 0.13 / 174k / 0.160 ± 0.009 / 0.639** | 0.060 → 0.041 ; 0.055 → 0.038 |
+
+1. **The A1 stratum itself changes the totals very little.** Against the production-waypoints check that v3 already reported, v3.1 moves
+   the D3 / D4 all-evidence medians by ≤ 0.02° and north of 33 S by ≤ 0.005. D5 (production in v3 too) moves 0.02° and +0.006.
+2. **Most of the move at D3 and D4 comes from the sample set.** v3 used the both-burst supplementary set for waypoints under D3 / D4.
+   The stratified sample is built on production, so v3.1 inherits production's values. Going from both-burst to production moves the D3
+   median 0.26° north and north of 33 S from 0.113 to 0.170 (D4 0.14°, 0.164 → 0.192). For D3 that is about 1.5–2 seed SE; for D4 it is within 1 SE.
+   **The D3 northern mass is therefore not stable between two core sample sets.** v3.1 D3 north of 33 S is 0.175 ± 0.036 with effective sample **20**:
+   **provisional**. The northern supplement (order A) is still the fix.
+3. **The A1 cell under D3 is now estimable.** All evidence, A1 only: median 36.95 S, 90 % area 40k km² (v3 production 25k, below the
+   gate), north of 33 S 0.110, on searched ground 0.95. Under D4: median 35.88 S (v3 36.62 S), 90 % 50k km², north of 33 S 0.320. A1 sits
+   on searched ground under every treatment, so the searches lower its share (D3 0.086 → 0.054; D4 0.258 → 0.230).
+4. **Unchanged conclusions.** Searched areas still carry more than half of KL(all ‖ core) under D3–D5 (0.54 / 0.52 / 0.53; drift
+   0.23 / 0.24 / 0.23); the search-level sweeps keep the same order and size (fig. 3). The family B share under D3 (0.60) still rests on the
+   773-row cell.
+
+![v3.1 sea-floor regions per 00:19 treatment](composer-views-v3-run-j/v3.1/fig1-seabed-hpd-by-0019-treatment-v3.1.png)
+
+![v3.1 search-model sensitivity](composer-views-v3-run-j/v3.1/fig3-search-model-sensitivity-v3.1.png)
+
+v3.1 versions of figures 2 and 4 and all tables: `composer-views-v3-run-j/v3.1/` (`note-tables-v3.md`, `products-v3.csv`,
+`compare-v3-v3.1.csv`). **Deviations added in v3.1:** (i) for D3 / D4 waypoints the both-burst set is no longer in the headline; v3's
+both-burst values are kept as the comparison above. (ii) The stratum mixture weights per treatment are those of settling run J, not
+recomputed for the stratified Z (waypoints ≥ 0.9989 of the mixture either way). (iii) A2 / B shares under D3–D5 are the stratified shares
+from `rja1_pass0.json`, applied to the production A2 / B products. Disk added 0.13 GB (order total 0.77 GB, cap 5 GB); 4 processes.
+
+---
+
 # Composer views v3 on run J — settled seabed, per-cell searched-areas field, dedicated drift run
 
 **Version 3, 19 October 2026 (overnight order C, `threads/work-orders/overnight-2026-10-19.md`).** Composer module (sub-agent of the
