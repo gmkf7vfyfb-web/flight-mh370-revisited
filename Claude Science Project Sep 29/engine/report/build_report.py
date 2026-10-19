@@ -733,7 +733,7 @@ def main():
     mode_prob = np.array([[m["posterior_probability"] for m in r["diag"]["modes"]] for r in bfo["reps"]])
     pooled_mode_prob = bfo["p_mode"]
     n_total = sum(cfg["particles_per_mode"])
-    reproduce = f"make hypothesis H={hyps[0]['name']}" if len(hyps) == 1 else "make report"
+    reproduce = os.environ.get("REPORT_REPRODUCE") or (f"make hypothesis H={hyps[0]['name']}" if len(hyps) == 1 else "make report")
     persist_text = ("" if variant else " The difference persists at every particle count tried, so it reflects inputs the book "
                     "does not publish (ACCESS-G weather, the numerical radar prior, autopilot-mode weights) rather than "
                     "sampling noise.")

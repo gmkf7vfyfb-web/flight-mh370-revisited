@@ -18,6 +18,7 @@ Usage: python report/epoch_map.py <run-dir> [<epoch-id> ...] [--out <dir>]
 """
 
 import json
+import os
 import pathlib
 import sys
 
@@ -179,7 +180,7 @@ def density_figure(run_dir, epoch_id, case, figsize=(7.2, 4.2)):
     ax.set_ylim(bottom=0)
     ax.set_xlabel(f"latitude at {utc(meta['epochs'], epoch_id)} UTC (°)")
     ax.set_ylabel("probability density (per degree)")
-    ax.set_title(f"Latitude pdf at {utc(meta['epochs'], epoch_id)} UTC — {meta['config']['name']}",
+    ax.set_title(f"Latitude pdf at {utc(meta['epochs'], epoch_id)} UTC — {os.environ.get('REPORT_RUN_LABEL', meta['config']['name'])}",
                  loc="left", fontsize=9)
     ax.legend(loc="upper right", frameon=False, fontsize=7)
     ax.grid(axis="y", color="#e8e8e8", lw=0.6)
@@ -227,7 +228,7 @@ def mass_figure(run_dir, epoch_id, case, figsize=(6.4, 4.0)):
 
     ax.set_xlabel("latitude along the arc (°)")
     ax.set_ylabel("cumulative probability mass (%)")
-    ax.set_title(f"Mass against latitude at {utc(meta['epochs'], epoch_id)} UTC\n{meta['config']['name']}",
+    ax.set_title(f"Mass against latitude at {utc(meta['epochs'], epoch_id)} UTC\n{os.environ.get('REPORT_RUN_LABEL', meta['config']['name'])}",
                  loc="left", fontsize=9)
     ax.set_yticks([0, 25, 50, 75, 100])
     ax.xaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{abs(v):.0f}°{'S' if v < 0 else 'N' if v > 0 else ''}"))
@@ -294,7 +295,7 @@ def trajectory_figure(run_dir, epoch_id, case, band, n_show=40, figsize=(8.6, 6.
     ax.set_xlabel("longitude (°E)")
     ax.set_ylabel("latitude (°)")
     ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{abs(v):.0f}°{'S' if v < 0 else 'N' if v > 0 else ''}"))
-    ax.set_title(f"Paths reaching the northern region at {utc(meta['epochs'], epoch_id)} UTC\n{meta['config']['name']}",
+    ax.set_title(f"Paths reaching the northern region at {utc(meta['epochs'], epoch_id)} UTC\n{os.environ.get('REPORT_RUN_LABEL', meta['config']['name'])}",
                  loc="left", fontsize=9)
     # Framed on the trajectories; the arc runs far beyond them and is simply clipped.
     plat = routes[np.concatenate([pick, bg])][:, :, 0]
@@ -394,7 +395,7 @@ def figure(run_dir, epoch_id, case, figsize=None):
 
     ax.set_xlabel("longitude (°E)")
     ax.set_ylabel("latitude (°)")
-    ax.set_title(f"Position at {utc(epochs, epoch_id)} UTC\n{meta['config']['name']}", loc="left", fontsize=9)
+    ax.set_title(f"Position at {utc(epochs, epoch_id)} UTC\n{os.environ.get('REPORT_RUN_LABEL', meta['config']['name'])}", loc="left", fontsize=9)
     fmt = FuncFormatter(lambda v, _: f"{abs(v):.0f}°{'S' if v < 0 else 'N' if v > 0 else ''}")
     ax.yaxis.set_major_formatter(fmt)
     ax.set_xlim(mid_lon - half_lon, mid_lon + half_lon)
