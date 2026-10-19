@@ -1299,3 +1299,25 @@ Pete has approved a new reference curve. Use it from now on whenever you plot or
 **Deviation:** A1 shares differ from end of flight's combine by up to 0.0034 (D4) because a resampleable mixture uses the pass estimate in Z(d) too; within the seed-half spread. Waypoints only. Disk 1.4 GB (cap 4 GB), 4 threads.
 **For B3:** score the A1 and total products here for D3-D5 in place of `settling/run-j/run-j-waypoints` A1 (and totals if wanted); A2 and B stay as run J.
 - Ocean Settling
+
+**DONE 2026-10-19 05:20Z (searched areas, order B3).** A1 and total products scored at the settled positions (base + V0-V3) and the pass scored at the impact point; note `results/searched-areas-run-j-a1branch/README.md`; exchange `searched-areas/run-j-a1branch/` (READY); reply in architecture.md 05:20Z.
+
+## 2026-10-19 05:20Z — searched areas -> (record; cc architecture, composer, Pléiades, Pete): order B3 DONE - D3 x A1 gate MET at impact point and settled
+
+**Where:** `mh370-exchange/searched-areas/run-j-a1branch/` (README.md, SHA256SUMS, READY). Note: `results/searched-areas-run-j-a1branch/README.md`
+(tables.md, a1branch-reduced.json, figure `searched-areas-a1branch-gate.{png,pdf}`). Code: `engine/hypotheses/seabed-search/a1branch/`.
+**Configuration:** run.toml base unchanged (base_guard.py, four campaigns; "Ocean Infinity coverage inferred (grade C), included as best estimate"; rho 0.05,
+sweep 0 / 0.25 / 0.5, without OI as sensitivity); per-cell field V0-V3 unchanged (spatial/score_spatial_run_j.py, fields.npz). Waypoints stratum only.
+**Normalisation:** settling's single measure (pass rows x 0.1410766, production branch rows 0; P_D0'(branch) 0.093481). End of flight's form computed beside it:
+Z(A1) identical; A1 share differs by up to 0.0034 (D4); total Z by <= 0.00013; share on searched ground by <= 0.0008.
+**Result (gate):** D3 x A1 after the searches: row ESS **4,763** (parents 4,367) at the impact point (run J 401, both-burst); settled 5,283 before /
+4,260 distinct-row after. **500 and 1,000 gates MET.** D4 x A1 7,178 (run J 2,902); D5 x A1 2,690 (run J 1,838). Every A1 cell D0'-D5 above 1,000.
+**Result (values):** Z(A1) D3 0.1052 (seed s.e. 0.0010) point / 0.1055 settled (run J 0.1054 / 0.1058); D4 0.1100 / 0.1106 (0.1097 / 0.1102); D5 0.1051 /
+0.1054 (0.1068 / 0.1070). All families settled: D3 0.1513, D4 0.1383, D5 0.1444 (run J 0.1513 / 0.1372 / 0.1441). Share on searched ground after,
+settled, A1: D3 0.985, D4 0.962, D5 0.990; all families 0.700 / 0.757 / 0.741. Per-cell V1 - V0 for A1: +0.0002 / +0.0023 / -0.0005; V2 0.33-0.34; V3 0.035-0.042.
+**Checks:** impact-point ln L = published run J column on all 153.6 M production rows to 3.6e-15; production alone reproduces run J waypoints Z (D0', D1, D2,
+D5) to 6e-17; pass Z(branch) = production Z(branch) within 1.4 combined seed s.e. in every treatment; settled point arm = impact-point columns to 2.2e-15.
+**Remaining gap (OPEN, declared):** D3 x B 773 rows after the searches (production; run J both-burst 499) - meets 500, not 1,000. No B pass exists.
+**Cuts (declared):** waypoints only; next-OI-area layer and 'any piece' bound not recomputed; no A2/B settled products (settling emitted totals and A1 only).
+Disk 380 MB (cap 2 GB), 4 processes; free 45 -> 37 GiB over the period (other orders writing). Nothing deleted.
+-- Searched Areas Module (sub-agent of coordination ac78e73d)
