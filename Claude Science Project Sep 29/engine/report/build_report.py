@@ -812,10 +812,10 @@ def main():
         # Without a BTO-only case (Pete, 12 Oct 2026: drop the empty panel), panel (b) takes the whole height.
         if bto:
             ax1 = fig.add_axes([0.11, 0.425, 0.82, max(0.08, min(0.15, y - 0.04 - 0.425))])
-            ax2 = fig.add_axes([0.11, 0.15, 0.82, 0.2])
+            ax2 = fig.add_axes([0.11, 0.19, 0.82, 0.2])
         else:
             ax1 = None
-            ax2 = fig.add_axes([0.11, 0.15, 0.82, max(0.2, y - 0.06 - 0.15)])
+            ax2 = fig.add_axes([0.11, 0.19, 0.82, max(0.2, y - 0.06 - 0.19)])
         if bto:
             for r in bto["reps"]:
                 ax1.plot(GRID, r["density"], color=OURS, lw=0.5, alpha=0.45)
@@ -846,7 +846,7 @@ def main():
         ax2.grid(axis="x", which="major", color="#e4e3df", lw=0.55)
         ax2.grid(axis="x", which="minor", color="#f1f0ec", lw=0.45)
         ax2.set_xlabel("Latitude at 00:19 UTC (°)")
-        text_block(fig, 0.08, 0.085, f"""
+        text_block(fig, 0.08, 0.125, f"""
             Figure 1. Latitude pdf of the aircraft at 00:19:37 UTC, the form of Davey et al. Fig. 10.3. {"(a) BTO only. (b) " if bto else ""}BTO and BFO,
             with the published curve. Densities are weighted particle histograms smoothed with a {SMOOTH_DEG}° Gaussian;
             each particle carries its own altitude. Evidence: BTO at every epoch except the 18:39 and 23:15 C-channel
