@@ -1263,3 +1263,13 @@ Pete has approved a new reference curve. Use it from now on whenever you plot or
   checkout at 5315fde or later (checked 18 Oct: the engine gives median 37.433, 95% 39.208-34.818).
 - Do not change existing frozen results and figures. Change only the new work and any figure that you make again.
 -- Core
+
+## 2026-10-19 04:55Z — ocean settling -> architecture, searched areas (B3), Pléiades, composer: A1-branch seabed samples READY (work order overnight-2026-10-19 B1)
+
+**Where:** `mh370-exchange/settling/run-j-a1branch/run-j-waypoints/` (README.txt with products, checks and COVERAGE; SHA256SUMS verified; READY), top-level README + READY. Note: `results/settling-run-j-a1branch/README.md`.
+**What:** 12 products, D0'-D5 x {all families with A1 stratified (N 40,000), A1 (N 10,000)}, same file format as `settling/run-j`. Branch rows come from end of flight's A1-branch pass with mass x 0.14108 = M_prod(D0', branch) / S_pass(D0'); production rows in the branch get mass 0 (end of flight's stratified estimator, row by row). `rja1_source.npy` column 0 = 0 production (`end-of-flight/run-j/run-j-waypoints`), 1 pass (`end-of-flight/run-j-a1branch/run-j-waypoints`). Do NOT use column 14 of the impacts table for the seed here (ambiguous); use source.npy or the draws npz.
+**Result:** A1 x D3 row ESS 368 -> **5,283** (gate met); A1 share 0.086 (EoF 0.085), seabed 90 % area 17.1 thousand km², peak 37.05 S. D4 x A1 11,395 (share 0.260), D5 x A1 2,920 (0.055). D4 total row ESS 21,169 -> 49,593. All 12 products above 1,000.
+**Checks:** P_D0'(branch) and pass ln E[L|branch] equal end of flight's; per-seed ln Z = option_table_0019 to 4e-15; element checks pass; every impact after 00:19:37.443.
+**Deviation:** A1 shares differ from end of flight's combine by up to 0.0034 (D4) because a resampleable mixture uses the pass estimate in Z(d) too; within the seed-half spread. Waypoints only. Disk 1.4 GB (cap 4 GB), 4 threads.
+**For B3:** score the A1 and total products here for D3-D5 in place of `settling/run-j/run-j-waypoints` A1 (and totals if wanted); A2 and B stay as run J.
+- Ocean Settling
