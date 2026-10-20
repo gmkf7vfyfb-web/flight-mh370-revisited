@@ -199,3 +199,12 @@ reliability diagrams; a README with a COVERAGE section (composer §0 sampling-co
   (≈ 340 lane-h) or 4 × 3.5 M minimum with the first 10 cases at 7 M (≈ 150–190 lane-h). The full run (§7 tier 1a + 1b) waits for A3.
   Before it starts: implement S2 in the truth generator (pick_truth.py still has the old draw; only parent_check.py exists) and re-run
   smoke case 5 (seed 9005) at 4 × 3.5 M as the check that the fix clears the cross-arc miss.
+- 20 Oct 2026 ~20:30Z, **STAGED RUN STARTED** (Pete's decision, 20 Oct: no multi-day run first). 30 tier 1a′ cases (seeds 3001–3030) at
+  4 × 3.5 M particles on two deskstar lanes, preceded by generator re-check case 39005; extendable to 50 and to the full run with the same
+  pool and seeds. §6.3 may be built provisionally on the 30-case result ("provisional; calibration at reduced depth"). Implementation as
+  adopted: A1 event = BTO ±500 µs and BFO ±50 Hz of the real values at BOTH 00:11 and 22:41 (data-only); A2 pool = 300,000 replicates,
+  seeds 5,000,001–5,300,000, ≤ 400 accepted candidates flown per case; S2 = every accepted candidate flown (192 descents per hand-off row),
+  flight drawn ∝ weight × Z(parent), descent within parent ∝ weight × likelihood; A4 rule = drift stacks scored only if the pooled D0 core
+  posterior mass inside the drift node span ≥ 0.99 (data-only; tails outside are filled by the existing weighted-mean rule); A5 (00:19 position
+  column) NOT implemented in this run — deferred to the full run, declared. A3 still held. Run record and resume instructions:
+  `results/e2e-calibration-staged-2026-10-20/README.md`; scripts in its `scripts/`. Tier 1a′ seeds 3001–3100 are reserved for this tier.
