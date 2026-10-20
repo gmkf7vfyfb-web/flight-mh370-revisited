@@ -13296,3 +13296,27 @@ Note `results/pleiades/run-j-supplement/README.md`; exchange `pleiades/run-j-sup
 - FLAG for architecture: the 18-19 Oct Pléiades D5 / D5s cells used the 7 Hz BFO table (fault F1); end of flight's supplement uses 4.3177 Hz. The 20 Oct note supersedes them for D5. Does any other module still score D5 from option_table_0019's base table?
 
 - Pléiades module (Claude Science), frame 67b1db7b
+
+## 2026-10-20 11:05Z — searched areas -> architecture, coordination, composer (cc end of flight, settling, Pete): order B3 (20 Oct) DONE; composer may start
+
+**Where:** `mh370-exchange/searched-areas/run-j-supplement/` (README.md, SHA256SUMS, READY 11:01Z; 635 MB, cap 2 GB). Note: `results/searched-areas-run-j-supplement/README.md`
+(tables.md, supplement-reduced.json, figure `searched-areas-supplement.{png,pdf}`). Code: `engine/hypotheses/seabed-search/supplement/`.
+**Configuration:** run.toml base unchanged (base_guard.py, four campaigns; "Ocean Infinity coverage inferred (grade C), included as best estimate"; rho 0.05 with
+0 / 0.25 / 0.5 sweep; without OI as sensitivity); per-cell V1-V3 unchanged (fields.npz). Waypoints stratum only. Impact point on every row of end of flight's
+reduced rule-B table (2,408,038 rows) and of the A1 strata passes (24.6 M rows); totals by end of flight's normalisation (eof-convention-weights.json), settling's
+single measure beside it (Z within 0.0007). Settled: ruleB-waypoints (33 products) + a1-stratified (15), field 'mean', mean over draws.
+**Result (base, after the searches):** Z impact D0' 0.3131, D3 0.1508, D4 0.1383, D5 0.1446 (run J alone a8e819f 0.3105 / 0.1506 / 0.1378 / 0.1438); settled
+0.3132 / 0.1516 / 0.1389 / 0.1450; D3s / D4s / D5s 0.1306 / 0.1219 / 0.1273. On searched ground after: D3 0.689, D4 0.757, D5 0.722 (run J 0.689 / 0.758 / 0.727).
+North of 33 S after (production alone -> rule B): D0' 0.068 -> 0.073, D3 0.064 -> 0.068, D4 0.069 -> 0.081, D5 0.061 -> 0.069 (7 of 9 rise); D4 25-20 S
+0.0152 [0.0108, 0.0202] -> 0.0231 [0.0207, 0.0260]. Four-way split D3: searched 0.689 / north of 25 S 0.018 / beyond 25 NM 0.285 / near arc 0.008.
+A1 (strata): Z D3 0.1066 (6,260 rows), D4 0.1121, D5 0.1067; A1 shares = end of flight's (D4 0.2755, D4s 0.4760). V1 - V0 settled -0.0019 to -0.0040.
+**Below 1,000 after the searches (paths; reported, not dropped):** D3 25-20 S 423, D4 25-20 S 559 (end of flight's gaps); **D3 35-30 S 804 (new: 1,311 before the
+searches)**; D3s 25-20 S 329, D4s 25-20 S 596; A1 strata north of 30 S under D3/D5 and 30-20 S under D4 (40-498 rows). D3 x B now 1,049 rows (was 770).
+**Checks:** this code = published run J column on all 6.4 M rows of production seed 1 to 3.1e-15; branch-1 pass = a8e819f columns (0.0); settled point arm =
+impact-point columns (0.0); strata sums reproduce a1-strata.json shares; paths reproduce end of flight's path counts within 1 %.
+**Cuts (declared):** reduced table, not full impact rows (end of flight's direction); arc distance interpolated (p99 0.4 NM); band ESS in paths (end of flight's
+distinct states are lower, by up to 17 %); bootstrap holds row weights and strata fixed; next-OI layer and 'any piece' bound not recomputed. Nothing deleted.
+**For composer v3.2:** impact point = `reduced-impact-columns.npz` (row-aligned with impacts-ruleB.npz) + `strata/`; settled = `settled-rows-ruleB-waypoints.npz` /
+`settled-rows-a1-stratified.npz` with settling's products (a1-stratified totals weighted by eof-convention-weights.json). V1 central is column `lnL_settled_V1_central`.
+
+-- Searched Areas Module (sub-agent of coordination ac78e73d)
