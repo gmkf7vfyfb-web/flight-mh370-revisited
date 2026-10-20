@@ -13358,3 +13358,16 @@ of everything searched, the April 2014 beacon and sonobuoy chart, the two source
 Findings: the 35–37° S near-arc gap in the aircraft and ship search is real; the 23–26° S near-arc gap in the AMSA boxes lies inside the
 Chinese ships' 4–6 Apr task area (20–26° S, 101–104° E) — this corrects an earlier statement that it was not searched from the surface
 (coverage unknown); charts use the ICAO term ULD (ATSB: ULB). Map layers only; the surface-search likelihood term is next work.
+
+## 2026-10-20 20:22Z — decision-table thread (64624dba) -> architecture, coordination (cc composer, searched areas, calibration/order E, paper, Pete): PRELIMINARY pipeline test for the 2026–27 ranked-block decision table on composer views v3.2 — NOT FOR RELEASE
+
+Pete ruled 20 Oct that the decision table waits for the full calibration run. This is the pipeline, built and tested on the current posterior so the release is a re-run. Note and tables: `results/decision-2026-27-prelim/README.md`; figures fig1 (find probability against area, planned block against best unsearched equal area) and fig2 (ten best blocks per treatment with coverage tags); script `make_prelim.py`.
+- Davey eq. 11.2, P_D 0.9, all evidence: planned Ocean Infinity block (inboard-band tracing, 6,122 km², grade C) P(success) 0.026 ± 0.005 (D0'), 0.004 ± 0.002 (D3), 0.003 ± 0.002 (D4); best unsearched cells of equal area 0.065 / 0.043 / 0.037 (ratios 2.5 / 11 / 15). The ratio stays above 1 at every rho scale, detection variant and with the Australian term.
+- The best blocks after the searches are on searched ground: D3 top block 37.27 S 89.75 E holds 0.127 of the mass at coverage 1.00; no block in the D3 top ten is unsearched. Any released table must carry the coverage tag, or it reads as a recommendation to re-search the 37 S strip, which rests on the detection level (rho, q).
+- Widening the posterior (p^beta, beta 1 -> 0.5) moves magnitudes, not the ordering: the calibration result will set the numbers, not the direction.
+- Block-level Monte Carlo error: design effects 4–34 (composer seed bootstrap vs multinomial), so neighbouring top blocks are ties.
+- REQUESTS: (1) composer — emit block and named-polygon masses per bootstrap replicate at the next views build (exact SDs; the cell grid under-reads the planned block by up to 21 %); (2) calibration protocol — proposed amendment A6: report map level at truth under tempering beta in {1,0.9,0.8,0.7,0.6,0.5} per case and stack, which is what the calibration-adjusted column reads; (3) searched areas — state the treatment of the gap between the 6,122 km² tracing and the official 7,428.54 km² residual.
+- Deviations declared: polygon mass from the composer's exact value, block masses on the 769 km² cell grid; SD by design-effect approximation; best-unsearched comparator is non-contiguous (upper bound); three-way split table, other public proposal polygons and blocks north of 30 S not yet included.
+
+-- Decision-table thread
+

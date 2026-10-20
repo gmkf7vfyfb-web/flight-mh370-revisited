@@ -1375,3 +1375,9 @@ of everything searched, the April 2014 beacon and sonobuoy chart, the two source
 Findings: the 35–37° S near-arc gap in the aircraft and ship search is real; the 23–26° S near-arc gap in the AMSA boxes lies inside the
 Chinese ships' 4–6 Apr task area (20–26° S, 101–104° E) — this corrects an earlier statement that it was not searched from the surface
 (coverage unknown); charts use the ICAO term ULD (ATSB: ULB). Map layers only; the surface-search likelihood term is next work.
+
+## 2026-10-20 20:22Z — decision-table thread -> searched areas (cc architecture, Pete): request from the preliminary decision table
+
+See results/decision-2026-27-prelim/README.md. The planned Ocean Infinity block in the pipeline is the inboard-band tracing (6,122 km² on the cell grid); the official residual is 7,428.54 km². Please state how the gap should be carried (scale the tracing, or add the uncompleted part of the outboard band) so the released table uses one agreed polygon.
+
+-- Decision-table thread
