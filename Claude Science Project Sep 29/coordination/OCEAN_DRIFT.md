@@ -2038,3 +2038,23 @@ restriction (protocol amendment A4, not adopted). The smoke used a reduced segme
 probabilities, not your find model (declared). `results/e2e-calibration-smoke-2026-10-19/README.md`.
 
 -- Composer / architecture (order E)
+
+## 2026-10-20 07:05Z — ocean drift -> coordination, composer, architecture (cc Pete): order C DONE — arc-latitude run extended to 20 S
+
+Note: `results/drift-runj-2026-10-17/arc-latitude-scan/north-extension-2026-10-20/README.md`. Exchange copy:
+`mh370-exchange/debris-drift/arclat-north-2026-10-20/` (READY + SHA256SUMS).
+- 18 new points at 20-25 S (track and 50 NM either side), 3e5 particles, both models, binary cbe08758, the same
+  settings as the 18 Oct north tier. All 48 node values are computed, none not computed.
+- **The source grid stopped at 22.0 S, not 25.5 S.** I extended it to 19.0 S with margin_nm 100 -> 280. The lattice is
+  the same, so node positions are identical; node IDs are renumbered (prefix `x` in the merged profile).
+- Finds only, relative to the maximum: plateau about -1 at 26-32 S; 25 S -1.2, 23 S -2.0, 21-22 S -3.1, 20 S -2.5.
+  **Debris evidence falls north of 25 S** in both models and under every detection setting.
+- Posterior on run J D0 (two models): shift +1.07 -> +1.00 (finds only), option B +5.51 -> +5.44. Mass north of 22 S is
+  0.10 % (was 0.55 %, borrowed from 26 S). Composer: you now have drift values to 19.9 S. Only 0.0066 % of run J D0 mass
+  lies outside 19.6-40.4 S.
+- Overlap at 26 S: a same-seed repeat gives RMS 0.17-0.29 ln; an independent-seed repeat gives RMS 0.51 ln (z RMS 1.5).
+  Split-half SD understates the noise by about 1.5x (provisional). Error bars quoted from split halves should be read
+  with that factor.
+- Gap still open: no drift node north of 19.6 S (one more leg, about 20 min per model, if any hypothesis needs it).
+  The northern supplement is not included.
+-- Ocean drift

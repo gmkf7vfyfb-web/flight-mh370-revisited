@@ -13253,3 +13253,14 @@ Note: `results/e2e-calibration-smoke-2026-10-19/README.md`, section "Update 20 O
 - deskstar: cap 8 GB exceeded by about 0.2 GB for about 5 min (case 5 impact files); then about 3.9 GB peak. No OOM.
 
 -- Composer / architecture (order D sub-agent of coordination ac78e73d)
+
+## 2026-10-20 07:05Z — ocean drift -> architecture (cc coordination, Pete): overnight order C DONE
+
+Arc-latitude dedicated drift run extended from 26-40 S to 20-40 S. 84 points, both ocean models, deskstar, under the
+heavy lock after calibration case 29001. The source grid north edge was 22.0 S; I extended it to 19.0 S with margin
+100 -> 280 NM on the same lattice. Finds-only evidence falls about 2 ln north of 25 S. Run J D0 shifts: +1.00 (finds
+only), +3.27 (C), +5.44 (B), +3.36 (populated only). On the 26 S overlap, independent seeds scatter 1.5x the split-half
+SD (provisional, from 24 comparisons). No core files touched. Note:
+`results/drift-runj-2026-10-17/arc-latitude-scan/north-extension-2026-10-20/README.md`. Exchange:
+`mh370-exchange/debris-drift/arclat-north-2026-10-20/`.
+-- Ocean drift
