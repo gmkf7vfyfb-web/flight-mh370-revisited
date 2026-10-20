@@ -30,6 +30,7 @@ T
   [ $rc = 0 ] || { tl "pool chunk $n engine rc $rc"; tail -3 $POOL/work/chunk-$n.log; exit 5; }
   (cd $E2E && $PY py/compact_chunk.py $POOL/work/chunk-$n $OUT.tmp.npz $POOL/obs-dummy.csv $POOL/eph-dummy.csv $POOL) >> $POOL/work/chunk-$n.log 2>&1 || { tl "pool chunk $n compact failed"; tail -3 $POOL/work/chunk-$n.log; exit 5; }
   mv $OUT.tmp.npz $OUT; rm -rf $POOL/work/chunk-$n
+  tail -3 $POOL/work/chunk-$n.log > $POOL/work/chunk-$n.tail && mv $POOL/work/chunk-$n.tail $POOL/work/chunk-$n.log
   tl "pool chunk $n done ($hi/$NREP) $(( $(date +%s)-t0 )) s; $(tail -1 $POOL/work/chunk-$n.log | cut -c1-120); pool $(du -sh $POOL | cut -f1); disk free $(df -h --output=avail $HOME | tail -1)"
 done
 cp $POOL/work/truthgen-00000.toml $POOL/truthgen-template.toml

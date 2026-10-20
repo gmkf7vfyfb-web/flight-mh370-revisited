@@ -3,7 +3,7 @@
 # Detached and RESUMABLE: rerun this script after any stop; finished chunks/cases are skipped. Holds the deskstar heavy lock for the whole run.
 # usage: cd ~/mh370/e2e && setsid nohup bash calib_driver.sh > calib-2026-10-20/driver.log 2>&1 < /dev/null &
 set -u; cd $HOME/mh370/e2e; . ./env.sh; RUN=$E2E/calib-2026-10-20; export POOL=$E2E/pool; mkdir -p $RUN/case-stats $RUN/claim
-export PPM="[500_000, 250_000, 1_250_000, 250_000, 1_250_000]" HR=20000 R=4 ITH=${ITH:-44} TTH=40 CHN=64 MAXC=400 MINDISK=8
+export PPM="[500_000, 250_000, 1_250_000, 250_000, 1_250_000]" HR=20000 R=4 ITH=${ITH:-44} TTH=40 CHN=192 MAXC=400 MINDISK=8
 CASES="39005 $(seq -s' ' 3001 3030)"      # 39005: generator re-check (seed 9005 stream, corrected generator), reported apart; 3001-3030: tier 1a' short run
 STAMP=$(date -u +%FT%TZ); echo "$STAMP driver start pid $$" >> $RUN/driver-starts.txt; tl "calib driver start (pid $$); cases: $CASES"
 exec 9>>$HOME/.mh370-heavy.lock; flock -w 86400 9 || { tl "calib driver NO-GO heavy lock busy"; exit 8; }; tl "calib driver heavy lock held"
