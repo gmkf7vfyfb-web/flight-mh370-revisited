@@ -93,3 +93,22 @@ P(no find | settled field) = ρ̄ + (1 − ρ̄) Π_k (1 − d̄_k), with mass-w
 Footnotes for charts built on these columns. STE100: "The search result uses a map of how well each part of the seabed was
 searched. Some map parts come from a published ATSB figure and the shape of the seabed." Technical: "Per-cell detection model V1:
 q = 0.95/0.70 by Figure 73 lower-confidence fraction; ρ = 0.05 × terrain weight; Ocean Infinity coverage density from AIS (grade C)."
+
+## Correction, 20 Oct 2026 (two defects in the ρ terrain weight w; found while drawing the maps north of 33 S)
+1. **No-bathymetry fallback did not fire.** The code and this note said w = 1 where the GA Phase 1 bathymetry has no data. In fact the
+   missing slope and roughness were filled with 0 before smoothing, so those cells got the flat-ground value w = 0.347 (ρ = 0.017, not 0.05).
+   Phase 2 is not affected (bathymetry everywhere). Affected: 27.9 % of Ocean Infinity 2018 ground (coverage-weighted; 26–82 % by 2° band
+   north of 33 S) and 20 % of Ocean Infinity 2025–26 ground. Fixed in `build_fields.py` (w = 1 where `have` is False).
+2. **Off-grid w = 0.** The 0.005° grid ends at 24.5° S; the lookup returned w = 0 outside it, so Bluefin-21 ground (21° S) had ρ = 0 under the
+   terrain-shaped variants. Fixed in `score_spatial_run_j.py` (w = 1 off the grid).
+
+Re-built fields (`spatial-fields-v2/`: every array except w_rho bit-identical) and re-scored all five sets (`run-j-spatial-v2/`, READY; tests
+1–5 PASS again, V0 max |Δ ln L| 6.2 × 10⁻¹⁵). **Effect:** V1 central Z +0.00002 to +0.00008 (D0′ 0.3091 → 0.3092; D3 0.1477 unchanged at
+4 dp; MC SE 0.0002); V2 up to +0.0004; V1 ρ0 0.25 up to +0.0006; north-of-33 S share after the searches (V1) +0.0002 to +0.0004 (D3 0.0403 →
+0.0407). No conclusion of this note changes. Reduced JSON and fields diagnostics: `run-j-spatial-reduced-v2.json`, `fields-v2.json`.
+Downstream users of the 18 Oct fields / columns (composer v3–v3.2; B3 supplement Table 9 and the A1-branch V1 columns) should switch at their
+next build; the scalar-base results are unaffected.
+
+**Maps north of 33 S** (companion to the figure above): `searched-areas-spatial-detection-maps-north-of-33S.png/.pdf` — (a) detection
+probability 0.9·c from the Ocean Infinity 2018 density, thin cover (d < 0.5) rising from 6 % of ground at 33–31° S to 36 % at 26–24.5° S;
+(b) ρ; (c) D3 V1 − V0: −0.40 pp at 33–26° S, +0.09 pp at 26–24.5° S. D3 share north of 33 S: 0.015 before the searches, 0.044 (V0) / 0.041 (V1) after.

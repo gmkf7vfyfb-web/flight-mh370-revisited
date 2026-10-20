@@ -196,6 +196,7 @@ def main():
 
     T, have = terrain(a.bathy)
     diag["phase2_km2_with_bathymetry"] = float((p2 * km2 * have).sum())
+    diag["grid_share_with_bathymetry"] = float(have.mean())
 
     A = np.asarray(Image.open(HERE / "inputs" / "atsb2017_p96_figure73_render.png").convert("RGB")).astype(int)
     H, W, _ = A.shape
@@ -281,7 +282,9 @@ def main():
     f_fig = scale_to_printed(raw_fig); f_ter = scale_to_printed(p_ter)
     wP = p2 * km2
     pm = np.nansum(p_ter * wP) / np.sum(wP * np.isfinite(p_ter))
-    w_rho = np.where(np.isfinite(p_ter), p_ter / pm, 1.0)
+    # 1 where the Phase 1 bathymetry has no data (p_ter is finite there only because NaN features are filled before smoothing;
+    # fixed 20 Oct 2026 - the 18 Oct build gave those cells the flat-ground value 0.347 instead of 1)
+    w_rho = np.where(have & np.isfinite(p_ter), p_ter / pm, 1.0)
     diag["f_lpd_check"] = {n_: {"target": PRINTED[n_][1] / (PRINTED[n_][0] + PRINTED[n_][1]),
                                 "f_fig_mean": float((f_fig * wP)[sub == c_].sum() / wP[sub == c_].sum()),
                                 "f_ter_mean": float((f_ter * wP)[sub == c_].sum() / wP[sub == c_].sum()),

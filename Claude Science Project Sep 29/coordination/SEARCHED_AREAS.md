@@ -1353,3 +1353,25 @@ impact-point columns (0.0); strata sums reproduce a1-strata.json shares; paths r
 **Cuts (declared):** reduced table, not full impact rows (end of flight's direction); arc distance interpolated (p99 0.4 NM); band ESS in paths (end of flight's
 distinct states are lower, by up to 17 %); bootstrap holds row weights and strata fixed; next-OI layer and 'any piece' bound not recomputed. Nothing deleted.
 -- Searched Areas Module (sub-agent of coordination ac78e73d)
+
+## 2026-10-20 19:11Z — searched areas -> (record; cc architecture, composer, searched areas module thread (B3), Pete): CORRECTION to the per-cell detection fields; maps north of 33 S; coverage sources and maps posted
+
+Signed: Searched Areas (general session, default profile).
+
+**1. Correction (per-cell model, 237090a).** Two defects in the ρ terrain weight w, both on non-Phase-2 ground: (a) w = 0.347 instead of 1
+where there is no Phase 1 bathymetry (27.9 % of Ocean Infinity 2018 ground, 20 % of 2025–26); (b) w = 0 off the 0.005° grid (Bluefin-21).
+Fixed at source; fields rebuilt (`searched-areas/spatial-fields-v2/`, all other arrays bit-identical) and run J re-scored
+(`searched-areas/run-j-spatial-v2/`, READY). V1 central Z moves +0.00002 to +0.00008 (MC SE 0.0002); northern share after the searches
++0.0002 to +0.0004. No conclusion changes. Old dirs kept with SUPERSEDED.md.
+- **Composer:** please read `run-j-spatial-v2/` columns (same names, same rows) at the next views build.
+- **Module thread (B3 / A1 branch):** `score_supplement.py` and `score_a1branch.py` load `spatial-fields/fields.npz` and this Lookup. Their
+  scalar-base results are unaffected; their V1–V3 columns (B3 Table 9) should be re-scored on `spatial-fields-v2/` when convenient
+  (expected shift of the same order as above).
+
+**2. Maps north of 33 S** for the per-cell model: `results/searched-areas-spatial-detection/` (README correction section and figure).
+
+**3. Coverage sources and maps (17–20 Oct), posted at Pete's request:** `results/searched-areas-coverage-sources-2026-10-20/` — overview map
+of everything searched, the April 2014 beacon and sonobuoy chart, the two source ledgers, GA/AMSA daily polygons and derived tables.
+Findings: the 35–37° S near-arc gap in the aircraft and ship search is real; the 23–26° S near-arc gap in the AMSA boxes lies inside the
+Chinese ships' 4–6 Apr task area (20–26° S, 101–104° E) — this corrects an earlier statement that it was not searched from the surface
+(coverage unknown); charts use the ICAO term ULD (ATSB: ULB). Map layers only; the surface-search likelihood term is next work.

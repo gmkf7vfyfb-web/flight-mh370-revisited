@@ -58,7 +58,7 @@ class Lookup:
         Fz = np.load(fields)
         self.g = (float(Fz["south"]), float(Fz["west"]), float(Fz["step"]))
         p2 = Fz["p2"].astype(np.float64)
-        self.g5 = {"p2": p2, "p2f_fig": p2 * Fz["f_fig"], "p2f_ter": p2 * Fz["f_ter"], "w": Fz["w_rho"].astype(np.float64),
+        self.g5 = {"p2": p2, "p2f_fig": p2 * Fz["f_fig"], "p2f_ter": p2 * Fz["f_ter"], "w": Fz["w_rho"].astype(np.float64) - 1.0,   # stored as w - 1 so that w = 1 outside the grid (fixed 20 Oct 2026)
                    "oi2018": Fz["oi2018"].astype(np.float64), "oi2025": Fz["oi2025"].astype(np.float64)}
         self.cov = {k: read_cov(MOD / "coverage" / f"{f}.cov") for k, f in
                     (("p2", "phase2"), ("bf", "bluefin-2014"), ("oi2018", "ocean-infinity-2018"), ("oi2025", "ocean-infinity-2025"))}
@@ -68,6 +68,7 @@ class Lookup:
         out = [bilin(a, g[0], g[1], g[2], lat, lon) for a, g in self.cov.values()]
         s, w, st = self.g
         g5 = {k: bilin(a, s, w, st, lat, lon) for k, a in self.g5.items()}
+        g5["w"] = g5["w"] + 1.0   # w = 1 off the 0.005 deg grid (north of 24.5 S: Bluefin-21); 18 Oct build gave 0 there
         out += list(g5.values())
         # rho cap is applied per piece: mean(min(rho0 w, cap)) = rho0 * mean(min(w, cap / rho0))
         out += [np.minimum(g5["w"], RHO_CAP / r) for r in RHO0S]
