@@ -1,7 +1,0 @@
-# Pete, 11-12 Oct 2026: keep the early-phase speed prior (dynamics.early, to 18:40, with its own CAS clip);
-# from the point where the model used to revert to Davey's cruise 0.73-0.84, sample Mach 0.70-0.87, and apply
-# the 210-330 KCAS envelope throughout. Physics limits take precedence: the CAS clip sets the feasible Mach
-# window at each altitude (below about FL300 the 330 KCAS ceiling binds; above about FL400 the 210 KCAS floor).
-[dynamics]
-mach_range = [0.70, 0.87]
-cas_envelope_kt = [210.0, 330.0]

@@ -1,6 +1,0 @@
-# Coverage gap G-k (review of the run D A-vs-B, 11 Oct): oversample LATE anticipatory onsets (the last 10 % of the lead support,
-# i.e. within ~9.6 min of the predicted exhaustion for lead U[0, 96 min]) with weight 0.3, the exact ln(prior/proposal) in the
-# weights. Sampling only: the prior is unchanged. For the 22:41 A-vs-B test (arm B).
-[hypotheses.end-of-flight.onset]
-late_oversample_weight = 0.3
-late_fraction = 0.1

@@ -1,4 +1,0 @@
-# Core request 9 (d4e67b09): unnormalised within-parent weights, row.weight x p/q / (M x children), so the module's onset-proposal
-# corrections (early and late oversampling) are applied exactly, not through a per-parent ratio. Pass AFTER terminal.toml.
-[terminal]
-within_parent = "unnormalised"

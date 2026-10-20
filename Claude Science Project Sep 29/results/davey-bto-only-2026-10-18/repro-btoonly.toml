@@ -1,9 +1,0 @@
-# BTO-only check of the reproduction shoulder (Pete GO 18 Oct 2026). Pure reproduction (davey2016-inmarsat.toml),
-# BTO only (no BFO at any epoch), to compare with Davey Fig. 10.3 TOP panel ("No BFO measurements"), recovered
-# from the PDF's vector paths. Same base and particle count as repro-bfo7 (the 7 Hz BTO+BFO comparison).
-name = "repro-btoonly"
-seeds = [1, 2, 3, 4, 5, 6, 7, 8]
-
-[[cases]]
-id = "bto-only"
-use_bfo = false
