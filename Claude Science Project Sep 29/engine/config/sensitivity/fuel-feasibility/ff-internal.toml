@@ -1,0 +1,10 @@
+# Core order 2026-10-15b step 3, variant B: the production burn model (s2 temperature,
+# s3 internal-v1 with kappa ~ N(1.0004, 0.0196) and initial fuel 43,800 - 7,228 kappa,
+# s6 two tanks, INOP flow 0.5) TRACKED BUT NOT CONSTRAINING. Left out on purpose because each
+# changes Davey's posterior: require_power_until, s5 hard reject, s4 ceiling (bounds the
+# altitude), s7/s8 single-engine dynamics, the speed envelope. fuel_above_ceiling_s is still
+# recorded, so the share of mass above the weight-dependent ceiling is an output.
+# Stack: davey2016-inmarsat.toml ff-tables.toml fuel-fixes/s2-temperature.toml
+#        fuel-fixes/s3-internal.toml fuel-fixes/s6-tanks.toml fuel-fixes/inop-flow-fix.toml
+#        ff-internal.toml
+name = "ff-internal"

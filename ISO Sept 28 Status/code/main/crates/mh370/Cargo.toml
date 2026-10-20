@@ -1,0 +1,19 @@
+[package]
+name = "mh370"
+description = "Runner: Bayesian estimate of the MH370 position at the final SATCOM arc"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+geo.workspace = true
+satcom.workspace = true
+flight.workspace = true
+hypothesis.workspace = true
+hypotheses.workspace = true
+rand.workspace = true
+rand_chacha.workspace = true
+rayon.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+toml.workspace = true

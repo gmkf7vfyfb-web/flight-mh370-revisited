@@ -1,0 +1,23 @@
+{
+  "status": "DECLARED_OSCAR_BOUNDARY_COINCIDENCE_CONTROL",
+  "target_id": "oscar_v2_final_mode",
+  "h01w_candidate_utc": "2014-03-08T00:52:04.350Z",
+  "h08s_boundary_peak_utc": "2014-03-08T01:10:00.500Z",
+  "central_celerity_km_s": 1.50,
+  "celerity_range_km_s": [1.43, 1.57],
+  "central_arrival_tolerance_s": 5.0,
+  "forward_energy_windows_s": [1.0, 2.0, 4.0],
+  "forward_score_core_edge_s": 10.0,
+  "matched_control_window_s": 10.0,
+  "matched_control_step_s": 1.0,
+  "cadence_bootstrap_seed": 3700101,
+  "cadence_bootstrap_replicates": 20000,
+  "robust_cadence_minimum_residual_half_width_s": 0.35,
+  "airgun_score_mask_half_width_s": 3.0,
+  "source_reported_h01w_signal": {
+    "arrival_utc": "2014-03-08T00:52:00Z",
+    "bearing_deg": 57.0,
+    "source": "Kadri 2024 Figure 9 rectangle 1"
+  },
+  "interpretation": "Boundary-compatible energy and cadence controls on already-filtered publication-figure vectors; not raw-receiver event association."
+}

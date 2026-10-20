@@ -1,0 +1,5 @@
+# Validation of the supplement flag on run J itself: run J waypoints seed 1 (size-sampler.toml, 7M) with
+# supplement.toml in the chain. Every normal output must be byte-identical to run J seed 1; the supplement
+# hand-off is then drawn from run J seed 1's own population (prior-recovery test on one population).
+name = "run-j-supplement-validate"
+seeds = [1]

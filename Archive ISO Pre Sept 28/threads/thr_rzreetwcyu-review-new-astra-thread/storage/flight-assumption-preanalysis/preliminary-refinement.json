@@ -1,0 +1,156 @@
+[
+  {
+    "case": {
+      "name": "direction-16",
+      "lateral": 16,
+      "speed": 0,
+      "altitude": 0
+    },
+    "target": -20,
+    "evaluations": [
+      {
+        "factor": 1,
+        "metrics": {
+          "valid": true,
+          "latitude": -19.999562608614877,
+          "longitude": 103.72829908475046,
+          "max_bto_sigma": 0.6291462931529105,
+          "max_bfo_sigma": 0.28166718578274946,
+          "joint_chi2": 0.950314778909366,
+          "bias_hz": 150.78810661930126,
+          "fuel_kg": 551.2474972429884,
+          "exhaustion_time": null,
+          "satcom_compatible": true
+        },
+        "continuation": {
+          "exhaustion_time": 22524.82149625575,
+          "fuel_kg": 15.0,
+          "maximum_step_s": 10.0,
+          "outcome": "diagnostic_exhaustion",
+          "time": 22530.0
+        }
+      },
+      {
+        "factor": 0.5,
+        "metrics": {
+          "valid": true,
+          "latitude": -20.01705006675501,
+          "longitude": 103.73429233548069,
+          "max_bto_sigma": 0.6289948527279695,
+          "max_bfo_sigma": 0.2847460537737407,
+          "joint_chi2": 1.1246850121881768,
+          "bias_hz": 150.7590878933232,
+          "fuel_kg": 554.0159148625861,
+          "exhaustion_time": null,
+          "satcom_compatible": true
+        },
+        "continuation": {
+          "exhaustion_time": 22526.70107453251,
+          "fuel_kg": 15.0,
+          "maximum_step_s": 5.0,
+          "outcome": "diagnostic_exhaustion",
+          "time": 22530.0
+        }
+      },
+      {
+        "factor": 0.25,
+        "metrics": {
+          "valid": true,
+          "latitude": -20.026276180503533,
+          "longitude": 103.73713320541424,
+          "max_bto_sigma": 0.628523847852946,
+          "max_bfo_sigma": 0.2871345325779008,
+          "joint_chi2": 1.3294992650293038,
+          "bias_hz": 150.74529206220325,
+          "fuel_kg": 554.2839851130185,
+          "exhaustion_time": null,
+          "satcom_compatible": true
+        },
+        "continuation": {
+          "exhaustion_time": 22526.883076856117,
+          "fuel_kg": 15.0,
+          "maximum_step_s": 2.5,
+          "outcome": "diagnostic_exhaustion",
+          "time": 22527.5
+        }
+      }
+    ]
+  },
+  {
+    "case": {
+      "name": "direction-16",
+      "lateral": 16,
+      "speed": 0,
+      "altitude": 0
+    },
+    "target": -38,
+    "evaluations": [
+      {
+        "factor": 1,
+        "metrics": {
+          "valid": true,
+          "latitude": -37.48952831673884,
+          "longitude": 87.63633764148983,
+          "max_bto_sigma": 0.5395175213912003,
+          "max_bfo_sigma": 1.3495752886604626,
+          "joint_chi2": 4.603884897805341,
+          "bias_hz": 149.76777648361087,
+          "fuel_kg": 332.61385630420494,
+          "exhaustion_time": null,
+          "satcom_compatible": true
+        },
+        "continuation": {
+          "exhaustion_time": 22375.61391292238,
+          "fuel_kg": 15.0,
+          "maximum_step_s": 10.0,
+          "outcome": "diagnostic_exhaustion",
+          "time": 22380.0
+        }
+      },
+      {
+        "factor": 0.5,
+        "metrics": {
+          "valid": true,
+          "latitude": -37.48264980201484,
+          "longitude": 87.62385609707053,
+          "max_bto_sigma": 0.5401972045534463,
+          "max_bfo_sigma": 1.3484223790353187,
+          "joint_chi2": 4.783684830890386,
+          "bias_hz": 149.7704166578392,
+          "fuel_kg": 332.82542686163083,
+          "exhaustion_time": null,
+          "satcom_compatible": true
+        },
+        "continuation": {
+          "exhaustion_time": 22375.757285109543,
+          "fuel_kg": 15.0,
+          "maximum_step_s": 5.0,
+          "outcome": "diagnostic_exhaustion",
+          "time": 22380.0
+        }
+      },
+      {
+        "factor": 0.25,
+        "metrics": {
+          "valid": true,
+          "latitude": -37.47934354503923,
+          "longitude": 87.61874454689502,
+          "max_bto_sigma": 0.5404607172199893,
+          "max_bfo_sigma": 1.3479578534826422,
+          "joint_chi2": 5.0328495282772625,
+          "bias_hz": 149.7723833563884,
+          "fuel_kg": 332.9694638531891,
+          "exhaustion_time": null,
+          "satcom_compatible": true
+        },
+        "continuation": {
+          "exhaustion_time": 22375.854892655363,
+          "fuel_kg": 15.0,
+          "maximum_step_s": 2.5,
+          "outcome": "diagnostic_exhaustion",
+          "time": 22377.5
+        }
+      }
+    ]
+  }
+]

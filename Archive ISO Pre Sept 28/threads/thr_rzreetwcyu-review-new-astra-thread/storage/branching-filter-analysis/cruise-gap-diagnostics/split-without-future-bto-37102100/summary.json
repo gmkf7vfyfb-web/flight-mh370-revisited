@@ -1,0 +1,617 @@
+{
+  "candidates": 20000,
+  "checkpoints": [
+    {
+      "ancestor_resampled": false,
+      "cumulative_log_evidence": -6.026426303634166,
+      "distinct_root_ancestors": 20000,
+      "guide_ess": null,
+      "log_evidence_increment": -6.026426303634166,
+      "maximum_normalized_weight": 0.00028048902840165996,
+      "maximum_root_weight": 0.00028048902840165996,
+      "observation_index": 0,
+      "observation_time_s": 1425.0,
+      "posterior_ess": 7899.599954410955,
+      "posterior_resampled": true,
+      "root_effective_sample_size": 7899.599954410955,
+      "roots_with_mass_at_least_1e_3": 0,
+      "roots_with_mass_at_least_1e_6": 15544,
+      "strata": [
+        {
+          "conditional_ess": 1486.2255037694176,
+          "distinct_root_ancestors": 4000,
+          "id": 0,
+          "log_posterior_mass": -1.7178443893075137,
+          "maximum_normalized_log_weight": -8.460582259653924,
+          "maximum_normalized_weight": 0.00021164880023223488,
+          "particle_count": 4000,
+          "posterior_mass": 0.1794525611432131,
+          "root_effective_sample_size": 1486.2255037694176
+        },
+        {
+          "conditional_ess": 1548.4028472439256,
+          "distinct_root_ancestors": 4000,
+          "id": 1,
+          "log_posterior_mass": -1.641169093751059,
+          "maximum_normalized_log_weight": -8.557200345390333,
+          "maximum_normalized_weight": 0.00019215651314283006,
+          "particle_count": 4000,
+          "posterior_mass": 0.193753393948015,
+          "root_effective_sample_size": 1548.4028472439256
+        },
+        {
+          "conditional_ess": 1617.1792276475592,
+          "distinct_root_ancestors": 4000,
+          "id": 2,
+          "log_posterior_mass": -1.5830677025856232,
+          "maximum_normalized_log_weight": -8.557210119136718,
+          "maximum_normalized_weight": 0.0001921546350629824,
+          "particle_count": 4000,
+          "posterior_mass": 0.20534419606837842,
+          "root_effective_sample_size": 1617.179227647559
+        },
+        {
+          "conditional_ess": 1643.4868689235645,
+          "distinct_root_ancestors": 4000,
+          "id": 3,
+          "log_posterior_mass": -1.5497697063743932,
+          "maximum_normalized_log_weight": -8.48994184138709,
+          "maximum_normalized_weight": 0.00020552521282926056,
+          "particle_count": 4000,
+          "posterior_mass": 0.21229685881089738,
+          "root_effective_sample_size": 1643.4868689235645
+        },
+        {
+          "conditional_ess": 1609.513667933523,
+          "distinct_root_ancestors": 4000,
+          "id": 4,
+          "log_posterior_mass": -1.5646892850952367,
+          "maximum_normalized_log_weight": -8.178975948199097,
+          "maximum_normalized_weight": 0.00028048902840165996,
+          "particle_count": 4000,
+          "posterior_mass": 0.2091529900294993,
+          "root_effective_sample_size": 1609.513667933523
+        }
+      ]
+    },
+    {
+      "ancestor_resampled": false,
+      "cumulative_log_evidence": -17.074334717104072,
+      "distinct_root_ancestors": 9777,
+      "guide_ess": null,
+      "log_evidence_increment": -11.047908413469905,
+      "maximum_normalized_weight": 0.00065356436274994,
+      "maximum_root_weight": 0.00140630715508439,
+      "observation_index": 1,
+      "observation_time_s": 1576.0,
+      "posterior_ess": 5020.503709737611,
+      "posterior_resampled": true,
+      "root_effective_sample_size": 1722.1353730022195,
+      "roots_with_mass_at_least_1e_3": 127,
+      "roots_with_mass_at_least_1e_6": 5664,
+      "strata": [
+        {
+          "conditional_ess": 864.7386791497587,
+          "distinct_root_ancestors": 1910,
+          "id": 0,
+          "log_posterior_mass": -1.821223408613732,
+          "maximum_normalized_log_weight": -7.333069540461394,
+          "maximum_normalized_weight": 0.00065356436274994,
+          "particle_count": 4000,
+          "posterior_mass": 0.16182764843939973,
+          "root_effective_sample_size": 279.3697079050029
+        },
+        {
+          "conditional_ess": 994.3305999822679,
+          "distinct_root_ancestors": 1952,
+          "id": 1,
+          "log_posterior_mass": -1.6242570431732322,
+          "maximum_normalized_log_weight": -7.415377312841303,
+          "maximum_normalized_weight": 0.0006019252361310574,
+          "particle_count": 4000,
+          "posterior_mass": 0.19705802643714915,
+          "root_effective_sample_size": 328.58899934193323
+        },
+        {
+          "conditional_ess": 1046.3665014195233,
+          "distinct_root_ancestors": 1964,
+          "id": 2,
+          "log_posterior_mass": -1.5650324503503317,
+          "maximum_normalized_log_weight": -7.468552486305646,
+          "maximum_normalized_weight": 0.0005707538732646011,
+          "particle_count": 4000,
+          "posterior_mass": 0.2090812283040916,
+          "root_effective_sample_size": 357.0314718292451
+        },
+        {
+          "conditional_ess": 1020.8066085473354,
+          "distinct_root_ancestors": 1982,
+          "id": 3,
+          "log_posterior_mass": -1.5332840267293841,
+          "maximum_normalized_log_weight": -7.504542292626467,
+          "maximum_normalized_weight": 0.0005505777961974062,
+          "particle_count": 4000,
+          "posterior_mass": 0.21582572476987597,
+          "root_effective_sample_size": 375.94866606045406
+        },
+        {
+          "conditional_ess": 1101.5497385111762,
+          "distinct_root_ancestors": 1969,
+          "id": 4,
+          "log_posterior_mass": -1.53151727607215,
+          "maximum_normalized_log_weight": -7.76264092973632,
+          "maximum_normalized_weight": 0.0004253318246749873,
+          "particle_count": 4000,
+          "posterior_mass": 0.21620737204947912,
+          "root_effective_sample_size": 381.8631048279944
+        }
+      ]
+    },
+    {
+      "ancestor_resampled": false,
+      "cumulative_log_evidence": -26.705362719740172,
+      "distinct_root_ancestors": 3603,
+      "guide_ess": null,
+      "log_evidence_increment": -9.6310280026361,
+      "maximum_normalized_weight": 0.00026150871467606494,
+      "maximum_root_weight": 0.001215726284546109,
+      "observation_index": 2,
+      "observation_time_s": 1585.0,
+      "posterior_ess": 14258.134346764242,
+      "posterior_resampled": false,
+      "root_effective_sample_size": 2013.10555996399,
+      "roots_with_mass_at_least_1e_3": 6,
+      "roots_with_mass_at_least_1e_6": 3512,
+      "strata": [
+        {
+          "conditional_ess": 2747.5827052875743,
+          "distinct_root_ancestors": 650,
+          "id": 0,
+          "log_posterior_mass": -1.8480790253195973,
+          "maximum_normalized_log_weight": -8.873508008659996,
+          "maximum_normalized_weight": 0.0001400504268167727,
+          "particle_count": 4000,
+          "posterior_mass": 0.15753950522866186,
+          "root_effective_sample_size": 327.9583194603105
+        },
+        {
+          "conditional_ess": 2890.068435400781,
+          "distinct_root_ancestors": 696,
+          "id": 1,
+          "log_posterior_mass": -1.6420302284329704,
+          "maximum_normalized_log_weight": -8.698964973530533,
+          "maximum_normalized_weight": 0.0001667583209722429,
+          "particle_count": 4000,
+          "posterior_mass": 0.1935866179993312,
+          "root_effective_sample_size": 383.8835840566673
+        },
+        {
+          "conditional_ess": 2943.5000922017093,
+          "distinct_root_ancestors": 737,
+          "id": 2,
+          "log_posterior_mass": -1.5553393434652119,
+          "maximum_normalized_log_weight": -8.307267626619257,
+          "maximum_normalized_weight": 0.00024671724685949246,
+          "particle_count": 4000,
+          "posterior_mass": 0.21111772906232426,
+          "root_effective_sample_size": 417.9207961097176
+        },
+        {
+          "conditional_ess": 2863.6411889756796,
+          "distinct_root_ancestors": 774,
+          "id": 3,
+          "log_posterior_mass": -1.5461078789367848,
+          "maximum_normalized_log_weight": -8.313260048892992,
+          "maximum_normalized_weight": 0.00024524323379931777,
+          "particle_count": 4000,
+          "posterior_mass": 0.21307567835453164,
+          "root_effective_sample_size": 445.47779887916016
+        },
+        {
+          "conditional_ess": 2945.415890982559,
+          "distinct_root_ancestors": 746,
+          "id": 4,
+          "log_posterior_mass": -1.4930760223261759,
+          "maximum_normalized_log_weight": -8.249042949293496,
+          "maximum_normalized_weight": 0.00026150871467606494,
+          "particle_count": 4000,
+          "posterior_mass": 0.22468046935515196,
+          "root_effective_sample_size": 439.42153701655485
+        }
+      ]
+    },
+    {
+      "ancestor_resampled": false,
+      "cumulative_log_evidence": -32.50668903998113,
+      "distinct_root_ancestors": 3603,
+      "guide_ess": null,
+      "log_evidence_increment": -5.8013263202409595,
+      "maximum_normalized_weight": 0.002697147347142091,
+      "maximum_root_weight": 0.004691343883256358,
+      "observation_index": 3,
+      "observation_time_s": 2286.0,
+      "posterior_ess": 3021.5873188104983,
+      "posterior_resampled": true,
+      "root_effective_sample_size": 1274.693511564415,
+      "roots_with_mass_at_least_1e_3": 163,
+      "roots_with_mass_at_least_1e_6": 3346,
+      "strata": [
+        {
+          "conditional_ess": 692.2111353152817,
+          "distinct_root_ancestors": 650,
+          "id": 0,
+          "log_posterior_mass": -1.7800623101896758,
+          "maximum_normalized_log_weight": -6.340474506206425,
+          "maximum_normalized_weight": 0.001763465263063277,
+          "particle_count": 4000,
+          "posterior_mass": 0.16862763972101968,
+          "root_effective_sample_size": 211.41088750425982
+        },
+        {
+          "conditional_ess": 593.8795824178567,
+          "distinct_root_ancestors": 696,
+          "id": 1,
+          "log_posterior_mass": -1.617268022519137,
+          "maximum_normalized_log_weight": -6.069821509393998,
+          "maximum_normalized_weight": 0.0023115857701269697,
+          "particle_count": 4000,
+          "posterior_mass": 0.1984400930743652,
+          "root_effective_sample_size": 253.36337594022282
+        },
+        {
+          "conditional_ess": 637.6547692902028,
+          "distinct_root_ancestors": 737,
+          "id": 2,
+          "log_posterior_mass": -1.561717225300499,
+          "maximum_normalized_log_weight": -6.419215120129708,
+          "maximum_normalized_weight": 0.001629935036069634,
+          "particle_count": 4000,
+          "posterior_mass": 0.209775529876692,
+          "root_effective_sample_size": 286.19384953595437
+        },
+        {
+          "conditional_ess": 598.3859105251129,
+          "distinct_root_ancestors": 774,
+          "id": 3,
+          "log_posterior_mass": -1.582698148023077,
+          "maximum_normalized_log_weight": -6.241916389260714,
+          "maximum_normalized_weight": 0.0019461224188439053,
+          "particle_count": 4000,
+          "posterior_mass": 0.20542009597664276,
+          "root_effective_sample_size": 273.30104556746346
+        },
+        {
+          "conditional_ess": 564.1596246973015,
+          "distinct_root_ancestors": 746,
+          "id": 4,
+          "log_posterior_mass": -1.5244690136904362,
+          "maximum_normalized_log_weight": -5.915560602597189,
+          "maximum_normalized_weight": 0.002697147347142091,
+          "particle_count": 4000,
+          "posterior_mass": 0.21773664135127524,
+          "root_effective_sample_size": 254.31986404579885
+        }
+      ]
+    },
+    {
+      "ancestor_resampled": false,
+      "cumulative_log_evidence": -55.78429043337357,
+      "distinct_root_ancestors": 3000,
+      "guide_ess": null,
+      "log_evidence_increment": -23.277601393392434,
+      "maximum_normalized_weight": 0.31120142356083086,
+      "maximum_root_weight": 0.31120142449929145,
+      "observation_index": 4,
+      "observation_time_s": 5953.0,
+      "posterior_ess": 5.2743609475112585,
+      "posterior_resampled": false,
+      "root_effective_sample_size": 5.236248130152069,
+      "roots_with_mass_at_least_1e_3": 23,
+      "roots_with_mass_at_least_1e_6": 820,
+      "strata": [
+        {
+          "conditional_ess": 1.795573608864558,
+          "distinct_root_ancestors": 528,
+          "id": 0,
+          "log_posterior_mass": -3.258515434725606,
+          "maximum_normalized_log_weight": -3.5921318052840365,
+          "maximum_normalized_weight": 0.02753955882368342,
+          "particle_count": 4000,
+          "posterior_mass": 0.038445430423878886,
+          "root_effective_sample_size": 1.7809941685269814
+        },
+        {
+          "conditional_ess": 1.302038039017732,
+          "distinct_root_ancestors": 575,
+          "id": 1,
+          "log_posterior_mass": -1.1668564367898373,
+          "maximum_normalized_log_weight": -1.3025302031035682,
+          "maximum_normalized_weight": 0.2718431038745927,
+          "particle_count": 4000,
+          "posterior_mass": 0.3113441344933204,
+          "root_effective_sample_size": 1.3020378595327977
+        },
+        {
+          "conditional_ess": 1.593114814562839,
+          "distinct_root_ancestors": 612,
+          "id": 2,
+          "log_posterior_mass": -2.6510513231779362,
+          "maximum_normalized_log_weight": -2.9102499114319964,
+          "maximum_normalized_weight": 0.054462117462548074,
+          "particle_count": 4000,
+          "posterior_mass": 0.07057697483361196,
+          "root_effective_sample_size": 1.5931129698861004
+        },
+        {
+          "conditional_ess": 2.706722252474847,
+          "distinct_root_ancestors": 650,
+          "id": 3,
+          "log_posterior_mass": -1.8164145653712618,
+          "maximum_normalized_log_weight": -2.391065175413892,
+          "maximum_normalized_weight": 0.09153213415406267,
+          "particle_count": 4000,
+          "posterior_mass": 0.16260772636600251,
+          "root_effective_sample_size": 2.701767982729012
+        },
+        {
+          "conditional_ess": 1.7146016984528059,
+          "distinct_root_ancestors": 635,
+          "id": 4,
+          "log_posterior_mass": -0.8746073471373428,
+          "maximum_normalized_log_weight": -1.1673149122640996,
+          "maximum_normalized_weight": 0.31120142356083086,
+          "particle_count": 4000,
+          "posterior_mass": 0.4170257338831904,
+          "root_effective_sample_size": 1.691992538954105
+        }
+      ]
+    }
+  ],
+  "code_sha256": "b8d358a24ce4f46c9f1582f08f8577968c6e50b5e488bd4c2cf42db5e7f0f239",
+  "csv_sha256": "bfe2d280f9c3dd2c2d8ecc31b354ba6b4371fdf8407f137bdf69e84cc7812663",
+  "cumulative_log_evidence": -55.78429043337357,
+  "elapsed_seconds": 13.204150242,
+  "executable_sha256": "ff8c73e1f43da0ab00b87b99cb15a477758bacc0addf220d53847d7ef898e6aa",
+  "gap_proposal_guide": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-gap-diagnostics/without-future-bto-proposal.json",
+  "inputs": {
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-gap-diagnostics/without-future-bto-proposal.json": "eacc6a51cdd9f53f439d0b169dcbaf8421d738be10a76d3374b6277a17d7f058",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102100/filter-checkpoints.json": "4932fe93f13c665dfe2aa7bdc04d5749c035f1cd6561eedc63096144d7864da2",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102100/initial-allocation.json": "b921d8f7fd36e07833b5f8b6091f2b499819715c4df30444db3a49f1845c5ae1",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102100/resolved-config.json": "3c61d7762af44a641a00371c80d46f3844dcf8e9b95370d51301b3b219c2ee5b",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102100/sequential-filter-config.json": "2eab9f7525937cb6f67ba479c878fb4aa631b15a2f10fca682835c8d9802130e",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/observations.csv": "d9607356782660ccc034d215607ef9979d99db8aa393c487d9693a42c4a99c42",
+    "/jackbox/home/MH370/inputs/accident/satellite-through-0011.csv": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+    "/jackbox/home/MH370/inputs/environment/mh370-era5-grid.bin": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4",
+    "/jackbox/home/MH370/inputs/environment/mh370-igrf14-grid.bin": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1"
+  },
+  "maximum_root_weight": 0.31120142449929145,
+  "observations": [
+    [
+      {
+        "id": "m1825",
+        "measurement": {
+          "bfo": null,
+          "bfo_sd": null,
+          "bto": 12597.780101685643,
+          "bto_sd": 43.0,
+          "ground_station_position_km": {
+            "x": -2368.8,
+            "y": 4881.1,
+            "z": -3342.0
+          },
+          "satellite_position_km": {
+            "x": 18138.16627,
+            "y": 38070.30314,
+            "z": 1150.214015
+          },
+          "satellite_velocity_km_s": {
+            "x": 0.001818,
+            "y": -0.00106,
+            "z": 0.026624
+          },
+          "time": 1425.0
+        },
+        "satellite_afc_hz": 10.61649122807,
+        "time_utc": "2014-03-07T18:25:34.000Z"
+      }
+    ],
+    [
+      {
+        "id": "m1828a",
+        "measurement": {
+          "bfo": 168.66614651379555,
+          "bfo_sd": 7.0,
+          "bto": 12423.651789439133,
+          "bto_sd": 29.0,
+          "ground_station_position_km": {
+            "x": -2368.8,
+            "y": 4881.1,
+            "z": -3342.0
+          },
+          "satellite_position_km": {
+            "x": 18138.44957,
+            "y": 38070.13916,
+            "z": 1154.167633
+          },
+          "satellite_velocity_km_s": {
+            "x": 0.001817,
+            "y": -0.001053,
+            "z": 0.0257
+          },
+          "time": 1576.0
+        },
+        "satellite_afc_hz": 10.245614035088,
+        "time_utc": "2014-03-07T18:28:05.000Z"
+      }
+    ],
+    [
+      {
+        "id": "m1828b",
+        "measurement": {
+          "bfo": 183.64238767050242,
+          "bfo_sd": 7.0,
+          "bto": 12482.015705065976,
+          "bto_sd": 29.0,
+          "ground_station_position_km": {
+            "x": -2368.8,
+            "y": 4881.1,
+            "z": -3342.0
+          },
+          "satellite_position_km": {
+            "x": 18138.46645,
+            "y": 38070.12942,
+            "z": 1154.398872
+          },
+          "satellite_velocity_km_s": {
+            "x": 0.001817,
+            "y": -0.001053,
+            "z": 0.025645
+          },
+          "time": 1585.0
+        },
+        "satellite_afc_hz": 10.22350877193,
+        "time_utc": "2014-03-07T18:28:14.000Z"
+      }
+    ],
+    [
+      {
+        "id": "m1839",
+        "measurement": {
+          "bfo": 201.17084312048553,
+          "bfo_sd": 7.0,
+          "bto": null,
+          "bto_sd": null,
+          "ground_station_position_km": {
+            "x": -2368.8,
+            "y": 4881.1,
+            "z": -3342.0
+          },
+          "satellite_position_km": {
+            "x": 18139.78015,
+            "y": 38069.3819,
+            "z": 1170.877272
+          },
+          "satellite_velocity_km_s": {
+            "x": 0.001815,
+            "y": -0.001021,
+            "z": 0.021317
+          },
+          "time": 2286.0
+        },
+        "satellite_afc_hz": 8.501754385965,
+        "time_utc": "2014-03-07T18:39:55.000Z"
+      }
+    ],
+    [
+      {
+        "id": "m1941",
+        "measurement": {
+          "bfo": 271.9516799634473,
+          "bfo_sd": 7.0,
+          "bto": 11875.779737854902,
+          "bto_sd": 29.0,
+          "ground_station_position_km": {
+            "x": -2368.8,
+            "y": 4881.1,
+            "z": -3342.0
+          },
+          "satellite_position_km": {
+            "x": 18146.73487,
+            "y": 38065.88964,
+            "z": 1206.651849
+          },
+          "satellite_velocity_km_s": {
+            "x": 0.001883,
+            "y": -0.000824,
+            "z": -0.001964
+          },
+          "time": 5953.0
+        },
+        "satellite_afc_hz": -0.500555555556,
+        "time_utc": "2014-03-07T19:41:02.000Z"
+      }
+    ]
+  ],
+  "original_checkpoint": {
+    "ancestor_resampled": false,
+    "cumulative_log_evidence": -54.24129584571255,
+    "distinct_root_ancestors": 3603,
+    "guide_ess": null,
+    "log_evidence_increment": -27.535933125972377,
+    "maximum_normalized_weight": 0.6160685992603739,
+    "maximum_root_weight": 0.6160685992603739,
+    "observation_index": 3,
+    "observation_time_s": 5953.0,
+    "posterior_ess": 2.5194555916383865,
+    "posterior_resampled": true,
+    "root_effective_sample_size": 2.519334187242678,
+    "roots_with_mass_at_least_1e_3": 29,
+    "roots_with_mass_at_least_1e_6": 396,
+    "strata": [
+      {
+        "conditional_ess": 1.5936020845085108,
+        "distinct_root_ancestors": 650,
+        "id": 0,
+        "log_posterior_mass": -3.2065139408885095,
+        "maximum_normalized_log_weight": -3.445792756462299,
+        "maximum_normalized_weight": 0.03187947935915002,
+        "particle_count": 4000,
+        "posterior_mass": 0.040497544315688146,
+        "root_effective_sample_size": 1.5935970017302483
+      },
+      {
+        "conditional_ess": 1.460692841943995,
+        "distinct_root_ancestors": 696,
+        "id": 1,
+        "log_posterior_mass": -0.28058254745748934,
+        "maximum_normalized_log_weight": -0.4843969592132811,
+        "maximum_normalized_weight": 0.6160685992603739,
+        "particle_count": 4000,
+        "posterior_mass": 0.7553435897757972,
+        "root_effective_sample_size": 1.4606253028360168
+      },
+      {
+        "conditional_ess": 3.9515781502998992,
+        "distinct_root_ancestors": 737,
+        "id": 2,
+        "log_posterior_mass": -2.3436002741084097,
+        "maximum_normalized_log_weight": -3.2989862553898237,
+        "maximum_normalized_weight": 0.03692057647181737,
+        "particle_count": 4000,
+        "posterior_mass": 0.09598145587826108,
+        "root_effective_sample_size": 3.9515655757669945
+      },
+      {
+        "conditional_ess": 3.055863992433803,
+        "distinct_root_ancestors": 774,
+        "id": 3,
+        "log_posterior_mass": -2.3700473913143556,
+        "maximum_normalized_log_weight": -3.1722939116580657,
+        "maximum_normalized_weight": 0.04190735578819163,
+        "particle_count": 4000,
+        "posterior_mass": 0.09347629620854749,
+        "root_effective_sample_size": 3.054876411090542
+      },
+      {
+        "conditional_ess": 2.3203539824331876,
+        "distinct_root_ancestors": 746,
+        "id": 4,
+        "log_posterior_mass": -4.219832017883799,
+        "maximum_normalized_log_weight": -4.7412903741053825,
+        "maximum_normalized_weight": 0.008727377334799625,
+        "particle_count": 4000,
+        "posterior_mass": 0.014701113821705728,
+        "root_effective_sample_size": 2.3171074541829313
+      }
+    ]
+  },
+  "posterior_ess": 5.2743609475112585,
+  "root_effective_sample_size": 5.236248130152069,
+  "scientific_source_sha256": "ac41c09e8d4a645a7608e432ebcfd5186727fe07fa7d738b35b9eb57cefe6645",
+  "scope": "Same original flight/measurement law and prefix; resampling may occur at the intermediate real BFO observation. Complete observation schedule keeps fuel at00:11. No full-flight rerun or new physical evidence.",
+  "seed": 37102100,
+  "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102100",
+  "status": "matched-prefix comparison with resampling at individual observations",
+  "threads": 4,
+  "through_block": 4
+}

@@ -1,0 +1,35 @@
+# A short run whose only purpose is to WRITE A HAND-OFF carrying real fuel state.
+#
+# The project's reference run, `no-exhaustion-prior`, has no [terminal] block, so 15.52 hours of
+# compute produced no hand-off and no downstream stage can read it. This configuration is that one
+# at smoke scale with the block added, so the end-of-flight module has something real to develop
+# against without a full filter run.
+#
+# From now every full-scale run carries a [terminal] block even when no terminal module is being
+# exercised, with target = "none" if nothing after the stop is to be scored. It costs almost
+# nothing during a run that is happening anyway, and without it the run is unusable downstream.
+
+# The filter must STOP before the bursts the terminal stage will handle, so this run ends at
+# 00:11 and hands 00:19:29 and 00:19:37 to the terminal stage. That makes it a DIFFERENT run
+# from the reference, whose posterior is at 00:19:37 and which scores both final bursts itself.
+exclude_epochs = ["m0019a", "m0019b"]
+
+name = "handoff-smoke"
+seeds = [1, 2]
+particles_per_mode = [200000, 200000, 200000, 200000, 200000]
+
+[terminal]
+# `arc-kernel` is the placeholder module; this run exists to prove the HAND-OFF, not a terminal
+# model. Swap `module` once the end-of-flight hypothesis is merged.
+module = "arc-kernel"
+handoff = 2000
+handoff_floor = 1
+children = 1
+arc = "m0019a"
+# "none" holds the bursts after the stop OUT, so every later burst is a prediction, not a fit.
+target = "none"
+options = [{ id = "none", use = [] }]
+
+[hypotheses.arc-kernel]
+takeover_unix_s = 1394237977.443 # 00:19:37.443 UTC, the last transmission
+distance_nm = { mean = 0.0, sd = 50.0 }

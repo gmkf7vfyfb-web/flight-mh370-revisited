@@ -1,0 +1,2690 @@
+{
+  "schema_version": 1,
+  "status": "DERIVED_MODEL_CONDITIONAL_MORPHOLOGY_SCREEN_NOT_IDENTITY_CLASSIFIER",
+  "source_hashes_sha256": {
+    "priors": "45e477e523d70f6c553dd404b55c734a81c274e093eca7c3002bd87388e84b35",
+    "hydro_states": "e278ccca1df063fb2e63dc19d7d553dd939316cf6b15b77b21df8abe310d4c94",
+    "random_pose_states": "cc7e5adf752ce747e4ad685d1993f003aa4015fd7569b9ec91be884e08b97253",
+    "features": "2b6c88b13bb08cf9dd2d18c1be604169c13907ac14c10393d694a38d9e4f68e4",
+    "geometry": "7f6389a13856f347b980411c44ab771410d23aeed1e684e97941248f8d91d8a8",
+    "manifest": "cd92c248c7f0d3cbba08a84011104b86435f1248a7176bceaad095561c063e1e",
+    "dxf": "334a0ebde06cd9a8e4384b4073b98a07831acdeed2cf1e051b09294afb3fe8e5"
+  },
+  "method": {
+    "primary_selection": "Minimum two-view mask loss after a hard requirement that oriented visible area, length and width all lie inside the object's D-0018 p10–p90 ranges.",
+    "sensitivity_selection": "Minimum of the legacy soft dimension-penalty loss over all candidates, retained to expose selection-size failures.",
+    "loss": "1 - mean(true-colour IoU, PCA IoU) + 0.2 × mean(log distance outside the dimension intervals); lower is better.",
+    "geometry": "Principal-axis-normalised, reflection-invariant binary masks; candidate dimensions are recomputed as oriented extents at 0.5 m per pixel for all families.",
+    "equal_budget": "3372 masks in each of five combined families for every object.",
+    "nonwing_allocation": "562 each of horizontal stabiliser, nacelle plan, nacelle side, rudder-region polygon, vertical tail and elevator-region polygon.",
+    "ocean_allocation": "562 each of six D-0034 ocean-object classes.",
+    "interpretation": "Best-of-search descriptive control. Not a class likelihood, likelihood ratio, Bayes factor, posterior identity probability or prevalence estimate."
+  },
+  "family_summary": {
+    "wing_flooding_model": {
+      "label": "777 wing — flooding model",
+      "equal_candidate_count_per_object": 3372,
+      "objects_with_strict_size_candidate": 1,
+      "mean_primary_best_loss_available_objects": 0.3286,
+      "median_primary_best_loss_available_objects": 0.3286,
+      "object_win_count": 0,
+      "mean_strict_size_candidate_fraction": 0.0002
+    },
+    "wing_random_pose": {
+      "label": "777 wing — random pose",
+      "equal_candidate_count_per_object": 3372,
+      "objects_with_strict_size_candidate": 5,
+      "mean_primary_best_loss_available_objects": 0.3232,
+      "median_primary_best_loss_available_objects": 0.319,
+      "object_win_count": 1,
+      "mean_strict_size_candidate_fraction": 0.0145
+    },
+    "nonwing_777_parts": {
+      "label": "other 777 parts — random pose",
+      "equal_candidate_count_per_object": 3372,
+      "objects_with_strict_size_candidate": 4,
+      "mean_primary_best_loss_available_objects": 0.3704,
+      "median_primary_best_loss_available_objects": 0.3846,
+      "object_win_count": 0,
+      "mean_strict_size_candidate_fraction": 0.0073
+    },
+    "matched_random_geometry": {
+      "label": "matched random geometry",
+      "equal_candidate_count_per_object": 3372,
+      "objects_with_strict_size_candidate": 5,
+      "mean_primary_best_loss_available_objects": 0.3267,
+      "median_primary_best_loss_available_objects": 0.3145,
+      "object_win_count": 3,
+      "mean_strict_size_candidate_fraction": 0.0205
+    },
+    "ocean_object_combined": {
+      "label": "generic ocean-object controls",
+      "equal_candidate_count_per_object": 3372,
+      "objects_with_strict_size_candidate": 4,
+      "mean_primary_best_loss_available_objects": 0.3532,
+      "median_primary_best_loss_available_objects": 0.358,
+      "object_win_count": 1,
+      "mean_strict_size_candidate_fraction": 0.0079
+    }
+  },
+  "objects": {
+    "phr-4-object-06": {
+      "coordinates_source_status": "SOURCE_REPORTED; see D-0038 spatial analysis",
+      "object_geometry": {
+        "ga_area_m2_reported": 25,
+        "visible_area_m2_p10_p90": [
+          14.83,
+          31.68
+        ],
+        "visible_length_m_p10_p90": [
+          6.38,
+          9.24
+        ],
+        "visible_width_m_p10_p90": [
+          4.54,
+          6.32
+        ]
+      },
+      "families": {
+        "wing_flooding_model": {
+          "label": "777 wing — flooding model",
+          "candidate_count": 3372,
+          "strict_size_candidate_count": 4,
+          "strict_size_candidate_fraction": 0.001186,
+          "strict_loss_p05": 0.3294,
+          "strict_loss_p50": 0.3574,
+          "strict_loss_p95": 0.3976,
+          "primary_best_strict_size": {
+            "family": "wing_flooding_model",
+            "candidate_id": "right-wing-flaperon-absent__root_leading_first__absent__draw1__flood0.95__off15__az270",
+            "source_subtype": "right-wing-flaperon-absent:root_leading_first:absent",
+            "source_label": "right-wing-flaperon-absent",
+            "silhouette_iou_true_colour": 0.6957,
+            "silhouette_iou_pca": 0.6472,
+            "silhouette_iou_mean": 0.6714,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.3286,
+            "visible_area_m2": 23,
+            "visible_length_m": 7.56,
+            "visible_width_m": 5.11,
+            "metadata": {
+              "source_subtype": "right-wing-flaperon-absent:root_leading_first:absent",
+              "source_label": "right-wing-flaperon-absent",
+              "wing_variant": "right-wing-flaperon-absent",
+              "flooding_hypothesis": "root_leading_first",
+              "engine_state": "absent",
+              "draw_index": 1,
+              "flood_progress": 0.95,
+              "pose": {
+                "afloat": true,
+                "reserve_buoyancy_kg": 2573.53,
+                "roll_degrees": 71,
+                "pitch_degrees": -10,
+                "heave_m": -7.087,
+                "equivalent_tilt_from_face_on_degrees": 71.3,
+                "root_to_tip_height_difference_m": 24.318,
+                "leading_to_trailing_height_difference_m": 2.425,
+                "interpretation": {
+                  "span": "root lower than tip",
+                  "chord": "leading edge lower than trailing edge"
+                },
+                "centre_of_buoyancy": {
+                  "x": 0.696,
+                  "y": -1.8447,
+                  "z": -12.4095
+                },
+                "centre_of_mass_world": {
+                  "x": 0.6827,
+                  "y": -1.8487,
+                  "z": -12.7046
+                },
+                "horizontal_force_line_residual_m": 0.0139,
+                "locally_stable_grid_check": true,
+                "matrix": [
+                  [
+                    0.984808,
+                    -0.164188,
+                    -0.056534
+                  ],
+                  [
+                    0,
+                    0.325568,
+                    -0.945519
+                  ],
+                  [
+                    0.173648,
+                    0.931154,
+                    0.320622
+                  ]
+                ]
+              },
+              "off_nadir_degrees": 15,
+              "view_azimuth_degrees": 270
+            },
+            "_selection_status": "eligible minimum"
+          },
+          "closest_size_fallback_for_display_only": null,
+          "sensitivity_best_soft_penalty": {
+            "family": "wing_flooding_model",
+            "candidate_id": "right-wing-flaperon-absent__root_leading_first__attached__draw2__flood0.95__off30__az180",
+            "source_subtype": "right-wing-flaperon-absent:root_leading_first:attached",
+            "source_label": "right-wing-flaperon-absent",
+            "silhouette_iou_true_colour": 0.701,
+            "silhouette_iou_pca": 0.6877,
+            "silhouette_iou_mean": 0.6944,
+            "dimensions_in_p10_p90_range": false,
+            "dimension_range_penalty": 0.0347,
+            "loss_lower_is_better": 0.3126,
+            "visible_area_m2": 16,
+            "visible_length_m": 5.8,
+            "visible_width_m": 4.5,
+            "metadata": {
+              "source_subtype": "right-wing-flaperon-absent:root_leading_first:attached",
+              "source_label": "right-wing-flaperon-absent",
+              "wing_variant": "right-wing-flaperon-absent",
+              "flooding_hypothesis": "root_leading_first",
+              "engine_state": "attached",
+              "draw_index": 2,
+              "flood_progress": 0.95,
+              "pose": {
+                "afloat": true,
+                "reserve_buoyancy_kg": 2271.98,
+                "roll_degrees": 65,
+                "pitch_degrees": -60,
+                "heave_m": -9.094,
+                "equivalent_tilt_from_face_on_degrees": 77.8,
+                "root_to_tip_height_difference_m": 21.067,
+                "leading_to_trailing_height_difference_m": 6.931,
+                "interpretation": {
+                  "span": "root lower than tip",
+                  "chord": "leading edge lower than trailing edge"
+                },
+                "centre_of_buoyancy": {
+                  "x": 4.0088,
+                  "y": -2.1416,
+                  "z": -11.3419
+                },
+                "centre_of_mass_world": {
+                  "x": 3.8926,
+                  "y": -2.1419,
+                  "z": -15.0709
+                },
+                "horizontal_force_line_residual_m": 0.1162,
+                "locally_stable_grid_check": true,
+                "matrix": [
+                  [
+                    0.5,
+                    -0.784886,
+                    -0.365998
+                  ],
+                  [
+                    0,
+                    0.422618,
+                    -0.906308
+                  ],
+                  [
+                    0.866025,
+                    0.453154,
+                    0.211309
+                  ]
+                ]
+              },
+              "off_nadir_degrees": 30,
+              "view_azimuth_degrees": 180
+            }
+          }
+        },
+        "wing_random_pose": {
+          "label": "777 wing — random pose",
+          "candidate_count": 3372,
+          "strict_size_candidate_count": 104,
+          "strict_size_candidate_fraction": 0.030842,
+          "strict_loss_p05": 0.314,
+          "strict_loss_p50": 0.3607,
+          "strict_loss_p95": 0.4243,
+          "primary_best_strict_size": {
+            "family": "wing_random_pose",
+            "candidate_id": "random_pose__00104",
+            "source_subtype": "right-wing-flaperon-absent",
+            "source_label": "right-wing-flaperon-absent",
+            "silhouette_iou_true_colour": 0.7397,
+            "silhouette_iou_pca": 0.6829,
+            "silhouette_iou_mean": 0.7113,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.2887,
+            "visible_area_m2": 23.75,
+            "visible_length_m": 7.43,
+            "visible_width_m": 5.21,
+            "metadata": {
+              "source_subtype": "right-wing-flaperon-absent",
+              "source_label": "right-wing-flaperon-absent",
+              "wing_variant": "right-wing-flaperon-absent",
+              "draw_index": 0,
+              "pose": {
+                "afloat": true,
+                "pose_source": "random_orientation_and_immersion_not_hydrostatic",
+                "roll_degrees": -162.86,
+                "pitch_degrees": -18.05,
+                "heave_m": -3.98,
+                "target_visible_fraction": 0.0517,
+                "equivalent_tilt_from_face_on_degrees": 24.69,
+                "root_to_tip_height_difference_m": -3.04,
+                "leading_to_trailing_height_difference_m": 1.935,
+                "interpretation": {
+                  "span": "tip lower than root",
+                  "chord": "leading edge lower than trailing edge"
+                },
+                "matrix": [
+                  [
+                    0.950776,
+                    0.091324,
+                    0.296118
+                  ],
+                  [
+                    0,
+                    -0.955588,
+                    0.294707
+                  ],
+                  [
+                    0.30988,
+                    -0.280201,
+                    -0.908549
+                  ]
+                ]
+              },
+              "off_nadir_degrees": 17.04,
+              "view_azimuth_degrees": 34.1
+            },
+            "_selection_status": "eligible minimum"
+          },
+          "closest_size_fallback_for_display_only": null,
+          "sensitivity_best_soft_penalty": {
+            "family": "wing_random_pose",
+            "candidate_id": "random_pose__00104",
+            "source_subtype": "right-wing-flaperon-absent",
+            "source_label": "right-wing-flaperon-absent",
+            "silhouette_iou_true_colour": 0.7397,
+            "silhouette_iou_pca": 0.6829,
+            "silhouette_iou_mean": 0.7113,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.2887,
+            "visible_area_m2": 23.75,
+            "visible_length_m": 7.43,
+            "visible_width_m": 5.21,
+            "metadata": {
+              "source_subtype": "right-wing-flaperon-absent",
+              "source_label": "right-wing-flaperon-absent",
+              "wing_variant": "right-wing-flaperon-absent",
+              "draw_index": 0,
+              "pose": {
+                "afloat": true,
+                "pose_source": "random_orientation_and_immersion_not_hydrostatic",
+                "roll_degrees": -162.86,
+                "pitch_degrees": -18.05,
+                "heave_m": -3.98,
+                "target_visible_fraction": 0.0517,
+                "equivalent_tilt_from_face_on_degrees": 24.69,
+                "root_to_tip_height_difference_m": -3.04,
+                "leading_to_trailing_height_difference_m": 1.935,
+                "interpretation": {
+                  "span": "tip lower than root",
+                  "chord": "leading edge lower than trailing edge"
+                },
+                "matrix": [
+                  [
+                    0.950776,
+                    0.091324,
+                    0.296118
+                  ],
+                  [
+                    0,
+                    -0.955588,
+                    0.294707
+                  ],
+                  [
+                    0.30988,
+                    -0.280201,
+                    -0.908549
+                  ]
+                ]
+              },
+              "off_nadir_degrees": 17.04,
+              "view_azimuth_degrees": 34.1
+            },
+            "_selection_status": "eligible minimum"
+          }
+        },
+        "nonwing_777_parts": {
+          "label": "other 777 parts — random pose",
+          "candidate_count": 3372,
+          "strict_size_candidate_count": 70,
+          "strict_size_candidate_fraction": 0.020759,
+          "strict_loss_p05": 0.329,
+          "strict_loss_p50": 0.3984,
+          "strict_loss_p95": 0.5285,
+          "primary_best_strict_size": {
+            "family": "nonwing_777_parts",
+            "candidate_id": "single-horizontal-stabilizer__00052",
+            "source_subtype": "single-horizontal-stabilizer",
+            "source_label": "Single horizontal stabilizer outer surface",
+            "silhouette_iou_true_colour": 0.7309,
+            "silhouette_iou_pca": 0.6734,
+            "silhouette_iou_mean": 0.7021,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.2979,
+            "visible_area_m2": 22.75,
+            "visible_length_m": 7.41,
+            "visible_width_m": 5.47,
+            "metadata": {
+              "source_subtype": "single-horizontal-stabilizer",
+              "source_label": "Single horizontal stabilizer outer surface",
+              "simulation_parameters": {
+                "regime": "linear-waterline",
+                "target_visible_fraction": 0.5369956843904219,
+                "foreshortening_factor": 0.9210219945642166,
+                "foreshortening_axis_radians": 1.838744745247759,
+                "rotation_radians": 4.712331639847655,
+                "offset_x_pixels": 0.16648228443227708,
+                "offset_y_pixels": -0.09235419915057719,
+                "waterline_angle_radians": 2.944179370877027,
+                "blur_sigma_pixels": 1.159097584616393,
+                "noise_sigma": 0.015643635476008055,
+                "contrast": 0.3814161181636155,
+                "polarity": 1
+              },
+              "achieved_visible_fraction": 0.537
+            },
+            "_selection_status": "eligible minimum"
+          },
+          "closest_size_fallback_for_display_only": null,
+          "sensitivity_best_soft_penalty": {
+            "family": "nonwing_777_parts",
+            "candidate_id": "nacelle-plan-silhouette__00240",
+            "source_subtype": "nacelle-plan-silhouette",
+            "source_label": "Engine nacelle plan silhouette",
+            "silhouette_iou_true_colour": 0.7296,
+            "silhouette_iou_pca": 0.7196,
+            "silhouette_iou_mean": 0.7246,
+            "dimensions_in_p10_p90_range": false,
+            "dimension_range_penalty": 0.0159,
+            "loss_lower_is_better": 0.2785,
+            "visible_area_m2": 18.75,
+            "visible_length_m": 6.44,
+            "visible_width_m": 4.33,
+            "metadata": {
+              "source_subtype": "nacelle-plan-silhouette",
+              "source_label": "Engine nacelle plan silhouette",
+              "simulation_parameters": {
+                "regime": "full",
+                "target_visible_fraction": 1,
+                "foreshortening_factor": 0.8578356147976592,
+                "foreshortening_axis_radians": 1.185739141468973,
+                "rotation_radians": 0.3925338012141285,
+                "offset_x_pixels": -0.2189627424813807,
+                "offset_y_pixels": -0.4053684885147959,
+                "waterline_angle_radians": 2.333296890563983,
+                "blur_sigma_pixels": 1.107194816507399,
+                "noise_sigma": 0.04247722225729376,
+                "contrast": 0.5513534701848403,
+                "polarity": 1
+              },
+              "achieved_visible_fraction": 1
+            }
+          }
+        },
+        "matched_random_geometry": {
+          "label": "matched random geometry",
+          "candidate_count": 3372,
+          "strict_size_candidate_count": 164,
+          "strict_size_candidate_fraction": 0.048636,
+          "strict_loss_p05": 0.294,
+          "strict_loss_p50": 0.3537,
+          "strict_loss_p95": 0.4445,
+          "primary_best_strict_size": {
+            "family": "matched_random_geometry",
+            "candidate_id": "matched_random_geometry__01884",
+            "source_subtype": "matched_random_geometry",
+            "source_label": "matched random geometry",
+            "silhouette_iou_true_colour": 0.7355,
+            "silhouette_iou_pca": 0.7093,
+            "silhouette_iou_mean": 0.7224,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.2776,
+            "visible_area_m2": 30.25,
+            "visible_length_m": 8.53,
+            "visible_width_m": 5.1,
+            "metadata": {
+              "source_subtype": "matched_random_geometry",
+              "source_label": "matched random geometry",
+              "generator_parameters": {
+                "length_m": 10.8969,
+                "width_m": 7.8869,
+                "vertices": 13,
+                "rotation_degrees": 3.1376,
+                "foreshortening_factor": 0.6429,
+                "target_visible_fraction": 0.8487
+              },
+              "generator_attempt_index": 1884
+            },
+            "_selection_status": "eligible minimum"
+          },
+          "closest_size_fallback_for_display_only": null,
+          "sensitivity_best_soft_penalty": {
+            "family": "matched_random_geometry",
+            "candidate_id": "matched_random_geometry__02587",
+            "source_subtype": "matched_random_geometry",
+            "source_label": "matched random geometry",
+            "silhouette_iou_true_colour": 0.7558,
+            "silhouette_iou_pca": 0.712,
+            "silhouette_iou_mean": 0.7339,
+            "dimensions_in_p10_p90_range": false,
+            "dimension_range_penalty": 0.0562,
+            "loss_lower_is_better": 0.2774,
+            "visible_area_m2": 16.25,
+            "visible_length_m": 5.99,
+            "visible_width_m": 4.08,
+            "metadata": {
+              "source_subtype": "matched_random_geometry",
+              "source_label": "matched random geometry",
+              "generator_parameters": {
+                "length_m": 6.3566,
+                "width_m": 5.5883,
+                "vertices": 10,
+                "rotation_degrees": 76.0147,
+                "foreshortening_factor": 0.7616,
+                "target_visible_fraction": 0.9667
+              },
+              "generator_attempt_index": 2587
+            }
+          }
+        },
+        "ocean_object_combined": {
+          "label": "generic ocean-object controls",
+          "candidate_count": 3372,
+          "strict_size_candidate_count": 87,
+          "strict_size_candidate_fraction": 0.025801,
+          "strict_loss_p05": 0.3023,
+          "strict_loss_p50": 0.3956,
+          "strict_loss_p95": 0.5196,
+          "primary_best_strict_size": {
+            "family": "ocean_object_combined",
+            "candidate_id": "fishing_net_or_rope__00292",
+            "source_subtype": "fishing_net_or_rope",
+            "source_label": "fishing net or rope",
+            "silhouette_iou_true_colour": 0.7522,
+            "silhouette_iou_pca": 0.6941,
+            "silhouette_iou_mean": 0.7231,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.2769,
+            "visible_area_m2": 23.5,
+            "visible_length_m": 7.15,
+            "visible_width_m": 4.93,
+            "metadata": {
+              "source_subtype": "fishing_net_or_rope",
+              "source_label": "fishing net or rope",
+              "generator_parameters": {
+                "mode": "loose",
+                "assumed_length_m": 7.7373,
+                "assumed_width_m": 7.5937,
+                "rotation_degrees": 222.4644,
+                "foreshortening_factor": 0.6466,
+                "target_visible_fraction": 0.8078
+              },
+              "generator_attempt_index": 292
+            },
+            "_selection_status": "eligible minimum"
+          },
+          "closest_size_fallback_for_display_only": null,
+          "sensitivity_best_soft_penalty": {
+            "family": "ocean_object_combined",
+            "candidate_id": "fishing_net_or_rope__00292",
+            "source_subtype": "fishing_net_or_rope",
+            "source_label": "fishing net or rope",
+            "silhouette_iou_true_colour": 0.7522,
+            "silhouette_iou_pca": 0.6941,
+            "silhouette_iou_mean": 0.7231,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.2769,
+            "visible_area_m2": 23.5,
+            "visible_length_m": 7.15,
+            "visible_width_m": 4.93,
+            "metadata": {
+              "source_subtype": "fishing_net_or_rope",
+              "source_label": "fishing net or rope",
+              "generator_parameters": {
+                "mode": "loose",
+                "assumed_length_m": 7.7373,
+                "assumed_width_m": 7.5937,
+                "rotation_degrees": 222.4644,
+                "foreshortening_factor": 0.6466,
+                "target_visible_fraction": 0.8078
+              },
+              "generator_attempt_index": 292
+            },
+            "_selection_status": "eligible minimum"
+          }
+        }
+      },
+      "primary_strict_size_ranking": [
+        {
+          "family": "ocean_object_combined",
+          "loss": 0.2769
+        },
+        {
+          "family": "matched_random_geometry",
+          "loss": 0.2776
+        },
+        {
+          "family": "wing_random_pose",
+          "loss": 0.2887
+        },
+        {
+          "family": "nonwing_777_parts",
+          "loss": 0.2979
+        },
+        {
+          "family": "wing_flooding_model",
+          "loss": 0.3286
+        }
+      ],
+      "primary_lowest_loss_family": "ocean_object_combined",
+      "identity_status": "UNKNOWN"
+    },
+    "phr-4-object-18": {
+      "coordinates_source_status": "SOURCE_REPORTED; see D-0038 spatial analysis",
+      "object_geometry": {
+        "ga_area_m2_reported": 69,
+        "visible_area_m2_p10_p90": [
+          46.36,
+          92.46
+        ],
+        "visible_length_m_p10_p90": [
+          10.72,
+          13.73
+        ],
+        "visible_width_m_p10_p90": [
+          8.95,
+          11.72
+        ]
+      },
+      "families": {
+        "wing_flooding_model": {
+          "label": "777 wing — flooding model",
+          "candidate_count": 3372,
+          "strict_size_candidate_count": 0,
+          "strict_size_candidate_fraction": 0,
+          "strict_loss_p05": null,
+          "strict_loss_p50": null,
+          "strict_loss_p95": null,
+          "primary_best_strict_size": null,
+          "closest_size_fallback_for_display_only": {
+            "family": "wing_flooding_model",
+            "candidate_id": "left-wing-complete__root_trailing_first__attached__draw2__flood0.95__off30__az180",
+            "source_subtype": "left-wing-complete:root_trailing_first:attached",
+            "source_label": "left-wing-complete",
+            "silhouette_iou_true_colour": 0.4385,
+            "silhouette_iou_pca": 0.4248,
+            "silhouette_iou_mean": 0.4316,
+            "dimensions_in_p10_p90_range": false,
+            "dimension_range_penalty": 0.2751,
+            "loss_lower_is_better": 0.6234,
+            "visible_area_m2": 41.25,
+            "visible_length_m": 12.17,
+            "visible_width_m": 4.41,
+            "metadata": {
+              "source_subtype": "left-wing-complete:root_trailing_first:attached",
+              "source_label": "left-wing-complete",
+              "wing_variant": "left-wing-complete",
+              "flooding_hypothesis": "root_trailing_first",
+              "engine_state": "attached",
+              "draw_index": 2,
+              "flood_progress": 0.95,
+              "pose": {
+                "afloat": true,
+                "reserve_buoyancy_kg": 4088.84,
+                "roll_degrees": -30,
+                "pitch_degrees": -71,
+                "heave_m": -4.67,
+                "equivalent_tilt_from_face_on_degrees": 73.62,
+                "root_to_tip_height_difference_m": 14.913,
+                "leading_to_trailing_height_difference_m": 6.891,
+                "interpretation": {
+                  "span": "root lower than tip",
+                  "chord": "leading edge lower than trailing edge"
+                },
+                "centre_of_buoyancy": {
+                  "x": 2.5483,
+                  "y": 5.2454,
+                  "z": -6.5836
+                },
+                "centre_of_mass_world": {
+                  "x": 2.4893,
+                  "y": 5.2172,
+                  "z": -10.5974
+                },
+                "horizontal_force_line_residual_m": 0.0654,
+                "locally_stable_grid_check": true,
+                "matrix": [
+                  [
+                    0.325568,
+                    0.472759,
+                    -0.818843
+                  ],
+                  [
+                    0,
+                    0.866025,
+                    0.5
+                  ],
+                  [
+                    0.945519,
+                    -0.162784,
+                    0.28195
+                  ]
+                ]
+              },
+              "off_nadir_degrees": 30,
+              "view_azimuth_degrees": 180
+            },
+            "_selection_status": "NO in-range candidate; closest size"
+          },
+          "sensitivity_best_soft_penalty": {
+            "family": "wing_flooding_model",
+            "candidate_id": "right-wing-flaperon-absent__root_leading_first__attached__draw2__flood0.95__off30__az180",
+            "source_subtype": "right-wing-flaperon-absent:root_leading_first:attached",
+            "source_label": "right-wing-flaperon-absent",
+            "silhouette_iou_true_colour": 0.701,
+            "silhouette_iou_pca": 0.6776,
+            "silhouette_iou_mean": 0.6893,
+            "dimensions_in_p10_p90_range": false,
+            "dimension_range_penalty": 0.7885,
+            "loss_lower_is_better": 0.4684,
+            "visible_area_m2": 16,
+            "visible_length_m": 5.8,
+            "visible_width_m": 4.5,
+            "metadata": {
+              "source_subtype": "right-wing-flaperon-absent:root_leading_first:attached",
+              "source_label": "right-wing-flaperon-absent",
+              "wing_variant": "right-wing-flaperon-absent",
+              "flooding_hypothesis": "root_leading_first",
+              "engine_state": "attached",
+              "draw_index": 2,
+              "flood_progress": 0.95,
+              "pose": {
+                "afloat": true,
+                "reserve_buoyancy_kg": 2271.98,
+                "roll_degrees": 65,
+                "pitch_degrees": -60,
+                "heave_m": -9.094,
+                "equivalent_tilt_from_face_on_degrees": 77.8,
+                "root_to_tip_height_difference_m": 21.067,
+                "leading_to_trailing_height_difference_m": 6.931,
+                "interpretation": {
+                  "span": "root lower than tip",
+                  "chord": "leading edge lower than trailing edge"
+                },
+                "centre_of_buoyancy": {
+                  "x": 4.0088,
+                  "y": -2.1416,
+                  "z": -11.3419
+                },
+                "centre_of_mass_world": {
+                  "x": 3.8926,
+                  "y": -2.1419,
+                  "z": -15.0709
+                },
+                "horizontal_force_line_residual_m": 0.1162,
+                "locally_stable_grid_check": true,
+                "matrix": [
+                  [
+                    0.5,
+                    -0.784886,
+                    -0.365998
+                  ],
+                  [
+                    0,
+                    0.422618,
+                    -0.906308
+                  ],
+                  [
+                    0.866025,
+                    0.453154,
+                    0.211309
+                  ]
+                ]
+              },
+              "off_nadir_degrees": 30,
+              "view_azimuth_degrees": 180
+            }
+          }
+        },
+        "wing_random_pose": {
+          "label": "777 wing — random pose",
+          "candidate_count": 3372,
+          "strict_size_candidate_count": 30,
+          "strict_size_candidate_fraction": 0.008897,
+          "strict_loss_p05": 0.2901,
+          "strict_loss_p50": 0.3107,
+          "strict_loss_p95": 0.3595,
+          "primary_best_strict_size": {
+            "family": "wing_random_pose",
+            "candidate_id": "random_pose__00107",
+            "source_subtype": "right-wing-flaperon-absent",
+            "source_label": "right-wing-flaperon-absent",
+            "silhouette_iou_true_colour": 0.7245,
+            "silhouette_iou_pca": 0.7011,
+            "silhouette_iou_mean": 0.7128,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.2872,
+            "visible_area_m2": 81,
+            "visible_length_m": 12.75,
+            "visible_width_m": 9.61,
+            "metadata": {
+              "source_subtype": "right-wing-flaperon-absent",
+              "source_label": "right-wing-flaperon-absent",
+              "wing_variant": "right-wing-flaperon-absent",
+              "draw_index": 0,
+              "pose": {
+                "afloat": true,
+                "pose_source": "random_orientation_and_immersion_not_hydrostatic",
+                "roll_degrees": -21.98,
+                "pitch_degrees": 27.19,
+                "heave_m": -2.094,
+                "target_visible_fraction": 0.5083,
+                "equivalent_tilt_from_face_on_degrees": 34.43,
+                "root_to_tip_height_difference_m": -13.36,
+                "leading_to_trailing_height_difference_m": -3.773,
+                "interpretation": {
+                  "span": "tip lower than root",
+                  "chord": "trailing edge lower than leading edge"
+                },
+                "matrix": [
+                  [
+                    0.889476,
+                    -0.171044,
+                    0.423765
+                  ],
+                  [
+                    0,
+                    0.927312,
+                    0.374289
+                  ],
+                  [
+                    -0.456982,
+                    -0.332921,
+                    0.824821
+                  ]
+                ]
+              },
+              "off_nadir_degrees": 27.14,
+              "view_azimuth_degrees": 266.05
+            },
+            "_selection_status": "eligible minimum"
+          },
+          "closest_size_fallback_for_display_only": null,
+          "sensitivity_best_soft_penalty": {
+            "family": "wing_random_pose",
+            "candidate_id": "random_pose__00107",
+            "source_subtype": "right-wing-flaperon-absent",
+            "source_label": "right-wing-flaperon-absent",
+            "silhouette_iou_true_colour": 0.7245,
+            "silhouette_iou_pca": 0.7011,
+            "silhouette_iou_mean": 0.7128,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.2872,
+            "visible_area_m2": 81,
+            "visible_length_m": 12.75,
+            "visible_width_m": 9.61,
+            "metadata": {
+              "source_subtype": "right-wing-flaperon-absent",
+              "source_label": "right-wing-flaperon-absent",
+              "wing_variant": "right-wing-flaperon-absent",
+              "draw_index": 0,
+              "pose": {
+                "afloat": true,
+                "pose_source": "random_orientation_and_immersion_not_hydrostatic",
+                "roll_degrees": -21.98,
+                "pitch_degrees": 27.19,
+                "heave_m": -2.094,
+                "target_visible_fraction": 0.5083,
+                "equivalent_tilt_from_face_on_degrees": 34.43,
+                "root_to_tip_height_difference_m": -13.36,
+                "leading_to_trailing_height_difference_m": -3.773,
+                "interpretation": {
+                  "span": "tip lower than root",
+                  "chord": "trailing edge lower than leading edge"
+                },
+                "matrix": [
+                  [
+                    0.889476,
+                    -0.171044,
+                    0.423765
+                  ],
+                  [
+                    0,
+                    0.927312,
+                    0.374289
+                  ],
+                  [
+                    -0.456982,
+                    -0.332921,
+                    0.824821
+                  ]
+                ]
+              },
+              "off_nadir_degrees": 27.14,
+              "view_azimuth_degrees": 266.05
+            },
+            "_selection_status": "eligible minimum"
+          }
+        },
+        "nonwing_777_parts": {
+          "label": "other 777 parts — random pose",
+          "candidate_count": 3372,
+          "strict_size_candidate_count": 0,
+          "strict_size_candidate_fraction": 0,
+          "strict_loss_p05": null,
+          "strict_loss_p50": null,
+          "strict_loss_p95": null,
+          "primary_best_strict_size": null,
+          "closest_size_fallback_for_display_only": {
+            "family": "nonwing_777_parts",
+            "candidate_id": "vertical-tail-outer-surface__00385",
+            "source_subtype": "vertical-tail-outer-surface",
+            "source_label": "Vertical tail outer surface",
+            "silhouette_iou_true_colour": 0.4388,
+            "silhouette_iou_pca": 0.4623,
+            "silhouette_iou_mean": 0.4505,
+            "dimensions_in_p10_p90_range": false,
+            "dimension_range_penalty": 0.0287,
+            "loss_lower_is_better": 0.5552,
+            "visible_area_m2": 49.5,
+            "visible_length_m": 13.72,
+            "visible_width_m": 8.21,
+            "metadata": {
+              "source_subtype": "vertical-tail-outer-surface",
+              "source_label": "Vertical tail outer surface",
+              "simulation_parameters": {
+                "regime": "full",
+                "target_visible_fraction": 1,
+                "foreshortening_factor": 0.7856060264632105,
+                "foreshortening_axis_radians": 1.8920695363136335,
+                "rotation_radians": 3.067611354646024,
+                "offset_x_pixels": -0.06216222746297717,
+                "offset_y_pixels": -0.12234128615818918,
+                "waterline_angle_radians": 0.5842403253489221,
+                "blur_sigma_pixels": 0.805165056232363,
+                "noise_sigma": 0.04998423352371901,
+                "contrast": 0.23201191459782422,
+                "polarity": 1
+              },
+              "achieved_visible_fraction": 1
+            },
+            "_selection_status": "NO in-range candidate; closest size"
+          },
+          "sensitivity_best_soft_penalty": {
+            "family": "nonwing_777_parts",
+            "candidate_id": "vertical-tail-outer-surface__00169",
+            "source_subtype": "vertical-tail-outer-surface",
+            "source_label": "Vertical tail outer surface",
+            "silhouette_iou_true_colour": 0.7443,
+            "silhouette_iou_pca": 0.6575,
+            "silhouette_iou_mean": 0.7009,
+            "dimensions_in_p10_p90_range": false,
+            "dimension_range_penalty": 0.3735,
+            "loss_lower_is_better": 0.3738,
+            "visible_area_m2": 31.25,
+            "visible_length_m": 7.71,
+            "visible_width_m": 6.02,
+            "metadata": {
+              "source_subtype": "vertical-tail-outer-surface",
+              "source_label": "Vertical tail outer surface",
+              "simulation_parameters": {
+                "regime": "linear-waterline",
+                "target_visible_fraction": 0.8721686776494607,
+                "foreshortening_factor": 0.576085202768445,
+                "foreshortening_axis_radians": 2.4715419695292815,
+                "rotation_radians": 6.083859361482443,
+                "offset_x_pixels": 0.10861524241045117,
+                "offset_y_pixels": 0.40745993494056165,
+                "waterline_angle_radians": 0.2735328909771302,
+                "blur_sigma_pixels": 1.2590128113515675,
+                "noise_sigma": 0.02939794884994626,
+                "contrast": 0.4857238556910306,
+                "polarity": 1
+              },
+              "achieved_visible_fraction": 0.8722
+            }
+          }
+        },
+        "matched_random_geometry": {
+          "label": "matched random geometry",
+          "candidate_count": 3372,
+          "strict_size_candidate_count": 16,
+          "strict_size_candidate_fraction": 0.004745,
+          "strict_loss_p05": 0.2998,
+          "strict_loss_p50": 0.3235,
+          "strict_loss_p95": 0.3462,
+          "primary_best_strict_size": {
+            "family": "matched_random_geometry",
+            "candidate_id": "matched_random_geometry__00571",
+            "source_subtype": "matched_random_geometry",
+            "source_label": "matched random geometry",
+            "silhouette_iou_true_colour": 0.8059,
+            "silhouette_iou_pca": 0.6219,
+            "silhouette_iou_mean": 0.7139,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.2861,
+            "visible_area_m2": 69.5,
+            "visible_length_m": 11.35,
+            "visible_width_m": 10.1,
+            "metadata": {
+              "source_subtype": "matched_random_geometry",
+              "source_label": "matched random geometry",
+              "generator_parameters": {
+                "length_m": 12.2337,
+                "width_m": 10.7196,
+                "vertices": 9,
+                "rotation_degrees": 148.7511,
+                "foreshortening_factor": 0.9933,
+                "target_visible_fraction": 0.8768
+              },
+              "generator_attempt_index": 571
+            },
+            "_selection_status": "eligible minimum"
+          },
+          "closest_size_fallback_for_display_only": null,
+          "sensitivity_best_soft_penalty": {
+            "family": "matched_random_geometry",
+            "candidate_id": "matched_random_geometry__00571",
+            "source_subtype": "matched_random_geometry",
+            "source_label": "matched random geometry",
+            "silhouette_iou_true_colour": 0.8059,
+            "silhouette_iou_pca": 0.6219,
+            "silhouette_iou_mean": 0.7139,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.2861,
+            "visible_area_m2": 69.5,
+            "visible_length_m": 11.35,
+            "visible_width_m": 10.1,
+            "metadata": {
+              "source_subtype": "matched_random_geometry",
+              "source_label": "matched random geometry",
+              "generator_parameters": {
+                "length_m": 12.2337,
+                "width_m": 10.7196,
+                "vertices": 9,
+                "rotation_degrees": 148.7511,
+                "foreshortening_factor": 0.9933,
+                "target_visible_fraction": 0.8768
+              },
+              "generator_attempt_index": 571
+            },
+            "_selection_status": "eligible minimum"
+          }
+        },
+        "ocean_object_combined": {
+          "label": "generic ocean-object controls",
+          "candidate_count": 3372,
+          "strict_size_candidate_count": 0,
+          "strict_size_candidate_fraction": 0,
+          "strict_loss_p05": null,
+          "strict_loss_p50": null,
+          "strict_loss_p95": null,
+          "primary_best_strict_size": null,
+          "closest_size_fallback_for_display_only": {
+            "family": "ocean_object_combined",
+            "candidate_id": "cargo_or_plastic_cluster__00455",
+            "source_subtype": "cargo_or_plastic_cluster",
+            "source_label": "cargo or plastic cluster",
+            "silhouette_iou_true_colour": 0.5405,
+            "silhouette_iou_pca": 0.4313,
+            "silhouette_iou_mean": 0.4859,
+            "dimensions_in_p10_p90_range": false,
+            "dimension_range_penalty": 0.0037,
+            "loss_lower_is_better": 0.5148,
+            "visible_area_m2": 53.5,
+            "visible_length_m": 12.1,
+            "visible_width_m": 8.85,
+            "metadata": {
+              "source_subtype": "cargo_or_plastic_cluster",
+              "source_label": "cargo or plastic cluster",
+              "generator_parameters": {
+                "assumed_length_m": 12.2741,
+                "assumed_width_m": 9.0477,
+                "pieces": 6,
+                "rotation_degrees": 173.1943,
+                "foreshortening_factor": 0.9645,
+                "target_visible_fraction": 1
+              },
+              "generator_attempt_index": 455
+            },
+            "_selection_status": "NO in-range candidate; closest size"
+          },
+          "sensitivity_best_soft_penalty": {
+            "family": "ocean_object_combined",
+            "candidate_id": "fishing_net_or_rope__00358",
+            "source_subtype": "fishing_net_or_rope",
+            "source_label": "fishing net or rope",
+            "silhouette_iou_true_colour": 0.7223,
+            "silhouette_iou_pca": 0.6264,
+            "silhouette_iou_mean": 0.6743,
+            "dimensions_in_p10_p90_range": false,
+            "dimension_range_penalty": 0.0809,
+            "loss_lower_is_better": 0.3418,
+            "visible_area_m2": 51.75,
+            "visible_length_m": 10.31,
+            "visible_width_m": 7.3,
+            "metadata": {
+              "source_subtype": "fishing_net_or_rope",
+              "source_label": "fishing net or rope",
+              "generator_parameters": {
+                "mode": "bundled",
+                "assumed_length_m": 11.5077,
+                "assumed_width_m": 9.4174,
+                "rotation_degrees": 75.8328,
+                "foreshortening_factor": 0.7228,
+                "target_visible_fraction": 0.9142
+              },
+              "generator_attempt_index": 358
+            }
+          }
+        }
+      },
+      "primary_strict_size_ranking": [
+        {
+          "family": "matched_random_geometry",
+          "loss": 0.2861
+        },
+        {
+          "family": "wing_random_pose",
+          "loss": 0.2872
+        }
+      ],
+      "primary_lowest_loss_family": "matched_random_geometry",
+      "identity_status": "UNKNOWN"
+    },
+    "phr-4-object-19": {
+      "coordinates_source_status": "SOURCE_REPORTED; see D-0038 spatial analysis",
+      "object_geometry": {
+        "ga_area_m2_reported": 41,
+        "visible_area_m2_p10_p90": [
+          28.66,
+          66.63
+        ],
+        "visible_length_m_p10_p90": [
+          8.57,
+          11.94
+        ],
+        "visible_width_m_p10_p90": [
+          6.49,
+          9.81
+        ]
+      },
+      "families": {
+        "wing_flooding_model": {
+          "label": "777 wing — flooding model",
+          "candidate_count": 3372,
+          "strict_size_candidate_count": 0,
+          "strict_size_candidate_fraction": 0,
+          "strict_loss_p05": null,
+          "strict_loss_p50": null,
+          "strict_loss_p95": null,
+          "primary_best_strict_size": null,
+          "closest_size_fallback_for_display_only": {
+            "family": "wing_flooding_model",
+            "candidate_id": "right-wing-flaperon-absent__root_leading_first__absent__draw1__flood0.95__off30__az270",
+            "source_subtype": "right-wing-flaperon-absent:root_leading_first:absent",
+            "source_label": "right-wing-flaperon-absent",
+            "silhouette_iou_true_colour": 0.4868,
+            "silhouette_iou_pca": 0.5755,
+            "silhouette_iou_mean": 0.5311,
+            "dimensions_in_p10_p90_range": false,
+            "dimension_range_penalty": 0.1063,
+            "loss_lower_is_better": 0.4901,
+            "visible_area_m2": 27,
+            "visible_length_m": 8.56,
+            "visible_width_m": 5.01,
+            "metadata": {
+              "source_subtype": "right-wing-flaperon-absent:root_leading_first:absent",
+              "source_label": "right-wing-flaperon-absent",
+              "wing_variant": "right-wing-flaperon-absent",
+              "flooding_hypothesis": "root_leading_first",
+              "engine_state": "absent",
+              "draw_index": 1,
+              "flood_progress": 0.95,
+              "pose": {
+                "afloat": true,
+                "reserve_buoyancy_kg": 2573.53,
+                "roll_degrees": 71,
+                "pitch_degrees": -10,
+                "heave_m": -7.087,
+                "equivalent_tilt_from_face_on_degrees": 71.3,
+                "root_to_tip_height_difference_m": 24.318,
+                "leading_to_trailing_height_difference_m": 2.425,
+                "interpretation": {
+                  "span": "root lower than tip",
+                  "chord": "leading edge lower than trailing edge"
+                },
+                "centre_of_buoyancy": {
+                  "x": 0.696,
+                  "y": -1.8447,
+                  "z": -12.4095
+                },
+                "centre_of_mass_world": {
+                  "x": 0.6827,
+                  "y": -1.8487,
+                  "z": -12.7046
+                },
+                "horizontal_force_line_residual_m": 0.0139,
+                "locally_stable_grid_check": true,
+                "matrix": [
+                  [
+                    0.984808,
+                    -0.164188,
+                    -0.056534
+                  ],
+                  [
+                    0,
+                    0.325568,
+                    -0.945519
+                  ],
+                  [
+                    0.173648,
+                    0.931154,
+                    0.320622
+                  ]
+                ]
+              },
+              "off_nadir_degrees": 30,
+              "view_azimuth_degrees": 270
+            },
+            "_selection_status": "NO in-range candidate; closest size"
+          },
+          "sensitivity_best_soft_penalty": {
+            "family": "wing_flooding_model",
+            "candidate_id": "right-wing-flaperon-absent__root_trailing_first__attached__draw2__flood0.95__off30__az180",
+            "source_subtype": "right-wing-flaperon-absent:root_trailing_first:attached",
+            "source_label": "right-wing-flaperon-absent",
+            "silhouette_iou_true_colour": 0.6146,
+            "silhouette_iou_pca": 0.6469,
+            "silhouette_iou_mean": 0.6308,
+            "dimensions_in_p10_p90_range": false,
+            "dimension_range_penalty": 0.4495,
+            "loss_lower_is_better": 0.4591,
+            "visible_area_m2": 16.75,
+            "visible_length_m": 5.7,
+            "visible_width_m": 4.34,
+            "metadata": {
+              "source_subtype": "right-wing-flaperon-absent:root_trailing_first:attached",
+              "source_label": "right-wing-flaperon-absent",
+              "wing_variant": "right-wing-flaperon-absent",
+              "flooding_hypothesis": "root_trailing_first",
+              "engine_state": "attached",
+              "draw_index": 2,
+              "flood_progress": 0.95,
+              "pose": {
+                "afloat": true,
+                "reserve_buoyancy_kg": 2573.12,
+                "roll_degrees": 65,
+                "pitch_degrees": -60,
+                "heave_m": -8.386,
+                "equivalent_tilt_from_face_on_degrees": 77.8,
+                "root_to_tip_height_difference_m": 21.067,
+                "leading_to_trailing_height_difference_m": 6.931,
+                "interpretation": {
+                  "span": "root lower than tip",
+                  "chord": "leading edge lower than trailing edge"
+                },
+                "centre_of_buoyancy": {
+                  "x": 3.8165,
+                  "y": -2.1662,
+                  "z": -11.0734
+                },
+                "centre_of_mass_world": {
+                  "x": 3.8926,
+                  "y": -2.1419,
+                  "z": -14.3629
+                },
+                "horizontal_force_line_residual_m": 0.0799,
+                "locally_stable_grid_check": true,
+                "matrix": [
+                  [
+                    0.5,
+                    -0.784886,
+                    -0.365998
+                  ],
+                  [
+                    0,
+                    0.422618,
+                    -0.906308
+                  ],
+                  [
+                    0.866025,
+                    0.453154,
+                    0.211309
+                  ]
+                ]
+              },
+              "off_nadir_degrees": 30,
+              "view_azimuth_degrees": 180
+            }
+          }
+        },
+        "wing_random_pose": {
+          "label": "777 wing — random pose",
+          "candidate_count": 3372,
+          "strict_size_candidate_count": 49,
+          "strict_size_candidate_fraction": 0.014531,
+          "strict_loss_p05": 0.3675,
+          "strict_loss_p50": 0.3999,
+          "strict_loss_p95": 0.4577,
+          "primary_best_strict_size": {
+            "family": "wing_random_pose",
+            "candidate_id": "random_pose__03352",
+            "source_subtype": "left-wing-complete",
+            "source_label": "left-wing-complete",
+            "silhouette_iou_true_colour": 0.6531,
+            "silhouette_iou_pca": 0.626,
+            "silhouette_iou_mean": 0.6395,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.3605,
+            "visible_area_m2": 49.75,
+            "visible_length_m": 11.05,
+            "visible_width_m": 7.95,
+            "metadata": {
+              "source_subtype": "left-wing-complete",
+              "source_label": "left-wing-complete",
+              "wing_variant": "left-wing-complete",
+              "draw_index": 1,
+              "pose": {
+                "afloat": true,
+                "pose_source": "random_orientation_and_immersion_not_hydrostatic",
+                "roll_degrees": -179.92,
+                "pitch_degrees": 28.4,
+                "heave_m": -2.631,
+                "target_visible_fraction": 0.1526,
+                "equivalent_tilt_from_face_on_degrees": 28.4,
+                "root_to_tip_height_difference_m": -5.512,
+                "leading_to_trailing_height_difference_m": -3.397,
+                "interpretation": {
+                  "span": "tip lower than root",
+                  "chord": "trailing edge lower than leading edge"
+                },
+                "matrix": [
+                  [
+                    0.879622,
+                    -0.000704,
+                    -0.475673
+                  ],
+                  [
+                    0,
+                    -0.999999,
+                    0.001481
+                  ],
+                  [
+                    -0.475673,
+                    -0.001303,
+                    -0.879621
+                  ]
+                ]
+              },
+              "off_nadir_degrees": 10.14,
+              "view_azimuth_degrees": 36.89
+            },
+            "_selection_status": "eligible minimum"
+          },
+          "closest_size_fallback_for_display_only": null,
+          "sensitivity_best_soft_penalty": {
+            "family": "wing_random_pose",
+            "candidate_id": "random_pose__03352",
+            "source_subtype": "left-wing-complete",
+            "source_label": "left-wing-complete",
+            "silhouette_iou_true_colour": 0.6531,
+            "silhouette_iou_pca": 0.626,
+            "silhouette_iou_mean": 0.6395,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.3605,
+            "visible_area_m2": 49.75,
+            "visible_length_m": 11.05,
+            "visible_width_m": 7.95,
+            "metadata": {
+              "source_subtype": "left-wing-complete",
+              "source_label": "left-wing-complete",
+              "wing_variant": "left-wing-complete",
+              "draw_index": 1,
+              "pose": {
+                "afloat": true,
+                "pose_source": "random_orientation_and_immersion_not_hydrostatic",
+                "roll_degrees": -179.92,
+                "pitch_degrees": 28.4,
+                "heave_m": -2.631,
+                "target_visible_fraction": 0.1526,
+                "equivalent_tilt_from_face_on_degrees": 28.4,
+                "root_to_tip_height_difference_m": -5.512,
+                "leading_to_trailing_height_difference_m": -3.397,
+                "interpretation": {
+                  "span": "tip lower than root",
+                  "chord": "trailing edge lower than leading edge"
+                },
+                "matrix": [
+                  [
+                    0.879622,
+                    -0.000704,
+                    -0.475673
+                  ],
+                  [
+                    0,
+                    -0.999999,
+                    0.001481
+                  ],
+                  [
+                    -0.475673,
+                    -0.001303,
+                    -0.879621
+                  ]
+                ]
+              },
+              "off_nadir_degrees": 10.14,
+              "view_azimuth_degrees": 36.89
+            },
+            "_selection_status": "eligible minimum"
+          }
+        },
+        "nonwing_777_parts": {
+          "label": "other 777 parts — random pose",
+          "candidate_count": 3372,
+          "strict_size_candidate_count": 15,
+          "strict_size_candidate_fraction": 0.004448,
+          "strict_loss_p05": 0.4022,
+          "strict_loss_p50": 0.4326,
+          "strict_loss_p95": 0.532,
+          "primary_best_strict_size": {
+            "family": "nonwing_777_parts",
+            "candidate_id": "vertical-tail-outer-surface__00127",
+            "source_subtype": "vertical-tail-outer-surface",
+            "source_label": "Vertical tail outer surface",
+            "silhouette_iou_true_colour": 0.5615,
+            "silhouette_iou_pca": 0.6497,
+            "silhouette_iou_mean": 0.6056,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.3944,
+            "visible_area_m2": 35,
+            "visible_length_m": 8.78,
+            "visible_width_m": 6.8,
+            "metadata": {
+              "source_subtype": "vertical-tail-outer-surface",
+              "source_label": "Vertical tail outer surface",
+              "simulation_parameters": {
+                "regime": "linear-waterline",
+                "target_visible_fraction": 0.8030827091191896,
+                "foreshortening_factor": 0.7044717204524205,
+                "foreshortening_axis_radians": 2.345845638732571,
+                "rotation_radians": 4.406533382579937,
+                "offset_x_pixels": 0.05854837317019701,
+                "offset_y_pixels": -0.3034350238740444,
+                "waterline_angle_radians": 5.393538963621277,
+                "blur_sigma_pixels": 1.1780888272449375,
+                "noise_sigma": 0.025736676324158908,
+                "contrast": 0.1698477409500629,
+                "polarity": 1
+              },
+              "achieved_visible_fraction": 0.8031
+            },
+            "_selection_status": "eligible minimum"
+          },
+          "closest_size_fallback_for_display_only": null,
+          "sensitivity_best_soft_penalty": {
+            "family": "nonwing_777_parts",
+            "candidate_id": "single-horizontal-stabilizer__00447",
+            "source_subtype": "single-horizontal-stabilizer",
+            "source_label": "Single horizontal stabilizer outer surface",
+            "silhouette_iou_true_colour": 0.6907,
+            "silhouette_iou_pca": 0.6327,
+            "silhouette_iou_mean": 0.6617,
+            "dimensions_in_p10_p90_range": false,
+            "dimension_range_penalty": 0.0758,
+            "loss_lower_is_better": 0.3534,
+            "visible_area_m2": 27.25,
+            "visible_length_m": 7.95,
+            "visible_width_m": 5.86,
+            "metadata": {
+              "source_subtype": "single-horizontal-stabilizer",
+              "source_label": "Single horizontal stabilizer outer surface",
+              "simulation_parameters": {
+                "regime": "linear-waterline",
+                "target_visible_fraction": 0.6386881386861205,
+                "foreshortening_factor": 0.9110764118027873,
+                "foreshortening_axis_radians": 2.6553260330103603,
+                "rotation_radians": 2.281992556869697,
+                "offset_x_pixels": -0.39012512122280896,
+                "offset_y_pixels": 0.47897001495584846,
+                "waterline_angle_radians": 5.710475892310798,
+                "blur_sigma_pixels": 0.86419149460271,
+                "noise_sigma": 0.017768790344707668,
+                "contrast": 0.5924375151237472,
+                "polarity": 1
+              },
+              "achieved_visible_fraction": 0.6387
+            }
+          }
+        },
+        "matched_random_geometry": {
+          "label": "matched random geometry",
+          "candidate_count": 3372,
+          "strict_size_candidate_count": 87,
+          "strict_size_candidate_fraction": 0.025801,
+          "strict_loss_p05": 0.3677,
+          "strict_loss_p50": 0.4124,
+          "strict_loss_p95": 0.4521,
+          "primary_best_strict_size": {
+            "family": "matched_random_geometry",
+            "candidate_id": "matched_random_geometry__00032",
+            "source_subtype": "matched_random_geometry",
+            "source_label": "matched random geometry",
+            "silhouette_iou_true_colour": 0.5977,
+            "silhouette_iou_pca": 0.6927,
+            "silhouette_iou_mean": 0.6452,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.3548,
+            "visible_area_m2": 51.5,
+            "visible_length_m": 10.2,
+            "visible_width_m": 6.86,
+            "metadata": {
+              "source_subtype": "matched_random_geometry",
+              "source_label": "matched random geometry",
+              "generator_parameters": {
+                "length_m": 10.2634,
+                "width_m": 8.3536,
+                "vertices": 12,
+                "rotation_degrees": 36.1084,
+                "foreshortening_factor": 0.9093,
+                "target_visible_fraction": 0.9754
+              },
+              "generator_attempt_index": 32
+            },
+            "_selection_status": "eligible minimum"
+          },
+          "closest_size_fallback_for_display_only": null,
+          "sensitivity_best_soft_penalty": {
+            "family": "matched_random_geometry",
+            "candidate_id": "matched_random_geometry__00381",
+            "source_subtype": "matched_random_geometry",
+            "source_label": "matched random geometry",
+            "silhouette_iou_true_colour": 0.5832,
+            "silhouette_iou_pca": 0.7328,
+            "silhouette_iou_mean": 0.658,
+            "dimensions_in_p10_p90_range": false,
+            "dimension_range_penalty": 0.0572,
+            "loss_lower_is_better": 0.3535,
+            "visible_area_m2": 32.5,
+            "visible_length_m": 8.3,
+            "visible_width_m": 5.64,
+            "metadata": {
+              "source_subtype": "matched_random_geometry",
+              "source_label": "matched random geometry",
+              "generator_parameters": {
+                "length_m": 12.8779,
+                "width_m": 11.2425,
+                "vertices": 9,
+                "rotation_degrees": 321.6434,
+                "foreshortening_factor": 0.6337,
+                "target_visible_fraction": 0.632
+              },
+              "generator_attempt_index": 381
+            }
+          }
+        },
+        "ocean_object_combined": {
+          "label": "generic ocean-object controls",
+          "candidate_count": 3372,
+          "strict_size_candidate_count": 19,
+          "strict_size_candidate_fraction": 0.005635,
+          "strict_loss_p05": 0.3884,
+          "strict_loss_p50": 0.4464,
+          "strict_loss_p95": 0.5158,
+          "primary_best_strict_size": {
+            "family": "ocean_object_combined",
+            "candidate_id": "fishing_net_or_rope__00212",
+            "source_subtype": "fishing_net_or_rope",
+            "source_label": "fishing net or rope",
+            "silhouette_iou_true_colour": 0.5856,
+            "silhouette_iou_pca": 0.6458,
+            "silhouette_iou_mean": 0.6157,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.3843,
+            "visible_area_m2": 50.5,
+            "visible_length_m": 9.92,
+            "visible_width_m": 6.58,
+            "metadata": {
+              "source_subtype": "fishing_net_or_rope",
+              "source_label": "fishing net or rope",
+              "generator_parameters": {
+                "mode": "bundled",
+                "assumed_length_m": 10.5646,
+                "assumed_width_m": 7.8585,
+                "rotation_degrees": 330.7741,
+                "foreshortening_factor": 0.8832,
+                "target_visible_fraction": 0.9037
+              },
+              "generator_attempt_index": 212
+            },
+            "_selection_status": "eligible minimum"
+          },
+          "closest_size_fallback_for_display_only": null,
+          "sensitivity_best_soft_penalty": {
+            "family": "ocean_object_combined",
+            "candidate_id": "fishing_net_or_rope__00212",
+            "source_subtype": "fishing_net_or_rope",
+            "source_label": "fishing net or rope",
+            "silhouette_iou_true_colour": 0.5856,
+            "silhouette_iou_pca": 0.6458,
+            "silhouette_iou_mean": 0.6157,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.3843,
+            "visible_area_m2": 50.5,
+            "visible_length_m": 9.92,
+            "visible_width_m": 6.58,
+            "metadata": {
+              "source_subtype": "fishing_net_or_rope",
+              "source_label": "fishing net or rope",
+              "generator_parameters": {
+                "mode": "bundled",
+                "assumed_length_m": 10.5646,
+                "assumed_width_m": 7.8585,
+                "rotation_degrees": 330.7741,
+                "foreshortening_factor": 0.8832,
+                "target_visible_fraction": 0.9037
+              },
+              "generator_attempt_index": 212
+            },
+            "_selection_status": "eligible minimum"
+          }
+        }
+      },
+      "primary_strict_size_ranking": [
+        {
+          "family": "matched_random_geometry",
+          "loss": 0.3548
+        },
+        {
+          "family": "wing_random_pose",
+          "loss": 0.3605
+        },
+        {
+          "family": "ocean_object_combined",
+          "loss": 0.3843
+        },
+        {
+          "family": "nonwing_777_parts",
+          "loss": 0.3944
+        }
+      ],
+      "primary_lowest_loss_family": "matched_random_geometry",
+      "identity_status": "UNKNOWN"
+    },
+    "phr-4-object-26": {
+      "coordinates_source_status": "SOURCE_REPORTED; see D-0038 spatial analysis",
+      "object_geometry": {
+        "ga_area_m2_reported": 49,
+        "visible_area_m2_p10_p90": [
+          25.08,
+          61.54
+        ],
+        "visible_length_m_p10_p90": [
+          10.59,
+          14.28
+        ],
+        "visible_width_m_p10_p90": [
+          6.9,
+          8.32
+        ]
+      },
+      "families": {
+        "wing_flooding_model": {
+          "label": "777 wing — flooding model",
+          "candidate_count": 3372,
+          "strict_size_candidate_count": 0,
+          "strict_size_candidate_fraction": 0,
+          "strict_loss_p05": null,
+          "strict_loss_p50": null,
+          "strict_loss_p95": null,
+          "primary_best_strict_size": null,
+          "closest_size_fallback_for_display_only": {
+            "family": "wing_flooding_model",
+            "candidate_id": "left-wing-complete__root_leading_first__attached__draw2__flood0.95__off30__az180",
+            "source_subtype": "left-wing-complete:root_leading_first:attached",
+            "source_label": "left-wing-complete",
+            "silhouette_iou_true_colour": 0.4105,
+            "silhouette_iou_pca": 0.4156,
+            "silhouette_iou_mean": 0.413,
+            "dimensions_in_p10_p90_range": false,
+            "dimension_range_penalty": 0.1399,
+            "loss_lower_is_better": 0.6149,
+            "visible_area_m2": 36.5,
+            "visible_length_m": 12.28,
+            "visible_width_m": 4.54,
+            "metadata": {
+              "source_subtype": "left-wing-complete:root_leading_first:attached",
+              "source_label": "left-wing-complete",
+              "wing_variant": "left-wing-complete",
+              "flooding_hypothesis": "root_leading_first",
+              "engine_state": "attached",
+              "draw_index": 2,
+              "flood_progress": 0.95,
+              "pose": {
+                "afloat": true,
+                "reserve_buoyancy_kg": 3803.35,
+                "roll_degrees": -30,
+                "pitch_degrees": -75,
+                "heave_m": -5.247,
+                "equivalent_tilt_from_face_on_degrees": 77.05,
+                "root_to_tip_height_difference_m": 14.353,
+                "leading_to_trailing_height_difference_m": 7.008,
+                "interpretation": {
+                  "span": "root lower than tip",
+                  "chord": "leading edge lower than trailing edge"
+                },
+                "centre_of_buoyancy": {
+                  "x": 2.7967,
+                  "y": 5.2346,
+                  "z": -6.4946
+                },
+                "centre_of_mass_world": {
+                  "x": 2.8967,
+                  "y": 5.2172,
+                  "z": -10.9855
+                },
+                "horizontal_force_line_residual_m": 0.1015,
+                "locally_stable_grid_check": true,
+                "matrix": [
+                  [
+                    0.258819,
+                    0.482963,
+                    -0.836516
+                  ],
+                  [
+                    0,
+                    0.866025,
+                    0.5
+                  ],
+                  [
+                    0.965926,
+                    -0.12941,
+                    0.224144
+                  ]
+                ]
+              },
+              "off_nadir_degrees": 30,
+              "view_azimuth_degrees": 180
+            },
+            "_selection_status": "NO in-range candidate; closest size"
+          },
+          "sensitivity_best_soft_penalty": {
+            "family": "wing_flooding_model",
+            "candidate_id": "right-wing-flaperon-absent__root_leading_first__absent__draw1__flood0.95__off15__az270",
+            "source_subtype": "right-wing-flaperon-absent:root_leading_first:absent",
+            "source_label": "right-wing-flaperon-absent",
+            "silhouette_iou_true_colour": 0.5764,
+            "silhouette_iou_pca": 0.5769,
+            "silhouette_iou_mean": 0.5766,
+            "dimensions_in_p10_p90_range": false,
+            "dimension_range_penalty": 0.2414,
+            "loss_lower_is_better": 0.4716,
+            "visible_area_m2": 23,
+            "visible_length_m": 7.56,
+            "visible_width_m": 5.11,
+            "metadata": {
+              "source_subtype": "right-wing-flaperon-absent:root_leading_first:absent",
+              "source_label": "right-wing-flaperon-absent",
+              "wing_variant": "right-wing-flaperon-absent",
+              "flooding_hypothesis": "root_leading_first",
+              "engine_state": "absent",
+              "draw_index": 1,
+              "flood_progress": 0.95,
+              "pose": {
+                "afloat": true,
+                "reserve_buoyancy_kg": 2573.53,
+                "roll_degrees": 71,
+                "pitch_degrees": -10,
+                "heave_m": -7.087,
+                "equivalent_tilt_from_face_on_degrees": 71.3,
+                "root_to_tip_height_difference_m": 24.318,
+                "leading_to_trailing_height_difference_m": 2.425,
+                "interpretation": {
+                  "span": "root lower than tip",
+                  "chord": "leading edge lower than trailing edge"
+                },
+                "centre_of_buoyancy": {
+                  "x": 0.696,
+                  "y": -1.8447,
+                  "z": -12.4095
+                },
+                "centre_of_mass_world": {
+                  "x": 0.6827,
+                  "y": -1.8487,
+                  "z": -12.7046
+                },
+                "horizontal_force_line_residual_m": 0.0139,
+                "locally_stable_grid_check": true,
+                "matrix": [
+                  [
+                    0.984808,
+                    -0.164188,
+                    -0.056534
+                  ],
+                  [
+                    0,
+                    0.325568,
+                    -0.945519
+                  ],
+                  [
+                    0.173648,
+                    0.931154,
+                    0.320622
+                  ]
+                ]
+              },
+              "off_nadir_degrees": 15,
+              "view_azimuth_degrees": 270
+            }
+          }
+        },
+        "wing_random_pose": {
+          "label": "777 wing — random pose",
+          "candidate_count": 3372,
+          "strict_size_candidate_count": 31,
+          "strict_size_candidate_fraction": 0.009193,
+          "strict_loss_p05": 0.3716,
+          "strict_loss_p50": 0.419,
+          "strict_loss_p95": 0.4909,
+          "primary_best_strict_size": {
+            "family": "wing_random_pose",
+            "candidate_id": "random_pose__02550",
+            "source_subtype": "right-wing-flaperon-absent",
+            "source_label": "right-wing-flaperon-absent",
+            "silhouette_iou_true_colour": 0.6651,
+            "silhouette_iou_pca": 0.6141,
+            "silhouette_iou_mean": 0.6396,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.3604,
+            "visible_area_m2": 54.25,
+            "visible_length_m": 12.58,
+            "visible_width_m": 6.99,
+            "metadata": {
+              "source_subtype": "right-wing-flaperon-absent",
+              "source_label": "right-wing-flaperon-absent",
+              "wing_variant": "right-wing-flaperon-absent",
+              "draw_index": 2,
+              "pose": {
+                "afloat": true,
+                "pose_source": "random_orientation_and_immersion_not_hydrostatic",
+                "roll_degrees": -95.64,
+                "pitch_degrees": 33.9,
+                "heave_m": 15.409,
+                "target_visible_fraction": 1,
+                "equivalent_tilt_from_face_on_degrees": 85.32,
+                "root_to_tip_height_difference_m": -26.341,
+                "leading_to_trailing_height_difference_m": -5.122,
+                "interpretation": {
+                  "span": "tip lower than root",
+                  "chord": "trailing edge lower than leading edge"
+                },
+                "matrix": [
+                  [
+                    0.83,
+                    -0.555063,
+                    -0.054825
+                  ],
+                  [
+                    0,
+                    -0.098294,
+                    0.995157
+                  ],
+                  [
+                    -0.557764,
+                    -0.82598,
+                    -0.081584
+                  ]
+                ]
+              },
+              "off_nadir_degrees": 6.39,
+              "view_azimuth_degrees": 337.24
+            },
+            "_selection_status": "eligible minimum"
+          },
+          "closest_size_fallback_for_display_only": null,
+          "sensitivity_best_soft_penalty": {
+            "family": "wing_random_pose",
+            "candidate_id": "random_pose__02550",
+            "source_subtype": "right-wing-flaperon-absent",
+            "source_label": "right-wing-flaperon-absent",
+            "silhouette_iou_true_colour": 0.6651,
+            "silhouette_iou_pca": 0.6141,
+            "silhouette_iou_mean": 0.6396,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.3604,
+            "visible_area_m2": 54.25,
+            "visible_length_m": 12.58,
+            "visible_width_m": 6.99,
+            "metadata": {
+              "source_subtype": "right-wing-flaperon-absent",
+              "source_label": "right-wing-flaperon-absent",
+              "wing_variant": "right-wing-flaperon-absent",
+              "draw_index": 2,
+              "pose": {
+                "afloat": true,
+                "pose_source": "random_orientation_and_immersion_not_hydrostatic",
+                "roll_degrees": -95.64,
+                "pitch_degrees": 33.9,
+                "heave_m": 15.409,
+                "target_visible_fraction": 1,
+                "equivalent_tilt_from_face_on_degrees": 85.32,
+                "root_to_tip_height_difference_m": -26.341,
+                "leading_to_trailing_height_difference_m": -5.122,
+                "interpretation": {
+                  "span": "tip lower than root",
+                  "chord": "trailing edge lower than leading edge"
+                },
+                "matrix": [
+                  [
+                    0.83,
+                    -0.555063,
+                    -0.054825
+                  ],
+                  [
+                    0,
+                    -0.098294,
+                    0.995157
+                  ],
+                  [
+                    -0.557764,
+                    -0.82598,
+                    -0.081584
+                  ]
+                ]
+              },
+              "off_nadir_degrees": 6.39,
+              "view_azimuth_degrees": 337.24
+            },
+            "_selection_status": "eligible minimum"
+          }
+        },
+        "nonwing_777_parts": {
+          "label": "other 777 parts — random pose",
+          "candidate_count": 3372,
+          "strict_size_candidate_count": 25,
+          "strict_size_candidate_fraction": 0.007414,
+          "strict_loss_p05": 0.4266,
+          "strict_loss_p50": 0.4647,
+          "strict_loss_p95": 0.5299,
+          "primary_best_strict_size": {
+            "family": "nonwing_777_parts",
+            "candidate_id": "vertical-tail-outer-surface__00162",
+            "source_subtype": "vertical-tail-outer-surface",
+            "source_label": "Vertical tail outer surface",
+            "silhouette_iou_true_colour": 0.6201,
+            "silhouette_iou_pca": 0.5514,
+            "silhouette_iou_mean": 0.5858,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.4142,
+            "visible_area_m2": 40.75,
+            "visible_length_m": 10.94,
+            "visible_width_m": 7.11,
+            "metadata": {
+              "source_subtype": "vertical-tail-outer-surface",
+              "source_label": "Vertical tail outer surface",
+              "simulation_parameters": {
+                "regime": "linear-waterline",
+                "target_visible_fraction": 0.996769969863817,
+                "foreshortening_factor": 0.6752856528153643,
+                "foreshortening_axis_radians": 2.3062820089428713,
+                "rotation_radians": 2.31520148337764,
+                "offset_x_pixels": -0.046808463521301746,
+                "offset_y_pixels": 0.08928744657896459,
+                "waterline_angle_radians": 2.254087931398611,
+                "blur_sigma_pixels": 0.5034645094536245,
+                "noise_sigma": 0.028446589009836314,
+                "contrast": 0.35033040141686794,
+                "polarity": -1
+              },
+              "achieved_visible_fraction": 0.9968
+            },
+            "_selection_status": "eligible minimum"
+          },
+          "closest_size_fallback_for_display_only": null,
+          "sensitivity_best_soft_penalty": {
+            "family": "nonwing_777_parts",
+            "candidate_id": "vertical-tail-outer-surface__00248",
+            "source_subtype": "vertical-tail-outer-surface",
+            "source_label": "Vertical tail outer surface",
+            "silhouette_iou_true_colour": 0.6291,
+            "silhouette_iou_pca": 0.5963,
+            "silhouette_iou_mean": 0.6127,
+            "dimensions_in_p10_p90_range": false,
+            "dimension_range_penalty": 0.0599,
+            "loss_lower_is_better": 0.3993,
+            "visible_area_m2": 35.75,
+            "visible_length_m": 11.08,
+            "visible_width_m": 5.76,
+            "metadata": {
+              "source_subtype": "vertical-tail-outer-surface",
+              "source_label": "Vertical tail outer surface",
+              "simulation_parameters": {
+                "regime": "linear-waterline",
+                "target_visible_fraction": 0.9470102879800834,
+                "foreshortening_factor": 0.6076750602107495,
+                "foreshortening_axis_radians": 2.924138764676766,
+                "rotation_radians": 1.8526313305369186,
+                "offset_x_pixels": -0.20889187650755048,
+                "offset_y_pixels": 0.23851137002930045,
+                "waterline_angle_radians": 1.0412849254224776,
+                "blur_sigma_pixels": 1.5362994977273046,
+                "noise_sigma": 0.07128287652041762,
+                "contrast": 0.5328312678681686,
+                "polarity": 1
+              },
+              "achieved_visible_fraction": 0.947
+            }
+          }
+        },
+        "matched_random_geometry": {
+          "label": "matched random geometry",
+          "candidate_count": 3372,
+          "strict_size_candidate_count": 34,
+          "strict_size_candidate_fraction": 0.010083,
+          "strict_loss_p05": 0.4093,
+          "strict_loss_p50": 0.4612,
+          "strict_loss_p95": 0.4924,
+          "primary_best_strict_size": {
+            "family": "matched_random_geometry",
+            "candidate_id": "matched_random_geometry__03064",
+            "source_subtype": "matched_random_geometry",
+            "source_label": "matched random geometry",
+            "silhouette_iou_true_colour": 0.5984,
+            "silhouette_iou_pca": 0.6008,
+            "silhouette_iou_mean": 0.5996,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.4004,
+            "visible_area_m2": 55.5,
+            "visible_length_m": 11.69,
+            "visible_width_m": 7.29,
+            "metadata": {
+              "source_subtype": "matched_random_geometry",
+              "source_label": "matched random geometry",
+              "generator_parameters": {
+                "length_m": 13.5332,
+                "width_m": 9.8823,
+                "vertices": 7,
+                "rotation_degrees": 40.7949,
+                "foreshortening_factor": 0.773,
+                "target_visible_fraction": 0.8863
+              },
+              "generator_attempt_index": 3064
+            },
+            "_selection_status": "eligible minimum"
+          },
+          "closest_size_fallback_for_display_only": null,
+          "sensitivity_best_soft_penalty": {
+            "family": "matched_random_geometry",
+            "candidate_id": "matched_random_geometry__02693",
+            "source_subtype": "matched_random_geometry",
+            "source_label": "matched random geometry",
+            "silhouette_iou_true_colour": 0.6351,
+            "silhouette_iou_pca": 0.582,
+            "silhouette_iou_mean": 0.6086,
+            "dimensions_in_p10_p90_range": false,
+            "dimension_range_penalty": 0.0219,
+            "loss_lower_is_better": 0.3958,
+            "visible_area_m2": 48.25,
+            "visible_length_m": 11.59,
+            "visible_width_m": 6.46,
+            "metadata": {
+              "source_subtype": "matched_random_geometry",
+              "source_label": "matched random geometry",
+              "generator_parameters": {
+                "length_m": 13.8643,
+                "width_m": 7.5879,
+                "vertices": 10,
+                "rotation_degrees": 155.0582,
+                "foreshortening_factor": 0.723,
+                "target_visible_fraction": 0.8985
+              },
+              "generator_attempt_index": 2693
+            }
+          }
+        },
+        "ocean_object_combined": {
+          "label": "generic ocean-object controls",
+          "candidate_count": 3372,
+          "strict_size_candidate_count": 13,
+          "strict_size_candidate_fraction": 0.003855,
+          "strict_loss_p05": 0.426,
+          "strict_loss_p50": 0.4689,
+          "strict_loss_p95": 0.5111,
+          "primary_best_strict_size": {
+            "family": "ocean_object_combined",
+            "candidate_id": "fishing_net_or_rope__00239",
+            "source_subtype": "fishing_net_or_rope",
+            "source_label": "fishing net or rope",
+            "silhouette_iou_true_colour": 0.594,
+            "silhouette_iou_pca": 0.5662,
+            "silhouette_iou_mean": 0.5801,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.4199,
+            "visible_area_m2": 43.25,
+            "visible_length_m": 11.56,
+            "visible_width_m": 7.44,
+            "metadata": {
+              "source_subtype": "fishing_net_or_rope",
+              "source_label": "fishing net or rope",
+              "generator_parameters": {
+                "mode": "bundled",
+                "assumed_length_m": 12.7123,
+                "assumed_width_m": 8.5403,
+                "rotation_degrees": 89.0035,
+                "foreshortening_factor": 0.8763,
+                "target_visible_fraction": 0.6616
+              },
+              "generator_attempt_index": 239
+            },
+            "_selection_status": "eligible minimum"
+          },
+          "closest_size_fallback_for_display_only": null,
+          "sensitivity_best_soft_penalty": {
+            "family": "ocean_object_combined",
+            "candidate_id": "fishing_net_or_rope__00457",
+            "source_subtype": "fishing_net_or_rope",
+            "source_label": "fishing net or rope",
+            "silhouette_iou_true_colour": 0.6055,
+            "silhouette_iou_pca": 0.6044,
+            "silhouette_iou_mean": 0.605,
+            "dimensions_in_p10_p90_range": false,
+            "dimension_range_penalty": 0.0452,
+            "loss_lower_is_better": 0.4041,
+            "visible_area_m2": 40.5,
+            "visible_length_m": 10.31,
+            "visible_width_m": 6.19,
+            "metadata": {
+              "source_subtype": "fishing_net_or_rope",
+              "source_label": "fishing net or rope",
+              "generator_parameters": {
+                "mode": "bundled",
+                "assumed_length_m": 12.5802,
+                "assumed_width_m": 7.2137,
+                "rotation_degrees": 109.2202,
+                "foreshortening_factor": 0.8721,
+                "target_visible_fraction": 0.7968
+              },
+              "generator_attempt_index": 457
+            }
+          }
+        }
+      },
+      "primary_strict_size_ranking": [
+        {
+          "family": "wing_random_pose",
+          "loss": 0.3604
+        },
+        {
+          "family": "matched_random_geometry",
+          "loss": 0.4004
+        },
+        {
+          "family": "nonwing_777_parts",
+          "loss": 0.4142
+        },
+        {
+          "family": "ocean_object_combined",
+          "loss": 0.4199
+        }
+      ],
+      "primary_lowest_loss_family": "wing_random_pose",
+      "identity_status": "UNKNOWN"
+    },
+    "phr-4-object-27": {
+      "coordinates_source_status": "SOURCE_REPORTED; see D-0038 spatial analysis",
+      "object_geometry": {
+        "ga_area_m2_reported": 39,
+        "visible_area_m2_p10_p90": [
+          27.71,
+          56.01
+        ],
+        "visible_length_m_p10_p90": [
+          9.33,
+          11.82
+        ],
+        "visible_width_m_p10_p90": [
+          6.49,
+          8.91
+        ]
+      },
+      "families": {
+        "wing_flooding_model": {
+          "label": "777 wing — flooding model",
+          "candidate_count": 3372,
+          "strict_size_candidate_count": 0,
+          "strict_size_candidate_fraction": 0,
+          "strict_loss_p05": null,
+          "strict_loss_p50": null,
+          "strict_loss_p95": null,
+          "primary_best_strict_size": null,
+          "closest_size_fallback_for_display_only": {
+            "family": "wing_flooding_model",
+            "candidate_id": "right-wing-flaperon-absent__root_leading_first__absent__draw1__flood0.95__off30__az270",
+            "source_subtype": "right-wing-flaperon-absent:root_leading_first:absent",
+            "source_label": "right-wing-flaperon-absent",
+            "silhouette_iou_true_colour": 0.5868,
+            "silhouette_iou_pca": 0.6618,
+            "silhouette_iou_mean": 0.6243,
+            "dimensions_in_p10_p90_range": false,
+            "dimension_range_penalty": 0.1234,
+            "loss_lower_is_better": 0.4004,
+            "visible_area_m2": 27,
+            "visible_length_m": 8.56,
+            "visible_width_m": 5.01,
+            "metadata": {
+              "source_subtype": "right-wing-flaperon-absent:root_leading_first:absent",
+              "source_label": "right-wing-flaperon-absent",
+              "wing_variant": "right-wing-flaperon-absent",
+              "flooding_hypothesis": "root_leading_first",
+              "engine_state": "absent",
+              "draw_index": 1,
+              "flood_progress": 0.95,
+              "pose": {
+                "afloat": true,
+                "reserve_buoyancy_kg": 2573.53,
+                "roll_degrees": 71,
+                "pitch_degrees": -10,
+                "heave_m": -7.087,
+                "equivalent_tilt_from_face_on_degrees": 71.3,
+                "root_to_tip_height_difference_m": 24.318,
+                "leading_to_trailing_height_difference_m": 2.425,
+                "interpretation": {
+                  "span": "root lower than tip",
+                  "chord": "leading edge lower than trailing edge"
+                },
+                "centre_of_buoyancy": {
+                  "x": 0.696,
+                  "y": -1.8447,
+                  "z": -12.4095
+                },
+                "centre_of_mass_world": {
+                  "x": 0.6827,
+                  "y": -1.8487,
+                  "z": -12.7046
+                },
+                "horizontal_force_line_residual_m": 0.0139,
+                "locally_stable_grid_check": true,
+                "matrix": [
+                  [
+                    0.984808,
+                    -0.164188,
+                    -0.056534
+                  ],
+                  [
+                    0,
+                    0.325568,
+                    -0.945519
+                  ],
+                  [
+                    0.173648,
+                    0.931154,
+                    0.320622
+                  ]
+                ]
+              },
+              "off_nadir_degrees": 30,
+              "view_azimuth_degrees": 270
+            },
+            "_selection_status": "NO in-range candidate; closest size"
+          },
+          "sensitivity_best_soft_penalty": {
+            "family": "wing_flooding_model",
+            "candidate_id": "right-wing-flaperon-absent__root_trailing_first__attached__draw0__flood0.95__off30__az180",
+            "source_subtype": "right-wing-flaperon-absent:root_trailing_first:attached",
+            "source_label": "right-wing-flaperon-absent",
+            "silhouette_iou_true_colour": 0.6865,
+            "silhouette_iou_pca": 0.6475,
+            "silhouette_iou_mean": 0.667,
+            "dimensions_in_p10_p90_range": false,
+            "dimension_range_penalty": 0.1291,
+            "loss_lower_is_better": 0.3588,
+            "visible_area_m2": 27,
+            "visible_length_m": 8.87,
+            "visible_width_m": 4.76,
+            "metadata": {
+              "source_subtype": "right-wing-flaperon-absent:root_trailing_first:attached",
+              "source_label": "right-wing-flaperon-absent",
+              "wing_variant": "right-wing-flaperon-absent",
+              "flooding_hypothesis": "root_trailing_first",
+              "engine_state": "attached",
+              "draw_index": 0,
+              "flood_progress": 0.95,
+              "pose": {
+                "afloat": true,
+                "reserve_buoyancy_kg": 2995.73,
+                "roll_degrees": 50,
+                "pitch_degrees": -65,
+                "heave_m": -7.039,
+                "equivalent_tilt_from_face_on_degrees": 74.24,
+                "root_to_tip_height_difference_m": 18.448,
+                "leading_to_trailing_height_difference_m": 7.068,
+                "interpretation": {
+                  "span": "root lower than tip",
+                  "chord": "leading edge lower than trailing edge"
+                },
+                "centre_of_buoyancy": {
+                  "x": 3.5171,
+                  "y": -3.4506,
+                  "z": -9.2347
+                },
+                "centre_of_mass_world": {
+                  "x": 3.5624,
+                  "y": -3.4799,
+                  "z": -12.0807
+                },
+                "horizontal_force_line_residual_m": 0.054,
+                "locally_stable_grid_check": true,
+                "matrix": [
+                  [
+                    0.422618,
+                    -0.694272,
+                    -0.582563
+                  ],
+                  [
+                    0,
+                    0.642788,
+                    -0.766044
+                  ],
+                  [
+                    0.906308,
+                    0.323744,
+                    0.271654
+                  ]
+                ]
+              },
+              "off_nadir_degrees": 30,
+              "view_azimuth_degrees": 180
+            }
+          }
+        },
+        "wing_random_pose": {
+          "label": "777 wing — random pose",
+          "candidate_count": 3372,
+          "strict_size_candidate_count": 31,
+          "strict_size_candidate_fraction": 0.009193,
+          "strict_loss_p05": 0.3234,
+          "strict_loss_p50": 0.3701,
+          "strict_loss_p95": 0.4129,
+          "primary_best_strict_size": {
+            "family": "wing_random_pose",
+            "candidate_id": "random_pose__01297",
+            "source_subtype": "right-wing-flaperon-absent",
+            "source_label": "right-wing-flaperon-absent",
+            "silhouette_iou_true_colour": 0.6348,
+            "silhouette_iou_pca": 0.7273,
+            "silhouette_iou_mean": 0.681,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.319,
+            "visible_area_m2": 46.25,
+            "visible_length_m": 10.4,
+            "visible_width_m": 7.25,
+            "metadata": {
+              "source_subtype": "right-wing-flaperon-absent",
+              "source_label": "right-wing-flaperon-absent",
+              "wing_variant": "right-wing-flaperon-absent",
+              "draw_index": 0,
+              "pose": {
+                "afloat": true,
+                "pose_source": "random_orientation_and_immersion_not_hydrostatic",
+                "roll_degrees": -38.16,
+                "pitch_degrees": 46.73,
+                "heave_m": -6.354,
+                "target_visible_fraction": 0.2365,
+                "equivalent_tilt_from_face_on_degrees": 57.39,
+                "root_to_tip_height_difference_m": -18.729,
+                "leading_to_trailing_height_difference_m": -5.88,
+                "interpretation": {
+                  "span": "tip lower than root",
+                  "chord": "trailing edge lower than leading edge"
+                },
+                "matrix": [
+                  [
+                    0.685423,
+                    -0.449885,
+                    0.572538
+                  ],
+                  [
+                    0,
+                    0.786296,
+                    0.61785
+                  ],
+                  [
+                    -0.728145,
+                    -0.423489,
+                    0.538945
+                  ]
+                ]
+              },
+              "off_nadir_degrees": 1.42,
+              "view_azimuth_degrees": 186.82
+            },
+            "_selection_status": "eligible minimum"
+          },
+          "closest_size_fallback_for_display_only": null,
+          "sensitivity_best_soft_penalty": {
+            "family": "wing_random_pose",
+            "candidate_id": "random_pose__00366",
+            "source_subtype": "right-wing-flaperon-absent",
+            "source_label": "right-wing-flaperon-absent",
+            "silhouette_iou_true_colour": 0.6632,
+            "silhouette_iou_pca": 0.7166,
+            "silhouette_iou_mean": 0.6899,
+            "dimensions_in_p10_p90_range": false,
+            "dimension_range_penalty": 0.025,
+            "loss_lower_is_better": 0.3151,
+            "visible_area_m2": 48.5,
+            "visible_length_m": 11,
+            "visible_width_m": 6.02,
+            "metadata": {
+              "source_subtype": "right-wing-flaperon-absent",
+              "source_label": "right-wing-flaperon-absent",
+              "wing_variant": "right-wing-flaperon-absent",
+              "draw_index": 0,
+              "pose": {
+                "afloat": true,
+                "pose_source": "random_orientation_and_immersion_not_hydrostatic",
+                "roll_degrees": -62.65,
+                "pitch_degrees": 40.49,
+                "heave_m": -6.551,
+                "target_visible_fraction": 0.3632,
+                "equivalent_tilt_from_face_on_degrees": 69.55,
+                "root_to_tip_height_difference_m": -23.823,
+                "leading_to_trailing_height_difference_m": -5.61,
+                "interpretation": {
+                  "span": "tip lower than root",
+                  "chord": "trailing edge lower than leading edge"
+                },
+                "matrix": [
+                  [
+                    0.760522,
+                    -0.57671,
+                    0.29835
+                  ],
+                  [
+                    0,
+                    0.459486,
+                    0.888185
+                  ],
+                  [
+                    -0.649313,
+                    -0.675484,
+                    0.349449
+                  ]
+                ]
+              },
+              "off_nadir_degrees": 18.73,
+              "view_azimuth_degrees": 158.1
+            }
+          }
+        },
+        "nonwing_777_parts": {
+          "label": "other 777 parts — random pose",
+          "candidate_count": 3372,
+          "strict_size_candidate_count": 13,
+          "strict_size_candidate_fraction": 0.003855,
+          "strict_loss_p05": 0.3767,
+          "strict_loss_p50": 0.4243,
+          "strict_loss_p95": 0.4588,
+          "primary_best_strict_size": {
+            "family": "nonwing_777_parts",
+            "candidate_id": "vertical-tail-outer-surface__00370",
+            "source_subtype": "vertical-tail-outer-surface",
+            "source_label": "Vertical tail outer surface",
+            "silhouette_iou_true_colour": 0.662,
+            "silhouette_iou_pca": 0.5882,
+            "silhouette_iou_mean": 0.6251,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.3749,
+            "visible_area_m2": 39.25,
+            "visible_length_m": 11.08,
+            "visible_width_m": 7.73,
+            "metadata": {
+              "source_subtype": "vertical-tail-outer-surface",
+              "source_label": "Vertical tail outer surface",
+              "simulation_parameters": {
+                "regime": "full",
+                "target_visible_fraction": 1,
+                "foreshortening_factor": 0.6315546298632398,
+                "foreshortening_axis_radians": 2.3619028367678925,
+                "rotation_radians": 2.124261970117643,
+                "offset_x_pixels": -0.482085240771994,
+                "offset_y_pixels": -0.09734362736344337,
+                "waterline_angle_radians": 5.112278795983486,
+                "blur_sigma_pixels": 1.0400180608034133,
+                "noise_sigma": 0.05712973850313574,
+                "contrast": 0.4892968013836071,
+                "polarity": 1
+              },
+              "achieved_visible_fraction": 1
+            },
+            "_selection_status": "eligible minimum"
+          },
+          "closest_size_fallback_for_display_only": null,
+          "sensitivity_best_soft_penalty": {
+            "family": "nonwing_777_parts",
+            "candidate_id": "single-horizontal-stabilizer__00288",
+            "source_subtype": "single-horizontal-stabilizer",
+            "source_label": "Single horizontal stabilizer outer surface",
+            "silhouette_iou_true_colour": 0.6608,
+            "silhouette_iou_pca": 0.6697,
+            "silhouette_iou_mean": 0.6653,
+            "dimensions_in_p10_p90_range": false,
+            "dimension_range_penalty": 0.0604,
+            "loss_lower_is_better": 0.3468,
+            "visible_area_m2": 32.5,
+            "visible_length_m": 9.51,
+            "visible_width_m": 5.41,
+            "metadata": {
+              "source_subtype": "single-horizontal-stabilizer",
+              "source_label": "Single horizontal stabilizer outer surface",
+              "simulation_parameters": {
+                "regime": "linear-waterline",
+                "target_visible_fraction": 0.8235020775697194,
+                "foreshortening_factor": 0.8640958093572408,
+                "foreshortening_axis_radians": 3.0506420410860007,
+                "rotation_radians": 2.358756564455879,
+                "offset_x_pixels": 0.3828559850808233,
+                "offset_y_pixels": -0.019397136755287647,
+                "waterline_angle_radians": 5.940138215148387,
+                "blur_sigma_pixels": 1.3697290998883545,
+                "noise_sigma": 0.01975994979031384,
+                "contrast": 0.18205165066290646,
+                "polarity": 1
+              },
+              "achieved_visible_fraction": 0.8235
+            }
+          }
+        },
+        "matched_random_geometry": {
+          "label": "matched random geometry",
+          "candidate_count": 3372,
+          "strict_size_candidate_count": 44,
+          "strict_size_candidate_fraction": 0.013049,
+          "strict_loss_p05": 0.3371,
+          "strict_loss_p50": 0.3725,
+          "strict_loss_p95": 0.4067,
+          "primary_best_strict_size": {
+            "family": "matched_random_geometry",
+            "candidate_id": "matched_random_geometry__00497",
+            "source_subtype": "matched_random_geometry",
+            "source_label": "matched random geometry",
+            "silhouette_iou_true_colour": 0.6512,
+            "silhouette_iou_pca": 0.7199,
+            "silhouette_iou_mean": 0.6855,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.3145,
+            "visible_area_m2": 50.25,
+            "visible_length_m": 11.04,
+            "visible_width_m": 7.15,
+            "metadata": {
+              "source_subtype": "matched_random_geometry",
+              "source_label": "matched random geometry",
+              "generator_parameters": {
+                "length_m": 11.1153,
+                "width_m": 10.0267,
+                "vertices": 15,
+                "rotation_degrees": 317.118,
+                "foreshortening_factor": 0.7066,
+                "target_visible_fraction": 0.944
+              },
+              "generator_attempt_index": 497
+            },
+            "_selection_status": "eligible minimum"
+          },
+          "closest_size_fallback_for_display_only": null,
+          "sensitivity_best_soft_penalty": {
+            "family": "matched_random_geometry",
+            "candidate_id": "matched_random_geometry__00195",
+            "source_subtype": "matched_random_geometry",
+            "source_label": "matched random geometry",
+            "silhouette_iou_true_colour": 0.6353,
+            "silhouette_iou_pca": 0.7453,
+            "silhouette_iou_mean": 0.6903,
+            "dimensions_in_p10_p90_range": false,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.3097,
+            "visible_area_m2": 39.75,
+            "visible_length_m": 9.33,
+            "visible_width_m": 6.5,
+            "metadata": {
+              "source_subtype": "matched_random_geometry",
+              "source_label": "matched random geometry",
+              "generator_parameters": {
+                "length_m": 9.6753,
+                "width_m": 6.6935,
+                "vertices": 9,
+                "rotation_degrees": 279.2107,
+                "foreshortening_factor": 0.9408,
+                "target_visible_fraction": 1
+              },
+              "generator_attempt_index": 195
+            }
+          }
+        },
+        "ocean_object_combined": {
+          "label": "generic ocean-object controls",
+          "candidate_count": 3372,
+          "strict_size_candidate_count": 15,
+          "strict_size_candidate_fraction": 0.004448,
+          "strict_loss_p05": 0.3403,
+          "strict_loss_p50": 0.3784,
+          "strict_loss_p95": 0.4193,
+          "primary_best_strict_size": {
+            "family": "ocean_object_combined",
+            "candidate_id": "fishing_net_or_rope__00149",
+            "source_subtype": "fishing_net_or_rope",
+            "source_label": "fishing net or rope",
+            "silhouette_iou_true_colour": 0.6173,
+            "silhouette_iou_pca": 0.7192,
+            "silhouette_iou_mean": 0.6683,
+            "dimensions_in_p10_p90_range": true,
+            "dimension_range_penalty": 0,
+            "loss_lower_is_better": 0.3317,
+            "visible_area_m2": 43.25,
+            "visible_length_m": 10,
+            "visible_width_m": 7.13,
+            "metadata": {
+              "source_subtype": "fishing_net_or_rope",
+              "source_label": "fishing net or rope",
+              "generator_parameters": {
+                "mode": "bundled",
+                "assumed_length_m": 11.524,
+                "assumed_width_m": 8.4416,
+                "rotation_degrees": 107.5223,
+                "foreshortening_factor": 0.9708,
+                "target_visible_fraction": 0.6137
+              },
+              "generator_attempt_index": 149
+            },
+            "_selection_status": "eligible minimum"
+          },
+          "closest_size_fallback_for_display_only": null,
+          "sensitivity_best_soft_penalty": {
+            "family": "ocean_object_combined",
+            "candidate_id": "fishing_net_or_rope__00396",
+            "source_subtype": "fishing_net_or_rope",
+            "source_label": "fishing net or rope",
+            "silhouette_iou_true_colour": 0.6346,
+            "silhouette_iou_pca": 0.7306,
+            "silhouette_iou_mean": 0.6826,
+            "dimensions_in_p10_p90_range": false,
+            "dimension_range_penalty": 0.0153,
+            "loss_lower_is_better": 0.3204,
+            "visible_area_m2": 41.5,
+            "visible_length_m": 9.86,
+            "visible_width_m": 6.2,
+            "metadata": {
+              "source_subtype": "fishing_net_or_rope",
+              "source_label": "fishing net or rope",
+              "generator_parameters": {
+                "mode": "bundled",
+                "assumed_length_m": 9.098,
+                "assumed_width_m": 8.3215,
+                "rotation_degrees": 229.2333,
+                "foreshortening_factor": 0.7067,
+                "target_visible_fraction": 0.936
+              },
+              "generator_attempt_index": 396
+            }
+          }
+        }
+      },
+      "primary_strict_size_ranking": [
+        {
+          "family": "matched_random_geometry",
+          "loss": 0.3145
+        },
+        {
+          "family": "wing_random_pose",
+          "loss": 0.319
+        },
+        {
+          "family": "ocean_object_combined",
+          "loss": 0.3317
+        },
+        {
+          "family": "nonwing_777_parts",
+          "loss": 0.3749
+        }
+      ],
+      "primary_lowest_loss_family": "matched_random_geometry",
+      "identity_status": "UNKNOWN"
+    }
+  }
+}

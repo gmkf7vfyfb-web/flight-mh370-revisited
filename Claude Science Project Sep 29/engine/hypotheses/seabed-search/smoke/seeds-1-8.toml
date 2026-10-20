@@ -1,0 +1,5 @@
+# Eight smoke-scale replicates instead of config/smoke.toml's two, so that the split-half agreement
+# of this module's reported quantities is measured on four replicates against four rather than one
+# against one. Smoke scale throughout: this is a convergence measurement of the module's own numbers,
+# never an evidential run. Pass after config/smoke.toml.
+seeds = [1, 2, 3, 4, 5, 6, 7, 8]

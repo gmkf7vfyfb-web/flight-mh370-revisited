@@ -1,0 +1,39 @@
+{
+  "command": [
+    "/tmp/mh370-command-sampler/sampler.py",
+    "--output",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/forward-backward-analysis/four-direction/seed-37091121",
+    "--counts",
+    "4",
+    "2",
+    "2",
+    "--particles",
+    "1024",
+    "--seed",
+    "37091121",
+    "--moves",
+    "1",
+    "--seconds",
+    "900",
+    "--workers",
+    "4",
+    "--no-fuel-condition",
+    "--forward-backward",
+    "--proposal",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/forward-backward-analysis/four-direction-guides/proposal.npz"
+  ],
+  "seed": 37091121,
+  "particles": 1024,
+  "status": "unvalidated conditional sampling experiment",
+  "input_sha256": {
+    "/tmp/mh370-command-sampler/sampler.py": "072b881bc9d25bd6e5a99acc3d69986b57086a7e68d2980dd02135f512d0ba2b",
+    "/jackbox/home/MH370/configs/mh370-broad-powered-flight-diagnostic.toml": "1d404bceb70d70825a770e3c80aa3638a4bd103e287b0898022ce2cfd4766a2e",
+    "/jackbox/home/MH370/target/release/mh370": "88bdba22947b50a88d4cd5d1608c98c617654412c220ce1cd05a1a07d0be73eb",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/forward-backward-analysis/four-direction-guides/proposal.npz": "a1c6abead5891bb07b1545654f546183c571665914ceaef245d32b98957613c5",
+    "/jackbox/home/MH370/configs/../inputs/accident/satcom-through-0011.csv": "0ed8bed1798861536aa659e7fdf5cd8f43ccbe160cdf3c61fb7479b7e0fbb799",
+    "/jackbox/home/MH370/configs/../inputs/accident/satellite-through-0011.csv": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+    "/jackbox/home/MH370/configs/../inputs/environment/mh370-era5-grid.bin": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4",
+    "/jackbox/home/MH370/configs/../inputs/environment/mh370-igrf14-grid.bin": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1"
+  },
+  "numpy_version": "2.5.2"
+}

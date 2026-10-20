@@ -1,0 +1,18 @@
+{
+  "random_BFO_sigma_Hz": 0.9953793624482928,
+  "random_BFO_sigma_95_interval_Hz": [
+    0.8592052740619529,
+    1.1832498451030349
+  ],
+  "sigma_estimator": "pooled within-cluster successive differences, cluster difference means removed",
+  "bias_handling": "slow/intermittent bias excluded from the random-noise variance estimate; no bias variance added in quadrature in the 00:11 vertical-rate likelihood",
+  "n_airborne_augmentations": 1200000,
+  "n_terminal_continuations": 1800000,
+  "seed": 3700110,
+  "observation_cutoff": "2014-03-08T00:11:00Z",
+  "uses_0019_observations": false,
+  "drift_conditioning": "impact-state likelihood smoothed backward to the 00:11 ancestor through a marginalized terminal kernel",
+  "drift_model_average": "50% normalized Davey smooth digitization + 50% normalized 12-study meta-analysis latitude likelihood",
+  "proposal_limitation": "refined v3 particle checkpoint unavailable; the reported multimodal satellite/RF posterior is reconstructed from its published summary, so exact location/Mach/heading/gain/BFO-bias correlations are unavailable",
+  "source_data": "downloads_refined_bfo/MH370/mh370_bfo_short_interval_validation.csv"
+}

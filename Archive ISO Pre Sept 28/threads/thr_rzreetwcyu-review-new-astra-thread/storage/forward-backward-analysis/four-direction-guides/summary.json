@@ -1,0 +1,48 @@
+{
+  "status": "computational guide, not a probability estimate or physical prior",
+  "counts": [
+    4,
+    2,
+    2
+  ],
+  "late_exhaustion_condition": false,
+  "fits": 65,
+  "retained_guides": 61,
+  "mixture_centres": 32,
+  "retained_latitude_span_deg": [
+    -37.19592492348925,
+    -20.718458071789186
+  ],
+  "best_data_fit_cost": 0.8485118903848134,
+  "fit_evaluations": 21766,
+  "geometry_evaluations": 1376,
+  "elapsed_s": 41.39871194799889,
+  "input_sha256": {
+    "/tmp/mh370-command-sampler/build_flight_guides.py": "878bb402f971fe9d829e84f75869fe00af5ce5dc45fd09101319627699e721de",
+    "/tmp/mh370-command-sampler/sampler.py": "072b881bc9d25bd6e5a99acc3d69986b57086a7e68d2980dd02135f512d0ba2b",
+    "/jackbox/home/MH370/configs/mh370-broad-powered-flight-diagnostic.toml": "1d404bceb70d70825a770e3c80aa3638a4bd103e287b0898022ce2cfd4766a2e",
+    "/jackbox/home/MH370/target/release/mh370": "88bdba22947b50a88d4cd5d1608c98c617654412c220ce1cd05a1a07d0be73eb",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/flight-assumption-preanalysis/verified-witnesses.jsonl": "86a3f1c8330983092eeff3ddff39251ed49de72b52bd74dcde1f27962a160493",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/cruise-exploration/verified-witnesses.jsonl": "669fc5d2f96c1b797a1e417c2d0edc903d0b4d42bf7341c6bfd4a62cce8b1b00"
+  },
+  "command": [
+    "/tmp/mh370-command-sampler/build_flight_guides.py",
+    "--output",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/forward-backward-analysis/four-direction-guides",
+    "--config",
+    "/jackbox/home/MH370/configs/mh370-broad-powered-flight-diagnostic.toml",
+    "--counts",
+    "4",
+    "2",
+    "2",
+    "--workers",
+    "4",
+    "--seconds",
+    "120",
+    "--calls-per-fit",
+    "1000",
+    "--witnesses",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/flight-assumption-preanalysis/verified-witnesses.jsonl",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/cruise-exploration/verified-witnesses.jsonl"
+  ]
+}

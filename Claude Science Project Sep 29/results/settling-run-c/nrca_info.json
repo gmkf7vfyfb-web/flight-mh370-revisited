@@ -1,0 +1,186 @@
+{
+ "products": [
+  {
+   "wdir": "/Users/pete/Downloads/mh370-exchange/composer/next-run-c/row-weights/heldout+unpowered-G",
+   "manifest": {
+    "product": "heldout-G",
+    "label": "00:19 Held Out, G (flight + EoF + drift + hydro)",
+    "option": "none__other",
+    "constraint": "unpowered",
+    "run_root": "/Users/pete/Downloads/mh370-exchange/end-of-flight/next-run-c",
+    "strata": [
+     "next-c-free",
+     "next-c-repro-radar",
+     "next-c-descent-climb",
+     "next-c-routes"
+    ],
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8
+    ],
+    "stratum_weights": {
+     "next-c-free": 0.5895579647078131,
+     "next-c-repro-radar": 0.2511536911076737,
+     "next-c-descent-climb": 0.13547147007331786,
+     "next-c-routes": 0.023816874111195298
+    },
+    "note": "composer pass 1 (run C), architecture stand-in; run C NOT CONVERGED; values = W_Q(stratum) x pooled within-stratum weight"
+   },
+   "N": 40000,
+   "row_ess_kish": 4177705.85117305,
+   "distinct_impacts": 39980,
+   "nan_weight_rows": 0,
+   "impact_area90_km2_all_rows": 758216.0458958893,
+   "stratum_mass": {
+    "next-c-free": 0.589557964624467,
+    "next-c-repro-radar": 0.25115369117975733,
+    "next-c-descent-climb": 0.1354714700886271,
+    "next-c-routes": 0.023816874107148778
+   }
+  },
+  {
+   "wdir": "/Users/pete/Downloads/mh370-exchange/composer/next-run-c/row-weights/heldout+unpowered-Ga",
+   "manifest": {
+    "product": "heldout-Ga",
+    "label": "00:19 Held Out, G after searches",
+    "option": "none__other",
+    "constraint": "unpowered",
+    "run_root": "/Users/pete/Downloads/mh370-exchange/end-of-flight/next-run-c",
+    "strata": [
+     "next-c-free",
+     "next-c-repro-radar",
+     "next-c-descent-climb",
+     "next-c-routes"
+    ],
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8
+    ],
+    "stratum_weights": {
+     "next-c-free": 0.5895579647078131,
+     "next-c-repro-radar": 0.2511536911076737,
+     "next-c-descent-climb": 0.13547147007331786,
+     "next-c-routes": 0.023816874111195298
+    },
+    "note": "composer pass 1 (run C), architecture stand-in; run C NOT CONVERGED; values = W_Q(stratum) x pooled within-stratum weight"
+   },
+   "N": 40000,
+   "row_ess_kish": 2842924.7199562043,
+   "distinct_impacts": 39965,
+   "nan_weight_rows": 0,
+   "impact_area90_km2_all_rows": 833475.4953664846,
+   "stratum_mass": {
+    "next-c-free": 0.589557964739073,
+    "next-c-repro-radar": 0.25115369107417346,
+    "next-c-descent-climb": 0.13547147009198585,
+    "next-c-routes": 0.023816874094767838
+   }
+  },
+  {
+   "wdir": "/Users/pete/Downloads/mh370-exchange/composer/next-run-c/row-weights/r600-bto+unpowered-G",
+   "manifest": {
+    "product": "r600-bto-G",
+    "label": "00:19 R600 BTO Only, G (flight + EoF + drift + hydro)",
+    "option": "r600-bto__other",
+    "constraint": "unpowered",
+    "run_root": "/Users/pete/Downloads/mh370-exchange/end-of-flight/next-run-c",
+    "strata": [
+     "next-c-free",
+     "next-c-repro-radar",
+     "next-c-descent-climb",
+     "next-c-routes"
+    ],
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8
+    ],
+    "stratum_weights": {
+     "next-c-free": 0.590208143131514,
+     "next-c-repro-radar": 0.238291472238057,
+     "next-c-descent-climb": 0.14495098053005892,
+     "next-c-routes": 0.02654940410037009
+    },
+    "note": "composer pass 1 (run C), architecture stand-in; run C NOT CONVERGED; values = W_Q(stratum) x pooled within-stratum weight"
+   },
+   "N": 40000,
+   "row_ess_kish": 2934215.41282262,
+   "distinct_impacts": 39959,
+   "nan_weight_rows": 0,
+   "impact_area90_km2_all_rows": 468090.242267282,
+   "stratum_mass": {
+    "next-c-free": 0.5902081431418122,
+    "next-c-repro-radar": 0.2382914722335191,
+    "next-c-descent-climb": 0.14495098052423414,
+    "next-c-routes": 0.026549404100434205
+   }
+  },
+  {
+   "wdir": "/Users/pete/Downloads/mh370-exchange/composer/next-run-c/row-weights/r600-bto+unpowered-Ga",
+   "manifest": {
+    "product": "r600-bto-Ga",
+    "label": "00:19 R600 BTO Only, G after searches",
+    "option": "r600-bto__other",
+    "constraint": "unpowered",
+    "run_root": "/Users/pete/Downloads/mh370-exchange/end-of-flight/next-run-c",
+    "strata": [
+     "next-c-free",
+     "next-c-repro-radar",
+     "next-c-descent-climb",
+     "next-c-routes"
+    ],
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8
+    ],
+    "stratum_weights": {
+     "next-c-free": 0.590208143131514,
+     "next-c-repro-radar": 0.238291472238057,
+     "next-c-descent-climb": 0.14495098053005892,
+     "next-c-routes": 0.02654940410037009
+    },
+    "note": "composer pass 1 (run C), architecture stand-in; run C NOT CONVERGED; values = W_Q(stratum) x pooled within-stratum weight"
+   },
+   "N": 40000,
+   "row_ess_kish": 2019806.7436085653,
+   "distinct_impacts": 39925,
+   "nan_weight_rows": 0,
+   "impact_area90_km2_all_rows": 502324.35597100365,
+   "stratum_mass": {
+    "next-c-free": 0.5902081431425265,
+    "next-c-repro-radar": 0.2382914722238986,
+    "next-c-descent-climb": 0.14495098053252536,
+    "next-c-routes": 0.026549404101049556
+   }
+  }
+ ],
+ "extent_lon_lon_lat_lat": [
+  78.0,
+  112.0,
+  -46.0,
+  -1.0
+ ]
+}

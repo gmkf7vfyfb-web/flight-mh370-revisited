@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "name": "ncep-ncar-r1-10m-wind-20140308-23",
+  "binary_file": "ncep-ncar-r1-10m-wind-20140308-23.f32le",
+  "byte_order": "little_endian",
+  "scalar_type": "float32",
+  "value_count": 8704,
+  "sha256": "24befd3f3076f1ce82959f63bb01f673295f6959bda38d807879a67e183780b8",
+  "source_family": "NCEP-NCAR Reanalysis 1",
+  "source_urls": [
+    "https://psl.noaa.gov/thredds/dodsC/Datasets/ncep.reanalysis.dailyavgs/surface_gauss/uwnd.10m.gauss.2014.nc",
+    "https://psl.noaa.gov/thredds/dodsC/Datasets/ncep.reanalysis.dailyavgs/surface_gauss/vwnd.10m.gauss.2014.nc"
+  ],
+  "variable_order": [
+    "u_east_m_s",
+    "v_north_m_s"
+  ],
+  "dimension_order": [
+    "time",
+    "latitude",
+    "longitude",
+    "component"
+  ],
+  "shape": [
+    16,
+    17,
+    16,
+    2
+  ],
+  "time": {
+    "start_center_utc": "2014-03-08T00:00:00Z",
+    "step_days": 1,
+    "count": 16
+  },
+  "latitude": {
+    "values_deg": [
+      -50.4752,
+      -48.5705,
+      -46.6658,
+      -44.7611,
+      -42.8564,
+      -40.9517,
+      -39.047,
+      -37.1422,
+      -35.2375,
+      -33.3328,
+      -31.4281,
+      -29.5234,
+      -27.6186,
+      -25.7139,
+      -23.8092,
+      -21.9044,
+      -19.9997
+    ],
+    "ascending": true
+  },
+  "longitude": {
+    "values_deg": [
+      78.75,
+      80.625,
+      82.5,
+      84.375,
+      86.25,
+      88.125,
+      90,
+      91.875,
+      93.75,
+      95.625,
+      97.5,
+      99.375,
+      101.25,
+      103.125,
+      105,
+      106.875
+    ],
+    "ascending": true
+  },
+  "height_m": 10,
+  "units": "m s-1",
+  "missing_vector_count": 0
+}

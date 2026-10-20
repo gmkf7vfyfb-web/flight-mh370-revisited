@@ -1,0 +1,65 @@
+{
+  "schema_id": "mh370-broad-snapshot-report-spec",
+  "schema_version": 1,
+  "title": "MH370 broad-flight uncertainty through 00:11 — numerical diagnostic",
+  "flight_label": "MH370",
+  "posterior_semantics": "filtering",
+  "probability_interpretation": "conditional_on_declared_model_not_calibrated_true_probability",
+  "declared_control_history_model": {
+    "repeated_events": true,
+    "initial_lateral_modes": [
+      "constant_true_heading",
+      "constant_magnetic_heading",
+      "constant_true_track",
+      "constant_magnetic_track",
+      "great_circle_track_continuation"
+    ],
+    "maneuver_rate_families": [
+      "log-tau-bin-0p1-to-0p316h",
+      "log-tau-bin-0p316-to-1h",
+      "log-tau-bin-1-to-3p16h",
+      "log-tau-bin-3p16-to-10h"
+    ],
+    "probability_status": "declared_not_empirically_calibrated"
+  },
+  "map_bounds": {
+    "latitude_min_deg": -90.0,
+    "latitude_max_deg": 90.0,
+    "longitude_min_deg": -180.0,
+    "longitude_max_deg": 180.0,
+    "cell_size_deg": 0.5,
+    "smoothing_sigma_cells": 1.0
+  },
+  "families": [
+    {
+      "id": "bto-only",
+      "label": "BTO only",
+      "color": "#0072B2",
+      "sources": [
+        {"seed": 370023, "snapshot_index": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-only/seed-370023/observation-snapshots/index.json", "summary": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-only/seed-370023/summary.json"},
+        {"seed": 370024, "snapshot_index": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-only/seed-370024/observation-snapshots/index.json", "summary": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-only/seed-370024/summary.json"},
+        {"seed": 370025, "snapshot_index": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-only/seed-370025/observation-snapshots/index.json", "summary": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-only/seed-370025/summary.json"},
+        {"seed": 370026, "snapshot_index": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-only/seed-370026/observation-snapshots/index.json", "summary": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-only/seed-370026/summary.json"},
+        {"seed": 370027, "snapshot_index": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-only/seed-370027/observation-snapshots/index.json", "summary": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-only/seed-370027/summary.json"},
+        {"seed": 370028, "snapshot_index": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-only/seed-370028/observation-snapshots/index.json", "summary": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-only/seed-370028/summary.json"},
+        {"seed": 370029, "snapshot_index": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-only/seed-370029/observation-snapshots/index.json", "summary": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-only/seed-370029/summary.json"},
+        {"seed": 370030, "snapshot_index": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-only/seed-370030/observation-snapshots/index.json", "summary": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-only/seed-370030/summary.json"}
+      ]
+    },
+    {
+      "id": "bto-bfo-published-error",
+      "label": "BTO + BFO (7 Hz)",
+      "color": "#D55E00",
+      "sources": [
+        {"seed": 370023, "snapshot_index": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-bfo-published-error/seed-370023/observation-snapshots/index.json", "summary": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-bfo-published-error/seed-370023/summary.json"},
+        {"seed": 370024, "snapshot_index": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-bfo-published-error/seed-370024/observation-snapshots/index.json", "summary": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-bfo-published-error/seed-370024/summary.json"},
+        {"seed": 370025, "snapshot_index": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-bfo-published-error/seed-370025/observation-snapshots/index.json", "summary": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-bfo-published-error/seed-370025/summary.json"},
+        {"seed": 370026, "snapshot_index": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-bfo-published-error/seed-370026/observation-snapshots/index.json", "summary": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-bfo-published-error/seed-370026/summary.json"},
+        {"seed": 370027, "snapshot_index": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-bfo-published-error/seed-370027/observation-snapshots/index.json", "summary": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-bfo-published-error/seed-370027/summary.json"},
+        {"seed": 370028, "snapshot_index": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-bfo-published-error/seed-370028/observation-snapshots/index.json", "summary": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-bfo-published-error/seed-370028/summary.json"},
+        {"seed": 370029, "snapshot_index": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-bfo-published-error/seed-370029/observation-snapshots/index.json", "summary": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-bfo-published-error/seed-370029/summary.json"},
+        {"seed": 370030, "snapshot_index": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-bfo-published-error/seed-370030/observation-snapshots/index.json", "summary": "../runs/mh370/broad-flight-uncertainty-diagnostic/bto-bfo-published-error/seed-370030/summary.json"}
+      ]
+    }
+  ]
+}

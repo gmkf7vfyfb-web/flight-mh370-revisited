@@ -1,0 +1,9 @@
+Blocked before retrieval by the host execution sandbox. Even `/bin/true` fails with:
+
+```text
+bwrap: No permissions to create a new namespace, likely because the kernel does not allow non-privileged user namespaces.
+```
+
+Therefore ARCO/Modal was never reached, and no extraction, hashing, validation, or browser report could be performed. No files or existing MH370/MH371 artifacts were changed.
+
+The environment needs its sandbox executor repaired or unprivileged user namespaces enabled before this work can continue.

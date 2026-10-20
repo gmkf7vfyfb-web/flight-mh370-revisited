@@ -1,0 +1,18 @@
+# PARKED: the base estimate plus the received power of the five hourly R1200 log-on
+# acknowledgements, no-precompensation endpoint. For code-path checks only (make smoke
+# H=antenna-gain); never run at full scale or quote it until the core provides what
+# hypothesis.toml lists. The other endpoint is precompensation = "full".
+base = "../../config/davey2016.toml"
+name = "antenna-gain"
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[hypotheses.antenna-gain]
+epochs = ["m1941", "m2041", "m2141", "m2241", "m0011"]
+precompensation = "none"
+sd_db = 1.72
+offset_db = 0.0
+pitch_deg = 0.0
+ephemeris = "data/satellite-ephemeris.csv"

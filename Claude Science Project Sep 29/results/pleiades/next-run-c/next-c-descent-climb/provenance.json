@@ -1,0 +1,36 @@
+{
+ "impacts_root": "/Users/pete/Downloads/mh370-exchange/end-of-flight/next-run-c/next-c-descent-climb",
+ "options": [
+  "none+unpowered",
+  "r600-bto+unpowered",
+  "r600/no-offset+unpowered",
+  "none+silent",
+  "r600-bto+silent",
+  "r600/no-offset+silent",
+  "none+unpowered~v212",
+  "r600-bto+unpowered~v212",
+  "r600/no-offset+unpowered~v212",
+  "none+silent~v212",
+  "r600-bto+silent~v212",
+  "r600/no-offset+silent~v212"
+ ],
+ "seeds": [
+  "seed-1",
+  "seed-2",
+  "seed-3",
+  "seed-4",
+  "seed-5",
+  "seed-6",
+  "seed-7",
+  "seed-8"
+ ],
+ "labels": "run C (core 66d77b5, option C; EoF run C recipe); per-stratum only, mixture pending; wide grid; stratum next-c-descent-climb",
+ "variants": {
+  "base": "Phase 2 + Bluefin-21",
+  "oi2018-2025": "+ OI 2018 + OI 2025-26 SE band"
+ },
+ "models": [
+  "glorys12v1+era5-wind10",
+  "globcurrent-my-p1d+era5-wind10"
+ ]
+}

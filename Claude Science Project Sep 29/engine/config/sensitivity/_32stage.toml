@@ -1,0 +1,41 @@
+# temper_stages 32 instead of 16, six tempered epochs, SMOKE SCALE ONLY.
+# temper_stages is GLOBAL, so 32 doubles the work at every tempered epoch - roughly 1.7x the whole
+# run, ~18-21 h at full scale. This config exists to decide whether that is worth buying, and is
+# never evidence. The question: does 19:41 respond to gentler stepping at all? It is a FOLD in the
+# likelihood (a particle whose closest approach exceeds the observed range is excluded whatever its
+# timing), not a flat region, so the expectation is that it responds weakly. Worth the full run
+# only if 19:41 moves from ~5.6% to roughly 10-15% here.
+name = "cal-32stage"
+seeds = [1, 2]
+particles_per_mode = [200000, 200000, 200000, 200000, 200000]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[inputs]
+fuel_tables = "../../data/fuel-tables.json"
+
+[prior]
+track_sd_deg = 1.0
+
+[dynamics]
+mach_range = [0.73, 0.84]
+altitude_range_ft = [25000.0, 43000.0]
+bfo_vertical_rate = true
+
+[fuel]
+initial_kg = 36609.0
+zfw_kg = 174196.0
+factor_mean = 1.0085
+factor_sd = 0.0178
+require_power_until = "m0011"
+proposal = "endurance"
+proposal_prior_mix = 0.15
+proposal_cells = 16
+exhaustion_target_utc = "2014-03-08T00:17:30Z"
+exhaustion_sd_s = 300.0
+
+[sampler]
+temper_epochs = ["m1839", "m1941", "m2041", "m2141", "m2241", "m0011"]
+temper_stages = 32

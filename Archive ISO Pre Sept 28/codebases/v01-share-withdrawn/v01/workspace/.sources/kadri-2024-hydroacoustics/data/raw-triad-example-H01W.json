@@ -1,0 +1,18 @@
+{
+  "schema_id": "mh370-raw-hydrophone-triad",
+  "schema_version": 1,
+  "station_id": "H01W",
+  "station_position_wgs84": {"latitude_deg": -34.892, "longitude_deg_e": 114.141},
+  "start_time_utc": "2014-03-08T00:15:00Z",
+  "sample_rate_hz": 100.0,
+  "pressure_unit": "pascal",
+  "sample_file": "REPLACE_WITH_CALIBRATED_H01W_PASCAL_CSV_PATH",
+  "time_offset_column": "time_offset_s",
+  "channels": [
+    {"id": "H01W1", "input_column": "H01W1", "local_east_m": 0.0, "local_north_m": 0.0, "local_up_m": 0.0, "pascal_per_count": null},
+    {"id": "H01W2", "input_column": "H01W2", "local_east_m": 0.0, "local_north_m": 0.0, "local_up_m": 0.0, "pascal_per_count": null},
+    {"id": "H01W3", "input_column": "H01W3", "local_east_m": 0.0, "local_north_m": 0.0, "local_up_m": 0.0, "pascal_per_count": null}
+  ],
+  "instrument_response_id": "REPLACE_WITH_APPLIED_RESPONSE_FILE_SHA256_OR_CALIBRATION_ID",
+  "timing_correction_id": "REPLACE_WITH_TIMING_RECEIPT_SHA256_OR_ID"
+}

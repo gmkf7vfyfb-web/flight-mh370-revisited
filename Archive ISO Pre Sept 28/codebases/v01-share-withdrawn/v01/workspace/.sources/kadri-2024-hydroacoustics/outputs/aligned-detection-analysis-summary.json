@@ -1,0 +1,266 @@
+{
+  "status": "EXPLORATORY_PUBLICATION_TRACE_CONTROLS_NOT_EVENT_ASSOCIATIONS",
+  "h01w_surrogate_test": {
+    "null": "amplitude-adjusted Fourier surrogates preserving the panel amplitude distribution and approximately preserving its power spectrum",
+    "replicates": 1000,
+    "iterations": 30,
+    "panel_b_full_scan_thresholds": {
+      "null_max_q90": 4.357685141780403,
+      "null_max_q95": 4.519681527592985,
+      "null_max_q99": 5.004666101757462
+    },
+    "panel_c_full_scan_thresholds": {
+      "null_max_q90": 4.872558069738653,
+      "null_max_q95": 5.167795545347785,
+      "null_max_q99": 5.968247984003623
+    },
+    "panel_c_exploratory_window": {
+      "start_utc": "2014-03-08T00:47:00.000Z",
+      "end_utc": "2014-03-08T00:50:00.000Z",
+      "observed_max": 4.83350868983566,
+      "observed_max_utc": "2014-03-08T00:49:41.150Z",
+      "p_fixed_window_max": 0.03496503496503497,
+      "p_full_panel_max": 0.11488511488511488,
+      "null_window_q90": 4.42803051801226,
+      "null_window_q95": 4.755284053253503,
+      "null_window_q99": 5.365147481253975,
+      "selection_warning": "Window selected after visual inspection; fixed-window p is exploratory and the full-panel maximum is the safer scan control."
+    },
+    "spectral_error": {
+      "b": {
+        "median": 0.0003310476218209267,
+        "q95": 0.0003429182866286122
+      },
+      "c": {
+        "median": 0.00032023357577000314,
+        "q95": 0.0003300549148016612
+      }
+    }
+  },
+  "stronger_h08s_control": {
+    "rank_8_is_primary_held_out_control_selection": true,
+    "rank_20_is_sensitivity_only": true,
+    "mask_half_width_s": 1.0,
+    "score_exclusion_half_width_s": 3.0,
+    "filter_controls": [
+      {
+        "panel": "d",
+        "method": "low_rank_8_shift_0.30s",
+        "control_median_rms_removed_fraction": "0.0881564287",
+        "control_median_rms_retained_fraction": "0.911843571",
+        "observed_centre_mask_half_width_s": "1.000",
+        "publication_trace_fraction_masked": "0.20625",
+        "score_exclusion_half_width_s": "3.000",
+        "local_energy_score_fraction_excluded": "0.609583333",
+        "status": "PUBLICATION_TRACE_FILTER_CONTROL_NOT_EVENT_CLASSIFICATION"
+      },
+      {
+        "panel": "d",
+        "method": "low_rank_20_shift_0.30s",
+        "control_median_rms_removed_fraction": "0.2859218",
+        "control_median_rms_retained_fraction": "0.7140782",
+        "observed_centre_mask_half_width_s": "1.000",
+        "publication_trace_fraction_masked": "0.20625",
+        "score_exclusion_half_width_s": "3.000",
+        "local_energy_score_fraction_excluded": "0.609583333",
+        "status": "PUBLICATION_TRACE_FILTER_CONTROL_NOT_EVENT_CLASSIFICATION"
+      },
+      {
+        "panel": "e",
+        "method": "low_rank_8_shift_0.30s",
+        "control_median_rms_removed_fraction": "0.12094749",
+        "control_median_rms_retained_fraction": "0.87905251",
+        "observed_centre_mask_half_width_s": "1.000",
+        "publication_trace_fraction_masked": "0.20675",
+        "score_exclusion_half_width_s": "3.000",
+        "local_energy_score_fraction_excluded": "0.609083333",
+        "status": "PUBLICATION_TRACE_FILTER_CONTROL_NOT_EVENT_CLASSIFICATION"
+      },
+      {
+        "panel": "e",
+        "method": "low_rank_20_shift_0.30s",
+        "control_median_rms_removed_fraction": "0.264591961",
+        "control_median_rms_retained_fraction": "0.735408039",
+        "observed_centre_mask_half_width_s": "1.000",
+        "publication_trace_fraction_masked": "0.20675",
+        "score_exclusion_half_width_s": "3.000",
+        "local_energy_score_fraction_excluded": "0.609083333",
+        "status": "PUBLICATION_TRACE_FILTER_CONTROL_NOT_EVENT_CLASSIFICATION"
+      }
+    ],
+    "injection_controls": [
+      {
+        "panel": "d",
+        "method": "low_rank_8_shift_0.30s",
+        "injection_count": 40,
+        "injection_amplitude_pa": 0.35,
+        "injection_sigma_s": 0.35,
+        "amplitude_recovery_median": 0.9679862952221466,
+        "amplitude_recovery_q10": 0.6093871716319955,
+        "amplitude_recovery_min": 0.4024944874360841,
+        "waveform_correlation_median": 0.4862632204803825,
+        "waveform_correlation_q10": 0.31501727548536934,
+        "status": "SYNTHETIC_HELD_OUT_CYCLE_SENSITIVITY_NOT_RAW_RECEIVER_VALIDATION"
+      },
+      {
+        "panel": "d",
+        "method": "low_rank_20_shift_0.30s",
+        "injection_count": 40,
+        "injection_amplitude_pa": 0.35,
+        "injection_sigma_s": 0.35,
+        "amplitude_recovery_median": 0.847906765637862,
+        "amplitude_recovery_q10": 0.4717086015714303,
+        "amplitude_recovery_min": 0.29931776550953415,
+        "waveform_correlation_median": 0.44895969519127027,
+        "waveform_correlation_q10": 0.2900897384498122,
+        "status": "SYNTHETIC_HELD_OUT_CYCLE_SENSITIVITY_NOT_RAW_RECEIVER_VALIDATION"
+      },
+      {
+        "panel": "e",
+        "method": "low_rank_8_shift_0.30s",
+        "injection_count": 40,
+        "injection_amplitude_pa": 0.35,
+        "injection_sigma_s": 0.35,
+        "amplitude_recovery_median": 0.9424242833224137,
+        "amplitude_recovery_q10": 0.626501647878364,
+        "amplitude_recovery_min": -0.42866356750641527,
+        "waveform_correlation_median": 0.8927725274829111,
+        "waveform_correlation_q10": 0.2143015025094433,
+        "status": "SYNTHETIC_HELD_OUT_CYCLE_SENSITIVITY_NOT_RAW_RECEIVER_VALIDATION"
+      },
+      {
+        "panel": "e",
+        "method": "low_rank_20_shift_0.30s",
+        "injection_count": 40,
+        "injection_amplitude_pa": 0.35,
+        "injection_sigma_s": 0.35,
+        "amplitude_recovery_median": 0.7606928084924716,
+        "amplitude_recovery_q10": 0.050620304931828564,
+        "amplitude_recovery_min": -0.21798193779837044,
+        "waveform_correlation_median": 0.789531814378428,
+        "waveform_correlation_q10": 0.013855784725034308,
+        "status": "SYNTHETIC_HELD_OUT_CYCLE_SENSITIVITY_NOT_RAW_RECEIVER_VALIDATION"
+      }
+    ]
+  },
+  "source_time_alignment": {
+    "central_celerity_km_s": 1.5,
+    "celerity_range_km_s": [
+      1.43,
+      1.57
+    ],
+    "targets": [
+      {
+        "target_id": "integrated_pdf_mode",
+        "target_label": "Integrated PDF density mode",
+        "target_latitude_deg": "-37.3375",
+        "target_longitude_deg_e": "89.3125",
+        "target_status": "DERIVED_INDEPENDENT_SPATIAL_PDF_MODE",
+        "station": "H01W",
+        "distance_km": "2240.276209",
+        "travel_min_at_1p50": "24.891958",
+        "travel_min_at_1p57": "23.782125",
+        "travel_min_at_1p43": "26.110445",
+        "alignment_status": "CONDITIONAL_POINT_AND_CELERITY_TIME_SHIFT_NOT_EVENT_ASSOCIATION"
+      },
+      {
+        "target_id": "integrated_pdf_mode",
+        "target_label": "Integrated PDF density mode",
+        "target_latitude_deg": "-37.3375",
+        "target_longitude_deg_e": "89.3125",
+        "target_status": "DERIVED_INDEPENDENT_SPATIAL_PDF_MODE",
+        "station": "H08S",
+        "distance_km": "3713.335583",
+        "travel_min_at_1p50": "41.259284",
+        "travel_min_at_1p57": "39.419698",
+        "travel_min_at_1p43": "43.278969",
+        "alignment_status": "CONDITIONAL_POINT_AND_CELERITY_TIME_SHIFT_NOT_EVENT_ASSOCIATION"
+      },
+      {
+        "target_id": "bran2016_mode",
+        "target_label": "BRAN2016 Pl\u00e9iades transport mode",
+        "target_latitude_deg": "-35.41788707769665",
+        "target_longitude_deg_e": "92.88584624728297",
+        "target_status": "CONDITIONAL_TRANSPORT_COMPATIBILITY_MODE_NOT_CRASH_POSTERIOR",
+        "station": "H01W",
+        "distance_km": "1929.530869",
+        "travel_min_at_1p50": "21.439232",
+        "travel_min_at_1p57": "20.483343",
+        "travel_min_at_1p43": "22.488705",
+        "alignment_status": "CONDITIONAL_POINT_AND_CELERITY_TIME_SHIFT_NOT_EVENT_ASSOCIATION"
+      },
+      {
+        "target_id": "bran2016_mode",
+        "target_label": "BRAN2016 Pl\u00e9iades transport mode",
+        "target_latitude_deg": "-35.41788707769665",
+        "target_longitude_deg_e": "92.88584624728297",
+        "target_status": "CONDITIONAL_TRANSPORT_COMPATIBILITY_MODE_NOT_CRASH_POSTERIOR",
+        "station": "H08S",
+        "distance_km": "3722.730191",
+        "travel_min_at_1p50": "41.363669",
+        "travel_min_at_1p57": "39.519429",
+        "travel_min_at_1p43": "43.388464",
+        "alignment_status": "CONDITIONAL_POINT_AND_CELERITY_TIME_SHIFT_NOT_EVENT_ASSOCIATION"
+      },
+      {
+        "target_id": "oscar_v2_final_mode",
+        "target_label": "OSCAR v2 Final Pl\u00e9iades transport mode",
+        "target_latitude_deg": "-34.91671340761436",
+        "target_longitude_deg_e": "92.04716381373476",
+        "target_status": "CONDITIONAL_TRANSPORT_COMPATIBILITY_MODE_NOT_CRASH_POSTERIOR",
+        "station": "H01W",
+        "distance_km": "2010.657462",
+        "travel_min_at_1p50": "22.340638",
+        "travel_min_at_1p57": "21.344559",
+        "travel_min_at_1p43": "23.434236",
+        "alignment_status": "CONDITIONAL_POINT_AND_CELERITY_TIME_SHIFT_NOT_EVENT_ASSOCIATION"
+      },
+      {
+        "target_id": "oscar_v2_final_mode",
+        "target_label": "OSCAR v2 Final Pl\u00e9iades transport mode",
+        "target_latitude_deg": "-34.91671340761436",
+        "target_longitude_deg_e": "92.04716381373476",
+        "target_status": "CONDITIONAL_TRANSPORT_COMPATIBILITY_MODE_NOT_CRASH_POSTERIOR",
+        "station": "H08S",
+        "distance_km": "3631.718834",
+        "travel_min_at_1p50": "40.352431",
+        "travel_min_at_1p57": "38.553278",
+        "travel_min_at_1p43": "42.327725",
+        "alignment_status": "CONDITIONAL_POINT_AND_CELERITY_TIME_SHIFT_NOT_EVENT_ASSOCIATION"
+      },
+      {
+        "target_id": "bran_oscar_model_average_mode",
+        "target_label": "50:50 BRAN\u2013OSCAR model-average transport mode",
+        "target_latitude_deg": "-35.3002739318864",
+        "target_longitude_deg_e": "92.8907621322908",
+        "target_status": "DECLARED_EQUAL_PRIOR_MODEL_AVERAGE_MODE_NOT_INTEGRATED_CRASH_POSTERIOR",
+        "station": "H01W",
+        "distance_km": "1930.144435",
+        "travel_min_at_1p50": "21.446049",
+        "travel_min_at_1p57": "20.489856",
+        "travel_min_at_1p43": "22.495856",
+        "alignment_status": "CONDITIONAL_POINT_AND_CELERITY_TIME_SHIFT_NOT_EVENT_ASSOCIATION"
+      },
+      {
+        "target_id": "bran_oscar_model_average_mode",
+        "target_label": "50:50 BRAN\u2013OSCAR model-average transport mode",
+        "target_latitude_deg": "-35.3002739318864",
+        "target_longitude_deg_e": "92.8907621322908",
+        "target_status": "DECLARED_EQUAL_PRIOR_MODEL_AVERAGE_MODE_NOT_INTEGRATED_CRASH_POSTERIOR",
+        "station": "H08S",
+        "distance_km": "3712.823285",
+        "travel_min_at_1p50": "41.253592",
+        "travel_min_at_1p57": "39.414260",
+        "travel_min_at_1p43": "43.272999",
+        "alignment_status": "CONDITIONAL_POINT_AND_CELERITY_TIME_SHIFT_NOT_EVENT_ASSOCIATION"
+      }
+    ]
+  },
+  "limits": [
+    "inputs are already-filtered publication-figure vectors, not raw multi-channel CTBTO data",
+    "IAAFT p-values test a stationary surrogate null for the plotted trace and are not receiver false-alarm probabilities",
+    "the 00:47\u201300:50 interval was selected after visual inspection, making its fixed-window p exploratory",
+    "source-mode and 1.50 km/s shifts are conditional visual alignments, not measured cross-station associations",
+    "rank-20 airgun suppression removes more periodic energy but attenuates synthetic transients more than rank 8"
+  ]
+}

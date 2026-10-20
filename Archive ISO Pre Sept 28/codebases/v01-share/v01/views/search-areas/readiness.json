@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "assessed_on": "2026-08-31",
+  "negative_search_likelihood": {
+    "status": "not_ready",
+    "reason": "Public source footprints cannot be converted into a missed-detection likelihood without spatial quality, holiday, and calibrated target-specific detection inputs.",
+    "required_inputs": [
+      {"input": "reviewed mission swaths or validated coverage mask", "state": "partial_phase2_only"},
+      {"input": "authoritative Ocean Infinity 2018 and 2025-2026 AUV swaths", "state": "unresolved"},
+      {"input": "Bluefin/Artemis mission swaths", "state": "unresolved"},
+      {"input": "spatial sonar quality and confidence classes", "state": "unresolved"},
+      {"input": "complete holiday, low-probability-detection, and resurvey masks", "state": "unresolved"},
+      {"input": "target-state model including debris-field and burial/relief assumptions", "state": "unresolved"},
+      {"input": "calibrated PoD conditional on sensor, environment, target, and analyst process", "state": "unresolved"},
+      {"input": "navigation, swath-edge, overlap, and pass-dependence model", "state": "unresolved"}
+    ],
+    "forbidden_shortcuts": [
+      "treating catalog extents as uniform searched masks",
+      "treating approximate outlines or AIS tracks as AUV swaths",
+      "treating bathymetry as aircraft-target search coverage",
+      "assigning PoD=1 inside a footprint or PoD=0 outside it",
+      "turning narrative confidence language into an invented numeric PoD"
+    ]
+  },
+  "planning_approximately_7500_km2": {
+    "area_accounting_status": "ready_with_rounding",
+    "spatial_planning_status": "ready_for_explicit_sensitivity_only",
+    "calibrated_search_optimization_status": "not_ready",
+    "official_estimated_contract_area_km2": 15000,
+    "official_approximate_surveyed_area_km2": 7571,
+    "derived_arithmetic_remainder_km2": 7429,
+    "derivation": "15000 - 7571",
+    "rounding_warning": "The source calls 15,000 estimated and 7,571 approximate; 7,429 is not an exact remaining-area measurement.",
+    "spatial_blockers": [
+      "authoritative machine-readable 15,000 km2 contract boundary not obtained",
+      "exact 2025-2026 surveyed AUV swaths not obtained",
+      "valid-data, holiday, and resurvey masks not obtained",
+      "spatial overlap with earlier searches cannot be computed",
+      "an unsurveyed difference polygon cannot be produced"
+    ],
+    "defensible_current_use": "Generate two clearly conditional plans from a supplied impact posterior: posterior-mass-per-area ranking, and a separate proxy-aware/logistics sensitivity. Approximate outlines and AIS tracks are planning context only and never posterior updates, binary exclusions, or missed-detection likelihoods.",
+    "release_planner": {
+      "tile_size_km": 25,
+      "budget_km2": 7500,
+      "tile_count": 12,
+      "posterior_density_method": "deterministic Gaussian KDE evaluated on an equal-area local 25 km grid",
+      "proxy_aware_status": "planning sensitivity, not probabilistic evidence",
+      "logistics_method": "greedy sequence using declared soft context multipliers and transit cost"
+    }
+  },
+  "known_but_not_global_quality_context": {
+    "source": "ATSB/Geoscience Australia 2022 review",
+    "scope": "a requested approximately 17,000 km2 review region, not all campaigns",
+    "original_search_holidays_and_lpd_km2": 71.22,
+    "additional_review_gap_km2": 1.57,
+    "combined_km2": 72.79,
+    "categories_km2": {
+      "additional_missing": 1.57,
+      "equipment_failure": 5.37,
+      "lower_probability_detection": 48.91,
+      "off_tracks": 0.17,
+      "terrain_avoidance": 8.44,
+      "shadow_zones": 8.33
+    },
+    "limitation": "Published totals do not supply a complete reusable global holiday geometry or calibrated PoD."
+  }
+}

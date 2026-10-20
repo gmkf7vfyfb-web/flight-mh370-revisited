@@ -1,0 +1,7 @@
+hypothesis_set,turn_model,n_paths,lnZ,lnZ_seed_sd,median_0019,scale,note,lnZ_minus_free,label_0019
+Free-turn model (run C free),,free,-135.921,0.148,-36.904,8 seeds x 7M,reference,0.0,"core, Davey both-BTO no-BFO 00:19 treatment"
+"Six routes, equal prior (run G)",fly-over + direct-to,6 routes,-129.554,0.033,-36.706,8 seeds x 3M,superseded turn model,6.366,"core, Davey both-BTO no-BFO 00:19 treatment"
+"Turn-point scan, matched volume (audit arms)",fly-over + direct-to,36 pseudo-fix routes,-128.07,,,4 seeds x 200k per route,log-mean-exp; 00:19 not pooled,7.851,"core, Davey both-BTO no-BFO 00:19 treatment"
+"Six routes, equal prior (run H)",fly-by + leg tracking,6 routes,-122.193,0.016,-37.182,8 seeds x 3M,MEKAR-SAMAK-ISBIX share 0.856,13.728,"core, Davey both-BTO no-BFO 00:19 treatment"
+"Hybrid early-turn set, equal prior",fly-by + leg tracking,34 routes,-123.1,,,4 seeds x 200k per route,log-mean-exp; plateau of 12 routes above -123 has 00:19 medians -37.48 to -37.31,12.821,"core, Davey both-BTO no-BFO 00:19 treatment"
+Best single route: MEKAR-SAMAK-ISBIX (run H),fly-by + leg tracking,1 route,-120.556,0.019,-37.167,8 seeds x 3M (share-derived),bank 25 deg: -121.13; Mach cap 0.86: -120.70,15.365,"core, Davey both-BTO no-BFO 00:19 treatment"

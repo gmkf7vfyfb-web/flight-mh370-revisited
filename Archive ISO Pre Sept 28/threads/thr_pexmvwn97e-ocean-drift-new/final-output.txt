@@ -1,0 +1,59 @@
+The host-daemon errors interrupted the UI only; the detached jobs continued and all work is now complete. One earlier run genuinely hit the 12 GiB memory limit, but the file-backed loader fixed it. No later OOM or partial output occurred.
+
+Scientific result: the full-domain CMEMS family is `diagnostic_only` and must not update the central flight estimator.
+
+- Prior-removed peak: arc‑152, 30.70°S.
+- 90% / 95% / 99% intervals: 29.70–35.75°S / 27.62–35.75°S / 26.55–36.97°S.
+- Predictive replay passed: 98.83% minimum completion; median error ratio to persistence 0.695.
+- Admission failed because:
+  - missing/outside support is 1.746% versus the 1% sensitivity;
+  - zero likelihood mass has ESS ≥200 for all nine recoveries;
+  - replication TV reaches 0.394, endpoint movement six cells, Jaccard 0.533;
+  - 58.82% land encounter relies on an uncalibrated absorbing support mask;
+  - Stokes/object response and coastal retention/refloating remain uncalibrated.
+- Isotope remained conservative: 24,716 compatible, 756 marginal, 149 rejected, 17,454 lacking complete coverage; it never positively boosts a trajectory.
+- CMEMS, HYCOM and GDP remain separate—no family averaging or subjective weights.
+
+No further Copernicus authentication is needed. Full-domain GLORYS12 and WAVERYS acquisition, conversion and independent verification are complete.
+
+The interactive handoff:
+
+::inline-vis{file=".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/index.html" height="800"}
+
+Key artifacts:
+
+- [Interactive handoff](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/index.html), [PDF](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.pdf), [PNG](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.png)
+- [Machine-readable likelihood](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.json), SHA‑256 `bcfc11678c9cd314ab72dc220411a65fad0dd736132b77807035ba380497b044`
+- [Primary source result](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris/source-area.json), SHA‑256 `5798db6878502adef429658497bdb6e9f431affc2d8cdbed88a1c54735b76531`
+- [Stability summary](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/stability-summary.json), SHA‑256 `945faa86370c7bb23e3032c0b1e334a6d2ba4915de40adce46608eeb176ba87f`
+- [Validation table](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain/cmems-full-domain-current-trajectory.md)
+- [Conversion receipt](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-conversion-receipt.json), SHA‑256 `af3ba212844fddf0749f45cc09a2ca74b6d2a671098c739a52055920bf3d0806`
+- [Complete artifact ledger](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/ARTIFACT-SHA256.txt), verified, SHA‑256 `ca34016683ee19bdc51fce5d194a885a14ccfd02ba2f62fb4cee493b3c1cbcda`
+
+Runtime measurements:
+
+- Reference: 1,694.6 s, 11,724,316 KiB RSS.
+- Alternate seed: 2,964.7 s, 12,424,696 KiB RSS.
+- Doubled particles: 6,726.1 s, 12,432,604 KiB RSS.
+- Eighteen replay cases: 837.0 s summed, 4,617,464 KiB maximum child RSS.
+
+Changed canonical code:
+
+- [field.rs](/jackbox/home/MH370/crates/ocean-drift/src/field.rs) — immutable file-backed packed fields.
+- [transport.rs](/jackbox/home/MH370/crates/ocean-drift/src/transport.rs) — exhaustive storage-failure taxonomy.
+- [validate_current_trajectories.rs](/jackbox/home/MH370/crates/ocean-drift/examples/validate_current_trajectories.rs) and [raw_field_spot.rs](/jackbox/home/MH370/crates/ocean-drift/tests/raw_field_spot.rs) — streaming field loading.
+- [Cargo.toml](/jackbox/home/MH370/crates/ocean-drift/Cargo.toml), [Cargo.lock](/jackbox/home/MH370/Cargo.lock).
+- [prepare_inputs.py](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/code/prepare_inputs.py) — correct intermittent/component-specific WAVERYS masking.
+- [README.md](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/README.md) and [VALIDATION.md](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/VALIDATION.md).
+
+Verification passed:
+
+- 34 focused Rust tests; four external tests ignored by default.
+- Both full-field ignored Rust fixtures passed explicitly.
+- Independent raw-NetCDF checks: 48 GLORYS + 48 WAVERYS values, zero mismatches.
+- `cargo fmt --check`.
+- Strict focused Clippy with `-D warnings`.
+- Deterministic handoff rebuild.
+- Peak query, explicit out-of-support query, and diagnostic-only rejection (`exit 3`).
+
+No runner, estimator, reporting, central configuration, or unrelated crate was edited. Core received the final integration contract. The direct workspace has no Git metadata, so executable and input SHA‑256 identities provide the reproducible code revision instead of a Git commit.

@@ -1,0 +1,13 @@
+# Order (b) item 3, 15 Oct 2026: the divergent-spiral bank limit SAMPLED per descent, replacing the fixed cap of round3-laws.toml
+# (52.5 deg, the all-data fit, which lies outside every leave-one-out fit). Append AFTER full/round3-laws.toml.
+# Core U[52, 63] deg with weight 0.8: the maximum track-read bank of Boeing's four spiral-dive cases (3, 4, 6, 10: 54.5, 59.9,
+# 57.3, 53.2 deg; results/eof-item2-fit-oct14/round3/fit-all.json boeing_features, measured by the same code that measures the
+# model's track), widened to cover the leave-one-out fits (57.3-62.4 deg) and the all-data 52.5 deg, rounded outward.
+# Tail U[63, 90] deg with weight 0.2: four no-input cases at one mass and configuration do not bound the bank of a different
+# loss of control, and the 90 deg cap is the one at which this point mass reaches the published high-rate thresholds
+# (results/eof-boeing-calibration-oct09). The tail weight is a declared choice; latent:spiral_bank_cap_deg re-weights it exactly
+# (core share (1 - t')/(1 - t), tail share t'/t).
+[hypotheses.end-of-flight.envelope.spiral_bank_cap_prior]
+core_deg = [52.0, 63.0]
+tail_to_deg = 90.0
+tail_weight = 0.2

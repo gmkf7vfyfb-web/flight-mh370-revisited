@@ -1,0 +1,115 @@
+{
+ "inversions": {
+  "C: Kadri caption 00:54:30 + SSEIR (event 8/7/12/11 picks, mean 01:11:15.9) + MAD 01:25:20.44": {
+   "best_lat": -25.8,
+   "best_lon": 101.46,
+   "chi2_min": 0.0,
+   "dof": 1,
+   "origin_utc": "00:36:42.6",
+   "residuals_s": [
+    0.2,
+    -0.5,
+    -0.2
+   ],
+   "bearing_resid_deg": 0.02,
+   "km_to_crossing": 11.8,
+   "km_to_haixun": 19.4,
+   "region_95_lat": [
+    -26.24,
+    -25.34
+   ],
+   "region_95_lon": [
+    101.08,
+    101.84
+   ]
+  },
+  "C': Royer H01W 00:54:10.43 + 16 s + SSEIR + MAD": {
+   "best_lat": -25.82,
+   "best_lon": 101.48,
+   "chi2_min": 0.0,
+   "dof": 1,
+   "origin_utc": "00:36:41.3",
+   "residuals_s": [
+    -0.0,
+    0.1,
+    0.1
+   ],
+   "bearing_resid_deg": 0.01,
+   "km_to_crossing": 14.8,
+   "km_to_haixun": 17.3,
+   "region_95_lat": [
+    -26.26,
+    -25.36
+   ],
+   "region_95_lon": [
+    101.1,
+    101.86
+   ]
+  },
+  "C'': Royer H01W 00:54:10.43 as printed + SSEIR + MAD": {
+   "best_lat": -25.92,
+   "best_lon": 101.6,
+   "chi2_min": 0.0,
+   "dof": 1,
+   "origin_utc": "00:36:36.2",
+   "residuals_s": [
+    0.0,
+    0.7,
+    -1.5
+   ],
+   "bearing_resid_deg": 0.01,
+   "km_to_crossing": 31.1,
+   "km_to_haixun": 15.2,
+   "region_95_lat": [
+    -26.36,
+    -25.46
+   ],
+   "region_95_lon": [
+    101.22,
+    101.98
+   ]
+  }
+ },
+ "chance": {
+  "C|crossing_core": {
+   "observed_sites_hit": 2,
+   "p_ge_observed": 0.1128,
+   "p_ge_2": 0.1128
+  },
+  "C|eq4_strip_core": {
+   "observed_sites_hit": 3,
+   "p_ge_observed": 0.143,
+   "p_ge_2": 0.4419
+  },
+  "C|haixun": {
+   "observed_sites_hit": 2,
+   "p_ge_observed": 0.0563,
+   "p_ge_2": 0.0563
+  },
+  "C|locality_strip_wide": {
+   "observed_sites_hit": 3,
+   "p_ge_observed": 0.2694,
+   "p_ge_2": 0.6146
+  },
+  "T|crossing_core": {
+   "observed_sites_hit": 0,
+   "p_ge_observed": 1.0,
+   "p_ge_2": 0.1128
+  },
+  "T|eq4_strip_core": {
+   "observed_sites_hit": 1,
+   "p_ge_observed": 0.7823,
+   "p_ge_2": 0.3917
+  },
+  "T|haixun": {
+   "observed_sites_hit": 0,
+   "p_ge_observed": 1.0,
+   "p_ge_2": 0.0563
+  },
+  "T|locality_strip_wide": {
+   "observed_sites_hit": 1,
+   "p_ge_observed": 0.9041,
+   "p_ge_2": 0.6146
+  }
+ }
+}

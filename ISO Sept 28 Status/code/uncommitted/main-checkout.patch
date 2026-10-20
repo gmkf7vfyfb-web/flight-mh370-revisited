@@ -1,0 +1,853 @@
+diff --git a/README.md b/README.md
+index d52c73d..73dbebe 100644
+--- a/README.md
++++ b/README.md
+@@ -42,9 +42,14 @@ in `config/sensitivity/`, each hypothesis); the run size, seeds and measurement
+ case, with the run time and memory they imply; the published dynamics constants,
+ the prior and the measurement constants, each editable and each marked when it
+ departs from the published value; the hypotheses on disk with their parameters
+-and recorded status; and the measured inputs with their provenance. A new
+-hypothesis directory appears by itself, marked as unavailable until the binary
+-is rebuilt.
++and recorded status; and the measured inputs with their provenance.
++
++The app holds no list of its own. Its controls are read from the configuration,
++so a field added to `Config` is editable in the app without the app being
++touched, and a test fails if a control outlives the field it edits. Configs in
++`config/sensitivity/` and directories under `hypotheses/` are discovered the same
++way; a new hypothesis appears by itself, marked unavailable until the binary is
++rebuilt.
+ 
+ Interactive sizes, measured on six threads: 100k particles take about 10 s, 1M
+ about 1 min, and a 7M-particle replicate about 9 min. Anything under a million
+diff --git a/crates/mh370/src/describe.rs b/crates/mh370/src/describe.rs
+index 268d502..b6a92f3 100644
+--- a/crates/mh370/src/describe.rs
++++ b/crates/mh370/src/describe.rs
+@@ -222,42 +222,137 @@ fn doc_comment(path: &Path) -> Option<String> {
+     (!doc.is_empty()).then(|| doc.join("\n"))
+ }
+ 
+-/// Settings the app may change, with the range each control offers. Every key is a path in
+-/// the run configuration, so a change here is the same as an override file on the command line.
++/// Settings the app may change. Every key is a path in the run configuration, so changing
++/// one in the app is the same as writing it in an override file.
++///
++/// The list is discovered from the configuration itself, so a field added to the core
++/// appears in the app without the app being touched. Two things cannot be discovered that
++/// way and are named here: fields that are optional and unset (they serialise to nothing),
++/// and the published dynamics constants (they are compiled into `crates/flight`, and the
++/// configuration carries only the overrides).
+ fn controls(base: &Config, p: &Parameters) -> Vec<Value> {
++    // Handled by their own panels: the run name, the data sources, the measurement cases
++    // and the hypotheses.
++    const SKIP: [&str; 4] = ["name", "inputs", "cases", "hypotheses"];
++    let mut out = Vec::new();
++    if let Ok(Value::Object(fields)) = serde_json::to_value(base) {
++        for (key, value) in fields.iter().filter(|(k, _)| !SKIP.contains(&k.as_str()) && *k != "dynamics") {
++            collect(key, value, &mut out);
++        }
++    }
++    // Optional fields are absent from a configuration that does not set them.
++    for (key, empty) in [("exclude_epochs", json!([])), ("output.history_after_epoch", json!(""))] {
++        if !out.iter().any(|c| c["key"] == key) {
++            out.push(control_for(key, &empty));
++        }
++    }
++    out.extend(dynamics_controls(p));
++    out
++}
++
++/// One control per leaf of the configuration, recursing into its tables.
++fn collect(key: &str, value: &Value, out: &mut Vec<Value>) {
++    match value {
++        Value::Object(fields) => {
++            for (name, value) in fields {
++                collect(&format!("{key}.{name}"), value, out);
++            }
++        }
++        Value::Null => {}
++        _ => out.push(control_for(key, value)),
++    }
++}
++
++/// A control for one configuration key: its kind from the value, its label, range and note
++/// from the table below when the key is one worth explaining.
++fn control_for(key: &str, value: &Value) -> Value {
++    let (label, range, note) = described(key);
++    let kind = match (key, value) {
++        ("particles_per_mode", _) => "integer5",
++        (_, Value::Bool(_)) => "boolean",
++        (_, Value::String(_)) => "text",
++        (_, Value::Number(n)) if n.is_f64() && n.as_i64().is_none() => "number",
++        (_, Value::Number(_)) => "integer",
++        (_, Value::Array(items)) => match items.first() {
++            Some(Value::String(_)) | None if key.ends_with("epochs") => "texts",
++            Some(Value::Number(n)) if n.is_f64() && n.as_i64().is_none() => "range",
++            Some(Value::String(_)) => "texts",
++            _ => "integers",
++        },
++        _ => "text",
++    };
++    let last = key.rsplit('.').next().unwrap_or(key).replace('_', " ");
++    let derived = last[..1].to_uppercase() + &last[1..];
++    json!({
++        "key": key,
++        "label": label.unwrap_or(&derived),
++        "kind": kind,
++        "value": value,
++        "min": range.map(|r| r.0),
++        "max": range.map(|r| r.1),
++        "note": note,
++        "group": group_of(key),
++    })
++}
++
++fn group_of(key: &str) -> &'static str {
++    match key.split('.').next().unwrap_or("") {
++        "prior" => "Prior",
++        "bfo_bias" => "Measurement",
++        "environment" => "Environment",
++        "output" => "Output",
++        "dynamics" => "Dynamics",
++        _ => "Run size",
++    }
++}
++
++/// Label, range and note for the keys where one helps. A key absent here still gets a
++/// control; it is named after itself and accepts any value the configuration accepts.
++fn described(key: &str) -> (Option<&'static str>, Option<(f64, f64)>, &'static str) {
++    match key {
++        "particles_per_mode" => (Some("Particles per mode"), Some((1_000.0, 20_000_000.0)),
++            "One filter per autopilot mode, in the order true heading, magnetic heading, true track, magnetic track, lateral navigation."),
++        "seeds" => (Some("Seeds"), Some((1.0, f64::from(u32::MAX))),
++            "Independent replicates. A result whose replicates disagree is unconverged, not a result."),
++        "resample_ess_fraction" => (Some("Resample below ESS fraction"), Some((0.05, 1.0)),
++            "Systematic resampling fires when the effective sample size falls below this fraction of the particle count."),
++        "exclude_epochs" => (Some("SATCOM epochs left out"), None,
++            "Epoch ids to drop from the run, e.g. m0019a m0019b for the messages after the SDU restart."),
++        "environment.wind_scale" => (Some("Nominal wind scale"), Some((0.0, 2.0)),
++            "Multiplier on the gridded wind. 1.0 is the estimate; 0.0 turns the nominal wind off and keeps the wind-error process."),
++        "environment.declination_scale" => (Some("Declination scale"), Some((0.0, 2.0)),
++            "Multiplier on IGRF declination. 0.0 makes the magnetic modes identical to the true ones."),
++        "prior.time_utc" => (Some("Prior epoch"), None, "The radar point the filter starts from."),
++        "prior.latitude_deg" => (Some("Prior latitude"), Some((-10.0, 20.0)),
++            "18:01:49 UTC radar point, reconstructed from Davey ch. 4 figures."),
++        "prior.longitude_deg" => (Some("Prior longitude"), Some((90.0, 110.0)),
++            "18:01:49 UTC radar point, reconstructed from Davey ch. 4 figures."),
++        "prior.position_sd_nm" => (Some("Prior position s.d."), Some((0.05, 20.0)),
++            "Standard deviation of the radar position, in nautical miles."),
++        "prior.track_deg" => (Some("Prior track"), Some((180.0, 360.0)), "Mean control angle at the radar point, degrees true."),
++        "prior.track_sd_deg" => (Some("Prior track s.d."), Some((0.1, 30.0)), "Standard deviation of the initial control angle, degrees."),
++        "bfo_bias.mean_hz" => (Some("BFO bias prior mean"), Some((0.0, 300.0)),
++            "Prior mean of the per-trajectory constant BFO bias (Davey sec. 5.3)."),
++        "bfo_bias.sd_hz" => (Some("BFO bias prior s.d."), Some((1.0, 100.0)),
++            "Prior standard deviation of the BFO bias, marginalised per particle."),
++        "output.route_interval_s" => (Some("Route sample interval"), Some((300.0, 3600.0)),
++            "Seconds between stored route points; display only."),
++        "output.route_samples" => (Some("Routes kept"), Some((0.0, 20_000.0)),
++            "Weighted routes written for plotting; display only."),
++        "output.residual_samples" => (Some("Residual samples"), Some((0.0, 20_000.0)),
++            "Particles per mode and step saved with their BTO/BFO residuals; 0 is off."),
++        "output.history_after_epoch" => (Some("History after epoch"), None,
++            "Write history.npy: manoeuvres after this epoch id, e.g. m1839. Empty is off."),
++        _ => (None, None, ""),
++    }
++}
++
++/// The published dynamics constants, which live in `crates/flight` rather than in a
++/// configuration. Sliders span a fifth to five times the published value.
++fn dynamics_controls(p: &Parameters) -> Vec<Value> {
+     let published = Parameters::default();
+-    let mut out = vec![
+-        control("particles_per_mode", "Particles per mode", "integer5", json!(base.particles_per_mode), json!(1_000), json!(20_000_000),
+-            "One filter per autopilot mode, in the order true heading, magnetic heading, true track, magnetic track, lateral navigation.",
+-            "Run size"),
+-        control("seeds", "Seeds", "integers", json!(base.seeds), json!(1), json!(u32::MAX),
+-            "Independent replicates. A result whose replicates disagree is unconverged.", "Run size"),
+-        control("resample_ess_fraction", "Resample below ESS fraction", "number", json!(base.resample_ess_fraction), json!(0.05), json!(1.0),
+-            "Systematic resampling fires when the effective sample size falls below this fraction of the particle count.", "Run size"),
+-        control("environment.wind_scale", "Nominal wind scale", "number", json!(base.environment.wind_scale), json!(0.0), json!(2.0),
+-            "Multiplier on the ERA5 wind field. 1.0 is the estimate; 0.0 turns the nominal wind off and keeps the wind-error process.",
+-            "Environment"),
+-        control("prior.latitude_deg", "Prior latitude", "number", json!(base.prior.latitude_deg), json!(-10.0), json!(20.0),
+-            "18:01:49 UTC radar point, reconstructed from Davey ch. 4 figures.", "Prior"),
+-        control("prior.longitude_deg", "Prior longitude", "number", json!(base.prior.longitude_deg), json!(90.0), json!(110.0),
+-            "18:01:49 UTC radar point, reconstructed from Davey ch. 4 figures.", "Prior"),
+-        control("prior.position_sd_nm", "Prior position s.d.", "number", json!(base.prior.position_sd_nm), json!(0.05), json!(20.0),
+-            "Standard deviation of the radar position, in nautical miles.", "Prior"),
+-        control("prior.track_deg", "Prior track", "number", json!(base.prior.track_deg), json!(180.0), json!(360.0),
+-            "Mean control angle at the radar point, degrees true.", "Prior"),
+-        control("prior.track_sd_deg", "Prior track s.d.", "number", json!(base.prior.track_sd_deg), json!(0.1), json!(30.0),
+-            "Standard deviation of the initial control angle, degrees.", "Prior"),
+-        control("bfo_bias.mean_hz", "BFO bias prior mean", "number", json!(base.bfo_bias.mean_hz), json!(0.0), json!(300.0),
+-            "Prior mean of the per-trajectory constant BFO bias (Davey sec. 5.3).", "Measurement"),
+-        control("bfo_bias.sd_hz", "BFO bias prior s.d.", "number", json!(base.bfo_bias.sd_hz), json!(1.0), json!(100.0),
+-            "Prior standard deviation of the BFO bias, marginalised per particle.", "Measurement"),
+-        control("output.route_interval_s", "Route sample interval", "number", json!(base.output.route_interval_s), json!(300.0), json!(3600.0),
+-            "Seconds between stored route points; display only.", "Output"),
+-        control("output.route_samples", "Routes kept", "integer", json!(base.output.route_samples), json!(0), json!(20_000),
+-            "Number of weighted routes written for plotting; display only.", "Output"),
+-    ];
+-    // Dynamics constants: sliders span a fifth to five times the published value.
+-    let mut dynamics = |key: &str, label: &str, value: f64, published: f64, unit: &str| {
++    let mut out = Vec::new();
++    let mut scalar = |key: &str, label: &str, value: f64, published: f64, unit: &str| {
+         let (lo, hi) = if published > 0.0 { (published / 5.0, published * 5.0) } else { (-1.0, 1.0) };
+         out.push(json!({
+             "key": format!("dynamics.{key}"), "label": label, "kind": "number", "group": "Dynamics",
+@@ -265,36 +360,34 @@ fn controls(base: &Config, p: &Parameters) -> Vec<Value> {
+             "note": "Published value; the slider spans a fifth to five times it. Any value may be typed.",
+         }));
+     };
+-    dynamics("mach_reversion_per_s", "Mach reversion rate", p.mach_reversion_per_s, published.mach_reversion_per_s, "1/s");
+-    dynamics("mach_noise_per_s", "Mach noise strength", p.mach_noise_per_s, published.mach_noise_per_s, "1/s");
+-    dynamics("angle_reversion_per_s", "Control-angle reversion rate", p.angle_reversion_per_s, published.angle_reversion_per_s, "1/s");
+-    dynamics("angle_noise_rad2_per_s", "Control-angle noise strength", p.angle_noise_rad2_per_s, published.angle_noise_rad2_per_s, "rad^2/s");
+-    dynamics("wind_reversion_per_s", "Wind-error reversion rate", p.wind_reversion_per_s, published.wind_reversion_per_s, "1/s");
+-    dynamics("wind_noise_kt2_per_s", "Wind-error noise strength", p.wind_noise_kt2_per_s, published.wind_noise_kt2_per_s, "kt^2/s");
+-    dynamics("bank_angle_deg", "Turn bank angle", p.bank_angle_deg, published.bank_angle_deg, "deg");
+-    dynamics("mach_rate_per_s", "Mach change rate", p.mach_rate_per_s, published.mach_rate_per_s, "1/s");
+-    dynamics("climb_rate_ft_per_s", "Climb rate", p.climb_rate_ft_per_s, published.climb_rate_ft_per_s, "ft/s");
+-    dynamics("lnav_switch_mean_s", "LNAV hold-reversion mean", p.lnav_switch_mean_s, published.lnav_switch_mean_s, "s");
+-    dynamics("cruise_step_s", "Cruise integration step", p.cruise_step_s, published.cruise_step_s, "s");
+-    dynamics("manoeuvre_step_s", "Manoeuvre integration step", p.manoeuvre_step_s, published.manoeuvre_step_s, "s");
+-    for (key, label, value, published, unit) in [
+-        ("tau_range_h", "Manoeuvre time constant range", p.tau_range_h, published.tau_range_h, "h"),
+-        ("mach_range", "Mach range", p.mach_range, published.mach_range, ""),
+-        ("altitude_range_ft", "Altitude range", p.altitude_range_ft, published.altitude_range_ft, "ft"),
++    scalar("mach_reversion_per_s", "Mach reversion rate", p.mach_reversion_per_s, published.mach_reversion_per_s, "1/s");
++    scalar("mach_noise_per_s", "Mach noise strength", p.mach_noise_per_s, published.mach_noise_per_s, "1/s");
++    scalar("angle_reversion_per_s", "Control-angle reversion rate", p.angle_reversion_per_s, published.angle_reversion_per_s, "1/s");
++    scalar("angle_noise_rad2_per_s", "Control-angle noise strength", p.angle_noise_rad2_per_s, published.angle_noise_rad2_per_s, "rad^2/s");
++    scalar("wind_reversion_per_s", "Wind-error reversion rate", p.wind_reversion_per_s, published.wind_reversion_per_s, "1/s");
++    scalar("wind_noise_kt2_per_s", "Wind-error noise strength", p.wind_noise_kt2_per_s, published.wind_noise_kt2_per_s, "kt^2/s");
++    scalar("altitude_step_ft", "Altitude step", p.altitude_step_ft, published.altitude_step_ft, "ft");
++    scalar("bank_angle_deg", "Turn bank angle", p.bank_angle_deg, published.bank_angle_deg, "deg");
++    scalar("mach_rate_per_s", "Mach change rate", p.mach_rate_per_s, published.mach_rate_per_s, "1/s");
++    scalar("climb_rate_ft_per_s", "Climb rate", p.climb_rate_ft_per_s, published.climb_rate_ft_per_s, "ft/s");
++    scalar("lnav_switch_mean_s", "LNAV hold-reversion mean", p.lnav_switch_mean_s, published.lnav_switch_mean_s, "s");
++    scalar("cruise_step_s", "Cruise integration step", p.cruise_step_s, published.cruise_step_s, "s");
++    scalar("manoeuvre_step_s", "Manoeuvre integration step", p.manoeuvre_step_s, published.manoeuvre_step_s, "s");
++    for (key, label, value, published, unit, note) in [
++        ("tau_range_h", "Manoeuvre time constant range", p.tau_range_h, published.tau_range_h, "h",
++         "Jeffreys prior over this range."),
++        ("mach_range", "Mach range", p.mach_range, published.mach_range, "", "Uniform over this range."),
++        ("altitude_range_ft", "Altitude range", p.altitude_range_ft, published.altitude_range_ft, "ft",
++         "Uniform over the levels in this range."),
+     ] {
+         out.push(json!({
+             "key": format!("dynamics.{key}"), "label": label, "kind": "range", "group": "Dynamics",
+-            "value": [value.0, value.1], "published": [published.0, published.1], "unit": unit,
+-            "note": "Jeffreys prior over the range for the time constant; uniform for Mach and altitude.",
++            "value": [value.0, value.1], "published": [published.0, published.1], "unit": unit, "note": note,
+         }));
+     }
+     out
+ }
+ 
+-fn control(key: &str, label: &str, kind: &str, value: Value, min: Value, max: Value, note: &str, group: &str) -> Value {
+-    json!({"key": key, "label": label, "kind": kind, "value": value, "min": min, "max": max, "note": note, "group": group})
+-}
+-
+ /// Measured inputs a run reads, with size on disk and the provenance table from README.md.
+ fn data_sources(root: &Path, base: &Config) -> Vec<Value> {
+     let table = readme_data_table(root);
+@@ -378,3 +471,50 @@ fn list_toml(dir: &Path) -> Vec<PathBuf> {
+ fn list_dirs(dir: &Path) -> Vec<PathBuf> {
+     std::fs::read_dir(dir).into_iter().flatten().flatten().map(|e| e.path()).filter(|p| p.is_dir()).collect()
+ }
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++
++    /// Every control edits a field the runner still has. The controls are turned back into
++    /// an override and loaded over the base configuration; `deny_unknown_fields` rejects a
++    /// key the core has dropped or renamed, so a stale control cannot sit in the app
++    /// silently doing nothing.
++    #[test]
++    fn every_control_edits_a_field_the_runner_accepts() {
++        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
++        let base_path = root.join("config/davey2016.toml");
++        let base = crate::config::load(&[base_path.clone()]).unwrap();
++        let controls = controls(&base, &base.dynamics.apply(Parameters::default()));
++        assert!(controls.len() > 20, "expected the configuration to yield controls, got {}", controls.len());
++
++        let mut table = toml::Table::new();
++        for control in &controls {
++            let key = control["key"].as_str().unwrap();
++            let mut node = &mut table;
++            let parts: Vec<&str> = key.split('.').collect();
++            for part in &parts[..parts.len() - 1] {
++                node = node
++                    .entry(part.to_string())
++                    .or_insert_with(|| toml::Value::Table(toml::Table::new()))
++                    .as_table_mut()
++                    .unwrap();
++            }
++            node.insert(parts[parts.len() - 1].to_string(), to_toml(&control["value"]));
++        }
++        crate::config::load_with(&[base_path], Some(table)).expect("controls must load as an override");
++    }
++
++    fn to_toml(value: &Value) -> toml::Value {
++        match value {
++            Value::Bool(b) => toml::Value::Boolean(*b),
++            Value::String(s) => toml::Value::String(s.clone()),
++            Value::Number(n) => match n.as_i64() {
++                Some(i) if !n.is_f64() => toml::Value::Integer(i),
++                _ => toml::Value::Float(n.as_f64().unwrap_or_default()),
++            },
++            Value::Array(items) => toml::Value::Array(items.iter().map(to_toml).collect()),
++            _ => toml::Value::String(String::new()),
++        }
++    }
++}
+diff --git a/crates/mh370/ui/index.html b/crates/mh370/ui/index.html
+index c6fc7eb..6e6a919 100644
+--- a/crates/mh370/ui/index.html
++++ b/crates/mh370/ui/index.html
+@@ -51,6 +51,8 @@
+   .bar { height: 7px; background: #eceae5; border-radius: 3px; overflow: hidden; }
+   .bar > div { height: 100%; background: var(--ours); }
+   canvas { width: 100%; display: block; }
++  .zoom { display: flex; gap: 6px; align-items: center; margin-top: 6px; }
++  .zoom button { padding: 1px 9px; line-height: 1.5; }
+   .legend { display: flex; flex-wrap: wrap; gap: 12px; color: var(--muted); font-size: 11px; margin-top: 6px; }
+   .legend i { display: inline-block; width: 14px; height: 0; border-top: 2px solid; margin-right: 4px; vertical-align: middle; }
+   .changed { color: var(--warn); font-weight: 600; }
+@@ -68,6 +70,7 @@
+   <span class="status" id="status"></span>
+   <button id="run" class="primary">Run</button>
+   <button id="cancel" disabled>Cancel</button>
++  <button id="redraw" title="Redraw both plots and refit their axes">Redraw</button>
+   <button id="quit" title="Stop the app">Quit</button>
+ </header>
+ 
+@@ -134,6 +137,15 @@
+         <div id="unconverged"></div>
+         <div class="chips" id="curve-toggles"></div>
+         <canvas id="pdf" height="300"></canvas>
++        <div class="zoom">
++          <button id="pdf-out" title="Zoom out">&minus;</button>
++          <button id="pdf-in" title="Zoom in">+</button>
++          <button id="pdf-left" title="Pan south">&#9664;</button>
++          <button id="pdf-right" title="Pan north">&#9654;</button>
++          <button id="pdf-fit" title="Fit to the curves shown">Fit</button>
++          <span class="note" id="pdf-range"></span>
++          <span class="note" style="margin-left:auto">wheel to zoom, drag to pan</span>
++        </div>
+         <div class="legend" id="pdf-legend"></div>
+         <div class="stats" id="stats" style="margin-top:12px"></div>
+       </div>
+@@ -149,6 +161,13 @@
+     <section class="panel">
+       <h2>Position <span></span></h2>
+       <div class="body"><canvas id="map" height="420"></canvas>
++        <div class="zoom">
++          <button id="map-out" title="Zoom out">&minus;</button>
++          <button id="map-in" title="Zoom in">+</button>
++          <button id="map-fit" title="Fit to the posterior">Fit</button>
++          <span class="note" id="map-range"></span>
++          <span class="note" style="margin-left:auto">wheel to zoom, drag to pan</span>
++        </div>
+         <div class="legend"><span><i style="border-color:var(--ours)"></i>posterior density</span><span><i style="border-color:#8a8983;border-top-style:dashed"></i>BTO arcs</span><span>&#9670; 18:01:49 radar point</span></div>
+       </div>
+     </section>
+@@ -171,6 +190,8 @@ const state = {
+   describe: null, engine: null, controls: {}, changed: {}, hypotheses: {}, particles: [], seeds: [],
+   cases: [], ess: 0.5, run: null, summary: null, baseline: null, curves: { modes: false, replicates: false, published: true },
+   caseIndex: 0, timer: null,
++  // Null means "fit to what is plotted"; a zoom set by hand lives here until the selection changes.
++  view: { pdf: null, map: null }, axis: { pdf: null, map: null },
+ };
+ 
+ // ---------------------------------------------------------------- formatting
+@@ -198,8 +219,11 @@ async function boot() {
+   renderData(describe.data);
+   $("departures").textContent = describe.departures || "README.md was not found next to the configuration.";
+   for (const panel of document.querySelectorAll(".panel > h2")) {
+-    panel.onclick = () => panel.parentElement.classList.toggle("closed");
++    // A panel that was closed had no width to draw into, so draw once it opens.
++    panel.onclick = () => { panel.parentElement.classList.toggle("closed"); drawOnly(); };
+   }
++  attachPlotGestures();
++  $("redraw").onclick = () => render();
+   $("run").onclick = startRun;
+   $("cancel").onclick = () => state.run && fetch(`/api/cancel?id=${state.run.id}`, { method: "POST" });
+   $("quit").onclick = async () => {
+@@ -286,28 +310,52 @@ function renderAssumptions() {
+       const value = state.changed[c.key] ?? c.value;
+       const published = c.published ?? c.value;
+       const isChanged = JSON.stringify(value) !== JSON.stringify(published);
+-      const input = c.kind === "range"
+-        ? `<div class="row"><input type="number" data-key="${c.key}" data-part="0" value="${value[0]}" step="any">
+-             <input type="number" data-key="${c.key}" data-part="1" value="${value[1]}" step="any"></div>`
+-        : `<input type="number" data-key="${c.key}" value="${value}" step="any">`;
++      const input = controlInput(c, value);
+       return `<label><span class="${isChanged ? "changed" : ""}">${c.label}${c.unit ? ` (${c.unit})` : ""}${isChanged ? ` · published ${JSON.stringify(published)}` : ""}</span>
+         ${input}<p class="note">${c.note || ""}</p></label>`;
+     }).join("")}`).join("");
+   for (const input of $("assumptions").querySelectorAll("input")) {
+     input.onchange = () => {
+       const control = state.describe.controls.find((c) => c.key === input.dataset.key);
+-      if (control.kind === "range") {
+-        const current = (state.changed[control.key] ?? control.value).slice();
+-        current[+input.dataset.part] = +input.value;
+-        state.changed[control.key] = current;
+-      } else {
+-        state.changed[control.key] = +input.value;
+-      }
++      state.changed[control.key] = readInput(control, input);
+       renderAssumptions(); renderOverride();
+     };
+   }
+ }
+ 
++// The kinds /api/describe can send. A control whose kind is not handled here still shows
++// its value as text, so a new configuration field is editable the day it is added.
++function controlInput(c, value) {
++  const key = `data-key="${c.key}"`;
++  switch (c.kind) {
++    case "range":
++      return `<div class="row"><input type="number" ${key} data-part="0" value="${value[0]}" step="any">
++              <input type="number" ${key} data-part="1" value="${value[1]}" step="any"></div>`;
++    case "boolean":
++      return `<input type="checkbox" ${key} ${value ? "checked" : ""} style="width:auto">`;
++    case "texts":
++      return `<input type="text" ${key} value="${(value || []).join(", ")}" placeholder="comma separated">`;
++    case "text":
++      return `<input type="text" ${key} value="${value ?? ""}">`;
++    default:
++      return `<input type="number" ${key} value="${value}" step="any">`;
++  }
++}
++
++function readInput(c, input) {
++  switch (c.kind) {
++    case "range": {
++      const current = (state.changed[c.key] ?? c.value).slice();
++      current[+input.dataset.part] = +input.value;
++      return current;
++    }
++    case "boolean": return input.checked;
++    case "texts": return input.value.split(/[,\s]+/).filter(Boolean);
++    case "text": return input.value;
++    default: return +input.value;
++  }
++}
++
+ function renderHypotheses() {
+   const list = state.describe.hypotheses;
+   const api = state.describe.hypothesis_api || {};
+@@ -359,6 +407,12 @@ function tomlValue(v, type = "float") {
+   return Number.isInteger(v) ? v.toFixed(1) : `${v}`;
+ }
+ 
++// An override can set a key but not unset one, so a control cleared back to empty is left
++// out rather than written as an empty value the runner would try to use.
++function isEmpty(v) {
++  return v === "" || v === null || v === undefined || (Array.isArray(v) && v.length === 0);
++}
++
+ /// The override this run applies, as the TOML that is actually sent.
+ function buildOverride() {
+   const top = [
+@@ -370,6 +424,7 @@ function buildOverride() {
+   for (const [key, value] of Object.entries(state.changed)) {
+     const control = state.describe.controls.find((c) => c.key === key);
+     if (JSON.stringify(value) === JSON.stringify(control.published ?? control.value)) continue;
++    if (isEmpty(value)) continue;
+     const parts = key.split(".");
+     const type = control.kind.startsWith("integer") ? "integer" : "float";
+     const line = `${parts.at(-1)} = ${tomlValue(value, type)}`;
+@@ -453,10 +508,12 @@ function currentCase(summary) {
+   return summary.cases[Math.min(state.caseIndex, summary.cases.length - 1)];
+ }
+ 
+-function render() {
++function render(keepView = false) {
+   const summary = state.summary;
+   const c = currentCase(summary);
+   if (!c) return;
++  // A new selection starts from a fitted axis; only the zoom controls keep their view.
++  if (!keepView) { state.view.pdf = null; state.view.map = null; }
+   renderToggles(summary);
+   renderStats(summary, c);
+   renderModes(c);
+@@ -480,10 +537,13 @@ function renderStats(summary, c) {
+   const b = state.baseline && currentCase(state.baseline);
+   const delta = (ours, base, fmt) => b && base !== undefined && base !== null ? `<span class="stat-delta" style="color:var(--muted)"> (${fmt(base)})</span>` : "";
+   const stat = (label, value, note = "") => `<div class="stat"><b>${value}</b><span>${label}${note}</span></div>`;
++  const published = summary.reference && summary.reference.stats;
+   const split = c.split_half_overlap;
+   $("stats").innerHTML = [
+-    stat("median latitude", fmtLat(c.stats.median) + delta(c.stats.median, b && b.stats.median, fmtLat)),
+-    stat("95% interval", `${fmtLat(c.stats.q975)} – ${fmtLat(c.stats.q025)}`),
++    stat("median latitude", fmtLat(c.stats.median) + delta(c.stats.median, b && b.stats.median, fmtLat),
++      published ? ` · published ${fmtLat(published.median)}` : ""),
++    stat("95% interval", `${fmtLat(c.stats.q975)} – ${fmtLat(c.stats.q025)}`,
++      published ? ` · published ${fmtLat(published.q975)} – ${fmtLat(published.q025)}` : ""),
+     stat("peak", fmtLat(c.stats.mode)),
+     stat(`shoulder ${fmtLat(summary.shoulder_interval[1])}–${fmtLat(summary.shoulder_interval[0])}`,
+       fmtPct(c.probability.shoulder) + delta(0, b && b.probability.shoulder, fmtPct)),
+@@ -524,49 +584,108 @@ function renderReplicates(c) {
+ }
+ 
+ // ---------------------------------------------------------------- plots
++// Both axes are recomputed on every draw from the series actually on screen, so turning a
++// curve on, changing case or comparing a run rescales the plot instead of clipping it. A
++// zoom set by hand is kept across redraws and dropped whenever the selection changes.
+ function setupCanvas(canvas) {
+   const ratio = window.devicePixelRatio || 1;
+   const width = canvas.clientWidth, height = +canvas.getAttribute("height");
+-  canvas.width = width * ratio; canvas.height = height * ratio;
++  if (width < 20 || height < 20) return null; // a collapsed panel has no width to draw into
++  canvas.width = Math.round(width * ratio);
++  canvas.height = Math.round(height * ratio);
+   const ctx = canvas.getContext("2d");
+   ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+   ctx.clearRect(0, 0, width, height);
+   return { ctx, width, height };
+ }
+ 
+-function gridLatitude(summary, i) { return summary.grid.min + i * summary.grid.step; }
++const gridLatitude = (summary, i) => summary.grid.min + i * summary.grid.step;
++const gridIndex = (summary, lat) =>
++  Math.max(0, Math.min(summary.grid.points - 1, Math.round((lat - summary.grid.min) / summary.grid.step)));
+ 
+-function drawPdf(summary, c) {
+-  const { ctx, width, height } = setupCanvas($("pdf"));
+-  const pad = { l: 46, r: 12, t: 10, b: 26 };
+-  // Fit the window to where the density lives, with a degree of margin.
+-  const threshold = Math.max(...c.density) * 0.002;
+-  let lo = c.density.findIndex((d) => d > threshold), hi = c.density.length - 1 - [...c.density].reverse().findIndex((d) => d > threshold);
++/// Redraw the plots alone, keeping the current zoom: used by the zoom controls and resize.
++function drawOnly() {
++  const summary = state.summary, c = currentCase(summary);
++  if (!c) return;
++  drawPdf(summary, c);
++  drawMap(summary, c);
++}
++
++/// The curves currently selected, in draw order.
++function pdfSeries(summary, c) {
++  const series = [];
+   const published = summary.reference && summary.reference.density;
+   if (state.curves.published && published) {
+-    const plo = published.findIndex((d) => d > Math.max(...published) * 0.002);
+-    const phi = published.length - 1 - [...published].reverse().findIndex((d) => d > Math.max(...published) * 0.002);
+-    lo = Math.min(lo, plo); hi = Math.max(hi, phi);
++    series.push({ data: published, colour: "var(--davey)", width: 1.6, dash: [5, 3], label: "published (Davey Fig. 10.3)" });
+   }
+-  const x0 = gridLatitude(summary, Math.max(0, lo - 20)), x1 = gridLatitude(summary, Math.min(c.density.length - 1, hi + 20));
+-  const series = [];
+-  if (state.curves.published && published) series.push({ data: published, colour: "var(--davey)", width: 1.6, dash: [5, 3], label: "published (Davey Fig. 10.3)" });
+-  if (state.curves.modes) for (const [i, m] of (c.modes || []).entries()) {
+-    if (m.probability > 1e-4) series.push({ data: m.density, colour: MODE_COLOURS[i], width: 1, alpha: .75, label: `${m.mode} (${fmtPct(m.probability)})` });
++  if (state.curves.modes) {
++    for (const [i, m] of (c.modes || []).entries()) {
++      if (m.probability > 1e-4) {
++        series.push({ data: m.density, colour: MODE_COLOURS[i], width: 1, alpha: .75, label: `${m.mode} (${fmtPct(m.probability)})` });
++      }
++    }
++  }
++  if (state.curves.replicates) {
++    for (const r of c.replicates || []) series.push({ data: r.density, colour: "#9b9a95", width: .8, alpha: .8, label: null });
+   }
+-  if (state.curves.replicates) for (const r of c.replicates || []) series.push({ data: r.density, colour: "#9b9a95", width: .8, alpha: .8, label: null });
+   const baselineCase = state.baseline && currentCase(state.baseline);
+-  if (baselineCase) series.push({ data: baselineCase.density, colour: "#7a7973", width: 1.4, dash: [2, 3], label: `compared run` });
++  if (baselineCase) series.push({ data: baselineCase.density, colour: "#7a7973", width: 1.4, dash: [2, 3], label: "compared run" });
+   series.push({ data: c.density, colour: "var(--ours)", width: 2, label: "this run" });
+-  const peak = Math.max(...series.flatMap((s) => s.data.slice(Math.max(0, lo - 20), hi + 20)));
++  return series;
++}
++
++/// The latitude window that holds every visible curve: the union of each curve's central
++/// 99.6% of mass, with a degree of margin. Mass rather than height, because a mode curve
++/// can trail a long thin tail that would otherwise set the window for everything.
++function fitPdf(summary, series) {
++  let lo = summary.grid.points - 1, hi = 0;
++  for (const s of series) {
++    let total = 0;
++    for (const d of s.data) total += d;
++    if (total <= 0) continue;
++    let acc = 0, first = -1, last = s.data.length - 1;
++    for (let i = 0; i < s.data.length; i++) {
++      acc += s.data[i] / total;
++      if (first < 0 && acc >= 0.002) first = i;
++      if (acc >= 0.998) { last = i; break; }
++    }
++    lo = Math.min(lo, first < 0 ? 0 : first); hi = Math.max(hi, last);
++  }
++  if (lo > hi) return { min: summary.grid.min, max: summary.grid.max };
++  const margin = Math.max(20, Math.round((hi - lo) * 0.05));
++  return {
++    min: gridLatitude(summary, Math.max(0, lo - margin)),
++    max: gridLatitude(summary, Math.min(summary.grid.points - 1, hi + margin)),
++  };
++}
++
++function drawPdf(summary, c) {
++  const canvas = setupCanvas($("pdf"));
++  if (!canvas) return;
++  const { ctx, width, height } = canvas;
++  const pad = { l: 46, r: 12, t: 10, b: 26 };
++  const series = pdfSeries(summary, c);
++  const view = state.view.pdf || fitPdf(summary, series);
++  const [x0, x1] = [view.min, view.max];
++  const i0 = gridIndex(summary, x0), i1 = gridIndex(summary, x1);
++  // The vertical scale follows whatever is on screen, so a peaked per-mode curve is not cut off.
++  let peak = 0;
++  for (const s of series) for (let i = i0; i <= i1; i++) if (s.data[i] > peak) peak = s.data[i];
++  peak = peak > 0 ? peak : 1;
+   const X = (lat) => pad.l + (lat - x0) / (x1 - x0) * (width - pad.l - pad.r);
+   const Y = (d) => height - pad.b - d / (peak * 1.08) * (height - pad.t - pad.b);
+-
+-  // Shoulder band, axes, then the curves.
+-  ctx.fillStyle = "#f3f1ec";
+-  ctx.fillRect(X(summary.shoulder_interval[0]), pad.t, X(summary.shoulder_interval[1]) - X(summary.shoulder_interval[0]), height - pad.t - pad.b);
++  state.axis.pdf = { x0, x1, pad, width };
++
++  // Shoulder band, clipped to the plot area, then axes, then the curves.
++  const left = Math.max(X(summary.shoulder_interval[0]), pad.l);
++  const right = Math.min(X(summary.shoulder_interval[1]), width - pad.r);
++  if (right > left) {
++    ctx.fillStyle = "#f3f1ec";
++    ctx.fillRect(left, pad.t, right - left, height - pad.t - pad.b);
++  }
+   ctx.strokeStyle = "#e6e4df"; ctx.lineWidth = 1; ctx.fillStyle = "#52514e"; ctx.font = "11px -apple-system, sans-serif";
+-  const step = (x1 - x0) > 14 ? 5 : (x1 - x0) > 6 ? 2 : 1;
++  const span = x1 - x0;
++  const step = span > 30 ? 10 : span > 14 ? 5 : span > 6 ? 2 : span > 2.5 ? 1 : span > 1 ? 0.5 : 0.2;
+   for (let lat = Math.ceil(x0 / step) * step; lat <= x1; lat += step) {
+     ctx.beginPath(); ctx.moveTo(X(lat), pad.t); ctx.lineTo(X(lat), height - pad.b); ctx.stroke();
+     ctx.textAlign = "center"; ctx.fillText(fmtLat(lat), X(lat), height - pad.b + 14);
+@@ -575,70 +694,198 @@ function drawPdf(summary, c) {
+   for (let k = 0; k <= 4; k++) {
+     const d = peak * 1.08 * k / 4;
+     ctx.beginPath(); ctx.moveTo(pad.l, Y(d)); ctx.lineTo(width - pad.r, Y(d)); ctx.stroke();
+-    ctx.fillText(d.toFixed(2), pad.l - 5, Y(d) + 3);
++    ctx.fillText(d.toFixed(peak < 0.5 ? 3 : 2), pad.l - 5, Y(d) + 3);
+   }
+   ctx.save(); ctx.translate(11, height / 2); ctx.rotate(-Math.PI / 2); ctx.textAlign = "center";
+   ctx.fillText("probability per degree", 0, 0); ctx.restore();
+ 
++  ctx.save();
++  ctx.beginPath(); ctx.rect(pad.l, pad.t, width - pad.l - pad.r, height - pad.t - pad.b); ctx.clip();
+   for (const s of series) {
+     ctx.beginPath(); ctx.globalAlpha = s.alpha || 1;
+     ctx.strokeStyle = s.colour.startsWith("var") ? getComputedStyle(document.body).getPropertyValue(s.colour.slice(4, -1)) : s.colour;
+     ctx.lineWidth = s.width; ctx.setLineDash(s.dash || []);
+     let started = false;
+-    for (let i = Math.max(0, lo - 20); i <= Math.min(s.data.length - 1, hi + 20); i++) {
++    for (let i = Math.max(0, i0 - 2); i <= Math.min(s.data.length - 1, i1 + 2); i++) {
+       const px = X(gridLatitude(summary, i)), py = Y(s.data[i]);
+       started ? ctx.lineTo(px, py) : (ctx.moveTo(px, py), started = true);
+     }
+     ctx.stroke();
+   }
++  ctx.restore();
+   ctx.globalAlpha = 1; ctx.setLineDash([]);
++
++  $("pdf-range").textContent = `${fmtLat(x1)} – ${fmtLat(x0)}${state.view.pdf ? " · zoomed" : " · fitted"}`;
+   $("pdf-legend").innerHTML = series.filter((s) => s.label).reverse()
+     .map((s) => `<span><i style="border-color:${s.colour}"></i>${s.label}</span>`).join("") +
+     `<span style="color:var(--muted)">shaded: published northern shoulder</span>`;
+ }
+ 
++/// The map window that holds the posterior, with room for the arcs it sits on.
++function fitMap(summary, c) {
++  const cells = c.map || [];
++  if (!cells.length) return [summary.map.lon[0], summary.map.lon[1], summary.map.lat[0], summary.map.lat[1]];
++  let lon0 = Infinity, lon1 = -Infinity, lat0 = Infinity, lat1 = -Infinity;
++  for (const [y, x] of cells) {
++    const lat = summary.map.lat[0] + y * summary.map.step, lon = summary.map.lon[0] + x * summary.map.step;
++    lon0 = Math.min(lon0, lon); lon1 = Math.max(lon1, lon);
++    lat0 = Math.min(lat0, lat); lat1 = Math.max(lat1, lat);
++  }
++  return [lon0 - 6, lon1 + 6, lat0 - 4, lat1 + 4];
++}
++
+ function drawMap(summary, c) {
+-  const { ctx, width, height } = setupCanvas($("map"));
++  const canvas = setupCanvas($("map"));
++  if (!canvas) return;
++  const { ctx, width, height } = canvas;
+   const cells = c.map || [];
+-  if (!cells.length) return;
+   const pad = { l: 40, r: 10, t: 8, b: 24 };
+-  // Frame the posterior, with room for the arcs it sits on.
+-  const lat = cells.map((k) => summary.map.lat[0] + k[0] * summary.map.step);
+-  const lon = cells.map((k) => summary.map.lon[0] + k[1] * summary.map.step);
+-  const extent = [Math.min(...lon) - 6, Math.max(...lon) + 6, Math.min(...lat) - 4, Math.max(...lat) + 4];
++  const extent = state.view.map || fitMap(summary, c);
+   const X = (v) => pad.l + (v - extent[0]) / (extent[1] - extent[0]) * (width - pad.l - pad.r);
+   const Y = (v) => height - pad.b - (v - extent[2]) / (extent[3] - extent[2]) * (height - pad.t - pad.b);
++  state.axis.map = { extent, pad, width, height };
+ 
+   ctx.strokeStyle = "#eceae5";
+-  for (let v = Math.ceil(extent[0] / 5) * 5; v <= extent[1]; v += 5) { ctx.beginPath(); ctx.moveTo(X(v), pad.t); ctx.lineTo(X(v), height - pad.b); ctx.stroke(); }
+-  for (let v = Math.ceil(extent[2] / 5) * 5; v <= extent[3]; v += 5) { ctx.beginPath(); ctx.moveTo(pad.l, Y(v)); ctx.lineTo(width - pad.r, Y(v)); ctx.stroke(); }
++  const lonStep = (extent[1] - extent[0]) > 40 ? 10 : (extent[1] - extent[0]) > 12 ? 5 : 2;
++  const latStep = (extent[3] - extent[2]) > 40 ? 10 : (extent[3] - extent[2]) > 12 ? 5 : 2;
++  for (let v = Math.ceil(extent[0] / lonStep) * lonStep; v <= extent[1]; v += lonStep) {
++    ctx.beginPath(); ctx.moveTo(X(v), pad.t); ctx.lineTo(X(v), height - pad.b); ctx.stroke();
++  }
++  for (let v = Math.ceil(extent[2] / latStep) * latStep; v <= extent[3]; v += latStep) {
++    ctx.beginPath(); ctx.moveTo(pad.l, Y(v)); ctx.lineTo(width - pad.r, Y(v)); ctx.stroke();
++  }
+   ctx.fillStyle = "#52514e"; ctx.font = "11px -apple-system, sans-serif"; ctx.textAlign = "center";
+-  for (let v = Math.ceil(extent[0] / 5) * 5; v <= extent[1]; v += 5) ctx.fillText(`${v.toFixed(0)}°E`, X(v), height - pad.b + 14);
++  for (let v = Math.ceil(extent[0] / lonStep) * lonStep; v <= extent[1]; v += lonStep) {
++    ctx.fillText(`${v.toFixed(0)}°E`, X(v), height - pad.b + 14);
++  }
+   ctx.textAlign = "right";
+-  for (let v = Math.ceil(extent[2] / 5) * 5; v <= extent[3]; v += 5) ctx.fillText(fmtLat(v), pad.l - 4, Y(v) + 3);
++  for (let v = Math.ceil(extent[2] / latStep) * latStep; v <= extent[3]; v += latStep) ctx.fillText(fmtLat(v), pad.l - 4, Y(v) + 3);
+ 
++  ctx.save();
++  ctx.beginPath(); ctx.rect(pad.l, pad.t, width - pad.l - pad.r, height - pad.t - pad.b); ctx.clip();
+   ctx.setLineDash([4, 3]); ctx.strokeStyle = "#8a8983"; ctx.lineWidth = .8;
+   for (const arc of summary.reference_arcs || []) {
+     ctx.beginPath();
+-    arc.lat_lon.forEach(([la, lo], i) => i ? ctx.lineTo(X(lo), Y(la)) : ctx.moveTo(X(lo), Y(la)));
++    arc.lat_lon.forEach(([la, lo], i) => (i ? ctx.lineTo(X(lo), Y(la)) : ctx.moveTo(X(lo), Y(la))));
+     ctx.stroke();
+   }
+   ctx.setLineDash([]);
+ 
+-  const peak = Math.max(...cells.map((k) => k[2]));
++  let peak = 0;
++  for (const cell of cells) if (cell[2] > peak) peak = cell[2];
+   const w = X(extent[0] + summary.map.step) - X(extent[0]), h = Y(extent[2]) - Y(extent[2] + summary.map.step);
+   for (const [y, x, value] of cells) {
+     const t = Math.log10(value / peak) / 3 + 1; // three decades of density
+     if (t <= 0) continue;
+     ctx.fillStyle = `rgba(42, 120, 214, ${Math.min(1, 0.12 + 0.88 * t).toFixed(3)})`;
+-    ctx.fillRect(X(summary.map.lon[0] + x * summary.map.step), Y(summary.map.lat[0] + (y + 1) * summary.map.step), Math.max(w, 1.5), Math.max(h, 1.5));
++    ctx.fillRect(X(summary.map.lon[0] + x * summary.map.step), Y(summary.map.lat[0] + (y + 1) * summary.map.step),
++      Math.max(w, 1.5), Math.max(h, 1.5));
+   }
+   if (summary.prior) {
+     ctx.fillStyle = "#0b0b0b";
+-    ctx.beginPath();
+-    ctx.arc(X(summary.prior.longitude_deg), Y(summary.prior.latitude_deg), 3.5, 0, 2 * Math.PI);
+-    ctx.fill();
++    ctx.beginPath(); ctx.arc(X(summary.prior.longitude_deg), Y(summary.prior.latitude_deg), 3.5, 0, 2 * Math.PI); ctx.fill();
+   }
++  ctx.restore();
++  $("map-range").textContent = `${extent[0].toFixed(1)}–${extent[1].toFixed(1)}°E, ${fmtLat(extent[3])}–${fmtLat(extent[2])}` +
++    `${state.view.map ? " · zoomed" : " · fitted"}`;
++}
++
++// ---------------------------------------------------------------- zoom and pan
++function zoomPdf(factor, centre) {
++  const a = state.axis.pdf;
++  if (!a) return;
++  const view = state.view.pdf || { min: a.x0, max: a.x1 };
++  const at = centre === undefined ? (view.min + view.max) / 2 : centre;
++  const t = (at - view.min) / (view.max - view.min);
++  const span = Math.max(0.2, Math.min(state.summary.grid.max - state.summary.grid.min, (view.max - view.min) * factor));
++  state.view.pdf = { min: at - span * t, max: at + span * (1 - t) };
++}
++
++function panPdf(fraction) {
++  const a = state.axis.pdf;
++  if (!a) return;
++  const view = state.view.pdf || { min: a.x0, max: a.x1 };
++  const shift = (view.max - view.min) * fraction;
++  state.view.pdf = { min: view.min + shift, max: view.max + shift };
++}
++
++function zoomMap(factor, lon, lat) {
++  const a = state.axis.map;
++  if (!a) return;
++  const e = state.view.map || a.extent;
++  const atLon = lon === undefined ? (e[0] + e[1]) / 2 : lon;
++  const atLat = lat === undefined ? (e[2] + e[3]) / 2 : lat;
++  const tx = (atLon - e[0]) / (e[1] - e[0]), ty = (atLat - e[2]) / (e[3] - e[2]);
++  const spanX = Math.max(0.5, (e[1] - e[0]) * factor), spanY = Math.max(0.4, (e[3] - e[2]) * factor);
++  state.view.map = [atLon - spanX * tx, atLon + spanX * (1 - tx), atLat - spanY * ty, atLat + spanY * (1 - ty)];
++}
++
++function panMap(fx, fy) {
++  const a = state.axis.map;
++  if (!a) return;
++  const e = state.view.map || a.extent;
++  const dx = (e[1] - e[0]) * fx, dy = (e[3] - e[2]) * fy;
++  state.view.map = [e[0] + dx, e[1] + dx, e[2] + dy, e[3] + dy];
++}
++
++/// Wheel to zoom about the pointer, drag to pan. Both plots, same gestures.
++function attachPlotGestures() {
++  const pdf = $("pdf"), map = $("map");
++  const latAt = (offsetX) => {
++    const a = state.axis.pdf;
++    return a.x0 + (offsetX - a.pad.l) / (a.width - a.pad.l - a.pad.r) * (a.x1 - a.x0);
++  };
++  pdf.addEventListener("wheel", (e) => {
++    if (!state.axis.pdf) return;
++    e.preventDefault();
++    zoomPdf(e.deltaY > 0 ? 1.25 : 0.8, latAt(e.offsetX));
++    drawOnly();
++  }, { passive: false });
++  map.addEventListener("wheel", (e) => {
++    const a = state.axis.map;
++    if (!a) return;
++    e.preventDefault();
++    const e0 = state.view.map || a.extent;
++    const lon = e0[0] + (e.offsetX - a.pad.l) / (a.width - a.pad.l - a.pad.r) * (e0[1] - e0[0]);
++    const lat = e0[2] + (a.height - a.pad.b - e.offsetY) / (a.height - a.pad.t - a.pad.b) * (e0[3] - e0[2]);
++    zoomMap(e.deltaY > 0 ? 1.25 : 0.8, lon, lat);
++    drawOnly();
++  }, { passive: false });
++
++  for (const [canvas, onDrag] of [[pdf, (dx) => panPdf(-dx)], [map, null]]) {
++    let from = null;
++    canvas.style.cursor = "grab";
++    canvas.addEventListener("pointerdown", (e) => {
++      from = { x: e.offsetX, y: e.offsetY };
++      canvas.setPointerCapture(e.pointerId);
++      canvas.style.cursor = "grabbing";
++    });
++    canvas.addEventListener("pointermove", (e) => {
++      if (!from) return;
++      if (onDrag) {
++        const a = state.axis.pdf;
++        if (a) onDrag((e.offsetX - from.x) / (a.width - a.pad.l - a.pad.r));
++      } else {
++        const a = state.axis.map;
++        if (a) panMap(-(e.offsetX - from.x) / (a.width - a.pad.l - a.pad.r), (e.offsetY - from.y) / (a.height - a.pad.t - a.pad.b));
++      }
++      from = { x: e.offsetX, y: e.offsetY };
++      drawOnly();
++    });
++    const release = () => { from = null; canvas.style.cursor = "grab"; };
++    canvas.addEventListener("pointerup", release);
++    canvas.addEventListener("pointercancel", release);
++  }
++
++  const wire = (id, action) => { const el = $(id); if (el) el.onclick = () => { action(); drawOnly(); }; };
++  wire("pdf-in", () => zoomPdf(0.7));
++  wire("pdf-out", () => zoomPdf(1.4));
++  wire("pdf-left", () => panPdf(-0.25));
++  wire("pdf-right", () => panPdf(0.25));
++  wire("pdf-fit", () => { state.view.pdf = null; });
++  wire("map-in", () => zoomMap(0.7));
++  wire("map-out", () => zoomMap(1.4));
++  wire("map-fit", () => { state.view.map = null; });
+ }
+ 
+ function renderData(data) {
+@@ -648,7 +895,7 @@ function renderData(data) {
+       <td class="num">${d.bytes ? (d.bytes / 1e6).toFixed(1) + " MB" : "—"}</td></tr>`).join("") + `</table>`;
+ }
+ 
+-window.addEventListener("resize", () => state.summary && render());
++window.addEventListener("resize", () => state.summary && drawOnly());
+ boot();
+ </script>
+ </body>

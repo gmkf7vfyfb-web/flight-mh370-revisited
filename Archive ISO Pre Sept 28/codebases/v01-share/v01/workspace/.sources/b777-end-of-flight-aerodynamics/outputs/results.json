@@ -1,0 +1,1052 @@
+{
+  "admission": {
+    "admitted_candidate_family": null,
+    "allowed_now": [
+      "Use the Boeing/ATSB trajectory exports as external validation-only fixtures fetched by URL and hash.",
+      "Use the public point-mass polars only as explicitly named, non-admitted audit comparators.",
+      "Use certified Trent 892 identity and static LTO data as identity checks, not an in-flight or flameout thrust map."
+    ],
+    "code": "NO_PUBLIC_REDISTRIBUTABLE_MODEL_SPANS_REQUIRED_ENVELOPE",
+    "forbidden_now": [
+      "Do not install any audited family in the product estimator.",
+      "Do not splice OpenAP cruise drag, NASA generic high-AoA data, and FlightGear controls into a synthetic B777 model.",
+      "Do not force OpenAP's unlisted Trent 892 engine option and call the result a B777-200ER/Trent 892 model.",
+      "Do not infer priors from the candidate spread or tune any parameter to the 00:19 BFO or assumed impact."
+    ],
+    "implementation_ready_conditional_aerodynamic_parameters": null,
+    "plain_blocker": "No located public, legally redistributable candidate provides B777-200ER/Trent 892B lift, drag, moments, control effectiveness, running and windmilling-engine forces, and control-mode behavior across cruise through post-flameout transonic/high-AoA flight with traceable aircraft-specific validation.",
+    "release_condition": "Obtain a distributable B777-200ER/Trent 892B aerodynamic, propulsion, actuator, and flight-control dataset with stated axes, units, configurations, uncertainty, and validation over the required envelope; or obtain permission to publish a reduced model and independent fixtures derived from such a dataset.",
+    "status": "blocked"
+  },
+  "audit_date_utc": "2026-08-27",
+  "candidate_execution": {
+    "boeing_trajectory_exports": {
+      "case_count": 10,
+      "high_case_chord_distance_range_nm": [
+        4.707313059550038,
+        7.9234454758708655
+      ],
+      "interpretation": [
+        "One-second backward differences independently reproduce cases 3, 4, 5, 6 and 10 and the published 4.7-7.9 NM distance range.",
+        "The same five-case classification survives 2, 4 and 8 second sampling, but not 16 seconds; acceleration peaks are derivative-window dependent.",
+        "The exports contain only X, Y and integer-foot altitude, and their last rows remain above sea level; they are validation comparators, not an implementable model."
+      ],
+      "member_sha256": {
+        "Case 01.csv": "794f4e89ba4b6d7c08add6409d87fabc3eb408451df5860b26e53a7dc1b97e7a",
+        "Case 02.csv": "57372f0893b72116cefc5b16fbcc578318dccaaba26f368ecfa09d9ca72073a2",
+        "Case 03.csv": "39c47bfe3e0c7ded8d1d1ad45cc913cfab479710314060364d38f0303b26074d",
+        "Case 04.csv": "5bed89c470358ca4be2ac732acb5cc644f66d3d5d8b56ef1075f7d54edcb49f2",
+        "Case 05.csv": "4220717be3f73554e360552b087dbbd8f4a0ca901d894f53d230293f8ce23b7a",
+        "Case 06.csv": "48fcf2c009a80f4a29d8878df1babfa9ceea6c48af1ad5da9087d7d5bbb5c976",
+        "Case 07.csv": "35002bb04f753fa612d0c5406ae2594141a0cb29f81cc3d3320d7a24567d7c4b",
+        "Case 08.csv": "40043027ddba50ce0d56b33d790490a1769a2abed4708d6f637de3d3e8d2f2bf",
+        "Case 09.csv": "692a34fd1b4ce021e0fcaa5e2e82d7fb587e5c9a3d7450b072217f5298f53532",
+        "Case 10.csv": "3257ebbccdc37fa9a98e1e721dbd510c6d4036bb6cb09ecfacd2fcf5b96f3ba6"
+      },
+      "one_second_case_metrics": {
+        "1": {
+          "duration_s": 2503.0,
+          "exceeds_both_published_thresholds": false,
+          "first_15000_fpm_to_last_chord_nm": null,
+          "initial_altitude_ft": 40000.0,
+          "last_altitude_ft": 535.0,
+          "maximum_downward_acceleration_g": 0.34189096786224904,
+          "minimum_vertical_rate_fpm": -4800.0,
+          "sample_interval_s": 1
+        },
+        "10": {
+          "duration_s": 473.0,
+          "exceeds_both_published_thresholds": true,
+          "first_15000_fpm_to_last_chord_nm": 7.321955587977671,
+          "initial_altitude_ft": 40000.0,
+          "last_altitude_ft": 1131.0,
+          "maximum_downward_acceleration_g": 1.3054018772922236,
+          "minimum_vertical_rate_fpm": -58020.0,
+          "sample_interval_s": 1
+        },
+        "2": {
+          "duration_s": 2461.0,
+          "exceeds_both_published_thresholds": false,
+          "first_15000_fpm_to_last_chord_nm": null,
+          "initial_altitude_ft": 40000.0,
+          "last_altitude_ft": 517.0,
+          "maximum_downward_acceleration_g": 0.34189096786224904,
+          "minimum_vertical_rate_fpm": -6300.0,
+          "sample_interval_s": 1
+        },
+        "3": {
+          "duration_s": 577.0,
+          "exceeds_both_published_thresholds": true,
+          "first_15000_fpm_to_last_chord_nm": 4.707313059550038,
+          "initial_altitude_ft": 40000.0,
+          "last_altitude_ft": 653.0,
+          "maximum_downward_acceleration_g": 1.243239883135451,
+          "minimum_vertical_rate_fpm": -53460.0,
+          "sample_interval_s": 1
+        },
+        "4": {
+          "duration_s": 453.0,
+          "exceeds_both_published_thresholds": true,
+          "first_15000_fpm_to_last_chord_nm": 6.711769460721259,
+          "initial_altitude_ft": 40000.0,
+          "last_altitude_ft": 484.0,
+          "maximum_downward_acceleration_g": 0.8702679181948157,
+          "minimum_vertical_rate_fpm": -33600.0,
+          "sample_interval_s": 1
+        },
+        "5": {
+          "duration_s": 1891.0,
+          "exceeds_both_published_thresholds": true,
+          "first_15000_fpm_to_last_chord_nm": 5.105701730782424,
+          "initial_altitude_ft": 35000.0,
+          "last_altitude_ft": 658.0,
+          "maximum_downward_acceleration_g": 0.9013489152732019,
+          "minimum_vertical_rate_fpm": -24180.0,
+          "sample_interval_s": 1
+        },
+        "6": {
+          "duration_s": 384.0,
+          "exceeds_both_published_thresholds": true,
+          "first_15000_fpm_to_last_chord_nm": 7.9234454758708655,
+          "initial_altitude_ft": 35000.0,
+          "last_altitude_ft": 742.0,
+          "maximum_downward_acceleration_g": 1.2121588860570647,
+          "minimum_vertical_rate_fpm": -43380.0,
+          "sample_interval_s": 1
+        },
+        "7": {
+          "duration_s": 2434.0,
+          "exceeds_both_published_thresholds": false,
+          "first_15000_fpm_to_last_chord_nm": null,
+          "initial_altitude_ft": 40000.0,
+          "last_altitude_ft": 496.0,
+          "maximum_downward_acceleration_g": 0.31080997078386274,
+          "minimum_vertical_rate_fpm": -4920.0,
+          "sample_interval_s": 1
+        },
+        "8": {
+          "duration_s": 2234.0,
+          "exceeds_both_published_thresholds": false,
+          "first_15000_fpm_to_last_chord_nm": null,
+          "initial_altitude_ft": 35000.0,
+          "last_altitude_ft": 480.0,
+          "maximum_downward_acceleration_g": 0.34189096786224904,
+          "minimum_vertical_rate_fpm": -7140.0,
+          "sample_interval_s": 1
+        },
+        "9": {
+          "duration_s": 2249.0,
+          "exceeds_both_published_thresholds": false,
+          "first_15000_fpm_to_last_chord_nm": null,
+          "initial_altitude_ft": 40000.0,
+          "last_altitude_ft": 473.0,
+          "maximum_downward_acceleration_g": 0.31080997078386274,
+          "minimum_vertical_rate_fpm": -6900.0,
+          "sample_interval_s": 1
+        }
+      },
+      "published_high_rate_cases": [
+        3,
+        4,
+        5,
+        6,
+        10
+      ],
+      "reproduced_high_rate_cases": [
+        3,
+        4,
+        5,
+        6,
+        10
+      ],
+      "time_sample_sensitivity": {
+        "1": {
+          "high_case_acceleration_range_g": [
+            0.8702679181948157,
+            1.3054018772922236
+          ],
+          "high_rate_cases": [
+            3,
+            4,
+            5,
+            6,
+            10
+          ]
+        },
+        "16": {
+          "high_case_acceleration_range_g": [
+            0.6545220908186735,
+            1.167358542612047
+          ],
+          "high_rate_cases": [
+            3,
+            4,
+            6,
+            10
+          ]
+        },
+        "2": {
+          "high_case_acceleration_range_g": [
+            0.8547274196556226,
+            1.2898613787530304
+          ],
+          "high_rate_cases": [
+            3,
+            4,
+            5,
+            6,
+            10
+          ]
+        },
+        "32": {
+          "high_case_acceleration_range_g": [
+            0.2887740294958662,
+            0.6938893302822154
+          ],
+          "high_rate_cases": [
+            3
+          ]
+        },
+        "4": {
+          "high_case_acceleration_range_g": [
+            0.8022782370858458,
+            1.2782060048486357
+          ],
+          "high_rate_cases": [
+            3,
+            4,
+            5,
+            6,
+            10
+          ]
+        },
+        "8": {
+          "high_case_acceleration_range_g": [
+            0.733802915397526,
+            1.2612085845713932
+          ],
+          "high_rate_cases": [
+            3,
+            4,
+            5,
+            6,
+            10
+          ]
+        }
+      }
+    },
+    "flightgear_yasim": {
+      "historical_unlicensed": {
+        "active_jets": [
+          {
+            "mass": 17000.0,
+            "spool-time": 3.0,
+            "thrust": 93400.0,
+            "tsfc": 0.34
+          },
+          {
+            "mass": 17000.0,
+            "spool-time": 3.0,
+            "thrust": 93400.0,
+            "tsfc": 0.34
+          }
+        ],
+        "comment_mentions": {
+          "ge90_115b": false,
+          "trent_892": false,
+          "trent_895": true
+        },
+        "commit": "371a354e5805c3c54afac926fea16bb19ea71fda",
+        "control_mappings": [
+          "BRAKE",
+          "EXTEND",
+          "FLAP0",
+          "FLAP1",
+          "REVERSE_THRUST",
+          "SLAT",
+          "SPOILER",
+          "STEER",
+          "THROTTLE"
+        ],
+        "cruise_target": {
+          "alt": 35000.0,
+          "fuel": 0.8,
+          "glide-angle": 0.0,
+          "speed": 512.0
+        },
+        "license_status": "unresolved",
+        "source_id": "flightgear_777_historical_fdm",
+        "wing": {
+          "chord_m": 10.0,
+          "length_m": 30.6,
+          "mcrit": null,
+          "stall": {
+            "aoa": 16.0,
+            "peak": 1.5,
+            "width": 6.0
+          },
+          "sweep_deg": 28.7
+        }
+      },
+      "modern_gpl": {
+        "active_jets": [
+          {
+            "mass": 19315.0,
+            "spool-time": 4.5,
+            "thrust": 115540.0,
+            "tsfc": 0.25
+          },
+          {
+            "mass": 19315.0,
+            "spool-time": 4.5,
+            "thrust": 115540.0,
+            "tsfc": 0.25
+          }
+        ],
+        "comment_mentions": {
+          "ge90_115b": true,
+          "trent_892": false,
+          "trent_895": true
+        },
+        "commit": "62396863bf567695b1137873bb939005accf85b3",
+        "control_mappings": [
+          "BRAKE",
+          "EXTEND",
+          "FLAP0",
+          "FLAP1",
+          "REVERSE_THRUST",
+          "SLAT",
+          "SPOILER",
+          "STEER",
+          "THROTTLE"
+        ],
+        "cruise_target": {
+          "alt": 35000.0,
+          "fuel": 0.8,
+          "glide-angle": 0.0,
+          "speed": 512.0
+        },
+        "license_status": "GPL-2.0-only",
+        "source_id": "flightgear_777_modern_fdm",
+        "wing": {
+          "chord_m": 10.0,
+          "length_m": 31.48,
+          "mcrit": 0.86,
+          "stall": {
+            "aoa": 16.0,
+            "peak": 1.5,
+            "width": 6.0
+          },
+          "sweep_deg": 28.7
+        }
+      }
+    },
+    "official_jsbsim": {
+      "B777_model_present": false,
+      "B777_path_hits": [],
+      "aircraft_directories": [
+        "737",
+        "787-8",
+        "A320",
+        "A4",
+        "B17",
+        "B747",
+        "Boeing314",
+        "C130",
+        "Camel",
+        "Concorde",
+        "DHC6",
+        "F450",
+        "F4N",
+        "F80C",
+        "J246",
+        "J3Cub",
+        "L17",
+        "L410",
+        "LM",
+        "MD11",
+        "OV10",
+        "Pterosaur",
+        "SGS",
+        "Short_S23",
+        "Shuttle",
+        "Submarine_Scout",
+        "T37",
+        "T38",
+        "X15",
+        "XB-70",
+        "ZLT-NT",
+        "ah1s",
+        "ball",
+        "ballx",
+        "blank",
+        "c172p",
+        "c172r",
+        "c172x",
+        "c182",
+        "c310",
+        "dr1",
+        "f104",
+        "f15",
+        "f16",
+        "f22",
+        "fokker100",
+        "fokker50",
+        "global5000",
+        "groundtest",
+        "minisgs",
+        "mk82",
+        "p51d",
+        "pa28",
+        "paraglider",
+        "pc7",
+        "pogo-jsbsim",
+        "sgs126",
+        "sgs233",
+        "t6texan2",
+        "weather-balloon",
+        "wrightFlyer1903",
+        "x24b"
+      ],
+      "aircraft_directory_count": 62,
+      "commit": "3b25f25e49b42d0489c04ac805674fc1450ca579",
+      "release": "v1.3.1"
+    },
+    "openap": {
+      "aircraft": "Boeing 777-200/200ER",
+      "commit": "4fb21d6e402fd1f4a48b191ad6801c74479e71f5",
+      "cruise_mach": 0.84,
+      "current_clean_polar": {
+        "cd0": 0.024,
+        "k": 0.047,
+        "oswald_e": 0.783
+      },
+      "drag_estimation_dataset": {
+        "correlation": {
+          "cd0": {
+            "cd0": 1.0,
+            "e": -0.9968520242012167,
+            "k": 0.9999982018811387,
+            "m": 0.4660897820562539
+          },
+          "e": {
+            "cd0": -0.9968520242012167,
+            "e": 1.0,
+            "k": -0.9968241846365217,
+            "m": -0.4877020718096522
+          },
+          "k": {
+            "cd0": 0.9999982018811387,
+            "e": -0.9968241846365217,
+            "k": 1.0,
+            "m": 0.46598202715980963
+          },
+          "m": {
+            "cd0": 0.4660897820562539,
+            "e": -0.4877020718096522,
+            "k": 0.46598202715980963,
+            "m": 1.0
+          }
+        },
+        "coverage": {
+          "alt": {
+            "count": 54487,
+            "max": 24975.0,
+            "mean": 12664.475471213316,
+            "min": 125.0,
+            "sample_stddev": 6798.1584144430935
+          },
+          "mach": {
+            "count": 53998,
+            "max": 0.768,
+            "mean": 0.5458643653468647,
+            "min": 0.1,
+            "sample_stddev": 0.13486801880187294
+          },
+          "roc": {
+            "count": 54487,
+            "max": 4608.0,
+            "mean": 1726.329730027346,
+            "min": -896.0,
+            "sample_stddev": 652.4009382688887
+          },
+          "tas": {
+            "count": 46728,
+            "max": 462.0,
+            "mean": 331.72735832905323,
+            "min": 44.0,
+            "sample_stddev": 77.02591234833187
+          }
+        },
+        "estimation_rows": 100,
+        "finite_estimates": 97,
+        "statistics": {
+          "cd0": {
+            "count": 97,
+            "max": 0.04577,
+            "mean": 0.03412649484536082,
+            "min": 0.01377,
+            "sample_stddev": 0.004559159517123449
+          },
+          "e": {
+            "count": 97,
+            "max": 0.85272,
+            "mean": 0.7232950515463918,
+            "min": 0.66429,
+            "sample_stddev": 0.02588118590001365
+          },
+          "k": {
+            "count": 97,
+            "max": 0.05523,
+            "mean": 0.050801958762886595,
+            "min": 0.04307,
+            "sample_stddev": 0.001732001274522757
+          },
+          "m": {
+            "count": 97,
+            "max": 209466.0,
+            "mean": 208525.63917525773,
+            "min": 206552.0,
+            "sample_stddev": 450.8014896078384
+          }
+        },
+        "trajectory_files": 101,
+        "trajectory_rows": 54487
+      },
+      "engine_default": "PW4090",
+      "engine_options": [
+        "GE90-77B",
+        "PW4077",
+        "Trent 877",
+        "GE90-94B",
+        "PW4090",
+        "Trent 895"
+      ],
+      "engine_rows": {
+        "PW4090": {
+          "bpr": 6.0,
+          "cruise_alt": null,
+          "cruise_mach": null,
+          "cruise_thrust": null,
+          "ff_app": 0.979,
+          "ff_co": 2.996,
+          "ff_idl": 0.338,
+          "ff_to": 3.926,
+          "max_thrust": 408300.0,
+          "pr": 38.9
+        },
+        "Trent 892": {
+          "bpr": 5.7,
+          "cruise_alt": null,
+          "cruise_mach": null,
+          "cruise_thrust": null,
+          "ff_app": 1.0,
+          "ff_co": 3.1,
+          "ff_idl": 0.3,
+          "ff_to": 3.91,
+          "max_thrust": 411480.0,
+          "pr": 41.38
+        },
+        "Trent 895": {
+          "bpr": 5.7,
+          "cruise_alt": null,
+          "cruise_mach": null,
+          "cruise_thrust": null,
+          "ff_app": 1.05,
+          "ff_co": 3.19,
+          "ff_idl": 0.33,
+          "ff_to": 4.03,
+          "max_thrust": 413050.0,
+          "pr": 41.52
+        }
+      },
+      "interpretation": [
+        "The source enforces an aircraft/engine option check; Trent 892 is not a B772 option.",
+        "The empirical B772 source data are climb trajectories and contain no AoA, moments, controls, flameout, or windmilling state.",
+        "The nearly singular cd0/k/e correlations are estimation structure, not independent parameter priors."
+      ],
+      "mmo": 0.89,
+      "release": "v2.6.0",
+      "trent_892_is_listed_option": false,
+      "wing_area_m2": 427.8,
+      "wing_span_m": 60.93
+    },
+    "openap_runtime_probe": {
+      "admission_effect": "none",
+      "executed_at_utc": "2026-08-27",
+      "probe": {
+        "aircraft": "B772",
+        "clean_drag_N": 159899.86051114558,
+        "engines": [
+          {
+            "engine": null,
+            "force_engine": false,
+            "maximum_cruise_thrust_N": 170794.67839718476,
+            "modeled_descent_idle_thrust_N": 9931.427718598632,
+            "status": "executed"
+          },
+          {
+            "engine": "Trent 895",
+            "force_engine": false,
+            "maximum_cruise_thrust_N": 172760.21376335467,
+            "modeled_descent_idle_thrust_N": 10159.526735157624,
+            "status": "executed"
+          },
+          {
+            "engine": "Trent 892",
+            "exception_type": "ValueError",
+            "force_engine": false,
+            "message": "Engine Trent 892 and aircraft B772 mismatch. Available engines for B772 are ['GE90-77B', 'PW4077', 'Trent 877', 'GE90-94B', 'PW4090', 'Trent 895']",
+            "status": "rejected"
+          },
+          {
+            "engine": "Trent 892",
+            "force_engine": true,
+            "maximum_cruise_thrust_N": 172110.55260022063,
+            "modeled_descent_idle_thrust_N": 10120.910449056188,
+            "status": "executed"
+          }
+        ],
+        "height_ft": 35000,
+        "mach": 0.84,
+        "mass_kg": 208525.63917525773,
+        "tas_kt": 484.1921481396607
+      },
+      "runtime": {
+        "PyYAML": "6.0.3",
+        "matplotlib": "3.11.1",
+        "numpy": "2.5.2",
+        "pandas": "3.0.5",
+        "python": "3.14.7",
+        "scipy": "1.18.1"
+      },
+      "schema_version": "1.0.0",
+      "source": {
+        "archive_sha256": "3e3bed2c6d17eca5aa1715e8906bd6c7099cb8f6df83c88a18375c9f726d7fc8",
+        "commit": "4fb21d6e402fd1f4a48b191ad6801c74479e71f5",
+        "openap_version": "v2.6.0"
+      },
+      "warning": "The forced pairing is an API execution check only; it is not a validated B777-200ER/Trent 892 model."
+    },
+    "trent892_certification": {
+      "bypass_ratio": 5.7,
+      "current_engine_status": "Out of production",
+      "engine": "Trent 892",
+      "fuel_flow_kg_s": {
+        "approach": 1,
+        "climbout": 3.1,
+        "idle": 0.3,
+        "takeoff": 3.91
+      },
+      "manufacturer": "Rolls-Royce plc",
+      "pressure_ratio": 41.38,
+      "rated_static_thrust_kN": 411.48,
+      "scope_warning": "Static LTO emissions certification data; not an altitude/Mach, spool-down, or windmilling model.",
+      "uid": "2RR027",
+      "version": "03/2026"
+    }
+  },
+  "numerical_checks": {
+    "ATSB_public_glide_ratio_comparator": 17.0,
+    "fixture": {
+      "height": "FL350 ISA",
+      "mach": 0.84,
+      "mass_kg": 208525.63917525773,
+      "mass_source": "Mean of 97 finite B772 estimates in pinned OpenAP Figshare dataset; a numerical fixture, not an MH370 prior.",
+      "wing_area_m2": 427.8
+    },
+    "polars": {
+      "current_v2_6_0": {
+        "coefficients": {
+          "cd0": 0.024,
+          "k": 0.047,
+          "oswald_e": 0.783
+        },
+        "equilibrium_cruise": {
+          "analytic_best_lift_to_drag": 14.887283354385342,
+          "best_cl": 0.7145896010104964,
+          "best_glide_angle_deg": -3.842866279680637,
+          "best_glide_descent_rate_fpm": -2473.9990800707637,
+          "best_glide_mach": 0.6323822951263163,
+          "best_glide_true_airspeed_m_s": 187.52374395819223,
+          "cd": 0.03174404800486018,
+          "cl": 0.4059149896552383,
+          "dynamic_pressure_Pa": 11776.17544108672,
+          "height_m": 10668.0,
+          "lift_to_drag": 12.787121213812764,
+          "longitudinal_force_residual_N_with_required_thrust": 0.0,
+          "mach": 0.84,
+          "mass_kg": 208525.63917525773,
+          "required_thrust_per_engine_N": 79960.84205446808,
+          "required_total_thrust_N": 159921.68410893617,
+          "true_airspeed_m_s": 249.08974545755962,
+          "vertical_force_residual_N": 0.0
+        },
+        "interpretation": "Equation consistency only. The polar supplies no AoA, stall, moments, controls, windmilling, or post-flameout aircraft validation.",
+        "limiting_cases": {
+          "cd_at_cl_zero": 0.024,
+          "drag_is_positive_for_positive_dynamic_pressure": true,
+          "low_q_induced_drag_diverges": true,
+          "no_stall_or_cl_ceiling": true,
+          "samples": [
+            {
+              "drag_N": 45942788480.66242,
+              "dynamic_pressure_Pa": 0.01,
+              "implied_cl": 478012.61323469866
+            },
+            {
+              "drag_N": 459427895.0727976,
+              "dynamic_pressure_Pa": 1.0,
+              "implied_cl": 4780.126132346987
+            },
+            {
+              "drag_N": 4595305.568055976,
+              "dynamic_pressure_Pa": 100.0,
+              "implied_cl": 47.80126132346987
+            },
+            {
+              "drag_N": 148614.78848055977,
+              "dynamic_pressure_Pa": 10000.0,
+              "implied_cl": 0.47801261323469874
+            },
+            {
+              "drag_N": 1031314.278848056,
+              "dynamic_pressure_Pa": 100000.0,
+              "implied_cl": 0.047801261323469874
+            }
+          ],
+          "warning": "These mathematical limits expose the point-mass polar's domain failure; they are not post-stall predictions."
+        },
+        "unpowered_glide_energy_check": [
+          {
+            "duration_s": 600.0,
+            "final_flight_path_angle_deg": -3.514003549264842,
+            "final_height_m": 5137.063276166126,
+            "final_speed_m_s": 135.68899598114342,
+            "height_difference_from_0_125s_m": 0.0,
+            "initial_mechanical_energy_J": 25481816315.491055,
+            "integrated_drag_work_J": 13057205340.776203,
+            "mechanical_energy_loss_J": 13057205340.776218,
+            "range_difference_from_0_125s_m": 0.0,
+            "range_m": 95027.86123821289,
+            "relative_energy_balance_error": 1.1686106379018546e-15,
+            "step_s": 0.125
+          },
+          {
+            "duration_s": 600.0,
+            "final_flight_path_angle_deg": -3.5140035504358553,
+            "final_height_m": 5137.06327624875,
+            "final_speed_m_s": 135.68899597537845,
+            "height_difference_from_0_125s_m": 8.262395567726344e-08,
+            "initial_mechanical_energy_J": 25481816315.491055,
+            "integrated_drag_work_J": 13057205340.770393,
+            "mechanical_energy_loss_J": 13057205340.770376,
+            "range_difference_from_0_125s_m": -1.4246325008571148e-08,
+            "range_m": 95027.86123819865,
+            "relative_energy_balance_error": 1.3146869676401747e-15,
+            "step_s": 0.25
+          },
+          {
+            "duration_s": 600.0,
+            "final_flight_path_angle_deg": -3.5140035679680333,
+            "final_height_m": 5137.063277578013,
+            "final_speed_m_s": 135.68899588235152,
+            "height_difference_from_0_125s_m": 1.411886842106469e-06,
+            "initial_mechanical_energy_J": 25481816315.491055,
+            "integrated_drag_work_J": 13057205340.682476,
+            "mechanical_energy_loss_J": 13057205340.684278,
+            "range_difference_from_0_125s_m": -2.1842424757778645e-07,
+            "range_m": 95027.86123799447,
+            "relative_energy_balance_error": 1.3804213160312858e-13,
+            "step_s": 0.5
+          },
+          {
+            "duration_s": 600.0,
+            "final_flight_path_angle_deg": -3.5140038095093984,
+            "final_height_m": 5137.063299058588,
+            "final_speed_m_s": 135.68899437059744,
+            "height_difference_from_0_125s_m": 2.289246185682714e-05,
+            "initial_mechanical_energy_J": 25481816315.491055,
+            "integrated_drag_work_J": 13057205339.471724,
+            "mechanical_energy_loss_J": 13057205339.532364,
+            "range_difference_from_0_125s_m": -2.6164198061451316e-06,
+            "range_m": 95027.86123559647,
+            "relative_energy_balance_error": 4.644204751794124e-12,
+            "step_s": 1.0
+          },
+          {
+            "duration_s": 600.0,
+            "final_flight_path_angle_deg": -3.514006393327709,
+            "final_height_m": 5137.063647742637,
+            "final_speed_m_s": 135.688969558395,
+            "height_difference_from_0_125s_m": 0.0003715765105880564,
+            "initial_mechanical_energy_J": 25481816315.491055,
+            "integrated_drag_work_J": 13057205326.570065,
+            "mechanical_energy_loss_J": 13057205328.547247,
+            "range_difference_from_0_125s_m": -1.2873410014435649e-05,
+            "range_m": 95027.86122533948,
+            "relative_energy_balance_error": 1.51424622540239e-10,
+            "step_s": 2.0
+          },
+          {
+            "duration_s": 600.0,
+            "final_flight_path_angle_deg": -3.514004216339109,
+            "final_height_m": 5137.069263082385,
+            "final_speed_m_s": 135.688560971486,
+            "height_difference_from_0_125s_m": 0.005986916258734709,
+            "initial_mechanical_energy_J": 25481816315.491055,
+            "integrated_drag_work_J": 13057205343.119408,
+            "mechanical_energy_loss_J": 13057205406.323483,
+            "range_difference_from_0_125s_m": 0.0007452320569427684,
+            "range_m": 95027.86198344495,
+            "relative_energy_balance_error": 4.840551472753121e-09,
+            "step_s": 4.0
+          },
+          {
+            "duration_s": 600.0,
+            "final_flight_path_angle_deg": -3.5123496731878636,
+            "final_height_m": 5137.14690636188,
+            "final_speed_m_s": 135.68256924913842,
+            "height_difference_from_0_125s_m": 0.08363019575335784,
+            "initial_mechanical_energy_J": 25481816315.491055,
+            "integrated_drag_work_J": 13057214236.495523,
+            "mechanical_energy_loss_J": 13057216159.941872,
+            "range_difference_from_0_125s_m": 0.04383909843454603,
+            "range_m": 95027.90507731133,
+            "relative_energy_balance_error": 1.4730906838252653e-07,
+            "step_s": 8.0
+          }
+        ]
+      },
+      "published_2020": {
+        "coefficients": {
+          "cd0": 0.034,
+          "k": 0.051,
+          "oswald_e": 0.723
+        },
+        "equilibrium_cruise": {
+          "analytic_best_lift_to_drag": 12.007302660701853,
+          "best_cl": 0.816496580927726,
+          "best_glide_angle_deg": -4.760757836110057,
+          "best_glide_descent_rate_fpm": -2864.413007095739,
+          "best_glide_mach": 0.5912473108311658,
+          "best_glide_true_airspeed_m_s": 175.32576447309728,
+          "cd": 0.04240311592016743,
+          "cl": 0.4059149896552383,
+          "dynamic_pressure_Pa": 11776.17544108672,
+          "height_m": 10668.0,
+          "lift_to_drag": 9.572763247386268,
+          "longitudinal_force_residual_N_with_required_thrust": 0.0,
+          "mach": 0.84,
+          "mass_kg": 208525.63917525773,
+          "required_thrust_per_engine_N": 106810.22326423813,
+          "required_total_thrust_N": 213620.44652847626,
+          "true_airspeed_m_s": 249.08974545755962,
+          "vertical_force_residual_N": 0.0
+        },
+        "interpretation": "Equation consistency only. The polar supplies no AoA, stall, moments, controls, windmilling, or post-flameout aircraft validation.",
+        "limiting_cases": {
+          "cd_at_cl_zero": 0.034,
+          "drag_is_positive_for_positive_dynamic_pressure": true,
+          "low_q_induced_drag_diverges": true,
+          "no_stall_or_cl_ceiling": true,
+          "samples": [
+            {
+              "drag_N": 49852813032.24221,
+              "dynamic_pressure_Pa": 0.01,
+              "implied_cl": 478012.61323469866
+            },
+            {
+              "drag_N": 498528144.86616755,
+              "dynamic_pressure_Pa": 1.0,
+              "implied_cl": 4780.126132346987
+            },
+            {
+              "drag_N": 4986735.823209675,
+              "dynamic_pressure_Pa": 100.0,
+              "implied_cl": 47.80126132346987
+            },
+            {
+              "drag_N": 195304.81303209678,
+              "dynamic_pressure_Pa": 10000.0,
+              "implied_cl": 0.47801261323469874
+            },
+            {
+              "drag_N": 1459505.2813032097,
+              "dynamic_pressure_Pa": 100000.0,
+              "implied_cl": 0.047801261323469874
+            }
+          ],
+          "warning": "These mathematical limits expose the point-mass polar's domain failure; they are not post-stall predictions."
+        },
+        "unpowered_glide_energy_check": [
+          {
+            "duration_s": 600.0,
+            "final_flight_path_angle_deg": -4.41224939383254,
+            "final_height_m": 4277.691647971353,
+            "final_speed_m_s": 121.13234917079569,
+            "height_difference_from_0_125s_m": 0.0,
+            "initial_mechanical_energy_J": 25020345858.443336,
+            "integrated_drag_work_J": 14742878679.292019,
+            "mechanical_energy_loss_J": 14742878679.292013,
+            "range_difference_from_0_125s_m": 0.0,
+            "range_m": 86538.34100228784,
+            "relative_energy_balance_error": 3.8812270133340645e-16,
+            "step_s": 0.125
+          },
+          {
+            "duration_s": 600.0,
+            "final_flight_path_angle_deg": -4.412249392267255,
+            "final_height_m": 4277.691647983036,
+            "final_speed_m_s": 121.13234916939646,
+            "height_difference_from_0_125s_m": 1.1683368938975036e-08,
+            "initial_mechanical_energy_J": 25020345858.443336,
+            "integrated_drag_work_J": 14742878679.303438,
+            "mechanical_energy_loss_J": 14742878679.303465,
+            "range_difference_from_0_125s_m": 1.5817931853234768e-08,
+            "range_m": 86538.34100230366,
+            "relative_energy_balance_error": 1.8112392728878233e-15,
+            "step_s": 0.25
+          },
+          {
+            "duration_s": 600.0,
+            "final_flight_path_angle_deg": -4.412249366852119,
+            "final_height_m": 4277.69164815982,
+            "final_speed_m_s": 121.13234914778745,
+            "height_difference_from_0_125s_m": 1.8846731109078974e-07,
+            "initial_mechanical_energy_J": 25020345858.443336,
+            "integrated_drag_work_J": 14742878679.48589,
+            "mechanical_energy_loss_J": 14742878679.487778,
+            "range_difference_from_0_125s_m": 2.7767964638769627e-07,
+            "range_m": 86538.34100256552,
+            "relative_energy_balance_error": 1.280804914383234e-13,
+            "step_s": 0.5
+          },
+          {
+            "duration_s": 600.0,
+            "final_flight_path_angle_deg": -4.412248948938635,
+            "final_height_m": 4277.691650656126,
+            "final_speed_m_s": 121.13234882762771,
+            "height_difference_from_0_125s_m": 2.684772880456876e-06,
+            "initial_mechanical_energy_J": 25020345858.443336,
+            "integrated_drag_work_J": 14742878682.403154,
+            "mechanical_energy_loss_J": 14742878682.469969,
+            "range_difference_from_0_125s_m": 4.817979061044753e-06,
+            "range_m": 86538.34100710582,
+            "relative_energy_balance_error": 4.531979408259502e-12,
+            "step_s": 1.0
+          },
+          {
+            "duration_s": 600.0,
+            "final_flight_path_angle_deg": -4.412241939847195,
+            "final_height_m": 4277.691679539784,
+            "final_speed_m_s": 121.13234456859477,
+            "height_difference_from_0_125s_m": 3.1568431040795986e-05,
+            "initial_mechanical_energy_J": 25020345858.443336,
+            "integrated_drag_work_J": 14742878728.769274,
+            "mechanical_energy_loss_J": 14742878730.984444,
+            "range_difference_from_0_125s_m": 8.80719453562051e-05,
+            "range_m": 86538.34109035978,
+            "relative_energy_balance_error": 1.5025355271767163e-10,
+            "step_s": 2.0
+          },
+          {
+            "duration_s": 600.0,
+            "final_flight_path_angle_deg": -4.412122098532097,
+            "final_height_m": 4277.691753834669,
+            "final_speed_m_s": 121.13230750487162,
+            "height_difference_from_0_125s_m": 0.00010586331609374611,
+            "initial_mechanical_energy_J": 25020345858.443336,
+            "integrated_drag_work_J": 14742879443.947687,
+            "mechanical_energy_loss_J": 14742879515.255852,
+            "range_difference_from_0_125s_m": 0.0017196368862641975,
+            "range_m": 86538.34272192472,
+            "relative_energy_balance_error": 4.836786770370627e-09,
+            "step_s": 4.0
+          },
+          {
+            "duration_s": 600.0,
+            "final_flight_path_angle_deg": -4.410307223998304,
+            "final_height_m": 4277.677314614561,
+            "final_speed_m_s": 121.13305867855557,
+            "height_difference_from_0_125s_m": -0.014333356792121776,
+            "initial_mechanical_energy_J": 25020345858.443336,
+            "integrated_drag_work_J": 14742887898.199188,
+            "mechanical_energy_loss_J": 14742890068.46613,
+            "range_difference_from_0_125s_m": 0.032022420200519264,
+            "range_m": 86538.37302470804,
+            "relative_energy_balance_error": 1.4720770018577193e-07,
+            "step_s": 8.0
+          }
+        ]
+      }
+    }
+  },
+  "schema_version": "1.0.0",
+  "scientific_boundary": {
+    "audit_calculations": [
+      "Parabolic-polar equilibrium and mathematical limiting cases",
+      "Unpowered two-dimensional point-mass energy integration",
+      "Finite-difference trajectory rates and sampling sensitivity"
+    ],
+    "measured_or_published_inputs": [
+      "Pinned source bytes and their extracted values",
+      "Public Boeing trajectory coordinates",
+      "ATSB's approximately 17:1 theoretical glide comparator",
+      "ICAO static Trent 892 certification fields"
+    ],
+    "not_inferred": [
+      "MH370 end-of-flight prior",
+      "00:19 BFO-conditioned parameter",
+      "Impact position",
+      "Cross-family surrogate uncertainty"
+    ]
+  },
+  "verified_sources": {
+    "flightgear_777_historical_fdm": {
+      "bytes": 12242,
+      "cache_file": "flightgear-historical-777-200ER.xml",
+      "sha256": "9efa7d64bbcd6e7b31f87d3c60552712191cf16d88d8e87f78c2baedcdf75ede"
+    },
+    "flightgear_777_modern_fdm": {
+      "bytes": 12567,
+      "cache_file": "flightgear-modern-777-200ER.xml",
+      "sha256": "0d24ed659b6664af10d465ac71392405bb407c7a3b4d0a65efa64a5dbe129cb3"
+    },
+    "iannello_boeing_eof_trajectories": {
+      "bytes": 281237,
+      "cache_file": "iannello-boeing-eof-simulations.zip",
+      "sha256": "e400ac73478dff8698cd344a69d7969804f6adb0eb2121d5cacd3b58d63111db"
+    },
+    "icao_engine_emissions_databank": {
+      "bytes": 818879,
+      "cache_file": "icao-eedb-2026-03.xlsx",
+      "sha256": "57a9ff572458ad3a3141afc1aea932b5faa5796d279f0ac74600b27869302530"
+    },
+    "jsbsim_release": {
+      "bytes": 22270319,
+      "cache_file": "jsbsim-v1.3.1-3b25f25e.tar.gz",
+      "sha256": "69d410ec9281cd4b03d029c3430b99f3ff9d240a64f83a7479cf746fd8bdffff"
+    },
+    "nasa_transport_class_model_report": {
+      "bytes": 1505322,
+      "cache_file": "nasa-tm-2011-217169-generic-transport.pdf",
+      "sha256": "22570bc60fd366a86ae2e3eb44dff7008a2764e5e3c31545c66ba758626800b5"
+    },
+    "openap_drag_polar_dataset": {
+      "bytes": 51610342,
+      "cache_file": "openap-drag-polar-data-v2.zip",
+      "sha256": "79e1a631597ec3984d0077ba62bfe10059464a9072773cae41117eabe271be4b"
+    },
+    "openap_drag_polar_paper": {
+      "bytes": 8614678,
+      "cache_file": "openap-drag-polar-paper.pdf",
+      "sha256": "cf77acf25536922867270a764b0511ada2cfcb330c0d8a7e70dc6eb5be41c141"
+    },
+    "openap_release": {
+      "bytes": 9455707,
+      "cache_file": "openap-v2.6.0-4fb21d6e.tar.gz",
+      "sha256": "3e3bed2c6d17eca5aa1715e8906bd6c7099cb8f6df83c88a18375c9f726d7fc8"
+    }
+  }
+}

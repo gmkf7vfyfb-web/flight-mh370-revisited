@@ -1,0 +1,1422 @@
+{
+ "provenance": {
+  "wrapper": "standin_mixture.py",
+  "p_family": {
+   "next-free": 0.6947721530492059,
+   "next-repro-radar": 0.15271743570298557,
+   "next-descent-climb": 0.137594663061475,
+   "next-routes": 0.014915748186333568
+  },
+  "receivers": {
+   "H01W": [
+    -34.89030333333333,
+    114.14263666666666
+   ],
+   "H08S": [
+    -7.63938,
+    72.483828
+   ],
+   "H08N": [
+    -6.337533333333333,
+    71.00207733333333
+   ],
+   "3315": [
+    -31.867217,
+    115.001133
+   ],
+   "3376": [
+    -31.842167,
+    115.013733
+   ],
+   "3250": [
+    -15.483367,
+    121.251
+   ],
+   "3274": [
+    -38.536967,
+    141.247567
+   ],
+   "3275": [
+    -38.542433,
+    141.225583
+   ]
+  },
+  "labels": [
+   "core (b): split-half NOT converged",
+   "two-tank bookkeeping only",
+   "PROVISIONAL-OVERNIGHT",
+   "EoF sweep run by a stand-in",
+   "hydroacoustics run by an architecture stand-in; module to review"
+  ]
+ },
+ "arms": {
+  "none__other": {
+   "variant": "plain",
+   "ess_mixture_kish": 23491267.684200775,
+   "n_replicates": 4,
+   "share_before_001937": 0.10041905724720934,
+   "share_after_011556": 0.002376374364396855,
+   "impact_q_pooled_utc": [
+    "00:13:32",
+    "00:14:42",
+    "00:16:10",
+    "00:28:42",
+    "00:38:42",
+    "00:46:36",
+    "00:57:42",
+    "01:01:50",
+    "01:10:50"
+   ],
+   "mass_beyond_grid": 2.154942890797429e-12
+  },
+  "none__other+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 20976871.84245803,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.002638103839295593,
+   "impact_q_pooled_utc": [
+    "00:19:58",
+    "00:21:16",
+    "00:22:50",
+    "00:32:00",
+    "00:40:16",
+    "00:47:34",
+    "00:58:18",
+    "01:02:30",
+    "01:11:26"
+   ],
+   "mass_beyond_grid": 6.680211939169567e-13
+  },
+  "none__other+silent": {
+   "variant": "silent",
+   "ess_mixture_kish": 2694085.0577846044,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 3.485138814628187e-05,
+   "impact_q_pooled_utc": [
+    "00:19:44",
+    "00:20:04",
+    "00:20:30",
+    "00:24:26",
+    "00:31:06",
+    "00:40:16",
+    "00:52:18",
+    "00:56:10",
+    "01:04:00"
+   ],
+   "mass_beyond_grid": 5.316858064929875e-13
+  },
+  "none__fuel-exhaustion": {
+   "variant": "plain",
+   "ess_mixture_kish": 1960686.8028960493,
+   "n_replicates": 4,
+   "share_before_001937": 0.02451219041382508,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:18:20",
+    "00:19:40",
+    "00:20:20",
+    "00:28:40",
+    "00:35:52",
+    "00:43:58",
+    "00:48:58",
+    "00:49:52",
+    "00:51:18"
+   ],
+   "mass_beyond_grid": -8.881784197001252e-16
+  },
+  "none__fuel-exhaustion+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 1899890.9926662927,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:19:48",
+    "00:20:18",
+    "00:20:48",
+    "00:29:22",
+    "00:36:14",
+    "00:44:08",
+    "00:49:00",
+    "00:49:54",
+    "00:51:20"
+   ],
+   "mass_beyond_grid": 1.8096635301390052e-14
+  },
+  "none__fuel-exhaustion+silent": {
+   "variant": "silent",
+   "ess_mixture_kish": 1899890.9926662927,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:19:48",
+    "00:20:18",
+    "00:20:48",
+    "00:29:22",
+    "00:36:14",
+    "00:44:08",
+    "00:49:00",
+    "00:49:54",
+    "00:51:20"
+   ],
+   "mass_beyond_grid": 1.8096635301390052e-14
+  },
+  "r600_inflated__other": {
+   "variant": "plain",
+   "ess_mixture_kish": 6596283.666634975,
+   "n_replicates": 4,
+   "share_before_001937": 6.420087567825829e-05,
+   "share_after_011556": 0.0010605210418304805,
+   "impact_q_pooled_utc": [
+    "00:20:48",
+    "00:21:48",
+    "00:22:50",
+    "00:30:58",
+    "00:38:36",
+    "00:44:28",
+    "00:53:44",
+    "00:57:24",
+    "01:06:32"
+   ],
+   "mass_beyond_grid": 4.1389114358025836e-13
+  },
+  "r600_inflated__other+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 6595990.1782088755,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0010606071680669188,
+   "impact_q_pooled_utc": [
+    "00:20:50",
+    "00:21:48",
+    "00:22:50",
+    "00:30:58",
+    "00:38:36",
+    "00:44:28",
+    "00:53:44",
+    "00:57:24",
+    "01:06:32"
+   ],
+   "mass_beyond_grid": 3.715916463420399e-13
+  },
+  "r600_inflated__other+silent": {
+   "variant": "silent",
+   "ess_mixture_kish": 687851.6225962879,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 1.82265716344751e-05,
+   "impact_q_pooled_utc": [
+    "00:20:28",
+    "00:20:54",
+    "00:21:14",
+    "00:23:50",
+    "00:28:12",
+    "00:36:50",
+    "00:48:48",
+    "00:52:56",
+    "01:01:00"
+   ],
+   "mass_beyond_grid": 6.699085730588195e-13
+  },
+  "r600_inflated__fuel-exhaustion": {
+   "variant": "plain",
+   "ess_mixture_kish": 811323.9322166963,
+   "n_replicates": 4,
+   "share_before_001937": 6.863285415573147e-06,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:38",
+    "00:21:06",
+    "00:21:40",
+    "00:30:02",
+    "00:36:02",
+    "00:44:20",
+    "00:49:12",
+    "00:50:06",
+    "00:51:28"
+   ],
+   "mass_beyond_grid": 1.7008616737257398e-13
+  },
+  "r600_inflated__fuel-exhaustion+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 811315.4664668455,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:38",
+    "00:21:06",
+    "00:21:40",
+    "00:30:02",
+    "00:36:02",
+    "00:44:20",
+    "00:49:12",
+    "00:50:06",
+    "00:51:28"
+   ],
+   "mass_beyond_grid": 1.63202784619898e-13
+  },
+  "r600_inflated__fuel-exhaustion+silent": {
+   "variant": "silent",
+   "ess_mixture_kish": 811315.4664668455,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:38",
+    "00:21:06",
+    "00:21:40",
+    "00:30:02",
+    "00:36:02",
+    "00:44:20",
+    "00:49:12",
+    "00:50:06",
+    "00:51:28"
+   ],
+   "mass_beyond_grid": 1.63202784619898e-13
+  },
+  "r600_no-offset__other": {
+   "variant": "plain",
+   "ess_mixture_kish": 449296.5642917204,
+   "n_replicates": 4,
+   "share_before_001937": 5.487892980636939e-05,
+   "share_after_011556": 1.890547487924006e-05,
+   "impact_q_pooled_utc": [
+    "00:20:40",
+    "00:21:08",
+    "00:21:38",
+    "00:28:26",
+    "00:35:08",
+    "00:41:22",
+    "00:48:48",
+    "00:50:18",
+    "00:53:10"
+   ],
+   "mass_beyond_grid": 6.612488334667432e-13
+  },
+  "r600_no-offset__other+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 449252.58090287505,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 1.8907078791519933e-05,
+   "impact_q_pooled_utc": [
+    "00:20:42",
+    "00:21:08",
+    "00:21:38",
+    "00:28:26",
+    "00:35:08",
+    "00:41:22",
+    "00:48:48",
+    "00:50:18",
+    "00:53:10"
+   ],
+   "mass_beyond_grid": 6.714628852932947e-13
+  },
+  "r600_no-offset__other+silent": {
+   "variant": "silent",
+   "ess_mixture_kish": 52069.386884058404,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 1.5426061864265728e-06,
+   "impact_q_pooled_utc": [
+    "00:20:20",
+    "00:20:42",
+    "00:20:50",
+    "00:21:44",
+    "00:23:14",
+    "00:27:54",
+    "00:46:14",
+    "00:50:20",
+    "00:57:20"
+   ],
+   "mass_beyond_grid": 4.233280392895722e-13
+  },
+  "r600_no-offset__fuel-exhaustion": {
+   "variant": "plain",
+   "ess_mixture_kish": 136071.00486483454,
+   "n_replicates": 4,
+   "share_before_001937": 1.2980146116532782e-06,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:38",
+    "00:20:54",
+    "00:21:16",
+    "00:28:50",
+    "00:34:34",
+    "00:42:24",
+    "00:49:28",
+    "00:50:20",
+    "00:51:36"
+   ],
+   "mass_beyond_grid": 4.780620344035924e-13
+  },
+  "r600_no-offset__fuel-exhaustion+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 136070.6299296994,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:38",
+    "00:20:54",
+    "00:21:16",
+    "00:28:50",
+    "00:34:34",
+    "00:42:24",
+    "00:49:28",
+    "00:50:20",
+    "00:51:36"
+   ],
+   "mass_beyond_grid": 4.819478149897805e-13
+  },
+  "r600_no-offset__fuel-exhaustion+silent": {
+   "variant": "silent",
+   "ess_mixture_kish": 136070.6299296994,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:38",
+    "00:20:54",
+    "00:21:16",
+    "00:28:50",
+    "00:34:34",
+    "00:42:24",
+    "00:49:28",
+    "00:50:20",
+    "00:51:36"
+   ],
+   "mass_beyond_grid": 4.819478149897805e-13
+  },
+  "r600_startup-offset__other": {
+   "variant": "plain",
+   "ess_mixture_kish": 352322.1447294,
+   "n_replicates": 4,
+   "share_before_001937": 0.00011287167537139883,
+   "share_after_011556": 1.810653994242074e-05,
+   "impact_q_pooled_utc": [
+    "00:20:14",
+    "00:20:28",
+    "00:20:36",
+    "00:22:36",
+    "00:34:14",
+    "00:41:32",
+    "00:48:44",
+    "00:49:48",
+    "00:52:00"
+   ],
+   "mass_beyond_grid": 3.6548541970660153e-13
+  },
+  "r600_startup-offset__other+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 352275.46006624145,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 1.8110694672505826e-05,
+   "impact_q_pooled_utc": [
+    "00:20:14",
+    "00:20:28",
+    "00:20:36",
+    "00:22:36",
+    "00:34:14",
+    "00:41:32",
+    "00:48:44",
+    "00:49:48",
+    "00:52:00"
+   ],
+   "mass_beyond_grid": 3.5726976932437537e-13
+  },
+  "r600_startup-offset__other+silent": {
+   "variant": "silent",
+   "ess_mixture_kish": 56433.439505410795,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 6.697665796081664e-06,
+   "impact_q_pooled_utc": [
+    "00:20:04",
+    "00:20:18",
+    "00:20:24",
+    "00:20:46",
+    "00:21:28",
+    "00:23:18",
+    "00:43:48",
+    "00:47:46",
+    "00:55:18"
+   ],
+   "mass_beyond_grid": 2.1760371282653068e-13
+  },
+  "r600_startup-offset__fuel-exhaustion": {
+   "variant": "plain",
+   "ess_mixture_kish": 134943.42088509924,
+   "n_replicates": 4,
+   "share_before_001937": 5.036521164504359e-05,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:14",
+    "00:20:24",
+    "00:20:30",
+    "00:23:56",
+    "00:35:42",
+    "00:45:24",
+    "00:49:22",
+    "00:50:02",
+    "00:51:08"
+   ],
+   "mass_beyond_grid": 1.8685053504441385e-13
+  },
+  "r600_startup-offset__fuel-exhaustion+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 134937.360642787,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:14",
+    "00:20:24",
+    "00:20:30",
+    "00:23:56",
+    "00:35:42",
+    "00:45:24",
+    "00:49:22",
+    "00:50:02",
+    "00:51:08"
+   ],
+   "mass_beyond_grid": 1.8196555373606316e-13
+  },
+  "r600_startup-offset__fuel-exhaustion+silent": {
+   "variant": "silent",
+   "ess_mixture_kish": 134937.360642787,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:14",
+    "00:20:24",
+    "00:20:30",
+    "00:23:56",
+    "00:35:42",
+    "00:45:24",
+    "00:49:22",
+    "00:50:02",
+    "00:51:08"
+   ],
+   "mass_beyond_grid": 1.8196555373606316e-13
+  },
+  "r1200_inflated__other": {
+   "variant": "plain",
+   "ess_mixture_kish": 129132.60406794319,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 4.684461571508083e-05,
+   "impact_q_pooled_utc": [
+    "00:19:50",
+    "00:20:04",
+    "00:20:10",
+    "00:20:20",
+    "00:20:30",
+    "00:23:02",
+    "00:43:44",
+    "00:46:20",
+    "00:52:28"
+   ],
+   "mass_beyond_grid": 2.9149349600743335e-11
+  },
+  "r1200_inflated__other+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 129132.60406794319,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 4.684461571508083e-05,
+   "impact_q_pooled_utc": [
+    "00:19:50",
+    "00:20:04",
+    "00:20:10",
+    "00:20:20",
+    "00:20:30",
+    "00:23:02",
+    "00:43:44",
+    "00:46:20",
+    "00:52:28"
+   ],
+   "mass_beyond_grid": 2.9149349600743335e-11
+  },
+  "r1200_inflated__other+silent": {
+   "variant": "silent",
+   "ess_mixture_kish": 50564.31477776579,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 2.9274086903630286e-05,
+   "impact_q_pooled_utc": [
+    "00:19:52",
+    "00:20:06",
+    "00:20:10",
+    "00:20:20",
+    "00:20:26",
+    "00:20:42",
+    "00:31:48",
+    "00:41:30",
+    "00:52:06"
+   ],
+   "mass_beyond_grid": 1.5552004128949193e-12
+  },
+  "r1200_inflated__fuel-exhaustion": {
+   "variant": "plain",
+   "ess_mixture_kish": 35172.979056667406,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:19:58",
+    "00:20:10",
+    "00:20:14",
+    "00:20:24",
+    "00:20:30",
+    "00:23:34",
+    "00:44:22",
+    "00:46:04",
+    "00:48:18"
+   ],
+   "mass_beyond_grid": 1.6913137557139635e-12
+  },
+  "r1200_inflated__fuel-exhaustion+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 35172.979056667406,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:19:58",
+    "00:20:10",
+    "00:20:14",
+    "00:20:24",
+    "00:20:30",
+    "00:23:34",
+    "00:44:22",
+    "00:46:04",
+    "00:48:18"
+   ],
+   "mass_beyond_grid": 1.6913137557139635e-12
+  },
+  "r1200_inflated__fuel-exhaustion+silent": {
+   "variant": "silent",
+   "ess_mixture_kish": 35172.979056667406,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:19:58",
+    "00:20:10",
+    "00:20:14",
+    "00:20:24",
+    "00:20:30",
+    "00:23:34",
+    "00:44:22",
+    "00:46:04",
+    "00:48:18"
+   ],
+   "mass_beyond_grid": 1.6913137557139635e-12
+  },
+  "r1200_no-offset__other": {
+   "variant": "plain",
+   "ess_mixture_kish": 25028.85190082343,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.00013323275331592882,
+   "impact_q_pooled_utc": [
+    "00:19:50",
+    "00:20:04",
+    "00:20:10",
+    "00:20:20",
+    "00:20:28",
+    "00:21:56",
+    "00:43:08",
+    "00:45:06",
+    "00:53:10"
+   ],
+   "mass_beyond_grid": 8.881784197001252e-15
+  },
+  "r1200_no-offset__other+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 25028.85190082343,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.00013323275331592882,
+   "impact_q_pooled_utc": [
+    "00:19:50",
+    "00:20:04",
+    "00:20:10",
+    "00:20:20",
+    "00:20:28",
+    "00:21:56",
+    "00:43:08",
+    "00:45:06",
+    "00:53:10"
+   ],
+   "mass_beyond_grid": 8.881784197001252e-15
+  },
+  "r1200_no-offset__other+silent": {
+   "variant": "silent",
+   "ess_mixture_kish": 10294.13479324482,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.00011272332850848243,
+   "impact_q_pooled_utc": [
+    "00:19:52",
+    "00:20:06",
+    "00:20:10",
+    "00:20:20",
+    "00:20:26",
+    "00:20:36",
+    "00:29:46",
+    "00:41:02",
+    "00:52:52"
+   ],
+   "mass_beyond_grid": 8.104628079763643e-15
+  },
+  "r1200_no-offset__fuel-exhaustion": {
+   "variant": "plain",
+   "ess_mixture_kish": 6875.5990564547055,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:00",
+    "00:20:10",
+    "00:20:14",
+    "00:20:22",
+    "00:20:28",
+    "00:21:14",
+    "00:43:36",
+    "00:44:50",
+    "00:47:06"
+   ],
+   "mass_beyond_grid": 5.440092820663267e-15
+  },
+  "r1200_no-offset__fuel-exhaustion+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 6875.5990564547055,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:00",
+    "00:20:10",
+    "00:20:14",
+    "00:20:22",
+    "00:20:28",
+    "00:21:14",
+    "00:43:36",
+    "00:44:50",
+    "00:47:06"
+   ],
+   "mass_beyond_grid": 5.440092820663267e-15
+  },
+  "r1200_no-offset__fuel-exhaustion+silent": {
+   "variant": "silent",
+   "ess_mixture_kish": 6875.5990564547055,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:00",
+    "00:20:10",
+    "00:20:14",
+    "00:20:22",
+    "00:20:28",
+    "00:21:14",
+    "00:43:36",
+    "00:44:50",
+    "00:47:06"
+   ],
+   "mass_beyond_grid": 5.440092820663267e-15
+  },
+  "r1200_startup-offset__other": {
+   "variant": "plain",
+   "ess_mixture_kish": 72262.63741809232,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 1.5898366304413186e-05,
+   "impact_q_pooled_utc": [
+    "00:19:44",
+    "00:19:56",
+    "00:20:00",
+    "00:20:10",
+    "00:20:18",
+    "00:20:26",
+    "00:37:44",
+    "00:43:48",
+    "00:51:14"
+   ],
+   "mass_beyond_grid": 7.216449660063518e-15
+  },
+  "r1200_startup-offset__other+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 72262.63741809232,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 1.5898366304413186e-05,
+   "impact_q_pooled_utc": [
+    "00:19:44",
+    "00:19:56",
+    "00:20:00",
+    "00:20:10",
+    "00:20:18",
+    "00:20:26",
+    "00:37:44",
+    "00:43:48",
+    "00:51:14"
+   ],
+   "mass_beyond_grid": 7.216449660063518e-15
+  },
+  "r1200_startup-offset__other+silent": {
+   "variant": "silent",
+   "ess_mixture_kish": 32699.107151666027,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 7.247150833194902e-07,
+   "impact_q_pooled_utc": [
+    "00:19:46",
+    "00:19:58",
+    "00:20:02",
+    "00:20:12",
+    "00:20:16",
+    "00:20:24",
+    "00:24:46",
+    "00:37:06",
+    "00:49:18"
+   ],
+   "mass_beyond_grid": 6.661338147750939e-15
+  },
+  "r1200_startup-offset__fuel-exhaustion": {
+   "variant": "plain",
+   "ess_mixture_kish": 18847.024633248508,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:19:50",
+    "00:20:00",
+    "00:20:04",
+    "00:20:14",
+    "00:20:20",
+    "00:20:24",
+    "00:38:38",
+    "00:43:34",
+    "00:45:32"
+   ],
+   "mass_beyond_grid": 5.218048215738236e-15
+  },
+  "r1200_startup-offset__fuel-exhaustion+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 18847.024633248508,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:19:50",
+    "00:20:00",
+    "00:20:04",
+    "00:20:14",
+    "00:20:20",
+    "00:20:24",
+    "00:38:38",
+    "00:43:34",
+    "00:45:32"
+   ],
+   "mass_beyond_grid": 5.218048215738236e-15
+  },
+  "r1200_startup-offset__fuel-exhaustion+silent": {
+   "variant": "silent",
+   "ess_mixture_kish": 18847.024633248508,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:19:50",
+    "00:20:00",
+    "00:20:04",
+    "00:20:14",
+    "00:20:20",
+    "00:20:24",
+    "00:38:38",
+    "00:43:34",
+    "00:45:32"
+   ],
+   "mass_beyond_grid": 5.218048215738236e-15
+  },
+  "both_inflated__other": {
+   "variant": "plain",
+   "ess_mixture_kish": 9066.879919339917,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.00013652892666196991,
+   "impact_q_pooled_utc": [
+    "00:19:56",
+    "00:20:12",
+    "00:20:22",
+    "00:22:02",
+    "00:32:14",
+    "00:42:40",
+    "00:48:02",
+    "00:49:28",
+    "00:58:10"
+   ],
+   "mass_beyond_grid": 2.9096725029376103e-12
+  },
+  "both_inflated__other+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 9066.879919339917,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.00013652892666196991,
+   "impact_q_pooled_utc": [
+    "00:19:56",
+    "00:20:12",
+    "00:20:22",
+    "00:22:02",
+    "00:32:14",
+    "00:42:40",
+    "00:48:02",
+    "00:49:28",
+    "00:58:10"
+   ],
+   "mass_beyond_grid": 2.9096725029376103e-12
+  },
+  "both_inflated__other+silent": {
+   "variant": "silent",
+   "ess_mixture_kish": 2069.8989171753055,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 1.2221976054377522e-05,
+   "impact_q_pooled_utc": [
+    "00:19:52",
+    "00:20:02",
+    "00:20:08",
+    "00:20:36",
+    "00:22:04",
+    "00:27:38",
+    "00:46:54",
+    "00:51:20",
+    "01:01:38"
+   ],
+   "mass_beyond_grid": 1.6284751325201796e-12
+  },
+  "both_inflated__fuel-exhaustion": {
+   "variant": "plain",
+   "ess_mixture_kish": 3503.5116011324126,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:02",
+    "00:20:18",
+    "00:20:22",
+    "00:21:58",
+    "00:36:34",
+    "00:43:24",
+    "00:47:30",
+    "00:48:20",
+    "00:49:26"
+   ],
+   "mass_beyond_grid": 8.979483823168266e-13
+  },
+  "both_inflated__fuel-exhaustion+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 3503.5116011324126,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:02",
+    "00:20:18",
+    "00:20:22",
+    "00:21:58",
+    "00:36:34",
+    "00:43:24",
+    "00:47:30",
+    "00:48:20",
+    "00:49:26"
+   ],
+   "mass_beyond_grid": 8.979483823168266e-13
+  },
+  "both_inflated__fuel-exhaustion+silent": {
+   "variant": "silent",
+   "ess_mixture_kish": 3503.5116011324126,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:02",
+    "00:20:18",
+    "00:20:22",
+    "00:21:58",
+    "00:36:34",
+    "00:43:24",
+    "00:47:30",
+    "00:48:20",
+    "00:49:26"
+   ],
+   "mass_beyond_grid": 8.979483823168266e-13
+  },
+  "both_no-offset__other": {
+   "variant": "plain",
+   "ess_mixture_kish": 123.52805145721166,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0015834961389201456,
+   "impact_q_pooled_utc": [
+    "00:19:48",
+    "00:20:02",
+    "00:20:12",
+    "00:22:52",
+    "00:31:50",
+    "00:41:28",
+    "00:46:16",
+    "00:48:16",
+    "01:01:38"
+   ],
+   "mass_beyond_grid": 4.440892098500626e-16
+  },
+  "both_no-offset__other+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 123.52805145721166,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0015834961389201456,
+   "impact_q_pooled_utc": [
+    "00:19:48",
+    "00:20:02",
+    "00:20:12",
+    "00:22:52",
+    "00:31:50",
+    "00:41:28",
+    "00:46:16",
+    "00:48:16",
+    "01:01:38"
+   ],
+   "mass_beyond_grid": 4.440892098500626e-16
+  },
+  "both_no-offset__other+silent": {
+   "variant": "silent",
+   "ess_mixture_kish": 49.05246471755069,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 1.5376434895378536e-06,
+   "impact_q_pooled_utc": [
+    "00:19:48",
+    "00:20:00",
+    "00:20:02",
+    "00:21:14",
+    "00:22:52",
+    "00:38:16",
+    "00:46:22",
+    "00:49:36",
+    "01:03:50"
+   ],
+   "mass_beyond_grid": 1.1102230246251565e-16
+  },
+  "both_no-offset__fuel-exhaustion": {
+   "variant": "plain",
+   "ess_mixture_kish": 25.42067852308821,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:16",
+    "00:21:20",
+    "00:21:44",
+    "00:27:32",
+    "00:33:40",
+    "00:43:46",
+    "00:44:18",
+    "00:44:48",
+    "00:45:34"
+   ],
+   "mass_beyond_grid": 0.0
+  },
+  "both_no-offset__fuel-exhaustion+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 25.42067852308821,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:16",
+    "00:21:20",
+    "00:21:44",
+    "00:27:32",
+    "00:33:40",
+    "00:43:46",
+    "00:44:18",
+    "00:44:48",
+    "00:45:34"
+   ],
+   "mass_beyond_grid": 0.0
+  },
+  "both_no-offset__fuel-exhaustion+silent": {
+   "variant": "silent",
+   "ess_mixture_kish": 25.42067852308821,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:16",
+    "00:21:20",
+    "00:21:44",
+    "00:27:32",
+    "00:33:40",
+    "00:43:46",
+    "00:44:18",
+    "00:44:48",
+    "00:45:34"
+   ],
+   "mass_beyond_grid": 0.0
+  },
+  "both_startup-offset__other": {
+   "variant": "plain",
+   "ess_mixture_kish": 525.6244766265359,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0007089926439313613,
+   "impact_q_pooled_utc": [
+    "00:19:46",
+    "00:19:56",
+    "00:20:00",
+    "00:22:10",
+    "00:27:50",
+    "00:39:08",
+    "00:49:26",
+    "00:54:24",
+    "01:04:08"
+   ],
+   "mass_beyond_grid": 9.992007221626409e-16
+  },
+  "both_startup-offset__other+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 525.6244766265359,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0007089926439313613,
+   "impact_q_pooled_utc": [
+    "00:19:46",
+    "00:19:56",
+    "00:20:00",
+    "00:22:10",
+    "00:27:50",
+    "00:39:08",
+    "00:49:26",
+    "00:54:24",
+    "01:04:08"
+   ],
+   "mass_beyond_grid": 9.992007221626409e-16
+  },
+  "both_startup-offset__other+silent": {
+   "variant": "silent",
+   "ess_mixture_kish": 229.59391745783074,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 8.205582457191842e-09,
+   "impact_q_pooled_utc": [
+    "00:19:42",
+    "00:19:52",
+    "00:19:58",
+    "00:21:04",
+    "00:23:08",
+    "00:31:14",
+    "00:47:00",
+    "00:51:26",
+    "01:04:42"
+   ],
+   "mass_beyond_grid": 5.551115123125783e-16
+  },
+  "both_startup-offset__fuel-exhaustion": {
+   "variant": "plain",
+   "ess_mixture_kish": 85.61995679872508,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:19:46",
+    "00:19:52",
+    "00:19:56",
+    "00:22:00",
+    "00:27:06",
+    "00:38:12",
+    "00:44:12",
+    "00:44:36",
+    "00:45:02"
+   ],
+   "mass_beyond_grid": 8.881784197001252e-16
+  },
+  "both_startup-offset__fuel-exhaustion+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 85.61995679872508,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:19:46",
+    "00:19:52",
+    "00:19:56",
+    "00:22:00",
+    "00:27:06",
+    "00:38:12",
+    "00:44:12",
+    "00:44:36",
+    "00:45:02"
+   ],
+   "mass_beyond_grid": 8.881784197001252e-16
+  },
+  "both_startup-offset__fuel-exhaustion+silent": {
+   "variant": "silent",
+   "ess_mixture_kish": 85.61995679872508,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:19:46",
+    "00:19:52",
+    "00:19:56",
+    "00:22:00",
+    "00:27:06",
+    "00:38:12",
+    "00:44:12",
+    "00:44:36",
+    "00:45:02"
+   ],
+   "mass_beyond_grid": 8.881784197001252e-16
+  },
+  "r600-bto__other": {
+   "variant": "plain",
+   "ess_mixture_kish": 13058466.719113668,
+   "n_replicates": 4,
+   "share_before_001937": 0.0006627650788102357,
+   "share_after_011556": 0.002723009552136862,
+   "impact_q_pooled_utc": [
+    "00:20:22",
+    "00:22:18",
+    "00:23:50",
+    "00:33:04",
+    "00:41:34",
+    "00:48:36",
+    "00:58:42",
+    "01:02:52",
+    "01:11:46"
+   ],
+   "mass_beyond_grid": 2.994271497414047e-13
+  },
+  "r600-bto__other+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 13047625.57158379,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.00272499324658901,
+   "impact_q_pooled_utc": [
+    "00:20:30",
+    "00:22:20",
+    "00:23:52",
+    "00:33:06",
+    "00:41:34",
+    "00:48:36",
+    "00:58:42",
+    "01:02:52",
+    "01:11:46"
+   ],
+   "mass_beyond_grid": 3.771427614651657e-13
+  },
+  "r600-bto__other+silent": {
+   "variant": "silent",
+   "ess_mixture_kish": 1207486.3785254199,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 3.799585856631597e-05,
+   "impact_q_pooled_utc": [
+    "00:19:48",
+    "00:20:24",
+    "00:21:04",
+    "00:24:18",
+    "00:28:40",
+    "00:37:54",
+    "00:51:22",
+    "00:55:54",
+    "01:04:30"
+   ],
+   "mass_beyond_grid": 6.70019595361282e-13
+  },
+  "r600-bto__fuel-exhaustion": {
+   "variant": "plain",
+   "ess_mixture_kish": 1299083.9018002339,
+   "n_replicates": 4,
+   "share_before_001937": 0.002097076793588675,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:19:48",
+    "00:20:36",
+    "00:21:22",
+    "00:30:24",
+    "00:37:50",
+    "00:45:12",
+    "00:49:18",
+    "00:50:06",
+    "00:51:28"
+   ],
+   "mass_beyond_grid": 1.3866685577568205e-13
+  },
+  "r600-bto__fuel-exhaustion+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 1295672.4584746251,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:19:52",
+    "00:20:40",
+    "00:21:24",
+    "00:30:26",
+    "00:37:52",
+    "00:45:12",
+    "00:49:18",
+    "00:50:06",
+    "00:51:28"
+   ],
+   "mass_beyond_grid": 1.3178347302300608e-13
+  },
+  "r600-bto__fuel-exhaustion+silent": {
+   "variant": "silent",
+   "ess_mixture_kish": 1295672.4584746251,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:19:52",
+    "00:20:40",
+    "00:21:24",
+    "00:30:26",
+    "00:37:52",
+    "00:45:12",
+    "00:49:18",
+    "00:50:06",
+    "00:51:28"
+   ],
+   "mass_beyond_grid": 1.3178347302300608e-13
+  },
+  "both-bto__other": {
+   "variant": "plain",
+   "ess_mixture_kish": 9342398.31331944,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0025430941188622834,
+   "impact_q_pooled_utc": [
+    "00:20:32",
+    "00:22:18",
+    "00:23:52",
+    "00:33:28",
+    "00:41:38",
+    "00:48:20",
+    "00:58:36",
+    "01:02:44",
+    "01:11:24"
+   ],
+   "mass_beyond_grid": 1.871836019518014e-13
+  },
+  "both-bto__other+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 9342398.31331944,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0025430941188622834,
+   "impact_q_pooled_utc": [
+    "00:20:32",
+    "00:22:18",
+    "00:23:52",
+    "00:33:28",
+    "00:41:38",
+    "00:48:20",
+    "00:58:36",
+    "01:02:44",
+    "01:11:24"
+   ],
+   "mass_beyond_grid": 1.871836019518014e-13
+  },
+  "both-bto__other+silent": {
+   "variant": "silent",
+   "ess_mixture_kish": 815232.1852370565,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 3.6687776573769153e-05,
+   "impact_q_pooled_utc": [
+    "00:19:48",
+    "00:20:24",
+    "00:21:02",
+    "00:24:14",
+    "00:29:02",
+    "00:38:32",
+    "00:51:40",
+    "00:56:06",
+    "01:04:36"
+   ],
+   "mass_beyond_grid": 5.127009927718973e-13
+  },
+  "both-bto__fuel-exhaustion": {
+   "variant": "plain",
+   "ess_mixture_kish": 919781.2650630842,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:19:54",
+    "00:20:42",
+    "00:21:28",
+    "00:30:36",
+    "00:38:40",
+    "00:45:24",
+    "00:49:22",
+    "00:50:10",
+    "00:51:30"
+   ],
+   "mass_beyond_grid": 1.028066520802895e-13
+  },
+  "both-bto__fuel-exhaustion+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 919781.2650630842,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:19:54",
+    "00:20:42",
+    "00:21:28",
+    "00:30:36",
+    "00:38:40",
+    "00:45:24",
+    "00:49:22",
+    "00:50:10",
+    "00:51:30"
+   ],
+   "mass_beyond_grid": 1.028066520802895e-13
+  },
+  "both-bto__fuel-exhaustion+silent": {
+   "variant": "silent",
+   "ess_mixture_kish": 919781.2650630842,
+   "n_replicates": 4,
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:19:54",
+    "00:20:42",
+    "00:21:28",
+    "00:30:36",
+    "00:38:40",
+    "00:45:24",
+    "00:49:22",
+    "00:50:10",
+    "00:51:30"
+   ],
+   "mass_beyond_grid": 1.028066520802895e-13
+  }
+ }
+}

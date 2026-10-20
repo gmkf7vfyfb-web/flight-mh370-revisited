@@ -1,0 +1,956 @@
+diff --git a/hypotheses/pleiades/hypothesis.toml b/hypotheses/pleiades/hypothesis.toml
+new file mode 100644
+index 0000000..d9ac382
+--- /dev/null
++++ b/hypotheses/pleiades/hypothesis.toml
+@@ -0,0 +1,11 @@
++# Metadata for this hypothesis. Keep it current; the report prints it.
++question = "If at least one object rated 'probably man-made' in the four Pleiades 1A scenes of 23 March 2014 (GA Record 2017/13) came from 9M-MRO, where did the aircraft enter the water, and how probable is that premise given the flight evidence?"
++# open | supported | not-supported | inconclusive
++status = "open"
++# One line, written when the question is answered, citing the run that answered it.
++summary = ""
++# Changes needed in the core (new hooks, new state fields). Leave empty if none.
++# A hypothesis agent writes requests here and stops; it never edits core code.
++core_requests = [
++  "Diagnostics hook (approved in the satellite-sightings design by thr_4pbhvf3sxi): `fn diagnostics(&self) -> Vec<(String, f64)>`, default empty. It returns impact-independent named numbers computed from the module's inputs; evaluate.json and summary.json carry them under the module's name, and the module's report page prints them. Here: the COSMO-to-Pleiades link Bayes factor B_link, and per target its 2-day endpoint D2(z_k), distance to the nearest Pleiades cluster and P_F(z_k). Also wanted by settling (field constants) and hydroacoustics (calibration fits).",
++]
+diff --git a/hypotheses/pleiades/lib.rs b/hypotheses/pleiades/lib.rs
+new file mode 100644
+index 0000000..34ba0f0
+--- /dev/null
++++ b/hypotheses/pleiades/lib.rs
+@@ -0,0 +1,791 @@
++//! Pleiades: at least one object imaged by Pleiades 1A on 23 March 2014 came from 9M-MRO.
++//!
++//! **Source.** Geoscience Australia examined four Pleiades 1A scenes taken at about 04:00 UTC on
++//! 23 March 2014 near 35°S 91°E (Minchin et al. 2017, GA Record 2017/13). It rated 12 of 70 objects
++//! "probably man-made" but could not say whether they are aircraft debris. Griffin & Oke (2017, CSIRO
++//! EP174155) postulated that some are, and asked where the aircraft entered the water. This module
++//! asks the same question as an explicit conditional alternative, never as the base estimate.
++//!
++//! **Data.** `objects.csv` transcribes GA Tables 1-4. PHR_2 object 12 is printed with latitude and
++//! longitude swapped and is corrected. The 12 rating-5 objects lie at four places: PHR4N (objects
++//! 2-6), PHR4S (18, 19, 26, 27), PHR3 (7, 10) and PHR1 (1). Objects in a cluster are within 6 km of
++//! each other, far below the transport error, so each cluster is one observation at its centroid.
++//! [`SCENES`] are the footprints, read from GA Fig. 2 after georeferencing it with the 70 object
++//! markers (median residual 0.3 km). The figure is plate carrée with equal degrees per pixel. The
++//! four boxes are about 17 x 25 km each, total A = 1,773 km²; GA's text says "approximately 25 km x
++//! 20 km".
++//!
++//! **Likelihood.** For an impact at s, an ocean model and a windage factor, a floating item's
++//! position at 04:00 UTC on 23 March is x(s) + e:
++//! - x(s) is the deterministic surface-drift endpoint from the drift maps built offline by
++//!   crates/ocean (current + windage x ERA5 10 m wind, no explicit Stokes; RK2 on WGS-84, 1 h
++//!   step), interpolated bilinearly in s. A 0.0125° map covers 42-32°S 82-96°E, which holds 99.3%
++//!   of the base 00:19 posterior. It blends over 0.25° into a 0.05° map covering 50-15°S 70-115°E.
++//!   Against direct integration, bilinear interpolation is off by p95 <= 1.2 km at 0.0125° (GLORYS12;
++//!   BRAN2016 0.6, OSCAR 0.2) and 14-19 km at 0.05°. A few sources per thousand sit on eddy
++//!   separatrices, where the deterministic endpoint is ill-conditioned; the kernel covers that. In a
++//!   stand-in on the base 00:19 posterior, using the 0.05° maps alone changed Z_H by at most 0.2%
++//!   and left the latitude summaries unchanged, so the coarse fallback outside the box is adequate.
++//!   Both maps are built at crates/ocean revision 2724f57, after an ERA5 wind-extraction fix;
++//! - e is the 15-day transport error, an isotropic bivariate Student-t (or Gaussian) with density
++//!   p(e).
++//!
++//! If not-H, the cluster positions are uniform over the footprint (density 1/A). If H, exactly one
++//! cluster c is MRO debris (single association), with equal weights w_c, and the rest are background:
++//!
++//!   Λ_H(s) = p(y | s, H) / p(y | not-H) = Σ_c w_c · A · p(y_c − x(s)).
++//!
++//! The module returns ln Λ_H for H and 0 for not-H. Both are ratios against the same background, so
++//! the composer can mix them. The likelihood is analytic and seed-free, with no floor. An impact
++//! outside the drift map, or one whose drift left the ocean domain, is NaN (not computed).
++//!
++//! **What π means.** Suppose MRO left K detectable floating debris groups, each drifting
++//! independently with density p, each seen with probability η when inside a scene, and background
++//! objects form a Poisson process of intensity n/A over the scenes. In the sparse limit the Poisson
++//! likelihood ratio is then 1 + Kη · Λ_H(s). The composer's mixture (1 − π) + π · Λ_H(s) is the same
++//! up to a constant, with prior odds π / (1 − π) = Kη: the expected number of MRO objects big enough
++//! to be rated 5 that would be seen if the whole debris field were imaged. It is not the everyday
++//! "chance that an imaged object is MRO". That is roughly Kη · P_F, and P_F, the chance that one
++//! item lands inside the 1,773 km² footprint, is at most A / (2π · scale²) ≈ 5.4% at the
++//! calibrated error (OSCAR's 72 km scale). The Poisson term for MRO debris that should have been
++//! seen but wasn't, −Kη · P_F(s), is dropped: it is at most 0.054 Kη in ln Λ, negligible for
++//! Kη ≲ 5.
++//!
++//! **How weak a 15-day back-track is.** Against drifters, GLORYS12 and BRAN2016 currents alone
++//! predict 15-day displacement barely better than assuming no motion (skill 0.10 and 0.08 for
++//! drogued drifters; OSCAR's 30 m mean reaches 0.44). With 1.2% ERA5 windage, undrogued drifters
++//! reach skill 0.49-0.60, with Student-t errors of scale 72-94 km (RMS 118-133 km per
++//! component). So even if H holds, the images locate the impact only to within a few hundred
++//! kilometres. The deterministic endpoint map also carries eddy-scale structure the
++//! model cannot forecast, and those details differ between ocean models. That is why the ocean
++//! model is an alternative weighed by evidence, not a fixed choice.
++//!
++//! **Transport error (15 days).** The kernel comes from the crates/ocean GDP replay (Ocean drift
++//! thread, revision 2724f57, report/drift_replay.py): 2014 drifters in 25-45°S 60-115°E, 15-day
++//! segments starting every 3 days, with the drift map's integrator and fields.
++//! - Primary, per ocean model: undrogued drifters with current + 1.2% ERA5 wind (n = 1,207),
++//!   Student-t ν / scale / skill: GLORYS12 2.73 / 77.3 km / 0.56, OSCAR 2.62 / 72.3 km / 0.60,
++//!   BRAN2016 3.68 / 94.1 km / 0.49. It measures the transport error for an object whose leeway
++//!   is modelled correctly, so every windage class uses it. At 3%, the ERA5 wind error (about
++//!   1.5 m/s) would add roughly 30 km in quadrature over 15 days, which is small beside 72-94 km.
++//! - The mismatched configurations are wider. Current-only drogued is 98 / 68 / 101 km: a 15 m
++//!   drogue against the top model level. 3% windage on undrogued drifters is 117 / 87 / 117 km:
++//!   drifters are not 3% objects.
++//! - Conservative sensitivity: a pooled current-only GLORYS12 fit (drogued + undrogued, from an
++//!   independent exploratory calibration that matched the replay's current-only rows),
++//!   Student-t ν 3.75, 107 km, or a Gaussian σ 146 km.
++//! - The drifters feel the same unresolved dispersion as debris, so no random walk is added.
++//! - The Pleiades horizon is 15.14 days; the calibration uses 15.0 days, a difference under 1% in
++//!   scale.
++//!
++//! **Departures from Griffin & Oke (2017).** They ranked four candidate strips qualitatively, using
++//! BRAN2015/2016, a 5 NM/day random walk (25 km per component at 15 days) and windage 0, 1.2% and 3%.
++//! They kept only findings both models supported, and did not normalise against a background. This
++//! module departs as follows:
++//! - the likelihood ratio is explicit, with the footprint background;
++//! - the error is drifter-calibrated, about 3x wider than their random walk;
++//! - ocean model and windage are alternatives weighed by evidence, not discarded when models disagree.
++//!
++//! Their 1.2% windage is treated as the Stokes proxy they describe, so no WAVERYS Stokes is added.
++//!
++//! **Release time.** The drift maps release at 00:40 UTC on 8 March. An impact at another time
++//! would release its debris earlier or later, which moves the endpoint by at most |u| · Δt. The
++//! fastest object speed over the map grid on 8 March 00:00-01:00 is 1.35 m/s (GLORYS12, 3%
++//! windage; drift-map manifests). |d ln p / dr| peaks at (ν + 2) / (2 √ν · scale), at most 0.020
++//! per km (OSCAR). So ln Λ_H changes by at most 0.0016 per minute of offset: under 0.05 for the
++//! 00:20-01:10 impacts of the end-of-flight endings, and under 0.15 at the ±90 min limit.
++//! Typical speeds (0.3-0.6 m/s) give a third of that. Impacts further from 00:40, or without a
++//! time, are not computed.
++//!
++//! **Sensitivities** (run.toml parameters):
++//! - `association = { kind = "at-least-one", rho }`: each cluster is independently MRO with
++//!   probability ρ, conditioned on at least one:
++//!   Λ = [Π_c((1 − ρ) + ρ · A · p_c) − (1 − ρ)^n] / [1 − (1 − ρ)^n].
++//!   It tends to the single form as ρ → 0 and to the product Π_c A · p_c at ρ = 1. The MRO clusters
++//!   are drawn independently, with no shared model error.
++//! - `min_rating = 4`: the 39 objects rated 4 or 5, grouped by scene (adds PHR_2).
++//! - `kernel`: the pooled current-only Student-t (ν 3.75, 107 km) or a Gaussian (σ 146 km).
++
++use hypothesis::{Alternatives, Hypothesis, ImpactView};
++use serde::Deserialize;
++use std::collections::BTreeMap;
++use std::path::{Path, PathBuf};
++
++/// GA Tables 1-4 (70 objects), with PHR_2 object 12 corrected.
++const OBJECTS: &str = include_str!("objects.csv");
++
++/// Scene footprints [south, north, west, east] in degrees, from GA Fig. 2 (see the module comment).
++pub const SCENES: [(&str, [f64; 4]); 4] = [
++    ("PHR_1", [-35.402, -35.155, 90.388, 90.581]),
++    ("PHR_2", [-35.387, -35.158, 91.233, 91.425]),
++    ("PHR_3", [-34.640, -34.416, 90.396, 90.578]),
++    ("PHR_4", [-34.636, -34.411, 91.233, 91.422]),
++];
++
++/// Drift-map release and endpoint times. The endpoint is GA/CSIRO's "~4Z".
++const RELEASE_UTC: &str = "2014-03-08T00:40:00Z";
++const END_UTC: &str = "2014-03-23T04:00:00Z";
++/// The release time as Unix seconds, and how far from it an impact may be before the map no
++/// longer applies (see "Release time" above).
++const RELEASE_UNIX_S: f64 = 1_394_239_200.0;
++const RELEASE_WINDOW_S: f64 = 5_400.0;
++
++/// Axis label for the composer's prior sweep of H (see "What π means").
++const SWEEP_LABEL: &str = "expected detectable rating-5-sized MRO objects K·η (prior odds of H)";
++
++/// IUGG mean Earth radius. Haversine distances agree with the WGS-84 geodesic to <0.01% here.
++const EARTH_RADIUS_KM: f64 = 6_371.008_8;
++
++#[derive(Deserialize)]
++#[serde(deny_unknown_fields)]
++struct Params {
++    /// Drift-map directories: one list per ocean model, finest map first, each relative to the
++    /// working directory (`make` runs from the repository root).
++    drift_maps: Vec<Vec<PathBuf>>,
++    /// 15-day transport error for each ocean model, keyed by the model name in its manifest.
++    kernel: BTreeMap<String, Kernel>,
++    #[serde(default = "default_min_rating")]
++    min_rating: u8,
++    #[serde(default)]
++    association: Association,
++}
++
++fn default_min_rating() -> u8 {
++    5
++}
++
++/// Isotropic bivariate transport-error density, as a function of distance r (km).
++#[derive(Deserialize, Clone, Copy, Debug, PartialEq)]
++#[serde(tag = "form", rename_all = "kebab-case", deny_unknown_fields)]
++pub enum Kernel {
++    StudentT { nu: f64, scale_km: f64 },
++    Gaussian { sigma_km: f64 },
++}
++
++impl Kernel {
++    /// ln p(e) per km² at |e| = r km, normalised over the plane.
++    pub fn ln_density(self, r_km: f64) -> f64 {
++        match self {
++            Kernel::StudentT { nu, scale_km: s } => {
++                -(2.0 * std::f64::consts::PI * s * s).ln() - 0.5 * (nu + 2.0) * (r_km * r_km / (nu * s * s)).ln_1p()
++            }
++            Kernel::Gaussian { sigma_km: s } => -(2.0 * std::f64::consts::PI * s * s).ln() - 0.5 * r_km * r_km / (s * s),
++        }
++    }
++
++    fn validate(self) -> Result<Self, String> {
++        let ok = match self {
++            Kernel::StudentT { nu, scale_km } => nu > 0.0 && scale_km > 0.0,
++            Kernel::Gaussian { sigma_km } => sigma_km > 0.0,
++        };
++        if ok { Ok(self) } else { Err(format!("pleiades: invalid kernel {self:?}")) }
++    }
++}
++
++/// How the clusters relate to H (see the module comment).
++#[derive(Deserialize, Clone, Copy, Debug, Default, PartialEq)]
++#[serde(tag = "kind", rename_all = "kebab-case", deny_unknown_fields)]
++pub enum Association {
++    #[default]
++    Single,
++    AtLeastOne { rho: f64 },
++}
++
++/// One observation: the centroid of a group of imaged objects.
++#[derive(Debug, Clone, PartialEq)]
++pub struct Cluster {
++    pub id: String,
++    pub latitude_deg: f64,
++    pub longitude_deg: f64,
++    pub objects: usize,
++}
++
++/// One row of `objects.csv`.
++#[derive(Debug, Clone, PartialEq)]
++pub struct Object {
++    pub scene: String,
++    pub number: u32,
++    pub latitude_deg: f64,
++    pub longitude_deg: f64,
++    pub rating: u8,
++    pub cluster: String,
++}
++
++pub fn objects() -> Vec<Object> {
++    OBJECTS
++        .lines()
++        .filter(|l| !l.starts_with('#'))
++        .skip(1)
++        .map(|l| {
++            let f: Vec<&str> = l.split(',').collect();
++            Object {
++                scene: f[0].to_string(),
++                number: f[1].parse().unwrap(),
++                latitude_deg: f[2].parse().unwrap(),
++                longitude_deg: f[3].parse().unwrap(),
++                rating: f[6].parse().unwrap(),
++                cluster: f[7].to_string(),
++            }
++        })
++        .collect()
++}
++
++/// Rating 5: the four named clusters. Rating >= 4: one cluster per scene.
++pub fn clusters(min_rating: u8) -> Result<Vec<Cluster>, String> {
++    let key = |o: &Object| match min_rating {
++        5 => o.cluster.clone(),
++        _ => o.scene.replace('_', ""),
++    };
++    if !(min_rating == 4 || min_rating == 5) {
++        return Err(format!("pleiades: min_rating must be 4 or 5, not {min_rating}"));
++    }
++    let mut groups: BTreeMap<String, Vec<Object>> = BTreeMap::new();
++    for o in objects().into_iter().filter(|o| o.rating >= min_rating) {
++        groups.entry(key(&o)).or_default().push(o);
++    }
++    Ok(groups
++        .into_iter()
++        .map(|(id, members)| {
++            let n = members.len() as f64;
++            Cluster {
++                id,
++                latitude_deg: members.iter().map(|o| o.latitude_deg).sum::<f64>() / n,
++                longitude_deg: members.iter().map(|o| o.longitude_deg).sum::<f64>() / n,
++                objects: members.len(),
++            }
++        })
++        .collect())
++}
++
++/// Total footprint area (km²) on the sphere: R² (sin φn − sin φs) Δλ per box.
++pub fn footprint_area_km2() -> f64 {
++    SCENES
++        .iter()
++        .map(|(_, [s, n, w, e])| {
++            EARTH_RADIUS_KM.powi(2) * (n.to_radians().sin() - s.to_radians().sin()) * (e - w).to_radians()
++        })
++        .sum()
++}
++
++pub fn distance_km(lat1: f64, lon1: f64, lat2: f64, lon2: f64) -> f64 {
++    let (p1, p2) = (lat1.to_radians(), lat2.to_radians());
++    let h = ((p2 - p1) / 2.0).sin().powi(2) + p1.cos() * p2.cos() * ((lon2 - lon1).to_radians() / 2.0).sin().powi(2);
++    2.0 * EARTH_RADIUS_KM * h.sqrt().min(1.0).asin()
++}
++
++/// Deterministic drift endpoints on a regular source grid, for one ocean model and several windage
++/// factors (built offline by crates/ocean; `manifest.toml` + little-endian f32 arrays).
++pub struct DriftMap {
++    pub model: String,
++    lat0: f64,
++    lon0: f64,
++    step: f64,
++    nlat: usize,
++    nlon: usize,
++    pub windage: Vec<f64>,
++    /// Per windage: end latitude and end longitude, row-major, latitude ascending; NaN = not computed.
++    end: Vec<(Vec<f32>, Vec<f32>)>,
++}
++
++#[derive(Deserialize)]
++struct Manifest {
++    model: String,
++    release_utc: String,
++    end_utc: String,
++    lat0_deg: f64,
++    lon0_deg: f64,
++    step_deg: f64,
++    nlat: usize,
++    nlon: usize,
++    windage: Vec<f64>,
++    latitude_files: Vec<String>,
++    longitude_files: Vec<String>,
++}
++
++impl DriftMap {
++    pub fn load(dir: &Path) -> Result<Self, String> {
++        let path = dir.join("manifest.toml");
++        let text = std::fs::read_to_string(&path).map_err(|e| format!("pleiades: {}: {e}", path.display()))?;
++        let m: Manifest = toml::from_str(&text).map_err(|e| format!("pleiades: {}: {e}", path.display()))?;
++        if m.release_utc != RELEASE_UTC || m.end_utc != END_UTC {
++            return Err(format!("pleiades: {} runs {} -> {}, expected {RELEASE_UTC} -> {END_UTC}", path.display(), m.release_utc, m.end_utc));
++        }
++        if m.latitude_files.len() != m.windage.len() || m.longitude_files.len() != m.windage.len() {
++            return Err(format!("pleiades: {}: one latitude and one longitude file per windage", path.display()));
++        }
++        let read = |name: &str| -> Result<Vec<f32>, String> {
++            let p = dir.join(name);
++            let bytes = std::fs::read(&p).map_err(|e| format!("pleiades: {}: {e}", p.display()))?;
++            if bytes.len() != 4 * m.nlat * m.nlon {
++                return Err(format!("pleiades: {} has {} bytes, expected {}", p.display(), bytes.len(), 4 * m.nlat * m.nlon));
++            }
++            Ok(bytes.as_chunks::<4>().0.iter().map(|b| f32::from_le_bytes(*b)).collect())
++        };
++        let end = m
++            .latitude_files
++            .iter()
++            .zip(&m.longitude_files)
++            .map(|(la, lo)| Ok((read(la)?, read(lo)?)))
++            .collect::<Result<_, String>>()?;
++        Self::new(m.model, [m.lat0_deg, m.lon0_deg, m.step_deg], [m.nlat, m.nlon], m.windage, end)
++    }
++
++    pub fn new(model: String, origin_step: [f64; 3], shape: [usize; 2], windage: Vec<f64>, end: Vec<(Vec<f32>, Vec<f32>)>) -> Result<Self, String> {
++        let [lat0, lon0, step] = origin_step;
++        let [nlat, nlon] = shape;
++        if !(step > 0.0 && nlat >= 2 && nlon >= 2) || end.len() != windage.len() || end.iter().any(|(a, b)| a.len() != nlat * nlon || b.len() != nlat * nlon) {
++            return Err(format!("pleiades: drift map {model}: inconsistent grid"));
++        }
++        Ok(Self { model, lat0, lon0, step, nlat, nlon, windage, end })
++    }
++
++    /// 1 at least `margin` degrees inside the grid's box, falling linearly to 0 at its edge.
++    fn inside_weight(&self, lat: f64, lon: f64, margin: f64) -> f64 {
++        let (lat1, lon1) = (self.lat0 + self.step * (self.nlat - 1) as f64, self.lon0 + self.step * (self.nlon - 1) as f64);
++        let d = (lat - self.lat0).min(lat1 - lat).min(lon - self.lon0).min(lon1 - lon);
++        (d / margin).clamp(0.0, 1.0)
++    }
++
++    /// Bilinearly interpolated endpoint (lat, lon) for a source at (lat, lon); None if the source is
++    /// outside the grid or any surrounding node was not computed.
++    pub fn endpoint(&self, w: usize, lat: f64, lon: f64) -> Option<(f64, f64)> {
++        let fi = (lat - self.lat0) / self.step;
++        let fj = (lon - self.lon0) / self.step;
++        if !(fi >= 0.0 && fj >= 0.0 && fi <= (self.nlat - 1) as f64 && fj <= (self.nlon - 1) as f64) {
++            return None;
++        }
++        let (i, j) = ((fi as usize).min(self.nlat - 2), (fj as usize).min(self.nlon - 2));
++        let (a, b) = (fi - i as f64, fj - j as f64);
++        let (ends_lat, ends_lon) = &self.end[w];
++        let interp = |v: &[f32]| {
++            let at = |ii: usize, jj: usize| f64::from(v[ii * self.nlon + jj]);
++            (1.0 - a) * ((1.0 - b) * at(i, j) + b * at(i, j + 1)) + a * ((1.0 - b) * at(i + 1, j) + b * at(i + 1, j + 1))
++        };
++        let (la, lo) = (interp(ends_lat), interp(ends_lon));
++        (la.is_finite() && lo.is_finite()).then_some((la, lo))
++    }
++}
++
++/// One ocean model's drift maps, finest first. A finer map is used where it applies; over the
++/// last [`BLEND_MARGIN_DEG`] inside its edge it blends linearly into the next coarser map, so the
++/// endpoint, and the likelihood, stay continuous across the boundary.
++pub struct DriftModel {
++    pub levels: Vec<DriftMap>,
++}
++
++/// Width of the fine-to-coarse blend inside a finer map's edge.
++pub const BLEND_MARGIN_DEG: f64 = 0.25;
++
++impl DriftModel {
++    pub fn new(levels: Vec<DriftMap>) -> Result<Self, String> {
++        let first = levels.first().ok_or("pleiades: an ocean model needs at least one drift map")?;
++        if levels.iter().any(|m| m.model != first.model || m.windage != first.windage) {
++            return Err(format!("pleiades: drift maps for {} disagree on model or windage", first.model));
++        }
++        Ok(Self { levels })
++    }
++
++    pub fn name(&self) -> &str {
++        &self.levels[0].model
++    }
++
++    pub fn endpoint(&self, w: usize, lat: f64, lon: f64) -> Option<(f64, f64)> {
++        Self::blended(&self.levels, w, lat, lon)
++    }
++
++    fn blended(levels: &[DriftMap], w: usize, lat: f64, lon: f64) -> Option<(f64, f64)> {
++        let (fine, coarser) = levels.split_first()?;
++        if coarser.is_empty() {
++            return fine.endpoint(w, lat, lon);
++        }
++        let f = fine.inside_weight(lat, lon, BLEND_MARGIN_DEG);
++        if f >= 1.0 {
++            return fine.endpoint(w, lat, lon);
++        }
++        let coarse = Self::blended(coarser, w, lat, lon);
++        if f <= 0.0 {
++            return coarse;
++        }
++        let ((a, b), (c, d)) = (fine.endpoint(w, lat, lon)?, coarse?);
++        Some((f * a + (1.0 - f) * c, f * b + (1.0 - f) * d))
++    }
++}
++
++pub struct Pleiades {
++    pub clusters: Vec<Cluster>,
++    pub area_km2: f64,
++    pub models: Vec<DriftModel>,
++    kernels: Vec<Kernel>,
++    association: Association,
++}
++
++pub fn new(params: &toml::Value) -> Result<Box<dyn Hypothesis>, String> {
++    let params: Params = params.clone().try_into().map_err(|e| format!("pleiades: {e}"))?;
++    let models = params
++        .drift_maps
++        .iter()
++        .map(|dirs| DriftModel::new(dirs.iter().map(|d| DriftMap::load(d)).collect::<Result<_, _>>()?))
++        .collect::<Result<Vec<_>, _>>()?;
++    Ok(Box::new(Pleiades::new(models, &params.kernel, params.min_rating, params.association)?))
++}
++
++impl Pleiades {
++    pub fn new(models: Vec<DriftModel>, kernels: &BTreeMap<String, Kernel>, min_rating: u8, association: Association) -> Result<Self, String> {
++        if models.is_empty() {
++            return Err("pleiades: no drift maps".into());
++        }
++        if let Association::AtLeastOne { rho } = association {
++            if !(rho > 0.0 && rho <= 1.0) {
++                return Err(format!("pleiades: rho must be in (0, 1], not {rho}"));
++            }
++        }
++        let kernels = models
++            .iter()
++            .map(|m| kernels.get(m.name()).copied().ok_or(format!("pleiades: no kernel for ocean model {}", m.name()))?.validate())
++            .collect::<Result<_, _>>()?;
++        if models.iter().any(|m| m.levels[0].windage != models[0].levels[0].windage) {
++            return Err("pleiades: every drift map must carry the same windage factors".into());
++        }
++        Ok(Self { clusters: clusters(min_rating)?, area_km2: footprint_area_km2(), models, kernels, association })
++    }
++
++    /// Observations consumed, once per run.
++    pub fn observation_ids(&self) -> Vec<String> {
++        self.clusters.iter().map(|c| format!("pleiades:{}", c.id)).collect()
++    }
++
++    /// The alternatives `impact_log_likelihood` distinguishes, in `choice` order: origin
++    /// {not-H, H} (prior odds 1, i.e. Kη = 1; the composer sweeps it), the shared ocean model,
++    /// and this module's windage. Priors are equal within each set.
++    pub fn alternative_sets(&self) -> Vec<Alternatives> {
++        let equal = |name: &str, labels: Vec<String>| {
++            let p = 1.0 / labels.len() as f64;
++            Alternatives { name: name.into(), options: labels.into_iter().map(|l| (l, p)).collect(), sweep_label: None }
++        };
++        let mut origin = equal("pleiades-origin", vec!["not-H".into(), "H".into()]);
++        origin.sweep_label = Some(SWEEP_LABEL.into());
++        vec![
++            origin,
++            equal("ocean-model", self.models.iter().map(|m| m.name().to_string()).collect()),
++            equal("pleiades-windage", self.models[0].levels[0].windage.iter().map(|w| format!("{w}")).collect()),
++        ]
++    }
++
++    /// ln p(data | impact, choice) relative to the background: 0 for not-H, ln Λ_H for H.
++    pub fn log_likelihood(&self, choice: &[usize], latitude_deg: f64, longitude_deg: f64) -> f64 {
++        let [origin, m, w] = choice else { panic!("pleiades: choice needs 3 indices, got {choice:?}") };
++        if *origin == 0 { 0.0 } else { self.log_lambda_h(*m, *w, latitude_deg, longitude_deg) }
++    }
++
++    /// ln Λ_H for an impact at (lat, lon) under ocean model `m` and windage `w`; ln Λ for not-H is 0.
++    /// NaN means not computed (outside the drift map, or the drift left the ocean domain).
++    pub fn log_lambda_h(&self, m: usize, w: usize, lat: f64, lon: f64) -> f64 {
++        let Some((end_lat, end_lon)) = self.models[m].endpoint(w, lat, lon) else {
++            return f64::NAN;
++        };
++        let ln_area = self.area_km2.ln();
++        // ln(A p_c) for each cluster.
++        let ln_a: Vec<f64> = self
++            .clusters
++            .iter()
++            .map(|c| ln_area + self.kernels[m].ln_density(distance_km(c.latitude_deg, c.longitude_deg, end_lat, end_lon)))
++            .collect();
++        combine(&ln_a, self.association)
++    }
++}
++
++/// ln Λ_H from ln(A p_c): the single-association mixture with equal weights, or the at-least-one
++/// form summed over non-empty subsets (no cancellation for small A p_c).
++pub fn combine(ln_a: &[f64], association: Association) -> f64 {
++    let n = ln_a.len();
++    match association {
++        Association::Single => log_sum_exp(ln_a.iter().copied()) - (n as f64).ln(),
++        Association::AtLeastOne { rho } => {
++            let (ln_rho, ln_not) = (rho.ln(), (1.0 - rho).ln());
++            let subsets = (1u32..1 << n).map(|mask| {
++                (0..n).map(|c| if mask & (1 << c) != 0 { ln_rho + ln_a[c] } else { ln_not }).sum::<f64>()
++            });
++            log_sum_exp(subsets) - (-(n as f64 * ln_not).exp()).ln_1p()
++        }
++    }
++}
++
++fn log_sum_exp(terms: impl Iterator<Item = f64> + Clone) -> f64 {
++    let max = terms.clone().fold(f64::NEG_INFINITY, f64::max);
++    if max == f64::NEG_INFINITY {
++        return max;
++    }
++    max + terms.map(|t| (t - max).exp()).sum::<f64>().ln()
++}
++
++/// An impact module: it acts only through the impact hooks, named in a `[[compose]]` set.
++impl Hypothesis for Pleiades {
++    fn observations(&self) -> Vec<String> {
++        self.observation_ids()
++    }
++
++    fn alternatives(&self) -> Vec<Alternatives> {
++        self.alternative_sets()
++    }
++
++    /// Both options are ratios against the same footprint background.
++    fn absolute_scale(&self) -> bool {
++        true
++    }
++
++    /// NaN (not computed) for an impact outside the drift maps, or more than
++    /// [`RELEASE_WINDOW_S`] from the maps' release time, or with no time.
++    fn impact_log_likelihood(&self, impact: &ImpactView, choice: &[usize]) -> f64 {
++        let offset = (impact.unix_s - RELEASE_UNIX_S).abs();
++        if offset.is_nan() || offset > RELEASE_WINDOW_S {
++            return f64::NAN;
++        }
++        self.log_likelihood(choice, impact.latitude_deg, impact.longitude_deg)
++    }
++}
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++
++    /// Endpoint = affine function of the source in degrees (exact under bilinear interpolation),
++    /// on a 0.25° grid over 40-30°S, 85-95°E.
++    fn affine_map(model: &str, f: impl Fn(f64, f64) -> (f64, f64)) -> DriftMap {
++        affine_map_on(model, [-40.0, 85.0, 0.25], [41, 41], f)
++    }
++
++    fn affine_map_on(model: &str, [lat0, lon0, step]: [f64; 3], [nlat, nlon]: [usize; 2], f: impl Fn(f64, f64) -> (f64, f64)) -> DriftMap {
++        let mut la = vec![0f32; nlat * nlon];
++        let mut lo = la.clone();
++        for i in 0..nlat {
++            for j in 0..nlon {
++                let (a, b) = f(lat0 + step * i as f64, lon0 + step * j as f64);
++                la[i * nlon + j] = a as f32;
++                lo[i * nlon + j] = b as f32;
++            }
++        }
++        DriftMap::new(model.into(), [lat0, lon0, step], [nlat, nlon], vec![0.0], vec![(la, lo)]).unwrap()
++    }
++
++    #[test]
++    fn object_table_and_footprints_match_ga() {
++        let all = objects();
++        assert_eq!(all.len(), 70);
++        for (scene, count) in [("PHR_1", 11), ("PHR_2", 12), ("PHR_3", 11), ("PHR_4", 36)] {
++            assert_eq!(all.iter().filter(|o| o.scene == scene).count(), count);
++        }
++        assert_eq!(all.iter().filter(|o| o.rating == 4).count(), 27);
++        let c = clusters(5).unwrap();
++        let sizes: Vec<(&str, usize)> = c.iter().map(|c| (c.id.as_str(), c.objects)).collect();
++        assert_eq!(sizes, [("PHR1", 1), ("PHR3", 2), ("PHR4N", 5), ("PHR4S", 4)]);
++        let swapped = all.iter().find(|o| o.scene == "PHR_2" && o.number == 12).unwrap();
++        assert_eq!((swapped.latitude_deg, swapped.longitude_deg), (-35.275048, 91.29775));
++        // Every object lies inside its digitised scene footprint.
++        for o in &all {
++            let [s, n, w, e] = SCENES.iter().find(|(id, _)| *id == o.scene).unwrap().1;
++            assert!(o.latitude_deg > s && o.latitude_deg < n && o.longitude_deg > w && o.longitude_deg < e, "{o:?}");
++        }
++        // WGS-84 polygon area of the four boxes (pyproj Geod.polygon_area_perimeter): 1,773.33 km².
++        assert!((footprint_area_km2() - 1_773.33).abs() < 1.0, "{}", footprint_area_km2());
++        assert_eq!(clusters(4).unwrap().len(), 4);
++    }
++
++    #[test]
++    fn distance_matches_wgs84_geodesic() {
++        // PHR4N centroid to Griffin & Oke's 35.6°S 92.8°E; pyproj Geod(ellps='WGS84').inv: 183.0609 km.
++        let c = clusters(5).unwrap().into_iter().find(|c| c.id == "PHR4N").unwrap();
++        let d = distance_km(c.latitude_deg, c.longitude_deg, -35.6, 92.8);
++        assert!((d - 183.0609).abs() < 0.02 * 1.0, "{d}");
++    }
++
++    #[test]
++    fn kernels_are_normalised_with_the_calibrated_spread() {
++        let t = Kernel::StudentT { nu: 4.0, scale_km: 100.0 };
++        // Hand value: at r = scale, p = (1 + 1/4)^-3 / (2π · 100²).
++        let hand = 1.25f64.powi(-3) / (2.0 * std::f64::consts::PI * 1.0e4);
++        assert!((t.ln_density(100.0) - hand.ln()).abs() < 1e-12);
++        let g = Kernel::Gaussian { sigma_km: 146.0 };
++        assert!((g.ln_density(146.0) - ((-0.5f64).exp() / (2.0 * std::f64::consts::PI * 146.0 * 146.0)).ln()).abs() < 1e-12);
++        // Radial quadrature against the closed-form tail P(|e| > r): (1 + r²/(ν s²))^(−ν/2) for the
++        // bivariate Student-t, exp(−r²/2σ²) for the Gaussian; mass 1 overall.
++        let primary = Kernel::StudentT { nu: 2.624, scale_km: 72.32 };
++        for k in [t, primary, g] {
++            let tail = |r: f64| match k {
++                Kernel::StudentT { nu, scale_km: s } => (1.0 + r * r / (nu * s * s)).powf(-nu / 2.0),
++                Kernel::Gaussian { sigma_km: s } => (-r * r / (2.0 * s * s)).exp(),
++            };
++            let (dr, mut mass, mut r) = (0.05, 0.0, 0.025);
++            for probe in [50.0, 150.0, 500.0, 2_000.0, 20_000.0] {
++                while r < probe {
++                    mass += k.ln_density(r).exp() * 2.0 * std::f64::consts::PI * r * dr;
++                    r += dr;
++                }
++                assert!((1.0 - mass - tail(probe)).abs() < 1e-5, "{k:?} at {probe} km: {} vs {}", 1.0 - mass, tail(probe));
++            }
++        }
++    }
++
++    #[test]
++    fn endpoints_interpolate_exactly_and_refuse_outside() {
++        let mut map = affine_map("m", |la, lo| (la + 0.3 * (lo - 90.0) + 1.2, lo - 0.2 * (la + 35.0) - 1.5));
++        let (la, lo) = map.endpoint(0, -35.37, 91.61).unwrap();
++        assert!((la - (-35.37 + 0.3 * 1.61 + 1.2)).abs() < 1e-5 && (lo - (91.61 - 0.2 * -0.37 - 1.5)).abs() < 1e-5);
++        assert!(map.endpoint(0, -40.5, 90.0).is_none() && map.endpoint(0, -35.0, 95.1).is_none());
++        // A node that was not computed poisons the four cells around it.
++        map.end[0].0[20 * 41 + 20] = f32::NAN;
++        assert!(map.endpoint(0, -35.1, 89.9).is_none() && map.endpoint(0, -34.9, 90.1).is_none());
++        assert!(map.endpoint(0, -35.3, 90.0).is_some());
++        // A finer map over 37-33°S, 88-92°E, with a different endpoint function, blends into the
++        // coarse one over the last 0.25° inside its edge.
++        let fine_f = |la: f64, lo: f64| (la + 1.0, lo - 1.0);
++        let coarse_f = |la: f64, lo: f64| (la + 1.5, lo - 0.5);
++        let model = DriftModel::new(vec![
++            affine_map_on("m", [-37.0, 88.0, 0.05], [81, 81], fine_f),
++            affine_map("m", coarse_f),
++        ])
++        .unwrap();
++        let at = |la, lo| model.endpoint(0, la, lo).unwrap();
++        let close = |(a, b): (f64, f64), (c, d): (f64, f64), tol: f64| (a - c).abs() < tol && (b - d).abs() < tol;
++        assert!(close(at(-35.0, 90.0), fine_f(-35.0, 90.0), 1e-5));
++        assert!(close(at(-38.0, 90.0), coarse_f(-38.0, 90.0), 1e-5));
++        // Halfway through the margin (0.125° inside the western edge): the mean of the two.
++        let (f, c) = (fine_f(-35.0, 88.125), coarse_f(-35.0, 88.125));
++        assert!(close(at(-35.0, 88.125), (0.5 * (f.0 + c.0), 0.5 * (f.1 + c.1)), 1e-5));
++        // Continuous across the fine map's edge and across the inner end of the margin.
++        for lon in [88.0, 88.25] {
++            assert!(close(at(-35.0, lon - 1e-6), at(-35.0, lon + 1e-6), 1e-4));
++        }
++    }
++
++    #[test]
++    fn alternatives_and_choices_follow_the_composer_contract() {
++        let map = |name: &str, windage: Vec<f64>, shift: f64| {
++            let one = affine_map(name, |la, lo| (la + shift, lo - shift));
++            DriftMap::new(name.into(), [-40.0, 85.0, 0.25], [41, 41], windage.clone(), vec![one.end[0].clone(); windage.len()]).unwrap()
++        };
++        let t = Kernel::StudentT { nu: 3.75, scale_km: 106.6 };
++        let kernels = BTreeMap::from([("a".to_string(), t), ("b".to_string(), t)]);
++        let model = |name: &str, windage: Vec<f64>, shift: f64| DriftModel::new(vec![map(name, windage, shift)]).unwrap();
++        let p = Pleiades::new(vec![model("a", vec![0.0, 0.03], 0.5), model("b", vec![0.0, 0.03], 1.0)], &kernels, 5, Association::Single).unwrap();
++        let h: &dyn Hypothesis = &p;
++        let sets = h.alternatives();
++        assert_eq!(sets[0].name, "pleiades-origin");
++        assert_eq!(sets[0].options, [("not-H".to_string(), 0.5), ("H".to_string(), 0.5)]);
++        assert!(sets[0].sweep_label.is_some());
++        assert_eq!(sets[1].options.iter().map(|o| o.0.as_str()).collect::<Vec<_>>(), ["a", "b"]);
++        assert_eq!(sets[2].options.iter().map(|o| o.0.as_str()).collect::<Vec<_>>(), ["0", "0.03"]);
++        assert_eq!(h.observations(), ["pleiades:PHR1", "pleiades:PHR3", "pleiades:PHR4N", "pleiades:PHR4S"]);
++        assert!(h.absolute_scale());
++        let at = |lat: f64, lon: f64, t: f64| ImpactView {
++            parent: 0, unix_s: t, latitude_deg: lat, longitude_deg: lon, velocity_east_mps: 0.0, velocity_north_mps: 0.0,
++            velocity_up_mps: 0.0, flight_path_angle_deg: 0.0, mass_kg: 0.0, kinetic_energy_j: 0.0, vertical_kinetic_energy_j: 0.0,
++            family: 0, takeover_unix_s: t, takeover_latitude_deg: lat, takeover_longitude_deg: lon, takeover_altitude_ft: 0.0,
++            mode: 0, alternative: 0, latents: &[],
++        };
++        let impact = at(-36.0, 92.0, RELEASE_UNIX_S - 1_200.0);
++        assert_eq!(h.impact_log_likelihood(&impact, &[0, 1, 1]), 0.0);
++        assert_eq!(h.impact_log_likelihood(&impact, &[1, 1, 1]), p.log_lambda_h(1, 1, -36.0, 92.0));
++        assert!(h.impact_log_likelihood(&impact, &[1, 1, 1]) != h.impact_log_likelihood(&impact, &[1, 0, 1]));
++        // Not computed: outside the maps, too far from the release time, or no time at all.
++        assert!(h.impact_log_likelihood(&at(-45.0, 92.0, RELEASE_UNIX_S), &[1, 0, 0]).is_nan());
++        assert!(h.impact_log_likelihood(&at(-36.0, 92.0, RELEASE_UNIX_S + 6_000.0), &[1, 0, 0]).is_nan());
++        assert!(h.impact_log_likelihood(&at(-36.0, 92.0, f64::NAN), &[0, 0, 0]).is_nan());
++        assert!(Pleiades::new(vec![model("a", vec![0.0, 0.03], 0.5), model("b", vec![0.0, 0.012], 1.0)], &kernels, 5, Association::Single).is_err());
++        assert!(DriftModel::new(vec![map("a", vec![0.0, 0.03], 0.5), map("b", vec![0.0, 0.03], 0.5)]).is_err());
++    }
++
++    #[test]
++    fn run_config_parses() {
++        let run: toml::Value = toml::from_str(include_str!("run.toml")).unwrap();
++        let p: Params = run["hypotheses"]["pleiades"].clone().try_into().unwrap();
++        assert_eq!(p.kernel["glorys12"], Kernel::StudentT { nu: 2.725, scale_km: 77.27 });
++        assert_eq!(p.kernel["bran2016"], Kernel::StudentT { nu: 3.684, scale_km: 94.1 });
++        assert_eq!(p.drift_maps.len(), 3);
++        assert_eq!((p.min_rating, p.association), (5, Association::Single));
++    }
++
++    #[test]
++    fn association_forms_match_hand_values_and_limits() {
++        let a = [0.02f64, 0.005];
++        let ln_a: Vec<f64> = a.iter().map(|x| x.ln()).collect();
++        assert!((combine(&ln_a, Association::Single) - (0.5 * (0.02 + 0.005f64)).ln()).abs() < 1e-12);
++        // Two clusters, ρ = 0.5: [(0.5 + 0.5·0.02)(0.5 + 0.5·0.005) − 0.25] / 0.75.
++        let hand = ((0.51 * 0.5025 - 0.25) / 0.75f64).ln();
++        assert!((combine(&ln_a, Association::AtLeastOne { rho: 0.5 }) - hand).abs() < 1e-12);
++        assert!((combine(&ln_a, Association::AtLeastOne { rho: 1.0 }) - (0.02 * 0.005f64).ln()).abs() < 1e-12);
++        let small = combine(&ln_a, Association::AtLeastOne { rho: 1e-9 });
++        assert!((small - combine(&ln_a, Association::Single)).abs() < 1e-6);
++    }
++
++    /// Synthetic recovery of the data model itself: draw an impact from a uniform prior, drift it
++    /// through a known map and add a Student-t error. The item counts as imaged only if it lands in
++    /// the footprint F (otherwise the draw is rejected, the selection behind the real data). A
++    /// second cluster is background, uniform in F. The posterior of the impact under H must cover
++    /// the truth at the nominal rates.
++    #[test]
++    fn synthetic_recovery_covers_the_true_impact() {
++        let kernel = Kernel::StudentT { nu: 4.0, scale_km: 60.0 };
++        let map = affine_map("synthetic", |la, lo| (la + 0.9 + 0.25 * (lo - 91.0), lo - 1.8 + 0.15 * (la + 36.0)));
++        let mut rng = SplitMix(20_140_323);
++        let (grid_n, lat_range, lon_range) = (61, (-38.0, -33.0), (88.0, 94.0));
++        let cell = |k: usize, (a, b): (f64, f64)| a + (b - a) * (k as f64 + 0.5) / grid_n as f64;
++        let footprint = [-35.0, -34.0, 89.3, 90.5];
++        let inside = |(la, lo): (f64, f64)| la > footprint[0] && la < footprint[1] && lo > footprint[2] && lo < footprint[3];
++        let (mut hit50, mut hit90, reps) = (0usize, 0usize, 400usize);
++        for _ in 0..reps {
++            let (i0, j0, debris) = loop {
++                let (i0, j0) = ((rng.uniform() * grid_n as f64) as usize, (rng.uniform() * grid_n as f64) as usize);
++                let (ela, elo) = map.endpoint(0, cell(i0, lat_range), cell(j0, lon_range)).unwrap();
++                // Student-t (ν = 4) error: Gaussian / sqrt(χ²₄ / 4).
++                let chi2: f64 = (0..4).map(|_| rng.normal().powi(2)).sum();
++                let f = kernel_scale(kernel) / (chi2 / 4.0).sqrt();
++                let (de, dn) = (rng.normal() * f, rng.normal() * f);
++                let item = (ela + dn / 111.195, elo + de / (111.195 * ela.to_radians().cos()));
++                if inside(item) {
++                    break (i0, j0, item);
++                }
++            };
++            let background = (footprint[0] + rng.uniform() * 1.0, footprint[2] + rng.uniform() * 1.2);
++            let obs = if rng.uniform() < 0.5 { [debris, background] } else { [background, debris] };
++            let post: Vec<f64> = (0..grid_n * grid_n)
++                .map(|k| {
++                    let (la, lo) = (cell(k / grid_n, lat_range), cell(k % grid_n, lon_range));
++                    let (xa, xo) = map.endpoint(0, la, lo).unwrap();
++                    let ln_a: Vec<f64> = obs.iter().map(|(ya, yo)| kernel.ln_density(distance_km(*ya, *yo, xa, xo))).collect();
++                    combine(&ln_a, Association::Single).exp()
++                })
++                .collect();
++            let truth = post[i0 * grid_n + j0];
++            let total: f64 = post.iter().sum();
++            let above: f64 = post.iter().filter(|p| **p > truth).sum::<f64>() / total;
++            hit50 += usize::from(above < 0.5);
++            hit90 += usize::from(above < 0.9);
++        }
++        let (c50, c90) = (hit50 as f64 / reps as f64, hit90 as f64 / reps as f64);
++        // Binomial 3σ: ±0.075 at 50%, ±0.045 at 90%.
++        assert!((c50 - 0.5).abs() < 0.075 && (c90 - 0.9).abs() < 0.045, "coverage {c50} {c90}");
++    }
++
++    fn kernel_scale(k: Kernel) -> f64 {
++        match k {
++            Kernel::StudentT { scale_km, .. } => scale_km,
++            Kernel::Gaussian { sigma_km } => sigma_km,
++        }
++    }
++
++    /// SplitMix64 with Box-Muller normals (tests only; hypotheses have no rand dependency).
++    struct SplitMix(u64);
++    impl SplitMix {
++        fn uniform(&mut self) -> f64 {
++            self.0 = self.0.wrapping_add(0x9E37_79B9_7F4A_7C15);
++            let mut z = self.0;
++            z = (z ^ (z >> 30)).wrapping_mul(0xBF58_476D_1CE4_E5B9);
++            z = (z ^ (z >> 27)).wrapping_mul(0x94D0_49BB_1331_11EB);
++            ((z ^ (z >> 31)) >> 11) as f64 / (1u64 << 53) as f64
++        }
++        fn normal(&mut self) -> f64 {
++            let (u, v) = (self.uniform().max(1e-300), self.uniform());
++            (-2.0 * u.ln()).sqrt() * (std::f64::consts::TAU * v).cos()
++        }
++    }
++}
+diff --git a/hypotheses/pleiades/objects.csv b/hypotheses/pleiades/objects.csv
+new file mode 100644
+index 0000000..cfe38a2
+--- /dev/null
++++ b/hypotheses/pleiades/objects.csv
+@@ -0,0 +1,74 @@
++# Geoscience Australia Record 2017/13 (Minchin et al. 2017, CC BY 4.0), Tables 1-4: all 70 objects in the four
++# Pleiades 1A scenes of 23 March 2014 (~04:00 UTC). rating: 1 probably natural ... 5 probably man-made.
++# cluster: the four locations of the 12 rating-5 objects used by the primary likelihood (blank otherwise).
++scene,object,latitude_deg,longitude_deg,pixels,area_m2,rating,cluster,note
++PHR_1,1,-35.20532,90.457967,154,39,5,PHR1,
++PHR_1,2,-35.22998,90.454815,199,51,3,,
++PHR_1,3,-35.21468,90.458646,179,46,4,,
++PHR_1,4,-35.21476,90.463189,98,25,4,,
++PHR_1,5,-35.1714,90.476377,193,49,3,,
++PHR_1,6,-35.20611,90.482402,337,86,2,,
++PHR_1,7,-35.22455,90.505404,254,65,2,,
++PHR_1,8,-35.26884,90.503206,221,56,1,,
++PHR_1,9,-35.22312,90.526393,209,53,3,,
++PHR_1,10,-35.2251,90.531095,129,33,2,,
++PHR_1,11,-35.20241,90.483076,207,53,3,,
++PHR_2,1,-35.2104,91.407116,332,85,1,,
++PHR_2,2,-35.21736,91.417372,215,55,2,,
++PHR_2,3,-35.26686,91.319299,131,33,4,,
++PHR_2,4,-35.35032,91.310204,336,86,4,,
++PHR_2,5,-35.25962,91.263932,631,162,2,,
++PHR_2,6,-35.2531,91.262717,697,179,2,,
++PHR_2,7,-35.17617,91.281194,581,149,3,,
++PHR_2,8,-35.37856,91.27637,173,44,4,,
++PHR_2,9,-35.3771,91.274066,250,64,4,,
++PHR_2,10,-35.294642,91.315175,201,53,4,,
++PHR_2,11,-35.188088,91.288533,199,112,2,,also detected by the French Ministry of Defence; printed area 112 m2 disagrees with 199 pixels (~50 m2)
++PHR_2,12,-35.275048,91.29775,144,41,4,,also detected by the French Ministry of Defence; printed with latitude and longitude swapped; corrected here
++PHR_3,1,-34.41926,90.495984,605,153,2,,
++PHR_3,2,-34.43602,90.413125,94,23,3,,
++PHR_3,3,-34.48748,90.52378,181,45,2,,
++PHR_3,4,-34.48684,90.531088,263,66,3,,
++PHR_3,5,-34.43162,90.516533,655,165,2,,
++PHR_3,6,-34.51801,90.519439,320,80,3,,
++PHR_3,7,-34.55709,90.456295,241,60,5,PHR3,
++PHR_3,8,-34.54434,90.55135,544,137,3,,
++PHR_3,9,-34.57965,90.532203,336,85,4,,
++PHR_3,10,-34.59384,90.493447,111,28,5,PHR3,
++PHR_3,11,-34.59737,90.488347,178,45,3,,
++PHR_4,1,-34.41254,91.241808,270,68,3,,
++PHR_4,2,-34.451,91.355206,277,70,5,PHR4N,
++PHR_4,3,-34.45289,91.354443,92,23,5,PHR4N,
++PHR_4,4,-34.45283,91.355169,173,43,5,PHR4N,
++PHR_4,5,-34.45326,91.35502,113,28,5,PHR4N,
++PHR_4,6,-34.45946,91.36421,100,25,5,PHR4N,
++PHR_4,7,-34.45285,91.343232,279,70,3,,
++PHR_4,8,-34.46627,91.3633,309,78,3,,
++PHR_4,9,-34.4676,91.3687,148,37,4,,
++PHR_4,10,-34.47123,91.363027,208,52,4,,
++PHR_4,11,-34.47199,91.362757,173,43,4,,
++PHR_4,12,-34.48558,91.249819,109,27,4,,
++PHR_4,13,-34.48637,91.252249,191,48,2,,
++PHR_4,14,-34.48424,91.263481,98,24,3,,
++PHR_4,15,-34.4825,91.288974,168,42,4,,
++PHR_4,16,-34.48299,91.2978,145,36,4,,
++PHR_4,17,-34.50069,91.3028,125,31,4,,
++PHR_4,18,-34.49835,91.30698,274,69,5,PHR4S,
++PHR_4,19,-34.50437,91.305206,165,41,5,PHR4S,
++PHR_4,20,-34.51518,91.29748,117,29,3,,
++PHR_4,21,-34.52787,91.294457,314,79,3,,
++PHR_4,22,-34.5288,91.287157,298,75,2,,
++PHR_4,23,-34.53335,91.291068,170,43,3,,
++PHR_4,24,-34.52764,91.300619,138,34,4,,
++PHR_4,25,-34.5422,91.297322,375,94,4,,
++PHR_4,26,-34.54438,91.304036,196,49,5,PHR4S,
++PHR_4,27,-34.54901,91.292308,157,39,5,PHR4S,
++PHR_4,28,-34.54569,91.282163,102,25,4,,
++PHR_4,29,-34.55841,91.324571,184,38,4,,printed area 38 m2 disagrees with 184 pixels (~46 m2)
++PHR_4,30,-34.55782,91.261753,184,46,4,,
++PHR_4,31,-34.57997,91.270134,137,34,4,,
++PHR_4,32,-34.56875,91.375018,177,44,4,,
++PHR_4,33,-34.60054,91.411363,246,62,4,,
++PHR_4,34,-34.60402,91.403769,90,22,4,,
++PHR_4,35,-34.60588,91.402719,208,52,4,,
++PHR_4,36,-34.59424,91.270729,72,18,4,,
+diff --git a/hypotheses/pleiades/run.toml b/hypotheses/pleiades/run.toml
+new file mode 100644
+index 0000000..45c0ba1
+--- /dev/null
++++ b/hypotheses/pleiades/run.toml
+@@ -0,0 +1,56 @@
++# The integrated estimate plus the Pleiades conditional alternative, as an impact module.
++# Until the composer is merged, `make evaluate H=pleiades` runs the module on the fixture's impacts.
++base = "../../config/integrated.toml"
++name = "pleiades"
++seeds = [1, 2, 3, 4]
++
++[[cases]]
++id = "bto-bfo"
++use_bfo = true
++
++# Evidence sets, all with every 00:19 datum. The flight alone; the flight and Pleiades, with H
++# against not-H at prior odds 1 (the composer sweeps them); and Pleiades given H, the conditional
++# posterior p(x | D, H).
++[[compose]]
++id = "flight"
++option = "all"
++
++[[compose]]
++id = "pleiades"
++option = "all"
++modules = ["pleiades"]
++
++[[compose]]
++id = "pleiades-given-h"
++option = "all"
++modules = ["pleiades"]
++given = { pleiades-origin = "H" }
++
++[hypotheses.pleiades]
++# One list per ocean model: the 0.0125 deg map over 42-32S 82-96E, then the 0.05 deg map over
++# 50-15S 70-115E. Paths are relative to the repository root, where `make` runs.
++drift_maps = [
++  ["data/external/drift/pleiades-map-fine/glorys12", "data/external/drift/pleiades-map/glorys12"],
++  ["data/external/drift/pleiades-map-fine/oscar2", "data/external/drift/pleiades-map/oscar2"],
++  ["data/external/drift/pleiades-map-fine/bran2016", "data/external/drift/pleiades-map/bran2016"],
++]
++# Primary: the four rating-5 clusters, single association (exactly one cluster is MRO debris).
++min_rating = 5
++association = { kind = "single" }
++
++# 15-day transport error per ocean model, from the crates/ocean GDP replay (rev 2724f57; 2014,
++# 25-45S 60-115E): undrogued drifters with current + 1.2% ERA5 wind (lib.rs).
++[hypotheses.pleiades.kernel.glorys12]
++form = "student-t"
++nu = 2.725
++scale_km = 77.27
++
++[hypotheses.pleiades.kernel.oscar2]
++form = "student-t"
++nu = 2.624
++scale_km = 72.32
++
++[hypotheses.pleiades.kernel.bran2016]
++form = "student-t"
++nu = 3.684
++scale_km = 94.1

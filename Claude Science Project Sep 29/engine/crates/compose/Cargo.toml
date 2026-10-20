@@ -1,0 +1,18 @@
+[package]
+name = "mh370-compose"
+description = "Stage 4: composes the flight posterior with chosen impact-level modules on shared impact samples"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lib]
+name = "compose"
+
+[dependencies]
+hypothesis.workspace = true
+serde.workspace = true
+
+[dev-dependencies]
+rand.workspace = true
+rand_chacha.workspace = true
+rand_distr.workspace = true

@@ -1,0 +1,69 @@
+{
+  "schema_version": "mh371-conditional-antenna-power-v1",
+  "source_id": "mh371-rxgain-conditional-control",
+  "status": "conditional_sensitivity_only",
+  "surface_basis": "unverified_first_pass_reconstruction",
+  "source_result_sha256": "16499892d7b1ae1ca959772e48e6068a86258d16bf20f7a38263cd24ed2ad061",
+  "observations": [
+    {
+      "epoch_id": "mh371_0200",
+      "satcom_time_utc": "2014-03-07T01:56:47.921Z",
+      "power_time_utc": "2014-03-07T01:56:41.421Z",
+      "power_time_offset_s": -6.5,
+      "channel": "IOR-R1200-0-36F6",
+      "raw_rows": 3,
+      "observed_dbm": -59.20333333333334,
+      "full_precompensation_prediction_dbm": -57.24708808252734
+    },
+    {
+      "epoch_id": "mh371_0300",
+      "satcom_time_utc": "2014-03-07T03:20:22.428Z",
+      "power_time_utc": "2014-03-07T03:20:17.479Z",
+      "power_time_offset_s": -4.949,
+      "channel": "IOR-R1200-0-36E3",
+      "raw_rows": 12,
+      "observed_dbm": -56.47333333333333,
+      "full_precompensation_prediction_dbm": -57.01888488537876
+    },
+    {
+      "epoch_id": "mh371_0400",
+      "satcom_time_utc": "2014-03-07T04:04:57.916Z",
+      "power_time_utc": "2014-03-07T04:03:55.416Z",
+      "power_time_offset_s": -62.5,
+      "channel": "IOR-R1200-0-36ED",
+      "raw_rows": 11,
+      "observed_dbm": -55.61545454545455,
+      "full_precompensation_prediction_dbm": -56.93999917550475
+    },
+    {
+      "epoch_id": "mh371_0500",
+      "satcom_time_utc": "2014-03-07T05:11:37.411Z",
+      "power_time_utc": "2014-03-07T05:10:23.489Z",
+      "power_time_offset_s": -73.922,
+      "channel": "IOR-R1200-0-36E8",
+      "raw_rows": 12,
+      "observed_dbm": -54.39833333333333,
+      "full_precompensation_prediction_dbm": -56.72688641225492
+    },
+    {
+      "epoch_id": "mh371_0600",
+      "satcom_time_utc": "2014-03-07T06:09:44.409Z",
+      "power_time_utc": "2014-03-07T06:09:40.433Z",
+      "power_time_offset_s": -3.976,
+      "channel": "IOR-R1200-0-36F6",
+      "raw_rows": 10,
+      "observed_dbm": -54.733000000000004,
+      "full_precompensation_prediction_dbm": -56.45136328936265
+    },
+    {
+      "epoch_id": "mh371_0648",
+      "satcom_time_utc": "2014-03-07T06:48:33.907Z",
+      "power_time_utc": "2014-03-07T06:48:33.907Z",
+      "power_time_offset_s": 0.0,
+      "channel": "IOR-R1200-0-36F6",
+      "raw_rows": 9,
+      "observed_dbm": -54.626666666666665,
+      "full_precompensation_prediction_dbm": -56.2770682545158
+    }
+  ]
+}

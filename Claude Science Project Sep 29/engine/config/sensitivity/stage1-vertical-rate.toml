@@ -1,0 +1,28 @@
+# Stage 1 of the overnight sequence, cumulative:
+#   BFO sd 4 Hz        - the book's own Table 5.1 in-flight, outliers-excluded figure
+#   Mach floor 0.41    - 250 kt TAS at cruise altitude
+#   track sd 2 deg     - base is 1 deg (Table 8.2)
+#   altitude floor 2,000 ft
+#   vertical rate into the cruise BFO
+#
+# The altitude floor only becomes meaningful with the vertical-rate term: until now a
+# descending particle was scored as level, so lowering the floor sampled low-and-level
+# trajectories rather than descending ones. 8 seeds because the same combination without
+# vertical rate did not meet the convergence floor at 4.
+name = "stage1-vertical-rate"
+seeds = [1, 2, 3, 4, 5, 6, 7, 8]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[inputs]
+observations = "../../data/variants/satcom-observations-bfo4hz.csv"
+
+[prior]
+track_sd_deg = 2.0
+
+[dynamics]
+mach_range = [0.41, 0.86]
+altitude_range_ft = [2000.0, 43000.0]
+bfo_vertical_rate = true

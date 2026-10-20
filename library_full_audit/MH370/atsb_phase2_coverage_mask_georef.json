@@ -1,0 +1,22 @@
+{
+  "source": "Geoscience Australia public MH370 Phase-2 5 m web-tile alpha channel",
+  "template_url": "https://mh370-tiles.ausseabed.gov.au/MH370_Phase2_5m_WGS84/L{level}R{row}C{col}.png",
+  "web_mercator_zoom": 8,
+  "tile_x_min": 187,
+  "tile_x_max": 201,
+  "tile_y_min": 144,
+  "tile_y_max": 160,
+  "tile_size_pixels": 256,
+  "mask_width_pixels": 3840,
+  "mask_height_pixels": 4352,
+  "valid_nonblank_tiles": 72,
+  "coverage_area_km2_spherical_pixel_sum": 120515.0317133249,
+  "query_formula": {
+    "global_pixel_x": "floor((lon_deg + 180) / 360 * 2^zoom * 256)",
+    "global_pixel_y": "floor((1 - asinh(tan(lat_rad))/pi) / 2 * 2^zoom * 256)",
+    "local_x": "global_pixel_x - 47872",
+    "local_y": "global_pixel_y - 36864",
+    "covered": "mask[local_y, local_x] > 0"
+  },
+  "interpretation": "Published high-resolution Phase-2 data footprint, not a uniform probability-of-detection field."
+}

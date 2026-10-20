@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pleiades-conditional-source-surface/1.0.0",
+  "title": "Pleiades conditional source-surface interchange records",
+  "description": "CSV rows use these property names and types; metadata and scientific semantics are in manifest.json.",
+  "type": "object",
+  "$defs": {
+    "grid_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "grid_id",
+        "cell_id",
+        "along_index",
+        "cross_index",
+        "along_nm",
+        "cross_nm",
+        "latitude_deg",
+        "longitude_deg",
+        "quadrature_area_km2",
+        "trapezoidal_weight"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "pleiades-conditional-source-surface/1.0.0"
+        },
+        "grid_id": {
+          "const": "seventh_arc_fl400_32s_39s_plusminus100nm_5nm"
+        },
+        "cell_id": {
+          "type": "string",
+          "pattern": "^a[0-9]{3}_x[+-][0-9]{3}$"
+        },
+        "along_index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 128
+        },
+        "cross_index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 40
+        },
+        "along_nm": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 640
+        },
+        "cross_nm": {
+          "type": "number",
+          "minimum": -100,
+          "maximum": 100
+        },
+        "latitude_deg": {
+          "type": "number",
+          "minimum": -41,
+          "maximum": -30
+        },
+        "longitude_deg": {
+          "type": "number",
+          "minimum": 80,
+          "maximum": 105
+        },
+        "quadrature_area_km2": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "trapezoidal_weight": {
+          "enum": [
+            0.25,
+            0.5,
+            1
+          ]
+        }
+      }
+    },
+    "surface_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "surface_id",
+        "cell_id",
+        "relative_likelihood",
+        "log_relative_likelihood",
+        "normalized_density_per_km2",
+        "normalized_probability_mass"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "pleiades-conditional-source-surface/1.0.0"
+        },
+        "surface_id": {
+          "enum": [
+            "bran2016",
+            "oscar_v2_final",
+            "glorys12_waverys",
+            "equal_transport_family_model_average"
+          ]
+        },
+        "cell_id": {
+          "type": "string",
+          "pattern": "^a[0-9]{3}_x[+-][0-9]{3}$"
+        },
+        "relative_likelihood": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "log_relative_likelihood": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "maximum": 0
+        },
+        "normalized_density_per_km2": {
+          "type": "number",
+          "minimum": 0
+        },
+        "normalized_probability_mass": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    }
+  },
+  "csv_mapping": {
+    "grid.csv": {
+      "record_definition": "#/$defs/grid_record",
+      "null_encoding": "empty field"
+    },
+    "surfaces.csv": {
+      "record_definition": "#/$defs/surface_record",
+      "null_encoding": "empty field"
+    }
+  }
+}

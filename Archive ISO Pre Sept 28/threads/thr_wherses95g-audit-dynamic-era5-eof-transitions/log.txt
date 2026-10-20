@@ -1,0 +1,246 @@
+── User ────────────────────────────────────────────────────
+Read-only architecture audit for dynamic ERA5 conditions in the EOF transition. Inspect domain/weather/dynamics/EOF/runner APIs and canonical ERA5 metadata. Do not edit or run heavy jobs. Propose smallest typed additive interface so runner supplies time/position/altitude-dependent horizontal wind, temperature/speed of sound and density each integration step while EOF does not depend on weather spoke. Specify below-500-ft clamp/reporting, vertical-wind=unresolved/zero conditional, temporal/spatial fail-closed, interpolation/determinism, tests/performance, exact files. Current grid 2014-03-07 17:00 through 2014-03-08 01:00; source epoch 00:10:59; 13 fuel scenarios include latest flameout 00:56:49.547 and desired max duration 6000s, smoke cap 2941s. Determine exact retrieval extension. No invented B777 or atmospheric parameters.
+
+── Worked for (16m 1s) ─────────────────────────────────────
+  ── Assistant
+  I’ll trace the existing domain, weather, dynamics, EOF, and runner boundaries, then verify the checked-in ERA5 coverage/metadata and compute the required time window from the stated epoch and scenario limits. I’ll keep this strictly read-only and avoid builds, tests, downloads, or production runs.
+
+  ── Ran 2 commands, explored 3 searches, 2 files
+    ── Ran git status --short --branch (error)
+      $ git status --short --branch
+      /usr/bin/bash: line 1: git: command not found
+      exit 127
+    ── Ran pwd
+      $ pwd
+      /jackbox/home/MH370
+    ── Searched files
+    ── Read AGENTS.md
+    ── Read Cargo.toml
+    ── Searched for (6000|2941|00:56:49|00:10:59|flameout|fuel scenario|max_duration|duration_s|integration) in README.md
+    ── Searched for (ERA5|Era5|era5|weather|Weather|wind|temperature|density|speed.?of.?sound|atmospher) in Cargo.toml
+
+  ── Assistant
+  The repository already has a compact binary ERA5 reader in `dynamics`, while EOF currently appears to own a separate static atmospheric state. I’m narrowing the trace now to the actual call sites and manifest fields so the recommendation reuses existing typed concepts and preserves the hub-and-spoke dependency direction.
+
+  ── Ran 5 commands, explored 15 searches, 14 files, 3 lists
+    ── Ran wc -l crates/domain/src/*.rs crates/dynamics/src/*.rs crates/end-of-flight/src/*.rs crates/runner/src/*.rs crates/estimator/src/*.rs
+      $ wc -l crates/domain/src/*.rs crates/dynamics/src/*.rs crates/end-of-flight/src/*.rs crates/runner/src/*.rs crates/estimator/src/*.rs
+      226 crates/domain/src/geodesy.rs
+          11 crates/domain/src/impact.rs
+          24 crates/domain/src/lib.rs
+          44 crates/domain/src/observation.rs
+          64 crates/domain/src/state.rs
+         133 crates/domain/src/units.rs
+          67 crates/domain/src/vector.rs
+         404 crates/dynamics/src/environment.rs
+         218 crates/dynamics/src/lib.rs
+         569 crates/dynamics/src/one_turn.rs
+         494 crates/dynamics/src/three_dof.rs
+         534 crates/end-of-flight/src/fuel_allocation.rs
+        3608 crates/end-of-flight/src/kernel.rs
+         169 crates/end-of-flight/src/lib.rs
+         206 crates/runner/src/accident_antenna.rs
+        1232 crates/runner/src/accident_commands.rs
+        1320 crates/runner/src/continuation_commands.rs
+        1600 crates/runner/src/final_bfo_commands.rs
+        1482 crates/runner/src/impact_commands.rs
+        1231 crates/runner/src/impact_handoff.rs
+         678 crates/runner/src/known_flight_commands.rs
+         441 crates/runner/src/main.rs
+         222 crates/runner/src/ocean_drift_application.rs
+         943 crates/runner/src/ocean_drift_commands.rs
+         585 crates/estimator/src/final_flight.rs
+         238 crates/estimator/src/lib.rs
+         507 crates/estimator/src/posterior_handoff.rs
+       17250 total
+    ── Searched for (Environment|Atmosphere|Atmospheric|Weather|Wind|wind_|temperature|density|sound|Era5|ERA5|interpolat|propagat|integrat|EndOfFlight|end_of_flight|eof) in crates/runner
+    ── Searched for (FlightState|Position|Altitude|Latitude|Longitude|Epoch|Timestamp|Utc|Seconds|Duration|Velocity|Vector) in crates/runner
+    ── Ran for f in crates/domain/Cargo.toml crates/dynamics/Cargo.toml crates/end-of-flight/Cargo.toml crates/runner/Cargo.toml crates/estimator/Cargo.toml; do echo "$f"; sed -n '"'1,180p' \""'$f"; done
+      $ for f in crates/domain/Cargo.toml crates/dynamics/Cargo.toml crates/end-of-flight/Cargo.toml crates/runner/Cargo.toml crates/estimator/Cargo.toml; do echo "$f"; sed -n '"'1,180p' \""'$f"; done
+      crates/domain/Cargo.toml
+      [package]
+      name = "mh370-domain"
+      version.workspace = true
+      edition.workspace = true
+      license.workspace = true
+      rust-version.workspace = true
+
+      [dependencies]
+      serde.workspace = true
+      thiserror.workspace = true
+
+      [dev-dependencies]
+      approx.workspace = true
+      crates/dynamics/Cargo.toml
+      [package]
+      name = "mh370-dynamics"
+      version.workspace = true
+      edition.workspace = true
+      license.workspace = true
+      rust-version.workspace = true
+
+      [dependencies]
+      mh370-domain = { path = "../domain" }
+      rand.workspace = true
+      rand_chacha.workspace = true
+      rand_distr.workspace = true
+      serde.workspace = true
+      thiserror.workspace = true
+
+      [dev-dependencies]
+      approx.workspace = true
+      crates/end-of-flight/Cargo.toml
+      [package]
+      name = "mh370-end-of-flight"
+      version.workspace = true
+      edition.workspace = true
+      license.workspace = true
+      rust-version.workspace = true
+
+      [dependencies]
+      mh370-domain = { path = "../domain" }
+      rand.workspace = true
+      rand_chacha.workspace = true
+      rand_distr.workspace = true
+      serde.workspace = true
+      thiserror.workspace = true
+      crates/runner/Cargo.toml
+      [package]
+      name = "mh370-runner"
+      version.workspace = true
+      edition.workspace = true
+      license.workspace = true
+      rust-version.workspace = true
+
+      [[bin]]
+      name = "mh370"
+      path = "src/main.rs"
+
+      [dependencies]
+      anyhow.workspace = true
+      clap.workspace = true
+      hex.workspace = true
+      mh370-antenna = { path = "../antenna" }
+      mh370-controls = { path = "../controls" }
+      mh370-domain = { path = "../domain" }
+      mh370-dynamics = { path = "../dynamics" }
+      mh370-hydroacoustics = { path = "../hydroacoustics" }
+      mh370-ocean-drift = { path = "../ocean-drift" }
+      mh370-estimator = { path = "../estimator" }
+      mh370-end-of-flight = { path = "../end-of-flight" }
+      mh370-reporting = { path = "../reporting" }
+      mh370-satcom = { path = "../satcom" }
+      rayon.workspace = true
+      serde.workspace = true
+      serde_json.workspace = true
+      sha2.workspace = true
+      toml.workspace = true
+      crates/estimator/Cargo.toml
+      [package]
+      name = "mh370-estimator"
+      version.workspace = true
+      edition.workspace = true
+      license.workspace = true
+      rust-version.workspace = true
+
+      [dependencies]
+      mh370-domain = { path = "../domain" }
+      mh370-dynamics = { path = "../dynamics" }
+      mh370-end-of-flight = { path = "../end-of-flight" }
+      mh370-particle-filter = { path = "../particle-filter" }
+      mh370-satcom = { path = "../satcom" }
+      rand_chacha.workspace = true
+      serde.workspace = true
+      thiserror.workspace = true
+
+      [dev-dependencies]
+      serde_json.workspace = true
+    ── Read crates/dynamics/src/environment.rs
+    ── Read crates/end-of-flight/src/lib.rs
+    ── Read crates/dynamics/src/lib.rs
+    ── Read crates/domain/src/lib.rs
+    ── Read crates/dynamics/src/environment.rs
+    ── Read crates/dynamics/src/one_turn.rs
+    ── Read crates/dynamics/src/environment.rs
+    ── Ran jq 'to_entries[] | select(.key|test("time|axis|grid|variable|coverage|retriev|request|density|binary|source|contract";"i")) | {key:.key,value:.value}' inputs/environment/mh370-era5-grid.manifest.json (error)
+      $ jq 'to_entries[] | select(.key|test("time|axis|grid|variable|coverage|retriev|request|density|binary|source|contract";"i")) | {key:.key,value:.value}' inputs/environment/mh370-era5-grid.manifest.json
+      /usr/bin/bash: line 1: jq: command not found
+      exit 127
+    ── Listed files in .sources
+    ── Ran jq 'keys' inputs/environment/mh370-era5-grid.manifest.json (error)
+      $ jq 'keys' inputs/environment/mh370-era5-grid.manifest.json
+      /usr/bin/bash: line 1: jq: command not found
+      exit 127
+    ── Ran jq '{schema_version, source, source_access_revision, retrieval_command, binary_sha256, intended_local_path, grid, axes, variables, density_derivation_contract, coverage, retrieval, request, source_time, validation}' inputs/environment/mh370-era5-grid.manifest.json (error)
+      $ jq '{schema_version, source, source_access_revision, retrieval_command, binary_sha256, intended_local_path, grid, axes, variables, density_derivation_contract, coverage, retrieval, request, source_time, validation}' inputs/environment/mh370-era5-grid.manifest.json
+      /usr/bin/bash: line 1: jq: command not found
+      exit 127
+    ── Searched for "(time|times|altitude|altitudes|latitude|latitudes|longitude|longitudes|shape|spacing|start|stop|minimum|maximum|retrieval|request|coverage|variable|variables|sha256|byte|valid|epoch|date|hour)["^]*" in inputs/environment/mh370-era5-grid.manifest.json
+    ── Read .sources/ecmwf-era5-weather/README.md
+    ── Read inputs/environment/mh370-era5-grid.manifest.json
+    ── Read .sources/ecmwf-era5-weather/code/extract_mh370.py
+    ── Searched for (2941|6000|flameout|fuel|maximum_duration|weather|era5|00:10:59|00:56:49) in inputs
+    ── Searched for (TransitionInput|KernelInput|PropagationInput|AtmosphereProfile|AtmosphereNode|IntegrationSettings|maximum_duration|fuel.*scenario|Fuel.*Scenario|source_epoch|SOURCE|2941|6000|flameout|start_time|initial.*time) in crates/estimator
+    ── Read crates/end-of-flight/src/kernel.rs
+    ── Read crates/runner/src/impact_commands.rs
+    ── Searched for source_checkpoint_utc|\[scenario\.integration\]|\[scenario\.atmosphere\]|maximum_duration in .
+    ── Searched for (source_checkpoint_utc|speed_of_sound_m_s|maximum_duration|maximum_steps|atmosphere|fuel|end_of_flight|eof) in .
+    ── Listed files in .
+    ── Searched for (source_checkpoint_utc|speed_of_sound_m_s|maximum_duration|maximum_steps|\[scenario\.atmosphere|\[scenario\.fuel|eof_seed) in .
+    ── Listed files in .sources
+    ── Searched for (source_checkpoint_utc|\[scenario\.integration\]|maximum_duration =) in .
+    ── Searched for (00:56:49\.547|56:49|274?0\.547|latest flameout|dual_engine_flameout|fuel scenario|13 fuel) in configs
+    ── Searched for (fuel.*scenario|scenario.*fuel|thirteen|13.*scenario|flameout.*UTC|flameout.*utc|latest.*flameout) in README.md
+    ── Searched for PoweredFuelAllocationInput|non_fuel_mass|left_endurance|right_endurance in .
+    ── Searched for (2750\.547|3409\.547|00:56:49\.547|2941|6_000|6000\.0|6000) in .
+    ── Searched for (maximum_duration|maximum_steps|time_step).*([=:]|seconds) in crates
+    ── Read crates/end-of-flight/src/kernel.rs
+    ── Read crates/runner/src/main.rs
+    ── Searched for (Era5Grid::parse|Era5Grid|NavigationEnvironment|weather_path|expected_weather|environment\.weather|era5) in crates/estimator
+    ── Read crates/runner/src/continuation_commands.rs
+    ── Read crates/runner/src/accident_commands.rs
+    ── Read crates/estimator/src/final_flight.rs
+
+  ── Assistant
+  The time arithmetic is now clear from the kernel semantics: `maximum_duration` is elapsed from the 00:10:59 initial state, not from flameout. Thus 2,941 s lands exactly at the current 01:00 ERA5 endpoint, while 6,000 s lands at 01:50:59; linear hourly interpolation requires one additional 02:00 analysis slice. I’m checking whether spatial and vertical coverage can be preflighted cleanly with the existing grid API and where the run artifacts must disclose clamps/assumptions.
+
+  ── Explored 7 files, 12 searches, 1 list, ran 2 commands
+    ── Read .sources/ecmwf-era5-weather/code/extract_mh370.py
+    ── Read inputs/environment/mh370-era5-grid.manifest.json
+    ── Read .sources/ecmwf-era5-weather/code/extract_mh370.py
+    ── Read .sources/ecmwf-era5-weather/code/validate_mh370.py
+    ── Searched for WeatherSample\s*\{ in crates
+    ── Searched for (AtmosphereProfile|AtmosphereNode) in crates
+    ── Searched for (scientific_scope|limitations|enabled|spokes|environment_applied|atmosphere) in crates/runner/src/impact_handoff.rs
+    ── Searched for speed_of_sound_(knots|m_s)|temperature_k|wind_east|wind_north in crates/estimator
+    ── Read crates/runner/src/impact_commands.rs
+    ── Read crates/runner/src/impact_handoff.rs
+    ── Searched for (ImpactPosteriorHandoff|ImpactRunProvenance|limitations|eof_scenarios|schema_version|input_sha256) in crates/runner/src/impact_handoff.rs
+    ── Read crates/runner/src/impact_handoff.rs
+    ── Searched for (relative_time_origin_utc|source_checkpoint_utc|speed_of_sound_m_s|atmosphere|maximum_duration) in crates/runner/src/impact_commands.rs
+    ── Searched for (ERA5|atmosphere|density|wind) in .sources/b777-end-of-flight-aerodynamics/outputs/results.json
+    ── Searched for (speed of sound|speed_of_sound|specific heat|gamma|1\.4 \* 287|287\.052) in crates
+    ── Searched for 2014-03-08T00:10:59Z in .
+    ── Searched for OutsideDomain|EnvironmentError:: in crates
+    ── Read crates/estimator/src/final_flight.rs
+    ── Read crates/runner/src/impact_commands.rs
+    ── Ran date -u -d '2014-03-08 00:10:59 UTC' +%s; date -u -d '2014-03-08 01:50:59 UTC' +%s; date -u -d '2014-03-08 02:00:00 UTC' +%s; awk 'BEGIN { cells=12*221*141; current=24+9*8+(12+221+141)*4+3*9*cells*4; extended=24+10*8+(12+221+141)*4+3*10*cells*4; print cells, current, extended, extended-current }'
+      $ date -u -d '2014-03-08 00:10:59 UTC' +%s; date -u -d '2014-03-08 01:50:59 UTC' +%s; date -u -d '2014-03-08 02:00:00 UTC' +%s; awk 'BEGIN { cells=12*221*141; current=24+9*8+(12+221+141)*4+3*9*cells*4; extended=24+10*8+(12+221+141)*4+3*10*cells*4; print cells, current, extended, extended-current }'
+      1394237459
+      1394243459
+      1394244000
+      373932 40386248 44873440 4487192
+    ── Ran awk 'BEGIN { source=10*60+59; flameout=56*60+49.547; max=6000; smoke=2941; printf "flameout_elapsed=%.3f\npost_flameout_remaining=%.3f\nsmoke_endpoint_clock_seconds=%.3f\nmax_endpoint_clock_seconds=%.3f\n", flameout-source, max-(flameout-source), source+smoke, source+max }'
+      $ awk 'BEGIN { source=10*60+59; flameout=56*60+49.547; max=6000; smoke=2941; printf "flameout_elapsed=%.3f\npost_flameout_remaining=%.3f\nsmoke_endpoint_clock_seconds=%.3f\nmax_endpoint_clock_seconds=%.3f\n", flameout-source, max-(flameout-source), source+smoke, source+max }'
+      flameout_elapsed=2750.547
+      post_flameout_remaining=3249.453
+      smoke_endpoint_clock_seconds=3600.000
+      max_endpoint_clock_seconds=6659.000
+    ── Searched for (infer-impact|InferImpact|end-of-flight transition|transition-sidecar|00:10:59) in .sources/*/README.md
+    ── Read .sources/ulich-mh370-fuel-performance/README.md
+    ── Listed files in .sources
+    ── Searched for (13 fuel|fuel scenarios|latest flameout|2941|00:56:49\.547|2750\.547) in .
+
+── Error ───────────────────────────────────────────────────
+  Thread interrupted because the host daemon disconnected
+  Please retry the thread to continue.

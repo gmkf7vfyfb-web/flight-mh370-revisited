@@ -1,0 +1,167 @@
+{
+  "failure": "Final status title attempted to concatenate a null current_job after all seven commands completed successfully",
+  "correction": "Use status when current_job is null; update status only, no experiment repeated.",
+  "completed_jobs": [
+    {
+      "name": "reference-37102100",
+      "command": [
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-ancestor-sampling/cruise-ancestor-sampling",
+        "--source",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102100",
+        "--output",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-ancestor-sampling/reference-37102100",
+        "--threads",
+        "4"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 14.007044515004964,
+      "peak_rss_kib": 802036,
+      "user_cpu_s": 47.2772,
+      "system_cpu_s": 0.08760899999999999
+    },
+    {
+      "name": "reference-37102101",
+      "command": [
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-ancestor-sampling/cruise-ancestor-sampling",
+        "--source",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102101",
+        "--output",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-ancestor-sampling/reference-37102101",
+        "--threads",
+        "4"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 13.006128480003099,
+      "peak_rss_kib": 801884,
+      "user_cpu_s": 46.925099,
+      "system_cpu_s": 0.078279
+    },
+    {
+      "name": "one-particle-compatibility",
+      "command": [
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-ancestor-sampling/cruise-ancestor-sampling",
+        "--source",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102100",
+        "--reference",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-ancestor-sampling/reference-37102100/reference.json",
+        "--particles",
+        "1",
+        "--iterations",
+        "1",
+        "--seed",
+        "37118100",
+        "--output",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-ancestor-sampling/one-particle-compatibility",
+        "--threads",
+        "4"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.0016716409882065,
+      "peak_rss_kib": 735716,
+      "user_cpu_s": 1.332916,
+      "system_cpu_s": 0.060835
+    },
+    {
+      "name": "ancestor-37118101",
+      "command": [
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-ancestor-sampling/cruise-ancestor-sampling",
+        "--source",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102100",
+        "--reference",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-ancestor-sampling/reference-37102100/reference.json",
+        "--particles",
+        "64",
+        "--iterations",
+        "32",
+        "--seed",
+        "37118101",
+        "--output",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-ancestor-sampling/ancestor-37118101",
+        "--threads",
+        "4"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 8.004108398003154,
+      "peak_rss_kib": 736016,
+      "user_cpu_s": 24.920549,
+      "system_cpu_s": 0.10306499999999999
+    },
+    {
+      "name": "ordinary-37118101",
+      "command": [
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-ancestor-sampling/cruise-ancestor-sampling",
+        "--source",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102100",
+        "--reference",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-ancestor-sampling/reference-37102100/reference.json",
+        "--particles",
+        "64",
+        "--iterations",
+        "32",
+        "--seed",
+        "37118101",
+        "--without-ancestor-sampling",
+        "--output",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-ancestor-sampling/ordinary-37118101",
+        "--threads",
+        "4"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.00290432300244,
+      "peak_rss_kib": 735952,
+      "user_cpu_s": 6.936274,
+      "system_cpu_s": 0.073671
+    },
+    {
+      "name": "ancestor-37118102",
+      "command": [
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-ancestor-sampling/cruise-ancestor-sampling",
+        "--source",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102101",
+        "--reference",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-ancestor-sampling/reference-37102101/reference.json",
+        "--particles",
+        "64",
+        "--iterations",
+        "32",
+        "--seed",
+        "37118102",
+        "--output",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-ancestor-sampling/ancestor-37118102",
+        "--threads",
+        "4"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 8.005048018007074,
+      "peak_rss_kib": 736256,
+      "user_cpu_s": 23.62196,
+      "system_cpu_s": 0.091594
+    },
+    {
+      "name": "ordinary-37118102",
+      "command": [
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-ancestor-sampling/cruise-ancestor-sampling",
+        "--source",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102101",
+        "--reference",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-ancestor-sampling/reference-37102101/reference.json",
+        "--particles",
+        "64",
+        "--iterations",
+        "32",
+        "--seed",
+        "37118102",
+        "--without-ancestor-sampling",
+        "--output",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-ancestor-sampling/ordinary-37118102",
+        "--threads",
+        "4"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.0025033189886017,
+      "peak_rss_kib": 736024,
+      "user_cpu_s": 6.205693,
+      "system_cpu_s": 0.07572
+    }
+  ]
+}

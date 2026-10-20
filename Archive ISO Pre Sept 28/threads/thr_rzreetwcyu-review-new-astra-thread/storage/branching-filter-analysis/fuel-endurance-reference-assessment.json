@@ -1,0 +1,314 @@
+{
+  "source_url": "https://www.mot.gov.my/my/Laporan%20Siasatan%20Mh370/02-Appendices/Appendices%20Set%201%20-%207%20Appendices%201.1A%20to1.9A/Appendix-1.6E-Aircraft-Performance-Analysis-MH370-%289M-MRO%29.pdf",
+  "locator": "Official Appendix 1.6E PDF page 6 Table 4",
+  "source_classification": "official calculated outputs under stated profile assumptions",
+  "model_conditions": {
+    "initial_fuel_kg": 33524.10488196,
+    "zero_fuel_mass_kg": 174369.0,
+    "final_unusable_fuel_kg": 15.0,
+    "bank_deg": 0,
+    "vertical_speed_ft_min": 0,
+    "nominal_flow_scale": 1
+  },
+  "limitations": [
+    "Both printed FL350/M0.824 cases are retained despite different TAS/endurance; no typo corrected.",
+    "LRC rows describe variable-Mach LRC; the fixed reference-Mach extension is an approximation.",
+    "This is a frozen diagnostic comparison, not a fit or validation against measurements.",
+    "The stochastic cruise benchmark lacks full thrust, stall/buffet and VMO constraints."
+  ],
+  "records": [
+    {
+      "flight_level": 400,
+      "printed_tas_kt": 494,
+      "printed_mach": 0.861,
+      "official_calculated_endurance_h": 5.0,
+      "current_model_endurance_h": 5.3279010819783,
+      "relative_endurance_difference": 0.06558021639566003,
+      "inside_current_nominal_cruise_bounds": false,
+      "flow_scale_09_to_11_endurance_h": [
+        4.843546438162091,
+        5.919890091087006
+      ]
+    },
+    {
+      "flight_level": 400,
+      "printed_tas_kt": 475,
+      "printed_mach": 0.828,
+      "official_calculated_endurance_h": 5.9,
+      "current_model_endurance_h": 5.598268577645299,
+      "relative_endurance_difference": -0.05114091904316975,
+      "inside_current_nominal_cruise_bounds": true,
+      "flow_scale_09_to_11_endurance_h": [
+        5.0893350705866345,
+        6.220298419605882
+      ]
+    },
+    {
+      "flight_level": 400,
+      "printed_tas_kt": 469,
+      "printed_mach": 0.818,
+      "official_calculated_endurance_h": 6.0,
+      "current_model_endurance_h": 5.682875572395395,
+      "relative_endurance_difference": -0.05285407126743413,
+      "inside_current_nominal_cruise_bounds": true,
+      "flow_scale_09_to_11_endurance_h": [
+        5.166250520359455,
+        6.31430619155044
+      ]
+    },
+    {
+      "flight_level": 400,
+      "printed_tas_kt": 417,
+      "printed_mach": 0.727,
+      "official_calculated_endurance_h": 6.1,
+      "current_model_endurance_h": 6.5140238446509775,
+      "relative_endurance_difference": 0.0678727614181931,
+      "inside_current_nominal_cruise_bounds": false,
+      "flow_scale_09_to_11_endurance_h": [
+        5.921839858773621,
+        7.2378042718344195
+      ]
+    },
+    {
+      "flight_level": 350,
+      "printed_tas_kt": 500,
+      "printed_mach": 0.867,
+      "official_calculated_endurance_h": 4.7,
+      "current_model_endurance_h": 5.330905816362186,
+      "relative_endurance_difference": 0.13423528007706098,
+      "inside_current_nominal_cruise_bounds": false,
+      "flow_scale_09_to_11_endurance_h": [
+        4.846278014874725,
+        5.923228684846875
+      ]
+    },
+    {
+      "flight_level": 350,
+      "printed_tas_kt": 475,
+      "printed_mach": 0.824,
+      "official_calculated_endurance_h": 5.6,
+      "current_model_endurance_h": 5.6860804989450795,
+      "relative_endurance_difference": 0.015371517668764323,
+      "inside_current_nominal_cruise_bounds": true,
+      "flow_scale_09_to_11_endurance_h": [
+        5.169164089950072,
+        6.317867221050096
+      ]
+    },
+    {
+      "flight_level": 350,
+      "printed_tas_kt": 466,
+      "printed_mach": 0.824,
+      "official_calculated_endurance_h": 5.9,
+      "current_model_endurance_h": 5.6860804989450795,
+      "relative_endurance_difference": -0.036257542551681454,
+      "inside_current_nominal_cruise_bounds": true,
+      "flow_scale_09_to_11_endurance_h": [
+        5.169164089950072,
+        6.317867221050096
+      ]
+    },
+    {
+      "flight_level": 350,
+      "printed_tas_kt": 443,
+      "printed_mach": 0.769,
+      "official_calculated_endurance_h": 6.2,
+      "current_model_endurance_h": 6.175075878922046,
+      "relative_endurance_difference": -0.0040200195287023455,
+      "inside_current_nominal_cruise_bounds": true,
+      "flow_scale_09_to_11_endurance_h": [
+        5.613705344474592,
+        6.861195421024502
+      ]
+    },
+    {
+      "flight_level": 350,
+      "printed_tas_kt": 400,
+      "printed_mach": 0.694,
+      "official_calculated_endurance_h": 6.6,
+      "current_model_endurance_h": 6.910356100432966,
+      "relative_endurance_difference": 0.0470236515807525,
+      "inside_current_nominal_cruise_bounds": false,
+      "flow_scale_09_to_11_endurance_h": [
+        6.282141909484515,
+        7.678173444925518
+      ]
+    },
+    {
+      "flight_level": 300,
+      "printed_tas_kt": 500,
+      "printed_mach": 0.848,
+      "official_calculated_endurance_h": 4.5,
+      "current_model_endurance_h": 4.4907564884930125,
+      "relative_endurance_difference": -0.002054113668219504,
+      "inside_current_nominal_cruise_bounds": false,
+      "flow_scale_09_to_11_endurance_h": [
+        4.082505898630011,
+        4.989729431658908
+      ]
+    },
+    {
+      "flight_level": 300,
+      "printed_tas_kt": 437,
+      "printed_mach": 0.742,
+      "official_calculated_endurance_h": 5.7,
+      "current_model_endurance_h": 5.264684240763009,
+      "relative_endurance_difference": -0.07637118583105118,
+      "inside_current_nominal_cruise_bounds": true,
+      "flow_scale_09_to_11_endurance_h": [
+        4.786076582511825,
+        5.849649156403343
+      ]
+    },
+    {
+      "flight_level": 300,
+      "printed_tas_kt": 416,
+      "printed_mach": 0.706,
+      "official_calculated_endurance_h": 6.1,
+      "current_model_endurance_h": 5.55679315133387,
+      "relative_endurance_difference": -0.08905030306002126,
+      "inside_current_nominal_cruise_bounds": false,
+      "flow_scale_09_to_11_endurance_h": [
+        5.051630137576245,
+        6.174214612593188
+      ]
+    },
+    {
+      "flight_level": 300,
+      "printed_tas_kt": 323,
+      "printed_mach": 0.548,
+      "official_calculated_endurance_h": 6.8,
+      "current_model_endurance_h": 7.04290812297264,
+      "relative_endurance_difference": 0.03572178279009419,
+      "inside_current_nominal_cruise_bounds": false,
+      "flow_scale_09_to_11_endurance_h": [
+        6.402643748156945,
+        7.825453469969591
+      ]
+    },
+    {
+      "flight_level": 250,
+      "printed_tas_kt": 471,
+      "printed_mach": 0.782,
+      "official_calculated_endurance_h": 4.6,
+      "current_model_endurance_h": 4.0593431325953615,
+      "relative_endurance_difference": -0.1175341016097039,
+      "inside_current_nominal_cruise_bounds": true,
+      "flow_scale_09_to_11_endurance_h": [
+        3.6903119387230556,
+        4.5103812584392955
+      ]
+    },
+    {
+      "flight_level": 250,
+      "printed_tas_kt": 383,
+      "printed_mach": 0.642,
+      "official_calculated_endurance_h": 6.1,
+      "current_model_endurance_h": 5.007922560518979,
+      "relative_endurance_difference": -0.17902908843951149,
+      "inside_current_nominal_cruise_bounds": false,
+      "flow_scale_09_to_11_endurance_h": [
+        4.552656873199067,
+        5.564358400576638
+      ]
+    },
+    {
+      "flight_level": 250,
+      "printed_tas_kt": 291,
+      "printed_mach": 0.483,
+      "official_calculated_endurance_h": 6.8,
+      "current_model_endurance_h": 6.356774982512497,
+      "relative_endurance_difference": -0.0651801496305151,
+      "inside_current_nominal_cruise_bounds": false,
+      "flow_scale_09_to_11_endurance_h": [
+        5.7788863477386245,
+        7.063083313902765
+      ]
+    },
+    {
+      "flight_level": 150,
+      "printed_tas_kt": 407,
+      "printed_mach": 0.65,
+      "official_calculated_endurance_h": 4.5,
+      "current_model_endurance_h": 3.3168686844208195,
+      "relative_endurance_difference": -0.2629180701287068,
+      "inside_current_nominal_cruise_bounds": false,
+      "flow_scale_09_to_11_endurance_h": [
+        3.0153351676552904,
+        3.6854096493564668
+      ]
+    },
+    {
+      "flight_level": 150,
+      "printed_tas_kt": 333,
+      "printed_mach": 0.532,
+      "official_calculated_endurance_h": 5.8,
+      "current_model_endurance_h": 3.9591175935443976,
+      "relative_endurance_difference": -0.3173935183544142,
+      "inside_current_nominal_cruise_bounds": false,
+      "flow_scale_09_to_11_endurance_h": [
+        3.599197812313089,
+        4.399019548382669
+      ]
+    },
+    {
+      "flight_level": 150,
+      "printed_tas_kt": 250,
+      "printed_mach": 0.399,
+      "official_calculated_endurance_h": 6.75,
+      "current_model_endurance_h": 4.833259914420183,
+      "relative_endurance_difference": -0.28396149415997285,
+      "inside_current_nominal_cruise_bounds": false,
+      "flow_scale_09_to_11_endurance_h": [
+        4.393872649472892,
+        5.3702887938001975
+      ]
+    },
+    {
+      "flight_level": 30,
+      "printed_tas_kt": 345,
+      "printed_mach": 0.535,
+      "official_calculated_endurance_h": 4.2,
+      "current_model_endurance_h": 2.438836717560439,
+      "relative_endurance_difference": -0.41932459105703834,
+      "inside_current_nominal_cruise_bounds": false,
+      "flow_scale_09_to_11_endurance_h": [
+        2.2881198145576214,
+        2.70981857506716
+      ]
+    },
+    {
+      "flight_level": 30,
+      "printed_tas_kt": 284,
+      "printed_mach": 0.437,
+      "official_calculated_endurance_h": 5.7,
+      "current_model_endurance_h": 2.8250361769688612,
+      "relative_endurance_difference": -0.5043796180756384,
+      "inside_current_nominal_cruise_bounds": false,
+      "flow_scale_09_to_11_endurance_h": [
+        2.5682147063353287,
+        3.1389290855209566
+      ]
+    },
+    {
+      "flight_level": 30,
+      "printed_tas_kt": 235,
+      "printed_mach": 0.359,
+      "official_calculated_endurance_h": 6.2,
+      "current_model_endurance_h": 3.175678056109375,
+      "relative_endurance_difference": -0.4877938619178428,
+      "inside_current_nominal_cruise_bounds": false,
+      "flow_scale_09_to_11_endurance_h": [
+        2.8869800510085217,
+        3.5285311734548612
+      ]
+    }
+  ],
+  "input_sha256": {
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/fuel_reference_check.py": "9a3fd5ba84276f4c52cff4cfee3791fc737e8e33d7d9284c7a97e257d9e66835",
+    "/jackbox/home/MH370/.sources/ulich-mh370-fuel-performance/data/official_post_acars.json": "58b8820653ae759e42f14e6de0bb13f4e8430a9ec1dc917b695cf526bcdfabb4",
+    "/jackbox/home/MH370/.sources/martin-bsm-trent892-lrc/data/coefficient-pins.json": "cbb0bbd2dee84f3e76f9516b003f7f578d5449324bb94a568504d26d5be64187",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/fuel-condition.json": "ed9dd61023ee23409577fb0d4ffc1d4a7cec5cbb44bcbac8bb31e4ceb70a5bfd",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/fuel-endurance-reference-inputs.json": "5dd6300e504179980c27547e3c55edcd3a429b1f19f4f9e4a172550185bd8884"
+  }
+}

@@ -1,0 +1,59 @@
+# Recreation of Davey et al. (2016), "Bayesian Methods in the Search for MH370",
+# Fig. 10.3: aircraft latitude pdf at 00:19 UTC with and without BFO.
+# Dynamics parameters are the published values compiled into crates/flight.
+
+name = "davey2016-fig10-3"
+# One filter per autopilot mode, in the order true heading, magnetic heading, true track,
+# magnetic track, lateral navigation. Particles are concentrated where the posterior mass is
+# (true track and lateral navigation carry ~94%); every mode is still run and weighted.
+particles_per_mode = [1_000_000, 500_000, 2_500_000, 500_000, 2_500_000]
+seeds = [1, 2, 3, 4, 5, 6, 7, 8]
+# Resample (systematic) whenever the effective sample size falls below this fraction.
+resample_ess_fraction = 0.5
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[[cases]]
+id = "bto-only"
+use_bfo = false
+seeds = [1, 2]
+
+[inputs]
+observations = "../data/satcom-observations.csv"
+ephemeris = "../data/satellite-ephemeris.csv"
+era5 = "../data/era5-wind-temperature.bin"
+igrf = "../data/igrf14-declination.bin"
+# Digitised Fig. 10.3 (bottom): the published curve this estimate is compared against.
+reference_curve = "../.sources/davey-2016/fig10-3-bto-bfo-latitude-pdf-vector.csv"  # vector recovery, Pete 18 Oct 2026 (was the hand copy fig10-3-bfo-latitude-pdf.csv)
+
+# Ch. 4: prior at the penultimate radar point. Davey does not tabulate the mean
+# state numerically.
+# Position: reconstructed from Fig. 4.1-4.3; checked 9 Oct 2026 against (a) an independent
+#   digitisation of the radar track (Drive radar-map.dat: 5.616 N 99.050 E at 18:01:49, 0.54 NM
+#   away, inside the 0.5 NM sd), (b) the Lido slide caption "02:02H PERAK ISLAND 279R 89nm from
+#   Butterworth AB", which lies 1.1 NM from Pulau Perak, and (c) the Pulau Perak passage this
+#   position implies at 505 kt, 18:02:44, against 18:02:48 read from the slide. Not changed.
+# Track: 289.7 deg true, Davey Fig. 4.2 lower panel (book p. 21, PDF p. 34) digitised at 18:02
+#   (-70.3 deg; 289.0-290.3 over 17:55-18:22), consistent with p. 21 "the 18:22 radar point
+#   ... is clearly within the azimuth fan" (bearing from this position to 10 NM past MEKAR:
+#   289.6 deg). Adopted 9 Oct 2026 by architecture ruling. Runs before then used 295.66, a
+#   reconstruction: config/sensitivity/prior-track-29566.toml restores it.
+[prior]
+time_utc = "2014-03-07T18:01:49Z"
+latitude_deg = 5.624829
+longitude_deg = 99.048157
+position_sd_nm = 0.5
+track_deg = 289.7
+track_sd_deg = 1.0
+
+# Sec. 5.3 / 8.1: constant BFO bias, prior mean = tarmac value, marginalised per particle.
+[bfo_bias]
+mean_hz = 150.0
+sd_hz = 25.0
+
+[output]
+# Route snapshots for plotting, and how many weighted routes to keep.
+route_interval_s = 600
+route_samples = 2000

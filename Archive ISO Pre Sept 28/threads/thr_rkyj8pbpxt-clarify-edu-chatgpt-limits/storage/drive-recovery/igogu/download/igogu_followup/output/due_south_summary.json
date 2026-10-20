@@ -1,0 +1,53 @@
+{
+  "definition": "100 feasible prior draws, 50 per altitude class, before satellite selection. Exact 180 degree true ground track after finite initial turn; not constant compass/air heading.",
+  "seed": [
+    20260919370,
+    20260919371
+  ],
+  "attempts": [
+    {
+      "altitude_class": 0,
+      "draws_to_50": 1001,
+      "gate_counts": {
+        "1": 763,
+        "2": 188,
+        "3": 0,
+        "0": 50
+      }
+    },
+    {
+      "altitude_class": 1,
+      "draws_to_50": 603,
+      "gate_counts": {
+        "1": 427,
+        "2": 126,
+        "3": 0,
+        "0": 50
+      }
+    }
+  ],
+  "passed_all": 0,
+  "first_failure_counts": [
+    {
+      "kind": "arc",
+      "time": "2014-03-07T19:41:02.906000Z",
+      "count": 100
+    }
+  ],
+  "endpoint_latitude_min_median_max": [
+    -39.19255785958724,
+    -36.82947651109916,
+    -33.98612247471425
+  ],
+  "endpoint_longitude_min_median_max": [
+    94.15025194055896,
+    94.19354699726622,
+    94.22182227838164
+  ],
+  "signed_arc_distance_km_min_median_max": [
+    5.158487183751891,
+    230.1191388702979,
+    422.83477437530354
+  ],
+  "continued_R600_pass_count": 0
+}

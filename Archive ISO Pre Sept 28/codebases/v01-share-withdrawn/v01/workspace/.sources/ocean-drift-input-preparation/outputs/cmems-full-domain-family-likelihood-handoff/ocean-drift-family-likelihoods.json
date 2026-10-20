@@ -1,0 +1,2765 @@
+{
+  "schema": "mh370-ocean-drift-family-likelihood-handoff-v1",
+  "title": "MH370 full-domain CMEMS ocean-drift admission surface",
+  "family_combination": "prohibited_without_out_of_sample_estimated_model_weights",
+  "query_contract": {
+    "coordinate_reference": "WGS84 latitude/longitude degrees",
+    "algorithm": "nearest source cell by great-circle distance",
+    "maximum_nearest_cell_distance_nm": 75.0,
+    "source_prior_removed": true,
+    "returned_fields": [
+      "evidence_log_likelihood",
+      "relative_log_likelihood",
+      "relative_likelihood"
+    ],
+    "out_of_support": {
+      "status": "out_of_support",
+      "likelihood": null,
+      "required_behavior": "error; do not extrapolate and do not treat as zero or neutral current"
+    },
+    "admission_rule": "Only admissible_conditional_likelihood families may update the integrated estimator."
+  },
+  "admission_thresholds": {
+    "maximum_query_distance_nm": 75.0,
+    "maximum_out_of_support_fraction": 0.01,
+    "minimum_event_arrival_ess": 200.0,
+    "minimum_surface_mass_with_event_ess": 0.9,
+    "maximum_replication_total_variation": 0.1,
+    "maximum_contour_endpoint_shift_cells": 2,
+    "minimum_contour_set_jaccard": 0.8,
+    "minimum_validation_complete_fraction": 0.95,
+    "maximum_median_error_ratio_to_persistence": 1.0,
+    "minimum_median_fraction_better_than_persistence": 0.5
+  },
+  "specification": {
+    "path": ".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/specification.json",
+    "sha256": "799beed5c2e0fe2ed034e65b5108eee8654b5708874d9249ef96a7074c95dc36"
+  },
+  "families": [
+    {
+      "id": "cmems-glorys12-waverys-full-domain",
+      "label": "Full-domain GLORYS12 currents + distinct WAVERYS Stokes",
+      "color": "#D97706",
+      "current_family": "cmems_glorys12_reanalysis",
+      "role": "time-varying assimilative-current family with distinct wave Stokes sensitivity",
+      "decision": "diagnostic_only",
+      "admitted": false,
+      "failed_checks": [
+        "out_of_support_termination",
+        "eventwise_arrival_ess",
+        "seed_and_particle_stability"
+      ],
+      "conditions": [
+        "GLORYS12V1 daily native 1/12-degree surface currents from 0E-180E and 55S-15N over 2014-03-07 through 2017-01-31",
+        "WAVERYS three-hourly 0.2-degree surface Stokes velocity is a distinct field with an explicit one-times response; direct windage remains separate",
+        "the same nine stringent recovery episodes, two Australian non-recovery populations, object-response laws, seed, proposal accounting, and conservative arrival-conditional isotope screen are used as the matched family comparison",
+        "the source-cell prior is removed before the conditional likelihood is exposed"
+      ],
+      "limitations": [
+        "GLORYS12V1 assimilates ocean observations; the drifter replay is not guaranteed statistically held out",
+        "WAVERYS assimilates significant wave height and uses GLORYS12 currents in its wave calculation",
+        "one-times surface Stokes response, object leeway, diffusivity, recovery kernels, and beaching-to-discovery delays are sensitivities rather than jointly out-of-sample calibrated parameters",
+        "the persistent GLORYS12/WAVERYS support-mask union distinguishes land encounter but is not a measured shoreline or calibrated beaching, retention, or refloating model",
+        "this family remains separate from native HYCOM and GDP; no subjective family weight or pooled surface is reported"
+      ],
+      "source_result": {
+        "path": ".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris/source-area.json",
+        "sha256": "5798db6878502adef429658497bdb6e9f431affc2d8cdbed88a1c54735b76531",
+        "seed": 3700271,
+        "particles_per_cell": 1024,
+        "isotope_enabled": true,
+        "run_manifest": {
+          "path": ".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris/run-manifest.json",
+          "sha256": "503f91d2b25beed29158a17782340f2e2c64f0e363034cd24e9e548044ca7865",
+          "executable_sha256": "6ac6d41bd3399e856706441d9dacd993f4ce0493a120219027afaa7ebc0e7fe5",
+          "config_sha256": "90431bdaa6c5e1c18b322ba2b446e1a528aff0afc090af7351dfdb0fe4cd570c",
+          "input_sha256": {
+            "coast.binary": "5b08d121da01b271bacd9f87614c0178e9a56de0c7ee59c81010bdbec318f668",
+            "coast.metadata": "886f151454efe376bdee4b7b6cdb77b6a6b8a986982f29fc9739cf6c0d65497f",
+            "currents.binary": "d532482adda31b357ed4d2e899074255d277f64a99b5c2503be699ad1c5e6d52",
+            "currents.metadata": "61c6559deb978d5cbf2041e7e43f8e32db3bbacde49376cae6d134308b836ee3",
+            "isotope_records": "a5231772727d2adae24dcc082abc02beb597448720be30dfbb2b46ac3fe4957a",
+            "source_cells": "0180bc2cfa53e901c7896f9be05d204507cbceefd81cb63fc765b48b7d875279",
+            "sst.binary": "9a8fdb023e7f4d719547b2393c913dddba7ff0f788f1c8b83839a08916635fc0",
+            "sst.metadata": "ba70afa6e56ac411fd76859895cf6a3695d06fbe0da02c409c560aba8f97471b",
+            "stokes.binary": "33b73a88da9d76a8828c274fcd19a9a550326842c6c7ddea241e1bf3f6f92fea",
+            "stokes.metadata": "d6f6e3541dc526a1e91a09e577f3f488dad7c5485eedef61b9a94f18999357b6",
+            "wind.binary": "c151628e9dd072fcb56f00cace91ab6057ccc35391646a91d5caa0b6d2aabd62",
+            "wind.metadata": "b689d546dc3aa76f7b67e7241e2cae739cda8e89ca0443734b190e5367470fda"
+          }
+        },
+        "runtime": {
+          "path": ".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris/runtime-receipt.json",
+          "sha256": "b17253deadb0bd094f175bd6bd2e3fe11e29063ece2679d4470a3dde0b1ca7ac",
+          "elapsed_seconds": 1694.606275341,
+          "peak_memory_kib": 11724316,
+          "simulated_paths": 867328
+        }
+      },
+      "surface_summary": {
+        "cell_count": 77,
+        "peak_cell_id": "arc-152",
+        "peak_latitude_s": 30.7030334472656,
+        "peak_longitude_e": 97.6808013916016,
+        "latitude_s_equal_tail_intervals": {
+          "90": [
+            29.6984252929688,
+            35.7523803710938
+          ],
+          "95": [
+            27.6214599609375,
+            35.7523803710938
+          ],
+          "99": [
+            26.5517272949219,
+            36.968017578125
+          ]
+        }
+      },
+      "evidence_scope": {
+        "expected_recovery_events": [
+          "antsiraka-cabin-panel-recovery",
+          "chidenguele-fan-cowling-recovery",
+          "mauritius-left-flap-recovery",
+          "mossel-bay-engine-cowling-recovery",
+          "paindane-flap-fairing-recovery",
+          "pemba-right-flap-recovery",
+          "reunion-flaperon-recovery",
+          "rodrigues-door-panel-recovery",
+          "vilanculos-stabilizer-recovery"
+        ],
+        "represented_recovery_events": [
+          "antsiraka-cabin-panel-recovery",
+          "chidenguele-fan-cowling-recovery",
+          "mauritius-left-flap-recovery",
+          "mossel-bay-engine-cowling-recovery",
+          "paindane-flap-fairing-recovery",
+          "pemba-right-flap-recovery",
+          "reunion-flaperon-recovery",
+          "rodrigues-door-panel-recovery",
+          "vilanculos-stabilizer-recovery"
+        ],
+        "expected_non_recoveries": [
+          "western-australia-no-recovery-high-windage-population",
+          "western-australia-no-recovery-low-exposure-population"
+        ],
+        "represented_non_recoveries": [
+          "western-australia-no-recovery-high-windage-population",
+          "western-australia-no-recovery-low-exposure-population"
+        ]
+      },
+      "diagnostics": {
+        "checks": [
+          {
+            "name": "complete_evidence_scope",
+            "passed": true,
+            "value": {
+              "recoveries": [
+                "antsiraka-cabin-panel-recovery",
+                "chidenguele-fan-cowling-recovery",
+                "mauritius-left-flap-recovery",
+                "mossel-bay-engine-cowling-recovery",
+                "paindane-flap-fairing-recovery",
+                "pemba-right-flap-recovery",
+                "reunion-flaperon-recovery",
+                "rodrigues-door-panel-recovery",
+                "vilanculos-stabilizer-recovery"
+              ],
+              "non_recoveries": [
+                "western-australia-no-recovery-high-windage-population",
+                "western-australia-no-recovery-low-exposure-population"
+              ]
+            },
+            "threshold": {
+              "recoveries": [
+                "antsiraka-cabin-panel-recovery",
+                "chidenguele-fan-cowling-recovery",
+                "mauritius-left-flap-recovery",
+                "mossel-bay-engine-cowling-recovery",
+                "paindane-flap-fairing-recovery",
+                "pemba-right-flap-recovery",
+                "reunion-flaperon-recovery",
+                "rodrigues-door-panel-recovery",
+                "vilanculos-stabilizer-recovery"
+              ],
+              "non_recoveries": [
+                "western-australia-no-recovery-high-windage-population",
+                "western-australia-no-recovery-low-exposure-population"
+              ]
+            },
+            "explanation": "Every selected recovery and Australian non-recovery population must be represented."
+          },
+          {
+            "name": "out_of_support_termination",
+            "passed": false,
+            "value": 0.01746190604959787,
+            "threshold": 0.01,
+            "explanation": "Missing, outside-spatial, and outside-time support are failures, never zero current."
+          },
+          {
+            "name": "eventwise_arrival_ess",
+            "passed": false,
+            "value": 0,
+            "threshold": 0.9,
+            "explanation": "Supported source mass must have hundreds-scale effective arrivals for every recovery."
+          },
+          {
+            "name": "seed_and_particle_stability",
+            "passed": false,
+            "value": {
+              "matched": true,
+              "passed": false,
+              "run": "reference",
+              "comparison_count": 2,
+              "maximum_total_variation": 0.3944942222182672,
+              "maximum_90_95_99_endpoint_shift_cells": 6,
+              "minimum_90_95_99_highest_weight_set_jaccard": 0.5333333333333333,
+              "source": {
+                "path": ".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/stability-summary.json",
+                "sha256": "945faa86370c7bb23e3032c0b1e334a6d2ba4915de40adce46608eeb176ba87f"
+              }
+            },
+            "threshold": {
+              "maximum_total_variation": 0.1,
+              "maximum_contour_endpoint_shift_cells": 2,
+              "minimum_contour_set_jaccard": 0.8
+            },
+            "explanation": "The exact surface must be stable when the seed changes and particle count doubles."
+          },
+          {
+            "name": "predictive_drifter_validation",
+            "passed": true,
+            "value": {
+              "matched": true,
+              "passed": true,
+              "family": "cmems_glorys12_full_domain_plus_distinct_stokes",
+              "row_count": 9,
+              "attempted_paths": 5400,
+              "minimum_complete_fraction": 0.9883333333333333,
+              "median_error_ratio_to_persistence": 0.6950387324045249,
+              "median_fraction_better_than_persistence": 0.6383333333333333,
+              "failed_paths_scored_by_terminal_hold": true,
+              "assimilation_or_climatology_leakage_limitation": true,
+              "source": {
+                "path": "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain/cmems-full-domain-current-trajectory-overall.csv",
+                "sha256": "7091949fd84e7d7fedbbce5147356c644e9676f046c7f006bdee524648e38cf9"
+              }
+            },
+            "threshold": {
+              "minimum_complete_fraction": 0.95,
+              "maximum_median_error_ratio_to_persistence": 1.0,
+              "minimum_median_fraction_better_than_persistence": 0.5
+            },
+            "explanation": "All attempts, including terminated paths, are scored against persistence."
+          },
+          {
+            "name": "conservative_isotope_screen",
+            "passed": true,
+            "value": {
+              "enabled": true,
+              "maximum_conditional_log_compatibility": 0.0,
+              "path_classification_counts": {
+                "compatible": 24716,
+                "marginal": 756,
+                "rejected": 149,
+                "missing_coverage": 17454
+              }
+            },
+            "threshold": "enabled and never positive",
+            "explanation": "Isotope is conditional on represented Reunion arrival and may only downweight."
+          }
+        ],
+        "surface_weighted_termination_reason_fractions": {
+          "missing_field_coverage": 0.010109689739243213,
+          "outside_spatial_support": 0.007352216310354657,
+          "land_encounter": 0.5882131837615281,
+          "beaching": 0.0,
+          "outside_time_support": 0.0,
+          "numerical_failure": 0.0
+        },
+        "surface_weighted_out_of_support_fraction": 0.01746190604959787,
+        "surface_mass_with_every_recovery_ess_at_least_threshold": 0,
+        "event_arrival_effective_sample_size": [
+          {
+            "event_id": "antsiraka-cabin-panel-recovery",
+            "maximum_effective_sample_size": 398.24344746140963,
+            "median_effective_sample_size": 98.91909457813011,
+            "surface_mass_at_or_above_threshold": 0.0037669101847350147
+          },
+          {
+            "event_id": "chidenguele-fan-cowling-recovery",
+            "maximum_effective_sample_size": 178.97124842500028,
+            "median_effective_sample_size": 57.59465304885181,
+            "surface_mass_at_or_above_threshold": 0
+          },
+          {
+            "event_id": "mauritius-left-flap-recovery",
+            "maximum_effective_sample_size": 297.5910726697569,
+            "median_effective_sample_size": 90.15176311451674,
+            "surface_mass_at_or_above_threshold": 1.4010159443458127e-12
+          },
+          {
+            "event_id": "mossel-bay-engine-cowling-recovery",
+            "maximum_effective_sample_size": 66.7010785227144,
+            "median_effective_sample_size": 16.541770494835717,
+            "surface_mass_at_or_above_threshold": 0
+          },
+          {
+            "event_id": "paindane-flap-fairing-recovery",
+            "maximum_effective_sample_size": 130.05215726473938,
+            "median_effective_sample_size": 54.9527649955495,
+            "surface_mass_at_or_above_threshold": 0
+          },
+          {
+            "event_id": "pemba-right-flap-recovery",
+            "maximum_effective_sample_size": 542.3467268708467,
+            "median_effective_sample_size": 81.97308980841814,
+            "surface_mass_at_or_above_threshold": 1.4451086945491574e-10
+          },
+          {
+            "event_id": "reunion-flaperon-recovery",
+            "maximum_effective_sample_size": 398.3118883184308,
+            "median_effective_sample_size": 29.52156002264473,
+            "surface_mass_at_or_above_threshold": 0.9176978087852772
+          },
+          {
+            "event_id": "rodrigues-door-panel-recovery",
+            "maximum_effective_sample_size": 427.08065886384264,
+            "median_effective_sample_size": 111.06330613827329,
+            "surface_mass_at_or_above_threshold": 0.001078021933315773
+          },
+          {
+            "event_id": "vilanculos-stabilizer-recovery",
+            "maximum_effective_sample_size": 216.9594039018069,
+            "median_effective_sample_size": 52.91535613494649,
+            "surface_mass_at_or_above_threshold": 3.046210701223878e-14
+          }
+        ],
+        "isotope_path_classification_counts": {
+          "compatible": 24716,
+          "marginal": 756,
+          "rejected": 149,
+          "missing_coverage": 17454
+        },
+        "stability": {
+          "matched": true,
+          "passed": false,
+          "run": "reference",
+          "comparison_count": 2,
+          "maximum_total_variation": 0.3944942222182672,
+          "maximum_90_95_99_endpoint_shift_cells": 6,
+          "minimum_90_95_99_highest_weight_set_jaccard": 0.5333333333333333,
+          "source": {
+            "path": ".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/stability-summary.json",
+            "sha256": "945faa86370c7bb23e3032c0b1e334a6d2ba4915de40adce46608eeb176ba87f"
+          }
+        },
+        "predictive_validation": {
+          "matched": true,
+          "passed": true,
+          "family": "cmems_glorys12_full_domain_plus_distinct_stokes",
+          "row_count": 9,
+          "attempted_paths": 5400,
+          "minimum_complete_fraction": 0.9883333333333333,
+          "median_error_ratio_to_persistence": 0.6950387324045249,
+          "median_fraction_better_than_persistence": 0.6383333333333333,
+          "failed_paths_scored_by_terminal_hold": true,
+          "assimilation_or_climatology_leakage_limitation": true,
+          "source": {
+            "path": "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain/cmems-full-domain-current-trajectory-overall.csv",
+            "sha256": "7091949fd84e7d7fedbbce5147356c644e9676f046c7f006bdee524648e38cf9"
+          }
+        }
+      },
+      "cells": [
+        {
+          "id": "arc-116",
+          "latitude_deg": -10.0475158691406,
+          "longitude_deg": 107.74055480957,
+          "evidence_log_likelihood": -72.03098998614212,
+          "relative_log_likelihood": -27.809072470737092,
+          "relative_likelihood": 8.368994435744694e-13,
+          "diagnostic_uniform_cell_mass": 1.7458631566510143e-13,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.03162208764332659,
+            "outside_spatial_support": 0.034375172557497544,
+            "land_encounter": 0.7146834532850449,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 102.70067815132325,
+            "chidenguele-fan-cowling-recovery": 110.54221385113574,
+            "mauritius-left-flap-recovery": 92.55377968575988,
+            "mossel-bay-engine-cowling-recovery": 28.215537410669786,
+            "paindane-flap-fairing-recovery": 71.56194538207359,
+            "pemba-right-flap-recovery": 145.24348797846847,
+            "reunion-flaperon-recovery": 2.0262250954265193,
+            "rodrigues-door-panel-recovery": 421.6365726646576,
+            "vilanculos-stabilizer-recovery": 93.33364209714729
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-117",
+          "latitude_deg": -10.6705932617188,
+          "longitude_deg": 107.611831665039,
+          "evidence_log_likelihood": -70.32078259417874,
+          "relative_log_likelihood": -26.098865078773713,
+          "relative_likelihood": 4.628144524623302e-12,
+          "diagnostic_uniform_cell_mass": 9.654812261178136e-13,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.0318801762658547,
+            "outside_spatial_support": 0.03170349958589022,
+            "land_encounter": 0.7090910982638604,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 35.22072076436445,
+            "chidenguele-fan-cowling-recovery": 62.292322294268956,
+            "mauritius-left-flap-recovery": 209.29419544239997,
+            "mossel-bay-engine-cowling-recovery": 24.014605589705752,
+            "paindane-flap-fairing-recovery": 82.7876324991682,
+            "pemba-right-flap-recovery": 41.48306340788153,
+            "reunion-flaperon-recovery": 1.5034136817495494,
+            "rodrigues-door-panel-recovery": 338.78923582141806,
+            "vilanculos-stabilizer-recovery": 91.64029527994408
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-118",
+          "latitude_deg": -11.2920837402344,
+          "longitude_deg": 107.475448608398,
+          "evidence_log_likelihood": -72.55302407355894,
+          "relative_log_likelihood": -28.33110655815392,
+          "relative_likelihood": 4.965428762505444e-13,
+          "diagnostic_uniform_cell_mass": 1.0358423822589277e-13,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.028114924390326555,
+            "outside_spatial_support": 0.031966556034371464,
+            "land_encounter": 0.7181189883810798,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 132.59256086946166,
+            "chidenguele-fan-cowling-recovery": 122.49214337051413,
+            "mauritius-left-flap-recovery": 34.306928959884466,
+            "mossel-bay-engine-cowling-recovery": 41.11527478735012,
+            "paindane-flap-fairing-recovery": 79.0379446130229,
+            "pemba-right-flap-recovery": 205.5324270714621,
+            "reunion-flaperon-recovery": 1.672820693113844,
+            "rodrigues-door-panel-recovery": 304.53385739211353,
+            "vilanculos-stabilizer-recovery": 104.6917101623475
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-119",
+          "latitude_deg": -11.9118957519531,
+          "longitude_deg": 107.331329345703,
+          "evidence_log_likelihood": -75.69596861441586,
+          "relative_log_likelihood": -31.474051099010836,
+          "relative_likelihood": 2.142857466126253e-14,
+          "diagnostic_uniform_cell_mass": 4.4702334656666295e-15,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.025791394736370137,
+            "outside_spatial_support": 0.03770636923042593,
+            "land_encounter": 0.7272206710136315,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 61.74722022729265,
+            "chidenguele-fan-cowling-recovery": 79.17791753609501,
+            "mauritius-left-flap-recovery": 42.41474432994114,
+            "mossel-bay-engine-cowling-recovery": 59.75192451131902,
+            "paindane-flap-fairing-recovery": 105.68814146680053,
+            "pemba-right-flap-recovery": 304.60071535707624,
+            "reunion-flaperon-recovery": 3.185671798236618,
+            "rodrigues-door-panel-recovery": 180.9969024182048,
+            "vilanculos-stabilizer-recovery": 79.22485578382748
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-120",
+          "latitude_deg": -12.5299377441406,
+          "longitude_deg": 107.179428100586,
+          "evidence_log_likelihood": -72.03903286615676,
+          "relative_log_likelihood": -27.817115350751735,
+          "relative_likelihood": 8.30195357982896e-13,
+          "diagnostic_uniform_cell_mass": 1.731877705802377e-13,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.0254844055807403,
+            "outside_spatial_support": 0.03146571514073856,
+            "land_encounter": 0.7158178418830531,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 256.9410557231121,
+            "chidenguele-fan-cowling-recovery": 53.20122175760919,
+            "mauritius-left-flap-recovery": 56.22366582336223,
+            "mossel-bay-engine-cowling-recovery": 26.161031404179777,
+            "paindane-flap-fairing-recovery": 84.09419589826076,
+            "pemba-right-flap-recovery": 58.02065693117627,
+            "reunion-flaperon-recovery": 2.4413614014361795,
+            "rodrigues-door-panel-recovery": 427.08065886384264,
+            "vilanculos-stabilizer-recovery": 71.10029822448274
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-121",
+          "latitude_deg": -13.1461181640625,
+          "longitude_deg": 107.019653320313,
+          "evidence_log_likelihood": -71.20809805933534,
+          "relative_log_likelihood": -26.986180543930317,
+          "relative_likelihood": 1.9056831857896722e-12,
+          "diagnostic_uniform_cell_mass": 3.975462151234503e-13,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.0302844587119622,
+            "outside_spatial_support": 0.033339240077414546,
+            "land_encounter": 0.7075209462012992,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 135.90009290342257,
+            "chidenguele-fan-cowling-recovery": 56.776334111149254,
+            "mauritius-left-flap-recovery": 50.70394568128369,
+            "mossel-bay-engine-cowling-recovery": 38.43380569665908,
+            "paindane-flap-fairing-recovery": 94.21667205429408,
+            "pemba-right-flap-recovery": 101.60739680495864,
+            "reunion-flaperon-recovery": 2.99115219238685,
+            "rodrigues-door-panel-recovery": 246.76267026430264,
+            "vilanculos-stabilizer-recovery": 52.15644573859333
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-122",
+          "latitude_deg": -13.7603149414063,
+          "longitude_deg": 106.851959228516,
+          "evidence_log_likelihood": -69.90816535417525,
+          "relative_log_likelihood": -25.686247838770228,
+          "relative_likelihood": 6.992046418679241e-12,
+          "diagnostic_uniform_cell_mass": 1.458616841687449e-12,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.026479095228894238,
+            "outside_spatial_support": 0.031684960211369816,
+            "land_encounter": 0.7072185164164603,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 155.69379991375175,
+            "chidenguele-fan-cowling-recovery": 54.95207957611044,
+            "mauritius-left-flap-recovery": 54.644094653118785,
+            "mossel-bay-engine-cowling-recovery": 41.85687056410157,
+            "paindane-flap-fairing-recovery": 62.749948883406994,
+            "pemba-right-flap-recovery": 362.282201510184,
+            "reunion-flaperon-recovery": 6.164092215970265,
+            "rodrigues-door-panel-recovery": 232.11441383642156,
+            "vilanculos-stabilizer-recovery": 174.72697623023345
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-123",
+          "latitude_deg": -14.3724365234375,
+          "longitude_deg": 106.676254272461,
+          "evidence_log_likelihood": -70.75794192117188,
+          "relative_log_likelihood": -26.536024405766852,
+          "relative_likelihood": 2.989172849481849e-12,
+          "diagnostic_uniform_cell_mass": 6.23573929561051e-13,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.03150280120171795,
+            "outside_spatial_support": 0.031049791319541543,
+            "land_encounter": 0.6927160816945214,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 41.48826570389863,
+            "chidenguele-fan-cowling-recovery": 28.832932010716423,
+            "mauritius-left-flap-recovery": 33.89209568463723,
+            "mossel-bay-engine-cowling-recovery": 34.14860094036433,
+            "paindane-flap-fairing-recovery": 85.49858645221153,
+            "pemba-right-flap-recovery": 65.14210141463215,
+            "reunion-flaperon-recovery": 2.2822372654359286,
+            "rodrigues-door-panel-recovery": 193.42888508511575,
+            "vilanculos-stabilizer-recovery": 70.4812820487358
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-124",
+          "latitude_deg": -14.9823913574219,
+          "longitude_deg": 106.492492675781,
+          "evidence_log_likelihood": -71.11683473763223,
+          "relative_log_likelihood": -26.894917222227207,
+          "relative_likelihood": 2.0877854140731866e-12,
+          "diagnostic_uniform_cell_mass": 4.355347182279992e-13,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.022106504926034384,
+            "outside_spatial_support": 0.025557528419867977,
+            "land_encounter": 0.7616829466967875,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 169.44646849503107,
+            "chidenguele-fan-cowling-recovery": 178.97124842500028,
+            "mauritius-left-flap-recovery": 297.5910726697569,
+            "mossel-bay-engine-cowling-recovery": 46.604666491567976,
+            "paindane-flap-fairing-recovery": 105.16279488334327,
+            "pemba-right-flap-recovery": 542.3467268708467,
+            "reunion-flaperon-recovery": 2.015732902205424,
+            "rodrigues-door-panel-recovery": 50.58406344595065,
+            "vilanculos-stabilizer-recovery": 194.76228953282524
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-125",
+          "latitude_deg": -15.5900573730469,
+          "longitude_deg": 106.300567626953,
+          "evidence_log_likelihood": -68.33178636317007,
+          "relative_log_likelihood": -24.109868847765043,
+          "relative_likelihood": 3.3823379621970704e-11,
+          "diagnostic_uniform_cell_mass": 7.055924432594615e-12,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.013600113737213863,
+            "outside_spatial_support": 0.027612680219236522,
+            "land_encounter": 0.7963878975349826,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 259.4413001455543,
+            "chidenguele-fan-cowling-recovery": 62.37328566417545,
+            "mauritius-left-flap-recovery": 44.67413967644889,
+            "mossel-bay-engine-cowling-recovery": 35.012526821399746,
+            "paindane-flap-fairing-recovery": 120.49406123208551,
+            "pemba-right-flap-recovery": 60.87898666057301,
+            "reunion-flaperon-recovery": 1.1434398900021807,
+            "rodrigues-door-panel-recovery": 49.936556276359646,
+            "vilanculos-stabilizer-recovery": 74.67556772587685
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-126",
+          "latitude_deg": -16.1953430175781,
+          "longitude_deg": 106.100402832031,
+          "evidence_log_likelihood": -66.3820756355781,
+          "relative_log_likelihood": -22.16015812017308,
+          "relative_likelihood": 2.3766520835068027e-10,
+          "diagnostic_uniform_cell_mass": 4.9579544360196257e-11,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.017699153914375983,
+            "outside_spatial_support": 0.02743092037493455,
+            "land_encounter": 0.7852177762220285,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 108.6136325452872,
+            "chidenguele-fan-cowling-recovery": 70.9554123719641,
+            "mauritius-left-flap-recovery": 152.27660487495734,
+            "mossel-bay-engine-cowling-recovery": 42.57305043827051,
+            "paindane-flap-fairing-recovery": 111.27229684479441,
+            "pemba-right-flap-recovery": 485.7558241841283,
+            "reunion-flaperon-recovery": 7.026657920130451,
+            "rodrigues-door-panel-recovery": 212.1733851839132,
+            "vilanculos-stabilizer-recovery": 131.29334289703866
+          },
+          "conditional_isotope_log_compatibility": -1.221245327087673e-15
+        },
+        {
+          "id": "arc-127",
+          "latitude_deg": -16.7981567382813,
+          "longitude_deg": 105.89192199707,
+          "evidence_log_likelihood": -68.66613613886689,
+          "relative_log_likelihood": -24.444218623461865,
+          "relative_likelihood": 2.4210889044243134e-11,
+          "diagnostic_uniform_cell_mass": 5.050654471889201e-12,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.010184862643742914,
+            "outside_spatial_support": 0.009558543149281373,
+            "land_encounter": 0.8588515647598817,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 105.79303718883533,
+            "chidenguele-fan-cowling-recovery": 43.146856315671336,
+            "mauritius-left-flap-recovery": 66.65628249831263,
+            "mossel-bay-engine-cowling-recovery": 28.58684407807789,
+            "paindane-flap-fairing-recovery": 63.50040893836129,
+            "pemba-right-flap-recovery": 523.3353699778489,
+            "reunion-flaperon-recovery": 1.000003362599558,
+            "rodrigues-door-panel-recovery": 65.0367412885235,
+            "vilanculos-stabilizer-recovery": 78.135616575539
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-128",
+          "latitude_deg": -17.3983764648438,
+          "longitude_deg": 105.675033569336,
+          "evidence_log_likelihood": -69.27717100447946,
+          "relative_log_likelihood": -25.05525348907443,
+          "relative_likelihood": 1.3141400979981725e-11,
+          "diagnostic_uniform_cell_mass": 2.74143900726421e-12,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.012721999366837974,
+            "outside_spatial_support": 0.014014437215633528,
+            "land_encounter": 0.821646263486966,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 49.69677618376757,
+            "chidenguele-fan-cowling-recovery": 28.87009232077476,
+            "mauritius-left-flap-recovery": 71.15242083642399,
+            "mossel-bay-engine-cowling-recovery": 45.57786937388048,
+            "paindane-flap-fairing-recovery": 71.91336097695124,
+            "pemba-right-flap-recovery": 156.18265355054302,
+            "reunion-flaperon-recovery": 2.07068872098114,
+            "rodrigues-door-panel-recovery": 100.94912284193782,
+            "vilanculos-stabilizer-recovery": 59.19523973127295
+          },
+          "conditional_isotope_log_compatibility": -1.1657341758564212e-14
+        },
+        {
+          "id": "arc-129",
+          "latitude_deg": -17.9958801269531,
+          "longitude_deg": 105.449661254883,
+          "evidence_log_likelihood": -63.34914654073063,
+          "relative_log_likelihood": -19.127229025325605,
+          "relative_likelihood": 4.933441470811468e-09,
+          "diagnostic_uniform_cell_mass": 1.029169485714626e-09,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.011295786414546522,
+            "outside_spatial_support": 0.012969959332334531,
+            "land_encounter": 0.7006020265090395,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 90.41349495081305,
+            "chidenguele-fan-cowling-recovery": 109.34990159802143,
+            "mauritius-left-flap-recovery": 110.10247159708675,
+            "mossel-bay-engine-cowling-recovery": 21.99128599892587,
+            "paindane-flap-fairing-recovery": 89.33636852593523,
+            "pemba-right-flap-recovery": 65.87872646999324,
+            "reunion-flaperon-recovery": 1.1227542203853922,
+            "rodrigues-door-panel-recovery": 114.6282340724965,
+            "vilanculos-stabilizer-recovery": 104.68197298043154
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-130",
+          "latitude_deg": -18.5905456542969,
+          "longitude_deg": 105.215682983398,
+          "evidence_log_likelihood": -52.04091341015885,
+          "relative_log_likelihood": -7.818995894753826,
+          "relative_likelihood": 0.00040202515577280164,
+          "diagnostic_uniform_cell_mass": 8.38668149321292e-05,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.011801810584355954,
+            "outside_spatial_support": 0.007045381484414452,
+            "land_encounter": 0.7068698211630319,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 398.24344746140963,
+            "chidenguele-fan-cowling-recovery": 84.53075162189879,
+            "mauritius-left-flap-recovery": 85.68658514350717,
+            "mossel-bay-engine-cowling-recovery": 25.419847951726364,
+            "paindane-flap-fairing-recovery": 88.5384134559964,
+            "pemba-right-flap-recovery": 66.51710189553089,
+            "reunion-flaperon-recovery": 20.637720893188412,
+            "rodrigues-door-panel-recovery": 139.32405029774534,
+            "vilanculos-stabilizer-recovery": 73.20519545363838
+          },
+          "conditional_isotope_log_compatibility": -5.4924471477586e-07
+        },
+        {
+          "id": "arc-131",
+          "latitude_deg": -19.1822814941406,
+          "longitude_deg": 104.973037719727,
+          "evidence_log_likelihood": -62.8357818416699,
+          "relative_log_likelihood": -18.613864326264874,
+          "relative_likelihood": 8.243306277243614e-09,
+          "diagnostic_uniform_cell_mass": 1.7196432413626107e-09,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.010470697383467687,
+            "outside_spatial_support": 0.008905159579670205,
+            "land_encounter": 0.7878693554853258,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 127.14166808319546,
+            "chidenguele-fan-cowling-recovery": 75.97551629776355,
+            "mauritius-left-flap-recovery": 73.51852693684238,
+            "mossel-bay-engine-cowling-recovery": 38.48678324612198,
+            "paindane-flap-fairing-recovery": 99.40214696493621,
+            "pemba-right-flap-recovery": 64.75274616089327,
+            "reunion-flaperon-recovery": 1.0000000017779536,
+            "rodrigues-door-panel-recovery": 172.9136049616464,
+            "vilanculos-stabilizer-recovery": 59.427125962042325
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-132",
+          "latitude_deg": -19.77099609375,
+          "longitude_deg": 104.721603393555,
+          "evidence_log_likelihood": -70.10988380632611,
+          "relative_log_likelihood": -25.887966290921085,
+          "relative_likelihood": 5.71477442060443e-12,
+          "diagnostic_uniform_cell_mass": 1.1921640271250968e-12,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.009087549303652988,
+            "outside_spatial_support": 0.007897387441009802,
+            "land_encounter": 0.9007064352506768,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 217.38804011301104,
+            "chidenguele-fan-cowling-recovery": 53.22666326624119,
+            "mauritius-left-flap-recovery": 50.40286325300706,
+            "mossel-bay-engine-cowling-recovery": 38.29161239877545,
+            "paindane-flap-fairing-recovery": 65.37546048989994,
+            "pemba-right-flap-recovery": 62.41207069139744,
+            "reunion-flaperon-recovery": 1.1083671714375198,
+            "rodrigues-door-panel-recovery": 286.2089302023275,
+            "vilanculos-stabilizer-recovery": 67.61318353255778
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-133",
+          "latitude_deg": -20.3565063476563,
+          "longitude_deg": 104.461288452148,
+          "evidence_log_likelihood": -76.83198747831054,
+          "relative_log_likelihood": -32.61006996290551,
+          "relative_likelihood": 6.880603953319392e-15,
+          "diagnostic_uniform_cell_mass": 1.4353687327477273e-15,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.00859700023522666,
+            "outside_spatial_support": 0.009346807729054045,
+            "land_encounter": 0.9303190056789367,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 200.99247522916377,
+            "chidenguele-fan-cowling-recovery": 53.7324420904343,
+            "mauritius-left-flap-recovery": 151.98279460139437,
+            "mossel-bay-engine-cowling-recovery": 25.422179660959028,
+            "paindane-flap-fairing-recovery": 63.39075486100538,
+            "pemba-right-flap-recovery": 60.593210293479856,
+            "reunion-flaperon-recovery": 1.083903086666197,
+            "rodrigues-door-panel-recovery": 61.44147429501427,
+            "vilanculos-stabilizer-recovery": 83.34842465287221
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-134",
+          "latitude_deg": -20.9387512207031,
+          "longitude_deg": 104.191970825195,
+          "evidence_log_likelihood": -65.80970851115482,
+          "relative_log_likelihood": -21.5877909957498,
+          "relative_likelihood": 4.2125153272604325e-10,
+          "diagnostic_uniform_cell_mass": 8.787764603212167e-11,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.014352993280451816,
+            "outside_spatial_support": 0.01091331808504262,
+            "land_encounter": 0.8547592963243702,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 58.322802748670114,
+            "chidenguele-fan-cowling-recovery": 52.87631913826403,
+            "mauritius-left-flap-recovery": 68.08840892868251,
+            "mossel-bay-engine-cowling-recovery": 27.25603876834692,
+            "paindane-flap-fairing-recovery": 92.70618188804075,
+            "pemba-right-flap-recovery": 347.51605403499514,
+            "reunion-flaperon-recovery": 2.836479550353233,
+            "rodrigues-door-panel-recovery": 79.9517652574237,
+            "vilanculos-stabilizer-recovery": 64.56154148221124
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-135",
+          "latitude_deg": -21.517578125,
+          "longitude_deg": 103.91357421875,
+          "evidence_log_likelihood": -73.7769257329711,
+          "relative_log_likelihood": -29.55500821756607,
+          "relative_likelihood": 1.4602358902831576e-13,
+          "diagnostic_uniform_cell_mass": 3.046210701223878e-14,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "no_flaperon_arrival",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.0075033591531161355,
+            "outside_spatial_support": 0.008962341030872515,
+            "land_encounter": 0.9294088280920609,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 26.419810729438172,
+            "chidenguele-fan-cowling-recovery": 45.577859031702424,
+            "mauritius-left-flap-recovery": 46.757336353588066,
+            "mossel-bay-engine-cowling-recovery": 53.560965542391806,
+            "paindane-flap-fairing-recovery": 71.8808498735847,
+            "pemba-right-flap-recovery": 32.48963742109349,
+            "reunion-flaperon-recovery": 0.0,
+            "rodrigues-door-panel-recovery": 92.95930960084863,
+            "vilanculos-stabilizer-recovery": 216.9594039018069
+          },
+          "conditional_isotope_log_compatibility": null
+        },
+        {
+          "id": "arc-136",
+          "latitude_deg": -22.0928344726563,
+          "longitude_deg": 103.6259765625,
+          "evidence_log_likelihood": -77.3936189287106,
+          "relative_log_likelihood": -33.17170141330557,
+          "relative_likelihood": 3.9238565407979e-15,
+          "diagnostic_uniform_cell_mass": 8.185591015933775e-16,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.0070539342231772115,
+            "outside_spatial_support": 0.0066559544346086645,
+            "land_encounter": 0.931328547290955,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 126.84196758664828,
+            "chidenguele-fan-cowling-recovery": 46.958638458744886,
+            "mauritius-left-flap-recovery": 35.3231699018582,
+            "mossel-bay-engine-cowling-recovery": 66.7010785227144,
+            "paindane-flap-fairing-recovery": 74.72681775655093,
+            "pemba-right-flap-recovery": 359.66147075574867,
+            "reunion-flaperon-recovery": 1.9999927233440074,
+            "rodrigues-door-panel-recovery": 24.110052113724525,
+            "vilanculos-stabilizer-recovery": 58.391309998590735
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-137",
+          "latitude_deg": -22.6644592285156,
+          "longitude_deg": 103.329086303711,
+          "evidence_log_likelihood": -80.26378605653707,
+          "relative_log_likelihood": -36.04186854113205,
+          "relative_likelihood": 2.2244127468304e-16,
+          "diagnostic_uniform_cell_mass": 4.640366641049763e-17,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.01720573933559722,
+            "outside_spatial_support": 0.006902285540345396,
+            "land_encounter": 0.9359678745240021,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 26.70334934923237,
+            "chidenguele-fan-cowling-recovery": 32.25935407517618,
+            "mauritius-left-flap-recovery": 9.822010771963305,
+            "mossel-bay-engine-cowling-recovery": 17.11596152046155,
+            "paindane-flap-fairing-recovery": 41.441791954780534,
+            "pemba-right-flap-recovery": 162.75463320633568,
+            "reunion-flaperon-recovery": 1.9473594033813366,
+            "rodrigues-door-panel-recovery": 39.62039581140801,
+            "vilanculos-stabilizer-recovery": 178.6257176489723
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-138",
+          "latitude_deg": -23.2322692871094,
+          "longitude_deg": 103.022766113281,
+          "evidence_log_likelihood": -72.1557096000465,
+          "relative_log_likelihood": -27.933792084641482,
+          "relative_likelihood": 7.387682780453592e-13,
+          "diagnostic_uniform_cell_mass": 1.5411508847862398e-13,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.01597324445426282,
+            "outside_spatial_support": 0.00636559891692075,
+            "land_encounter": 0.9272819539495031,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 24.25936545863604,
+            "chidenguele-fan-cowling-recovery": 57.59465304885181,
+            "mauritius-left-flap-recovery": 84.71697769467076,
+            "mossel-bay-engine-cowling-recovery": 16.786712463779416,
+            "paindane-flap-fairing-recovery": 72.86545608854092,
+            "pemba-right-flap-recovery": 35.50539897759344,
+            "reunion-flaperon-recovery": 1.9896084665607765,
+            "rodrigues-door-panel-recovery": 33.7780346430591,
+            "vilanculos-stabilizer-recovery": 80.93159847825196
+          },
+          "conditional_isotope_log_compatibility": -2.2204460492503136e-16
+        },
+        {
+          "id": "arc-139",
+          "latitude_deg": -23.796142578125,
+          "longitude_deg": 102.706909179688,
+          "evidence_log_likelihood": -73.48053478269813,
+          "relative_log_likelihood": -29.258617267293104,
+          "relative_likelihood": 1.9640112570855925e-13,
+          "diagnostic_uniform_cell_mass": 4.0971408444824326e-14,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.009494249499615071,
+            "outside_spatial_support": 0.006419228918137909,
+            "land_encounter": 0.9240331267044049,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 35.30603789206554,
+            "chidenguele-fan-cowling-recovery": 35.5488432712303,
+            "mauritius-left-flap-recovery": 36.70148672842178,
+            "mossel-bay-engine-cowling-recovery": 28.63316936385317,
+            "paindane-flap-fairing-recovery": 66.75595678309782,
+            "pemba-right-flap-recovery": 81.97308980841814,
+            "reunion-flaperon-recovery": 1.0,
+            "rodrigues-door-panel-recovery": 86.90015309532033,
+            "vilanculos-stabilizer-recovery": 128.54155697324745
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-140",
+          "latitude_deg": -24.35595703125,
+          "longitude_deg": 102.381408691406,
+          "evidence_log_likelihood": -53.62765454508619,
+          "relative_log_likelihood": -9.405737029681163,
+          "relative_likelihood": 8.225083390717242e-05,
+          "diagnostic_uniform_cell_mass": 1.7158417492671755e-05,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.012864362351120848,
+            "outside_spatial_support": 0.008790800987765683,
+            "land_encounter": 0.8417258590277225,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 38.40272908698897,
+            "chidenguele-fan-cowling-recovery": 59.46250858303362,
+            "mauritius-left-flap-recovery": 93.97554764358937,
+            "mossel-bay-engine-cowling-recovery": 33.96817437947156,
+            "paindane-flap-fairing-recovery": 130.05215726473938,
+            "pemba-right-flap-recovery": 92.2201917576004,
+            "reunion-flaperon-recovery": 13.283652016802197,
+            "rodrigues-door-panel-recovery": 147.98540882012585,
+            "vilanculos-stabilizer-recovery": 76.44589785649714
+          },
+          "conditional_isotope_log_compatibility": -3.338805604366424e-06
+        },
+        {
+          "id": "arc-141",
+          "latitude_deg": -24.9115600585938,
+          "longitude_deg": 102.046142578125,
+          "evidence_log_likelihood": -52.72120737805655,
+          "relative_log_likelihood": -8.499289862651523,
+          "relative_likelihood": 0.00020361291081490488,
+          "diagnostic_uniform_cell_mass": 4.247586516391079e-05,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.011627547213819128,
+            "outside_spatial_support": 0.007753338491071297,
+            "land_encounter": 0.7158354424810084,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 63.86206087209694,
+            "chidenguele-fan-cowling-recovery": 78.34769148877307,
+            "mauritius-left-flap-recovery": 146.54770356035397,
+            "mossel-bay-engine-cowling-recovery": 22.972245317155522,
+            "paindane-flap-fairing-recovery": 77.1280343479292,
+            "pemba-right-flap-recovery": 66.75630736698639,
+            "reunion-flaperon-recovery": 24.506726943208125,
+            "rodrigues-door-panel-recovery": 129.5454938107491,
+            "vilanculos-stabilizer-recovery": 51.898289992139645
+          },
+          "conditional_isotope_log_compatibility": -0.0038169913989162998
+        },
+        {
+          "id": "arc-142",
+          "latitude_deg": -25.4628295898438,
+          "longitude_deg": 101.70100402832,
+          "evidence_log_likelihood": -54.00983347430687,
+          "relative_log_likelihood": -9.787915958901849,
+          "relative_likelihood": 5.612574382955438e-05,
+          "diagnostic_uniform_cell_mass": 1.1708439890118389e-05,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.008204956241006494,
+            "outside_spatial_support": 0.00938952520641824,
+            "land_encounter": 0.6761732865244585,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 53.96238741297906,
+            "chidenguele-fan-cowling-recovery": 86.37046519494788,
+            "mauritius-left-flap-recovery": 117.53538363815743,
+            "mossel-bay-engine-cowling-recovery": 57.08353990780644,
+            "paindane-flap-fairing-recovery": 60.108177255116786,
+            "pemba-right-flap-recovery": 64.054933352257,
+            "reunion-flaperon-recovery": 2.1006091374641005,
+            "rodrigues-door-panel-recovery": 101.24060097399929,
+            "vilanculos-stabilizer-recovery": 49.323531841987965
+          },
+          "conditional_isotope_log_compatibility": -3.030259593266429e-06
+        },
+        {
+          "id": "arc-143",
+          "latitude_deg": -26.0095825195313,
+          "longitude_deg": 101.34587097168,
+          "evidence_log_likelihood": -49.50164356874126,
+          "relative_log_likelihood": -5.279726053336233,
+          "relative_likelihood": 0.005093826038228018,
+          "diagnostic_uniform_cell_mass": 0.0010626274488304839,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.00967878294488087,
+            "outside_spatial_support": 0.007661981450657502,
+            "land_encounter": 0.5956004775538958,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 98.60673327629776,
+            "chidenguele-fan-cowling-recovery": 73.05394319540578,
+            "mauritius-left-flap-recovery": 114.10532470907191,
+            "mossel-bay-engine-cowling-recovery": 16.325047890773185,
+            "paindane-flap-fairing-recovery": 61.640992153328824,
+            "pemba-right-flap-recovery": 48.983967448541165,
+            "reunion-flaperon-recovery": 56.76341282413185,
+            "rodrigues-door-panel-recovery": 91.17893803141972,
+            "vilanculos-stabilizer-recovery": 48.01683056520428
+          },
+          "conditional_isotope_log_compatibility": -4.087179625044924e-06
+        },
+        {
+          "id": "arc-144",
+          "latitude_deg": -26.5517272949219,
+          "longitude_deg": 100.98063659668,
+          "evidence_log_likelihood": -47.31667045870627,
+          "relative_log_likelihood": -3.094752943301245,
+          "relative_likelihood": 0.04528619933720897,
+          "diagnostic_uniform_cell_mass": 0.009447193152608597,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.015641534408333144,
+            "outside_spatial_support": 0.005553996237885833,
+            "land_encounter": 0.6795427625407957,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 100.35980285364678,
+            "chidenguele-fan-cowling-recovery": 91.02251539969558,
+            "mauritius-left-flap-recovery": 90.15176311451674,
+            "mossel-bay-engine-cowling-recovery": 34.969676584916414,
+            "paindane-flap-fairing-recovery": 82.0861077600103,
+            "pemba-right-flap-recovery": 51.877767797652076,
+            "reunion-flaperon-recovery": 79.72987178369445,
+            "rodrigues-door-panel-recovery": 99.47367071338643,
+            "vilanculos-stabilizer-recovery": 64.13754758528981
+          },
+          "conditional_isotope_log_compatibility": -2.703398334736787e-06
+        },
+        {
+          "id": "arc-145",
+          "latitude_deg": -27.0890502929688,
+          "longitude_deg": 100.605163574219,
+          "evidence_log_likelihood": -48.0759273533382,
+          "relative_log_likelihood": -3.8540098379331766,
+          "relative_likelihood": 0.021194578991880625,
+          "diagnostic_uniform_cell_mass": 0.0044214194269997,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.008683640811475083,
+            "outside_spatial_support": 0.009217502967947162,
+            "land_encounter": 0.66856916713801,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 92.40293881682629,
+            "chidenguele-fan-cowling-recovery": 83.60707524593359,
+            "mauritius-left-flap-recovery": 97.16029833982365,
+            "mossel-bay-engine-cowling-recovery": 30.597832687873066,
+            "paindane-flap-fairing-recovery": 83.46236520994636,
+            "pemba-right-flap-recovery": 41.402458203567974,
+            "reunion-flaperon-recovery": 126.69531205424617,
+            "rodrigues-door-panel-recovery": 97.25841554715869,
+            "vilanculos-stabilizer-recovery": 52.91535613494649
+          },
+          "conditional_isotope_log_compatibility": -1.0814169711299992e-05
+        },
+        {
+          "id": "arc-146",
+          "latitude_deg": -27.6214599609375,
+          "longitude_deg": 100.219345092773,
+          "evidence_log_likelihood": -46.28677820881005,
+          "relative_log_likelihood": -2.0648606934050235,
+          "relative_likelihood": 0.12683595842283063,
+          "diagnostic_uniform_cell_mass": 0.026459358821312895,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.008749303076318701,
+            "outside_spatial_support": 0.008372852653118084,
+            "land_encounter": 0.6606897425377292,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 71.16949765189251,
+            "chidenguele-fan-cowling-recovery": 87.58459791802679,
+            "mauritius-left-flap-recovery": 97.73243706481958,
+            "mossel-bay-engine-cowling-recovery": 28.34773746765535,
+            "paindane-flap-fairing-recovery": 68.05604020058028,
+            "pemba-right-flap-recovery": 75.99673429551073,
+            "reunion-flaperon-recovery": 116.39811875298318,
+            "rodrigues-door-panel-recovery": 129.0291780100733,
+            "vilanculos-stabilizer-recovery": 85.19453891160965
+          },
+          "conditional_isotope_log_compatibility": -1.964417150935826e-07
+        },
+        {
+          "id": "arc-147",
+          "latitude_deg": -28.1487426757813,
+          "longitude_deg": 99.8230743408203,
+          "evidence_log_likelihood": -48.85552366020721,
+          "relative_log_likelihood": -4.633606144802187,
+          "relative_likelihood": 0.009719645379146984,
+          "diagnostic_uniform_cell_mass": 0.0020276236163677217,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.0077903625325907,
+            "outside_spatial_support": 0.00510825118303279,
+            "land_encounter": 0.6373142439322504,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 144.00110533292298,
+            "chidenguele-fan-cowling-recovery": 87.7821131647954,
+            "mauritius-left-flap-recovery": 115.71028066029389,
+            "mossel-bay-engine-cowling-recovery": 14.275979727579296,
+            "paindane-flap-fairing-recovery": 54.9527649955495,
+            "pemba-right-flap-recovery": 78.86797734069597,
+            "reunion-flaperon-recovery": 105.41674467634608,
+            "rodrigues-door-panel-recovery": 190.60811828200627,
+            "vilanculos-stabilizer-recovery": 52.770679276690956
+          },
+          "conditional_isotope_log_compatibility": -1.5165859794202016e-08
+        },
+        {
+          "id": "arc-148",
+          "latitude_deg": -28.6707763671875,
+          "longitude_deg": 99.4162139892578,
+          "evidence_log_likelihood": -49.487260366753844,
+          "relative_log_likelihood": -5.265342851348819,
+          "relative_likelihood": 0.005167620998736719,
+          "diagnostic_uniform_cell_mass": 0.001078021879271062,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.010376461564943843,
+            "outside_spatial_support": 0.006590267921318015,
+            "land_encounter": 0.6856503124098072,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 99.33535825121191,
+            "chidenguele-fan-cowling-recovery": 84.59148081595907,
+            "mauritius-left-flap-recovery": 112.8601423021866,
+            "mossel-bay-engine-cowling-recovery": 20.367665694975006,
+            "paindane-flap-fairing-recovery": 50.68875151823571,
+            "pemba-right-flap-recovery": 135.96250211747832,
+            "reunion-flaperon-recovery": 53.71675965651096,
+            "rodrigues-door-panel-recovery": 252.12459385245285,
+            "vilanculos-stabilizer-recovery": 62.13502572167334
+          },
+          "conditional_isotope_log_compatibility": -3.7301523827718593e-06
+        },
+        {
+          "id": "arc-149",
+          "latitude_deg": -29.1873779296875,
+          "longitude_deg": 98.9986724853516,
+          "evidence_log_likelihood": -48.15737733294678,
+          "relative_log_likelihood": -3.935459817541755,
+          "relative_likelihood": 0.019536713938036264,
+          "diagnostic_uniform_cell_mass": 0.004075570766395522,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.010335263767994395,
+            "outside_spatial_support": 0.009363600817014173,
+            "land_encounter": 0.687968681615412,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 83.31420112891526,
+            "chidenguele-fan-cowling-recovery": 96.42324139746782,
+            "mauritius-left-flap-recovery": 84.0743741284941,
+            "mossel-bay-engine-cowling-recovery": 19.64122794949577,
+            "paindane-flap-fairing-recovery": 64.92647030374094,
+            "pemba-right-flap-recovery": 75.10310235709142,
+            "reunion-flaperon-recovery": 135.66434225342257,
+            "rodrigues-door-panel-recovery": 123.29405704651568,
+            "vilanculos-stabilizer-recovery": 50.836727857184805
+          },
+          "conditional_isotope_log_compatibility": -0.00012262466474885776
+        },
+        {
+          "id": "arc-150",
+          "latitude_deg": -29.6984252929688,
+          "longitude_deg": 98.5703277587891,
+          "evidence_log_likelihood": -45.37699652363625,
+          "relative_log_likelihood": -1.1550790082312261,
+          "relative_likelihood": 0.31503264574800416,
+          "diagnostic_uniform_cell_mass": 0.06571923228967837,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.011493371539845575,
+            "outside_spatial_support": 0.008262932056571718,
+            "land_encounter": 0.5951182915563873,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 123.92655811640662,
+            "chidenguele-fan-cowling-recovery": 83.45122772948089,
+            "mauritius-left-flap-recovery": 103.98459306060522,
+            "mossel-bay-engine-cowling-recovery": 30.555065303916184,
+            "paindane-flap-fairing-recovery": 50.299763367110586,
+            "pemba-right-flap-recovery": 87.71821986897764,
+            "reunion-flaperon-recovery": 206.57674077974033,
+            "rodrigues-door-panel-recovery": 101.97817849940816,
+            "vilanculos-stabilizer-recovery": 84.40411372407335
+          },
+          "conditional_isotope_log_compatibility": -9.880319805027804e-07
+        },
+        {
+          "id": "arc-151",
+          "latitude_deg": -30.2036743164063,
+          "longitude_deg": 98.1310729980469,
+          "evidence_log_likelihood": -49.78873688528316,
+          "relative_log_likelihood": -5.566819369878132,
+          "relative_likelihood": 0.003822619456072987,
+          "diagnostic_uniform_cell_mass": 0.0007974399459212115,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.01211117748653985,
+            "outside_spatial_support": 0.008570224229417323,
+            "land_encounter": 0.718331845749581,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 83.36892330755886,
+            "chidenguele-fan-cowling-recovery": 91.9237960660322,
+            "mauritius-left-flap-recovery": 92.91420724787126,
+            "mossel-bay-engine-cowling-recovery": 40.573487033066996,
+            "paindane-flap-fairing-recovery": 74.29080786622691,
+            "pemba-right-flap-recovery": 60.33077243529294,
+            "reunion-flaperon-recovery": 109.8533513402986,
+            "rodrigues-door-panel-recovery": 87.89679068350996,
+            "vilanculos-stabilizer-recovery": 69.56941290721649
+          },
+          "conditional_isotope_log_compatibility": -0.00027383969250807384
+        },
+        {
+          "id": "arc-152",
+          "latitude_deg": -30.7030334472656,
+          "longitude_deg": 97.6808013916016,
+          "evidence_log_likelihood": -44.221917515405025,
+          "relative_log_likelihood": 0.0,
+          "relative_likelihood": 1.0,
+          "diagnostic_uniform_cell_mass": 0.20861086359363354,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.009253506192093293,
+            "outside_spatial_support": 0.008321668068059063,
+            "land_encounter": 0.5722617132734614,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 83.35092205166785,
+            "chidenguele-fan-cowling-recovery": 119.40837075097346,
+            "mauritius-left-flap-recovery": 128.54442983033982,
+            "mossel-bay-engine-cowling-recovery": 16.541770494835717,
+            "paindane-flap-fairing-recovery": 80.85366807977209,
+            "pemba-right-flap-recovery": 100.74347620166924,
+            "reunion-flaperon-recovery": 205.85610390787303,
+            "rodrigues-door-panel-recovery": 166.9523703717045,
+            "vilanculos-stabilizer-recovery": 66.75933910674738
+          },
+          "conditional_isotope_log_compatibility": -5.3668453011882565e-08
+        },
+        {
+          "id": "arc-153",
+          "latitude_deg": -31.1962585449219,
+          "longitude_deg": 97.2194061279297,
+          "evidence_log_likelihood": -44.49838615639503,
+          "relative_log_likelihood": -0.2764686409900037,
+          "relative_likelihood": 0.7584574032320354,
+          "diagnostic_uniform_cell_mass": 0.15822245388721964,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.012008047725464733,
+            "outside_spatial_support": 0.007722947760657201,
+            "land_encounter": 0.6261523080491983,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 97.14726610387346,
+            "chidenguele-fan-cowling-recovery": 105.33823591856815,
+            "mauritius-left-flap-recovery": 86.80894132017211,
+            "mossel-bay-engine-cowling-recovery": 51.82801545503084,
+            "paindane-flap-fairing-recovery": 78.41078464915925,
+            "pemba-right-flap-recovery": 53.08465367594203,
+            "reunion-flaperon-recovery": 212.74756735770518,
+            "rodrigues-door-panel-recovery": 192.97482543159748,
+            "vilanculos-stabilizer-recovery": 80.45503155243313
+          },
+          "conditional_isotope_log_compatibility": -5.521602651681274e-05
+        },
+        {
+          "id": "arc-154",
+          "latitude_deg": -31.6832275390625,
+          "longitude_deg": 96.7467956542969,
+          "evidence_log_likelihood": -44.47956950885764,
+          "relative_log_likelihood": -0.2576519934526118,
+          "relative_likelihood": 0.7728641470955565,
+          "diagnostic_uniform_cell_mass": 0.16122785716616106,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.012004414030689569,
+            "outside_spatial_support": 0.00739960099063973,
+            "land_encounter": 0.6199834952962875,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 97.24873189900305,
+            "chidenguele-fan-cowling-recovery": 107.39694459492645,
+            "mauritius-left-flap-recovery": 117.69535803911583,
+            "mossel-bay-engine-cowling-recovery": 37.450079357232475,
+            "paindane-flap-fairing-recovery": 73.70132128822452,
+            "pemba-right-flap-recovery": 82.25250483749866,
+            "reunion-flaperon-recovery": 319.59856354937483,
+            "rodrigues-door-panel-recovery": 106.04668695541336,
+            "vilanculos-stabilizer-recovery": 61.14960345815512
+          },
+          "conditional_isotope_log_compatibility": -1.5035491194426912e-07
+        },
+        {
+          "id": "arc-155",
+          "latitude_deg": -32.1637268066406,
+          "longitude_deg": 96.2628784179688,
+          "evidence_log_likelihood": -45.038642977623425,
+          "relative_log_likelihood": -0.8167254622184004,
+          "relative_likelihood": 0.4418762284640951,
+          "diagnostic_uniform_cell_mass": 0.09218018162139259,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.011681546811252747,
+            "outside_spatial_support": 0.007077088086467353,
+            "land_encounter": 0.6264527244723287,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 96.66451498334652,
+            "chidenguele-fan-cowling-recovery": 96.47337617203749,
+            "mauritius-left-flap-recovery": 99.86288701663399,
+            "mossel-bay-engine-cowling-recovery": 38.7486175402744,
+            "paindane-flap-fairing-recovery": 90.50198653765642,
+            "pemba-right-flap-recovery": 70.17512795670547,
+            "reunion-flaperon-recovery": 200.17222961107313,
+            "rodrigues-door-panel-recovery": 115.63267087724307,
+            "vilanculos-stabilizer-recovery": 60.89362560448226
+          },
+          "conditional_isotope_log_compatibility": -2.9580780572414134e-05
+        },
+        {
+          "id": "arc-156",
+          "latitude_deg": -32.6375732421875,
+          "longitude_deg": 95.7675476074219,
+          "evidence_log_likelihood": -46.067380307797976,
+          "relative_log_likelihood": -1.8454627923929507,
+          "relative_likelihood": 0.15795220489331488,
+          "diagnostic_uniform_cell_mass": 0.03295054586931297,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.010061958841857982,
+            "outside_spatial_support": 0.007229660395913824,
+            "land_encounter": 0.5851648896000401,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 98.91909457813011,
+            "chidenguele-fan-cowling-recovery": 125.8989341039379,
+            "mauritius-left-flap-recovery": 121.15597919798628,
+            "mossel-bay-engine-cowling-recovery": 12.157592247530433,
+            "paindane-flap-fairing-recovery": 69.543134201742,
+            "pemba-right-flap-recovery": 65.56038137726276,
+            "reunion-flaperon-recovery": 231.92821619106587,
+            "rodrigues-door-panel-recovery": 116.17602052563778,
+            "vilanculos-stabilizer-recovery": 75.42121161838323
+          },
+          "conditional_isotope_log_compatibility": -1.6691904491836427e-06
+        },
+        {
+          "id": "arc-157",
+          "latitude_deg": -33.1045837402344,
+          "longitude_deg": 95.2607421875,
+          "evidence_log_likelihood": -46.93002699657988,
+          "relative_log_likelihood": -2.7081094811748585,
+          "relative_likelihood": 0.06666271477895869,
+          "diagnostic_uniform_cell_mass": 0.013906566499534648,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.008432590557747461,
+            "outside_spatial_support": 0.004804766645924896,
+            "land_encounter": 0.5191548370120211,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 116.34956154497573,
+            "chidenguele-fan-cowling-recovery": 80.32105179739919,
+            "mauritius-left-flap-recovery": 105.64209054581298,
+            "mossel-bay-engine-cowling-recovery": 10.219536291046346,
+            "paindane-flap-fairing-recovery": 38.59605551093988,
+            "pemba-right-flap-recovery": 74.63913302540539,
+            "reunion-flaperon-recovery": 241.8629273629523,
+            "rodrigues-door-panel-recovery": 151.18773163498855,
+            "vilanculos-stabilizer-recovery": 60.676651237203295
+          },
+          "conditional_isotope_log_compatibility": -1.9578986542125357e-05
+        },
+        {
+          "id": "arc-158",
+          "latitude_deg": -33.5645751953125,
+          "longitude_deg": 94.7423553466797,
+          "evidence_log_likelihood": -45.01833174020196,
+          "relative_log_likelihood": -0.7964142247969335,
+          "relative_likelihood": 0.4509430489179373,
+          "diagnostic_uniform_cell_mass": 0.09407161886631703,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.006006014481423802,
+            "outside_spatial_support": 0.004855802672940357,
+            "land_encounter": 0.5379529606007594,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 133.08132311268184,
+            "chidenguele-fan-cowling-recovery": 126.58107085323098,
+            "mauritius-left-flap-recovery": 88.4545635745559,
+            "mossel-bay-engine-cowling-recovery": 24.913290511282597,
+            "paindane-flap-fairing-recovery": 45.85043841030266,
+            "pemba-right-flap-recovery": 84.53341636506536,
+            "reunion-flaperon-recovery": 201.0917066240756,
+            "rodrigues-door-panel-recovery": 124.94391648600963,
+            "vilanculos-stabilizer-recovery": 64.40611150606784
+          },
+          "conditional_isotope_log_compatibility": -8.901034987189467e-05
+        },
+        {
+          "id": "arc-159",
+          "latitude_deg": -34.0173645019531,
+          "longitude_deg": 94.2123565673828,
+          "evidence_log_likelihood": -47.746171876533566,
+          "relative_log_likelihood": -3.5242543611285413,
+          "relative_likelihood": 0.029473775970820265,
+          "diagnostic_uniform_cell_mass": 0.0061485498586381,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.007174836392145516,
+            "outside_spatial_support": 0.005877472165724779,
+            "land_encounter": 0.49946582783643406,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 119.78662703683877,
+            "chidenguele-fan-cowling-recovery": 138.62108346741132,
+            "mauritius-left-flap-recovery": 145.49607343759877,
+            "mossel-bay-engine-cowling-recovery": 5.381294418912505,
+            "paindane-flap-fairing-recovery": 20.792508474520332,
+            "pemba-right-flap-recovery": 108.83868638956687,
+            "reunion-flaperon-recovery": 162.05051413211496,
+            "rodrigues-door-panel-recovery": 112.47067993054564,
+            "vilanculos-stabilizer-recovery": 60.11673510449191
+          },
+          "conditional_isotope_log_compatibility": -6.0851885674611014e-05
+        },
+        {
+          "id": "arc-160",
+          "latitude_deg": -34.4627380371094,
+          "longitude_deg": 93.670654296875,
+          "evidence_log_likelihood": -46.72655651327432,
+          "relative_log_likelihood": -2.504638997869293,
+          "relative_likelihood": 0.08170508837291904,
+          "diagnostic_uniform_cell_mass": 0.017044569045468787,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.009133389080917396,
+            "outside_spatial_support": 0.007497103700128237,
+            "land_encounter": 0.5266863322822819,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 139.54031392308423,
+            "chidenguele-fan-cowling-recovery": 84.43584030224706,
+            "mauritius-left-flap-recovery": 128.53919348888522,
+            "mossel-bay-engine-cowling-recovery": 10.807564518217884,
+            "paindane-flap-fairing-recovery": 42.4904988044533,
+            "pemba-right-flap-recovery": 94.21380485007903,
+            "reunion-flaperon-recovery": 198.05235358727802,
+            "rodrigues-door-panel-recovery": 136.52462037433364,
+            "vilanculos-stabilizer-recovery": 46.044544061298076
+          },
+          "conditional_isotope_log_compatibility": -4.55630781420984e-05
+        },
+        {
+          "id": "arc-161",
+          "latitude_deg": -34.9004821777344,
+          "longitude_deg": 93.1172180175781,
+          "evidence_log_likelihood": -46.2010481797809,
+          "relative_log_likelihood": -1.979130664375873,
+          "relative_likelihood": 0.13818931800513332,
+          "diagnostic_uniform_cell_mass": 0.028827792968466114,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.008561257121790117,
+            "outside_spatial_support": 0.005718559577885621,
+            "land_encounter": 0.5101994438943761,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 85.81241162362808,
+            "chidenguele-fan-cowling-recovery": 116.06056756734851,
+            "mauritius-left-flap-recovery": 139.44871830464237,
+            "mossel-bay-engine-cowling-recovery": 3.9072680514648472,
+            "paindane-flap-fairing-recovery": 33.98758943311482,
+            "pemba-right-flap-recovery": 143.26952929578837,
+            "reunion-flaperon-recovery": 265.92794422578606,
+            "rodrigues-door-panel-recovery": 115.7281850458654,
+            "vilanculos-stabilizer-recovery": 48.09058532026017
+          },
+          "conditional_isotope_log_compatibility": -3.872713813573671e-08
+        },
+        {
+          "id": "arc-162",
+          "latitude_deg": -35.3304443359375,
+          "longitude_deg": 92.552001953125,
+          "evidence_log_likelihood": -47.30223003293602,
+          "relative_log_likelihood": -3.0803125175309987,
+          "relative_likelihood": 0.04594489581975206,
+          "diagnostic_uniform_cell_mass": 0.009584604394678,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.008074856274924642,
+            "outside_spatial_support": 0.00843671168691474,
+            "land_encounter": 0.5250573283926935,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 156.5658039561969,
+            "chidenguele-fan-cowling-recovery": 88.02108231417516,
+            "mauritius-left-flap-recovery": 102.67438007502889,
+            "mossel-bay-engine-cowling-recovery": 8.526069883906608,
+            "paindane-flap-fairing-recovery": 69.39944591967615,
+            "pemba-right-flap-recovery": 94.14171638870776,
+            "reunion-flaperon-recovery": 172.65961340654937,
+            "rodrigues-door-panel-recovery": 109.42401916619646,
+            "vilanculos-stabilizer-recovery": 43.42337771304193
+          },
+          "conditional_isotope_log_compatibility": -2.0725388702529588e-05
+        },
+        {
+          "id": "arc-163",
+          "latitude_deg": -35.7523803710938,
+          "longitude_deg": 91.9749603271484,
+          "evidence_log_likelihood": -45.66800263561149,
+          "relative_log_likelihood": -1.4460851202064617,
+          "relative_likelihood": 0.23549040246824576,
+          "diagnostic_uniform_cell_mass": 0.04912585622691308,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.008458842561256069,
+            "outside_spatial_support": 0.005860415250831328,
+            "land_encounter": 0.5112891998003206,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 93.72988579178204,
+            "chidenguele-fan-cowling-recovery": 115.34515613863279,
+            "mauritius-left-flap-recovery": 148.55346820366012,
+            "mossel-bay-engine-cowling-recovery": 8.861275906557989,
+            "paindane-flap-fairing-recovery": 27.320156018861173,
+            "pemba-right-flap-recovery": 84.13383575811406,
+            "reunion-flaperon-recovery": 224.17334860908255,
+            "rodrigues-door-panel-recovery": 152.84724865636272,
+            "vilanculos-stabilizer-recovery": 52.05566511248993
+          },
+          "conditional_isotope_log_compatibility": -4.879461065451045e-08
+        },
+        {
+          "id": "arc-164",
+          "latitude_deg": -36.1660766601563,
+          "longitude_deg": 91.3860778808594,
+          "evidence_log_likelihood": -51.142960386274524,
+          "relative_log_likelihood": -6.921042870869499,
+          "relative_likelihood": 0.0009868002984474162,
+          "diagnostic_uniform_cell_mass": 0.0002058572624535708,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.006967961782280052,
+            "outside_spatial_support": 0.005179119211135093,
+            "land_encounter": 0.4790412758995726,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 166.80115850504518,
+            "chidenguele-fan-cowling-recovery": 44.90058226542433,
+            "mauritius-left-flap-recovery": 111.75774185446367,
+            "mossel-bay-engine-cowling-recovery": 3.508832034656665,
+            "paindane-flap-fairing-recovery": 11.736492390640901,
+            "pemba-right-flap-recovery": 128.7212303880881,
+            "reunion-flaperon-recovery": 363.57610266115114,
+            "rodrigues-door-panel-recovery": 157.522684784025,
+            "vilanculos-stabilizer-recovery": 46.52749251054208
+          },
+          "conditional_isotope_log_compatibility": -6.0080040071538346e-05
+        },
+        {
+          "id": "arc-165",
+          "latitude_deg": -36.5713806152344,
+          "longitude_deg": 90.7853546142578,
+          "evidence_log_likelihood": -47.923170558725104,
+          "relative_log_likelihood": -3.7012530433200794,
+          "relative_likelihood": 0.024692566221964068,
+          "diagnostic_uniform_cell_mass": 0.005151137563906909,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.004267040296378572,
+            "outside_spatial_support": 0.011424039075467908,
+            "land_encounter": 0.4657403036895879,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 152.4985687152027,
+            "chidenguele-fan-cowling-recovery": 90.85270015582232,
+            "mauritius-left-flap-recovery": 110.9425220051752,
+            "mossel-bay-engine-cowling-recovery": 2.928251375764985,
+            "paindane-flap-fairing-recovery": 13.683222210999727,
+            "pemba-right-flap-recovery": 118.07679063744921,
+            "reunion-flaperon-recovery": 335.9256614615956,
+            "rodrigues-door-panel-recovery": 145.46982374750243,
+            "vilanculos-stabilizer-recovery": 68.83896679970458
+          },
+          "conditional_isotope_log_compatibility": -9.003469876009965e-07
+        },
+        {
+          "id": "arc-166",
+          "latitude_deg": -36.968017578125,
+          "longitude_deg": 90.1728057861328,
+          "evidence_log_likelihood": -48.25864873591307,
+          "relative_log_likelihood": -4.036731220508045,
+          "relative_likelihood": 0.017655088788873282,
+          "diagnostic_uniform_cell_mass": 0.003683043319069133,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.003733331178302107,
+            "outside_spatial_support": 0.008410635799444004,
+            "land_encounter": 0.4636667828022378,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 202.44222524044795,
+            "chidenguele-fan-cowling-recovery": 69.26733275889207,
+            "mauritius-left-flap-recovery": 116.67358628330777,
+            "mossel-bay-engine-cowling-recovery": 4.592734989795949,
+            "paindane-flap-fairing-recovery": 18.265714294214007,
+            "pemba-right-flap-recovery": 149.87596901339825,
+            "reunion-flaperon-recovery": 353.1593319206022,
+            "rodrigues-door-panel-recovery": 128.7191968179941,
+            "vilanculos-stabilizer-recovery": 42.47793934563514
+          },
+          "conditional_isotope_log_compatibility": -8.075140556555638e-11
+        },
+        {
+          "id": "arc-167",
+          "latitude_deg": -37.3558349609375,
+          "longitude_deg": 89.5484313964844,
+          "evidence_log_likelihood": -53.78901962890143,
+          "relative_log_likelihood": -9.567102113496404,
+          "relative_likelihood": 6.999392443297188e-05,
+          "diagnostic_uniform_cell_mass": 1.460149302226979e-05,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.004854164086544734,
+            "outside_spatial_support": 0.009243147618103653,
+            "land_encounter": 0.473232590239637,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 112.90355702128929,
+            "chidenguele-fan-cowling-recovery": 56.6525049439025,
+            "mauritius-left-flap-recovery": 106.26370473339861,
+            "mossel-bay-engine-cowling-recovery": 1.0239329951931706,
+            "paindane-flap-fairing-recovery": 12.036503699196398,
+            "pemba-right-flap-recovery": 86.81012168697168,
+            "reunion-flaperon-recovery": 379.88351987156966,
+            "rodrigues-door-panel-recovery": 124.27856837365205,
+            "vilanculos-stabilizer-recovery": 33.69382865562802
+          },
+          "conditional_isotope_log_compatibility": -2.353561789905639e-12
+        },
+        {
+          "id": "arc-168",
+          "latitude_deg": -37.7345886230469,
+          "longitude_deg": 88.9122772216797,
+          "evidence_log_likelihood": -50.27993462780326,
+          "relative_log_likelihood": -6.0580171123982325,
+          "relative_likelihood": 0.0023390343343905728,
+          "diagnostic_uniform_cell_mass": 0.00048794797247237717,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.003379735893230602,
+            "outside_spatial_support": 0.011999002776934753,
+            "land_encounter": 0.45500414154246965,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 119.62320867199229,
+            "chidenguele-fan-cowling-recovery": 74.89385647569252,
+            "mauritius-left-flap-recovery": 134.1186454968485,
+            "mossel-bay-engine-cowling-recovery": 1.8625986202906109,
+            "paindane-flap-fairing-recovery": 15.03307451288366,
+            "pemba-right-flap-recovery": 106.44145389002416,
+            "reunion-flaperon-recovery": 296.1708423398,
+            "rodrigues-door-panel-recovery": 127.43694107575271,
+            "vilanculos-stabilizer-recovery": 40.68485569897313
+          },
+          "conditional_isotope_log_compatibility": -3.9245273697551666e-12
+        },
+        {
+          "id": "arc-169",
+          "latitude_deg": -38.1040649414063,
+          "longitude_deg": 88.2643890380859,
+          "evidence_log_likelihood": -49.45921514960661,
+          "relative_log_likelihood": -5.237297634201582,
+          "relative_likelihood": 0.00531459943941873,
+          "diagnostic_uniform_cell_mass": 0.001108683178711382,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.003967134193346804,
+            "outside_spatial_support": 0.024273577699752878,
+            "land_encounter": 0.4402931063413378,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 124.41911518721359,
+            "chidenguele-fan-cowling-recovery": 69.7078543430671,
+            "mauritius-left-flap-recovery": 129.8569487148701,
+            "mossel-bay-engine-cowling-recovery": 1.9997708280401645,
+            "paindane-flap-fairing-recovery": 14.017693816015582,
+            "pemba-right-flap-recovery": 178.1379837597135,
+            "reunion-flaperon-recovery": 382.3247483388214,
+            "rodrigues-door-panel-recovery": 96.86001606303796,
+            "vilanculos-stabilizer-recovery": 48.363377870766485
+          },
+          "conditional_isotope_log_compatibility": -7.103384521970288e-08
+        },
+        {
+          "id": "arc-170",
+          "latitude_deg": -38.4640808105469,
+          "longitude_deg": 87.6048278808594,
+          "evidence_log_likelihood": -48.773993806282064,
+          "relative_log_likelihood": -4.552076290877039,
+          "relative_likelihood": 0.01054528655556206,
+          "diagnostic_uniform_cell_mass": 0.002199861335198135,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.0030149069312775,
+            "outside_spatial_support": 0.016294243168313946,
+            "land_encounter": 0.45375944437682325,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 117.1255285090669,
+            "chidenguele-fan-cowling-recovery": 54.38442883371714,
+            "mauritius-left-flap-recovery": 171.35485641236906,
+            "mossel-bay-engine-cowling-recovery": 3.752978514494293,
+            "paindane-flap-fairing-recovery": 12.520355287700655,
+            "pemba-right-flap-recovery": 139.15146979381026,
+            "reunion-flaperon-recovery": 311.46876383427343,
+            "rodrigues-door-panel-recovery": 129.44114634610358,
+            "vilanculos-stabilizer-recovery": 51.631433045755045
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-171",
+          "latitude_deg": -38.8143920898438,
+          "longitude_deg": 86.9337005615234,
+          "evidence_log_likelihood": -63.68854774203899,
+          "relative_log_likelihood": -19.466630226633967,
+          "relative_likelihood": 3.5135805256428587e-09,
+          "diagnostic_uniform_cell_mass": 7.329710677601296e-10,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.0020665322105937545,
+            "outside_spatial_support": 0.04953904790880682,
+            "land_encounter": 0.40290366007898204,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 151.91675199933277,
+            "chidenguele-fan-cowling-recovery": 42.80229524671046,
+            "mauritius-left-flap-recovery": 105.15625233711793,
+            "mossel-bay-engine-cowling-recovery": 1.0000000000005866,
+            "paindane-flap-fairing-recovery": 6.323710155762138,
+            "pemba-right-flap-recovery": 186.70209683870698,
+            "reunion-flaperon-recovery": 328.74711119397335,
+            "rodrigues-door-panel-recovery": 112.13000915243211,
+            "vilanculos-stabilizer-recovery": 32.066000435192464
+          },
+          "conditional_isotope_log_compatibility": -3.488623376968936e-05
+        },
+        {
+          "id": "arc-172",
+          "latitude_deg": -39.15478515625,
+          "longitude_deg": 86.2511138916016,
+          "evidence_log_likelihood": -55.822522386627796,
+          "relative_log_likelihood": -11.600604871222771,
+          "relative_likelihood": 9.16054511000711e-06,
+          "diagnostic_uniform_cell_mass": 1.9109892263870196e-06,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.0019258067033352225,
+            "outside_spatial_support": 0.07635113514792904,
+            "land_encounter": 0.45447641930198174,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 89.1695220049002,
+            "chidenguele-fan-cowling-recovery": 39.32410843882814,
+            "mauritius-left-flap-recovery": 124.64381889186416,
+            "mossel-bay-engine-cowling-recovery": 1.0000000835264673,
+            "paindane-flap-fairing-recovery": 8.683710663290821,
+            "pemba-right-flap-recovery": 149.1734867935324,
+            "reunion-flaperon-recovery": 398.3118883184308,
+            "rodrigues-door-panel-recovery": 113.61404774862731,
+            "vilanculos-stabilizer-recovery": 10.21989334243343
+          },
+          "conditional_isotope_log_compatibility": -3.4227638624982516e-05
+        },
+        {
+          "id": "arc-173",
+          "latitude_deg": -39.4850769042969,
+          "longitude_deg": 85.5571594238281,
+          "evidence_log_likelihood": -66.54060590385664,
+          "relative_log_likelihood": -22.31868838845162,
+          "relative_likelihood": 2.028228073104906e-10,
+          "diagnostic_uniform_cell_mass": 4.2311040989526576e-11,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.0019887476740661682,
+            "outside_spatial_support": 0.0766526945731743,
+            "land_encounter": 0.44645065863252814,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 205.31091289268466,
+            "chidenguele-fan-cowling-recovery": 37.84847285966825,
+            "mauritius-left-flap-recovery": 96.24353205039587,
+            "mossel-bay-engine-cowling-recovery": 1.0000000000000075,
+            "paindane-flap-fairing-recovery": 6.133173404553147,
+            "pemba-right-flap-recovery": 135.7601571285391,
+            "reunion-flaperon-recovery": 304.2089151150617,
+            "rodrigues-door-panel-recovery": 122.49714424953495,
+            "vilanculos-stabilizer-recovery": 33.33102240920656
+          },
+          "conditional_isotope_log_compatibility": -1.993591958381326e-10
+        },
+        {
+          "id": "arc-174",
+          "latitude_deg": -39.8050537109375,
+          "longitude_deg": 84.8520050048828,
+          "evidence_log_likelihood": -78.40026128035866,
+          "relative_log_likelihood": -34.17834376495364,
+          "relative_likelihood": 1.433949649959929e-15,
+          "diagnostic_uniform_cell_mass": 2.991374748279293e-16,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.0004214196377649418,
+            "outside_spatial_support": 0.09013821997974543,
+            "land_encounter": 0.673940934134525,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 171.01553553035444,
+            "chidenguele-fan-cowling-recovery": 14.18990412343259,
+            "mauritius-left-flap-recovery": 70.56190996094548,
+            "mossel-bay-engine-cowling-recovery": 1.02690320078959,
+            "paindane-flap-fairing-recovery": 2.161807244889579,
+            "pemba-right-flap-recovery": 112.54726977206984,
+            "reunion-flaperon-recovery": 234.03977769224292,
+            "rodrigues-door-panel-recovery": 89.75969685522529,
+            "vilanculos-stabilizer-recovery": 7.751772330696238
+          },
+          "conditional_isotope_log_compatibility": -2.671318721816515e-11
+        },
+        {
+          "id": "arc-175",
+          "latitude_deg": -40.1144714355469,
+          "longitude_deg": 84.1358184814453,
+          "evidence_log_likelihood": -64.26009461817533,
+          "relative_log_likelihood": -20.038177102770305,
+          "relative_likelihood": 1.9839478717066653e-09,
+          "diagnostic_uniform_cell_mass": 4.138730788414787e-10,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.0015175578483595448,
+            "outside_spatial_support": 0.09214910141270198,
+            "land_encounter": 0.47998522315816317,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 129.58994661772138,
+            "chidenguele-fan-cowling-recovery": 36.184166219963274,
+            "mauritius-left-flap-recovery": 91.21223538850653,
+            "mossel-bay-engine-cowling-recovery": 1.004425947418865,
+            "paindane-flap-fairing-recovery": 3.963201684245847,
+            "pemba-right-flap-recovery": 160.10478842684702,
+            "reunion-flaperon-recovery": 163.09191490793697,
+            "rodrigues-door-panel-recovery": 102.43216536639898,
+            "vilanculos-stabilizer-recovery": 30.67805644054383
+          },
+          "conditional_isotope_log_compatibility": -5.058990655301278e-06
+        },
+        {
+          "id": "arc-176",
+          "latitude_deg": -40.4131774902344,
+          "longitude_deg": 83.4087829589844,
+          "evidence_log_likelihood": -55.8846330572422,
+          "relative_log_likelihood": -11.662715541837173,
+          "relative_likelihood": 8.608886779061618e-06,
+          "diagnostic_uniform_cell_mass": 1.7959073055598582e-06,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.0009642045612122503,
+            "outside_spatial_support": 0.09056209741044477,
+            "land_encounter": 0.47036729872709715,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 106.20313083461318,
+            "chidenguele-fan-cowling-recovery": 50.54174946705046,
+            "mauritius-left-flap-recovery": 131.5951789580551,
+            "mossel-bay-engine-cowling-recovery": 1.0,
+            "paindane-flap-fairing-recovery": 8.548024518303604,
+            "pemba-right-flap-recovery": 143.55862075371826,
+            "reunion-flaperon-recovery": 228.61778655161572,
+            "rodrigues-door-panel-recovery": 111.06330613827329,
+            "vilanculos-stabilizer-recovery": 26.469404905650467
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-177",
+          "latitude_deg": -40.7008972167969,
+          "longitude_deg": 82.6710968017578,
+          "evidence_log_likelihood": -79.60880576293198,
+          "relative_log_likelihood": -35.386888247526954,
+          "relative_likelihood": 4.2822271670260183e-16,
+          "diagnostic_uniform_cell_mass": 8.933191074174165e-17,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.0004102054370162593,
+            "outside_spatial_support": 0.0879936753074784,
+            "land_encounter": 0.6915776388626066,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 182.7716123315525,
+            "chidenguele-fan-cowling-recovery": 15.073152218517093,
+            "mauritius-left-flap-recovery": 58.526364863288876,
+            "mossel-bay-engine-cowling-recovery": 1.0,
+            "paindane-flap-fairing-recovery": 3.679990613894666,
+            "pemba-right-flap-recovery": 72.22122517025956,
+            "reunion-flaperon-recovery": 106.12836988618805,
+            "rodrigues-door-panel-recovery": 83.17376378257177,
+            "vilanculos-stabilizer-recovery": 7.670819548044766
+          },
+          "conditional_isotope_log_compatibility": -0.00011007255455626958
+        },
+        {
+          "id": "arc-178",
+          "latitude_deg": -40.9774780273438,
+          "longitude_deg": 81.9230041503906,
+          "evidence_log_likelihood": -88.68644203063612,
+          "relative_log_likelihood": -44.46452451523109,
+          "relative_likelihood": 4.8899268518343847e-20,
+          "diagnostic_uniform_cell_mass": 1.0200918634708687e-20,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.00011729971216569683,
+            "outside_spatial_support": 0.08974995805160327,
+            "land_encounter": 0.7776587554631627,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 77.01482972359405,
+            "chidenguele-fan-cowling-recovery": 6.8474214872445165,
+            "mauritius-left-flap-recovery": 43.88436607052299,
+            "mossel-bay-engine-cowling-recovery": 1.0,
+            "paindane-flap-fairing-recovery": 1.3388604955058732,
+            "pemba-right-flap-recovery": 77.96093658475259,
+            "reunion-flaperon-recovery": 34.96988902983595,
+            "rodrigues-door-panel-recovery": 63.38703080308014,
+            "vilanculos-stabilizer-recovery": 6.41056404620114
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-179",
+          "latitude_deg": -41.2427368164063,
+          "longitude_deg": 81.1647644042969,
+          "evidence_log_likelihood": -98.84117530999212,
+          "relative_log_likelihood": -54.6192577945871,
+          "relative_likelihood": 1.901768869969748e-24,
+          "diagnostic_uniform_cell_mass": 3.9672964631987765e-25,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 3.947052139238423e-05,
+            "outside_spatial_support": 0.09389217298718892,
+            "land_encounter": 0.8347344035240327,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 75.96471685684143,
+            "chidenguele-fan-cowling-recovery": 5.117597914028903,
+            "mauritius-left-flap-recovery": 26.20986805199015,
+            "mossel-bay-engine-cowling-recovery": 1.066313027820616,
+            "paindane-flap-fairing-recovery": 1.4348878411485897,
+            "pemba-right-flap-recovery": 26.382259516713717,
+            "reunion-flaperon-recovery": 6.363548335970592,
+            "rodrigues-door-panel-recovery": 7.859388572597832,
+            "vilanculos-stabilizer-recovery": 2.8772944887396026
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-180",
+          "latitude_deg": -41.4964294433594,
+          "longitude_deg": 80.3966522216797,
+          "evidence_log_likelihood": -80.69601300335253,
+          "relative_log_likelihood": -36.47409548794751,
+          "relative_likelihood": 1.4437819139689608e-16,
+          "diagnostic_uniform_cell_mass": 3.0118859191393406e-17,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.0006160886528419714,
+            "outside_spatial_support": 0.09228388701871164,
+            "land_encounter": 0.7092903731478748,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 169.08517726994157,
+            "chidenguele-fan-cowling-recovery": 5.213277280532655,
+            "mauritius-left-flap-recovery": 61.26638717284038,
+            "mossel-bay-engine-cowling-recovery": 1.3187570619313778,
+            "paindane-flap-fairing-recovery": 1.253237730866173,
+            "pemba-right-flap-recovery": 82.30000561322402,
+            "reunion-flaperon-recovery": 26.57105399191213,
+            "rodrigues-door-panel-recovery": 47.090900524647175,
+            "vilanculos-stabilizer-recovery": 3.936946034125268
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-181",
+          "latitude_deg": -41.7383728027344,
+          "longitude_deg": 79.6189727783203,
+          "evidence_log_likelihood": -84.09078046430318,
+          "relative_log_likelihood": -39.868862948898155,
+          "relative_likelihood": 4.843650756818202e-18,
+          "diagnostic_uniform_cell_mass": 1.0104381673258018e-18,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.0002406704744977037,
+            "outside_spatial_support": 0.0926145284485807,
+            "land_encounter": 0.7734382890983058,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 44.97120276855769,
+            "chidenguele-fan-cowling-recovery": 4.129532104802181,
+            "mauritius-left-flap-recovery": 42.46578777928835,
+            "mossel-bay-engine-cowling-recovery": 1.962725623879721,
+            "paindane-flap-fairing-recovery": 1.9048214656366014,
+            "pemba-right-flap-recovery": 38.79825361166275,
+            "reunion-flaperon-recovery": 41.43059258936854,
+            "rodrigues-door-panel-recovery": 29.17044275211863,
+            "vilanculos-stabilizer-recovery": 2.600955111308031
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-182",
+          "latitude_deg": -41.9684143066406,
+          "longitude_deg": 78.83203125,
+          "evidence_log_likelihood": -78.59542416640842,
+          "relative_log_likelihood": -34.373506651003396,
+          "relative_likelihood": 1.1797112957306889e-15,
+          "diagnostic_uniform_cell_mass": 2.461005921935434e-16,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.00034404420303327135,
+            "outside_spatial_support": 0.09135579668893612,
+            "land_encounter": 0.7132574836083122,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 123.96277736848421,
+            "chidenguele-fan-cowling-recovery": 17.54505935893261,
+            "mauritius-left-flap-recovery": 51.510273010080724,
+            "mossel-bay-engine-cowling-recovery": 1.9796371121676843,
+            "paindane-flap-fairing-recovery": 1.0436854589783142,
+            "pemba-right-flap-recovery": 67.98081595662553,
+            "reunion-flaperon-recovery": 55.79112441516145,
+            "rodrigues-door-panel-recovery": 78.07418921490107,
+            "vilanculos-stabilizer-recovery": 1.571728729308154
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-183",
+          "latitude_deg": -42.1863708496094,
+          "longitude_deg": 78.0362091064453,
+          "evidence_log_likelihood": -114.76369458318696,
+          "relative_log_likelihood": -70.54177706778194,
+          "relative_likelihood": 2.312573133111045e-31,
+          "diagnostic_uniform_cell_mass": 4.8242787842173e-32,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 1.3294456298818456e-05,
+            "outside_spatial_support": 0.2189976652256168,
+            "land_encounter": 0.7228298537670071,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 19.513671817102267,
+            "chidenguele-fan-cowling-recovery": 1.975803789046765,
+            "mauritius-left-flap-recovery": 2.8019460256817874,
+            "mossel-bay-engine-cowling-recovery": 1.008033593973326,
+            "paindane-flap-fairing-recovery": 1.0000000002748484,
+            "pemba-right-flap-recovery": 2.1633234102293444,
+            "reunion-flaperon-recovery": 2.0014022509057234,
+            "rodrigues-door-panel-recovery": 2.7455949703119087,
+            "vilanculos-stabilizer-recovery": 2.000144036169492
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-184",
+          "latitude_deg": -42.3920288085938,
+          "longitude_deg": 77.2318725585938,
+          "evidence_log_likelihood": -179.64575796779826,
+          "relative_log_likelihood": -135.42384045239322,
+          "relative_likelihood": 1.5352297348768934e-59,
+          "diagnostic_uniform_cell_mass": 3.202656008072938e-60,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.0,
+            "outside_spatial_support": 0.12674617472557914,
+            "land_encounter": 0.8290411065265353,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 2.1364216221741623,
+            "chidenguele-fan-cowling-recovery": 1.047338355191147,
+            "mauritius-left-flap-recovery": 0.0,
+            "mossel-bay-engine-cowling-recovery": 0.0,
+            "paindane-flap-fairing-recovery": 0.0,
+            "pemba-right-flap-recovery": 0.0,
+            "reunion-flaperon-recovery": 0.0,
+            "rodrigues-door-panel-recovery": 0.0,
+            "vilanculos-stabilizer-recovery": 0.0
+          },
+          "conditional_isotope_log_compatibility": -1.6386891843468653e-13
+        },
+        {
+          "id": "arc-185",
+          "latitude_deg": -42.5852661132813,
+          "longitude_deg": 76.4194183349609,
+          "evidence_log_likelihood": -169.9092484877013,
+          "relative_log_likelihood": -125.68733097229627,
+          "relative_likelihood": 2.59827858321928e-55,
+          "diagnostic_uniform_cell_mass": 5.4202913910221665e-56,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.0,
+            "outside_spatial_support": 0.1496837143255659,
+            "land_encounter": 0.8022089717100092,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 2.407853210850927,
+            "chidenguele-fan-cowling-recovery": 1.0000000132304219,
+            "mauritius-left-flap-recovery": 1.867737291061382,
+            "mossel-bay-engine-cowling-recovery": 0.0,
+            "paindane-flap-fairing-recovery": 1.0109799662709253,
+            "pemba-right-flap-recovery": 1.3011754805865408,
+            "reunion-flaperon-recovery": 0.0,
+            "rodrigues-door-panel-recovery": 1.5019888451511494,
+            "vilanculos-stabilizer-recovery": 1.5805418466221695
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-186",
+          "latitude_deg": -42.7659301757813,
+          "longitude_deg": 75.5992584228516,
+          "evidence_log_likelihood": -167.83149931733723,
+          "relative_log_likelihood": -123.60958180193221,
+          "relative_likelihood": 2.0751080398945457e-54,
+          "diagnostic_uniform_cell_mass": 4.3289008025249336e-55,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.0,
+            "outside_spatial_support": 0.20107235631157697,
+            "land_encounter": 0.7542479601924952,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 2.1566992329177004,
+            "chidenguele-fan-cowling-recovery": 1.0,
+            "mauritius-left-flap-recovery": 3.313150726252764,
+            "mossel-bay-engine-cowling-recovery": 0.0,
+            "paindane-flap-fairing-recovery": 1.0000983300353707,
+            "pemba-right-flap-recovery": 0.0,
+            "reunion-flaperon-recovery": 1.1150476906022386,
+            "rodrigues-door-panel-recovery": 1.682244278701546,
+            "vilanculos-stabilizer-recovery": 1.0000000003647036
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-187",
+          "latitude_deg": -42.933837890625,
+          "longitude_deg": 74.7718505859375,
+          "evidence_log_likelihood": -132.8890635260361,
+          "relative_log_likelihood": -88.66714601063107,
+          "relative_likelihood": 3.107046560998933e-39,
+          "diagnostic_uniform_cell_mass": 6.481636663156166e-40,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.00018701808480516366,
+            "outside_spatial_support": 0.13671960397074534,
+            "land_encounter": 0.8322873985839991,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 7.13920656676098,
+            "chidenguele-fan-cowling-recovery": 1.3969924310141144,
+            "mauritius-left-flap-recovery": 5.6054099670066195,
+            "mossel-bay-engine-cowling-recovery": 0.0,
+            "paindane-flap-fairing-recovery": 1.0,
+            "pemba-right-flap-recovery": 2.922237224305165,
+            "reunion-flaperon-recovery": 1.4221848190788826,
+            "rodrigues-door-panel-recovery": 2.380809289406352,
+            "vilanculos-stabilizer-recovery": 1.0000101975565172
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-188",
+          "latitude_deg": -43.0888671875,
+          "longitude_deg": 73.9376373291016,
+          "evidence_log_likelihood": -75.8174650159102,
+          "relative_log_likelihood": -31.595547500505177,
+          "relative_likelihood": 1.897702229483159e-14,
+          "diagnostic_uniform_cell_mass": 3.958813009360455e-15,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.0006141866408244631,
+            "outside_spatial_support": 0.09907586055367017,
+            "land_encounter": 0.6058079276831317,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 84.89004017763536,
+            "chidenguele-fan-cowling-recovery": 20.541937091092937,
+            "mauritius-left-flap-recovery": 87.68784989069188,
+            "mossel-bay-engine-cowling-recovery": 1.067039589824764,
+            "paindane-flap-fairing-recovery": 5.050686756136742,
+            "pemba-right-flap-recovery": 94.11882244062609,
+            "reunion-flaperon-recovery": 29.52156002264473,
+            "rodrigues-door-panel-recovery": 99.65097876667114,
+            "vilanculos-stabilizer-recovery": 7.233817014090159
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-189",
+          "latitude_deg": -43.2308654785156,
+          "longitude_deg": 73.0971374511719,
+          "evidence_log_likelihood": -117.08022624465052,
+          "relative_log_likelihood": -72.8583087292455,
+          "relative_likelihood": 2.2805445372187072e-32,
+          "diagnostic_uniform_cell_mass": 4.757463653729378e-33,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.00010772457596805088,
+            "outside_spatial_support": 0.0988480099420288,
+            "land_encounter": 0.8498849133337443,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 17.38188193604547,
+            "chidenguele-fan-cowling-recovery": 1.0052739515347842,
+            "mauritius-left-flap-recovery": 10.73211896923993,
+            "mossel-bay-engine-cowling-recovery": 1.5615025869473582,
+            "paindane-flap-fairing-recovery": 1.0514770374790565,
+            "pemba-right-flap-recovery": 22.03647876803318,
+            "reunion-flaperon-recovery": 1.1913745292639013,
+            "rodrigues-door-panel-recovery": 22.272274484763418,
+            "vilanculos-stabilizer-recovery": 1.0034620001496115
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-190",
+          "latitude_deg": -43.3597106933594,
+          "longitude_deg": 72.2508239746094,
+          "evidence_log_likelihood": -116.41147635646382,
+          "relative_log_likelihood": -72.1895588410588,
+          "relative_likelihood": 4.451157322115368e-32,
+          "diagnostic_uniform_cell_mass": 9.285597729576121e-33,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.0,
+            "outside_spatial_support": 0.25017133908512834,
+            "land_encounter": 0.6977219909337906,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 3.663516299895733,
+            "chidenguele-fan-cowling-recovery": 5.868076303150978,
+            "mauritius-left-flap-recovery": 11.567353974029388,
+            "mossel-bay-engine-cowling-recovery": 1.09425185176857,
+            "paindane-flap-fairing-recovery": 2.437430395615583,
+            "pemba-right-flap-recovery": 10.195343297920793,
+            "reunion-flaperon-recovery": 1.000000021157522,
+            "rodrigues-door-panel-recovery": 4.715494366929352,
+            "vilanculos-stabilizer-recovery": 1.9090462071186818
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-191",
+          "latitude_deg": -43.475341796875,
+          "longitude_deg": 71.3992309570313,
+          "evidence_log_likelihood": -114.23913218526356,
+          "relative_log_likelihood": -70.01721466985853,
+          "relative_likelihood": 3.9075993675949795e-31,
+          "diagnostic_uniform_cell_mass": 8.15167678651925e-32,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 0.00028499195998407136,
+            "outside_spatial_support": 0.2297626025176602,
+            "land_encounter": 0.6888417183011116,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 11.382155116644968,
+            "chidenguele-fan-cowling-recovery": 2.0907216784957656,
+            "mauritius-left-flap-recovery": 24.172413554382608,
+            "mossel-bay-engine-cowling-recovery": 1.000007872163635,
+            "paindane-flap-fairing-recovery": 1.018823842890355,
+            "pemba-right-flap-recovery": 30.180184724701405,
+            "reunion-flaperon-recovery": 1.9717816890207471,
+            "rodrigues-door-panel-recovery": 28.631402404916223,
+            "vilanculos-stabilizer-recovery": 1.915722265101867
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        },
+        {
+          "id": "arc-192",
+          "latitude_deg": -43.5775756835938,
+          "longitude_deg": 70.5429229736328,
+          "evidence_log_likelihood": -87.26768472578237,
+          "relative_log_likelihood": -43.04576721037735,
+          "relative_likelihood": 2.0205091952621283e-19,
+          "diagnostic_uniform_cell_mass": 4.215001681225101e-20,
+          "source_prior_weight_removed": 0.012987012987012988,
+          "status": "supported",
+          "termination_reason_fractions": {
+            "missing_field_coverage": 5.2497507372495663e-05,
+            "outside_spatial_support": 0.12568969790911452,
+            "land_encounter": 0.7552233842302389,
+            "beaching": 0.0,
+            "outside_time_support": 0.0,
+            "numerical_failure": 0.0
+          },
+          "event_effective_sample_size": {
+            "antsiraka-cabin-panel-recovery": 47.91924757745861,
+            "chidenguele-fan-cowling-recovery": 5.2830856450830606,
+            "mauritius-left-flap-recovery": 46.33653980523636,
+            "mossel-bay-engine-cowling-recovery": 1.0439494240740115,
+            "paindane-flap-fairing-recovery": 1.2986499681090524,
+            "pemba-right-flap-recovery": 35.97560239885208,
+            "reunion-flaperon-recovery": 6.83157057093681,
+            "rodrigues-door-panel-recovery": 25.924541440982367,
+            "vilanculos-stabilizer-recovery": 3.2597872807610315
+          },
+          "conditional_isotope_log_compatibility": 0.0
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+# Stand-in input override: the union of searched areas' own ocean-infinity-2018.toml and ocean-infinity-2025.toml
+# (all campaigns listed, as their files do; arrays replace). Values copied verbatim from those two files.
+[[hypotheses.seabed-search.campaigns]]
+name = "phase2-2014-2017"
+layer = "phase2"
+detection_probability = 0.945
+
+[[hypotheses.seabed-search.campaigns]]
+name = "bluefin-2014"
+layer = "bluefin-2014"
+detection_probability = 0.9
+
+[[hypotheses.seabed-search.campaigns]]
+name = "ocean-infinity-2018"
+layer_file = "hypotheses/seabed-search/coverage/ocean-infinity-2018.cov"
+detection_probability = 0.9
+coverage_fraction = 0.889
+
+[[hypotheses.seabed-search.campaigns]]
+name = "ocean-infinity-2025"
+layer_file = "hypotheses/seabed-search/coverage/ocean-infinity-2025.cov"
+detection_probability = 0.9
+coverage_fraction = 0.7808

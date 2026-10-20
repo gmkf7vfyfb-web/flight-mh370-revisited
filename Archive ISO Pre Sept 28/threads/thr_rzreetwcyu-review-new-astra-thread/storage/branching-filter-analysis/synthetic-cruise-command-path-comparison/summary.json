@@ -1,0 +1,475 @@
+{
+  "status": "completed",
+  "updated_utc": "2026-09-09T18:13:34.880233+00:00",
+  "completed_data_sets": 4,
+  "planned_data_sets": 4,
+  "initial_candidates_per_run": 20000,
+  "design_sha256": "075c85285d0b6194600709991a08f360488ac5a46741448755b1852caf1e1c14",
+  "executable_sha256": "07c4a95537258213913ba915e32e5bbd54b2794803bfbd834118190354690b33",
+  "report_source_sha256": "3323e9744a1c0ddd92e64ebd843eefa9cef0b54158da025bc4d2d0b1f508689a",
+  "summaries": [
+    {
+      "replicate": 0,
+      "coordinate": "latitude",
+      "total_data_sets": 4,
+      "computed_posteriors": 4,
+      "uncomputed_posteriors": 0,
+      "intervals": [
+        {
+          "nominal_mass": 0.5,
+          "inside": 2,
+          "wilson95_fraction_among_computed": [
+            0.15003898915214947,
+            0.8499610108478506
+          ]
+        },
+        {
+          "nominal_mass": 0.9,
+          "inside": 2,
+          "wilson95_fraction_among_computed": [
+            0.15003898915214947,
+            0.8499610108478506
+          ]
+        }
+      ]
+    },
+    {
+      "replicate": 0,
+      "coordinate": "longitude",
+      "total_data_sets": 4,
+      "computed_posteriors": 4,
+      "uncomputed_posteriors": 0,
+      "intervals": [
+        {
+          "nominal_mass": 0.5,
+          "inside": 1,
+          "wilson95_fraction_among_computed": [
+            0.04558726080970055,
+            0.6993581574175981
+          ]
+        },
+        {
+          "nominal_mass": 0.9,
+          "inside": 3,
+          "wilson95_fraction_among_computed": [
+            0.30064184258240184,
+            0.9544127391902995
+          ]
+        }
+      ]
+    },
+    {
+      "replicate": 1,
+      "coordinate": "latitude",
+      "total_data_sets": 4,
+      "computed_posteriors": 4,
+      "uncomputed_posteriors": 0,
+      "intervals": [
+        {
+          "nominal_mass": 0.5,
+          "inside": 1,
+          "wilson95_fraction_among_computed": [
+            0.04558726080970055,
+            0.6993581574175981
+          ]
+        },
+        {
+          "nominal_mass": 0.9,
+          "inside": 2,
+          "wilson95_fraction_among_computed": [
+            0.15003898915214947,
+            0.8499610108478506
+          ]
+        }
+      ]
+    },
+    {
+      "replicate": 1,
+      "coordinate": "longitude",
+      "total_data_sets": 4,
+      "computed_posteriors": 4,
+      "uncomputed_posteriors": 0,
+      "intervals": [
+        {
+          "nominal_mass": 0.5,
+          "inside": 0,
+          "wilson95_fraction_among_computed": [
+            0.0,
+            0.4898908364545973
+          ]
+        },
+        {
+          "nominal_mass": 0.9,
+          "inside": 4,
+          "wilson95_fraction_among_computed": [
+            0.5101091635454027,
+            1.0
+          ]
+        }
+      ]
+    }
+  ],
+  "data_sets": [
+    {
+      "truth_seed": 37092100,
+      "truth_coordinates_deg": [
+        18.07625107500884,
+        91.11744289164545
+      ],
+      "generating_mode": "constant_magnetic_track",
+      "generating_limited_manoeuvre_counts": [
+        16,
+        8,
+        8
+      ],
+      "truth_sha256": "0dc87df727b9cef7fda627938b41877be5ccbfa4e92df06d86665f367d86d407",
+      "replicates": [
+        {
+          "cdf_at_truth": [
+            0.5324205235691476,
+            0.4608970316071878
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              7.5924639492,
+              16.7182935092,
+              21.3363700764
+            ],
+            [
+              88.9104748017,
+              92.0369648232,
+              95.2926776895
+            ]
+          ],
+          "largest_ancestor_mass": 0.479677191541654,
+          "weighted_row_effective_count": 8.104626541997362,
+          "elapsed_seconds": 82.401579423,
+          "log_evidence": -122.61166996232714,
+          "posterior_sha256": "fe85c9e78efb8bdf4aaa1a1312be70752dfadd816acfb9589dcb27c56a15f909"
+        },
+        {
+          "cdf_at_truth": [
+            0.8583176434232597,
+            0.13782597590384107
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              -2.1180026472,
+              15.037843347,
+              20.581238961
+            ],
+            [
+              89.4876277873,
+              92.7870863631,
+              95.8920019741
+            ]
+          ],
+          "largest_ancestor_mass": 0.9995001880055682,
+          "weighted_row_effective_count": 36.02187723168318,
+          "elapsed_seconds": 76.454950586,
+          "log_evidence": -115.23691446623816,
+          "posterior_sha256": "c48421156354b072a0ae20c668251f91e25555215574606df2576063ab19f271"
+        }
+      ],
+      "independent_maximum_coordinate_cdf_difference": [
+        0.3335124702693937,
+        0.330847727410546
+      ],
+      "pooled_cdf_at_truth": [
+        0.8581134730419742,
+        0.13802837579204744
+      ],
+      "reference_pair_cdf_difference": [
+        0.47102841541436513,
+        0.4691941209947744
+      ],
+      "reference_pooled_cdf_at_truth": [
+        0.33120739496965906,
+        0.6502050640834045
+      ],
+      "additional_reference_pair_cdf_difference": [
+        0.40696413748331384,
+        0.3251109528938963
+      ],
+      "additional_reference_pooled_cdf_at_truth": [
+        0.975114661878385,
+        0.011105435582478496
+      ]
+    },
+    {
+      "truth_seed": 37092102,
+      "truth_coordinates_deg": [
+        21.1847985408742,
+        60.17448649414652
+      ],
+      "generating_mode": "lateral_navigation",
+      "generating_limited_manoeuvre_counts": [
+        1,
+        2,
+        0
+      ],
+      "truth_sha256": "2b474b3d52a1547bff608fe851c4f99e554ea9bc223c02a9a7e0ad67664acfa0",
+      "replicates": [
+        {
+          "cdf_at_truth": [
+            0.9649049226225733,
+            0.9102243264528788
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              19.2701517786,
+              20.2083599505,
+              20.93083207
+            ],
+            [
+              55.4559984228,
+              56.8959548643,
+              72.7303903799
+            ]
+          ],
+          "largest_ancestor_mass": 0.4698888533136058,
+          "weighted_row_effective_count": 156.71517878785505,
+          "elapsed_seconds": 34.353494431,
+          "log_evidence": -90.55395433209975,
+          "posterior_sha256": "1d286b768f589f27128b9cade356a165f2b2367d3412a8ab4dc00146816e13db"
+        },
+        {
+          "cdf_at_truth": [
+            0.9719505878548764,
+            0.8905249716091121
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              16.180918748,
+              20.2997221447,
+              20.9438129409
+            ],
+            [
+              55.5167782134,
+              57.1291911672,
+              78.7634148206
+            ]
+          ],
+          "largest_ancestor_mass": 0.28352604509663754,
+          "weighted_row_effective_count": 113.0251529893915,
+          "elapsed_seconds": 33.181541258,
+          "log_evidence": -89.81685356932643,
+          "posterior_sha256": "2196de2e2b9cd2f3daed4e5db2de718ee4e8e6b94e7b41e2c3c2333de10d5a7f"
+        }
+      ],
+      "independent_maximum_coordinate_cdf_difference": [
+        0.17279471393276497,
+        0.1665734045146077
+      ],
+      "pooled_cdf_at_truth": [
+        0.96967033966458,
+        0.8969004403195127
+      ],
+      "reference_pair_cdf_difference": [
+        0.23506937396399158,
+        0.18223032485688284
+      ],
+      "reference_pooled_cdf_at_truth": [
+        0.9571424176274725,
+        0.8549535843099674
+      ],
+      "additional_reference_pair_cdf_difference": [
+        0.1475891707785623,
+        0.11769212386053512
+      ],
+      "additional_reference_pooled_cdf_at_truth": [
+        0.9693355120078331,
+        0.9031801675964739
+      ]
+    },
+    {
+      "truth_seed": 37092104,
+      "truth_coordinates_deg": [
+        26.979984744855653,
+        62.039914515326444
+      ],
+      "generating_mode": "constant_magnetic_heading",
+      "generating_limited_manoeuvre_counts": [
+        0,
+        0,
+        2
+      ],
+      "truth_sha256": "f39ea844924cc4ae6f80d026652c2d1ae2a759506d2601c0d11e7e5194596074",
+      "replicates": [
+        {
+          "cdf_at_truth": [
+            0.6489963520260461,
+            0.9105511795807659
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              26.7648067133,
+              26.9417794375,
+              27.0855504172
+            ],
+            [
+              60.3811070183,
+              61.4636728328,
+              62.2345990518
+            ]
+          ],
+          "largest_ancestor_mass": 0.06774628098893785,
+          "weighted_row_effective_count": 983.9244965453614,
+          "elapsed_seconds": 25.187816988,
+          "log_evidence": -81.5380904507488,
+          "posterior_sha256": "5b3194e4ca7a31181324599e393c5259af01b12a69d41ef13906a79dc30f3ee7"
+        },
+        {
+          "cdf_at_truth": [
+            0.7460079078480736,
+            0.9382357730364624
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              26.768653495,
+              26.9167131912,
+              27.06611445
+            ],
+            [
+              60.3099719839,
+              61.1313922947,
+              62.1184630347
+            ]
+          ],
+          "largest_ancestor_mass": 0.13790124366354098,
+          "weighted_row_effective_count": 1094.465369408349,
+          "elapsed_seconds": 25.151002075,
+          "log_evidence": -81.27047695803302,
+          "posterior_sha256": "bd2e1b852af7bba0eb11b6fddab2510b5b855e6458be2ac02eb4ce73897a2915"
+        }
+      ],
+      "independent_maximum_coordinate_cdf_difference": [
+        0.13059595328357532,
+        0.17668126388906458
+      ],
+      "pooled_cdf_at_truth": [
+        0.703954070433117,
+        0.9262346935545407
+      ],
+      "reference_pair_cdf_difference": [
+        0.11254850643620651,
+        0.052440307443249456
+      ],
+      "reference_pooled_cdf_at_truth": [
+        0.6825784780421698,
+        0.9002561630543484
+      ],
+      "additional_reference_pair_cdf_difference": [
+        0.1632156949934282,
+        0.18425205394118266
+      ],
+      "additional_reference_pooled_cdf_at_truth": [
+        0.6286050655714981,
+        0.9340264288551093
+      ]
+    },
+    {
+      "truth_seed": 37092106,
+      "truth_coordinates_deg": [
+        -15.31050154442958,
+        87.07836821669497
+      ],
+      "generating_mode": "constant_magnetic_heading",
+      "generating_limited_manoeuvre_counts": [
+        16,
+        8,
+        8
+      ],
+      "truth_sha256": "f21650ddfe650d0e1bf84f71384b85ba473daf0ae831959f9a31f948a0c75365",
+      "replicates": [
+        {
+          "cdf_at_truth": [
+            1.8353546342349175e-84,
+            0.008515756389644606
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              -11.7134294136,
+              -8.2419907077,
+              11.5293356403
+            ],
+            [
+              88.6968334039,
+              90.5389773201,
+              91.7483588165
+            ]
+          ],
+          "largest_ancestor_mass": 0.5379555283498502,
+          "weighted_row_effective_count": 3.624288280745777,
+          "elapsed_seconds": 78.41292325,
+          "log_evidence": -110.42641347323193,
+          "posterior_sha256": "87ad4febd57f98edb01f190b99228ab98e77a1c99ce1ed0f61cc497157c6b19f"
+        },
+        {
+          "cdf_at_truth": [
+            0.030630451621547903,
+            0.06951729151713201
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              -12.8973656463,
+              -7.669914512,
+              15.8078003244
+            ],
+            [
+              86.5384679054,
+              90.1926658813,
+              91.8801299346
+            ]
+          ],
+          "largest_ancestor_mass": 0.48772389106891384,
+          "weighted_row_effective_count": 51.027557547165955,
+          "elapsed_seconds": 82.563339125,
+          "log_evidence": -110.47935018282546,
+          "posterior_sha256": "30bb2e1788810f560d0b55dcb4061943fa3deb1089ccebbc145311571f644c66"
+        }
+      ],
+      "independent_maximum_coordinate_cdf_difference": [
+        0.3046203940299987,
+        0.4394107252194655
+      ],
+      "pooled_cdf_at_truth": [
+        0.014909951617296616,
+        0.03820940728873293
+      ],
+      "reference_pair_cdf_difference": [
+        0.4452989842132363,
+        0.35715525658878694
+      ],
+      "reference_pooled_cdf_at_truth": [
+        2.0058878795427176e-11,
+        0.0011719004699327358
+      ],
+      "additional_reference_pair_cdf_difference": [
+        0.6810743242095529,
+        0.5271548455415738
+      ],
+      "additional_reference_pooled_cdf_at_truth": [
+        0.0004949767137731599,
+        0.00650999422845605
+      ]
+    }
+  ],
+  "scope": "Prior-predictive numerical control; fuel envelope conditioned; no accident calibration; coordinate intervals are not joint geographic areas",
+  "method_reference": {
+    "url": "https://sites.stat.columbia.edu/gelman/research/unpublished/sbc.pdf",
+    "locator": "pp. 3\u20135: prior-predictive repetition, empirical CDF limitations and computational scope"
+  },
+  "limitations": [
+    "Only 4 generated data sets in this comparison; binomial uncertainty is substantial.",
+    "Weighted interacting particle rows are not independent posterior draws; these CDF diagnostics are not an exact independent-rank SBC test.",
+    "Generator shares flight and SATCOM equations with inference. Independent physical and equation checks remain necessary.",
+    "Generating routes were accepted by an independent uniform draw against the same remaining-fuel-envelope probability used in inference. Acceptance uses no SATCOM measurement or noise value. This checks computation conditional on that envelope, not the physical validity of the fuel model or an exact exhaustion trajectory.",
+    "The accident-specific initial proposal is disabled for this control. A single proposal-component choice covers all commands until the next physical contact. The complete mixture density is compensated once; event-time corrections stay separate. The command factor is bounded by5 perinterval, not percommand; this does not bound posterior concentration."
+  ],
+  "reference_summary": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-comparison/summary.json",
+  "reference_summary_sha256": "a278a0eb630ebef856a630907d0987dce5f63a4fff8e858eea6c9a32deca5227",
+  "reference_candidates_per_run": 20000,
+  "additional_reference_summary": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-unguided-comparison/summary.json",
+  "additional_reference_summary_sha256": "e02e0ddf4dbe6eb4beee3cd648db86155994cee8fda9787774ffb7f8b7b23eba"
+}

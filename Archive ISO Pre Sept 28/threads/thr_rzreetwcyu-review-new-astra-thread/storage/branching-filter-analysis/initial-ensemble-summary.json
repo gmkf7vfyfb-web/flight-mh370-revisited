@@ -1,0 +1,435 @@
+{
+  "generated_utc": "2026-09-09T06:31:28.386825+00:00",
+  "status": "provisional conditional PDF; convergence uncertainty reported without a five-point veto",
+  "runs": [
+    {
+      "name": "fuel-initial-proposal-85000-seed-37091631",
+      "seed": 37091631,
+      "initial_candidates": 85000,
+      "elapsed_seconds": 233.015369074,
+      "log_evidence": -87.76260944620599,
+      "pooling_fraction": 0.40501446933915586,
+      "regions": {
+        "south_of_35S": 0.9269135734499668,
+        "between_35S_and_38S": 0.9179423057974734,
+        "north_of_35S": 0.07308642655003317,
+        "north_of_30S": 0.011233222711921051,
+        "south_of_38S": 0.00897126765249354
+      },
+      "largest_ancestry_fraction": 0.31390491042207447,
+      "quantiles_05_50_95_deg": [
+        [
+          -37.647061603,
+          -36.8630227041,
+          -34.7003211515
+        ],
+        [
+          87.4204437342,
+          88.6528023809,
+          92.0474454391
+        ]
+      ],
+      "provenance": {
+        "configuration_sha256": "e21de86e4d730dbbd4db1b9670c9348011450eebe855e2dad3c4a3d17ef12640",
+        "enabled_spokes": [
+          "stochastic_cruise",
+          "satcom",
+          "fuel_consistency"
+        ],
+        "executable_sha256": "ed98b5136bb1d9fe739f647ad7f5624b15807ac466aea4ba655721a0b91400e4",
+        "inputs": {
+          "magnetic": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1",
+          "observations": "0ed8bed1798861536aa659e7fdf5cd8f43ccbe160cdf3c61fb7479b7e0fbb799",
+          "satellite_ephemeris": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+          "weather": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4"
+        },
+        "limitations": [
+          "ERA5/IGRF inputs substitute for the published historical input versions",
+          "initial mode probabilities are declared assumptions",
+          "kinematic cruise model is not a calibrated aircraft performance deck",
+          "fuel uses a public conditional proxy and a conservative continuation envelope",
+          "one completed run does not establish convergence or coverage"
+        ],
+        "proposal_inputs": {
+          "initial_operating_proposal": "36fe5e15e13d65d3302da52e908c458ff0f04505ac8a6c8895b2284833e23f6c",
+          "initial_replay_donors": null
+        },
+        "root_interpretation": "initial independent draws; interacting resampled ancestry is not independent Monte Carlo replication",
+        "sampling_method": "sequential_blocked",
+        "scientific_source_sha256": "2b48d4b6b5220873f461bf6656a4ba51fc6499d34013aa7189bb9f634a50b421",
+        "scope": "airborne state at final supplied contact; no terminal or auxiliary evidence"
+      },
+      "source_files_sha256": {
+        "posterior.csv": "649751ed6ac239656c7fc0ba70c1d46c91425b009fe2ba696b4c5bb7832b70b7",
+        "summary.json": "1be0eab0219bf47bc1b323064d7f7fd0013bb6953055cff74b883e4c0ee8b523",
+        "resolved-config.json": "c9e22cb4597bb70fbab41188ff1369372cec66165e42a983ea2d25306d08f203"
+      }
+    },
+    {
+      "name": "fuel-initial-proposal-85000-seed-37091632",
+      "seed": 37091632,
+      "initial_candidates": 85000,
+      "elapsed_seconds": 225.171009503,
+      "log_evidence": -88.10108526698937,
+      "pooling_fraction": 0.2887170008250685,
+      "regions": {
+        "south_of_35S": 0.8831181203861129,
+        "between_35S_and_38S": 0.8788924204900636,
+        "north_of_35S": 0.11688187961388699,
+        "north_of_30S": 0.011434155822310131,
+        "south_of_38S": 0.004225699896049406
+      },
+      "largest_ancestry_fraction": 0.04062490764218911,
+      "quantiles_05_50_95_deg": [
+        [
+          -37.4469857898,
+          -36.4701398955,
+          -34.2296409863
+        ],
+        [
+          87.7564193901,
+          89.393931818,
+          92.61001216
+        ]
+      ],
+      "provenance": {
+        "configuration_sha256": "4789540510da511dbc53d7274b0a1e1666c7c9944b2858ab6bfdb0ec9ab292f5",
+        "enabled_spokes": [
+          "stochastic_cruise",
+          "satcom",
+          "fuel_consistency"
+        ],
+        "executable_sha256": "ed98b5136bb1d9fe739f647ad7f5624b15807ac466aea4ba655721a0b91400e4",
+        "inputs": {
+          "magnetic": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1",
+          "observations": "0ed8bed1798861536aa659e7fdf5cd8f43ccbe160cdf3c61fb7479b7e0fbb799",
+          "satellite_ephemeris": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+          "weather": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4"
+        },
+        "limitations": [
+          "ERA5/IGRF inputs substitute for the published historical input versions",
+          "initial mode probabilities are declared assumptions",
+          "kinematic cruise model is not a calibrated aircraft performance deck",
+          "fuel uses a public conditional proxy and a conservative continuation envelope",
+          "one completed run does not establish convergence or coverage"
+        ],
+        "proposal_inputs": {
+          "initial_operating_proposal": "496b571a95333911b91520f42b3f617b74fa7fbca4da0a24a51fdb3dde48f8df",
+          "initial_replay_donors": null
+        },
+        "root_interpretation": "initial independent draws; interacting resampled ancestry is not independent Monte Carlo replication",
+        "sampling_method": "sequential_blocked",
+        "scientific_source_sha256": "2b48d4b6b5220873f461bf6656a4ba51fc6499d34013aa7189bb9f634a50b421",
+        "scope": "airborne state at final supplied contact; no terminal or auxiliary evidence"
+      },
+      "source_files_sha256": {
+        "posterior.csv": "549eb73f7b7753271f50be17366b788858ee2c11d4d48c3d624980117ecad9b0",
+        "summary.json": "8b2d8d486feb71891f4295f611a25205b120bfbb6bd112c40e4696c816abde4b",
+        "resolved-config.json": "9c0fa0ae92c2de0c1a88af0d09aec1e968e09a487e2ec81f8811dd822b91b266"
+      }
+    },
+    {
+      "name": "fuel-initial-proposal-85000-seed-37091633",
+      "seed": 37091633,
+      "initial_candidates": 85000,
+      "elapsed_seconds": 268.880580949,
+      "log_evidence": -88.04206997382293,
+      "pooling_fraction": 0.30626852983577557,
+      "regions": {
+        "south_of_35S": 0.9352954901328687,
+        "between_35S_and_38S": 0.9156817549319323,
+        "north_of_35S": 0.06470450986713136,
+        "north_of_30S": 0.009354274315105823,
+        "south_of_38S": 0.019613735200936233
+      },
+      "largest_ancestry_fraction": 0.06325545257418867,
+      "quantiles_05_50_95_deg": [
+        [
+          -37.8105692305,
+          -36.5405417826,
+          -34.6952848126
+        ],
+        [
+          87.0150663716,
+          89.3060793462,
+          92.0105575124
+        ]
+      ],
+      "provenance": {
+        "configuration_sha256": "cd2de9e9e2b023095c6c9ea6aba020b9b043c07e11d0530da1740f5367f8e5fe",
+        "enabled_spokes": [
+          "stochastic_cruise",
+          "satcom",
+          "fuel_consistency"
+        ],
+        "executable_sha256": "ed98b5136bb1d9fe739f647ad7f5624b15807ac466aea4ba655721a0b91400e4",
+        "inputs": {
+          "magnetic": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1",
+          "observations": "0ed8bed1798861536aa659e7fdf5cd8f43ccbe160cdf3c61fb7479b7e0fbb799",
+          "satellite_ephemeris": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+          "weather": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4"
+        },
+        "limitations": [
+          "ERA5/IGRF inputs substitute for the published historical input versions",
+          "initial mode probabilities are declared assumptions",
+          "kinematic cruise model is not a calibrated aircraft performance deck",
+          "fuel uses a public conditional proxy and a conservative continuation envelope",
+          "one completed run does not establish convergence or coverage"
+        ],
+        "proposal_inputs": {
+          "initial_operating_proposal": "36fe5e15e13d65d3302da52e908c458ff0f04505ac8a6c8895b2284833e23f6c",
+          "initial_replay_donors": null
+        },
+        "root_interpretation": "initial independent draws; interacting resampled ancestry is not independent Monte Carlo replication",
+        "sampling_method": "sequential_blocked",
+        "scientific_source_sha256": "2b48d4b6b5220873f461bf6656a4ba51fc6499d34013aa7189bb9f634a50b421",
+        "scope": "airborne state at final supplied contact; no terminal or auxiliary evidence"
+      },
+      "source_files_sha256": {
+        "posterior.csv": "b27b743274beb2d84692b20ba8c4cf7acd84530020d767e1fe429a8b03f69163",
+        "summary.json": "9d8a82bd76a9aea3ccbfaebe72110d3f4bf02701e702fc693a1556cba153cb83",
+        "resolved-config.json": "fc4485288541615a86b6557cac3ff0248b6a3f43c126ec1680faf95e237f8458"
+      }
+    }
+  ],
+  "total_initial_candidates": 255000,
+  "positive_weight_output_rows": 158757,
+  "total_sampling_run_elapsed_seconds": 727.066959526,
+  "pooling": "alpha_r = exp(logZ_r) / sum_s exp(logZ_s), equal initial effort; within-run weights retained",
+  "regions": {
+    "south_of_35S": 0.9168361988912741,
+    "between_35S_and_38S": 0.9059756044387468,
+    "north_of_35S": 0.08316380110872582,
+    "north_of_30S": 0.010715772753789151,
+    "south_of_38S": 0.010860594452527333
+  },
+  "equal_run_regions": {
+    "south_of_35S": 0.9151090613229826,
+    "between_35S_and_38S": 0.9041721604064898,
+    "north_of_35S": 0.08489093867701718,
+    "north_of_30S": 0.010673884283112335,
+    "south_of_38S": 0.010936900916493058
+  },
+  "equal_run_pooling_cdf_difference": [
+    0.01990017223208007,
+    0.021396011473786614
+  ],
+  "pair_regions": {
+    "south_of_35S": 0.9086867920479674,
+    "between_35S_and_38S": 0.90169053367324,
+    "north_of_35S": 0.09131320795203249,
+    "north_of_30S": 0.011316847006756997,
+    "south_of_38S": 0.006996258374727382
+  },
+  "third_regions": {
+    "south_of_35S": 0.9352954901328687,
+    "between_35S_and_38S": 0.9156817549319323,
+    "north_of_35S": 0.06470450986713136,
+    "north_of_30S": 0.009354274315105823,
+    "south_of_38S": 0.019613735200936233
+  },
+  "third_vs_first_pair_cdf_difference": [
+    0.10875812467012591,
+    0.1249423188729169
+  ],
+  "all_three_vs_first_pair_cdf_difference": [
+    0.03330919095041801,
+    0.03826590031548477
+  ],
+  "quantiles_05_50_95_deg": [
+    [
+      -37.6502574015,
+      -36.6606306031,
+      -34.5141839204
+    ],
+    [
+      87.3640392247,
+      89.0878379512,
+      92.2191772441
+    ]
+  ],
+  "modes": {
+    "initial_modes": {
+      "ConstantMagneticHeading": 0.021330770260544977,
+      "ConstantMagneticTrack": 0.055473462643961094,
+      "ConstantTrueHeading": 0.07300854679485032,
+      "ConstantTrueTrack": 0.5034935357128699,
+      "LateralNavigation": 0.3466936845877737
+    },
+    "final_modes": {
+      "ConstantMagneticHeading": 0.040666965765061874,
+      "ConstantMagneticTrack": 0.055473462643961094,
+      "ConstantTrueHeading": 0.10939355964093589,
+      "ConstantTrueTrack": 0.5034935357128699,
+      "LateralNavigation": 0.2909724762371712
+    }
+  },
+  "leave_one_out": [
+    {
+      "omitted_seed": 37091631,
+      "regions": {
+        "south_of_35S": 0.9099763976038588,
+        "between_35S_and_38S": 0.8978297135711798,
+        "north_of_35S": 0.09002360239614124,
+        "north_of_30S": 0.01036353776755413,
+        "south_of_38S": 0.012146684032679024
+      },
+      "cdf_difference_from_all": [
+        0.10823963348671384,
+        0.11607778480800707
+      ],
+      "quantiles_05_50_95_deg": [
+        [
+          -37.6503504506,
+          -36.5131075769,
+          -34.4284393699
+        ],
+        [
+          87.3076250721,
+          89.3312823999,
+          92.2919981134
+        ]
+      ]
+    },
+    {
+      "omitted_seed": 37091632,
+      "regions": {
+        "south_of_35S": 0.9305227097609091,
+        "between_35S_and_38S": 0.9169689441523738,
+        "north_of_35S": 0.06947729023909072,
+        "north_of_30S": 0.010424173762631656,
+        "south_of_38S": 0.013553765608535467
+      },
+      "cdf_difference_from_all": [
+        0.0598864919200629,
+        0.06522319648526925
+      ],
+      "quantiles_05_50_95_deg": [
+        [
+          -37.7061828384,
+          -36.7853836696,
+          -34.6952848126
+        ],
+        [
+          87.2848234358,
+          88.8334118326,
+          92.0362872215
+        ]
+      ]
+    },
+    {
+      "omitted_seed": 37091633,
+      "regions": {
+        "south_of_35S": 0.9086867920479674,
+        "between_35S_and_38S": 0.90169053367324,
+        "north_of_35S": 0.09131320795203249,
+        "north_of_30S": 0.011316847006756997,
+        "south_of_38S": 0.006996258374727382
+      },
+      "cdf_difference_from_all": [
+        0.03330919095041801,
+        0.03826590031548477
+      ],
+      "quantiles_05_50_95_deg": [
+        [
+          -37.56928162,
+          -36.723813772,
+          -34.4307452552
+        ],
+        [
+          87.4660999267,
+          88.9858114836,
+          92.3408493607
+        ]
+      ]
+    }
+  ],
+  "cell_ranked_probability_areas": {
+    "5": {
+      "0.5": {
+        "area_km2": 2150.0,
+        "probability_in_selected_cells": 0.5024140020559653
+      },
+      "0.8": {
+        "area_km2": 6800.0,
+        "probability_in_selected_cells": 0.8004678104747276
+      },
+      "0.9": {
+        "area_km2": 11250.0,
+        "probability_in_selected_cells": 0.9000047023692389
+      },
+      "0.95": {
+        "area_km2": 16475.0,
+        "probability_in_selected_cells": 0.9500606759439167
+      }
+    },
+    "10": {
+      "0.5": {
+        "area_km2": 2900.0,
+        "probability_in_selected_cells": 0.5087023870508215
+      },
+      "0.8": {
+        "area_km2": 8500.0,
+        "probability_in_selected_cells": 0.8011164388171744
+      },
+      "0.9": {
+        "area_km2": 13800.0,
+        "probability_in_selected_cells": 0.9008472613075056
+      },
+      "0.95": {
+        "area_km2": 20200.0,
+        "probability_in_selected_cells": 0.9502295026583979
+      }
+    },
+    "20": {
+      "0.5": {
+        "area_km2": 4400.0,
+        "probability_in_selected_cells": 0.5225672459876262
+      },
+      "0.8": {
+        "area_km2": 12800.0,
+        "probability_in_selected_cells": 0.8061927363410538
+      },
+      "0.9": {
+        "area_km2": 18800.0,
+        "probability_in_selected_cells": 0.9032582109285824
+      },
+      "0.95": {
+        "area_km2": 26800.0,
+        "probability_in_selected_cells": 0.9513753716137864
+      }
+    }
+  },
+  "reference_arc": {
+    "time_utc": "2014-03-08T00:10:59.000Z",
+    "bto_us": 18040.0,
+    "altitude_ft": 35000,
+    "satellite_aircraft_range_km": 37802.867351810404
+  },
+  "report_source_sha256": "02744d0ef86930e92db69d52a2475be4c2ad672ec61f6cd4d4d1ef4dd6a8928b",
+  "limitations": [
+    "255000 initial candidates do not mean255000 independent posterior draws.",
+    "Three independent runs cannot establish a calibrated Monte Carlo confidence band.",
+    "Combining runs is not equivalent to a single larger interacting filter.",
+    "Finite-sample highest-density areas depend on displayed cell size; no added smoothing.",
+    "This is airborne location at00:11 under the stated4/2/2cruise, SATCOM and fuel conditions, not an impact/search-area posterior.",
+    "Aircraft performance and fuel-model calibration remain incomplete."
+  ],
+  "output_files_sha256": {
+    "pooled-particles.csv": "7ab30c18a6c63483e31a2ff7dc2fb76f49f99eb7d96bd2fa78eb1bc6c60b6cbb",
+    "area-density-5km.csv": "883e9a43f1135ba6689e1e7cd4e2c45e1275222b3ce43dc7949014564cb5d245",
+    "area-density-5km.npz": "9244b81eae728088b9ca3a20167db533d7a88e6a7b1ba2684d41d2fca20afc95",
+    "area-density-0011.svg": "d8872469f42f9e4619759e381041ff9767bb4376723b5e48083b418f1ee0adbc",
+    "area-density-0011.pdf": "e5d03e2e39a527316478ecd1e1ee838dbc07acc621aca6e5cf79939d4f46f023",
+    "area-density-0011.png": "c2bf1ac9300f7d12f8fae1247e896cf4ca80a3515087e170ff48703e48e5e094",
+    "cumulative-comparison-0011.svg": "cdbda40832d758ce709c15d3d954c6da3de447d1186425b7b109df1387248274",
+    "cumulative-comparison-0011.pdf": "882a320303f19d06efdc39b3b8d8b7c75a1ccd6354dc6b03a9ca84f0ab048e62",
+    "cumulative-comparison-0011.png": "c910d46f6dc8d3c221424a9f4593dae7bd26130371917164ae62c334152d749b",
+    "latitude-density-0011.svg": "0d28639c6ddbea246c23cf187896ebfb16f0c879e48989d0b42004b9fefe3dda",
+    "latitude-density-0011.pdf": "05465587afac86626a5417282febe578f53003e6e56c58c0d0e52bda958ceff5",
+    "latitude-density-0011.png": "7e4096e3520129f151b2d76ef567bd8647d71c0f7b87d9102118d2584892d3fe",
+    "index.html": "9f284023502858671e435eb25da96cb39b5b1317687302555fbeccc55d017094",
+    "README.md": "b8f9c7fea09b79344eed812382fdee36bc566c5e5381a62da75f688051ab2d9f",
+    "verification.json": "a928a4b60ffd35e4a960d11cb245a1fa9f58c4f0fe9482d5bb65819eba44d3da"
+  }
+}

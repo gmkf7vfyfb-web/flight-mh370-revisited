@@ -1,0 +1,110 @@
+{
+  "candidates": 100000,
+  "code_sha256": "b8d358a24ce4f46c9f1582f08f8577968c6e50b5e488bd4c2cf42db5e7f0f239",
+  "contact_components_sha256": "467dcbe997f98d70b97d04a1492be2e58a55be4523ffeb3d876cf4a8eead1cc0",
+  "csv_sha256": "4e5690e798d435ec24c4468d17264fa62d13b672c8b1b3fb0020d051423a14e2",
+  "cumulative_log_evidence": -54.31328997523967,
+  "elapsed_seconds": 126.97840452,
+  "executable_sha256": "1aad8e402fea747c5e5b6d0cb0007171c920dce66a9625ec95d118f812b784cf",
+  "gap_proposal_guide": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-joint-turn-guidance/joint-time-original-lookahead.json",
+  "inputs": {
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-joint-turn-guidance/joint-time-original-lookahead.json": "6d849a622f670d4fd76e457387fd167cd741f993c290eaea6f1936c235b45382",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-larger-fuel-seed-37108901/filter-checkpoints.json": "a32678da25ba9ec59a9029bc262aab7796aab08eef5a3c0ec7e426d886a55dde",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-larger-fuel-seed-37108901/initial-allocation.json": "90b677309b2ffd823a4e30362eba083b821579cc1134a56da41220bb17cf0801",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-larger-fuel-seed-37108901/resolved-config.json": "16d1a78f806889581637fd0cd9436848f5085ee83b6d1f57a00be6ea40acadf9",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-larger-fuel-seed-37108901/sequential-filter-config.json": "5485f9a930d6cbfefb9aace8335b0b8db38f38a6a1fc30cdc7ffd142e1d93630",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/observations.csv": "d9607356782660ccc034d215607ef9979d99db8aa393c487d9693a42c4a99c42",
+    "/jackbox/home/MH370/inputs/accident/satellite-through-0011.csv": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+    "/jackbox/home/MH370/inputs/environment/mh370-era5-grid.bin": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4",
+    "/jackbox/home/MH370/inputs/environment/mh370-igrf14-grid.bin": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1"
+  },
+  "log_evidence_increment": -27.58638381745502,
+  "maximum_root_weight": 0.38946697933220625,
+  "observation_ids": [
+    "m1839",
+    "m1941"
+  ],
+  "original_checkpoint": {
+    "ancestor_resampled": false,
+    "cumulative_log_evidence": -54.32331132042641,
+    "distinct_root_ancestors": 17693,
+    "guide_ess": null,
+    "log_evidence_increment": -27.59640516264176,
+    "maximum_normalized_weight": 0.2436744812243755,
+    "maximum_root_weight": 0.2436744812243755,
+    "observation_index": 3,
+    "observation_time_s": 5953.0,
+    "posterior_ess": 10.172374112432632,
+    "posterior_resampled": true,
+    "root_effective_sample_size": 10.172239916498754,
+    "roots_with_mass_at_least_1e_3": 55,
+    "roots_with_mass_at_least_1e_6": 676,
+    "strata": [
+      {
+        "conditional_ess": 4.801015040496682,
+        "distinct_root_ancestors": 3281,
+        "id": 0,
+        "log_posterior_mass": -1.0338495100737668,
+        "maximum_normalized_log_weight": -2.110362289357015,
+        "maximum_normalized_weight": 0.1211940511639744,
+        "particle_count": 20000,
+        "posterior_mass": 0.35563530048154846,
+        "root_effective_sample_size": 4.80100813284073
+      },
+      {
+        "conditional_ess": 1.4097614121842292,
+        "distinct_root_ancestors": 3415,
+        "id": 1,
+        "log_posterior_mass": -1.2383059105891083,
+        "maximum_normalized_log_weight": -1.4119220377264503,
+        "maximum_normalized_weight": 0.2436744812243755,
+        "particle_count": 20000,
+        "posterior_mass": 0.2898748761704509,
+        "root_effective_sample_size": 1.4097611439775175
+      },
+      {
+        "conditional_ess": 5.107472777399353,
+        "distinct_root_ancestors": 3597,
+        "id": 2,
+        "log_posterior_mass": -1.7907388805353373,
+        "maximum_normalized_log_weight": -3.113214151543696,
+        "maximum_normalized_weight": 0.044457831245297834,
+        "particle_count": 20000,
+        "posterior_mass": 0.16683685161176287,
+        "root_effective_sample_size": 5.10743618356167
+      },
+      {
+        "conditional_ess": 3.520898610704795,
+        "distinct_root_ancestors": 3704,
+        "id": 3,
+        "log_posterior_mass": -2.687264085045435,
+        "maximum_normalized_log_weight": -3.3727779371732485,
+        "maximum_normalized_weight": 0.034294237660034636,
+        "particle_count": 20000,
+        "posterior_mass": 0.06806691013300914,
+        "root_effective_sample_size": 3.517678776613836
+      },
+      {
+        "conditional_ess": 2.5573247569817386,
+        "distinct_root_ancestors": 3696,
+        "id": 4,
+        "log_posterior_mass": -2.123718986036061,
+        "maximum_normalized_log_weight": -2.650879716422045,
+        "maximum_normalized_weight": 0.0705890873585696,
+        "particle_count": 20000,
+        "posterior_mass": 0.11958606160323948,
+        "root_effective_sample_size": 2.557322871533871
+      }
+    ]
+  },
+  "posterior_ess": 5.761233295055335,
+  "prefix_seconds": 16.808520101,
+  "root_effective_sample_size": 5.761210580496136,
+  "scientific_source_sha256": "cf41a1636d8a73588c1331f08110940eb54c045cc8f5a78c4d51c92db177c8ce",
+  "scope": "Deterministic diagnostic replay of existing candidate streams. Full original observations configure fuel timing; no new terminal ensemble or substituted posterior.",
+  "seed": 37108901,
+  "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-larger-fuel-seed-37108901",
+  "status": "matched-prefix numerical proposal comparison",
+  "threads": 4,
+  "through_block": 4
+}

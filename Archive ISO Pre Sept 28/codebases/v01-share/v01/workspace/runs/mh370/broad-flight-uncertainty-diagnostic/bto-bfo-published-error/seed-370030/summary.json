@@ -1,0 +1,63 @@
+{
+  "family": "bto-bfo-published-error",
+  "seed": 370030,
+  "configured_particles": 20000,
+  "positive_weight_particles": 3378,
+  "effective_sample_size": 10.60057979669264,
+  "maximum_weight": 0.1965464570026762,
+  "distinct_prior_roots": 9100,
+  "prior_root_effective_sample_size": 1.0160925735858288,
+  "maximum_prior_root_weight": 0.9920299296689612,
+  "prior_roots_with_mass_at_least_1e_6": 9,
+  "prior_roots_with_mass_at_least_1e_3": 3,
+  "posterior_state_diversity": {
+    "filtering_outcome_signature_semantics": "complete_broad_flight_state_with_only_each_present_pending_renewal_next_event_canonicalized_and_pending_renewal_refresh_diagnostics_cleared;clock_presence_and_not_before_plus_stratum_physical_command_event_counter_fuel_latent_bfo_status_score_last_fit_and_all_other_diagnostics_fields_are_retained;posterior_masses_use_global_normalized_weights;ess_is_conditional_within_the_named_population",
+    "all_particles": {
+      "finite_log_weight_particles": 19872,
+      "strictly_positive_normalized_weight_particles": 3378,
+      "unique_filtering_outcome_signatures": 18787,
+      "finite_log_weight_particles_in_duplicate_signature_groups": 1163,
+      "posterior_mass_in_duplicate_signature_groups": 0.0007424184372312696,
+      "maximum_signature_multiplicity": 501,
+      "maximum_signature_group_posterior_mass": 0.1965464570026763,
+      "signature_aggregated_effective_sample_size": 10.600564302498574
+    },
+    "dominant_prior_root": {
+      "prior_root_id": 9096,
+      "posterior_mass": 0.9920299296689614,
+      "filtering_outcome_signatures": {
+        "finite_log_weight_particles": 499,
+        "strictly_positive_normalized_weight_particles": 161,
+        "unique_filtering_outcome_signatures": 499,
+        "finite_log_weight_particles_in_duplicate_signature_groups": 0,
+        "posterior_mass_in_duplicate_signature_groups": 0.0,
+        "maximum_signature_multiplicity": 1,
+        "maximum_signature_group_posterior_mass": 0.1965464570026763,
+        "signature_aggregated_effective_sample_size": 10.432506614193409
+      }
+    }
+  },
+  "nonzero_posterior_strata": 18,
+  "dominant_stratum": 9,
+  "dominant_stratum_mass": 0.9920299296689614,
+  "log_evidence": -95.45826931954821,
+  "mean_latitude_deg": -19.827279711780058,
+  "mean_longitude_deg": 103.54488661752869,
+  "rejection_counts": {
+    "total_particles": 20000,
+    "active_particles": 19872,
+    "by_reason": {
+      "mach_rate_envelope_conflict": 41,
+      "powered_segment_infeasible": 87
+    },
+    "fuel_outside_model_domain": 0
+  },
+  "mean_lateral_events": 8.108617126718967,
+  "mean_speed_events": 3.7644566424675525,
+  "mean_altitude_events": 5.5318741572144265,
+  "mean_fuel_anchor_mass_adjustment_kg": 595.1764218575753,
+  "mean_fuel_flow_scale": 0.9185857042111514,
+  "fuel_flow_scale_sd": 0.011726611650957106,
+  "fuel_exhausted_by_checkpoint_mass": 0.9999821891704538,
+  "mean_powered_additional_drag_required_segments": 0.1460316405707169
+}

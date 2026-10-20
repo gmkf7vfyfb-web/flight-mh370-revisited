@@ -1,0 +1,3646 @@
+{
+  "run_names": [
+    "refined_a",
+    "refined_b"
+  ],
+  "prior_probability_per_cell": 0.1,
+  "posterior_samples": 65536,
+  "total_trajectory_evaluations": 8200842,
+  "total_prior_draws": 839795,
+  "model_weights": [
+    {
+      "turns": 0,
+      "altitude_class": 0,
+      "posterior_weight": 0.0
+    },
+    {
+      "turns": 0,
+      "altitude_class": 1,
+      "posterior_weight": 0.0
+    },
+    {
+      "turns": 1,
+      "altitude_class": 0,
+      "posterior_weight": 0.3245241295229726
+    },
+    {
+      "turns": 1,
+      "altitude_class": 1,
+      "posterior_weight": 0.6144923337578689
+    },
+    {
+      "turns": 2,
+      "altitude_class": 0,
+      "posterior_weight": 0.006207521266797296
+    },
+    {
+      "turns": 2,
+      "altitude_class": 1,
+      "posterior_weight": 0.0023967676454523896
+    },
+    {
+      "turns": 3,
+      "altitude_class": 0,
+      "posterior_weight": 0.004462670295189564
+    },
+    {
+      "turns": 3,
+      "altitude_class": 1,
+      "posterior_weight": 0.04789466982917784
+    },
+    {
+      "turns": 4,
+      "altitude_class": 0,
+      "posterior_weight": 2.0081756195577716e-05
+    },
+    {
+      "turns": 4,
+      "altitude_class": 1,
+      "posterior_weight": 1.8259263459989222e-06
+    }
+  ],
+  "replicates": [
+    {
+      "name": "refined_a",
+      "turn_count_weights": [
+        0.0,
+        0.9880071152773027,
+        0.007086099832996335,
+        0.004902982268716001,
+        3.802620986461895e-06
+      ],
+      "altitude_class_weights": [
+        0.35010083949410026,
+        0.6498991605059012
+      ],
+      "endpoint_latitude_quantiles": [
+        -34.98559045079034,
+        -34.06949378105066,
+        -33.4880301608144
+      ],
+      "endpoint_longitude_quantiles": [
+        92.71889727497056,
+        93.7573899896873,
+        94.42915949818581
+      ],
+      "model_log_evidence": -34.34682884875162,
+      "importance_ess": 576.5545526783383,
+      "largest_individual_weight": 0.029053029782249228,
+      "relative_evidence_se": 0.041640505939817295
+    },
+    {
+      "name": "refined_b",
+      "turn_count_weights": [
+        0.0,
+        0.8936879470688806,
+        0.010008990737747577,
+        0.09626440283387279,
+        3.8659359499843764e-05
+      ],
+      "altitude_class_weights": [
+        0.32144075301893804,
+        0.6785592469810627
+      ],
+      "endpoint_latitude_quantiles": [
+        -34.92100482205085,
+        -34.05859522504523,
+        -31.551935874657275
+      ],
+      "endpoint_longitude_quantiles": [
+        92.74415103230098,
+        93.77936254909739,
+        95.40031666367118
+      ],
+      "model_log_evidence": -34.26913567581511,
+      "importance_ess": 108.11989965686162,
+      "largest_individual_weight": 0.08906672054896157,
+      "relative_evidence_se": 0.09616934291826075
+    }
+  ],
+  "fine_resolution_validation": [
+    {
+      "component": 2,
+      "delta_log_likelihood": 0.00027470823865094474,
+      "max_BTO_change_us": 0.028382602671626955,
+      "max_BFO_change_hz": 0.0001049953744427512,
+      "max_endpoint_change_deg": 7.241437872806955e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.1645212221490541
+    },
+    {
+      "component": 2,
+      "delta_log_likelihood": -0.00046283860957352374,
+      "max_BTO_change_us": 0.005997399566695094,
+      "max_BFO_change_hz": 3.303943026367051e-05,
+      "max_endpoint_change_deg": 3.5847203889716184e-06,
+      "passes_at_30s": true,
+      "component_weight": 0.1645212221490541
+    },
+    {
+      "component": 2,
+      "delta_log_likelihood": 0.00015803929862556743,
+      "max_BTO_change_us": 0.015350294474046677,
+      "max_BFO_change_hz": 8.92676270609627e-05,
+      "max_endpoint_change_deg": 7.269619007388428e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.1645212221490541
+    },
+    {
+      "component": 2,
+      "delta_log_likelihood": -5.817881201775066e-05,
+      "max_BTO_change_us": 0.005083255528006703,
+      "max_BFO_change_hz": 1.8042098076875845e-05,
+      "max_endpoint_change_deg": 7.453996737183388e-06,
+      "passes_at_30s": true,
+      "component_weight": 0.1645212221490541
+    },
+    {
+      "component": 2,
+      "delta_log_likelihood": -0.0006053285094420602,
+      "max_BTO_change_us": 0.03417839313624427,
+      "max_BFO_change_hz": 0.00014789099830636587,
+      "max_endpoint_change_deg": 8.362883791335207e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.1645212221490541
+    },
+    {
+      "component": 2,
+      "delta_log_likelihood": -0.0009728539922511104,
+      "max_BTO_change_us": 0.02789431909332052,
+      "max_BFO_change_hz": 8.668058592320449e-05,
+      "max_endpoint_change_deg": 6.846889561984426e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.1645212221490541
+    },
+    {
+      "component": 2,
+      "delta_log_likelihood": 0.0007404413389977549,
+      "max_BTO_change_us": 0.018432664452120662,
+      "max_BFO_change_hz": 7.230661833546037e-05,
+      "max_endpoint_change_deg": 4.604375785532966e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.1645212221490541
+    },
+    {
+      "component": 2,
+      "delta_log_likelihood": 0.0023726748718067014,
+      "max_BTO_change_us": 0.047886296291835606,
+      "max_BFO_change_hz": 0.00015397408830608583,
+      "max_endpoint_change_deg": 0.0001273463365691896,
+      "passes_at_30s": true,
+      "component_weight": 0.1645212221490541
+    },
+    {
+      "component": 2,
+      "delta_log_likelihood": -0.00027476893552158543,
+      "max_BTO_change_us": 0.021732542372774333,
+      "max_BFO_change_hz": 8.499887005086748e-05,
+      "max_endpoint_change_deg": 4.7271096057954765e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.1645212221490541
+    },
+    {
+      "component": 2,
+      "delta_log_likelihood": 0.00029176949866549506,
+      "max_BTO_change_us": 0.007045832695439458,
+      "max_BFO_change_hz": 4.740638058819968e-05,
+      "max_endpoint_change_deg": 1.0690309487415561e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.1645212221490541
+    },
+    {
+      "component": 2,
+      "delta_log_likelihood": 0.0001429113731354903,
+      "max_BTO_change_us": 0.017383491795044392,
+      "max_BFO_change_hz": 5.9767237445385035e-05,
+      "max_endpoint_change_deg": 4.019723530035435e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.1645212221490541
+    },
+    {
+      "component": 2,
+      "delta_log_likelihood": 0.0004726998925494996,
+      "max_BTO_change_us": 0.008124318264890462,
+      "max_BFO_change_hz": 2.548677485947337e-05,
+      "max_endpoint_change_deg": 9.227013279655694e-06,
+      "passes_at_30s": true,
+      "component_weight": 0.1645212221490541
+    },
+    {
+      "component": 2,
+      "delta_log_likelihood": -0.00011858432674483055,
+      "max_BTO_change_us": 0.03811464493628591,
+      "max_BFO_change_hz": 0.00012300272260290512,
+      "max_endpoint_change_deg": 0.00010174777897020704,
+      "passes_at_30s": true,
+      "component_weight": 0.1645212221490541
+    },
+    {
+      "component": 2,
+      "delta_log_likelihood": 0.0008325257373815731,
+      "max_BTO_change_us": 0.016201761784031987,
+      "max_BFO_change_hz": 7.128575299475415e-05,
+      "max_endpoint_change_deg": 3.3664589025761416e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.1645212221490541
+    },
+    {
+      "component": 2,
+      "delta_log_likelihood": 0.00022624060367704146,
+      "max_BTO_change_us": 0.011852595314849168,
+      "max_BFO_change_hz": 4.9485789844538886e-05,
+      "max_endpoint_change_deg": 6.092422296433142e-06,
+      "passes_at_30s": true,
+      "component_weight": 0.1645212221490541
+    },
+    {
+      "component": 2,
+      "delta_log_likelihood": -0.0012546061115559226,
+      "max_BTO_change_us": 0.017288450617343187,
+      "max_BFO_change_hz": 8.94689740675858e-05,
+      "max_endpoint_change_deg": 5.526193819349601e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.1645212221490541
+    },
+    {
+      "component": 2,
+      "delta_log_likelihood": -0.0008215992269766659,
+      "max_BTO_change_us": 0.0468915244564414,
+      "max_BFO_change_hz": 0.0002042348277768724,
+      "max_endpoint_change_deg": 0.00014779531267805623,
+      "passes_at_30s": true,
+      "component_weight": 0.1645212221490541
+    },
+    {
+      "component": 2,
+      "delta_log_likelihood": -0.0005411693047294719,
+      "max_BTO_change_us": 0.017677163297776133,
+      "max_BFO_change_hz": 8.052192706031747e-05,
+      "max_endpoint_change_deg": 5.188174299775028e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.1645212221490541
+    },
+    {
+      "component": 2,
+      "delta_log_likelihood": 0.0007370178407049011,
+      "max_BTO_change_us": 0.02183867827989161,
+      "max_BFO_change_hz": 6.873823713249294e-05,
+      "max_endpoint_change_deg": 2.193062019273384e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.1645212221490541
+    },
+    {
+      "component": 2,
+      "delta_log_likelihood": -0.00034353315983981503,
+      "max_BTO_change_us": 0.009195793885737658,
+      "max_BFO_change_hz": 5.948143726186572e-05,
+      "max_endpoint_change_deg": 1.67250653788642e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.1645212221490541
+    },
+    {
+      "component": 2,
+      "delta_log_likelihood": 0.0003743766358939027,
+      "max_BTO_change_us": 0.00732310104649514,
+      "max_BFO_change_hz": 3.393513719629482e-05,
+      "max_endpoint_change_deg": 5.989606677303527e-06,
+      "passes_at_30s": true,
+      "component_weight": 0.1645212221490541
+    },
+    {
+      "component": 2,
+      "delta_log_likelihood": -0.0008959712905936001,
+      "max_BTO_change_us": 0.015624302031937987,
+      "max_BFO_change_hz": 4.1348641559579846e-05,
+      "max_endpoint_change_deg": 2.2402081121697393e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.1645212221490541
+    },
+    {
+      "component": 2,
+      "delta_log_likelihood": 0.00032656914596174147,
+      "max_BTO_change_us": 0.015004197659436613,
+      "max_BFO_change_hz": 7.269204661497497e-05,
+      "max_endpoint_change_deg": 3.4403876625788143e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.1645212221490541
+    },
+    {
+      "component": 2,
+      "delta_log_likelihood": 2.423919508132144e-05,
+      "max_BTO_change_us": 0.03278423968004063,
+      "max_BFO_change_hz": 0.00010378875325045556,
+      "max_endpoint_change_deg": 6.672730639678548e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.1645212221490541
+    },
+    {
+      "component": 3,
+      "delta_log_likelihood": 0.00032844265624154545,
+      "max_BTO_change_us": 0.019550996425095946,
+      "max_BFO_change_hz": 7.918456745414915e-05,
+      "max_endpoint_change_deg": 4.5257538751286575e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3103016308622994
+    },
+    {
+      "component": 3,
+      "delta_log_likelihood": 0.0001460067351954919,
+      "max_BTO_change_us": 0.010081957094371319,
+      "max_BFO_change_hz": 3.905866961417814e-05,
+      "max_endpoint_change_deg": 1.0286544949167364e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3103016308622994
+    },
+    {
+      "component": 3,
+      "delta_log_likelihood": 0.00032844265624154545,
+      "max_BTO_change_us": 0.019550996425095946,
+      "max_BFO_change_hz": 7.918456745414915e-05,
+      "max_endpoint_change_deg": 4.5257538751286575e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3103016308622994
+    },
+    {
+      "component": 3,
+      "delta_log_likelihood": -1.7732528166725103e-05,
+      "max_BTO_change_us": 0.0017033527255989611,
+      "max_BFO_change_hz": 1.854992746075368e-05,
+      "max_endpoint_change_deg": 9.367541515814537e-06,
+      "passes_at_30s": true,
+      "component_weight": 0.3103016308622994
+    },
+    {
+      "component": 3,
+      "delta_log_likelihood": 0.002971605554857426,
+      "max_BTO_change_us": 0.04822035919642076,
+      "max_BFO_change_hz": 0.00016812763706752776,
+      "max_endpoint_change_deg": 0.00011685886615708796,
+      "passes_at_30s": true,
+      "component_weight": 0.3103016308622994
+    },
+    {
+      "component": 3,
+      "delta_log_likelihood": 0.00025125780259127595,
+      "max_BTO_change_us": 0.022595373506192118,
+      "max_BFO_change_hz": 8.170125383344384e-05,
+      "max_endpoint_change_deg": 1.320229553414265e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3103016308622994
+    },
+    {
+      "component": 3,
+      "delta_log_likelihood": 0.0004971409101317548,
+      "max_BTO_change_us": 0.00959609675919637,
+      "max_BFO_change_hz": 5.81597532232081e-05,
+      "max_endpoint_change_deg": 2.308141768025962e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3103016308622994
+    },
+    {
+      "component": 3,
+      "delta_log_likelihood": -0.00010594296611721177,
+      "max_BTO_change_us": 0.002785577205941081,
+      "max_BFO_change_hz": 8.585517207393423e-06,
+      "max_endpoint_change_deg": 7.032429962805509e-07,
+      "passes_at_30s": true,
+      "component_weight": 0.3103016308622994
+    },
+    {
+      "component": 3,
+      "delta_log_likelihood": -0.0014287470653115975,
+      "max_BTO_change_us": 0.04290094622410834,
+      "max_BFO_change_hz": 0.00020294881505833473,
+      "max_endpoint_change_deg": 0.00011623930732440613,
+      "passes_at_30s": true,
+      "component_weight": 0.3103016308622994
+    },
+    {
+      "component": 3,
+      "delta_log_likelihood": 0.0010681206798714982,
+      "max_BTO_change_us": 0.05521874752594158,
+      "max_BFO_change_hz": 0.00017526391258115837,
+      "max_endpoint_change_deg": 0.0001371633827247365,
+      "passes_at_30s": true,
+      "component_weight": 0.3103016308622994
+    },
+    {
+      "component": 3,
+      "delta_log_likelihood": -0.00025744293873941615,
+      "max_BTO_change_us": 0.01486027828650549,
+      "max_BFO_change_hz": 4.611979076685202e-05,
+      "max_endpoint_change_deg": 4.443296830913823e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3103016308622994
+    },
+    {
+      "component": 3,
+      "delta_log_likelihood": -0.00023003065172932935,
+      "max_BTO_change_us": 0.027906172210350633,
+      "max_BFO_change_hz": 8.180236724797396e-05,
+      "max_endpoint_change_deg": 6.745823210962953e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3103016308622994
+    },
+    {
+      "component": 3,
+      "delta_log_likelihood": -0.0009726303261539115,
+      "max_BTO_change_us": 0.020297961367759854,
+      "max_BFO_change_hz": 6.16860876903047e-05,
+      "max_endpoint_change_deg": 4.084167656515092e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3103016308622994
+    },
+    {
+      "component": 3,
+      "delta_log_likelihood": -0.00048786435766956515,
+      "max_BTO_change_us": 0.013226040115114301,
+      "max_BFO_change_hz": 4.865395786168847e-05,
+      "max_endpoint_change_deg": 3.54948446172898e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3103016308622994
+    },
+    {
+      "component": 3,
+      "delta_log_likelihood": -9.655715120526764e-05,
+      "max_BTO_change_us": 0.0027294547180645168,
+      "max_BFO_change_hz": 1.5740143624043412e-05,
+      "max_endpoint_change_deg": 1.3674315582079544e-06,
+      "passes_at_30s": true,
+      "component_weight": 0.3103016308622994
+    },
+    {
+      "component": 3,
+      "delta_log_likelihood": 0.0005364570671932967,
+      "max_BTO_change_us": 0.00981009000679478,
+      "max_BFO_change_hz": 4.296191514185921e-05,
+      "max_endpoint_change_deg": 1.8850973340533983e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3103016308622994
+    },
+    {
+      "component": 3,
+      "delta_log_likelihood": -0.0003894228942598055,
+      "max_BTO_change_us": 0.012157908291555941,
+      "max_BFO_change_hz": 3.426684253327039e-05,
+      "max_endpoint_change_deg": 1.0965148582897655e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3103016308622994
+    },
+    {
+      "component": 3,
+      "delta_log_likelihood": -4.39370477547385e-05,
+      "max_BTO_change_us": 0.01076312642544508,
+      "max_BFO_change_hz": 4.117522937008289e-05,
+      "max_endpoint_change_deg": 9.740543760017317e-06,
+      "passes_at_30s": true,
+      "component_weight": 0.3103016308622994
+    },
+    {
+      "component": 3,
+      "delta_log_likelihood": -0.0005340940435907271,
+      "max_BTO_change_us": 0.03650487045524642,
+      "max_BFO_change_hz": 0.00011390785357434652,
+      "max_endpoint_change_deg": 7.564442306318142e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3103016308622994
+    },
+    {
+      "component": 3,
+      "delta_log_likelihood": 3.640698203710713e-05,
+      "max_BTO_change_us": 0.007939383096527308,
+      "max_BFO_change_hz": 2.1899331898111996e-05,
+      "max_endpoint_change_deg": 1.7619413881675428e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3103016308622994
+    },
+    {
+      "component": 3,
+      "delta_log_likelihood": -0.0007496696233539879,
+      "max_BTO_change_us": 0.03900932631222531,
+      "max_BFO_change_hz": 0.00012306443883858265,
+      "max_endpoint_change_deg": 9.720022524817296e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3103016308622994
+    },
+    {
+      "component": 3,
+      "delta_log_likelihood": 0.0017853976225037371,
+      "max_BTO_change_us": 0.014837163558695465,
+      "max_BFO_change_hz": 9.679359345682315e-05,
+      "max_endpoint_change_deg": 4.839878821627508e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3103016308622994
+    },
+    {
+      "component": 3,
+      "delta_log_likelihood": -0.0006342966157122376,
+      "max_BTO_change_us": 0.00818111764965579,
+      "max_BFO_change_hz": 6.8438133212112e-05,
+      "max_endpoint_change_deg": 1.2942001525573232e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3103016308622994
+    },
+    {
+      "component": 3,
+      "delta_log_likelihood": -5.144929793310382e-06,
+      "max_BTO_change_us": 0.02679712709505111,
+      "max_BFO_change_hz": 0.00013274927016482252,
+      "max_endpoint_change_deg": 7.29024080783347e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3103016308622994
+    },
+    {
+      "component": 4,
+      "delta_log_likelihood": -0.002600429003688731,
+      "max_BTO_change_us": 0.03885831712977961,
+      "max_BFO_change_hz": 9.936796672604942e-05,
+      "max_endpoint_change_deg": 5.103107715243027e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.002662976226579849
+    },
+    {
+      "component": 4,
+      "delta_log_likelihood": 9.198243130548178e-05,
+      "max_BTO_change_us": 0.02602750319056213,
+      "max_BFO_change_hz": 7.192144013856705e-05,
+      "max_endpoint_change_deg": 3.775455453691734e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.002662976226579849
+    },
+    {
+      "component": 4,
+      "delta_log_likelihood": -0.0031392740388795914,
+      "max_BTO_change_us": 0.056329490849748254,
+      "max_BFO_change_hz": 0.00017438416318782402,
+      "max_endpoint_change_deg": 0.00016805637880779045,
+      "passes_at_30s": true,
+      "component_weight": 0.002662976226579849
+    },
+    {
+      "component": 4,
+      "delta_log_likelihood": -0.0013187075026754869,
+      "max_BTO_change_us": 0.045566193701233715,
+      "max_BFO_change_hz": 0.00013490358264789393,
+      "max_endpoint_change_deg": 6.505317337257566e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.002662976226579849
+    },
+    {
+      "component": 4,
+      "delta_log_likelihood": 0.00026399797386744694,
+      "max_BTO_change_us": 0.04452581220539287,
+      "max_BFO_change_hz": 0.00011814654999398044,
+      "max_endpoint_change_deg": 9.133059300125979e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.002662976226579849
+    },
+    {
+      "component": 4,
+      "delta_log_likelihood": 0.00026399797386744694,
+      "max_BTO_change_us": 0.04452581220539287,
+      "max_BFO_change_hz": 0.00011814654999398044,
+      "max_endpoint_change_deg": 9.133059300125979e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.002662976226579849
+    },
+    {
+      "component": 4,
+      "delta_log_likelihood": -0.0035112639745644714,
+      "max_BTO_change_us": 0.06534338573692366,
+      "max_BFO_change_hz": 0.00019166093542821727,
+      "max_endpoint_change_deg": 0.0001847568364112817,
+      "passes_at_30s": true,
+      "component_weight": 0.002662976226579849
+    },
+    {
+      "component": 4,
+      "delta_log_likelihood": 0.00026399797386744694,
+      "max_BTO_change_us": 0.04452581220539287,
+      "max_BFO_change_hz": 0.00011814654999398044,
+      "max_endpoint_change_deg": 9.133059300125979e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.002662976226579849
+    },
+    {
+      "component": 4,
+      "delta_log_likelihood": -0.0013187075026754869,
+      "max_BTO_change_us": 0.045566193701233715,
+      "max_BFO_change_hz": 0.00013490358264789393,
+      "max_endpoint_change_deg": 6.505317337257566e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.002662976226579849
+    },
+    {
+      "component": 4,
+      "delta_log_likelihood": -0.0013187075026754869,
+      "max_BTO_change_us": 0.045566193701233715,
+      "max_BFO_change_hz": 0.00013490358264789393,
+      "max_endpoint_change_deg": 6.505317337257566e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.002662976226579849
+    },
+    {
+      "component": 4,
+      "delta_log_likelihood": 0.00026399797386744694,
+      "max_BTO_change_us": 0.04452581220539287,
+      "max_BFO_change_hz": 0.00011814654999398044,
+      "max_endpoint_change_deg": 9.133059300125979e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.002662976226579849
+    },
+    {
+      "component": 4,
+      "delta_log_likelihood": 0.0005558300066601518,
+      "max_BTO_change_us": 0.014684210706036538,
+      "max_BFO_change_hz": 4.6016399380732764e-05,
+      "max_endpoint_change_deg": 3.127040729111741e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.002662976226579849
+    },
+    {
+      "component": 4,
+      "delta_log_likelihood": -0.000656778813992176,
+      "max_BTO_change_us": 0.009406230878084898,
+      "max_BFO_change_hz": 6.774049441560237e-05,
+      "max_endpoint_change_deg": 2.4923252794906148e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.002662976226579849
+    },
+    {
+      "component": 4,
+      "delta_log_likelihood": 0.00026399797386744694,
+      "max_BTO_change_us": 0.04452581220539287,
+      "max_BFO_change_hz": 0.00011814654999398044,
+      "max_endpoint_change_deg": 9.133059300125979e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.002662976226579849
+    },
+    {
+      "component": 4,
+      "delta_log_likelihood": 0.0001894007351497251,
+      "max_BTO_change_us": 0.09702186420327052,
+      "max_BFO_change_hz": 0.00038629874322282376,
+      "max_endpoint_change_deg": 0.0002329466703336891,
+      "passes_at_30s": true,
+      "component_weight": 0.002662976226579849
+    },
+    {
+      "component": 4,
+      "delta_log_likelihood": 0.00026399797386744694,
+      "max_BTO_change_us": 0.04452581220539287,
+      "max_BFO_change_hz": 0.00011814654999398044,
+      "max_endpoint_change_deg": 9.133059300125979e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.002662976226579849
+    },
+    {
+      "component": 4,
+      "delta_log_likelihood": 0.0007480532980617127,
+      "max_BTO_change_us": 0.040926539164502174,
+      "max_BFO_change_hz": 0.00013428114954194825,
+      "max_endpoint_change_deg": 0.00011315457142302421,
+      "passes_at_30s": true,
+      "component_weight": 0.002662976226579849
+    },
+    {
+      "component": 4,
+      "delta_log_likelihood": 9.198243130548178e-05,
+      "max_BTO_change_us": 0.02602750319056213,
+      "max_BFO_change_hz": 7.192144013856705e-05,
+      "max_endpoint_change_deg": 3.775455453691734e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.002662976226579849
+    },
+    {
+      "component": 4,
+      "delta_log_likelihood": 0.00026399797386744694,
+      "max_BTO_change_us": 0.04452581220539287,
+      "max_BFO_change_hz": 0.00011814654999398044,
+      "max_endpoint_change_deg": 9.133059300125979e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.002662976226579849
+    },
+    {
+      "component": 4,
+      "delta_log_likelihood": -0.0035112639745644714,
+      "max_BTO_change_us": 0.06534338573692366,
+      "max_BFO_change_hz": 0.00019166093542821727,
+      "max_endpoint_change_deg": 0.0001847568364112817,
+      "passes_at_30s": true,
+      "component_weight": 0.002662976226579849
+    },
+    {
+      "component": 4,
+      "delta_log_likelihood": -0.0014450403246586419,
+      "max_BTO_change_us": 0.02465743152424693,
+      "max_BFO_change_hz": 8.605821025753357e-05,
+      "max_endpoint_change_deg": 2.0231262951142526e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.002662976226579849
+    },
+    {
+      "component": 4,
+      "delta_log_likelihood": -0.002600429003688731,
+      "max_BTO_change_us": 0.03885831712977961,
+      "max_BFO_change_hz": 9.936796672604942e-05,
+      "max_endpoint_change_deg": 5.103107715243027e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.002662976226579849
+    },
+    {
+      "component": 4,
+      "delta_log_likelihood": 0.00026399797386744694,
+      "max_BTO_change_us": 0.04452581220539287,
+      "max_BFO_change_hz": 0.00011814654999398044,
+      "max_endpoint_change_deg": 9.133059300125979e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.002662976226579849
+    },
+    {
+      "component": 4,
+      "delta_log_likelihood": 9.198243130548178e-05,
+      "max_BTO_change_us": 0.02602750319056213,
+      "max_BFO_change_hz": 7.192144013856705e-05,
+      "max_endpoint_change_deg": 3.775455453691734e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.002662976226579849
+    },
+    {
+      "component": 5,
+      "delta_log_likelihood": -0.0009117333576309505,
+      "max_BTO_change_us": 0.007251679024193436,
+      "max_BFO_change_hz": 4.4115184238080474e-05,
+      "max_endpoint_change_deg": 2.8540036701940608e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0007425074864420414
+    },
+    {
+      "component": 5,
+      "delta_log_likelihood": 0.0017281440307019835,
+      "max_BTO_change_us": 0.06619618448894471,
+      "max_BFO_change_hz": 0.00022043676960947778,
+      "max_endpoint_change_deg": 0.00017015391529184853,
+      "passes_at_30s": true,
+      "component_weight": 0.0007425074864420414
+    },
+    {
+      "component": 5,
+      "delta_log_likelihood": 0.0007569112742666917,
+      "max_BTO_change_us": 0.011700745613779873,
+      "max_BFO_change_hz": 5.250195133044144e-05,
+      "max_endpoint_change_deg": 2.2798949089519738e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0007425074864420414
+    },
+    {
+      "component": 5,
+      "delta_log_likelihood": 0.0017281440307019835,
+      "max_BTO_change_us": 0.06619618448894471,
+      "max_BFO_change_hz": 0.00022043676960947778,
+      "max_endpoint_change_deg": 0.00017015391529184853,
+      "passes_at_30s": true,
+      "component_weight": 0.0007425074864420414
+    },
+    {
+      "component": 5,
+      "delta_log_likelihood": 0.0007569112742666917,
+      "max_BTO_change_us": 0.011700745613779873,
+      "max_BFO_change_hz": 5.250195133044144e-05,
+      "max_endpoint_change_deg": 2.2798949089519738e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0007425074864420414
+    },
+    {
+      "component": 5,
+      "delta_log_likelihood": 0.0017281440307019835,
+      "max_BTO_change_us": 0.06619618448894471,
+      "max_BFO_change_hz": 0.00022043676960947778,
+      "max_endpoint_change_deg": 0.00017015391529184853,
+      "passes_at_30s": true,
+      "component_weight": 0.0007425074864420414
+    },
+    {
+      "component": 5,
+      "delta_log_likelihood": -9.167238175233905e-05,
+      "max_BTO_change_us": 0.009547811816446483,
+      "max_BFO_change_hz": 3.906216616655911e-05,
+      "max_endpoint_change_deg": 1.6597510779092772e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0007425074864420414
+    },
+    {
+      "component": 5,
+      "delta_log_likelihood": 0.0017281440307019835,
+      "max_BTO_change_us": 0.06619618448894471,
+      "max_BFO_change_hz": 0.00022043676960947778,
+      "max_endpoint_change_deg": 0.00017015391529184853,
+      "passes_at_30s": true,
+      "component_weight": 0.0007425074864420414
+    },
+    {
+      "component": 5,
+      "delta_log_likelihood": -0.0009117333576309505,
+      "max_BTO_change_us": 0.007251679024193436,
+      "max_BFO_change_hz": 4.4115184238080474e-05,
+      "max_endpoint_change_deg": 2.8540036701940608e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0007425074864420414
+    },
+    {
+      "component": 5,
+      "delta_log_likelihood": 0.002863411923746284,
+      "max_BTO_change_us": 0.03193249023752287,
+      "max_BFO_change_hz": 0.00014326869583669577,
+      "max_endpoint_change_deg": 6.990861906075452e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0007425074864420414
+    },
+    {
+      "component": 5,
+      "delta_log_likelihood": -0.0005479245145068035,
+      "max_BTO_change_us": 0.012677531456574798,
+      "max_BFO_change_hz": 5.775988381628849e-05,
+      "max_endpoint_change_deg": 8.968893230587582e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0007425074864420414
+    },
+    {
+      "component": 5,
+      "delta_log_likelihood": 0.0017281440307019835,
+      "max_BTO_change_us": 0.06619618448894471,
+      "max_BFO_change_hz": 0.00022043676960947778,
+      "max_endpoint_change_deg": 0.00017015391529184853,
+      "passes_at_30s": true,
+      "component_weight": 0.0007425074864420414
+    },
+    {
+      "component": 5,
+      "delta_log_likelihood": 0.0017281440307019835,
+      "max_BTO_change_us": 0.06619618448894471,
+      "max_BFO_change_hz": 0.00022043676960947778,
+      "max_endpoint_change_deg": 0.00017015391529184853,
+      "passes_at_30s": true,
+      "component_weight": 0.0007425074864420414
+    },
+    {
+      "component": 5,
+      "delta_log_likelihood": 0.0007569112742666917,
+      "max_BTO_change_us": 0.011700745613779873,
+      "max_BFO_change_hz": 5.250195133044144e-05,
+      "max_endpoint_change_deg": 2.2798949089519738e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0007425074864420414
+    },
+    {
+      "component": 5,
+      "delta_log_likelihood": 0.0017281440307019835,
+      "max_BTO_change_us": 0.06619618448894471,
+      "max_BFO_change_hz": 0.00022043676960947778,
+      "max_endpoint_change_deg": 0.00017015391529184853,
+      "passes_at_30s": true,
+      "component_weight": 0.0007425074864420414
+    },
+    {
+      "component": 5,
+      "delta_log_likelihood": -0.001297030408938582,
+      "max_BTO_change_us": 0.04626099346205592,
+      "max_BFO_change_hz": 0.00016520406171594004,
+      "max_endpoint_change_deg": 0.00012146673623192328,
+      "passes_at_30s": true,
+      "component_weight": 0.0007425074864420414
+    },
+    {
+      "component": 5,
+      "delta_log_likelihood": 0.0017281440307019835,
+      "max_BTO_change_us": 0.06619618448894471,
+      "max_BFO_change_hz": 0.00022043676960947778,
+      "max_endpoint_change_deg": 0.00017015391529184853,
+      "passes_at_30s": true,
+      "component_weight": 0.0007425074864420414
+    },
+    {
+      "component": 5,
+      "delta_log_likelihood": -0.0005479245145068035,
+      "max_BTO_change_us": 0.012677531456574798,
+      "max_BFO_change_hz": 5.775988381628849e-05,
+      "max_endpoint_change_deg": 8.968893230587582e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0007425074864420414
+    },
+    {
+      "component": 5,
+      "delta_log_likelihood": 0.0007569112742666917,
+      "max_BTO_change_us": 0.011700745613779873,
+      "max_BFO_change_hz": 5.250195133044144e-05,
+      "max_endpoint_change_deg": 2.2798949089519738e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0007425074864420414
+    },
+    {
+      "component": 5,
+      "delta_log_likelihood": -0.0005479245145068035,
+      "max_BTO_change_us": 0.012677531456574798,
+      "max_BFO_change_hz": 5.775988381628849e-05,
+      "max_endpoint_change_deg": 8.968893230587582e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0007425074864420414
+    },
+    {
+      "component": 5,
+      "delta_log_likelihood": -0.0009117333576309505,
+      "max_BTO_change_us": 0.007251679024193436,
+      "max_BFO_change_hz": 4.4115184238080474e-05,
+      "max_endpoint_change_deg": 2.8540036701940608e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0007425074864420414
+    },
+    {
+      "component": 5,
+      "delta_log_likelihood": 0.0017281440307019835,
+      "max_BTO_change_us": 0.06619618448894471,
+      "max_BFO_change_hz": 0.00022043676960947778,
+      "max_endpoint_change_deg": 0.00017015391529184853,
+      "passes_at_30s": true,
+      "component_weight": 0.0007425074864420414
+    },
+    {
+      "component": 5,
+      "delta_log_likelihood": 0.0007569112742666917,
+      "max_BTO_change_us": 0.011700745613779873,
+      "max_BFO_change_hz": 5.250195133044144e-05,
+      "max_endpoint_change_deg": 2.2798949089519738e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0007425074864420414
+    },
+    {
+      "component": 5,
+      "delta_log_likelihood": -0.0009117333576309505,
+      "max_BTO_change_us": 0.007251679024193436,
+      "max_BFO_change_hz": 4.4115184238080474e-05,
+      "max_endpoint_change_deg": 2.8540036701940608e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0007425074864420414
+    },
+    {
+      "component": 6,
+      "delta_log_likelihood": -0.00023218509987099623,
+      "max_BTO_change_us": 0.008347754133865237,
+      "max_BFO_change_hz": 7.335839561051216e-05,
+      "max_endpoint_change_deg": 3.378227052053262e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0010690540899957154
+    },
+    {
+      "component": 6,
+      "delta_log_likelihood": 0.0007370275830336226,
+      "max_BTO_change_us": 0.01644887967268005,
+      "max_BFO_change_hz": 9.019844890190143e-05,
+      "max_endpoint_change_deg": 3.906535137332412e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0010690540899957154
+    },
+    {
+      "component": 6,
+      "delta_log_likelihood": -0.001956101214688033,
+      "max_BTO_change_us": 0.09061454754555598,
+      "max_BFO_change_hz": 0.00030229313998120233,
+      "max_endpoint_change_deg": 0.00022912070222247394,
+      "passes_at_30s": true,
+      "component_weight": 0.0010690540899957154
+    },
+    {
+      "component": 6,
+      "delta_log_likelihood": 0.0018076004086982067,
+      "max_BTO_change_us": 0.04396015056408942,
+      "max_BFO_change_hz": 0.00011572685158967033,
+      "max_endpoint_change_deg": 0.00010581362109007841,
+      "passes_at_30s": true,
+      "component_weight": 0.0010690540899957154
+    },
+    {
+      "component": 6,
+      "delta_log_likelihood": -0.00024412600512624394,
+      "max_BTO_change_us": 0.007398299814667553,
+      "max_BFO_change_hz": 2.25938452445007e-05,
+      "max_endpoint_change_deg": 1.571947821332742e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0010690540899957154
+    },
+    {
+      "component": 6,
+      "delta_log_likelihood": 0.0007370275830336226,
+      "max_BTO_change_us": 0.01644887967268005,
+      "max_BFO_change_hz": 9.019844890190143e-05,
+      "max_endpoint_change_deg": 3.906535137332412e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0010690540899957154
+    },
+    {
+      "component": 6,
+      "delta_log_likelihood": 0.0009639870409241524,
+      "max_BTO_change_us": 0.03584349591983482,
+      "max_BFO_change_hz": 0.00012418537923508666,
+      "max_endpoint_change_deg": 9.59360988339597e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0010690540899957154
+    },
+    {
+      "component": 6,
+      "delta_log_likelihood": -0.0021939244616282494,
+      "max_BTO_change_us": 0.0377799675334245,
+      "max_BFO_change_hz": 0.00011567916254762167,
+      "max_endpoint_change_deg": 8.476509772492591e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0010690540899957154
+    },
+    {
+      "component": 6,
+      "delta_log_likelihood": -0.0003972345302161173,
+      "max_BTO_change_us": 0.017529302567709237,
+      "max_BFO_change_hz": 8.650187601233483e-05,
+      "max_endpoint_change_deg": 7.160974515585394e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0010690540899957154
+    },
+    {
+      "component": 6,
+      "delta_log_likelihood": -0.00024412600512624394,
+      "max_BTO_change_us": 0.007398299814667553,
+      "max_BFO_change_hz": 2.25938452445007e-05,
+      "max_endpoint_change_deg": 1.571947821332742e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0010690540899957154
+    },
+    {
+      "component": 6,
+      "delta_log_likelihood": -9.632053705077581e-05,
+      "max_BTO_change_us": 0.009488211304415017,
+      "max_BFO_change_hz": 3.249267865612637e-05,
+      "max_endpoint_change_deg": 2.3946101507021922e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0010690540899957154
+    },
+    {
+      "component": 6,
+      "delta_log_likelihood": -0.0019495910404483396,
+      "max_BTO_change_us": 0.04236348159611225,
+      "max_BFO_change_hz": 0.00012508112416753647,
+      "max_endpoint_change_deg": 0.00010512740785628694,
+      "passes_at_30s": true,
+      "component_weight": 0.0010690540899957154
+    },
+    {
+      "component": 6,
+      "delta_log_likelihood": 0.0009639870409241524,
+      "max_BTO_change_us": 0.03584349591983482,
+      "max_BFO_change_hz": 0.00012418537923508666,
+      "max_endpoint_change_deg": 9.59360988339597e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0010690540899957154
+    },
+    {
+      "component": 6,
+      "delta_log_likelihood": 0.0009639870409241524,
+      "max_BTO_change_us": 0.03584349591983482,
+      "max_BFO_change_hz": 0.00012418537923508666,
+      "max_endpoint_change_deg": 9.59360988339597e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0010690540899957154
+    },
+    {
+      "component": 6,
+      "delta_log_likelihood": -0.00024412600512624394,
+      "max_BTO_change_us": 0.007398299814667553,
+      "max_BFO_change_hz": 2.25938452445007e-05,
+      "max_endpoint_change_deg": 1.571947821332742e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0010690540899957154
+    },
+    {
+      "component": 6,
+      "delta_log_likelihood": 0.0009639870409241524,
+      "max_BTO_change_us": 0.03584349591983482,
+      "max_BFO_change_hz": 0.00012418537923508666,
+      "max_endpoint_change_deg": 9.59360988339597e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0010690540899957154
+    },
+    {
+      "component": 6,
+      "delta_log_likelihood": -0.0037789759307411686,
+      "max_BTO_change_us": 0.0809539997135289,
+      "max_BFO_change_hz": 0.0001922144256241154,
+      "max_endpoint_change_deg": 0.0001645917849444345,
+      "passes_at_30s": true,
+      "component_weight": 0.0010690540899957154
+    },
+    {
+      "component": 6,
+      "delta_log_likelihood": -0.0009140924590624877,
+      "max_BTO_change_us": 0.018958206055685878,
+      "max_BFO_change_hz": 9.977189890264526e-05,
+      "max_endpoint_change_deg": 6.78192370457964e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0010690540899957154
+    },
+    {
+      "component": 6,
+      "delta_log_likelihood": 0.0009639870409241524,
+      "max_BTO_change_us": 0.03584349591983482,
+      "max_BFO_change_hz": 0.00012418537923508666,
+      "max_endpoint_change_deg": 9.59360988339597e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0010690540899957154
+    },
+    {
+      "component": 6,
+      "delta_log_likelihood": 0.0018076004086982067,
+      "max_BTO_change_us": 0.04396015056408942,
+      "max_BFO_change_hz": 0.00011572685158967033,
+      "max_endpoint_change_deg": 0.00010581362109007841,
+      "passes_at_30s": true,
+      "component_weight": 0.0010690540899957154
+    },
+    {
+      "component": 6,
+      "delta_log_likelihood": 0.0006650915109602806,
+      "max_BTO_change_us": 0.013061377452686429,
+      "max_BFO_change_hz": 7.782840643244526e-05,
+      "max_endpoint_change_deg": 5.2256123773020136e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0010690540899957154
+    },
+    {
+      "component": 6,
+      "delta_log_likelihood": -0.0021939244616282494,
+      "max_BTO_change_us": 0.0377799675334245,
+      "max_BFO_change_hz": 0.00011567916254762167,
+      "max_endpoint_change_deg": 8.476509772492591e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0010690540899957154
+    },
+    {
+      "component": 6,
+      "delta_log_likelihood": 0.0009639870409241524,
+      "max_BTO_change_us": 0.03584349591983482,
+      "max_BFO_change_hz": 0.00012418537923508666,
+      "max_endpoint_change_deg": 9.59360988339597e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0010690540899957154
+    },
+    {
+      "component": 6,
+      "delta_log_likelihood": 0.0009639870409241524,
+      "max_BTO_change_us": 0.03584349591983482,
+      "max_BFO_change_hz": 0.00012418537923508666,
+      "max_endpoint_change_deg": 9.59360988339597e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0010690540899957154
+    },
+    {
+      "component": 7,
+      "delta_log_likelihood": 0.0018208280897598073,
+      "max_BTO_change_us": 0.03585463500348851,
+      "max_BFO_change_hz": 0.00012102006908776275,
+      "max_endpoint_change_deg": 7.1536274582229e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0012872528566829024
+    },
+    {
+      "component": 7,
+      "delta_log_likelihood": 0.0018208280897598073,
+      "max_BTO_change_us": 0.03585463500348851,
+      "max_BFO_change_hz": 0.00012102006908776275,
+      "max_endpoint_change_deg": 7.1536274582229e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0012872528566829024
+    },
+    {
+      "component": 7,
+      "delta_log_likelihood": -1.9836703076592244e-05,
+      "max_BTO_change_us": 0.00324781087692827,
+      "max_BFO_change_hz": 2.9470866110159477e-05,
+      "max_endpoint_change_deg": 1.3823870261830962e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0012872528566829024
+    },
+    {
+      "component": 7,
+      "delta_log_likelihood": -0.001064593616822762,
+      "max_BTO_change_us": 0.016521004436071962,
+      "max_BFO_change_hz": 3.567831166151336e-05,
+      "max_endpoint_change_deg": 3.1125563708656045e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0012872528566829024
+    },
+    {
+      "component": 7,
+      "delta_log_likelihood": -0.001064593616822762,
+      "max_BTO_change_us": 0.016521004436071962,
+      "max_BFO_change_hz": 3.567831166151336e-05,
+      "max_endpoint_change_deg": 3.1125563708656045e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0012872528566829024
+    },
+    {
+      "component": 7,
+      "delta_log_likelihood": -0.001064593616822762,
+      "max_BTO_change_us": 0.016521004436071962,
+      "max_BFO_change_hz": 3.567831166151336e-05,
+      "max_endpoint_change_deg": 3.1125563708656045e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0012872528566829024
+    },
+    {
+      "component": 7,
+      "delta_log_likelihood": -0.001064593616822762,
+      "max_BTO_change_us": 0.016521004436071962,
+      "max_BFO_change_hz": 3.567831166151336e-05,
+      "max_endpoint_change_deg": 3.1125563708656045e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0012872528566829024
+    },
+    {
+      "component": 7,
+      "delta_log_likelihood": -0.001064593616822762,
+      "max_BTO_change_us": 0.016521004436071962,
+      "max_BFO_change_hz": 3.567831166151336e-05,
+      "max_endpoint_change_deg": 3.1125563708656045e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0012872528566829024
+    },
+    {
+      "component": 7,
+      "delta_log_likelihood": -0.001064593616822762,
+      "max_BTO_change_us": 0.016521004436071962,
+      "max_BFO_change_hz": 3.567831166151336e-05,
+      "max_endpoint_change_deg": 3.1125563708656045e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0012872528566829024
+    },
+    {
+      "component": 7,
+      "delta_log_likelihood": 0.0018208280897598073,
+      "max_BTO_change_us": 0.03585463500348851,
+      "max_BFO_change_hz": 0.00012102006908776275,
+      "max_endpoint_change_deg": 7.1536274582229e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0012872528566829024
+    },
+    {
+      "component": 7,
+      "delta_log_likelihood": -0.001064593616822762,
+      "max_BTO_change_us": 0.016521004436071962,
+      "max_BFO_change_hz": 3.567831166151336e-05,
+      "max_endpoint_change_deg": 3.1125563708656045e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0012872528566829024
+    },
+    {
+      "component": 7,
+      "delta_log_likelihood": -0.001064593616822762,
+      "max_BTO_change_us": 0.016521004436071962,
+      "max_BFO_change_hz": 3.567831166151336e-05,
+      "max_endpoint_change_deg": 3.1125563708656045e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0012872528566829024
+    },
+    {
+      "component": 7,
+      "delta_log_likelihood": 0.0018208280897598073,
+      "max_BTO_change_us": 0.03585463500348851,
+      "max_BFO_change_hz": 0.00012102006908776275,
+      "max_endpoint_change_deg": 7.1536274582229e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0012872528566829024
+    },
+    {
+      "component": 7,
+      "delta_log_likelihood": -0.001064593616822762,
+      "max_BTO_change_us": 0.016521004436071962,
+      "max_BFO_change_hz": 3.567831166151336e-05,
+      "max_endpoint_change_deg": 3.1125563708656045e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0012872528566829024
+    },
+    {
+      "component": 7,
+      "delta_log_likelihood": -0.001064593616822762,
+      "max_BTO_change_us": 0.016521004436071962,
+      "max_BFO_change_hz": 3.567831166151336e-05,
+      "max_endpoint_change_deg": 3.1125563708656045e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0012872528566829024
+    },
+    {
+      "component": 7,
+      "delta_log_likelihood": -0.0015400024992633377,
+      "max_BTO_change_us": 0.04506783268880099,
+      "max_BFO_change_hz": 0.00014982404104557645,
+      "max_endpoint_change_deg": 9.585539334011628e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0012872528566829024
+    },
+    {
+      "component": 7,
+      "delta_log_likelihood": 0.0018208280897598073,
+      "max_BTO_change_us": 0.03585463500348851,
+      "max_BFO_change_hz": 0.00012102006908776275,
+      "max_endpoint_change_deg": 7.1536274582229e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0012872528566829024
+    },
+    {
+      "component": 7,
+      "delta_log_likelihood": -1.9836703076592244e-05,
+      "max_BTO_change_us": 0.00324781087692827,
+      "max_BFO_change_hz": 2.9470866110159477e-05,
+      "max_endpoint_change_deg": 1.3823870261830962e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0012872528566829024
+    },
+    {
+      "component": 7,
+      "delta_log_likelihood": -0.001064593616822762,
+      "max_BTO_change_us": 0.016521004436071962,
+      "max_BFO_change_hz": 3.567831166151336e-05,
+      "max_endpoint_change_deg": 3.1125563708656045e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0012872528566829024
+    },
+    {
+      "component": 7,
+      "delta_log_likelihood": -0.001064593616822762,
+      "max_BTO_change_us": 0.016521004436071962,
+      "max_BFO_change_hz": 3.567831166151336e-05,
+      "max_endpoint_change_deg": 3.1125563708656045e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0012872528566829024
+    },
+    {
+      "component": 7,
+      "delta_log_likelihood": -0.0007160283686902247,
+      "max_BTO_change_us": 0.023063268803525716,
+      "max_BFO_change_hz": 4.6913384096569644e-05,
+      "max_endpoint_change_deg": 3.741346925778544e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0012872528566829024
+    },
+    {
+      "component": 7,
+      "delta_log_likelihood": -0.001064593616822762,
+      "max_BTO_change_us": 0.016521004436071962,
+      "max_BFO_change_hz": 3.567831166151336e-05,
+      "max_endpoint_change_deg": 3.1125563708656045e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0012872528566829024
+    },
+    {
+      "component": 7,
+      "delta_log_likelihood": -1.9836703076592244e-05,
+      "max_BTO_change_us": 0.00324781087692827,
+      "max_BFO_change_hz": 2.9470866110159477e-05,
+      "max_endpoint_change_deg": 1.3823870261830962e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0012872528566829024
+    },
+    {
+      "component": 7,
+      "delta_log_likelihood": -0.001064593616822762,
+      "max_BTO_change_us": 0.016521004436071962,
+      "max_BFO_change_hz": 3.567831166151336e-05,
+      "max_endpoint_change_deg": 3.1125563708656045e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0012872528566829024
+    },
+    {
+      "component": 8,
+      "delta_log_likelihood": 0.0022261462957171574,
+      "max_BTO_change_us": 0.06684802559902892,
+      "max_BFO_change_hz": 0.00015421260434322903,
+      "max_endpoint_change_deg": 0.0001211233589728522,
+      "passes_at_30s": true,
+      "component_weight": 4.7453673245903226e-07
+    },
+    {
+      "component": 8,
+      "delta_log_likelihood": 3.2988648297482825e-05,
+      "max_BTO_change_us": 0.004377207660581917,
+      "max_BFO_change_hz": 4.510188483664024e-05,
+      "max_endpoint_change_deg": 5.6475445433079585e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7453673245903226e-07
+    },
+    {
+      "component": 8,
+      "delta_log_likelihood": -0.0013163173946981743,
+      "max_BTO_change_us": 0.03207946749171242,
+      "max_BFO_change_hz": 9.501313817850132e-05,
+      "max_endpoint_change_deg": 6.70636190172047e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7453673245903226e-07
+    },
+    {
+      "component": 8,
+      "delta_log_likelihood": 3.2988648297482825e-05,
+      "max_BTO_change_us": 0.004377207660581917,
+      "max_BFO_change_hz": 4.510188483664024e-05,
+      "max_endpoint_change_deg": 5.6475445433079585e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7453673245903226e-07
+    },
+    {
+      "component": 8,
+      "delta_log_likelihood": 0.0022261462957171574,
+      "max_BTO_change_us": 0.06684802559902892,
+      "max_BFO_change_hz": 0.00015421260434322903,
+      "max_endpoint_change_deg": 0.0001211233589728522,
+      "passes_at_30s": true,
+      "component_weight": 4.7453673245903226e-07
+    },
+    {
+      "component": 8,
+      "delta_log_likelihood": -0.00045637227793360324,
+      "max_BTO_change_us": 0.016899663140065968,
+      "max_BFO_change_hz": 6.8453422386483e-05,
+      "max_endpoint_change_deg": 5.779366247793405e-06,
+      "passes_at_30s": true,
+      "component_weight": 4.7453673245903226e-07
+    },
+    {
+      "component": 8,
+      "delta_log_likelihood": 0.0006264970450260421,
+      "max_BTO_change_us": 0.020668666169513017,
+      "max_BFO_change_hz": 9.709412998404332e-05,
+      "max_endpoint_change_deg": 1.2015513682683832e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7453673245903226e-07
+    },
+    {
+      "component": 8,
+      "delta_log_likelihood": 0.0006264970450260421,
+      "max_BTO_change_us": 0.020668666169513017,
+      "max_BFO_change_hz": 9.709412998404332e-05,
+      "max_endpoint_change_deg": 1.2015513682683832e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7453673245903226e-07
+    },
+    {
+      "component": 8,
+      "delta_log_likelihood": 0.0022261462957171574,
+      "max_BTO_change_us": 0.06684802559902892,
+      "max_BFO_change_hz": 0.00015421260434322903,
+      "max_endpoint_change_deg": 0.0001211233589728522,
+      "passes_at_30s": true,
+      "component_weight": 4.7453673245903226e-07
+    },
+    {
+      "component": 8,
+      "delta_log_likelihood": 3.2988648297482825e-05,
+      "max_BTO_change_us": 0.004377207660581917,
+      "max_BFO_change_hz": 4.510188483664024e-05,
+      "max_endpoint_change_deg": 5.6475445433079585e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7453673245903226e-07
+    },
+    {
+      "component": 8,
+      "delta_log_likelihood": 3.2988648297482825e-05,
+      "max_BTO_change_us": 0.004377207660581917,
+      "max_BFO_change_hz": 4.510188483664024e-05,
+      "max_endpoint_change_deg": 5.6475445433079585e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7453673245903226e-07
+    },
+    {
+      "component": 8,
+      "delta_log_likelihood": 0.00020121682577034505,
+      "max_BTO_change_us": 0.01662576152011752,
+      "max_BFO_change_hz": 5.356591037752878e-05,
+      "max_endpoint_change_deg": 2.869787002524049e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7453673245903226e-07
+    },
+    {
+      "component": 8,
+      "delta_log_likelihood": 3.2988648297482825e-05,
+      "max_BTO_change_us": 0.004377207660581917,
+      "max_BFO_change_hz": 4.510188483664024e-05,
+      "max_endpoint_change_deg": 5.6475445433079585e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7453673245903226e-07
+    },
+    {
+      "component": 8,
+      "delta_log_likelihood": 0.0006264970450260421,
+      "max_BTO_change_us": 0.020668666169513017,
+      "max_BFO_change_hz": 9.709412998404332e-05,
+      "max_endpoint_change_deg": 1.2015513682683832e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7453673245903226e-07
+    },
+    {
+      "component": 8,
+      "delta_log_likelihood": 0.0022261462957171574,
+      "max_BTO_change_us": 0.06684802559902892,
+      "max_BFO_change_hz": 0.00015421260434322903,
+      "max_endpoint_change_deg": 0.0001211233589728522,
+      "passes_at_30s": true,
+      "component_weight": 4.7453673245903226e-07
+    },
+    {
+      "component": 8,
+      "delta_log_likelihood": 0.0022261462957171574,
+      "max_BTO_change_us": 0.06684802559902892,
+      "max_BFO_change_hz": 0.00015421260434322903,
+      "max_endpoint_change_deg": 0.0001211233589728522,
+      "passes_at_30s": true,
+      "component_weight": 4.7453673245903226e-07
+    },
+    {
+      "component": 8,
+      "delta_log_likelihood": 0.0006264970450260421,
+      "max_BTO_change_us": 0.020668666169513017,
+      "max_BFO_change_hz": 9.709412998404332e-05,
+      "max_endpoint_change_deg": 1.2015513682683832e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7453673245903226e-07
+    },
+    {
+      "component": 8,
+      "delta_log_likelihood": 3.2988648297482825e-05,
+      "max_BTO_change_us": 0.004377207660581917,
+      "max_BFO_change_hz": 4.510188483664024e-05,
+      "max_endpoint_change_deg": 5.6475445433079585e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7453673245903226e-07
+    },
+    {
+      "component": 8,
+      "delta_log_likelihood": 0.0012046810967101251,
+      "max_BTO_change_us": 0.025194279209244996,
+      "max_BFO_change_hz": 0.00011078739959202721,
+      "max_endpoint_change_deg": 9.441293677525664e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7453673245903226e-07
+    },
+    {
+      "component": 8,
+      "delta_log_likelihood": 0.0022261462957171574,
+      "max_BTO_change_us": 0.06684802559902892,
+      "max_BFO_change_hz": 0.00015421260434322903,
+      "max_endpoint_change_deg": 0.0001211233589728522,
+      "passes_at_30s": true,
+      "component_weight": 4.7453673245903226e-07
+    },
+    {
+      "component": 8,
+      "delta_log_likelihood": 0.0022261462957171574,
+      "max_BTO_change_us": 0.06684802559902892,
+      "max_BFO_change_hz": 0.00015421260434322903,
+      "max_endpoint_change_deg": 0.0001211233589728522,
+      "passes_at_30s": true,
+      "component_weight": 4.7453673245903226e-07
+    },
+    {
+      "component": 8,
+      "delta_log_likelihood": 0.0022261462957171574,
+      "max_BTO_change_us": 0.06684802559902892,
+      "max_BFO_change_hz": 0.00015421260434322903,
+      "max_endpoint_change_deg": 0.0001211233589728522,
+      "passes_at_30s": true,
+      "component_weight": 4.7453673245903226e-07
+    },
+    {
+      "component": 8,
+      "delta_log_likelihood": 0.0006264970450260421,
+      "max_BTO_change_us": 0.020668666169513017,
+      "max_BFO_change_hz": 9.709412998404332e-05,
+      "max_endpoint_change_deg": 1.2015513682683832e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7453673245903226e-07
+    },
+    {
+      "component": 8,
+      "delta_log_likelihood": 0.0006264970450260421,
+      "max_BTO_change_us": 0.020668666169513017,
+      "max_BFO_change_hz": 9.709412998404332e-05,
+      "max_endpoint_change_deg": 1.2015513682683832e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7453673245903226e-07
+    },
+    {
+      "component": 9,
+      "delta_log_likelihood": 0.0010017961837478495,
+      "max_BTO_change_us": 0.029828572587575763,
+      "max_BFO_change_hz": 0.0001247376021638047,
+      "max_endpoint_change_deg": 9.660786323806292e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.3529514685808123e-06
+    },
+    {
+      "component": 9,
+      "delta_log_likelihood": 0.0010017961837478495,
+      "max_BTO_change_us": 0.029828572587575763,
+      "max_BFO_change_hz": 0.0001247376021638047,
+      "max_endpoint_change_deg": 9.660786323806292e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.3529514685808123e-06
+    },
+    {
+      "component": 9,
+      "delta_log_likelihood": 0.0010017961837478495,
+      "max_BTO_change_us": 0.029828572587575763,
+      "max_BFO_change_hz": 0.0001247376021638047,
+      "max_endpoint_change_deg": 9.660786323806292e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.3529514685808123e-06
+    },
+    {
+      "component": 9,
+      "delta_log_likelihood": 0.0010017961837478495,
+      "max_BTO_change_us": 0.029828572587575763,
+      "max_BFO_change_hz": 0.0001247376021638047,
+      "max_endpoint_change_deg": 9.660786323806292e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.3529514685808123e-06
+    },
+    {
+      "component": 9,
+      "delta_log_likelihood": 0.0010017961837478495,
+      "max_BTO_change_us": 0.029828572587575763,
+      "max_BFO_change_hz": 0.0001247376021638047,
+      "max_endpoint_change_deg": 9.660786323806292e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.3529514685808123e-06
+    },
+    {
+      "component": 9,
+      "delta_log_likelihood": -0.0002494292309709323,
+      "max_BTO_change_us": 0.06644346140092239,
+      "max_BFO_change_hz": 0.00026134811088240895,
+      "max_endpoint_change_deg": 0.00021079955283553886,
+      "passes_at_30s": true,
+      "component_weight": 1.3529514685808123e-06
+    },
+    {
+      "component": 9,
+      "delta_log_likelihood": 0.0010017961837478495,
+      "max_BTO_change_us": 0.029828572587575763,
+      "max_BFO_change_hz": 0.0001247376021638047,
+      "max_endpoint_change_deg": 9.660786323806292e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.3529514685808123e-06
+    },
+    {
+      "component": 9,
+      "delta_log_likelihood": 0.0010017961837478495,
+      "max_BTO_change_us": 0.029828572587575763,
+      "max_BFO_change_hz": 0.0001247376021638047,
+      "max_endpoint_change_deg": 9.660786323806292e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.3529514685808123e-06
+    },
+    {
+      "component": 9,
+      "delta_log_likelihood": 0.0010017961837478495,
+      "max_BTO_change_us": 0.029828572587575763,
+      "max_BFO_change_hz": 0.0001247376021638047,
+      "max_endpoint_change_deg": 9.660786323806292e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.3529514685808123e-06
+    },
+    {
+      "component": 9,
+      "delta_log_likelihood": 0.0010017961837478495,
+      "max_BTO_change_us": 0.029828572587575763,
+      "max_BFO_change_hz": 0.0001247376021638047,
+      "max_endpoint_change_deg": 9.660786323806292e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.3529514685808123e-06
+    },
+    {
+      "component": 9,
+      "delta_log_likelihood": -0.0004692592528989792,
+      "max_BTO_change_us": 0.05831102863885462,
+      "max_BFO_change_hz": 0.00018794952390521757,
+      "max_endpoint_change_deg": 0.00014709016420511034,
+      "passes_at_30s": true,
+      "component_weight": 1.3529514685808123e-06
+    },
+    {
+      "component": 9,
+      "delta_log_likelihood": 0.0010017961837478495,
+      "max_BTO_change_us": 0.029828572587575763,
+      "max_BFO_change_hz": 0.0001247376021638047,
+      "max_endpoint_change_deg": 9.660786323806292e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.3529514685808123e-06
+    },
+    {
+      "component": 9,
+      "delta_log_likelihood": 0.0010017961837478495,
+      "max_BTO_change_us": 0.029828572587575763,
+      "max_BFO_change_hz": 0.0001247376021638047,
+      "max_endpoint_change_deg": 9.660786323806292e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.3529514685808123e-06
+    },
+    {
+      "component": 9,
+      "delta_log_likelihood": 0.0010017961837478495,
+      "max_BTO_change_us": 0.029828572587575763,
+      "max_BFO_change_hz": 0.0001247376021638047,
+      "max_endpoint_change_deg": 9.660786323806292e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.3529514685808123e-06
+    },
+    {
+      "component": 9,
+      "delta_log_likelihood": 0.0010017961837478495,
+      "max_BTO_change_us": 0.029828572587575763,
+      "max_BFO_change_hz": 0.0001247376021638047,
+      "max_endpoint_change_deg": 9.660786323806292e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.3529514685808123e-06
+    },
+    {
+      "component": 9,
+      "delta_log_likelihood": 0.0010017961837478495,
+      "max_BTO_change_us": 0.029828572587575763,
+      "max_BFO_change_hz": 0.0001247376021638047,
+      "max_endpoint_change_deg": 9.660786323806292e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.3529514685808123e-06
+    },
+    {
+      "component": 9,
+      "delta_log_likelihood": 0.0010017961837478495,
+      "max_BTO_change_us": 0.029828572587575763,
+      "max_BFO_change_hz": 0.0001247376021638047,
+      "max_endpoint_change_deg": 9.660786323806292e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.3529514685808123e-06
+    },
+    {
+      "component": 9,
+      "delta_log_likelihood": 0.0010017961837478495,
+      "max_BTO_change_us": 0.029828572587575763,
+      "max_BFO_change_hz": 0.0001247376021638047,
+      "max_endpoint_change_deg": 9.660786323806292e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.3529514685808123e-06
+    },
+    {
+      "component": 9,
+      "delta_log_likelihood": 0.0010017961837478495,
+      "max_BTO_change_us": 0.029828572587575763,
+      "max_BFO_change_hz": 0.0001247376021638047,
+      "max_endpoint_change_deg": 9.660786323806292e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.3529514685808123e-06
+    },
+    {
+      "component": 9,
+      "delta_log_likelihood": 0.0010017961837478495,
+      "max_BTO_change_us": 0.029828572587575763,
+      "max_BFO_change_hz": 0.0001247376021638047,
+      "max_endpoint_change_deg": 9.660786323806292e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.3529514685808123e-06
+    },
+    {
+      "component": 9,
+      "delta_log_likelihood": 0.0010017961837478495,
+      "max_BTO_change_us": 0.029828572587575763,
+      "max_BFO_change_hz": 0.0001247376021638047,
+      "max_endpoint_change_deg": 9.660786323806292e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.3529514685808123e-06
+    },
+    {
+      "component": 9,
+      "delta_log_likelihood": 0.0010017961837478495,
+      "max_BTO_change_us": 0.029828572587575763,
+      "max_BFO_change_hz": 0.0001247376021638047,
+      "max_endpoint_change_deg": 9.660786323806292e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.3529514685808123e-06
+    },
+    {
+      "component": 9,
+      "delta_log_likelihood": 0.0010017961837478495,
+      "max_BTO_change_us": 0.029828572587575763,
+      "max_BFO_change_hz": 0.0001247376021638047,
+      "max_endpoint_change_deg": 9.660786323806292e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.3529514685808123e-06
+    },
+    {
+      "component": 9,
+      "delta_log_likelihood": 0.0010017961837478495,
+      "max_BTO_change_us": 0.029828572587575763,
+      "max_BFO_change_hz": 0.0001247376021638047,
+      "max_endpoint_change_deg": 9.660786323806292e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.3529514685808123e-06
+    },
+    {
+      "component": 12,
+      "delta_log_likelihood": 0.00023370722236659702,
+      "max_BTO_change_us": 0.018010179337579757,
+      "max_BFO_change_hz": 5.967574929854891e-05,
+      "max_endpoint_change_deg": 4.970407765370055e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.16000290737391812
+    },
+    {
+      "component": 12,
+      "delta_log_likelihood": 0.0009500619686013678,
+      "max_BTO_change_us": 0.033090047480072826,
+      "max_BFO_change_hz": 0.00015846314965983765,
+      "max_endpoint_change_deg": 0.0001017925620132587,
+      "passes_at_30s": true,
+      "component_weight": 0.16000290737391812
+    },
+    {
+      "component": 12,
+      "delta_log_likelihood": -0.00044783486029675856,
+      "max_BTO_change_us": 0.005696023174095899,
+      "max_BFO_change_hz": 5.5849163061338913e-05,
+      "max_endpoint_change_deg": 9.203200534102507e-06,
+      "passes_at_30s": true,
+      "component_weight": 0.16000290737391812
+    },
+    {
+      "component": 12,
+      "delta_log_likelihood": 0.0006212200542181634,
+      "max_BTO_change_us": 0.015792799706105143,
+      "max_BFO_change_hz": 4.941667287994278e-05,
+      "max_endpoint_change_deg": 3.8662240932296754e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.16000290737391812
+    },
+    {
+      "component": 12,
+      "delta_log_likelihood": -0.0005958591619004139,
+      "max_BTO_change_us": 0.01794318901374936,
+      "max_BFO_change_hz": 5.95984575966213e-05,
+      "max_endpoint_change_deg": 2.538965882337152e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.16000290737391812
+    },
+    {
+      "component": 12,
+      "delta_log_likelihood": -2.8762762922518448e-05,
+      "max_BTO_change_us": 0.00354449130827561,
+      "max_BFO_change_hz": 2.6496183437529908e-05,
+      "max_endpoint_change_deg": 1.938938545720248e-06,
+      "passes_at_30s": true,
+      "component_weight": 0.16000290737391812
+    },
+    {
+      "component": 12,
+      "delta_log_likelihood": -0.00043483352443729473,
+      "max_BTO_change_us": 0.02921415673336014,
+      "max_BFO_change_hz": 8.851177355495565e-05,
+      "max_endpoint_change_deg": 4.1170528831457887e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.16000290737391812
+    },
+    {
+      "component": 12,
+      "delta_log_likelihood": -0.0009863452610145984,
+      "max_BTO_change_us": 0.021647793997544795,
+      "max_BFO_change_hz": 6.704041979332942e-05,
+      "max_endpoint_change_deg": 5.125513770565249e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.16000290737391812
+    },
+    {
+      "component": 12,
+      "delta_log_likelihood": 0.0004960597092686925,
+      "max_BTO_change_us": 0.005518947960808873,
+      "max_BFO_change_hz": 3.603839726906699e-05,
+      "max_endpoint_change_deg": 1.1396451299106047e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.16000290737391812
+    },
+    {
+      "component": 12,
+      "delta_log_likelihood": 0.00017639278548298165,
+      "max_BTO_change_us": 0.01184635458048433,
+      "max_BFO_change_hz": 4.6155303465411635e-05,
+      "max_endpoint_change_deg": 2.0939292376453977e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.16000290737391812
+    },
+    {
+      "component": 12,
+      "delta_log_likelihood": 0.0005598635492631843,
+      "max_BTO_change_us": 0.015377546777017415,
+      "max_BFO_change_hz": 4.0721870078641587e-05,
+      "max_endpoint_change_deg": 5.197499697118246e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.16000290737391812
+    },
+    {
+      "component": 12,
+      "delta_log_likelihood": 0.00014547738947001676,
+      "max_BTO_change_us": 0.005421810725238174,
+      "max_BFO_change_hz": 1.4949822201515417e-05,
+      "max_endpoint_change_deg": 1.2776680101467264e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.16000290737391812
+    },
+    {
+      "component": 12,
+      "delta_log_likelihood": 0.003149764303952196,
+      "max_BTO_change_us": 0.03201732476009056,
+      "max_BFO_change_hz": 0.00011831403259066064,
+      "max_endpoint_change_deg": 8.42276422474697e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.16000290737391812
+    },
+    {
+      "component": 12,
+      "delta_log_likelihood": 0.0004805702733481354,
+      "max_BTO_change_us": 0.013572732801549137,
+      "max_BFO_change_hz": 4.2788607942156887e-05,
+      "max_endpoint_change_deg": 2.9901316963787394e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.16000290737391812
+    },
+    {
+      "component": 12,
+      "delta_log_likelihood": 0.0016046389671524608,
+      "max_BTO_change_us": 0.032784351671580225,
+      "max_BFO_change_hz": 9.917841853734899e-05,
+      "max_endpoint_change_deg": 8.261876708814953e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.16000290737391812
+    },
+    {
+      "component": 12,
+      "delta_log_likelihood": 0.0003947058735205289,
+      "max_BTO_change_us": 0.015853045391850173,
+      "max_BFO_change_hz": 8.119756105884335e-05,
+      "max_endpoint_change_deg": 5.659916656242103e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.16000290737391812
+    },
+    {
+      "component": 12,
+      "delta_log_likelihood": -2.3560581542625414e-05,
+      "max_BTO_change_us": 0.01903431472601369,
+      "max_BFO_change_hz": 6.369086199242702e-05,
+      "max_endpoint_change_deg": 4.893307644238121e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.16000290737391812
+    },
+    {
+      "component": 12,
+      "delta_log_likelihood": -0.0007876393614472121,
+      "max_BTO_change_us": 0.03883478289935738,
+      "max_BFO_change_hz": 0.00012406183816437988,
+      "max_endpoint_change_deg": 3.46575318630471e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.16000290737391812
+    },
+    {
+      "component": 12,
+      "delta_log_likelihood": 0.000277593032920187,
+      "max_BTO_change_us": 0.008035186678171158,
+      "max_BFO_change_hz": 6.518898274521234e-05,
+      "max_endpoint_change_deg": 1.6974497405897182e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.16000290737391812
+    },
+    {
+      "component": 12,
+      "delta_log_likelihood": 0.0008541294516120068,
+      "max_BTO_change_us": 0.03449468134203926,
+      "max_BFO_change_hz": 0.00010436240916078532,
+      "max_endpoint_change_deg": 8.363660161592179e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.16000290737391812
+    },
+    {
+      "component": 12,
+      "delta_log_likelihood": 5.9718457854351925e-05,
+      "max_BTO_change_us": 0.009312824695371091,
+      "max_BFO_change_hz": 2.6955057222721734e-05,
+      "max_endpoint_change_deg": 2.1748709549740397e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.16000290737391812
+    },
+    {
+      "component": 12,
+      "delta_log_likelihood": 0.00010930537415188013,
+      "max_BTO_change_us": 0.047268448397517204,
+      "max_BFO_change_hz": 0.00015594209008895632,
+      "max_endpoint_change_deg": 0.00011578824729241433,
+      "passes_at_30s": true,
+      "component_weight": 0.16000290737391812
+    },
+    {
+      "component": 12,
+      "delta_log_likelihood": 0.0005132476003044673,
+      "max_BTO_change_us": 0.014268238912336528,
+      "max_BFO_change_hz": 4.0948071784896456e-05,
+      "max_endpoint_change_deg": 3.9068709334344476e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.16000290737391812
+    },
+    {
+      "component": 12,
+      "delta_log_likelihood": 0.0007873395833142283,
+      "max_BTO_change_us": 0.01741343445610255,
+      "max_BFO_change_hz": 9.152755058039475e-05,
+      "max_endpoint_change_deg": 4.887287566646137e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.16000290737391812
+    },
+    {
+      "component": 13,
+      "delta_log_likelihood": -0.001198660680212349,
+      "max_BTO_change_us": 0.03211037430446595,
+      "max_BFO_change_hz": 0.00010146832607915712,
+      "max_endpoint_change_deg": 8.203291670838553e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3041907028955688
+    },
+    {
+      "component": 13,
+      "delta_log_likelihood": 9.232561892869029e-05,
+      "max_BTO_change_us": 0.008968069800175726,
+      "max_BFO_change_hz": 3.672508591989754e-05,
+      "max_endpoint_change_deg": 9.6226717545278e-06,
+      "passes_at_30s": true,
+      "component_weight": 0.3041907028955688
+    },
+    {
+      "component": 13,
+      "delta_log_likelihood": -0.00010944927088551992,
+      "max_BTO_change_us": 0.022512198658660054,
+      "max_BFO_change_hz": 6.870810469195021e-05,
+      "max_endpoint_change_deg": 5.7501005784388326e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3041907028955688
+    },
+    {
+      "component": 13,
+      "delta_log_likelihood": -9.806671123246957e-05,
+      "max_BTO_change_us": 0.018052812840323895,
+      "max_BFO_change_hz": 7.504817369863304e-05,
+      "max_endpoint_change_deg": 4.383695307552671e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3041907028955688
+    },
+    {
+      "component": 13,
+      "delta_log_likelihood": 0.0003287987703499695,
+      "max_BTO_change_us": 0.05494850856484845,
+      "max_BFO_change_hz": 0.00017903273521824303,
+      "max_endpoint_change_deg": 0.00013715364202226965,
+      "passes_at_30s": true,
+      "component_weight": 0.3041907028955688
+    },
+    {
+      "component": 13,
+      "delta_log_likelihood": 6.105119076504906e-05,
+      "max_BTO_change_us": 0.0076166343642398715,
+      "max_BFO_change_hz": 5.065102209300676e-05,
+      "max_endpoint_change_deg": 2.9817980497170993e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3041907028955688
+    },
+    {
+      "component": 13,
+      "delta_log_likelihood": 0.000739385598166109,
+      "max_BTO_change_us": 0.018164564564358443,
+      "max_BFO_change_hz": 5.242632266799774e-05,
+      "max_endpoint_change_deg": 4.3383252197770616e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3041907028955688
+    },
+    {
+      "component": 13,
+      "delta_log_likelihood": 0.00151637574842578,
+      "max_BTO_change_us": 0.02583559771301225,
+      "max_BFO_change_hz": 9.334493583423864e-05,
+      "max_endpoint_change_deg": 6.868492234701762e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3041907028955688
+    },
+    {
+      "component": 13,
+      "delta_log_likelihood": 0.0006691393302009629,
+      "max_BTO_change_us": 0.007799274055287242,
+      "max_BFO_change_hz": 0.00010415715524914049,
+      "max_endpoint_change_deg": 3.6309012472202085e-06,
+      "passes_at_30s": true,
+      "component_weight": 0.3041907028955688
+    },
+    {
+      "component": 13,
+      "delta_log_likelihood": -0.0002673392289933574,
+      "max_BTO_change_us": 0.043118540837895125,
+      "max_BFO_change_hz": 0.00013050957798554919,
+      "max_endpoint_change_deg": 9.386858081228411e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3041907028955688
+    },
+    {
+      "component": 13,
+      "delta_log_likelihood": 6.880213999771456e-05,
+      "max_BTO_change_us": 0.02413903019623831,
+      "max_BFO_change_hz": 7.239075156917352e-05,
+      "max_endpoint_change_deg": 5.289147859599552e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3041907028955688
+    },
+    {
+      "component": 13,
+      "delta_log_likelihood": 0.0005202731523885618,
+      "max_BTO_change_us": 0.012404719775076956,
+      "max_BFO_change_hz": 4.7109041673820684e-05,
+      "max_endpoint_change_deg": 2.864418938486324e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3041907028955688
+    },
+    {
+      "component": 13,
+      "delta_log_likelihood": 0.00047291585369357847,
+      "max_BTO_change_us": 0.006696072232443839,
+      "max_BFO_change_hz": 3.288976478188488e-05,
+      "max_endpoint_change_deg": 2.008611261317128e-06,
+      "passes_at_30s": true,
+      "component_weight": 0.3041907028955688
+    },
+    {
+      "component": 13,
+      "delta_log_likelihood": -0.00012536491535719563,
+      "max_BTO_change_us": 0.0025469689862802625,
+      "max_BFO_change_hz": 9.901373488219178e-06,
+      "max_endpoint_change_deg": 5.416756764020647e-06,
+      "passes_at_30s": true,
+      "component_weight": 0.3041907028955688
+    },
+    {
+      "component": 13,
+      "delta_log_likelihood": -0.0008073920742308616,
+      "max_BTO_change_us": 0.010379073035437614,
+      "max_BFO_change_hz": 3.7890357873493485e-05,
+      "max_endpoint_change_deg": 1.4660134837640726e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3041907028955688
+    },
+    {
+      "component": 13,
+      "delta_log_likelihood": 9.061541748334179e-05,
+      "max_BTO_change_us": 0.0026557170785963535,
+      "max_BFO_change_hz": 2.5758194851732696e-05,
+      "max_endpoint_change_deg": 2.316106617428204e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3041907028955688
+    },
+    {
+      "component": 13,
+      "delta_log_likelihood": 2.7578691887519824e-05,
+      "max_BTO_change_us": 0.011030431895051152,
+      "max_BFO_change_hz": 5.609630102298979e-05,
+      "max_endpoint_change_deg": 2.6881910393683484e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3041907028955688
+    },
+    {
+      "component": 13,
+      "delta_log_likelihood": -0.00012536491535719563,
+      "max_BTO_change_us": 0.0025469689862802625,
+      "max_BFO_change_hz": 9.901373488219178e-06,
+      "max_endpoint_change_deg": 5.416756764020647e-06,
+      "passes_at_30s": true,
+      "component_weight": 0.3041907028955688
+    },
+    {
+      "component": 13,
+      "delta_log_likelihood": 0.00026013914560918394,
+      "max_BTO_change_us": 0.010350847209338099,
+      "max_BFO_change_hz": 8.161908212400704e-05,
+      "max_endpoint_change_deg": 1.3000323512812884e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3041907028955688
+    },
+    {
+      "component": 13,
+      "delta_log_likelihood": 9.2547925416131e-05,
+      "max_BTO_change_us": 0.011786191374994814,
+      "max_BFO_change_hz": 4.774136061769241e-05,
+      "max_endpoint_change_deg": 2.8973921772035283e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3041907028955688
+    },
+    {
+      "component": 13,
+      "delta_log_likelihood": 0.00027912554742126616,
+      "max_BTO_change_us": 0.008277427579741925,
+      "max_BFO_change_hz": 3.485973218175786e-05,
+      "max_endpoint_change_deg": 3.556934643711429e-06,
+      "passes_at_30s": true,
+      "component_weight": 0.3041907028955688
+    },
+    {
+      "component": 13,
+      "delta_log_likelihood": 0.0009729593610607878,
+      "max_BTO_change_us": 0.019247995864134282,
+      "max_BFO_change_hz": 7.371895969754405e-05,
+      "max_endpoint_change_deg": 4.198280567635493e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3041907028955688
+    },
+    {
+      "component": 13,
+      "delta_log_likelihood": 0.0002241348402058918,
+      "max_BTO_change_us": 0.015486438351217657,
+      "max_BFO_change_hz": 4.900402643670532e-05,
+      "max_endpoint_change_deg": 3.411119390506201e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.3041907028955688
+    },
+    {
+      "component": 13,
+      "delta_log_likelihood": 0.0006691393302009629,
+      "max_BTO_change_us": 0.007799274055287242,
+      "max_BFO_change_hz": 0.00010415715524914049,
+      "max_endpoint_change_deg": 3.6309012472202085e-06,
+      "passes_at_30s": true,
+      "component_weight": 0.3041907028955688
+    },
+    {
+      "component": 14,
+      "delta_log_likelihood": 0.0036367570201649713,
+      "max_BTO_change_us": 0.14287050295388326,
+      "max_BFO_change_hz": 0.0004168208497787873,
+      "max_endpoint_change_deg": 0.00033012463180170926,
+      "passes_at_30s": true,
+      "component_weight": 0.003544545040217441
+    },
+    {
+      "component": 14,
+      "delta_log_likelihood": 0.00014392884262992567,
+      "max_BTO_change_us": 0.030087091086898,
+      "max_BFO_change_hz": 0.00011656445937546778,
+      "max_endpoint_change_deg": 9.400957010896605e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003544545040217441
+    },
+    {
+      "component": 14,
+      "delta_log_likelihood": -0.003095214364522647,
+      "max_BTO_change_us": 0.06296279723756015,
+      "max_BFO_change_hz": 0.0002302699605536418,
+      "max_endpoint_change_deg": 0.00011386705901728078,
+      "passes_at_30s": true,
+      "component_weight": 0.003544545040217441
+    },
+    {
+      "component": 14,
+      "delta_log_likelihood": 0.00320679297308768,
+      "max_BTO_change_us": 0.04849805834237486,
+      "max_BFO_change_hz": 0.00014658915944210094,
+      "max_endpoint_change_deg": 0.00010803961480831958,
+      "passes_at_30s": true,
+      "component_weight": 0.003544545040217441
+    },
+    {
+      "component": 14,
+      "delta_log_likelihood": 0.001529281227884205,
+      "max_BTO_change_us": 0.05249847349477932,
+      "max_BFO_change_hz": 0.00019948809696757053,
+      "max_endpoint_change_deg": 8.889786100496622e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003544545040217441
+    },
+    {
+      "component": 14,
+      "delta_log_likelihood": -0.003095214364522647,
+      "max_BTO_change_us": 0.06296279723756015,
+      "max_BFO_change_hz": 0.0002302699605536418,
+      "max_endpoint_change_deg": 0.00011386705901728078,
+      "passes_at_30s": true,
+      "component_weight": 0.003544545040217441
+    },
+    {
+      "component": 14,
+      "delta_log_likelihood": -0.00023013484924838679,
+      "max_BTO_change_us": 0.08673331962199882,
+      "max_BFO_change_hz": 0.0002903839215377957,
+      "max_endpoint_change_deg": 0.0002480282085244312,
+      "passes_at_30s": true,
+      "component_weight": 0.003544545040217441
+    },
+    {
+      "component": 14,
+      "delta_log_likelihood": 0.0013932556029914167,
+      "max_BTO_change_us": 0.033689515257719904,
+      "max_BFO_change_hz": 0.00012674585764216317,
+      "max_endpoint_change_deg": 9.591862684033003e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003544545040217441
+    },
+    {
+      "component": 14,
+      "delta_log_likelihood": 0.00020710526982270494,
+      "max_BTO_change_us": 0.008078656799625605,
+      "max_BFO_change_hz": 4.3101579791482436e-05,
+      "max_endpoint_change_deg": 3.451429696355035e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003544545040217441
+    },
+    {
+      "component": 14,
+      "delta_log_likelihood": 0.0008459422763014146,
+      "max_BTO_change_us": 0.013040103192906827,
+      "max_BFO_change_hz": 4.9471452683746975e-05,
+      "max_endpoint_change_deg": 3.818417584611211e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003544545040217441
+    },
+    {
+      "component": 14,
+      "delta_log_likelihood": -0.003095214364522647,
+      "max_BTO_change_us": 0.06296279723756015,
+      "max_BFO_change_hz": 0.0002302699605536418,
+      "max_endpoint_change_deg": 0.00011386705901728078,
+      "passes_at_30s": true,
+      "component_weight": 0.003544545040217441
+    },
+    {
+      "component": 14,
+      "delta_log_likelihood": 0.001105763725986364,
+      "max_BTO_change_us": 0.029474263486918062,
+      "max_BFO_change_hz": 7.78471209912368e-05,
+      "max_endpoint_change_deg": 4.97452135164167e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003544545040217441
+    },
+    {
+      "component": 14,
+      "delta_log_likelihood": 0.0001768569347841975,
+      "max_BTO_change_us": 0.031014989654067904,
+      "max_BFO_change_hz": 0.00014268450635768204,
+      "max_endpoint_change_deg": 1.9872056903125213e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003544545040217441
+    },
+    {
+      "component": 14,
+      "delta_log_likelihood": -0.003095214364522647,
+      "max_BTO_change_us": 0.06296279723756015,
+      "max_BFO_change_hz": 0.0002302699605536418,
+      "max_endpoint_change_deg": 0.00011386705901728078,
+      "passes_at_30s": true,
+      "component_weight": 0.003544545040217441
+    },
+    {
+      "component": 14,
+      "delta_log_likelihood": 0.0008945211995490254,
+      "max_BTO_change_us": 0.026187345734797418,
+      "max_BFO_change_hz": 7.452519520256828e-05,
+      "max_endpoint_change_deg": 3.632309454104643e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003544545040217441
+    },
+    {
+      "component": 14,
+      "delta_log_likelihood": 0.001105763725986364,
+      "max_BTO_change_us": 0.029474263486918062,
+      "max_BFO_change_hz": 7.78471209912368e-05,
+      "max_endpoint_change_deg": 4.97452135164167e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003544545040217441
+    },
+    {
+      "component": 14,
+      "delta_log_likelihood": 0.00320679297308768,
+      "max_BTO_change_us": 0.04849805834237486,
+      "max_BFO_change_hz": 0.00014658915944210094,
+      "max_endpoint_change_deg": 0.00010803961480831958,
+      "passes_at_30s": true,
+      "component_weight": 0.003544545040217441
+    },
+    {
+      "component": 14,
+      "delta_log_likelihood": 0.0013932556029914167,
+      "max_BTO_change_us": 0.033689515257719904,
+      "max_BFO_change_hz": 0.00012674585764216317,
+      "max_endpoint_change_deg": 9.591862684033003e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003544545040217441
+    },
+    {
+      "component": 14,
+      "delta_log_likelihood": 0.001105763725986364,
+      "max_BTO_change_us": 0.029474263486918062,
+      "max_BFO_change_hz": 7.78471209912368e-05,
+      "max_endpoint_change_deg": 4.97452135164167e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003544545040217441
+    },
+    {
+      "component": 14,
+      "delta_log_likelihood": -0.00023013484924838679,
+      "max_BTO_change_us": 0.08673331962199882,
+      "max_BFO_change_hz": 0.0002903839215377957,
+      "max_endpoint_change_deg": 0.0002480282085244312,
+      "passes_at_30s": true,
+      "component_weight": 0.003544545040217441
+    },
+    {
+      "component": 14,
+      "delta_log_likelihood": -1.9551355197933162e-05,
+      "max_BTO_change_us": 0.02334334998158738,
+      "max_BFO_change_hz": 0.00014762760105213601,
+      "max_endpoint_change_deg": 3.132767494662403e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003544545040217441
+    },
+    {
+      "component": 14,
+      "delta_log_likelihood": -0.003095214364522647,
+      "max_BTO_change_us": 0.06296279723756015,
+      "max_BFO_change_hz": 0.0002302699605536418,
+      "max_endpoint_change_deg": 0.00011386705901728078,
+      "passes_at_30s": true,
+      "component_weight": 0.003544545040217441
+    },
+    {
+      "component": 14,
+      "delta_log_likelihood": 0.0013932556029914167,
+      "max_BTO_change_us": 0.033689515257719904,
+      "max_BFO_change_hz": 0.00012674585764216317,
+      "max_endpoint_change_deg": 9.591862684033003e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003544545040217441
+    },
+    {
+      "component": 14,
+      "delta_log_likelihood": 0.0013932556029914167,
+      "max_BTO_change_us": 0.033689515257719904,
+      "max_BFO_change_hz": 0.00012674585764216317,
+      "max_endpoint_change_deg": 9.591862684033003e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003544545040217441
+    },
+    {
+      "component": 15,
+      "delta_log_likelihood": -0.0010051161864623737,
+      "max_BTO_change_us": 0.020103764662053436,
+      "max_BFO_change_hz": 0.0001383251945981101,
+      "max_endpoint_change_deg": 2.3497482843026773e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0016542601590103458
+    },
+    {
+      "component": 15,
+      "delta_log_likelihood": -2.4936961745325448e-05,
+      "max_BTO_change_us": 0.023722708865534514,
+      "max_BFO_change_hz": 8.861002524440664e-05,
+      "max_endpoint_change_deg": 1.1496965598212228e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0016542601590103458
+    },
+    {
+      "component": 15,
+      "delta_log_likelihood": -2.4936961745325448e-05,
+      "max_BTO_change_us": 0.023722708865534514,
+      "max_BFO_change_hz": 8.861002524440664e-05,
+      "max_endpoint_change_deg": 1.1496965598212228e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0016542601590103458
+    },
+    {
+      "component": 15,
+      "delta_log_likelihood": -2.4936961745325448e-05,
+      "max_BTO_change_us": 0.023722708865534514,
+      "max_BFO_change_hz": 8.861002524440664e-05,
+      "max_endpoint_change_deg": 1.1496965598212228e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0016542601590103458
+    },
+    {
+      "component": 15,
+      "delta_log_likelihood": -2.4936961745325448e-05,
+      "max_BTO_change_us": 0.023722708865534514,
+      "max_BFO_change_hz": 8.861002524440664e-05,
+      "max_endpoint_change_deg": 1.1496965598212228e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0016542601590103458
+    },
+    {
+      "component": 15,
+      "delta_log_likelihood": -2.4936961745325448e-05,
+      "max_BTO_change_us": 0.023722708865534514,
+      "max_BFO_change_hz": 8.861002524440664e-05,
+      "max_endpoint_change_deg": 1.1496965598212228e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0016542601590103458
+    },
+    {
+      "component": 15,
+      "delta_log_likelihood": -0.0018049514825406732,
+      "max_BTO_change_us": 0.053638470999430865,
+      "max_BFO_change_hz": 0.00018089118225361744,
+      "max_endpoint_change_deg": 0.0001454909627867096,
+      "passes_at_30s": true,
+      "component_weight": 0.0016542601590103458
+    },
+    {
+      "component": 15,
+      "delta_log_likelihood": -2.4936961745325448e-05,
+      "max_BTO_change_us": 0.023722708865534514,
+      "max_BFO_change_hz": 8.861002524440664e-05,
+      "max_endpoint_change_deg": 1.1496965598212228e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0016542601590103458
+    },
+    {
+      "component": 15,
+      "delta_log_likelihood": -2.4936961745325448e-05,
+      "max_BTO_change_us": 0.023722708865534514,
+      "max_BFO_change_hz": 8.861002524440664e-05,
+      "max_endpoint_change_deg": 1.1496965598212228e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0016542601590103458
+    },
+    {
+      "component": 15,
+      "delta_log_likelihood": -2.4936961745325448e-05,
+      "max_BTO_change_us": 0.023722708865534514,
+      "max_BFO_change_hz": 8.861002524440664e-05,
+      "max_endpoint_change_deg": 1.1496965598212228e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0016542601590103458
+    },
+    {
+      "component": 15,
+      "delta_log_likelihood": -2.4936961745325448e-05,
+      "max_BTO_change_us": 0.023722708865534514,
+      "max_BFO_change_hz": 8.861002524440664e-05,
+      "max_endpoint_change_deg": 1.1496965598212228e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0016542601590103458
+    },
+    {
+      "component": 15,
+      "delta_log_likelihood": -2.4936961745325448e-05,
+      "max_BTO_change_us": 0.023722708865534514,
+      "max_BFO_change_hz": 8.861002524440664e-05,
+      "max_endpoint_change_deg": 1.1496965598212228e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0016542601590103458
+    },
+    {
+      "component": 15,
+      "delta_log_likelihood": -2.4936961745325448e-05,
+      "max_BTO_change_us": 0.023722708865534514,
+      "max_BFO_change_hz": 8.861002524440664e-05,
+      "max_endpoint_change_deg": 1.1496965598212228e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0016542601590103458
+    },
+    {
+      "component": 15,
+      "delta_log_likelihood": -2.4936961745325448e-05,
+      "max_BTO_change_us": 0.023722708865534514,
+      "max_BFO_change_hz": 8.861002524440664e-05,
+      "max_endpoint_change_deg": 1.1496965598212228e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0016542601590103458
+    },
+    {
+      "component": 15,
+      "delta_log_likelihood": -2.4936961745325448e-05,
+      "max_BTO_change_us": 0.023722708865534514,
+      "max_BFO_change_hz": 8.861002524440664e-05,
+      "max_endpoint_change_deg": 1.1496965598212228e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0016542601590103458
+    },
+    {
+      "component": 15,
+      "delta_log_likelihood": -2.4936961745325448e-05,
+      "max_BTO_change_us": 0.023722708865534514,
+      "max_BFO_change_hz": 8.861002524440664e-05,
+      "max_endpoint_change_deg": 1.1496965598212228e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0016542601590103458
+    },
+    {
+      "component": 15,
+      "delta_log_likelihood": -2.4936961745325448e-05,
+      "max_BTO_change_us": 0.023722708865534514,
+      "max_BFO_change_hz": 8.861002524440664e-05,
+      "max_endpoint_change_deg": 1.1496965598212228e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0016542601590103458
+    },
+    {
+      "component": 15,
+      "delta_log_likelihood": -2.4936961745325448e-05,
+      "max_BTO_change_us": 0.023722708865534514,
+      "max_BFO_change_hz": 8.861002524440664e-05,
+      "max_endpoint_change_deg": 1.1496965598212228e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0016542601590103458
+    },
+    {
+      "component": 15,
+      "delta_log_likelihood": -2.4936961745325448e-05,
+      "max_BTO_change_us": 0.023722708865534514,
+      "max_BFO_change_hz": 8.861002524440664e-05,
+      "max_endpoint_change_deg": 1.1496965598212228e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0016542601590103458
+    },
+    {
+      "component": 15,
+      "delta_log_likelihood": -2.4936961745325448e-05,
+      "max_BTO_change_us": 0.023722708865534514,
+      "max_BFO_change_hz": 8.861002524440664e-05,
+      "max_endpoint_change_deg": 1.1496965598212228e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0016542601590103458
+    },
+    {
+      "component": 15,
+      "delta_log_likelihood": -2.4936961745325448e-05,
+      "max_BTO_change_us": 0.023722708865534514,
+      "max_BFO_change_hz": 8.861002524440664e-05,
+      "max_endpoint_change_deg": 1.1496965598212228e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0016542601590103458
+    },
+    {
+      "component": 15,
+      "delta_log_likelihood": -2.4936961745325448e-05,
+      "max_BTO_change_us": 0.023722708865534514,
+      "max_BFO_change_hz": 8.861002524440664e-05,
+      "max_endpoint_change_deg": 1.1496965598212228e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0016542601590103458
+    },
+    {
+      "component": 15,
+      "delta_log_likelihood": -2.4936961745325448e-05,
+      "max_BTO_change_us": 0.023722708865534514,
+      "max_BFO_change_hz": 8.861002524440664e-05,
+      "max_endpoint_change_deg": 1.1496965598212228e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0016542601590103458
+    },
+    {
+      "component": 15,
+      "delta_log_likelihood": -0.00021635145932696886,
+      "max_BTO_change_us": 0.021373694122303277,
+      "max_BFO_change_hz": 6.559587851029391e-05,
+      "max_endpoint_change_deg": 4.019523264275904e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0016542601590103458
+    },
+    {
+      "component": 16,
+      "delta_log_likelihood": 7.063600365508904e-05,
+      "max_BTO_change_us": 0.004889720235951245,
+      "max_BFO_change_hz": 4.990140553218225e-05,
+      "max_endpoint_change_deg": 1.0582220696164768e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003393616205193844
+    },
+    {
+      "component": 16,
+      "delta_log_likelihood": -0.00031915440339158607,
+      "max_BTO_change_us": 0.014796559000387788,
+      "max_BFO_change_hz": 5.204734875974282e-05,
+      "max_endpoint_change_deg": 2.917266418478448e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003393616205193844
+    },
+    {
+      "component": 16,
+      "delta_log_likelihood": 7.063600365508904e-05,
+      "max_BTO_change_us": 0.004889720235951245,
+      "max_BFO_change_hz": 4.990140553218225e-05,
+      "max_endpoint_change_deg": 1.0582220696164768e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003393616205193844
+    },
+    {
+      "component": 16,
+      "delta_log_likelihood": 7.063600365508904e-05,
+      "max_BTO_change_us": 0.004889720235951245,
+      "max_BFO_change_hz": 4.990140553218225e-05,
+      "max_endpoint_change_deg": 1.0582220696164768e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003393616205193844
+    },
+    {
+      "component": 16,
+      "delta_log_likelihood": 7.063600365508904e-05,
+      "max_BTO_change_us": 0.004889720235951245,
+      "max_BFO_change_hz": 4.990140553218225e-05,
+      "max_endpoint_change_deg": 1.0582220696164768e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003393616205193844
+    },
+    {
+      "component": 16,
+      "delta_log_likelihood": -0.0025514699455975176,
+      "max_BTO_change_us": 0.038027620408684015,
+      "max_BFO_change_hz": 8.280629791102001e-05,
+      "max_endpoint_change_deg": 6.74110124734284e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003393616205193844
+    },
+    {
+      "component": 16,
+      "delta_log_likelihood": 0.00015768803556692745,
+      "max_BTO_change_us": 0.007548043970018625,
+      "max_BFO_change_hz": 2.4995526757720654e-05,
+      "max_endpoint_change_deg": 1.6596236562804734e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003393616205193844
+    },
+    {
+      "component": 16,
+      "delta_log_likelihood": 7.063600365508904e-05,
+      "max_BTO_change_us": 0.004889720235951245,
+      "max_BFO_change_hz": 4.990140553218225e-05,
+      "max_endpoint_change_deg": 1.0582220696164768e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003393616205193844
+    },
+    {
+      "component": 16,
+      "delta_log_likelihood": 7.063600365508904e-05,
+      "max_BTO_change_us": 0.004889720235951245,
+      "max_BFO_change_hz": 4.990140553218225e-05,
+      "max_endpoint_change_deg": 1.0582220696164768e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003393616205193844
+    },
+    {
+      "component": 16,
+      "delta_log_likelihood": 7.063600365508904e-05,
+      "max_BTO_change_us": 0.004889720235951245,
+      "max_BFO_change_hz": 4.990140553218225e-05,
+      "max_endpoint_change_deg": 1.0582220696164768e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003393616205193844
+    },
+    {
+      "component": 16,
+      "delta_log_likelihood": -0.00011894135833312447,
+      "max_BTO_change_us": 0.024790356226731092,
+      "max_BFO_change_hz": 5.0239530281714906e-05,
+      "max_endpoint_change_deg": 3.4619981299499614e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003393616205193844
+    },
+    {
+      "component": 16,
+      "delta_log_likelihood": 0.0003760018375187357,
+      "max_BTO_change_us": 0.008460330544039607,
+      "max_BFO_change_hz": 2.110538795818684e-05,
+      "max_endpoint_change_deg": 1.5072058815235323e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003393616205193844
+    },
+    {
+      "component": 16,
+      "delta_log_likelihood": 7.063600365508904e-05,
+      "max_BTO_change_us": 0.004889720235951245,
+      "max_BFO_change_hz": 4.990140553218225e-05,
+      "max_endpoint_change_deg": 1.0582220696164768e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003393616205193844
+    },
+    {
+      "component": 16,
+      "delta_log_likelihood": 0.0002924828943067226,
+      "max_BTO_change_us": 0.055788544297683984,
+      "max_BFO_change_hz": 0.00019211261891882714,
+      "max_endpoint_change_deg": 0.00018506642977200727,
+      "passes_at_30s": true,
+      "component_weight": 0.003393616205193844
+    },
+    {
+      "component": 16,
+      "delta_log_likelihood": 7.063600365508904e-05,
+      "max_BTO_change_us": 0.004889720235951245,
+      "max_BFO_change_hz": 4.990140553218225e-05,
+      "max_endpoint_change_deg": 1.0582220696164768e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003393616205193844
+    },
+    {
+      "component": 16,
+      "delta_log_likelihood": 0.00015768803556692745,
+      "max_BTO_change_us": 0.007548043970018625,
+      "max_BFO_change_hz": 2.4995526757720654e-05,
+      "max_endpoint_change_deg": 1.6596236562804734e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003393616205193844
+    },
+    {
+      "component": 16,
+      "delta_log_likelihood": 7.063600365508904e-05,
+      "max_BTO_change_us": 0.004889720235951245,
+      "max_BFO_change_hz": 4.990140553218225e-05,
+      "max_endpoint_change_deg": 1.0582220696164768e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003393616205193844
+    },
+    {
+      "component": 16,
+      "delta_log_likelihood": 7.063600365508904e-05,
+      "max_BTO_change_us": 0.004889720235951245,
+      "max_BFO_change_hz": 4.990140553218225e-05,
+      "max_endpoint_change_deg": 1.0582220696164768e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003393616205193844
+    },
+    {
+      "component": 16,
+      "delta_log_likelihood": 7.063600365508904e-05,
+      "max_BTO_change_us": 0.004889720235951245,
+      "max_BFO_change_hz": 4.990140553218225e-05,
+      "max_endpoint_change_deg": 1.0582220696164768e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003393616205193844
+    },
+    {
+      "component": 16,
+      "delta_log_likelihood": 7.063600365508904e-05,
+      "max_BTO_change_us": 0.004889720235951245,
+      "max_BFO_change_hz": 4.990140553218225e-05,
+      "max_endpoint_change_deg": 1.0582220696164768e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003393616205193844
+    },
+    {
+      "component": 16,
+      "delta_log_likelihood": 7.063600365508904e-05,
+      "max_BTO_change_us": 0.004889720235951245,
+      "max_BFO_change_hz": 4.990140553218225e-05,
+      "max_endpoint_change_deg": 1.0582220696164768e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003393616205193844
+    },
+    {
+      "component": 16,
+      "delta_log_likelihood": 7.063600365508904e-05,
+      "max_BTO_change_us": 0.004889720235951245,
+      "max_BFO_change_hz": 4.990140553218225e-05,
+      "max_endpoint_change_deg": 1.0582220696164768e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003393616205193844
+    },
+    {
+      "component": 16,
+      "delta_log_likelihood": 0.002179860932715272,
+      "max_BTO_change_us": 0.04265089542604983,
+      "max_BFO_change_hz": 0.00014074434670874325,
+      "max_endpoint_change_deg": 0.00011355203102425548,
+      "passes_at_30s": true,
+      "component_weight": 0.003393616205193844
+    },
+    {
+      "component": 16,
+      "delta_log_likelihood": 7.063600365508904e-05,
+      "max_BTO_change_us": 0.004889720235951245,
+      "max_BFO_change_hz": 4.990140553218225e-05,
+      "max_endpoint_change_deg": 1.0582220696164768e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.003393616205193844
+    },
+    {
+      "component": 17,
+      "delta_log_likelihood": -0.000882697863066717,
+      "max_BTO_change_us": 0.024194566532969475,
+      "max_BFO_change_hz": 9.46254268683333e-05,
+      "max_endpoint_change_deg": 7.169800558770589e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0466074169724949
+    },
+    {
+      "component": 17,
+      "delta_log_likelihood": -0.000882697863066717,
+      "max_BTO_change_us": 0.024194566532969475,
+      "max_BFO_change_hz": 9.46254268683333e-05,
+      "max_endpoint_change_deg": 7.169800558770589e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0466074169724949
+    },
+    {
+      "component": 17,
+      "delta_log_likelihood": -0.000882697863066717,
+      "max_BTO_change_us": 0.024194566532969475,
+      "max_BFO_change_hz": 9.46254268683333e-05,
+      "max_endpoint_change_deg": 7.169800558770589e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0466074169724949
+    },
+    {
+      "component": 17,
+      "delta_log_likelihood": -0.000882697863066717,
+      "max_BTO_change_us": 0.024194566532969475,
+      "max_BFO_change_hz": 9.46254268683333e-05,
+      "max_endpoint_change_deg": 7.169800558770589e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0466074169724949
+    },
+    {
+      "component": 17,
+      "delta_log_likelihood": -0.000882697863066717,
+      "max_BTO_change_us": 0.024194566532969475,
+      "max_BFO_change_hz": 9.46254268683333e-05,
+      "max_endpoint_change_deg": 7.169800558770589e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0466074169724949
+    },
+    {
+      "component": 17,
+      "delta_log_likelihood": -0.000882697863066717,
+      "max_BTO_change_us": 0.024194566532969475,
+      "max_BFO_change_hz": 9.46254268683333e-05,
+      "max_endpoint_change_deg": 7.169800558770589e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0466074169724949
+    },
+    {
+      "component": 17,
+      "delta_log_likelihood": -0.000882697863066717,
+      "max_BTO_change_us": 0.024194566532969475,
+      "max_BFO_change_hz": 9.46254268683333e-05,
+      "max_endpoint_change_deg": 7.169800558770589e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0466074169724949
+    },
+    {
+      "component": 17,
+      "delta_log_likelihood": -0.000882697863066717,
+      "max_BTO_change_us": 0.024194566532969475,
+      "max_BFO_change_hz": 9.46254268683333e-05,
+      "max_endpoint_change_deg": 7.169800558770589e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0466074169724949
+    },
+    {
+      "component": 17,
+      "delta_log_likelihood": -0.000882697863066717,
+      "max_BTO_change_us": 0.024194566532969475,
+      "max_BFO_change_hz": 9.46254268683333e-05,
+      "max_endpoint_change_deg": 7.169800558770589e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0466074169724949
+    },
+    {
+      "component": 17,
+      "delta_log_likelihood": -0.000882697863066717,
+      "max_BTO_change_us": 0.024194566532969475,
+      "max_BFO_change_hz": 9.46254268683333e-05,
+      "max_endpoint_change_deg": 7.169800558770589e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0466074169724949
+    },
+    {
+      "component": 17,
+      "delta_log_likelihood": -0.0021323112637752217,
+      "max_BTO_change_us": 0.06365371658466756,
+      "max_BFO_change_hz": 0.00018125364721299775,
+      "max_endpoint_change_deg": 0.00016556080186802546,
+      "passes_at_30s": true,
+      "component_weight": 0.0466074169724949
+    },
+    {
+      "component": 17,
+      "delta_log_likelihood": -0.000882697863066717,
+      "max_BTO_change_us": 0.024194566532969475,
+      "max_BFO_change_hz": 9.46254268683333e-05,
+      "max_endpoint_change_deg": 7.169800558770589e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0466074169724949
+    },
+    {
+      "component": 17,
+      "delta_log_likelihood": -0.000882697863066717,
+      "max_BTO_change_us": 0.024194566532969475,
+      "max_BFO_change_hz": 9.46254268683333e-05,
+      "max_endpoint_change_deg": 7.169800558770589e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0466074169724949
+    },
+    {
+      "component": 17,
+      "delta_log_likelihood": -0.000882697863066717,
+      "max_BTO_change_us": 0.024194566532969475,
+      "max_BFO_change_hz": 9.46254268683333e-05,
+      "max_endpoint_change_deg": 7.169800558770589e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0466074169724949
+    },
+    {
+      "component": 17,
+      "delta_log_likelihood": -0.000882697863066717,
+      "max_BTO_change_us": 0.024194566532969475,
+      "max_BFO_change_hz": 9.46254268683333e-05,
+      "max_endpoint_change_deg": 7.169800558770589e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0466074169724949
+    },
+    {
+      "component": 17,
+      "delta_log_likelihood": -0.000882697863066717,
+      "max_BTO_change_us": 0.024194566532969475,
+      "max_BFO_change_hz": 9.46254268683333e-05,
+      "max_endpoint_change_deg": 7.169800558770589e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0466074169724949
+    },
+    {
+      "component": 17,
+      "delta_log_likelihood": -0.000882697863066717,
+      "max_BTO_change_us": 0.024194566532969475,
+      "max_BFO_change_hz": 9.46254268683333e-05,
+      "max_endpoint_change_deg": 7.169800558770589e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0466074169724949
+    },
+    {
+      "component": 17,
+      "delta_log_likelihood": -0.000882697863066717,
+      "max_BTO_change_us": 0.024194566532969475,
+      "max_BFO_change_hz": 9.46254268683333e-05,
+      "max_endpoint_change_deg": 7.169800558770589e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0466074169724949
+    },
+    {
+      "component": 17,
+      "delta_log_likelihood": -0.000882697863066717,
+      "max_BTO_change_us": 0.024194566532969475,
+      "max_BFO_change_hz": 9.46254268683333e-05,
+      "max_endpoint_change_deg": 7.169800558770589e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0466074169724949
+    },
+    {
+      "component": 17,
+      "delta_log_likelihood": -0.000882697863066717,
+      "max_BTO_change_us": 0.024194566532969475,
+      "max_BFO_change_hz": 9.46254268683333e-05,
+      "max_endpoint_change_deg": 7.169800558770589e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0466074169724949
+    },
+    {
+      "component": 17,
+      "delta_log_likelihood": -0.000882697863066717,
+      "max_BTO_change_us": 0.024194566532969475,
+      "max_BFO_change_hz": 9.46254268683333e-05,
+      "max_endpoint_change_deg": 7.169800558770589e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0466074169724949
+    },
+    {
+      "component": 17,
+      "delta_log_likelihood": -0.000882697863066717,
+      "max_BTO_change_us": 0.024194566532969475,
+      "max_BFO_change_hz": 9.46254268683333e-05,
+      "max_endpoint_change_deg": 7.169800558770589e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0466074169724949
+    },
+    {
+      "component": 17,
+      "delta_log_likelihood": -0.000882697863066717,
+      "max_BTO_change_us": 0.024194566532969475,
+      "max_BFO_change_hz": 9.46254268683333e-05,
+      "max_endpoint_change_deg": 7.169800558770589e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0466074169724949
+    },
+    {
+      "component": 17,
+      "delta_log_likelihood": -0.000882697863066717,
+      "max_BTO_change_us": 0.024194566532969475,
+      "max_BFO_change_hz": 9.46254268683333e-05,
+      "max_endpoint_change_deg": 7.169800558770589e-05,
+      "passes_at_30s": true,
+      "component_weight": 0.0466074169724949
+    },
+    {
+      "component": 18,
+      "delta_log_likelihood": -0.00011453907758207649,
+      "max_BTO_change_us": 0.03312359331175685,
+      "max_BFO_change_hz": 0.00012780230460407438,
+      "max_endpoint_change_deg": 4.526456835307613e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.9607219463118665e-05
+    },
+    {
+      "component": 18,
+      "delta_log_likelihood": -0.00011453907758207649,
+      "max_BTO_change_us": 0.03312359331175685,
+      "max_BFO_change_hz": 0.00012780230460407438,
+      "max_endpoint_change_deg": 4.526456835307613e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.9607219463118665e-05
+    },
+    {
+      "component": 18,
+      "delta_log_likelihood": -0.00135257149252066,
+      "max_BTO_change_us": 0.024738995940424502,
+      "max_BFO_change_hz": 0.00010259855386607342,
+      "max_endpoint_change_deg": 6.24522471923683e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.9607219463118665e-05
+    },
+    {
+      "component": 18,
+      "delta_log_likelihood": -0.00011453907758207649,
+      "max_BTO_change_us": 0.03312359331175685,
+      "max_BFO_change_hz": 0.00012780230460407438,
+      "max_endpoint_change_deg": 4.526456835307613e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.9607219463118665e-05
+    },
+    {
+      "component": 18,
+      "delta_log_likelihood": -0.000992722287234571,
+      "max_BTO_change_us": 0.0733990881126374,
+      "max_BFO_change_hz": 0.0001980986380090144,
+      "max_endpoint_change_deg": 0.00016708776938756387,
+      "passes_at_30s": true,
+      "component_weight": 1.9607219463118665e-05
+    },
+    {
+      "component": 18,
+      "delta_log_likelihood": -0.00011453907758207649,
+      "max_BTO_change_us": 0.03312359331175685,
+      "max_BFO_change_hz": 0.00012780230460407438,
+      "max_endpoint_change_deg": 4.526456835307613e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.9607219463118665e-05
+    },
+    {
+      "component": 18,
+      "delta_log_likelihood": -0.0006434583839549646,
+      "max_BTO_change_us": 0.012937760853674263,
+      "max_BFO_change_hz": 6.82004760790278e-05,
+      "max_endpoint_change_deg": 4.3116610235927055e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.9607219463118665e-05
+    },
+    {
+      "component": 18,
+      "delta_log_likelihood": -0.00011453907758207649,
+      "max_BTO_change_us": 0.03312359331175685,
+      "max_BFO_change_hz": 0.00012780230460407438,
+      "max_endpoint_change_deg": 4.526456835307613e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.9607219463118665e-05
+    },
+    {
+      "component": 18,
+      "delta_log_likelihood": -0.00011453907758207649,
+      "max_BTO_change_us": 0.03312359331175685,
+      "max_BFO_change_hz": 0.00012780230460407438,
+      "max_endpoint_change_deg": 4.526456835307613e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.9607219463118665e-05
+    },
+    {
+      "component": 18,
+      "delta_log_likelihood": -0.000992722287234571,
+      "max_BTO_change_us": 0.0733990881126374,
+      "max_BFO_change_hz": 0.0001980986380090144,
+      "max_endpoint_change_deg": 0.00016708776938756387,
+      "passes_at_30s": true,
+      "component_weight": 1.9607219463118665e-05
+    },
+    {
+      "component": 18,
+      "delta_log_likelihood": -0.00135257149252066,
+      "max_BTO_change_us": 0.024738995940424502,
+      "max_BFO_change_hz": 0.00010259855386607342,
+      "max_endpoint_change_deg": 6.24522471923683e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.9607219463118665e-05
+    },
+    {
+      "component": 18,
+      "delta_log_likelihood": -0.00011453907758207649,
+      "max_BTO_change_us": 0.03312359331175685,
+      "max_BFO_change_hz": 0.00012780230460407438,
+      "max_endpoint_change_deg": 4.526456835307613e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.9607219463118665e-05
+    },
+    {
+      "component": 18,
+      "delta_log_likelihood": -0.000992722287234571,
+      "max_BTO_change_us": 0.0733990881126374,
+      "max_BFO_change_hz": 0.0001980986380090144,
+      "max_endpoint_change_deg": 0.00016708776938756387,
+      "passes_at_30s": true,
+      "component_weight": 1.9607219463118665e-05
+    },
+    {
+      "component": 18,
+      "delta_log_likelihood": -0.00011453907758207649,
+      "max_BTO_change_us": 0.03312359331175685,
+      "max_BFO_change_hz": 0.00012780230460407438,
+      "max_endpoint_change_deg": 4.526456835307613e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.9607219463118665e-05
+    },
+    {
+      "component": 18,
+      "delta_log_likelihood": -0.00011453907758207649,
+      "max_BTO_change_us": 0.03312359331175685,
+      "max_BFO_change_hz": 0.00012780230460407438,
+      "max_endpoint_change_deg": 4.526456835307613e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.9607219463118665e-05
+    },
+    {
+      "component": 18,
+      "delta_log_likelihood": -0.00011453907758207649,
+      "max_BTO_change_us": 0.03312359331175685,
+      "max_BFO_change_hz": 0.00012780230460407438,
+      "max_endpoint_change_deg": 4.526456835307613e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.9607219463118665e-05
+    },
+    {
+      "component": 18,
+      "delta_log_likelihood": -0.00011453907758207649,
+      "max_BTO_change_us": 0.03312359331175685,
+      "max_BFO_change_hz": 0.00012780230460407438,
+      "max_endpoint_change_deg": 4.526456835307613e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.9607219463118665e-05
+    },
+    {
+      "component": 18,
+      "delta_log_likelihood": -0.000992722287234571,
+      "max_BTO_change_us": 0.0733990881126374,
+      "max_BFO_change_hz": 0.0001980986380090144,
+      "max_endpoint_change_deg": 0.00016708776938756387,
+      "passes_at_30s": true,
+      "component_weight": 1.9607219463118665e-05
+    },
+    {
+      "component": 18,
+      "delta_log_likelihood": -0.00011453907758207649,
+      "max_BTO_change_us": 0.03312359331175685,
+      "max_BFO_change_hz": 0.00012780230460407438,
+      "max_endpoint_change_deg": 4.526456835307613e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.9607219463118665e-05
+    },
+    {
+      "component": 18,
+      "delta_log_likelihood": -0.000992722287234571,
+      "max_BTO_change_us": 0.0733990881126374,
+      "max_BFO_change_hz": 0.0001980986380090144,
+      "max_endpoint_change_deg": 0.00016708776938756387,
+      "passes_at_30s": true,
+      "component_weight": 1.9607219463118665e-05
+    },
+    {
+      "component": 18,
+      "delta_log_likelihood": -0.00011453907758207649,
+      "max_BTO_change_us": 0.03312359331175685,
+      "max_BFO_change_hz": 0.00012780230460407438,
+      "max_endpoint_change_deg": 4.526456835307613e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.9607219463118665e-05
+    },
+    {
+      "component": 18,
+      "delta_log_likelihood": -0.00011453907758207649,
+      "max_BTO_change_us": 0.03312359331175685,
+      "max_BFO_change_hz": 0.00012780230460407438,
+      "max_endpoint_change_deg": 4.526456835307613e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.9607219463118665e-05
+    },
+    {
+      "component": 18,
+      "delta_log_likelihood": -0.00011453907758207649,
+      "max_BTO_change_us": 0.03312359331175685,
+      "max_BFO_change_hz": 0.00012780230460407438,
+      "max_endpoint_change_deg": 4.526456835307613e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.9607219463118665e-05
+    },
+    {
+      "component": 18,
+      "delta_log_likelihood": -0.00011453907758207649,
+      "max_BTO_change_us": 0.03312359331175685,
+      "max_BFO_change_hz": 0.00012780230460407438,
+      "max_endpoint_change_deg": 4.526456835307613e-05,
+      "passes_at_30s": true,
+      "component_weight": 1.9607219463118665e-05
+    },
+    {
+      "component": 19,
+      "delta_log_likelihood": -0.000687838301167254,
+      "max_BTO_change_us": 0.015382764802780002,
+      "max_BFO_change_hz": 5.967355900793336e-05,
+      "max_endpoint_change_deg": 4.413658591317926e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7297487741810805e-07
+    },
+    {
+      "component": 19,
+      "delta_log_likelihood": -0.000687838301167254,
+      "max_BTO_change_us": 0.015382764802780002,
+      "max_BFO_change_hz": 5.967355900793336e-05,
+      "max_endpoint_change_deg": 4.413658591317926e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7297487741810805e-07
+    },
+    {
+      "component": 19,
+      "delta_log_likelihood": 3.669823025642671e-05,
+      "max_BTO_change_us": 0.01658850267995149,
+      "max_BFO_change_hz": 7.57442475105563e-05,
+      "max_endpoint_change_deg": 2.1275741296733486e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7297487741810805e-07
+    },
+    {
+      "component": 19,
+      "delta_log_likelihood": -0.000687838301167254,
+      "max_BTO_change_us": 0.015382764802780002,
+      "max_BFO_change_hz": 5.967355900793336e-05,
+      "max_endpoint_change_deg": 4.413658591317926e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7297487741810805e-07
+    },
+    {
+      "component": 19,
+      "delta_log_likelihood": -0.000687838301167254,
+      "max_BTO_change_us": 0.015382764802780002,
+      "max_BFO_change_hz": 5.967355900793336e-05,
+      "max_endpoint_change_deg": 4.413658591317926e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7297487741810805e-07
+    },
+    {
+      "component": 19,
+      "delta_log_likelihood": 3.669823025642671e-05,
+      "max_BTO_change_us": 0.01658850267995149,
+      "max_BFO_change_hz": 7.57442475105563e-05,
+      "max_endpoint_change_deg": 2.1275741296733486e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7297487741810805e-07
+    },
+    {
+      "component": 19,
+      "delta_log_likelihood": 3.669823025642671e-05,
+      "max_BTO_change_us": 0.01658850267995149,
+      "max_BFO_change_hz": 7.57442475105563e-05,
+      "max_endpoint_change_deg": 2.1275741296733486e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7297487741810805e-07
+    },
+    {
+      "component": 19,
+      "delta_log_likelihood": 3.669823025642671e-05,
+      "max_BTO_change_us": 0.01658850267995149,
+      "max_BFO_change_hz": 7.57442475105563e-05,
+      "max_endpoint_change_deg": 2.1275741296733486e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7297487741810805e-07
+    },
+    {
+      "component": 19,
+      "delta_log_likelihood": 3.669823025642671e-05,
+      "max_BTO_change_us": 0.01658850267995149,
+      "max_BFO_change_hz": 7.57442475105563e-05,
+      "max_endpoint_change_deg": 2.1275741296733486e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7297487741810805e-07
+    },
+    {
+      "component": 19,
+      "delta_log_likelihood": 3.669823025642671e-05,
+      "max_BTO_change_us": 0.01658850267995149,
+      "max_BFO_change_hz": 7.57442475105563e-05,
+      "max_endpoint_change_deg": 2.1275741296733486e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7297487741810805e-07
+    },
+    {
+      "component": 19,
+      "delta_log_likelihood": -0.000687838301167254,
+      "max_BTO_change_us": 0.015382764802780002,
+      "max_BFO_change_hz": 5.967355900793336e-05,
+      "max_endpoint_change_deg": 4.413658591317926e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7297487741810805e-07
+    },
+    {
+      "component": 19,
+      "delta_log_likelihood": 3.669823025642671e-05,
+      "max_BTO_change_us": 0.01658850267995149,
+      "max_BFO_change_hz": 7.57442475105563e-05,
+      "max_endpoint_change_deg": 2.1275741296733486e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7297487741810805e-07
+    },
+    {
+      "component": 19,
+      "delta_log_likelihood": -0.000687838301167254,
+      "max_BTO_change_us": 0.015382764802780002,
+      "max_BFO_change_hz": 5.967355900793336e-05,
+      "max_endpoint_change_deg": 4.413658591317926e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7297487741810805e-07
+    },
+    {
+      "component": 19,
+      "delta_log_likelihood": -0.000687838301167254,
+      "max_BTO_change_us": 0.015382764802780002,
+      "max_BFO_change_hz": 5.967355900793336e-05,
+      "max_endpoint_change_deg": 4.413658591317926e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7297487741810805e-07
+    },
+    {
+      "component": 19,
+      "delta_log_likelihood": 3.669823025642671e-05,
+      "max_BTO_change_us": 0.01658850267995149,
+      "max_BFO_change_hz": 7.57442475105563e-05,
+      "max_endpoint_change_deg": 2.1275741296733486e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7297487741810805e-07
+    },
+    {
+      "component": 19,
+      "delta_log_likelihood": 9.283498224510467e-05,
+      "max_BTO_change_us": 0.008334119454957545,
+      "max_BFO_change_hz": 4.018335258137995e-05,
+      "max_endpoint_change_deg": 1.18821549506265e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7297487741810805e-07
+    },
+    {
+      "component": 19,
+      "delta_log_likelihood": -0.000687838301167254,
+      "max_BTO_change_us": 0.015382764802780002,
+      "max_BFO_change_hz": 5.967355900793336e-05,
+      "max_endpoint_change_deg": 4.413658591317926e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7297487741810805e-07
+    },
+    {
+      "component": 19,
+      "delta_log_likelihood": -0.000687838301167254,
+      "max_BTO_change_us": 0.015382764802780002,
+      "max_BFO_change_hz": 5.967355900793336e-05,
+      "max_endpoint_change_deg": 4.413658591317926e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7297487741810805e-07
+    },
+    {
+      "component": 19,
+      "delta_log_likelihood": 9.283498224510467e-05,
+      "max_BTO_change_us": 0.008334119454957545,
+      "max_BFO_change_hz": 4.018335258137995e-05,
+      "max_endpoint_change_deg": 1.18821549506265e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7297487741810805e-07
+    },
+    {
+      "component": 19,
+      "delta_log_likelihood": -0.000687838301167254,
+      "max_BTO_change_us": 0.015382764802780002,
+      "max_BFO_change_hz": 5.967355900793336e-05,
+      "max_endpoint_change_deg": 4.413658591317926e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7297487741810805e-07
+    },
+    {
+      "component": 19,
+      "delta_log_likelihood": 9.283498224510467e-05,
+      "max_BTO_change_us": 0.008334119454957545,
+      "max_BFO_change_hz": 4.018335258137995e-05,
+      "max_endpoint_change_deg": 1.18821549506265e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7297487741810805e-07
+    },
+    {
+      "component": 19,
+      "delta_log_likelihood": 3.669823025642671e-05,
+      "max_BTO_change_us": 0.01658850267995149,
+      "max_BFO_change_hz": 7.57442475105563e-05,
+      "max_endpoint_change_deg": 2.1275741296733486e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7297487741810805e-07
+    },
+    {
+      "component": 19,
+      "delta_log_likelihood": -0.000687838301167254,
+      "max_BTO_change_us": 0.015382764802780002,
+      "max_BFO_change_hz": 5.967355900793336e-05,
+      "max_endpoint_change_deg": 4.413658591317926e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7297487741810805e-07
+    },
+    {
+      "component": 19,
+      "delta_log_likelihood": -0.000687838301167254,
+      "max_BTO_change_us": 0.015382764802780002,
+      "max_BFO_change_hz": 5.967355900793336e-05,
+      "max_endpoint_change_deg": 4.413658591317926e-05,
+      "passes_at_30s": true,
+      "component_weight": 4.7297487741810805e-07
+    }
+  ],
+  "endpoint_latitude_quantiles": [
+    -34.92100613005807,
+    -34.06272099167362,
+    -31.55193454063752
+  ],
+  "endpoint_longitude_quantiles": [
+    92.7236583660076,
+    93.76838904393325,
+    95.40031583011407
+  ],
+  "arrival_seconds_since_182212_quantiles": [
+    845.3782783220074,
+    903.7722237943663,
+    928.1225682703897
+  ],
+  "fuel_exhaustion_seconds_since_182212_quantiles": [
+    21202.689513296616,
+    21304.145933158106,
+    21384.33924738746
+  ],
+  "initial_altitude_ft_quantiles": [
+    33525.13501320122,
+    36335.22212953942,
+    36973.644022758024
+  ],
+  "anchor_fuel_kg_quantiles": [
+    32575.80831570267,
+    33446.08376117627,
+    34452.016659879184
+  ],
+  "maximum_retained_BTO_sigmas": 1.999980107684427,
+  "maximum_retained_BFO_error_hz": 8.599973410532328,
+  "minimum_stall_margin_relative_to_declared_1p2": 1.3104223212028645,
+  "maximum_retained_bank_deg": 24.90047432586243,
+  "maximum_retained_mach": 0.8594261079352253,
+  "maximum_thrust_ratio": 0.8652093758094169,
+  "pooled_evidence_method": "Mean unnormalized fixed-proposal importance measures across independent seeds; component masses proportional to estimated evidence, each with equal 0.1 class prior",
+  "independent_importance_ess": 345.31799301406187,
+  "largest_individual_importance_weight": 0.046262459622608616,
+  "total_independent_proposal_draws": 8388608,
+  "pooled_relative_evidence_se": 0.05381117734396849,
+  "legacy_nominal_crossing_test": {
+    "maximum_offset_s": 60,
+    "weighted_retention_fraction": 1.3829386801935397e-07,
+    "effective_sample_size": 2.0250156459941477,
+    "raw_positive_weight_survivors": 409,
+    "missing_diagnostic": 0,
+    "interpretation": "Sensitivity only: additional nominal-centre crossings within +/-60s, beyond BTO likelihood at exact logged epoch; not part of primary posterior",
+    "endpoint_latitude_quantiles": [
+      -35.80210705890412,
+      -35.51926001321439,
+      -30.00834961316899
+    ],
+    "endpoint_longitude_quantiles": [
+      91.88574031787576,
+      92.00951835136692,
+      98.6691163457275
+    ]
+  },
+  "replicate_evidence_difference_standard_errors": 0.7215426161984833,
+  "replicate_turn_weight_maximum_difference": 0.09431916820842212,
+  "replicate_endpoint_latitude_longitude_cdf_distances": [
+    0.09996920685269964,
+    0.10314920650743367
+  ],
+  "sampling_status": "provisional",
+  "exploration_and_proposal_training_trajectory_evaluations": 51834910,
+  "fine_resolution_selected_weighted_pass_fraction": 1.0
+}

@@ -1,0 +1,298 @@
+{
+ "seeds": [
+  {
+   "seed": 1,
+   "run": "end-of-flight workspace engine/runs/eof-289-full-s1",
+   "code_revision": "55c4536-dirty",
+   "config_paths": [
+    "config/davey2016.toml",
+    "config/sensitivity/no-exhaustion-prior.toml",
+    "config/sensitivity/reference-snapshots.toml",
+    "config/sensitivity/early-families/overnight/reference-289.toml",
+    "hypotheses/end-of-flight/smoke/snapshot-m0011.toml",
+    "hypotheses/end-of-flight/smoke/terminal.toml",
+    "hypotheses/end-of-flight/full/reference-289.toml",
+    "hypotheses/end-of-flight/full/seed-1.toml"
+   ],
+   "source_run": "runs/snap289-m0011",
+   "keys_equal_289.7": [
+    "/prior/track_deg"
+   ]
+  },
+  {
+   "seed": 2,
+   "run": "end-of-flight workspace engine/runs/eof-289-full-s2",
+   "code_revision": "ea07583",
+   "config_paths": [
+    "config/davey2016.toml",
+    "config/sensitivity/no-exhaustion-prior.toml",
+    "config/sensitivity/reference-snapshots.toml",
+    "config/sensitivity/early-families/overnight/reference-289.toml",
+    "hypotheses/end-of-flight/smoke/snapshot-m0011.toml",
+    "hypotheses/end-of-flight/smoke/terminal.toml",
+    "hypotheses/end-of-flight/full/reference-289.toml",
+    "hypotheses/end-of-flight/full/seed-2.toml"
+   ],
+   "source_run": "runs/snap289-m0011",
+   "keys_equal_289.7": [
+    "/prior/track_deg"
+   ]
+  },
+  {
+   "seed": 3,
+   "run": "end-of-flight workspace engine/runs/eof-289-full-s3",
+   "code_revision": "ea07583",
+   "config_paths": [
+    "config/davey2016.toml",
+    "config/sensitivity/no-exhaustion-prior.toml",
+    "config/sensitivity/reference-snapshots.toml",
+    "config/sensitivity/early-families/overnight/reference-289.toml",
+    "hypotheses/end-of-flight/smoke/snapshot-m0011.toml",
+    "hypotheses/end-of-flight/smoke/terminal.toml",
+    "hypotheses/end-of-flight/full/reference-289.toml",
+    "hypotheses/end-of-flight/full/seed-3.toml"
+   ],
+   "source_run": "runs/snap289-m0011",
+   "keys_equal_289.7": [
+    "/prior/track_deg"
+   ]
+  },
+  {
+   "seed": 4,
+   "run": "end-of-flight workspace engine/runs/eof-289-full-s4",
+   "code_revision": "ea07583",
+   "config_paths": [
+    "config/davey2016.toml",
+    "config/sensitivity/no-exhaustion-prior.toml",
+    "config/sensitivity/reference-snapshots.toml",
+    "config/sensitivity/early-families/overnight/reference-289.toml",
+    "hypotheses/end-of-flight/smoke/snapshot-m0011.toml",
+    "hypotheses/end-of-flight/smoke/terminal.toml",
+    "hypotheses/end-of-flight/full/reference-289.toml",
+    "hypotheses/end-of-flight/full/seed-4.toml"
+   ],
+   "source_run": "runs/snap289-m0011",
+   "keys_equal_289.7": [
+    "/prior/track_deg"
+   ]
+  }
+ ],
+ "options": {
+  "none__other": {
+   "depth_q05_10_25_50_75_90_95": [
+    3121.0,
+    3362.0,
+    3617.0,
+    3846.0,
+    4036.0,
+    4341.0,
+    4581.0
+   ],
+   "shallow_lt_200m_mass": 2.398425279424304e-06,
+   "land_mass": 6.67214198803606e-07,
+   "lat_q10_50_90": [
+    -39.15942911954684,
+    -36.778930995242035,
+    -32.93816081855163
+   ],
+   "mode_cell": [
+    -35.125,
+    91.375
+   ],
+   "points_lat_q10_50_90": [
+    [
+     -39.125,
+     89.125
+    ],
+    [
+     -36.875,
+     89.125
+    ],
+    [
+     -32.875,
+     94.125
+    ]
+   ]
+  },
+  "none__fuel-exhaustion": {
+   "depth_q05_10_25_50_75_90_95": [
+    3188.0,
+    3381.0,
+    3615.0,
+    3836.0,
+    4004.0,
+    4256.0,
+    4481.0
+   ],
+   "shallow_lt_200m_mass": 0.0,
+   "land_mass": 0.0,
+   "lat_q10_50_90": [
+    -38.97133592991567,
+    -36.937280089542725,
+    -33.737558386777934
+   ],
+   "mode_cell": [
+    -37.125,
+    89.375
+   ],
+   "points_lat_q10_50_90": [
+    [
+     -38.875,
+     89.125
+    ],
+    [
+     -36.875,
+     89.875
+    ],
+    [
+     -33.625,
+     94.125
+    ]
+   ]
+  },
+  "r600_inflated__other": {
+   "depth_q05_10_25_50_75_90_95": [
+    3198.0,
+    3361.0,
+    3560.0,
+    3795.0,
+    3965.0,
+    4177.0,
+    4533.0
+   ],
+   "shallow_lt_200m_mass": 1.311356721889525e-06,
+   "land_mass": 3.439495501428753e-07,
+   "lat_q10_50_90": [
+    -39.30552086362457,
+    -37.58112103484972,
+    -34.77742483051946
+   ],
+   "mode_cell": [
+    -38.125,
+    89.125
+   ],
+   "points_lat_q10_50_90": [
+    [
+     -39.375,
+     88.375
+    ],
+    [
+     -37.625,
+     91.125
+    ],
+    [
+     -34.875,
+     92.875
+    ]
+   ]
+  },
+  "r600_inflated__fuel-exhaustion": {
+   "depth_q05_10_25_50_75_90_95": [
+    3197.0,
+    3351.0,
+    3560.0,
+    3787.0,
+    3959.0,
+    4143.0,
+    4419.0
+   ],
+   "shallow_lt_200m_mass": 0.0,
+   "land_mass": 0.0,
+   "lat_q10_50_90": [
+    -39.26626189147364,
+    -37.48117065510914,
+    -34.96268756934301
+   ],
+   "mode_cell": [
+    -37.375,
+    89.125
+   ],
+   "points_lat_q10_50_90": [
+    [
+     -39.375,
+     89.125
+    ],
+    [
+     -37.375,
+     89.125
+    ],
+    [
+     -34.875,
+     92.875
+    ]
+   ]
+  },
+  "r1200_inflated__other": {
+   "depth_q05_10_25_50_75_90_95": [
+    3175.0,
+    3481.0,
+    3682.0,
+    3890.0,
+    4078.0,
+    4336.0,
+    4524.0
+   ],
+   "shallow_lt_200m_mass": 1.950975598923786e-16,
+   "land_mass": 9.837757794484712e-17,
+   "lat_q10_50_90": [
+    -37.69723072941169,
+    -36.15531813972758,
+    -32.5479328931897
+   ],
+   "mode_cell": [
+    -37.125,
+    89.375
+   ],
+   "points_lat_q10_50_90": [
+    [
+     -37.625,
+     88.625
+    ],
+    [
+     -36.125,
+     90.875
+    ],
+    [
+     -32.625,
+     95.375
+    ]
+   ]
+  },
+  "r1200_inflated__fuel-exhaustion": {
+   "depth_q05_10_25_50_75_90_95": [
+    3184.0,
+    3444.0,
+    3644.0,
+    3871.0,
+    4046.0,
+    4299.0,
+    4503.0
+   ],
+   "shallow_lt_200m_mass": 0.0,
+   "land_mass": 0.0,
+   "lat_q10_50_90": [
+    -37.95243563719324,
+    -36.52322656663666,
+    -32.66448046868539
+   ],
+   "mode_cell": [
+    -37.375,
+    89.125
+   ],
+   "points_lat_q10_50_90": [
+    [
+     -37.875,
+     88.375
+    ],
+    [
+     -36.625,
+     90.125
+    ],
+    [
+     -32.625,
+     95.625
+    ]
+   ]
+  }
+ }
+}

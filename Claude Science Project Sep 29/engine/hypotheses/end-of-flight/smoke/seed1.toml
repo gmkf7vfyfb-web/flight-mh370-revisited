@@ -1,0 +1,5 @@
+# Overnight 8-9 Oct: rebuild core's smoke hand-off for seed 1 only. Seed 1 is the replicate core
+# measured (2,001 rows, fuel_kg median 687 kg, 9 rows already dry at 00:11), so the rebuild is
+# also a reproduction check. One seed rather than two because the overnight rule caps everything
+# at 4 threads while the core reference-snapshots run is live.
+seeds = [1]

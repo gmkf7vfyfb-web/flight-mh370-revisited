@@ -1,0 +1,401 @@
+{
+  "status": "completed",
+  "after_state": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-status.json",
+  "executable": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/joint-terminal-proposal-executable",
+  "executable_sha256": "a410e3ef529a68e29388190eb7fb937b6a8b96bb28b190ec08ca66e2e5f84f8c",
+  "runs": [
+    {
+      "name": "joint-terminal-replicate-seed-37092011",
+      "config": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/joint-terminal-replicate-seed-37092011.json",
+      "configuration_sha256": "9bfc34280b47372af5af053a8c1510ed382a2be61053b3919ebbffc666c990ad",
+      "output": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/joint-terminal-replicate-seed-37092011",
+      "conditioning": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/joint-terminal-replicate-seed-37092011-conditioned.json",
+      "conditional_output": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/joint-terminal-replicate-seed-37092011-conditioned",
+      "status": "completed",
+      "elapsed_seconds": 293.21829917200375,
+      "cases": [
+        {
+          "family": "openap2020-positive-lift-3-targets",
+          "case": "neither-final-contact",
+          "effective_rows": 1649.13505760354,
+          "largest_row": 0.0027152381522788263,
+          "largest_ancestor": 0.021215777370775728,
+          "log_known_evidence": -1.4683980982575227,
+          "uncomputed_likelihood_incoming_mass": -0.0
+        },
+        {
+          "family": "openap2020-positive-lift-3-targets",
+          "case": "r600-bto-only",
+          "effective_rows": 1016.4100800068003,
+          "largest_row": 0.005616894157827858,
+          "largest_ancestor": 0.02443670385146386,
+          "log_known_evidence": -7.38132995835608,
+          "uncomputed_likelihood_incoming_mass": 0.02612788093951334
+        },
+        {
+          "family": "openap2020-positive-lift-3-targets",
+          "case": "r600-no-startup-offset",
+          "effective_rows": 102.98025584276968,
+          "largest_row": 0.029227235625525688,
+          "largest_ancestor": 0.029532607284979865,
+          "log_known_evidence": -12.892561984019773,
+          "uncomputed_likelihood_incoming_mass": 0.02612788093951334
+        },
+        {
+          "family": "openap2020-positive-lift-3-targets",
+          "case": "r1200-bfo-no-startup-offset",
+          "effective_rows": 29.935716244649537,
+          "largest_row": 0.138154136520833,
+          "largest_ancestor": 0.138154136520833,
+          "log_known_evidence": -9.035085330320143,
+          "uncomputed_likelihood_incoming_mass": 0.02783592874482151
+        },
+        {
+          "family": "openap2020-positive-lift-3-targets",
+          "case": "r600-bto-r1200-bfo-no-startup-offset",
+          "effective_rows": 49.34306748067532,
+          "largest_row": 0.08182370964653664,
+          "largest_ancestor": 0.08182370964653664,
+          "log_known_evidence": -14.594880653816666,
+          "uncomputed_likelihood_incoming_mass": 0.02783592874482151
+        },
+        {
+          "family": "openap2020-positive-lift-3-targets",
+          "case": "both-sequential-no-startup-offset",
+          "effective_rows": 7.803274382403595,
+          "largest_row": 0.23640123028846016,
+          "largest_ancestor": 0.36462860666899544,
+          "log_known_evidence": -22.619633076391445,
+          "uncomputed_likelihood_incoming_mass": 0.02783592874482151
+        },
+        {
+          "family": "openap2020-positive-lift-3-targets",
+          "case": "r600-shared-startup",
+          "effective_rows": 272.39184571977614,
+          "largest_row": 0.014412232893032421,
+          "largest_ancestor": 0.023204988407287845,
+          "log_known_evidence": -13.518466041922245,
+          "uncomputed_likelihood_incoming_mass": 0.02612788093951334
+        },
+        {
+          "family": "openap2020-positive-lift-3-targets",
+          "case": "r1200-bfo-shared-startup",
+          "effective_rows": 60.49751898161699,
+          "largest_row": 0.05082299956554,
+          "largest_ancestor": 0.05082370224818966,
+          "log_known_evidence": -9.932439584338358,
+          "uncomputed_likelihood_incoming_mass": 0.02783592874482151
+        },
+        {
+          "family": "openap2020-positive-lift-3-targets",
+          "case": "r600-bto-r1200-bfo-shared-startup",
+          "effective_rows": 48.278231592307144,
+          "largest_row": 0.07557256025456616,
+          "largest_ancestor": 0.07557357476241464,
+          "log_known_evidence": -15.391702584706097,
+          "uncomputed_likelihood_incoming_mass": 0.02783592874482151
+        },
+        {
+          "family": "openap2020-positive-lift-3-targets",
+          "case": "both-sequential-shared-startup",
+          "effective_rows": 3.133872294906037,
+          "largest_row": 0.4524889794366143,
+          "largest_ancestor": 0.45248897944022104,
+          "log_known_evidence": -21.40604555831126,
+          "uncomputed_likelihood_incoming_mass": 0.02783592874482151
+        },
+        {
+          "family": "openap26-positive-lift-3-targets",
+          "case": "neither-final-contact",
+          "effective_rows": 1693.893084941567,
+          "largest_row": 0.002585702024046815,
+          "largest_ancestor": 0.02309273394715655,
+          "log_known_evidence": -1.458704970305691,
+          "uncomputed_likelihood_incoming_mass": -0.0
+        },
+        {
+          "family": "openap26-positive-lift-3-targets",
+          "case": "r600-bto-only",
+          "effective_rows": 985.9182716454563,
+          "largest_row": 0.005641188645168508,
+          "largest_ancestor": 0.029640407551917936,
+          "log_known_evidence": -7.39938207805077,
+          "uncomputed_likelihood_incoming_mass": 0.025938187267201068
+        },
+        {
+          "family": "openap26-positive-lift-3-targets",
+          "case": "r600-no-startup-offset",
+          "effective_rows": 91.99866212967092,
+          "largest_row": 0.03414439951617078,
+          "largest_ancestor": 0.05342334934236545,
+          "log_known_evidence": -13.309219685548065,
+          "uncomputed_likelihood_incoming_mass": 0.025938187267201068
+        },
+        {
+          "family": "openap26-positive-lift-3-targets",
+          "case": "r1200-bfo-no-startup-offset",
+          "effective_rows": 47.39293824445657,
+          "largest_row": 0.05110117784732935,
+          "largest_ancestor": 0.054341745481176436,
+          "log_known_evidence": -8.940256645051154,
+          "uncomputed_likelihood_incoming_mass": 0.028634519271347778
+        },
+        {
+          "family": "openap26-positive-lift-3-targets",
+          "case": "r600-bto-r1200-bfo-no-startup-offset",
+          "effective_rows": 42.13444875831912,
+          "largest_row": 0.0758442673121891,
+          "largest_ancestor": 0.08055963091709659,
+          "log_known_evidence": -14.502578537089029,
+          "uncomputed_likelihood_incoming_mass": 0.028634519271347778
+        },
+        {
+          "family": "openap26-positive-lift-3-targets",
+          "case": "both-sequential-no-startup-offset",
+          "effective_rows": 13.11850531178533,
+          "largest_row": 0.18009633228874086,
+          "largest_ancestor": 0.18009633228874086,
+          "log_known_evidence": -21.518051521492968,
+          "uncomputed_likelihood_incoming_mass": 0.028634519271347778
+        },
+        {
+          "family": "openap26-positive-lift-3-targets",
+          "case": "r600-shared-startup",
+          "effective_rows": 239.8404504055639,
+          "largest_row": 0.019296665436388853,
+          "largest_ancestor": 0.04440339591334408,
+          "log_known_evidence": -13.483059873073788,
+          "uncomputed_likelihood_incoming_mass": 0.025938187267201068
+        },
+        {
+          "family": "openap26-positive-lift-3-targets",
+          "case": "r1200-bfo-shared-startup",
+          "effective_rows": 75.32337493803381,
+          "largest_row": 0.040208985632680515,
+          "largest_ancestor": 0.04181106206097996,
+          "log_known_evidence": -9.927960850541217,
+          "uncomputed_likelihood_incoming_mass": 0.028634519271347778
+        },
+        {
+          "family": "openap26-positive-lift-3-targets",
+          "case": "r600-bto-r1200-bfo-shared-startup",
+          "effective_rows": 59.98519630850918,
+          "largest_row": 0.059135162039606906,
+          "largest_ancestor": 0.059135162039606906,
+          "log_known_evidence": -15.428833974719723,
+          "uncomputed_likelihood_incoming_mass": 0.028634519271347778
+        },
+        {
+          "family": "openap26-positive-lift-3-targets",
+          "case": "both-sequential-shared-startup",
+          "effective_rows": 4.505717875428208,
+          "largest_row": 0.4609863926000797,
+          "largest_ancestor": 0.4620182610893526,
+          "log_known_evidence": -21.84764307529756,
+          "uncomputed_likelihood_incoming_mass": 0.028634519271347778
+        }
+      ]
+    },
+    {
+      "name": "joint-terminal-replicate-seed-37092012",
+      "config": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/joint-terminal-replicate-seed-37092012.json",
+      "configuration_sha256": "f762ba8c4400d28df3396517b84dadc239026423ff14f71a5a0d5ac036e4e33b",
+      "output": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/joint-terminal-replicate-seed-37092012",
+      "conditioning": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/joint-terminal-replicate-seed-37092012-conditioned.json",
+      "conditional_output": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/joint-terminal-replicate-seed-37092012-conditioned",
+      "status": "completed",
+      "elapsed_seconds": 292.67276683301316,
+      "cases": [
+        {
+          "family": "openap2020-positive-lift-3-targets",
+          "case": "neither-final-contact",
+          "effective_rows": 1724.514669642179,
+          "largest_row": 0.00245316971105733,
+          "largest_ancestor": 0.022939837944957908,
+          "log_known_evidence": -1.480489120288552,
+          "uncomputed_likelihood_incoming_mass": -0.0
+        },
+        {
+          "family": "openap2020-positive-lift-3-targets",
+          "case": "r600-bto-only",
+          "effective_rows": 988.0021419805615,
+          "largest_row": 0.004114639638122927,
+          "largest_ancestor": 0.02595049611689636,
+          "log_known_evidence": -7.408721080479658,
+          "uncomputed_likelihood_incoming_mass": 0.030506420888181462
+        },
+        {
+          "family": "openap2020-positive-lift-3-targets",
+          "case": "r600-no-startup-offset",
+          "effective_rows": 82.15771471937143,
+          "largest_row": 0.04036508015240836,
+          "largest_ancestor": 0.04053623933367707,
+          "log_known_evidence": -12.89015568259695,
+          "uncomputed_likelihood_incoming_mass": 0.030506420888181462
+        },
+        {
+          "family": "openap2020-positive-lift-3-targets",
+          "case": "r1200-bfo-no-startup-offset",
+          "effective_rows": 52.96041535658013,
+          "largest_row": 0.06601615878252703,
+          "largest_ancestor": 0.06601615986539187,
+          "log_known_evidence": -9.30970004105476,
+          "uncomputed_likelihood_incoming_mass": 0.031219146831083216
+        },
+        {
+          "family": "openap2020-positive-lift-3-targets",
+          "case": "r600-bto-r1200-bfo-no-startup-offset",
+          "effective_rows": 54.73200138719835,
+          "largest_row": 0.07077174075189498,
+          "largest_ancestor": 0.07077176112543077,
+          "log_known_evidence": -14.769857684912239,
+          "uncomputed_likelihood_incoming_mass": 0.031219146831083216
+        },
+        {
+          "family": "openap2020-positive-lift-3-targets",
+          "case": "both-sequential-no-startup-offset",
+          "effective_rows": 7.625795608941114,
+          "largest_row": 0.24605948264893654,
+          "largest_ancestor": 0.24605948264893654,
+          "log_known_evidence": -22.331916118764042,
+          "uncomputed_likelihood_incoming_mass": 0.031219146831083216
+        },
+        {
+          "family": "openap2020-positive-lift-3-targets",
+          "case": "r600-shared-startup",
+          "effective_rows": 267.1202360561734,
+          "largest_row": 0.014646805025357468,
+          "largest_ancestor": 0.04157098345917286,
+          "log_known_evidence": -13.52784694042696,
+          "uncomputed_likelihood_incoming_mass": 0.030506420888181462
+        },
+        {
+          "family": "openap2020-positive-lift-3-targets",
+          "case": "r1200-bfo-shared-startup",
+          "effective_rows": 62.36188834794517,
+          "largest_row": 0.04991241688054168,
+          "largest_ancestor": 0.05200705154416494,
+          "log_known_evidence": -10.036516079857744,
+          "uncomputed_likelihood_incoming_mass": 0.031219146831083216
+        },
+        {
+          "family": "openap2020-positive-lift-3-targets",
+          "case": "r600-bto-r1200-bfo-shared-startup",
+          "effective_rows": 53.412168011127896,
+          "largest_row": 0.0673233125421857,
+          "largest_ancestor": 0.07068545730583324,
+          "log_known_evidence": -15.581785408093786,
+          "uncomputed_likelihood_incoming_mass": 0.031219146831083216
+        },
+        {
+          "family": "openap2020-positive-lift-3-targets",
+          "case": "both-sequential-shared-startup",
+          "effective_rows": 16.697092255181836,
+          "largest_row": 0.13666537593201203,
+          "largest_ancestor": 0.13666537593201203,
+          "log_known_evidence": -22.95527447835072,
+          "uncomputed_likelihood_incoming_mass": 0.031219146831083216
+        },
+        {
+          "family": "openap26-positive-lift-3-targets",
+          "case": "neither-final-contact",
+          "effective_rows": 1595.9898821732545,
+          "largest_row": 0.002739502018495252,
+          "largest_ancestor": 0.021455065034040027,
+          "log_known_evidence": -1.4976877757361873,
+          "uncomputed_likelihood_incoming_mass": -0.0
+        },
+        {
+          "family": "openap26-positive-lift-3-targets",
+          "case": "r600-bto-only",
+          "effective_rows": 948.6229360379674,
+          "largest_row": 0.004016380805723979,
+          "largest_ancestor": 0.024649390286915707,
+          "log_known_evidence": -7.400869672771498,
+          "uncomputed_likelihood_incoming_mass": 0.038309364824468596
+        },
+        {
+          "family": "openap26-positive-lift-3-targets",
+          "case": "r600-no-startup-offset",
+          "effective_rows": 72.39085321274996,
+          "largest_row": 0.03427519608475122,
+          "largest_ancestor": 0.05061435483479577,
+          "log_known_evidence": -13.086855784171286,
+          "uncomputed_likelihood_incoming_mass": 0.038309364824468596
+        },
+        {
+          "family": "openap26-positive-lift-3-targets",
+          "case": "r1200-bfo-no-startup-offset",
+          "effective_rows": 43.20614682671196,
+          "largest_row": 0.0875855387385983,
+          "largest_ancestor": 0.08758607026982898,
+          "log_known_evidence": -9.297074449734522,
+          "uncomputed_likelihood_incoming_mass": 0.03957803447991618
+        },
+        {
+          "family": "openap26-positive-lift-3-targets",
+          "case": "r600-bto-r1200-bfo-no-startup-offset",
+          "effective_rows": 33.50055435010456,
+          "largest_row": 0.1000890714601745,
+          "largest_ancestor": 0.10008971846504892,
+          "log_known_evidence": -14.666690073219744,
+          "uncomputed_likelihood_incoming_mass": 0.03957803447991618
+        },
+        {
+          "family": "openap26-positive-lift-3-targets",
+          "case": "both-sequential-no-startup-offset",
+          "effective_rows": 15.0307150713921,
+          "largest_row": 0.14530601277963856,
+          "largest_ancestor": 0.14530601277963856,
+          "log_known_evidence": -21.66873628942919,
+          "uncomputed_likelihood_incoming_mass": 0.03957803447991618
+        },
+        {
+          "family": "openap26-positive-lift-3-targets",
+          "case": "r600-shared-startup",
+          "effective_rows": 237.2915079751873,
+          "largest_row": 0.013889447962232723,
+          "largest_ancestor": 0.02250261043331107,
+          "log_known_evidence": -13.614112818150417,
+          "uncomputed_likelihood_incoming_mass": 0.038309364824468596
+        },
+        {
+          "family": "openap26-positive-lift-3-targets",
+          "case": "r1200-bfo-shared-startup",
+          "effective_rows": 60.469960288287865,
+          "largest_row": 0.03857676478832868,
+          "largest_ancestor": 0.041004147444911425,
+          "log_known_evidence": -9.89976023551248,
+          "uncomputed_likelihood_incoming_mass": 0.03957803447991618
+        },
+        {
+          "family": "openap26-positive-lift-3-targets",
+          "case": "r600-bto-r1200-bfo-shared-startup",
+          "effective_rows": 51.93117872323608,
+          "largest_row": 0.06267512818045341,
+          "largest_ancestor": 0.06493834668095198,
+          "log_known_evidence": -15.527648555453144,
+          "uncomputed_likelihood_incoming_mass": 0.03957803447991618
+        },
+        {
+          "family": "openap26-positive-lift-3-targets",
+          "case": "both-sequential-shared-startup",
+          "effective_rows": 33.15096481134168,
+          "largest_row": 0.09489370855216814,
+          "largest_ancestor": 0.09489370855216814,
+          "log_known_evidence": -22.65151540488217,
+          "uncomputed_likelihood_incoming_mass": 0.03957803447991618
+        }
+      ]
+    }
+  ],
+  "prepared_utc": "2026-09-09T16:48:55.412788+00:00",
+  "reason": "Replicate the corrected joint fuel/initial-lift proposal at8times the pilot effort. Pilot effective support per draw improved for two-contact cases but remained sparse; assess independent evidence/CDF variation before integration.",
+  "parent_draws_per_run": 12288,
+  "terminal_families_per_run": 2,
+  "expected_seconds_per_run": 480,
+  "estimate_basis": "Both1536-parent two-family pilots took60seconds; same fourworkers.",
+  "completion_note": "Two independent12288-parent joint fuel/initial-lift proposal runs completed. Compare matched full-million source/weather two-BFO support, normalizers and geographic distributions before integrating the alternative. No other terminal families replaced.",
+  "driver_pid": 298894,
+  "updated_utc": "2026-09-09T17:36:21.139101+00:00"
+}

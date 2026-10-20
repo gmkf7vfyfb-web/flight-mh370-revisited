@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "command": "apply-conditional-surface",
+  "producer_executable_sha256": "de28b0adc6de796026e6075da614b5e11c78459d4beafbca42f6e30b10758b4b",
+  "code_revision": "source-tree-sha256-d43975e6be06a07db8ceebdc48009613ce5701638d4d3511e316e74eca2d952d",
+  "config_sha256": "026c8ca960654b700ff6b7ad0b4a96e05bd0bed82929dcddbfc3e3d56d25989d",
+  "input_sha256": {
+    "configuration": "026c8ca960654b700ff6b7ad0b4a96e05bd0bed82929dcddbfc3e3d56d25989d",
+    "parent_impact_handoff_0": "263f56a8316c9524b579bdc87c3409001ca388aef346e2efccdaf13b5e6b55e9",
+    "parent_impact_handoff_1": "6c3af77bc0954d01bf6612526dad10046a47f2b96616b470078edc3ae99062a7",
+    "parent_impact_handoff_2": "e4ffad641184c684898525c55c9b3aa6cfc590525af3d61335e325fdd121e7fe",
+    "parent_impact_handoff_3": "4515d09acadec71ad606c490d29bc9a1f8879d25cf719130ba999744e5c608c5",
+    "parent_impact_handoff_4": "c49c334a49b6b2adff8489aca560636f6e8b8cb09bc4814e3a14a80dfc0415e8",
+    "pleiades_grid": "8473b9179798b9edc1bf5825e9ec94b9c51565e760c527bb07b4e58770ac40e8",
+    "pleiades_manifest": "b16fa3830f607c19e254a9a2b8cc52b05ab79b82028d1ffb31dab10eebee34ba",
+    "pleiades_surfaces": "a68773b196de790b6700346959ae72e9bcdae532686e86c23913443af8d6a748"
+  },
+  "output_sha256": {
+    "baseline.pdf": "20e4945dc7c12d1cd3dd378524ecba8817decb0fcfa66778e4980d89b24891c1",
+    "baseline.png": "c884629e740937744a82850e20e7ab77fa0f5e13282d0b24f3fe6748582eb8ec",
+    "baseline.svg": "436e9217812f56f81fc0b8b0259e30ab2584197383756881c5a93c248492fd56",
+    "conditional-spatial-particles.csv": "f9162c33babfb30cdf6272e16ebcd8b3cd503aa7f4297b8d6694ed50c162f2e3",
+    "conditional-spatial-sensitivity.json": "abdf3c87b60bd835f3fe3a62f7298d80f5f1134711981f03c39fb75ba75d4630",
+    "conditional.pdf": "36714cba9371e28fc0bfa463b172dba22309afd4047a916730a2f7ec5ee3eddf",
+    "conditional.png": "36b43db3d28fcb1f401fffa203f1dfded708aa9b5ce75814a557418f09fd9e70",
+    "conditional.svg": "e0ba75ff30c19cbecab65c35349dec02bece897b0abf009f20aa9c5944687d21"
+  },
+  "reproduction_command": "mh370 apply-conditional-surface --config configs/mh370-impact-conditional-pleiades-bran2016.toml --output runs/mh370/release-v0.1/conditional/pleiades-bran2016",
+  "scientific_scope": [
+    "The image-object identity, false-positive process, and image-selection process are uncalibrated; this is a conditional proxy, not core evidence.",
+    "Alternative Pleiades transport families represent the same image hypothesis and are run separately, never multiplied.",
+    "Arbitrary impact positions use a declared nearest 5-NM grid-node discretization after an explicit native-boundary check.",
+    "Out-of-support parent mass 0.001040 is removed only by the explicit 'condition_on_native_support' sensitivity condition; it is not evidence against those particles.",
+    "Relative scores are floored at 1.000e-300; this is a declared numerical sensitivity and not a physical false-positive calibration.",
+    "This branch is deliberately separate from the parent SATCOM/impact posterior and cannot be stacked with another family representing the same observations.",
+    "Conditional ESS 1.76 is too small for a stable narrow contour; interpret location and area only as a particle-resolution sensitivity warning."
+  ]
+}

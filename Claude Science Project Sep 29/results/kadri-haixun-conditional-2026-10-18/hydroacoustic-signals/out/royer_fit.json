@@ -1,0 +1,83 @@
+{
+ "rate": {
+  "MAD": {
+   "n_clusters": 10,
+   "span_s": 8925.2,
+   "rate_per_s": 0.0011204230717518934
+  },
+  "NCRO": {
+   "n_clusters": 6,
+   "span_s": 3751.2000000000007,
+   "rate_per_s": 0.0015994881637875877
+  },
+  "WKER": {
+   "n_clusters": 2,
+   "span_s": 1615.4199999999996,
+   "rate_per_s": 0.0012380681185078805
+  },
+  "SSEIR": {
+   "n_clusters": 5,
+   "span_s": 3816.6400000000003,
+   "rate_per_s": 0.0013100528213297559
+  },
+  "SWAMS": {
+   "n_clusters": 11,
+   "span_s": 8938.13,
+   "rate_per_s": 0.0012306824805636079
+  }
+ },
+ "fits": [
+  {
+   "branch": "T",
+   "picks_used": {
+    "NCRO": "event 7 NCRO 01:26:24.17"
+   },
+   "n_sites": 1,
+   "chi2": 0.0,
+   "az": 306.58,
+   "range_km": 1677.3,
+   "lat": -25.128,
+   "lon": 100.82,
+   "residuals_s": {
+    "NCRO": -0.0
+   },
+   "predicted_other_sites": {
+    "OHAS_MAD": "01:21:14.2",
+    "OHAS_NCRO": "01:26:24.2",
+    "OHAS_WKER": "01:21:20.4",
+    "OHAS_SSEIR": "01:07:24.4",
+    "OHAS_SWAMS3": "01:08:04.9",
+    "H08S": "01:13:27.4",
+    "PerthCanyon_3376": "00:50:53.5"
+   }
+  },
+  {
+   "branch": "C",
+   "picks_used": {
+    "NCRO": "event 7 NCRO 01:26:24.17",
+    "SSEIR": "event 8 SSEIR 01:11:10.16",
+    "MAD": "event 9 MAD 01:25:20.44"
+   },
+   "n_sites": 3,
+   "chi2": 82.98,
+   "az": 305.18,
+   "range_km": 1595.3,
+   "lat": -25.891,
+   "lon": 101.155,
+   "residuals_s": {
+    "NCRO": -189.3,
+    "SSEIR": 25.9,
+    "MAD": 31.9
+   },
+   "predicted_other_sites": {
+    "OHAS_MAD": "01:24:48.6",
+    "OHAS_NCRO": "01:29:33.5",
+    "OHAS_WKER": "01:24:19.6",
+    "OHAS_SSEIR": "01:10:44.3",
+    "OHAS_SWAMS3": "01:11:02.5",
+    "H08S": "01:17:36.9",
+    "PerthCanyon_3376": "00:53:27.4"
+   }
+  }
+ ]
+}

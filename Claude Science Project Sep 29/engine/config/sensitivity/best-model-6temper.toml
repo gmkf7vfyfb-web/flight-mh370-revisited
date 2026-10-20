@@ -1,0 +1,61 @@
+# The best model this project currently has: everything that has been shown to help, and
+# nothing that has not.
+#
+# SAMPLER. Annealed SMC at the three constrained epochs, 16 stages. 18:39 and 19:41 are where
+# it earns its keep - a caustic in the likelihood that four other interventions could not touch
+# - and 00:11 is included because the fuel evidence lands there (require_power_until = m0011)
+# and may make that epoch binding in a way it was not without fuel. On the fuel-free model
+# tempering 00:11 lifted its ESS 4.3x and changed no convergence measure; whether that holds
+# once fuel is scored at the same epoch is exactly what this run tests.
+#
+# MODEL. Davey's own priors throughout - 0.5 nm position, 1 deg track, uniform Mach 0.73-0.84,
+# altitude 25-43 kft, all from Chapter 4 and Table 8.2 - plus the two extensions this project
+# has validated: the vertical-rate term in the cruise BFO, and the fuel model.
+#
+# FUEL. This is the departure from the published method, and it is deliberate. Davey assumes
+# infinite fuel (assumption 4, p. 60) and censors afterwards; here the fuel state is carried in
+# the filter, with the endurance proposal drawing Mach targets from a mixture of the prior and
+# the affordable speeds and carrying the exact prior-to-proposal ratio into the weight. Settings
+# are those validated in endurance-4-btobfo-0019, where the proposal was shown to leave the
+# posterior where rejection-after-the-fact put it (cross-run density overlap 0.844, inside the
+# within-run replicate range of both).
+#
+# ALLOCATION. Equal across modes rather than Davey's [1, 0.5, 2.5, 0.5, 2.5] M. The fuel
+# evidence cuts the number of distinct surviving prior draws by about 3.3x, and it cuts hardest
+# in magnetic heading and magnetic track - the two modes that carry the northern shoulder - so
+# the published allocation starves exactly the part of the posterior under examination. The
+# total is held at 7M per replicate so this is directly comparable with tempered-1839-1941.
+name = "best-model-6temper"
+seeds = [1, 2, 3, 4, 5, 6, 7, 8]
+particles_per_mode = [1400000, 1400000, 1400000, 1400000, 1400000]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[inputs]
+fuel_tables = "../../data/fuel-tables.json"
+
+[prior]
+track_sd_deg = 1.0
+
+[dynamics]
+mach_range = [0.73, 0.84]
+altitude_range_ft = [25000.0, 43000.0]
+bfo_vertical_rate = true
+
+[fuel]
+initial_kg = 36609.0
+zfw_kg = 174196.0
+factor_mean = 1.0085
+factor_sd = 0.0178
+require_power_until = "m0011"
+proposal = "endurance"
+proposal_prior_mix = 0.15
+proposal_cells = 16
+exhaustion_target_utc = "2014-03-08T00:17:30Z"
+exhaustion_sd_s = 300.0
+
+[sampler]
+temper_epochs = ["m1839", "m1941", "m2041", "m2141", "m2241", "m0011"]
+temper_stages = 16

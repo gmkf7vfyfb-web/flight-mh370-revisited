@@ -1,0 +1,468 @@
+{
+  "started_utc": "2026-09-08T18:52:04Z",
+  "deadline_utc": "2026-09-09T04:52:04Z",
+  "initial_sampling_cap_seconds": 7200,
+  "maximum_workers": 4,
+  "maximum_memory_gib": 8,
+  "entries": [
+    {
+      "name": "exact branching finite-state control",
+      "elapsed_seconds": 0.06
+    },
+    {
+      "name": "fuel inverse independent Euler control",
+      "elapsed_seconds": 0.01
+    },
+    {
+      "name": "cruise-benchmark-pilot",
+      "elapsed_seconds": 2.481600406,
+      "includes_io": true
+    },
+    {
+      "name": "initial-contact-diagnostic-1",
+      "elapsed_seconds": 1.5808552869999999,
+      "includes_io": true
+    },
+    {
+      "name": "initial-contact-diagnostic-3",
+      "elapsed_seconds": 1.580684034,
+      "includes_io": true
+    },
+    {
+      "name": "initial-contact-diagnostic-4",
+      "elapsed_seconds": 1.647426407,
+      "includes_io": true
+    },
+    {
+      "name": "cruise-branching-rate-pilot",
+      "elapsed_seconds": 14.408851425,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-cruise-pilot",
+      "elapsed_seconds": 19.911138167,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-cruise-seed-37091321",
+      "elapsed_seconds": 205.579409163,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-cruise-seed-37091322",
+      "elapsed_seconds": 181.609099667,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-quadrature-refinement",
+      "elapsed_seconds": 25.672673987,
+      "includes_io": true
+    },
+    {
+      "name": "Gaussian, exact finite-state, nonuniform stratum and deterministic-thread controls",
+      "elapsed_seconds": 0.43
+    },
+    {
+      "name": "cruise geodesy, OU and completed-manoeuvre controls",
+      "elapsed_seconds": 0.01
+    },
+    {
+      "name": "fuel-weight-window-exp25-pilot",
+      "elapsed_seconds": 18.873956315,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-weight-window-exp30-pilot",
+      "elapsed_seconds": 21.288403708,
+      "includes_io": true
+    },
+    {
+      "name": "mh371-cruise-pilot",
+      "elapsed_seconds": 1.080375275,
+      "includes_io": true
+    },
+    {
+      "name": "mh371-guided-cruise-pilot",
+      "elapsed_seconds": 1.402155163,
+      "includes_io": true
+    },
+    {
+      "name": "Auxiliary candidate importance correction joint-mass control",
+      "elapsed_seconds": 0.1
+    },
+    {
+      "name": "fuel-guided-cruise-pilot",
+      "elapsed_seconds": 77.347438543,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-guided-resolution-pilot",
+      "elapsed_seconds": 136.887368707,
+      "includes_io": true
+    },
+    {
+      "name": "mh371-guided-cruise-5000",
+      "elapsed_seconds": 22.117031039,
+      "includes_io": true
+    },
+    {
+      "name": "Initial direction and conditional shared-rate controls",
+      "elapsed_seconds": 0.3
+    },
+    {
+      "name": "fuel-conditioned-cruise-pilot",
+      "elapsed_seconds": 26.397387209,
+      "includes_io": true
+    },
+    {
+      "name": "mh371-conditioned-cruise-5000",
+      "elapsed_seconds": 18.542147874,
+      "includes_io": true
+    },
+    {
+      "name": "Continuous proposal cells: independent two-Gaussian integral control",
+      "elapsed_seconds": 0.17
+    },
+    {
+      "name": "fuel-continuous-guide-pilot",
+      "elapsed_seconds": 155.454483895,
+      "includes_io": true
+    },
+    {
+      "name": "mh371-continuous-guide-5000",
+      "elapsed_seconds": 39.454702971,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-first-turn-proposal-pilot",
+      "elapsed_seconds": 26.581310758,
+      "includes_io": true
+    },
+    {
+      "name": "mh371-first-turn-proposal-5000",
+      "elapsed_seconds": 39.579145724,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-branching-10000",
+      "elapsed_seconds": 252.605625995,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-sequential-5000",
+      "elapsed_seconds": 11.297512255000001,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-sequential-seed-37091411",
+      "elapsed_seconds": 40.60780055,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-sequential-seed-37091412",
+      "elapsed_seconds": 41.094755803,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-blocked-seed-37091421",
+      "elapsed_seconds": 41.423744088,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-blocked-seed-37091422",
+      "elapsed_seconds": 42.749972391,
+      "includes_io": true
+    },
+    {
+      "name": "Observation-block singleton identity and exact finite-state posterior control",
+      "elapsed_seconds": 0.17
+    },
+    {
+      "name": "fuel-blocked-200000-seed-37091431",
+      "elapsed_seconds": 422.059992349,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-midpoint-pilot",
+      "elapsed_seconds": 40.791257185,
+      "includes_io": true
+    },
+    {
+      "name": "mh371-midpoint-5000",
+      "elapsed_seconds": 11.010826987,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-timing-guide-seed-37091451",
+      "elapsed_seconds": 63.117230214,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-timing-guide-seed-37091452",
+      "elapsed_seconds": 59.89487879,
+      "includes_io": true
+    },
+    {
+      "name": "Midpoint integration and stationary OU displacement controls",
+      "elapsed_seconds": 0.04
+    },
+    {
+      "name": "Guided conditional exponential time integral control",
+      "elapsed_seconds": 0.01
+    },
+    {
+      "name": "Independent frozen Martin-reference fuel calculation",
+      "elapsed_seconds": 0.01
+    },
+    {
+      "name": "fuel-timing-guide-300000-seed-37091461",
+      "elapsed_seconds": 926.417773153,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-timing-guide-300000-seed-37091462",
+      "elapsed_seconds": 904.925017805,
+      "includes_io": true
+    },
+    {
+      "name": "mh371-cruise-200000-seed-37101381",
+      "elapsed_seconds": 276.919175644,
+      "includes_io": true
+    },
+    {
+      "name": "Future-potential exact posterior and zero-guide controls",
+      "elapsed_seconds": 0.06,
+      "includes_io": false
+    },
+    {
+      "name": "fuel-lookahead-seed-37091471",
+      "elapsed_seconds": 59.940070511,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-lookahead-seed-37091472",
+      "elapsed_seconds": 63.424816379,
+      "includes_io": true
+    },
+    {
+      "name": "mh371-cruise-200000-seed-37101382",
+      "elapsed_seconds": 264.750204171,
+      "includes_io": true
+    },
+    {
+      "name": "Uniform replay tape and independent weighted-target MH controls",
+      "elapsed_seconds": 0.01
+    },
+    {
+      "name": "fuel-replay-seed-37091481",
+      "elapsed_seconds": 94.135768208,
+      "includes_io": true
+    },
+    {
+      "name": "Replay unequal-mode-prior independent integral control",
+      "elapsed_seconds": 0.03
+    },
+    {
+      "name": "Generic RNG cruise invariants and OU controls",
+      "elapsed_seconds": 0.07
+    },
+    {
+      "name": "Separated replay stream and weighted-target controls",
+      "elapsed_seconds": 0.03
+    },
+    {
+      "name": "fuel-terminal-replay-seed-37091491",
+      "elapsed_seconds": 52.775580103,
+      "includes_io": true
+    },
+    {
+      "name": "forward-cost-profile",
+      "elapsed_seconds": 16.6428766,
+      "includes_io": true,
+      "purpose": "GNU gprofng cost sampling; first binary lacked symbols"
+    },
+    {
+      "name": "forward-cost-symbols",
+      "elapsed_seconds": 17.120698233,
+      "includes_io": true,
+      "purpose": "Profile corrected with function symbols; posterior bytes exactly equal to stripped-binary profile"
+    },
+    {
+      "name": "forward-cost-cached",
+      "elapsed_seconds": 13.580084951,
+      "includes_io": true
+    },
+    {
+      "name": "Environment and flight regression controls",
+      "elapsed_seconds": 0.15
+    },
+    {
+      "name": "Shared forecast conditions cruise controls",
+      "elapsed_seconds": 0.07
+    },
+    {
+      "name": "forward-cost-shared",
+      "elapsed_seconds": 11.793520723,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-future-guided-seed-37091511",
+      "elapsed_seconds": 42.710057876,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-future-guided-seed-37091512",
+      "elapsed_seconds": 41.749857449,
+      "includes_io": true
+    },
+    {
+      "name": "Censored Poisson count/exposure and prior epoch limit controls",
+      "elapsed_seconds": 1.69
+    },
+    {
+      "name": "Initial zero-limit fixture with nonzero altitude transition, corrected to no-op altitude",
+      "elapsed_seconds": 0.01
+    },
+    {
+      "name": "fuel-bounded-manoeuvres-seed-37091521",
+      "elapsed_seconds": 36.529343712,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-bounded-manoeuvres-seed-37091522",
+      "elapsed_seconds": 36.896522186,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-early-revisions-seed-37091531",
+      "elapsed_seconds": 147.98562028,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-early-revisions-seed-37091532",
+      "elapsed_seconds": 137.237533655,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-initial-altitude-partition-seed-37091541",
+      "elapsed_seconds": 34.479831246,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-initial-altitude-partition-seed-37091542",
+      "elapsed_seconds": 34.61148905,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-early-candidate-pool-seed-37091551",
+      "elapsed_seconds": 94.301238496,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-early-candidate-pool-seed-37091552",
+      "elapsed_seconds": 95.488850618,
+      "includes_io": true
+    },
+    {
+      "name": "Annealed block finite-state and telescoping controls, first and strengthened transition-proposal versions",
+      "elapsed_seconds": 0.65
+    },
+    {
+      "name": "fuel-annealed-block-seed-37091561",
+      "elapsed_seconds": 57.078237246,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-annealed-block-seed-37091562",
+      "elapsed_seconds": 57.237433704,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-coupled-annealing-seed-37091571",
+      "elapsed_seconds": 77.809456898,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-coupled-annealing-seed-37091572",
+      "elapsed_seconds": 89.266678755,
+      "includes_io": true
+    },
+    {
+      "name": "replay-cache-diagnostic",
+      "elapsed_seconds": 64.315889487,
+      "includes_io": true,
+      "purpose": "Same-seed exact identity and timing control, not independent convergence"
+    },
+    {
+      "name": "fuel-navigation-guide-seed-37091581",
+      "elapsed_seconds": 52.104616912,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-navigation-guide-seed-37091582",
+      "elapsed_seconds": 53.000712825,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-local-revisions-seed-37091591",
+      "elapsed_seconds": 140.364350708,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-local-revisions-seed-37091592",
+      "elapsed_seconds": 143.56569931,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-used-coordinate-seed-37091601",
+      "elapsed_seconds": 131.327569089,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-used-coordinate-seed-37091602",
+      "elapsed_seconds": 128.837963153,
+      "includes_io": true
+    },
+    {
+      "name": "Navigation, replay, variable trace, and every-weight-update controls including rejected zero-threshold fixture",
+      "elapsed_seconds": 4.26,
+      "includes_io": false
+    },
+    {
+      "name": "fuel-continuous-revisions-seed-37091611",
+      "elapsed_seconds": 104.719331221,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-continuous-revisions-seed-37091612",
+      "elapsed_seconds": 103.805152027,
+      "includes_io": true
+    },
+    {
+      "name": "Initial fitted proposal moment controls and retained-guidance finite-state control including first stochastic-fixture failure",
+      "elapsed_seconds": 1.69,
+      "includes_io": false
+    },
+    {
+      "name": "fuel-initial-proposal-seed-37091621",
+      "elapsed_seconds": 14.443694312,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-initial-proposal-seed-37091622",
+      "elapsed_seconds": 14.98371774,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-initial-proposal-85000-seed-37091631",
+      "elapsed_seconds": 233.015369074,
+      "includes_io": true
+    },
+    {
+      "name": "fuel-initial-proposal-85000-seed-37091632",
+      "elapsed_seconds": 225.171009503,
+      "includes_io": true
+    }
+  ],
+  "elapsed_numerical_seconds": 7171.624055344
+}

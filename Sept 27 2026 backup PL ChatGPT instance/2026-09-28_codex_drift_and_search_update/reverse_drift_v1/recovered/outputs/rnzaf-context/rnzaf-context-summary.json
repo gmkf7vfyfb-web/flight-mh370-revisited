@@ -1,0 +1,40 @@
+{
+  "schema": "mh370-rnzaf-image-metadata-context/1",
+  "status": "display_context_only",
+  "surface_id": "equal_transport_family_model_average",
+  "records": 183,
+  "georeferenced_records": 132,
+  "missing_coordinate_records": 51,
+  "distinct_positions": 59,
+  "suffix_corrected_records": 6,
+  "dates": [
+    "2014-03-22",
+    "2014-03-28",
+    "2014-03-29",
+    "2014-03-31",
+    "2014-04-01",
+    "2014-04-04",
+    "2014-04-09",
+    "2014-04-11",
+    "2014-04-13",
+    "2014-04-16"
+  ],
+  "conditional_impact_particles_included": true,
+  "conditional_effective_sample_size": 1.1511457624463308,
+  "conditional_resolution_status": "numerically_unresolved_display_only",
+  "input_sha256": {
+    "workbook": "267ad7be372e80dd7a81b6b8a356f3a3d47c8d5eb16bfb5fdb72c17d13570719",
+    "grid": "8473b9179798b9edc1bf5825e9ec94b9c51565e760c527bb07b4e58770ac40e8",
+    "surfaces": "a68773b196de790b6700346959ae72e9bcdae532686e86c23913443af8d6a748",
+    "seventh_arc": "8d95ae563560388d1ad7c2ef34a3154ff95c0b2dd09c59c842f374b80e1537ad",
+    "land": "e874b27a51d146452be360cafb3cc50c86001074a67d534113e6534682f9826b",
+    "conditional_particles": "e8058bb9928199eea234158a54330f1b60cca2b85f32e16d0a1ff07baea8fde1"
+  },
+  "artifact_sha256": {
+    "rnzaf-pleiades-impact-context.svg": "9e256bf9c8f9b671ebcb37f4972a1437674d0e8d51d7186ed304cd830070f1f6",
+    "rnzaf-pleiades-impact-context.pdf": "70ec6ffa96d5694174a7d517e6c1b38979af54e3e9428b6735e00e46e21ba5b0",
+    "rnzaf-pleiades-impact-context.png": "31838cdfcb70c43a51a9b9b1210adf4ee85057ea7421a875a84d5d2c38cda825",
+    "rnzaf-image-metadata.csv": "584d7b5d8de90f6c4be850f84109d5c0c45919ef71842258a9d2c69e50f300d3"
+  },
+  "scientific_scope": "Reported RNZAF-labelled GPS metadata points only\u2014not image footprints, searched-area coverage, non-detection evidence, debris observations, or an estimator likelihood. The selected Pl\u00e9iades surface and any impact update are explicitly uncalibrated conditional sensitivities."
+}

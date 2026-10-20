@@ -1,0 +1,41 @@
+{
+  "classification": "new v12 reconstruction; not original binary/source reproduction",
+  "identity": {
+    "input_sha256": "09ccc89c55d80c48f76b41645cd446d377f8332dfb071c0756fe77eff7fe5f68",
+    "core_sha256": "e13a47ecc5721d69b7d587bfa49e6dc4b592f42cb5f590a1929e35503d326ec5",
+    "runner_sha256": "1e8e805c2ab749fd9d2ca48f83f18c7d1e5b223e65195ad0296a84357cf4ba08",
+    "weather_sha256": "df351799fef5310a53bc578d735bb0d3d88596dfbc40e63c2bbf7802ec0de4fb",
+    "magnetic_sha256": "686e63b65194f4903dd2ce889c009d1e54b0ff2438e9066f1b98fe6afe946961",
+    "config": {
+      "particles": 100000,
+      "seed": 202,
+      "dt_s": 10.0,
+      "maneuver_dt_s": 1.0,
+      "ess_fraction": 0.5,
+      "use_bfo": true,
+      "bfo_sigma_hz": 7.0,
+      "bias_prior_sd_hz": 25.0,
+      "position_sd_deg": 0.008333333333333333,
+      "angle_sd_deg": 1.0,
+      "mach_sd": 0.03
+    }
+  },
+  "weather": "supplied independent weather grid; provenance in config",
+  "input_classification": "Davey-model reconstruction with ERA5, public TLE orbit and reconstructed radar mean; not exact Davey reproduction",
+  "python": "3.14.7",
+  "configuration": {
+    "particles": 100000,
+    "seed": 202,
+    "dt_s": 10.0,
+    "maneuver_dt_s": 1.0,
+    "ess_fraction": 0.5,
+    "use_bfo": true,
+    "bfo_sigma_hz": 7.0,
+    "bias_prior_sd_hz": 25.0,
+    "position_sd_deg": 0.008333333333333333,
+    "angle_sd_deg": 1.0,
+    "mach_sd": 0.03
+  },
+  "status": "completed",
+  "observations_completed": 12
+}

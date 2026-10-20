@@ -1,0 +1,13 @@
+{
+  "utc": "2026-09-15T17:58:15.371069+00:00",
+  "purpose": "Reporting at the refined terminal extension; scientific executable/source are separately frozen in design.json",
+  "archive_sha256": "2edab6d34485dc2149792633e10c56c960b9dbb73e5cc8cfe03f20224b2ea479",
+  "changes": [
+    "Fresh/stale numerical activity status in the mixture report",
+    "Current mixture report linked from results index",
+    "Missing optional start timestamp no longer displays NaN elapsed minutes",
+    "Correct case-probability title spacing",
+    "Append checked complete-candidate cruise control to the existing diagnostic figure"
+  ],
+  "verification": "Python syntax and JavaScript parse; simulated current, stale and finished status responses checked. No inference change."
+}

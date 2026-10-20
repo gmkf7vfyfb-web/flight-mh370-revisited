@@ -1,0 +1,20 @@
+# This repository does not use Git LFS. The oversized source workbooks that
+# previously motivated LFS are hosted separately; see LARGE_FILES.md.
+#
+# Byte fidelity is the priority here: this tree is validated against the
+# SHA-256 manifest in transfer_metadata/, so Git must not rewrite line endings.
+# Several source CSVs are genuinely CRLF, and normalizing them to LF would make
+# them fail `shasum -a 256 -c`. Everything is therefore checked in verbatim.
+* -text
+
+# Mark the non-diffable research artifacts explicitly, for readable diffs.
+*.pdf  binary
+*.docx binary
+*.xlsx binary
+*.xlsm binary
+*.xls  binary
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.zip  binary
+*.bin  binary

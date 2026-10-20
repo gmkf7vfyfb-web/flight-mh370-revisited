@@ -1,0 +1,47 @@
+{
+  "status": "conditional source recreation; not a location measurement, aircraft-feasibility result or probability density",
+  "paper_source": "https://www.nature.com/articles/s41598-024-60529-1",
+  "located_passages": {
+    "bearing_arrival": "Table1 and caption, PDFp14:00:54:30 UTC/306.18deg",
+    "distance_celerity": "PDFp13:1586km;1500\u00b170m/s",
+    "equation": "PDFp14 Eq4; velocity positive away from H01W along the bearing",
+    "printed_velocity": "PDFp14 prose:1450m/s, about13min and350km"
+  },
+  "r600_time_utc": "2014-03-08T00:19:29.416Z",
+  "reported_arc_range_km": 1586.0,
+  "independent_range_over_c_minutes": [
+    16.836518046709127,
+    17.62222222222222,
+    18.484848484848484
+  ],
+  "paper_reported_range_over_c_minutes": 17.45,
+  "literal_equation_checks": [
+    {
+      "interpretation": "printed_1450_metres_per_second",
+      "velocity_m_s": 1450.0,
+      "using_paper_extra_time_minutes": 17.02,
+      "duration_minutes": 8.654237288135592,
+      "displacement_km": 752.9186440677965
+    },
+    {
+      "interpretation": "hypothetical_1450_kilometres_per_hour",
+      "velocity_m_s": 402.77777777777777,
+      "using_paper_extra_time_minutes": 17.02,
+      "duration_minutes": 13.417226277372261,
+      "displacement_km": 324.24963503649633
+    }
+  ],
+  "coordinate_model": "spherical radius6371.0088km and retained H01W source-version coordinate; reported1586km is not re-estimated from BTO",
+  "limitations": [
+    "Bearing widths and celerity endpoints are separate sensitivity values, not a Gaussian error model.",
+    "Average velocity is a signed displacement/time coordinate, not a dynamically simulated airspeed.",
+    "Neither H01W event identity nor association with MH370 has been established.",
+    "The hypothetical kilometre-per-hour interpretation is displayed, not substituted for the printed unit.",
+    "The paper body rounds arrival to00:54 while Table1 gives00:54:30; both are retained."
+  ],
+  "input_sha256": {
+    "/jackbox/home/MH370/.sources/kadri-2024-hydroacoustics/paper/paper.pdf": "b4f8f37ad1577a0f4726e6acdbfeea295b89197c88fac4ab5546d80bd9eb9db4",
+    "/jackbox/home/MH370/.sources/kadri-2024-hydroacoustics/data/conditional-geometry-config.json": "46f45b977210df0739f3e5b593562e8b6bbac312e4aa99dfbefb8e0e22d9f46a",
+    "/jackbox/home/MH370/.sources/kadri-2024-hydroacoustics/code/preferred_event_geometry.py": "b395416a75b4addf5cbae36ec0882dba862676b2c3cf1e2a463dc5e78bcea214"
+  }
+}

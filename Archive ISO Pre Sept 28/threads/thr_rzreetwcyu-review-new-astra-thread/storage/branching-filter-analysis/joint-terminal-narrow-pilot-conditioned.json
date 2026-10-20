@@ -1,0 +1,194 @@
+{
+  "schema_version": 1,
+  "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/joint-terminal-narrow-pilot",
+  "cases": [
+    {
+      "name": "neither-final-contact",
+      "bto": [
+        false,
+        false
+      ],
+      "bfo": [
+        false,
+        false
+      ],
+      "startup": {
+        "kind": "no_offset"
+      }
+    },
+    {
+      "name": "r600-bto-only",
+      "bto": [
+        true,
+        false
+      ],
+      "bfo": [
+        false,
+        false
+      ],
+      "startup": {
+        "kind": "no_offset"
+      }
+    },
+    {
+      "name": "r600-no-startup-offset",
+      "bto": [
+        true,
+        false
+      ],
+      "bfo": [
+        true,
+        false
+      ],
+      "startup": {
+        "kind": "no_offset"
+      }
+    },
+    {
+      "name": "r1200-bfo-no-startup-offset",
+      "bto": [
+        false,
+        false
+      ],
+      "bfo": [
+        false,
+        true
+      ],
+      "startup": {
+        "kind": "no_offset"
+      }
+    },
+    {
+      "name": "r600-bto-r1200-bfo-no-startup-offset",
+      "bto": [
+        true,
+        false
+      ],
+      "bfo": [
+        false,
+        true
+      ],
+      "startup": {
+        "kind": "no_offset"
+      }
+    },
+    {
+      "name": "both-sequential-no-startup-offset",
+      "bto": [
+        true,
+        false
+      ],
+      "bfo": [
+        true,
+        true
+      ],
+      "startup": {
+        "kind": "no_offset"
+      }
+    },
+    {
+      "name": "r600-shared-startup",
+      "bto": [
+        true,
+        false
+      ],
+      "bfo": [
+        true,
+        false
+      ],
+      "startup": {
+        "kind": "shared_uniform",
+        "second_offset_hz": [
+          17.0,
+          130.0
+        ],
+        "first_minus_second_hz": [
+          0.0,
+          6.0
+        ],
+        "quadrature_points": [
+          64,
+          16
+        ]
+      }
+    },
+    {
+      "name": "r1200-bfo-shared-startup",
+      "bto": [
+        false,
+        false
+      ],
+      "bfo": [
+        false,
+        true
+      ],
+      "startup": {
+        "kind": "shared_uniform",
+        "second_offset_hz": [
+          17.0,
+          130.0
+        ],
+        "first_minus_second_hz": [
+          0.0,
+          6.0
+        ],
+        "quadrature_points": [
+          64,
+          16
+        ]
+      }
+    },
+    {
+      "name": "r600-bto-r1200-bfo-shared-startup",
+      "bto": [
+        true,
+        false
+      ],
+      "bfo": [
+        false,
+        true
+      ],
+      "startup": {
+        "kind": "shared_uniform",
+        "second_offset_hz": [
+          17.0,
+          130.0
+        ],
+        "first_minus_second_hz": [
+          0.0,
+          6.0
+        ],
+        "quadrature_points": [
+          64,
+          16
+        ]
+      }
+    },
+    {
+      "name": "both-sequential-shared-startup",
+      "bto": [
+        true,
+        false
+      ],
+      "bfo": [
+        true,
+        true
+      ],
+      "startup": {
+        "kind": "shared_uniform",
+        "second_offset_hz": [
+          17.0,
+          130.0
+        ],
+        "first_minus_second_hz": [
+          0.0,
+          6.0
+        ],
+        "quadrature_points": [
+          64,
+          16
+        ]
+      }
+    }
+  ]
+}

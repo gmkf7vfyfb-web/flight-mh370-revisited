@@ -1,0 +1,13 @@
+# Run J (core), 16 Oct 2026. Definition: config/sensitivity/run-j/README.md. Job: engine/scripts/job-run-j.sh.
+name = "run-j-repro-radar"
+particles_per_mode = [500_000, 250_000, 1_250_000, 250_000, 1_250_000]
+seeds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+
+[output]
+handoff_rows = 100000
+route_samples = 2000
+
+[output.trace]
+from_utc = "2014-03-07T18:22:00Z"
+to_utc = "2014-03-07T18:42:40Z"
+interval_s = 40

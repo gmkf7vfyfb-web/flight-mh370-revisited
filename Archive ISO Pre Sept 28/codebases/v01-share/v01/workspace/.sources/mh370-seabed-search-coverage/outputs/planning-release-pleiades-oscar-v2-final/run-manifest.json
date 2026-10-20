@@ -1,0 +1,59 @@
+{
+  "deterministic": true,
+  "generator": "code/build.py",
+  "generator_sha256": "25c7bb4ec09d2f55f8f422ee6aa7eba59d677aa3693efb2009db22b944214b90",
+  "input": {
+    "bytes": 695631,
+    "logical_path": "runs/mh370/release-v0.1/conditional/pleiades-oscar-v2-final/conditional-spatial-particles.csv",
+    "particle_count": 2560,
+    "role": "release_input",
+    "sha256": "76fa2282a2b1563d78883c6a970cc58ed279fe0af7a63540f6049a9227992457",
+    "weight_column": "conditional_weight",
+    "weight_mode": "linear",
+    "weights_normalized_by_planner": true
+  },
+  "outputs": [
+    {
+      "bytes": 401098,
+      "path": "outputs/planning-release-pleiades-oscar-v2-final/index.html",
+      "sha256": "48c4104487fd5542741aeeb4a958d632d839660ebf94c1d4d9589a5aa92b2c65"
+    },
+    {
+      "bytes": 224580,
+      "path": "outputs/planning-release-pleiades-oscar-v2-final/ordered-tiles-posterior-only.csv",
+      "sha256": "7c79bfdc686e84221b48d2e743693371d97f4615b32fea73df38b2c4ee7ab991"
+    },
+    {
+      "bytes": 224585,
+      "path": "outputs/planning-release-pleiades-oscar-v2-final/ordered-tiles-proxy-logistics.csv",
+      "sha256": "ab24cc2360ad2b16821a10f9989a66d6110ca3f010f97dc746951761394c6d9f"
+    },
+    {
+      "bytes": 3913,
+      "path": "outputs/planning-release-pleiades-oscar-v2-final/plan-summary.json",
+      "sha256": "c8cd47eb31c4c5ec50c2489fa2170a84ba7e13f91699810aa26dd8391a07ec45"
+    },
+    {
+      "bytes": 97618,
+      "path": "outputs/planning-release-pleiades-oscar-v2-final/search-plan.pdf",
+      "sha256": "67c1b3f1e7bc091c4b3e76d387fdabe689df8c4da0ec4d3aa3b0332fc69ee585"
+    },
+    {
+      "bytes": 521365,
+      "path": "outputs/planning-release-pleiades-oscar-v2-final/search-plan.png",
+      "sha256": "3e9f8688e7b45ef4ba34ea33e9bacc1ee8588c65af7be2643a8f40e124f338ae"
+    },
+    {
+      "bytes": 398462,
+      "path": "outputs/planning-release-pleiades-oscar-v2-final/search-plan.svg",
+      "sha256": "8da00b0ddc9037dc6c19ae37f9c46d3ee99d4b0231bc918f7762e02387f701cb"
+    },
+    {
+      "bytes": 10993,
+      "path": "outputs/planning-release-pleiades-oscar-v2-final/selected-tiles.geojson",
+      "sha256": "de1b27e747a61c56b3acf3df39056d004a15e82fa4bc4bbf32145e24d19ce3b7"
+    }
+  ],
+  "schema_version": 1,
+  "snapshot_date": "2026-08-31"
+}

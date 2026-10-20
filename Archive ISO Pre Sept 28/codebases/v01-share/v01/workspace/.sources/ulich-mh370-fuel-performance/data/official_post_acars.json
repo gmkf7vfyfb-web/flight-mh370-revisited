@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "source_ref": "official_appendix_1_6e",
+  "classification": "source-derived",
+  "epistemic_role": "official-calculated-output-not-measurement",
+  "initial_fuel_kg": 43800.0,
+  "official_arc1_utc": "2014-03-07T18:28:05.900Z",
+  "official_arc1_ending_fuel_lb": 73908.0,
+  "notes": [
+    "Durations and segment values are rounded values printed in Table 3.",
+    "The printed durations total 1.355 h and end 4.9 s before the stated Arc-1 epoch.",
+    "The official values were calculated using proprietary Boeing 777 and Rolls-Royce analyses; they are comparison outputs, not calibration targets."
+  ],
+  "segments": [
+    {"segment": 1, "duration_h": 0.36, "distance_nm": 175.3, "flight_level": 350.0, "wind_kt": -14.0, "tas_kt": 478.0, "mach": 0.829, "official_ending_fuel_lb": 91242.0},
+    {"segment": 2, "duration_h": 0.023, "distance_nm": 11.1, "flight_level": 350.0, "wind_kt": -19.0, "tas_kt": 470.0, "mach": 0.815, "official_ending_fuel_lb": 90911.0},
+    {"segment": 3, "duration_h": 0.54, "distance_nm": 282.0, "flight_level": 300.0, "wind_kt": -13.0, "tas_kt": 510.0, "mach": 0.865, "official_ending_fuel_lb": 81104.0},
+    {"segment": 4, "duration_h": 0.34, "distance_nm": 173.5, "flight_level": 300.0, "wind_kt": -14.0, "tas_kt": 502.0, "mach": 0.852, "official_ending_fuel_lb": 75425.0},
+    {"segment": 5, "duration_h": 0.092, "distance_nm": 46.4, "flight_level": 300.0, "wind_kt": -9.0, "tas_kt": 494.0, "mach": 0.838, "official_ending_fuel_lb": 73908.0}
+  ]
+}

@@ -1,0 +1,14 @@
+# Evidential sweep on core's reference-289 hand-offs (architecture ~14:45 UTC 9 Oct): 00:11 snapshot,
+# seeds 1-4, 100,000 parents per seed, N = 8 children per parent (3.2 M descents). Run one process per
+# seed with full/seed-<k>.toml so each seed's impacts land as soon as it finishes.
+#
+# Pass AFTER core's own configs for the run, in core's order:
+#   config/davey2016.toml config/sensitivity/no-exhaustion-prior.toml
+#   config/sensitivity/reference-snapshots.toml config/sensitivity/early-families/overnight/reference-289.toml
+#   hypotheses/end-of-flight/smoke/snapshot-m0011.toml hypotheses/end-of-flight/smoke/terminal.toml
+#   hypotheses/end-of-flight/full/reference-289.toml hypotheses/end-of-flight/full/seed-<k>.toml
+#
+# The module parameters are run.toml's, which smoke/terminal.toml carries verbatim (tested). They
+# include two PROVISIONAL-OVERNIGHT choices awaiting Pete: dive class (b) and the Boeing-calibrated glide.
+[terminal]
+children = 8

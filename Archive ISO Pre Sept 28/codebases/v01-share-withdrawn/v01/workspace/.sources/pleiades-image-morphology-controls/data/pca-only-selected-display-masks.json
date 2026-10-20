@@ -1,0 +1,811 @@
+{
+  "schema_version": 1,
+  "status": "DISPLAY_INPUT_ONLY; candidates independently re-ranked by PCA IoU after the unchanged two-sided size gate",
+  "source": {
+    "pca_only_results_sha256": "bf493916324f0008d0ac6d348c4e3ee91b7c0bf8962668131490a2882563068c",
+    "legacy_source_hashes_sha256": {
+      "corrected_targets": "fa92cb080d33078dab1a12461f92ce969e6c2b2d3dccf5831f0ecea3181606cf",
+      "priors": "45e477e523d70f6c553dd404b55c734a81c274e093eca7c3002bd87388e84b35",
+      "hydro_states": "e278ccca1df063fb2e63dc19d7d553dd939316cf6b15b77b21df8abe310d4c94",
+      "random_pose_states": "cc7e5adf752ce747e4ad685d1993f003aa4015fd7569b9ec91be884e08b97253",
+      "features": "2b6c88b13bb08cf9dd2d18c1be604169c13907ac14c10393d694a38d9e4f68e4",
+      "geometry": "8aa3dc0f231182e9a372116d486f638e5b9d1048e539169f48b482413cb7d4e4",
+      "manifest": "cd92c248c7f0d3cbba08a84011104b86435f1248a7176bceaad095561c063e1e",
+      "dxf": "334a0ebde06cd9a8e4384b4073b98a07831acdeed2cf1e051b09294afb3fe8e5"
+    },
+    "random_pose_states_sha256": "cc7e5adf752ce747e4ad685d1993f003aa4015fd7569b9ec91be884e08b97253",
+    "model_priors_sha256": "45e477e523d70f6c553dd404b55c734a81c274e093eca7c3002bd87388e84b35",
+    "selection": "Within each original family, minimize 1 - reflected PCA-mask IoU over candidates whose area, length and width all pass the audited p10-p90 intervals; then take the lower PCA loss within grouped categories.",
+    "display_alignment": "Choose the loss-admissible reflection with greatest PCA IoU, align principal axes to the published PCA component and centre on a 48 x 48 grid at 0.5 m per pixel. Display resampling never enters scoring.",
+    "field_dimensions_metres": [
+      24,
+      24
+    ],
+    "field_grid_pixels": [
+      48,
+      48
+    ]
+  },
+  "objects": {
+    "phr-4-object-06": {
+      "wing": {
+        "selected_family": "wing_random_pose",
+        "strict_size_eligible": true,
+        "candidate_id": "random_pose__01258",
+        "source_subtype": "right-wing-flaperon-absent",
+        "source_label": "right-wing-flaperon-absent",
+        "silhouette_iou_pca": 0.6934,
+        "pca_loss_lower_is_better": 0.3066,
+        "two_view_loss_lower_is_better": 0.2958,
+        "visible_area_m2": 23.25,
+        "visible_length_m": 6.96,
+        "visible_width_m": 5.04,
+        "metadata": {
+          "source_subtype": "right-wing-flaperon-absent",
+          "source_label": "right-wing-flaperon-absent",
+          "wing_variant": "right-wing-flaperon-absent",
+          "draw_index": 0,
+          "pose": {
+            "afloat": true,
+            "pose_source": "random_orientation_and_immersion_not_hydrostatic",
+            "roll_degrees": -48.74,
+            "pitch_degrees": 59.11,
+            "heave_m": -8.729,
+            "target_visible_fraction": 0.1156,
+            "equivalent_tilt_from_face_on_degrees": 70.21,
+            "root_to_tip_height_difference_m": -19.366,
+            "leading_to_trailing_height_difference_m": -6.791,
+            "interpretation": {
+              "span": "tip lower than root",
+              "chord": "trailing edge lower than leading edge"
+            },
+            "matrix": [
+              [
+                0.513358,
+                -0.645139,
+                0.565914
+              ],
+              [
+                0,
+                0.659439,
+                0.751758
+              ],
+              [
+                -0.858174,
+                -0.385921,
+                0.338529
+              ]
+            ]
+          },
+          "off_nadir_degrees": 1.1,
+          "view_azimuth_degrees": 74.58,
+          "model_parameters": {
+            "dry_mass_kg": 13000,
+            "root_max_thickness_m": 2.8,
+            "tip_max_thickness_m": 0.575,
+            "root_mass_bias": 2.85,
+            "trailing_mass_bias": 1.6
+          },
+          "model_mass_kg": 13000,
+          "shallow_underwater_visibility_m": 0.5
+        },
+        "display_mask_pixel_count": 93,
+        "mask_hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000700000000001f80000000007fc0000000007fc000000000ffc000000000ffc000000001ffc000000003ff8000000003ff0000000003ff0000000000c200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "other_777_parts": {
+        "selected_family": "nonwing_777_parts",
+        "strict_size_eligible": true,
+        "candidate_id": "nacelle-plan-silhouette__00525",
+        "source_subtype": "nacelle-plan-silhouette",
+        "source_label": "Engine nacelle plan silhouette",
+        "silhouette_iou_pca": 0.7012,
+        "pca_loss_lower_is_better": 0.2988,
+        "two_view_loss_lower_is_better": 0.2994,
+        "visible_area_m2": 23,
+        "visible_length_m": 6.89,
+        "visible_width_m": 4.55,
+        "metadata": {
+          "source_subtype": "nacelle-plan-silhouette",
+          "source_label": "Engine nacelle plan silhouette",
+          "simulation_parameters": {
+            "regime": "full",
+            "target_visible_fraction": 1,
+            "foreshortening_factor": 0.9966217194334603,
+            "foreshortening_axis_radians": 1.314678353493275,
+            "rotation_radians": 5.905015753756892,
+            "offset_x_pixels": -0.4644341729581356,
+            "offset_y_pixels": -0.4176539892796427,
+            "waterline_angle_radians": 3.3557132258739455,
+            "blur_sigma_pixels": 0.4952719506807625,
+            "noise_sigma": 0.06688997434917837,
+            "contrast": 0.7552432439709081,
+            "polarity": 1
+          },
+          "achieved_visible_fraction": 1
+        },
+        "display_mask_pixel_count": 91,
+        "mask_hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000300000000000f00000000001fc0000000003fc000000000ffe000000000ffe000000001ffe000000000ffc000000000ff0000000000ff0000000000fc0000000000f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "matched_random_geometry": {
+        "selected_family": "matched_random_geometry",
+        "strict_size_eligible": true,
+        "candidate_id": "matched_random_geometry__03260",
+        "source_subtype": "matched_random_geometry",
+        "source_label": "matched random geometry",
+        "silhouette_iou_pca": 0.713,
+        "pca_loss_lower_is_better": 0.287,
+        "two_view_loss_lower_is_better": 0.2805,
+        "visible_area_m2": 28.5,
+        "visible_length_m": 7.76,
+        "visible_width_m": 5.5,
+        "metadata": {
+          "source_subtype": "matched_random_geometry",
+          "source_label": "matched random geometry",
+          "generator_parameters": {
+            "length_m": 8.4628,
+            "width_m": 5.6301,
+            "vertices": 11,
+            "rotation_degrees": 350.7442,
+            "foreshortening_factor": 0.8929,
+            "target_visible_fraction": 1
+          },
+          "generator_attempt_index": 3260
+        },
+        "display_mask_pixel_count": 112,
+        "mask_hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000001f80000000001fc0000000007fc0000000007fc000000001ffc000000001ffc000000001ffc000000001ffc000000003ff8000000001ff8000000000fe0000000001f800000000006000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "ocean_object_controls": {
+        "selected_family": "ocean_object_combined",
+        "strict_size_eligible": true,
+        "candidate_id": "cargo_or_plastic_cluster__00477",
+        "source_subtype": "cargo_or_plastic_cluster",
+        "source_label": "cargo or plastic cluster",
+        "silhouette_iou_pca": 0.7237,
+        "pca_loss_lower_is_better": 0.2763,
+        "two_view_loss_lower_is_better": 0.2916,
+        "visible_area_m2": 26,
+        "visible_length_m": 8.22,
+        "visible_width_m": 4.67,
+        "metadata": {
+          "source_subtype": "cargo_or_plastic_cluster",
+          "source_label": "cargo or plastic cluster",
+          "generator_parameters": {
+            "assumed_length_m": 8.0909,
+            "assumed_width_m": 7.7429,
+            "pieces": 11,
+            "rotation_degrees": 117.8679,
+            "foreshortening_factor": 0.6008,
+            "target_visible_fraction": 0.9518
+          },
+          "generator_attempt_index": 477
+        },
+        "display_mask_pixel_count": 103,
+        "mask_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000300000000001f00000000003ff0000000007ff0000000003fe0000000003fe2000000000fff800000000fff8000000007ff8000000003ff00000000007e0000000000600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      }
+    },
+    "phr-4-object-18": {
+      "wing": {
+        "selected_family": "wing_random_pose",
+        "strict_size_eligible": true,
+        "candidate_id": "random_pose__03122",
+        "source_subtype": "left-wing-complete",
+        "source_label": "left-wing-complete",
+        "silhouette_iou_pca": 0.727,
+        "pca_loss_lower_is_better": 0.273,
+        "two_view_loss_lower_is_better": 0.2972,
+        "visible_area_m2": 81,
+        "visible_length_m": 13.4,
+        "visible_width_m": 10.6,
+        "metadata": {
+          "source_subtype": "left-wing-complete",
+          "source_label": "left-wing-complete",
+          "wing_variant": "left-wing-complete",
+          "draw_index": 0,
+          "pose": {
+            "afloat": true,
+            "pose_source": "random_orientation_and_immersion_not_hydrostatic",
+            "roll_degrees": 25.51,
+            "pitch_degrees": 53.02,
+            "heave_m": -2.133,
+            "target_visible_fraction": 0.4492,
+            "equivalent_tilt_from_face_on_degrees": 57.12,
+            "root_to_tip_height_difference_m": -15.508,
+            "leading_to_trailing_height_difference_m": -5.924,
+            "interpretation": {
+              "span": "tip lower than root",
+              "chord": "trailing edge lower than leading edge"
+            },
+            "matrix": [
+              [
+                0.601495,
+                0.344051,
+                0.720994
+              ],
+              [
+                0,
+                0.90251,
+                -0.430668
+              ],
+              [
+                -0.798877,
+                0.259045,
+                0.542855
+              ]
+            ]
+          },
+          "off_nadir_degrees": 13.9,
+          "view_azimuth_degrees": 17.02,
+          "model_parameters": {
+            "dry_mass_kg": 13000,
+            "root_max_thickness_m": 2.8,
+            "tip_max_thickness_m": 0.575,
+            "root_mass_bias": 2.85,
+            "trailing_mass_bias": 1.6
+          },
+          "model_mass_kg": 13000,
+          "shallow_underwater_visibility_m": 0.5
+        },
+        "display_mask_pixel_count": 323,
+        "mask_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001d00000000001f0000000007ff000000006ffe00000003ffff0000003fffff0000007fffff0000003ffffe0000003ffffc0000003ffff80000003ffff80000001ffff80000001ffff80000001fffe000000007ffc000000007ffe000000007ffe000000003ffc000000001ff8000000001ff80000000007e00000000007e00000000007c00000000003e00000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "other_777_parts": {
+        "selected_family": "nonwing_777_parts",
+        "strict_size_eligible": false,
+        "candidate_id": "vertical-tail-outer-surface__00385",
+        "source_subtype": "vertical-tail-outer-surface",
+        "source_label": "Vertical tail outer surface",
+        "silhouette_iou_pca": 0.4623,
+        "pca_loss_lower_is_better": 0.5377,
+        "two_view_loss_lower_is_better": 0.5552,
+        "visible_area_m2": 49.5,
+        "visible_length_m": 13.72,
+        "visible_width_m": 8.21,
+        "metadata": {
+          "source_subtype": "vertical-tail-outer-surface",
+          "source_label": "Vertical tail outer surface",
+          "simulation_parameters": {
+            "regime": "full",
+            "target_visible_fraction": 1,
+            "foreshortening_factor": 0.7856060264632105,
+            "foreshortening_axis_radians": 1.8920695363136335,
+            "rotation_radians": 3.067611354646024,
+            "offset_x_pixels": -0.06216222746297717,
+            "offset_y_pixels": -0.12234128615818918,
+            "waterline_angle_radians": 0.5842403253489221,
+            "blur_sigma_pixels": 0.805165056232363,
+            "noise_sigma": 0.04998423352371901,
+            "contrast": 0.23201191459782422,
+            "polarity": 1
+          },
+          "achieved_visible_fraction": 1
+        },
+        "display_mask_pixel_count": 195,
+        "mask_hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000800000000000800000000000600000000000600000000000600000000000780000000000780000000000fc0000000000fc0000000001fe0000000001ff0000000001ff8000000003ffc00000000fffc000000007ffc00000000fff000000001fff000000003ffc000000001ffc000000003fe0000000007fe0000000007f80000000007f8000000000fe00000000007e000000000070000000000030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "matched_random_geometry": {
+        "selected_family": "matched_random_geometry",
+        "strict_size_eligible": true,
+        "candidate_id": "matched_random_geometry__03018",
+        "source_subtype": "matched_random_geometry",
+        "source_label": "matched random geometry",
+        "silhouette_iou_pca": 0.6808,
+        "pca_loss_lower_is_better": 0.3192,
+        "two_view_loss_lower_is_better": 0.3044,
+        "visible_area_m2": 59.75,
+        "visible_length_m": 10.75,
+        "visible_width_m": 8.96,
+        "metadata": {
+          "source_subtype": "matched_random_geometry",
+          "source_label": "matched random geometry",
+          "generator_parameters": {
+            "length_m": 13.7669,
+            "width_m": 9.6584,
+            "vertices": 15,
+            "rotation_degrees": 98.5918,
+            "foreshortening_factor": 0.9981,
+            "target_visible_fraction": 0.6494
+          },
+          "generator_attempt_index": 3018
+        },
+        "display_mask_pixel_count": 236,
+        "mask_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000700000000000f80000000001fc0000000000ff0000000001ff0000000001ff0000000001ff8000000003ff8000000003fff000000007fff800000007fffc00000007fffc00000007fffe00000007fffe0000000ffffc00000007fffc00000003fffc00000001ffc000000000ff80000000000600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "ocean_object_controls": {
+        "selected_family": "ocean_object_combined",
+        "strict_size_eligible": false,
+        "candidate_id": "cargo_or_plastic_cluster__00455",
+        "source_subtype": "cargo_or_plastic_cluster",
+        "source_label": "cargo or plastic cluster",
+        "silhouette_iou_pca": 0.4313,
+        "pca_loss_lower_is_better": 0.5687,
+        "two_view_loss_lower_is_better": 0.5148,
+        "visible_area_m2": 53.5,
+        "visible_length_m": 12.1,
+        "visible_width_m": 8.85,
+        "metadata": {
+          "source_subtype": "cargo_or_plastic_cluster",
+          "source_label": "cargo or plastic cluster",
+          "generator_parameters": {
+            "assumed_length_m": 12.2741,
+            "assumed_width_m": 9.0477,
+            "pieces": 6,
+            "rotation_degrees": 173.1943,
+            "foreshortening_factor": 0.9645,
+            "target_visible_fraction": 1
+          },
+          "generator_attempt_index": 455
+        },
+        "display_mask_pixel_count": 214,
+        "mask_hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e00000000001f00000000003f003e0000007e003f000000fe001f00000078001f00000078001f8000007fcc1f0000007ffffe0000007ffffe0000003fffff0000003fffff00000009fffe00000001ffd800000001fb8000000003e00000000001e000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      }
+    },
+    "phr-4-object-19": {
+      "wing": {
+        "selected_family": "wing_random_pose",
+        "strict_size_eligible": true,
+        "candidate_id": "random_pose__00619",
+        "source_subtype": "left-wing-complete",
+        "source_label": "left-wing-complete",
+        "silhouette_iou_pca": 0.6786,
+        "pca_loss_lower_is_better": 0.3214,
+        "two_view_loss_lower_is_better": 0.3652,
+        "visible_area_m2": 44.75,
+        "visible_length_m": 9.59,
+        "visible_width_m": 7.03,
+        "metadata": {
+          "source_subtype": "left-wing-complete",
+          "source_label": "left-wing-complete",
+          "wing_variant": "left-wing-complete",
+          "draw_index": 2,
+          "pose": {
+            "afloat": true,
+            "pose_source": "random_orientation_and_immersion_not_hydrostatic",
+            "roll_degrees": -106.85,
+            "pitch_degrees": -19.56,
+            "heave_m": 2.794,
+            "target_visible_fraction": 0.449,
+            "equivalent_tilt_from_face_on_degrees": 74.15,
+            "root_to_tip_height_difference_m": 25.482,
+            "leading_to_trailing_height_difference_m": 3.147,
+            "interpretation": {
+              "span": "root lower than tip",
+              "chord": "leading edge lower than trailing edge"
+            },
+            "matrix": [
+              [
+                0.94227,
+                0.320471,
+                0.097086
+              ],
+              [
+                0,
+                -0.289936,
+                0.957046
+              ],
+              [
+                0.334854,
+                -0.901796,
+                -0.273198
+              ]
+            ]
+          },
+          "off_nadir_degrees": 13.32,
+          "view_azimuth_degrees": 338.43,
+          "model_parameters": {
+            "dry_mass_kg": 6330.1005,
+            "root_max_thickness_m": 2.1033,
+            "tip_max_thickness_m": 0.6135,
+            "root_mass_bias": 3.8873,
+            "trailing_mass_bias": 0.75
+          },
+          "model_mass_kg": 6330.1,
+          "shallow_underwater_visibility_m": 0.5
+        },
+        "display_mask_pixel_count": 176,
+        "mask_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003c0000000000ffca00000001ffff80000001ffffc0000001ffffc0000000ffff80000000ffff800000007fff800000001fff000000000ffe000000000ffe0000000007fc0000000001f80000000000780000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "other_777_parts": {
+        "selected_family": "nonwing_777_parts",
+        "strict_size_eligible": true,
+        "candidate_id": "vertical-tail-outer-surface__00127",
+        "source_subtype": "vertical-tail-outer-surface",
+        "source_label": "Vertical tail outer surface",
+        "silhouette_iou_pca": 0.6497,
+        "pca_loss_lower_is_better": 0.3503,
+        "two_view_loss_lower_is_better": 0.3944,
+        "visible_area_m2": 35,
+        "visible_length_m": 8.78,
+        "visible_width_m": 6.8,
+        "metadata": {
+          "source_subtype": "vertical-tail-outer-surface",
+          "source_label": "Vertical tail outer surface",
+          "simulation_parameters": {
+            "regime": "linear-waterline",
+            "target_visible_fraction": 0.8030827091191896,
+            "foreshortening_factor": 0.7044717204524205,
+            "foreshortening_axis_radians": 2.345845638732571,
+            "rotation_radians": 4.406533382579937,
+            "offset_x_pixels": 0.05854837317019701,
+            "offset_y_pixels": -0.3034350238740444,
+            "waterline_angle_radians": 5.393538963621277,
+            "blur_sigma_pixels": 1.1780888272449375,
+            "noise_sigma": 0.025736676324158908,
+            "contrast": 0.1698477409500629,
+            "polarity": 1
+          },
+          "achieved_visible_fraction": 0.8031
+        },
+        "display_mask_pixel_count": 139,
+        "mask_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002000000000001c00000000001f60000000003ff8000000003fff000000007fff800000003fffc00000003fff800000007fffc00000003fff800000007ff0000000007f400000000074000000000040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "matched_random_geometry": {
+        "selected_family": "matched_random_geometry",
+        "strict_size_eligible": true,
+        "candidate_id": "matched_random_geometry__01692",
+        "source_subtype": "matched_random_geometry",
+        "source_label": "matched random geometry",
+        "silhouette_iou_pca": 0.7083,
+        "pca_loss_lower_is_better": 0.2917,
+        "two_view_loss_lower_is_better": 0.3623,
+        "visible_area_m2": 61.25,
+        "visible_length_m": 11.36,
+        "visible_width_m": 8.21,
+        "metadata": {
+          "source_subtype": "matched_random_geometry",
+          "source_label": "matched random geometry",
+          "generator_parameters": {
+            "length_m": 13.0302,
+            "width_m": 10.8684,
+            "vertices": 7,
+            "rotation_degrees": 7.0232,
+            "foreshortening_factor": 0.9574,
+            "target_visible_fraction": 0.8871
+          },
+          "generator_attempt_index": 1692
+        },
+        "display_mask_pixel_count": 244,
+        "mask_hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002000000000003c00000000007fc000000001fff000000003ffe000000003ffc00000001fffc00000001fff000000007fff000000007fff00000000fffc00000001fffc00000001fffc00000000fffc000000007ff8000000007ff8000000003ff8000000003ff0000000001ff0000000001ff80000000007f00000000000f00000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "ocean_object_controls": {
+        "selected_family": "ocean_object_combined",
+        "strict_size_eligible": true,
+        "candidate_id": "fishing_net_or_rope__00358",
+        "source_subtype": "fishing_net_or_rope",
+        "source_label": "fishing net or rope",
+        "silhouette_iou_pca": 0.6498,
+        "pca_loss_lower_is_better": 0.3502,
+        "two_view_loss_lower_is_better": 0.3889,
+        "visible_area_m2": 51.75,
+        "visible_length_m": 10.31,
+        "visible_width_m": 7.3,
+        "metadata": {
+          "source_subtype": "fishing_net_or_rope",
+          "source_label": "fishing net or rope",
+          "generator_parameters": {
+            "mode": "bundled",
+            "assumed_length_m": 11.5077,
+            "assumed_width_m": 9.4174,
+            "rotation_degrees": 75.8328,
+            "foreshortening_factor": 0.7228,
+            "target_visible_fraction": 0.9142
+          },
+          "generator_attempt_index": 358
+        },
+        "display_mask_pixel_count": 207,
+        "mask_hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000400000000001f00000000003fc0000000007ff8000000007ffc00000001fff800000001fff800000003fff800000003fff800000003fff800000007fff800000007fff800000007ffd000000007ffc000000007ff800000000ffe0000000004fe00000000007c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      }
+    },
+    "phr-4-object-26": {
+      "wing": {
+        "selected_family": "wing_random_pose",
+        "strict_size_eligible": true,
+        "candidate_id": "random_pose__02797",
+        "source_subtype": "left-wing-complete",
+        "source_label": "left-wing-complete",
+        "silhouette_iou_pca": 0.6192,
+        "pca_loss_lower_is_better": 0.3808,
+        "two_view_loss_lower_is_better": 0.3815,
+        "visible_area_m2": 53.5,
+        "visible_length_m": 12.21,
+        "visible_width_m": 7.19,
+        "metadata": {
+          "source_subtype": "left-wing-complete",
+          "source_label": "left-wing-complete",
+          "wing_variant": "left-wing-complete",
+          "draw_index": 0,
+          "pose": {
+            "afloat": true,
+            "pose_source": "random_orientation_and_immersion_not_hydrostatic",
+            "roll_degrees": 170.85,
+            "pitch_degrees": 8.77,
+            "heave_m": -3.026,
+            "target_visible_fraction": 0.1201,
+            "equivalent_tilt_from_face_on_degrees": 12.64,
+            "root_to_tip_height_difference_m": -5.536,
+            "leading_to_trailing_height_difference_m": -1.22,
+            "interpretation": {
+              "span": "tip lower than root",
+              "chord": "trailing edge lower than leading edge"
+            },
+            "matrix": [
+              [
+                0.988314,
+                0.024232,
+                -0.150491
+              ],
+              [
+                0,
+                -0.987283,
+                -0.158974
+              ],
+              [
+                -0.152429,
+                0.157117,
+                -0.975746
+              ]
+            ]
+          },
+          "off_nadir_degrees": 3.68,
+          "view_azimuth_degrees": 226.7,
+          "model_parameters": {
+            "dry_mass_kg": 13000,
+            "root_max_thickness_m": 2.8,
+            "tip_max_thickness_m": 0.575,
+            "root_mass_bias": 2.85,
+            "trailing_mass_bias": 1.6
+          },
+          "model_mass_kg": 13000,
+          "shallow_underwater_visibility_m": 0.5
+        },
+        "display_mask_pixel_count": 214,
+        "mask_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000300000000001790000000003ffc000000003ffe000000007fff00000000ffff00000001ffff80000003ffff80000007ffffc0000007ffffc0000007ffffe0000003fffff00000019ffff800000003263000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "other_777_parts": {
+        "selected_family": "nonwing_777_parts",
+        "strict_size_eligible": true,
+        "candidate_id": "vertical-tail-outer-surface__00128",
+        "source_subtype": "vertical-tail-outer-surface",
+        "source_label": "Vertical tail outer surface",
+        "silhouette_iou_pca": 0.5805,
+        "pca_loss_lower_is_better": 0.4195,
+        "two_view_loss_lower_is_better": 0.4348,
+        "visible_area_m2": 42.25,
+        "visible_length_m": 12,
+        "visible_width_m": 7.32,
+        "metadata": {
+          "source_subtype": "vertical-tail-outer-surface",
+          "source_label": "Vertical tail outer surface",
+          "simulation_parameters": {
+            "regime": "linear-waterline",
+            "target_visible_fraction": 0.7406405566260219,
+            "foreshortening_factor": 0.9367111830739304,
+            "foreshortening_axis_radians": 2.6495478459942494,
+            "rotation_radians": 1.8396614338543762,
+            "offset_x_pixels": -0.4097784028854221,
+            "offset_y_pixels": 0.21061509288847446,
+            "waterline_angle_radians": 5.137875729627088,
+            "blur_sigma_pixels": 0.7688184108585119,
+            "noise_sigma": 0.046168355564586816,
+            "contrast": 0.5147085029352456,
+            "polarity": 1
+          },
+          "achieved_visible_fraction": 0.7406
+        },
+        "display_mask_pixel_count": 171,
+        "mask_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000700000000000fc0000000001ff0000000001ffc000000003ffe000000003fff000000003fffe00000003ffff00000007ffffe0000003fff800000007ff401000000ffd000000000ff0000000001fc0000000000b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "matched_random_geometry": {
+        "selected_family": "matched_random_geometry",
+        "strict_size_eligible": true,
+        "candidate_id": "matched_random_geometry__02182",
+        "source_subtype": "matched_random_geometry",
+        "source_label": "matched random geometry",
+        "silhouette_iou_pca": 0.6019,
+        "pca_loss_lower_is_better": 0.3981,
+        "two_view_loss_lower_is_better": 0.4332,
+        "visible_area_m2": 50.5,
+        "visible_length_m": 10.97,
+        "visible_width_m": 7.3,
+        "metadata": {
+          "source_subtype": "matched_random_geometry",
+          "source_label": "matched random geometry",
+          "generator_parameters": {
+            "length_m": 11.7678,
+            "width_m": 8.1888,
+            "vertices": 14,
+            "rotation_degrees": 127.2266,
+            "foreshortening_factor": 0.9803,
+            "target_visible_fraction": 0.9484
+          },
+          "generator_attempt_index": 2182
+        },
+        "display_mask_pixel_count": 198,
+        "mask_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000760000000000ffc00000000bff800000001fff800000001fff000000003fff800000001ffffb0000000fffff00000007ffff00000007fffc00000003fffe00000000fff800000000fff8000000006f90000000000a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "ocean_object_controls": {
+        "selected_family": "ocean_object_combined",
+        "strict_size_eligible": true,
+        "candidate_id": "fishing_net_or_rope__00446",
+        "source_subtype": "fishing_net_or_rope",
+        "source_label": "fishing net or rope",
+        "silhouette_iou_pca": 0.5815,
+        "pca_loss_lower_is_better": 0.4185,
+        "two_view_loss_lower_is_better": 0.4421,
+        "visible_area_m2": 58,
+        "visible_length_m": 11.4,
+        "visible_width_m": 7.1,
+        "metadata": {
+          "source_subtype": "fishing_net_or_rope",
+          "source_label": "fishing net or rope",
+          "generator_parameters": {
+            "mode": "bundled",
+            "assumed_length_m": 14.7565,
+            "assumed_width_m": 7.5207,
+            "rotation_degrees": 27.9303,
+            "foreshortening_factor": 0.8983,
+            "target_visible_fraction": 0.7933
+          },
+          "generator_attempt_index": 446
+        },
+        "display_mask_pixel_count": 232,
+        "mask_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001e0000000000ffc000000000fff000000001fffc00000001fffe00000007ffff80000003ffff80000007ffffc0000003ffffe0000001ffffe0000001fffff0000000ffffc00000003fff800000000ffe0000000000fc0000000000380000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      }
+    },
+    "phr-4-object-27": {
+      "wing": {
+        "selected_family": "wing_random_pose",
+        "strict_size_eligible": true,
+        "candidate_id": "random_pose__00619",
+        "source_subtype": "left-wing-complete",
+        "source_label": "left-wing-complete",
+        "silhouette_iou_pca": 0.734,
+        "pca_loss_lower_is_better": 0.266,
+        "two_view_loss_lower_is_better": 0.3405,
+        "visible_area_m2": 44.75,
+        "visible_length_m": 9.59,
+        "visible_width_m": 7.03,
+        "metadata": {
+          "source_subtype": "left-wing-complete",
+          "source_label": "left-wing-complete",
+          "wing_variant": "left-wing-complete",
+          "draw_index": 2,
+          "pose": {
+            "afloat": true,
+            "pose_source": "random_orientation_and_immersion_not_hydrostatic",
+            "roll_degrees": -106.85,
+            "pitch_degrees": -19.56,
+            "heave_m": 2.794,
+            "target_visible_fraction": 0.449,
+            "equivalent_tilt_from_face_on_degrees": 74.15,
+            "root_to_tip_height_difference_m": 25.482,
+            "leading_to_trailing_height_difference_m": 3.147,
+            "interpretation": {
+              "span": "root lower than tip",
+              "chord": "leading edge lower than trailing edge"
+            },
+            "matrix": [
+              [
+                0.94227,
+                0.320471,
+                0.097086
+              ],
+              [
+                0,
+                -0.289936,
+                0.957046
+              ],
+              [
+                0.334854,
+                -0.901796,
+                -0.273198
+              ]
+            ]
+          },
+          "off_nadir_degrees": 13.32,
+          "view_azimuth_degrees": 338.43,
+          "model_parameters": {
+            "dry_mass_kg": 6330.1005,
+            "root_max_thickness_m": 2.1033,
+            "tip_max_thickness_m": 0.6135,
+            "root_mass_bias": 3.8873,
+            "trailing_mass_bias": 0.75
+          },
+          "model_mass_kg": 6330.1,
+          "shallow_underwater_visibility_m": 0.5
+        },
+        "display_mask_pixel_count": 181,
+        "mask_hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001e00000000001f00000000007fc000000000ffe000000000fff000000001fff800000001fffc00000001fffe00000003fffc00000007fffc00000007fffc00000007ffc00000000fff000000000ff80000000007f00000000001e000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "other_777_parts": {
+        "selected_family": "nonwing_777_parts",
+        "strict_size_eligible": true,
+        "candidate_id": "vertical-tail-outer-surface__00470",
+        "source_subtype": "vertical-tail-outer-surface",
+        "source_label": "Vertical tail outer surface",
+        "silhouette_iou_pca": 0.644,
+        "pca_loss_lower_is_better": 0.356,
+        "two_view_loss_lower_is_better": 0.4057,
+        "visible_area_m2": 38.5,
+        "visible_length_m": 9.75,
+        "visible_width_m": 7.76,
+        "metadata": {
+          "source_subtype": "vertical-tail-outer-surface",
+          "source_label": "Vertical tail outer surface",
+          "simulation_parameters": {
+            "regime": "full",
+            "target_visible_fraction": 1,
+            "foreshortening_factor": 0.5851543528609909,
+            "foreshortening_axis_radians": 2.1307215660886003,
+            "rotation_radians": 4.032481134556682,
+            "offset_x_pixels": 0.12080787471495569,
+            "offset_y_pixels": 0.043442255118861794,
+            "waterline_angle_radians": 5.374584726969812,
+            "blur_sigma_pixels": 0.47405997617170215,
+            "noise_sigma": 0.0624602937977761,
+            "contrast": 0.3482216284330934,
+            "polarity": 1
+          },
+          "achieved_visible_fraction": 1
+        },
+        "display_mask_pixel_count": 155,
+        "mask_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016ed900000001ffff80000001ffff00000001ffff00000001ffff00000000ffff000000003fff000000001ffe0000000007fe0000000002fc00000000007c00000000003c00000000000c00000000000800000000000c00000000000c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "matched_random_geometry": {
+        "selected_family": "matched_random_geometry",
+        "strict_size_eligible": true,
+        "candidate_id": "matched_random_geometry__00349",
+        "source_subtype": "matched_random_geometry",
+        "source_label": "matched random geometry",
+        "silhouette_iou_pca": 0.7475,
+        "pca_loss_lower_is_better": 0.2525,
+        "two_view_loss_lower_is_better": 0.3377,
+        "visible_area_m2": 43.5,
+        "visible_length_m": 9.63,
+        "visible_width_m": 6.98,
+        "metadata": {
+          "source_subtype": "matched_random_geometry",
+          "source_label": "matched random geometry",
+          "generator_parameters": {
+            "length_m": 11.1913,
+            "width_m": 8.7299,
+            "vertices": 14,
+            "rotation_degrees": 68.7423,
+            "foreshortening_factor": 0.7742,
+            "target_visible_fraction": 0.9642
+          },
+          "generator_attempt_index": 349
+        },
+        "display_mask_pixel_count": 175,
+        "mask_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007e00000000003f80000000007fc0000000003ff0000000003ff0000000001ffc000000001fff000000000ffe000000005ffe000000007fff000000003fff000000003ffe000000001ffe0000000007fe0000000007fc0000000001fc0000000000f00000000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "ocean_object_controls": {
+        "selected_family": "ocean_object_combined",
+        "strict_size_eligible": true,
+        "candidate_id": "fishing_net_or_rope__00212",
+        "source_subtype": "fishing_net_or_rope",
+        "source_label": "fishing net or rope",
+        "silhouette_iou_pca": 0.7432,
+        "pca_loss_lower_is_better": 0.2568,
+        "two_view_loss_lower_is_better": 0.344,
+        "visible_area_m2": 50.5,
+        "visible_length_m": 9.92,
+        "visible_width_m": 6.58,
+        "metadata": {
+          "source_subtype": "fishing_net_or_rope",
+          "source_label": "fishing net or rope",
+          "generator_parameters": {
+            "mode": "bundled",
+            "assumed_length_m": 10.5646,
+            "assumed_width_m": 7.8585,
+            "rotation_degrees": 330.7741,
+            "foreshortening_factor": 0.8832,
+            "target_visible_fraction": 0.9037
+          },
+          "generator_attempt_index": 212
+        },
+        "display_mask_pixel_count": 203,
+        "mask_hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003c0000000000ff000000000fff000000000fff800000001fffc00000001fff800000003fff800000003fff800000003fff000000007ffe000000007ffe000000003ffc000000001ffc000000001ff8000000001ff0000000001fe0000000001fc0000000000f800000000007000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      }
+    }
+  }
+}

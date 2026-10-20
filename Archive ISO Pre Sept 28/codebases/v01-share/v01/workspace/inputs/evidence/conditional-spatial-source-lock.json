@@ -1,0 +1,28 @@
+{
+  "schema": "mh370-conditional-spatial-source-lock-v1",
+  "source_epoch_utc": "2014-03-08T00:19:00Z",
+  "pleiades": {
+    "status": "source_only_conditional_proxy_handoff",
+    "manifest_sha256": "b16fa3830f607c19e254a9a2b8cc52b05ab79b82028d1ffb31dab10eebee34ba",
+    "grid_sha256": "8473b9179798b9edc1bf5825e9ec94b9c51565e760c527bb07b4e58770ac40e8",
+    "surfaces_sha256": "a68773b196de790b6700346959ae72e9bcdae532686e86c23913443af8d6a748",
+    "runtime_paths": [
+      "inputs/evidence/pleiades-conditional-source-surface/manifest.json",
+      "inputs/evidence/pleiades-conditional-source-surface/grid.csv",
+      "inputs/evidence/pleiades-conditional-source-surface/surfaces.csv"
+    ],
+    "scientific_source": ".sources/pleiades-bran2016-forward-inversion/outputs/likelihood-handoff",
+    "composition": "Run exactly one transport-family surface per branch. The equal-family surface is an uncalibrated sensitivity and is never multiplied by a component surface."
+  },
+  "ocean_drift": {
+    "family_id": "cmems-glorys12-waverys-full-domain",
+    "decision": "diagnostic_only",
+    "admitted": false,
+    "scientific_source_sha256": "bcfc11678c9cd314ab72dc220411a65fad0dd736132b77807035ba380497b044",
+    "runtime_handoff_sha256": "8554e9717008a06919f5471791f549f0fc6addc34eb0fbb54dcf0b0d265aebbf",
+    "portable_copy_transform": "Two provenance-only absolute repository prefixes were removed; family values, decisions, query contract, and scientific hashes are byte-for-byte unchanged.",
+    "runtime_path": "inputs/evidence/ocean-drift-cmems-full-domain.json",
+    "scientific_source": ".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.json",
+    "composition": "May be enabled only as a named diagnostic conditional sensitivity; it does not update the central posterior."
+  }
+}

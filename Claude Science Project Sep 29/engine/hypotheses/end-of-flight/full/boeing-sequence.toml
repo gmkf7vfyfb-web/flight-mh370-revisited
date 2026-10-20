@@ -1,0 +1,14 @@
+# Item 2 of Pete's ruling on the end-of-flight physics prior (plan accepted 01:45 -0600 11 Oct): Boeing's system sequence on the point
+# mass. PROVISIONAL. Needs the two-tank takeover (core request 11). Boeing SIR App. 1.6E p. 8: the right engine runs dry first; TAC
+# compensates and the autopilot holds the aircraft on the left engine (the core flies this phase to the takeover: s7 one-engine
+# dynamics, s8 hold-then-taper); at the left engine's flame-out the autopilot disconnects, the RAT deploys (RAT drag in the module's
+# glide configuration), the APU starts and its SDU log-on is the 00:19:29 R600 (log-on lag model); residual left rudder gives a slow
+# left roll (residual-bank-boeing.toml); the trim at the loss is referenced to the state at loss (trim-at-loss.toml).
+# The alternative electrical configuration - autopilot lost at the FIRST flame-out, the left engine still running - has no published
+# probability: its prior probability is a U[0, 1] hyper-parameter, proposed at p0 = 0.5 (the q-marginal), re-weighted exactly to any
+# value with latent:ap_loss_config (0 no draw, 1 primary, 2 alternative). The running engine's lever is held at U[0.5, 1.0] of full
+# thrust (between cruise and maximum continuous; declared). Only parents with both tanks live at the hand-off can take it.
+[hypotheses.end-of-flight]
+two_tank_takeover = true
+boeing_ap_loss_first_probability = 0.5
+boeing_alt_thrust_setting = [0.5, 1.0]

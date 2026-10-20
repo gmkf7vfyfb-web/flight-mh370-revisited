@@ -1,0 +1,8 @@
+# Scored candidate selection for the 22:41 arm (lib.rs ProposalParams::score_select_k; results/eof-gates-oct13 finding 1).
+# PROPOSAL ONLY: exact correction -ln(K pi_j), defensive share 0.2, so the prior is recoverable (unit test + test 6 per run).
+# A child that takes over before 23:15 or 00:11 flies K = 8 candidate descents and keeps one per slot, aimed on the runner's
+# score of the target option "m0011" (23:15 BFO + 00:11 BTO and BFO, core measurement model).
+[terminal]
+target = "m0011"
+[hypotheses.end-of-flight.proposal]
+score_select_k = 8

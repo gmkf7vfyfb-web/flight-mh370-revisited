@@ -1,0 +1,66 @@
+{
+  "schema_id": "mh370-broad-snapshot-report-spec",
+  "schema_version": 1,
+  "title": "MH371 broad-flight truth-separated control — uncertainty diagnostic",
+  "flight_label": "MH371",
+  "posterior_semantics": "filtering",
+  "probability_interpretation": "conditional_on_declared_model_not_calibrated_true_probability",
+  "expected_truth_sha256": "65de30cc4e20fc77a1d6048449d5654046fd78f83f325d14d2d26c6ccd9751c9",
+  "declared_control_history_model": {
+    "repeated_events": true,
+    "initial_lateral_modes": [
+      "constant_true_heading",
+      "constant_magnetic_heading",
+      "constant_true_track",
+      "constant_magnetic_track",
+      "great_circle_track_continuation"
+    ],
+    "maneuver_rate_families": [
+      "log-tau-bin-0p1-to-0p316h",
+      "log-tau-bin-0p316-to-1h",
+      "log-tau-bin-1-to-3p16h",
+      "log-tau-bin-3p16-to-10h"
+    ],
+    "probability_status": "declared_not_empirically_calibrated"
+  },
+  "map_bounds": {
+    "latitude_min_deg": -30.0,
+    "latitude_max_deg": 90.0,
+    "longitude_min_deg": -180.0,
+    "longitude_max_deg": 180.0,
+    "cell_size_deg": 0.5,
+    "smoothing_sigma_cells": 1.0
+  },
+  "families": [
+    {
+      "id": "bto-only",
+      "label": "BTO only",
+      "color": "#0072B2",
+      "sources": [
+        {"seed": 37102001, "snapshot_index": "../runs/mh371/broad-flight-truth-control/bto-only/seed-37102001/observation-snapshots/index.json", "summary": "../runs/mh371/broad-flight-truth-control/bto-only/seed-37102001/summary.json"},
+        {"seed": 37102002, "snapshot_index": "../runs/mh371/broad-flight-truth-control/bto-only/seed-37102002/observation-snapshots/index.json", "summary": "../runs/mh371/broad-flight-truth-control/bto-only/seed-37102002/summary.json"},
+        {"seed": 37102003, "snapshot_index": "../runs/mh371/broad-flight-truth-control/bto-only/seed-37102003/observation-snapshots/index.json", "summary": "../runs/mh371/broad-flight-truth-control/bto-only/seed-37102003/summary.json"},
+        {"seed": 37102004, "snapshot_index": "../runs/mh371/broad-flight-truth-control/bto-only/seed-37102004/observation-snapshots/index.json", "summary": "../runs/mh371/broad-flight-truth-control/bto-only/seed-37102004/summary.json"},
+        {"seed": 37102005, "snapshot_index": "../runs/mh371/broad-flight-truth-control/bto-only/seed-37102005/observation-snapshots/index.json", "summary": "../runs/mh371/broad-flight-truth-control/bto-only/seed-37102005/summary.json"},
+        {"seed": 37102006, "snapshot_index": "../runs/mh371/broad-flight-truth-control/bto-only/seed-37102006/observation-snapshots/index.json", "summary": "../runs/mh371/broad-flight-truth-control/bto-only/seed-37102006/summary.json"},
+        {"seed": 37102007, "snapshot_index": "../runs/mh371/broad-flight-truth-control/bto-only/seed-37102007/observation-snapshots/index.json", "summary": "../runs/mh371/broad-flight-truth-control/bto-only/seed-37102007/summary.json"},
+        {"seed": 37102008, "snapshot_index": "../runs/mh371/broad-flight-truth-control/bto-only/seed-37102008/observation-snapshots/index.json", "summary": "../runs/mh371/broad-flight-truth-control/bto-only/seed-37102008/summary.json"}
+      ]
+    },
+    {
+      "id": "bto-bfo-published-error",
+      "label": "BTO + BFO (7 Hz)",
+      "color": "#D55E00",
+      "sources": [
+        {"seed": 37102001, "snapshot_index": "../runs/mh371/broad-flight-truth-control/bto-bfo-published-error/seed-37102001/observation-snapshots/index.json", "summary": "../runs/mh371/broad-flight-truth-control/bto-bfo-published-error/seed-37102001/summary.json"},
+        {"seed": 37102002, "snapshot_index": "../runs/mh371/broad-flight-truth-control/bto-bfo-published-error/seed-37102002/observation-snapshots/index.json", "summary": "../runs/mh371/broad-flight-truth-control/bto-bfo-published-error/seed-37102002/summary.json"},
+        {"seed": 37102003, "snapshot_index": "../runs/mh371/broad-flight-truth-control/bto-bfo-published-error/seed-37102003/observation-snapshots/index.json", "summary": "../runs/mh371/broad-flight-truth-control/bto-bfo-published-error/seed-37102003/summary.json"},
+        {"seed": 37102004, "snapshot_index": "../runs/mh371/broad-flight-truth-control/bto-bfo-published-error/seed-37102004/observation-snapshots/index.json", "summary": "../runs/mh371/broad-flight-truth-control/bto-bfo-published-error/seed-37102004/summary.json"},
+        {"seed": 37102005, "snapshot_index": "../runs/mh371/broad-flight-truth-control/bto-bfo-published-error/seed-37102005/observation-snapshots/index.json", "summary": "../runs/mh371/broad-flight-truth-control/bto-bfo-published-error/seed-37102005/summary.json"},
+        {"seed": 37102006, "snapshot_index": "../runs/mh371/broad-flight-truth-control/bto-bfo-published-error/seed-37102006/observation-snapshots/index.json", "summary": "../runs/mh371/broad-flight-truth-control/bto-bfo-published-error/seed-37102006/summary.json"},
+        {"seed": 37102007, "snapshot_index": "../runs/mh371/broad-flight-truth-control/bto-bfo-published-error/seed-37102007/observation-snapshots/index.json", "summary": "../runs/mh371/broad-flight-truth-control/bto-bfo-published-error/seed-37102007/summary.json"},
+        {"seed": 37102008, "snapshot_index": "../runs/mh371/broad-flight-truth-control/bto-bfo-published-error/seed-37102008/observation-snapshots/index.json", "summary": "../runs/mh371/broad-flight-truth-control/bto-bfo-published-error/seed-37102008/summary.json"}
+      ]
+    }
+  ]
+}

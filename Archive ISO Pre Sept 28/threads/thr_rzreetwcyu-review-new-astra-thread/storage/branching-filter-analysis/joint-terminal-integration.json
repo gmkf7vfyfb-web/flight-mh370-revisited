@@ -1,0 +1,46 @@
+{
+  "status": "integrated_and_verified",
+  "utc": "2026-09-09T17:48:19.263418+00:00",
+  "changed_files": [
+    {
+      "path": "crates/end-of-flight/src/control_prior.rs",
+      "before": "86b3c27ce04792d4fbb486f50cd67f3716a2f6419273ed8f98bdcb86f7e8b6f7",
+      "after": "643b94ae7ffa9d809c9f0e1fd98878bd8aa5b28bd7a32b33bc2c70681c9a5219"
+    },
+    {
+      "path": "crates/end-of-flight/src/fuel_consistency.rs",
+      "before": "023dee83323454049a12c496280dc320a1f636170dcee82a02f695d1a15a352f",
+      "after": "7da8436e3875fe0649d876255c98f3c671bb4bb01ed53cec258067b5451e0b86"
+    },
+    {
+      "path": "crates/runner/src/cruise_impact_commands.rs",
+      "before": "88de1ebe4cd6c335ddc2dd19b26f2472d3a4c5abc3ffe8e51956ba1e160eea7c",
+      "after": "e4e4b2d4feb091099bf182467847767b6c9dddf32b35e8f1bae890ac4130f868"
+    }
+  ],
+  "patch_sha256": "b1aaa500e5117637d77679dd7bb344b03944106c933d9e0572c9a8150b101bbb",
+  "scope": "Optional exact-weighted joint conditional fuel quantity/initial lift proposal; unchanged physical priors.",
+  "basis": "82 isolated spoke tests, independent affine-fuel and mixture-density checks, exact384prior-record identity, and two12288-parent replications. Two-BFO no-offset support improves from~2 to7.6\u201315effective rows, with substantial27.9\u201336.6pp latitude CDF variation. Not a stability claim.",
+  "excluded": "Formatting-only kernel.rs differences not copied.",
+  "verification_utc": "2026-09-09T18:00:40.020103+00:00",
+  "canonical_executable_sha256": "05641c899a08118d8267d9c3b55a6c600d92eccf7f4f0d08bb47f7ba2096d030",
+  "workspace_checks": {
+    "passed": 502,
+    "failed": 0,
+    "ignored": 5
+  },
+  "coupled_regression_cases": [
+    {
+      "name": "canonical-terminal-prior-control",
+      "seconds": 9.421895699008019,
+      "exact_records": true
+    },
+    {
+      "name": "canonical-terminal-guided-control",
+      "seconds": 62.317843230994185,
+      "exact_records": true
+    }
+  ],
+  "temporary_checkout_removed_utc": "2026-09-09T18:03:06.214143+00:00",
+  "frozen_experiment_source_retained": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/joint-terminal-proposal-source.tar.gz"
+}

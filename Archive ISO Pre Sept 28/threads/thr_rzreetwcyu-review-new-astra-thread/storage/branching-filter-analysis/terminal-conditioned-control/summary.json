@@ -1,0 +1,4816 @@
+{
+  "configuration_sha256": "66622d7f0e16afa9630093f318a0e52d9cb44d0d7c706c452ab6e89834ebe50f",
+  "elapsed_seconds": 0.075657715,
+  "executable_sha256": "02541637b67b1e8bb5f9fa8ff911e17fb84890ae8e019dc4733e6b8af6984567",
+  "families": [
+    {
+      "cases": [
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "neither-final-contact",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.7171947625328341,
+          "largest_initial_ancestor_weight": 0.16734908722072578,
+          "largest_row_weight": 0.04326071688865412,
+          "log_known_evidence_contribution": -1.5415520172859138,
+          "name": "neither-final-contact",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.282805237467166,
+            "Impact": 0.7171947625328341
+          },
+          "row_weight_effective_count": 30.6263158970956,
+          "weights_file": "openap2020-best-glide--neither-final-contact.csv",
+          "weights_sha256": "419df434459148d7eb1d59afd5c775d491302ac8b20dc525a4b73936fe39b458"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-only",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.2828052374671659,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999998,
+          "largest_initial_ancestor_weight": 0.21808637629307834,
+          "largest_row_weight": 0.07623688631074305,
+          "log_known_evidence_contribution": -7.176520447844702,
+          "name": "r600-bto-only",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 0.9999999999999998
+          },
+          "row_weight_effective_count": 19.183916229742024,
+          "weights_file": "openap2020-best-glide--r600-bto-only.csv",
+          "weights_sha256": "710549c63d1df37fb238ee00680939b38c52cfad5c45b82ae88bc5961edf770a"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.2828052374671659,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000007,
+          "largest_initial_ancestor_weight": 0.5579704534781226,
+          "largest_row_weight": 0.5579704534781226,
+          "log_known_evidence_contribution": -12.658529715451285,
+          "name": "r600-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0000000000000007
+          },
+          "row_weight_effective_count": 2.2790541038490875,
+          "weights_file": "openap2020-best-glide--r600-no-startup-offset.csv",
+          "weights_sha256": "6a9819aad5f87e97fa6563c436e173ddbf1c6f7c26d0225bf98ef0883c0e051a"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.2828052374671659,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000009,
+          "largest_initial_ancestor_weight": 0.835471577224251,
+          "largest_row_weight": 0.835471577224251,
+          "log_known_evidence_contribution": -8.22740710924283,
+          "name": "r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0000000000000009
+          },
+          "row_weight_effective_count": 1.4021745093902365,
+          "weights_file": "openap2020-best-glide--r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "e460ad4377bea95b850ba82c3d906efeda39925ef02ddf073140fcaa92fde8c9"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.2828052374671659,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0,
+          "largest_initial_ancestor_weight": 0.8888694392144102,
+          "largest_row_weight": 0.8888694392144102,
+          "log_known_evidence_contribution": -13.35402023135285,
+          "name": "r600-bto-r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0
+          },
+          "row_weight_effective_count": 1.2491886946639854,
+          "weights_file": "openap2020-best-glide--r600-bto-r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "0b406ddef77dc3df2b68d3267a086aa7f90502ed7b9c74f44e67047bb0ddfcf1"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.2828052374671659,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000018,
+          "largest_initial_ancestor_weight": 0.9999999999992824,
+          "largest_row_weight": 0.9999999999992824,
+          "log_known_evidence_contribution": -57.76949749921048,
+          "name": "both-sequential-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0000000000000018
+          },
+          "row_weight_effective_count": 1.0000000000014353,
+          "weights_file": "openap2020-best-glide--both-sequential-no-startup-offset.csv",
+          "weights_sha256": "eb260ca1eb578e8e1734f31c5fc96973b2ba66a0d98739db0864a81ef131acd8"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.2828052374671659,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000007,
+          "largest_initial_ancestor_weight": 0.4288742501449979,
+          "largest_row_weight": 0.2243597641427128,
+          "log_known_evidence_contribution": -13.037287222962279,
+          "name": "r600-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0000000000000007
+          },
+          "row_weight_effective_count": 5.995735249762577,
+          "weights_file": "openap2020-best-glide--r600-shared-startup.csv",
+          "weights_sha256": "9aaa82534b71ecf43fb9fb26bfa6fdae9d402737a612844469e0b9d8da8757ad"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.2828052374671659,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999996,
+          "largest_initial_ancestor_weight": 0.5750083361193019,
+          "largest_row_weight": 0.5750083361193019,
+          "log_known_evidence_contribution": -9.495605059974343,
+          "name": "r1200-bfo-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 0.9999999999999996
+          },
+          "row_weight_effective_count": 1.9576674070235582,
+          "weights_file": "openap2020-best-glide--r1200-bfo-shared-startup.csv",
+          "weights_sha256": "f9b9bc8dbb2c4297035d71172250698bfb429fb1bad347d1f908cfbbb29c8815"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.2828052374671659,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0,
+          "largest_initial_ancestor_weight": 0.8753691166035718,
+          "largest_row_weight": 0.8753691166035718,
+          "log_known_evidence_contribution": -15.128385470363426,
+          "name": "r600-bto-r1200-bfo-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0
+          },
+          "row_weight_effective_count": 1.2794638930963869,
+          "weights_file": "openap2020-best-glide--r600-bto-r1200-bfo-shared-startup.csv",
+          "weights_sha256": "ef58e9e9c1fd6100cc0956afb405a9bd4efe9d4b8db167f4e7a072a1da04a783"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.2828052374671659,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999997,
+          "largest_initial_ancestor_weight": 0.9999918519991752,
+          "largest_row_weight": 0.9999918519991752,
+          "log_known_evidence_contribution": -28.432552348014504,
+          "name": "both-sequential-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 0.9999999999999997
+          },
+          "row_weight_effective_count": 1.0000162961344294,
+          "weights_file": "openap2020-best-glide--both-sequential-shared-startup.csv",
+          "weights_sha256": "4722eb181d4c29aa3129856b7540e29279519cb4d31a2bb8f80ceec065146a9a"
+        }
+      ],
+      "draws": 32,
+      "fuel_condition_normalizing_ratio": 0.21404863631432666,
+      "name": "openap2020-best-glide"
+    },
+    {
+      "cases": [
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "neither-final-contact",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0,
+          "largest_initial_ancestor_weight": 0.16734908722072578,
+          "largest_row_weight": 0.04326071688865412,
+          "log_known_evidence_contribution": -1.5415520172859138,
+          "name": "neither-final-contact",
+          "outcome_mass_within_scored_support": {
+            "Impact": 1.0
+          },
+          "row_weight_effective_count": 30.6263158970956,
+          "weights_file": "openap2020-initial-trim--neither-final-contact.csv",
+          "weights_sha256": "871fb4177b711f6e15a92e33a0ea1f37e8e952b1254e1e9da74f5063aa0e89fb"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-only",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999998,
+          "largest_initial_ancestor_weight": 0.2053397229350864,
+          "largest_row_weight": 0.05601914811112496,
+          "log_known_evidence_contribution": -6.926383156823351,
+          "name": "r600-bto-only",
+          "outcome_mass_within_scored_support": {
+            "Impact": 0.9999999999999998
+          },
+          "row_weight_effective_count": 25.633660885674203,
+          "weights_file": "openap2020-initial-trim--r600-bto-only.csv",
+          "weights_sha256": "788b749fb40d6560c7971dc50bfef4fe8e09c3f1b2704e0d73663edfc5c8b4f7"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000002,
+          "largest_initial_ancestor_weight": 0.2546655718906494,
+          "largest_row_weight": 0.25463448283422996,
+          "log_known_evidence_contribution": -11.386852628735612,
+          "name": "r600-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "Impact": 1.0000000000000002
+          },
+          "row_weight_effective_count": 6.53807448279022,
+          "weights_file": "openap2020-initial-trim--r600-no-startup-offset.csv",
+          "weights_sha256": "77fc7d1e00d057eb68911ecd1733c5b453dc83ccd68ab73368cebdd4b6d39224"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000033,
+          "largest_initial_ancestor_weight": 0.7436793995379913,
+          "largest_row_weight": 0.7436793995379913,
+          "log_known_evidence_contribution": -190.40892939736617,
+          "name": "r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "Impact": 1.0000000000000033
+          },
+          "row_weight_effective_count": 1.616137326385789,
+          "weights_file": "openap2020-initial-trim--r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "ff3661a10978a88a5a6aaa62d9754a078dfa6eea05bf094946dab803d05e24e2"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999861,
+          "largest_initial_ancestor_weight": 0.9111634999012342,
+          "largest_row_weight": 0.9111634999012342,
+          "log_known_evidence_contribution": -195.73599002708102,
+          "name": "r600-bto-r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "Impact": 0.9999999999999861
+          },
+          "row_weight_effective_count": 1.1931595960356207,
+          "weights_file": "openap2020-initial-trim--r600-bto-r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "54e9ef0531061a2c6067dcb871426585e1d658e0080a37aef1e4de59c661c3a6"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.000000000000002,
+          "largest_initial_ancestor_weight": 0.9879066028925605,
+          "largest_row_weight": 0.9879066028925605,
+          "log_known_evidence_contribution": -229.49551042469608,
+          "name": "both-sequential-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "Impact": 1.000000000000002
+          },
+          "row_weight_effective_count": 1.0244792216042609,
+          "weights_file": "openap2020-initial-trim--both-sequential-no-startup-offset.csv",
+          "weights_sha256": "6e9fae27aacfbe84b93bc80fab48efada8ef0edc294b7fb2851fe7668d5bae17"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999998,
+          "largest_initial_ancestor_weight": 0.35712471748930674,
+          "largest_row_weight": 0.35709908124142875,
+          "log_known_evidence_contribution": -13.507016158550638,
+          "name": "r600-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "Impact": 0.9999999999999998
+          },
+          "row_weight_effective_count": 4.066149212110469,
+          "weights_file": "openap2020-initial-trim--r600-shared-startup.csv",
+          "weights_sha256": "466bb333d35f9f5ae32f1dac2432b06d4e977c7ceec7ff6a8e553f47e66b72e5"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000127,
+          "largest_initial_ancestor_weight": 0.7589684791051583,
+          "largest_row_weight": 0.7589684791051583,
+          "log_known_evidence_contribution": -242.99095166937101,
+          "name": "r1200-bfo-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "Impact": 1.0000000000000127
+          },
+          "row_weight_effective_count": 1.5769653395976089,
+          "weights_file": "openap2020-initial-trim--r1200-bfo-shared-startup.csv",
+          "weights_sha256": "d16e7c42c6638ef03c8254b902e6205576cc34722fcee2d79697623d1ee86979"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999876,
+          "largest_initial_ancestor_weight": 0.9175697608124957,
+          "largest_row_weight": 0.9175697608124957,
+          "log_known_evidence_contribution": -248.30466833588832,
+          "name": "r600-bto-r1200-bfo-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "Impact": 0.9999999999999876
+          },
+          "row_weight_effective_count": 1.1782323779156594,
+          "weights_file": "openap2020-initial-trim--r600-bto-r1200-bfo-shared-startup.csv",
+          "weights_sha256": "bf18c908352f883678466c020f77625b12155b110a40690c8afc98ae04861f7a"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999843,
+          "largest_initial_ancestor_weight": 0.9772885901024327,
+          "largest_row_weight": 0.9772885901024327,
+          "log_known_evidence_contribution": -264.68768840490566,
+          "name": "both-sequential-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "Impact": 0.9999999999999843
+          },
+          "row_weight_effective_count": 1.0464533224049852,
+          "weights_file": "openap2020-initial-trim--both-sequential-shared-startup.csv",
+          "weights_sha256": "29e2e49fcb21ea48107a07b06a716bf88c0d994a610178623d8516a527592094"
+        }
+      ],
+      "draws": 32,
+      "fuel_condition_normalizing_ratio": 0.21404863631432666,
+      "name": "openap2020-initial-trim"
+    },
+    {
+      "cases": [
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "neither-final-contact",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9378903590057979,
+          "largest_initial_ancestor_weight": 0.16734908722072578,
+          "largest_row_weight": 0.04326071688865412,
+          "log_known_evidence_contribution": -1.5415520172859138,
+          "name": "neither-final-contact",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.06210964099420217,
+            "Impact": 0.9378903590057979
+          },
+          "row_weight_effective_count": 30.6263158970956,
+          "weights_file": "openap2020-positive-lift-1-targets--neither-final-contact.csv",
+          "weights_sha256": "a8c5ae1596e340ddca089ff4f990103e66e9ae77f0085af9b15d92e51e042408"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-only",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.06210964099420215,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0,
+          "largest_initial_ancestor_weight": 0.31939492271248765,
+          "largest_row_weight": 0.0808661529149453,
+          "log_known_evidence_contribution": -7.416367303792291,
+          "name": "r600-bto-only",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0
+          },
+          "row_weight_effective_count": 18.44983089319859,
+          "weights_file": "openap2020-positive-lift-1-targets--r600-bto-only.csv",
+          "weights_sha256": "f135b73214650fa6a2166d8320f493dc0faedd50df25b218ec43e067d0e3f69f"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.06210964099420215,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000007,
+          "largest_initial_ancestor_weight": 0.6540569436862587,
+          "largest_row_weight": 0.6540569086304112,
+          "log_known_evidence_contribution": -12.75202318196633,
+          "name": "r600-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0000000000000007
+          },
+          "row_weight_effective_count": 2.055666387229351,
+          "weights_file": "openap2020-positive-lift-1-targets--r600-no-startup-offset.csv",
+          "weights_sha256": "e53052fe86388b9786c854f32059d9a249551cf58caf98f3fd2d8917f0eecaac"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.06210964099420215,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000007,
+          "largest_initial_ancestor_weight": 0.6708790474115508,
+          "largest_row_weight": 0.6708790474115508,
+          "log_known_evidence_contribution": -13.730057749245232,
+          "name": "r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0000000000000007
+          },
+          "row_weight_effective_count": 1.7908331979273726,
+          "weights_file": "openap2020-positive-lift-1-targets--r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "717f9b3e15d2b4289e22bc2cde4535616673791852e88414f5de2fcbe9013eab"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.06210964099420215,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.000000000000001,
+          "largest_initial_ancestor_weight": 0.5045302422295949,
+          "largest_row_weight": 0.5045302422295949,
+          "log_known_evidence_contribution": -19.52239069241019,
+          "name": "r600-bto-r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.000000000000001
+          },
+          "row_weight_effective_count": 1.9998358287199358,
+          "weights_file": "openap2020-positive-lift-1-targets--r600-bto-r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "fa77c5484b078412c27ab608acdac79841f0b4910f2b282f9ad1b416d4b71bd9"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.06210964099420215,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0,
+          "largest_initial_ancestor_weight": 1.0,
+          "largest_row_weight": 1.0,
+          "log_known_evidence_contribution": -35.075854971623215,
+          "name": "both-sequential-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0
+          },
+          "row_weight_effective_count": 1.0,
+          "weights_file": "openap2020-positive-lift-1-targets--both-sequential-no-startup-offset.csv",
+          "weights_sha256": "ffbdd1ff08a36c590b72638caba85015e7acc55dbc6f1f7997e741b299a92e03"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.06210964099420215,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999993,
+          "largest_initial_ancestor_weight": 0.38007912295616453,
+          "largest_row_weight": 0.2321804676417028,
+          "log_known_evidence_contribution": -13.37796554619915,
+          "name": "r600-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 0.9999999999999993
+          },
+          "row_weight_effective_count": 5.499447247142041,
+          "weights_file": "openap2020-positive-lift-1-targets--r600-shared-startup.csv",
+          "weights_sha256": "0c6b909701eef91faa344d648ef96a542c4d31dc8282d90096e7c8b250f4b4ab"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.06210964099420215,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999989,
+          "largest_initial_ancestor_weight": 0.8117416788046203,
+          "largest_row_weight": 0.8117416788046203,
+          "log_known_evidence_contribution": -29.162967797011653,
+          "name": "r1200-bfo-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 0.9999999999999989
+          },
+          "row_weight_effective_count": 1.4401632021811694,
+          "weights_file": "openap2020-positive-lift-1-targets--r1200-bfo-shared-startup.csv",
+          "weights_sha256": "bf9d7df8193367381a42805f8fc92baf79eb91746edad24c2db08b7ecae1f1e4"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.06210964099420215,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.000000000000001,
+          "largest_initial_ancestor_weight": 0.6829419564533171,
+          "largest_row_weight": 0.6829419564533171,
+          "log_known_evidence_contribution": -35.067489533469434,
+          "name": "r600-bto-r1200-bfo-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.000000000000001
+          },
+          "row_weight_effective_count": 1.7638690234250924,
+          "weights_file": "openap2020-positive-lift-1-targets--r600-bto-r1200-bfo-shared-startup.csv",
+          "weights_sha256": "3ae66311fd44a21d643a67c4a04dec370056e818dd26a3c9ffbc39e175444d8e"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.06210964099420215,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0,
+          "largest_initial_ancestor_weight": 1.0,
+          "largest_row_weight": 1.0,
+          "log_known_evidence_contribution": -41.51704811077873,
+          "name": "both-sequential-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0
+          },
+          "row_weight_effective_count": 1.0,
+          "weights_file": "openap2020-positive-lift-1-targets--both-sequential-shared-startup.csv",
+          "weights_sha256": "076e3d10eaa52f0c5f808fbf3999d799da93b2819a3f03e28c3d9490688ecbcc"
+        }
+      ],
+      "draws": 32,
+      "fuel_condition_normalizing_ratio": 0.21404863631432666,
+      "name": "openap2020-positive-lift-1-targets"
+    },
+    {
+      "cases": [
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "neither-final-contact",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.8062137314325077,
+          "largest_initial_ancestor_weight": 0.16734908722072578,
+          "largest_row_weight": 0.04326071688865412,
+          "log_known_evidence_contribution": -1.5415520172859138,
+          "name": "neither-final-contact",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.08186360390707202,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.11192266466042029,
+            "Impact": 0.8062137314325077
+          },
+          "row_weight_effective_count": 30.6263158970956,
+          "weights_file": "openap2020-positive-lift-3-targets--neither-final-contact.csv",
+          "weights_sha256": "c0e22ec766ffb64898fa0a008bf9fc7eec8bd06cd4358fbab1d10d753e6ae82f"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-only",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.14191336416296826,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9575510340401266,
+          "largest_initial_ancestor_weight": 0.2214587678642149,
+          "largest_row_weight": 0.10546072188136324,
+          "log_known_evidence_contribution": -7.515096248872297,
+          "name": "r600-bto-only",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.0424489659598742,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 0.9575510340401266
+          },
+          "row_weight_effective_count": 14.562914090016202,
+          "weights_file": "openap2020-positive-lift-3-targets--r600-bto-only.csv",
+          "weights_sha256": "20134aefd8c8bf587143a829bdf87be29dad0e8fc3af4063de21101157650dd3"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.14191336416296826,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999796263288,
+          "largest_initial_ancestor_weight": 0.8758316165773161,
+          "largest_row_weight": 0.8758316165773161,
+          "log_known_evidence_contribution": -12.834958391102305,
+          "name": "r600-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 2.037367075521599e-8,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 0.9999999796263288
+          },
+          "row_weight_effective_count": 1.290990020331697,
+          "weights_file": "openap2020-positive-lift-3-targets--r600-no-startup-offset.csv",
+          "weights_sha256": "33f5ecc6ca4f03caad720e5bc84f889bd203d24f702faea0abd8838da47db3e9"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.14191336416296826,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000007,
+          "largest_initial_ancestor_weight": 1.0000000000000007,
+          "largest_row_weight": 0.9588101683774782,
+          "log_known_evidence_contribution": -60.463290564789766,
+          "name": "r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 5.939909698003071e-194,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0000000000000007
+          },
+          "row_weight_effective_count": 1.0857603664358948,
+          "weights_file": "openap2020-positive-lift-3-targets--r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "e6d8c9ee6b8984be954e7158032e6495fe326da3a55fec93332ebc18279382fe"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.14191336416296826,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000042,
+          "largest_initial_ancestor_weight": 1.0000000000000042,
+          "largest_row_weight": 0.9499916479693747,
+          "log_known_evidence_contribution": -65.73730555493215,
+          "name": "r600-bto-r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 4.390110009614888e-194,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0000000000000042
+          },
+          "row_weight_effective_count": 1.1049907313761451,
+          "weights_file": "openap2020-positive-lift-3-targets--r600-bto-r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "df7839cbd1923fce4b9d397f7592afc4dbb4a6252812de4d5a7c7a35941b4f62"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.14191336416296826,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0,
+          "largest_initial_ancestor_weight": 1.0,
+          "largest_row_weight": 1.0,
+          "log_known_evidence_contribution": -152.85481838074705,
+          "name": "both-sequential-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 4.18898096977945e-159,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0
+          },
+          "row_weight_effective_count": 1.0,
+          "weights_file": "openap2020-positive-lift-3-targets--both-sequential-no-startup-offset.csv",
+          "weights_sha256": "341b507e7afb20271e4d5d1ff6fffe8ef8cb4037c0d88337d568841aaa5285c6"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.14191336416296826,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0,
+          "largest_initial_ancestor_weight": 0.4610429022689347,
+          "largest_row_weight": 0.46054028980621003,
+          "log_known_evidence_contribution": -13.917350093274708,
+          "name": "r600-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 7.28843483110649e-18,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0
+          },
+          "row_weight_effective_count": 2.8081460985377884,
+          "weights_file": "openap2020-positive-lift-3-targets--r600-shared-startup.csv",
+          "weights_sha256": "316f07ba6a62d14b5da37b33ba4b03fa66684b42c1c363821d581db0647562c2"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.14191336416296826,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999941,
+          "largest_initial_ancestor_weight": 0.9999999999999907,
+          "largest_row_weight": 0.979476009969442,
+          "log_known_evidence_contribution": -92.11925545835632,
+          "name": "r1200-bfo-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 1.2061188515954346e-215,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 0.9999999999999941
+          },
+          "row_weight_effective_count": 1.0418897089104302,
+          "weights_file": "openap2020-positive-lift-3-targets--r1200-bfo-shared-startup.csv",
+          "weights_sha256": "7fd69333e8858ea36bc6cb0fee030cd991332668cf7e4b44423db603ae57af5b"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.14191336416296826,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999972,
+          "largest_initial_ancestor_weight": 0.9999999999999958,
+          "largest_row_weight": 0.9749664167168715,
+          "log_known_evidence_contribution": -97.39789564442046,
+          "name": "r600-bto-r1200-bfo-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 8.955593307259295e-216,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 0.9999999999999972
+          },
+          "row_weight_effective_count": 1.0513188756200145,
+          "weights_file": "openap2020-positive-lift-3-targets--r600-bto-r1200-bfo-shared-startup.csv",
+          "weights_sha256": "494dafc52879b91cd9b94b8226b05a81abd26330a0d2719fe617889fa68e2d29"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.14191336416296826,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0,
+          "largest_initial_ancestor_weight": 1.0,
+          "largest_row_weight": 1.0,
+          "log_known_evidence_contribution": -151.9496407536497,
+          "name": "both-sequential-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 5.258415714321355e-199,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0
+          },
+          "row_weight_effective_count": 1.0,
+          "weights_file": "openap2020-positive-lift-3-targets--both-sequential-shared-startup.csv",
+          "weights_sha256": "a92df0729ad39259a64abebb2c17e33fce753d8146efabd456bf024b3b560e65"
+        }
+      ],
+      "draws": 32,
+      "fuel_condition_normalizing_ratio": 0.21404863631432666,
+      "name": "openap2020-positive-lift-3-targets"
+    },
+    {
+      "cases": [
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "neither-final-contact",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.7186981730091396,
+          "largest_initial_ancestor_weight": 0.16734908722072578,
+          "largest_row_weight": 0.04326071688865412,
+          "log_known_evidence_contribution": -1.5415520172859138,
+          "name": "neither-final-contact",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.02705582926950993,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.11008956534532847,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.1441564323760222,
+            "Impact": 0.7186981730091396
+          },
+          "row_weight_effective_count": 30.6263158970956,
+          "weights_file": "openap2020-positive-lift-6-targets--neither-final-contact.csv",
+          "weights_sha256": "6603d17745c462b82a2b8415e588cf725437b33282a7847c24274d2d8359218b"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-only",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.1335140745751919,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.8350851941930583,
+          "largest_initial_ancestor_weight": 0.267712810596609,
+          "largest_row_weight": 0.09020820413646742,
+          "log_known_evidence_contribution": -7.386186842624184,
+          "name": "r600-bto-only",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.0011210413491110074,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.1637937644578304,
+            "Impact": 0.8350851941930583
+          },
+          "row_weight_effective_count": 14.931207426193632,
+          "weights_file": "openap2020-positive-lift-6-targets--r600-bto-only.csv",
+          "weights_sha256": "32266240f891c4163c3c6d4bf2752c1ee1c8417aab7f7c25acd299bda2168beb"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.1335140745751919,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999082509493,
+          "largest_initial_ancestor_weight": 0.6741300951213416,
+          "largest_row_weight": 0.6741300951212997,
+          "log_known_evidence_contribution": -14.052547864297273,
+          "name": "r600-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 9.174899873862913e-8,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 5.270598677083967e-14,
+            "Impact": 0.9999999082509493
+          },
+          "row_weight_effective_count": 1.933561645401478,
+          "weights_file": "openap2020-positive-lift-6-targets--r600-no-startup-offset.csv",
+          "weights_sha256": "dfbd5f223b86ebae3ddd63bc3f1bdf96792e2abf64a18addc635a6d7f098363b"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.1335140745751919,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999986,
+          "largest_initial_ancestor_weight": 0.9999999978046361,
+          "largest_row_weight": 0.9999999978046361,
+          "log_known_evidence_contribution": -17.533090410920686,
+          "name": "r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 3.948217512939161e-198,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 3.9128992745224975e-19,
+            "Impact": 0.9999999999999986
+          },
+          "row_weight_effective_count": 1.0000000043907278,
+          "weights_file": "openap2020-positive-lift-6-targets--r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "bfcf203c31f78fea7375f18dd4531c5ad93bd1d7cf98c649c5320c154f8967ed"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.1335140745751919,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999997,
+          "largest_initial_ancestor_weight": 0.9999999976786214,
+          "largest_row_weight": 0.9999999976786214,
+          "log_known_evidence_contribution": -22.69349167490583,
+          "name": "r600-bto-r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 8.252831772505105e-200,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 3.4758505951746204e-19,
+            "Impact": 0.9999999999999997
+          },
+          "row_weight_effective_count": 1.0000000046427573,
+          "weights_file": "openap2020-positive-lift-6-targets--r600-bto-r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "8e89933f6ada5127980a017a3d075b7b2100c8c5c0d434af81346f160c470048"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.1335140745751919,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0,
+          "largest_initial_ancestor_weight": 1.0,
+          "largest_row_weight": 1.0,
+          "log_known_evidence_contribution": -45.857736154324456,
+          "name": "both-sequential-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 5.467044031449169e-192,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 4.295245118615308e-28,
+            "Impact": 1.0
+          },
+          "row_weight_effective_count": 1.0,
+          "weights_file": "openap2020-positive-lift-6-targets--both-sequential-no-startup-offset.csv",
+          "weights_sha256": "db891b91e79e61ba1250c42913422cfd7811e21f0f608ff5b859231e55352b70"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.1335140745751919,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.7761980498916008,
+          "largest_initial_ancestor_weight": 0.4751319361779308,
+          "largest_row_weight": 0.25132998606953255,
+          "log_known_evidence_contribution": -13.19129713729199,
+          "name": "r600-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 2.7434433406499082e-17,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.22380195010839823,
+            "Impact": 0.7761980498916008
+          },
+          "row_weight_effective_count": 5.76082358906172,
+          "weights_file": "openap2020-positive-lift-6-targets--r600-shared-startup.csv",
+          "weights_sha256": "231c0dc77ef684c761954f9d254d882254f16a9449b98b0c79db57dcba348e1b"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.1335140745751919,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0,
+          "largest_initial_ancestor_weight": 1.0,
+          "largest_row_weight": 1.0,
+          "log_known_evidence_contribution": -9.427713547703048,
+          "name": "r1200-bfo-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 5.3349027000375285e-236,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 2.471201062530951e-36,
+            "Impact": 1.0
+          },
+          "row_weight_effective_count": 1.0,
+          "weights_file": "openap2020-positive-lift-6-targets--r1200-bfo-shared-startup.csv",
+          "weights_sha256": "08b8f64c48094f6d83f9ad5d06938136d61a8ae2cea0fa14ab5c96d240a8c4d3"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.1335140745751919,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0,
+          "largest_initial_ancestor_weight": 1.0,
+          "largest_row_weight": 1.0,
+          "log_known_evidence_contribution": -14.588114811814208,
+          "name": "r600-bto-r1200-bfo-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 1.1151375112275866e-237,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 2.195181905398005e-36,
+            "Impact": 1.0
+          },
+          "row_weight_effective_count": 1.0,
+          "weights_file": "openap2020-positive-lift-6-targets--r600-bto-r1200-bfo-shared-startup.csv",
+          "weights_sha256": "53994bda69aff32dd38685e09af61b793c0c484a36edcfc995b160f5ff745b2d"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.1335140745751919,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0,
+          "largest_initial_ancestor_weight": 1.0,
+          "largest_row_weight": 1.0,
+          "log_known_evidence_contribution": -31.6321003903251,
+          "name": "both-sequential-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 5.358731240120589e-236,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 7.401398590211736e-39,
+            "Impact": 1.0
+          },
+          "row_weight_effective_count": 1.0,
+          "weights_file": "openap2020-positive-lift-6-targets--both-sequential-shared-startup.csv",
+          "weights_sha256": "09855e8ba047810db7ecc9c456d88991696c53d20fe35d43f33ef3cb12b5cf2a"
+        }
+      ],
+      "draws": 32,
+      "fuel_condition_normalizing_ratio": 0.21404863631432666,
+      "name": "openap2020-positive-lift-6-targets"
+    },
+    {
+      "cases": [
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "neither-final-contact",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.4893665351732407,
+          "largest_initial_ancestor_weight": 0.16734908722072578,
+          "largest_row_weight": 0.04326071688865412,
+          "log_known_evidence_contribution": -1.5415520172859138,
+          "name": "neither-final-contact",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.11870559577724829,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.06369722888038797,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.32823064016912323,
+            "Impact": 0.4893665351732407
+          },
+          "row_weight_effective_count": 30.6263158970956,
+          "weights_file": "openap2020-signed-lift-6-targets--neither-final-contact.csv",
+          "weights_sha256": "cb0b6ef0603f104158e64bc3356c09850d94afb11de72e51769488deeb134349"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-only",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.28904855922267486,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.5622481005952318,
+          "largest_initial_ancestor_weight": 0.3055851760667096,
+          "largest_row_weight": 0.1048661736933098,
+          "log_known_evidence_contribution": -7.500169983627172,
+          "name": "r600-bto-only",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.25110600229162455,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.18664589711314344,
+            "Impact": 0.5622481005952318
+          },
+          "row_weight_effective_count": 13.198121039806123,
+          "weights_file": "openap2020-signed-lift-6-targets--r600-bto-only.csv",
+          "weights_sha256": "080bd86ac66130d3eba9bdc0ee78dc9df73d3cf2bbcb3b01080ca76bcda66421"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.28904855922267486,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.21415351632380578,
+          "largest_initial_ancestor_weight": 0.7858463980210416,
+          "largest_row_weight": 0.7858463980210416,
+          "log_known_evidence_contribution": -12.617614836307311,
+          "name": "r600-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.7858463980210421,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 8.565515129848014e-8,
+            "Impact": 0.21415351632380578
+          },
+          "row_weight_effective_count": 1.5398664427222974,
+          "weights_file": "openap2020-signed-lift-6-targets--r600-no-startup-offset.csv",
+          "weights_sha256": "e308ce6dd620fdc1b3da8f5ecb09d90ebaac6030ea51a62788b088c659c5e62d"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.28904855922267486,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.999994933915062,
+          "largest_initial_ancestor_weight": 0.999994933915062,
+          "largest_row_weight": 0.999994933915062,
+          "log_known_evidence_contribution": -13.059013739157283,
+          "name": "r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 4.689699169773404e-155,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 5.066084937751062e-6,
+            "Impact": 0.999994933915062
+          },
+          "row_weight_effective_count": 1.0000101322212063,
+          "weights_file": "openap2020-signed-lift-6-targets--r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "e0fe0677c341b1d02c8f7464d51f82c2ec80f554286997da3ac728ffffaf39f3"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.28904855922267486,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999982313729959,
+          "largest_initial_ancestor_weight": 0.9999982313729959,
+          "largest_row_weight": 0.9999982313729959,
+          "log_known_evidence_contribution": -18.12853091622015,
+          "name": "r600-bto-r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 4.6798501712274e-155,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 1.768627005100129e-6,
+            "Impact": 0.9999982313729959
+          },
+          "row_weight_effective_count": 1.0000035372602643,
+          "weights_file": "openap2020-signed-lift-6-targets--r600-bto-r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "61c838a34da9f56f1dcf5f18527431e132a008a3dec918a4063dacc11ee66f64"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.28904855922267486,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 9.778761778708951e-12,
+          "largest_initial_ancestor_weight": 0.9999999999902229,
+          "largest_row_weight": 0.9999999999902229,
+          "log_known_evidence_contribution": -95.4535267862669,
+          "name": "both-sequential-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 8.510376442422274e-124,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.9999999999902229,
+            "Impact": 9.778761778708951e-12
+          },
+          "row_weight_effective_count": 1.0000000000195541,
+          "weights_file": "openap2020-signed-lift-6-targets--both-sequential-no-startup-offset.csv",
+          "weights_sha256": "3fc8d155f6ba8be9ecfe06de40ffe76cc1a1c536bb6c69bf59142c286c17bd00"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.28904855922267486,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.09856458659236886,
+          "largest_initial_ancestor_weight": 0.32193871111239325,
+          "largest_row_weight": 0.32193871111239325,
+          "log_known_evidence_contribution": -13.532624911574494,
+          "name": "r600-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.21370392159784896,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.687731491809783,
+            "Impact": 0.09856458659236886
+          },
+          "row_weight_effective_count": 4.321982155260722,
+          "weights_file": "openap2020-signed-lift-6-targets--r600-shared-startup.csv",
+          "weights_sha256": "dc35989bcc6bb2790678faa7c44cc24b1234f1f0ac077da9cf2cda70f42addc1"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.28904855922267486,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.40045814226813226,
+          "largest_initial_ancestor_weight": 0.5995418577318677,
+          "largest_row_weight": 0.5995418577318677,
+          "log_known_evidence_contribution": -9.12922778242313,
+          "name": "r1200-bfo-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 1.6267593985365613e-26,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.5995418577318677,
+            "Impact": 0.40045814226813226
+          },
+          "row_weight_effective_count": 1.923753333691632,
+          "weights_file": "openap2020-signed-lift-6-targets--r1200-bfo-shared-startup.csv",
+          "weights_sha256": "50eaafcd508f598a4e6ace5d0a8fbc4cc73df134a80f6c3aff22cd3317f0d60f"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.28904855922267486,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.656742593082148,
+          "largest_initial_ancestor_weight": 0.6567425930787643,
+          "largest_row_weight": 0.6567425930787643,
+          "log_known_evidence_contribution": -14.693424565020965,
+          "name": "r600-bto-r1200-bfo-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 2.5554786384711134e-26,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.3432574069178525,
+            "Impact": 0.656742593082148
+          },
+          "row_weight_effective_count": 1.8210409154343916,
+          "weights_file": "openap2020-signed-lift-6-targets--r600-bto-r1200-bfo-shared-startup.csv",
+          "weights_sha256": "ab830142a4508976280e947b0547af774544f3fc20c1808301d8a5338f0ccf19"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.28904855922267486,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 8.999505881337941e-55,
+          "largest_initial_ancestor_weight": 1.0,
+          "largest_row_weight": 1.0,
+          "log_known_evidence_contribution": -26.508360571188895,
+          "name": "both-sequential-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 7.294369659750614e-23,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 1.0,
+            "Impact": 8.999505881337941e-55
+          },
+          "row_weight_effective_count": 1.0,
+          "weights_file": "openap2020-signed-lift-6-targets--both-sequential-shared-startup.csv",
+          "weights_sha256": "4b1d6091e54b4cef4f58ffeb040fe4bf854e1366967771f2918672c795e2f15c"
+        }
+      ],
+      "draws": 32,
+      "fuel_condition_normalizing_ratio": 0.21404863631432666,
+      "name": "openap2020-signed-lift-6-targets"
+    },
+    {
+      "cases": [
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "neither-final-contact",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.7475649407545878,
+          "largest_initial_ancestor_weight": 0.16734908722072578,
+          "largest_row_weight": 0.04326071688865412,
+          "log_known_evidence_contribution": -1.5415520172859138,
+          "name": "neither-final-contact",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.2524350592454123,
+            "Impact": 0.7475649407545878
+          },
+          "row_weight_effective_count": 30.6263158970956,
+          "weights_file": "openap26-best-glide--neither-final-contact.csv",
+          "weights_sha256": "220484e5ba7f6b19c9eb16329743d5468f8698fda7ec2b5b72417030b9d01f9f"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-only",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.25243505924541215,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000004,
+          "largest_initial_ancestor_weight": 0.20762708142488778,
+          "largest_row_weight": 0.06999552266698084,
+          "log_known_evidence_contribution": -7.098256835457024,
+          "name": "r600-bto-only",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0000000000000004
+          },
+          "row_weight_effective_count": 20.5447827450582,
+          "weights_file": "openap26-best-glide--r600-bto-only.csv",
+          "weights_sha256": "b85c63952454248b7385728187ea43c058f6ffb0300b8a6d6eb49134fa8e52cf"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.25243505924541215,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999998,
+          "largest_initial_ancestor_weight": 0.422765898010108,
+          "largest_row_weight": 0.422765898010108,
+          "log_known_evidence_contribution": -12.357551168898915,
+          "name": "r600-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 0.9999999999999998
+          },
+          "row_weight_effective_count": 2.860910177526481,
+          "weights_file": "openap26-best-glide--r600-no-startup-offset.csv",
+          "weights_sha256": "bf96da778c07b1eabd9cef7b53e0da789d7328549201aab4c98d0d7e2147179c"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.25243505924541215,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000007,
+          "largest_initial_ancestor_weight": 0.5933881219351456,
+          "largest_row_weight": 0.5933881219351456,
+          "log_known_evidence_contribution": -8.591076024279582,
+          "name": "r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0000000000000007
+          },
+          "row_weight_effective_count": 2.2845214737720476,
+          "weights_file": "openap26-best-glide--r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "39b91e04ccae914739c74a577e0fca9e03e5bebd6366cf3a34ade89429271460"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.25243505924541215,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000007,
+          "largest_initial_ancestor_weight": 0.442313078664955,
+          "largest_row_weight": 0.44231307866465036,
+          "log_known_evidence_contribution": -14.39279083340238,
+          "name": "r600-bto-r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0000000000000007
+          },
+          "row_weight_effective_count": 2.777964225781348,
+          "weights_file": "openap26-best-glide--r600-bto-r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "190b0652ee0186688230e906cdfb08daa389be0882e56ce4a7e596252e90253a"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.25243505924541215,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000007,
+          "largest_initial_ancestor_weight": 0.999999805780676,
+          "largest_row_weight": 0.999999805780676,
+          "log_known_evidence_contribution": -31.310726696404515,
+          "name": "both-sequential-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0000000000000007
+          },
+          "row_weight_effective_count": 1.0000003884387234,
+          "weights_file": "openap26-best-glide--both-sequential-no-startup-offset.csv",
+          "weights_sha256": "09220b6ad95b28077b8c762abf4617e2d264fb2bb01a383e0390eb38a40c6da1"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.25243505924541215,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000007,
+          "largest_initial_ancestor_weight": 0.37162359073620277,
+          "largest_row_weight": 0.198926844327274,
+          "log_known_evidence_contribution": -12.870150517422585,
+          "name": "r600-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0000000000000007
+          },
+          "row_weight_effective_count": 6.968709346409954,
+          "weights_file": "openap26-best-glide--r600-shared-startup.csv",
+          "weights_sha256": "9790617b7e073b3f1df7362093189064a8ace4067c3b741670feb5f411d2c1b7"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.25243505924541215,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999993,
+          "largest_initial_ancestor_weight": 0.8943453958926698,
+          "largest_row_weight": 0.8943453958926698,
+          "log_known_evidence_contribution": -19.22014947325295,
+          "name": "r1200-bfo-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 0.9999999999999993
+          },
+          "row_weight_effective_count": 1.2413198686936988,
+          "weights_file": "openap26-best-glide--r1200-bfo-shared-startup.csv",
+          "weights_sha256": "63a1c3f919830c0f45d56ce44a6302dc1fe4aa9d38a0fd50e82b612d40fe47fb"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.25243505924541215,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999992,
+          "largest_initial_ancestor_weight": 0.6097049814168367,
+          "largest_row_weight": 0.6097049814168367,
+          "log_known_evidence_contribution": -25.666092253196584,
+          "name": "r600-bto-r1200-bfo-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 0.9999999999999992
+          },
+          "row_weight_effective_count": 2.228625792355134,
+          "weights_file": "openap26-best-glide--r600-bto-r1200-bfo-shared-startup.csv",
+          "weights_sha256": "83e260874fcde7dc23c59692eb2ae2139f6b1ea04701ceee9b486c895cbb91d0"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.25243505924541215,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000033,
+          "largest_initial_ancestor_weight": 0.9981625706926675,
+          "largest_row_weight": 0.9981625706926675,
+          "log_known_evidence_contribution": -32.919360668470894,
+          "name": "both-sequential-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0000000000000033
+          },
+          "row_weight_effective_count": 1.0036816108618227,
+          "weights_file": "openap26-best-glide--both-sequential-shared-startup.csv",
+          "weights_sha256": "77d5e28c5c95ea49e78778f4579db265078c824e0af55da4bdb64950a03fc2c1"
+        }
+      ],
+      "draws": 32,
+      "fuel_condition_normalizing_ratio": 0.21404863631432666,
+      "name": "openap26-best-glide"
+    },
+    {
+      "cases": [
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "neither-final-contact",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0,
+          "largest_initial_ancestor_weight": 0.16734908722072578,
+          "largest_row_weight": 0.04326071688865412,
+          "log_known_evidence_contribution": -1.5415520172859138,
+          "name": "neither-final-contact",
+          "outcome_mass_within_scored_support": {
+            "Impact": 1.0
+          },
+          "row_weight_effective_count": 30.6263158970956,
+          "weights_file": "openap26-initial-trim--neither-final-contact.csv",
+          "weights_sha256": "9af0fa46ac4cbb6c2451aea3a8e3dbe3b0f925cb02d80c2bf3b235e1dd4ccda6"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-only",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000004,
+          "largest_initial_ancestor_weight": 0.2053757689536778,
+          "largest_row_weight": 0.05603660566066069,
+          "log_known_evidence_contribution": -6.929335063866379,
+          "name": "r600-bto-only",
+          "outcome_mass_within_scored_support": {
+            "Impact": 1.0000000000000004
+          },
+          "row_weight_effective_count": 25.597782488267708,
+          "weights_file": "openap26-initial-trim--r600-bto-only.csv",
+          "weights_sha256": "d0a67a47e9bc7b8699faa25d80907b5e9e8cd046f25ae7983dcfb76cd01a50ba"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999997,
+          "largest_initial_ancestor_weight": 0.44143103564116565,
+          "largest_row_weight": 0.20508125409661193,
+          "log_known_evidence_contribution": -11.534754011013463,
+          "name": "r600-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "Impact": 0.9999999999999997
+          },
+          "row_weight_effective_count": 7.199378807301345,
+          "weights_file": "openap26-initial-trim--r600-no-startup-offset.csv",
+          "weights_sha256": "99eeb4fb73b6afd981d60f5f0a072808ab522947160183279545dd67235498b7"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000127,
+          "largest_initial_ancestor_weight": 0.9852511170101765,
+          "largest_row_weight": 0.9852511170101765,
+          "log_known_evidence_contribution": -268.80922114001095,
+          "name": "r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "Impact": 1.0000000000000127
+          },
+          "row_weight_effective_count": 1.0299326301365812,
+          "weights_file": "openap26-initial-trim--r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "0b81607facd8899b770b6f61c60734615e5b6d1dddd0e298ff4cdaaf4566ffcb"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999878,
+          "largest_initial_ancestor_weight": 0.9494958401321962,
+          "largest_row_weight": 0.9494958401321962,
+          "log_known_evidence_contribution": -275.1666981192202,
+          "name": "r600-bto-r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "Impact": 0.9999999999999878
+          },
+          "row_weight_effective_count": 1.1060808757763392,
+          "weights_file": "openap26-initial-trim--r600-bto-r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "a97506b09cae5d6e0aa5ff919c787b6c63857291f880cc2bb639cc36eb7c3eba"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999853,
+          "largest_initial_ancestor_weight": 0.7678649449097888,
+          "largest_row_weight": 0.7678649449097888,
+          "log_known_evidence_contribution": -288.90887719899365,
+          "name": "both-sequential-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "Impact": 0.9999999999999853
+          },
+          "row_weight_effective_count": 1.553993687952488,
+          "weights_file": "openap26-initial-trim--both-sequential-no-startup-offset.csv",
+          "weights_sha256": "3bf1c0d32a7f574fdafe638b8f3146ff8c276de4a3c80e1a3e5c62e29ed71af1"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000002,
+          "largest_initial_ancestor_weight": 0.7127780527331505,
+          "largest_row_weight": 0.7127780524549873,
+          "log_known_evidence_contribution": -15.601213860104124,
+          "name": "r600-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "Impact": 1.0000000000000002
+          },
+          "row_weight_effective_count": 1.793758025044376,
+          "weights_file": "openap26-initial-trim--r600-shared-startup.csv",
+          "weights_sha256": "b6788342da4aa763f41a651cff78b926a2c452e54c9b56eedf042ddd2d344ef1"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000207,
+          "largest_initial_ancestor_weight": 0.990731842480503,
+          "largest_row_weight": 0.990731842480503,
+          "log_known_evidence_contribution": -330.0705528688519,
+          "name": "r1200-bfo-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "Impact": 1.0000000000000207
+          },
+          "row_weight_effective_count": 1.0187080824600718,
+          "weights_file": "openap26-initial-trim--r1200-bfo-shared-startup.csv",
+          "weights_sha256": "2a52a9671347985347d175840738b385ca88fbb0f73e3d0d6998cfe706207ecc"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999833,
+          "largest_initial_ancestor_weight": 0.9678294842378872,
+          "largest_row_weight": 0.9678294842378872,
+          "log_known_evidence_contribution": -336.4416072629948,
+          "name": "r600-bto-r1200-bfo-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "Impact": 0.9999999999999833
+          },
+          "row_weight_effective_count": 1.0664063467598437,
+          "weights_file": "openap26-initial-trim--r600-bto-r1200-bfo-shared-startup.csv",
+          "weights_sha256": "e0f23b8ffd7af478da406b22dbe07a89e8f89ad41310aa07cdd94d1ff773b477"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000095,
+          "largest_initial_ancestor_weight": 0.936052358549111,
+          "largest_row_weight": 0.936052358549111,
+          "log_known_evidence_contribution": -341.5714420373796,
+          "name": "both-sequential-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "Impact": 1.0000000000000095
+          },
+          "row_weight_effective_count": 1.135997898235462,
+          "weights_file": "openap26-initial-trim--both-sequential-shared-startup.csv",
+          "weights_sha256": "2137c6c1ea4601dfedddc48e1e52535e7199747f8cae04dcede3c2fc6f81a4bc"
+        }
+      ],
+      "draws": 32,
+      "fuel_condition_normalizing_ratio": 0.21404863631432666,
+      "name": "openap26-initial-trim"
+    },
+    {
+      "cases": [
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "neither-final-contact",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9262845586635061,
+          "largest_initial_ancestor_weight": 0.16734908722072578,
+          "largest_row_weight": 0.04326071688865412,
+          "log_known_evidence_contribution": -1.5415520172859138,
+          "name": "neither-final-contact",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.07371544133649399,
+            "Impact": 0.9262845586635061
+          },
+          "row_weight_effective_count": 30.6263158970956,
+          "weights_file": "openap26-positive-lift-1-targets--neither-final-contact.csv",
+          "weights_sha256": "666d3266780d9d05d3cc91e428be66ba72c07871d0d3645fb986b9323764c28e"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-only",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.07371544133649396,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000004,
+          "largest_initial_ancestor_weight": 0.22199909305193635,
+          "largest_row_weight": 0.09005652798399164,
+          "log_known_evidence_contribution": -7.336994067038507,
+          "name": "r600-bto-only",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0000000000000004
+          },
+          "row_weight_effective_count": 18.073595207363095,
+          "weights_file": "openap26-positive-lift-1-targets--r600-bto-only.csv",
+          "weights_sha256": "cb3c646214ee6282a02df842068d7b5ef114ca3f7259da5f843e453ad6229a33"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.07371544133649396,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000004,
+          "largest_initial_ancestor_weight": 0.40857436676476744,
+          "largest_row_weight": 0.4084280753960107,
+          "log_known_evidence_contribution": -11.982818704891997,
+          "name": "r600-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0000000000000004
+          },
+          "row_weight_effective_count": 3.2113224546573735,
+          "weights_file": "openap26-positive-lift-1-targets--r600-no-startup-offset.csv",
+          "weights_sha256": "24d967767b03c02ac4cbe672e5def3daaf643f073a26905cfc436ce3e99b486b"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.07371544133649396,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000004,
+          "largest_initial_ancestor_weight": 0.9998670440776044,
+          "largest_row_weight": 0.9998670440776044,
+          "log_known_evidence_contribution": -16.431751274285133,
+          "name": "r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0000000000000004
+          },
+          "row_weight_effective_count": 1.0002659471993445,
+          "weights_file": "openap26-positive-lift-1-targets--r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "b888db39a56298163c2373bc118380745015c2aaea7c34dfdebcbd9fd0306aa7"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.07371544133649396,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999998,
+          "largest_initial_ancestor_weight": 0.9993540244718214,
+          "largest_row_weight": 0.9993540244718214,
+          "log_known_evidence_contribution": -23.14017893844354,
+          "name": "r600-bto-r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 0.9999999999999998
+          },
+          "row_weight_effective_count": 1.0012927856244256,
+          "weights_file": "openap26-positive-lift-1-targets--r600-bto-r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "d4a3e5ff3af542643c29934d9d5a71b9888be9aa30c03ece1e9f640932447fad"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.07371544133649396,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000024,
+          "largest_initial_ancestor_weight": 0.6799224485214428,
+          "largest_row_weight": 0.6799224485214428,
+          "log_known_evidence_contribution": -44.054099626396734,
+          "name": "both-sequential-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0000000000000024
+          },
+          "row_weight_effective_count": 1.7707132615646997,
+          "weights_file": "openap26-positive-lift-1-targets--both-sequential-no-startup-offset.csv",
+          "weights_sha256": "36909794c96bc0ecd64995dd3932017b2b0a109c0bfb76f9cf4f7ce8bcd23e59"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.07371544133649396,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999991,
+          "largest_initial_ancestor_weight": 0.39022315852221534,
+          "largest_row_weight": 0.2640167372736289,
+          "log_known_evidence_contribution": -13.278427322338853,
+          "name": "r600-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 0.9999999999999991
+          },
+          "row_weight_effective_count": 5.3493423238271,
+          "weights_file": "openap26-positive-lift-1-targets--r600-shared-startup.csv",
+          "weights_sha256": "9441563d9e2cebdf661d022da809faf506f1457ae61251424f603b36b8632635"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.07371544133649396,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999979,
+          "largest_initial_ancestor_weight": 0.9999985448983324,
+          "largest_row_weight": 0.9999985448983324,
+          "log_known_evidence_contribution": -33.16392848342017,
+          "name": "r1200-bfo-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 0.9999999999999979
+          },
+          "row_weight_effective_count": 1.0000029102075698,
+          "weights_file": "openap26-positive-lift-1-targets--r1200-bfo-shared-startup.csv",
+          "weights_sha256": "936b2b88b75da43f5a9528c68b5079c7b66a425d2f574307463dc1bea08534a8"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.07371544133649396,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000004,
+          "largest_initial_ancestor_weight": 0.9999929266985935,
+          "largest_row_weight": 0.9999929266985935,
+          "log_known_evidence_contribution": -39.87286374885333,
+          "name": "r600-bto-r1200-bfo-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 1.0000000000000004
+          },
+          "row_weight_effective_count": 1.000014146702876,
+          "weights_file": "openap26-positive-lift-1-targets--r600-bto-r1200-bfo-shared-startup.csv",
+          "weights_sha256": "f29ba1bdf886bf84b29dc4458b6a3ae1343885fd947ac617b12ac4c3908bacd3"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.07371544133649396,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999994,
+          "largest_initial_ancestor_weight": 0.9998429150695298,
+          "largest_row_weight": 0.9998429150695298,
+          "log_known_evidence_contribution": -48.30040349356743,
+          "name": "both-sequential-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "Impact": 0.9999999999999994
+          },
+          "row_weight_effective_count": 1.0003142192122887,
+          "weights_file": "openap26-positive-lift-1-targets--both-sequential-shared-startup.csv",
+          "weights_sha256": "7560c5beb1df3a747456f05b04b253ad89e086ce7056e400ed23148df46afc2f"
+        }
+      ],
+      "draws": 32,
+      "fuel_condition_normalizing_ratio": 0.21404863631432666,
+      "name": "openap26-positive-lift-1-targets"
+    },
+    {
+      "cases": [
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "neither-final-contact",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.8267948274206688,
+          "largest_initial_ancestor_weight": 0.16734908722072578,
+          "largest_row_weight": 0.04326071688865412,
+          "log_known_evidence_contribution": -1.5415520172859138,
+          "name": "neither-final-contact",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.035329713896012166,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.08178326826142118,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.05609219042189792,
+            "Impact": 0.8267948274206688
+          },
+          "row_weight_effective_count": 30.6263158970956,
+          "weights_file": "openap26-positive-lift-3-targets--neither-final-contact.csv",
+          "weights_sha256": "e5d34e9f6e92374479b2baaed6dcb025856380e984a7e63e2616f1b7d15dc9f1"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-only",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.11007133646005832,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9076577196252845,
+          "largest_initial_ancestor_weight": 0.21597867503804427,
+          "largest_row_weight": 0.11668464461140594,
+          "log_known_evidence_contribution": -7.603797766428018,
+          "name": "r600-bto-only",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.08393701929722401,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.008405261077491732,
+            "Impact": 0.9076577196252845
+          },
+          "row_weight_effective_count": 14.295721160900996,
+          "weights_file": "openap26-positive-lift-3-targets--r600-bto-only.csv",
+          "weights_sha256": "d944982b6422194ad34d38e2b298b34332bfee8090054dc6b091404fee7129ca"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.11007133646005832,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999773138579873,
+          "largest_initial_ancestor_weight": 0.8809934363233658,
+          "largest_row_weight": 0.8809934363233658,
+          "log_known_evidence_contribution": -13.307749515761323,
+          "name": "r600-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.000022686141989501024,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 2.2985006843429255e-14,
+            "Impact": 0.9999773138579873
+          },
+          "row_weight_effective_count": 1.266547837232788,
+          "weights_file": "openap26-positive-lift-3-targets--r600-no-startup-offset.csv",
+          "weights_sha256": "3310f2b2a01852ea5758947ebc17fd71bd27898e4db725fff9941d3dde436eff"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.11007133646005832,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000004,
+          "largest_initial_ancestor_weight": 0.64140654794239,
+          "largest_row_weight": 0.64140654794239,
+          "log_known_evidence_contribution": -16.49403312201664,
+          "name": "r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 7.874338431221135e-203,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 3.978004445324372e-186,
+            "Impact": 1.0000000000000004
+          },
+          "row_weight_effective_count": 1.9052943330602317,
+          "weights_file": "openap26-positive-lift-3-targets--r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "aaf5e71151feacdf78829235b9b90a23a41a79d8e550741ef3371969436b0e54"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.11007133646005832,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000013,
+          "largest_initial_ancestor_weight": 0.5400911764958454,
+          "largest_row_weight": 0.5400911764958454,
+          "log_known_evidence_contribution": -23.19389997785114,
+          "name": "r600-bto-r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 3.5395074187197763e-202,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 2.2752158841374464e-186,
+            "Impact": 1.0000000000000013
+          },
+          "row_weight_effective_count": 2.3360247954321935,
+          "weights_file": "openap26-positive-lift-3-targets--r600-bto-r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "0b0e54987c4cda49079199f4d475070bb2244840c3be0138d0cbcc6e3bd0329c"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.11007133646005832,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0,
+          "largest_initial_ancestor_weight": 1.0,
+          "largest_row_weight": 1.0,
+          "log_known_evidence_contribution": -27.16803004296409,
+          "name": "both-sequential-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 2.6502398735201156e-202,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 7.710895370164346e-191,
+            "Impact": 1.0
+          },
+          "row_weight_effective_count": 1.0,
+          "weights_file": "openap26-positive-lift-3-targets--both-sequential-no-startup-offset.csv",
+          "weights_sha256": "4991c2092c6e34ceb767ad0a491df4b2c4ec5bafca6176de6e83a07f0bbd055c"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.11007133646005832,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999459,
+          "largest_initial_ancestor_weight": 0.21091387093735828,
+          "largest_row_weight": 0.21046005384352764,
+          "log_known_evidence_contribution": -13.390239870574273,
+          "name": "r600-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 5.382232111648205e-14,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 2.883516513944022e-26,
+            "Impact": 0.9999999999999459
+          },
+          "row_weight_effective_count": 5.889172114156233,
+          "weights_file": "openap26-positive-lift-3-targets--r600-shared-startup.csv",
+          "weights_sha256": "2b97fa27cf26a16bbec0b25748b20e98694e751fcb905eeddef07beb6e063947"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.11007133646005832,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000004,
+          "largest_initial_ancestor_weight": 0.999999999967514,
+          "largest_row_weight": 0.999999999967514,
+          "log_known_evidence_contribution": -9.829562861809805,
+          "name": "r1200-bfo-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 2.0888719838318242e-240,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 2.1156636234497486e-222,
+            "Impact": 1.0000000000000004
+          },
+          "row_weight_effective_count": 1.000000000064972,
+          "weights_file": "openap26-positive-lift-3-targets--r1200-bfo-shared-startup.csv",
+          "weights_sha256": "b6d7b01dc1d0140a198694c0078bf4da103f41ec929e3ae4e214954aa5e3c9ba"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.11007133646005832,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000018,
+          "largest_initial_ancestor_weight": 0.9999999999883435,
+          "largest_row_weight": 0.9999999999883435,
+          "log_known_evidence_contribution": -16.055014034726778,
+          "name": "r600-bto-r1200-bfo-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 5.842577238517003e-240,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 7.529529733194654e-223,
+            "Impact": 1.0000000000000018
+          },
+          "row_weight_effective_count": 1.000000000023313,
+          "weights_file": "openap26-positive-lift-3-targets--r600-bto-r1200-bfo-shared-startup.csv",
+          "weights_sha256": "394589d2952c8aa9c06c6d452a57d3745f4a47e9771b87bbebe0d2f09270caa6"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.11007133646005832,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0,
+          "largest_initial_ancestor_weight": 1.0,
+          "largest_row_weight": 1.0,
+          "log_known_evidence_contribution": -47.999012037882125,
+          "name": "both-sequential-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 6.089674496801191e-231,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 2.8401647713224125e-221,
+            "Impact": 1.0
+          },
+          "row_weight_effective_count": 1.0,
+          "weights_file": "openap26-positive-lift-3-targets--both-sequential-shared-startup.csv",
+          "weights_sha256": "6700dd27bdae595091fa2e092c7ad9860e833e950a4649f5ed6037663af96ef6"
+        }
+      ],
+      "draws": 32,
+      "fuel_condition_normalizing_ratio": 0.21404863631432666,
+      "name": "openap26-positive-lift-3-targets"
+    },
+    {
+      "cases": [
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "neither-final-contact",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.617751668556359,
+          "largest_initial_ancestor_weight": 0.16734908722072578,
+          "largest_row_weight": 0.04326071688865412,
+          "log_known_evidence_contribution": -1.5415520172859138,
+          "name": "neither-final-contact",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.15855085121078372,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.08377492078022901,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.13992255945262846,
+            "Impact": 0.617751668556359
+          },
+          "row_weight_effective_count": 30.6263158970956,
+          "weights_file": "openap26-positive-lift-6-targets--neither-final-contact.csv",
+          "weights_sha256": "36575e1ac41644f527ddc29a40e83c25b31483ab0049cc4e0b039bfe82ee47b3"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-only",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.18036862217578328,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.7200776532336147,
+          "largest_initial_ancestor_weight": 0.2324172657534664,
+          "largest_row_weight": 0.09748683643327453,
+          "log_known_evidence_contribution": -7.423357338699962,
+          "name": "r600-bto-only",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.12424085201160533,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.1556814947547806,
+            "Impact": 0.7200776532336147
+          },
+          "row_weight_effective_count": 15.860751740450347,
+          "weights_file": "openap26-positive-lift-6-targets--r600-bto-only.csv",
+          "weights_sha256": "168152b72d97efb9ef0488ad7b0b7cb36f29714fe1ef220543bb30cd0ccd989c"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.18036862217578328,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999999999999,
+          "largest_initial_ancestor_weight": 0.6595697420430076,
+          "largest_row_weight": 0.6595697420430076,
+          "log_known_evidence_contribution": -17.51290818852376,
+          "name": "r600-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 2.6185880895877654e-19,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 7.10295436978773e-57,
+            "Impact": 0.9999999999999999
+          },
+          "row_weight_effective_count": 2.004136571186331,
+          "weights_file": "openap26-positive-lift-6-targets--r600-no-startup-offset.csv",
+          "weights_sha256": "f8d1243014a7ef2bd9ce4512cd78b9ef3252aae690f95ab5596fc3bfd1affa88"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.18036862217578328,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0000000000000004,
+          "largest_initial_ancestor_weight": 0.9999971627150862,
+          "largest_row_weight": 0.9999971627150862,
+          "log_known_evidence_contribution": -8.05636621867149,
+          "name": "r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 9.629930804248053e-99,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 8.251910451620763e-118,
+            "Impact": 1.0000000000000004
+          },
+          "row_weight_effective_count": 1.0000056745859278,
+          "weights_file": "openap26-positive-lift-6-targets--r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "2190b525c8d5ada7a8aca2dc1235aaf151bb5907e955b593539ce662d0e6f9ba"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.18036862217578328,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0,
+          "largest_initial_ancestor_weight": 0.9999999893327979,
+          "largest_row_weight": 0.9999999893327979,
+          "log_known_evidence_contribution": -15.426417557685957,
+          "name": "r600-bto-r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 8.719777269242966e-98,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 8.256595204876004e-117,
+            "Impact": 1.0
+          },
+          "row_weight_effective_count": 1.0000000213344045,
+          "weights_file": "openap26-positive-lift-6-targets--r600-bto-r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "b76d58f45efd2a62fbe2b1029af0c6582874c91f922642f0de91f6813ede2eb8"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.18036862217578328,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0,
+          "largest_initial_ancestor_weight": 1.0,
+          "largest_row_weight": 1.0,
+          "log_known_evidence_contribution": -52.44964671867896,
+          "name": "both-sequential-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 1.236051815317928e-95,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.0,
+            "Impact": 1.0
+          },
+          "row_weight_effective_count": 1.0,
+          "weights_file": "openap26-positive-lift-6-targets--both-sequential-no-startup-offset.csv",
+          "weights_sha256": "f348d0106e7caf296ee4197ab70c157805eec49d2074e17e962478a65ff57752"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.18036862217578328,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0,
+          "largest_initial_ancestor_weight": 0.5570795401857818,
+          "largest_row_weight": 0.32084484670608365,
+          "log_known_evidence_contribution": -13.778935778686646,
+          "name": "r600-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 4.5945930946722946e-35,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 3.0099710357248326e-16,
+            "Impact": 1.0
+          },
+          "row_weight_effective_count": 3.7193297612699863,
+          "weights_file": "openap26-positive-lift-6-targets--r600-shared-startup.csv",
+          "weights_sha256": "80d0008de36bf4f62c332a1403531d4a0c4acc56e0fb16c93a93e9187a68d099"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.18036862217578328,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999999881335097,
+          "largest_initial_ancestor_weight": 0.9802824070095727,
+          "largest_row_weight": 0.9802824070095727,
+          "log_known_evidence_contribution": -9.59461902334444,
+          "name": "r1200-bfo-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 4.6855346224041404e-123,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 1.186649043699874e-8,
+            "Impact": 0.9999999881335097
+          },
+          "row_weight_effective_count": 1.0402121245108524,
+          "weights_file": "openap26-positive-lift-6-targets--r1200-bfo-shared-startup.csv",
+          "weights_sha256": "341a79c4be414e035090c1b7240b2cec76b345dd0cf13676bd6867f5eed7a521"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.18036862217578328,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9999949266814587,
+          "largest_initial_ancestor_weight": 0.8425161124373164,
+          "largest_row_weight": 0.8425161124373164,
+          "log_known_evidence_contribution": -20.719549641742454,
+          "name": "r600-bto-r1200-bfo-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 1.812861925676107e-120,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 5.073318540618288e-6,
+            "Impact": 0.9999949266814587
+          },
+          "row_weight_effective_count": 1.3612239468503429,
+          "weights_file": "openap26-positive-lift-6-targets--r600-bto-r1200-bfo-shared-startup.csv",
+          "weights_sha256": "227154d7446b460553ffab3bdcbdefdcb1e6087bc7d941bad4ea2e3895b8ffd6"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.18036862217578328,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 1.0,
+          "largest_initial_ancestor_weight": 1.0,
+          "largest_row_weight": 1.0,
+          "log_known_evidence_contribution": -35.635480598012236,
+          "name": "both-sequential-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 7.936455021477717e-137,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.0,
+            "Impact": 1.0
+          },
+          "row_weight_effective_count": 1.0,
+          "weights_file": "openap26-positive-lift-6-targets--both-sequential-shared-startup.csv",
+          "weights_sha256": "c94062f698abe312b8542f9f1da3c4bf57bf64a0f37f620de8444d4cac9e9f18"
+        }
+      ],
+      "draws": 32,
+      "fuel_condition_normalizing_ratio": 0.21404863631432666,
+      "name": "openap26-positive-lift-6-targets"
+    },
+    {
+      "cases": [
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "neither-final-contact",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.4401122231387598,
+          "largest_initial_ancestor_weight": 0.16734908722072578,
+          "largest_row_weight": 0.04326071688865412,
+          "log_known_evidence_contribution": -1.5415520172859138,
+          "name": "neither-final-contact",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.08371141245252292,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.08255733461104818,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.39361902979766933,
+            "Impact": 0.4401122231387598
+          },
+          "row_weight_effective_count": 30.6263158970956,
+          "weights_file": "openap26-signed-lift-6-targets--neither-final-contact.csv",
+          "weights_sha256": "59ce880652aea051b6d9e27b4f119b8d2f0fd3f719d355f83947df5237c70456"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-only",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.2787052843399173,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.6481591011968919,
+          "largest_initial_ancestor_weight": 0.2988528407840582,
+          "largest_row_weight": 0.12554134019848712,
+          "log_known_evidence_contribution": -7.77498568312868,
+          "name": "r600-bto-only",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.08462589705338305,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.26721500174972435,
+            "Impact": 0.6481591011968919
+          },
+          "row_weight_effective_count": 13.295964327387248,
+          "weights_file": "openap26-signed-lift-6-targets--r600-bto-only.csv",
+          "weights_sha256": "0e94db5c6ac739222d90a3e6f7735dafebbd9f35d85358d5855078124a5432e8"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.2787052843399173,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.000619358968735446,
+          "largest_initial_ancestor_weight": 0.995970983643411,
+          "largest_row_weight": 0.995970983643411,
+          "log_known_evidence_contribution": -14.765916548228958,
+          "name": "r600-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 3.731894982965065e-11,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.9993806409939457,
+            "Impact": 0.000619358968735446
+          },
+          "row_weight_effective_count": 1.0080947898532449,
+          "weights_file": "openap26-signed-lift-6-targets--r600-no-startup-offset.csv",
+          "weights_sha256": "d6b0c6d620a5bc7bcb2471f3f2e4f493c45b479da2ebfd7639b00ee8caa75663"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.2787052843399173,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.5246667635009769,
+          "largest_initial_ancestor_weight": 0.5246667634911488,
+          "largest_row_weight": 0.5246667634911488,
+          "log_known_evidence_contribution": -14.202708615799573,
+          "name": "r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.4753332364990238,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 2.73985287842753e-47,
+            "Impact": 0.5246667635009769
+          },
+          "row_weight_effective_count": 1.9951442242401691,
+          "weights_file": "openap26-signed-lift-6-targets--r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "f376b43128a1ffba29b8a4b1dcd936bbe40988de12b9847c1b4e7c666b477291"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.2787052843399173,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.37793170758739497,
+          "largest_initial_ancestor_weight": 0.6220682924126034,
+          "largest_row_weight": 0.6220682924126034,
+          "log_known_evidence_contribution": -19.69302456645541,
+          "name": "r600-bto-r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.6220682924126034,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 2.344569745510191e-47,
+            "Impact": 0.37793170758739497
+          },
+          "row_weight_effective_count": 1.8874999589849837,
+          "weights_file": "openap26-signed-lift-6-targets--r600-bto-r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "295b0ffa0a6e048878b093262a5752216653d8fcb2fdcb99ba55eef5ce1443de"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.2787052843399173,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 2.638996326043536e-64,
+          "largest_initial_ancestor_weight": 1.0,
+          "largest_row_weight": 1.0,
+          "log_known_evidence_contribution": -104.07546614847594,
+          "name": "both-sequential-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 1.0,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 1.9499762990574864e-18,
+            "Impact": 2.638996326043536e-64
+          },
+          "row_weight_effective_count": 1.0,
+          "weights_file": "openap26-signed-lift-6-targets--both-sequential-no-startup-offset.csv",
+          "weights_sha256": "da8b8acf74861d393634742a0e582dc0ac7adedb60f4e8d8358b3a538744ea2a"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.2787052843399173,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.59057063440226,
+          "largest_initial_ancestor_weight": 0.3456091607312849,
+          "largest_row_weight": 0.3456091607312849,
+          "log_known_evidence_contribution": -13.515046936863136,
+          "name": "r600-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.2148777023785782,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.1945516632191618,
+            "Impact": 0.59057063440226
+          },
+          "row_weight_effective_count": 4.005046972342662,
+          "weights_file": "openap26-signed-lift-6-targets--r600-shared-startup.csv",
+          "weights_sha256": "33a3c8a3a74b221daf43f6a141d623ed33f3848f37fd67776f8225bdfe5db4f2"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.2787052843399173,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.763572373998684,
+          "largest_initial_ancestor_weight": 0.5107854123788017,
+          "largest_row_weight": 0.2572399705897633,
+          "log_known_evidence_contribution": -8.470857589123353,
+          "name": "r1200-bfo-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.2364276260013167,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 1.8620253038571345e-68,
+            "Impact": 0.763572373998684
+          },
+          "row_weight_effective_count": 3.9958928004443726,
+          "weights_file": "openap26-signed-lift-6-targets--r1200-bfo-shared-startup.csv",
+          "weights_sha256": "b20683369c5fb4e63ef0bca1b4e5ac93c202061d63188b2f6d3424449421bd97"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.2787052843399173,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.7272821719579824,
+          "largest_initial_ancestor_weight": 0.5667877765310734,
+          "largest_row_weight": 0.29891938689285175,
+          "log_known_evidence_contribution": -13.834935290556569,
+          "name": "r600-bto-r1200-bfo-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.27271782804201755,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 1.4044197128757561e-68,
+            "Impact": 0.7272821719579824
+          },
+          "row_weight_effective_count": 3.827901547014068,
+          "weights_file": "openap26-signed-lift-6-targets--r600-bto-r1200-bfo-shared-startup.csv",
+          "weights_sha256": "dcd4dac22963b660b73db57bcc86b149f5a394e74edb153bba8dfc9a7c0dfdd9"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.2787052843399173,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9928819036116043,
+          "largest_initial_ancestor_weight": 0.9928819036116043,
+          "largest_row_weight": 0.9928819036116043,
+          "log_known_evidence_contribution": -34.75092301183004,
+          "name": "both-sequential-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.007118096388393241,
+            "DeclaredEnvelopeExit(AtmosphereDomain)": 0.0,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 1.57845319368053e-73,
+            "Impact": 0.9928819036116043
+          },
+          "row_weight_effective_count": 1.0143375169532531,
+          "weights_file": "openap26-signed-lift-6-targets--both-sequential-shared-startup.csv",
+          "weights_sha256": "85741cdf36a6bee51b402703f7b8838192bbf0f03e871ccac770d27a7f647894"
+        }
+      ],
+      "draws": 32,
+      "fuel_condition_normalizing_ratio": 0.21404863631432666,
+      "name": "openap26-signed-lift-6-targets"
+    }
+  ],
+  "limitations": [
+    "impact PDFs are conditional on the named terminal force and startup assumptions and the computed support",
+    "a missing likelihood caused by a model-domain exit is unknown, not evidence of impossibility; its incoming probability is reported",
+    "physical impact before a used radio contact gives zero likelihood for that case",
+    "kinematic SATCOM scoring conditions on an available transmission; APU, power-restoration timing and outage causes are separate unscored hypotheses",
+    "the shared-uniform startup law is an analyst-declared sensitivity density within source bounds, not Holland's calibrated prior",
+    "no impact-angle to body-pitch conversion or acoustic-coupling distribution is inferred by this update",
+    "effective row counts and repeated roots are not independent posterior sample counts"
+  ],
+  "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-support-control",
+  "source_configuration": {
+    "draws_per_source": 32,
+    "final_contacts": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-final-contacts.json",
+    "kernel": {
+      "apu_accessible_reserved_fuel_kg": 0.0,
+      "apu_start_policy": {
+        "mode": "disabled"
+      },
+      "environment": {
+        "above_maximum_policy": "reject",
+        "below_minimum_policy": "clamp_to_grid",
+        "maximum_pressure_altitude_ft": 43000.0,
+        "minimum_pressure_altitude_ft": 500.0
+      },
+      "fallback_atmosphere": {
+        "nodes": [
+          {
+            "altitude": 0.0,
+            "density": 1.225,
+            "wind_east": 0.0,
+            "wind_north": 0.0
+          },
+          {
+            "altitude": 43000.0,
+            "density": 0.25,
+            "wind_east": 0.0,
+            "wind_north": 0.0
+          }
+        ]
+      },
+      "families": [
+        {
+          "aerodynamics": "openap_v2_6_0_attached_flow",
+          "control": {
+            "kind": "fixed_initial_trim"
+          },
+          "name": "openap26-initial-trim"
+        },
+        {
+          "aerodynamics": "openap_v2_6_0_attached_flow",
+          "control": {
+            "kind": "best_glide",
+            "maximum_lift_coefficient_rate_per_s": 0.05,
+            "maximum_roll_rate_deg_s": 3.0,
+            "step_s": 0.5
+          },
+          "name": "openap26-best-glide"
+        },
+        {
+          "aerodynamics": "openap_v2_6_0_attached_flow",
+          "control": {
+            "bank_angle_bounds_deg": [
+              -60.0,
+              60.0
+            ],
+            "change_time_bounds_s": [
+              10.0,
+              900.0
+            ],
+            "kind": "rate_limited_targets",
+            "lift_coefficient_bounds": [
+              0.05,
+              1.2
+            ],
+            "maximum_lift_coefficient_rate_per_s": 0.05,
+            "maximum_roll_rate_deg_s": 3.0,
+            "segments": 1,
+            "step_s": 0.5
+          },
+          "name": "openap26-positive-lift-1-targets"
+        },
+        {
+          "aerodynamics": "openap_v2_6_0_attached_flow",
+          "control": {
+            "bank_angle_bounds_deg": [
+              -60.0,
+              60.0
+            ],
+            "change_time_bounds_s": [
+              10.0,
+              900.0
+            ],
+            "kind": "rate_limited_targets",
+            "lift_coefficient_bounds": [
+              0.05,
+              1.2
+            ],
+            "maximum_lift_coefficient_rate_per_s": 0.05,
+            "maximum_roll_rate_deg_s": 3.0,
+            "segments": 3,
+            "step_s": 0.5
+          },
+          "name": "openap26-positive-lift-3-targets"
+        },
+        {
+          "aerodynamics": "openap_v2_6_0_attached_flow",
+          "control": {
+            "bank_angle_bounds_deg": [
+              -60.0,
+              60.0
+            ],
+            "change_time_bounds_s": [
+              10.0,
+              900.0
+            ],
+            "kind": "rate_limited_targets",
+            "lift_coefficient_bounds": [
+              0.05,
+              1.2
+            ],
+            "maximum_lift_coefficient_rate_per_s": 0.05,
+            "maximum_roll_rate_deg_s": 3.0,
+            "segments": 6,
+            "step_s": 0.5
+          },
+          "name": "openap26-positive-lift-6-targets"
+        },
+        {
+          "aerodynamics": "openap_v2_6_0_attached_flow",
+          "control": {
+            "bank_angle_bounds_deg": [
+              -60.0,
+              60.0
+            ],
+            "change_time_bounds_s": [
+              10.0,
+              900.0
+            ],
+            "kind": "rate_limited_targets",
+            "lift_coefficient_bounds": [
+              -0.3,
+              1.2
+            ],
+            "maximum_lift_coefficient_rate_per_s": 0.05,
+            "maximum_roll_rate_deg_s": 3.0,
+            "segments": 6,
+            "step_s": 0.5
+          },
+          "name": "openap26-signed-lift-6-targets"
+        },
+        {
+          "aerodynamics": "openap_published2020_attached_flow",
+          "control": {
+            "kind": "fixed_initial_trim"
+          },
+          "name": "openap2020-initial-trim"
+        },
+        {
+          "aerodynamics": "openap_published2020_attached_flow",
+          "control": {
+            "kind": "best_glide",
+            "maximum_lift_coefficient_rate_per_s": 0.05,
+            "maximum_roll_rate_deg_s": 3.0,
+            "step_s": 0.5
+          },
+          "name": "openap2020-best-glide"
+        },
+        {
+          "aerodynamics": "openap_published2020_attached_flow",
+          "control": {
+            "bank_angle_bounds_deg": [
+              -60.0,
+              60.0
+            ],
+            "change_time_bounds_s": [
+              10.0,
+              900.0
+            ],
+            "kind": "rate_limited_targets",
+            "lift_coefficient_bounds": [
+              0.05,
+              1.2
+            ],
+            "maximum_lift_coefficient_rate_per_s": 0.05,
+            "maximum_roll_rate_deg_s": 3.0,
+            "segments": 1,
+            "step_s": 0.5
+          },
+          "name": "openap2020-positive-lift-1-targets"
+        },
+        {
+          "aerodynamics": "openap_published2020_attached_flow",
+          "control": {
+            "bank_angle_bounds_deg": [
+              -60.0,
+              60.0
+            ],
+            "change_time_bounds_s": [
+              10.0,
+              900.0
+            ],
+            "kind": "rate_limited_targets",
+            "lift_coefficient_bounds": [
+              0.05,
+              1.2
+            ],
+            "maximum_lift_coefficient_rate_per_s": 0.05,
+            "maximum_roll_rate_deg_s": 3.0,
+            "segments": 3,
+            "step_s": 0.5
+          },
+          "name": "openap2020-positive-lift-3-targets"
+        },
+        {
+          "aerodynamics": "openap_published2020_attached_flow",
+          "control": {
+            "bank_angle_bounds_deg": [
+              -60.0,
+              60.0
+            ],
+            "change_time_bounds_s": [
+              10.0,
+              900.0
+            ],
+            "kind": "rate_limited_targets",
+            "lift_coefficient_bounds": [
+              0.05,
+              1.2
+            ],
+            "maximum_lift_coefficient_rate_per_s": 0.05,
+            "maximum_roll_rate_deg_s": 3.0,
+            "segments": 6,
+            "step_s": 0.5
+          },
+          "name": "openap2020-positive-lift-6-targets"
+        },
+        {
+          "aerodynamics": "openap_published2020_attached_flow",
+          "control": {
+            "bank_angle_bounds_deg": [
+              -60.0,
+              60.0
+            ],
+            "change_time_bounds_s": [
+              10.0,
+              900.0
+            ],
+            "kind": "rate_limited_targets",
+            "lift_coefficient_bounds": [
+              -0.3,
+              1.2
+            ],
+            "maximum_lift_coefficient_rate_per_s": 0.05,
+            "maximum_roll_rate_deg_s": 3.0,
+            "segments": 6,
+            "step_s": 0.5
+          },
+          "name": "openap2020-signed-lift-6-targets"
+        }
+      ],
+      "integration": {
+        "maximum_duration": 3600.0,
+        "maximum_steps": 12000,
+        "sea_surface_altitude": 0.0,
+        "time_step": 1.0
+      }
+    },
+    "minimum_draws_per_2p5_degree_latitude_bin": 0,
+    "name": "Terminal support and composition control",
+    "powered_step_s": 1.0,
+    "schema_version": 1,
+    "seed": 37091801,
+    "source_runs": [
+      "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631"
+    ]
+  },
+  "source_summary": {
+    "configuration_sha256": "7d5e46cda8a22ffae188fe7d98ad69ace5fca29a7d6239e00d17fc309661d7df",
+    "contact_provenance": {
+      "anomalous_r1200_bto": "Excluded: raw 49,660 microseconds has no ordinary channel-bias correction that is asserted here. Legacy 18,380 row is not consumed.",
+      "bfo_sd": "7 Hz inherited conditional likelihood; Holland startup offsets are handled in separately named cases, not changed measurements.",
+      "files_sha256": {
+        "/jackbox/home/MH370/inputs/accident/final-satcom-bursts.json": "f9461f46bc46375d75036a9267a5b70e6c696dfe50694fee063025ef0e70346c",
+        "/jackbox/home/MH370/inputs/accident/satcom-observations.csv": "bd344ba05826f9176f394ac42e04b5f2ba4c5705c8a980b7655579024dc0d4e0",
+        "/jackbox/home/MH370/inputs/accident/satellite-ephemeris.csv": "4c56c26d77c826caa2a8084ee29ff459a493641c72ca165d52a92d29908ae2c2"
+      },
+      "satellite_fractional_epoch": "Runner uses bounded constant-velocity ECEF propagation from the whole-second source epoch.",
+      "source": {
+        "bursts": [
+          {
+            "channel": "IOR-R600-0-36F8",
+            "epoch_id": "m0019a",
+            "observed_bfo_hz": 182.0,
+            "raw_bto_us": 23000.0,
+            "recorded_time_utc": "2014-03-08T00:19:29.416Z",
+            "selection": "R600 BTO geometry is available with the separately declared correction and uncertainty; BFO startup treatment remains conditional."
+          },
+          {
+            "channel": "IOR-R1200-0-36F6",
+            "epoch_id": "m0019b",
+            "observed_bfo_hz": -2.0,
+            "raw_bto_us": 49660.0,
+            "recorded_time_utc": "2014-03-08T00:19:37.443Z",
+            "selection": "The anomalous R1200 BTO is not scored by this control. The BFO comparison retains an explicit startup/error condition."
+          }
+        ],
+        "model_choices": {
+          "r600_bto_correction_us": 4600.0,
+          "r600_bto_sd_us": 63.0,
+          "r600_sd_note": "Inherited declared observation uncertainty, not a value measured by the log.",
+          "satellite_fractional_epoch_model": "Constant-velocity ECEF propagation from the corresponding whole-second ephemeris; maximum absolute offset 1 second."
+        },
+        "schema_version": 1,
+        "source": {
+          "extract_note": "The previously retained unredacted-log extraction agrees with both recorded times, BFOs and raw BTOs. Product code does not load that source recreation.",
+          "independent_retained_extract_sha256": "ebb04c26a803f020864c5398412f3dfd05e7e91d17df783f92a3fd188b0bc94d",
+          "locator": "PDF page 41, R600 log-on request and final R1200 acknowledgment rows; page 1 gives the 4,600 microsecond R600 correction",
+          "retrieval_note": "ATSB-hosted PDF and page-41 text retrieved with the browser. Direct binary download timed out; no PDF hash is claimed.",
+          "title": "Inmarsat / DCA Signalling Unit Log for 9M-MRO, December 2014 update",
+          "url": "https://www.atsb.gov.au/sites/default/files/media/5772619/public_mh370-data-communication-logs.pdf",
+          "verified_utc": "2026-09-08"
+        },
+        "time_basis": "UTC timestamps recorded at the ground station, used as the declared SATCOM state epochs; subsecond timestamp resolution does not establish aircraft-state accuracy."
+      },
+      "time_origin_utc": "2014-03-07T18:01:49+00:00"
+    },
+    "contacts": [
+      {
+        "id": "m0019a",
+        "measurement": {
+          "bfo": 182.0,
+          "bfo_sd": 7.0,
+          "bto": 18400.0,
+          "bto_sd": 63.0,
+          "ground_station_position_km": {
+            "x": -2368.8,
+            "y": 4881.1,
+            "z": -3342.0
+          },
+          "satellite_position_km": {
+            "x": 18182.021038944004,
+            "y": 38049.648940256,
+            "z": 392.38317947199994
+          },
+          "satellite_velocity_km_s": {
+            "x": 0.001584,
+            "y": -0.001634,
+            "z": -0.083208
+          },
+          "time": 22660.416
+        },
+        "satellite_afc_hz": -37.8,
+        "time_utc": "2014-03-08T00:19:29.416Z"
+      },
+      {
+        "id": "m0019b",
+        "measurement": {
+          "bfo": -2.0,
+          "bfo_sd": 7.0,
+          "bto": null,
+          "bto_sd": null,
+          "ground_station_position_km": {
+            "x": -2368.8,
+            "y": 4881.1,
+            "z": -3342.0
+          },
+          "satellite_position_km": {
+            "x": 18182.034221269,
+            "y": 38049.635585695,
+            "z": 391.7152533250001
+          },
+          "satellite_velocity_km_s": {
+            "x": 0.001583,
+            "y": -0.001635,
+            "z": -0.083225
+          },
+          "time": 22668.443
+        },
+        "satellite_afc_hz": -37.8,
+        "time_utc": "2014-03-08T00:19:37.443Z"
+      }
+    ],
+    "continuations_sha256": "406d33d381b5693806345a484e21b3ba6ec09687344339732850c7300b6ff77f",
+    "elapsed_seconds": 2.923198581,
+    "enabled_spokes": [
+      "stochastic_cruise",
+      "fuel_consistency",
+      "end_of_flight",
+      "satcom_predictions"
+    ],
+    "executable_sha256": "02541637b67b1e8bb5f9fa8ff911e17fb84890ae8e019dc4733e6b8af6984567",
+    "limitations": [
+      "terminal control and aerodynamic families are explicit alternatives, never averaged",
+      "cruise fuel envelope is replaced by the explicit continuation condition using refined probability divided by old probability",
+      "fuel quantity and shared flow discrepancy are drawn jointly under the declared exhaustion interval",
+      "cruise Mach controls horizontal airspeed; the boundary retains its full horizontal and vertical velocity",
+      "terminal wind uses ERA5 plus the boundary wind residual held fixed during descent",
+      "pressure altitude is used as geometric height in this conditional point-mass approximation",
+      "these contact predictions do not condition on transmission availability or APU timing; power states remain recorded for separate hypotheses",
+      "BFO predictions are stored against the shared 00:11 bias state; sequence likelihood must update that bias jointly",
+      "unsupported terminal outcomes must be reported before conditioning any impact PDF",
+      "impact angle is a velocity angle, not aircraft body pitch; acoustic coupling is not inferred here"
+    ],
+    "name": "Terminal support and composition control",
+    "outcomes": {
+      "openap2020-best-glide:DeclaredEnvelopeExit(AtmosphereDomain)": 10,
+      "openap2020-best-glide:Impact": 22,
+      "openap2020-initial-trim:Impact": 32,
+      "openap2020-positive-lift-1-targets:DeclaredEnvelopeExit(AtmosphereDomain)": 2,
+      "openap2020-positive-lift-1-targets:Impact": 30,
+      "openap2020-positive-lift-3-targets:DeclaredEnvelopeExit(AirspeedBelowMinimum)": 3,
+      "openap2020-positive-lift-3-targets:DeclaredEnvelopeExit(AtmosphereDomain)": 4,
+      "openap2020-positive-lift-3-targets:Impact": 25,
+      "openap2020-positive-lift-6-targets:DeclaredEnvelopeExit(AirspeedBelowMinimum)": 1,
+      "openap2020-positive-lift-6-targets:DeclaredEnvelopeExit(AtmosphereDomain)": 4,
+      "openap2020-positive-lift-6-targets:DeclaredEnvelopeExit(NearVerticalFlightPath)": 4,
+      "openap2020-positive-lift-6-targets:Impact": 23,
+      "openap2020-signed-lift-6-targets:DeclaredEnvelopeExit(AirspeedBelowMinimum)": 4,
+      "openap2020-signed-lift-6-targets:DeclaredEnvelopeExit(AtmosphereDomain)": 2,
+      "openap2020-signed-lift-6-targets:DeclaredEnvelopeExit(NearVerticalFlightPath)": 11,
+      "openap2020-signed-lift-6-targets:Impact": 15,
+      "openap26-best-glide:DeclaredEnvelopeExit(AtmosphereDomain)": 9,
+      "openap26-best-glide:Impact": 23,
+      "openap26-initial-trim:Impact": 32,
+      "openap26-positive-lift-1-targets:DeclaredEnvelopeExit(AtmosphereDomain)": 3,
+      "openap26-positive-lift-1-targets:Impact": 29,
+      "openap26-positive-lift-3-targets:DeclaredEnvelopeExit(AirspeedBelowMinimum)": 1,
+      "openap26-positive-lift-3-targets:DeclaredEnvelopeExit(AtmosphereDomain)": 3,
+      "openap26-positive-lift-3-targets:DeclaredEnvelopeExit(NearVerticalFlightPath)": 2,
+      "openap26-positive-lift-3-targets:Impact": 26,
+      "openap26-positive-lift-6-targets:DeclaredEnvelopeExit(AirspeedBelowMinimum)": 5,
+      "openap26-positive-lift-6-targets:DeclaredEnvelopeExit(AtmosphereDomain)": 3,
+      "openap26-positive-lift-6-targets:DeclaredEnvelopeExit(NearVerticalFlightPath)": 4,
+      "openap26-positive-lift-6-targets:Impact": 20,
+      "openap26-signed-lift-6-targets:DeclaredEnvelopeExit(AirspeedBelowMinimum)": 3,
+      "openap26-signed-lift-6-targets:DeclaredEnvelopeExit(AtmosphereDomain)": 3,
+      "openap26-signed-lift-6-targets:DeclaredEnvelopeExit(NearVerticalFlightPath)": 12,
+      "openap26-signed-lift-6-targets:Impact": 14
+    },
+    "rows": 384,
+    "scientific_source_sha256": "53dc98ea232a38d0555679afb0cbcbe2021382a05faf6de196c5dfc132aeabd3",
+    "seed": 37091801,
+    "sources": [
+      {
+        "configuration_sha256": "219ab0678f6ab1d2b32df9d7f4d70d244efb9cb7ea79a459090fff55970d997c",
+        "draws": 32,
+        "elapsed_seconds": 2.848428009,
+        "initial_candidates": 85000,
+        "log_evidence": -87.73058535941438,
+        "particles_sha256": "8a54673a4484f55d2e430a09132e088f7f7ec64db9cf71367dcfb280cf87ceb9",
+        "pooling_fraction": 1.0,
+        "posterior_sha256": "d12fc37fb93ab58d8b6c44592aa13d4717b65307748e8dad170abbe20b624d66",
+        "seed": 37091631,
+        "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631"
+      }
+    ],
+    "status": "conditional_terminal_predictions"
+  },
+  "status": "conditional_final_contact_sensitivities"
+}

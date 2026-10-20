@@ -1,0 +1,686 @@
+{
+  "generated_utc": "2026-09-09T20:18:41.222822+00:00",
+  "status": "Explicit selections of a provisional conditional cruise estimate; no new evidence",
+  "total_initial_candidates": 1020000,
+  "physical_identity": {
+    "model": {
+      "dynamics": {
+        "radar": {
+          "time_s": 0.0,
+          "latitude_deg": 5.624829,
+          "longitude_deg": 99.048157,
+          "position_sd_nm": 0.5,
+          "control_mean_deg_true": 295.66,
+          "control_sd_deg": 1.0,
+          "mach_min": 0.73,
+          "mach_max": 0.84,
+          "altitude_min_ft": 25000.0,
+          "altitude_max_ft": 43000.0
+        },
+        "initial_angle_reference": "ground_track",
+        "manoeuvre_limits": {
+          "start_time_s": 1425.0,
+          "maximum_counts": [
+            16,
+            8,
+            8
+          ]
+        },
+        "mach_bounds": [
+          0.73,
+          0.84
+        ],
+        "altitude_bounds_ft": [
+          25000.0,
+          43000.0
+        ],
+        "altitude_increment_ft": 1000.0,
+        "mean_manoeuvre_hours": [
+          0.1,
+          10.0
+        ],
+        "maximum_turn_deg": 180.0,
+        "bank_deg": 15.0,
+        "mach_rate_per_minute": 0.1,
+        "altitude_rate_ft_min": 4000.0,
+        "cruise_step_s": 20.0,
+        "manoeuvre_step_s": 1.0,
+        "ou_reversion": [
+          0.0106,
+          0.0098,
+          0.00109
+        ],
+        "ou_noise_variance": [
+          2.05e-07,
+          0.00013361021844547798,
+          0.0702
+        ],
+        "lnav_switch_mean_hours": 8.656170245333781
+      },
+      "satcom": {
+        "bto": {
+          "speed_of_light_km_s": 299792.458,
+          "nominal_delay_us": 499962.0,
+          "channel_term_us": 4283.0
+        },
+        "bfo": {
+          "satellite_afc_hz": 0.0,
+          "uplink_hz": 1646652500.0,
+          "downlink_hz": 3615152500.0,
+          "speed_of_light_km_s": 299792.458,
+          "nominal_satellite_longitude_deg": 64.5,
+          "nominal_satellite_altitude_km": 36210.12
+        },
+        "bfo_bias_prior_mean_hz": 150.0,
+        "bfo_bias_prior_sd_hz": 25.0
+      },
+      "use_bfo": true,
+      "include_vertical_doppler": true,
+      "fuel": {
+        "anchor_time_s": 1576.9,
+        "zero_fuel_weight_kg": 174369.0,
+        "anchor_fuel_range_kg": [
+          32524.10488196,
+          34524.10488196
+        ],
+        "inaccessible_fuel_kg": 15.0,
+        "flow_scale_bounds": [
+          0.9,
+          1.1
+        ],
+        "flow_quadrature_points": 9,
+        "exhaustion_time_bounds_s": [
+          22391.0,
+          22631.0
+        ],
+        "model": {
+          "family": "declared_broad_extension",
+          "minimum_pressure_altitude": 500.0,
+          "maximum_pressure_altitude": 43000.0,
+          "minimum_mach": 0.3,
+          "maximum_mach": 0.87,
+          "maximum_absolute_bank": 30.0,
+          "reference_mach": 0.82,
+          "nominal_flow_scale": 1.0,
+          "mach_log_sensitivity_per_mach": 1.5,
+          "below_fl350_log_sensitivity_per_1000_ft": 0.04,
+          "above_fl410_log_sensitivity_per_1000_ft": 0.02,
+          "bank_induced_drag_fraction": 0.45,
+          "climb_log_sensitivity_per_1000_ft_min": 0.04,
+          "descent_log_relief_per_1000_ft_min": 0.015,
+          "minimum_flow_multiplier": 0.5,
+          "maximum_flow_multiplier": 2.5
+        }
+      }
+    },
+    "inputs": {
+      "magnetic": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1",
+      "observations": "0ed8bed1798861536aa659e7fdf5cd8f43ccbe160cdf3c61fb7479b7e0fbb799",
+      "satellite_ephemeris": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+      "weather": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4"
+    },
+    "modes": [
+      "constant_true_heading",
+      "constant_magnetic_heading",
+      "constant_true_track",
+      "constant_magnetic_track",
+      "lateral_navigation"
+    ],
+    "mode_probabilities": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ],
+    "input_settings": {
+      "observations": "/jackbox/home/MH370/inputs/accident/satcom-through-0011.csv",
+      "satellite_ephemeris": "/jackbox/home/MH370/inputs/accident/satellite-through-0011.csv",
+      "era5": "/jackbox/home/MH370/inputs/environment/mh370-era5-grid.bin",
+      "igrf": "/jackbox/home/MH370/inputs/environment/mh370-igrf14-grid.bin",
+      "time_origin_unix_s": 1394215309.0,
+      "ground_station_position_km": {
+        "x": -2368.8,
+        "y": 4881.1,
+        "z": -3342.0
+      },
+      "bfo_sd_override_hz": 7.0
+    },
+    "scientific_source": "96ed6a0e20fb9afe866711c084aeed92767d98e021821753705c51228c4bb6ea"
+  },
+  "enabled_spokes": [
+    "stochastic_cruise",
+    "satcom",
+    "fuel_consistency"
+  ],
+  "cases": [
+    {
+      "name": "broad",
+      "label": "All source trajectories",
+      "maximum_turn_starts": null,
+      "initial_navigation_mode": null,
+      "probability_of_selection_in_source_pool": 1.0,
+      "selection_probability_by_run": [
+        0.9999999999999998,
+        0.9999999999999999,
+        1.0,
+        1.0000000000000002,
+        1.0,
+        1.0000000000000002
+      ],
+      "status": "provisional conditional density",
+      "positive_weight_rows": 662901,
+      "quantiles_05_50_95_deg": [
+        [
+          -37.6971858192,
+          -36.6380369846,
+          -34.3310137717
+        ],
+        [
+          87.32515221,
+          89.102340669,
+          92.4801709508
+        ]
+      ],
+      "regions": {
+        "south_of_35S": 0.9123768284203756,
+        "between_35S_and_38S": 0.9006192943435073,
+        "north_of_35S": 0.08762317157962443,
+        "north_of_30S": 0.011733562432600438,
+        "south_of_38S": 0.011757534076868255
+      },
+      "cell_ranked_probability_areas": {
+        "5": {
+          "0.5": {
+            "area_km2": 2725.0,
+            "probability_in_selected_cells": 0.5002972294791123
+          },
+          "0.8": {
+            "area_km2": 7950.0,
+            "probability_in_selected_cells": 0.800510524591509
+          },
+          "0.9": {
+            "area_km2": 12825.0,
+            "probability_in_selected_cells": 0.9002835427732352
+          },
+          "0.95": {
+            "area_km2": 18400.0,
+            "probability_in_selected_cells": 0.9500764053529364
+          }
+        },
+        "10": {
+          "0.5": {
+            "area_km2": 3200.0,
+            "probability_in_selected_cells": 0.5018842304493905
+          },
+          "0.8": {
+            "area_km2": 9200.0,
+            "probability_in_selected_cells": 0.8007947221695668
+          },
+          "0.9": {
+            "area_km2": 14800.0,
+            "probability_in_selected_cells": 0.900553338932387
+          },
+          "0.95": {
+            "area_km2": 21300.0,
+            "probability_in_selected_cells": 0.9500508278058548
+          }
+        },
+        "20": {
+          "0.5": {
+            "area_km2": 4400.0,
+            "probability_in_selected_cells": 0.5138304959472947
+          },
+          "0.8": {
+            "area_km2": 12400.0,
+            "probability_in_selected_cells": 0.8065444206994264
+          },
+          "0.9": {
+            "area_km2": 19600.0,
+            "probability_in_selected_cells": 0.9009551786780239
+          },
+          "0.95": {
+            "area_km2": 27600.0,
+            "probability_in_selected_cells": 0.9505564831160389
+          }
+        }
+      },
+      "probability_sum": 1.0,
+      "largest_ancestor_share": 0.024354065934792755,
+      "effective_ancestor_count": 356.9082518592466,
+      "independent_group_cdf_difference": [
+        0.09490354647844074,
+        0.10297012558798752
+      ]
+    },
+    {
+      "name": "at-most-two-turns",
+      "label": "At most two turns",
+      "maximum_turn_starts": 2,
+      "initial_navigation_mode": null,
+      "probability_of_selection_in_source_pool": 0.9547201701347582,
+      "selection_probability_by_run": [
+        0.984994731495313,
+        0.9273306371567283,
+        0.9587897940776255,
+        0.9424549653671005,
+        0.9663505855067922,
+        0.9475992119247127
+      ],
+      "status": "provisional conditional density",
+      "positive_weight_rows": 571858,
+      "quantiles_05_50_95_deg": [
+        [
+          -37.7043953769,
+          -36.6788362769,
+          -34.8346065833
+        ],
+        [
+          87.3189417053,
+          89.0542370751,
+          91.8005557299
+        ]
+      ],
+      "regions": {
+        "south_of_35S": 0.9402848667401982,
+        "between_35S_and_38S": 0.9279775455924628,
+        "north_of_35S": 0.05971513325980174,
+        "north_of_30S": 0.007158711417305534,
+        "south_of_38S": 0.01230732114773548
+      },
+      "cell_ranked_probability_areas": {
+        "5": {
+          "0.5": {
+            "area_km2": 2550.0,
+            "probability_in_selected_cells": 0.500935628079702
+          },
+          "0.8": {
+            "area_km2": 7125.0,
+            "probability_in_selected_cells": 0.800610768604572
+          },
+          "0.9": {
+            "area_km2": 11400.0,
+            "probability_in_selected_cells": 0.9001679902680246
+          },
+          "0.95": {
+            "area_km2": 15900.0,
+            "probability_in_selected_cells": 0.9500495555933425
+          }
+        },
+        "10": {
+          "0.5": {
+            "area_km2": 3000.0,
+            "probability_in_selected_cells": 0.5022963768014035
+          },
+          "0.8": {
+            "area_km2": 8200.0,
+            "probability_in_selected_cells": 0.8024973681558071
+          },
+          "0.9": {
+            "area_km2": 13100.0,
+            "probability_in_selected_cells": 0.9007082931249254
+          },
+          "0.95": {
+            "area_km2": 18000.0,
+            "probability_in_selected_cells": 0.9500504864716475
+          }
+        },
+        "20": {
+          "0.5": {
+            "area_km2": 4000.0,
+            "probability_in_selected_cells": 0.503346718951149
+          },
+          "0.8": {
+            "area_km2": 10800.0,
+            "probability_in_selected_cells": 0.8058366947301532
+          },
+          "0.9": {
+            "area_km2": 17200.0,
+            "probability_in_selected_cells": 0.9026715475312196
+          },
+          "0.95": {
+            "area_km2": 23200.0,
+            "probability_in_selected_cells": 0.9500638664835828
+          }
+        }
+      },
+      "probability_sum": 1.0,
+      "largest_ancestor_share": 0.025371942310017125,
+      "effective_ancestor_count": 335.1266275638983,
+      "independent_group_cdf_difference": [
+        0.10118158034396418,
+        0.10959766131854243
+      ]
+    },
+    {
+      "name": "at-most-one-turn",
+      "label": "At most one turn",
+      "maximum_turn_starts": 1,
+      "initial_navigation_mode": null,
+      "probability_of_selection_in_source_pool": 0.817038492905254,
+      "selection_probability_by_run": [
+        0.8592448298356153,
+        0.7943409967409247,
+        0.8096392462223025,
+        0.8192814183958882,
+        0.7991432596810146,
+        0.8258409726198641
+      ],
+      "status": "provisional conditional density",
+      "positive_weight_rows": 398230,
+      "quantiles_05_50_95_deg": [
+        [
+          -37.7324421042,
+          -36.7427304039,
+          -35.8584765509
+        ],
+        [
+          87.2692712194,
+          88.9388366935,
+          90.3027815757
+        ]
+      ],
+      "regions": {
+        "south_of_35S": 0.9896203060226751,
+        "between_35S_and_38S": 0.975813644651525,
+        "north_of_35S": 0.010379693977324937,
+        "north_of_30S": 0.0,
+        "south_of_38S": 0.013806661371150119
+      },
+      "cell_ranked_probability_areas": {
+        "5": {
+          "0.5": {
+            "area_km2": 2200.0,
+            "probability_in_selected_cells": 0.5025110676209597
+          },
+          "0.8": {
+            "area_km2": 5475.0,
+            "probability_in_selected_cells": 0.8009678140129901
+          },
+          "0.9": {
+            "area_km2": 8225.0,
+            "probability_in_selected_cells": 0.9003297904156715
+          },
+          "0.95": {
+            "area_km2": 11125.0,
+            "probability_in_selected_cells": 0.9502096905820282
+          }
+        },
+        "10": {
+          "0.5": {
+            "area_km2": 2700.0,
+            "probability_in_selected_cells": 0.5114614285711812
+          },
+          "0.8": {
+            "area_km2": 6300.0,
+            "probability_in_selected_cells": 0.801479259499075
+          },
+          "0.9": {
+            "area_km2": 9400.0,
+            "probability_in_selected_cells": 0.9004115850517405
+          },
+          "0.95": {
+            "area_km2": 12700.0,
+            "probability_in_selected_cells": 0.9503640144327911
+          }
+        },
+        "20": {
+          "0.5": {
+            "area_km2": 3600.0,
+            "probability_in_selected_cells": 0.5099455441756906
+          },
+          "0.8": {
+            "area_km2": 8000.0,
+            "probability_in_selected_cells": 0.8016593422369931
+          },
+          "0.9": {
+            "area_km2": 12400.0,
+            "probability_in_selected_cells": 0.9061931102611649
+          },
+          "0.95": {
+            "area_km2": 16800.0,
+            "probability_in_selected_cells": 0.9516340733307938
+          }
+        }
+      },
+      "probability_sum": 1.0,
+      "largest_ancestor_share": 0.027171628901736116,
+      "effective_ancestor_count": 268.02526083086366,
+      "independent_group_cdf_difference": [
+        0.1075160777077695,
+        0.11711826731957115
+      ]
+    },
+    {
+      "name": "ctt-at-most-one-turn",
+      "label": "Constant true track; at most one turn",
+      "maximum_turn_starts": 1,
+      "initial_navigation_mode": "constant_true_track",
+      "probability_of_selection_in_source_pool": 0.5746617236549163,
+      "selection_probability_by_run": [
+        0.59617922721484,
+        0.5683044393073278,
+        0.5722423374151387,
+        0.5670019865981534,
+        0.5660045699960016,
+        0.5896181401819215
+      ],
+      "status": "provisional conditional density",
+      "positive_weight_rows": 70044,
+      "quantiles_05_50_95_deg": [
+        [
+          -37.7183731955,
+          -36.7705108755,
+          -36.074503491
+        ],
+        [
+          87.3205920033,
+          88.923046826,
+          89.986606209
+        ]
+      ],
+      "regions": {
+        "south_of_35S": 0.9999999946152341,
+        "between_35S_and_38S": 0.9887021872204067,
+        "north_of_35S": 5.384765864515334e-09,
+        "north_of_30S": 0.0,
+        "south_of_38S": 0.011297807394827442
+      },
+      "cell_ranked_probability_areas": {
+        "5": {
+          "0.5": {
+            "area_km2": 1850.0,
+            "probability_in_selected_cells": 0.501532038581516
+          },
+          "0.8": {
+            "area_km2": 4600.0,
+            "probability_in_selected_cells": 0.80147672150061
+          },
+          "0.9": {
+            "area_km2": 6650.0,
+            "probability_in_selected_cells": 0.9001868138624206
+          },
+          "0.95": {
+            "area_km2": 8575.0,
+            "probability_in_selected_cells": 0.9500313961188978
+          }
+        },
+        "10": {
+          "0.5": {
+            "area_km2": 2400.0,
+            "probability_in_selected_cells": 0.5093965013047252
+          },
+          "0.8": {
+            "area_km2": 5400.0,
+            "probability_in_selected_cells": 0.8023622240518294
+          },
+          "0.9": {
+            "area_km2": 7700.0,
+            "probability_in_selected_cells": 0.9001668037241627
+          },
+          "0.95": {
+            "area_km2": 9800.0,
+            "probability_in_selected_cells": 0.9502655541580591
+          }
+        },
+        "20": {
+          "0.5": {
+            "area_km2": 3200.0,
+            "probability_in_selected_cells": 0.5009091685040072
+          },
+          "0.8": {
+            "area_km2": 7200.0,
+            "probability_in_selected_cells": 0.8082807675964196
+          },
+          "0.9": {
+            "area_km2": 10400.0,
+            "probability_in_selected_cells": 0.9069294127372783
+          },
+          "0.95": {
+            "area_km2": 13200.0,
+            "probability_in_selected_cells": 0.9551817065031047
+          }
+        }
+      },
+      "probability_sum": 1.0,
+      "largest_ancestor_share": 0.03863188692376979,
+      "effective_ancestor_count": 152.85146630618925,
+      "independent_group_cdf_difference": [
+        0.1596603853904926,
+        0.17345042796930843
+      ]
+    }
+  ],
+  "reference_arc": {
+    "time_utc": "2014-03-08T00:10:59.000Z",
+    "bto_us": 18040.0,
+    "altitude_ft": 35000,
+    "satellite_aircraft_range_km": 37802.867351810404
+  },
+  "report_source_sha256": "004e11b2d58fe7014c7646cab5a9b9340c329647dfd6a089504bb7ef45391e4b",
+  "helper_source_sha256": "9e0d9e0c34f17fa99328bef58ddd244b1222325efd987da7da51d72479a1d91f",
+  "source_runs": [
+    {
+      "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631",
+      "seed": 37091631,
+      "initial_candidates": 85000,
+      "pooling_fraction": 0.10968988444442151,
+      "files_sha256": {
+        "posterior.csv": "d12fc37fb93ab58d8b6c44592aa13d4717b65307748e8dad170abbe20b624d66",
+        "summary.json": "6105ac0879833162181065dc7886b622294ddf6b53b85de3660cb818050b2b0c",
+        "resolved-config.json": "219ab0678f6ab1d2b32df9d7f4d70d244efb9cb7ea79a459090fff55970d997c",
+        "provenance.json": "8a72d3da697a2a99aebbffb34320b7f2907d33fa81a5a06c0f0a45c91e991479"
+      }
+    },
+    {
+      "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091640",
+      "seed": 37091640,
+      "initial_candidates": 85000,
+      "pooling_fraction": 0.07448967433334779,
+      "files_sha256": {
+        "posterior.csv": "c1eb9eb2db31f0a2ccd49e088f01a2c76b54ff1d9fdb20dfd7629b5bfe42b80f",
+        "summary.json": "d925e07e0b84f85b78c44f32870a919df99da6ab4d22616b148da4cef681583c",
+        "resolved-config.json": "373b5677129fb04cb3cb55ffff39835ca94bed22c470c412acb97ece2444cbb8",
+        "provenance.json": "81bf60c4c6b60ccfa9c5998dbe4ca1d1d4b4253918ca7cdff7c2589a32f9cb2e"
+      }
+    },
+    {
+      "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091711",
+      "seed": 37091711,
+      "initial_candidates": 255000,
+      "pooling_fraction": 0.2537607279875718,
+      "files_sha256": {
+        "posterior.csv": "88e207471236fbbf33df632e658be3919dd5cc94015e2301b8b92cbb18badf85",
+        "summary.json": "71f1ad7127563c4173545b761c028abf983feed4877b8f82a0042694b3089fba",
+        "resolved-config.json": "2096ae66aa1ed0418884a2d26a683cfbae8856ed6f05559438b7a5310988d268",
+        "provenance.json": "64d7e82dadbf7a4fab37ced522016c89f841babed497489d2ada01454f961494"
+      }
+    },
+    {
+      "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091712",
+      "seed": 37091712,
+      "initial_candidates": 255000,
+      "pooling_fraction": 0.2595715924443368,
+      "files_sha256": {
+        "posterior.csv": "0296b1e00f9706f54ea9410b9007b58bdb876fa3c828a3a3fe76ab0808216522",
+        "summary.json": "807b8ee448d8e9042ac80de9cff50cb9717f4d27be7fe1812812d35a433311de",
+        "resolved-config.json": "17864867ebca485ed9997a9263a5a536046f6cd64f714a2c8e351fad876f7b3a",
+        "provenance.json": "540a9573c23dbcea507666c660b64cfbd26eff2a26ac3ca3924144287efc4085"
+      }
+    },
+    {
+      "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091713",
+      "seed": 37091713,
+      "initial_candidates": 170000,
+      "pooling_fraction": 0.16129045198714642,
+      "files_sha256": {
+        "posterior.csv": "971870a8df7da6e95646156395e47de12df6093d8a1f91f77221a925aa7ed96a",
+        "summary.json": "8a23373de7a4a1042eb81ecba2f9bf60e85b331893e5cb108e5c8f8b9e939e04",
+        "resolved-config.json": "fabf45996e5a5162bf65fbeb86af474ebe1f32418f6818920d7a2c3ac5e69f3d",
+        "provenance.json": "f1c6caad3b10dbca7386cc176d04b09609135dea3c4c8a2ad55bd6a865b44565"
+      }
+    },
+    {
+      "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714",
+      "seed": 37091714,
+      "initial_candidates": 170000,
+      "pooling_fraction": 0.14119766880317558,
+      "files_sha256": {
+        "posterior.csv": "ead10daa20dc02a373f5f621585696ef80b79ec6fffa223400665b3b1e79c332",
+        "summary.json": "8b5d10f8487e43bbfbfb0b706c3f5f8493ebde3f47859e067d134bbd042366ef",
+        "resolved-config.json": "9f758da36f044dc94aae88a3d86e02496668ec73ca0147c9218e3eb881fb7b05",
+        "provenance.json": "02671dd46e21c8b271513920b84a5f530c7629635589e76b0236572f33b7fede"
+      }
+    }
+  ],
+  "independent_groups": [
+    [
+      37091631,
+      37091640,
+      37091711
+    ],
+    [
+      37091712,
+      37091713,
+      37091714
+    ]
+  ],
+  "independent_group_initial_candidates": [
+    425000,
+    595000
+  ],
+  "method": "w_conditioned = w_broad * indicator(selection) / sum(w_broad * indicator(selection)); both independent groups are conditioned separately.",
+  "limitations": [
+    "Selections are conditional hypotheses, not observed facts or a calibrated intent/coherence model.",
+    "Turn counts are command starts after the configured limit epoch. Commands before that epoch remain unrestricted by this selection.",
+    "Mach and altitude command allowances remain those of the source model; an altitude command can repeat its current target.",
+    "A selection of the existing process differs from a new process whose clocks are stopped at lower caps.",
+    "Conditioning cannot recover broad-model trajectories missed by the sampler. Initial candidates and their descendants are not independent posterior draws.",
+    "Highest-density cell areas are resolution-dependent summaries of a conditional airborne estimate, not an impact or search-area recommendation."
+  ],
+  "elapsed_seconds": 15.341714598995168,
+  "peak_rss_kb": 1933708,
+  "output_files_sha256": {
+    "conditional-area-density-10km.csv": "4b3f500fcdd2e9e6009d93062deb2d086cf7dc345871e2d29567ed4441a7a6dc",
+    "broad-area-density-5km.npz": "68a8eabed30fdcde444b88558229b54ba90f05107f5bc1120bcef28bc29fd3c4",
+    "broad-area-density-10km.npz": "43b0a07b28c4e041bad6be0547f86ee0b133b6998b04a9891b869275700c5312",
+    "broad-area-density-20km.npz": "8090ecd6ec67e40c26952c034bcb5a403c4791b8fc7fee4b4dffa01a27c17288",
+    "at-most-two-turns-area-density-5km.npz": "eb96c470b5ee11d9f891ad9b0a6a03df5e74fb5b29a131ae01fac2f743aa310b",
+    "at-most-two-turns-area-density-10km.npz": "4525faf0d5f65e2d09ab40d6336119aa5c54fa2f7a992349beb52e80fe824d83",
+    "at-most-two-turns-area-density-20km.npz": "2430b2da9c62648a4c854aeb1bcb79d5698cdf00bd22a6a2bf47d50c81e30627",
+    "at-most-one-turn-area-density-5km.npz": "50f8df9f627c20d5be2a52920bb6f2ad2bed9e1f088f97283500c18117e03803",
+    "at-most-one-turn-area-density-10km.npz": "5f8b19f0afa36261edd8b7a842d915d29c3ead10e209e51f33c79734b1ee98e6",
+    "at-most-one-turn-area-density-20km.npz": "8331e88b3317a67a523a62433d537e3a8caea85a0353016fcfc72692d6ac64fd",
+    "coherence-area-0011.svg": "561dd37910535227d58bc0b842f16efe9e2569a8e04d182ec1e26866508cea3a",
+    "coherence-area-0011.pdf": "ea4dc0f4af08424804b9db5cd91adff54a50986ab98c6e213b07d8647f5eecb1",
+    "coherence-area-0011.png": "725d453897595cb33712f60f4c5ab0229bc731671fbc62617808ca1a226612bf",
+    "coherence-cumulative-0011.svg": "16fa10b43b2915bf74527e412f1cae04f9858f2fd8996bc7c56e9ad21479b0d7",
+    "coherence-cumulative-0011.pdf": "5fbbcfe9d337cc0a3b0e3478bb19d7128ef92b72117b1e60f579691b4a1809f4",
+    "coherence-cumulative-0011.png": "13378d05dfd75d9814a86e6714135e2a40e0b4f81249da5a08d395156a591db6",
+    "README.md": "45afe282305816f6f5eed99e908a073e331c2ff5ae7dfc8e640c817e1afe66dd",
+    "ctt-at-most-one-turn-area-density-5km.npz": "603a58d94d97b70cdfd4028436ba93bf6131e0749b4b9f635f4a74dc6f95c29c",
+    "ctt-at-most-one-turn-area-density-10km.npz": "e4bdc97084b304125526f7cdcac76deff38c857b0ccaeb3025b8e9ae047e337f",
+    "ctt-at-most-one-turn-area-density-20km.npz": "d76d0a2713aa4dedc0f7ec4190c818a405cb17c6e5b4344802a015c4e03c25b0",
+    "index.html": "514df3538c2357afe599216ea78ab4b8847e7fa31ef6e17f98bee1c0a29cb3be"
+  }
+}

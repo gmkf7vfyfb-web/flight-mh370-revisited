@@ -1,0 +1,10 @@
+# Run J production (Pete, 16 Oct 2026 ~16:40Z): round-3 laws with the divergent-spiral bank limit drawn UNIFORMLY on [52, 90] deg.
+# Append AFTER full/round3-laws.toml. Same mixture as bank-cap-sampled.toml with tail weight 27/38, which makes the two parts one
+# uniform density on [52, 90]. The drawn limit is recorded (latent:spiral_bank_cap_deg), so the Boeing-weighted prior (0.8 on 52-63,
+# 0.2 on 63-90), the 90 deg end, or any other prior on [52, 90] is an exact re-weighting. Limits above 90 deg (overbank) are outside
+# the model's reach: a declared gap. Pete's reasoning: the 52.5 deg all-data fit rests on four Boeing traces that may show where the
+# trace ended rather than an aerodynamic limit, so the headline should not depend on it.
+[hypotheses.end-of-flight.envelope.spiral_bank_cap_prior]
+core_deg = [52.0, 63.0]
+tail_to_deg = 90.0
+tail_weight = 0.7105263157894737

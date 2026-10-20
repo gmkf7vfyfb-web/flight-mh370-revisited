@@ -1,0 +1,19 @@
+The host daemon is healthy and connected. The screenshot was caused by a deleted, obsolete 32-particle preview—not a failed scientific run. I restored that historical path as a redirect; refreshing should now open the current report.
+
+Current status:
+
+- The validated v0.1 milestone is complete: 70 release artifacts pass integrity and evidence-consumption checks.
+- The primary EOF conditional contains 2,560 particles across five seeds, ESS 1,930.
+- Its conditional mean is 38.160°S, 89.409°E; 90% display HPD ≈9,592 km².
+- Median impact is 00:37:49 UTC, 106.9 NM after 00:11, with 6.66 m/s downward speed and 0.686 GJ kinetic energy.
+- Five terminal families remain separate; no unsupported probabilities are assigned between them.
+- Aircraft attitude and water-contact orientation remain unresolved.
+- Pléiades results are display-only because importance-sampling ESS remains below 10 even at 150,000 particles.
+- Ocean drift and hydroacoustics remain diagnostic with zero estimator weight.
+- The generic three-DoF raw-BFO feasibility test is integrated, but the principal next blocker is an aircraft-specific, validated B777 post-flameout transition model.
+
+The Core thread displays an inconsistent `error` status, but its last recorded turn completed normally and I have rerun the release validator successfully. No production job is currently running.
+
+[Release dashboard](/jackbox/home/MH370/runs/mh370/release-v0.1/index.html) · [current impact report](/jackbox/home/MH370/runs/mh370/release-v0.1/impact/publication/report.html) · [impact-location figure](/jackbox/home/MH370/runs/mh370/release-v0.1/impact/publication/impact-location-comparison.svg)
+
+::inline-vis{file="runs/mh370/release-v0.1/impact/publication/report.html" height="1100"}

@@ -1,0 +1,2848 @@
+── User ────────────────────────────────────────────────────
+Nice job. Could you show me some plots? Maybe a 2D pdf of the impact location spread with the 7th and and 100NM parallels overlaid, along with conditionalnpleiades location pdf? And perhaps some sampled impact attitudes and orientations in perspective view perhaps a 10 panel? And perhaps a 3D perspective view of the trajectory ensemble or a sparser sample of it across the relevant region?
+
+── Worked for (1m 5s) ──────────────────────────────────────
+  ── Assistant
+  Yes—I’ll build these from the current estimator artifacts rather than inventing an illustrative ensemble. I’m using the inline-visualization skill so the resulting interactive report can render directly here; first I’ll locate the latest impact posterior, 7th-arc/parallel geometry, and conditional Pleiades fields, then I’ll generate the map, attitude small multiples, and 3D trajectory view.
+
+  ── Read /jackbox/home/.iso/runtime/global-skills/051cefb156e94b93b5e2578a675241b5008ea1dbc7132545e87c8f9b68faaaa9/skills/inline-vis/SKILL.md (interrupted)
+    $ sed -n '1,260p' /jackbox/home/.iso/runtime/global-skills/051cefb156e94b93b5e2578a675241b5008ea1dbc7132545e87c8f9b68faaaa9/skills/inline-vis/SKILL.md; wc -l /jackbox/home/.iso/runtime/global-skills/051cefb156e94b93b5e2578a675241b5008ea1dbc7132545e87c8f9b68faaaa9/skills/inline-vis/SKILL.md
+
+── Error ───────────────────────────────────────────────────
+  Thread interrupted because the host daemon disconnected
+  Please retry the thread to continue.
+
+── User ────────────────────────────────────────────────────
+Host daemon error?
+
+── Worked for (15m 7s) ─────────────────────────────────────
+  ── Assistant
+  It looks like the read-only inventory command was interrupted by the client, not a confirmed host-daemon failure. Nothing was written or changed. I’ll resume with smaller, bounded queries so the visualization work can continue cleanly.
+
+  ── Explored 3 lists, 3 searches, 4 files
+    ── Listed files in .
+    ── Searched for runs/mh370/0011-to-0019-seventh-arc-bto in .sources/pleiades-image-morphology-controls/outputs
+    ── Listed files in runs
+    ── Read runs/mh370/0011-to-0019-seventh-arc-bto/posterior.csv
+    ── Read runs/mh370/0011-core-comparison/bto-bfo-gain-conditional/seed-370023/posterior-handoff.json
+    ── Searched for impact|Impact in crates/runner/src/impact_commands.rs
+    ── Searched for configs
+    ── Read configs/mh370-impact-point-mass-plumbing.toml
+    ── Listed files in /tmp/mh370-impact-point-mass-plumbing-smoke-20260828
+    ── Read /tmp/mh370-impact-point-mass-plumbing-smoke-20260828/run-manifest.json
+
+  ── Ran 4 commands
+    ── Ran node -e 'const fs=require("fs"); for (const f of ["/tmp/mh370-impact-point-mass-plumbing-smoke-20260828/impact-posterior-handoff.json","/tmp/mh370-impact-point-mass-plumbing-smoke-20260828/transition-sidecar.json"]) { const x=JSON.parse(fs.readFileSync(f,"utf8")); console.log(f); console.log(Object.keys(x)); console.log("particles",x.particles?.length,"records",x.records?.length); console.log(JSON.stringify(x.particles?.[0]||x.records?.[0],null,2).slice(0,9000)); console.log("conditioning",JSON.stringify(x.impact_conditioning||x.outcome_mass)); console.log("limitations",JSON.stringify(x.limitations)); }' (2s)
+      $ node -e 'const fs=require("fs"); for (const f of ["/tmp/mh370-impact-point-mass-plumbing-smoke-20260828/impact-posterior-handoff.json","/tmp/mh370-impact-point-mass-plumbing-smoke-20260828/transition-sidecar.json"]) { const x=JSON.parse(fs.readFileSync(f,"utf8")); console.log(f); console.log(Object.keys(x)); console.log("particles",x.particles?.length,"records",x.records?.length); console.log(JSON.stringify(x.particles?.[0]||x.records?.[0],null,2).slice(0,9000)); console.log("conditioning",JSON.stringify(x.impact_conditioning||x.outcome_mass)); console.log("limitations",JSON.stringify(x.limitations)); }'
+      /tmp/mh370-impact-point-mass-plumbing-smoke-20260828/impact-posterior-handoff.json
+      [
+        'schema_id',
+        'schema_version',
+        'time_basis',
+        'run',
+        'source_runs',
+        'scenario_combination',
+        'eof_scenarios',
+        'evidence',
+        'impact_conditioning',
+        'particles'
+      ]
+      particles 32 records undefined
+      {
+        "identity": {
+          "source_run_id": "source:bto-bfo-medium:370023",
+          "upstream": {
+            "model_family": "bto-bfo-medium",
+            "seed": 370023,
+            "particle": 283
+          },
+          "eof_scenario_id": "point-mass-low-flow-equal-feed",
+          "eof_draw_id": 0
+        },
+        "upstream_normalized_log_weight": -10.264286115583117,
+        "eof_draw_log_weight": 6.79855021278339,
+        "likelihood_terms": [
+          {
+            "application_id": "r600-bto-at-0019",
+            "log_likelihood": -6.386646330120428
+          }
+        ],
+        "normalized_log_weight": -4.4621344284827895,
+        "termination_mass_kg": 174369,
+        "kinematics": {
+          "time_utc_unix_s": 1394240261.7576396,
+          "position_wgs84": {
+            "latitude": -43.36485272053878,
+            "longitude": 88.18219322606092
+          },
+          "true_airspeed_m_s": 473.4922714065789,
+          "ground_velocity_enu_m_s": {
+            "east": -37.12375809770957,
+            "north": -212.63774989058118,
+            "up": -421.428457733854
+          },
+          "displacement_from_last_contact_nm": 428.5191226710956
+        },
+        "energy": {
+          "total_j": 19546322968.897823,
+          "horizontal_j": 4062186196.0972266,
+          "vertical_j": 15484136772.800598
+        },
+        "attitude": null,
+        "contact_duration_s": null
+      }
+      conditioning {"conditioned_on":"transition_termination=impact","outcome_weight_mass":[{"termination":"impact","normalized_mass":1}]}
+      limitations undefined
+      /tmp/mh370-impact-point-mass-plumbing-smoke-20260828/transition-sidecar.json
+      [
+        'schema_id',
+        'schema_version',
+        'hypothesis_id',
+        'producer_executable_sha256',
+        'config_sha256',
+        'source_handoff_sha256',
+        'source_run_identity_sha256',
+        'eof_seed',
+        'relative_time_origin_unix_s_utc',
+        'source_checkpoint_time_unix_s_utc',
+        'r600_checkpoint_time_unix_s_utc',
+        'r600_elapsed_s',
+        'source_sampling',
+        'scenario',
+        'fuel_allocation',
+        'log_evidence_increment',
+        'outcome_mass',
+        'records',
+        'limitations'
+      ]
+      particles undefined records 32
+      {
+        "upstream_identity": {
+          "model_family": "bto-bfo-medium",
+          "seed": 370023,
+          "particle": 283
+        },
+        "eof_draw_id": 0,
+        "upstream_normalized_log_weight": -10.264286115583117,
+        "sampling_log_correction": 6.79855021278339,
+        "initial_flight": {
+          "time": 22150,
+          "position": {
+            "latitude": -36.33311859768385,
+            "longitude": 89.77735921411113
+          },
+          "altitude": 40244.52054758606,
+          "true_airspeed": 246.4290279898914,
+          "flight_path_angle": 0,
+          "heading_true": 189.90327637526968
+        },
+        "transition": {
+          "family": {
+            "control": "controlled",
+            "restart_transient": "no_additional_transient"
+          },
+          "model_weight": 1,
+          "terminal": {
+            "kinematics": {
+              "point_mass": {
+                "time": 24952.75763968413,
+                "position": {
+                  "latitude": -43.36485272053878,
+                  "longitude": 88.18219322606092
+                },
+                "altitude": 0,
+                "true_airspeed": 473.4922714065789,
+                "flight_path_angle": -62.8786443727009,
+                "heading_true": 189.9032763752697
+              },
+              "ground_speed": 215.8540851914242,
+              "ground_track_true": 189.90327637526968,
+              "vertical_speed": -421.428457733854
+            },
+            "mass": 174369,
+            "fuel": {
+              "left_engine_feed": 0,
+              "right_engine_feed": 0,
+              "apu_feed": 0,
+              "unusable": 0
+            },
+            "engines": {
+              "left": {
+                "mode": "windmilling",
+                "thrust": 0,
+                "fuel_flow": 0,
+                "generator_online": false
+              },
+              "right": {
+                "mode": "windmilling",
+                "thrust": 0,
+                "fuel_flow": 0,
+                "generator_online": false
+              }
+            },
+            "electrical": {
+              "source": "unpowered",
+              "satcom_powered": false,
+              "dual_engine_generator_loss_elapsed": 52.21014234079154
+            },
+            "apu": {
+              "mode": "off",
+              "elapsed_in_mode": 0,
+              "generator_online": false,
+              "fuel_flow": 0
+            },
+            "ocxo": {
+              "power": "unpowered",
+              "unpowered_duration": 52.21014234079154,
+              "restart_count": 0
+            }
+          },
+          "events": [
+            {
+              "time": 24900.547497343337,
+              "kind": {
+                "event": "engine_flameout",
+                "engine": "left"
+              }
+            },
+            {
+              "time": 24900.547497343337,
+              "kind": {
+                "event": "engine_flameout",
+                "engine": "right"
+              }
+            },
+            {
+              "time": 24900.547497343337,
+              "kind": {
+                "event": "dual_engine_generator_loss"
+              }
+            },
+            {
+              "time": 24900.547497343337,
+              "kind": {
+                "event": "satcom_power_lost"
+              }
+            }
+          ],
+          "termination": "impact",
+          "impact": {
+            "point": {
+              "time": 24952.75763968413,
+              "position": {
+                "latitude": -43.36485272053878,
+                "longitude": 88.18219322606092
+              },
+              "bearing_true": 189.90327637526968,
+              "displacement_from_last_contact": 428.5191226710956
+            },
+            "mass": 174369,
+            "true_airspeed": 473.4922714065789,
+            "ground_speed": 215.8540851914242,
+            "vertical_speed": -421.428457733854,
+            "impact_angle": 62.8786443727009,
+            "kinetic_energy": 19546322968.897823,
+            "horizontal_kinetic_energy": 4062186196.0972266,
+            "vertical_kinetic_energy": 15484136772.800598
+          }
+        },
+        "reached_checkpoints": [
+          {
+            "requested_elapsed": 510,
+            "state": {
+              "kinematics": {
+                "point_mass": {
+                  "time": 22660,
+                  "position": {
+                    "latitude": -37.533348986537945,
+                    "longitude": 89.51632076715589
+                  },
+                  "altitude": 40244.52054758606,
+                  "true_airspeed": 277.72878626270443,
+                  "flight_path_angle": -3.8455134859970377e-16,
+                  "heading_true": 189.9032763752697
+                },
+                "ground_speed": 277.7287862627045,
+                "ground_track_true": 189.90327637526968,
+                "vertical_speed": -1.864028733179135e-15
+              },
+              "mass": 177171.2325899999,
+              "fuel": {
+                "left_engine_feed": 1401.1162949999518,
+                "right_engine_feed": 1401.1162949999523,
+                "apu_feed": 0,
+                "unusable": 0
+              },
+              "engines": {
+                "left": {
+                  "mode": "running",
+                  "thrust": 65000,
+                  "fuel_flow": 0.6253455,
+                  "generator_online": true
+                },
+                "right": {
+                  "mode": "running",
+                  "thrust": 65000,
+                  "fuel_flow": 0.6253455,
+                  "generator_online": true
+                }
+              },
+              "electrical": {
+                "source": "engine_generators",
+                "satcom_powered": true,
+                "dual_engine_generator_loss_elapsed": null
+              },
+              "apu": {
+                "mode": "off",
+                "elapsed_in_mode": 0,
+                "generator_online": false,
+                "fuel_flow": 0
+              },
+              "ocxo": {
+                "power": "powered",
+                "unpowered_duration": 0,
+                "restart_count": 0
+              }
+            },
+            "active_control": {
+              "mode": "controlled",
+              "lift_load_factor": 1,
+              "bank_angle": 0
+            },
+            "events_at_time": []
+          }
+        ],
+        "checkpoint_status": "all_reached",
+        "control_transition": {
+          "reached": {
+            "event": {
+              "time": 24900.547497343337,
+              "elapsed": 2750.5474973433375,
+              "trigger": "dual_engine_flameout",
+              "from": "controlled",
+              "to": "uncontrolled",
+              "pre_trigger_command": {
+                "mode": "controlled",
+                "lift_load_factor": 1,
+                "bank_angle": 0
+              },
+              "post_trigger_command": {
+                "mode": "uncontrolled",
+                "lift_coefficient": 0,
+                "bank_angle": 0
+              },
+              "state": {
+                "kinematics": {
+                  "point_mass": {
+                    "time": 24900.547497343337,
+                    "position": {
+                      "latitude": -43.24269076385115,
+                      "longitude": 88.21139708446549
+                    },
+                    "altitude": 40244.52054758606,
+                    "true_airspeed": 289.51253609906314,
+                    "flight_path_angle": -6.266071319747658e-16,
+                    "heading_true": 189.9032763752697
+                  },
+                  "ground_speed": 289.51253609906314,
+                  "ground_track_true": 189.90327637526968,
+                  "vertical_speed": -3.1662126156142688e-15
+                },
+                "mass": 174369,
+                "fuel": {
+                  "left_engine_feed": 0,
+                  "right_engine_feed": 0,
+                  "apu_feed": 0,
+                  "unusable": 0
+                },
+                "engines": {
+                  "left": {
+                    "mode": "windmilling",
+                    "thrust": 0,
+                    "fuel_flow": 0,
+                    "generator_online": false
+                  },
+                  "right": {
+                    "mode": "windmilling",
+                    "thrust": 0,
+                    "fuel_flow": 0,
+                    "generator_online": false
+                  }
+                },
+                "electrical": {
+                  "source": "unpowered",
+                  "satcom_powered": false,
+                  "dual_engine_generator_loss_elapsed": 0
+                },
+                "apu": {
+                  "mode": "off",
+                  "elapsed_in_mode": 0,
+                  "generator_online": false,
+                  "fuel_flow": 0
+                },
+                "ocxo": {
+                  "power": "unpowered",
+                  "unpowered_duration": 0,
+                  "restart_count": 0
+                }
+              }
+            }
+          }
+        },
+        "r600_score": {
+          "requested_elapsed_s": 510,
+          "status": {
+            "kind": "reached",
+            "checkpoint": {
+              "requested_elapsed": 510,
+              "state": {
+                "kinematics": {
+                  "point_mass": {
+                    "time": 22660,
+                    "position": {
+                      "latitude": -37.533348986537945,
+                      "longitude": 89.51632076715589
+                    },
+                    "altitude": 40244.52054758606,
+                    "true_airspeed": 277.72878626270443,
+                    "flight_path_angle": -3.8455134859970377e-16,
+                    "heading_true": 189.9032763752697
+                  },
+                  "ground_speed": 277.7287862627045,
+                  "ground_track_true": 189.90327637526968,
+                  "vertical_speed": -1.864028733179135e-15
+                },
+                "mass": 177171.2325899999,
+                "fuel": {
+                  "left_engine_feed": 1401.1162949999518,
+                  "right_engine_feed": 1401.1162949999523,
+                  "apu_feed": 0,
+                  "unusable": 0
+                },
+                "engines": {
+                  "left": {
+                    "mode": "running",
+                    "thrust": 65000,
+                    "fuel_flow": 0.6253455,
+                    "generator_online": true
+                  },
+                  "right": {
+                    "mode": "running",
+                    "thrust": 65000,
+                    "fuel_flow": 0.6253455,
+                    "generator_online": true
+                  }
+                },
+                "electrical": {
+                  "source": "engine_generators",
+                  "satcom_powered": true,
+                  "dual_engine_generator_loss_elapsed": null
+               
+      conditioning [{"termination":"impact","prior_normalized_mass":1,"r600_conditioned_normalized_mass":1}]
+      limitations ["One caller-selected conditional end-of-flight scenario; no scenario probabilities or model-family averaging.","Corrected 00:19:29 R600 BTO conditional on recorded reception is the only new likelihood; SATCOM power, occurrence, and timing are not additional gates or evidence.","00:19:37 R1200 BTO is held out; both final raw BFOs remain diagnostic and do not alter weights.","Point-mass aerodynamics, control history, fuel/feed state, atmosphere, APU, electrical, and restart behavior are explicit conditional inputs, not B777-calibrated probabilities.","The atmosphere profile is altitude-only and clamps outside its declared nodes; it is not a time-varying high-cadence wind field.","Impact attitude and water-contact duration are unresolved and therefore null."]
+    ── Ran node -e 'const fs=require("fs"); const f="/tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/seed-370023/posterior-handoff.json"; const x=JSON.parse(fs.readFileSync(f,"utf8")); console.log(Object.keys(x)); console.log("particles",x.particles.length); console.log(JSON.stringify(x.particles[0],null,2).slice(0,5000));' (3s)
+      $ node -e 'const fs=require("fs"); const f="/tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/seed-370023/posterior-handoff.json"; const x=JSON.parse(fs.readFileSync(f,"utf8")); console.log(Object.keys(x)); console.log("particles",x.particles.length); console.log(JSON.stringify(x.particles[0],null,2).slice(0,5000));'
+      [ 'schema_version', 'run', 'evidence', 'particles' ]
+      particles 30000
+      {
+        "identity": {
+          "model_family": "bto-bfo-medium",
+          "seed": 370023,
+          "particle": 0
+        },
+        "normalized_log_weight": -10.178410275254885,
+        "source_log_likelihood": -65.93651515459828,
+        "aircraft": {
+          "time": 22150,
+          "position": {
+            "latitude": -36.730967492630704,
+            "longitude": 88.94552509378917
+          },
+          "altitude": 34019.23171255969,
+          "track_true": 186.90171099314085,
+          "ground_speed": 461.1824037208093,
+          "vertical_speed": 0,
+          "bfo_bias": 150.69917522477851
+        },
+        "heading_true": 190.2830848291721,
+        "lateral_mode": "constant_true_track",
+        "mach": 0.8161016683106703,
+        "turn": {
+          "initial_position": {
+            "latitude": 5.623998735036431,
+            "longitude": 99.04667215126682
+          },
+          "initial_track_true": 294.2461984784295,
+          "turn_time": 2139.6538287766475,
+          "post_turn_track_true": 186.90171099314085,
+          "turn_count": 1
+        },
+        "bfo_bias": {
+          "mean_hz": 150.69917522477851,
+          "variance_hz2": 1.7727353306151392
+        }
+      }
+    ── Ran sha256sum /tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/seed-370023/posterior-handoff.json runs/mh370/0011-core-comparison/bto-bfo-medium/seed-370023/posterior-handoff.json; node -e 'const fs=require("fs"); for (const f of process.argv.slice(1)) {const x=JSON.parse(fs.readFileSync(f,"utf8")); console.log(f,x.particles.length,x.run.run_identity_sha256)}' /tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/seed-370023/posterior-handoff.json runs/mh370/0011-core-comparison/bto-bfo-medium/seed-370023/posterior-handoff.json (3s)
+      $ sha256sum /tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/seed-370023/posterior-handoff.json runs/mh370/0011-core-comparison/bto-bfo-medium/seed-370023/posterior-handoff.json; node -e 'const fs=require("fs"); for (const f of process.argv.slice(1)) {const x=JSON.parse(fs.readFileSync(f,"utf8")); console.log(f,x.particles.length,x.run.run_identity_sha256)}' /tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/seed-370023/posterior-handoff.json runs/mh370/0011-core-comparison/bto-bfo-medium/seed-370023/posterior-handoff.json
+      /tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/seed-370023/posterior-handoff.json 30000 1e370f721cca91a99f6f9303f6218641716329dc76e38a1346320b0ab5a1e555
+      runs/mh370/0011-core-comparison/bto-bfo-medium/seed-370023/posterior-handoff.json 30000 0c0963329249f0689789568856803ffaf71a74cca90814e34d51d1e48fbbfb00
+    ── Ran node -e 'const fs=require("fs"); const h=JSON.parse(fs.readFileSync("/tmp/mh370-impact-point-mass-plumbing-smoke-20260828/impact-posterior-handoff.json","utf8")); const p=h.particles; const w=p.map(x=>Math.exp(x.normalized_log_weight)); const s=w.reduce((a,b)=>a+b,0); const mean=k=>p.reduce((a,x,i)=>a+w[i]*k(x),0)/s; const q=(k,z)=>{const a=p.map((x,i)=>[k(x),w[i]]).sort((a,b)=>a[0]-b[0]);let c=0;for(const v of a){c+=v[1]/s;if(c>=z)return v[0]}}; console.log({n:p.length,sum:s,meanLat:mean(x=>x.kinematics.position_wgs84.latitude),meanLon:mean(x=>x.kinematics.position_wgs84.longitude),lat05:q(x=>x.kinematics.position_wgs84.latitude,.05),lat95:q(x=>x.kinematics.position_wgs84.latitude,.95),lon05:q(x=>x.kinematics.position_wgs84.longitude,.05),lon95:q(x=>x.kinematics.position_wgs84.longitude,.95),impactAngleMean:mean(x=>Math.atan2(-x.kinematics.ground_velocity_enu_m_s.up,Math.hypot(x.kinematics.ground_velocity_enu_m_s.east,x.kinematics.ground_velocity_enu_m_s.north))*180/Math.PI),energyGJMean:mean(x=>x.energy.total_j/1e9)}); const rows=fs.readFileSync(".sources/pleiades-bran2016-forward-inversion/outputs/conditional-impact-density.csv","utf8").trim().split(/\r?\n/); const hdr=rows[0].split(","); const idx=Object.fromEntries(hdr.map((x,i)=>[x,i])); const d=rows.slice(1).map(r=>r.split(",")); let mode=d.reduce((a,b)=>+a[idx.probabilityMass]>+b[idx.probabilityMass]?a:b); const hpd95=d.filter(r=>r[idx.in_hpd95]==="true"); console.log({pleiadesRows:d.length,modeLat:+mode[idx.latitude],modeLon:+mode[idx.longitude],modeAlong:+mode[idx.alongNm],modeCross:+mode[idx.crossNm],hpd95Lat:[Math.min(...hpd95.map(r=>+r[idx.latitude])),Math.max(...hpd95.map(r=>+r[idx.latitude]))],hpd95Lon:[Math.min(...hpd95.map(r=>+r[idx.longitude])),Math.max(...hpd95.map(r=>+r[idx.longitude]))]});' (3s)
+      $ node -e 'const fs=require("fs"); const h=JSON.parse(fs.readFileSync("/tmp/mh370-impact-point-mass-plumbing-smoke-20260828/impact-posterior-handoff.json","utf8")); const p=h.particles; const w=p.map(x=>Math.exp(x.normalized_log_weight)); const s=w.reduce((a,b)=>a+b,0); const mean=k=>p.reduce((a,x,i)=>a+w[i]*k(x),0)/s; const q=(k,z)=>{const a=p.map((x,i)=>[k(x),w[i]]).sort((a,b)=>a[0]-b[0]);let c=0;for(const v of a){c+=v[1]/s;if(c>=z)return v[0]}}; console.log({n:p.length,sum:s,meanLat:mean(x=>x.kinematics.position_wgs84.latitude),meanLon:mean(x=>x.kinematics.position_wgs84.longitude),lat05:q(x=>x.kinematics.position_wgs84.latitude,.05),lat95:q(x=>x.kinematics.position_wgs84.latitude,.95),lon05:q(x=>x.kinematics.position_wgs84.longitude,.05),lon95:q(x=>x.kinematics.position_wgs84.longitude,.95),impactAngleMean:mean(x=>Math.atan2(-x.kinematics.ground_velocity_enu_m_s.up,Math.hypot(x.kinematics.ground_velocity_enu_m_s.east,x.kinematics.ground_velocity_enu_m_s.north))*180/Math.PI),energyGJMean:mean(x=>x.energy.total_j/1e9)}); const rows=fs.readFileSync(".sources/pleiades-bran2016-forward-inversion/outputs/conditional-impact-density.csv","utf8").trim().split(/\r?\n/); const hdr=rows[0].split(","); const idx=Object.fromEntries(hdr.map((x,i)=>[x,i])); const d=rows.slice(1).map(r=>r.split(",")); let mode=d.reduce((a,b)=>+a[idx.probabilityMass]>+b[idx.probabilityMass]?a:b); const hpd95=d.filter(r=>r[idx.in_hpd95]==="true"); console.log({pleiadesRows:d.length,modeLat:+mode[idx.latitude],modeLon:+mode[idx.longitude],modeAlong:+mode[idx.alongNm],modeCross:+mode[idx.crossNm],hpd95Lat:[Math.min(...hpd95.map(r=>+r[idx.latitude])),Math.max(...hpd95.map(r=>+r[idx.latitude]))],hpd95Lon:[Math.min(...hpd95.map(r=>+r[idx.longitude])),Math.max(...hpd95.map(r=>+r[idx.longitude]))]});'
+      {
+        n: 32,
+        sum: 1.0000000000000002,
+        meanLat: -42.951708575303705,
+        meanLon: 88.0863915240324,
+        lat05: -43.47806700526561,
+        lat95: -42.407942666744596,
+        lon05: 87.2550281056532,
+        lon95: 88.75346373318314,
+        impactAngleMean: 63.52934768261937,
+        energyGJMean: 18.292729815253388
+      }
+      {
+        pleiadesRows: 15867,
+        modeLat: -35.41788707769665,
+        modeLon: 92.88584624728297,
+        modeAlong: 270,
+        modeCross: 15,
+        hpd95Lat: [ -36.2248320242336, -34.27612515478696 ],
+        hpd95Lon: [ 89.9695483860327, 93.62702957155014 ]
+      }
+
+  ── Context compacted
+
+  ── Assistant
+  The daemon is fine; that interruption did not alter the workspace. I’ve resumed from the completed 32-particle end-of-flight smoke run and am building the plots as a clearly labeled preliminary artifact—especially distinguishing real impact-state outputs from unresolved aircraft attitude.
+
+  ── Explored 1 list, 2 files, 1 search, ran 3 commands
+    ── Listed files in /tmp/mh370-impact-point-mass-plumbing-smoke-20260828/impact-posterior-handoff.json
+    ── Read .sources/pleiades-bran2016-forward-inversion/outputs/conditional-impact-density.csv
+    ── Read /tmp/mh370-impact-point-mass-plumbing-smoke-20260828/impact-posterior-handoff.json
+    ── Searched for "particles"\|"checkpoints"\|"control_transition"\|"impact" in /tmp/mh370-impact-point-mass-plumbing-smoke-20260828/impact-posterior-handoff.json
+    ── Read /tmp/mh370-impact-point-mass-plumbing-smoke-20260828/impact-posterior-handoff.json
+    ── Ran /usr/bin/mkdir -p runs/mh370/impact-visualization-preview (2s)
+      $ /usr/bin/mkdir -p runs/mh370/impact-visualization-preview
+      exit code 0
+    ── Read .sources/pleiades-bran2016-forward-inversion/outputs/conditional-impact-density.csv
+    ── Ran node -e "const fs=require('fs');const g=JSON.parse(fs.readFileSync('.sources/pleiades-bran2016-forward-inversion/data/seventh_arc_fl400.geojson')); const f=g.features[0]; console.log(f.geometry.type, f.geometry.coordinates.length); console.log(JSON.stringify(f.geometry.coordinates.slice(0,3))); console.log(JSON.stringify(f.geometry.coordinates.slice(-3)));" (2s)
+      $ node -e "const fs=require('fs');const g=JSON.parse(fs.readFileSync('.sources/pleiades-bran2016-forward-inversion/data/seventh_arc_fl400.geojson')); const f=g.features[0]; console.log(f.geometry.type, f.geometry.coordinates.length); console.log(JSON.stringify(f.geometry.coordinates.slice(0,3))); console.log(JSON.stringify(f.geometry.coordinates.slice(-3)));"
+      LineString 200
+      [[64.4643707275391,44.9784851074219],[65.3536529541016,44.9714965820313],[66.2422943115234,44.9504699707031]]
+      [[66.2102355957031,-43.8857421875],[65.3376007080078,-43.9063720703125],[64.4643707275391,-43.9132385253906]]
+    ── Ran node -e "const fs=require('fs');const c=JSON.parse(fs.readFileSync('.sources/pleiades-bran2016-forward-inversion/data/seventh_arc_fl400.geojson')).features[0].geometry.coordinates; for(const p of c){if(p[1]<-30&&p[1]>-46&&p[0]>75) console.log(p[0].toFixed(3),p[1].toFixed(3));}" (2s)
+      $ node -e "const fs=require('fs');const c=JSON.parse(fs.readFileSync('.sources/pleiades-bran2016-forward-inversion/data/seventh_arc_fl400.geojson')).features[0].geometry.coordinates; for(const p of c){if(p[1]<-30&&p[1]>-46&&p[0]>75) console.log(p[0].toFixed(3),p[1].toFixed(3));}"
+      98.131 -30.204
+      97.681 -30.703
+      97.219 -31.196
+      96.747 -31.683
+      96.263 -32.164
+      95.768 -32.638
+      95.261 -33.105
+      94.742 -33.565
+      94.212 -34.017
+      93.671 -34.463
+      93.117 -34.900
+      92.552 -35.330
+      91.975 -35.752
+      91.386 -36.166
+      90.785 -36.571
+      90.173 -36.968
+      89.548 -37.356
+      88.912 -37.735
+      88.264 -38.104
+      87.605 -38.464
+      86.934 -38.814
+      86.251 -39.155
+      85.557 -39.485
+      84.852 -39.805
+      84.136 -40.114
+      83.409 -40.413
+      82.671 -40.701
+      81.923 -40.977
+      81.165 -41.243
+      80.397 -41.496
+      79.619 -41.738
+      78.832 -41.968
+      78.036 -42.186
+      77.232 -42.392
+      76.419 -42.585
+      75.599 -42.766
+
+  ── Assistant
+  I found one important constraint in the run artifact: impact position, velocity, descent angle, and energy are resolved, but body attitude is deliberately `null`. I’ll therefore make the requested 10-panel view as an explicit velocity-frame proxy (zero roll/sideslip glyph), not mislabel it as sampled aircraft attitude. The map will likewise show the end-of-flight KDE and Pleiades conditional density as two separately normalized, unfused conditionals.
+
+  ── Created 2 files, ran 1 command
+    ── Created runs/mh370/impact-visualization-preview/render-impact-ensemble.mjs +441
+      #!/usr/bin/env node
+
+      import { createHash } from "node:crypto";
+      import { readFileSync, writeFileSync } from "node:fs";
+      import { dirname, resolve } from "node:path";
+      import { fileURLToPath } from "node:url";
+
+      const scriptDirectory = dirname(fileURLToPath(import.meta.url));
+      const repositoryRoot = resolve(scriptDirectory, "../../..");
+
+      const defaults = {
+        impact:
+          "/tmp/mh370-impact-point-mass-plumbing-smoke-20260828/impact-posterior-handoff.json",
+        sidecar:
+          "/tmp/mh370-impact-point-mass-plumbing-smoke-20260828/transition-sidecar.json",
+        manifest:
+          "/tmp/mh370-impact-point-mass-plumbing-smoke-20260828/run-manifest.json",
+        pleiades: resolve(
+          repositoryRoot,
+          ".sources/pleiades-bran2016-forward-inversion/outputs/conditional-impact-density.csv",
+        ),
+        arc: resolve(
+          repositoryRoot,
+          ".sources/pleiades-bran2016-forward-inversion/data/seventh_arc_fl400.geojson",
+        ),
+        template: resolve(scriptDirectory, "impact-ensemble-template.html"),
+        output: resolve(scriptDirectory, "impact-ensemble-explorer.html"),
+      };
+
+      function parseArguments(argv) {
+        const values = { ...defaults };
+        for (let index = 0; index < argv.length; index += 2) {
+          const option = argv[index];
+          const value = argv[index + 1];
+          if (!option?.startsWith("--") || value === undefined) {
+            throw new Error(
+              "Arguments must be --impact/--sidecar/--manifest/--pleiades/--arc/--template/--output followed by a value",
+            );
+          }
+          const key = option.slice(2);
+          if (!(key in values)) throw new Error(`Unknown option: ${option}`);
+          values[key] = resolve(value);
+        }
+        return values;
+      }
+
+      function sha256(buffer) {
+        return createHash("sha256").update(buffer).digest("hex");
+      }
+
+      function readJson(path) {
+        const buffer = readFileSync(path);
+        return { value: JSON.parse(buffer.toString("utf8")), sha256: sha256(buffer) };
+      }
+
+      function finite(value, label) {
+        const number = Number(value);
+        if (!Number.isFinite(number)) throw new Error(`${label} must be finite`);
+        return number;
+      }
+
+      function round(value, digits = 6) {
+        const scale = 10 ** digits;
+        return Math.round(value * scale) / scale;
+      }
+
+      function normalizeLogWeights(particles) {
+        const maximum = Math.max(...particles.map((particle) => particle.normalized_log_weight));
+        const raw = particles.map((particle) => Math.exp(particle.normalized_log_weight - maximum));
+        const total = raw.reduce((sum, value) => sum + value, 0);
+        return raw.map((value) => value / total);
+      }
+
+      function weightedQuantile(values, weights, probability) {
+        const ordered = values
+          .map((value, index) => ({ value, weight: weights[index] }))
+          .sort((left, right) => left.value - right.value);
+        let cumulative = 0;
+        for (const item of ordered) {
+          cumulative += item.weight;
+          if (cumulative >= probability) return item.value;
+        }
+        return ordered.at(-1).value;
+      }
+
+      function parseCsv(text) {
+        const lines = text.trim().split(/\r?\n/);
+        const header = lines.shift().split(",");
+        const indices = Object.fromEntries(header.map((name, index) => [name, index]));
+        const required = [
+          "current_model",
+          "seed",
+          "diffusion_rms_nm_day",
+          "particles_per_windage",
+          "latitude",
+          "longitude",
+          "densityPerKm2",
+          "probabilityMass",
+          "in_hpd50",
+          "in_hpd90",
+          "in_hpd95",
+        ];
+        for (const column of required) {
+          if (!(column in indices)) throw new Error(`Missing Pleiades column: ${column}`);
+        }
+        return lines.map((line) => {
+          const fields = line.split(",");
+          return {
+            model: fields[indices.current_model],
+            seed: fields[indices.seed],
+            diffusion: Number(fields[indices.diffusion_rms_nm_day]),
+            particlesPerWindage: Number(fields[indices.particles_per_windage]),
+            lat: Number(fields[indices.latitude]),
+            lon: Number(fields[indices.longitude]),
+            density: Number(fields[indices.densityPerKm2]),
+            mass: Number(fields[indices.probabilityMass]),
+            hpd50: fields[indices.in_hpd50] === "true",
+            hpd90: fields[indices.in_hpd90] === "true",
+            hpd95: fields[indices.in_hpd95] === "true",
+          };
+        });
+      }
+
+      function extractLineCoordinates(geojson) {
+        const feature = geojson.features?.find(
+          (candidate) => candidate.geometry?.type === "LineString",
+        );
+        if (!feature) throw new Error("The 7th-arc GeoJSON contains no LineString");
+        return feature.geometry.coordinates.map(([lon, lat]) => [Number(lon), Number(lat)]);
+      }
+
+      function offsetLine(coordinates, distanceKm) {
+        return coordinates.map(([lon, lat], index) => {
+          const previous = coordinates[Math.max(0, index - 1)];
+          const next = coordinates[Math.min(coordinates.length - 1, index + 1)];
+          const meanLatitudeRadians = (lat * Math.PI) / 180;
+          const east = (next[0] - previous[0]) * 111.32 * Math.cos(meanLatitudeRadians);
+          const north = (next[1] - previous[1]) * 111.32;
+          const length = Math.hypot(east, north);
+          if (!(length > 0)) return [lon, lat];
+          const normalEast = -north / length;
+          const normalNorth = east / length;
+          return [
+            lon + (normalEast * distanceKm) / (111.32 * Math.cos(meanLatitudeRadians)),
+            lat + (normalNorth * distanceKm) / 111.32,
+          ];
+        });
+      }
+
+      function localXY(lon, lat, originLon, originLat) {
+        const cosine = Math.cos((originLat * Math.PI) / 180);
+        return [(lon - originLon) * 111.32 * cosine, (lat - originLat) * 111.32];
+      }
+
+      function buildKde(points, weights, extent) {
+        const originLon = points.reduce((sum, point, index) => sum + point.lon * weights[index], 0);
+        const originLat = points.reduce((sum, point, index) => sum + point.lat * weights[index], 0);
+        const xy = points.map((point) => localXY(point.lon, point.lat, originLon, originLat));
+        let varianceX = 0;
+        let varianceY = 0;
+        let covariance = 0;
+        for (let index = 0; index < xy.length; index += 1) {
+          varianceX += weights[index] * xy[index][0] ** 2;
+          varianceY += weights[index] * xy[index][1] ** 2;
+          covariance += weights[index] * xy[index][0] * xy[index][1];
+        }
+        const effectiveSampleSize = 1 / weights.reduce((sum, weight) => sum + weight ** 2, 0);
+        const bandwidthFactor = effectiveSampleSize ** (-1 / 6);
+        let hxx = varianceX * bandwidthFactor ** 2 + 4;
+        let hyy = varianceY * bandwidthFactor ** 2 + 4;
+        let hxy = covariance * bandwidthFactor ** 2;
+        let determinant = hxx * hyy - hxy ** 2;
+        if (!(determinant > 1e-6)) {
+          hxx += 25;
+          hyy += 25;
+          hxy = 0;
+          determinant = hxx * hyy;
+        }
+        const inverseXX = hyy / determinant;
+        const inverseYY = hxx / determinant;
+        const inverseXY = -hxy / determinant;
+        const normalizer = 1 / (2 * Math.PI * Math.sqrt(determinant));
+        const columns = 180;
+        const rows = 112;
+        const values = [];
+        let maximum = 0;
+        for (let row = 0; row < rows; row += 1) {
+          const lat = extent.maxLat - ((row + 0.5) / rows) * (extent.maxLat - extent.minLat);
+          for (let column = 0; column < columns; column += 1) {
+            const lon = extent.minLon + ((column + 0.5) / columns) * (extent.maxLon - extent.minLon);
+            const [x, y] = localXY(lon, lat, originLon, originLat);
+            let density = 0;
+            for (let index = 0; index < xy.length; index += 1) {
+              const dx = x - xy[index][0];
+              const dy = y - xy[index][1];
+              const exponent = -0.5 *
+                (inverseXX * dx ** 2 + 2 * inverseXY * dx * dy + inverseYY * dy ** 2);
+              density += weights[index] * normalizer * Math.exp(exponent);
+            }
+            maximum = Math.max(maximum, density);
+            values.push(density);
+          }
+        }
+        const normalized = values.map((value) => value / maximum);
+        const descending = [...values].sort((left, right) => right - left);
+        const sum = descending.reduce((total, value) => total + value, 0);
+        function hpdThreshold(probability) {
+          let cumulative = 0;
+          for (const value of descending) {
+            cumulative += value / sum;
+            if (cumulative >= probability) return value / maximum;
+          }
+          return 0;
+        }
+        return {
+          columns,
+          rows,
+          values: normalized.map((value) => round(value, 5)),
+          thresholds: {
+            hpd50: round(hpdThreshold(0.5), 5),
+            hpd90: round(hpdThreshold(0.9), 5),
+            hpd95: round(hpdThreshold(0.95), 5),
+          },
+          effectiveSampleSize: round(effectiveSampleSize, 2),
+          bandwidth: {
+            sigmaEastKm: round(Math.sqrt(hxx), 2),
+            sigmaNorthKm: round(Math.sqrt(hyy), 2),
+            correlation: round(hxy / Math.sqrt(hxx * hyy), 3),
+          },
+        };
+      }
+
+      function weightedSystematicSample(items, weights, count) {
+        const cumulative = [];
+        let total = 0;
+        for (const weight of weights) {
+          total += weight;
+          cumulative.push(total);
+        }
+        const sampled = [];
+        let index = 0;
+        for (let sample = 0; sample < count; sample += 1) {
+          const target = (sample + 0.5) / count;
+          while (index < cumulative.length - 1 && cumulative[index] < target) index += 1;
+          sampled.push(items[index]);
+        }
+        return sampled;
+      }
+
+      function stateNode(label, elapsed, pointMass) {
+        return {
+          label,
+          elapsed: round(elapsed, 2),
+          lon: round(finite(pointMass.position.longitude, `${label} longitude`), 6),
+          lat: round(finite(pointMass.position.latitude, `${label} latitude`), 6),
+          altitudeKm: round(finite(pointMass.altitude, `${label} altitude`) * 0.0003048, 4),
+        };
+      }
+
+      const paths = parseArguments(process.argv.slice(2));
+      const impactDocument = readJson(paths.impact);
+      const sidecarDocument = readJson(paths.sidecar);
+      const manifestDocument = readJson(paths.manifest);
+      const arcDocument = readJson(paths.arc);
+      const pleiadesBuffer = readFileSync(paths.pleiades);
+      const pleiadesSha256 = sha256(pleiadesBuffer);
+      const templateBuffer = readFileSync(paths.template);
+
+      const impact = impactDocument.value;
+      const sidecar = sidecarDocument.value;
+      const manifest = manifestDocument.value;
+      if (impact.schema_id !== "mh370-impact-posterior-handoff") {
+        throw new Error(`Unexpected impact schema: ${impact.schema_id}`);
+      }
+      if (sidecar.schema_id !== "mh370-eof-transition-sidecar") {
+        throw new Error(`Unexpected sidecar schema: ${sidecar.schema_id}`);
+      }
+      if (impact.run.transition_sidecar_sha256 !== sidecarDocument.sha256) {
+        throw new Error("Impact handoff does not identify the supplied transition sidecar");
+      }
+
+      const particles = impact.particles;
+      if (!Array.isArray(particles) || particles.length === 0) {
+        throw new Error("Impact handoff has no particles");
+      }
+      const weights = normalizeLogWeights(particles);
+      const recordsByDraw = new Map(sidecar.records.map((record) => [record.eof_draw_id, record]));
+
+      const impactPoints = particles.map((particle, index) => {
+        const velocity = particle.kinematics.ground_velocity_enu_m_s;
+        const horizontalSpeed = Math.hypot(velocity.east, velocity.north);
+        const track = (Math.atan2(velocity.east, velocity.north) * 180) / Math.PI;
+        const descentAngle = (Math.atan2(-velocity.up, horizontalSpeed) * 180) / Math.PI;
+        return {
+          id: particle.identity.eof_draw_id,
+          upstreamParticle: particle.identity.upstream.particle,
+          lon: finite(particle.kinematics.position_wgs84.longitude, "impact longitude"),
+          lat: finite(particle.kinematics.position_wgs84.latitude, "impact latitude"),
+          weight: weights[index],
+          track: (track + 360) % 360,
+          descentAngle,
+          trueAirspeed: particle.kinematics.true_airspeed_m_s,
+          horizontalSpeed,
+          verticalSpeed: velocity.up,
+          energyGj: particle.energy.total_j / 1e9,
+          attitudeResolved: particle.attitude !== null,
+        };
+      });
+
+      const extent = { minLon: 73.5, maxLon: 100.5, minLat: -45.5, maxLat: -29.5 };
+      const arc = extractLineCoordinates(arcDocument.value).filter(
+        ([lon, lat]) =>
+          lon >= extent.minLon - 4 && lon <= extent.maxLon + 4 &&
+          lat >= extent.minLat - 2 && lat <= extent.maxLat + 2,
+      );
+      const offsetA = offsetLine(arc, 185.2);
+      const offsetB = offsetLine(arc, -185.2);
+      const meanLongitude = (line) => line.reduce((sum, point) => sum + point[0], 0) / line.length;
+      const [eastParallel, westParallel] =
+        meanLongitude(offsetA) > meanLongitude(offsetB) ? [offsetA, offsetB] : [offsetB, offsetA];
+
+      const pleiadesRows = parseCsv(pleiadesBuffer.toString("utf8"));
+      const selectedPleiades = pleiadesRows.filter(
+        (row) =>
+          row.model === "bran2016" && row.seed === "mean" && row.diffusion === 5 &&
+          row.particlesPerWindage === 64 && row.lon >= extent.minLon && row.lon <= extent.maxLon &&
+          row.lat >= extent.minLat && row.lat <= extent.maxLat,
+      );
+      if (selectedPleiades.length === 0) throw new Error("No matching Pleiades conditional grid rows");
+      const maximumPleiadesDensity = Math.max(...selectedPleiades.map((row) => row.density));
+      const pleiadesMode = selectedPleiades.reduce(
+        (best, row) => (row.density > best.density ? row : best),
+        selectedPleiades[0],
+      );
+
+      const trajectories = impactPoints.map((point) => {
+        const record = recordsByDraw.get(point.id);
+        if (!record) throw new Error(`No sidecar record for EOF draw ${point.id}`);
+        const initialTime = record.initial_flight.time;
+        const initialPointMass = {
+          ...record.initial_flight,
+          position: record.initial_flight.position,
+        };
+        const nodes = [stateNode("00:10:59 prior", 0, initialPointMass)];
+        const r600 = record.reached_checkpoints?.find(
+          (checkpoint) => Math.abs(checkpoint.requested_elapsed - sidecar.r600_elapsed_s) < 1e-8,
+        );
+        if (r600) {
+          nodes.push(stateNode("00:19:29 R600", r600.requested_elapsed, r600.state.kinematics.point_mass));
+        }
+        const controlTransition = record.control_transition?.reached?.event;
+        if (controlTransition) {
+          nodes.push(
+            stateNode(
+              "dual flameout / control switch",
+              controlTransition.time - initialTime,
+              controlTransition.state.kinematics.point_mass,
+            ),
+          );
+        }
+        const terminal = record.transition.terminal.kinematics.point_mass;
+        nodes.push(stateNode("impact", terminal.time - initialTime, terminal));
+        return {
+          id: point.id,
+          weight: round(point.weight, 8),
+          nodes,
+        };
+      });
+
+      const kde = buildKde(impactPoints, weights, extent);
+      const orientationSamples = weightedSystematicSample(impactPoints, weights, 10).map((point) => ({
+        ...point,
+        lon: round(point.lon, 5),
+        lat: round(point.lat, 5),
+        weight: round(point.weight, 6),
+        track: round(point.track, 1),
+        descentAngle: round(point.descentAngle, 1),
+        trueAirspeed: round(point.trueAirspeed, 1),
+        horizontalSpeed: round(point.horizontalSpeed, 1),
+        verticalSpeed: round(point.verticalSpeed, 1),
+        energyGj: round(point.energyGj, 2),
+      }));
+
+      const meanLatitude = impactPoints.reduce((sum, point, index) => sum + point.lat * weights[index], 0);
+      const meanLongitudeImpact = impactPoints.reduce((sum, point, index) => sum + point.lon * weights[index], 0);
+      const meanAngle = impactPoints.reduce(
+        (sum, point, index) => sum + point.descentAngle * weights[index],
+        0,
+      );
+      const meanEnergy = impactPoints.reduce((sum, point, index) => sum + point.energyGj * weights[index], 0);
+
+      const compactLine = (line) => line.map(([lon, lat]) => [round(lon, 5), round(lat, 5)]);
+      const data = {
+        meta: {
+          title: "MH370 preliminary end-of-flight impact ensemble",
+          generatedUtc: new Date().toISOString(),
+          hypothesisId: impact.run.hypothesis_id,
+          runIdentitySha256: impact.run.run_identity_sha256,
+          eofSeed: impact.run.eof_seed,
+          codeRevision: impact.run.code_revision,
+          particleCount: particles.length,
+          scenarioCombination: impact.scenario_combination.kind,
+          sourceModelFamily: impact.source_runs[0]?.model_family ?? "unknown",
+          sourceCheckpointUtc: new Date(sidecar.source_checkpoint_time_unix_s_utc * 1000).toISOString(),
+          r600CheckpointUtc: new Date(sidecar.r600_checkpoint_time_unix_s_utc * 1000).toISOString(),
+          artifacts: {
+            impactHandoffSha256: impactDocument.sha256,
+            transitionSidecarSha256: sidecarDocument.sha256,
+            manifestSha256: manifestDocument.sha256,
+            pleiadesDensitySha256: pleiadesSha256,
+            arcGeojsonSha256: arcDocument.sha256,
+          },
+          manifestRunIdentity: manifest.run_identity_sha256 ?? manifest.run?.run_identity_sha256 ?? null,
+        },
+        summary: {
+          meanLatitude: round(meanLatitude, 5),
+          meanLongitude: round(meanLongitudeImpact, 5),
+          latitudeQ05: round(weightedQuantile(impactPoints.map((point) => point.lat), weights, 0.05), 5),
+          latitudeQ95: round(weightedQuantile(impactPoints.map((point) => point.lat), weights, 0.95), 5),
+          longitudeQ05: round(weightedQuantile(impactPoints.map((point) => point.lon), weights, 0.05), 5),
+          longitudeQ95: round(weightedQuantile(impactPoints.map((point) => point.lon), weights, 0.95), 5),
+          meanDescentAngle: round(meanAngle, 1),
+          meanEnergyGj: round(meanEnergy, 2),
+          effectiveSampleSize: kde.effectiveSampleSize,
+          pleiadesMode: {
+            lat: round(pleiadesMode.lat, 5),
+            lon: round(pleiadesMode.lon, 5),
+          },
+        },
+        map: {
+          extent,
+          arc: compactLine(arc),
+          eastParallel: compactLine(eastParallel),
+          westParallel: compactLine(westParallel),
+          impactPoints: impactPoints.map((point) => [
+            round(point.lon, 6),
+            round(point.lat, 6),
+            round(point.weight, 8),
+            point.id,
+          ]),
+          kde,
+          pleiades: selectedPleiades.map((row) => [
+            round(row.lon, 5),
+            round(row.lat, 5),
+            round(Math.max(-12, Math.log10(row.density / maximumPleiadesDensity)), 4),
+            (row.hpd50 ? 1 : 0) | (row.hpd90 ? 2 : 0) | (row.hpd95 ? 4 : 0),
+          ]),
+        },
+        trajectories,
+        orientationSamples,
+        conditions: [
+          "Single caller-selected low-flow, equal-feed point-mass scenario; no EOF model averaging.",
+          "Only the corrected 00:19:29 R600 BTO is added at EOF; R1200 BTO and both raw BFOs are held out or diagnostic.",
+          "Altitude-only atmosphere with zero wind; the inputs are explicit conditionals, not B777-calibrated probability laws.",
+          "Pleiades BRAN2016 density is independently normalized and overlaid for comparison only; it is not fused into these weights.",
+          "Aircraft attitude and contact duration are unresolved in the handoff; orientation panels are velocity-aligned zero-roll proxies.",
+          "3D lines join exact stored checkpoints, not dense numerical-integrator traces.",
+        ],
+      };
+
+      const marker = "__MH370_DATA__";
+      const template = templateBuffer.toString("utf8");
+      if (!template.includes(marker)) throw new Error(`Template is missing ${marker}`);
+      const html = template.replace(marker, JSON.stringify(data));
+      writeFileSync(paths.output, html);
+      console.log(`Wrote ${paths.output}`);
+      console.log(`HTML bytes: ${Buffer.byteLength(html)}`);
+      console.log(`Impact particles: ${particles.length}; ESS: ${kde.effectiveSampleSize}`);
+      console.log(`Pleiades grid cells: ${selectedPleiades.length}`);
+    ── Created runs/mh370/impact-visualization-preview/impact-ensemble-template.html +542
+      <!doctype html>
+      <html lang="en">
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>MH370 preliminary end-of-flight impact ensemble</title>
+        <style>
+          :root {
+            color-scheme: dark;
+            --ink: #edf7fb;
+            --muted: #9fb4c1;
+            --panel: rgba(10, 27, 39, 0.92);
+            --line: rgba(173, 206, 222, 0.18);
+            --cyan: #65d7ef;
+            --amber: #ffb547;
+            --magenta: #ee70d9;
+            --danger: #ff857d;
+          }
+          * { box-sizing: border-box; }
+          body {
+            margin: 0;
+            color: var(--ink);
+            font: 15px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background:
+              radial-gradient(circle at 12% 0%, rgba(26, 94, 117, 0.25), transparent 35rem),
+              radial-gradient(circle at 88% 15%, rgba(119, 45, 116, 0.15), transparent 32rem),
+              #050d14;
+          }
+          main { width: min(1500px, calc(100% - 28px)); margin: 0 auto; padding: 28px 0 48px; }
+          header { display: grid; grid-template-columns: 1fr auto; gap: 22px; align-items: start; margin-bottom: 20px; }
+          h1 { margin: 0 0 7px; font-size: clamp(1.7rem, 3vw, 2.7rem); line-height: 1.08; letter-spacing: -0.035em; }
+          h2 { margin: 0; font-size: 1.25rem; letter-spacing: -0.01em; }
+          h3 { margin: 0; font-size: 0.98rem; }
+          p { margin: 0; }
+          .eyebrow { color: var(--cyan); text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.73rem; font-weight: 750; }
+          .subtitle { color: var(--muted); max-width: 76ch; }
+          .badge {
+            border: 1px solid rgba(255, 181, 71, 0.55);
+            background: rgba(255, 181, 71, 0.1);
+            color: #ffd899;
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-size: 0.76rem;
+            font-weight: 750;
+            letter-spacing: 0.08em;
+            white-space: nowrap;
+          }
+          .metrics { display: grid; grid-template-columns: repeat(6, minmax(120px, 1fr)); gap: 9px; margin: 18px 0 22px; }
+          .metric, section, .orientation-card {
+            background: linear-gradient(145deg, rgba(13, 35, 49, 0.94), rgba(7, 20, 30, 0.94));
+            border: 1px solid var(--line);
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.2);
+          }
+          .metric { padding: 12px 13px; border-radius: 10px; min-height: 78px; }
+          .metric .label { color: var(--muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; }
+          .metric .value { display: block; margin-top: 5px; font-size: 1.16rem; font-variant-numeric: tabular-nums; }
+          section { margin: 14px 0; padding: 16px; border-radius: 13px; overflow: hidden; }
+          .section-head { display: flex; align-items: start; justify-content: space-between; gap: 16px; margin-bottom: 12px; }
+          .section-copy { color: var(--muted); max-width: 90ch; font-size: 0.88rem; margin-top: 4px; }
+          .chart-wrap { position: relative; border-radius: 9px; overflow: hidden; border: 1px solid rgba(173, 206, 222, 0.12); background: #06131d; }
+          canvas { display: block; width: 100%; height: auto; }
+          .controls { display: flex; flex-wrap: wrap; gap: 9px 15px; align-items: center; color: var(--muted); font-size: 0.8rem; }
+          label { display: inline-flex; align-items: center; gap: 6px; }
+          input[type="checkbox"] { accent-color: var(--cyan); }
+          input[type="range"] { accent-color: var(--cyan); width: 120px; }
+          .orientation-warning {
+            color: #ffd59a;
+            border: 1px solid rgba(255, 181, 71, 0.35);
+            background: rgba(255, 181, 71, 0.07);
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 0.82rem;
+            margin-bottom: 12px;
+          }
+          .orientation-grid { display: grid; grid-template-columns: repeat(5, minmax(170px, 1fr)); gap: 9px; }
+          .orientation-card { border-radius: 9px; overflow: hidden; }
+          .orientation-card canvas { background: linear-gradient(#092231 0 62%, #07151e 62%); }
+          .orientation-meta { padding: 8px 9px 10px; }
+          .orientation-meta .primary { font-size: 0.78rem; font-weight: 700; }
+          .orientation-meta .secondary { color: var(--muted); font-size: 0.69rem; margin-top: 2px; font-variant-numeric: tabular-nums; }
+          .legend-row { display: flex; flex-wrap: wrap; gap: 10px 18px; margin: 10px 2px 0; color: var(--muted); font-size: 0.76rem; }
+          .key { display: inline-flex; align-items: center; gap: 6px; }
+          .swatch { width: 18px; height: 4px; border-radius: 4px; background: currentColor; }
+          .swatch.dashed { height: 0; border-top: 2px dashed currentColor; background: none; }
+          .conditions { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 22px; }
+          .conditions ul { margin: 9px 0 0; padding-left: 19px; color: var(--muted); }
+          .conditions li + li { margin-top: 6px; }
+          details { color: var(--muted); }
+          summary { color: var(--ink); cursor: pointer; font-weight: 650; }
+          .hashes { margin-top: 10px; display: grid; gap: 6px; font: 0.69rem/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
+          .hashes span { color: var(--cyan); }
+          footer { color: #78909d; margin: 16px 3px 0; font-size: 0.72rem; }
+          @media (max-width: 1050px) {
+            .metrics { grid-template-columns: repeat(3, 1fr); }
+            .orientation-grid { grid-template-columns: repeat(2, 1fr); }
+            .conditions { grid-template-columns: 1fr; }
+          }
+          @media (max-width: 650px) {
+            main { width: min(100% - 14px, 1500px); padding-top: 14px; }
+            header { grid-template-columns: 1fr; }
+            .badge { width: fit-content; }
+            .metrics { grid-template-columns: repeat(2, 1fr); }
+            section { padding: 10px; }
+            .section-head { display: block; }
+            .controls { margin-top: 9px; }
+          }
+        </style>
+      </head>
+      <body>
+        <main>
+          <header>
+            <div>
+              <div class="eyebrow">End-of-flight conditional preview</div>
+              <h1>Impact ensemble and conditional-location comparison</h1>
+              <p class="subtitle">A reproducible view generated from the current typed 00:11-to-impact transition artifact, with the official FL400 seventh-arc geometry and the independently derived Pleiades/BRAN2016 conditional surface.</p>
+            </div>
+            <div class="badge">PRELIMINARY · NOT A SEARCH PDF</div>
+          </header>
+
+          <div class="metrics" id="metrics"></div>
+
+          <section>
+            <div class="section-head">
+              <div>
+                <h2>Conditional impact-location surfaces</h2>
+                <p class="section-copy">The amber weighted KDE summarizes 32 impact-conditioned point-mass particles. Magenta shows the separately normalized Pleiades/BRAN2016 debris-location conditional. Their heights are not comparable and they have not been multiplied or otherwise fused.</p>
+              </div>
+              <div class="controls">
+                <label><input id="showKde" type="checkbox" checked> EOF KDE</label>
+                <label><input id="showPleiades" type="checkbox" checked> Pleiades</label>
+                <label><input id="showParticles" type="checkbox" checked> particles</label>
+                <label><input id="showParallels" type="checkbox" checked> ±100 NM</label>
+              </div>
+            </div>
+            <div class="chart-wrap"><canvas id="mapCanvas" width="1440" height="850"></canvas></div>
+            <div class="legend-row">
+              <span class="key" style="color:#ffb547"><span class="swatch"></span>EOF weighted KDE / particles</span>
+              <span class="key" style="color:#ee70d9"><span class="swatch"></span>Pleiades conditional HPD cells</span>
+              <span class="key" style="color:#65d7ef"><span class="swatch"></span>official 7th arc, FL400</span>
+              <span class="key" style="color:#65d7ef"><span class="swatch dashed"></span>geometric ±100 NM offsets</span>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-head">
+              <div>
+                <h2>Ten weighted impact-orientation proxies</h2>
+                <p class="section-copy">Systematic weighted draws from the current impact particles. The perspective glyph shows the resolved velocity vector: track and descent angle. It does not recover roll, pitch attitude, yaw attitude, angle of attack, sideslip, or first-contact geometry.</p>
+              </div>
+            </div>
+            <div class="orientation-warning"><strong>Attitude unresolved.</strong> Every glyph is deliberately velocity-aligned with zero roll and zero sideslip for rendering only; it is not an aircraft-attitude posterior.</div>
+            <div class="orientation-grid" id="orientationGrid"></div>
+          </section>
+
+          <section>
+            <div class="section-head">
+              <div>
+                <h2>Sparse 3D trajectory ensemble</h2>
+                <p class="section-copy">All 32 weighted paths connect the stored 00:10:59 prior state, exact R600 checkpoint, dual-flameout/control-switch event, and impact state. Straight segments are visualization polylines—not the dense numerical trajectory between checkpoints. Altitude is exaggerated ×20.</p>
+              </div>
+              <div class="controls">
+                <label>azimuth <input id="azimuth" type="range" min="-180" max="180" value="-34"><span id="azimuthValue">−34°</span></label>
+                <label>elevation <input id="elevation" type="range" min="8" max="70" value="28"><span id="elevationValue">28°</span></label>
+              </div>
+            </div>
+            <div class="chart-wrap"><canvas id="trajectoryCanvas" width="1440" height="820"></canvas></div>
+            <div class="legend-row">
+              <span class="key" style="color:#65d7ef"><span class="swatch"></span>prior → R600</span>
+              <span class="key" style="color:#78a9ff"><span class="swatch"></span>R600 → dual flameout</span>
+              <span class="key" style="color:#ff9c4a"><span class="swatch"></span>uncontrolled → impact</span>
+            </div>
+          </section>
+
+          <section class="conditions">
+            <div>
+              <h2>What this preview is conditioned on</h2>
+              <ul id="conditionsList"></ul>
+            </div>
+            <details open>
+              <summary>Reproducibility identity</summary>
+              <div class="hashes" id="hashes"></div>
+            </details>
+          </section>
+          <footer id="footer"></footer>
+        </main>
+
+        <script>
+          "use strict";
+          const DATA = __MH370_DATA__;
+
+          const degree = "°";
+          const byId = (id) => document.getElementById(id);
+          const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
+          const radians = (degrees) => (degrees * Math.PI) / 180;
+          const formatCoordinate = (value, positive, negative, digits = 2) =>
+            `${Math.abs(value).toFixed(digits)}${degree}${value >= 0 ? positive : negative}`;
+
+          const metrics = [
+            ["Impact particles", `${DATA.meta.particleCount} · ESS ${DATA.summary.effectiveSampleSize}`],
+            ["Weighted mean", `${formatCoordinate(DATA.summary.meanLatitude, "N", "S")} · ${formatCoordinate(DATA.summary.meanLongitude, "E", "W")}`],
+            ["Latitude q05–q95", `${formatCoordinate(DATA.summary.latitudeQ05, "N", "S")}–${formatCoordinate(DATA.summary.latitudeQ95, "N", "S")}`],
+            ["Longitude q05–q95", `${formatCoordinate(DATA.summary.longitudeQ05, "E", "W")}–${formatCoordinate(DATA.summary.longitudeQ95, "E", "W")}`],
+            ["Mean descent angle", `${DATA.summary.meanDescentAngle.toFixed(1)}${degree} below horizontal`],
+            ["Mean kinetic energy", `${DATA.summary.meanEnergyGj.toFixed(2)} GJ`],
+          ];
+          byId("metrics").innerHTML = metrics.map(([label, value]) =>
+            `<div class="metric"><span class="label">${label}</span><span class="value">${value}</span></div>`
+          ).join("");
+
+          const mapCanvas = byId("mapCanvas");
+          const mapContext = mapCanvas.getContext("2d");
+          const mapMargin = { left: 76, right: 34, top: 28, bottom: 59 };
+          const extent = DATA.map.extent;
+          function mapProject(lon, lat) {
+            const width = mapCanvas.width - mapMargin.left - mapMargin.right;
+            const height = mapCanvas.height - mapMargin.top - mapMargin.bottom;
+            return [
+              mapMargin.left + ((lon - extent.minLon) / (extent.maxLon - extent.minLon)) * width,
+              mapMargin.top + ((extent.maxLat - lat) / (extent.maxLat - extent.minLat)) * height,
+            ];
+          }
+          function drawPolyline(context, coordinates, style, width, dashed = false) {
+            context.save();
+            context.strokeStyle = style;
+            context.lineWidth = width;
+            context.setLineDash(dashed ? [9, 7] : []);
+            context.beginPath();
+            coordinates.forEach(([lon, lat], index) => {
+              const [x, y] = mapProject(lon, lat);
+              if (index === 0) context.moveTo(x, y); else context.lineTo(x, y);
+            });
+            context.stroke();
+            context.restore();
+          }
+          function drawKdeContour(context, threshold, color, width) {
+            const grid = DATA.map.kde;
+            const cellWidth = (mapCanvas.width - mapMargin.left - mapMargin.right) / grid.columns;
+            const cellHeight = (mapCanvas.height - mapMargin.top - mapMargin.bottom) / grid.rows;
+            context.save();
+            context.strokeStyle = color;
+            context.lineWidth = width;
+            context.beginPath();
+            for (let row = 0; row < grid.rows; row += 1) {
+              for (let column = 0; column < grid.columns; column += 1) {
+                const index = row * grid.columns + column;
+                if (grid.values[index] < threshold) continue;
+                const x = mapMargin.left + column * cellWidth;
+                const y = mapMargin.top + row * cellHeight;
+                const left = column === 0 || grid.values[index - 1] < threshold;
+                const right = column === grid.columns - 1 || grid.values[index + 1] < threshold;
+                const top = row === 0 || grid.values[index - grid.columns] < threshold;
+                const bottom = row === grid.rows - 1 || grid.values[index + grid.columns] < threshold;
+                if (left) { context.moveTo(x, y); context.lineTo(x, y + cellHeight); }
+                if (right) { context.moveTo(x + cellWidth, y); context.lineTo(x + cellWidth, y + cellHeight); }
+                if (top) { context.moveTo(x, y); context.lineTo(x + cellWidth, y); }
+                if (bottom) { context.moveTo(x, y + cellHeight); context.lineTo(x + cellWidth, y + cellHeight); }
+              }
+            }
+            context.stroke();
+            context.restore();
+          }
+          function labelMap(context, text, lon, lat, color, align = "left") {
+            const [x, y] = mapProject(lon, lat);
+            context.save();
+            context.font = "700 16px Inter, system-ui, sans-serif";
+            context.textAlign = align;
+            context.lineWidth = 4;
+            context.strokeStyle = "rgba(4, 13, 20, 0.9)";
+            context.strokeText(text, x, y);
+            context.fillStyle = color;
+            context.fillText(text, x, y);
+            context.restore();
+          }
+          function drawMap() {
+            const context = mapContext;
+            const width = mapCanvas.width;
+            const height = mapCanvas.height;
+            const gradient = context.createLinearGradient(0, 0, 0, height);
+            gradient.addColorStop(0, "#0a2737");
+            gradient.addColorStop(1, "#04121b");
+            context.fillStyle = gradient;
+            context.fillRect(0, 0, width, height);
+
+            context.save();
+            context.strokeStyle = "rgba(150, 197, 216, 0.16)";
+            context.fillStyle = "rgba(191, 218, 229, 0.62)";
+            context.lineWidth = 1;
+            context.font = "13px ui-monospace, SFMono-Regular, monospace";
+            for (let lon = Math.ceil(extent.minLon / 2) * 2; lon <= extent.maxLon; lon += 2) {
+              const [x] = mapProject(lon, extent.minLat);
+              context.beginPath(); context.moveTo(x, mapMargin.top); context.lineTo(x, height - mapMargin.bottom); context.stroke();
+              context.textAlign = "center"; context.fillText(`${lon}${degree}E`, x, height - 27);
+            }
+            for (let lat = Math.ceil(extent.minLat / 2) * 2; lat <= extent.maxLat; lat += 2) {
+              const [, y] = mapProject(extent.minLon, lat);
+              context.beginPath(); context.moveTo(mapMargin.left, y); context.lineTo(width - mapMargin.right, y); context.stroke();
+              context.textAlign = "right"; context.fillText(`${Math.abs(lat)}${degree}S`, mapMargin.left - 10, y + 4);
+            }
+            context.restore();
+
+            if (byId("showPleiades").checked) {
+              for (const [lon, lat, logRelative, flags] of DATA.map.pleiades) {
+                const intensity = clamp((logRelative + 9) / 9, 0, 1);
+                if (intensity <= 0) continue;
+                const [x, y] = mapProject(lon, lat);
+                let alpha = 0.05 + 0.46 * intensity ** 0.65;
+                if (flags & 1) alpha = Math.max(alpha, 0.68);
+                else if (flags & 2) alpha = Math.max(alpha, 0.42);
+                else if (flags & 4) alpha = Math.max(alpha, 0.23);
+                context.fillStyle = `rgba(238, 112, 217, ${alpha})`;
+                context.fillRect(x - 2.7, y - 2.7, 5.4, 5.4);
+              }
+            }
+
+            if (byId("showKde").checked) {
+              const grid = DATA.map.kde;
+              const cellWidth = (width - mapMargin.left - mapMargin.right) / grid.columns;
+              const cellHeight = (height - mapMargin.top - mapMargin.bottom) / grid.rows;
+              for (let row = 0; row < grid.rows; row += 1) {
+                for (let column = 0; column < grid.columns; column += 1) {
+                  const value = grid.values[row * grid.columns + column];
+                  if (value < 0.002) continue;
+                  const alpha = 0.06 + 0.7 * value ** 0.42;
+                  const green = Math.round(115 + 95 * value);
+                  context.fillStyle = `rgba(255, ${green}, 41, ${alpha})`;
+                  context.fillRect(
+                    mapMargin.left + column * cellWidth,
+                    mapMargin.top + row * cellHeight,
+                    cellWidth + 0.75,
+                    cellHeight + 0.75,
+                  );
+                }
+              }
+              drawKdeContour(context, grid.thresholds.hpd95, "rgba(255, 205, 122, 0.72)", 1.2);
+              drawKdeContour(context, grid.thresholds.hpd90, "rgba(255, 218, 151, 0.88)", 1.5);
+              drawKdeContour(context, grid.thresholds.hpd50, "#fff0cb", 2.2);
+            }
+
+            if (byId("showParallels").checked) {
+              drawPolyline(context, DATA.map.eastParallel, "rgba(101, 215, 239, 0.52)", 1.7, true);
+              drawPolyline(context, DATA.map.westParallel, "rgba(101, 215, 239, 0.52)", 1.7, true);
+            }
+            drawPolyline(context, DATA.map.arc, "#65d7ef", 3.1, false);
+
+            if (byId("showParticles").checked) {
+              const maximumWeight = Math.max(...DATA.map.impactPoints.map((point) => point[2]));
+              for (const [lon, lat, weight] of DATA.map.impactPoints) {
+                const [x, y] = mapProject(lon, lat);
+                const radius = 2.5 + 7.2 * Math.sqrt(weight / maximumWeight);
+                context.beginPath(); context.arc(x, y, radius, 0, Math.PI * 2);
+                context.fillStyle = "rgba(255, 245, 211, 0.82)"; context.fill();
+                context.strokeStyle = "rgba(76, 35, 4, 0.82)"; context.lineWidth = 1; context.stroke();
+              }
+            }
+
+            labelMap(context, "Pleiades conditional mode", DATA.summary.pleiadesMode.lon + 0.2, DATA.summary.pleiadesMode.lat + 0.15, "#ff9bea");
+            labelMap(context, "EOF weighted mean", DATA.summary.meanLongitude + 0.2, DATA.summary.meanLatitude - 0.35, "#ffd287");
+            labelMap(context, "7th arc", 91.8, -35.55, "#8feaff", "right");
+            if (byId("showParallels").checked) {
+              labelMap(context, "100 NM east", 95.25, -34.95, "rgba(143,234,255,0.9)");
+              labelMap(context, "100 NM west", 89.3, -36.25, "rgba(143,234,255,0.9)", "right");
+            }
+
+            context.save();
+            context.fillStyle = "rgba(222, 240, 247, 0.78)";
+            context.font = "13px Inter, system-ui, sans-serif";
+            context.textAlign = "left";
+            context.fillText("Independent normalization · overlay only · longitude/latitude plate carrée", mapMargin.left, 20);
+            context.textAlign = "right";
+            context.fillText(
+              `KDE kernel σE ${DATA.map.kde.bandwidth.sigmaEastKm} km · σN ${DATA.map.kde.bandwidth.sigmaNorthKm} km · 50/90/95% contours`,
+              width - mapMargin.right,
+              height - 8,
+            );
+            context.restore();
+          }
+          ["showKde", "showPleiades", "showParticles", "showParallels"].forEach((id) =>
+            byId(id).addEventListener("change", drawMap)
+          );
+          drawMap();
+
+          function bodyToWorld(point, trackDegrees, descentDegrees) {
+            const track = radians(trackDegrees);
+            const gamma = radians(descentDegrees);
+            const forward = [Math.sin(track) * Math.cos(gamma), Math.cos(track) * Math.cos(gamma), -Math.sin(gamma)];
+            const right = [Math.cos(track), -Math.sin(track), 0];
+            const up = [Math.sin(track) * Math.sin(gamma), Math.cos(track) * Math.sin(gamma), Math.cos(gamma)];
+            return [
+              point[0] * forward[0] + point[1] * right[0] + point[2] * up[0],
+              point[0] * forward[1] + point[1] * right[1] + point[2] * up[1],
+              point[0] * forward[2] + point[1] * right[2] + point[2] * up[2],
+            ];
+          }
+          function cameraProject(point, azimuthDegrees, elevationDegrees, scale, centerX, centerY) {
+            const azimuth = radians(azimuthDegrees);
+            const elevation = radians(elevationDegrees);
+            const x1 = point[0] * Math.cos(azimuth) - point[1] * Math.sin(azimuth);
+            const y1 = point[0] * Math.sin(azimuth) + point[1] * Math.cos(azimuth);
+            const screenY = y1 * Math.sin(elevation) - point[2] * Math.cos(elevation);
+            const depth = y1 * Math.cos(elevation) + point[2] * Math.sin(elevation);
+            return [centerX + x1 * scale, centerY + screenY * scale, depth];
+          }
+          function drawOrientation(canvas, sample) {
+            const context = canvas.getContext("2d");
+            const width = canvas.width;
+            const height = canvas.height;
+            context.clearRect(0, 0, width, height);
+            const horizon = height * 0.6;
+            const sky = context.createLinearGradient(0, 0, 0, horizon);
+            sky.addColorStop(0, "#10384b"); sky.addColorStop(1, "#081d2a");
+            context.fillStyle = sky; context.fillRect(0, 0, width, horizon);
+            context.fillStyle = "#06141d"; context.fillRect(0, horizon, width, height - horizon);
+            context.strokeStyle = "rgba(103, 196, 221, 0.17)"; context.lineWidth = 1;
+            for (let index = -5; index <= 5; index += 1) {
+              context.beginPath(); context.moveTo(width / 2 + index * 18, horizon); context.lineTo(width / 2 + index * 40, height); context.stroke();
+            }
+            for (let index = 0; index < 5; index += 1) {
+              const y = horizon + (1 - 1 / (index * 0.55 + 1.25)) * (height - horizon);
+              context.beginPath(); context.moveTo(0, y); context.lineTo(width, y); context.stroke();
+            }
+            const model = {
+              fuselage: [[9, 0, 0], [-8, 0, 0]],
+              wings: [[1.7, -8.2, 0], [-1.2, 8.2, 0]],
+              tailplane: [[-6.2, -3.2, 0.4], [-6.4, 3.2, 0.4]],
+              fin: [[-6.2, 0, 0], [-7.0, 0, 3.1]],
+              nose: [[9, 0, 0], [6.2, 0, 0]],
+            };
+            context.lineCap = "round";
+            for (const [name, segment] of Object.entries(model)) {
+              const projected = segment.map((point) =>
+                cameraProject(bodyToWorld(point, sample.track, sample.descentAngle), -38, 24, 4.3, width / 2, height * 0.48)
+              );
+              context.beginPath(); context.moveTo(projected[0][0], projected[0][1]); context.lineTo(projected[1][0], projected[1][1]);
+              context.strokeStyle = name === "nose" ? "#ffbf55" : "#eafaff";
+              context.lineWidth = name === "fuselage" ? 4.5 : 3;
+              context.stroke();
+            }
+            const center = cameraProject([0, 0, 0], -38, 24, 4.3, width / 2, height * 0.48);
+            const velocityEnd = cameraProject(bodyToWorld([12, 0, 0], sample.track, sample.descentAngle), -38, 24, 4.3, width / 2, height * 0.48);
+            context.beginPath(); context.moveTo(center[0], center[1]); context.lineTo(velocityEnd[0], velocityEnd[1]);
+            context.strokeStyle = "#ffb547"; context.lineWidth = 2; context.stroke();
+            context.fillStyle = "#ffb547"; context.beginPath(); context.arc(velocityEnd[0], velocityEnd[1], 3.3, 0, Math.PI * 2); context.fill();
+            context.fillStyle = "rgba(224, 242, 249, 0.8)"; context.font = "11px ui-monospace, monospace";
+            context.fillText(`TRK ${sample.track.toFixed(1)}${degree}`, 8, 17);
+            context.fillText(`DOWN ${sample.descentAngle.toFixed(1)}${degree}`, 8, 32);
+          }
+          const orientationGrid = byId("orientationGrid");
+          DATA.orientationSamples.forEach((sample, index) => {
+            const card = document.createElement("div");
+            card.className = "orientation-card";
+            card.innerHTML = `<canvas width="300" height="176" aria-label="Velocity-frame orientation proxy ${index + 1}"></canvas>
+              <div class="orientation-meta">
+                <div class="primary">${String(index + 1).padStart(2, "0")} · draw ${sample.id} · w ${sample.weight.toFixed(3)}</div>
+                <div class="secondary">TAS ${sample.trueAirspeed.toFixed(1)} m/s · Vz ${sample.verticalSpeed.toFixed(1)} m/s<br>${sample.energyGj.toFixed(2)} GJ · ${sample.lat.toFixed(2)}${degree}, ${sample.lon.toFixed(2)}${degree}</div>
+              </div>`;
+            orientationGrid.appendChild(card);
+            drawOrientation(card.querySelector("canvas"), sample);
+          });
+
+          const trajectoryCanvas = byId("trajectoryCanvas");
+          const trajectoryContext = trajectoryCanvas.getContext("2d");
+          const allNodes = DATA.trajectories.flatMap((trajectory) => trajectory.nodes);
+          const trajectoryOrigin = {
+            lon: allNodes.reduce((sum, node) => sum + node.lon, 0) / allNodes.length,
+            lat: allNodes.reduce((sum, node) => sum + node.lat, 0) / allNodes.length,
+          };
+          function trajectoryWorld(node) {
+            return [
+              (node.lon - trajectoryOrigin.lon) * 111.32 * Math.cos(radians(trajectoryOrigin.lat)),
+              (node.lat - trajectoryOrigin.lat) * 111.32,
+              node.altitudeKm * 20,
+            ];
+          }
+          const trajectoryWorlds = DATA.trajectories.map((trajectory) => ({
+            ...trajectory,
+            world: trajectory.nodes.map(trajectoryWorld),
+          }));
+          function drawTrajectoryEnsemble() {
+            const context = trajectoryContext;
+            const width = trajectoryCanvas.width;
+            const height = trajectoryCanvas.height;
+            const azimuth = Number(byId("azimuth").value);
+            const elevation = Number(byId("elevation").value);
+            byId("azimuthValue").textContent = `${azimuth < 0 ? "−" : ""}${Math.abs(azimuth)}${degree}`;
+            byId("elevationValue").textContent = `${elevation}${degree}`;
+            const gradient = context.createLinearGradient(0, 0, 0, height);
+            gradient.addColorStop(0, "#0b2b3c"); gradient.addColorStop(0.58, "#071c29"); gradient.addColorStop(1, "#041018");
+            context.fillStyle = gradient; context.fillRect(0, 0, width, height);
+            const projectedRaw = trajectoryWorlds.flatMap((trajectory) =>
+              trajectory.world.map((point) => cameraProject(point, azimuth, elevation, 1, 0, 0))
+            );
+            const minX = Math.min(...projectedRaw.map((point) => point[0]));
+            const maxX = Math.max(...projectedRaw.map((point) => point[0]));
+            const minY = Math.min(...projectedRaw.map((point) => point[1]));
+            const maxY = Math.max(...projectedRaw.map((point) => point[1]));
+            const scale = Math.min((width - 180) / Math.max(1, maxX - minX), (height - 150) / Math.max(1, maxY - minY));
+            const centerX = width / 2 - ((minX + maxX) / 2) * scale;
+            const centerY = height / 2 - ((minY + maxY) / 2) * scale;
+            const project = (point) => cameraProject(point, azimuth, elevation, scale, centerX, centerY);
+
+            const floorLatitudes = [-44, -42, -40, -38, -36];
+            const floorLongitudes = [78, 82, 86, 90, 94, 98];
+            context.save(); context.strokeStyle = "rgba(130, 197, 218, 0.14)"; context.lineWidth = 1;
+            for (const lat of floorLatitudes) {
+              const endpoints = [76, 100].map((lon) => trajectoryWorld({ lon, lat, altitudeKm: 0 }));
+              const a = project(endpoints[0]); const b = project(endpoints[1]);
+              context.beginPath(); context.moveTo(a[0], a[1]); context.lineTo(b[0], b[1]); context.stroke();
+            }
+            for (const lon of floorLongitudes) {
+              const endpoints = [-45, -34].map((lat) => trajectoryWorld({ lon, lat, altitudeKm: 0 }));
+              const a = project(endpoints[0]); const b = project(endpoints[1]);
+              context.beginPath(); context.moveTo(a[0], a[1]); context.lineTo(b[0], b[1]); context.stroke();
+            }
+            context.restore();
+
+            const maximumWeight = Math.max(...trajectoryWorlds.map((trajectory) => trajectory.weight));
+            const ordered = [...trajectoryWorlds].sort((left, right) => left.weight - right.weight);
+            for (const trajectory of ordered) {
+              const projected = trajectory.world.map(project);
+              const opacity = 0.12 + 0.75 * Math.sqrt(trajectory.weight / maximumWeight);
+              const colors = ["101,215,239", "120,169,255", "255,156,74"];
+              for (let index = 0; index < projected.length - 1; index += 1) {
+                context.beginPath(); context.moveTo(projected[index][0], projected[index][1]); context.lineTo(projected[index + 1][0], projected[index + 1][1]);
+                context.strokeStyle = `rgba(${colors[Math.min(index, 2)]},${opacity})`;
+                context.lineWidth = 1.2 + 3 * Math.sqrt(trajectory.weight / maximumWeight); context.stroke();
+              }
+              for (const point of projected) {
+                context.beginPath(); context.arc(point[0], point[1], 1.5 + 2.4 * Math.sqrt(trajectory.weight / maximumWeight), 0, Math.PI * 2);
+                context.fillStyle = `rgba(235,249,255,${opacity})`; context.fill();
+              }
+            }
+
+            const representative = ordered.at(-1);
+            const representativeProjected = representative.world.map(project);
+            context.save(); context.font = "700 13px Inter, system-ui, sans-serif"; context.textAlign = "left";
+            representative.nodes.forEach((node, index) => {
+              const point = representativeProjected[index];
+              const text = `${node.label} · +${node.elapsed.toFixed(0)} s`;
+              context.lineWidth = 4; context.strokeStyle = "rgba(4,13,20,0.9)"; context.strokeText(text, point[0] + 8, point[1] - 7);
+              context.fillStyle = index === representative.nodes.length - 1 ? "#ffb36a" : "#dff8ff"; context.fillText(text, point[0] + 8, point[1] - 7);
+            });
+            context.restore();
+            context.fillStyle = "rgba(222,240,247,0.76)"; context.font = "13px Inter, system-ui, sans-serif";
+            context.fillText("Drag sliders to rotate · geographic horizontal scale · altitude ×20", 18, 25);
+          }
+          ["azimuth", "elevation"].forEach((id) => byId(id).addEventListener("input", drawTrajectoryEnsemble));
+          drawTrajectoryEnsemble();
+
+          byId("conditionsList").innerHTML = DATA.conditions.map((condition) => `<li>${condition}</li>`).join("");
+          const hashRows = [
+            ["hypothesis", DATA.meta.hypothesisId],
+            ["run identity", DATA.meta.runIdentitySha256],
+            ["impact handoff", DATA.meta.artifacts.impactHandoffSha256],
+            ["transition sidecar", DATA.meta.artifacts.transitionSidecarSha256],
+            ["run manifest", DATA.meta.artifacts.manifestSha256],
+            ["Pleiades density", DATA.meta.artifacts.pleiadesDensitySha256],
+            ["7th-arc GeoJSON", DATA.meta.artifacts.arcGeojsonSha256],
+            ["EOF seed", String(DATA.meta.eofSeed)],
+          ];
+          byId("hashes").innerHTML = hashRows.map(([label, value]) => `<div>${label}: <span>${value}</span></div>`).join("");
+          byId("footer").textContent = `Generated ${DATA.meta.generatedUtc} · source checkpoint ${DATA.meta.sourceCheckpointUtc} · R600 checkpoint ${DATA.meta.r600CheckpointUtc} · ${DATA.meta.codeRevision}`;
+        </script>
+      </body>
+      </html>
+    ── Ran node runs/mh370/impact-visualization-preview/render-impact-ensemble.mjs (3s)
+      $ node runs/mh370/impact-visualization-preview/render-impact-ensemble.mjs
+      Wrote /jackbox/home/MH370/runs/mh370/impact-visualization-preview/impact-ensemble-explorer.html
+      HTML bytes: 243615
+      Impact particles: 32; ESS: 28.71
+      Pleiades grid cells: 5289
+
+  ── Assistant
+  The first render is complete: 32 impact particles (effective sample size 28.71), 5,289 Pleiades grid cells, official arc geometry, and computed ±100 NM offsets. I’m doing a visual/runtime pass now and will correct any chart-level issues before showing it.
+
+  ── Explored 1 search, ran 2 commands, created 1 file
+    ── Searched for __MH370_DATA__ in runs/mh370/impact-visualization-preview/impact-ensemble-explorer.html
+    ── Ran node -e 'const fs=require("fs");const html=fs.readFileSync("runs/mh370/impact-visualization-preview/impact-ensemble-explorer.html","utf8");const scripts=Array.from(html.matchAll(/<script>([\s\S]*?)<\/script>/g));if("'!scripts.length)throw new Error("no script");new Function(scripts.at(-1)[1]);console.log("client script parses; script blocks:",scripts.length);'"' (2s)
+      $ node -e 'const fs=require("fs");const html=fs.readFileSync("runs/mh370/impact-visualization-preview/impact-ensemble-explorer.html","utf8");const scripts=Array.from(html.matchAll(/<script>([\s\S]*?)<\/script>/g));if("'!scripts.length)throw new Error("no script");new Function(scripts.at(-1)[1]);console.log("client script parses; script blocks:",scripts.length);'"'
+      client script parses; script blocks: 1
+    ── Ran /usr/bin/sha256sum /tmp/mh370-impact-point-mass-plumbing-smoke-20260828/impact-posterior-handoff.json /tmp/mh370-impact-point-mass-plumbing-smoke-20260828/transition-sidecar.json /tmp/mh370-impact-point-mass-plumbing-smoke-20260828/run-manifest.json .sources/pleiades-bran2016-forward-inversion/outputs/conditional-impact-density.csv .sources/pleiades-bran2016-forward-inversion/data/seventh_arc_fl400.geojson runs/mh370/impact-visualization-preview/impact-ensemble-explorer.html (2s)
+      $ /usr/bin/sha256sum /tmp/mh370-impact-point-mass-plumbing-smoke-20260828/impact-posterior-handoff.json /tmp/mh370-impact-point-mass-plumbing-smoke-20260828/transition-sidecar.json /tmp/mh370-impact-point-mass-plumbing-smoke-20260828/run-manifest.json .sources/pleiades-bran2016-forward-inversion/outputs/conditional-impact-density.csv .sources/pleiades-bran2016-forward-inversion/data/seventh_arc_fl400.geojson runs/mh370/impact-visualization-preview/impact-ensemble-explorer.html
+      e65aaefca8d150f2a94d60a536036fcf08788a95e6e0cd052021371e97c6a531  /tmp/mh370-impact-point-mass-plumbing-smoke-20260828/impact-posterior-handoff.json
+      dd0c84460db1178e2d45bf75906be5860c6075b27c34f0637dc592e8c9139bf9  /tmp/mh370-impact-point-mass-plumbing-smoke-20260828/transition-sidecar.json
+      7d50fd4d782ea7f55d74270f5f914c7faa569b86533babd8b8f167150b7cdaa6  /tmp/mh370-impact-point-mass-plumbing-smoke-20260828/run-manifest.json
+      bdc2a1dbac5c76a029a70039880a26a64f3b52cd55f367863213065a2cb609cb  .sources/pleiades-bran2016-forward-inversion/outputs/conditional-impact-density.csv
+      8d95ae563560388d1ad7c2ef34a3154ff95c0b2dd09c59c842f374b80e1537ad  .sources/pleiades-bran2016-forward-inversion/data/seventh_arc_fl400.geojson
+      2f72ecbb8c7dc45b95a8fc2fe5639c235f5036422b4fee22d1636461ad62f6a0  runs/mh370/impact-visualization-preview/impact-ensemble-explorer.html
+    ── Created runs/mh370/impact-visualization-preview/README.md +51
+      # Preliminary impact visualization
+
+      This directory contains a self-contained interactive visualization generated
+      from the current typed end-of-flight smoke-run artifacts. It is a diagnostic
+      preview, not the integrated multi-scenario end-of-flight posterior and not a
+      search-area recommendation.
+
+      Open `impact-ensemble-explorer.html` to inspect:
+
+      - the weighted impact-particle KDE, official FL400 seventh arc, and geometric
+        100 NM offsets on each side of the arc;
+      - the independently normalized Pleiades/BRAN2016 conditional impact surface;
+      - ten systematic weighted velocity-frame orientation proxies; and
+      - a rotatable sparse 3D ensemble joining the stored 00:10:59, R600,
+        dual-flameout/control-switch, and impact states.
+
+      ## Reproduce
+
+      With the impact smoke-run artifacts at their recorded default paths:
+
+      ```bash
+      node runs/mh370/impact-visualization-preview/render-impact-ensemble.mjs
+      ```
+
+      The renderer accepts `--impact`, `--sidecar`, `--manifest`, `--pleiades`,
+      `--arc`, `--template`, and `--output` overrides. It validates the artifact
+      schemas and the impact-handoff reference to the exact transition-sidecar hash.
+
+      Inputs used for this render:
+
+      | Input | SHA-256 |
+      |---|---|
+      | impact posterior handoff | `e65aaefca8d150f2a94d60a536036fcf08788a95e6e0cd052021371e97c6a531` |
+      | transition sidecar | `dd0c84460db1178e2d45bf75906be5860c6075b27c34f0637dc592e8c9139bf9` |
+      | run manifest | `7d50fd4d782ea7f55d74270f5f914c7faa569b86533babd8b8f167150b7cdaa6` |
+      | Pleiades conditional density CSV | `bdc2a1dbac5c76a029a70039880a26a64f3b52cd55f367863213065a2cb609cb` |
+      | official FL400 seventh-arc GeoJSON | `8d95ae563560388d1ad7c2ef34a3154ff95c0b2dd09c59c842f374b80e1537ad` |
+
+      The EOF run identity is
+      `c5a12b705ef2c0cb511bf1d1c6f3e1958306f1acb0857743a2fde341c0395249`;
+      its deterministic EOF seed is `3700230019`.
+
+      ## Interpretation limits
+
+      The amber surface is a display KDE over 32 impact-conditioned particles
+      (effective sample size 28.71) from one explicitly selected low-flow,
+      equal-feed point-mass scenario. The bivariate Gaussian plotting kernel uses
+      the weighted spatial covariance scaled by `ESS^(-1/6)`, with a small numerical
+      regularizer. Its 50%, 90%, and 95% contours describe that smoothed display
+      surface; the smoothing choice is not another evidence likelihood.
+
+      The magenta Pleiades/BRAN2016 grid is an independently derived conditional
+      surface. It is normalized and rendered separately, solely for visual
+      comparison. The two surfaces are not combined and their colors do not encode
+      relative model probability.
+
+      The handoff explicitly reports aircraft attitude and contact duration as
+      unresolved (`null`). The ten perspective panels therefore align a simple
+      aircraft glyph to the resolved impact velocity and impose zero roll and zero
+      sideslip for display only. They must not be interpreted as sampled body
+      attitudes or first-contact configurations.
+
+      The 3D trajectory lines join only the exact states stored in the transition
+      sidecar. They are not dense integrator histories. Altitude is exaggerated by a
+      factor of 20. The 100 NM lines are local-normal geometric offsets from the
+      published arc, not uncertainty contours.
+
+── Assistant ───────────────────────────────────────────────
+No persistent host-daemon error—the interrupted command made no writes, and the plots are now complete.
+
+Key caveat: this is a preliminary 32-particle, single-scenario conditional, not the final integrated impact PDF. The “attitude” panels are explicitly velocity-aligned proxies because body attitude remains unresolved.
+
+Files: [interactive visualization](/jackbox/home/MH370/runs/mh370/impact-visualization-preview/impact-ensemble-explorer.html) · [method and limitations](/jackbox/home/MH370/runs/mh370/impact-visualization-preview/README.md) · [reproducible renderer](/jackbox/home/MH370/runs/mh370/impact-visualization-preview/render-impact-ensemble.mjs)
+
+::inline-vis{file="runs/mh370/impact-visualization-preview/impact-ensemble-explorer.html" height="1100"}
+
+── User ────────────────────────────────────────────────────
+Hi there- just checking in on status and progress. I see this error also
+
+── Worked for (6m 44s) ─────────────────────────────────────
+  ── Assistant
+  Thanks—yes, that screenshot shows a real artifact-path problem, not a scientific-model failure. I’m using the inline-visualization workflow to check whether the generated HTML was lost, moved, or referenced relative to the wrong checkout, then I’ll restore it and report the broader end-of-flight status.
+
+  ── Read /jackbox/home/.iso/runtime/global-skills/051cefb156e94b93b5e2578a675241b5008ea1dbc7132545e87c8f9b68faaaa9/skills/inline-vis/SKILL.md
+    $ sed -n '1,240p' /jackbox/home/.iso/runtime/global-skills/051cefb156e94b93b5e2578a675241b5008ea1dbc7132545e87c8f9b68faaaa9/skills/inline-vis/SKILL.md && pwd && iso status && ls -la runs/mh370/impact-visualization-preview 2>&1 || true && rg --files -g 'impact-ensemble-explorer.html' -g 'render-impact-ensemble.mjs' -g 'impact-ensemble-template.html' -g 'README.md' runs . 2>/dev/null | head -80 && command -v git || true && git status --short 2>&1 | head -100 || true
+
+  ── Assistant
+  The file is genuinely absent from this checkout now, so the relative directive was correct but its generated target did not survive. I’m also checking the Core and flight-simulation threads through Iso before regenerating anything, so the replacement uses the latest canonical artifacts rather than reviving an obsolete 32-particle preview.
+
+  ── Explored 1 file, 2 lists, ran 12 commands
+    ── Read /jackbox/home/.iso/runtime/global-skills/051cefb156e94b93b5e2578a675241b5008ea1dbc7132545e87c8f9b68faaaa9/skills/iso-cli/SKILL.md
+    ── Ran iso thread list --help && iso thread search --help
+      $ iso thread list --help && iso thread search --help
+      Usage: iso thread list [options]
+
+      List threads
+
+      Options:
+        --project <id>        Filter by project ID (defaults to all projects)
+        --parent-thread <id>  Filter by parent thread ID
+        --section <id>        Filter by thread section ID
+        --unsectioned         Show only threads outside sections
+        --archived            Show only archived threads
+        --include-hidden      Include hidden threads
+        --json                Print machine-readable JSON output
+        -h, --help            display help for command
+      Usage: iso thread search [options] <query>
+
+      Search threads and messages
+
+      Options:
+        --limit <count>  Maximum results per group
+        --json           Print machine-readable JSON output
+        -h, --help       display help for command
+    ── Ran iso thread search "Continue MH370 Core Analysis" --limit 20 --json && iso thread search "Flight Simulation Model" --limit 20 --json
+      $ iso thread search "Continue MH370 Core Analysis" --limit 20 --json && iso thread search "Flight Simulation Model" --limit 20 --json
+      {
+        "active": {
+          "total": 11,
+          "results": [
+            {
+              "thread": {
+                "id": "thr_bsdvixiiae",
+                "projectId": "proj_pm8k5krhiy",
+                "environmentId": "env_v88zhv5sgs",
+                "providerId": "codex",
+                "title": "OLD Analyze MH370 object list & Ocean Drift",
+                "titleFallback": "This is an interesting list of objects from MH370 found up until 2017. 1/ I a...",
+                "sectionId": null,
+                "status": "idle",
+                "parentThreadId": null,
+                "sourceThreadId": null,
+                "originKind": null,
+                "childOrigin": null,
+                "originPluginId": null,
+                "visibility": "visible",
+                "archivedAt": null,
+                "pinnedAt": null,
+                "deletedAt": null,
+                "lastReadAt": 1787354563280,
+                "latestAttentionAt": 1787584400184,
+                "createdAt": 1787354563280,
+                "updatedAt": 1787682562734,
+                "activity": {
+                  "activeBackgroundAgentCount": 0,
+                  "activeBackgroundCommandCount": 0,
+                  "activeGoalCount": 1,
+                  "activePlanModeCount": 0,
+                  "activeWorkflowCount": 0
+                },
+                "pinSortKey": null,
+                "environmentBranchName": null,
+                "environmentHostId": "host_dccwjaevcd",
+                "environmentName": null,
+                "environmentWorkspaceDisplayKind": "other",
+                "hasPendingInteraction": false,
+                "runtime": {
+                  "displayStatus": "idle",
+                  "hostReconnectGraceExpiresAt": null
+                }
+              },
+              "matches": [
+                {
+                  "sourceKind": "assistant_message",
+                  "text": "The four-worker limit is appropriate: the MH370 run occupies four cores and a separate long-running acoustic analysis occupies a fifth, leaving the sixth for the IDE/system. Raising concurrency now would mostly add contention and memory pressure rather than reliable throughput. The production run remains healthy and has reached 823/885 base cells.",
+                  "highlightRanges": [
+                    {
+                   
+
+      [... output truncated by retention policy; showing beginning and end ...]
+
+                    "end": 412
+                    },
+                    {
+                      "start": 1374,
+                      "end": 1379
+                    },
+                    {
+                      "start": 1685,
+                      "end": 1691
+                    },
+                    {
+                      "start": 1778,
+                      "end": 1784
+                    },
+                    {
+                      "start": 2233,
+                      "end": 2238
+                    },
+                    {
+                      "start": 2567,
+                      "end": 2572
+                    },
+                    {
+                      "start": 2761,
+                      "end": 2767
+                    },
+                    {
+                      "start": 2968,
+                      "end": 2974
+                    }
+                  ],
+                  "sourceSeq": 1648
+                },
+                {
+                  "sourceKind": "user_message",
+                  "text": "I thought we had done PDF arcs for MH370 early phase, please double check, if not please ask the core estimation thread to generate one to match the appearance of the once we just used for 371. Next, we need the best charts we have to show the output of the PDF estimates including the antenna gain model, and the best charts or tables we have to show the statistical comparison of gain model vs control, 371 and early 370. Graphics would follow this: \"Therefore, this potential additional heading related observable was tested against a control, using the MH371 flight and the known portion of the MH370 flight, to determine whether or not the effect is present and detectable in the data.\"",
+                  "highlightRanges": [
+                    {
+                      "start": 299,
+                      "end": 304
+                    },
+                    {
+                      "start": 387,
+                      "end": 392
+                    },
+                    {
+                      "start": 563,
+                      "end": 569
+                    },
+                    {
+                      "start": 605,
+                      "end": 611
+                    }
+                  ],
+                  "sourceSeq": 2608
+                }
+              ]
+            }
+          ]
+        },
+        "archived": {
+          "total": 0,
+          "results": []
+        }
+      }
+    ── Ran iso thread list --project proj_pm8k5krhiy --json | node -e 'let s="";process.stdin.on("data",d=>s+=d);process.stdin.on("end",()=>{const x=JSON.parse(s);const rows=Array.isArray(x)?x:(x.threads||x.items||[]);for(const t of rows)console.log([t.id,t.status,t.title,t.environmentId,t.updatedAt].join("\t"));});'
+      $ iso thread list --project proj_pm8k5krhiy --json | node -e 'let s="";process.stdin.on("data",d=>s+=d);process.stdin.on("end",()=>{const x=JSON.parse(s);const rows=Array.isArray(x)?x:(x.threads||x.items||[]);for(const t of rows)console.log([t.id,t.status,t.title,t.environmentId,t.updatedAt].join("\t"));});'
+      thr_hf6wc3deg2	idle	Review transcript for bugfix	env_v88zhv5sgs	1787965430264
+      thr_3qka8sb6tr	error	Audit better-mixed versus conditional	env_v88zhv5sgs	1787879153178
+      thr_wherses95g	error	Audit dynamic ERA5 EOF transitions	env_v88zhv5sgs	1787879153177
+      thr_s83ha6x9tj	error	Finish interrupted impact runner	env_v88zhv5sgs	1787879153176
+      thr_3m79zaqax3	idle	Audit public B777 EOF aerodynamics	env_v88zhv5sgs	1787866039615
+      thr_mcykbgtinu	idle	Implement MH370 fuel performance audit full mode	env_v88zhv5sgs	1787864204046
+      thr_trg49zc5v7	idle	Extend MH370 ERA5 atmosphere full mode	env_v88zhv5sgs	1787862239277
+      thr_kwwu6p8qdu	idle	Rebuild MH370 searched-area evidence full mode	env_v88zhv5sgs	1787863125114
+      thr_vxv9jpjdtq	idle	Extend MH370 ERA5 atmosphere coverage	env_v88zhv5sgs	1787860747848
+      thr_d6ja5i7xjp	idle	Audit MH370 fuel and performance inputs	env_v88zhv5sgs	1787861513607
+      thr_p2ps2usx67	idle	Rebuild MH370 searched-area evidence	env_v88zhv5sgs	1787860751646
+      thr_ytrf242vwy	error	Recreate and audit redistributable code	env_zngf7bn6ed	1787860302679
+      thr_j7d2aaq2c5	error	Build MH370 Search Evidence Package	env_hrze2fjg4x	1787859951899
+      thr_pexmvwn97e	idle	Ocean Drift New	env_v88zhv5sgs	1787895225639
+      thr_bk9z5pvb86	idle	Flight Simulation Model	env_v88zhv5sgs	1787720623179
+      thr_ym8fvgh7s3	idle	Continue Pleiades development	env_v88zhv5sgs	1787859806592
+      thr_94ecfzphq2	error	Continue MH370 core analysis	env_v88zhv5sgs	1788157203317
+      thr_2hjfxguxv4	idle	Manage publication papers	env_v88zhv5sgs	1788178368658
+      thr_dvhqyvtdcu	active	Study end-of-flight aspects	env_v88zhv5sgs	1788339161447
+      thr_b6qutrkpmh	idle	MH370 antenna gain model – continuation	env_v88zhv5sgs	1787497786107
+      thr_bsdvixiiae	idle	OLD Analyze MH370 object list & Ocean Drift	env_v88zhv5sgs	1787682562734
+      thr_39x6swebwz	idle	Launch particle filter visualization	env_v88zhv5sgs	1787346080875
+      thr_e7vf6bjiyt	idle	Passive Radar WSPR / RxGain Testing	env_v88zhv5sgs	1788151628307
+      thr_h6z2fv56n6	idle	OLD MH370 Core Analysis	env_v88zhv5sgs	1787682512486
+      thr_wkiec86jt2	idle	Hydroacoustic Waves & OLD Pleiades	env_v88zhv5sgs	1788180966952
+      thr_fvvxab6qkf	idle	Create knowledge repository foundation	env_v88zhv5sgs	1786602177599
+    ── Ran iso thread show thr_94ecfzphq2 --json && iso thread output thr_94ecfzphq2
+      $ iso thread show thr_94ecfzphq2 --json && iso thread output thr_94ecfzphq2
+      {
+        "thread": {
+          "id": "thr_94ecfzphq2",
+          "projectId": "proj_pm8k5krhiy",
+          "environmentId": "env_v88zhv5sgs",
+          "providerId": "codex",
+          "title": "Continue MH370 core analysis",
+          "titleFallback": "Continuation MH370 Core Analysis. That thread has become unresponsive. We nee...",
+          "sectionId": null,
+          "status": "error",
+          "parentThreadId": null,
+          "sourceThreadId": null,
+          "originKind": null,
+          "childOrigin": null,
+          "originPluginId": null,
+          "visibility": "visible",
+          "archivedAt": null,
+          "pinnedAt": null,
+          "deletedAt": null,
+          "lastReadAt": 1787862075211,
+          "latestAttentionAt": 1788157203317,
+          "createdAt": 1787539378655,
+          "updatedAt": 1788157203317,
+          "runtime": {
+            "displayStatus": "error",
+            "hostReconnectGraceExpiresAt": null
+          },
+          "canSpawnChild": true
+        },
+        "environment": {
+          "id": "env_v88zhv5sgs",
+          "name": null,
+          "projectId": "proj_pm8k5krhiy",
+          "hostId": "host_dccwjaevcd",
+          "path": "/jackbox/home/MH370",
+          "managed": false,
+          "isGitRepo": false,
+          "isWorktree": false,
+          "workspaceProvisionType": "unmanaged",
+          "branchName": null,
+          "baseBranch": null,
+          "defaultBranch": null,
+          "mergeBaseBranch": null,
+          "status": "ready",
+          "createdAt": 1786591258608,
+          "updatedAt": 1786591258624,
+          "pullRequest": {
+            "status": "none",
+            "pullRequest": null
+          }
+        },
+        "pendingTodos": null
+      }
+      Completed the v0.1 release documentation:
+
+      - [Release index](/jackbox/home/MH370/runs/mh370/release-v0.1/index.html)
+      - [Release manifest](/jackbox/home/MH370/runs/mh370/release-v0.1/release-manifest.json)
+      - [Self-validator](/jackbox/home/MH370/runs/mh370/release-v0.1/validate-release.py)
+      - [Updated root README](/jackbox/home/MH370/README.md)
+
+      Validation passed for all 70 linked artifacts, portable paths, hashes, evidence-consumption rules, and HTML/manifest agreement.
+
+      Final manifest SHA-256:
+
+      `b5d89ff95bd26594506674dd51a04b36e23a04946ac0b835f85b5ee1b16db9e1`
+
+      ::inline-vis{file="runs/mh370/release-v0.1/index.html" height="900"}
+    ── Ran iso thread show thr_bk9z5pvb86 --json && iso thread output thr_bk9z5pvb86
+      $ iso thread show thr_bk9z5pvb86 --json && iso thread output thr_bk9z5pvb86
+      {
+        "thread": {
+          "id": "thr_bk9z5pvb86",
+          "projectId": "proj_pm8k5krhiy",
+          "environmentId": "env_v88zhv5sgs",
+          "providerId": "codex",
+          "title": "Flight Simulation Model",
+          "titleFallback": "Objective: produce a design-only assessment of a flight simulation model for ...",
+          "sectionId": null,
+          "status": "idle",
+          "parentThreadId": null,
+          "sourceThreadId": null,
+          "originKind": null,
+          "childOrigin": null,
+          "originPluginId": null,
+          "visibility": "visible",
+          "archivedAt": null,
+          "pinnedAt": null,
+          "deletedAt": null,
+          "lastReadAt": 1787695147260,
+          "latestAttentionAt": 1787720623179,
+          "createdAt": 1787695147231,
+          "updatedAt": 1787720623179,
+          "runtime": {
+            "displayStatus": "idle",
+            "hostReconnectGraceExpiresAt": null
+          },
+          "canSpawnChild": true
+        },
+        "environment": {
+          "id": "env_v88zhv5sgs",
+          "name": null,
+          "projectId": "proj_pm8k5krhiy",
+          "hostId": "host_dccwjaevcd",
+          "path": "/jackbox/home/MH370",
+          "managed": false,
+          "isGitRepo": false,
+          "isWorktree": false,
+          "workspaceProvisionType": "unmanaged",
+          "branchName": null,
+          "baseBranch": null,
+          "defaultBranch": null,
+          "mergeBaseBranch": null,
+          "status": "ready",
+          "createdAt": 1786591258608,
+          "updatedAt": 1786591258624,
+          "pullRequest": {
+            "status": "none",
+            "pullRequest": null
+          }
+        },
+        "pendingTodos": null
+      }
+      Recorded. No code or repository changes made.
+
+      Next directed task: provenance and validation design for an aircraft-specific post-flameout transition kernel, keeping the current 2.5 g screen explicitly generic and non-B777-validated.
+    ── Listed files in /tmp
+    ── Listed files in runs/mh370/release-v0.1
+    ── Ran iso thread log --help
+      $ iso thread log --help
+      Usage: iso thread log [options] [id]
+
+      Show thread event log
+
+      Options:
+        --self             Target the current thread (from ISO_THREAD_ID)
+        --json             Print machine-readable JSON output (alias for --format
+                           json)
+        --format <format>  Output format: json (raw events), minimal (compact
+                           timeline), verbose (expanded timeline) (default: "minimal")
+        --limit <count>    Maximum number of events to return; json format only
+                           (default 100)
+        --after-seq <seq>  Return events after this sequence number; json format only
+        -h, --help         display help for command
+    ── Ran iso thread log thr_94ecfzphq2 --json --limit 30
+      $ iso thread log thr_94ecfzphq2 --json --limit 30
+      [
+        {
+          "id": "evt_u64jp4yhcd",
+          "scope": {
+            "kind": "thread"
+          },
+          "threadId": "thr_94ecfzphq2",
+          "seq": 1,
+          "createdAt": 1787539378659,
+          "type": "client/turn/requested",
+          "data": {
+            "direction": "outbound",
+            "requestId": "creq_ysaimiwbpa",
+            "source": "spawn",
+            "initiator": "user",
+            "senderThreadId": null,
+            "senderUserId": "<id>",
+            "senderUserName": "Pete Large",
+            "systemMessageKind": "unlabeled",
+            "systemMessageSubject": null,
+            "input": [
+              {
+                "type": "text",
+                "text": "Continuation MH370 Core Analysis. That thread has become unresponsive. We need to recover it's last state of work and assess the situation, also see the last steer/prompt in that thread which has not been responded to and start there please.",
+                "mentions": []
+              }
+            ],
+            "target": {
+              "kind": "thread-start"
+            },
+            "request": {
+              "method": "thread/start",
+              "params": {}
+            },
+            "execution": {
+              "model": "gpt-5.6-sol",
+              "serviceTier": "default",
+              "reasoningLevel": "max",
+              "permissionMode": "auto",
+              "source": "client/turn/requested"
+            }
+          }
+        },
+        {
+          "id": "evt_xgvwi9pggm",
+          "scope": {
+            "kind": "thread"
+          },
+          "threadId": "thr_94ecfzphq2",
+          "seq": 2,
+          "createdAt": 1787539378661,
+          "type": "client/thread/start",
+          "data": {
+            "direction": "outbound",
+            "source": "spawn",
+            "initiator": "user",
+            "request": {
+              "method": "thread/start",
+              "params": {}
+            }
+          }
+        },
+        {
+          "id": "evt_uz3yiaqfum",
+          "scope": {
+            "kind": "thread"
+          },
+          "threadId": "thr_94ecfzphq2",
+          "seq": 3,
+          "createdAt": 1787539380215,
+          "type": "thread/started",
+          "data": {}
+        },
+        {
+          "id": "evt_ejc7wequay",
+          "scope": {
+            "kind": "thread"
+          },
+          "threadId": "thr_94ecfzphq2",
+          "seq": 4,
+          "createdAt": 1787539380215,
+          "type": "thread/identity",
+          "data": {
+            "p
+
+      [... output truncated by retention policy; showing beginning and end ...]
+
+      e \"...\" --in \"30m\" --provider <id> --model <model> --prompt \"...\"`,\n  or use `--at \"2026-07-03T09:00:00-07:00\"` for an absolute run time.\n- Create a script automation with\n  `iso automation create --project <id> --name \"...\" --cron \"...\" --timezone \"...\" --script-file ./watch.sh`\n  (or `--script \"<inline>\"`). A script that exits 0 with empty stdout, or whose\n  last non-empty line is `{\"wakeAgent\": false}`, stays silent.\n- Script automations run on the server with cwd set to the plugin data\n  directory. They have no environment/workspace. Injected variables are\n  `ISO_SERVER_URL`, `ISO_PROJECT_ID`, `ISO_AUTOMATION_ID`, and\n  `ISO_AUTOMATION_RUN_ID`.\n- A script run's status IS its exit code: exit 0 = succeeded; a non-zero exit is\n  recorded as failed even if the script already produced a visible side effect\n  (e.g. posted a message via `iso thread tell`). Make scripts exit 0 on success\n  and check the exit status of each `iso` call. Captured stdout+stderr is stored\n  on failed runs (see `--output <run-id>`).\n- Cron accepts standard 5-field expressions, including step values like\n  `* * * * *`, `*/2 * * * *`, and `*/5 * * * *`. Cron granularity is one\n  minute. One-shot automations use `--at` or `--in` and fire once.\n",
+              "exitCode": 0,
+              "durationMs": 0
+            }
+          }
+        },
+        {
+          "id": "evt_wna3qp8qek",
+          "scope": {
+            "kind": "thread"
+          },
+          "threadId": "thr_94ecfzphq2",
+          "seq": 36,
+          "createdAt": 1787539406934,
+          "type": "provider/rateLimits/updated",
+          "data": {
+            "providerThreadId": "01a031a6-57a1-7572-88ad-f5bde93f99e3",
+            "rateLimits": {
+              "providerId": "codex",
+              "status": "allowed",
+              "kind": "credits",
+              "windows": [
+                {
+                  "providerKey": "primary",
+                  "label": "Current session",
+                  "status": "allowed",
+                  "resetsAtMs": 1788136939000
+                }
+              ],
+              "reachedReason": null,
+              "overageStatus": null,
+              "overageReason": null
+            }
+          }
+        }
+      ]
+    ── Ran iso thread log thr_bk9z5pvb86 --json --limit 20
+      $ iso thread log thr_bk9z5pvb86 --json --limit 20
+      [
+        {
+          "id": "evt_rnmwhniaix",
+          "scope": {
+            "kind": "thread"
+          },
+          "threadId": "thr_bk9z5pvb86",
+          "seq": 1,
+          "createdAt": 1787695147248,
+          "type": "client/turn/requested",
+          "data": {
+            "direction": "outbound",
+            "requestId": "creq_3dczixmf3d",
+            "source": "spawn",
+            "initiator": "user",
+            "senderThreadId": null,
+            "systemMessageKind": "unlabeled",
+            "systemMessageSubject": null,
+            "input": [
+              {
+                "type": "text",
+                "text": "Objective: produce a design-only assessment of a flight simulation model for the canonical MH370 Bayesian estimator. Do not edit code, install software, purchase services, or run expensive simulations yet. Begin by inspecting and explaining exactly what the current repository uses for accident-flight dynamics, environment, SATCOM propagation, 00:11-to-00:19 continuation, end-of-flight projection, aircraft state, and any fuel or systems modelling. Clearly identify absent state such as mass, fuel, engine, electrical, hydraulic, attitude, angular rates, and control state. Then recommend the smallest transparent multi-fidelity simulation approach that can integrate through narrow typed interfaces with the existing runner and particle inference. Include simulator capability and provenance requirements, deterministic automation, licensing or likely cost questions, validation against public Boeing cases and limiting cases, runtime strategy for particle inference, and a proposed state-transition interface. The Core Analysis thread remains the sole integrator. Make no canonical file changes during this design turn and avoid assumptions unsupported by public data. Report the outcome, evidence inspected, recommended integration sequence, and blockers.",
+                "mentions": []
+              }
+            ],
+            "target": {
+              "kind": "thread-start"
+            },
+            "request": {
+              "method": "thread/start",
+              "params": {}
+            },
+            "execution": {
+              "model": "gpt-5.6-sol",
+              "serviceTier": "default",
+              "reasoningLevel": "max",
+              "permissionMode": "auto",
+              "source": "client/turn/requested"
+            }
+          }
+        },
+        {
+          "id": "evt_ggf2yxxnaj",
+          "scope": {
+            "kind": "thread"
+          },
+          "threadId": "thr_bk9z5pvb86",
+          "seq": 2,
+          "createdAt": 1787695147264,
+          "type": "client/thread/start",
+          "data": {
+            "direction": "outbound",
+            "source": "spawn",
+            "initiator": "user",
+            "request": {
+              "method": "thread/start",
+              "params": {}
+            }
+          }
+        },
+        {
+          "id": "evt_jqx3cf927x",
+          "scope": {
+            "kind": "thread"
+          },
+          "threadId": "thr_bk9z5pvb86",
+          "seq": 3,
+          "createdAt": 1787695150698,
+          "type": "thread/started",
+          "data": {}
+        },
+        {
+          "id": "evt_3fcxpucfig",
+          "scope": {
+            "kind": "thread"
+          },
+          "threadId": "thr_bk9z5pvb86",
+          "seq": 4,
+          "createdAt": 1787695150698,
+          "type": "thread/identity",
+          "data": {
+            "providerThreadId": "01a03aef-35ae-7640-99ef-c14f6f95ad09"
+          }
+        },
+        {
+          "id": "evt_4xebgrbmc4",
+          "scope": {
+            "kind": "turn",
+            "turnId": "01a03aef-365a-7eb1-8885-ba7aaab36fd2"
+          },
+          "threadId": "thr_bk9z5pvb86",
+          "seq": 5,
+          "createdAt": 1787695150735,
+          "type": "turn/started",
+          "data": {
+            "providerThreadId": "01a03aef-35ae-7640-99ef-c14f6f95ad09"
+          }
+        },
+        {
+          "id": "evt_qmt3dzzuea",
+          "scope": {
+            "kind": "turn",
+            "turnId": "01a03aef-365a-7eb1-8885-ba7aaab36fd2"
+          },
+          "threadId": "thr_bk9z5pvb86",
+          "seq": 6,
+          "createdAt": 1787695150735,
+          "type": "turn/input/accepted",
+          "data": {
+            "providerThreadId": "01a03aef-35ae-7640-99ef-c14f6f95ad09",
+            "clientRequestId": "creq_3dczixmf3d"
+          }
+        },
+        {
+          "id": "evt_vs9xndghx2",
+          "scope": {
+            "kind": "turn",
+            "turnId": "01a03aef-365a-7eb1-8885-ba7aaab36fd2"
+          },
+          "threadId": "thr_bk9z5pvb86",
+          "seq": 7,
+          "createdAt": 1787695164526,
+          "type": "item/started",
+          "data": {
+            "providerThreadId": "01a03aef-35ae-7640-99ef-c14f6f95ad09",
+            "item": {
+              "type": "reasoning",
+              "id": "rs_0e30a025ba181139016a8e103c6edc87d0b3d6b07b1362a337",
+              "summary": [],
+              "content": []
+            }
+          }
+        },
+        {
+          "id": "evt_5fqxg3zn82",
+          "scope": {
+            "kind": "turn",
+            "turnId": "01a03aef-365a-7eb1-8885-ba7aaab36fd2"
+          },
+          "threadId": "thr_bk9z5pvb86",
+          "seq": 8,
+          "createdAt": 1787695164526,
+          "type": "item/completed",
+          "data": {
+            "providerThreadId": "01a03aef-35ae-7640-99ef-c14f6f95ad09",
+            "item": {
+              "type": "reasoning",
+              "id": "rs_0e30a025ba181139016a8e103c6edc87d0b3d6b07b1362a337",
+              "summary": [],
+              "content": []
+            }
+          }
+        },
+        {
+          "id": "evt_aci5mai9mx",
+          "scope": {
+            "kind": "turn",
+            "turnId": "01a03aef-365a-7eb1-8885-ba7aaab36fd2"
+          },
+          "threadId": "thr_bk9z5pvb86",
+          "seq": 9,
+          "createdAt": 1787695164534,
+          "type": "item/started",
+          "data": {
+            "providerThreadId": "01a03aef-35ae-7640-99ef-c14f6f95ad09",
+            "item": {
+              "type": "agentMessage",
+              "id": "msg_0e30a025ba181139016a8e103c6fd887d0812fdaacc5c963c4",
+              "text": ""
+            }
+          }
+        },
+        {
+          "id": "evt_bb7nesfbc6",
+          "scope": {
+            "kind": "turn",
+            "turnId": "01a03aef-365a-7eb1-8885-ba7aaab36fd2"
+          },
+          "threadId": "thr_bk9z5pvb86",
+          "seq": 10,
+          "createdAt": 1787695164534,
+          "type": "item/agentMessage/delta",
+          "data": {
+            "providerThreadId": "01a03aef-35ae-7640-99ef-c14f6f95ad09",
+            "itemId": "msg_0e30a025ba181139016a8e103c6fd887d0812fdaacc5c963c4",
+            "delta": "I’ll keep this strictly design-only and treat this thread as the sole integrator. I’ll first map the actual runner and scientific modules from code and tests, then compare that evidence with authoritative public simulator and validation sources. I’m using the citations skill because provenance, licensing, and Boeing-case claims need to be tied to located passages rather than memory."
+          }
+        },
+        {
+          "id": "evt_egmvdd5spx",
+          "scope": {
+            "kind": "turn",
+            "turnId": "01a03aef-365a-7eb1-8885-ba7aaab36fd2"
+          },
+          "threadId": "thr_bk9z5pvb86",
+          "seq": 11,
+          "createdAt": 1787695164534,
+          "type": "item/completed",
+          "data": {
+            "providerThreadId": "01a03aef-35ae-7640-99ef-c14f6f95ad09",
+            "item": {
+              "type": "agentMessage",
+              "id": "msg_0e30a025ba181139016a8e103c6fd887d0812fdaacc5c963c4",
+              "text": "I’ll keep this strictly design-only and treat this thread as the sole integrator. I’ll first map the actual runner and scientific modules from code and tests, then compare that evidence with authoritative public simulator and validation sources. I’m using the citations skill because provenance, licensing, and Boeing-case claims need to be tied to located passages rather than memory."
+            }
+          }
+        },
+        {
+          "id": "evt_kkf7xgqv4k",
+          "scope": {
+            "kind": "turn",
+            "turnId": "01a03aef-365a-7eb1-8885-ba7aaab36fd2"
+          },
+          "threadId": "thr_bk9z5pvb86",
+          "seq": 12,
+          "createdAt": 1787695164657,
+          "type": "provider/unhandled",
+          "data": {
+            "providerThreadId": "01a03aef-35ae-7640-99ef-c14f6f95ad09",
+            "providerId": "codex",
+            "rawType": "rawResponse/completed",
+            "rawEvent": {
+              "jsonrpc": "2.0",
+              "method": "rawResponse/completed",
+              "params": {
+                "threadId": "01a03aef-35ae-7640-99ef-c14f6f95ad09",
+                "turnId": "01a03aef-365a-7eb1-8885-ba7aaab36fd2",
+                "responseId": "resp_0e30a025ba181139016a8e1031844487d0b910ca9c8ab03f8d",
+                "usage": {
+                  "totalTokens": 20242,
+                  "inputTokens": 19696,
+                  "cachedInputTokens": 0,
+                  "cacheWriteInputTokens": 0,
+                  "outputTokens": 546,
+                  "reasoningOutputTokens": 353
+                }
+              }
+            }
+          }
+        },
+        {
+          "id": "evt_tg4djmjszk",
+          "scope": {
+            "kind": "turn",
+            "turnId": "01a03aef-365a-7eb1-8885-ba7aaab36fd2"
+          },
+          "threadId": "thr_bk9z5pvb86",
+          "seq": 13,
+          "createdAt": 1787695164714,
+          "type": "item/started",
+          "data": {
+            "providerThreadId": "01a03aef-35ae-7640-99ef-c14f6f95ad09",
+            "item": {
+              "type": "commandExecution",
+              "id": "exec-b67fcecb-2a77-48d4-9b05-07c3e87b8a21",
+              "command": "/usr/bin/bash -lc \"sed -n '1,240p' /jackbox/home/.iso/runtime/global-skills/051cefb156e94b93b5e2578a675241b5008ea1dbc7132545e87c8f9b68faaaa9/skills/citations/SKILL.md\"",
+              "cwd": "/jackbox/home/MH370",
+              "status": "pending",
+              "approvalStatus": null
+            }
+          }
+        },
+        {
+          "id": "evt_mxcsniige6",
+          "scope": {
+            "kind": "turn",
+            "turnId": "01a03aef-365a-7eb1-8885-ba7aaab36fd2"
+          },
+          "threadId": "thr_bk9z5pvb86",
+          "seq": 14,
+          "createdAt": 1787695164714,
+          "type": "item/completed",
+          "data": {
+            "providerThreadId": "01a03aef-35ae-7640-99ef-c14f6f95ad09",
+            "item": {
+              "type": "commandExecution",
+              "id": "exec-b67fcecb-2a77-48d4-9b05-07c3e87b8a21",
+              "command": "/usr/bin/bash -lc \"sed -n '1,240p' /jackbox/home/.iso/runtime/global-skills/051cefb156e94b93b5e2578a675241b5008ea1dbc7132545e87c8f9b68faaaa9/skills/citations/SKILL.md\"",
+              "cwd": "/jackbox/home/MH370",
+              "status": "failed",
+              "approvalStatus": null,
+              "aggregatedOutput": "bwrap: No permissions to create a new namespace, likely because the kernel does not allow non-privileged user namespaces. On e.g. debian this can be enabled with 'sysctl kernel.unprivileged_userns_clone=1'.\n",
+              "exitCode": 1,
+              "durationMs": 0
+            }
+          }
+        },
+        {
+          "id": "evt_f5ejsgctii",
+          "scope": {
+            "kind": "thread"
+          },
+          "threadId": "thr_bk9z5pvb86",
+          "seq": 17,
+          "createdAt": 1787695164714,
+          "type": "provider/rateLimits/updated",
+          "data": {
+            "providerThreadId": "01a03aef-35ae-7640-99ef-c14f6f95ad09",
+            "rateLimits": {
+              "providerId": "codex",
+              "status": "allowed",
+              "kind": "credits",
+              "windows": [
+                {
+                  "providerKey": "primary",
+                  "label": "Current session",
+                  "status": "allowed",
+                  "resetsAtMs": 1788272067000
+                }
+              ],
+              "reachedReason": null,
+              "overageStatus": null,
+              "overageReason": null
+            }
+          }
+        },
+        {
+          "id": "evt_iuryti6ci6",
+          "scope": {
+            "kind": "turn",
+            "turnId": "01a03aef-365a-7eb1-8885-ba7aaab36fd2"
+          },
+          "threadId": "thr_bk9z5pvb86",
+          "seq": 18,
+          "createdAt": 1787695169996,
+          "type": "item/started",
+          "data": {
+            "providerThreadId": "01a03aef-35ae-7640-99ef-c14f6f95ad09",
+            "item": {
+              "type": "reasoning",
+              "id": "rs_0e30a025ba181139016a8e1041f0d087d09c5631e1f178aee7",
+              "summary": [],
+              "content": []
+            }
+          }
+        },
+        {
+          "id": "evt_s9pj96ct6v",
+          "scope": {
+            "kind": "turn",
+            "turnId": "01a03aef-365a-7eb1-8885-ba7aaab36fd2"
+          },
+          "threadId": "thr_bk9z5pvb86",
+          "seq": 19,
+          "createdAt": 1787695169996,
+          "type": "item/completed",
+          "data": {
+            "providerThreadId": "01a03aef-35ae-7640-99ef-c14f6f95ad09",
+            "item": {
+              "type": "reasoning",
+              "id": "rs_0e30a025ba181139016a8e1041f0d087d09c5631e1f178aee7",
+              "summary": [],
+              "content": []
+            }
+          }
+        },
+        {
+          "id": "evt_szv5avkscp",
+          "scope": {
+            "kind": "turn",
+            "turnId": "01a03aef-365a-7eb1-8885-ba7aaab36fd2"
+          },
+          "threadId": "thr_bk9z5pvb86",
+          "seq": 20,
+          "createdAt": 1787695170156,
+          "type": "provider/unhandled",
+          "data": {
+            "providerThreadId": "01a03aef-35ae-7640-99ef-c14f6f95ad09",
+            "providerId": "codex",
+            "rawType": "rawResponse/completed",
+            "rawEvent": {
+              "jsonrpc": "2.0",
+              "method": "rawResponse/completed",
+              "params": {
+                "threadId": "01a03aef-35ae-7640-99ef-c14f6f95ad09",
+                "turnId": "01a03aef-365a-7eb1-8885-ba7aaab36fd2",
+                "responseId": "resp_0e30a025ba181139016a8e103d1a7087d08b64e7a05b225411",
+                "usage": {
+                  "totalTokens": 20514,
+                  "inputTokens": 20314,
+                  "cachedInputTokens": 19200,
+                  "cacheWriteInputTokens": 0,
+                  "outputTokens": 200,
+                  "reasoningOutputTokens": 52
+                }
+              }
+            }
+          }
+        },
+        {
+          "id": "evt_775xfcb8jd",
+          "scope": {
+            "kind": "turn",
+            "turnId": "01a03aef-365a-7eb1-8885-ba7aaab36fd2"
+          },
+          "threadId": "thr_bk9z5pvb86",
+          "seq": 21,
+          "createdAt": 1787695170156,
+          "type": "item/started",
+          "data": {
+            "providerThreadId": "01a03aef-35ae-7640-99ef-c14f6f95ad09",
+            "item": {
+              "type": "commandExecution",
+              "id": "exec-01bad836-b772-4702-8300-e2aecb07e1dc",
+              "command": "/usr/bin/bash -lc \"sed -n '1,240p' /jackbox/home/.iso/runtime/global-skills/051cefb156e94b93b5e2578a675241b5008ea1dbc7132545e87c8f9b68faaaa9/skills/citations/SKILL.md\"",
+              "cwd": "/jackbox/home/MH370",
+              "status": "pending",
+              "approvalStatus": null
+            }
+          }
+        },
+        {
+          "id": "evt_vf7iujavsw",
+          "scope": {
+            "kind": "thread"
+          },
+          "threadId": "thr_bk9z5pvb86",
+          "seq": 22,
+          "createdAt": 1787695173867,
+          "type": "provider/unhandled",
+          "data": {
+            "providerThreadId": "01a03aef-35ae-7640-99ef-c14f6f95ad09",
+            "providerId": "codex",
+            "rawType": "guardianWarning",
+            "rawEvent": {
+              "jsonrpc": "2.0",
+              "method": "guardianWarning",
+              "params": {
+                "threadId": "01a03aef-35ae-7640-99ef-c14f6f95ad09",
+                "message": "Automatic approval review approved (risk: low, authorization: medium): This is a read-only inspection of local instructions, with no edits, network access, credential handling, or other meaningful side effects."
+              }
+            }
+          }
+        }
+      ]
+    ── Ran python3 runs/mh370/release-v0.1/validate-release.py
+      $ python3 runs/mh370/release-v0.1/validate-release.py
+      release validation passed: 70 artifacts; manifest_sha256=b5d89ff95bd26594506674dd51a04b36e23a04946ac0b835f85b5ee1b16db9e1
+    ── Ran iso thread log thr_bk9z5pvb86 --format minimal | tail -100
+      $ iso thread log thr_bk9z5pvb86 --format minimal | tail -100
+      pub velocity_ned: VelocityNed,
+          pub attitude: AttitudeAvailability,
+      }
+
+      pub enum TransitionEvent {
+          FuelExhausted,
+          EngineFlameout { engine: EngineSide },
+          IdgOffline { engine: EngineSide },
+          DualAcBusLoss,
+          ApuStartCommanded,
+          ApuGeneratorOnline,
+          SduPowerRestored,
+          SduLogonRequest,
+          SduLogonAcknowledged,
+          GroundContact,
+      }
+
+      pub struct FlightTransitionResult {
+          pub samples: Vec<TransitionSample>,
+          pub events: Vec<TimedEvent>,
+          pub feasibility: ThreeDofFeasibility,
+          pub integration: IntegrationDiagnostics,
+          pub model_provenance: ModelProvenance,
+      }
+      ```
+
+      Tier 1 can represent kinematics, mass/fuel burn, energy, engine thrust availability, and externally declared event timing. A separate conditional systems likelihood should handle attitude-dependent APU fuel porting, start retries, intermittent power, bus restoration, and SDU log-on timing until those mechanisms have calibrated models.
+
+      The runner passes `TransitionSample` to SATCOM and antenna spokes. Those spokes remain independent of engine, fuel, and simulator-private state.
+
+      ## Next implementation action
+
+      Once the shared-file edit lock is clear, implement one pure focused control in `mh370-dynamics`:
+
+      ```text
+      evaluate_three_dof_feasibility(input) -> ThreeDofFeasibility
+      ```
+
+      It should:
+
+      1. Accept two typed velocity states, elapsed time, gravity, and optional turn rate.
+      2. Require an explicit airspeed-versus-ground-speed basis.
+      3. Return altitude loss, flight-path angles, tangential/normal acceleration, earth-up and total specific load, energy change, dissipative power, and generic-load classification.
+      4. Include independent fixtures for level 1-g flight, ballistic free fall, constant-acceleration descent, and coordinated turning.
+      5. Reproduce the current median case: −0.6804 g, approximately 0.312 normal load, and −1.243 kJ/kg.
+      6. Remain separate from SATCOM; the runner can compose its propagated state with the existing BTO/BFO functions later.
+
+      Do not begin JSBSim integration yet. The immediate scientific value is making this transparent screen canonical and testable before comparing it with a high-fidelity simulator.
+
+      ## Citation ledger
+
+      | Claim | Source | Locator | Short passage | Status |
+      |---|---|---|---|---|
+      | Public BFO boundary rates bracket the raw inversion | ATSB, August 2017 | Table 2, PDF pp. 8–9 | “3,800 ft/min”; “14,600 ft/min” | FOUND |
+      | Manufacturer simulator had airline-grade aerodynamic provenance | ATSB, August 2017 | End-of-flight simulations, p. 10 | “same aerodynamic model as a Level D simulator” | FOUND |
+      | Some simulations reproduced the eight-second increase | ATSB, August 2017 | Results, p. 11 | “increase in descent rates across an 8 second period … equalled or exceeded” | FOUND |
+      | Simulator/fuel behavior has important validity limitations | ATSB investigation page | End-of-flight simulations | “unable to accurately model the dynamics of the aircraft’s fuel tanks” | FOUND |
+      | Dual-bus loss triggers a nominal APU start sequence | ATSB, December 2015 | End-of-flight, p. 11 | “approximately 60 seconds for the electrical generator to come on-line” | FOUND |
+      | SDU log-on follows power restoration on a nominal delay | ATSB, December 2015 | Final SATCOM sequence, pp. 12–13 | “SDU required approximately 60 seconds” | FOUND |
+      | Flameout and electrical dropout are distinct events | ATSB, December 2015 | Engine flame-outs, p. 11 | “spool-down … generator … drop off-line” | FOUND |
+      | Generic transport-category maneuver limit is at least 2.5 | 14 CFR 25.337, 2013 edition | §25.337(b) | “may not be less than 2.5” | FOUND |
+      | Normal structural factor of safety is 1.5 | 14 CFR 25.303 | §25.303 | “factor of safety of 1.5” | FOUND |
+
+      No repository files were modified.
+
+      ── User ────────────────────────────────────────────────────
+      [iso message from thread:thr_dvhqyvtdcu]
+
+      Proceed with the next implementation increment now. The shared edit lock is clear for crates/dynamics only. Implement one pure focused evaluate_three_dof_feasibility capability in mh370-dynamics, with typed input/output, an explicit airspeed-versus-ground-speed basis, configurable generic total-specific-load threshold, and no SATCOM or runner dependency. Return altitude loss, initial/final path angles, defined acceleration components, earth-up and total specific load, mechanical-energy change, dissipative power/equivalent drag-minus-thrust, and generic-load classification. Add focused independent fixtures for level 1-g flight, ballistic free fall, constant-acceleration descent, coordinated turning, and a regression reproducing the current median case near -0.6804 g and -1.243 kJ/kg. Export it from dynamics/lib.rs. Do not edit runner, reporting, configs, README, or other crates. Run the focused crate tests and report changed files and results.
+
+      ── Worked for (12m 27s) ────────────────────────────────────
+
+      ── Assistant ───────────────────────────────────────────────
+      Implemented the pure three-DoF feasibility screen entirely within `mh370-dynamics`.
+
+      Changed files:
+
+      - [three_dof.rs](/jackbox/home/MH370/crates/dynamics/src/three_dof.rs:1) — typed inputs/outputs, validation, explicit true-airspeed versus ground-speed basis, acceleration/load/energy calculations, generic inclusive load classification, and five fixtures.
+      - [lib.rs](/jackbox/home/MH370/crates/dynamics/src/lib.rs:13) — public exports only.
+
+      The evaluator returns altitude loss, endpoint path angles, midpoint acceleration components, earth-up and total specific load, specific mechanical-energy change, dissipative power, and equivalent `(drag−thrust)/mass`. It explicitly remains a generic kinematic screen—not B777-validated dynamics.
+
+      Verification:
+
+      - `cargo fmt --package mh370-dynamics -- --check`: passed.
+      - `cargo test -p mh370-dynamics`: 13 passed, 0 failed.
+      - New fixtures cover level 1-g flight, ballistic free fall, constant-acceleration descent, coordinated turning, and the raw-BFO median regression at approximately −0.6804 g, −1.243 kJ/kg, and 1,300.78 ft altitude loss.
+      - Clippy passed with only the unrelated pre-existing `LateralMode` `derivable_impls` warning exempted.
+
+      No runner, SATCOM, reporting, configuration, README, dependency, or other-crate files were changed. No implementation blocker remains.
+
+      ── User ────────────────────────────────────────────────────
+      [iso message from thread:thr_dvhqyvtdcu]
+
+      Final context handoff from End-of-Flight; record only and do not start further code in this turn. Your mh370-dynamics three-DoF evaluator is now used by the raw-BFO runner instead of a duplicate load equation. Fully integrated artifacts are at /jackbox/home/.iso/thread-storage/mh370-end-of-flight-raw-bfo-20260826-integrated. Median connected zero-turn raw pair: -4451 to -14995 ft/min over 8.027 s, about 1300.8 ft altitude loss, -0.6804 g earth-vertical acceleration and about -1.243 kJ/kg specific mechanical-energy change. It passes the generic 2.5 g screen, but remains a point-mass kinematic possibility, not a B777-validated descent. The linked marginal matrices equal the independent ones because at least one low-turn path survives every populated cell; aggressive individual turn paths can still fail. BTO descent contribution is +1.655 us, the wrong sign for the observed -20 us change. The full workspace suite passed. The next Flight Simulation task, only when Pete directs, is the provenance/validation design for an aircraft-specific post-flameout transition kernel, not tightening this generic screen ad hoc.
+
+      ── Assistant ───────────────────────────────────────────────
+      Recorded. No code or repository changes made.
+
+      Next directed task: provenance and validation design for an aircraft-specific post-flameout transition kernel, keeping the current 2.5 g screen explicitly generic and non-B777-validated.
+    ── Ran iso thread log thr_94ecfzphq2 --format minimal | tail -100
+      $ iso thread log thr_94ecfzphq2 --format minimal | tail -100
+      ── User ────────────────────────────────────────────────────
+      [iso message from thread:thr_2hjfxguxv4]
+
+      Artifact hygiene note for your integration pass: shared workspace currently contains 12 *.orig and 2 *.rej files (including accident_commands/continuation_commands). I will not touch them while you are editing, but please remove them once their patches are resolved so they cannot enter publication manifests.
+
+      ── Worked for (20m 56s) ────────────────────────────────────
+
+      ── Assistant ───────────────────────────────────────────────
+      Completed the v0.1 release documentation:
+
+      - [Release index](/jackbox/home/MH370/runs/mh370/release-v0.1/index.html)
+      - [Release manifest](/jackbox/home/MH370/runs/mh370/release-v0.1/release-manifest.json)
+      - [Self-validator](/jackbox/home/MH370/runs/mh370/release-v0.1/validate-release.py)
+      - [Updated root README](/jackbox/home/MH370/README.md)
+
+      Validation passed for all 70 linked artifacts, portable paths, hashes, evidence-consumption rules, and HTML/manifest agreement.
+
+      Final manifest SHA-256:
+
+      `b5d89ff95bd26594506674dd51a04b36e23a04946ac0b835f85b5ee1b16db9e1`
+
+      ::inline-vis{file="runs/mh370/release-v0.1/index.html" height="900"}
+    ── Ran iso thread log thr_94ecfzphq2 --json --limit 100000 | node -e 'let s="";process.stdin.on("data",d=>s+=d);process.stdin.on("end",()=>{const a=JSON.parse(s);for(const e of a.slice(-30)){const d=e.data||{};const item=d.item||{};console.log(JSON.stringify({seq:e.seq,type:e.type,createdAt:e.createdAt,status:item.status,error:d.error||d.message||item.error||null,text:item.text||d.delta||null,command:item.command||null,output:item.aggregatedOutput?item.aggregatedOutput.slice(0,500):null}));}});' (8s)
+      $ iso thread log thr_94ecfzphq2 --json --limit 100000 | node -e 'let s="";process.stdin.on("data",d=>s+=d);process.stdin.on("end",()=>{const a=JSON.parse(s);for(const e of a.slice(-30)){const d=e.data||{};const item=d.item||{};console.log(JSON.stringify({seq:e.seq,type:e.type,createdAt:e.createdAt,status:item.status,error:d.error||d.message||item.error||null,text:item.text||d.delta||null,command:item.command||null,output:item.aggregatedOutput?item.aggregatedOutput.slice(0,500):null}));}});'
+      {"seq":145969,"type":"item/agentMessage/delta","createdAt":1788157296891,"error":null,"text":"`\n\n","command":null,"output":null}
+      {"seq":145970,"type":"item/agentMessage/delta","createdAt":1788157296891,"error":null,"text":"::","command":null,"output":null}
+      {"seq":145971,"type":"item/agentMessage/delta","createdAt":1788157297047,"error":null,"text":"inline","command":null,"output":null}
+      {"seq":145972,"type":"item/agentMessage/delta","createdAt":1788157297047,"error":null,"text":"-vis","command":null,"output":null}
+      {"seq":145973,"type":"item/agentMessage/delta","createdAt":1788157297047,"error":null,"text":"{","command":null,"output":null}
+      {"seq":145974,"type":"item/agentMessage/delta","createdAt":1788157297047,"error":null,"text":"file","command":null,"output":null}
+      {"seq":145975,"type":"item/agentMessage/delta","createdAt":1788157297047,"error":null,"text":"=\"","command":null,"output":null}
+      {"seq":145976,"type":"item/agentMessage/delta","createdAt":1788157297047,"error":null,"text":"runs","command":null,"output":null}
+      {"seq":145977,"type":"item/agentMessage/delta","createdAt":1788157297047,"error":null,"text":"/m","command":null,"output":null}
+      {"seq":145978,"type":"item/agentMessage/delta","createdAt":1788157297047,"error":null,"text":"h","command":null,"output":null}
+      {"seq":145979,"type":"item/agentMessage/delta","createdAt":1788157297059,"error":null,"text":"370","command":null,"output":null}
+      {"seq":145980,"type":"item/agentMessage/delta","createdAt":1788157297170,"error":null,"text":"/re","command":null,"output":null}
+      {"seq":145981,"type":"item/agentMessage/delta","createdAt":1788157297170,"error":null,"text":"lease","command":null,"output":null}
+      {"seq":145982,"type":"item/agentMessage/delta","createdAt":1788157297170,"error":null,"text":"-v","command":null,"output":null}
+      {"seq":145983,"type":"item/agentMessage/delta","createdAt":1788157297170,"error":null,"text":"0","command":null,"output":null}
+      {"seq":145984,"type":"item/agentMessage/delta","createdAt":1788157297170,"error":null,"text":".","command":null,"output":null}
+      {"seq":145985,"type":"item/agentMessage/delta","createdAt":1788157297182,"error":null,"text":"1","command":null,"output":null}
+      {"seq":145986,"type":"item/agentMessage/delta","createdAt":1788157297182,"error":null,"text":"/index","command":null,"output":null}
+      {"seq":145987,"type":"item/agentMessage/delta","createdAt":1788157297193,"error":null,"text":".html","command":null,"output":null}
+      {"seq":145988,"type":"item/agentMessage/delta","createdAt":1788157297307,"error":null,"text":"\"","command":null,"output":null}
+      {"seq":145989,"type":"item/agentMessage/delta","createdAt":1788157297307,"error":null,"text":" height","command":null,"output":null}
+      {"seq":145990,"type":"item/agentMessage/delta","createdAt":1788157297307,"error":null,"text":"=\"","command":null,"output":null}
+      {"seq":145991,"type":"item/agentMessage/delta","createdAt":1788157297307,"error":null,"text":"900","command":null,"output":null}
+      {"seq":145992,"type":"item/agentMessage/delta","createdAt":1788157297307,"error":null,"text":"\"}","command":null,"output":null}
+      {"seq":145993,"type":"item/completed","createdAt":1788157297360,"error":null,"text":"Completed the v0.1 release documentation:\n\n- [Release index](/jackbox/home/MH370/runs/mh370/release-v0.1/index.html)\n- [Release manifest](/jackbox/home/MH370/runs/mh370/release-v0.1/release-manifest.json)\n- [Self-validator](/jackbox/home/MH370/runs/mh370/release-v0.1/validate-release.py)\n- [Updated root README](/jackbox/home/MH370/README.md)\n\nValidation passed for all 70 linked artifacts, portable paths, hashes, evidence-consumption rules, and HTML/manifest agreement.\n\nFinal manifest SHA-256:\n\n`b5d89ff95bd26594506674dd51a04b36e23a04946ac0b835f85b5ee1b16db9e1`\n\n::inline-vis{file=\"runs/mh370/release-v0.1/index.html\" height=\"900\"}","command":null,"output":null}
+      {"seq":145994,"type":"thread/tokenUsage/updated","createdAt":1788157297409,"error":null,"text":null,"command":null,"output":null}
+      {"seq":145995,"type":"thread/contextWindowUsage/updated","createdAt":1788157297409,"error":null,"text":null,"command":null,"output":null}
+      {"seq":145996,"type":"provider/rateLimits/updated","createdAt":1788157297409,"error":null,"text":null,"command":null,"output":null}
+      {"seq":145997,"type":"turn/diff/updated","createdAt":1788157297409,"error":null,"text":null,"command":null,"output":null}
+      {"seq":145998,"type":"turn/completed","createdAt":1788157297409,"error":null,"text":null,"command":null,"output":null}
+
+  ── Assistant
+  The substantive state is much better than the missing preview suggests: Core completed a validated v0.1 release after that old visualization was generated. The old 32-particle HTML was then removed as superseded output, but the historical message still points to it. I’m checking the release classifications and impact-family results now so I can give you an exact milestone/blocker summary and a live replacement view.
+
+  ── Explored 3 files, viewed 4 images
+    ── Read runs/mh370/release-v0.1/conditional/README.md
+    ── Viewed image: /jackbox/home/MH370/runs/mh370/release-v0.1/impact/publication/impact-location-comparison.png
+    ── Viewed image: /jackbox/home/MH370/runs/mh370/release-v0.1/impact/publication/impact-dynamics-comparison.png
+    ── Viewed image: /jackbox/home/MH370/runs/mh370/release-v0.1/conditional/pleiades-bran2016/conditional.png
+    ── Viewed image: /jackbox/home/MH370/runs/mh370/release-v0.1/impact/publication/impact-gain-source-comparison.png
+    ── Read runs/mh370/release-v0.1/index.html
+    ── Read runs/mh370/release-v0.1/impact/publication/report.html
+
+  ── Assistant
+  I’m repairing the historical card with a small compatibility redirect to the current canonical impact report. This avoids resurrecting the obsolete 32-particle implementation: refreshing that old message should now open the five-seed v0.1 impact results instead.
+
+  ── Ran 3 commands, created 1 file
+    ── Ran mkdir -p runs/mh370/impact-visualization-preview
+      $ mkdir -p runs/mh370/impact-visualization-preview
+      exit code 0
+    ── Created runs/mh370/impact-visualization-preview/impact-ensemble-explorer.html +19
+      <!doctype html>
+      <html lang="en">
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="refresh" content="0; url=../release-v0.1/impact/publication/report.html">
+        <title>MH370 current impact report</title>
+        <style>
+          body { max-width: 46rem; margin: 3rem auto; padding: 0 1rem; font: 16px/1.5 system-ui, sans-serif; color: #18212b; }
+          a { color: #245f93; }
+        </style>
+      </head>
+      <body>
+        <h1>This preliminary preview has been superseded</h1>
+        <p>The original 32-particle diagnostic was removed when the validated v0.1 release was assembled. Redirecting to the current five-seed conditional impact report.</p>
+        <p><a href="../release-v0.1/impact/publication/report.html">Open the current impact report</a>.</p>
+        <script>window.location.replace("../release-v0.1/impact/publication/report.html");</script>
+      </body>
+      </html>
+    ── Ran test -f runs/mh370/impact-visualization-preview/impact-ensemble-explorer.html && test -f runs/mh370/release-v0.1/impact/publication/report.html && python3 runs/mh370/release-v0.1/validate-release.py && wc -c runs/mh370/impact-visualization-preview/impact-ensemble-explorer.html runs/mh370/release-v0.1/impact/publication/report.html
+      $ test -f runs/mh370/impact-visualization-preview/impact-ensemble-explorer.html && test -f runs/mh370/release-v0.1/impact/publication/report.html && python3 runs/mh370/release-v0.1/validate-release.py && wc -c runs/mh370/impact-visualization-preview/impact-ensemble-explorer.html runs/mh370/release-v0.1/impact/publication/report.html
+      release validation passed: 70 artifacts; manifest_sha256=b5d89ff95bd26594506674dd51a04b36e23a04946ac0b835f85b5ee1b16db9e1
+       894 runs/mh370/impact-visualization-preview/impact-ensemble-explorer.html
+      5052 runs/mh370/release-v0.1/impact/publication/report.html
+      5946 total
+    ── Ran iso machine list --json
+      $ iso machine list --json
+      [
+        {
+          "id": "host_dccwjaevcd",
+          "name": "a313cfef7155",
+          "type": "persistent",
+          "status": "connected",
+          "maxPermissionMode": "full",
+          "lastSeenAt": 1788339532063,
+          "lastRejectedProtocolVersion": null,
+          "createdAt": 1786590227193,
+          "updatedAt": 1788339532063
+        }
+      ]
+
+── Assistant ───────────────────────────────────────────────
+The host daemon is healthy and connected. The screenshot was caused by a deleted, obsolete 32-particle preview—not a failed scientific run. I restored that historical path as a redirect; refreshing should now open the current report.
+
+Current status:
+
+- The validated v0.1 milestone is complete: 70 release artifacts pass integrity and evidence-consumption checks.
+- The primary EOF conditional contains 2,560 particles across five seeds, ESS 1,930.
+- Its conditional mean is 38.160°S, 89.409°E; 90% display HPD ≈9,592 km².
+- Median impact is 00:37:49 UTC, 106.9 NM after 00:11, with 6.66 m/s downward speed and 0.686 GJ kinetic energy.
+- Five terminal families remain separate; no unsupported probabilities are assigned between them.
+- Aircraft attitude and water-contact orientation remain unresolved.
+- Pléiades results are display-only because importance-sampling ESS remains below 10 even at 150,000 particles.
+- Ocean drift and hydroacoustics remain diagnostic with zero estimator weight.
+- The generic three-DoF raw-BFO feasibility test is integrated, but the principal next blocker is an aircraft-specific, validated B777 post-flameout transition model.
+
+The Core thread displays an inconsistent `error` status, but its last recorded turn completed normally and I have rerun the release validator successfully. No production job is currently running.
+
+[Release dashboard](/jackbox/home/MH370/runs/mh370/release-v0.1/index.html) · [current impact report](/jackbox/home/MH370/runs/mh370/release-v0.1/impact/publication/report.html) · [impact-location figure](/jackbox/home/MH370/runs/mh370/release-v0.1/impact/publication/impact-location-comparison.svg)
+
+::inline-vis{file="runs/mh370/release-v0.1/impact/publication/report.html" height="1100"}

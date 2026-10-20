@@ -1,0 +1,2252 @@
+{
+ "constraint": "unpowered",
+ "p_core": {
+  "run-j-waypoints": 0.9982,
+  "run-j-free": 0.0013,
+  "run-j-repro-radar": 0.0003,
+  "run-j-descent-climb": 0.0002
+ },
+ "settings": {
+  "W_bfo=350Hz,W_bto=2000us,W_logon=1800s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -34.62835098718221,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -32.58866930899059,
+    "lnBF_vs_held_out": 2.03968167819162,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 2.039859934491581,
+     "run-j-free": 1.9491878051457263,
+     "run-j-repro-radar": 1.8398733980354933,
+     "run-j-descent-climb": 1.9996878129424331
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -33.82996424398267,
+    "lnBF_vs_held_out": 0.7983867431995364,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.7989147311749534,
+     "run-j-free": 0.4645579105204902,
+     "run-j-repro-radar": 0.3714711235224968,
+     "run-j-descent-climb": 0.5538341125659016
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -35.801000170966965,
+    "lnBF_vs_held_out": -1.1726491837847561,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": -1.171896666789408,
+     "run-j-free": -1.7221115556724556,
+     "run-j-repro-radar": -1.6753533815826458,
+     "run-j-descent-climb": -1.5874080486248872
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -37.11176569676,
+    "lnBF_vs_held_out": -2.4834147095777936,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": -2.4829559577161007,
+     "run-j-free": -2.767323935793897,
+     "run-j-repro-radar": -2.80797382179464,
+     "run-j-descent-climb": -2.733457097719082
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=350Hz,W_bto=2000us,W_logon=3896s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -35.40051470806038,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -33.36083302986876,
+    "lnBF_vs_held_out": 2.03968167819162,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 2.039859934491581,
+     "run-j-free": 1.9491878051457263,
+     "run-j-repro-radar": 1.8398733980354933,
+     "run-j-descent-climb": 1.9996878129424331
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -34.60212796486085,
+    "lnBF_vs_held_out": 0.7983867431995293,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.7989147311749463,
+     "run-j-free": 0.4645579105204831,
+     "run-j-repro-radar": 0.3714711235224968,
+     "run-j-descent-climb": 0.5538341125659016
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -35.801000170966965,
+    "lnBF_vs_held_out": -0.4004854629065875,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": -0.3997329459112393,
+     "run-j-free": -0.9499478347942869,
+     "run-j-repro-radar": -0.9031896607044771,
+     "run-j-descent-climb": -0.8152443277467185
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -37.88392941763817,
+    "lnBF_vs_held_out": -2.4834147095777936,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": -2.4829559577161007,
+     "run-j-free": -2.767323935793897,
+     "run-j-repro-radar": -2.80797382179464,
+     "run-j-descent-climb": -2.733457097719082
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=350Hz,W_bto=2000us,W_logon=7200s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -36.0146453483021,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -33.974963670110476,
+    "lnBF_vs_held_out": 2.039681678191627,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 2.039859934491588,
+     "run-j-free": 1.9491878051457334,
+     "run-j-repro-radar": 1.8398733980354933,
+     "run-j-descent-climb": 1.9996878129424331
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -35.21625860510256,
+    "lnBF_vs_held_out": 0.7983867431995435,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.7989147311749605,
+     "run-j-free": 0.4645579105204902,
+     "run-j-repro-radar": 0.3714711235225039,
+     "run-j-descent-climb": 0.5538341125659016
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -35.801000170966965,
+    "lnBF_vs_held_out": 0.21364517733513821,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.2143976943304864,
+     "run-j-free": -0.3358171945525612,
+     "run-j-repro-radar": -0.28905902046275145,
+     "run-j-descent-climb": -0.2011136875049928
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -38.4980600578799,
+    "lnBF_vs_held_out": -2.4834147095777936,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": -2.4829559577161007,
+     "run-j-free": -2.767323935793897,
+     "run-j-repro-radar": -2.807973821794633,
+     "run-j-descent-climb": -2.733457097719075
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=350Hz,W_bto=20000us,W_logon=1800s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -39.233521173170296,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -34.89125440198463,
+    "lnBF_vs_held_out": 4.342266771185663,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 4.342445027485624,
+     "run-j-free": 4.251772898139777,
+     "run-j-repro-radar": 4.142458491029537,
+     "run-j-descent-climb": 4.302272905936476
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -36.132549336976716,
+    "lnBF_vs_held_out": 3.1009718361935796,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 3.1014998241689966,
+     "run-j-free": 2.7671430035145335,
+     "run-j-repro-radar": 2.67405621651654,
+     "run-j-descent-climb": 2.856419205559945
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -38.103585263961016,
+    "lnBF_vs_held_out": 1.12993590920928,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 1.1306884262046282,
+     "run-j-free": 0.5804735373215877,
+     "run-j-repro-radar": 0.6272317114113974,
+     "run-j-descent-climb": 0.7151770443691561
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -39.41435078975405,
+    "lnBF_vs_held_out": -0.1808296165837575,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": -0.18037086472206454,
+     "run-j-free": -0.46473884279986066,
+     "run-j-repro-radar": -0.5053887288005967,
+     "run-j-descent-climb": -0.43087200472503895
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=350Hz,W_bto=20000us,W_logon=3896s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -40.005684894048464,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -35.6634181228628,
+    "lnBF_vs_held_out": 4.342266771185663,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 4.342445027485624,
+     "run-j-free": 4.251772898139777,
+     "run-j-repro-radar": 4.142458491029537,
+     "run-j-descent-climb": 4.302272905936476
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -36.904713057854885,
+    "lnBF_vs_held_out": 3.1009718361935796,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 3.1014998241689966,
+     "run-j-free": 2.7671430035145264,
+     "run-j-repro-radar": 2.67405621651654,
+     "run-j-descent-climb": 2.856419205559938
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -38.103585263961016,
+    "lnBF_vs_held_out": 1.9020996300874486,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 1.9028521470827968,
+     "run-j-free": 1.3526372581997563,
+     "run-j-repro-radar": 1.399395432289566,
+     "run-j-descent-climb": 1.4873407652473247
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -40.18651451063222,
+    "lnBF_vs_held_out": -0.1808296165837575,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": -0.18037086472206454,
+     "run-j-free": -0.46473884279986066,
+     "run-j-repro-radar": -0.5053887288005967,
+     "run-j-descent-climb": -0.43087200472503895
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=350Hz,W_bto=20000us,W_logon=7200s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -40.61981553429019,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -36.27754876310452,
+    "lnBF_vs_held_out": 4.34226677118567,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 4.342445027485631,
+     "run-j-free": 4.251772898139777,
+     "run-j-repro-radar": 4.142458491029537,
+     "run-j-descent-climb": 4.302272905936476
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -37.51884369809661,
+    "lnBF_vs_held_out": 3.1009718361935796,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 3.1014998241689966,
+     "run-j-free": 2.7671430035145335,
+     "run-j-repro-radar": 2.674056216516547,
+     "run-j-descent-climb": 2.856419205559952
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -38.103585263961016,
+    "lnBF_vs_held_out": 2.5162302703291743,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 2.5169827873245225,
+     "run-j-free": 1.966767898441482,
+     "run-j-repro-radar": 2.013526072531292,
+     "run-j-descent-climb": 2.1014714054890504
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -40.80064515087394,
+    "lnBF_vs_held_out": -0.1808296165837504,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": -0.18037086472205743,
+     "run-j-free": -0.46473884279985356,
+     "run-j-repro-radar": -0.5053887288005967,
+     "run-j-descent-climb": -0.43087200472503895
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=350Hz,W_bto=60000us,W_logon=1800s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -41.43074575050652,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -35.98986669065275,
+    "lnBF_vs_held_out": 5.440879059853771,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 5.4410573161537314,
+     "run-j-free": 5.350385186807877,
+     "run-j-repro-radar": 5.241070779697644,
+     "run-j-descent-climb": 5.400885194604584
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -37.23116162564482,
+    "lnBF_vs_held_out": 4.199584124861694,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 4.200112112837111,
+     "run-j-free": 3.865755292182641,
+     "run-j-repro-radar": 3.7726685051846545,
+     "run-j-descent-climb": 3.9550314942280522
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -39.20219755262912,
+    "lnBF_vs_held_out": 2.2285481978773944,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 2.2293007148727426,
+     "run-j-free": 1.679085825989695,
+     "run-j-repro-radar": 1.7258440000795048,
+     "run-j-descent-climb": 1.8137893330372634
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -40.51296307842216,
+    "lnBF_vs_held_out": 0.9177826720843569,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.9182414239460499,
+     "run-j-free": 0.6338734458682538,
+     "run-j-repro-radar": 0.5932235598675177,
+     "run-j-descent-climb": 0.6677402839430755
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=350Hz,W_bto=60000us,W_logon=3896s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -42.202909471384686,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -36.762030411530915,
+    "lnBF_vs_held_out": 5.440879059853771,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 5.4410573161537314,
+     "run-j-free": 5.350385186807877,
+     "run-j-repro-radar": 5.241070779697644,
+     "run-j-descent-climb": 5.400885194604584
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -38.00332534652299,
+    "lnBF_vs_held_out": 4.199584124861694,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 4.200112112837111,
+     "run-j-free": 3.865755292182641,
+     "run-j-repro-radar": 3.7726685051846545,
+     "run-j-descent-climb": 3.9550314942280522
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -39.20219755262912,
+    "lnBF_vs_held_out": 3.000711918755563,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 3.0014644357509113,
+     "run-j-free": 2.4512495468678637,
+     "run-j-repro-radar": 2.4980077209576734,
+     "run-j-descent-climb": 2.585953053915432
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -41.28512679930033,
+    "lnBF_vs_held_out": 0.9177826720843569,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.9182414239460499,
+     "run-j-free": 0.6338734458682538,
+     "run-j-repro-radar": 0.5932235598675106,
+     "run-j-descent-climb": 0.6677402839430684
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=350Hz,W_bto=60000us,W_logon=7200s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -42.817040111626405,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -37.376161051772634,
+    "lnBF_vs_held_out": 5.440879059853771,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 5.4410573161537314,
+     "run-j-free": 5.350385186807877,
+     "run-j-repro-radar": 5.241070779697637,
+     "run-j-descent-climb": 5.400885194604577
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -38.61745598676472,
+    "lnBF_vs_held_out": 4.199584124861687,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 4.200112112837104,
+     "run-j-free": 3.865755292182641,
+     "run-j-repro-radar": 3.7726685051846474,
+     "run-j-descent-climb": 3.9550314942280522
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -39.20219755262912,
+    "lnBF_vs_held_out": 3.6148425589972817,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 3.61559507599263,
+     "run-j-free": 3.0653801871095823,
+     "run-j-repro-radar": 3.112138361199392,
+     "run-j-descent-climb": 3.2000836941571507
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -41.899257439542055,
+    "lnBF_vs_held_out": 0.9177826720843498,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.9182414239460428,
+     "run-j-free": 0.6338734458682467,
+     "run-j-repro-radar": 0.5932235598675106,
+     "run-j-descent-climb": 0.6677402839430684
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=700Hz,W_bto=2000us,W_logon=1800s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -36.014645348302096,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -33.974963670110476,
+    "lnBF_vs_held_out": 2.03968167819162,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 2.039859934491581,
+     "run-j-free": 1.9491878051457263,
+     "run-j-repro-radar": 1.8398733980354862,
+     "run-j-descent-climb": 1.999687812942426
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -34.52311142454261,
+    "lnBF_vs_held_out": 1.4915339237594836,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 1.4920619117349005,
+     "run-j-free": 1.1577050910804303,
+     "run-j-repro-radar": 1.064618304082444,
+     "run-j-descent-climb": 1.2469812931258417
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -35.801000170966965,
+    "lnBF_vs_held_out": 0.2136451773351311,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.21439769433047928,
+     "run-j-free": -0.3358171945525683,
+     "run-j-repro-radar": -0.28905902046275855,
+     "run-j-descent-climb": -0.20111368750499992
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -37.11176569676,
+    "lnBF_vs_held_out": -1.0971203484579064,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": -1.0966615965962134,
+     "run-j-free": -1.3810295746740096,
+     "run-j-repro-radar": -1.4216794606747527,
+     "run-j-descent-climb": -1.347162736599195
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=700Hz,W_bto=2000us,W_logon=3896s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -36.786809069180265,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -34.74712739098865,
+    "lnBF_vs_held_out": 2.039681678191613,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 2.0398599344915738,
+     "run-j-free": 1.9491878051457192,
+     "run-j-repro-radar": 1.8398733980354862,
+     "run-j-descent-climb": 1.999687812942426
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -35.29527514542078,
+    "lnBF_vs_held_out": 1.4915339237594836,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 1.4920619117349005,
+     "run-j-free": 1.1577050910804303,
+     "run-j-repro-radar": 1.064618304082444,
+     "run-j-descent-climb": 1.2469812931258417
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -35.801000170966965,
+    "lnBF_vs_held_out": 0.9858088982132998,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.9865614152086479,
+     "run-j-free": 0.43634652632560034,
+     "run-j-repro-radar": 0.4831047004154101,
+     "run-j-descent-climb": 0.5710500333731687
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -37.88392941763817,
+    "lnBF_vs_held_out": -1.0971203484579064,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": -1.0966615965962134,
+     "run-j-free": -1.3810295746740096,
+     "run-j-repro-radar": -1.4216794606747527,
+     "run-j-descent-climb": -1.347162736599195
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=700Hz,W_bto=2000us,W_logon=7200s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -37.40093970942198,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -35.36125803123037,
+    "lnBF_vs_held_out": 2.039681678191613,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 2.0398599344915738,
+     "run-j-free": 1.9491878051457263,
+     "run-j-repro-radar": 1.8398733980354862,
+     "run-j-descent-climb": 1.999687812942426
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -35.90940578566251,
+    "lnBF_vs_held_out": 1.4915339237594765,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 1.4920619117348934,
+     "run-j-free": 1.1577050910804303,
+     "run-j-repro-radar": 1.0646183040824369,
+     "run-j-descent-climb": 1.2469812931258417
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -35.801000170966965,
+    "lnBF_vs_held_out": 1.5999395384550184,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 1.6006920554503665,
+     "run-j-free": 1.050477166567319,
+     "run-j-repro-radar": 1.0972353406571287,
+     "run-j-descent-climb": 1.1851806736148873
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -38.4980600578799,
+    "lnBF_vs_held_out": -1.0971203484579135,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": -1.0966615965962205,
+     "run-j-free": -1.3810295746740167,
+     "run-j-repro-radar": -1.4216794606747527,
+     "run-j-descent-climb": -1.347162736599195
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=700Hz,W_bto=20000us,W_logon=1800s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -40.61981553429019,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -36.27754876310453,
+    "lnBF_vs_held_out": 4.342266771185663,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 4.342445027485624,
+     "run-j-free": 4.251772898139777,
+     "run-j-repro-radar": 4.142458491029537,
+     "run-j-descent-climb": 4.302272905936476
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -36.82569651753666,
+    "lnBF_vs_held_out": 3.794119016753527,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 3.794647004728944,
+     "run-j-free": 3.4602901840744806,
+     "run-j-repro-radar": 3.367203397076487,
+     "run-j-descent-climb": 3.549566386119892
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -38.103585263961016,
+    "lnBF_vs_held_out": 2.5162302703291743,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 2.5169827873245225,
+     "run-j-free": 1.966767898441482,
+     "run-j-repro-radar": 2.013526072531292,
+     "run-j-descent-climb": 2.1014714054890504
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -39.41435078975405,
+    "lnBF_vs_held_out": 1.2054647445361368,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 1.2059234963978298,
+     "run-j-free": 0.9215555183200337,
+     "run-j-repro-radar": 0.8809056323192976,
+     "run-j-descent-climb": 0.9554223563948554
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=700Hz,W_bto=20000us,W_logon=3896s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -41.39197925516836,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -37.049712483982695,
+    "lnBF_vs_held_out": 4.342266771185663,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 4.342445027485624,
+     "run-j-free": 4.251772898139777,
+     "run-j-repro-radar": 4.142458491029537,
+     "run-j-descent-climb": 4.302272905936476
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -37.59786023841483,
+    "lnBF_vs_held_out": 3.794119016753527,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 3.794647004728944,
+     "run-j-free": 3.4602901840744735,
+     "run-j-repro-radar": 3.367203397076487,
+     "run-j-descent-climb": 3.549566386119885
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -38.103585263961016,
+    "lnBF_vs_held_out": 3.288393991207343,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 3.289146508202691,
+     "run-j-free": 2.7389316193196507,
+     "run-j-repro-radar": 2.7856897934094604,
+     "run-j-descent-climb": 2.873635126367219
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -40.18651451063222,
+    "lnBF_vs_held_out": 1.2054647445361368,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 1.2059234963978298,
+     "run-j-free": 0.9215555183200337,
+     "run-j-repro-radar": 0.8809056323192976,
+     "run-j-descent-climb": 0.9554223563948554
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=700Hz,W_bto=20000us,W_logon=7200s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -42.006109895410084,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -37.663843124224414,
+    "lnBF_vs_held_out": 4.34226677118567,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 4.342445027485631,
+     "run-j-free": 4.251772898139777,
+     "run-j-repro-radar": 4.142458491029537,
+     "run-j-descent-climb": 4.302272905936476
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -38.21199087865656,
+    "lnBF_vs_held_out": 3.794119016753527,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 3.794647004728944,
+     "run-j-free": 3.4602901840744806,
+     "run-j-repro-radar": 3.3672033970764943,
+     "run-j-descent-climb": 3.549566386119899
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -38.103585263961016,
+    "lnBF_vs_held_out": 3.9025246314490687,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 3.903277148444417,
+     "run-j-free": 3.3530622595613764,
+     "run-j-repro-radar": 3.399820433651186,
+     "run-j-descent-climb": 3.4877657666089448
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -40.80064515087394,
+    "lnBF_vs_held_out": 1.205464744536144,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 1.205923496397837,
+     "run-j-free": 0.9215555183200408,
+     "run-j-repro-radar": 0.8809056323192976,
+     "run-j-descent-climb": 0.9554223563948554
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=700Hz,W_bto=60000us,W_logon=1800s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -42.81704011162641,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -37.376161051772634,
+    "lnBF_vs_held_out": 5.440879059853778,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 5.4410573161537386,
+     "run-j-free": 5.350385186807891,
+     "run-j-repro-radar": 5.241070779697651,
+     "run-j-descent-climb": 5.400885194604591
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -37.92430880620477,
+    "lnBF_vs_held_out": 4.892731305421641,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 4.893259293397058,
+     "run-j-free": 4.558902472742588,
+     "run-j-repro-radar": 4.465815685744602,
+     "run-j-descent-climb": 4.648178674787999
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -39.20219755262912,
+    "lnBF_vs_held_out": 3.614842558997289,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 3.615595075992637,
+     "run-j-free": 3.0653801871095894,
+     "run-j-repro-radar": 3.112138361199399,
+     "run-j-descent-climb": 3.2000836941571578
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -40.51296307842216,
+    "lnBF_vs_held_out": 2.3040770332042513,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 2.3045357850659443,
+     "run-j-free": 2.020167806988148,
+     "run-j-repro-radar": 1.979517920987412,
+     "run-j-descent-climb": 2.05403464506297
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=700Hz,W_bto=60000us,W_logon=3896s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -43.58920383250458,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -38.1483247726508,
+    "lnBF_vs_held_out": 5.440879059853778,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 5.4410573161537386,
+     "run-j-free": 5.350385186807891,
+     "run-j-repro-radar": 5.241070779697651,
+     "run-j-descent-climb": 5.400885194604591
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -38.69647252708294,
+    "lnBF_vs_held_out": 4.892731305421641,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 4.893259293397058,
+     "run-j-free": 4.558902472742588,
+     "run-j-repro-radar": 4.465815685744602,
+     "run-j-descent-climb": 4.648178674787999
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -39.20219755262912,
+    "lnBF_vs_held_out": 4.387006279875457,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 4.387758796870806,
+     "run-j-free": 3.837543907987758,
+     "run-j-repro-radar": 3.8843020820775678,
+     "run-j-descent-climb": 3.9722474150353264
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -41.28512679930033,
+    "lnBF_vs_held_out": 2.3040770332042513,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 2.3045357850659443,
+     "run-j-free": 2.020167806988148,
+     "run-j-repro-radar": 1.979517920987405,
+     "run-j-descent-climb": 2.0540346450629627
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=700Hz,W_bto=60000us,W_logon=7200s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -44.2033344727463,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -38.76245541289252,
+    "lnBF_vs_held_out": 5.440879059853778,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 5.4410573161537386,
+     "run-j-free": 5.350385186807884,
+     "run-j-repro-radar": 5.241070779697651,
+     "run-j-descent-climb": 5.400885194604591
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -39.310603167324665,
+    "lnBF_vs_held_out": 4.892731305421634,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 4.893259293397051,
+     "run-j-free": 4.558902472742588,
+     "run-j-repro-radar": 4.4658156857445945,
+     "run-j-descent-climb": 4.648178674787999
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -39.20219755262912,
+    "lnBF_vs_held_out": 5.001136920117176,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 5.001889437112524,
+     "run-j-free": 4.451674548229477,
+     "run-j-repro-radar": 4.498432722319286,
+     "run-j-descent-climb": 4.586378055277045
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -41.899257439542055,
+    "lnBF_vs_held_out": 2.304077033204244,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 2.304535785065937,
+     "run-j-free": 2.020167806988141,
+     "run-j-repro-radar": 1.979517920987405,
+     "run-j-descent-climb": 2.0540346450629627
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=1400Hz,W_bto=2000us,W_logon=1800s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -37.40093970942199,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -35.36125803123037,
+    "lnBF_vs_held_out": 2.03968167819162,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 2.039859934491581,
+     "run-j-free": 1.9491878051457334,
+     "run-j-repro-radar": 1.8398733980354933,
+     "run-j-descent-climb": 1.9996878129424331
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -35.21625860510256,
+    "lnBF_vs_held_out": 2.1846811043194307,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 2.1852090922948477,
+     "run-j-free": 1.8508522716403775,
+     "run-j-repro-radar": 1.7577654846423911,
+     "run-j-descent-climb": 1.940128473685789
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -35.801000170966965,
+    "lnBF_vs_held_out": 1.5999395384550255,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 1.6006920554503736,
+     "run-j-free": 1.050477166567326,
+     "run-j-repro-radar": 1.0972353406571358,
+     "run-j-descent-climb": 1.1851806736148944
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -37.11176569676,
+    "lnBF_vs_held_out": 0.28917401266198794,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.2896327645236809,
+     "run-j-free": 0.005264786445884795,
+     "run-j-repro-radar": -0.03538509955485836,
+     "run-j-descent-climb": 0.039131624520699404
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=1400Hz,W_bto=2000us,W_logon=3896s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -38.17310343030016,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -36.13342175210854,
+    "lnBF_vs_held_out": 2.03968167819162,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 2.039859934491581,
+     "run-j-free": 1.9491878051457334,
+     "run-j-repro-radar": 1.8398733980354933,
+     "run-j-descent-climb": 1.9996878129424331
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -35.98842232598073,
+    "lnBF_vs_held_out": 2.1846811043194307,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 2.1852090922948477,
+     "run-j-free": 1.8508522716403775,
+     "run-j-repro-radar": 1.7577654846423911,
+     "run-j-descent-climb": 1.940128473685789
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -35.801000170966965,
+    "lnBF_vs_held_out": 2.372103259333194,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 2.3728557763285423,
+     "run-j-free": 1.8226408874454947,
+     "run-j-repro-radar": 1.8693990615353044,
+     "run-j-descent-climb": 1.957344394493063
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -37.88392941763817,
+    "lnBF_vs_held_out": 0.28917401266198794,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.2896327645236809,
+     "run-j-free": 0.005264786445884795,
+     "run-j-repro-radar": -0.03538509955485836,
+     "run-j-descent-climb": 0.039131624520699404
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=1400Hz,W_bto=2000us,W_logon=7200s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -38.78723407054188,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -36.74755239235026,
+    "lnBF_vs_held_out": 2.03968167819162,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 2.039859934491581,
+     "run-j-free": 1.9491878051457263,
+     "run-j-repro-radar": 1.8398733980354862,
+     "run-j-descent-climb": 1.999687812942426
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -36.602552966222454,
+    "lnBF_vs_held_out": 2.1846811043194236,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 2.1852090922948406,
+     "run-j-free": 1.8508522716403775,
+     "run-j-repro-radar": 1.757765484642384,
+     "run-j-descent-climb": 1.940128473685789
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -35.801000170966965,
+    "lnBF_vs_held_out": 2.9862338995749127,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 2.986986416570261,
+     "run-j-free": 2.4367715276872133,
+     "run-j-repro-radar": 2.483529701777023,
+     "run-j-descent-climb": 2.5714750347347817
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -38.4980600578799,
+    "lnBF_vs_held_out": 0.28917401266198084,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.2896327645236738,
+     "run-j-free": 0.005264786445877689,
+     "run-j-repro-radar": -0.03538509955485836,
+     "run-j-descent-climb": 0.039131624520699404
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=1400Hz,W_bto=20000us,W_logon=1800s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -42.00610989541008,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -37.663843124224414,
+    "lnBF_vs_held_out": 4.342266771185663,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 4.342445027485624,
+     "run-j-free": 4.2517728981397696,
+     "run-j-repro-radar": 4.142458491029537,
+     "run-j-descent-climb": 4.302272905936476
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -37.51884369809661,
+    "lnBF_vs_held_out": 4.487266197313467,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 4.487794185288884,
+     "run-j-free": 4.153437364634421,
+     "run-j-repro-radar": 4.060350577636434,
+     "run-j-descent-climb": 4.242713566679839
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -38.103585263961016,
+    "lnBF_vs_held_out": 3.9025246314490616,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 3.9032771484444098,
+     "run-j-free": 3.3530622595613693,
+     "run-j-repro-radar": 3.399820433651179,
+     "run-j-descent-climb": 3.4877657666089377
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -39.41435078975405,
+    "lnBF_vs_held_out": 2.591759105656024,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 2.592217857517717,
+     "run-j-free": 2.307849879439921,
+     "run-j-repro-radar": 2.267199993439185,
+     "run-j-descent-climb": 2.3417167175147426
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=1400Hz,W_bto=20000us,W_logon=3896s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -42.778273616288246,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -38.43600684510258,
+    "lnBF_vs_held_out": 4.342266771185663,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 4.342445027485624,
+     "run-j-free": 4.2517728981397696,
+     "run-j-repro-radar": 4.142458491029537,
+     "run-j-descent-climb": 4.302272905936476
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -38.29100741897478,
+    "lnBF_vs_held_out": 4.487266197313467,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 4.487794185288884,
+     "run-j-free": 4.153437364634421,
+     "run-j-repro-radar": 4.060350577636434,
+     "run-j-descent-climb": 4.242713566679839
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -38.103585263961016,
+    "lnBF_vs_held_out": 4.67468835232723,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 4.675440869322578,
+     "run-j-free": 4.125225980439538,
+     "run-j-repro-radar": 4.171984154529348,
+     "run-j-descent-climb": 4.259929487487106
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -40.18651451063222,
+    "lnBF_vs_held_out": 2.591759105656024,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 2.592217857517717,
+     "run-j-free": 2.307849879439921,
+     "run-j-repro-radar": 2.267199993439185,
+     "run-j-descent-climb": 2.3417167175147426
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=1400Hz,W_bto=20000us,W_logon=7200s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -43.392404256529964,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -39.05013748534431,
+    "lnBF_vs_held_out": 4.342266771185656,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 4.342445027485617,
+     "run-j-free": 4.2517728981397624,
+     "run-j-repro-radar": 4.1424584910295295,
+     "run-j-descent-climb": 4.302272905936469
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -38.9051380592165,
+    "lnBF_vs_held_out": 4.487266197313467,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 4.487794185288884,
+     "run-j-free": 4.153437364634421,
+     "run-j-repro-radar": 4.060350577636427,
+     "run-j-descent-climb": 4.242713566679832
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -38.103585263961016,
+    "lnBF_vs_held_out": 5.288818992568949,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 5.289571509564297,
+     "run-j-free": 4.7393566206812565,
+     "run-j-repro-radar": 4.786114794771066,
+     "run-j-descent-climb": 4.874060127728825
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -40.80064515087394,
+    "lnBF_vs_held_out": 2.591759105656024,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 2.592217857517717,
+     "run-j-free": 2.307849879439921,
+     "run-j-repro-radar": 2.2671999934391778,
+     "run-j-descent-climb": 2.3417167175147355
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=1400Hz,W_bto=60000us,W_logon=1800s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -44.2033344727463,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -38.76245541289253,
+    "lnBF_vs_held_out": 5.440879059853771,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 5.4410573161537314,
+     "run-j-free": 5.350385186807884,
+     "run-j-repro-radar": 5.241070779697644,
+     "run-j-descent-climb": 5.400885194604584
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -38.61745598676472,
+    "lnBF_vs_held_out": 5.585878485981581,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 5.586406473956998,
+     "run-j-free": 5.252049653302535,
+     "run-j-repro-radar": 5.158962866304542,
+     "run-j-descent-climb": 5.341325855347947
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -39.20219755262912,
+    "lnBF_vs_held_out": 5.001136920117176,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 5.001889437112524,
+     "run-j-free": 4.451674548229477,
+     "run-j-repro-radar": 4.498432722319286,
+     "run-j-descent-climb": 4.586378055277045
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -40.51296307842216,
+    "lnBF_vs_held_out": 3.6903713943241385,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 3.6908301461858315,
+     "run-j-free": 3.4064621681080354,
+     "run-j-repro-radar": 3.3658122821072993,
+     "run-j-descent-climb": 3.440329006182857
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=1400Hz,W_bto=60000us,W_logon=3896s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -44.97549819362447,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -39.5346191337707,
+    "lnBF_vs_held_out": 5.440879059853771,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 5.4410573161537314,
+     "run-j-free": 5.350385186807884,
+     "run-j-repro-radar": 5.241070779697644,
+     "run-j-descent-climb": 5.400885194604584
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -39.389619707642886,
+    "lnBF_vs_held_out": 5.585878485981581,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 5.586406473956998,
+     "run-j-free": 5.252049653302528,
+     "run-j-repro-radar": 5.158962866304542,
+     "run-j-descent-climb": 5.3413258553479395
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -39.20219755262912,
+    "lnBF_vs_held_out": 5.773300640995345,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 5.774053157990693,
+     "run-j-free": 5.223838269107645,
+     "run-j-repro-radar": 5.270596443197455,
+     "run-j-descent-climb": 5.358541776155214
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -41.28512679930033,
+    "lnBF_vs_held_out": 3.6903713943241385,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 3.6908301461858315,
+     "run-j-free": 3.4064621681080354,
+     "run-j-repro-radar": 3.365812282107292,
+     "run-j-descent-climb": 3.44032900618285
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  },
+  "W_bfo=1400Hz,W_bto=60000us,W_logon=7200s": {
+   "00:19 Held Out": {
+    "lnZ_mixture": -45.58962883386619,
+    "lnBF_vs_held_out": 0.0,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 0.0,
+     "run-j-free": 0.0,
+     "run-j-repro-radar": 0.0,
+     "run-j-descent-climb": 0.0
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.0038664916419744464,
+     "run-j-free": 0.006458281536905312,
+     "run-j-repro-radar": 0.004624963181306406,
+     "run-j-descent-climb": 0.00785364234027602
+    }
+   },
+   "00:19 R600 BTO Only": {
+    "lnZ_mixture": -40.148749774012416,
+    "lnBF_vs_held_out": 5.440879059853778,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 5.4410573161537386,
+     "run-j-free": 5.350385186807884,
+     "run-j-repro-radar": 5.241070779697651,
+     "run-j-descent-climb": 5.400885194604591
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.01033407034054888,
+     "run-j-free": 0.022110166601573403,
+     "run-j-repro-radar": 0.0118028899131678,
+     "run-j-descent-climb": 0.018231474619347515
+    }
+   },
+   "00:19 R600 BTO + Raw BFO": {
+    "lnZ_mixture": -40.00375034788461,
+    "lnBF_vs_held_out": 5.585878485981581,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 5.586406473956998,
+     "run-j-free": 5.252049653302535,
+     "run-j-repro-radar": 5.158962866304549,
+     "run-j-descent-climb": 5.341325855347954
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.04184383971091277,
+     "run-j-free": 0.026202995785375185,
+     "run-j-repro-radar": 0.018815652134286317,
+     "run-j-descent-climb": 0.04648897202540883
+    }
+   },
+   "00:19 Holland H1": {
+    "lnZ_mixture": -39.20219755262912,
+    "lnBF_vs_held_out": 6.38743128123707,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 6.3881837982324186,
+     "run-j-free": 5.837968909349371,
+     "run-j-repro-radar": 5.884727083439181,
+     "run-j-descent-climb": 5.972672416396939
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.07373350408651688,
+     "run-j-free": 0.04182315782609025,
+     "run-j-repro-radar": 0.05345794098147558,
+     "run-j-descent-climb": 0.07735691276620871
+    }
+   },
+   "00:19 Holland H2": {
+    "lnZ_mixture": -41.899257439542055,
+    "lnBF_vs_held_out": 3.6903713943241385,
+    "per_family_lnBF_vs_held_out": {
+     "run-j-waypoints": 3.6908301461858315,
+     "run-j-free": 3.4064621681080354,
+     "run-j-repro-radar": 3.3658122821072993,
+     "run-j-descent-climb": 3.440329006182857
+    },
+    "per_family_seed_se": {
+     "run-j-waypoints": 0.021034778775252998,
+     "run-j-free": 0.05415777575736135,
+     "run-j-repro-radar": 0.04469544403590592,
+     "run-j-descent-climb": 0.05285046511486322
+    }
+   }
+  }
+ },
+ "summary": {
+  "00:19 Held Out": {
+   "central": 0.0,
+   "min": 0.0,
+   "max": 0.0
+  },
+  "00:19 R600 BTO Only": {
+   "central": 4.342266771185663,
+   "min": 2.039681678191613,
+   "max": 5.440879059853778
+  },
+  "00:19 R600 BTO + Raw BFO": {
+   "central": 3.794119016753527,
+   "min": 0.7983867431995293,
+   "max": 5.585878485981581
+  },
+  "00:19 Holland H1": {
+   "central": 3.288393991207343,
+   "min": -1.1726491837847561,
+   "max": 6.38743128123707
+  },
+  "00:19 Holland H2": {
+   "central": 1.2054647445361368,
+   "min": -2.4834147095777936,
+   "max": 3.6903713943241385
+  }
+ }
+}

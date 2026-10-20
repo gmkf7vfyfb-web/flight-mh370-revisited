@@ -1,0 +1,214 @@
+{
+  "created_utc": "2026-09-08T07:17:47.326508+00:00",
+  "method": "Read-only code and retained-population inspection; no flight simulation or sampling.",
+  "runs": [
+    {
+      "family": "residual-drift-eight-settings",
+      "run": "seed-37090821",
+      "particles": 256,
+      "continuous_dimensions": 21,
+      "navigation_mode_slots": 9,
+      "first_update": {
+        "step": 0,
+        "temperature": 1e-10,
+        "pre_resample_ess": 102.99999999899767,
+        "mutation_acceptance": 0.154052734375,
+        "independence_acceptances": 947,
+        "proposal_scale": 0.7625271350928857,
+        "root_count": 103,
+        "log_normalizer": -0.9104508342128348,
+        "elapsed_s": 10.930764582000847,
+        "evaluations": 9308,
+        "mean": [
+          -23.601525535185008,
+          92.67669471185548,
+          22495.67458863657
+        ]
+      },
+      "final_update": {
+        "step": 24,
+        "temperature": 1.0,
+        "pre_resample_ess": 255.94619349361867,
+        "mutation_acceptance": 0.034423828125,
+        "independence_acceptances": 0,
+        "proposal_scale": 0.05631298816740005,
+        "root_count": 6,
+        "log_normalizer": -126.94092481320075,
+        "elapsed_s": 278.707013362,
+        "evaluations": 205916,
+        "mean": [
+          -35.74268614742779,
+          90.46458947373698,
+          22474.831360623648
+        ]
+      },
+      "distinct_final_direction_label_orders": 31,
+      "guide_centres": 20,
+      "guide_direction_times_all_ordered": true
+    },
+    {
+      "family": "residual-drift-eight-settings",
+      "run": "seed-37090822",
+      "particles": 512,
+      "continuous_dimensions": 21,
+      "navigation_mode_slots": 9,
+      "first_update": {
+        "step": 0,
+        "temperature": 1e-10,
+        "pre_resample_ess": 203.99999999845798,
+        "mutation_acceptance": 0.16227213541666666,
+        "independence_acceptances": 2948,
+        "proposal_scale": 0.7656673414913174,
+        "root_count": 204,
+        "log_normalizer": -0.9202072690544396,
+        "elapsed_s": 64.26824165799917,
+        "evaluations": 25088,
+        "mean": [
+          -23.8305923756561,
+          93.77645840225543,
+          22494.6232797677
+        ]
+      },
+      "final_update": {
+        "step": 24,
+        "temperature": 1.0,
+        "pre_resample_ess": 496.291738889497,
+        "mutation_acceptance": 0.0205078125,
+        "independence_acceptances": 0,
+        "proposal_scale": 0.05213612814568451,
+        "root_count": 11,
+        "log_normalizer": -124.75621576140583,
+        "elapsed_s": 1799.0983499300055,
+        "evaluations": 614912,
+        "mean": [
+          -34.58825626572105,
+          91.55875716258579,
+          22494.244050160145
+        ]
+      },
+      "distinct_final_direction_label_orders": 43,
+      "guide_centres": 20,
+      "guide_direction_times_all_ordered": true
+    },
+    {
+      "family": "mh371-flexible-control",
+      "run": "seed-37102011",
+      "particles": 256,
+      "continuous_dimensions": 29,
+      "navigation_mode_slots": 9,
+      "first_update": {
+        "step": 0,
+        "temperature": 1e-10,
+        "pre_resample_ess": 195.999999912915,
+        "mutation_acceptance": 0.275146484375,
+        "independence_acceptances": 1963,
+        "proposal_scale": 0.8101220941739632,
+        "root_count": 196,
+        "log_normalizer": -0.2670725130286078,
+        "elapsed_s": 37.51322373400035,
+        "evaluations": 9628,
+        "mean": [
+          23.40611666563993,
+          103.91651518737046,
+          NaN
+        ]
+      },
+      "final_update": {
+        "step": 25,
+        "temperature": 1.0,
+        "pre_resample_ess": 249.8851318011459,
+        "mutation_acceptance": 0.0103759765625,
+        "independence_acceptances": 0,
+        "proposal_scale": 0.05314387408002417,
+        "root_count": 8,
+        "log_normalizer": -115.86057584854531,
+        "elapsed_s": 750.1629139319994,
+        "evaluations": 214428,
+        "mean": [
+          5.3536426023338235,
+          104.43452156487581,
+          NaN
+        ]
+      },
+      "distinct_final_direction_label_orders": 25,
+      "guide_centres": 20,
+      "guide_direction_times_all_ordered": true
+    },
+    {
+      "family": "mh371-flexible-control",
+      "run": "seed-37102012",
+      "particles": 512,
+      "continuous_dimensions": 29,
+      "navigation_mode_slots": 9,
+      "first_update": {
+        "step": 0,
+        "temperature": 1e-10,
+        "pre_resample_ess": 392.99999987252704,
+        "mutation_acceptance": 0.19881184895833334,
+        "independence_acceptances": 3520,
+        "proposal_scale": 0.7797845410850184,
+        "root_count": 393,
+        "log_normalizer": -0.2645243200391416,
+        "elapsed_s": 36.34594993400242,
+        "evaluations": 25088,
+        "mean": [
+          23.503458961651944,
+          104.83266383852165,
+          NaN
+        ]
+      },
+      "final_update": {
+        "step": 27,
+        "temperature": 1.0,
+        "pre_resample_ess": 508.30620103883444,
+        "mutation_acceptance": 0.0069580078125,
+        "independence_acceptances": 0,
+        "proposal_scale": 0.039713944990396315,
+        "root_count": 3,
+        "log_normalizer": -108.22009888570521,
+        "elapsed_s": 1054.533181495004,
+        "evaluations": 688640,
+        "mean": [
+          6.364321633355668,
+          104.31340600364527,
+          NaN
+        ]
+      },
+      "distinct_final_direction_label_orders": 21,
+      "guide_centres": 20,
+      "guide_direction_times_all_ordered": true
+    }
+  ],
+  "code_findings": [
+    "Every local move perturbs all continuous route coordinates; the entire flight is replayed for each candidate.",
+    "Local geometry is built around a fixed, limited set of guide centres; mode changes are not paired with a compensating control-target update.",
+    "Independent command slots include redundant permutations of the same physical command sequence, whereas encoded guide centres order each command kind by time. This is avoidable computational redundancy, not proof of a wrong prior or the sole failure cause.",
+    "A zero likelihood outside hard physical/fuel support becomes zero at every positive tempering exponent. The observed first exponent of 1e-10 does not make that support restriction gradual.",
+    "Finite-run geographical disagreement establishes failure to obtain a stable estimate. Acceptance or ancestral counts alone cannot establish convergence or identify every cause."
+  ],
+  "candidate_corrections_not_yet_validated": [
+    "Use ordered event times with the correct order-statistic density and retain the intended physical prior.",
+    "Construct observation-guided updates of shorter trajectory segments with full proposal-density correction; update categorical modes and continuous controls jointly.",
+    "Retain revisability of earlier flight segments and useful distinct route families, and handle near-deterministic dynamics explicitly.",
+    "Measure and reduce full replay overhead by reusing unchanged prefix state and sufficient statistics when exact.",
+    "Validate on an independently calculable constrained reference, flexible noisy synthetic data, and withheld known-flight data with independent seeds before scaling."
+  ],
+  "source_passages": [
+    {
+      "url": "https://jmlr.org/papers/v15/lindsten14a.html",
+      "location": "Abstract: particle Gibbs with ancestor sampling for correlated state trajectories; candidate method background, no validation of this implementation."
+    },
+    {
+      "url": "https://arxiv.org/abs/1505.06356v1",
+      "location": "Abstract: low-dimensional transition support limits ordinary forward/backward methods and motivates particle rejuvenation; near-deterministic flight requires this concern to be addressed."
+    }
+  ],
+  "input_sha256": {
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/command-sampler/residual-drift-eight-settings/seed-37090821/progress.jsonl": "b981187a2f06a99fdb500387031547499c9512e34855bd2e8b1a29d6d1cac03e",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/command-sampler/residual-drift-eight-settings/seed-37090822/progress.jsonl": "b5f41145d61bdf69139bb828c39cf8ea91a4f029ad87dcf03b4d5ca7d0f22fb3",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/command-sampler/mh371-flexible-control/seed-37102011/progress.jsonl": "6528aa12a8417533b54a47e90ffa09cc79a1fbde8baa1bb7b0e7a6fa0e47e017",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/command-sampler/mh371-flexible-control/seed-37102012/progress.jsonl": "81c7ef17d865ccf1ba32e07c084d111efc9aaea4a06febbc98d61c5af2ee4267",
+    "/tmp/mh370-command-sampler/sampler.py": "153824d6fe8fd02880514497aca15c7e131958d2e383fdffe61a15e45259ae26"
+  },
+  "limitations": "Structural findings are a diagnosis and redesign direction, not a demonstrated successful replacement or proof that all earlier AI attempts had the same cause."
+}

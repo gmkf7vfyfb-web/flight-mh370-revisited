@@ -1,0 +1,7 @@
+# Coverage (contract v7 section 4, change E; Pete's sampling-coverage rule 2): all four control outcomes in every family. v2-broad and
+# family-b-ditching give deliberate onsets [0.6,0.4,0,0] / [0.5,0.5,0,0], so "no effective intervention" and "upset then recovery"
+# are ABSENT from family B - a reach gap, not a prior. Here the SAMPLING weights are equal over all four; any target prior,
+# including the legacy [0.5,0.5,0,0], is recovered exactly by re-weighting each row by p_target/p_sampled on latent:control_requested.
+# Module decision 13 Oct 2026 (end of flight), recorded in hypothesis.toml and coordination/architecture.md. PILOT SCALE ONLY so far.
+[hypotheses.end-of-flight]
+deliberate_control_weights = [1.0, 1.0, 1.0, 1.0]

@@ -1,0 +1,7 @@
+# Search context and conditional probability capture
+
+```bash
+python /jackbox/home/MH370/crates/reporting/scripts/posterior_search_context.py --conditioned /jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned --search-atlas .sources/mh370-seabed-search-coverage/data/map/search-evidence-atlas.geojson --output /jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/search-million-comparison --inline-output /jackbox/home/MH370/mh370-search-comparison.html --budget-km2 7500.0 --spatial-state /jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/spatial-million-status.json --numerical-comparison /jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/joint-terminal-replicate-seed-37092012-conditioned
+```
+
+Cell ranking uses the canonical WGS84 equal-area projection and no smoothing. Every physical model and evidence condition is separate. Context footprints never change stored weights. Independent numerical-run capture is reported where available. Complete ranks, tile identities and input hashes are retained in summary.json; PDF/SVG figures show R600-first cases. The separate hypothetical-search-curves.json and historical-search-sensitivity figures show fixed original plans under an explicitly assumed uniform detectability inside a context outline. They are not calibrated negative-evidence updates and do not re-optimize the plans.

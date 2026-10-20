@@ -1,0 +1,107 @@
+{
+  "history": [
+    {
+      "step": 0,
+      "temperature": 0.13381998575246712,
+      "pre_resample_ess": 1638.4000000000524,
+      "mutation_acceptance": 0.587188720703125,
+      "independence_acceptances": 2957,
+      "proposal_scale": 0.9469119282028704,
+      "root_count": 1625,
+      "log_normalizer": -0.3917742954512464,
+      "elapsed_s": 0.037540263998380397,
+      "evaluations": 34816,
+      "mean": [
+        -3.3679833272999016,
+        -1.675188358190443
+      ]
+    },
+    {
+      "step": 1,
+      "temperature": 0.3634184963824373,
+      "pre_resample_ess": 1638.4000000000406,
+      "mutation_acceptance": 0.4517822265625,
+      "independence_acceptances": 4171,
+      "proposal_scale": 1.047432490281449,
+      "root_count": 1414,
+      "log_normalizer": -0.6115061934392365,
+      "elapsed_s": 0.07342365499789594,
+      "evaluations": 67584,
+      "mean": [
+        -2.681856084181082,
+        -1.346733221577526
+      ]
+    },
+    {
+      "step": 2,
+      "temperature": 0.5927137142595841,
+      "pre_resample_ess": 1638.4000000000296,
+      "mutation_acceptance": 0.342987060546875,
+      "independence_acceptances": 2177,
+      "proposal_scale": 1.0972811656407482,
+      "root_count": 1235,
+      "log_normalizer": -0.6029285292907263,
+      "elapsed_s": 0.10927409199939575,
+      "evaluations": 100352,
+      "mean": [
+        -1.398246016059843,
+        -0.7102137756031095
+      ]
+    },
+    {
+      "step": 3,
+      "temperature": 0.8261900547184744,
+      "pre_resample_ess": 1638.4000000000285,
+      "mutation_acceptance": 0.268157958984375,
+      "independence_acceptances": 1846,
+      "proposal_scale": 1.1072887192862395,
+      "root_count": 1028,
+      "log_normalizer": -0.36107229265336827,
+      "elapsed_s": 0.14475765300448984,
+      "evaluations": 133120,
+      "mean": [
+        0.22189615594517792,
+        0.11373634602654713
+      ]
+    },
+    {
+      "step": 4,
+      "temperature": 1.0,
+      "pre_resample_ess": 1839.4016119562564,
+      "mutation_acceptance": 0.20928955078125,
+      "independence_acceptances": 1666,
+      "proposal_scale": 1.0849774544576802,
+      "root_count": 847,
+      "log_normalizer": -0.0346333996707715,
+      "elapsed_s": 0.17578362300264416,
+      "evaluations": 165888,
+      "mean": [
+        1.5873512358794972,
+        0.7993941185419228
+      ]
+    }
+  ],
+  "elapsed_s": 0.17600052899797447,
+  "seed": 37090801,
+  "mean": [
+    1.5873512358794972,
+    0.7993941185419228
+  ],
+  "quantiles": [
+    [
+      -4.190638008202615,
+      -2.2841987237266284
+    ],
+    [
+      3.891537059036238,
+      1.822994019285625
+    ],
+    [
+      4.296469869782682,
+      2.4416365403496334
+    ]
+  ],
+  "status": "conditional sampler experiment; independent validation and seed agreement required",
+  "positive_mode_fraction": 0.6982421875,
+  "reference_positive_mode_probability": 0.7
+}

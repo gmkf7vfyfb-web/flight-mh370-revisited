@@ -1,0 +1,208 @@
+{
+  "bandwidth_area_sensitivity_km2": {
+    "10.0": {
+      "0011": {
+        "0.5": 5440.0,
+        "0.95": 23872.0,
+        "0.99": 36912.0
+      },
+      "0019": {
+        "0.5": 5408.0,
+        "0.95": 23744.0,
+        "0.99": 36688.0
+      },
+      "impact": {
+        "0.5": 5664.0,
+        "0.95": 25040.0,
+        "0.99": 39040.0
+      }
+    },
+    "5.0": {
+      "0011": {
+        "0.5": 2896.0,
+        "0.95": 12592.0,
+        "0.99": 19456.0
+      },
+      "0019": {
+        "0.5": 2864.0,
+        "0.95": 12496.0,
+        "0.99": 19296.0
+      },
+      "impact": {
+        "0.5": 3616.0,
+        "0.95": 16096.0,
+        "0.99": 25344.0
+      }
+    }
+  },
+  "davey": {
+    "impact_figure_10_10_numeric_georeference_available": false,
+    "latitude_quantiles_deg": {
+      "0.025": -39.3826993396111,
+      "0.5": -37.5302175732632,
+      "0.975": -34.902223890557224
+    },
+    "scope": "one-dimensional 00:19 latitude marginal only",
+    "source": "Davey et al. (2016), Figure 10.3 bottom panel, digitized",
+    "two_dimensional_grid_available": false
+  },
+  "display_method": {
+    "boundary_policy": "all positive input weight must lie inside plot bounds; edge display mass <=1e-5",
+    "gaussian_bandwidth_nm": 7.5,
+    "grid_cell_km": 4.0,
+    "hpd_probabilities": [
+      0.5,
+      0.95,
+      0.99
+    ],
+    "interpretation": "display-only; particle weights and estimator summaries unchanged",
+    "projection": "local equirectangular; reference -36.5 latitude, 90.0 longitude"
+  },
+  "impact_family": "arc1-current-polar-best-glide-equal-feed",
+  "limitations": [
+    "00:19 is a frozen-state 510-second continuation and corrected-R600 selection, not a fully stochastic final-interval model.",
+    "Impact is conditional on the primary v0.1 fuel/aerodynamic/control family, not a terminal-family model average.",
+    "Davey supplies no numerical 2D density grid; only its digitized latitude marginal is shown.",
+    "Search footprints, approximate outlines, and AIS tracks have different semantics and are not negative evidence."
+  ],
+  "posterior_combination": "none; sequential states shown separately",
+  "posteriors": {
+    "0011": {
+      "display_edge_mass": 0.0,
+      "display_hpd_achieved_mass": {
+        "0.5": 0.5010415643352587,
+        "0.95": 0.9501152445017664,
+        "0.99": 0.9900099532463851
+      },
+      "display_hpd_area_km2": {
+        "0.5": 4112.0,
+        "0.95": 17952.0,
+        "0.99": 27744.0
+      },
+      "effective_sample_size": 145223.29837348618,
+      "evidence": "BTO and medium-BFO through 00:11 UTC",
+      "latitude_central_95_deg": [
+        -37.260500066597,
+        -35.845194298341
+      ],
+      "model_scope": "five equally pooled numerical seeds; constant-true-track one-turn family",
+      "particles": 150000,
+      "positive_weight_support": {
+        "latitude_deg": [
+          -38.72409006612,
+          -35.37404806751
+        ],
+        "longitude_deg": [
+          85.385898933398,
+          90.886545621846
+        ]
+      },
+      "seeds": [
+        370023,
+        370024,
+        370025,
+        370026,
+        370027
+      ],
+      "weighted_mean": {
+        "latitude_deg": -36.40859203789404,
+        "longitude_deg": 89.49609427549105
+      }
+    },
+    "0019": {
+      "display_edge_mass": 0.0,
+      "display_hpd_achieved_mass": {
+        "0.5": 0.5005700851933854,
+        "0.95": 0.950067138346737,
+        "0.99": 0.9900253155336117
+      },
+      "display_hpd_area_km2": {
+        "0.5": 4080.0,
+        "0.95": 17840.0,
+        "0.99": 27568.0
+      },
+      "effective_sample_size": 135729.35471456894,
+      "evidence": "corrected 00:19:29 R600 BTO only",
+      "latitude_central_95_deg": [
+        -38.275846288551,
+        -36.909694850973
+      ],
+      "model_scope": "510-second frozen-state continuation; five seed masses fixed at 0.2",
+      "particles": 150000,
+      "positive_weight_support": {
+        "latitude_deg": [
+          -39.776031230912,
+          -36.439001674739
+        ],
+        "longitude_deg": [
+          85.101835032799,
+          90.783690904046
+        ]
+      },
+      "seeds": [
+        370023,
+        370024,
+        370025,
+        370026,
+        370027
+      ],
+      "weighted_mean": {
+        "latitude_deg": -37.45457823555029,
+        "longitude_deg": 89.3734833584971
+      }
+    },
+    "impact": {
+      "display_edge_mass": 0.0,
+      "display_hpd_achieved_mass": {
+        "0.5": 0.5006587286702399,
+        "0.95": 0.9500096648497937,
+        "0.99": 0.9900031072686689
+      },
+      "display_hpd_area_km2": {
+        "0.5": 4544.0,
+        "0.95": 20176.0,
+        "0.99": 31552.0
+      },
+      "effective_sample_size": 1930.340481006153,
+      "evidence": "00:11 medium-BFO source plus corrected R600 BTO",
+      "latitude_central_95_deg": [
+        -38.83583400916532,
+        -37.6827600952806
+      ],
+      "model_scope": "primary v0.1 EOF proxy: dynamic ERA5, Martin Arc-1 fuel, current attached-flow polar, best glide, equal feed",
+      "particles": 2560,
+      "positive_weight_support": {
+        "latitude_deg": [
+          -39.56467513134913,
+          -37.34072316335958
+        ],
+        "longitude_deg": [
+          86.59024828639122,
+          90.45650644226708
+        ]
+      },
+      "seeds": [
+        370023,
+        370024,
+        370025,
+        370026,
+        370027
+      ],
+      "weighted_mean": {
+        "latitude_deg": -38.159566569743056,
+        "longitude_deg": 89.40882087055583
+      }
+    }
+  },
+  "schema_id": "mh370-posterior-search-context",
+  "schema_version": 1,
+  "search_context": {
+    "analysis_eligible": false,
+    "area_rule": "Reported totals, source catalog attributes, and context-outline areas are different quantities and must not be summed.",
+    "negative_search_eligible": false,
+    "rounding": {
+      "expression": "15,000 - 7,571 = 7,429 km2",
+      "warning": "15,000 is estimated and 7,571 is approximate; 7,429 is derived planning arithmetic, not an exact remainder polygon."
+    }
+  }
+}

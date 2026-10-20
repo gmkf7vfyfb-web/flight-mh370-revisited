@@ -1,0 +1,85 @@
+{
+  "user_correction": "one third per leaf, replacing 50/25/25",
+  "route_priors": {
+    "p627": 0.3333333333333333,
+    "igogu_boundary": 0.3333333333333333,
+    "igogu_south": 0.3333333333333333
+  },
+  "igogu_total_prior": 0.6666666666666666,
+  "igogu_only_conditional_priors": {
+    "igogu_boundary": 0.5,
+    "igogu_south": 0.5
+  },
+  "posterior_status": "No complete retained trajectories. Density and posterior route weights are undefined.",
+  "fuel_status": "00:15-00:19 exhaustion selection is enabled but no new run reaches that stage.",
+  "classification": "Finite-sample conditional model result, not proof of physical exclusion.",
+  "inherited_first_call_gate": "P627 must pass POVUS and capture its south target within10deg by18:39:55.354. IGOGU leaves must pass IGOGU and capture true south within10deg by the same time.",
+  "control_model_note": "600-second speed capture, 0.25m/s2 commanded acceleration cap, sparse random target changes; these are control-prior assumptions, not manufacturer limits.",
+  "runs": [
+    {
+      "name": "prefix_large_p627",
+      "route": "p627",
+      "seed": 37062731,
+      "initial_draws": 250000,
+      "initial_ess": null,
+      "prefix_survivors": 0,
+      "first_call_proposals": null,
+      "first_call_survivors": null,
+      "physics_before_call": null,
+      "igogu_or_p627_completed_before_call": null,
+      "completed": false,
+      "posterior_route_weight": null,
+      "prefix_gate_diagnostic": null
+    },
+    {
+      "name": "p627_b",
+      "route": "p627",
+      "seed": 37094341,
+      "initial_draws": 250000,
+      "initial_ess": null,
+      "prefix_survivors": 0,
+      "first_call_proposals": null,
+      "first_call_survivors": null,
+      "physics_before_call": null,
+      "igogu_or_p627_completed_before_call": null,
+      "completed": false,
+      "posterior_route_weight": null,
+      "prefix_gate_diagnostic": {
+        "physics_and_stable_range_frequency": 5188,
+        "physics_and_all_range_frequency": 39,
+        "physics_and_all_gates_including_crossing": 0,
+        "all_range_frequency_without_physics": 403
+      }
+    },
+    {
+      "name": "igogu_south_a",
+      "route": "igogu_south",
+      "seed": 37094321,
+      "initial_draws": 180000,
+      "initial_ess": 1.3152340106801141,
+      "prefix_survivors": 102,
+      "first_call_proposals": 90000,
+      "first_call_survivors": 0,
+      "physics_before_call": 76414,
+      "igogu_or_p627_completed_before_call": 0,
+      "completed": false,
+      "posterior_route_weight": null,
+      "prefix_gate_diagnostic": null
+    },
+    {
+      "name": "igogu_boundary_a",
+      "route": "igogu_boundary",
+      "seed": 37094331,
+      "initial_draws": 180000,
+      "initial_ess": 51.85318204917397,
+      "prefix_survivors": 99,
+      "first_call_proposals": 90000,
+      "first_call_survivors": 0,
+      "physics_before_call": 27075,
+      "igogu_or_p627_completed_before_call": 0,
+      "completed": false,
+      "posterior_route_weight": null,
+      "prefix_gate_diagnostic": null
+    }
+  ]
+}

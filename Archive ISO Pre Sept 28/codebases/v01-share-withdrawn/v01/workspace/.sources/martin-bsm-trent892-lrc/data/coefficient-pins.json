@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "family_id": "martin_bsm_v7_9_4_trent892_lrc",
+  "source_workbook_sha256": "508d4288acac0b3eccf70ae200e0517d79979cbb47197155cee1b748142b8220",
+  "model_form_cell": "FUELModel!P8",
+  "model_form": "total_two_engine_fuel_flow_kg_s = intercept_kg_s + gross_mass_coefficient_s_inv * gross_mass_kg",
+  "rows": [
+    {"cells": "FUELModel!P12:R12", "flight_level": 350.0, "intercept_kg_s": -0.006, "gross_mass_coefficient_s_inv": 0.0000085666667},
+    {"cells": "FUELModel!P13:R13", "flight_level": 370.0, "intercept_kg_s": 0.084166666667, "gross_mass_coefficient_s_inv": 0.0000080694444444},
+    {"cells": "FUELModel!P14:R14", "flight_level": 390.0, "intercept_kg_s": 0.029333333333, "gross_mass_coefficient_s_inv": 0.0000084333333333},
+    {"cells": "FUELModel!P15:R15", "flight_level": 410.0, "intercept_kg_s": 0.0014814814815, "gross_mass_coefficient_s_inv": 0.0000086388888889}
+  ],
+  "kong_sanity": {
+    "source_workbook_sha256": "5fee5196208c8655fb50af3f991df2e9a80298c84d800bb4990d5ca06f264437",
+    "assumed_unit": "kg/h per engine",
+    "fixture": "FL350, Mach 0.829, gross mass interpolated between 200 and 220 tonnes",
+    "cells": ["I122", "I123", "I158", "I159"],
+    "initializer_eligible": false
+  }
+}

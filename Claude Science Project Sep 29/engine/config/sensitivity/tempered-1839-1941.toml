@@ -1,0 +1,22 @@
+# Annealed SMC at the two bottleneck epochs, on the base reproduction.
+#
+# The 18:39 and 19:41 likelihoods are applied as L^beta over 16 equal stages, with a resample
+# and an invariant MCMC move between stages. The exponents sum to one, so the target posterior
+# and the evidence are unchanged; what changes is that the population meets a sharp likelihood
+# in sixteen steps with its diversity restored between them, rather than all at once.
+#
+# This is the only one of four interventions that moves the bottleneck. Look-ahead,
+# rejuvenation and Davey's branching all act on which particles get copied, and resampling
+# cannot narrow the spread of incremental weights the leg's own manoeuvre draws generate; the
+# arc-bridge acted on the proposal and failed because its dead-reckoned forecast is wrong for
+# the 83% of particles that manoeuvre during the leg. Tempering needs no forecast: it uses the
+# likelihood itself, which is exactly computable. See results/tempering.md.
+name = "tempered-1839-1941"
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[sampler]
+temper_epochs = ["m1839", "m1941"]
+temper_stages = 16

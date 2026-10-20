@@ -1,0 +1,2536 @@
+{
+  "generated_utc": "2026-09-09T13:00:54.342381+00:00",
+  "status": "provisional conditional PDF; Monte Carlo variation reported without a fixed pass/fail threshold",
+  "runs": [
+    {
+      "name": "turns16-mach8-altitude8-vertical-bfo-seed-37091631",
+      "seed": 37091631,
+      "initial_candidates": 85000,
+      "elapsed_seconds": 251.109084414,
+      "peak_memory": "VmHWM:\t 1515928 kB",
+      "log_evidence": -87.73058535941438,
+      "pooling_fraction": 0.10968988444442151,
+      "regions": {
+        "south_of_35S": 0.946117021104183,
+        "between_35S_and_38S": 0.9383841131769293,
+        "north_of_35S": 0.053882978895816926,
+        "north_of_30S": 0.0066010296535381615,
+        "south_of_38S": 0.007732907927253848
+      },
+      "largest_ancestry_fraction": 0.1751160641363921,
+      "quantiles_05_50_95_deg": [
+        [
+          -37.5604116883,
+          -36.6515217941,
+          -34.9059153916
+        ],
+        [
+          87.5574135942,
+          89.0671625401,
+          91.6485605168
+        ]
+      ],
+      "provenance": {
+        "configuration_sha256": "b91f605289880e4cbce25e6d775e932987c1f7793029ee1d54618d90b0bdd438",
+        "enabled_spokes": [
+          "stochastic_cruise",
+          "satcom",
+          "fuel_consistency"
+        ],
+        "executable_sha256": "7bd822edb46f3fff074126ab1b7b89f688245d20d7a1b2840a0a3574ee675e5f",
+        "inputs": {
+          "magnetic": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1",
+          "observations": "0ed8bed1798861536aa659e7fdf5cd8f43ccbe160cdf3c61fb7479b7e0fbb799",
+          "satellite_ephemeris": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+          "weather": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4"
+        },
+        "limitations": [
+          "ERA5/IGRF inputs substitute for the published historical input versions",
+          "initial mode probabilities are declared assumptions",
+          "kinematic cruise model is not a calibrated aircraft performance deck",
+          "fuel uses a public conditional proxy and a conservative continuation envelope",
+          "one completed run does not establish convergence or coverage"
+        ],
+        "proposal_inputs": {
+          "initial_operating_proposal": "36fe5e15e13d65d3302da52e908c458ff0f04505ac8a6c8895b2284833e23f6c",
+          "initial_replay_donors": null
+        },
+        "root_interpretation": "initial independent draws; interacting resampled ancestry is not independent Monte Carlo replication",
+        "sampling_method": "sequential_blocked",
+        "scientific_source_sha256": "96ed6a0e20fb9afe866711c084aeed92767d98e021821753705c51228c4bb6ea",
+        "scope": "airborne state at final supplied contact; no terminal or auxiliary evidence"
+      },
+      "source_files_sha256": {
+        "posterior.csv": "d12fc37fb93ab58d8b6c44592aa13d4717b65307748e8dad170abbe20b624d66",
+        "summary.json": "6105ac0879833162181065dc7886b622294ddf6b53b85de3660cb818050b2b0c",
+        "resolved-config.json": "219ab0678f6ab1d2b32df9d7f4d70d244efb9cb7ea79a459090fff55970d997c",
+        "provenance.json": "8a72d3da697a2a99aebbffb34320b7f2907d33fa81a5a06c0f0a45c91e991479"
+      }
+    },
+    {
+      "name": "turns16-mach8-altitude8-vertical-bfo-seed-37091640",
+      "seed": 37091640,
+      "initial_candidates": 85000,
+      "elapsed_seconds": 249.025514579,
+      "peak_memory": "VmHWM:\t 1542248 kB",
+      "log_evidence": -88.1175819951356,
+      "pooling_fraction": 0.07448967433334779,
+      "regions": {
+        "south_of_35S": 0.8933710823286305,
+        "between_35S_and_38S": 0.8865859569000227,
+        "north_of_35S": 0.10662891767136924,
+        "north_of_30S": 0.008545937066009479,
+        "south_of_38S": 0.006785125428607875
+      },
+      "largest_ancestry_fraction": 0.09183822382794549,
+      "quantiles_05_50_95_deg": [
+        [
+          -37.674141509,
+          -36.5519969515,
+          -33.4338173374
+        ],
+        [
+          87.3012317616,
+          89.3085049851,
+          93.6027616152
+        ]
+      ],
+      "provenance": {
+        "configuration_sha256": "84b3f4738abf655f4b07dfa05a5151b9e89d0145a705f266aac6564f4712550d",
+        "enabled_spokes": [
+          "stochastic_cruise",
+          "satcom",
+          "fuel_consistency"
+        ],
+        "executable_sha256": "7bd822edb46f3fff074126ab1b7b89f688245d20d7a1b2840a0a3574ee675e5f",
+        "inputs": {
+          "magnetic": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1",
+          "observations": "0ed8bed1798861536aa659e7fdf5cd8f43ccbe160cdf3c61fb7479b7e0fbb799",
+          "satellite_ephemeris": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+          "weather": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4"
+        },
+        "limitations": [
+          "ERA5/IGRF inputs substitute for the published historical input versions",
+          "initial mode probabilities are declared assumptions",
+          "kinematic cruise model is not a calibrated aircraft performance deck",
+          "fuel uses a public conditional proxy and a conservative continuation envelope",
+          "one completed run does not establish convergence or coverage"
+        ],
+        "proposal_inputs": {
+          "initial_operating_proposal": "496b571a95333911b91520f42b3f617b74fa7fbca4da0a24a51fdb3dde48f8df",
+          "initial_replay_donors": null
+        },
+        "root_interpretation": "initial independent draws; interacting resampled ancestry is not independent Monte Carlo replication",
+        "sampling_method": "sequential_blocked",
+        "scientific_source_sha256": "96ed6a0e20fb9afe866711c084aeed92767d98e021821753705c51228c4bb6ea",
+        "scope": "airborne state at final supplied contact; no terminal or auxiliary evidence"
+      },
+      "source_files_sha256": {
+        "posterior.csv": "c1eb9eb2db31f0a2ccd49e088f01a2c76b54ff1d9fdb20dfd7629b5bfe42b80f",
+        "summary.json": "d925e07e0b84f85b78c44f32870a919df99da6ab4d22616b148da4cef681583c",
+        "resolved-config.json": "373b5677129fb04cb3cb55ffff39835ca94bed22c470c412acb97ece2444cbb8",
+        "provenance.json": "81bf60c4c6b60ccfa9c5998dbe4ca1d1d4b4253918ca7cdff7c2589a32f9cb2e"
+      }
+    },
+    {
+      "name": "turns16-mach8-altitude8-vertical-bfo-255000-seed-37091711",
+      "seed": 37091711,
+      "initial_candidates": 255000,
+      "elapsed_seconds": 732.691092479,
+      "peak_memory": "VmHWM:\t 3637148 kB",
+      "log_evidence": -87.99046299278518,
+      "pooling_fraction": 0.2537607279875718,
+      "regions": {
+        "south_of_35S": 0.8973241280280593,
+        "between_35S_and_38S": 0.8825986092501161,
+        "north_of_35S": 0.10267587197194078,
+        "north_of_30S": 0.012765411215847771,
+        "south_of_38S": 0.014725518777943088
+      },
+      "largest_ancestry_fraction": 0.07666589876029996,
+      "quantiles_05_50_95_deg": [
+        [
+          -37.6860699812,
+          -36.6288664123,
+          -34.1688807777
+        ],
+        [
+          87.2826421415,
+          89.1374357767,
+          92.6217912362
+        ]
+      ],
+      "provenance": {
+        "configuration_sha256": "1c89aa1f79773cc99d848749baafc3dc41bd8c669ce611cf73f408fe10f436bb",
+        "enabled_spokes": [
+          "stochastic_cruise",
+          "satcom",
+          "fuel_consistency"
+        ],
+        "executable_sha256": "7bd822edb46f3fff074126ab1b7b89f688245d20d7a1b2840a0a3574ee675e5f",
+        "inputs": {
+          "magnetic": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1",
+          "observations": "0ed8bed1798861536aa659e7fdf5cd8f43ccbe160cdf3c61fb7479b7e0fbb799",
+          "satellite_ephemeris": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+          "weather": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4"
+        },
+        "limitations": [
+          "ERA5/IGRF inputs substitute for the published historical input versions",
+          "initial mode probabilities are declared assumptions",
+          "kinematic cruise model is not a calibrated aircraft performance deck",
+          "fuel uses a public conditional proxy and a conservative continuation envelope",
+          "one completed run does not establish convergence or coverage"
+        ],
+        "proposal_inputs": {
+          "initial_operating_proposal": "36fe5e15e13d65d3302da52e908c458ff0f04505ac8a6c8895b2284833e23f6c",
+          "initial_replay_donors": null
+        },
+        "root_interpretation": "initial independent draws; interacting resampled ancestry is not independent Monte Carlo replication",
+        "sampling_method": "sequential_blocked",
+        "scientific_source_sha256": "96ed6a0e20fb9afe866711c084aeed92767d98e021821753705c51228c4bb6ea",
+        "scope": "airborne state at final supplied contact; no terminal or auxiliary evidence"
+      },
+      "source_files_sha256": {
+        "posterior.csv": "88e207471236fbbf33df632e658be3919dd5cc94015e2301b8b92cbb18badf85",
+        "summary.json": "71f1ad7127563c4173545b761c028abf983feed4877b8f82a0042694b3089fba",
+        "resolved-config.json": "2096ae66aa1ed0418884a2d26a683cfbae8856ed6f05559438b7a5310988d268",
+        "provenance.json": "64d7e82dadbf7a4fab37ced522016c89f841babed497489d2ada01454f961494"
+      }
+    },
+    {
+      "name": "turns16-mach8-altitude8-vertical-bfo-255000-seed-37091712",
+      "seed": 37091712,
+      "initial_candidates": 255000,
+      "elapsed_seconds": 738.580451736,
+      "peak_memory": "VmHWM:\t 3750252 kB",
+      "log_evidence": -87.96782224936932,
+      "pooling_fraction": 0.2595715924443368,
+      "regions": {
+        "south_of_35S": 0.9064330713989892,
+        "between_35S_and_38S": 0.8936728692375773,
+        "north_of_35S": 0.09356692860101085,
+        "north_of_30S": 0.01201752363331414,
+        "south_of_38S": 0.012760202161411858
+      },
+      "largest_ancestry_fraction": 0.029861100987153402,
+      "quantiles_05_50_95_deg": [
+        [
+          -37.5453599985,
+          -36.5257189778,
+          -34.3128160133
+        ],
+        [
+          87.5357611209,
+          89.2769128104,
+          92.528584572
+        ]
+      ],
+      "provenance": {
+        "configuration_sha256": "d4b30bbc3895b17e449929ef5179194f552a0ff6e80acff186a274078d74ff14",
+        "enabled_spokes": [
+          "stochastic_cruise",
+          "satcom",
+          "fuel_consistency"
+        ],
+        "executable_sha256": "7bd822edb46f3fff074126ab1b7b89f688245d20d7a1b2840a0a3574ee675e5f",
+        "inputs": {
+          "magnetic": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1",
+          "observations": "0ed8bed1798861536aa659e7fdf5cd8f43ccbe160cdf3c61fb7479b7e0fbb799",
+          "satellite_ephemeris": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+          "weather": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4"
+        },
+        "limitations": [
+          "ERA5/IGRF inputs substitute for the published historical input versions",
+          "initial mode probabilities are declared assumptions",
+          "kinematic cruise model is not a calibrated aircraft performance deck",
+          "fuel uses a public conditional proxy and a conservative continuation envelope",
+          "one completed run does not establish convergence or coverage"
+        ],
+        "proposal_inputs": {
+          "initial_operating_proposal": "496b571a95333911b91520f42b3f617b74fa7fbca4da0a24a51fdb3dde48f8df",
+          "initial_replay_donors": null
+        },
+        "root_interpretation": "initial independent draws; interacting resampled ancestry is not independent Monte Carlo replication",
+        "sampling_method": "sequential_blocked",
+        "scientific_source_sha256": "96ed6a0e20fb9afe866711c084aeed92767d98e021821753705c51228c4bb6ea",
+        "scope": "airborne state at final supplied contact; no terminal or auxiliary evidence"
+      },
+      "source_files_sha256": {
+        "posterior.csv": "0296b1e00f9706f54ea9410b9007b58bdb876fa3c828a3a3fe76ab0808216522",
+        "summary.json": "807b8ee448d8e9042ac80de9cff50cb9717f4d27be7fe1812812d35a433311de",
+        "resolved-config.json": "17864867ebca485ed9997a9263a5a536046f6cd64f714a2c8e351fad876f7b3a",
+        "provenance.json": "540a9573c23dbcea507666c660b64cfbd26eff2a26ac3ca3924144287efc4085"
+      }
+    },
+    {
+      "name": "turns16-mach8-altitude8-vertical-bfo-170000-seed-37091713",
+      "seed": 37091713,
+      "initial_candidates": 170000,
+      "elapsed_seconds": 498.108572964,
+      "peak_memory": "VmHWM:\t 2542184 kB",
+      "log_evidence": -88.03818290267179,
+      "pooling_fraction": 0.16129045198714642,
+      "regions": {
+        "south_of_35S": 0.9170169940274543,
+        "between_35S_and_38S": 0.9042538492925971,
+        "north_of_35S": 0.08298300597254582,
+        "north_of_30S": 0.011541576825728594,
+        "south_of_38S": 0.012763144734857162
+      },
+      "largest_ancestry_fraction": 0.06402442000922254,
+      "quantiles_05_50_95_deg": [
+        [
+          -37.7299707928,
+          -36.7171038961,
+          -34.4137091478
+        ],
+        [
+          87.2586813363,
+          89.0142268952,
+          92.3292499543
+        ]
+      ],
+      "provenance": {
+        "configuration_sha256": "3ab8ec9be676c54cdc1dcdb114e5b8e554a25406e7680bb596eb6f05d7669bd3",
+        "enabled_spokes": [
+          "stochastic_cruise",
+          "satcom",
+          "fuel_consistency"
+        ],
+        "executable_sha256": "7bd822edb46f3fff074126ab1b7b89f688245d20d7a1b2840a0a3574ee675e5f",
+        "inputs": {
+          "magnetic": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1",
+          "observations": "0ed8bed1798861536aa659e7fdf5cd8f43ccbe160cdf3c61fb7479b7e0fbb799",
+          "satellite_ephemeris": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+          "weather": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4"
+        },
+        "limitations": [
+          "ERA5/IGRF inputs substitute for the published historical input versions",
+          "initial mode probabilities are declared assumptions",
+          "kinematic cruise model is not a calibrated aircraft performance deck",
+          "fuel uses a public conditional proxy and a conservative continuation envelope",
+          "one completed run does not establish convergence or coverage"
+        ],
+        "proposal_inputs": {
+          "initial_operating_proposal": "36fe5e15e13d65d3302da52e908c458ff0f04505ac8a6c8895b2284833e23f6c",
+          "initial_replay_donors": null
+        },
+        "root_interpretation": "initial independent draws; interacting resampled ancestry is not independent Monte Carlo replication",
+        "sampling_method": "sequential_blocked",
+        "scientific_source_sha256": "96ed6a0e20fb9afe866711c084aeed92767d98e021821753705c51228c4bb6ea",
+        "scope": "airborne state at final supplied contact; no terminal or auxiliary evidence"
+      },
+      "source_files_sha256": {
+        "posterior.csv": "971870a8df7da6e95646156395e47de12df6093d8a1f91f77221a925aa7ed96a",
+        "summary.json": "8a23373de7a4a1042eb81ecba2f9bf60e85b331893e5cb108e5c8f8b9e939e04",
+        "resolved-config.json": "fabf45996e5a5162bf65fbeb86af474ebe1f32418f6818920d7a2c3ac5e69f3d",
+        "provenance.json": "f1c6caad3b10dbca7386cc176d04b09609135dea3c4c8a2ad55bd6a865b44565"
+      }
+    },
+    {
+      "name": "turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714",
+      "seed": 37091714,
+      "initial_candidates": 170000,
+      "elapsed_seconds": 483.954874539,
+      "peak_memory": "VmHWM:\t 2274260 kB",
+      "log_evidence": -88.17122887689254,
+      "pooling_fraction": 0.14119766880317558,
+      "regions": {
+        "south_of_35S": 0.9288712528451802,
+        "between_35S_and_38S": 0.9196899909708762,
+        "north_of_35S": 0.0711287471548199,
+        "north_of_30S": 0.015245281803998912,
+        "south_of_38S": 0.009181261874303947
+      },
+      "largest_ancestry_fraction": 0.1724820681617732,
+      "quantiles_05_50_95_deg": [
+        [
+          -37.796446831,
+          -36.7962438403,
+          -34.4599669827
+        ],
+        [
+          87.1549998299,
+          88.8208061169,
+          92.2848924112
+        ]
+      ],
+      "provenance": {
+        "configuration_sha256": "5cee73e1ef1ba313d567c3c59e031cb78544e561990d88f6ced8f5e816353cb6",
+        "enabled_spokes": [
+          "stochastic_cruise",
+          "satcom",
+          "fuel_consistency"
+        ],
+        "executable_sha256": "7bd822edb46f3fff074126ab1b7b89f688245d20d7a1b2840a0a3574ee675e5f",
+        "inputs": {
+          "magnetic": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1",
+          "observations": "0ed8bed1798861536aa659e7fdf5cd8f43ccbe160cdf3c61fb7479b7e0fbb799",
+          "satellite_ephemeris": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+          "weather": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4"
+        },
+        "limitations": [
+          "ERA5/IGRF inputs substitute for the published historical input versions",
+          "initial mode probabilities are declared assumptions",
+          "kinematic cruise model is not a calibrated aircraft performance deck",
+          "fuel uses a public conditional proxy and a conservative continuation envelope",
+          "one completed run does not establish convergence or coverage"
+        ],
+        "proposal_inputs": {
+          "initial_operating_proposal": "496b571a95333911b91520f42b3f617b74fa7fbca4da0a24a51fdb3dde48f8df",
+          "initial_replay_donors": null
+        },
+        "root_interpretation": "initial independent draws; interacting resampled ancestry is not independent Monte Carlo replication",
+        "sampling_method": "sequential_blocked",
+        "scientific_source_sha256": "96ed6a0e20fb9afe866711c084aeed92767d98e021821753705c51228c4bb6ea",
+        "scope": "airborne state at final supplied contact; no terminal or auxiliary evidence"
+      },
+      "source_files_sha256": {
+        "posterior.csv": "ead10daa20dc02a373f5f621585696ef80b79ec6fffa223400665b3b1e79c332",
+        "summary.json": "8b5d10f8487e43bbfbfb0b706c3f5f8493ebde3f47859e067d134bbd042366ef",
+        "resolved-config.json": "9f758da36f044dc94aae88a3d86e02496668ec73ca0147c9218e3eb881fb7b05",
+        "provenance.json": "02671dd46e21c8b271513920b84a5f530c7629635589e76b0236572f33b7fede"
+      }
+    }
+  ],
+  "total_initial_candidates": 1020000,
+  "positive_weight_output_rows": 663015,
+  "total_sampling_run_elapsed_seconds": 2953.469590711,
+  "pooling": "alpha_r = N_r exp(logZ_r) / sum_s N_s exp(logZ_s), N_r is initial effort; within-run weights retained",
+  "regions": {
+    "south_of_35S": 0.9123768284203756,
+    "between_35S_and_38S": 0.9006192943435073,
+    "north_of_35S": 0.08762317157962443,
+    "north_of_30S": 0.011733562432600438,
+    "south_of_38S": 0.011757534076868255
+  },
+  "equal_run_regions": {
+    "south_of_35S": 0.9148555916220827,
+    "between_35S_and_38S": 0.9041975648046865,
+    "north_of_35S": 0.08514440837791726,
+    "north_of_30S": 0.011119460033072842,
+    "south_of_38S": 0.010658026817396296
+  },
+  "equal_run_pooling_cdf_difference": [
+    0.012395313090166116,
+    0.016769146111542566
+  ],
+  "baseline_run_count": 4,
+  "baseline_regions": {
+    "south_of_35S": 0.907964876772211,
+    "between_35S_and_38S": 0.8959183609049783,
+    "north_of_35S": 0.09203512322778898,
+    "north_of_30S": 0.011067077520613321,
+    "south_of_38S": 0.012046515867232557
+  },
+  "additional_regions": {
+    "south_of_35S": 0.9225504136740811,
+    "between_35S_and_38S": 0.9114592470272055,
+    "north_of_35S": 0.07744958632591903,
+    "north_of_30S": 0.013270419953518676,
+    "south_of_38S": 0.011091166646875514
+  },
+  "additional_vs_baseline_cdf_difference": [
+    0.13933915856338486,
+    0.1474531943151125
+  ],
+  "combined_vs_baseline_cdf_difference": [
+    0.04214844022634279,
+    0.044602839652904125
+  ],
+  "quantiles_05_50_95_deg": [
+    [
+      -37.6971858192,
+      -36.6380369846,
+      -34.3310137717
+    ],
+    [
+      87.32515221,
+      89.102340669,
+      92.4801709508
+    ]
+  ],
+  "modes": {
+    "initial_modes": {
+      "ConstantMagneticHeading": 0.012123434787248729,
+      "ConstantMagneticTrack": 0.0733193293912672,
+      "ConstantTrueHeading": 0.0736379815578534,
+      "ConstantTrueTrack": 0.6175153311693437,
+      "LateralNavigation": 0.22340392309428692
+    },
+    "final_modes": {
+      "ConstantMagneticHeading": 0.023375346171886524,
+      "ConstantMagneticTrack": 0.0733193293912672,
+      "ConstantTrueHeading": 0.10304448663707515,
+      "ConstantTrueTrack": 0.6175153311693437,
+      "LateralNavigation": 0.18274550663042735
+    }
+  },
+  "leave_one_out": [
+    {
+      "omitted_seed": 37091631,
+      "regions": {
+        "south_of_35S": 0.9082198972882274,
+        "between_35S_and_38S": 0.8959665126424731,
+        "north_of_35S": 0.09178010271177253,
+        "north_of_30S": 0.012365911675415932,
+        "south_of_38S": 0.012253384645754263
+      },
+      "cdf_difference_from_all": [
+        0.008542453869727906,
+        0.010722590920446695
+      ],
+      "quantiles_05_50_95_deg": [
+        [
+          -37.7060614184,
+          -36.6367513585,
+          -34.2564945717
+        ],
+        [
+          87.3195651194,
+          89.1088886199,
+          92.5525666513
+        ]
+      ]
+    },
+    {
+      "omitted_seed": 37091640,
+      "regions": {
+        "south_of_35S": 0.9139065053970388,
+        "between_35S_and_38S": 0.9017487671402826,
+        "north_of_35S": 0.0860934946029612,
+        "north_of_30S": 0.011990118376785118,
+        "south_of_38S": 0.012157738256756189
+      },
+      "cdf_difference_from_all": [
+        0.0045615442964889175,
+        0.0058288234384077375
+      ],
+      "quantiles_05_50_95_deg": [
+        [
+          -37.6971858192,
+          -36.642177704,
+          -34.364475308
+        ],
+        [
+          87.32515221,
+          89.0930263289,
+          92.4136691926
+        ]
+      ]
+    },
+    {
+      "omitted_seed": 37091711,
+      "regions": {
+        "south_of_35S": 0.9174955408132947,
+        "between_35S_and_38S": 0.9067472781412529,
+        "north_of_35S": 0.08250445918670525,
+        "north_of_30S": 0.011382679400535122,
+        "south_of_38S": 0.010748262672041705
+      },
+      "cdf_difference_from_all": [
+        0.02170897160427221,
+        0.024640032107414722
+      ],
+      "quantiles_05_50_95_deg": [
+        [
+          -37.7015867971,
+          -36.642177704,
+          -34.3850872907
+        ],
+        [
+          87.3275138517,
+          89.087004048,
+          92.3826542471
+        ]
+      ]
+    },
+    {
+      "omitted_seed": 37091712,
+      "regions": {
+        "south_of_35S": 0.9144605281533945,
+        "between_35S_and_38S": 0.9030544988928491,
+        "north_of_35S": 0.08553947184660535,
+        "north_of_30S": 0.011634014305719418,
+        "south_of_38S": 0.011406029260545375
+      },
+      "cdf_difference_from_all": [
+        0.025687891021372256,
+        0.028046103598773575
+      ],
+      "quantiles_05_50_95_deg": [
+        [
+          -37.7210123339,
+          -36.6761713131,
+          -34.340880646
+        ],
+        [
+          87.2872776951,
+          89.0623961265,
+          92.4801709508
+        ]
+      ]
+    },
+    {
+      "omitted_seed": 37091713,
+      "regions": {
+        "south_of_35S": 0.9114844880269293,
+        "between_35S_and_38S": 0.8999203408000549,
+        "north_of_35S": 0.0885155119730707,
+        "north_of_30S": 0.011770482776932696,
+        "south_of_38S": 0.011564147226874225
+      },
+      "cdf_difference_from_all": [
+        0.014870674968138597,
+        0.016901253847837805
+      ],
+      "quantiles_05_50_95_deg": [
+        [
+          -37.6950829685,
+          -36.6156782631,
+          -34.305566264
+        ],
+        [
+          87.3268548678,
+          89.1404530968,
+          92.4954152153
+        ]
+      ]
+    },
+    {
+      "omitted_seed": 37091714,
+      "regions": {
+        "south_of_35S": 0.9096649421196166,
+        "between_35S_and_38S": 0.8974838371976417,
+        "north_of_35S": 0.09033505788038343,
+        "north_of_30S": 0.01115619256444765,
+        "south_of_38S": 0.012181104921974792
+      },
+      "cdf_difference_from_all": [
+        0.023178763887088213,
+        0.024127446452900353
+      ],
+      "quantiles_05_50_95_deg": [
+        [
+          -37.6401334284,
+          -36.6234913445,
+          -34.2976068389
+        ],
+        [
+          87.3670400064,
+          89.1278704665,
+          92.5027756945
+        ]
+      ]
+    }
+  ],
+  "cell_ranked_probability_areas": {
+    "5": {
+      "0.5": {
+        "area_km2": 2725.0,
+        "probability_in_selected_cells": 0.5002972294791123
+      },
+      "0.8": {
+        "area_km2": 7950.0,
+        "probability_in_selected_cells": 0.800510524591509
+      },
+      "0.9": {
+        "area_km2": 12825.0,
+        "probability_in_selected_cells": 0.9002835427732352
+      },
+      "0.95": {
+        "area_km2": 18400.0,
+        "probability_in_selected_cells": 0.9500764053529364
+      }
+    },
+    "10": {
+      "0.5": {
+        "area_km2": 3200.0,
+        "probability_in_selected_cells": 0.5018842304493905
+      },
+      "0.8": {
+        "area_km2": 9200.0,
+        "probability_in_selected_cells": 0.8007947221695668
+      },
+      "0.9": {
+        "area_km2": 14800.0,
+        "probability_in_selected_cells": 0.900553338932387
+      },
+      "0.95": {
+        "area_km2": 21300.0,
+        "probability_in_selected_cells": 0.9500508278058548
+      }
+    },
+    "20": {
+      "0.5": {
+        "area_km2": 4400.0,
+        "probability_in_selected_cells": 0.5138304959472947
+      },
+      "0.8": {
+        "area_km2": 12400.0,
+        "probability_in_selected_cells": 0.8065444206994264
+      },
+      "0.9": {
+        "area_km2": 19600.0,
+        "probability_in_selected_cells": 0.9009551786780239
+      },
+      "0.95": {
+        "area_km2": 27600.0,
+        "probability_in_selected_cells": 0.9505564831160389
+      }
+    }
+  },
+  "independent_groups": [
+    {
+      "start": 0,
+      "stop": 1,
+      "seeds": [
+        37091631
+      ],
+      "initial_candidates": 85000,
+      "regions": {
+        "south_of_35S": 0.946117021104183,
+        "between_35S_and_38S": 0.9383841131769293,
+        "north_of_35S": 0.053882978895816926,
+        "north_of_30S": 0.0066010296535381615,
+        "south_of_38S": 0.007732907927253848
+      },
+      "quantiles_05_50_95_deg": [
+        [
+          -37.5604116883,
+          -36.6515217941,
+          -34.9059153916
+        ],
+        [
+          87.5574135942,
+          89.0671625401,
+          91.6485605168
+        ]
+      ]
+    },
+    {
+      "start": 1,
+      "stop": 2,
+      "seeds": [
+        37091640
+      ],
+      "initial_candidates": 85000,
+      "regions": {
+        "south_of_35S": 0.8933710823286305,
+        "between_35S_and_38S": 0.8865859569000227,
+        "north_of_35S": 0.10662891767136924,
+        "north_of_30S": 0.008545937066009479,
+        "south_of_38S": 0.006785125428607875
+      },
+      "quantiles_05_50_95_deg": [
+        [
+          -37.674141509,
+          -36.5519969515,
+          -33.4338173374
+        ],
+        [
+          87.3012317616,
+          89.3085049851,
+          93.6027616152
+        ]
+      ]
+    },
+    {
+      "start": 2,
+      "stop": 3,
+      "seeds": [
+        37091711
+      ],
+      "initial_candidates": 255000,
+      "regions": {
+        "south_of_35S": 0.8973241280280593,
+        "between_35S_and_38S": 0.8825986092501161,
+        "north_of_35S": 0.10267587197194078,
+        "north_of_30S": 0.012765411215847771,
+        "south_of_38S": 0.014725518777943088
+      },
+      "quantiles_05_50_95_deg": [
+        [
+          -37.6860699812,
+          -36.6288664123,
+          -34.1688807777
+        ],
+        [
+          87.2826421415,
+          89.1374357767,
+          92.6217912362
+        ]
+      ]
+    },
+    {
+      "start": 3,
+      "stop": 4,
+      "seeds": [
+        37091712
+      ],
+      "initial_candidates": 255000,
+      "regions": {
+        "south_of_35S": 0.9064330713989892,
+        "between_35S_and_38S": 0.8936728692375773,
+        "north_of_35S": 0.09356692860101085,
+        "north_of_30S": 0.01201752363331414,
+        "south_of_38S": 0.012760202161411858
+      },
+      "quantiles_05_50_95_deg": [
+        [
+          -37.5453599985,
+          -36.5257189778,
+          -34.3128160133
+        ],
+        [
+          87.5357611209,
+          89.2769128104,
+          92.528584572
+        ]
+      ]
+    },
+    {
+      "start": 4,
+      "stop": 5,
+      "seeds": [
+        37091713
+      ],
+      "initial_candidates": 170000,
+      "regions": {
+        "south_of_35S": 0.9170169940274543,
+        "between_35S_and_38S": 0.9042538492925971,
+        "north_of_35S": 0.08298300597254582,
+        "north_of_30S": 0.011541576825728594,
+        "south_of_38S": 0.012763144734857162
+      },
+      "quantiles_05_50_95_deg": [
+        [
+          -37.7299707928,
+          -36.7171038961,
+          -34.4137091478
+        ],
+        [
+          87.2586813363,
+          89.0142268952,
+          92.3292499543
+        ]
+      ]
+    },
+    {
+      "start": 5,
+      "stop": 6,
+      "seeds": [
+        37091714
+      ],
+      "initial_candidates": 170000,
+      "regions": {
+        "south_of_35S": 0.9288712528451802,
+        "between_35S_and_38S": 0.9196899909708762,
+        "north_of_35S": 0.0711287471548199,
+        "north_of_30S": 0.015245281803998912,
+        "south_of_38S": 0.009181261874303947
+      },
+      "quantiles_05_50_95_deg": [
+        [
+          -37.796446831,
+          -36.7962438403,
+          -34.4599669827
+        ],
+        [
+          87.1549998299,
+          88.8208061169,
+          92.2848924112
+        ]
+      ]
+    }
+  ],
+  "independent_group_comparisons": [
+    {
+      "groups": [
+        0,
+        1
+      ],
+      "equal_initial_effort": true,
+      "cdf_difference": [
+        0.11297827029691393,
+        0.125058590058031
+      ]
+    },
+    {
+      "groups": [
+        0,
+        2
+      ],
+      "equal_initial_effort": false,
+      "cdf_difference": [
+        0.08741909686490301,
+        0.13163100909894204
+      ]
+    },
+    {
+      "groups": [
+        0,
+        3
+      ],
+      "equal_initial_effort": false,
+      "cdf_difference": [
+        0.12453192731674256,
+        0.14102808339908945
+      ]
+    },
+    {
+      "groups": [
+        0,
+        4
+      ],
+      "equal_initial_effort": false,
+      "cdf_difference": [
+        0.1447844217617941,
+        0.16631678173813302
+      ]
+    },
+    {
+      "groups": [
+        0,
+        5
+      ],
+      "equal_initial_effort": false,
+      "cdf_difference": [
+        0.19499026651410917,
+        0.20938711354255835
+      ]
+    },
+    {
+      "groups": [
+        1,
+        2
+      ],
+      "equal_initial_effort": false,
+      "cdf_difference": [
+        0.06876019473130149,
+        0.09191728665198007
+      ]
+    },
+    {
+      "groups": [
+        1,
+        3
+      ],
+      "equal_initial_effort": false,
+      "cdf_difference": [
+        0.10623737147636828,
+        0.1194605589719018
+      ]
+    },
+    {
+      "groups": [
+        1,
+        4
+      ],
+      "equal_initial_effort": false,
+      "cdf_difference": [
+        0.1212292431083059,
+        0.1498613772309162
+      ]
+    },
+    {
+      "groups": [
+        1,
+        5
+      ],
+      "equal_initial_effort": false,
+      "cdf_difference": [
+        0.16265401785807382,
+        0.17397781744881033
+      ]
+    },
+    {
+      "groups": [
+        2,
+        3
+      ],
+      "equal_initial_effort": true,
+      "cdf_difference": [
+        0.08639433246832795,
+        0.09013768220559248
+      ]
+    },
+    {
+      "groups": [
+        2,
+        4
+      ],
+      "equal_initial_effort": false,
+      "cdf_difference": [
+        0.1369587063879089,
+        0.15124600104280334
+      ]
+    },
+    {
+      "groups": [
+        2,
+        5
+      ],
+      "equal_initial_effort": false,
+      "cdf_difference": [
+        0.18497638782408893,
+        0.18650031396637007
+      ]
+    },
+    {
+      "groups": [
+        3,
+        4
+      ],
+      "equal_initial_effort": false,
+      "cdf_difference": [
+        0.13826052939333677,
+        0.1440264986701407
+      ]
+    },
+    {
+      "groups": [
+        3,
+        5
+      ],
+      "equal_initial_effort": false,
+      "cdf_difference": [
+        0.19112378791138362,
+        0.20173193026730527
+      ]
+    },
+    {
+      "groups": [
+        4,
+        5
+      ],
+      "equal_initial_effort": true,
+      "cdf_difference": [
+        0.1566586800420902,
+        0.17344611178860003
+      ]
+    }
+  ],
+  "independent_halves": {
+    "first_seeds": [
+      37091631,
+      37091640,
+      37091711
+    ],
+    "second_seeds": [
+      37091712,
+      37091713,
+      37091714
+    ],
+    "first_initial_candidates": 425000,
+    "second_initial_candidates": 595000,
+    "equal_initial_effort": false,
+    "cdf_difference": [
+      0.09490354647844079,
+      0.10297012558798763
+    ],
+    "first_regions": {
+      "south_of_35S": 0.9088727931527267,
+      "between_35S_and_38S": 0.8972492862971887,
+      "north_of_35S": 0.0911272068472733,
+      "north_of_30S": 0.010503738594138917,
+      "south_of_38S": 0.011623506855538045
+    },
+    "second_regions": {
+      "south_of_35S": 0.915107068951437,
+      "between_35S_and_38S": 0.9032451048320633,
+      "north_of_35S": 0.08489293104856305,
+      "north_of_30S": 0.01269180475419845,
+      "south_of_38S": 0.01186196411937374
+    }
+  },
+  "cumulative_history": [
+    {
+      "run_count": 1,
+      "initial_candidates": 85000,
+      "regions": {
+        "south_of_35S": 0.946117021104183,
+        "between_35S_and_38S": 0.9383841131769293,
+        "north_of_35S": 0.053882978895816926,
+        "north_of_30S": 0.0066010296535381615,
+        "south_of_38S": 0.007732907927253848
+      },
+      "new_run_vs_previous_cdf_difference": null,
+      "combined_vs_previous_cdf_difference": null
+    },
+    {
+      "run_count": 2,
+      "initial_candidates": 170000,
+      "regions": {
+        "south_of_35S": 0.9247844268256923,
+        "between_35S_and_38S": 0.9174348405337571,
+        "north_of_35S": 0.07521557317430769,
+        "north_of_30S": 0.007387628995641642,
+        "south_of_38S": 0.00734958629193507
+      },
+      "new_run_vs_previous_cdf_difference": [
+        0.11297827029691393,
+        0.125058590058031
+      ],
+      "combined_vs_previous_cdf_difference": [
+        0.045692989042917354,
+        0.05057875970509071
+      ]
+    },
+    {
+      "run_count": 3,
+      "initial_candidates": 425000,
+      "regions": {
+        "south_of_35S": 0.9088727931527267,
+        "between_35S_and_38S": 0.8972492862971887,
+        "north_of_35S": 0.0911272068472733,
+        "north_of_30S": 0.010503738594138917,
+        "south_of_38S": 0.011623506855538045
+      },
+      "new_run_vs_previous_cdf_difference": [
+        0.07421651280057862,
+        0.11246619812718106
+      ],
+      "combined_vs_previous_cdf_difference": [
+        0.043004119251227324,
+        0.06516757003915408
+      ]
+    },
+    {
+      "run_count": 4,
+      "initial_candidates": 680000,
+      "regions": {
+        "south_of_35S": 0.907964876772211,
+        "between_35S_and_38S": 0.8959183609049783,
+        "north_of_35S": 0.09203512322778898,
+        "north_of_30S": 0.011067077520613321,
+        "south_of_38S": 0.012046515867232557
+      },
+      "new_run_vs_previous_cdf_difference": [
+        0.0829850126631666,
+        0.08808807836212251
+      ],
+      "combined_vs_previous_cdf_difference": [
+        0.03088198570955214,
+        0.032781037079573694
+      ]
+    },
+    {
+      "run_count": 5,
+      "initial_candidates": 850000,
+      "regions": {
+        "south_of_35S": 0.9096649421196166,
+        "between_35S_and_38S": 0.8974838371976417,
+        "north_of_35S": 0.09033505788038343,
+        "north_of_30S": 0.01115619256444765,
+        "south_of_38S": 0.012181104921974792
+      },
+      "new_run_vs_previous_cdf_difference": [
+        0.11900263976917175,
+        0.1322720672706042
+      ],
+      "combined_vs_previous_cdf_difference": [
+        0.022349717576202355,
+        0.024841830000177645
+      ]
+    },
+    {
+      "run_count": 6,
+      "initial_candidates": 1020000,
+      "regions": {
+        "south_of_35S": 0.9123768284203756,
+        "between_35S_and_38S": 0.9006192943435073,
+        "north_of_35S": 0.08762317157962443,
+        "north_of_30S": 0.011733562432600438,
+        "south_of_38S": 0.011757534076868255
+      },
+      "new_run_vs_previous_cdf_difference": [
+        0.16415826184353655,
+        0.17087708782595712
+      ],
+      "combined_vs_previous_cdf_difference": [
+        0.023178763887088213,
+        0.024127446452900353
+      ]
+    }
+  ],
+  "terminal_operating_state": {
+    "altitude_ft": {
+      "quantiles_05_50_95": [
+        30000.0,
+        37000.0,
+        42000.0
+      ],
+      "positive_weight_range": [
+        25000.0,
+        43000.0
+      ],
+      "probability_exactly_35000": 0.11244115330112289
+    },
+    "mach": {
+      "quantiles_05_50_95": [
+        0.73814396,
+        0.82225088,
+        0.83881603
+      ],
+      "positive_weight_range": [
+        0.71763452,
+        0.85038582
+      ]
+    },
+    "limited_turns": {
+      "1": 0.817038492905254,
+      "2": 0.13768167722950422,
+      "3": 0.03236380657762958,
+      "4": 0.009552618646772218,
+      "5": 0.0025206985807669363,
+      "6": 0.0005128601599788664,
+      "7": 0.0002558500425038002,
+      "8": 4.0069525272150495e-05,
+      "9": 3.503731297194331e-06,
+      "10": 3.023590899383107e-05,
+      "11": 1.7851753137526143e-07,
+      "12": 8.151946444118188e-09,
+      "13": 1.4872546324356827e-11,
+      "14": 7.67679650293277e-12
+    },
+    "limited_speed_changes": {
+      "0": 0.44669225996474105,
+      "1": 0.2922736720643239,
+      "2": 0.1357674689252521,
+      "3": 0.06022096624091,
+      "4": 0.028473620438973408,
+      "5": 0.01672963160440499,
+      "6": 0.008975205255966495,
+      "7": 0.005494988324386574,
+      "8": 0.005372187181041561
+    },
+    "limited_altitude_changes": {
+      "0": 0.40018620137611166,
+      "1": 0.30620122655507276,
+      "2": 0.1570390334439153,
+      "3": 0.07357502623871373,
+      "4": 0.03210276708081262,
+      "5": 0.015785766674076034,
+      "6": 0.007739271411190005,
+      "7": 0.0028831079615791637,
+      "8": 0.004487599258528758
+    }
+  },
+  "enabled_spokes": [
+    "stochastic_cruise",
+    "satcom",
+    "fuel_consistency"
+  ],
+  "include_vertical_doppler": true,
+  "reference_arc": {
+    "time_utc": "2014-03-08T00:10:59.000Z",
+    "bto_us": 18040.0,
+    "altitude_ft": 35000,
+    "satellite_aircraft_range_km": 37802.867351810404
+  },
+  "report_source_sha256": "57b9bb1142fbed14816b2bafee94c8bc4054de209ffcf1cdec30da377a48fe07",
+  "limitations": [
+    "1,020,000 initial candidates are not 1,020,000 independent posterior draws.",
+    "Replication diagnostics do not establish calibrated sampling-error confidence bands.",
+    "Combining runs is not equivalent to a single larger interacting filter.",
+    "Finite-sample highest-density areas depend on displayed cell size; no added smoothing.",
+    "Airborne location at 00:11 under the stated 16/8/8 cruise, SATCOM and fuel conditions, not an impact/search-area posterior.",
+    "Aircraft performance and fuel-model calibration remain incomplete."
+  ],
+  "complexity_by_latitude": [
+    {
+      "field": "limited_turns",
+      "count_values": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "latitude_bin_centers_deg": [
+        -40.0,
+        -37.5,
+        -35.0,
+        -32.5,
+        -30.0,
+        -27.5,
+        -25.0,
+        -22.5,
+        -20.0,
+        -17.5,
+        -15.0,
+        -12.5,
+        -10.0,
+        -7.5
+      ],
+      "latitude_bin_edges_deg": [
+        -41.25,
+        -38.75,
+        -36.25,
+        -33.75,
+        -31.25,
+        -28.75,
+        -26.25,
+        -23.75,
+        -21.25,
+        -18.75,
+        -16.25,
+        -13.75,
+        -11.25,
+        -8.75,
+        -6.25
+      ],
+      "latitude_bin_probability": [
+        5.545247642138518e-06,
+        0.7299799153477758,
+        0.23279517781206044,
+        0.020014818132206083,
+        0.008871636168653985,
+        0.006373950949838371,
+        0.0015878072930212877,
+        0.0003239312495225593,
+        4.45416369101955e-05,
+        1.2904259174044102e-07,
+        2.5196780529106428e-06,
+        2.7438957099075126e-08,
+        2.7511296831744537e-12,
+        0.0
+      ],
+      "joint_probability": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          5.084157861669827e-06,
+          0.6825024235202386,
+          0.13448553023636448,
+          4.545499077392002e-05,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          4.1041737727572067e-07,
+          0.044224981238888725,
+          0.07742023360739562,
+          0.007610062984576018,
+          0.0035604616972460842,
+          0.0038784055176696707,
+          0.0009858939510181443,
+          7.34562779594495e-07,
+          4.898819139379392e-07,
+          3.369905600040562e-09,
+          4.189676923597206e-146,
+          7.327865271168005e-13,
+          0.0,
+          0.0
+        ],
+        [
+          5.0672403192971454e-08,
+          0.0030384000154038563,
+          0.01449324953559066,
+          0.00911354333690356,
+          0.003803974539808057,
+          0.0014564378365874,
+          0.00044368355020664197,
+          1.2892759606115998e-05,
+          1.5727723675874438e-06,
+          1.5587478531900077e-09,
+          0.0,
+          4.508699499079233e-15,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0001764080749001983,
+          0.005209151277864768,
+          0.0023896925522405407,
+          0.001044737726308103,
+          0.0004053875094881843,
+          6.804168315568803e-05,
+          0.000258316538451693,
+          4.4405520489224835e-07,
+          8.142082535301523e-09,
+          4.3108524552363983e-07,
+          1.8300985960806236e-12,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          3.7386898419521345e-05,
+          0.0010608708433706862,
+          0.00044936023093878344,
+          0.0002773245872020515,
+          0.0005698085247231745,
+          3.381675895484823e-05,
+          5.060298494338537e-05,
+          4.1520301487419186e-05,
+          6.418017493338689e-09,
+          9.876292217907063e-10,
+          4.4994193072643404e-11,
+          8.615944295068144e-14,
+          0.0
+        ],
+        [
+          0.0,
+          3.1248160776337003e-07,
+          0.00010426513573419799,
+          0.00017344628519996708,
+          0.00015490753809432902,
+          5.657112114157886e-05,
+          2.088890841176618e-05,
+          6.995215788487441e-07,
+          4.7412001620933505e-07,
+          1.0863753993453528e-07,
+          1.159147183196191e-06,
+          2.726080611841142e-08,
+          2.6649566227073733e-12,
+          0.0
+        ],
+        [
+          0.0,
+          3.0651689926484544e-09,
+          7.049430487791759e-06,
+          0.0002235925366459872,
+          1.508674604715853e-05,
+          5.647290112850484e-06,
+          3.1957896749608284e-06,
+          3.4148658407294353e-07,
+          6.2307411290799644e-09,
+          6.976453394697104e-13,
+          9.274663432114602e-07,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          5.314811612201264e-11,
+          1.4671331458860857e-05,
+          8.697895791324917e-06,
+          1.4768592355633023e-05,
+          1.4083099346907198e-06,
+          2.0877863463565507e-07,
+          2.825320214715513e-07,
+          3.152209858704405e-08,
+          3.7013208172290074e-10,
+          9.113251319738776e-12,
+          1.305834839448493e-10,
+          1.3617516398972463e-17,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          3.581380198746212e-10,
+          9.514992874436229e-07,
+          3.6880743541885937e-07,
+          2.428792563641521e-07,
+          1.9014366412152598e-06,
+          3.567520299061579e-08,
+          2.7383258543835455e-09,
+          3.117811114536917e-13,
+          3.3669810645112664e-10,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          7.668038570017716e-09,
+          5.934129923453329e-09,
+          4.1569503317058836e-08,
+          3.015448742097288e-05,
+          2.5072888430215442e-08,
+          5.440613125724582e-17,
+          5.311721632471294e-10,
+          6.458403997905946e-10,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.5605559047320316e-07,
+          0.0,
+          0.0,
+          3.9108659084694015e-10,
+          2.194890241433685e-08,
+          1.0665109575936144e-10,
+          1.3102386775903297e-12,
+          1.3984652613991906e-11,
+          0.0,
+          5.909823517782398e-15,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          6.489861431050051e-14,
+          8.15180996716276e-09,
+          1.5904704699488758e-18,
+          7.008462419150871e-14,
+          0.0,
+          6.607674668366886e-16,
+          8.313589901393269e-16,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          2.722305252083448e-14,
+          2.6446560134827953e-13,
+          0.0,
+          1.1374032706861853e-12,
+          1.344345439980153e-11,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          3.4742678046821008e-34,
+          7.67679650293277e-12,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "count_probability_given_latitude_bin": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.9168495601594318,
+          0.9349605505174508,
+          0.5776989519299105,
+          0.0022710668902245906,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.07401245242087036,
+          0.06058383293712832,
+          0.33256802969474875,
+          0.38022144065004393,
+          0.40133089652912146,
+          0.6084774652632082,
+          0.6209153688557384,
+          0.002267650251950571,
+          0.010998291664171104,
+          0.02611467698059615,
+          1.6627826395350152e-140,
+          2.670606337080866e-05,
+          0.0,
+          0.0
+        ],
+        [
+          0.009137987419697942,
+          0.004162306320381851,
+          0.06225751612128027,
+          0.45533980257551526,
+          0.42877936690512414,
+          0.22849843810365875,
+          0.2794316112268251,
+          0.039800913388623585,
+          0.03531016093455333,
+          0.012079328477262034,
+          0.0,
+          1.6431745138124095e-07,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0002416615460113779,
+          0.022376542876975766,
+          0.11939616620324209,
+          0.11776156127766586,
+          0.06360066349403959,
+          0.04285260777850313,
+          0.7974424784037492,
+          0.009969440633435833,
+          0.06309608653613126,
+          0.17108743120005568,
+          6.669709017994384e-05,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          5.121633846831188e-05,
+          0.004557099736091379,
+          0.02245137717318113,
+          0.0312596889604105,
+          0.0893964401683423,
+          0.02129777278608006,
+          0.15621520004003586,
+          0.932168289439656,
+          0.04973565244448921,
+          0.0003919664342235438,
+          0.0016397923911678118,
+          0.03131784134990845,
+          0.0
+        ],
+        [
+          0.0,
+          4.280687744874433e-07,
+          0.000447883571791049,
+          0.008665893642114718,
+          0.017460988610157553,
+          0.008875361857469797,
+          0.01315582092586227,
+          0.0021594754438781856,
+          0.010644422816459397,
+          0.8418735122202994,
+          0.46003781390133763,
+          0.9935073705600236,
+          0.9686772088592902,
+          0.0
+        ],
+        [
+          0.0,
+          4.198977161156758e-09,
+          3.02816860471349e-05,
+          0.011171349905308495,
+          0.0017005595991936974,
+          0.0008859952260840172,
+          0.0020127062578733116,
+          0.0010541946310405647,
+          0.00013988576894114456,
+          5.406318410536646e-06,
+          0.3680892255818492,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          7.280764169613064e-11,
+          6.302248868189734e-05,
+          0.00043457281169740074,
+          0.0016646977034309254,
+          0.00022094772077378965,
+          0.00013148864824672144,
+          0.0008721974860035081,
+          0.0007076995991548012,
+          0.0028682939231985684,
+          3.616831646095211e-06,
+          0.004759054197043474,
+          4.949790801304423e-06,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.538425422900092e-09,
+          4.753974186318256e-05,
+          4.157152394526288e-05,
+          3.8104977317139685e-05,
+          0.001197523559422124,
+          0.00011013202043087013,
+          6.147788999996872e-05,
+          2.416110117199248e-06,
+          0.00013362743151339708,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          3.8311807378748966e-07,
+          6.688878816311582e-07,
+          6.521779606432796e-06,
+          0.018991276556989966,
+          7.740188224251365e-05,
+          1.2214668124330283e-12,
+          0.004116254610846163,
+          0.00025631861937462316,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          6.703557691353449e-07,
+          0.0,
+          0.0,
+          6.135701293039559e-08,
+          1.3823404458970816e-05,
+          3.2923991098899524e-07,
+          2.941604234779298e-08,
+          0.00010837237864937593,
+          0.0,
+          2.1538076306776245e-07,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          2.787798910632689e-13,
+          4.0728873544174675e-07,
+          1.7927589000645232e-16,
+          1.0995475921145252e-11,
+          0.0,
+          2.039838600970393e-12,
+          1.8664760610740606e-11,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          3.0685492510413435e-12,
+          4.149162794467155e-11,
+          0.0,
+          3.5112489837352787e-09,
+          3.018176998502798e-07,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          2.1880916027733105e-31,
+          2.3698845092122367e-08,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ]
+    },
+    {
+      "field": "limited_speed_changes",
+      "count_values": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "latitude_bin_centers_deg": [
+        -40.0,
+        -37.5,
+        -35.0,
+        -32.5,
+        -30.0,
+        -27.5,
+        -25.0,
+        -22.5,
+        -20.0,
+        -17.5,
+        -15.0,
+        -12.5,
+        -10.0,
+        -7.5
+      ],
+      "latitude_bin_edges_deg": [
+        -41.25,
+        -38.75,
+        -36.25,
+        -33.75,
+        -31.25,
+        -28.75,
+        -26.25,
+        -23.75,
+        -21.25,
+        -18.75,
+        -16.25,
+        -13.75,
+        -11.25,
+        -8.75,
+        -6.25
+      ],
+      "latitude_bin_probability": [
+        5.545247642138519e-06,
+        0.7299799153477842,
+        0.23279517781206188,
+        0.020014818132206146,
+        0.00887163616865398,
+        0.006373950949838388,
+        0.0015878072930212894,
+        0.0003239312495225595,
+        4.4541636910195495e-05,
+        1.29042591740441e-07,
+        2.519678052910643e-06,
+        2.7438957099075126e-08,
+        2.7511296831744537e-12,
+        0.0
+      ],
+      "joint_probability": [
+        [
+          4.960367857026187e-06,
+          0.39718757520166026,
+          0.04746244725248641,
+          0.0007006021093133079,
+          0.0007162521396477588,
+          0.0005932207657195367,
+          2.079425963659897e-05,
+          5.940242345931469e-06,
+          3.7800587998687995e-08,
+          2.173571907997264e-158,
+          4.2982548220094385e-07,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          5.848797851073137e-07,
+          0.20961825684956842,
+          0.07528182372746761,
+          0.0037647338659142567,
+          0.001811703656928339,
+          0.0014800207586655497,
+          0.0003144712776419166,
+          1.6063583682663452e-06,
+          4.685265568131446e-07,
+          1.7486215283384937e-09,
+          4.129740630643969e-10,
+          1.83009859616432e-12,
+          0.0,
+          0.0
+        ],
+        [
+          5.0190141613785736e-18,
+          0.0811388780026872,
+          0.04888918744388471,
+          0.002395078175853659,
+          0.0014725300124980806,
+          0.0013148850740469062,
+          0.00028451511034332497,
+          0.0002522983090740211,
+          2.009665684100109e-05,
+          1.1807471175365638e-10,
+          2.1215281938063878e-11,
+          7.331126950067128e-13,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.024926987791975434,
+          0.0258186298771356,
+          0.006772548601854676,
+          0.0013392620942052438,
+          0.000812920297665633,
+          0.0005476165043108332,
+          1.3474960317662871e-06,
+          1.6488398459991391e-06,
+          4.084104091696812e-09,
+          6.537656109825909e-10,
+          1.4924457466607732e-14,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.009369317977221788,
+          0.015573431250158741,
+          0.002095362540915583,
+          0.0005399543044175487,
+          0.000753697548727137,
+          0.00012489494305698026,
+          3.319193905859434e-06,
+          1.3625931492893542e-05,
+          2.65166931074464e-09,
+          8.92046228150073e-10,
+          1.3205325384205424e-08,
+          3.5868218857633693e-14,
+          0.0
+        ],
+        [
+          0.0,
+          0.004789085447289372,
+          0.008503385192689677,
+          0.002081034419879528,
+          0.0007499988901315053,
+          0.00045134190362013506,
+          0.00010076934838424155,
+          4.473328538071604e-05,
+          8.116337925770867e-06,
+          6.7947524823667315e-09,
+          1.1599843011782454e-06,
+          9.447267227680596e-55,
+          5.036483718877202e-14,
+          0.0
+        ],
+        [
+          0.0,
+          0.0016283486895083276,
+          0.004682850979041821,
+          0.0007541345476997411,
+          0.0014818443175467018,
+          0.00036098533461523,
+          6.379271050904831e-05,
+          2.8394481030642157e-06,
+          4.070841585326092e-07,
+          2.1417983918172015e-09,
+          2.9856227962292806e-12,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0007311324180226055,
+          0.003921432079661533,
+          0.00036713753592084033,
+          0.00027889139378569196,
+          0.00012434608136553554,
+          7.168816067799976e-05,
+          2.8017228672264635e-07,
+          6.577393910785116e-08,
+          4.903925586120657e-10,
+          1.3146575625895514e-13,
+          1.4218202516096273e-08,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0005903329698508427,
+          0.0026619900095357944,
+          0.0010841863348545551,
+          0.0004811993594931109,
+          0.0004825331854127243,
+          5.926497846034562e-05,
+          1.1566744026211867e-05,
+          7.468556207856361e-08,
+          1.1101317866511139e-07,
+          9.278851512587664e-07,
+          1.2851063024790736e-11,
+          2.664896627128048e-12,
+          0.0
+        ]
+      ],
+      "count_probability_given_latitude_bin": [
+        [
+          0.8945259395328331,
+          0.5441075389210239,
+          0.2038807147921396,
+          0.03500417064424675,
+          0.08073506690665266,
+          0.09306955299594483,
+          0.013096211188847438,
+          0.01833797250091419,
+          0.0008486573601886534,
+          1.6843833331937664e-151,
+          0.17058746124506843,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.10547406046626177,
+          0.28715619764647915,
+          0.3233822299714621,
+          0.1880973307399864,
+          0.20421302480027353,
+          0.23219832884077587,
+          0.19805380604061765,
+          0.004958948451666667,
+          0.010518844598320089,
+          0.013550731620887685,
+          0.0001638995357312986,
+          6.66970901829941e-05,
+          0.0,
+          0.0
+        ],
+        [
+          9.051018972063429e-13,
+          0.11115220610423263,
+          0.2100094508115348,
+          0.11966524801940132,
+          0.16598178560353377,
+          0.20629042871442949,
+          0.1791874313676617,
+          0.7788637541017801,
+          0.45118810701815504,
+          0.0009150057369519852,
+          8.419838365285094e-06,
+          2.671795040750377e-05,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.034147498126848426,
+          0.1109070648275166,
+          0.33837672454074746,
+          0.1509599885235644,
+          0.12753789667713786,
+          0.34488851809518095,
+          0.004159821053857429,
+          0.03701794456552006,
+          0.031649272047415675,
+          0.00025946394628765526,
+          5.439148948963073e-07,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.012835035293755946,
+          0.06689756805328392,
+          0.10469056111701078,
+          0.060862990112845385,
+          0.11824652474714244,
+          0.07865875387140299,
+          0.01024659989041371,
+          0.3059144754910117,
+          0.020548791487993854,
+          0.00035403182843919787,
+          0.48126192757707,
+          0.013037632895678814,
+          0.0
+        ],
+        [
+          0.0,
+          0.006560571526146318,
+          0.03652732531923215,
+          0.10397468546221283,
+          0.08453895942909215,
+          0.0708103823157878,
+          0.06346447004440761,
+          0.13809499838823266,
+          0.18221912100210785,
+          0.052655114801428045,
+          0.46037004602166237,
+          3.4430124999171456e-47,
+          0.01830696586089588,
+          0.0
+        ],
+        [
+          0.0,
+          0.0022306760162470137,
+          0.020115755932119603,
+          0.037678810904919084,
+          0.16703168269935148,
+          0.05663447012004113,
+          0.04017660757034511,
+          0.008765588708249861,
+          0.009139407232683638,
+          0.01659760830071718,
+          1.1849223327481836e-06,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.001001578814225693,
+          0.01684498844227499,
+          0.01834328613409051,
+          0.03143629748603699,
+          0.019508477919599983,
+          0.04514915694938716,
+          0.000864912808306055,
+          0.0014766843715345278,
+          0.003800237983428384,
+          5.217561668527078e-08,
+          0.5181757624664066,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0008086975510409632,
+          0.011434901850436302,
+          0.05416918243738496,
+          0.05424020443864971,
+          0.0757039376691405,
+          0.03732504487214935,
+          0.03570740409657923,
+          0.0016767583604784006,
+          0.8602832380211771,
+          0.3682554404864964,
+          0.000468351001038006,
+          0.9686554012434253,
+          0.0
+        ]
+      ]
+    },
+    {
+      "field": "limited_altitude_changes",
+      "count_values": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "latitude_bin_centers_deg": [
+        -40.0,
+        -37.5,
+        -35.0,
+        -32.5,
+        -30.0,
+        -27.5,
+        -25.0,
+        -22.5,
+        -20.0,
+        -17.5,
+        -15.0,
+        -12.5,
+        -10.0,
+        -7.5
+      ],
+      "latitude_bin_edges_deg": [
+        -41.25,
+        -38.75,
+        -36.25,
+        -33.75,
+        -31.25,
+        -28.75,
+        -26.25,
+        -23.75,
+        -21.25,
+        -18.75,
+        -16.25,
+        -13.75,
+        -11.25,
+        -8.75,
+        -6.25
+      ],
+      "latitude_bin_probability": [
+        5.54524764213852e-06,
+        0.7299799153477862,
+        0.2327951778120614,
+        0.0200148181322061,
+        0.00887163616865398,
+        0.006373950949838381,
+        0.0015878072930212872,
+        0.00032393124952255937,
+        4.454163691019551e-05,
+        1.29042591740441e-07,
+        2.5196780529106424e-06,
+        2.7438957099075126e-08,
+        2.7511296831744537e-12,
+        0.0
+      ],
+      "joint_probability": [
+        [
+          1.756514351042064e-06,
+          0.3261365424601788,
+          0.06759825109842175,
+          0.003428797075199437,
+          0.0014522350666150916,
+          0.0013792617525605344,
+          0.00017685451952565389,
+          1.712658039033553e-06,
+          1.0789639391558682e-05,
+          4.674152635998448e-10,
+          1.2441053781019715e-10,
+          1.9705603852712863e-15,
+          0.0,
+          0.0
+        ],
+        [
+          2.470712603408427e-06,
+          0.2299758462711047,
+          0.06841523537695375,
+          0.003975200288888273,
+          0.001656462233352481,
+          0.0015676152284827838,
+          0.00035415557278034116,
+          0.0002538970625444573,
+          2.20952582449148e-07,
+          2.8196930313342922e-09,
+          1.2003535212880103e-07,
+          7.331126950067128e-13,
+          0.0,
+          0.0
+        ],
+        [
+          8.61943169420997e-07,
+          0.10641004055944482,
+          0.04321569491549979,
+          0.002871764104511006,
+          0.0024670289207300755,
+          0.0015223987482727071,
+          0.0005261085525232041,
+          6.696059100689801e-06,
+          1.812939366645029e-05,
+          1.2021112537860035e-10,
+          3.101267843210559e-07,
+          3.2128271815735226e-227,
+          0.0,
+          0.0
+        ],
+        [
+          4.5591817852946407e-07,
+          0.040630413091608725,
+          0.02516529326841331,
+          0.005731885125955927,
+          0.0010968878208209446,
+          0.0007181838609402581,
+          0.000176240946673882,
+          4.8483950302706504e-05,
+          7.163535479784209e-06,
+          3.7058937299029405e-09,
+          7.962431589895077e-10,
+          1.4218202516096273e-08,
+          0.0,
+          0.0
+        ],
+        [
+          1.593397375678264e-10,
+          0.015624944912397729,
+          0.01381319432546213,
+          0.001306367756763926,
+          0.0007950558050008088,
+          0.00042096994553537335,
+          0.00014079535707481775,
+          1.3862731765232655e-06,
+          4.400069512404169e-08,
+          7.494548128213781e-09,
+          9.132077718536437e-10,
+          1.3487457779925372e-10,
+          2.735820497187212e-12,
+          0.0
+        ],
+        [
+          1.384711301274827e-26,
+          0.00791826783154062,
+          0.005219734084166245,
+          0.0016396554805281544,
+          0.000607744280182093,
+          0.00033455621351375714,
+          6.52695356473348e-05,
+          3.404061566214384e-07,
+          1.8304594550309868e-07,
+          2.2323645023403265e-09,
+          6.509567350439502e-10,
+          1.2913074475558519e-08,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.00223759073846868,
+          0.004597516721640879,
+          0.0004865525801342444,
+          0.00019083282205540123,
+          0.00017874339691195952,
+          4.768405565181203e-05,
+          3.0788473528176286e-07,
+          4.2824674154346056e-08,
+          3.83536656579922e-10,
+          3.3610988928960554e-12,
+          4.5833238687786325e-15,
+          1.5235572891517194e-14,
+          0.0
+        ],
+        [
+          0.0,
+          0.0005642711034324809,
+          0.0017819243972000854,
+          0.0002781091451690571,
+          0.00011142733949432541,
+          0.00011030536586149433,
+          2.7527621440993848e-05,
+          9.476385066077247e-06,
+          6.651694393544622e-08,
+          4.179180972921099e-11,
+          1.8505145261402486e-13,
+          4.499379228038379e-11,
+          5.999557932529758e-17,
+          0.0
+        ],
+        [
+          0.0,
+          0.0004819983796096108,
+          0.002988333624303455,
+          0.0002964865750560794,
+          0.0004939618804027583,
+          0.00014191643775951382,
+          7.31711317032477e-05,
+          1.6305704011685445e-06,
+          7.901727531236242e-06,
+          1.1177713749336207e-07,
+          2.0870275521067428e-06,
+          1.2707207076143438e-10,
+          1.3617516398972463e-17,
+          0.0
+        ]
+      ],
+      "count_probability_given_latitude_bin": [
+        [
+          0.31676030799675264,
+          0.4467746791427772,
+          0.2903765092290473,
+          0.17131292688001573,
+          0.16369416407609816,
+          0.21639039324510445,
+          0.11138286132263209,
+          0.005287103487415404,
+          0.24223715471689256,
+          0.0036221782071768505,
+          4.9375569099584976e-05,
+          7.181615460660883e-08,
+          0.0,
+          0.0
+        ],
+        [
+          0.44555496216857843,
+          0.315044073728435,
+          0.29388596456317606,
+          0.19861286086290872,
+          0.1867144010261866,
+          0.24594089926633847,
+          0.22304694929726154,
+          0.7837992256649363,
+          0.004960585146312221,
+          0.021850871044235397,
+          0.04763916246765751,
+          2.671795040750377e-05,
+          0.0,
+          0.0
+        ],
+        [
+          0.15543817427937076,
+          0.14577118948368273,
+          0.18563827361745605,
+          0.14348189853846405,
+          0.2780804886303602,
+          0.2388469506988141,
+          0.33134282405399607,
+          0.020671235364167824,
+          0.40702127097400187,
+          0.0009315616166513112,
+          0.12308190880291571,
+          1.170899888786887e-219,
+          0.0,
+          0.0
+        ],
+        [
+          0.08221782108790358,
+          0.055659631501301064,
+          0.10810057796269981,
+          0.2863820739261516,
+          0.12363985627550439,
+          0.11267483333213733,
+          0.11099643353982201,
+          0.14967358158302652,
+          0.1608278450616279,
+          0.02871837646718266,
+          0.0003160098799406996,
+          0.5181757624664066,
+          0.0,
+          0.0
+        ],
+        [
+          2.873446739456656e-05,
+          0.02140462303672218,
+          0.0593362562544732,
+          0.06527002884237218,
+          0.08961771987561523,
+          0.06604536948092572,
+          0.08867282427385233,
+          0.004279529000571839,
+          0.0009878553680628204,
+          0.05807809675187301,
+          0.000362430339383533,
+          0.0049154411121478045,
+          0.9944353092182929,
+          0.0
+        ],
+        [
+          2.497113547738355e-21,
+          0.010847240677530286,
+          0.022422002608577248,
+          0.08192207741771901,
+          0.06850419343496376,
+          0.05248804331044314,
+          0.04110671108150638,
+          0.0010508592706729015,
+          0.0041095468914210415,
+          0.01729943945043007,
+          0.0002583491705585117,
+          0.47061097945277863,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0030652771280736115,
+          0.01974919225067675,
+          0.024309617850153054,
+          0.021510442766991277,
+          0.02804279454276186,
+          0.03003138722273947,
+          0.0009504632101273113,
+          0.0009614526345470603,
+          0.00297217105923737,
+          1.3339398218012152e-06,
+          1.6703710174659375e-07,
+          0.005537933375040788,
+          0.0
+        ],
+        [
+          0.0,
+          0.0007729953818847794,
+          0.0076544729746878875,
+          0.013895162240897312,
+          0.012559953696932474,
+          0.017305650252029514,
+          0.01733687807203238,
+          0.029254309610586948,
+          0.0014933655013523,
+          0.0003238605887060291,
+          7.344249889395989e-08,
+          0.0016397777844807512,
+          2.1807615864938186e-05,
+          0.0
+        ],
+        [
+          0.0,
+          0.0006602899195931591,
+          0.012836750539205652,
+          0.014813353441318513,
+          0.05567878021734778,
+          0.022265065871445444,
+          0.046083131136157786,
+          0.005033692808495117,
+          0.17740092370578212,
+          0.8662034448145073,
+          0.8282913563881238,
+          0.004631082380522311,
+          4.949790801304423e-06,
+          0.0
+        ]
+      ]
+    }
+  ],
+  "output_files_sha256": {
+    "pooled-particles.csv": "87694437d22c7fd2a3fbc0b963950a76caafe417d056d76d6118b22e641b5ff3",
+    "area-density-5km.csv": "dbfd9e49ada67953d395af8ffd2e763f178b744a7a4fe8f6af01b767f92b2f73",
+    "area-density-5km.npz": "68a8eabed30fdcde444b88558229b54ba90f05107f5bc1120bcef28bc29fd3c4",
+    "complexity-by-latitude.csv": "389054f245f98e146d4b738fa913c890b08d57f026e884f8b6e419e64032ccc0",
+    "trajectory-complexity-0011.svg": "83fa2a7d8640b350e8101da45bf2e88a40cb3aa4d0d5c330875d9fc7d208a49f",
+    "trajectory-complexity-0011.pdf": "310c55fcdacc6163d97beab721afcbd15d9aaaec32b762d9ca9cd0865ae53b47",
+    "trajectory-complexity-0011.png": "9a7a3eb31ac18474011f1e2e85bb9fcf6e1faad88a9be8523050607221320cc1",
+    "latitude-by-manoeuvre-count-0011.svg": "aa09051307f8723cd8371d6150a344d343626f0e2c0a35af34df35cebc1f0b2c",
+    "latitude-by-manoeuvre-count-0011.pdf": "521119f0616d42e31053328933983f943d5a650acae201defe2b3358f953c47f",
+    "latitude-by-manoeuvre-count-0011.png": "7e2a4be84f26d5cf2009767de983ed527d777bffc44a038b37f622da9c9817c3",
+    "area-density-0011.svg": "01843d5fb23d79e1a8cf6a04bd95d88a225bc18a40338e2b3dc526e64332bfc5",
+    "area-density-0011.pdf": "2debbc7fb25892e51be02c403a2871cb1a664ec0d1b356326f13cb1ee8ea8194",
+    "area-density-0011.png": "2ec1be4fe811358a6cf8b4f55b7463968d31f2c311087c216d546381ea487a72",
+    "cumulative-comparison-0011.svg": "787f4b82d85def324fa2423720e531a75bf57311dbc1839c6df887d0b8063833",
+    "cumulative-comparison-0011.pdf": "d302e55b259e32bdbe0b3357662015c3daf8204f744d2407d3ef1821e7132450",
+    "cumulative-comparison-0011.png": "9a3f177bf391a829fc15cad6ff8e892d23736bb94db5df792d96679f3c1722fa",
+    "latitude-density-0011.svg": "6bcc3813e925738243f864aec8f81bc9c4c69629ba56c2984175b8f6aba957f3",
+    "latitude-density-0011.pdf": "d14d833fa4e0471d599d8bd8c2f0aae6958289f5c37b9d273985a6f8dc235cc3",
+    "latitude-density-0011.png": "e7d24715c4a382974fdff1adaf353abab3290b765921b423031455c9feee8bf8",
+    "altitude-mach-0011.svg": "53c705c106cabf1ff19006ea3f9ceae895875b601ab6c560dc8c0ae793545998",
+    "altitude-mach-0011.pdf": "8f8a4e58753cc7fd9f9157ba9a5f8c9559cb39eb5585e01e0b35ca4a2a7949e8",
+    "altitude-mach-0011.png": "507a8871c9ec8f0fc1b54a763586d234251f27b9da38b4ce530ce75f33f7356d",
+    "independent-groups-0011.svg": "6d35610811901742bd3d0ed967f5ffaa5922b67c9d4152abf9b87d556329bef4",
+    "independent-groups-0011.pdf": "e56e80486ddce25d98fd3ec7eca7247181bf9b8da37888317355b981e906c55b",
+    "independent-groups-0011.png": "a48f747821fb93652b69d34f5de8a503e2d44333550b3d329c056d36d43a5698",
+    "README.md": "eff98feac8e764140b2245780cef083da65b620ac3d107096981d2b1ceddeab0",
+    "verification.json": "9b9d198a89d31b8bf328f1b25e124dafd351c2e5f3857179280a86c7bda4c6ca",
+    "index.html": "23c55e20289c9af65e5d804339ac4ffc0c42e8cfbd3119db689428d70fa2274e"
+  }
+}

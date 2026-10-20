@@ -1,0 +1,153 @@
+{
+  "schema": "mh370-native-field-spot-check-v1",
+  "manifest": "/tmp/mh370-ocean-native/tiles/retrieval-manifest.json",
+  "manifest_sha256": "ef79539d15d75ed598bf27420013a7797462ea17ea5bce7573f4b714222ce742",
+  "field": "/tmp/mh370-ocean-inputs-native/hycom-native.mhgrid",
+  "field_sha256": "a0ac448d1f180cc591bfdb82ba07c904d33e1b953d6db7d796ea52052be3903f",
+  "field_shape": [
+    501,
+    1126,
+    1751
+  ],
+  "checked_values": 16,
+  "mismatch_count": 0,
+  "checks": [
+    {
+      "tile": "2014_E070p0_E090p0_S030p0_S010p0.nc",
+      "tile_sha256": "b28aea6faf437eaacd74a388cdc1cdcda39356e1210c32ad30891bd0bb0dcd40",
+      "unix_seconds": 1394150400.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 80.0,
+      "values": {
+        "u": {
+          "packed_i16": 384,
+          "metres_per_second": 0.384
+        },
+        "v": {
+          "packed_i16": 302,
+          "metres_per_second": 0.302
+        }
+      }
+    },
+    {
+      "tile": "2014_E070p0_E090p0_S030p0_S010p0.nc",
+      "tile_sha256": "b28aea6faf437eaacd74a388cdc1cdcda39356e1210c32ad30891bd0bb0dcd40",
+      "unix_seconds": 1407078000.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 80.0,
+      "values": {
+        "u": {
+          "packed_i16": -154,
+          "metres_per_second": -0.154
+        },
+        "v": {
+          "packed_i16": -66,
+          "metres_per_second": -0.066
+        }
+      }
+    },
+    {
+      "tile": "2014_E070p0_E090p0_S030p0_S010p0.nc",
+      "tile_sha256": "b28aea6faf437eaacd74a388cdc1cdcda39356e1210c32ad30891bd0bb0dcd40",
+      "unix_seconds": 1419919200.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 80.0,
+      "values": {
+        "u": {
+          "packed_i16": -435,
+          "metres_per_second": -0.435
+        },
+        "v": {
+          "packed_i16": 217,
+          "metres_per_second": 0.217
+        }
+      }
+    },
+    {
+      "tile": "2015_E070p0_E090p0_S030p0_S010p0.nc",
+      "tile_sha256": "c47a28e2a9104f49352850091ed11d909d86541d981cd0c454e1aa086a6824fb",
+      "unix_seconds": 1420113600.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 80.0,
+      "values": {
+        "u": {
+          "packed_i16": -196,
+          "metres_per_second": -0.196
+        },
+        "v": {
+          "packed_i16": 290,
+          "metres_per_second": 0.29
+        }
+      }
+    },
+    {
+      "tile": "2015_E070p0_E090p0_S030p0_S010p0.nc",
+      "tile_sha256": "c47a28e2a9104f49352850091ed11d909d86541d981cd0c454e1aa086a6824fb",
+      "unix_seconds": 1429261200.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 80.0,
+      "values": {
+        "u": {
+          "packed_i16": -190,
+          "metres_per_second": -0.19
+        },
+        "v": {
+          "packed_i16": 40,
+          "metres_per_second": 0.04
+        }
+      }
+    },
+    {
+      "tile": "2015_E070p0_E090p0_S030p0_S010p0.nc",
+      "tile_sha256": "c47a28e2a9104f49352850091ed11d909d86541d981cd0c454e1aa086a6824fb",
+      "unix_seconds": 1438171200.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 80.0,
+      "values": {
+        "u": {
+          "packed_i16": -192,
+          "metres_per_second": -0.192
+        },
+        "v": {
+          "packed_i16": -134,
+          "metres_per_second": -0.134
+        }
+      }
+    },
+    {
+      "tile": "supplement_20140629T120000Z_E070p0_E090p0_S030p0_S010p0.nc",
+      "tile_sha256": "78b52edb788fbbba6377fa2c40aa685a18d5f7b4753a0292fa7d575e7dec363a",
+      "unix_seconds": 1404043200.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 80.0,
+      "values": {
+        "u": {
+          "packed_i16": -135,
+          "metres_per_second": -0.135
+        },
+        "v": {
+          "packed_i16": -39,
+          "metres_per_second": -0.039
+        }
+      }
+    },
+    {
+      "tile": "supplement_20141231T060000Z_E070p0_E090p0_S030p0_S010p0.nc",
+      "tile_sha256": "fdcd3716b9812970453a3d099044e4b14f83b9d59d3e63363c709d48420fdba9",
+      "unix_seconds": 1420005600.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 80.0,
+      "values": {
+        "u": {
+          "packed_i16": -357,
+          "metres_per_second": -0.357
+        },
+        "v": {
+          "packed_i16": 275,
+          "metres_per_second": 0.275
+        }
+      }
+    }
+  ],
+  "method": "Standalone parser compared raw packed int16 u/v values at exact native grid nodes; the Rust packed-field unit test independently checks scale and missing-sentinel decoding."
+}

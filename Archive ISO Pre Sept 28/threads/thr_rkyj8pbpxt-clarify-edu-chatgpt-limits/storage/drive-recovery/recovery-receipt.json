@@ -1,0 +1,475 @@
+{
+  "created_utc": "2026-09-20T00:12:39.988868+00:00",
+  "source_remote": "mh370:",
+  "recovery_root": "/jackbox/home/.iso/thread-storage/thr_rkyj8pbpxt/drive-recovery",
+  "inventory": {
+    "files": 13771,
+    "sha256": "bfe3a191d4c0a2eb2fb011b887067e68df6980a80a9c783b761b9dcccde4de2b"
+  },
+  "archives": [
+    {
+      "lane": "igogu",
+      "path": "igogu/download/mh370_igogu_reproducible.zip",
+      "bytes": 479299937,
+      "sha256": "bbad11b0b59d804fa29937e341c73770a360b11c3af852dc368a02c3f5315dcc",
+      "matches_published_archive_sha256": true,
+      "manifest": "igogu/download/IGOGU_FINAL_20260919_archives_manifest.json",
+      "parts": 15
+    },
+    {
+      "lane": "igogu",
+      "path": "igogu/download/mh370_three_route_equal_priors_reproducible.zip",
+      "bytes": 451020351,
+      "sha256": "661a06a69e186bef37a9814eda10228cd6e704d8db1f91b09003bf786009ba55",
+      "matches_published_archive_sha256": true,
+      "manifest": "igogu/download/IGOGU_FINAL_20260919_archives_manifest.json",
+      "parts": 14
+    },
+    {
+      "lane": "igogu",
+      "path": "igogu/download/mh370_igogu_followup_reproducible.zip",
+      "bytes": 743234596,
+      "sha256": "318077a8164b4682dbfcaa72ebdb4e80302776d9e97a656c27efa726e1231f90",
+      "matches_published_archive_sha256": true,
+      "manifest": "igogu/download/IGOGU_FINAL_20260919_archives_manifest.json",
+      "parts": 23
+    },
+    {
+      "lane": "igogu",
+      "path": "igogu/download/mh370_thread_context_and_earlier_work.zip",
+      "bytes": 17072065,
+      "sha256": "488eaa1b342817d71b1c84d0d01ab7cfe1620569ccf81ed7e006f0655b3759f9",
+      "matches_published_archive_sha256": true,
+      "manifest": "igogu/download/IGOGU_FINAL_20260919_archives_manifest.json",
+      "parts": 1
+    },
+    {
+      "lane": "igogu",
+      "path": "igogu/download/mh370_igogu_fir_20260919_reproducible.zip",
+      "bytes": 51484710,
+      "sha256": "250eb7692db9a5be078cb981b6066c513c0a5ac228c1234ca7b6c09aa6bc9ed4",
+      "matches_published_archive_sha256": true,
+      "manifest": "igogu/download/IGOGU_FINAL_20260919_archives_manifest.json",
+      "parts": 2
+    },
+    {
+      "lane": "igogu",
+      "path": "igogu/download/mh370_igogu_final_20260919T2200Z.zip",
+      "bytes": 158481,
+      "sha256": "3a1d9df304fc4ee6012fb519096126181914904fa223ddd3825271941f99f581",
+      "matches_published_archive_sha256": true,
+      "manifest": "igogu/download/IGOGU_FINAL_20260919_archives_manifest.json",
+      "parts": 1
+    },
+    {
+      "lane": "igogu",
+      "path": "igogu/download/MH370_waypoint_analysis.zip",
+      "bytes": 566001027,
+      "sha256": "8d4fc00a50fba36e5124f4add237a66b13b741b8bc1c47aafe903680060de6f8",
+      "matches_published_archive_sha256": true,
+      "manifest": "igogu/download/MH370_analysis_REASSEMBLY.json",
+      "parts": 7
+    },
+    {
+      "lane": "rerun",
+      "path": "rerun/download/MH370-Rerun-core-recovery-20260919T2100.zip",
+      "bytes": 1066993765,
+      "sha256": "e5ba3fa2618a0e1cb47886387b99fff4784f7852d227fd776f7197995ef1a3ee",
+      "matches_published_archive_sha256": true,
+      "manifest": "rerun/download/CORE-RECOVERY-PARTS.json",
+      "parts": 32
+    },
+    {
+      "lane": "resolution",
+      "path": "resolution/download/MH370_Resolution_final_reproducibility.zip",
+      "bytes": 218959890,
+      "sha256": "a7e2ba5c38756c5103ff1328d8b19b61e3ee39d0753493e4ea3a74d855e01015",
+      "matches_published_archive_sha256": true,
+      "manifest": "resolution/download/PARTS_MANIFEST.json",
+      "parts": 11
+    },
+    {
+      "lane": "rerun",
+      "path": "rerun/download/MH370-Gaussian-ensemble-checkpoint-23.zip",
+      "bytes": 28176717,
+      "sha256": "dcf4c77794f71bff5c20d8aaa2d17b4c83ac21a8438c00c91a811cbee4cb72fd",
+      "zip_crc_passed": true
+    },
+    {
+      "lane": "rerun",
+      "path": "rerun/download/MH370-Rerun-checkpoint-19-20260919T193830Z.zip",
+      "bytes": 2003512,
+      "sha256": "0de824c6a2ed14ded319c68f7beed20775fc5772bef89aab01f23baded65537c",
+      "zip_crc_passed": true
+    },
+    {
+      "lane": "rerun",
+      "path": "rerun/download/MH370-Rerun-checkpoint-20-20260919T2055Z.zip",
+      "bytes": 7569511,
+      "sha256": "fd4f5d05632eb79cb7be000f56216349985edab23595042ba80ae568f5e73d44",
+      "zip_crc_passed": true
+    },
+    {
+      "lane": "rerun",
+      "path": "rerun/download/MH370-Rerun-checkpoint-21-20260919T212200Z.zip",
+      "bytes": 5979381,
+      "sha256": "d54ebd2f5a3d7ae3c634394c2e69078e6b8c0075e0fa46597d588a563a5be718",
+      "zip_crc_passed": true
+    },
+    {
+      "lane": "rerun",
+      "path": "rerun/download/MH370-Rerun-checkpoint-22-20260919T2144Z.zip",
+      "bytes": 39266,
+      "sha256": "77b1ae229cb2a9b92cbb4d8472dafc10a277cd6c57a3a66c9fa07ddd81a8d8d5",
+      "zip_crc_passed": true
+    },
+    {
+      "lane": "rerun",
+      "path": "rerun/download/MH370-Rerun-checkpoint-24-20260919T234221Z.zip",
+      "bytes": 14564835,
+      "sha256": "8535abacc9658e529234887b9f815dcdeb3e13d000e0cef295d6ff09eae9ce52",
+      "zip_crc_passed": true
+    },
+    {
+      "lane": "rerun",
+      "path": "rerun/download/MH370-Rerun-checkpoint20-publication-supplement.zip",
+      "bytes": 1176295,
+      "sha256": "54e1191d6a514c5a165a11176acaeb9da67ead7a0e6af964d79d1b39e6d68cfb",
+      "zip_crc_passed": true
+    },
+    {
+      "lane": "rerun",
+      "path": "rerun/download/MH370-major-handoff-20260919T2200Z.zip",
+      "bytes": 15907021,
+      "sha256": "997d25f16678aa21cc3a79327eaf5d87c94564ef1972bba3d06e8c3590acdb43",
+      "zip_crc_passed": true
+    },
+    {
+      "lane": "rerun",
+      "path": "rerun/download/MH370-milestone-preparation-20260919.zip",
+      "bytes": 5894,
+      "sha256": "5bc125d2662d1f6a9ad9d4fd036161e2e86ccd247ed8b84d94526067b6a5a45e",
+      "zip_crc_passed": true
+    }
+  ],
+  "member_verification": {
+    "checks": [
+      {
+        "manifest": "igogu/waypoint/CHECKPOINT.json",
+        "checked_files": 344,
+        "failures": []
+      },
+      {
+        "manifest": "resolution/restored/milestone_final_20260919/MANIFEST_final.json",
+        "checked_files": 63,
+        "failures": []
+      },
+      {
+        "archive": "mh370_igogu_reproducible.zip",
+        "checked_files": 445,
+        "failures": []
+      },
+      {
+        "archive": "mh370_three_route_equal_priors_reproducible.zip",
+        "checked_files": 92,
+        "failures": []
+      },
+      {
+        "archive": "mh370_igogu_followup_reproducible.zip",
+        "checked_files": 63,
+        "failures": []
+      },
+      {
+        "archive": "mh370_thread_context_and_earlier_work.zip",
+        "checked_files": 159,
+        "failures": []
+      },
+      {
+        "archive": "mh370_igogu_fir_20260919_reproducible.zip",
+        "checked_files": 114,
+        "failures": []
+      }
+    ],
+    "elapsed_seconds": 9.175583577976795,
+    "max_rss_kib": 20080
+  },
+  "rerun_factor_audit": {
+    "runs": [
+      {
+        "command": [
+          "/jackbox/home/MH370/.venv/bin/python",
+          "-m",
+          "unittest",
+          "-v",
+          "test_audit.py"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 0.5847828609985299,
+        "max_rss_kib": 38344
+      },
+      {
+        "command": [
+          "/jackbox/home/MH370/.venv/bin/python",
+          "audit.py",
+          "--source",
+          "audit-inputs"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 0.6291132290207315,
+        "max_rss_kib": 74844
+      }
+    ],
+    "semantic_comparison_passed": true,
+    "maximum_absolute_numeric_difference": 9.094947017729282e-13,
+    "differences": []
+  },
+  "waypoint_weight_audit": {
+    "contributions": 15434,
+    "importance_ess": 4.801173265141738,
+    "largest_weight": 0.40300149431206117,
+    "maximum_normalized_weight_difference": 1.0547118733938987e-15,
+    "passed": true,
+    "scope": "Arithmetic reconstruction from saved log contributions, not a fresh physical simulation or calibration.",
+    "elapsed_seconds": 0.010158338991459459,
+    "max_rss_kib": 30840
+  },
+  "stable_source_comparison": {
+    "identical": [
+      "configs/mh370-broad-powered-flight-pilot.toml",
+      "inputs/accident/cruise-initial-proposal.json",
+      "inputs/accident/satcom-observations.csv",
+      "inputs/accident/satcom-through-0011.csv",
+      "inputs/accident/satellite-ephemeris.csv",
+      "inputs/accident/satellite-through-0011.csv",
+      "inputs/controls/forward-model-golden.json",
+      "crates/antenna/Cargo.toml",
+      "crates/controls/Cargo.toml",
+      "crates/controls/flight_assumptions.py",
+      "crates/controls/flight_evidence.py",
+      "crates/controls/verify_cruise_generator.py",
+      "crates/domain/Cargo.toml",
+      "crates/dynamics/Cargo.toml",
+      "crates/end-of-flight/Cargo.toml",
+      "crates/estimator/Cargo.toml",
+      "crates/hydroacoustics/Cargo.toml",
+      "crates/ocean-drift/Cargo.toml",
+      "crates/particle-filter/Cargo.toml",
+      "crates/reporting/Cargo.toml",
+      "crates/runner/build.rs",
+      "crates/satcom/Cargo.toml",
+      "crates/satcom/src/ephemeris.rs",
+      "crates/satcom/src/exact_contact.rs",
+      "crates/satcom/src/final_bfo.rs",
+      "crates/satcom/src/satcom.rs",
+      "crates/satcom/src/statistics.rs",
+      "crates/runner/examples/fixed_waypoint_integration_step_control.rs",
+      "crates/runner/examples/r600_predictive_compatibility.rs",
+      "crates/runner/scripts/impact_release_suite.py",
+      "crates/runner/src/accident_antenna.rs",
+      "crates/runner/src/accident_commands.rs",
+      "crates/runner/src/broad_impact_handoff.rs",
+      "crates/runner/src/broad_terminal_cli.rs",
+      "crates/runner/src/broad_terminal_commands.rs",
+      "crates/runner/src/contact_antenna_commands.rs",
+      "crates/runner/src/continuation_commands.rs",
+      "crates/runner/src/cruise_impact_conditions.rs",
+      "crates/runner/src/final_bfo_commands.rs",
+      "crates/runner/src/impact_acoustic_commands.rs",
+      "crates/runner/src/impact_commands.rs",
+      "crates/runner/src/impact_handoff.rs",
+      "crates/runner/src/known_flight_commands.rs",
+      "crates/runner/src/ocean_drift_application.rs",
+      "crates/runner/src/ocean_drift_commands.rs",
+      "crates/runner/src/trajectory_replay.rs",
+      "crates/reporting/assets/DejaVuSans-Bold.ttf",
+      "crates/reporting/assets/DejaVuSans.ttf",
+      "crates/reporting/assets/ne_110m_land.geojson",
+      "crates/reporting/scripts/antenna_sensitivity_report.py",
+      "crates/reporting/scripts/broad_flight_figures.py",
+      "crates/reporting/scripts/broad_snapshot_report.py",
+      "crates/reporting/scripts/fixed_waypoint_figures.py",
+      "crates/reporting/scripts/flight_analysis_results.py",
+      "crates/reporting/scripts/flight_assumption_report.py",
+      "crates/reporting/scripts/flight_sampling_report.py",
+      "crates/reporting/scripts/flight_sensitivity_report.py",
+      "crates/reporting/scripts/impact_acoustic_report.py",
+      "crates/reporting/scripts/impact_release_figures.py",
+      "crates/reporting/scripts/lateral_control_figures.py",
+      "crates/reporting/scripts/proposed_route_report.py",
+      "crates/reporting/scripts/spatial_evidence_report.py",
+      "crates/reporting/scripts/trajectory_examples_report.py",
+      "crates/reporting/scripts/validate_broad_release.py",
+      "crates/reporting/src/bfo_table.rs",
+      "crates/reporting/src/known_flight_png.rs",
+      "crates/reporting/tests/test_broad_flight_figures.py",
+      "crates/reporting/tests/test_validate_broad_release.py",
+      "crates/reporting/scripts/tests/test_arc_density_report.py",
+      "crates/reporting/scripts/tests/test_broad_snapshot_report.py",
+      "crates/particle-filter/src/config.rs",
+      "crates/particle-filter/src/filter.rs",
+      "crates/particle-filter/src/islands.rs",
+      "crates/particle-filter/src/rng.rs",
+      "crates/particle-filter/src/tempered.rs",
+      "crates/ocean-drift/examples/validate_current_trajectories.rs",
+      "crates/ocean-drift/src/field.rs",
+      "crates/ocean-drift/src/isotope.rs",
+      "crates/ocean-drift/src/likelihood_surface.rs",
+      "crates/ocean-drift/src/transport.rs",
+      "crates/ocean-drift/tests/epochs.rs",
+      "crates/ocean-drift/tests/field_semantics.rs",
+      "crates/ocean-drift/tests/isotope_compatibility.rs",
+      "crates/ocean-drift/tests/raw_field_spot.rs",
+      "crates/hydroacoustics/src/diagnostic.rs",
+      "crates/hydroacoustics/src/lib.rs",
+      "crates/hydroacoustics/src/raw_triad.rs",
+      "crates/estimator/src/broad_flight.rs",
+      "crates/estimator/src/broad_handoff.rs",
+      "crates/estimator/src/cruise_filter.rs",
+      "crates/estimator/src/final_flight.rs",
+      "crates/estimator/src/posterior_handoff.rs",
+      "crates/end-of-flight/src/aerodynamic_approximations.rs",
+      "crates/end-of-flight/src/exhaustion_boundary.rs",
+      "crates/end-of-flight/src/frozen_powered_fuel_projection.rs",
+      "crates/end-of-flight/src/fuel_allocation.rs",
+      "crates/end-of-flight/src/fuel_performance.rs",
+      "crates/end-of-flight/src/powered_drag_allowance.rs",
+      "crates/end-of-flight/src/powered_fuel.rs",
+      "crates/end-of-flight/src/powered_segment_feasibility.rs",
+      "crates/end-of-flight/src/powered_thrust.rs",
+      "crates/end-of-flight/src/systems_timing.rs",
+      "crates/dynamics/src/lib.rs",
+      "crates/dynamics/src/one_turn.rs",
+      "crates/dynamics/src/powered_flight.rs",
+      "crates/dynamics/src/stochastic_cruise.rs",
+      "crates/dynamics/src/three_dof.rs",
+      "crates/dynamics/src/waypoint.rs",
+      "crates/domain/src/geodesy.rs",
+      "crates/domain/src/impact.rs",
+      "crates/domain/src/lib.rs",
+      "crates/domain/src/observation.rs",
+      "crates/domain/src/state.rs",
+      "crates/domain/src/units.rs",
+      "crates/domain/src/vector.rs",
+      "crates/controls/src/config.rs",
+      "crates/controls/src/cruise.rs",
+      "crates/controls/src/final_bfo.rs",
+      "crates/controls/src/known_flight.rs",
+      "crates/controls/src/known_flight_antenna.rs",
+      "crates/controls/src/known_flight_score.rs",
+      "crates/controls/src/lib.rs",
+      "crates/controls/src/metrics.rs",
+      "crates/controls/src/synthetic.rs",
+      "crates/controls/tests/forward_model.rs",
+      "crates/antenna/src/directional.rs",
+      "crates/antenna/src/lib.rs"
+    ],
+    "changed": [
+      "Cargo.lock",
+      "Cargo.toml",
+      "README.md",
+      "configs/mh370-cruise-through-0011.json",
+      "crates/runner/Cargo.toml",
+      "crates/satcom/src/lib.rs",
+      "crates/satcom/src/observation.rs",
+      "crates/runner/src/broad_flight_commands.rs",
+      "crates/runner/src/conditional_spatial_commands.rs",
+      "crates/runner/src/cruise_commands.rs",
+      "crates/runner/src/cruise_impact_commands.rs",
+      "crates/runner/src/main.rs",
+      "crates/reporting/scripts/arc_density_report.py",
+      "crates/reporting/scripts/cruise_impact_report.py",
+      "crates/reporting/scripts/posterior_search_context.py",
+      "crates/reporting/scripts/report_index.py",
+      "crates/reporting/scripts/synthetic_cruise_report.py",
+      "crates/reporting/src/lib.rs",
+      "crates/particle-filter/src/lib.rs",
+      "crates/particle-filter/src/model.rs",
+      "crates/particle-filter/src/resampling.rs",
+      "crates/particle-filter/src/stratified.rs",
+      "crates/ocean-drift/src/lib.rs",
+      "crates/ocean-drift/src/observations.rs",
+      "crates/ocean-drift/src/sampling.rs",
+      "crates/ocean-drift/src/source_area.rs",
+      "crates/ocean-drift/tests/source_area_conditional.rs",
+      "crates/estimator/src/lib.rs",
+      "crates/end-of-flight/src/control_prior.rs",
+      "crates/end-of-flight/src/fuel_consistency.rs",
+      "crates/end-of-flight/src/kernel.rs",
+      "crates/end-of-flight/src/lib.rs",
+      "crates/dynamics/src/environment.rs"
+    ],
+    "new": [
+      "configs/checkpoint15-k1-roots100-seed-37150001.json",
+      "configs/checkpoint15-k1-roots100-seed-37150002.json",
+      "configs/checkpoint15-k1-roots100-seed-37150003.json",
+      "configs/checkpoint15-k1-roots100-seed-37150004.json",
+      "configs/checkpoint15-k1-roots100-seed-37150005.json",
+      "configs/checkpoint15-k1-roots100-seed-37150006.json",
+      "configs/checkpoint15-k1-roots100-seed-37150007.json",
+      "configs/checkpoint15-k1-roots100-seed-37150008.json",
+      "configs/checkpoint15-k1-roots140-seed-37150001.json",
+      "configs/checkpoint15-k1-roots140-seed-37150002.json",
+      "configs/checkpoint15-k1-roots140-seed-37150003.json",
+      "configs/checkpoint15-k1-roots140-seed-37150004.json",
+      "configs/checkpoint15-k1-roots140-seed-37150005.json",
+      "configs/checkpoint15-k1-roots140-seed-37150006.json",
+      "configs/checkpoint15-k1-roots140-seed-37150007.json",
+      "configs/checkpoint15-k1-roots140-seed-37150008.json",
+      "configs/checkpoint15-k1-roots400-seed-37150001.json",
+      "configs/checkpoint15-k1-roots400-seed-37150002.json",
+      "configs/checkpoint15-k1-roots400-seed-37150003.json",
+      "configs/checkpoint15-k1-roots400-seed-37150004.json",
+      "configs/checkpoint15-k1-roots400-seed-37150005.json",
+      "configs/checkpoint15-k1-roots400-seed-37150006.json",
+      "configs/checkpoint15-k1-roots400-seed-37150007.json",
+      "configs/checkpoint15-k1-roots400-seed-37150008.json",
+      "configs/checkpoint15-k4-roots100-seed-37150001.json",
+      "configs/checkpoint15-k4-roots100-seed-37150002.json",
+      "configs/checkpoint15-k4-roots100-seed-37150003.json",
+      "configs/checkpoint15-k4-roots100-seed-37150004.json",
+      "configs/checkpoint15-k4-roots100-seed-37150005.json",
+      "configs/checkpoint15-k4-roots100-seed-37150006.json",
+      "configs/checkpoint15-k4-roots100-seed-37150007.json",
+      "configs/checkpoint15-k4-roots100-seed-37150008.json",
+      "configs/mh370-cruise-through-0011-k1-equality-baseline.json",
+      "configs/mh370-cruise-through-0011-k1-equality-candidate.json",
+      "configs/mh370-cruise-through-0011-k4-physical-control.json",
+      "configs/mh370-cruise-through-0011-retained-parent-k1.json",
+      "configs/mh370-cruise-through-0011-retained-parent-k4.json",
+      "crates/estimator/src/bridge_source.rs",
+      "crates/estimator/src/bridge_trace.rs",
+      "crates/estimator/tests/bridge_prefix.rs",
+      "crates/end-of-flight/src/bridge_boundary.rs"
+    ]
+  },
+  "core_restoration": {
+    "files": 16056,
+    "archive_sha256_verified": true,
+    "zip_crc_verified": true,
+    "restorer_verifies_each_content_blob": true,
+    "log": "core-restore.log"
+  },
+  "scope": "Final Rerun, IGOGU/FIR, later waypoint and Resolution recoveries. Background library and original Review archives inventoried, not duplicated. No new inference or posterior calibration. No Drive writes.",
+  "supplement_member_verification": {
+    "files": 37,
+    "failures": []
+  },
+  "resolution_nested_zip_crc": {
+    "archives": 21,
+    "failures": []
+  },
+  "rerun_standalone_member_manifests": {
+    "stable_source": {
+      "files": 233,
+      "failures": []
+    },
+    "gaussian_ensemble": {
+      "files": 257,
+      "failures": []
+    },
+    "factor_audit": {
+      "files": 66,
+      "failures": []
+    }
+  }
+}

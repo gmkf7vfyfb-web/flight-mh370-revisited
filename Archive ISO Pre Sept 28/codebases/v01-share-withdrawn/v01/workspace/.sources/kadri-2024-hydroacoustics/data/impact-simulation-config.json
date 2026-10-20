@@ -1,0 +1,104 @@
+{
+  "random_seed": 3700054,
+  "sample_count_per_family_and_coupling_prior": 1000000,
+  "aircraft_mass_kg": 174369.0,
+  "energy_surrogate": "normal kinetic energy only: 0.5 * mass * vertical_speed^2",
+  "impact_families": {
+    "controlled_ditching_class": {
+      "label": "Controlled ditching class",
+      "vertical_speed_distribution": "triangular",
+      "vertical_speed_m_s": [
+        0.5,
+        1.1,
+        1.5
+      ],
+      "status": "ASSUMPTION constrained by published controlled-ditching examples",
+      "basis": "0.5 m/s lower sensitivity bound; 1.1 m/s Froude-scaled example; 1.5 m/s published class maximum"
+    },
+    "us1549_observed_contact": {
+      "label": "Flight 1549 observed contact",
+      "vertical_speed_distribution": "fixed",
+      "vertical_speed_m_s": [
+        3.81
+      ],
+      "status": "SOURCE measurement applied to MH370 mass as a cross-aircraft analogue",
+      "basis": "NTSB 12.5 ft/s water-contact descent rate; A320 kinematics, not a Boeing 777 model"
+    },
+    "partially_arrested_bridge": {
+      "label": "Partially arrested sensitivity bridge",
+      "vertical_speed_distribution": "loguniform",
+      "vertical_speed_m_s": [
+        3.81,
+        70.104
+      ],
+      "status": "ASSUMPTION-only bridge; not an inferred event probability",
+      "basis": "Spans the Flight 1549 observed contact rate to the lower Holland 00:19:37 bound"
+    },
+    "holland_unarrested_bound": {
+      "label": "Holland unarrested bound",
+      "vertical_speed_distribution": "triangular",
+      "vertical_speed_m_s": [
+        70.104,
+        99.314,
+        128.524
+      ],
+      "status": "ASSUMPTION over SOURCE bounds; triangular density centred on the retained timing-model median",
+      "basis": "13,800\u201325,300 ft/min at 00:19:37, converted exactly; triangular density is a declared sensitivity prior"
+    }
+  },
+  "coupling_priors": {
+    "f35_centred": {
+      "label": "F-35-centred sensitivity prior",
+      "distribution": "truncated_normal_log10",
+      "log10_mean": -4.0,
+      "log10_sd": 1.0,
+      "minimum": 1e-08,
+      "maximum": 0.01,
+      "status": "ASSUMPTION centred on a SOURCE order-of-magnitude anchor; not an empirical MH370 posterior"
+    },
+    "loguniform_control": {
+      "label": "Log-uniform coupling control",
+      "distribution": "loguniform",
+      "minimum": 1e-08,
+      "maximum": 0.01,
+      "status": "ASSUMPTION-only broad control; equal density per decade"
+    }
+  },
+  "stations": {
+    "H01W": {
+      "name": "Cape Leeuwin",
+      "range_km": 2239.4399504013227,
+      "representative_high_rate_reception_utc": "2014-03-08T00:46:40Z",
+      "extended_reception_window_utc": [
+        "2014-03-08T00:38:00Z",
+        "2014-03-08T01:15:00Z"
+      ],
+      "high_rate_q99_reception_window_utc": [
+        "2014-03-08T00:38:15Z",
+        "2014-03-08T00:51:50Z"
+      ]
+    },
+    "H08S": {
+      "name": "Diego Garcia South",
+      "range_km": 3751.1795304499437,
+      "representative_high_rate_reception_utc": "2014-03-08T01:03:09Z",
+      "extended_reception_window_utc": [
+        "2014-03-08T01:00:00Z",
+        "2014-03-08T01:30:00Z"
+      ],
+      "high_rate_q99_reception_window_utc": [
+        "2014-03-08T01:00:28Z",
+        "2014-03-08T01:06:04Z"
+      ]
+    }
+  },
+  "quantiles": [
+    0.005,
+    0.05,
+    0.5,
+    0.95,
+    0.995
+  ],
+  "status": "DECLARED_FAMILY_CONDITIONAL_IMPACT_TO_SOFAR_SENSITIVITY_NOT_EVENT_POSTERIOR",
+  "aircraft_mass_basis": "Actual 9M-MRO zero-fuel weight on the final loadsheet; used as a fuel-exhaustion impact-mass surrogate, not a measured mass at 00:19 UTC."
+}

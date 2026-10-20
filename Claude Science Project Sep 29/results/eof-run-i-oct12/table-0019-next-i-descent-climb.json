@@ -1,0 +1,2905 @@
+{
+ "W_s": 3898.0,
+ "D": {
+  "D0": "held out",
+  "D1": "R600 BTO",
+  "D2": "R600 BTO + R600 BFO",
+  "D3": "R600 BTO + both BFOs (Holland H2 data)",
+  "D4": "R600 BTO + both BFOs, shared start-up offset (Holland H1 data)",
+  "D5": "R600 BTO + R600 BFO + R1200 BFO with offset"
+ },
+ "cells": {
+  "D0xC1": {
+   "ln_Z": -7.330898368763428,
+   "eff_impacts": 525752.3964379489,
+   "families": {
+    "A1": {
+     "share": 0.16952292933461904,
+     "eff_impacts": 103837.85293604218
+    },
+    "A2": {
+     "share": 0.3723536693667026,
+     "eff_impacts": 285815.4443632023
+    },
+    "B": {
+     "share": 0.4570794863005787,
+     "eff_impacts": 183326.58403705634
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.96,
+    -37.05,
+    -33.17
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -7.596441143905402
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -7.815458307808751
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -7.591388140620856
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -7.283746668146744
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -7.352276240914055
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -6.646472871068546
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -7.276235989509628
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -7.578563077824321
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.35419540098402785
+   }
+  },
+  "D0xC2 silent": {
+   "ln_Z": -11.225226684107982,
+   "eff_impacts": 365770.2927023818,
+   "families": {
+    "A1": {
+     "share": 0.27996766688695485,
+     "eff_impacts": 163246.02305884953
+    },
+    "A2": {
+     "share": 0.08134218517508204,
+     "eff_impacts": 34898.50331641522
+    },
+    "B": {
+     "share": 0.6383702847830477,
+     "eff_impacts": 197423.02871764687
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.45,
+    -36.06,
+    -30.97
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -11.474946494674535
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -10.504841878816851
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -11.379901337476305
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -11.301692344494
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -11.372731310084248
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -11.526058059533641
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -11.197663461237774
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -11.510683438528064
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.3334583376766786
+   }
+  },
+  "D0xC2 unpowered": {
+   "ln_Z": -8.501487803041359,
+   "eff_impacts": 6169212.800795998,
+   "families": {
+    "A1": {
+     "share": 0.13131145648846582,
+     "eff_impacts": 838995.9868155007
+    },
+    "A2": {
+     "share": 0.3232969468042494,
+     "eff_impacts": 2746508.123426487
+    },
+    "B": {
+     "share": 0.5443566057873493,
+     "eff_impacts": 2864773.819323119
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.99,
+    -36.8,
+    -32.32
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -8.534313737582444
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -8.42640191514756
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -8.53262374590385
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -8.492459712218718
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -8.517051396799372
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -8.479887219715001
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -8.487456457689627
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -8.547133058346267
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.03919162802968748
+   }
+  },
+  "D0 total q=0.333 (C2 silent)": {
+   "ln_Z": -7.611817679202694,
+   "eff_impacts": 532834.7240493647,
+   "families": {
+    "A1": {
+     "share": 0.17026732090165708,
+     "eff_impacts": 106118.15047302813
+    },
+    "A2": {
+     "share": 0.3703922676779996,
+     "eff_impacts": 286655.52586385194
+    },
+    "B": {
+     "share": 0.4583013764925671,
+     "eff_impacts": 186800.67480335594
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.96,
+    -37.04,
+    -33.16
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -7.877252965999847
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -8.080751950000264
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -7.871555445781376
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -7.56545002079905
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -7.633994533122214
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -6.931624758469761
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -7.557335510452962
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -7.859732382792787
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.35017814996049523
+   }
+  },
+  "D0 total q=0.333 (C2 unpowered)": {
+   "ln_Z": -7.520188936524628,
+   "eff_impacts": 624657.7668361713,
+   "families": {
+    "A1": {
+     "share": 0.1659422856688081,
+     "eff_impacts": 118253.28406715798
+    },
+    "A2": {
+     "share": 0.3677567609037411,
+     "eff_impacts": 331274.8140998495
+    },
+    "B": {
+     "share": 0.46525787466887786,
+     "eff_impacts": 225653.93473385417
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.97,
+    -37.019999999999996,
+    -33.09
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -7.761475073343647
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -7.936824454859086
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -7.75680966929019
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -7.4765485643725516
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -7.541020538251022
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -6.882237359308281
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -7.469264594370376
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -7.7470925278888245
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.322978253982884
+   }
+  },
+  "D0 total q=1 (C2 silent)": {
+   "ln_Z": -8.003892940756502,
+   "eff_impacts": 546921.330856332,
+   "families": {
+    "A1": {
+     "share": 0.17172640146933382,
+     "eff_impacts": 110696.1576427349
+    },
+    "A2": {
+     "share": 0.3665477277663215,
+     "eff_impacts": 288308.1892606767
+    },
+    "B": {
+     "share": 0.4606964012536066,
+     "eff_impacts": 193748.7785126865
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.96,
+    -37.03,
+    -33.12
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -8.269117573354862
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -8.44289003878604
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -8.262158341697948
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -7.959063867711297
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -8.027637731773485
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -7.332048621374028
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -7.9497640965322685
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -8.252297839553826
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.34256468331650686
+   }
+  },
+  "D0 total q=1 (C2 unpowered)": {
+   "ln_Z": -7.7538779225467644,
+   "eff_impacts": 835958.4631018013,
+   "families": {
+    "A1": {
+     "share": 0.16047642206868623,
+     "eff_impacts": 148185.2516899547
+    },
+    "A2": {
+     "share": 0.3607395659561673,
+     "eff_impacts": 426806.2036571608
+    },
+    "B": {
+     "share": 0.4777422097387898,
+     "eff_impacts": 318239.9292583956
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.97,
+    -36.99,
+    -32.97
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -7.959234952777443
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -8.074981650848677
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -7.955126923680833
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -7.7156214930487135
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -7.773876215805073
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -7.19131488595171
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -7.70868678717633
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -7.949898156894864
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.27607132214099156
+   }
+  },
+  "D1xC1": {
+   "ln_Z": -12.89574035919469,
+   "eff_impacts": 574984.1232124043,
+   "families": {
+    "A1": {
+     "share": 0.15787175915142804,
+     "eff_impacts": 102701.45355659851
+    },
+    "A2": {
+     "share": 0.39202866220820526,
+     "eff_impacts": 326407.5813245944
+    },
+    "B": {
+     "share": 0.44903355121136745,
+     "eff_impacts": 196685.0806431028
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -39.11,
+    -37.44,
+    -34.47
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -13.27770234128132
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -13.469851789455138
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -13.250450000964786
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -12.884752176915015
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -12.934563829131314
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -12.050618992384013
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -12.883170288620642
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -13.19817364659506
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.4362327684569837
+   }
+  },
+  "D1xC2 silent": {
+   "ln_Z": -16.92591931705272,
+   "eff_impacts": 414821.6789824994,
+   "families": {
+    "A1": {
+     "share": 0.33676661931491103,
+     "eff_impacts": 225787.89609087768
+    },
+    "A2": {
+     "share": 0.09434830635793433,
+     "eff_impacts": 47176.75203553249
+    },
+    "B": {
+     "share": 0.5684825676352858,
+     "eff_impacts": 187928.91967506555
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.64,
+    -36.480000000000004,
+    -32.67
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -17.218539560039815
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -16.275691172284695
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -17.08666398316381
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -16.945976767588196
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -17.01276904367672
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -17.176755582046283
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -16.923985898675586
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -17.13767192217609
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.3006639680002526
+   }
+  },
+  "D1xC2 unpowered": {
+   "ln_Z": -14.20802443450524,
+   "eff_impacts": 6294984.605831015,
+   "families": {
+    "A1": {
+     "share": 0.1287375622019596,
+     "eff_impacts": 963360.8312532507
+    },
+    "A2": {
+     "share": 0.33539256375498144,
+     "eff_impacts": 2966792.294432924
+    },
+    "B": {
+     "share": 0.5348239152128312,
+     "eff_impacts": 2758423.0517600346
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -39.22,
+    -37.19,
+    -33.94
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -14.36918672498915
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -14.132833631779885
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -14.262398622798324
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -14.139515830282718
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -14.194709527287104
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -14.087456237001106
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -14.202989715793459
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -14.30654206904395
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.09531784190929114
+   }
+  },
+  "D1 total q=0.333 (C2 silent)": {
+   "ln_Z": -13.177516191411899,
+   "eff_impacts": 581741.4267205157,
+   "families": {
+    "A1": {
+     "share": 0.15892524105125055,
+     "eff_impacts": 105250.44810452874
+    },
+    "A2": {
+     "share": 0.390275672398804,
+     "eff_impacts": 327332.0483058445
+    },
+    "B": {
+     "share": 0.4497369664835524,
+     "eff_impacts": 199632.81073981657
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -39.11,
+    -37.43,
+    -34.47
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -13.558927988326836
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -13.737582224753371
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -13.530966100195924
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -13.166708039095047
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -13.216615834140018
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -12.336323201169453
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -13.16500842829556
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -13.47939067096688
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.4326382128689434
+   }
+  },
+  "D1 total q=0.333 (C2 unpowered)": {
+   "ln_Z": -13.097488046242956,
+   "eff_impacts": 666669.6426396813,
+   "families": {
+    "A1": {
+     "share": 0.15547268741092632,
+     "eff_impacts": 115571.72055790685
+    },
+    "A2": {
+     "share": 0.3873649310085068,
+     "eff_impacts": 369619.0922511335
+    },
+    "B": {
+     "share": 0.45609800671155676,
+     "eff_impacts": 235205.37875794407
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -39.12,
+    -37.42,
+    -34.44
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -13.459308816912712
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -13.599017735725072
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -13.423759306697637
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -13.081636284947235
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -13.131913940560542
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -12.295739588600306
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -13.085536337586136
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -13.381466544698192
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.40644486062769236
+   }
+  },
+  "D1 total q=1 (C2 silent)": {
+   "ln_Z": -13.57127245104172,
+   "eff_impacts": 595198.1921360258,
+   "families": {
+    "A1": {
+     "share": 0.16099541547201704,
+     "eff_impacts": 110389.50709409089
+    },
+    "A2": {
+     "share": 0.3868309101642548,
+     "eff_impacts": 329157.0756521978
+    },
+    "B": {
+     "share": 0.4511192325707967,
+     "eff_impacts": 205520.87095076195
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -39.1,
+    -37.42,
+    -34.45
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -13.951603972086666
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -14.10429996181509
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -13.922251499525647
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -13.560818166148632
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -13.610915017232278
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -12.737844279233522
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -13.558887138269704
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -13.87204973831815
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.42574820024189924
+   }
+  },
+  "D1 total q=1 (C2 unpowered)": {
+   "ln_Z": -13.350497236858022,
+   "eff_impacts": 859987.6469478002,
+   "families": {
+    "A1": {
+     "share": 0.15169225360919514,
+     "eff_impacts": 142248.02258364597
+    },
+    "A2": {
+     "share": 0.380015868964267,
+     "eff_impacts": 459365.9094902055
+    },
+    "B": {
+     "share": 0.46723010664540804,
+     "eff_impacts": 318073.8724474132
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -39.13,
+    -37.39,
+    -34.39
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -13.681380704334416
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -13.747377307575704
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -13.633534964107984
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -13.327029180044716
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -13.378032484159622
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -12.621158695060046
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -13.339520713536311
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -13.606068879340489
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.36068584319224356
+   }
+  },
+  "D2xC1": {
+   "ln_Z": -18.995402288685934,
+   "eff_impacts": 37356.25267202321,
+   "families": {
+    "A1": {
+     "share": 0.2047418932042713,
+     "eff_impacts": 7991.904368402927
+    },
+    "A2": {
+     "share": 0.30435887227951486,
+     "eff_impacts": 17436.321461857366
+    },
+    "B": {
+     "share": 0.48942625350884944,
+     "eff_impacts": 14789.497246552168
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.8,
+    -37.12,
+    -34.019999999999996
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -19.33624166261572
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -19.47024784527501
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -19.321900138691696
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -18.743476802980478
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -18.969483098857744
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -18.442504522515275
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -18.918555400962333
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -19.200605162551895
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.34680601509483794
+   }
+  },
+  "D2xC2 silent": {
+   "ln_Z": -24.003336939575036,
+   "eff_impacts": 7091.82711258569,
+   "families": {
+    "A1": {
+     "share": 0.3390647304713851,
+     "eff_impacts": 3791.6490840666534
+    },
+    "A2": {
+     "share": 0.07189600656730104,
+     "eff_impacts": 1213.8666490085213
+    },
+    "B": {
+     "share": 0.588574983130686,
+     "eff_impacts": 3255.0399941801847
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.15,
+    -36.12,
+    -30.67
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -24.22485543840178
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -23.705675967168872
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -24.145787741348553
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -24.073638936765892
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -23.956927455616064
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -23.84370503621125
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -23.97934690646533
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -24.21679144868892
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.1831785362161971
+   }
+  },
+  "D2xC2 unpowered": {
+   "ln_Z": -21.211723920659757,
+   "eff_impacts": 128446.76982763379,
+   "families": {
+    "A1": {
+     "share": 0.13965096335905355,
+     "eff_impacts": 20580.628631091062
+    },
+    "A2": {
+     "share": 0.2638217742836628,
+     "eff_impacts": 51179.51028375464
+    },
+    "B": {
+     "share": 0.5956697755793233,
+     "eff_impacts": 64797.15047770719
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.72,
+    -36.89,
+    -32.65
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -21.38132866916196
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -21.4423871896198
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -21.351828428651725
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -21.041413374690027
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -21.159966754697262
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -20.942233205191798
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -21.142970912109924
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -21.347010653811395
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.18018904987717585
+   }
+  },
+  "D2 total q=0.333 (C2 silent)": {
+   "ln_Z": -19.280858608201793,
+   "eff_impacts": 37516.15789159075,
+   "families": {
+    "A1": {
+     "share": 0.20504053018432575,
+     "eff_impacts": 8044.7100950608165
+    },
+    "A2": {
+     "share": 0.3038420427544426,
+     "eff_impacts": 17454.47958673479
+    },
+    "B": {
+     "share": 0.4896466886767837,
+     "eff_impacts": 14868.263838860641
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.8,
+    -37.12,
+    -34.019999999999996
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -19.62141626271123
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -19.753116981043433
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -19.60690729606899
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -19.0295457489911
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -19.254893393888857
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -18.728684003763266
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -19.20412619075575
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -19.486079752428836
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.3460136908938038
+   }
+  },
+  "D2 total q=0.333 (C2 unpowered)": {
+   "ln_Z": -19.247392511734105,
+   "eff_impacts": 39181.97432961552,
+   "families": {
+    "A1": {
+     "share": 0.2024596485800931,
+     "eff_impacts": 8218.360630138766
+    },
+    "A2": {
+     "share": 0.30293754408216284,
+     "eff_impacts": 18137.67551034606
+    },
+    "B": {
+     "share": 0.49315140703908045,
+     "eff_impacts": 15730.26629064674
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.8,
+    -37.11,
+    -33.99
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -19.581704658187498
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -19.71258733125396
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -19.566731894400498
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -18.998218762534982
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -19.220555995858057
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -18.703185341136745
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -19.170828309449604
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -19.450059445881358
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.3409030057075638
+   }
+  },
+  "D2 total q=1 (C2 silent)": {
+   "ln_Z": -19.681887017460895,
+   "eff_impacts": 37830.97465174504,
+   "families": {
+    "A1": {
+     "share": 0.2056338380620589,
+     "eff_impacts": 8149.325950097793
+    },
+    "A2": {
+     "share": 0.3028152475175804,
+     "eff_impacts": 17490.40594127614
+    },
+    "B": {
+     "share": 0.4900846314983384,
+     "eff_impacts": 15023.474569659098
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.8,
+    -37.12,
+    -34.01
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -20.02188520989595
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -20.149025156337217
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -20.007043944313864
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -19.431792389821936
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -19.655830371696005
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -19.13115068588924
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -19.60538205921825
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -19.887144460758883
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.3444462601143371
+   }
+  },
+  "D2 total q=1 (C2 unpowered)": {
+   "ln_Z": -19.585082331010724,
+   "eff_impacts": 42772.811480809454,
+   "families": {
+    "A1": {
+     "share": 0.19834382281771337,
+     "eff_impacts": 8660.174132978142
+    },
+    "A2": {
+     "share": 0.3003743047389824,
+     "eff_impacts": 19510.524131465347
+    },
+    "B": {
+     "share": 0.4998693910387483,
+     "eff_impacts": 17597.13672932796
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.8,
+    -37.1,
+    -33.95
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -19.907729832342206
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -20.033104905188537
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -19.89164018226671
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -19.340890316835655
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -19.55659362312992
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -19.05674138456383
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -19.509028128934684
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -19.78319211634904
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.3302799726010436
+   }
+  },
+  "D3xC1": {
+   "ln_Z": -28.555878048906404,
+   "eff_impacts": 1533.5842114786167,
+   "families": {
+    "A1": {
+     "share": 0.13777386256921514,
+     "eff_impacts": 278.1050428855868
+    },
+    "A2": {
+     "share": 0.37573980377101834,
+     "eff_impacts": 887.3986293232261
+    },
+    "B": {
+     "share": 0.48535305167954657,
+     "eff_impacts": 554.8009807691536
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.92,
+    -37.53,
+    -34.69
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -28.887133210428946
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -28.841893296899748
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -29.088313797767686
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -28.492663901402107
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -28.653190388850692
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -27.715315266952704
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -28.558400530379767
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -28.977663543056458
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.43083007409688673
+   }
+  },
+  "D3xC2 silent": {
+   "ln_Z": -33.9117844050722,
+   "eff_impacts": 353.98304965605644,
+   "families": {
+    "A1": {
+     "share": 0.14481822377559228,
+     "eff_impacts": 75.83319161015731
+    },
+    "A2": {
+     "share": 0.1984003486699301,
+     "eff_impacts": 79.7064583280394
+    },
+    "B": {
+     "share": 0.6566900832868825,
+     "eff_impacts": 209.8923822012857
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.24,
+    -36.26,
+    -33.980000000000004
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -33.913899717081414
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -33.783699864630655
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -33.94024588023167
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -33.70778372324734
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -33.974017778061516
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -33.956501236622415
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -34.06229380538236
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -34.004970643036756
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.11695175406909751
+   }
+  },
+  "D3xC2 unpowered": {
+   "ln_Z": -30.935869209771372,
+   "eff_impacts": 3406.3633205525284,
+   "families": {
+    "A1": {
+     "share": 0.11924038455036341,
+     "eff_impacts": 498.46814570110854
+    },
+    "A2": {
+     "share": 0.3352546752679939,
+     "eff_impacts": 1740.6232836481738
+    },
+    "B": {
+     "share": 0.5444333016147431,
+     "eff_impacts": 1479.2669408455731
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.81,
+    -37.18,
+    -34.45
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -31.17770754847061
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -31.29208152508246
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -31.167337954924626
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -30.810657654821306
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -30.964218144448306
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -30.44232615189786
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -30.834908057297323
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -31.073586918588273
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.27220354557933496
+   }
+  },
+  "D3 total q=0.333 (C2 silent)": {
+   "ln_Z": -28.841987961387776,
+   "eff_impacts": 1538.2816922145068,
+   "families": {
+    "A1": {
+     "share": 0.1377849287307532,
+     "eff_impacts": 278.873125085756
+    },
+    "A2": {
+     "share": 0.3754612168275359,
+     "eff_impacts": 888.8340984931141
+    },
+    "B": {
+     "share": 0.48562220926725597,
+     "eff_impacts": 557.1504397690343
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.92,
+    -37.53,
+    -34.69
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -29.172631007484362
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -29.12719763680804
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -29.373394833490153
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -28.778536351424794
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -28.939244218546843
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -28.002348368556945
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -28.84472655885957
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -29.26316251930985
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.43023580624260527
+   }
+  },
+  "D3 total q=0.333 (C2 unpowered)": {
+   "ln_Z": -28.813175965451915,
+   "eff_impacts": 1591.0278633378182,
+   "families": {
+    "A1": {
+     "share": 0.1372192075170577,
+     "eff_impacts": 286.90692469983304
+    },
+    "A2": {
+     "share": 0.3745281973451431,
+     "eff_impacts": 914.5584704169316
+    },
+    "B": {
+     "share": 0.4871211579721655,
+     "eff_impacts": 579.591353027345
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.92,
+    -37.519999999999996,
+    -34.69
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -29.141635756204924
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -29.10122203606799
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -29.335157176973038
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -28.748049516406343
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -28.90835387278964
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -27.981426821734665
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -28.81244086683477
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -29.225177704917492
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.4256465973098864
+   }
+  },
+  "D3 total q=1 (C2 silent)": {
+   "ln_Z": -29.24431614524294,
+   "eff_impacts": 1547.5974422925824,
+   "families": {
+    "A1": {
+     "share": 0.13780695707586932,
+     "eff_impacts": 280.39448105301017
+    },
+    "A2": {
+     "share": 0.37490666055122146,
+     "eff_impacts": 891.6672210676933
+    },
+    "B": {
+     "share": 0.48615799543051413,
+     "eff_impacts": 561.8236802613246
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.92,
+    -37.519999999999996,
+    -34.69
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -29.57374182607994
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -29.527924173745767
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -29.773678076751946
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -29.180392009343464
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -29.34146077314819
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -28.406516797094532
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -29.24748508315289
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -29.66427568093529
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.42905316224299633
+   }
+  },
+  "D3 total q=1 (C2 unpowered)": {
+   "ln_Z": -29.160509538575198,
+   "eff_impacts": 1702.1969530788997,
+   "families": {
+    "A1": {
+     "share": 0.1362038684595076,
+     "eff_impacts": 303.8671674834666
+    },
+    "A2": {
+     "share": 0.37231025788568384,
+     "eff_impacts": 966.8361031725184
+    },
+    "B": {
+     "share": 0.4903578135652504,
+     "eff_impacts": 627.8977400449063
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.91,
+    -37.5,
+    -34.68
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -29.483872343724027
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -29.452283906284503
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -29.66363155800926
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -29.091891919575268
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -29.251791965766834
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -28.345098494710278
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -29.153838541848884
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -29.554845645174545
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.4162298779869091
+   }
+  },
+  "D4xC1": {
+   "ln_Z": -28.756773735502883,
+   "eff_impacts": 7376.214371482719,
+   "families": {
+    "A1": {
+     "share": 0.12360771116525114,
+     "eff_impacts": 812.0509358083561
+    },
+    "A2": {
+     "share": 0.39860671063423575,
+     "eff_impacts": 4606.564332624364
+    },
+    "B": {
+     "share": 0.4769206874386754,
+     "eff_impacts": 2766.285784514644
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.92,
+    -37.51,
+    -34.55
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -29.14077435000704
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -29.28556453735235
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -29.167401473885924
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -28.745427716203515
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -28.806397555189008
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -27.911605696643775
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -28.770955704351195
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -28.99372092745346
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.43016181801345854
+   }
+  },
+  "D4xC2 silent": {
+   "ln_Z": -33.93067021575948,
+   "eff_impacts": 1659.4432332624235,
+   "families": {
+    "A1": {
+     "share": 0.15929687065585243,
+     "eff_impacts": 184.13872982762945
+    },
+    "A2": {
+     "share": 0.2114725235168433,
+     "eff_impacts": 528.8357091958925
+    },
+    "B": {
+     "share": 0.6289804961376015,
+     "eff_impacts": 1040.458168136324
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.39,
+    -36.49,
+    -33.57
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -34.1342022597533
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -33.64682476959251
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -34.10735062485981
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -33.810132515452075
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -33.90032987114464
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -33.91240472167353
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -33.97525894141216
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -34.053800922474494
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.1625755012667519
+   }
+  },
+  "D4xC2 unpowered": {
+   "ln_Z": -31.1204367709496,
+   "eff_impacts": 14093.024242901372,
+   "families": {
+    "A1": {
+     "share": 0.11363054537437259,
+     "eff_impacts": 1033.03442739717
+    },
+    "A2": {
+     "share": 0.3488257257054109,
+     "eff_impacts": 6445.259211390095
+    },
+    "B": {
+     "share": 0.5367702053169635,
+     "eff_impacts": 7282.088443134081
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.83,
+    -37.2,
+    -34.35
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -31.34284543980318
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -31.468234086797946
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -31.325529632642546
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -30.994454154582346
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -31.093820185539805
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -30.65872935776493
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -31.05715086419368
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -31.265174219741994
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.2563067722783742
+   }
+  },
+  "D4 total q=0.333 (C2 silent)": {
+   "ln_Z": -29.042570099651922,
+   "eff_impacts": 7403.1891705016205,
+   "families": {
+    "A1": {
+     "share": 0.12367494709602038,
+     "eff_impacts": 815.616856051557
+    },
+    "A2": {
+     "share": 0.3982541626496619,
+     "eff_impacts": 4615.427604051301
+    },
+    "B": {
+     "share": 0.47720715769789157,
+     "eff_impacts": 2779.91811565155
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.92,
+    -37.51,
+    -34.55
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -29.426198182460507
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -29.569001534879277
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -29.45270139851084
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -29.031006743256583
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -29.092037097640787
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -28.198462518913946
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -29.05680849218458
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -29.279290216098957
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.4294020779686821
+   }
+  },
+  "D4 total q=0.333 (C2 unpowered)": {
+   "ln_Z": -29.01357910712623,
+   "eff_impacts": 7653.144735952487,
+   "families": {
+    "A1": {
+     "share": 0.12330435659653749,
+     "eff_impacts": 834.9937994583345
+    },
+    "A2": {
+     "share": 0.3970931255611067,
+     "eff_impacts": 4748.326309252917
+    },
+    "B": {
+     "share": 0.47874040508837773,
+     "eff_impacts": 2893.502074469299
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.92,
+    -37.5,
+    -34.55
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -29.392261464164022
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -29.536355478815842
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -29.417292959969558
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -28.998546736620693
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -29.06079708764334
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -28.17814225169016
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -29.02531503197824
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -29.24759364977162
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.42512426484676075
+   }
+  },
+  "D4 total q=1 (C2 silent)": {
+   "ln_Z": -29.444274425431626,
+   "eff_impacts": 7456.56856459296,
+   "families": {
+    "A1": {
+     "share": 0.123808661803097,
+     "eff_impacts": 822.6386744674892
+    },
+    "A2": {
+     "share": 0.397553036779186,
+     "eff_impacts": 4632.934883691804
+    },
+    "B": {
+     "share": 0.47777687222937554,
+     "eff_impacts": 2807.003567808528
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.92,
+    -37.51,
+    -34.55
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -29.827162052174064
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -29.966030175604736
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -29.853419167557536
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -29.432278982640618
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -29.493429619089248
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -28.60227916696663
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -29.458625039399287
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -29.680543101188533
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.4278947967640095
+   }
+  },
+  "D4 total q=1 (C2 unpowered)": {
+   "ln_Z": -29.36001166664607,
+   "eff_impacts": 8185.023986207474,
+   "families": {
+    "A1": {
+     "share": 0.12274981587284348,
+     "eff_impacts": 877.7196337541067
+    },
+    "A2": {
+     "share": 0.3943262492770751,
+     "eff_impacts": 5017.019196018146
+    },
+    "B": {
+     "share": 0.4820669003729705,
+     "eff_impacts": 3141.3211968948885
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.91,
+    -37.49,
+    -34.55
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -29.72904461052952
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -29.871886129188773
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -29.75120899193638
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -29.338275468377752
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -29.402846610862124
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -28.54261222481217
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -29.36729156103059
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -29.588687373708183
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.4158821299128628
+   }
+  },
+  "D5xC1": {
+   "ln_Z": -29.16501687036183,
+   "eff_impacts": 3760.8213154285754,
+   "families": {
+    "A1": {
+     "share": 0.12137747206042815,
+     "eff_impacts": 480.7889111359247
+    },
+    "A2": {
+     "share": 0.3807933722340968,
+     "eff_impacts": 2180.594465467038
+    },
+    "B": {
+     "share": 0.49687944141166324,
+     "eff_impacts": 1463.2976690030337
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.86,
+    -37.48,
+    -34.57
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -29.518112357951956
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -29.633227142416487
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -29.457266063715537
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -29.072911552668053
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -29.267371231592946
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -28.36702761938765
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -29.200905055784165
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -29.46642324849698
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.4003967755086613
+   }
+  },
+  "D5xC2 silent": {
+   "ln_Z": -34.50082115402431,
+   "eff_impacts": 941.8444925839557,
+   "families": {
+    "A1": {
+     "share": 0.12556629607296085,
+     "eff_impacts": 153.76459450070715
+    },
+    "A2": {
+     "share": 0.23092090861512823,
+     "eff_impacts": 207.1569905587545
+    },
+    "B": {
+     "share": 0.643438815071674,
+     "eff_impacts": 589.9352973649089
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.4,
+    -36.37,
+    -33.75
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -34.675372985410654
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -34.26241440155754
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -34.552817796044046
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -34.352404138580305
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -34.5694299573637
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -34.42006877737787
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -34.5386259310482
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -34.722818414304186
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.15721823067462248
+   }
+  },
+  "D5xC2 unpowered": {
+   "ln_Z": -31.49493525594783,
+   "eff_impacts": 7754.308888199009,
+   "families": {
+    "A1": {
+     "share": 0.10239368905832384,
+     "eff_impacts": 974.1731019113727
+    },
+    "A2": {
+     "share": 0.35110896069096126,
+     "eff_impacts": 3424.3765633414573
+    },
+    "B": {
+     "share": 0.5458723894053755,
+     "eff_impacts": 3625.574269575958
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.79,
+    -37.18,
+    -34.4
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -31.656625734100825
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -31.845247092417928
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -31.639851540312563
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -31.35112721405084
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -31.50350094433938
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -31.103016972334302
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -31.380602133539902
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -31.678068997975323
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.23479438710014208
+   }
+  },
+  "D5 total q=0.333 (C2 silent)": {
+   "ln_Z": -29.4510948849706,
+   "eff_impacts": 3772.450284274604,
+   "families": {
+    "A1": {
+     "share": 0.12138418579039399,
+     "eff_impacts": 482.11074117012726
+    },
+    "A2": {
+     "share": 0.38055316084136703,
+     "eff_impacts": 2184.678610193347
+    },
+    "B": {
+     "share": 0.4971143426764752,
+     "eff_impacts": 1469.3047799806932
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.86,
+    -37.48,
+    -34.57
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -29.80387711965155
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -29.917660268276933
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -29.742908907829445
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -29.358896727192658
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -29.553394238337415
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -28.65392643124542
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -29.48698613931519
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -29.752368807319186
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.39984520582842714
+   }
+  },
+  "D5 total q=0.333 (C2 unpowered)": {
+   "ln_Z": -29.420779276483458,
+   "eff_impacts": 3912.614272052376,
+   "families": {
+    "A1": {
+     "share": 0.1207810849162837,
+     "eff_impacts": 496.37122527254843
+    },
+    "A2": {
+     "share": 0.3798608183051009,
+     "eff_impacts": 2257.486697675483
+    },
+    "B": {
+     "share": 0.49841858481284695,
+     "eff_impacts": 1531.2047310483583
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.86,
+    -37.47,
+    -34.57
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -29.767269510029386
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -29.885066224694963
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -29.708053960025826
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -29.327008351235193
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -29.520049376828972
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -28.633329931167587
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -29.45158818310624
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -29.718249153456373
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.3954026605844157
+   }
+  },
+  "D5 total q=1 (C2 silent)": {
+   "ln_Z": -29.853359575822264,
+   "eff_impacts": 3795.523666801331,
+   "families": {
+    "A1": {
+     "share": 0.12139754889315237,
+     "eff_impacts": 484.73276551745215
+    },
+    "A2": {
+     "share": 0.3800750406992917,
+     "eff_impacts": 2192.726242526153
+    },
+    "B": {
+     "share": 0.497581893465091,
+     "eff_impacts": 1481.259643723838
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.86,
+    -37.48,
+    -34.57
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -30.20551859938049
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -30.316658979714596
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -30.14430799237765
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -29.760976653479865
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -29.955549449764984
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -29.057826856257876
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -29.889256938620985
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -30.15436990850868
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.398749105897092
+   }
+  },
+  "D5 total q=1 (C2 unpowered)": {
+   "ln_Z": -29.76530807280011,
+   "eff_impacts": 4205.479048421363,
+   "families": {
+    "A1": {
+     "share": 0.1196940801962853,
+     "eff_impacts": 526.5086547740303
+    },
+    "A2": {
+     "share": 0.37816109936845976,
+     "eff_impacts": 2403.9581843206333
+    },
+    "B": {
+     "share": 0.501223903737422,
+     "eff_impacts": 1663.1675875356027
+    }
+   },
+   "latitude_q05_q50_q95": [
+    -38.86,
+    -37.45,
+    -34.55
+   ],
+   "seed_ln_Z": [
+    [
+     "next-i-descent-climb",
+     "seed-1",
+     -30.09987033851115
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-2",
+     -30.22248353273011
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-3",
+     -30.043579137170894
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-4",
+     -29.668508446789893
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-5",
+     -29.858981000296083
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-6",
+     -28.99735979216625
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-7",
+     -29.786925081353484
+    ],
+    [
+     "next-i-descent-climb",
+     "seed-8",
+     -30.055642707869495
+    ]
+   ],
+   "seed_sd_ln_Z_by_stratum": {
+    "next-i-descent-climb": 0.38626033195661125
+   }
+  }
+ },
+ "bayes_factors": {
+  "C1:C2 within D (C2 silent)": {
+   "D0": 3.894328315344554,
+   "D1": 4.0301789578580305,
+   "D2": 5.007934650889101,
+   "D3": 5.355906356165793,
+   "D4": 5.1738964802565945,
+   "D5": 5.33580428366248
+  },
+  "C1:C2 within D (C2 unpowered)": {
+   "D0": 1.1705894342779306,
+   "D1": 1.3122840753105507,
+   "D2": 2.2163216319738233,
+   "D3": 2.379991160864968,
+   "D4": 2.3636630354467165,
+   "D5": 2.3299183855860015
+  },
+  "D3:D4 within C": {
+   "C1": 0.20089568659647838,
+   "C2 silent": 0.018885810687280014,
+   "C2 unpowered": 0.18456756117822692
+  },
+  "D5:D3 within C": {
+   "C1": -0.6091388214554243,
+   "C2 silent": -0.5890367489521111,
+   "C2 unpowered": -0.5590660461764578
+  },
+  "D5:D4 within C": {
+   "C1": -0.4082431348589459,
+   "C2 silent": -0.5701509382648311,
+   "C2 unpowered": -0.3744984849982309
+  },
+  "D3:D4 total q=1/3 silent": 0.20058213826414573,
+  "D5:D3 total q=1/3 silent": -0.609106923582825,
+  "D5:D4 total q=1/3 silent": -0.4085247853186793
+ }
+}

@@ -1,0 +1,203 @@
+{
+  "classification": "conditional public-data physical sensitivity, not calibrated aircraft performance",
+  "seed": 37062731,
+  "particles": 3000,
+  "initial_particles": 30000,
+  "branching": 4,
+  "integration_step_s": 30,
+  "prefix_step_s": 5,
+  "bto_sigma_us": {
+    "R1200": 29,
+    "R600": 62
+  },
+  "bfo_sigma_hz": 4.3,
+  "route": "p627",
+  "route_definitions": {
+    "p627": {
+      "points": [
+        [
+          6.7563889,
+          95.9763889
+        ],
+        [
+          6.5861111,
+          95.6691667
+        ],
+        [
+          6.2358333,
+          95.0808333
+        ],
+        [
+          6,
+          94.6666667
+        ]
+      ],
+      "names": [
+        "NILAM",
+        "SANOB",
+        "IGEBO",
+        "POVUS"
+      ],
+      "prior": 0.3333333333333333
+    },
+    "igogu_boundary": {
+      "points": [
+        [
+          6.7563889,
+          95.9763889
+        ],
+        [
+          7.516944444444444,
+          94.41666666666667
+        ],
+        [
+          6,
+          94.41666666666667
+        ],
+        [
+          6,
+          92
+        ]
+      ],
+      "names": [
+        "NILAM",
+        "IGOGU",
+        "FIR 6N/94:25E",
+        "FIR 6N/92E"
+      ],
+      "prior": 0.3333333333333333
+    },
+    "igogu_south": {
+      "points": [
+        [
+          6.7563889,
+          95.9763889
+        ],
+        [
+          7.516944444444444,
+          94.41666666666667
+        ]
+      ],
+      "names": [
+        "NILAM",
+        "IGOGU"
+      ],
+      "prior": 0.3333333333333333
+    }
+  },
+  "route_prior": 0.3333333333333333,
+  "evidence_note": "Unnormalized Gaussian kernels, common constants cancel across leaves. All proposed particles, including failures, enter evidence denominators. Physics and route gates form part of the declared joint selection model.",
+  "log_evidence": null,
+  "hard_limit_sigmas": 2,
+  "arc_crossing_tolerance_s": 60,
+  "fuel_window_utc": [
+    "00:15",
+    "00:19"
+  ],
+  "initial_route": [
+    "NILAM",
+    "SANOB",
+    "IGEBO",
+    "POVUS"
+  ],
+  "waypoint_capture_max_nm": 3,
+  "calls": "all timestamped RX BFOs gated; one4.3-Hz mean-residual likelihood per call",
+  "prior": "radar N(230,35)m/s clipped125..295; altitude U[152.4,13100]m; VS U[-10,10]m/s; initial speed/altitude targets uniform over declared bounds; afterPOVUS hold current course U[0,1200]s then south N(180,15)deg for1800s; inherited persistent command prior thereafter",
+  "controls": {
+    "integration_step_s": 30,
+    "regime_mid_altitude_m": 5000.0,
+    "regime_width_m": 1200.0,
+    "lateral_mean_hold_low_s": 300.0,
+    "lateral_mean_hold_cruise_s": 2700.0,
+    "speed_mean_hold_low_s": 900.0,
+    "speed_mean_hold_cruise_s": 3600.0,
+    "altitude_mean_hold_low_s": 5400.0,
+    "altitude_mean_hold_cruise_s": 4500.0,
+    "lateral_global_draw_probability_low": 0.55,
+    "lateral_global_draw_probability_cruise": 0.2,
+    "lateral_local_sigma_rad": 0.4886921905584123,
+    "speed_global_draw_probability": 0.2,
+    "speed_local_sigma_mps": 22.0,
+    "altitude_global_draw_probability": 0.2,
+    "altitude_local_sigma_m": 1500.0,
+    "min_target_speed_mps": 125.0,
+    "max_target_speed_mps": 295.0,
+    "min_target_altitude_m": 152.4,
+    "max_target_altitude_m": 13100.0,
+    "departure_max_altitude_m": 3000.0,
+    "departure_min_speed_mps": 65.0,
+    "departure_target_speed_min_mps": 180.0,
+    "departure_target_speed_max_mps": 275.0,
+    "departure_target_altitude_min_m": 8000,
+    "departure_target_altitude_max_m": 12500.0,
+    "cruise_initial_speed_sigma_mps": 12.0,
+    "cruise_initial_altitude_sigma_m": 600.0,
+    "track_capture_time_s": 30,
+    "max_command_turn_rate_rad_s": 0.012217304763960306,
+    "speed_capture_time_s": 600.0,
+    "max_command_acceleration_mps2": 0.25,
+    "altitude_to_vertical_speed_time_s": 720.0,
+    "max_command_vertical_speed_mps": 14.0,
+    "vertical_speed_capture_time_s": 120.0,
+    "max_command_vertical_acceleration_mps2": 0.09,
+    "track_capture_tolerance_rad": 0.026179938779914945,
+    "speed_capture_tolerance_mps": 2.0,
+    "altitude_capture_tolerance_m": 90.0,
+    "vertical_speed_capture_tolerance_mps": 1.5,
+    "control_model": {
+      "acceleration_sigma_mps2": 0.008,
+      "acceleration_correlation_s": 30,
+      "turn_rate_sigma_rad_s": 0.00013962634015954637,
+      "turn_rate_correlation_s": 4,
+      "vertical_acceleration_sigma_mps2": 0.003,
+      "vertical_acceleration_correlation_s": 15
+    }
+  },
+  "fuel_anchor": "18:28:05.904, U[32524.10488196,34524.10488196]kg; log-uniform flow[.9,1.1]; prefix exact inverse fuel maps; no jettison",
+  "physical_proxy": "ERA5 air velocity; OpenAP B772/Trent895 thrust x1.25; BSM Trent892 LRC with declared broad extension; stall margin1.2, CLmax1.5, Mach.87, CAS330kt, bank30deg; additional Cd<=.1",
+  "release_proposal": "atPOVUS .8 uniform[0,clip(call_time-arrival_time,1,1200)] + .2 uniform[0,1200]; exact p/q applied; unused south target refreshed from its original prior after18:28",
+  "restart": "First R600 at18:25:27.421 assumed valid BTO+BFO; BTO17120-4600=12520us; sigma62us; BFO142Hz. Later warming-up restart messages not treated as steady-state observations.",
+  "excluded": "Later restart transient BFOs and anomalous acknowledgement; all00:19 BTO/BFO; radar coverage likelihood; debris and search evidence",
+  "source_hashes": {
+    "scripts/run_route_mixture43.py": "41a8a76efb6d356f9625851c4187b384e22b8f5fda1fcd65f7c304e0952410c7",
+    "src/mh370_pf/conditional_physics.py": "a36167faa8cf36d74c25df77de95eb6d829799127b7b827d25c0630893f42036",
+    "src/mh370_pf/dynamics.py": "a18b18d0e0edca5ba72ac21d1fd0f06735f8e6cad0cb4afc4891455f6bfc46f2",
+    "src/mh370_pf/control_modes.py": "b1faf8084ebc578e95e189b6a38333f61275ad9e6a8490d58e129e3e0a2d6a45"
+  },
+  "stages": [
+    {
+      "stage": 0,
+      "end_utc": "2014-03-07T18:29:14.904000044+00:00",
+      "proposed": 30000,
+      "physics_survivors": 13104,
+      "joint_survivors": 0,
+      "observations": [
+        {
+          "epoch": "2014-03-07T18:25:27.421000Z",
+          "pass_joint": 3068,
+          "bto_pass": 29400,
+          "bfo_pass": 6281,
+          "cross_pass": 17626
+        },
+        {
+          "epoch": "2014-03-07T18:28:05.904000Z",
+          "pass_joint": 1202,
+          "bto_pass": 12429,
+          "bfo_pass": 2916,
+          "cross_pass": 9395
+        },
+        {
+          "epoch": "2014-03-07T18:28:14.904000Z",
+          "pass_joint": 1666,
+          "bto_pass": 15693,
+          "bfo_pass": 3067,
+          "cross_pass": 12733
+        }
+      ],
+      "elapsed_s": 10.543,
+      "status": "zero sampled support; not proof of physical exclusion"
+    }
+  ],
+  "initial_proposal": null,
+  "completed": false
+}

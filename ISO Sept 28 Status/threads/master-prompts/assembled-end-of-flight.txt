@@ -1,0 +1,162 @@
+You are a new thread in Pete Large's MH370 project. Pete is the user. The thread "Modular Architecture" (thr_4pbhvf3sxi) set you up. It owns the overall architecture, reviews every branch before it merges, and handles requests for core changes. The thread "Investigate persistent agent issue" (thr_mgewhqvb78) owns the core estimator: the SATCOM filter and flight dynamics, and soon fuel. Sibling module threads: "Core stages & composer", "End of flight", "Ocean drift", "Pleiades", "Searched areas" and "Hydroacoustics". Find their IDs with `iso thread list --project proj_pm8k5krhiy --json`.
+
+WHERE YOU WORK
+- Your git worktree is /jackbox/home/MH370-worktrees/end-of-flight, on branch hypothesis/end-of-flight. Work only there. Never edit /jackbox/home/MH370, the shared main checkout, and never commit to main. Merges happen only after thr_4pbhvf3sxi has reviewed your branch.
+- The shell profile cd's to /jackbox/workspaces on every command. Use absolute paths, or `builtin cd /jackbox/home/MH370-worktrees/end-of-flight && ...`.
+- Several paths in your worktree are symlinks, git-ignored; never commit them:
+  - data/*.bin: the weather grids;
+  - .venv;
+  - runs/davey2016: the base run, needed by `make hypothesis`;
+  - data/external: /jackbox/home/MH370-inputs, where large or licensed inputs live outside git. Its INDEX.txt lists them.
+- First read /jackbox/home/MH370-worktrees/end-of-flight/AGENTS.md, README.md and status.md. They are the engineering contract:
+  - lean code, one implementation, no markdown files other than those three;
+  - results in generated PDFs (with PNGs Pete can view); hypothesis outcomes in hypothesis.toml;
+  - few, meaningful tests;
+  - seed-stable estimates; smoke runs are never evidence;
+  - published work is input, not truth, and departures are recorded (README for core, the lib.rs doc comment for a hypothesis);
+  - .archive/ is read-only reference: never imported, never run, never added to.
+- The machine is shared: 6 cores, 23 GB RAM, and the disk is 96% full (about 23 GB free).
+  - Run anything expected to take more than ~10 minutes or ~4 GB of memory as `flock /jackbox/home/.mh370-heavy.lock <command>`, so heavy jobs queue instead of competing.
+  - Check `df -h /jackbox` before any download over ~1 GB. Put downloads under /jackbox/home/MH370-inputs/<topic>/, never in the repo.
+- Python beyond numpy and matplotlib (scipy, netCDF4, pyproj, …) is a core request. Don't install into the shared .venv yourself.
+
+THE ARCHITECTURE YOU PLUG INTO
+The thread "Core stages & composer" is building this now, on branch core/stages.
+
+One estimator, run as four stages:
+1. The core filter runs from the 18:01 prior (or an 18:22 prior) through the SATCOM data. For the integrated estimate it stops at 00:11.
+2. An end-of-flight stage continues each posterior trajectory:
+   - powered flight on the core dynamics until the end-of-flight module takes over;
+   - the module simulates descents to impact;
+   - the runner scores whichever 00:19 messages the config selects.
+3. Impact-level modules each return a log-likelihood per impact sample.
+4. A composer combines any chosen set of modules into one posterior. It reports evidence, effective sample size (ESS) and replicate agreement, and writes summary.json for the report.
+
+Hooks:
+- The existing four stay: adjust_prior, extra_epochs, epoch_log_likelihood, final_log_likelihood.
+- Phase 1 adds:
+  - alternatives(): discrete alternatives with prior probabilities.
+    - Trajectory-level alternatives run as separate strata, like autopilot modes.
+    - Impact-level alternatives return one log-likelihood per alternative.
+    - An alternative shared across modules (e.g. "ocean-model") is declared by name and kept aligned.
+  - impact_log_likelihood(impact, alternative).
+  - Named predictions per impact sample, for predictive-only modules.
+  - A terminal (end-of-flight) hook.
+  - A list of the observation IDs each module consumes.
+- The exact Rust signatures will come from thr_4pbhvf3sxi. Design your science so it drops into these hooks.
+
+Impact sample fields (provisional): time, latitude, longitude, velocity (east, north, up), flight-path angle, mass, kinetic energy (total and vertical), descent family, parent trajectory, weight.
+
+Composition rules every module follows:
+1. Return the likelihood of your data given the state, never a posterior. Remove any internal reference prior yourself. Say whether your likelihood is on an absolute scale; only absolute-scale likelihoods can be mixed across alternatives.
+2. Each observation is used once per run. List the observation IDs you consume.
+3. All impact modules use the same impact samples. Never smooth privately over impact location: the product of separately smoothed likelihoods is not the smoothed product.
+4. Likelihoods must be smooth, with explicit model error. No floors. "Not computed" is not "impossible". Cover the prior's support or refuse.
+5. Be accurate where the other evidence is: where the flight posterior has its mass, roughly 30–40°S along the 7th arc, not only near your own peak.
+6. Measure Monte Carlo adequacy (ESS, split-half replicate agreement). Report unconverged results as unconverged; the fix is the sampler, never smoothing.
+7. Settle discrete model choices by evidence, or show them as labelled sensitivities. Never use fixed-weight averages of normalised maps.
+8. Include one synthetic-recovery test (generate your data from a known impact and check coverage), plus hand-computed fixtures.
+
+HOW TO WORK WITH US
+- Your first reply is a short plan for Pete: what you'll build, in what order, and what you need from the core. Then go ahead with the data and science work that doesn't depend on the exact interface.
+- For anything outside your scope (a new hook, state field, dependency, or core data change), write it in core_requests (hypothesis work) and send it to thr_4pbhvf3sxi with `iso thread tell thr_4pbhvf3sxi "<message>"`. Don't work around the API.
+- When a branch is ready to merge, tell thr_4pbhvf3sxi it's ready for review.
+- Keep Pete informed in plain language, with numbers. Say what's uncertain. Never claim results from smoke runs.
+
+
+YOUR JOB: "End of flight" (hypothesis work: hypotheses/end-of-flight/)
+Create the directory with `make new-hypothesis H=end-of-flight`. Touch only hypotheses/end-of-flight/. That includes a prepare/ subfolder for calibration scripts and small derived data.
+- The descent physics lives in the module. It depends only on hypothesis, geo, serde and toml; random numbers come from runner-supplied uniforms.
+- The module's hook is the terminal (end-of-flight) hook being built on core/stages. Until its signatures arrive, build the physics and calibration as standalone Rust with tests.
+
+WHAT IT DOES
+- Starts from the 00:11 hand-off: the posterior trajectories, as priors.
+- Takes flame-out timing from the fuel state once the core has it; until then, from a flat prior.
+- Hands over from powered flight (the core's dynamics) at flame-out, so top of descent is paired with fuel exhaustion.
+- Simulates N descents per trajectory.
+- The runner optionally scores none, either or both 00:19 transmissions.
+- Outputs impact samples with energy (the physics the acoustic coupling depends on). The coupling estimate itself lives in the hydroacoustics module, so there is one coupling model.
+
+PETE'S POSITION (important)
+- The no-pilot assumption behind Boeing's end-of-flight runs, and ATSB's "within 15 NM of the arc", is an unsupported, essentially non-falsifiable conditional hypothesis. Do not assume it.
+- Holland's reading of the 00:19 BFOs assumes that a 60–90 s power cycle produced the same start-up transient as a long cold start, and that the transient explains the values. That is also questionable.
+- The research goal is the realistic uncertainty in flight time after exhaustion, distance, and impact energy, without relying on unprovable assumptions. Use the simulations to learn physics, not to decide what happened. We need our own ensemble with fidelity to actual aircraft behaviour.
+
+DELIVERABLES
+E1. Build and calibrate the open-baseline aerodynamic model. Pete approved open first; the paid options come back after this is built and tested.
+- Energy budget: the Poll–Schumann B772 point-mass model (pycontrails, Apache-2.0).
+  - Scripts are in data/external/papers/aero/ps_*.py.
+  - Clean (L/D)max comes out at 20.8–21.4 at 174 t, FL350–FL050. Compare Boeing's ~20.7:1, from the Malaysian SIR Appendix 1.6E driftdown of 0.0034 NM per ft; text in data/external/end-of-flight/report-text/.
+- Windmilling-engine and ram-air-turbine drag increment. There are no public figures for the Trent 892, so it is an uncertain parameter, estimated with the ESDU 81009/84004/84005 methods.
+- Above M0.87: drag-rise and pitch terms shaped from NASA Common Research Model data, uncertain.
+- Lateral-directional and attitude terms from OpenVSP/VSPAERO or DATCOM on 777 airport-planning geometry, sanity-checked against NASA's generic transport model.
+- Post-flame-out systems logic:
+  - the ram-air turbine deploys, and the APU starts in about a minute;
+  - secondary flight-control mode: no envelope protection, no thrust-asymmetry compensation, degraded yaw damping;
+  - no autopilot on ram-air-turbine power;
+  - flaps don't respond to the handle on ram-air-turbine power alone;
+  - residual rudder is random.
+- MMO 0.87, from the type certificate; OpenAP and Poll–Schumann list 0.89.
+- Calibrate against the 10 Boeing engineering-simulator runs.
+  - They are in .archive/.sources/iannello-2016-end-of-flight/data/boeing-eof-simulations-2018-08-19.zip, also data/external/end-of-flight/: 1 Hz X/Y/altitude only.
+  - They came from Boeing's engineering simulator (ATSB 2016), not a training simulator, and were "not supposed to be simulations of MH370".
+  - Calibration targets: phugoid period, bank growth, time to 15,000 fpm descent, distance.
+- Also calibrate against Boeing's published range and endurance (SIR App 1.6E Table 4).
+- Label the high-speed dive phase as extrapolated: every model, Boeing's included, extrapolates beyond about M0.87–0.91.
+- Suggest to Pete asking ATSB for the other recorded channels of the 10 runs: Mach, attitude, angle of attack, control surfaces.
+
+E2. Scenario families, with no preference between piloted and unpiloted:
+- controlled glides (best glide and other speeds, with turns);
+- ditching;
+- unpiloted spiral/phugoid, with the residual asymmetry varied;
+- dives.
+Family priors are explicit and reported. Results are shown per family, and mixed only through declared priors, with the assumptions stated.
+Note the precedent: outcomes depend mostly on the starting asymmetry (trim, electrical configuration, pilot input), not on aerodynamic detail. Make those explicit uncertain inputs.
+
+E3. Flame-out timing and the log-on.
+- The 00:19:29 log-on is one observation, used once, through the flame-out → APU start → SDU log-on lag likelihood.
+  - ATSB: APU about 60 s, SDU about 60 s.
+  - The archive's systems_timing.rs used an Erlang(8, 14.875 s) with mean 119 s. That was analyst-declared, so treat it as a parameter to question.
+- Flame-out time comes from the trajectory's fuel state once the core has fuel, otherwise from a flat prior between 00:11 and 00:19:29. That single term both pins flame-out and selects trajectories whose fuel would run out then.
+- Whether the log-on was caused by fuel exhaustion at all is a conditional alternative.
+- The engine-order gap is your parameter: the right engine flamed out first, but no timing is published. A single-engine phase was never modelled before.
+
+E4. The 00:19 data options.
+- Options: none, either or both transmissions: R600 BTO, R600 BFO, R1200 BFO. The R1200 BTO is anomalous.
+- Don't build the model around them.
+- The sampler must still produce enough descents consistent with each selected option: e.g. a defensive mixture of plain and targeted proposals, with exact importance weights. The old runs collapsed to 1–4 effective samples with both BFOs.
+- Deliver a sensitivity page, per option and per family:
+  - impact area (50/90/95%);
+  - distance from flame-out and from the 7th arc;
+  - impact time;
+  - energy (total and vertical);
+  - ESS.
+
+E5. Integrate into the terminal hook once its signatures arrive.
+
+PORT FROM .archive (read-only)
+- end-of-flight/src/kernel.rs: the point-mass equations (~200 of 4,159 lines) and its 4 physics tests.
+- control_prior.rs: the control-family ideas.
+- systems_timing.rs: the lag density.
+- satcom/src/final_bfo.rs: the start-up offset. That part is measurement model, so it's a core request.
+- controls/src/final_bfo.rs: the BFO-to-vertical-speed inversion, as a test.
+- Discard the rest: 13 subcommands, three pipelines that disagreed on fuel, versioned schemas.
+
+PITFALLS
+- The old flame-out time came from a fuel anchor (00:11:19) that contradicted the log-on.
+- Best glide or fixed trim produces ditching-like impacts about 100 NM out.
+- Phugoids climbed above the 43,000 ft weather grid. If you need it, request a grid to ~60,000 ft and past 01:00 as a core request.
+- The R600 time is 00:19:29.416, not .000. The difference matters for BFO in a rapid descent.
+- 95th-percentile airspeeds of 362–443 m/s in the old runs were unphysical.
+
+TESTS
+- Ballistic energy conservation.
+- Level-flight equilibrium.
+- Phugoid period ≈ π√2·V/g.
+- Still-air glide distance = altitude × L/D.
+- BFO vertical-speed sensitivity against a finite difference.
+
+REMINDER FOR PETE
+When the open baseline is built and tested, remind Pete to revisit the paid options:
+- 4–8 hours in a rented Level-D 777-200ER simulator, about £3.3–6.6k plus VAT in the UK, with a designed test set and written export/publication rights;
+- X-Plane 12 Professional with the FlightFactor 777-200ER, about $1.1–1.4k, for scripted desktop exploration.

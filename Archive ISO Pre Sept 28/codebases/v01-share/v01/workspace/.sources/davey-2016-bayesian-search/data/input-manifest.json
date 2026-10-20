@@ -1,0 +1,40 @@
+{
+  "status": "EXTRACTED",
+  "sources": {
+    "corpus/repositories/flight-mh370-revisited-e0115e817975d073bdf2b09a428fbce62aeda35c/library_full_audit/MH370/Unredacted Raw 35200217 Logs for SITA 08Mar2014(p).xlsx": {
+      "sha256": "d4b03e420248427f1b59830d91475d22f71aebca21496436d381b6cbda0b20ad"
+    },
+    "corpus/repositories/flight-mh370-revisited-e0115e817975d073bdf2b09a428fbce62aeda35c/library_full_audit/MH370/Inmarsat3F1_23839 Fixed Position Velocity.xlsx": {
+      "sha256": "a1a84be75ebdcf642a77dd110a755b01c6e4be1adb5dbef2cfb42fc5585989d0"
+    }
+  },
+  "generated": {
+    "observations.csv": {
+      "sha256": "238e0a86457b6527cde3ff48ac28242804508195ca2072624841ba57597d3a46"
+    },
+    "satellite_ephemeris.csv": {
+      "sha256": "4c56c26d77c826caa2a8084ee29ff459a493641c72ca165d52a92d29908ae2c2"
+    },
+    "raw_measurement_extract.csv": {
+      "sha256": "ebb04c26a803f020864c5398412f3dfd05e7e91d17df783f92a3fd188b0bc94d"
+    },
+    "model-configuration.json": {
+      "sha256": "9f5704df7cd014efb0edb38cc491ffd6e92c8ec83aa78713c5f63f7e52ad62a7"
+    }
+  },
+  "c_channel_aggregates": {
+    "18:39": {
+      "count": 51,
+      "mean_bfo_hz": 87.82352941176471
+    },
+    "23:15": {
+      "count": 29,
+      "mean_bfo_hz": 217.27586206896552
+    }
+  },
+  "notes": [
+    "Raw log values are observations; Davey message selection and corrections are source configuration claims.",
+    "Ephemeris is interpolated linearly from one-second ECEF states generated with STK/SGP4 from a later TLE.",
+    "The exact DSTG ACCESS-G field and proprietary 10-second satellite/EAFC series are not present."
+  ]
+}

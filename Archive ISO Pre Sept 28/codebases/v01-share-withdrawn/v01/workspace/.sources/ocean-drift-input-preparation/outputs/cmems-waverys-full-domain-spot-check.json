@@ -1,0 +1,571 @@
+{
+  "schema": "mh370-packed-stokes-field-spot-check-v1",
+  "source_kind": "cmems_waverys_float",
+  "manifest": ".sources/ocean-drift-input-preparation/outputs/cmems-waverys-full-domain-retrieval-manifest.json",
+  "manifest_sha256": "8328b876443ccbea92e77afc0967dba60922db82a189a0b110b69d66da527b43",
+  "field": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-waverys-stokes.mhgrid",
+  "field_sha256": "33b73a88da9d76a8828c274fcd19a9a550326842c6c7ddea241e1bf3f6f92fea",
+  "field_schema": 3,
+  "field_shape": [
+    8496,
+    351,
+    901
+  ],
+  "checked_values": 48,
+  "mismatch_count": 0,
+  "checks": [
+    {
+      "source_file": "cmems-waverys-stokes-2014-03.nc",
+      "source_file_sha256": "4cf3f478916b6fca89ca0b9c632435faa86962ffe6c85c611df9136c0eefdded",
+      "unix_seconds": 1394150400.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.1,
+          "expected_packed_i16": -100,
+          "packed_i16": -100,
+          "packed_metres_per_second": -0.1,
+          "absolute_quantization_error_metres_per_second": 0.0
+        },
+        "v": {
+          "source_metres_per_second": 0.03,
+          "expected_packed_i16": 30,
+          "packed_i16": 30,
+          "packed_metres_per_second": 0.03,
+          "absolute_quantization_error_metres_per_second": 0.0
+        }
+      }
+    },
+    {
+      "source_file": "cmems-waverys-stokes-2014-03.nc",
+      "source_file_sha256": "4cf3f478916b6fca89ca0b9c632435faa86962ffe6c85c611df9136c0eefdded",
+      "unix_seconds": 1395230400.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.14,
+          "expected_packed_i16": -140,
+          "packed_i16": -140,
+          "packed_metres_per_second": -0.14,
+          "absolute_quantization_error_metres_per_second": 0.0
+        },
+        "v": {
+          "source_metres_per_second": 0.03,
+          "expected_packed_i16": 30,
+          "packed_i16": 30,
+          "packed_metres_per_second": 0.03,
+          "absolute_quantization_error_metres_per_second": 0.0
+        }
+      }
+    },
+    {
+      "source_file": "cmems-waverys-stokes-2014-03.nc",
+      "source_file_sha256": "4cf3f478916b6fca89ca0b9c632435faa86962ffe6c85c611df9136c0eefdded",
+      "unix_seconds": 1396299600.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.08,
+          "expected_packed_i16": -80,
+          "packed_i16": -80,
+          "packed_metres_per_second": -0.08,
+          "absolute_quantization_error_metres_per_second": 0.0
+        },
+        "v": {
+          "source_metres_per_second": 0.04,
+          "expected_packed_i16": 40,
+          "packed_i16": 40,
+          "packed_metres_per_second": 0.04,
+          "absolute_quantization_error_metres_per_second": 0.0
+        }
+      }
+    },
+    {
+      "source_file": "cmems-waverys-stokes-2014-08.nc",
+      "source_file_sha256": "ede5125ccefa8351add9fb1375f36b5df93cbf10bb0cdfec1c2a11be125caccc",
+      "unix_seconds": 1406851200.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.1,
+          "expected_packed_i16": -100,
+          "packed_i16": -100,
+          "packed_metres_per_second": -0.1,
+          "absolute_quantization_error_metres_per_second": 0.0
+        },
+        "v": {
+          "source_metres_per_second": 0.07,
+          "expected_packed_i16": 70,
+          "packed_i16": 70,
+          "packed_metres_per_second": 0.07,
+          "absolute_quantization_error_metres_per_second": 0.0
+        }
+      }
+    },
+    {
+      "source_file": "cmems-waverys-stokes-2014-08.nc",
+      "source_file_sha256": "ede5125ccefa8351add9fb1375f36b5df93cbf10bb0cdfec1c2a11be125caccc",
+      "unix_seconds": 1408190400.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.08,
+          "expected_packed_i16": -80,
+          "packed_i16": -80,
+          "packed_metres_per_second": -0.08,
+          "absolute_quantization_error_metres_per_second": 0.0
+        },
+        "v": {
+          "source_metres_per_second": 0.11,
+          "expected_packed_i16": 110,
+          "packed_i16": 110,
+          "packed_metres_per_second": 0.11,
+          "absolute_quantization_error_metres_per_second": 0.0
+        }
+      }
+    },
+    {
+      "source_file": "cmems-waverys-stokes-2014-08.nc",
+      "source_file_sha256": "ede5125ccefa8351add9fb1375f36b5df93cbf10bb0cdfec1c2a11be125caccc",
+      "unix_seconds": 1409518800.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.07,
+          "expected_packed_i16": -70,
+          "packed_i16": -70,
+          "packed_metres_per_second": -0.07,
+          "absolute_quantization_error_metres_per_second": 0.0
+        },
+        "v": {
+          "source_metres_per_second": 0.09,
+          "expected_packed_i16": 90,
+          "packed_i16": 90,
+          "packed_metres_per_second": 0.09,
+          "absolute_quantization_error_metres_per_second": 0.0
+        }
+      }
+    },
+    {
+      "source_file": "cmems-waverys-stokes-2015-01.nc",
+      "source_file_sha256": "f417a852c7a01568294b8ea8fee429ecbabe4ab52c37d27d2dbd05cf73cc5588",
+      "unix_seconds": 1420070400.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.12,
+          "expected_packed_i16": -120,
+          "packed_i16": -120,
+          "packed_metres_per_second": -0.12,
+          "absolute_quantization_error_metres_per_second": 0.0
+        },
+        "v": {
+          "source_metres_per_second": -0.01,
+          "expected_packed_i16": -10,
+          "packed_i16": -10,
+          "packed_metres_per_second": -0.01,
+          "absolute_quantization_error_metres_per_second": 0.0
+        }
+      }
+    },
+    {
+      "source_file": "cmems-waverys-stokes-2015-01.nc",
+      "source_file_sha256": "f417a852c7a01568294b8ea8fee429ecbabe4ab52c37d27d2dbd05cf73cc5588",
+      "unix_seconds": 1421409600.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.07,
+          "expected_packed_i16": -70,
+          "packed_i16": -70,
+          "packed_metres_per_second": -0.07,
+          "absolute_quantization_error_metres_per_second": 0.0
+        },
+        "v": {
+          "source_metres_per_second": 0.01,
+          "expected_packed_i16": 10,
+          "packed_i16": 10,
+          "packed_metres_per_second": 0.01,
+          "absolute_quantization_error_metres_per_second": 0.0
+        }
+      }
+    },
+    {
+      "source_file": "cmems-waverys-stokes-2015-01.nc",
+      "source_file_sha256": "f417a852c7a01568294b8ea8fee429ecbabe4ab52c37d27d2dbd05cf73cc5588",
+      "unix_seconds": 1422738000.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": 0.07,
+          "expected_packed_i16": 70,
+          "packed_i16": 70,
+          "packed_metres_per_second": 0.07,
+          "absolute_quantization_error_metres_per_second": 0.0
+        },
+        "v": {
+          "source_metres_per_second": -0.03,
+          "expected_packed_i16": -30,
+          "packed_i16": -30,
+          "packed_metres_per_second": -0.03,
+          "absolute_quantization_error_metres_per_second": 0.0
+        }
+      }
+    },
+    {
+      "source_file": "cmems-waverys-stokes-2015-06.nc",
+      "source_file_sha256": "5b82a0bed165067e7b5ed5dcff76353e8850a7ca841055104bb919be2bb5a134",
+      "unix_seconds": 1433116800.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.05,
+          "expected_packed_i16": -50,
+          "packed_i16": -50,
+          "packed_metres_per_second": -0.05,
+          "absolute_quantization_error_metres_per_second": 0.0
+        },
+        "v": {
+          "source_metres_per_second": 0.04,
+          "expected_packed_i16": 40,
+          "packed_i16": 40,
+          "packed_metres_per_second": 0.04,
+          "absolute_quantization_error_metres_per_second": 0.0
+        }
+      }
+    },
+    {
+      "source_file": "cmems-waverys-stokes-2015-06.nc",
+      "source_file_sha256": "5b82a0bed165067e7b5ed5dcff76353e8850a7ca841055104bb919be2bb5a134",
+      "unix_seconds": 1434412800.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.04,
+          "expected_packed_i16": -40,
+          "packed_i16": -40,
+          "packed_metres_per_second": -0.04,
+          "absolute_quantization_error_metres_per_second": 0.0
+        },
+        "v": {
+          "source_metres_per_second": 0.11,
+          "expected_packed_i16": 110,
+          "packed_i16": 110,
+          "packed_metres_per_second": 0.11,
+          "absolute_quantization_error_metres_per_second": 0.0
+        }
+      }
+    },
+    {
+      "source_file": "cmems-waverys-stokes-2015-06.nc",
+      "source_file_sha256": "5b82a0bed165067e7b5ed5dcff76353e8850a7ca841055104bb919be2bb5a134",
+      "unix_seconds": 1435698000.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.02,
+          "expected_packed_i16": -20,
+          "packed_i16": -20,
+          "packed_metres_per_second": -0.02,
+          "absolute_quantization_error_metres_per_second": 0.0
+        },
+        "v": {
+          "source_metres_per_second": 0.08,
+          "expected_packed_i16": 80,
+          "packed_i16": 80,
+          "packed_metres_per_second": 0.08,
+          "absolute_quantization_error_metres_per_second": 0.0
+        }
+      }
+    },
+    {
+      "source_file": "cmems-waverys-stokes-2015-10.nc",
+      "source_file_sha256": "171913657d1dddff0aec13b076949bdfb75128cd11d3efed764d0f39d92f766d",
+      "unix_seconds": 1443657600.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.01,
+          "expected_packed_i16": -10,
+          "packed_i16": -10,
+          "packed_metres_per_second": -0.01,
+          "absolute_quantization_error_metres_per_second": 0.0
+        },
+        "v": {
+          "source_metres_per_second": 0.0,
+          "expected_packed_i16": 0,
+          "packed_i16": 0,
+          "packed_metres_per_second": 0.0,
+          "absolute_quantization_error_metres_per_second": 0.0
+        }
+      }
+    },
+    {
+      "source_file": "cmems-waverys-stokes-2015-10.nc",
+      "source_file_sha256": "171913657d1dddff0aec13b076949bdfb75128cd11d3efed764d0f39d92f766d",
+      "unix_seconds": 1444996800.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.08,
+          "expected_packed_i16": -80,
+          "packed_i16": -80,
+          "packed_metres_per_second": -0.08,
+          "absolute_quantization_error_metres_per_second": 0.0
+        },
+        "v": {
+          "source_metres_per_second": 0.05,
+          "expected_packed_i16": 50,
+          "packed_i16": 50,
+          "packed_metres_per_second": 0.05,
+          "absolute_quantization_error_metres_per_second": 0.0
+        }
+      }
+    },
+    {
+      "source_file": "cmems-waverys-stokes-2015-10.nc",
+      "source_file_sha256": "171913657d1dddff0aec13b076949bdfb75128cd11d3efed764d0f39d92f766d",
+      "unix_seconds": 1446325200.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.04,
+          "expected_packed_i16": -40,
+          "packed_i16": -40,
+          "packed_metres_per_second": -0.04,
+          "absolute_quantization_error_metres_per_second": 0.0
+        },
+        "v": {
+          "source_metres_per_second": 0.07,
+          "expected_packed_i16": 70,
+          "packed_i16": 70,
+          "packed_metres_per_second": 0.07,
+          "absolute_quantization_error_metres_per_second": 0.0
+        }
+      }
+    },
+    {
+      "source_file": "cmems-waverys-stokes-2016-03.nc",
+      "source_file_sha256": "1054c0c621d553c71c1ffff86c0d1a93dbd782cc54dfe4943789b04c3b6650ce",
+      "unix_seconds": 1456790400.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.1,
+          "expected_packed_i16": -100,
+          "packed_i16": -100,
+          "packed_metres_per_second": -0.1,
+          "absolute_quantization_error_metres_per_second": 0.0
+        },
+        "v": {
+          "source_metres_per_second": 0.03,
+          "expected_packed_i16": 30,
+          "packed_i16": 30,
+          "packed_metres_per_second": 0.03,
+          "absolute_quantization_error_metres_per_second": 0.0
+        }
+      }
+    },
+    {
+      "source_file": "cmems-waverys-stokes-2016-03.nc",
+      "source_file_sha256": "1054c0c621d553c71c1ffff86c0d1a93dbd782cc54dfe4943789b04c3b6650ce",
+      "unix_seconds": 1458129600.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.11,
+          "expected_packed_i16": -110,
+          "packed_i16": -110,
+          "packed_metres_per_second": -0.11,
+          "absolute_quantization_error_metres_per_second": 0.0
+        },
+        "v": {
+          "source_metres_per_second": 0.04,
+          "expected_packed_i16": 40,
+          "packed_i16": 40,
+          "packed_metres_per_second": 0.04,
+          "absolute_quantization_error_metres_per_second": 0.0
+        }
+      }
+    },
+    {
+      "source_file": "cmems-waverys-stokes-2016-03.nc",
+      "source_file_sha256": "1054c0c621d553c71c1ffff86c0d1a93dbd782cc54dfe4943789b04c3b6650ce",
+      "unix_seconds": 1459458000.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.08,
+          "expected_packed_i16": -80,
+          "packed_i16": -80,
+          "packed_metres_per_second": -0.08,
+          "absolute_quantization_error_metres_per_second": 0.0
+        },
+        "v": {
+          "source_metres_per_second": -0.01,
+          "expected_packed_i16": -10,
+          "packed_i16": -10,
+          "packed_metres_per_second": -0.01,
+          "absolute_quantization_error_metres_per_second": 0.0
+        }
+      }
+    },
+    {
+      "source_file": "cmems-waverys-stokes-2016-08.nc",
+      "source_file_sha256": "6e8c8a436c84eb796203f50c639f990c796558463f8d2459bdb6b499fa6ea889",
+      "unix_seconds": 1470009600.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.1,
+          "expected_packed_i16": -100,
+          "packed_i16": -100,
+          "packed_metres_per_second": -0.1,
+          "absolute_quantization_error_metres_per_second": 0.0
+        },
+        "v": {
+          "source_metres_per_second": 0.04,
+          "expected_packed_i16": 40,
+          "packed_i16": 40,
+          "packed_metres_per_second": 0.04,
+          "absolute_quantization_error_metres_per_second": 0.0
+        }
+      }
+    },
+    {
+      "source_file": "cmems-waverys-stokes-2016-08.nc",
+      "source_file_sha256": "6e8c8a436c84eb796203f50c639f990c796558463f8d2459bdb6b499fa6ea889",
+      "unix_seconds": 1471348800.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.05,
+          "expected_packed_i16": -50,
+          "packed_i16": -50,
+          "packed_metres_per_second": -0.05,
+          "absolute_quantization_error_metres_per_second": 0.0
+        },
+        "v": {
+          "source_metres_per_second": 0.13,
+          "expected_packed_i16": 130,
+          "packed_i16": 130,
+          "packed_metres_per_second": 0.13,
+          "absolute_quantization_error_metres_per_second": 0.0
+        }
+      }
+    },
+    {
+      "source_file": "cmems-waverys-stokes-2016-08.nc",
+      "source_file_sha256": "6e8c8a436c84eb796203f50c639f990c796558463f8d2459bdb6b499fa6ea889",
+      "unix_seconds": 1472677200.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.1,
+          "expected_packed_i16": -100,
+          "packed_i16": -100,
+          "packed_metres_per_second": -0.1,
+          "absolute_quantization_error_metres_per_second": 0.0
+        },
+        "v": {
+          "source_metres_per_second": 0.04,
+          "expected_packed_i16": 40,
+          "packed_i16": 40,
+          "packed_metres_per_second": 0.04,
+          "absolute_quantization_error_metres_per_second": 0.0
+        }
+      }
+    },
+    {
+      "source_file": "cmems-waverys-stokes-2017-01.nc",
+      "source_file_sha256": "dd9e0d46299475bdd143784ee888b05dca4e498889dddb6b57856806cde4a68c",
+      "unix_seconds": 1483228800.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.09,
+          "expected_packed_i16": -90,
+          "packed_i16": -90,
+          "packed_metres_per_second": -0.09,
+          "absolute_quantization_error_metres_per_second": 0.0
+        },
+        "v": {
+          "source_metres_per_second": 0.04,
+          "expected_packed_i16": 40,
+          "packed_i16": 40,
+          "packed_metres_per_second": 0.04,
+          "absolute_quantization_error_metres_per_second": 0.0
+        }
+      }
+    },
+    {
+      "source_file": "cmems-waverys-stokes-2017-01.nc",
+      "source_file_sha256": "dd9e0d46299475bdd143784ee888b05dca4e498889dddb6b57856806cde4a68c",
+      "unix_seconds": 1484568000.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.11,
+          "expected_packed_i16": -110,
+          "packed_i16": -110,
+          "packed_metres_per_second": -0.11,
+          "absolute_quantization_error_metres_per_second": 0.0
+        },
+        "v": {
+          "source_metres_per_second": 0.09,
+          "expected_packed_i16": 90,
+          "packed_i16": 90,
+          "packed_metres_per_second": 0.09,
+          "absolute_quantization_error_metres_per_second": 0.0
+        }
+      }
+    },
+    {
+      "source_file": "cmems-waverys-stokes-2017-01.nc",
+      "source_file_sha256": "dd9e0d46299475bdd143784ee888b05dca4e498889dddb6b57856806cde4a68c",
+      "unix_seconds": 1485896400.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.07,
+          "expected_packed_i16": -70,
+          "packed_i16": -70,
+          "packed_metres_per_second": -0.07,
+          "absolute_quantization_error_metres_per_second": 0.0
+        },
+        "v": {
+          "source_metres_per_second": 0.07,
+          "expected_packed_i16": 70,
+          "packed_i16": 70,
+          "packed_metres_per_second": 0.07,
+          "absolute_quantization_error_metres_per_second": 0.0
+        }
+      }
+    }
+  ],
+  "method": "Standalone parser compared raw NetCDF velocity components with exact packed-field grid nodes. Native HYCOM int16 must match exactly; CMEMS current and WAVERYS float values must match independent nearest-0.001 m/s quantization. Schema 3 distinguishes persistent-land masking from intermittent missing data with separate sentinels; finite values are unchanged. Rust unit tests independently check scale and both missing semantics."
+}

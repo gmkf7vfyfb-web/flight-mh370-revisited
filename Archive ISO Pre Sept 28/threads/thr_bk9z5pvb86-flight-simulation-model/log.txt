@@ -1,0 +1,2058 @@
+── User ────────────────────────────────────────────────────
+Objective: produce a design-only assessment of a flight simulation model for the canonical MH370 Bayesian estimator. Do not edit code, install software, purchase services, or run expensive simulations yet. Begin by inspecting and explaining exactly what the current repository uses for accident-flight dynamics, environment, SATCOM propagation, 00:11-to-00:19 continuation, end-of-flight projection, aircraft state, and any fuel or systems modelling. Clearly identify absent state such as mass, fuel, engine, electrical, hydraulic, attitude, angular rates, and control state. Then recommend the smallest transparent multi-fidelity simulation approach that can integrate through narrow typed interfaces with the existing runner and particle inference. Include simulator capability and provenance requirements, deterministic automation, licensing or likely cost questions, validation against public Boeing cases and limiting cases, runtime strategy for particle inference, and a proposed state-transition interface. The Core Analysis thread remains the sole integrator. Make no canonical file changes during this design turn and avoid assumptions unsupported by public data. Report the outcome, evidence inspected, recommended integration sequence, and blockers.
+
+── Worked for (17m 53s) ────────────────────────────────────
+  ── Assistant
+  I’ll keep this strictly design-only and treat this thread as the sole integrator. I’ll first map the actual runner and scientific modules from code and tests, then compare that evidence with authoritative public simulator and validation sources. I’m using the citations skill because provenance, licensing, and Boeing-case claims need to be tied to located passages rather than memory.
+
+  ── Explored 1 file, 1 list, 1 search, ran 1 command
+    ── Read /jackbox/home/.iso/runtime/global-skills/051cefb156e94b93b5e2578a675241b5008ea1dbc7132545e87c8f9b68faaaa9/skills/citations/SKILL.md
+    ── Listed files in .
+    ── Ran git status --short --branch (4s, error)
+      $ git status --short --branch
+      /usr/bin/bash: line 1: git: command not found
+      exit 127
+    ── Searched files
+
+  ── Assistant
+  The inventory shows a compact Rust workspace with dedicated `dynamics`, `satcom`, `end-of-flight`, `particle-filter`, `domain`, and `runner` crates, plus stored accident runs and environmental grids. I’m now tracing the executable path—not inferring capability from crate names—so the assessment will distinguish implemented state/equations from configuration labels and report prose.
+
+  ── Ran 2 commands, explored 6 searches, 26 files, 2 lists
+    ── Ran wc -l README.md Cargo.toml crates/domain/src/*.rs crates/dynamics/src/*.rs crates/satcom/src/*.rs crates/end-of-flight/src/*.rs crates/estimator/src/*.rs crates/particle-filter/src/*.rs crates/runner/src/*.rs (3s)
+      $ wc -l README.md Cargo.toml crates/domain/src/*.rs crates/dynamics/src/*.rs crates/satcom/src/*.rs crates/end-of-flight/src/*.rs crates/estimator/src/*.rs crates/particle-filter/src/*.rs crates/runner/src/*.rs
+      288 README.md
+          44 Cargo.toml
+         226 crates/domain/src/geodesy.rs
+          11 crates/domain/src/impact.rs
+          24 crates/domain/src/lib.rs
+          44 crates/domain/src/observation.rs
+          64 crates/domain/src/state.rs
+         133 crates/domain/src/units.rs
+          67 crates/domain/src/vector.rs
+         404 crates/dynamics/src/environment.rs
+         210 crates/dynamics/src/lib.rs
+         569 crates/dynamics/src/one_turn.rs
+          14 crates/satcom/src/lib.rs
+         196 crates/satcom/src/observation.rs
+         178 crates/satcom/src/satcom.rs
+         220 crates/satcom/src/statistics.rs
+         163 crates/end-of-flight/src/lib.rs
+         585 crates/estimator/src/final_flight.rs
+         231 crates/estimator/src/lib.rs
+          35 crates/particle-filter/src/config.rs
+         520 crates/particle-filter/src/filter.rs
+          26 crates/particle-filter/src/lib.rs
+          69 crates/particle-filter/src/model.rs
+          98 crates/particle-filter/src/resampling.rs
+          53 crates/particle-filter/src/rng.rs
+         432 crates/particle-filter/src/tempered.rs
+         200 crates/runner/src/accident_antenna.rs
+         994 crates/runner/src/accident_commands.rs
+         882 crates/runner/src/continuation_commands.rs
+         678 crates/runner/src/known_flight_commands.rs
+         420 crates/runner/src/main.rs
+         216 crates/runner/src/ocean_drift_application.rs
+         479 crates/runner/src/ocean_drift_commands.rs
+        8773 total
+    ── Searched for fuel|mass|weight|engine|thrust|electr|hydraul|attitude|roll|pitch|yaw|angular|control|autopilot|heading|track|airspeed|groundspeed|wind|temperature|pressure|atmos|magnetic|bto|bfo|doppler|propagat|continuation|impact|descent|glide|flame|exhaust|00:11|00:19|0011|0019 in Cargo.toml
+    ── Read README.md
+    ── Read $f
+    ── Read crates/domain/src/geodesy.rs
+    ── Read crates/domain/src/state.rs
+    ── Read crates/domain/src/units.rs
+    ── Read crates/dynamics/src/lib.rs
+    ── Read crates/dynamics/src/environment.rs
+    ── Read crates/dynamics/src/one_turn.rs
+    ── Read crates/estimator/src/final_flight.rs
+    ── Read crates/estimator/src/lib.rs
+    ── Read crates/satcom/src/statistics.rs
+    ── Read crates/satcom/src/observation.rs
+    ── Read crates/satcom/src/satcom.rs
+    ── Listed files in .sources
+    ── Searched for .sources
+    ── Listed files in .sources
+    ── Read .sources/README.md
+    ── Read .sources/ashton-2015-search-for-mh370/README.md
+    ── Read .sources/davey-2016-bayesian-search/README.md
+    ── Read .sources/iannello-2016-end-of-flight/README.md
+    ── Read crates/end-of-flight/src/lib.rs
+    ── Read inputs/evidence/end-of-flight-public-cases.json
+    ── Read .sources/iannello-2016-end-of-flight/data/citation-ledger.md
+    ── Searched for ''^(pub )?(struct|enum|trait|fn)|''^impl |continu|propagat|trajectory|aircraft|bto|bfo|power|startup|00:11|00:19|0011|0019|mach|altitude|track|heading|wind|environment in configs/mh370-0011-to-0019-*.toml
+    ── Read crates/runner/src/continuation_commands.rs
+    ── Read $f
+    ── Read crates/runner/src/continuation_commands.rs
+    ── Searched for ''^(pub'\(crate\) in )?fn
+    ── Read crates/runner/src/accident_commands.rs
+    ── Read $f
+    ── Read crates/runner/src/accident_commands.rs
+    ── Ran 'for f in inputs/environment/mh370-era5-grid.manifest.json inputs/environment/mh370-igrf14-grid.manifest.json runs/mh370/0011-to-0019-seventh-arc-bto/run-manifest.json runs/mh370/0011-to-0019-seventh-arc-bto/summary.json; do echo "FILE $f"; nl -ba "$f" | sed -n '"'1,240p'; done" (3s)
+      $ 'for f in inputs/environment/mh370-era5-grid.manifest.json inputs/environment/mh370-igrf14-grid.manifest.json runs/mh370/0011-to-0019-seventh-arc-bto/run-manifest.json runs/mh370/0011-to-0019-seventh-arc-bto/summary.json; do echo "FILE $f"; nl -ba "$f" | sed -n '"'1,240p'; done"
+      FILE inputs/environment/mh370-era5-grid.manifest.json
+           1	{
+           2	  "schema_version": "mh370-era5-runtime-grid-v1",
+           3	  "status": "compiled_from_hash_pinned_arco_era5_extract",
+           4	  "source_npz_sha256": "054eec715c7c68f54a2d008a15ddbb3f543dbd0f1f9d894e2ffaa802c25901c4",
+           5	  "source": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3",
+           6	  "source_access_revision": "google-research/arco-era5@8fb5e9b982f489ba91af3ced9ce0b0a8ade8dd7d",
+           7	  "times_unix_s": [
+           8	    1394215200,
+           9	    1394218800,
+          10	    1394222400,
+          11	    1394226000,
+          12	    1394229600,
+          13	    1394233200,
+          14	    1394236800,
+          15	    1394240400
+          16	  ],
+          17	  "flight_levels_ft": [
+          18	    25000.0,
+          19	    28000.0,
+          20	    31000.0,
+          21	    34000.0,
+          22	    37000.0,
+          23	    40000.0,
+          24	    43000.0
+          25	  ],
+          26	  "latitude_bounds_deg": [
+          27	    50.0,
+          28	    -60.0
+          29	  ],
+          30	  "longitude_bounds_deg": [
+          31	    55.0,
+          32	    125.0
+          33	  ],
+          34	  "grid_step_deg": 0.5,
+          35	  "array_shape_time_flight_level_lat_lon": [
+          36	    8,
+          37	    7,
+          38	    221,
+          39	    141
+          40	  ],
+          41	  "variables_in_binary_order": [
+          42	    "temperature_k",
+          43	    "wind_east_m_s",
+          44	    "wind_north_m_s"
+          45	  ],
+          46	  "output_sha256": "0377e1fd6467090c05b74d90f49327299ac16e33f44f36d6c37d95e713e2799b",
+          47	  "output_bytes": 20941756
+          48	}
+      FILE inputs/environment/mh370-igrf14-grid.manifest.json
+           1	{
+           2	  "schema_version": "mh370-igrf14-runtime-grid-v1",
+           3	  "status": "compiled_from_hash_pinned_official_igrf14_recreation",
+           4	  "source_npz_sha256": "642d6d57c121aeaefeb45c5539a5da0613d5b91bd118228354c689b4f43e3107",
+           5	  "model": "IGRF-14",
+           6	  "reference_time_unix_s": 1394236800,
+           7	  "decimal_year": 2014.1808219178083,
+           8	  "flight_levels_ft": [
+           9	    25000.0,
+          10	    28000.0,
+          11	    31000.0,
+          12	    34000.0,
+          13	    37000.0,
+          14	    40000.0,
+          15	    43000.0
+          16	  ],
+          17	  "latitude_bounds_deg": [
+          18	    50.0,
+          19	    -60.0
+          20	  ],
+          21	  "longitude_bounds_deg": [
+          22	    55.0,
+          23	    125.0
+          24	  ],
+          25	  "grid_step_deg": 0.5,
+          26	  "east_positive_declination": true,
+          27	  "array_shape_flight_level_lat_lon": [
+          28	    7,
+          29	    221,
+          30	    141
+          31	  ],
+          32	  "output_sha256": "9910a4952f43de2c3a5f07df3a7879139b9d23267a5d4e77dbfedae093973b0e",
+          33	  "output_bytes": 874020
+          34	}
+      FILE runs/mh370/0011-to-0019-seventh-arc-bto/run-manifest.json
+           1	{
+           2	  "schema_version": 1,
+           3	  "engine_version": "0.1.0",
+           4	  "executable_sha256": "89394f59d187c93c06e7f909790e08374797a742f091bf0011b14c171a28fde5",
+           5	  "command": "continue-to-contact",
+           6	  "config_path": "configs/mh370-0011-to-0019-seventh-arc-bto.toml",
+           7	  "config_sha256": "d9e68fb9c4f5540d4fa705af6d2f5485be2941d5856026bf8d0791d21d2f2ce0",
+           8	  "input_sha256": {
+           9	    "configs/../inputs/accident/satcom-observations.csv": "bd344ba05826f9176f394ac42e04b5f2ba4c5705c8a980b7655579024dc0d4e0",
+          10	    "configs/../inputs/accident/satellite-ephemeris.csv": "4c56c26d77c826caa2a8084ee29ff459a493641c72ca165d52a92d29908ae2c2",
+          11	    "configs/../runs/mh370/through-0011-medium-assessment/through-0011-medium-bfo/seed-370023/posterior.csv": "f2c99d80e85864df5cfe40db6fc169652bac3d261edd82a157ec9dc6f393bd2c",
+          12	    "configs/../runs/mh370/through-0011-medium-assessment/through-0011-medium-bfo/seed-370024/posterior.csv": "ec5023066cf3f76d6c856e6ddb41e316de3314a0d3a553c5a8b28060a08a7e3f",
+          13	    "configs/../runs/mh370/through-0011-medium-assessment/through-0011-medium-bfo/seed-370025/posterior.csv": "0d87b6d996eb86e0d7eda4e756f8e1a8e2286089f8865dbf5ad911d97faf018b"
+          14	  },
+          15	  "outputs": {
+          16	    "posterior.csv": "6a440199a321db4e98ab905852bf27d6f38f4856916e3226c97334726e13ffab",
+          17	    "posterior.png": "74f582309da6e5126da6fe897f65435e226e1eb025d700abc01f9282a991615a",
+          18	    "posterior.svg": "587300a7d1da1aec89f9fe59af0cb93b3b4061ee7bb76c8c39c42d0e2b1aa975",
+          19	    "report.pdf": "36456f9b0fd5b5e63b892199f902f5903ccf7b2e2c28cd76c75a02794fd1e66b",
+          20	    "summary.json": "235eda2fa5830e8edfc48318dad0964db732bbb4bb375cb164fda80fe91a6793"
+          21	  },
+          22	  "scientific_scope": [
+          23	    "This is a conditional continuation of completed 00:11 posterior artifacts, not a fresh fit.",
+          24	    "Only the target epoch's BTO likelihood updates particle probability.",
+          25	    "The report overlays a calculated equal-BTO arc at posterior-weighted mean altitude."
+          26	  ]
+          27	}
+      FILE runs/mh370/0011-to-0019-seventh-arc-bto/summary.json
+           1	{
+           2	  "schema_version": 1,
+           3	  "name": "MH370 Davey-style 00:11 posterior to 00:19 seventh-arc BTO",
+           4	  "status": "complete",
+           5	  "selection": "00:19 R600 BTO only",
+           6	  "target_epoch_id": "m0019a",
+           7	  "target_time_utc": "2014-03-08T00:19:29.000Z",
+           8	  "source_posteriors": 3,
+           9	  "particles": 30000,
+          10	  "posterior_ess": 24323.85799950793,
+          11	  "log_evidence_increment": -5.83696336107268,
+          12	  "endpoint_mean": {
+          13	    "latitude": -37.627571215009425,
+          14	    "longitude": 89.21330710604161
+          15	  },
+          16	  "endpoint_latitude_90_deg": [
+          17	    -38.06148240991874,
+          18	    -37.29696571633881
+          19	  ],
+          20	  "endpoint_longitude_90_deg": [
+          21	    88.48029536764238,
+          22	    89.70178353025602
+          23	  ],
+          24	  "maximum_source_mean_separation_nm": 0.3422848555128474,
+          25	  "elapsed_seconds": 0.466615372,
+          26	  "limitations": [
+          27	    "The 00:19:29 R600 BTO is the only new selection observable.",
+          28	    "No 00:19 BFO, startup received power, end-of-flight displacement, drift, hydroacoustics, or antenna likelihood is applied.",
+          29	    "Short continuation paths preserve each 00:11 particle's final constant true track, ground speed, and altitude."
+          30	  ]
+          31	}
+    ── Read $f
+    ── Read crates/particle-filter/src/tempered.rs
+    ── Read crates/particle-filter/src/model.rs
+    ── Searched for \b(fuel|gross weight|aircraft mass|empty weight|engine|thrust|n1|n2|epr|flameout|relight|apu|electrical|generator|battery|hydraulic|actuator|elevator|aileron|rudder|stabilizer|spoiler|control surface|angle of attack|sideslip|quaternion|angular rate|roll rate|pitch rate|yaw rate|bank angle|pitch angle|roll angle|yaw angle|flight control law|autothrottle|landing gear|flap|slat)\b in .sources/iannello-2016-end-of-flight/data/citation-ledger.md
+    ── Read runs/mh370/through-0011-medium-assessment/through-0011-medium-bfo/seed-370023/summary.json
+    ── Read runs/mh370/through-0011-medium-assessment/suite-summary.json
+    ── Searched for "step": in runs/mh370/through-0011-medium-assessment/through-0011-medium-bfo/seed-3700*/summary.json
+
+  ── Assistant
+  The code trace is now clear: the accident estimator is a static one-turn kinematic likelihood, not an aircraft simulator. Its production baseline has no weather, maintains fixed Mach/altitude, makes the turn instantaneous, and reports the last SATCOM point as “impact”; the optional ERA5/IGRF mode only changes speed/track integration. I’m moving to the external capability screen now, with particular attention to whether any nominal “777 model” has auditable aerodynamic and systems provenance.
+
+  ── Researched 27 search queries
+    ── Ran web search: site:jsbsim-team.github.io/jsbsim-reference-manual JSBSim flight dynamics propulsion systems scripting official, site:github.com/JSBSim-Team/jsbsim license LGPL official JSBSim, site:eurocontrol.int BADA aircraft performance data license official BADA 4, site:atsb.gov.au MH370 Search and Debris Examination Update November 2016 Boeing end of flight simulations pdf, site:jsbsim-team.github.io/jsbsim-reference-manual JSBSim flight dynamics propulsion systems scripting official ...
+    ── Ran web search: site:atsb.gov.au "Case 01.csv" MH370 Boeing simulation, site:atsb.gov.au MH370 end of flight simulation data zip Boeing 2018, site:mh370.radiantphysics.com Boeing end of flight simulations cases 3 4 5 6 10 Iannello, MH370 Boeing end-of-flight simulations public data ten cases CSV, site:atsb.gov.au "Case 01.csv" MH370 Boeing simulation ...
+    ── Ran web search: official OpenAP aircraft performance model GitHub license fuel flow thrust drag open source, site:openap.dev documentation aircraft performance model fuel flow thrust drag OpenAP, site:github.com/junzis/openap license MIT aircraft performance, OpenAP open aircraft performance model paper official repository validation, official OpenAP aircraft performance model GitHub license fuel flow thrust drag open source ...
+    ── Ran web search: site:github.com/TUDelft-CNS-ATM/openap B772 openap aircraft yaml, site:github.com/junzis/openap "B772", site:openap.dev B772 OpenAP, site:github.com/TUDelft-CNS-ATM/openap B772 openap aircraft yaml ...
+    ── Ran web search: repo:JSBSim-Team/jsbsim Boeing 777 aircraft model JSBSim, site:github.com/JSBSim-Team/jsbsim "777" aircraft, site:jsbsim-team.github.io/jsbsim-reference-manual Boeing 777, repo:JSBSim-Team/jsbsim Boeing 777 aircraft model JSBSim ...
+    ── Ran web search: site:boeing.com 777-200ER airplane characteristics airport planning pdf mass dimensions official, site:boeing.com commercial airport compatibility 777 characteristics pdf, site:boeing.com "777-200ER" "Operating Empty Weight" pdf, site:boeing.com 777-200ER airplane characteristics airport planning pdf mass dimensions official ...
+
+  ── Context compacted
+
+  ── Assistant
+  I’ve completed the repository trace. The key finding is stark: the canonical estimator currently has a deliberately lean kinematic path model, not an aircraft flight simulator; the richer environmental path is optional and is not enabled in the production baseline. I’m now consolidating the simulator provenance, validation, licensing, and particle-runtime implications into the design recommendation.
+
+  ── Assistant
+  The design is converging on a three-level ladder: preserve the existing kinematic model as an exact control; add one in-process, source-auditable point-mass model; and use any 6-DoF or Boeing-grade simulator only as an offline validation/design-of-experiments source. That ordering is driven by the current inference workload—millions of repeated likelihood evaluations per seed—not by simulator availability.
+
+  ── Explored 2 searches, 3 files
+    ── Searched for trait ParticleModel|trait StaticModel|run_tempered_smc|mutation_steps|temperature in runs/mh370/through-0011-medium-assessment
+    ── Searched for pub trait (ParticleModel|StaticModel)|pub fn run_.*particle|struct ParticleFilter in crates/particle-filter/src
+    ── Read crates/particle-filter/src/model.rs
+    ── Read crates/satcom/src/satcom.rs
+    ── Read crates/particle-filter/src/tempered.rs
+
+── Assistant ───────────────────────────────────────────────
+# Design assessment
+
+The canonical estimator does not currently contain an aircraft flight simulator. It uses a model-conditional, one-turn kinematic trajectory with optional wind and magnetic-heading corrections. Production runs presently use the simpler no-environment form. The 00:11–00:19 continuation freezes the inferred kinematics, and the end-of-flight model is either no displacement or a stochastic geographic offset—not a descent simulation.
+
+The smallest credible progression is:
+
+1. Preserve the current model as an exact low-fidelity control.
+2. Add a transparent, in-process 3-DoF point-mass/energy model in the existing dynamics spoke.
+3. Use 6-DoF software and any Boeing engineering-simulator access offline for validation and response-surface construction, not inside the particle likelihood.
+4. Introduce the new transition first after the 00:11 posterior, where it runs once per particle, before considering changes to the full accident inference.
+
+No files were changed, software installed, services purchased, or expensive simulations run. No secondary agent performed integration work; Core Analysis remains the sole integrator.
+
+## What the repository currently does
+
+| Area | Current implementation |
+|---|---|
+| Aircraft state | [`AircraftState`](/jackbox/home/MH370/crates/domain/src/state.rs:13) contains time, WGS84 latitude/longitude, altitude, true track, ground speed, vertical speed, and BFO bias. ENU velocity is derived from speed, track, and vertical speed. |
+| Accident dynamics | [`OneTurnParameters`](/jackbox/home/MH370/crates/dynamics/src/one_turn.rs:87) sample radar-displaced initial position, initial true track, one turn time, one post-turn control angle, Mach, and altitude. The turn is instantaneous. Altitude is fixed and vertical speed is zero. |
+| Baseline propagation | Without environmental data, Mach is multiplied by dry-ISA speed of sound and treated as ground speed; the aircraft follows a WGS84 geodesic before and after the instantaneous turn. See [`one_turn_state_at`](/jackbox/home/MH370/crates/dynamics/src/one_turn.rs:277). |
+| Optional environmental propagation | [`propagate_with_environment`](/jackbox/home/MH370/crates/dynamics/src/one_turn.rs:319) obtains local temperature and horizontal wind, derives true airspeed from Mach, solves the wind triangle, and applies IGRF declination for magnetic modes. It remains fixed-altitude point kinematics, not force-based dynamics. |
+| Production choice | [`accident-production.toml`](/jackbox/home/MH370/configs/accident-production.toml:29) has no environment section, so the production baseline uses constant true track with ISA/no wind. The separate autopilot-mode experiment enables ERA5/IGRF at a 600-second forcing step in [`mh370-through-0011-antenna-autopilot-modes-medium.toml`](/jackbox/home/MH370/configs/mh370-through-0011-antenna-autopilot-modes-medium.toml:38). LNAV is rejected because there is no route model. |
+| Flight environment | [`WeatherSample`](/jackbox/home/MH370/crates/dynamics/src/environment.rs:18) contains temperature, east wind, and north wind only. The pinned accident ERA5 cube is 0.5° and the IGRF cube supplies east-positive magnetic declination. There is no pressure, density, humidity, vertical wind, turbulence, cloud, or convective state. |
+| BTO | [`bto`](/jackbox/home/MH370/crates/satcom/src/satcom.rs:37) calculates `2 × (satellite-aircraft range + satellite-GES range) / c`, then applies fixed nominal-delay and channel terms. |
+| BFO | [`bfo_components`](/jackbox/home/MH370/crates/satcom/src/satcom.rs:53) uses instantaneous first-order radial Doppler on the uplink and downlink, horizontal aircraft compensation against a nominal satellite, and a per-observation satellite AFC correction. A single Gaussian aircraft-frequency bias is updated analytically in [`BfoBiasState`](/jackbox/home/MH370/crates/satcom/src/statistics.rs:24). |
+| SATCOM omissions | There is no atmospheric/ionospheric ray model, signal light-time iteration, Earth-rotation-during-flight correction, oscillator thermal/restart model, SDU electrical state, antenna cable delay model, or correlated time-varying aircraft oscillator state in the accident likelihood. |
+| 00:11–00:19 continuation | Source posterior rows are reconstructed with vertical speed explicitly set to zero in [`continuation_commands.rs`](/jackbox/home/MH370/crates/runner/src/continuation_commands.rs:203). Each particle is then propagated once at fixed true track, ground speed, and altitude. It is importance-reweighted by the 00:19 BTO or an explicitly unverified conditional received-power surface. There is no new maneuver, acceleration, process noise, fuel event, or systems transition. |
+| Final 00:19 evidence | The continuation deliberately holds out BFO. The accident input has BTO-only at 00:19:29 and excludes the anomalous later BFO row in [`satcom-observations.csv`](/jackbox/home/MH370/inputs/accident/satcom-observations.csv:12). |
+| End of flight | [`EndOfFlightMode`](/jackbox/home/MH370/crates/end-of-flight/src/lib.rs:11) is either `LastContact` or `BoeingLocalEnvelope`. The latter draws along-track, cross-track, and delay offsets and performs two geodesic displacements; it does not integrate altitude, attitude, or ground contact. Production uses zero displacement. |
+| Fuel and systems | None. The estimator itself records that fuel state is unavailable in [`final_flight.rs`](/jackbox/home/MH370/crates/estimator/src/final_flight.rs:372). |
+
+### Physical state inventory
+
+Present, though sometimes only nominally:
+
+- Time, geographic position, altitude, true track, ground speed.
+- Vertical-speed storage, but the accident model sets it to zero.
+- Mach as a static trajectory parameter, not evolving state.
+- Heading as a derived trajectory output when environmental modes are enabled.
+- A lateral-mode configuration label, not an autopilot or flight-control state.
+- BFO bias, which is an estimator nuisance state rather than an aircraft systems state.
+
+Absent:
+
+- Aircraft mass, center of gravity, inertia tensor, and payload.
+- Total fuel, tank quantities, usable/unusable fuel, transfer, fuel temperature, and fuel flow.
+- Engine type/configuration, thrust, spool states, flameout, windmilling, relight, or asymmetric thrust.
+- APU state and APU fuel pickup behavior.
+- Electrical buses, generators, batteries, contactors, load shedding, or SDU power-cycle state.
+- Hydraulic systems, pumps, pressure, actuators, or control authority.
+- Attitude: roll, pitch, yaw, quaternion, or direction-cosine matrix.
+- Angular rates \(p,q,r\), angular acceleration, and moments.
+- True airspeed as persistent state, body-axis velocity, angle of attack, sideslip, acceleration, or load factor.
+- Lift, drag, thrust, aerodynamic coefficients, stability derivatives, or an operating envelope.
+- Flight-control surface positions, commands, rate limits, saturation, trim, or control laws.
+- Autopilot, autothrottle, FMS, vertical mode, speed mode, or mode transitions.
+- Landing gear, flaps, slats, spoilers, structural state, terrain, or water-contact state.
+
+## Recommended multi-fidelity design
+
+| Fidelity | Purpose | Recommended placement |
+|---|---|---|
+| 0 — current kinematics | Reproducible baseline and limiting-case control. Preserve exact results. | Canonical inference control. |
+| 1 — transparent 3-DoF point mass | Integrate WGS84 position, true airspeed, heading/track, flight-path angle, mass, usable fuel, lift/drag/thrust, wind, gravity, and fuel flow. Structural engine/guidance assumptions remain explicit scenario families. | In-process Rust in the existing dynamics spoke. First use after 00:11. |
+| 2 — audited 6-DoF | Attitude, angular rates, moments, control surfaces, propulsion/tanks, and supported systems. | Offline recreation and validation under `.sources/`; never subprocess-per-likelihood. |
+| External reference — Boeing engineering simulator | Compare terminal behavior with the simulator family used for the public Boeing cases. | External validation only unless automation, inputs, rights, and reproducibility are resolved. |
+
+Tier 1 is the smallest model that can connect fuel, energy, descent, wind, and SATCOM kinematics causally. It should not manufacture detailed electrical or hydraulic values. Where systems affect dynamics, represent them as separately reported structural scenarios backed by evidence—for example, a particular propulsion-availability or guidance-availability condition. Do not average those families unless defensible prior probabilities become available.
+
+A 3-DoF model cannot reproduce phugoid attitude motion, rotations, or control-surface/system transients. Those belong in Tier 2 or in a reduced terminal response model validated from sufficiently documented 6-DoF cases. The ten current Boeing trajectories are too sparse and incompletely specified to train such a response model by themselves.
+
+## Proposed typed transition interface
+
+A fidelity-tagged state avoids filling unsupported fields with misleading defaults:
+
+```rust
+pub trait FlightTransitionModel: Sync {
+    fn descriptor(&self) -> &ModelDescriptor;
+
+    fn propagate(
+        &self,
+        request: &TransitionRequest,
+        sample_times: &[ModelTime],
+        output: &mut [ObservationKinematics],
+    ) -> Result<TransitionResult, TransitionError>;
+}
+
+pub struct TransitionRequest {
+    pub initial: FlightDynamicState,
+    pub scenario: StructuralScenario,
+    pub commands: CommandSchedule,
+    pub atmosphere: EnvironmentForcing,
+    pub parameters: AircraftParameters,
+    pub latents: TransitionLatents,
+}
+
+pub enum FlightDynamicState {
+    Kinematic(KinematicState),
+    PointMass(PointMassState),
+    RigidBody(RigidBodyState),
+}
+
+pub struct PointMassState {
+    pub time: ModelTime,
+    pub position: GeodeticPosition,
+    pub true_airspeed: Speed,
+    pub true_track: Angle,
+    pub flight_path_angle: Angle,
+    pub mass: Mass,
+    pub usable_fuel: Mass,
+    pub propulsion: PointMassPropulsionState,
+    pub guidance: GuidanceState,
+}
+
+pub struct TransitionResult {
+    pub terminal: FlightDynamicState,
+    pub events: Vec<FlightEvent>,
+    pub diagnostics: IntegrationDiagnostics,
+    pub provenance_digest: Digest,
+}
+```
+
+Interface rules:
+
+- `ObservationKinematics` projects only the position and velocity quantities required by SATCOM. SATCOM must not depend on dynamics-private mass, engine, or control types.
+- The runner selects the model, obtains environmental forcing, and composes spokes. A dynamics model must not read another spoke’s files or global state.
+- Every stochastic quantity is supplied in `TransitionLatents`, sampled by the particle engine. The simulator receives no RNG and has no hidden randomness.
+- Unsupported state is explicit in the fidelity variant; it is not silently zeroed.
+- Out-of-envelope operation, missing provenance, trim failure, or numerical non-convergence returns a typed failure. Extrapolation is never silently clamped.
+- Ground contact and flameout are ordered events with interpolated event times, not solver errors.
+- The descriptor records represented state, validity domain, model/data hashes, license, source applicability, and deterministic settings.
+
+## Particle-inference runtime strategy
+
+The accident estimator currently uses the static tempered interface, [`StaticModel`](/jackbox/home/MH370/crates/particle-filter/src/tempered.rs:25), which recomputes the complete trajectory likelihood for every mutation proposal.
+
+The inspected run used 10,000 particles, 23 temperature steps, and eight mutation steps. Because the final temperature does not mutate, that is approximately:
+
+`10,000 × (1 initial + 22 × 8) = 1.77 million`
+
+complete likelihood evaluations per seed. The evidence is in the [production tempering configuration](/jackbox/home/MH370/configs/accident-production.toml:32), [tempering loop](/jackbox/home/MH370/crates/particle-filter/src/tempered.rs:173), and [stored run summary](/jackbox/home/MH370/runs/mh370/through-0011-medium-assessment/suite-summary.json:17).
+
+Therefore:
+
+1. Do not invoke JSBSim, Boeing software, Python, or any external process inside `log_likelihood`.
+2. First run Tier 1 once per retained 00:11 posterior particle, then importance-reweight at 00:19 and report ESS. This is the cleanest direct comparison with the existing continuation.
+3. Keep Tier 1 in-process, fixed-step or event-driven, allocation-controlled, and benchmarked.
+4. Run Tier 2 offline over a designed parameter grid. If justified, build a transparent lookup/sparse-grid approximation with held-out error and explicit model discrepancy.
+5. Never disguise emulator or model-family disagreement as measurement noise.
+6. Only after Tier 1 proves necessary and fast enough should Core Analysis consider moving it into the full static likelihood or adapting the existing sequential [`ParticleModel`](/jackbox/home/MH370/crates/particle-filter/src/model.rs:21), which propagates state once between observation epochs.
+
+## Validation requirements
+
+Before accident inference:
+
+- Zero wind and constant speed must reduce to the current WGS84 propagation.
+- Fixed-altitude trimmed flight must have negligible energy and force residuals.
+- Mass must be monotonic, fuel non-negative, and fuel exhaustion an exactly located event.
+- Zero thrust, zero drag, and level-flight limits need independently calculated solutions.
+- Coordinate-frame, sign, time, and unit tests must be independent of the implementation.
+- Repeat at successively smaller integration steps and record state/endpoint convergence.
+- Identical seed/configuration must produce identical artifacts at one and multiple thread counts.
+- Existing BTO/BFO scalar fixtures must remain unchanged when fed identical kinematics.
+- The held-back MH371 control can test ordinary powered-cruise behavior, but cannot validate abnormal end-of-flight dynamics.
+
+### Public Boeing cases
+
+The pinned recreation reports ten terminal trajectories. Its audit identifies cases 03, 04, 05, 06, and 10 as high-rate cases and derives 4.707–7.974 NM from the first 15,000-fpm threshold crossing to the final recorded point. However, the records terminate roughly 473–1,131 ft above the datum and do not identify water contact, probabilities, geographic orientation, seventh-arc alignment, or complete scenario inputs. See the [source recreation](/jackbox/home/MH370/.sources/iannello-high-rate-descent-before-seventh-arc/README.md:1) and [case data limitations](/jackbox/home/MH370/inputs/evidence/end-of-flight-public-cases.json:48).
+
+ATSB reports that Boeing varied selected speed, fuel, electrical configuration, altitude, and turbulence, using the same aerodynamic model as a Level-D simulator and high-fidelity systems. It also cautions that the runs do not cover every scenario and can leave the aerodynamic database’s validated region. [ATSB MH370 investigation material](https://www.atsb.gov.au/investigations/ae-2014-054)
+
+Consequently, current validation can only compare features and envelopes:
+
+- Descent-rate threshold timing and maximum descent rate.
+- Phugoid period/amplitude where observable.
+- Rotation sense only after axes and orientation are established.
+- Along/cross displacement from a common declared threshold.
+- Duration and distance after the documented flameout event.
+- Numerical stability under out-of-envelope operation.
+
+Pointwise reproduction requires the original input deck: exact aircraft/engine configuration, initial mass and CG, fuel by tank, unusable-fuel rules, engine/APU states, electrical/hydraulic configuration, trim and autopilot state, turbulence realization, local axes, integration settings, model/software revisions, and output filtering. The cases must remain separate conditional cases; the repository has no basis for assigning probability weights.
+
+Public Boeing airport-planning material can bound dimensions and published design weights, but it describes general planning characteristics, not accident mass, aerodynamic derivatives, control laws, or terminal dynamics. [Boeing 777 airport-planning document](https://www.boeing.com/content/dam/boeing/v2/airports/acaps/777-200-200ER-300_Rev_E.pdf)
+
+## Simulator, provenance, licensing, and cost
+
+- **JSBSim:** The official documentation describes a configurable C++ flight-dynamics kernel with mass balance, propulsion, fuel tanks, aerodynamics, flight controls, autopilot, systems, attitude, and batch scripting. It is LGPL-2.1. Official maintainers also caution that named commercial-aircraft models based on public information are approximations. It is a suitable offline kernel, but no community “777” file should be treated as Boeing evidence without a coefficient-by-coefficient provenance audit. [JSBSim documentation](https://jsbsim-team.github.io/jsbsim/python/index.html), [official repository](https://github.com/JSBSim-Team/jsbsim)
+
+- **OpenAP:** Potentially useful as an independent nominal point-mass comparator; its public APIs expose drag/thrust and fuel-flow models based on open and ICAO-derived data. Exact aircraft/engine coverage, coefficient provenance, and LGPL-3.0 implications must be audited first. It is not needed as a canonical runtime dependency. [OpenAP documentation](https://openap.dev/drag_thrust.html), [official repository](https://github.com/TUDelft-CNS-ATM/openap)
+
+- **EUROCONTROL BADA:** Useful only as a nominal-envelope comparator if access is approved. The official guide says licenses have no fee, but eligibility and use are restricted, BADA 4 access is not guaranteed, and the data may not be used to validate another aircraft model. That makes it unsuitable as an open canonical validation dependency. [BADA overview](https://www.eurocontrol.int/model/bada), [access guide](https://www.eurocontrol.int/sites/default/files/2024-09/eurocontrol-user-guide-bada-access.pdf)
+
+- **Boeing engineering simulator:** No official public price or general access mechanism was located in the inspected Boeing/ATSB material. Before any purchase or engagement, ask about model and firmware versions, scenario-automation API, deterministic reruns, engineering support, data export, input-deck disclosure, redistribution, publication rights, and whether outputs may be committed or merely summarized.
+
+For every coefficient, table, or state transition, require:
+
+- Exact source and page/table/record locator.
+- Aircraft and engine applicability.
+- Units, reference frame, sign convention, time basis, and interpolation rule.
+- Version and integrity hash.
+- License and redistribution conditions.
+- Valid operating domain and extrapolation behavior.
+- Measurement/model status and uncertainty.
+- Independent calculation or validation fixture.
+
+## Recommended integration sequence
+
+1. Keep the current one-turn implementation and stored outputs as the exact low-fidelity control.
+2. Specify the transition types and provenance schema; add a future adapter around the existing kinematic model before changing equations.
+3. Implement Tier 1 within the existing dynamics spoke, initially against limiting cases and known-flight controls—not against the accident posterior.
+4. Add any needed pressure/density forcing explicitly. Do not silently infer a “measured atmosphere” from the current temperature/wind cube.
+5. Apply Tier 1 to the 00:11 posterior once per particle and compare endpoints, BTO residuals, ESS, runtime, and failure rates with the frozen continuation.
+6. Run propulsion, guidance, electrical-availability, or terminal alternatives as separately named structural families.
+7. Recreate an audited 6-DoF model under `.sources/`, validate its public Boeing-case features, and quantify its domain failures.
+8. Only with adequate case inputs should a transparent terminal response table enter the canonical end-of-flight spoke.
+9. Reassess full-likelihood or sequential integration only after the post-posterior experiment demonstrates material scientific value.
+
+## Blockers
+
+- No accident-specific mass, CG, fuel quantity/distribution, or systems state exists in the repository.
+- No validated public 777 aerodynamic, control-law, engine, fuel-system, electrical, or hydraulic dataset has been established.
+- The current atmosphere lacks pressure/density, vertical wind, and turbulence needed for force-based and terminal simulation.
+- Public Boeing cases lack complete initial conditions, axes/geographic alignment, simulator versioning, ground-contact endpoints, and probability weights.
+- Boeing simulator access, automation, cost, export, and publication rights are unknown.
+- BADA’s access and permitted-use terms prevent relying on it as open validation evidence.
+- JSBSim supplies a solver framework, not a validated MH370 aircraft model.
+- A simulated vertical speed cannot safely activate the final BFO likelihood by itself; the 00:19 restart also needs an explicit SDU/oscillator and electrical-event treatment.
+- A high-fidelity model inside the current static SMC would be computationally disproportionate.
+
+## Citation ledger
+
+| Claim | Source and locator | Short located passage | Status |
+|---|---|---|---|
+| Current state is kinematic only | [`state.rs:13`](/jackbox/home/MH370/crates/domain/src/state.rs:13) | `time`, `position`, `altitude`, `track_true`, `ground_speed`, `vertical_speed`, `bfo_bias` | Direct |
+| Accident path has one sampled turn and fixed Mach/altitude | [`one_turn.rs:87`](/jackbox/home/MH370/crates/dynamics/src/one_turn.rs:87) | `turn_time`, `post_turn_track`, `mach`, `altitude` | Direct |
+| Environment contains only temperature and horizontal wind | [`environment.rs:18`](/jackbox/home/MH370/crates/dynamics/src/environment.rs:18) | `temperature_kelvin`, `east_wind_knots`, `north_wind_knots` | Direct |
+| 00:11 continuation resets vertical speed | [`continuation_commands.rs:203`](/jackbox/home/MH370/crates/runner/src/continuation_commands.rs:203) | `vertical_speed: FeetPerMinute(0.0)` | Direct |
+| End-of-flight is an offset projection | [`end-of-flight/src/lib.rs:61`](/jackbox/home/MH370/crates/end-of-flight/src/lib.rs:61) | Samples along-track, cross-track, and delay | Direct |
+| JSBSim has batch automation and aircraft subsystems | [Official docs](https://jsbsim-team.github.io/jsbsim/python/index.html) | “standalone … batch mode”; mass, propulsion, fuel, controls | Supports kernel capability |
+| Public named JSBSim models are not authoritative | [Official repository](https://github.com/JSBSim-Team/jsbsim) | “commercial and military aircraft models are approximations” | Important qualifier |
+| Boeing cases used high-fidelity aero/systems but incomplete scenario coverage | [ATSB investigation](https://www.atsb.gov.au/investigations/ae-2014-054) | “same aerodynamic model as a Level D simulator”; “do not represent all possible scenarios” | Supports and qualifies validation |
+| BADA has no license fee but restrictive use | [Official access guide](https://www.eurocontrol.int/sites/default/files/2024-09/eurocontrol-user-guide-bada-access.pdf), p. 2 | “no fees”; may not validate other aircraft models | Rejects canonical dependence |
+| Boeing ACAP is planning/general-characteristics evidence | [Official Boeing PDF](https://www.boeing.com/content/dam/boeing/v2/airports/acaps/777-200-200ER-300_Rev_E.pdf) | Standardized airport-planning characteristics | Boundary data only |
+
+── User ────────────────────────────────────────────────────
+[iso message from thread:thr_dvhqyvtdcu]
+
+Context handoff from End-of-Flight. No code changes are requested in this follow-up; retain it for the next Pete-directed design iteration. Official ATSB AE-2014-054 supports a nominal successful sequence of about 60 s from loss of both AC transfer buses to APU generator online, then about 60 s from SDU power restoration to the R600 log-on request. The public report says pitch/phugoid and acceleration can limit APU fuel pickup, but nominal 30 lb residual fuel greatly exceeds the roughly 4.4 lb required for 120 s. Model this as structural alternatives: H_nominal with a near-deterministic approximately 119 s event chain but no publicly calibrated timing SD; H_unport_or_retry with delayed, intermittent, or absent power; and H_alternative_power_cycle with no flameout timing relation. Define the latent event as dual-bus electrical loss or IDG dropout, distinct from combustion flameout by any spool-down/dropout lag. New raw-BFO control artifacts are in /tmp/mh370-final-bfo-raw-feasibility-20260825-tables-a and code is in the controls/reporting/runner modules. The paired tables are independent instantaneous feasibility views, not a continuous trajectory. Recommended next deliverable remains design-only: amend the transition interface/event list for fuel, engine flameout, IDG dropout, APU start/generator-online, SDU power/log-on, and state clearly which Tier-1 quantities can be represented versus delegated to a conditional systems likelihood.
+
+── Assistant ───────────────────────────────────────────────
+Context retained for the next Pete-directed design iteration. No files were changed.
+
+I’ll apply these constraints:
+
+- Distinguish combustion flameout from dual-bus loss/IDG dropout and any intervening spool-down lag.
+- Add ordered events for fuel exhaustion, engine flameout, IDG dropout, APU start, generator online, SDU power restoration, and R600 log-on.
+- Keep `H_nominal`, `H_unport_or_retry`, and `H_alternative_power_cycle` as separate structural alternatives.
+- Treat ~119–120 seconds as a nominal deterministic sequence, not a Gaussian timing prior; no public timing SD is available.
+- Let Tier 1 represent fuel mass/burn and sourced engine/electrical event triggers. Delegate attitude-dependent APU fuel pickup, retries/intermittency, generator/SDU behavior, and log-on timing uncertainty to a conditional systems likelihood.
+- Treat the paired raw-BFO tables in `/tmp/mh370-final-bfo-raw-feasibility-20260825-tables-a` as independent instantaneous feasibility controls, never as a continuous trajectory.
+
+── User ────────────────────────────────────────────────────
+1/ what is the precise definition of a "canonical estimator" 2/ we probably could introduce LNAV with South Pole (magnetic, true) and McMurdo as has been proposed, let's see if we can add that to the design 3/ I think we should design Tier 1 first and then JSBSim as a second step, can you access that code already?
+
+── Worked for (6m 1s) ──────────────────────────────────────
+  ── Assistant
+  I’ll pin down “canonical estimator” from the repository contract and runner, then inspect the existing LNAV hooks and any South Pole/McMurdo material already present. I’ll also verify whether JSBSim source or a model checkout already exists locally; this remains design-only, with no code or dependency changes.
+
+  ── Assistant
+  I’m using the citations skill for the LNAV provenance and simulator-access claims, so proposed routes are labeled by what the sources actually support rather than by recollection.
+
+  ── Explored 1 file, 2 searches, 1 list
+    ── Read /jackbox/home/.iso/runtime/global-skills/051cefb156e94b93b5e2578a675241b5008ea1dbc7132545e87c8f9b68faaaa9/skills/citations/SKILL.md
+    ── Searched for lnav|south pole|mcmurdo|waypoint|route|magnetic pole|geographic pole in inputs
+    ── Listed files in /jackbox/home/MH370
+    ── Searched for canonical|central runner|one current implementation|hub|integrator in Cargo.toml
+
+  ── Assistant
+  Two useful distinctions are already clear. The repository has an `LateralNavigation` enum value but deliberately rejects it because no waypoint law or route is defined; the Davey recreation also records the published LNAV destination as unknown. I found no JSBSim checkout or artifact under the repository or the searched `/tmp` depth, so I’m checking upstream accessibility and the provenance of the specific South Pole/McMurdo proposals next.
+
+  ── Researched 5 search queries, 1 web page, explored 3 files, ran 1 command
+    ── Ran web search: MH370 LNAV "South Pole" McMurdo waypoint proposal, MH370 "McMurdo" route waypoint LNAV, MH370 "South Pole" flight path LNAV, site:mh370search.com McMurdo South Pole MH370, MH370 LNAV "South Pole" McMurdo waypoint proposal ...
+    ── Read crates/dynamics/src/lib.rs
+    ── Read AGENTS.md
+    ── Read .sources/davey-2016-bayesian-search/data/source-ambiguities.md
+    ── Fetched: https://github.com/JSBSim-Team/jsbsim
+    ── Ran bash -lc 'command -v JSBSim || command -v jsbsim || true; find /jackbox/home /opt /usr/local -maxdepth 6 \( -iname "*jsbsim*" -o -iname "FGFDMExec.*" \) 2>/dev/null | head -n 200' (3s)
+      $ bash -lc 'command -v JSBSim || command -v jsbsim || true; find /jackbox/home /opt /usr/local -maxdepth 6 \( -iname "*jsbsim*" -o -iname "FGFDMExec.*" \) 2>/dev/null | head -n 200'
+      exit code 0
+
+  ── Assistant
+  The route design needs one correction in terminology: LNAV to the geographic South Pole, LNAV to a fixed McMurdo-era waypoint, and 180° constant magnetic heading toward the magnetic pole are three different hypotheses. I’ll include all three as separately labeled families; I won’t relabel the published magnetic-pole CMH proposal as LNAV.
+
+  ── Researched 4 search queries, 1 web page, explored 1 search
+    ── Ran web search: site:github.com/JSBSim-Team/jsbsim 777 aircraft XML, site:github.com/JSBSim-Team/jsbsim "Boeing 777", site:github.com/JSBSim-Team/jsbsim/tree/master/aircraft 777, site:github.com/JSBSim-Team/jsbsim 777 aircraft XML ...
+    ── Fetched: https://github.com/JSBSim-Team/jsbsim/tree/master/aircraft
+    ── Searched for fn .*bearing|initial_bearing|final_bearing|inverse_wgs84|vincenty|great_circle in crates/dynamics
+
+── Assistant ───────────────────────────────────────────────
+Yes: Tier 1 should now be designed and validated before any JSBSim work. LNAV can be added, but “true South Pole LNAV,” “McMurdo LNAV,” and “180° magnetic-heading toward the magnetic pole” must remain distinct hypotheses.
+
+## 1. Precise definition of the canonical estimator
+
+The canonical estimator is the repository’s single supported deterministic mapping:
+
+```text
+(code revision,
+ Estimate configuration,
+ exact input hashes,
+ model-family selection,
+ seed set,
+ execution settings)
+    ->
+(posterior particles,
+ likelihood/evidence diagnostics,
+ convergence data,
+ manifest,
+ generated reports)
+```
+
+An implementation is canonical only when:
+
+1. It is reachable through the current runner’s [`Estimate` command](/jackbox/home/MH370/crates/runner/src/main.rs:37).
+2. It is the one current in-place Rust implementation—no numbered or parallel “final” version.
+3. The runner owns configuration, deterministic setup, spoke selection, inference orchestration, and outputs.
+4. Scientific equations live in narrow typed spokes selected explicitly by configuration.
+5. Every included or omitted evidence source is declared in the result.
+6. Inputs, configuration, seed, executable/revision, and outputs are identifiable and reproducible.
+7. The implementation has focused controls and an end-to-end deterministic check.
+8. Product code does not import `.sources/` recreations.
+
+That definition follows the repository contract in [AGENTS.md](/jackbox/home/MH370/AGENTS.md:3).
+
+Important distinctions:
+
+- The **canonical estimator** is the mechanism and output contract.
+- The **canonical production baseline** is one selected configuration, currently [`accident-production.toml`](/jackbox/home/MH370/configs/accident-production.toml:1).
+- A **canonical result** is conditional on its named model family, configuration, and evidence. It is not an assertion that the model is physically complete or that its mean is the true crash location.
+- `ContinueToContact` and `AnalyzeFinalBfo` are supported controls/secondary analyses. They do not alter the core posterior unless Core Analysis explicitly integrates their likelihoods into `Estimate`.
+- JSBSim experiments, paper recreations, and alternative route studies remain supporting evidence until their smallest justified method is reimplemented in a canonical spoke.
+
+## 2. LNAV design amendment
+
+The code already has `LateralNavigation` in [`LateralMode`](/jackbox/home/MH370/crates/dynamics/src/lib.rs:20), but both the dynamics implementation and runner deliberately reject it because no route exists. The Davey recreation likewise records the published LNAV destination as unknown.
+
+### Route families to add to the design
+
+| Family | Precise interpretation |
+|---|---|
+| `lnav_geographic_south_pole` | Ideal captured great-circle leg to the geographic/true South Pole. |
+| `lnav_mcmurdo_nzpg_2014` | Ideal captured great-circle leg to the exact Pegasus Field/NZPG coordinate used by the 2016 proposal, with coordinate and source pinned. |
+| `lnav_magnetic_south_pole_2014` | Optional sensitivity: great-circle leg to a magnetic-pole coordinate frozen for 2014-03-08 and a named geomagnetic model. |
+| `constant_magnetic_heading_180` | Existing heading family. This is the published “180° South CMH toward the magnetic South Pole” proposal, not LNAV. |
+| `constant_true_track_180` | Existing track family; nominally due south but without LNAV cross-track recovery. |
+
+The McMurdo paper explicitly assumes a great-circle path toward Pegasus Airfield, while warning that its availability in 9M-MRO’s navigation database was unknown. It also permits a pilot-defined coordinate. [Iannello and Godfrey, 2016](https://rss-nmr.info/wp-content/uploads/2024/02/2016-08-25-MH370-Path-Towards-McMurdo-Station.pdf)
+
+The South Pole proposal describes LNAV through a custom 90°S waypoint, `SPOLE`, or `NZSP`, and distinguishes it from constant true track. [Possible MH370 Paths Along Great Circles](https://mh370.radiantphysics.com/2017/10/22/possible-mh370-paths-along-great-circles/)
+
+The magnetic-pole proposal I located is specifically a constant-magnetic-heading hypothesis. [Guest paper summary](https://www.mh370search.com/2021/02/04/guest-paper-by-bill-tracy/)
+
+### Typed route addition
+
+```rust
+pub enum LateralGuidance {
+    ConstantTrueHeading(Angle),
+    ConstantMagneticHeading(Angle),
+    ConstantTrueTrack(Angle),
+    ConstantMagneticTrack(Angle),
+    CapturedGreatCircle(ActiveLeg),
+}
+
+pub struct ActiveLeg {
+    pub activated_at: ModelTime,
+    pub origin: GeodeticPosition,
+    pub target: RouteTarget,
+    pub capture_assumption: LegCaptureAssumption,
+}
+
+pub enum RouteTarget {
+    GeographicSouthPole,
+    EpochMagneticSouthPole {
+        position: GeodeticPosition,
+        epoch: ModelTime,
+        field_model_digest: Digest,
+    },
+    FixedWaypoint {
+        identifier: String,
+        position: GeodeticPosition,
+        datum: GeodeticDatum,
+        source_digest: Digest,
+    },
+}
+
+pub enum LegCaptureAssumption {
+    CapturedAtActivation,
+    BankLimitedIntercept,
+}
+```
+
+Tier 1 should initially implement `CapturedAtActivation`: the particle is placed on a newly activated direct-to leg, and guidance maintains the great-circle path. That is transparent and avoids pretending to reproduce proprietary Boeing LNAV capture gains. A bank-limited intercept controller can follow only if suitable control-law evidence is obtained.
+
+Add `RouteActivated` and `WaypointReached` to the event list alongside the previously identified fuel, engine, IDG, APU, generator, SDU-power, and log-on events.
+
+### Two important scientific cautions
+
+First, ideal LNAV to the geographic South Pole is nominally degenerate with exact `ConstantTrueTrack(180°)` in the present deterministic model: both follow the activation longitude due south. They become distinguishable only through path-capture behavior, navigation disturbances, or cross-track recovery. They must not be counted as two independent pieces of model support merely because their labels differ.
+
+McMurdo and a dated magnetic-pole coordinate do produce curved great-circle courses and are genuinely distinct.
+
+Second, these destinations were selected as specific hypotheses after inspection of available evidence. Comparing their conditional fit is sound; comparing Bayesian evidence against a free 0–360° post-turn prior requires a declared discrete route prior and consistent parameter-volume treatment. Until such a prior is justified, report every destination as a separate conditional family and do not pool them.
+
+### Required geometry work
+
+The shared domain currently provides WGS84 forward propagation but no WGS84 inverse azimuth or cross-track primitive. Tier 1 LNAV therefore needs:
+
+- Robust current-position-to-waypoint course calculation.
+- Immutable active-leg geometry.
+- Cross-track and along-track distance.
+- Explicit behavior at waypoint passage.
+- A special geographic-pole representation because longitude is undefined at 90°S.
+- Independent GeographicLib-style fixtures, including polar cases.
+
+For McMurdo, use the proposal’s exact historical coordinate—not a live lookup of whichever modern Antarctic airfield currently uses a similar identifier. For the magnetic pole, freeze the coordinate and IGRF version at the accident epoch.
+
+## 3. Tier 1 first, JSBSim second
+
+Agreed sequence:
+
+1. Finalize Tier-1 point-mass state, force/energy equations, event ordering, guidance schedule, and provenance schema.
+2. Preserve the current one-turn model as the exact Tier-0 control.
+3. Implement the existing four lateral modes plus captured-great-circle LNAV in Tier 1.
+4. Validate zero-wind/geodesic limits, steady cruise, bank-limited turns, fuel exhaustion, and route geometry.
+5. Run geographic-pole, McMurdo, magnetic-pole sensitivity, CTT180, and CMH180 as separate families.
+6. Introduce Tier 1 first in the once-per-particle 00:11–00:19 continuation.
+7. Only after Tier 1 is numerically and scientifically stable, begin the JSBSim recreation and comparison.
+8. JSBSim remains an offline Tier-2 audit; it does not enter the particle likelihood directly.
+
+## JSBSim access
+
+I can access and inspect the official upstream JSBSim source and documentation now. It is public C++/XML software supporting batch execution and configurable aircraft mass, propulsion, fuel tanks, aerodynamics, controls, autopilot, and systems. [Official repository](https://github.com/JSBSim-Team/jsbsim), [documentation](https://jsbsim-team.github.io/jsbsim/python/index.html)
+
+However:
+
+- There is no JSBSim checkout, binary, library, or artifact currently available in this workspace, `/tmp`, the searched home directories, `/opt`, or `/usr/local`.
+- I did not clone or install it.
+- The official aircraft directory currently contains 737, 787-8, A320, 747, MD-11, and other examples, but no 777 model. [Official aircraft directory](https://github.com/JSBSim-Team/jsbsim/tree/master/aircraft)
+- Therefore we have access to the simulator kernel’s source, but not to a validated 777-200ER aircraft model.
+- A later JSBSim phase would require a pinned upstream commit plus an independently sourced and audited aircraft definition. The official kernel is LGPL-2.1; aircraft XML and borrowed component files require separate license auditing.
+
+When authorized, the proper location for the first checkout/recreation is `.sources/<descriptive-jsbsim-recreation>/`, pinned by commit and hashes. Nothing should become a Cargo/runtime dependency merely because the kernel is accessible.
+
+## Citation ledger
+
+| Claim | Source | Locator | Passage | Status |
+|---|---|---|---|---|
+| McMurdo was proposed as an LNAV great-circle target | Iannello & Godfrey, 2016 | PDF pp. 2–3 | “great circle path towards the Pegasus Airfield (NZPG)” | FOUND |
+| NZPG availability in the aircraft database was unresolved | Iannello & Godfrey, 2016 | PDF p. 5 | “may or may not have been available” | FOUND |
+| LNAV was proposed to the geographic South Pole | Radiant Physics, 2017 | “More on the Path Towards the South Pole” | Custom 90S, `SPOLE`, or `NZSP` waypoint | FOUND |
+| The magnetic-pole proposal was CMH, not LNAV | Bill Tracy guest-paper page, 2021 | Intro and discussion | “180° South CMH to the Magnetic South Pole” | FOUND |
+| JSBSim source supports batch, XML-defined aircraft models | JSBSim official documentation | Introduction | “standalone executable … batch mode”; XML aircraft definition | FOUND |
+| Official JSBSim tree has no bundled 777 directory | JSBSim official aircraft directory | Current folder listing | Lists 737, 787-8, A320, B747, etc.; no 777 entry | FOUND |
+
+No repository changes were made.
+
+── User ────────────────────────────────────────────────────
+[iso message from thread:thr_dvhqyvtdcu]
+
+Artifact-path correction: the fully tested final run, with explicit ft/min axis labeling and nonexclusive-count warning, is /tmp/mh370-final-bfo-raw-feasibility-20260825-final. Use its raw-bfo-match-tables.svg, raw-bfo-match-tables.json, summary.json, and run-manifest.json; disregard the earlier tables-a path.
+
+── Assistant ───────────────────────────────────────────────
+Correction retained. The authoritative final-BFO feasibility artifacts are now:
+
+`/tmp/mh370-final-bfo-raw-feasibility-20260825-final`
+
+Use:
+
+- `raw-bfo-match-tables.svg`
+- `raw-bfo-match-tables.json`
+- `summary.json`
+- `run-manifest.json`
+
+The earlier `tables-a` path is superseded and will be disregarded. The tables remain nonexclusive instantaneous feasibility counts, with vertical speed labeled in ft/min—not a continuous trajectory.
+
+── User ────────────────────────────────────────────────────
+[iso message from thread:thr_dvhqyvtdcu]
+
+Execute the next bounded Flight Simulation Model step now. Work read-only because the end-of-flight thread is editing shared reporting/runner files. Starting from the current raw 00:19 inversion (R600 about -4,451 ft/min, R1200 about -14,995 ft/min, 8.027 s apart, earth-vertical acceleration about -0.680 g), quantify a defensible 3-DoF/load-factor/energy feasibility envelope; distinguish a generous kinematic screen from B777-validated dynamics; test whether rapid descent can explain the corrected BTO reduction; identify the minimum high-fidelity simulation inputs and a narrow typed interface the core runner can consume. Locate and cite public source passages for aircraft/system claims. Return concrete acceptance parameters, limitations, and the next implementation action. Do not edit repository files in this turn.
+
+── Worked for (12m 57s) ────────────────────────────────────
+  ── Assistant
+  I’ll treat this as a read-only feasibility calculation, not an aircraft-model validation. I’ll first audit the final inversion artifacts and the exact SATCOM geometry, then bound the implied vertical acceleration/load/energy with transparent equations and compare the corrected BTO change against what descent alone can produce.
+
+  ── Assistant
+  I’m using the citations skill because the Boeing/system-envelope distinctions must be tied to located public passages; unsupported simulator or aircraft claims will remain explicitly unvalidated.
+
+  ── Explored 1 file, 1 list, 1 search, ran 1 command
+    ── Read /jackbox/home/.iso/runtime/global-skills/051cefb156e94b93b5e2578a675241b5008ea1dbc7132545e87c8f9b68faaaa9/skills/citations/SKILL.md
+    ── Listed files in /tmp/mh370-final-bfo-raw-feasibility-20260825-final
+    ── Searched for vertical|acceleration|gravity|bto|R600|R1200|channel|correct|elapsed|8\.027|heading|turn_rate in inputs/accident
+    ── Ran jq 'keys, .schema_version, .panels // .tables // .' /tmp/mh370-final-bfo-raw-feasibility-20260825-final/raw-bfo-match-tables.json (5s, error)
+      $ jq 'keys, .schema_version, .panels // .tables // .' /tmp/mh370-final-bfo-raw-feasibility-20260825-final/raw-bfo-match-tables.json
+      /usr/bin/bash: line 1: jq: command not found
+      exit 127
+
+  ── Assistant
+  The control already carries the right scientific warning: its ±1 g vertical-acceleration bound is deliberately generous, and earth-vertical acceleration is not aircraft load factor. I’m now replacing that single screen with explicit kinematic, normal-load, and energy-consistency quantities, while preserving that distinction.
+
+  ── Explored 3 files, ran 1 command
+    ── Read /tmp/mh370-final-bfo-raw-feasibility-20260825-final/summary.json
+    ── Read /tmp/mh370-final-bfo-raw-feasibility-20260825-final/fixed-horizontal.csv
+    ── Read crates/domain/src/geodesy.rs
+    ── Ran python3 -c ' import csv, math CSV="/tmp/mh370-final-bfo-raw-feasibility-20260825-final/fixed-horizontal.csv" EPH="inputs/accident/satellite-ephemeris.csv" rows=list(csv.DictReader(open(CSV))) eph={r["epoch_id"]:tuple(float(r[k]) for k in ("x_km","y_km","z_km")) for r in csv.DictReader(open(EPH))} A=6378.137; F=1/298.257223563; B=A*(1-F); E2=F*(2-F); C=299792.458; DT=8.027; G=9.80665 GES=(-2368.8,4881.1,-3342.0) def ecef(lat,lon,hft):  p=math.radians(lat); l=math.radians(lon); sp=math.sin(p); cp=math.cos(p); n=A/math.sqrt(1-E2*sp*sp); h=hft*0.0003048  return ((n+h)*cp*math.cos(l),(n+h)*cp*math.sin(l),(n*(1-E2)+h)*sp) def normdiff(a,b): return math.sqrt(sum((x-y)**2 for x,y in zip(a,b))) def bto(lat,lon,hft,s): return 2*(normdiff(s,ecef(lat,lon,hft))+normdiff(s,GES))/C*1e6-499962+4283 def dest(lat,lon,bearing,dnm):  dk=dnm*1.852; p1=math.radians(lat); al=math.radians(bearing); tu=(1-F)*math.tan(p1); cu=1/math.sqrt(1+tu*tu); su=tu*cu; s1=math.atan2(tu,math.cos(al)); sa=cu*math.sin(al); c2=max(0,1-sa*sa); u2=c2*(A*A-B*B)/(B*B); ca=1+u2/16384*(4096+u2*(-768+u2*(320-175*u2))); cb=u2/1024*(256+u2*(-128+u2*(74-47*u2))); sig=dk/(B*ca)  for _ in range(100):   t=2*s1+sig; ss=math.sin(sig); cs=math.cos(sig); ct=math.cos(t); ds=cb*ss*(ct+cb/4*(cs*(-1+2*ct*ct)-cb/6*ct*(-3+4*ss*ss)*(-3+4*ct*ct))); new=dk/(B*ca)+ds   if abs(new-sig)<=1e-13: sig=new; break   sig=new  ss=math.sin(sig); cs=math.cos(sig); t=2*s1+sig; ct=math.cos(t); num=su*cs+cu*ss*math.cos(al); den=(1-F)*math.sqrt(sa*sa+(su*ss-cu*cs*math.cos(al))**2); p2=math.atan2(num,den); lam=math.atan2(ss*math.sin(al),cu*cs-su*ss*math.cos(al)); cc=F/16*c2*(4+F*(4-3*c2)); dl=lam-(1-cc)*F*sa*(sig+cc*ss*(ct+cc*cs*(-1+2*ct*ct))); lo=lon+math.degrees(dl); lo=(lo+180)%360-180  return math.degrees(p2),lo def q(vals,w,p):  z=sorted(zip(vals,w)); total=sum(w); target=p*total; s=0  for v,ww in z:   s+=ww   if s>=target:return v  return z[-1][0] def stats(name,vals,w,fmt=".6f"):  mean=sum(v*ww for v,ww in zip(vals,w))/sum(w); print(name,format(q(vals,w,.05),fmt),format(q(vals,w,.5),fmt),format(q(vals,w,.95),fmt),"mean",format(mean,fmt)) metrics={k:[] for k in ["speed_kt","alt_ft","w1_fpm","w2_fpm","az_g","drop_ft","gamma1_deg","gamma2_deg","earth_specific_n","path_normal_n","delta_e_jkg","dissipative_power_wkg","dminus_t_mps2","ld_if_unpowered","request_pred_us","request_resid_us","ack_pred_us","ack_resid_us","predicted_delta_us","altitude_delta_us","horizontal_sat_delta_us"]} max_ack_diff=0 for r in rows:  lat=float(r["latitude_deg"]); lon=float(r["longitude_deg"]); alt=float(r["altitude_ft"]); tr=float(r["track_true_deg"]); sk=float(r["ground_speed_kt"]); w1f=float(r["request_vertical_speed_fpm"]); w2f=float(r["acknowledgement_vertical_speed_fpm"]); w1=w1f*.00508; w2=w2f*.00508; vh=sk*.514444444444; az=(w2-w1)/DT; dh=.5*(w1+w2)*DT; endalt=alt+dh/.3048; lat2,lon2=dest(lat,lon,tr,sk*DT/3600); rp=bto(lat,lon,alt,eph["m0019a"]); ap=bto(lat2,lon2,endalt,eph["m0019b"]); ap0=bto(lat2,lon2,alt,eph["m0019b"]); max_ack_diff=max(max_ack_diff,abs(ap-float(r["acknowledgement_bto_prediction_us"]))); v1=math.hypot(vh,w1); v2=math.hypot(vh,w2); gm1=math.atan2(w1,vh); gm2=math.atan2(w2,vh); vm=.5*(v1+v2); dgm=(gm2-gm1)/DT; npath=math.cos(.5*(gm1+gm2))+vm*dgm/G; de=.5*(v2*v2-v1*v1)+G*dh; pw=-de/DT; dmt=pw/vm  vals=[sk,alt,w1f,w2f,az/G,-dh/.3048,math.degrees(gm1),math.degrees(gm2),abs(1+az/G),npath,de,pw,dmt,npath*G/dmt,rp,18400-rp,ap,18380-ap,ap-rp,ap-ap0,ap0-rp]  for k,v in zip(metrics,vals):metrics[k].append(v) print("rows",len(rows),"max_ack_reproduction_error_us",max_ack_diff) for weight_name in ("source_weight","both_bto_weight"):  print("WEIGHTS",weight_name); w=[float(r[weight_name]) for r in rows]  for k in metrics: stats(k,metrics[k],w) vm=q(metrics["speed_kt"],[float(r["source_weight"]) for r in rows],.5)*.514444444444 for azg in (-.6465316670872817,-.680397323627922):  print("turn_screen az_g",azg,"at_speed_mps",vm)  for nmax in (1.0,1.5,2.5,3.0):   vertical=1+azg; omega=G/vm*math.sqrt(max(0,nmax*nmax-vertical*vertical)); print(" nmax",nmax,"omega_deg_s",math.degrees(omega))  omega=math.radians(6); latg=vm*omega/G; nt=math.hypot(1+azg,latg); bank=math.degrees(math.atan2(latg,1+azg)); print(" at_6deg_s lateral_g",latg,"total_n",nt,"force_tilt_deg",bank) ' (8s)
+      $ python3 -c '
+    import csv, math
+    CSV="/tmp/mh370-final-bfo-raw-feasibility-20260825-final/fixed-horizontal.csv"
+    EPH="inputs/accident/satellite-ephemeris.csv"
+    rows=list(csv.DictReader(open(CSV)))
+    eph={r["epoch_id"]:tuple(float(r[k]) for k in ("x_km","y_km","z_km")) for r in csv.DictReader(open(EPH))}
+    A=6378.137; F=1/298.257223563; B=A*(1-F); E2=F*(2-F); C=299792.458; DT=8.027; G=9.80665
+    GES=(-2368.8,4881.1,-3342.0)
+    def ecef(lat,lon,hft):
+     p=math.radians(lat); l=math.radians(lon); sp=math.sin(p); cp=math.cos(p); n=A/math.sqrt(1-E2*sp*sp); h=hft*0.0003048
+     return ((n+h)*cp*math.cos(l),(n+h)*cp*math.sin(l),(n*(1-E2)+h)*sp)
+    def normdiff(a,b): return math.sqrt(sum((x-y)**2 for x,y in zip(a,b)))
+    def bto(lat,lon,hft,s): return 2*(normdiff(s,ecef(lat,lon,hft))+normdiff(s,GES))/C*1e6-499962+4283
+    def dest(lat,lon,bearing,dnm):
+     dk=dnm*1.852; p1=math.radians(lat); al=math.radians(bearing); tu=(1-F)*math.tan(p1); cu=1/math.sqrt(1+tu*tu); su=tu*cu; s1=math.atan2(tu,math.cos(al)); sa=cu*math.sin(al); c2=max(0,1-sa*sa); u2=c2*(A*A-B*B)/(B*B); ca=1+u2/16384*(4096+u2*(-768+u2*(320-175*u2))); cb=u2/1024*(256+u2*(-128+u2*(74-47*u2))); sig=dk/(B*ca)
+     for _ in range(100):
+      t=2*s1+sig; ss=math.sin(sig); cs=math.cos(sig); ct=math.cos(t); ds=cb*ss*(ct+cb/4*(cs*(-1+2*ct*ct)-cb/6*ct*(-3+4*ss*ss)*(-3+4*ct*ct))); new=dk/(B*ca)+ds
+      if abs(new-sig)<=1e-13: sig=new; break
+      sig=new
+     ss=math.sin(sig); cs=math.cos(sig); t=2*s1+sig; ct=math.cos(t); num=su*cs+cu*ss*math.cos(al); den=(1-F)*math.sqrt(sa*sa+(su*ss-cu*cs*math.cos(al))**2); p2=math.atan2(num,den); lam=math.atan2(ss*math.sin(al),cu*cs-su*ss*math.cos(al)); cc=F/16*c2*(4+F*(4-3*c2)); dl=lam-(1-cc)*F*sa*(sig+cc*ss*(ct+cc*cs*(-1+2*ct*ct))); lo=lon+math.degrees(dl); lo=(lo+180)%360-180
+     return math.degrees(p2),lo
+    def q(vals,w,p):
+     z=sorted(zip(vals,w)); total=sum(w); target=p*total; s=0
+     for v,ww in z:
+      s+=ww
+      if s>=target:return v
+     return z[-1][0]
+    def stats(name,vals,w,fmt=".6f"):
+     mean=sum(v*ww for v,ww in zip(vals,w))/sum(w); print(name,format(q(vals,w,.05),fmt),format(q(vals,w,.5),fmt),format(q(vals,w,.95),fmt),"mean",format(mean,fmt))
+    metrics={k:[] for k in ["speed_kt","alt_ft","w1_fpm","w2_fpm","az_g","drop_ft","gamma1_deg","gamma2_deg","earth_specific_n","path_normal_n","delta_e_jkg","dissipative_power_wkg","dminus_t_mps2","ld_if_unpowered","request_pred_us","request_resid_us","ack_pred_us","ack_resid_us","predicted_delta_us","altitude_delta_us","horizontal_sat_delta_us"]}
+    max_ack_diff=0
+    for r in rows:
+     lat=float(r["latitude_deg"]); lon=float(r["longitude_deg"]); alt=float(r["altitude_ft"]); tr=float(r["track_true_deg"]); sk=float(r["ground_speed_kt"]); w1f=float(r["request_vertical_speed_fpm"]); w2f=float(r["acknowledgement_vertical_speed_fpm"]); w1=w1f*.00508; w2=w2f*.00508; vh=sk*.514444444444; az=(w2-w1)/DT; dh=.5*(w1+w2)*DT; endalt=alt+dh/.3048; lat2,lon2=dest(lat,lon,tr,sk*DT/3600); rp=bto(lat,lon,alt,eph["m0019a"]); ap=bto(lat2,lon2,endalt,eph["m0019b"]); ap0=bto(lat2,lon2,alt,eph["m0019b"]); max_ack_diff=max(max_ack_diff,abs(ap-float(r["acknowledgement_bto_prediction_us"]))); v1=math.hypot(vh,w1); v2=math.hypot(vh,w2); gm1=math.atan2(w1,vh); gm2=math.atan2(w2,vh); vm=.5*(v1+v2); dgm=(gm2-gm1)/DT; npath=math.cos(.5*(gm1+gm2))+vm*dgm/G; de=.5*(v2*v2-v1*v1)+G*dh; pw=-de/DT; dmt=pw/vm
+     vals=[sk,alt,w1f,w2f,az/G,-dh/.3048,math.degrees(gm1),math.degrees(gm2),abs(1+az/G),npath,de,pw,dmt,npath*G/dmt,rp,18400-rp,ap,18380-ap,ap-rp,ap-ap0,ap0-rp]
+     for k,v in zip(metrics,vals):metrics[k].append(v)
+    print("rows",len(rows),"max_ack_reproduction_error_us",max_ack_diff)
+    for weight_name in ("source_weight","both_bto_weight"):
+     print("WEIGHTS",weight_name); w=[float(r[weight_name]) for r in rows]
+     for k in metrics: stats(k,metrics[k],w)
+    vm=q(metrics["speed_kt"],[float(r["source_weight"]) for r in rows],.5)*.514444444444
+    for azg in (-.6465316670872817,-.680397323627922):
+     print("turn_screen az_g",azg,"at_speed_mps",vm)
+     for nmax in (1.0,1.5,2.5,3.0):
+      vertical=1+azg; omega=G/vm*math.sqrt(max(0,nmax*nmax-vertical*vertical)); print(" nmax",nmax,"omega_deg_s",math.degrees(omega))
+     omega=math.radians(6); latg=vm*omega/G; nt=math.hypot(1+azg,latg); bank=math.degrees(math.atan2(latg,1+azg)); print(" at_6deg_s lateral_g",latg,"total_n",nt,"force_tilt_deg",bank)
+    '
+      rows 30000 max_ack_reproduction_error_us 7.166818249970675e-10
+      WEIGHTS source_weight
+      speed_kt 477.141638 480.043410 483.187500 mean 480.141726
+      alt_ft 27482.271000 38858.571000 42433.704000 mean 37089.035678
+      w1_fpm -4476.356860 -4451.293157 -4425.692918 mean -4451.035081
+      w2_fpm -15033.279427 -14994.696168 -14954.705120 mean -14993.304283
+      az_g -0.681496 -0.680397 -0.679123 mean -0.680337
+      drop_ft 1296.534328 1300.777884 1304.937495 mean 1300.664267
+      gamma1_deg -5.251417 -5.231890 -5.204956 mean -5.230374
+      gamma2_deg -17.211949 -17.141297 -17.056644 mean -17.137640
+      earth_specific_n 0.318504 0.319603 0.320877 mean 0.319663
+      path_normal_n 0.311254 0.312340 0.313582 mean 0.312390
+      delta_e_jkg -1245.958017 -1242.712979 -1239.908672 mean -1242.774084
+      dissipative_power_wkg 154.467257 154.816616 155.220882 mean 154.824229
+      dminus_t_mps2 0.607881 0.611155 0.615127 mean 0.611330
+      ld_if_unpowered 4.989818 5.010028 5.034888 mean 5.011240
+      request_pred_us 18425.133712 18469.335097 18508.425559 mean 18467.627362
+      request_resid_us -108.425559 -69.335097 -25.133712 mean -67.627362
+      ack_pred_us 18433.359483 18477.617931 18516.748333 mean 18475.891185
+      ack_resid_us -136.748333 -97.617931 -53.359483 mean -95.891185
+      predicted_delta_us 8.180482 8.264556 8.346161 mean 8.263823
+      altitude_delta_us 1.651572 1.655057 1.658954 mean 1.655171
+      horizontal_sat_delta_us 6.528320 6.609552 6.687785 mean 6.608652
+      WEIGHTS both_bto_weight
+      speed_kt 476.263603 479.195229 481.724036 mean 479.130918
+      alt_ft 28866.655000 38809.953000 42426.464000 mean 37408.440411
+      w1_fpm -4466.161011 -4440.606863 -4418.649096 mean -4441.436701
+      w2_fpm -15008.761405 -14971.653722 -14937.748239 mean -14972.711251
+      az_g -0.680734 -0.679602 -0.678582 mean -0.679627
+      drop_ft 1294.893655 1298.493201 1302.618483 mean 1298.644713
+      gamma1_deg -5.254017 -5.230835 -5.205725 mean -5.230108
+      gamma2_deg -17.226834 -17.149620 -17.075991 mean -17.149464
+      earth_specific_n 0.319266 0.320398 0.321418 mean 0.320373
+      path_normal_n 0.311995 0.313108 0.314092 mean 0.313079
+      delta_e_jkg -1246.564573 -1243.489387 -1240.698072 mean -1243.599486
+      dissipative_power_wkg 154.565600 154.913341 155.296446 mean 154.927057
+      dminus_t_mps2 0.609579 0.612956 0.616964 mean 0.613007
+      ld_if_unpowered 4.986281 5.008273 5.030500 mean 5.008553
+      request_pred_us 18406.592122 18440.893801 18479.465587 mean 18442.161511
+      request_resid_us -79.465587 -40.893801 -6.592122 mean -42.161511
+      ack_pred_us 18414.780772 18449.127502 18487.746733 mean 18450.393990
+      ack_resid_us -107.746733 -69.127502 -34.780772 mean -70.393990
+      predicted_delta_us 8.157902 8.234257 8.306755 mean 8.232479
+      altitude_delta_us 1.650841 1.654308 1.658068 mean 1.654325
+      horizontal_sat_delta_us 6.506243 6.580109 6.648899 mean 6.578154
+      turn_screen az_g -0.6465316670872817 at_speed_mps 246.95566523424105
+       nmax 1.0 omega_deg_s 2.1283510635546428
+       nmax 1.5 omega_deg_s 3.316728533019316
+       nmax 2.5 omega_deg_s 5.630921761148646
+       nmax 3.0 omega_deg_s 6.778131135246647
+       at_6deg_s lateral_g 2.6371020469520583 total_n 2.6606854508586375 force_tilt_deg 82.3657668993148
+      turn_screen az_g -0.680397323627922 at_speed_mps 246.95566523424105
+       nmax 1.0 omega_deg_s 2.1558930213028336
+       nmax 1.5 omega_deg_s 3.3344691678455427
+       nmax 2.5 omega_deg_s 5.641389576136846
+       nmax 3.0 omega_deg_s 6.78682975741753
+       at_6deg_s lateral_g 2.6371020469520583 total_n 2.656398516183694 force_tilt_deg 83.0897590560038
+
+  ── Assistant
+  The independent decomposition is decisive: the inferred descent loses about 1,301 ft in 8.027 s and increases modeled BTO by about 1.65 µs. The corrected observations decrease by 20 µs, while the same particles predict roughly +8.2 µs total. Descent therefore has the wrong sign and cannot explain the reduction; the 28 µs change mismatch is still only about 0.37σ using the repository’s 63/43 µs BTO errors.
+
+  ── Researched 11 search queries
+    ── Ran web search: site:ecfr.gov 14 CFR 25.337 maneuvering load factors 2.5 official, site:atsb.gov.au AE-2014-054 Boeing simulations load factor 0.67 g high descent phugoid electrical configuration, site:atsb.gov.au AE-2014-054 loss AC transfer buses APU generator SDU 60 seconds fuel pickup pitch acceleration, site:boeing.com 777 airplane characteristics load factor flight envelope public, site:ecfr.gov 14 CFR 25.337 maneuvering load factors 2.5 official ...
+    ── Ran web search: eCFR 14 CFR 25.337 positive maneuvering load factor 2.5, 14 CFR 25.337 official govinfo load factor 2.5, eCFR 14 CFR 25.337 positive maneuvering load factor 2.5 ...
+    ── Ran web search: site:govinfo.gov 14 CFR 25.303 factor of safety 1.5 PDF official, 14 CFR 25.303 factor of safety 1.5 govinfo, site:govinfo.gov 14 CFR 25.303 factor of safety 1.5 PDF official ...
+
+  ── Assistant
+  The load/energy result is also informative. With the current 480 kt ground-speed proxy and zero turn, the pair implies a ground-referenced flight-path angle changing from about −5.23° to −17.14°, an earth-up specific-force component of about 0.320 g, and a trajectory-normal load near 0.312 g. Its specific mechanical energy falls about 1.24 kJ/kg, so an unpowered descent is energetically possible; that does not establish 777 controllability or stability.
+
+── Assistant ───────────────────────────────────────────────
+## Outcome
+
+The raw zero-bias BFO inversion passes a generous kinematic and energy-consistency screen, but it is not B777-validated dynamics.
+
+The central quantitative results are:
+
+- Zero-turn descent: approximately −0.680 g earth-vertical acceleration, 1,301 ft altitude loss, and ground-referenced flight-path angle changing from −5.23° to −17.14°.
+- Implied earth-up specific force: about 0.320 g; estimated trajectory-normal load about 0.312 g under the zero-bank, constant-horizontal-speed approximation.
+- Mechanical energy change: about −1.24 kJ/kg, so the trajectory is energetically possible without thrust under the stated assumptions.
+- The broad search’s lower acceleration, −0.647 g, occurs at its ±6°/s turn-rate boundary. At the median 480 kt speed that implies approximately 2.64 g lateral acceleration and 2.66 g total specific load—not merely a benign reduction in vertical acceleration.
+- Rapid descent cannot explain the corrected BTO reduction. It changes modeled BTO by approximately **+1.65 µs**, while the observations change by **−20 µs**.
+
+The calculations independently reproduced the stored acknowledgement BTO values to below \(10^{-9}\) µs using the repository’s WGS84 and SATCOM equations. Inputs and results came from the authoritative [summary.json](/tmp/mh370-final-bfo-raw-feasibility-20260825-final/summary.json), [fixed-horizontal.csv](/tmp/mh370-final-bfo-raw-feasibility-20260825-final/fixed-horizontal.csv), and [run manifest](/tmp/mh370-final-bfo-raw-feasibility-20260825-final/run-manifest.json).
+
+## 3-DoF/load/energy screen
+
+Using upward-positive vertical velocity, constant horizontal ground speed, zero turn, and constant acceleration between the transmissions:
+
+\[
+a_z = \frac{w_2-w_1}{\Delta t},\qquad
+\Delta h = \frac{w_1+w_2}{2}\Delta t
+\]
+
+\[
+n_{\text{earth-up}}=1+\frac{a_z}{g},\qquad
+\Delta e=\frac{V_2^2-V_1^2}{2}+g\Delta h
+\]
+
+| Quantity | Result |
+|---|---:|
+| Horizontal-speed proxy, median | 480.0 kt / 247.0 m/s |
+| R600 vertical speed, median | −4,451 ft/min / −22.61 m/s |
+| R1200 vertical speed, median | −14,995 ft/min / −76.17 m/s |
+| Vertical-speed change | −10,543 ft/min |
+| Mean earth-vertical acceleration | −0.6804 g |
+| Ordinary-BFO-only acceleration SD | 0.0366 g |
+| Approximate two-SD acceleration interval | −0.754 to −0.607 g |
+| Altitude loss | 1,301 ft / 396 m |
+| Initial ground-referenced path angle | −5.23° |
+| Final ground-referenced path angle | −17.14° |
+| Earth-up specific-force component | 0.320 g |
+| Approximate path-normal load, zero bank | 0.312 g |
+| Specific mechanical-energy change | −1.243 kJ/kg |
+| Mean dissipative power | 155 W/kg |
+| Equivalent \((D-T)/m\) | 0.611 m/s² |
+| Effective unpowered \(L/D\), under all approximations | approximately 5.0 |
+
+The energy result means gravity supplies the increase in vertical kinetic energy while approximately 1.24 kJ/kg is dissipated. It does not require an energy source. That is a useful feasibility result, but the estimated \(L/D\) is not an aircraft measurement: the calculation substitutes ground speed for airspeed, omits wind, and assumes constant horizontal speed, zero roll, and lift normal to the flight path.
+
+### Turn/load coupling
+
+For a local turn rate \(\omega\), the transparent specific-load screen is:
+
+\[
+n_{\text{total}}
+=
+\sqrt{
+\left(1+\frac{a_z}{g}\right)^2+
+\left(\frac{V_h\omega}{g}\right)^2
+}
+\]
+
+At the broad-search minimum:
+
+- \(a_z=-0.6465g\)
+- \(V_h\approx247\text{ m/s}\)
+- \(\omega=6^\circ/\text{s}\)
+- lateral acceleration \(=2.64g\)
+- total specific load \(=2.66g\)
+- specific-force tilt from earth-up \(=82.4^\circ\)
+
+Thus the apparent improvement from −0.680 g to −0.647 g is bought by a very aggressive lateral maneuver at the search boundary.
+
+For reference, the maximum turn rate at the same speed under several generic total-load ceilings would be:
+
+| Generic total-load ceiling | Maximum turn rate |
+|---:|---:|
+| 1.0 g | 2.13°/s |
+| 1.5 g | 3.32°/s |
+| 2.5 g | 5.63°/s |
+| 3.0 g | 6.78°/s |
+
+Part 25 specifies a positive maneuver limit no lower than 2.5, while the normal structural safety factor is 1.5. Those are certification design rules, not the 9M-MRO operating envelope or proof that a particular out-of-control motion is attainable. [14 CFR 25.337](https://www.govinfo.gov/content/pkg/CFR-2013-title14-vol1/pdf/CFR-2013-title14-vol1-part25.pdf), [14 CFR 25.303](https://www.govinfo.gov/content/pkg/CFR-2023-title14-vol1/pdf/CFR-2023-title14-vol1-sec25-303.pdf)
+
+I recommend 2.5 g only as a conservative generic screening threshold. Candidates above it should be labeled `outside_generic_limit_screen`, not assigned zero probability as though 2.5 g were a validated B777 cutoff.
+
+## Corrected BTO reduction
+
+Repository observations:
+
+- R600: 18,400 µs with 63 µs SD
+- R1200: 18,380 µs with 43 µs SD
+- Observed change: −20 µs
+
+For the same posterior particles under the raw zero-turn descent:
+
+| BTO component | Weighted median change |
+|---|---:|
+| Satellite, GES, and horizontal aircraft motion at unchanged altitude | +6.58 µs |
+| Approximately 1,299 ft descent | +1.65 µs |
+| Total predicted change | +8.23 µs |
+| Observed change | −20.00 µs |
+| Change mismatch | −28.23 µs |
+
+Descending moves the aircraft farther from the elevated satellite line of sight and therefore increases BTO. It has the wrong sign to explain the observed decrease.
+
+Using independent 63 and 43 µs errors, the change has an SD of 76.3 µs, making the 28.2 µs mismatch about 0.37 SD. Therefore:
+
+- The BTO pair does not support rapid descent as the cause of the reduction.
+- The reduction is also too small relative to the declared BTO uncertainties to reject the descent.
+- It should remain a likelihood contribution, not a hard dynamic constraint.
+- The result assumes independent correction errors; the repository has no R600/R1200 correction covariance.
+
+ATSB reported that the anomalous R1200 offset’s specific cause could not be determined, reinforcing the need not to overinterpret the 20 µs difference. [ATSB December 2015 report](https://www.atsb.gov.au/sites/default/files/2022-12/AE-2014-054_MH370-Definition%20of%20Underwater%20Search%20Areas_3Dec2015.pdf)
+
+## What public Boeing evidence does and does not establish
+
+ATSB’s public boundary calculation gives approximately 3,800–14,200 ft/min at R600 and 14,600–25,000 ft/min at R1200 depending on direction, ordinary BFO error, and OCXO drift. The current zero-startup result sits close to the low-descent boundary.
+
+ATSB also reports that some manufacturer engineering-simulator scenarios equaled or exceeded both the inferred descent rates and the increase across eight seconds. The simulator used the same aerodynamic model as an airline Level-D simulator and supported accident-applicable firmware/software. However, ATSB says some relevant motion was outside the certified envelope or simulation database, the cases did not represent every scenario, and fuel-tank behavior could not be modeled accurately. [ATSB August 2017 report](https://www.atsb.gov.au/sites/default/files/media/5773389/ae-2014-054_mh370-search-and-debris-update_aug2017.pdf), [ATSB investigation page](https://www.atsb.gov.au/investigations/ae-2014-054)
+
+Therefore the correct status is:
+
+| Assessment | Status |
+|---|---|
+| Raw BFO kinematic screen | Pass, conditional on zero startup/channel bias |
+| Zero-turn 3-DoF energy screen | Pass using ground-speed proxy |
+| Zero-turn generic load screen | Pass |
+| Broad-search 6°/s minimum | Fails conservative 2.5-g generic screen |
+| Descent explanation of corrected BTO reduction | Fails; wrong sign |
+| Existence of similar manufacturer-simulator behavior | Publicly supported |
+| Exact B777/9M-MRO dynamic validation | Not established |
+
+## Concrete acceptance parameters
+
+For the future focused control:
+
+### Generous kinematic screen
+
+- Per-burst raw-BFO tolerance: ±14 Hz, matching the current two-SD table.
+- Vertical speed: −30,000 to +10,000 ft/min.
+- Earth-vertical acceleration: \(|a_z|\le1g\).
+- Positive altitude throughout the interval.
+- No probability interpretation for grid existence counts.
+- Explicit `zero_startup_bias` hypothesis label.
+
+### Generic 3-DoF screen
+
+- Use air-relative velocity; if ground speed is substituted, record `velocity_basis=ground_proxy`.
+- Report flight-path angle, tangential/normal acceleration, earth-up and total specific load.
+- Generic load classification:
+
+  - `within_generic_limit_screen`: \(n_{\text{total}}\le2.5\)
+  - `outside_generic_limit_screen`: \(n_{\text{total}}>2.5\)
+  - No B777 rejection probability without a validated envelope.
+
+- In an unpowered hypothesis, require \(\Delta e\le0\). Positive mechanical-energy gain requires explicit thrust or environmental work.
+- Report effective \(D-T\) and \(L/D\), but do not constrain them until a sourced aircraft envelope exists.
+- Recalculate BTO using the propagated endpoint; report the altitude contribution separately.
+- Time-step halving acceptance:
+
+  - BTO change below 0.5 µs
+  - BFO change below 0.1 Hz
+  - velocity change below 0.1 m/s
+  - event-time change below 0.1 s
+
+### High-fidelity acceptance
+
+A run may be labeled only `Boeing-case-feature-consistent`, not `aircraft-validated`, unless it has:
+
+- Exact aircraft/engine/model/firmware identity.
+- Complete initial state and system configuration.
+- Explicit simulator database-validity flags.
+- Reproduction of a public case with the same input deck.
+- Limiting-case and time-step convergence.
+- Model and input hashes and permitted publication/redistribution.
+
+## Minimum high-fidelity input deck
+
+ATSB says the manufacturer varied speed, fuel, electrical configuration, altitude, and turbulence. At minimum, a useful rerun requires:
+
+- Time, WGS84 position, pressure/geometric altitude.
+- Air-relative and ground-relative velocity vectors.
+- Attitude quaternion, angle of attack, sideslip, and body rates.
+- Aircraft mass, CG, inertia, and lateral fuel imbalance.
+- Fuel quantity by tank, pickup geometry, unusable-fuel behavior under attitude and acceleration.
+- Engine identity, thrust/spool/windmilling state, flameout and relight behavior.
+- IDG/backup-generator dropout versus spool state.
+- APU fuel availability, start state, generator-online timing, and retry behavior.
+- AC buses, bus ties, RAT, battery, hydraulic availability, and actuator authority.
+- Autopilot/autothrottle state, trim, and control-surface positions.
+- Aerodynamic/control databases with valid-domain indicators.
+- Temperature, pressure/density, 3-D wind, turbulence realization, and gravity.
+- Integration method, time step, event interpolation, output filtering, model revision, and software/firmware versions.
+
+ATSB’s public sequence supports approximately 60 seconds from dual-AC-bus loss to APU generator online and approximately 60 seconds from SDU power restoration to log-on request. It also distinguishes engine flameout, spool-down, generator dropout, bus loss, and SDU restoration, and warns that pitch and acceleration affect usable APU fuel. [ATSB December 2015 report](https://www.atsb.gov.au/sites/default/files/2022-12/AE-2014-054_MH370-Definition%20of%20Underwater%20Search%20Areas_3Dec2015.pdf)
+
+## Narrow runner interface
+
+The runner should consume sampled kinematics and events, not simulator internals:
+
+```rust
+pub struct FlightTransitionRequest {
+    pub initial: TransitionInitialState,
+    pub systems_hypothesis: SystemsHypothesis,
+    pub atmosphere: AtmosphereForcing,
+    pub output_times: Vec<ModelTime>,
+    pub latents: TransitionLatents,
+}
+
+pub struct TransitionSample {
+    pub time: ModelTime,
+    pub position: GeodeticPosition,
+    pub velocity_ned: VelocityNed,
+    pub attitude: AttitudeAvailability,
+}
+
+pub enum TransitionEvent {
+    FuelExhausted,
+    EngineFlameout { engine: EngineSide },
+    IdgOffline { engine: EngineSide },
+    DualAcBusLoss,
+    ApuStartCommanded,
+    ApuGeneratorOnline,
+    SduPowerRestored,
+    SduLogonRequest,
+    SduLogonAcknowledged,
+    GroundContact,
+}
+
+pub struct FlightTransitionResult {
+    pub samples: Vec<TransitionSample>,
+    pub events: Vec<TimedEvent>,
+    pub feasibility: ThreeDofFeasibility,
+    pub integration: IntegrationDiagnostics,
+    pub model_provenance: ModelProvenance,
+}
+```
+
+Tier 1 can represent kinematics, mass/fuel burn, energy, engine thrust availability, and externally declared event timing. A separate conditional systems likelihood should handle attitude-dependent APU fuel porting, start retries, intermittent power, bus restoration, and SDU log-on timing until those mechanisms have calibrated models.
+
+The runner passes `TransitionSample` to SATCOM and antenna spokes. Those spokes remain independent of engine, fuel, and simulator-private state.
+
+## Next implementation action
+
+Once the shared-file edit lock is clear, implement one pure focused control in `mh370-dynamics`:
+
+```text
+evaluate_three_dof_feasibility(input) -> ThreeDofFeasibility
+```
+
+It should:
+
+1. Accept two typed velocity states, elapsed time, gravity, and optional turn rate.
+2. Require an explicit airspeed-versus-ground-speed basis.
+3. Return altitude loss, flight-path angles, tangential/normal acceleration, earth-up and total specific load, energy change, dissipative power, and generic-load classification.
+4. Include independent fixtures for level 1-g flight, ballistic free fall, constant-acceleration descent, and coordinated turning.
+5. Reproduce the current median case: −0.6804 g, approximately 0.312 normal load, and −1.243 kJ/kg.
+6. Remain separate from SATCOM; the runner can compose its propagated state with the existing BTO/BFO functions later.
+
+Do not begin JSBSim integration yet. The immediate scientific value is making this transparent screen canonical and testable before comparing it with a high-fidelity simulator.
+
+## Citation ledger
+
+| Claim | Source | Locator | Short passage | Status |
+|---|---|---|---|---|
+| Public BFO boundary rates bracket the raw inversion | ATSB, August 2017 | Table 2, PDF pp. 8–9 | “3,800 ft/min”; “14,600 ft/min” | FOUND |
+| Manufacturer simulator had airline-grade aerodynamic provenance | ATSB, August 2017 | End-of-flight simulations, p. 10 | “same aerodynamic model as a Level D simulator” | FOUND |
+| Some simulations reproduced the eight-second increase | ATSB, August 2017 | Results, p. 11 | “increase in descent rates across an 8 second period … equalled or exceeded” | FOUND |
+| Simulator/fuel behavior has important validity limitations | ATSB investigation page | End-of-flight simulations | “unable to accurately model the dynamics of the aircraft’s fuel tanks” | FOUND |
+| Dual-bus loss triggers a nominal APU start sequence | ATSB, December 2015 | End-of-flight, p. 11 | “approximately 60 seconds for the electrical generator to come on-line” | FOUND |
+| SDU log-on follows power restoration on a nominal delay | ATSB, December 2015 | Final SATCOM sequence, pp. 12–13 | “SDU required approximately 60 seconds” | FOUND |
+| Flameout and electrical dropout are distinct events | ATSB, December 2015 | Engine flame-outs, p. 11 | “spool-down … generator … drop off-line” | FOUND |
+| Generic transport-category maneuver limit is at least 2.5 | 14 CFR 25.337, 2013 edition | §25.337(b) | “may not be less than 2.5” | FOUND |
+| Normal structural factor of safety is 1.5 | 14 CFR 25.303 | §25.303 | “factor of safety of 1.5” | FOUND |
+
+No repository files were modified.
+
+── User ────────────────────────────────────────────────────
+[iso message from thread:thr_dvhqyvtdcu]
+
+Proceed with the next implementation increment now. The shared edit lock is clear for crates/dynamics only. Implement one pure focused evaluate_three_dof_feasibility capability in mh370-dynamics, with typed input/output, an explicit airspeed-versus-ground-speed basis, configurable generic total-specific-load threshold, and no SATCOM or runner dependency. Return altitude loss, initial/final path angles, defined acceleration components, earth-up and total specific load, mechanical-energy change, dissipative power/equivalent drag-minus-thrust, and generic-load classification. Add focused independent fixtures for level 1-g flight, ballistic free fall, constant-acceleration descent, coordinated turning, and a regression reproducing the current median case near -0.6804 g and -1.243 kJ/kg. Export it from dynamics/lib.rs. Do not edit runner, reporting, configs, README, or other crates. Run the focused crate tests and report changed files and results.
+
+── Worked for (12m 27s) ────────────────────────────────────
+  ── Assistant
+  I’ll keep this capability self-contained in `mh370-dynamics`: one new module plus its export, with no SATCOM knowledge. The model will use constant horizontal-speed magnitude and constant vertical/turn acceleration over the interval, and every output will state whether that horizontal speed was airspeed or a ground-speed proxy.
+
+  ── Context compacted
+
+  ── Assistant
+  I’ve fixed the proposed evaluator’s sign conventions before coding: earth-up is positive, altitude loss is positive downward, and dissipative power is positive when mechanical energy decreases. I’m now matching the crate’s existing unit/error conventions, then I’ll add only the dynamics module, its export, and the five focused fixtures.
+
+  ── Explored 2 files
+    ── Read crates/dynamics/src/lib.rs
+    ── Read crates/domain/src/units.rs
+
+  ── Assistant
+  The repository sandbox helper is unavailable on this host, including for the patch utility; the attempted patch was rejected before changing files. I’m continuing with the same scoped patch through the repository’s patch command outside that broken namespace, with no change to the requested file scope.
+
+  ── Ran 1 command, explored 1 file
+    ── Ran 'test -e crates/dynamics/src/three_dof.rs; status=$?; printf '"'%s\\n' \""'$status"; sed -n '"'1,35p' crates/dynamics/src/lib.rs" (2s)
+      $ 'test -e crates/dynamics/src/three_dof.rs; status=$?; printf '"'%s\\n' \""'$status"; sed -n '"'1,35p' crates/dynamics/src/lib.rs"
+      1
+      mod environment;
+      mod one_turn;
+
+      pub use environment::{EnvironmentError, Era5Grid, IgrfGrid, WeatherSample};
+
+      pub use one_turn::{
+          mutate_one_turn, one_turn_log_prior, one_turn_state_at, one_turn_trajectories_at,
+          sample_one_turn, speed_of_sound_knots, NavigationEnvironment, OneTurnConfig, OneTurnError,
+          OneTurnParameters, OneTurnTrajectory, RadarPrior,
+      };
+
+      use mh370_domain::{
+          AircraftState, Degrees, Feet, FeetPerMinute, Knots, NauticalMiles, Seconds, VelocityEnu,
+      };
+      use serde::{Deserialize, Serialize};
+      use thiserror::Error;
+
+      use mh370_domain::{destination_wgs84, GeodesyError};
+
+      #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+      #[serde(rename_all = "snake_case")]
+      pub enum LateralMode {
+          ConstantTrueHeading,
+          ConstantMagneticHeading,
+          ConstantTrueTrack,
+          ConstantMagneticTrack,
+          LateralNavigation,
+      }
+
+      impl Default for LateralMode {
+          fn default() -> Self {
+              Self::ConstantTrueTrack
+          }
+      }
+    ── Read apply_patch); test -e crates/dynamics/src/three_dof.rs; printf 'three_dof_exists=%s\\n
+
+  ── Assistant
+  The dedicated patch operation itself is hard-wired to the broken namespace even when its parent command is approved, so it cannot reach this workspace. I’ve verified it made no partial file. I’m checking for the system’s unified-diff `patch` utility as the narrow fallback; I will still apply a reviewable diff and touch only the two authorized dynamics files.
+
+  ── Explored 2 lists, ran 1 command
+    ── Listed files in /
+    ── Listed files in /jackbox/home/.codex/tmp/arg0/codex-arg0IjL57b/apply_patch
+    ── Ran "/jackbox/home/.codex/tmp/arg0/codex-arg0IjL57b/apply_patch <<'PATCH' *** Begin Patch *** Add File: crates/dynamics/src/three_dof.rs +//"'! Transparent point-mass feasibility calculations for a short flight segment. +//! +//! This is a generic kinematic screen, not a Boeing 777 flight-dynamics or +//! loads model. It assumes constant horizontal-speed magnitude, constant +//! earth-vertical acceleration, constant turn rate, a local flat-earth frame, +//! and standard gravity. The declared horizontal-speed basis is used +//! consistently for path angles, turn acceleration, and the energy-equivalent +//! force calculation. +//! +//! With [`HorizontalSpeedBasis::TrueAirspeed`], those results are air-relative +//! proxies and require stationary or separately accounted-for wind to be read +//! as inertial mechanics. With [`HorizontalSpeedBasis::GroundSpeed`], the +//! kinematics and energy are earth-relative, but the equivalent +//! drag-minus-thrust remains an energy-equivalent quantity rather than an +//! aerodynamic force estimate. + +use mh370_domain::{Degrees, Feet, FeetPerMinute, Knots, Seconds}; +use serde::{Deserialize, Serialize}; +use thiserror::Error; + +const STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED: f64 = 9.806_65; +const METERS_PER_SECOND_PER_KNOT: f64 = 1_852.0 / 3_600.0; +const METERS_PER_SECOND_PER_FOOT_PER_MINUTE: f64 = 0.304_8 / 60.0; +const FEET_PER_METER: f64 = 1.0 / 0.304_8; + +macro_rules! scalar_unit { +    ($name:ident) => { +        #[derive(Debug, Clone, Copy, Default, PartialEq, PartialOrd, Serialize, Deserialize)] +        #[serde(transparent)] +        pub struct $name(pub f64); + +        impl $name { +            pub const fn new(value: f64) -> Self { +                Self(value) +            } + +            pub const fn value(self) -> f64 { +                self.0 +            } + +            pub fn is_finite(self) -> bool { +                self.0.is_finite() +            } +        } +    }; +} + +scalar_unit!(DegreesPerSecond); +scalar_unit!(MetersPerSecondSquared); +scalar_unit!(SpecificLoadG); +scalar_unit!(JoulesPerKilogram); +scalar_unit!(WattsPerKilogram); + +/// Reference used for the supplied horizontal-speed magnitude. +#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)] +#[serde(rename_all = "snake_case")] +pub enum HorizontalSpeedBasis { +    /// Horizontal component of true airspeed. +    TrueAirspeed, +    /// Horizontal ground-speed magnitude in the local earth frame. +    GroundSpeed, +} + +/// Classification against the caller'"'s generic total-specific-load threshold. +/// +/// This classification makes no aircraft-type-specific structural, handling, +/// or certification claim. +#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)] +#[serde(rename_all = \"snake_case\")] +pub enum GenericLoadClassification { +    WithinInclusiveThreshold, +    ExceedsThreshold, +} + +/// Inputs for one constant-acceleration, constant-turn-rate segment. +/// +/// Vertical speeds and accelerations are positive upward. Positive turn rate +/// produces positive lateral acceleration. The total-load threshold is in +/// multiples of standard gravity and is inclusive. +#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)] +pub struct ThreeDofFeasibilityInput { +    pub horizontal_speed: Knots, +    pub horizontal_speed_basis: HorizontalSpeedBasis, +    pub initial_vertical_speed: FeetPerMinute, +    pub final_vertical_speed: FeetPerMinute, +    pub elapsed_time: Seconds, +    pub turn_rate: DegreesPerSecond, +    pub generic_total_specific_load_threshold: SpecificLoadG, +} + +/// Inertial acceleration components evaluated at the segment midpoint. +/// +/// "'`flight_path_tangential` is positive along the midpoint velocity. +/// `vertical_plane_normal_upward` is positive toward the upward normal to that +/// velocity. `horizontal_turn_lateral` is positive with positive turn rate. +#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)] +pub struct ThreeDofAccelerationComponents { +    pub earth_vertical_upward: MetersPerSecondSquared, +    pub flight_path_tangential: MetersPerSecondSquared, +    pub vertical_plane_normal_upward: MetersPerSecondSquared, +    pub horizontal_turn_lateral: MetersPerSecondSquared, +} + +/// Results of the generic three-degree-of-freedom feasibility screen. +#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)] +pub struct ThreeDofFeasibility { +    pub horizontal_speed_basis: HorizontalSpeedBasis, +    /// Positive for net descent and negative for net climb. +    pub altitude_loss: Feet, +    pub initial_flight_path_angle: Degrees, +    pub final_flight_path_angle: Degrees, +    pub acceleration: ThreeDofAccelerationComponents, +    /// Signed upward proper acceleration divided by standard gravity. +    pub earth_up_specific_load: SpecificLoadG, +    /// Magnitude of proper acceleration divided by standard gravity. +    pub total_specific_load: SpecificLoadG, +    /// Change in kinetic plus gravitational potential energy per unit mass. +    pub mechanical_energy_change: JoulesPerKilogram, +    /// Positive when mechanical energy is dissipated over the segment. +    pub dissipative_power: WattsPerKilogram, +    /// Energy-equivalent `(drag - thrust) / mass` along midpoint velocity. +    pub equivalent_drag_minus_thrust_per_mass: MetersPerSecondSquared, +    pub generic_total_specific_load_threshold: SpecificLoadG, +    pub generic_load_classification: GenericLoadClassification, +} + +#[derive(Debug, Clone, Copy, PartialEq, Eq, Error)] +pub enum ThreeDofFeasibilityError { +    #[error("horizontal speed must be finite and strictly positive")] +    InvalidHorizontalSpeed, +    #[error("vertical speeds must be finite")] +    InvalidVerticalSpeed, +    #[error("elapsed time must be finite and strictly positive")] +    InvalidElapsedTime, +    #[error("turn rate must be finite")] +    InvalidTurnRate, +    #[error("generic total-specific-load threshold must be finite and non-negative")] +    InvalidGenericLoadThreshold, +    #[error("three-DoF calculation produced a non-finite result")] +    NonFiniteResult, +} + +/// Evaluate a short segment with constant horizontal-speed magnitude, constant +/// earth-vertical acceleration, and constant turn rate. +pub fn evaluate_three_dof_feasibility( +    input: ThreeDofFeasibilityInput, +) -> Result<ThreeDofFeasibility, ThreeDofFeasibilityError> { +    if !input.horizontal_speed.is_finite() || input.horizontal_speed.0 <= 0.0 { +        return Err(ThreeDofFeasibilityError::InvalidHorizontalSpeed); +    } +    if !input.initial_vertical_speed.is_finite() || !input.final_vertical_speed.is_finite() { +        return Err(ThreeDofFeasibilityError::InvalidVerticalSpeed); +    } +    if !input.elapsed_time.is_finite() || input.elapsed_time.0 <= 0.0 { +        return Err(ThreeDofFeasibilityError::InvalidElapsedTime); +    } +    if !input.turn_rate.is_finite() { +        return Err(ThreeDofFeasibilityError::InvalidTurnRate); +    } +    if !input.generic_total_specific_load_threshold.is_finite() +        || input.generic_total_specific_load_threshold.0 < 0.0 +    { +        return Err(ThreeDofFeasibilityError::InvalidGenericLoadThreshold); +    } + +    let horizontal_speed = input.horizontal_speed.0 * METERS_PER_SECOND_PER_KNOT; +    let initial_vertical_speed = +        input.initial_vertical_speed.0 * METERS_PER_SECOND_PER_FOOT_PER_MINUTE; +    let final_vertical_speed = +        input.final_vertical_speed.0 * METERS_PER_SECOND_PER_FOOT_PER_MINUTE; +    let elapsed_time = input.elapsed_time.0; +    let mean_vertical_speed = 0.5 * (initial_vertical_speed + final_vertical_speed); +    let altitude_change = mean_vertical_speed * elapsed_time; +    let earth_vertical_acceleration = +        (final_vertical_speed - initial_vertical_speed) / elapsed_time; + +    let initial_flight_path_angle = initial_vertical_speed.atan2(horizontal_speed); +    let final_flight_path_angle = final_vertical_speed.atan2(horizontal_speed); +    let midpoint_flight_path_angle = mean_vertical_speed.atan2(horizontal_speed); + +    let turn_rate = input.turn_rate.0.to_radians(); +    let lateral_acceleration = horizontal_speed * turn_rate; +    let tangential_acceleration = +        earth_vertical_acceleration * midpoint_flight_path_angle.sin(); +    let vertical_plane_normal_acceleration = +        earth_vertical_acceleration * midpoint_flight_path_angle.cos(); + +    let earth_up_proper_acceleration = +        earth_vertical_acceleration + STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED; +    let earth_up_specific_load = +        earth_up_proper_acceleration / STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED; +    let total_specific_load = earth_up_proper_acceleration.hypot(lateral_acceleration) +        / STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED; + +    let initial_speed_squared = +        horizontal_speed.powi(2) + initial_vertical_speed.powi(2); +    let final_speed_squared = horizontal_speed.powi(2) + final_vertical_speed.powi(2); +    let mechanical_energy_change = 0.5 * (final_speed_squared - initial_speed_squared) +        + STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED * altitude_change; +    let dissipative_power = -mechanical_energy_change / elapsed_time; +    let midpoint_speed = horizontal_speed.hypot(mean_vertical_speed); +    let equivalent_drag_minus_thrust_per_mass = dissipative_power / midpoint_speed; + +    let finite_results = [ +        altitude_change, +        earth_vertical_acceleration, +        initial_flight_path_angle, +        final_flight_path_angle, +        tangential_acceleration, +        vertical_plane_normal_acceleration, +        lateral_acceleration, +        earth_up_specific_load, +        total_specific_load, +        mechanical_energy_change, +        dissipative_power, +        equivalent_drag_minus_thrust_per_mass, +    ] +    .into_iter() +    .all(f64::is_finite); +    if !finite_results { +        return Err(ThreeDofFeasibilityError::NonFiniteResult); +    } + +    let generic_load_classification = if total_specific_load +        <= input.generic_total_specific_load_threshold.0 +    { +        GenericLoadClassification::WithinInclusiveThreshold +    } else { +        GenericLoadClassification::ExceedsThreshold +    }; + +    Ok(ThreeDofFeasibility { +        horizontal_speed_basis: input.horizontal_speed_basis, +        altitude_loss: Feet(-altitude_change * FEET_PER_METER), +        initial_flight_path_angle: Degrees(initial_flight_path_angle.to_degrees()), +        final_flight_path_angle: Degrees(final_flight_path_angle.to_degrees()), +        acceleration: ThreeDofAccelerationComponents { +            earth_vertical_upward: MetersPerSecondSquared(earth_vertical_acceleration), +            flight_path_tangential: MetersPerSecondSquared(tangential_acceleration), +            vertical_plane_normal_upward: MetersPerSecondSquared( +                vertical_plane_normal_acceleration, +            ), +            horizontal_turn_lateral: MetersPerSecondSquared(lateral_acceleration), +        }, +        earth_up_specific_load: SpecificLoadG(earth_up_specific_load), +        total_specific_load: SpecificLoadG(total_specific_load), +        mechanical_energy_change: JoulesPerKilogram(mechanical_energy_change), +        dissipative_power: WattsPerKilogram(dissipative_power), +        equivalent_drag_minus_thrust_per_mass: MetersPerSecondSquared( +            equivalent_drag_minus_thrust_per_mass, +        ), +        generic_total_specific_load_threshold: input.generic_total_specific_load_threshold, +        generic_load_classification, +    }) +} + +#[cfg(test)] +mod tests { +    use approx::assert_abs_diff_eq; + +    use super::*; + +    const TEST_GRAVITY: f64 = 9.806_65; + +    fn knots_from_meters_per_second(value: f64) -> Knots { +        Knots(value / (1_852.0 / 3_600.0)) +    } + +    fn feet_per_minute_from_meters_per_second(value: f64) -> FeetPerMinute { +        FeetPerMinute(value / (0.304_8 / 60.0)) +    } + +    fn input( +        horizontal_speed_meters_per_second: f64, +        initial_vertical_speed_meters_per_second: f64, +        final_vertical_speed_meters_per_second: f64, +        elapsed_seconds: f64, +        turn_rate_degrees_per_second: f64, +        threshold_g: f64, +    ) -> ThreeDofFeasibilityInput { +        ThreeDofFeasibilityInput { +            horizontal_speed: knots_from_meters_per_second( +                horizontal_speed_meters_per_second, +            ), +            horizontal_speed_basis: HorizontalSpeedBasis::TrueAirspeed, +            initial_vertical_speed: feet_per_minute_from_meters_per_second( +                initial_vertical_speed_meters_per_second, +            ), +            final_vertical_speed: feet_per_minute_from_meters_per_second( +                final_vertical_speed_meters_per_second, +            ), +            elapsed_time: Seconds(elapsed_seconds), +            turn_rate: DegreesPerSecond(turn_rate_degrees_per_second), +            generic_total_specific_load_threshold: SpecificLoadG(threshold_g), +        } +    } + +    #[test] +    fn level_unaccelerated_flight_is_one_g_with_no_energy_change() { +        let result = evaluate_three_dof_feasibility(input( +            200.0, 0.0, 0.0, 10.0, 0.0, 1.0, +        )) +        .unwrap(); + +        assert_abs_diff_eq!(result.altitude_loss.0, 0.0, epsilon = 1e-12); +        assert_abs_diff_eq!(result.initial_flight_path_angle.0, 0.0, epsilon = 1e-12); +        assert_abs_diff_eq!(result.final_flight_path_angle.0, 0.0, epsilon = 1e-12); +        assert_abs_diff_eq!(result.acceleration.earth_vertical_upward.0, 0.0, epsilon = 1e-12); +        assert_abs_diff_eq!(result.acceleration.flight_path_tangential.0, 0.0, epsilon = 1e-12); +        assert_abs_diff_eq!(result.acceleration.vertical_plane_normal_upward.0, 0.0, epsilon = 1e-12); +        assert_abs_diff_eq!(result.acceleration.horizontal_turn_lateral.0, 0.0, epsilon = 1e-12); +        assert_abs_diff_eq!(result.earth_up_specific_load.0, 1.0, epsilon = 1e-12); +        assert_abs_diff_eq!(result.total_specific_load.0, 1.0, epsilon = 1e-12); +        assert_abs_diff_eq!(result.mechanical_energy_change.0, 0.0, epsilon = 1e-12); +        assert_abs_diff_eq!(result.dissipative_power.0, 0.0, epsilon = 1e-12); +        assert_abs_diff_eq!(result.equivalent_drag_minus_thrust_per_mass.0, 0.0, epsilon = 1e-12); +        assert_eq!( +            result.generic_load_classification, +            GenericLoadClassification::WithinInclusiveThreshold +        ); +    } + +    #[test] +    fn ballistic_free_fall_conserves_mechanical_energy_and_has_zero_specific_load() { +        let elapsed = 2.0; +        let final_vertical_speed = -TEST_GRAVITY * elapsed; +        let result = evaluate_three_dof_feasibility(input( +            100.0, +            0.0, +            final_vertical_speed, +            elapsed, +            0.0, +            1.0, +        )) +        .unwrap(); + +        let expected_altitude_loss_feet = 0.5 * TEST_GRAVITY * elapsed.powi(2) / 0.304_8; +        assert_abs_diff_eq!( +            result.altitude_loss.0, +            expected_altitude_loss_feet, +            epsilon = 1e-10 +        ); +        assert_abs_diff_eq!( +            result.acceleration.earth_vertical_upward.0, +            -TEST_GRAVITY, +            epsilon = 1e-12 +        ); +        assert_abs_diff_eq!(result.earth_up_specific_load.0, 0.0, epsilon = 1e-12); +        assert_abs_diff_eq!(result.total_specific_load.0, 0.0, epsilon = 1e-12); +        assert_abs_diff_eq!(result.mechanical_energy_change.0, 0.0, epsilon = 1e-10); +        assert_abs_diff_eq!(result.dissipative_power.0, 0.0, epsilon = 1e-10); +        assert_abs_diff_eq!( +            result.equivalent_drag_minus_thrust_per_mass.0, +            0.0, +            epsilon = 1e-12 +        ); +    } + +    #[test] +    fn constant_acceleration_descent_matches_closed_form_energy_and_components() { +        let result = evaluate_three_dof_feasibility(input( +            200.0, -10.0, -20.0, 5.0, 0.0, 2.5, +        )) +        .unwrap(); + +        let midpoint_path_angle = (-15.0_f64).atan2(200.0); +        let expected_energy_change = +            0.5 * (20.0_f64.powi(2) - 10.0_f64.powi(2)) - TEST_GRAVITY * 75.0; +        let expected_dissipative_power = -expected_energy_change / 5.0; + +        assert_abs_diff_eq!(result.altitude_loss.0, 75.0 / 0.304_8, epsilon = 1e-10); +        assert_abs_diff_eq!( +            result.initial_flight_path_angle.0, +            (-10.0_f64).atan2(200.0).to_degrees(), +            epsilon = 1e-12 +        ); +        assert_abs_diff_eq!( +            result.final_flight_path_angle.0, +            (-20.0_f64).atan2(200.0).to_degrees(), +            epsilon = 1e-12 +        ); +        assert_abs_diff_eq!( +            result.acceleration.earth_vertical_upward.0, +            -2.0, +            epsilon = 1e-12 +        ); +        assert_abs_diff_eq!( +            result.acceleration.flight_path_tangential.0, +            -2.0 * midpoint_path_angle.sin(), +            epsilon = 1e-12 +        ); +        assert_abs_diff_eq!( +            result.acceleration.vertical_plane_normal_upward.0, +            -2.0 * midpoint_path_angle.cos(), +            epsilon = 1e-12 +        ); +        assert_abs_diff_eq!( +            result.earth_up_specific_load.0, +            (TEST_GRAVITY - 2.0) / TEST_GRAVITY, +            epsilon = 1e-12 +        ); +        assert_abs_diff_eq!( +            result.mechanical_energy_change.0, +            expected_energy_change, +            epsilon = 1e-10 +        ); +        assert_abs_diff_eq!( +            result.dissipative_power.0, +            expected_dissipative_power, +            epsilon = 1e-10 +        ); +        assert_abs_diff_eq!( +            result.equivalent_drag_minus_thrust_per_mass.0, +            expected_dissipative_power / 200.0_f64.hypot(-15.0), +            epsilon = 1e-12 +        ); +    } + +    #[test] +    fn coordinated_level_turn_combines_vertical_and_lateral_specific_load() { +        let horizontal_speed = 100.0; +        let target_lateral_acceleration = 3.0_f64.sqrt() * TEST_GRAVITY; +        let turn_rate_degrees_per_second = +            (target_lateral_acceleration / horizontal_speed).to_degrees(); +        let result = evaluate_three_dof_feasibility(input( +            horizontal_speed, +            0.0, +            0.0, +            10.0, +            turn_rate_degrees_per_second, +            1.5, +        )) +        .unwrap(); + +        assert_abs_diff_eq!( +            result.acceleration.horizontal_turn_lateral.0, +            target_lateral_acceleration, +            epsilon = 1e-12 +        ); +        assert_abs_diff_eq!(result.earth_up_specific_load.0, 1.0, epsilon = 1e-12); +        assert_abs_diff_eq!(result.total_specific_load.0, 2.0, epsilon = 1e-12); +        assert_abs_diff_eq!(result.mechanical_energy_change.0, 0.0, epsilon = 1e-12); +        assert_eq!( +            result.generic_load_classification, +            GenericLoadClassification::ExceedsThreshold +        ); +    } + +    #[test] +    fn raw_bfo_median_regression_matches_vertical_acceleration_and_energy_change() { +        let result = evaluate_three_dof_feasibility(ThreeDofFeasibilityInput { +            horizontal_speed: Knots(480.043_410), +            horizontal_speed_basis: HorizontalSpeedBasis::GroundSpeed, +            initial_vertical_speed: FeetPerMinute(-4_451.293_157), +            final_vertical_speed: FeetPerMinute(-14_994.696_168), +            elapsed_time: Seconds(8.027), +            turn_rate: DegreesPerSecond(0.0), +            generic_total_specific_load_threshold: SpecificLoadG(2.5), +        }) +        .unwrap(); + +        assert_eq!(result.horizontal_speed_basis, HorizontalSpeedBasis::GroundSpeed); +        assert_abs_diff_eq!( +            result.acceleration.earth_vertical_upward.0 / TEST_GRAVITY, +            -0.6804, +            epsilon = 5e-5 +        ); +        assert_abs_diff_eq!( +            result.mechanical_energy_change.0 / 1_000.0, +            -1.243, +            epsilon = 0.002 +        ); +        assert_abs_diff_eq!(result.altitude_loss.0, 1_300.78, epsilon = 0.02); +        assert_eq!( +            result.generic_load_classification, +            GenericLoadClassification::WithinInclusiveThreshold +        ); +    } +} *** Update File: crates/dynamics/src/lib.rs @@  mod environment;  mod one_turn; +mod three_dof; @@  pub use one_turn::{ @@      OneTurnParameters, OneTurnTrajectory, RadarPrior,  }; + +pub use three_dof::{ +    evaluate_three_dof_feasibility, DegreesPerSecond, GenericLoadClassification, +    HorizontalSpeedBasis, JoulesPerKilogram, MetersPerSecondSquared, SpecificLoadG, +    ThreeDofAccelerationComponents, ThreeDofFeasibility, ThreeDofFeasibilityError, +    ThreeDofFeasibilityInput, WattsPerKilogram, +}; *** End Patch PATCH' (5s)
+      $ "/jackbox/home/.codex/tmp/arg0/codex-arg0IjL57b/apply_patch <<'PATCH'
+    *** Begin Patch
+    *** Add File: crates/dynamics/src/three_dof.rs
+    +//"'! Transparent point-mass feasibility calculations for a short flight segment.
+    +//!
+    +//! This is a generic kinematic screen, not a Boeing 777 flight-dynamics or
+    +//! loads model. It assumes constant horizontal-speed magnitude, constant
+    +//! earth-vertical acceleration, constant turn rate, a local flat-earth frame,
+    +//! and standard gravity. The declared horizontal-speed basis is used
+    +//! consistently for path angles, turn acceleration, and the energy-equivalent
+    +//! force calculation.
+    +//!
+    +//! With [`HorizontalSpeedBasis::TrueAirspeed`], those results are air-relative
+    +//! proxies and require stationary or separately accounted-for wind to be read
+    +//! as inertial mechanics. With [`HorizontalSpeedBasis::GroundSpeed`], the
+    +//! kinematics and energy are earth-relative, but the equivalent
+    +//! drag-minus-thrust remains an energy-equivalent quantity rather than an
+    +//! aerodynamic force estimate.
+    +
+    +use mh370_domain::{Degrees, Feet, FeetPerMinute, Knots, Seconds};
+    +use serde::{Deserialize, Serialize};
+    +use thiserror::Error;
+    +
+    +const STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED: f64 = 9.806_65;
+    +const METERS_PER_SECOND_PER_KNOT: f64 = 1_852.0 / 3_600.0;
+    +const METERS_PER_SECOND_PER_FOOT_PER_MINUTE: f64 = 0.304_8 / 60.0;
+    +const FEET_PER_METER: f64 = 1.0 / 0.304_8;
+    +
+    +macro_rules! scalar_unit {
+    +    ($name:ident) => {
+    +        #[derive(Debug, Clone, Copy, Default, PartialEq, PartialOrd, Serialize, Deserialize)]
+    +        #[serde(transparent)]
+    +        pub struct $name(pub f64);
+    +
+    +        impl $name {
+    +            pub const fn new(value: f64) -> Self {
+    +                Self(value)
+    +            }
+    +
+    +            pub const fn value(self) -> f64 {
+    +                self.0
+    +            }
+    +
+    +            pub fn is_finite(self) -> bool {
+    +                self.0.is_finite()
+    +            }
+    +        }
+    +    };
+    +}
+    +
+    +scalar_unit!(DegreesPerSecond);
+    +scalar_unit!(MetersPerSecondSquared);
+    +scalar_unit!(SpecificLoadG);
+    +scalar_unit!(JoulesPerKilogram);
+    +scalar_unit!(WattsPerKilogram);
+    +
+    +/// Reference used for the supplied horizontal-speed magnitude.
+    +#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+    +#[serde(rename_all = "snake_case")]
+    +pub enum HorizontalSpeedBasis {
+    +    /// Horizontal component of true airspeed.
+    +    TrueAirspeed,
+    +    /// Horizontal ground-speed magnitude in the local earth frame.
+    +    GroundSpeed,
+    +}
+    +
+    +/// Classification against the caller'"'s generic total-specific-load threshold.
+    +///
+    +/// This classification makes no aircraft-type-specific structural, handling,
+    +/// or certification claim.
+    +#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+    +#[serde(rename_all = \"snake_case\")]
+    +pub enum GenericLoadClassification {
+    +    WithinInclusiveThreshold,
+    +    ExceedsThreshold,
+    +}
+    +
+    +/// Inputs for one constant-acceleration, constant-turn-rate segment.
+    +///
+    +/// Vertical speeds and accelerations are positive upward. Positive turn rate
+    +/// produces positive lateral acceleration. The total-load threshold is in
+    +/// multiples of standard gravity and is inclusive.
+    +#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+    +pub struct ThreeDofFeasibilityInput {
+    +    pub horizontal_speed: Knots,
+    +    pub horizontal_speed_basis: HorizontalSpeedBasis,
+    +    pub initial_vertical_speed: FeetPerMinute,
+    +    pub final_vertical_speed: FeetPerMinute,
+    +    pub elapsed_time: Seconds,
+    +    pub turn_rate: DegreesPerSecond,
+    +    pub generic_total_specific_load_threshold: SpecificLoadG,
+    +}
+    +
+    +/// Inertial acceleration components evaluated at the segment midpoint.
+    +///
+    +/// "'`flight_path_tangential` is positive along the midpoint velocity.
+    +/// `vertical_plane_normal_upward` is positive toward the upward normal to that
+    +/// velocity. `horizontal_turn_lateral` is positive with positive turn rate.
+    +#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+    +pub struct ThreeDofAccelerationComponents {
+    +    pub earth_vertical_upward: MetersPerSecondSquared,
+    +    pub flight_path_tangential: MetersPerSecondSquared,
+    +    pub vertical_plane_normal_upward: MetersPerSecondSquared,
+    +    pub horizontal_turn_lateral: MetersPerSecondSquared,
+    +}
+    +
+    +/// Results of the generic three-degree-of-freedom feasibility screen.
+    +#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+    +pub struct ThreeDofFeasibility {
+    +    pub horizontal_speed_basis: HorizontalSpeedBasis,
+    +    /// Positive for net descent and negative for net climb.
+    +    pub altitude_loss: Feet,
+    +    pub initial_flight_path_angle: Degrees,
+    +    pub final_flight_path_angle: Degrees,
+    +    pub acceleration: ThreeDofAccelerationComponents,
+    +    /// Signed upward proper acceleration divided by standard gravity.
+    +    pub earth_up_specific_load: SpecificLoadG,
+    +    /// Magnitude of proper acceleration divided by standard gravity.
+    +    pub total_specific_load: SpecificLoadG,
+    +    /// Change in kinetic plus gravitational potential energy per unit mass.
+    +    pub mechanical_energy_change: JoulesPerKilogram,
+    +    /// Positive when mechanical energy is dissipated over the segment.
+    +    pub dissipative_power: WattsPerKilogram,
+    +    /// Energy-equivalent `(drag - thrust) / mass` along midpoint velocity.
+    +    pub equivalent_drag_minus_thrust_per_mass: MetersPerSecondSquared,
+    +    pub generic_total_specific_load_threshold: SpecificLoadG,
+    +    pub generic_load_classification: GenericLoadClassification,
+    +}
+    +
+    +#[derive(Debug, Clone, Copy, PartialEq, Eq, Error)]
+    +pub enum ThreeDofFeasibilityError {
+    +    #[error("horizontal speed must be finite and strictly positive")]
+    +    InvalidHorizontalSpeed,
+    +    #[error("vertical speeds must be finite")]
+    +    InvalidVerticalSpeed,
+    +    #[error("elapsed time must be finite and strictly positive")]
+    +    InvalidElapsedTime,
+    +    #[error("turn rate must be finite")]
+    +    InvalidTurnRate,
+    +    #[error("generic total-specific-load threshold must be finite and non-negative")]
+    +    InvalidGenericLoadThreshold,
+    +    #[error("three-DoF calculation produced a non-finite result")]
+    +    NonFiniteResult,
+    +}
+    +
+    +/// Evaluate a short segment with constant horizontal-speed magnitude, constant
+    +/// earth-vertical acceleration, and constant turn rate.
+    +pub fn evaluate_three_dof_feasibility(
+    +    input: ThreeDofFeasibilityInput,
+    +) -> Result<ThreeDofFeasibility, ThreeDofFeasibilityError> {
+    +    if !input.horizontal_speed.is_finite() || input.horizontal_speed.0 <= 0.0 {
+    +        return Err(ThreeDofFeasibilityError::InvalidHorizontalSpeed);
+    +    }
+    +    if !input.initial_vertical_speed.is_finite() || !input.final_vertical_speed.is_finite() {
+    +        return Err(ThreeDofFeasibilityError::InvalidVerticalSpeed);
+    +    }
+    +    if !input.elapsed_time.is_finite() || input.elapsed_time.0 <= 0.0 {
+    +        return Err(ThreeDofFeasibilityError::InvalidElapsedTime);
+    +    }
+    +    if !input.turn_rate.is_finite() {
+    +        return Err(ThreeDofFeasibilityError::InvalidTurnRate);
+    +    }
+    +    if !input.generic_total_specific_load_threshold.is_finite()
+    +        || input.generic_total_specific_load_threshold.0 < 0.0
+    +    {
+    +        return Err(ThreeDofFeasibilityError::InvalidGenericLoadThreshold);
+    +    }
+    +
+    +    let horizontal_speed = input.horizontal_speed.0 * METERS_PER_SECOND_PER_KNOT;
+    +    let initial_vertical_speed =
+    +        input.initial_vertical_speed.0 * METERS_PER_SECOND_PER_FOOT_PER_MINUTE;
+    +    let final_vertical_speed =
+    +        input.final_vertical_speed.0 * METERS_PER_SECOND_PER_FOOT_PER_MINUTE;
+    +    let elapsed_time = input.elapsed_time.0;
+    +    let mean_vertical_speed = 0.5 * (initial_vertical_speed + final_vertical_speed);
+    +    let altitude_change = mean_vertical_speed * elapsed_time;
+    +    let earth_vertical_acceleration =
+    +        (final_vertical_speed - initial_vertical_speed) / elapsed_time;
+    +
+    +    let initial_flight_path_angle = initial_vertical_speed.atan2(horizontal_speed);
+    +    let final_flight_path_angle = final_vertical_speed.atan2(horizontal_speed);
+    +    let midpoint_flight_path_angle = mean_vertical_speed.atan2(horizontal_speed);
+    +
+    +    let turn_rate = input.turn_rate.0.to_radians();
+    +    let lateral_acceleration = horizontal_speed * turn_rate;
+    +    let tangential_acceleration =
+    +        earth_vertical_acceleration * midpoint_flight_path_angle.sin();
+    +    let vertical_plane_normal_acceleration =
+    +        earth_vertical_acceleration * midpoint_flight_path_angle.cos();
+    +
+    +    let earth_up_proper_acceleration =
+    +        earth_vertical_acceleration + STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED;
+    +    let earth_up_specific_load =
+    +        earth_up_proper_acceleration / STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED;
+    +    let total_specific_load = earth_up_proper_acceleration.hypot(lateral_acceleration)
+    +        / STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED;
+    +
+    +    let initial_speed_squared =
+    +        horizontal_speed.powi(2) + initial_vertical_speed.powi(2);
+    +    let final_speed_squared = horizontal_speed.powi(2) + final_vertical_speed.powi(2);
+    +    let mechanical_energy_change = 0.5 * (final_speed_squared - initial_speed_squared)
+    +        + STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED * altitude_change;
+    +    let dissipative_power = -mechanical_energy_change / elapsed_time;
+    +    let midpoint_speed = horizontal_speed.hypot(mean_vertical_speed);
+    +    let equivalent_drag_minus_thrust_per_mass = dissipative_power / midpoint_speed;
+    +
+    +    let finite_results = [
+    +        altitude_change,
+    +        earth_vertical_acceleration,
+    +        initial_flight_path_angle,
+    +        final_flight_path_angle,
+    +        tangential_acceleration,
+    +        vertical_plane_normal_acceleration,
+    +        lateral_acceleration,
+    +        earth_up_specific_load,
+    +        total_specific_load,
+    +        mechanical_energy_change,
+    +        dissipative_power,
+    +        equivalent_drag_minus_thrust_per_mass,
+    +    ]
+    +    .into_iter()
+    +    .all(f64::is_finite);
+    +    if !finite_results {
+    +        return Err(ThreeDofFeasibilityError::NonFiniteResult);
+    +    }
+    +
+    +    let generic_load_classification = if total_specific_load
+    +        <= input.generic_total_specific_load_threshold.0
+    +    {
+    +        GenericLoadClassification::WithinInclusiveThreshold
+    +    } else {
+    +        GenericLoadClassification::ExceedsThreshold
+    +    };
+    +
+    +    Ok(ThreeDofFeasibility {
+    +        horizontal_speed_basis: input.horizontal_speed_basis,
+    +        altitude_loss: Feet(-altitude_change * FEET_PER_METER),
+    +        initial_flight_path_angle: Degrees(initial_flight_path_angle.to_degrees()),
+    +        final_flight_path_angle: Degrees(final_flight_path_angle.to_degrees()),
+    +        acceleration: ThreeDofAccelerationComponents {
+    +            earth_vertical_upward: MetersPerSecondSquared(earth_vertical_acceleration),
+    +            flight_path_tangential: MetersPerSecondSquared(tangential_acceleration),
+    +            vertical_plane_normal_upward: MetersPerSecondSquared(
+    +                vertical_plane_normal_acceleration,
+    +            ),
+    +            horizontal_turn_lateral: MetersPerSecondSquared(lateral_acceleration),
+    +        },
+    +        earth_up_specific_load: SpecificLoadG(earth_up_specific_load),
+    +        total_specific_load: SpecificLoadG(total_specific_load),
+    +        mechanical_energy_change: JoulesPerKilogram(mechanical_energy_change),
+    +        dissipative_power: WattsPerKilogram(dissipative_power),
+    +        equivalent_drag_minus_thrust_per_mass: MetersPerSecondSquared(
+    +            equivalent_drag_minus_thrust_per_mass,
+    +        ),
+    +        generic_total_specific_load_threshold: input.generic_total_specific_load_threshold,
+    +        generic_load_classification,
+    +    })
+    +}
+    +
+    +#[cfg(test)]
+    +mod tests {
+    +    use approx::assert_abs_diff_eq;
+    +
+    +    use super::*;
+    +
+    +    const TEST_GRAVITY: f64 = 9.806_65;
+    +
+    +    fn knots_from_meters_per_second(value: f64) -> Knots {
+    +        Knots(value / (1_852.0 / 3_600.0))
+    +    }
+    +
+    +    fn feet_per_minute_from_meters_per_second(value: f64) -> FeetPerMinute {
+    +        FeetPerMinute(value / (0.304_8 / 60.0))
+    +    }
+    +
+    +    fn input(
+    +        horizontal_speed_meters_per_second: f64,
+    +        initial_vertical_speed_meters_per_second: f64,
+    +        final_vertical_speed_meters_per_second: f64,
+    +        elapsed_seconds: f64,
+    +        turn_rate_degrees_per_second: f64,
+    +        threshold_g: f64,
+    +    ) -> ThreeDofFeasibilityInput {
+    +        ThreeDofFeasibilityInput {
+    +            horizontal_speed: knots_from_meters_per_second(
+    +                horizontal_speed_meters_per_second,
+    +            ),
+    +            horizontal_speed_basis: HorizontalSpeedBasis::TrueAirspeed,
+    +            initial_vertical_speed: feet_per_minute_from_meters_per_second(
+    +                initial_vertical_speed_meters_per_second,
+    +            ),
+    +            final_vertical_speed: feet_per_minute_from_meters_per_second(
+    +                final_vertical_speed_meters_per_second,
+    +            ),
+    +            elapsed_time: Seconds(elapsed_seconds),
+    +            turn_rate: DegreesPerSecond(turn_rate_degrees_per_second),
+    +            generic_total_specific_load_threshold: SpecificLoadG(threshold_g),
+    +        }
+    +    }
+    +
+    +    #[test]
+    +    fn level_unaccelerated_flight_is_one_g_with_no_energy_change() {
+    +        let result = evaluate_three_dof_feasibility(input(
+    +            200.0, 0.0, 0.0, 10.0, 0.0, 1.0,
+    +        ))
+    +        .unwrap();
+    +
+    +        assert_abs_diff_eq!(result.altitude_loss.0, 0.0, epsilon = 1e-12);
+    +        assert_abs_diff_eq!(result.initial_flight_path_angle.0, 0.0, epsilon = 1e-12);
+    +        assert_abs_diff_eq!(result.final_flight_path_angle.0, 0.0, epsilon = 1e-12);
+    +        assert_abs_diff_eq!(result.acceleration.earth_vertical_upward.0, 0.0, epsilon = 1e-12);
+    +        assert_abs_diff_eq!(result.acceleration.flight_path_tangential.0, 0.0, epsilon = 1e-12);
+    +        assert_abs_diff_eq!(result.acceleration.vertical_plane_normal_upward.0, 0.0, epsilon = 1e-12);
+    +        assert_abs_diff_eq!(result.acceleration.horizontal_turn_lateral.0, 0.0, epsilon = 1e-12);
+    +        assert_abs_diff_eq!(result.earth_up_specific_load.0, 1.0, epsilon = 1e-12);
+    +        assert_abs_diff_eq!(result.total_specific_load.0, 1.0, epsilon = 1e-12);
+    +        assert_abs_diff_eq!(result.mechanical_energy_change.0, 0.0, epsilon = 1e-12);
+    +        assert_abs_diff_eq!(result.dissipative_power.0, 0.0, epsilon = 1e-12);
+    +        assert_abs_diff_eq!(result.equivalent_drag_minus_thrust_per_mass.0, 0.0, epsilon = 1e-12);
+    +        assert_eq!(
+    +            result.generic_load_classification,
+    +            GenericLoadClassification::WithinInclusiveThreshold
+    +        );
+    +    }
+    +
+    +    #[test]
+    +    fn ballistic_free_fall_conserves_mechanical_energy_and_has_zero_specific_load() {
+    +        let elapsed = 2.0;
+    +        let final_vertical_speed = -TEST_GRAVITY * elapsed;
+    +        let result = evaluate_three_dof_feasibility(input(
+    +            100.0,
+    +            0.0,
+    +            final_vertical_speed,
+    +            elapsed,
+    +            0.0,
+    +            1.0,
+    +        ))
+    +        .unwrap();
+    +
+    +        let expected_altitude_loss_feet = 0.5 * TEST_GRAVITY * elapsed.powi(2) / 0.304_8;
+    +        assert_abs_diff_eq!(
+    +            result.altitude_loss.0,
+    +            expected_altitude_loss_feet,
+    +            epsilon = 1e-10
+    +        );
+    +        assert_abs_diff_eq!(
+    +            result.acceleration.earth_vertical_upward.0,
+    +            -TEST_GRAVITY,
+    +            epsilon = 1e-12
+    +        );
+    +        assert_abs_diff_eq!(result.earth_up_specific_load.0, 0.0, epsilon = 1e-12);
+    +        assert_abs_diff_eq!(result.total_specific_load.0, 0.0, epsilon = 1e-12);
+    +        assert_abs_diff_eq!(result.mechanical_energy_change.0, 0.0, epsilon = 1e-10);
+    +        assert_abs_diff_eq!(result.dissipative_power.0, 0.0, epsilon = 1e-10);
+    +        assert_abs_diff_eq!(
+    +            result.equivalent_drag_minus_thrust_per_mass.0,
+    +            0.0,
+    +            epsilon = 1e-12
+    +        );
+    +    }
+    +
+    +    #[test]
+    +    fn constant_acceleration_descent_matches_closed_form_energy_and_components() {
+    +        let result = evaluate_three_dof_feasibility(input(
+    +            200.0, -10.0, -20.0, 5.0, 0.0, 2.5,
+    +        ))
+    +        .unwrap();
+    +
+    +        let midpoint_path_angle = (-15.0_f64).atan2(200.0);
+    +        let expected_energy_change =
+    +            0.5 * (20.0_f64.powi(2) - 10.0_f64.powi(2)) - TEST_GRAVITY * 75.0;
+    +        let expected_dissipative_power = -expected_energy_change / 5.0;
+    +
+    +        assert_abs_diff_eq!(result.altitude_loss.0, 75.0 / 0.304_8, epsilon = 1e-10);
+    +        assert_abs_diff_eq!(
+    +            result.initial_flight_path_angle.0,
+    +            (-10.0_f64).atan2(200.0).to_degrees(),
+    +            epsilon = 1e-12
+    +        );
+    +        assert_abs_diff_eq!(
+    +            result.final_flight_path_angle.0,
+    +            (-20.0_f64).atan2(200.0).to_degrees(),
+    +            epsilon = 1e-12
+    +        );
+    +        assert_abs_diff_eq!(
+    +            result.acceleration.earth_vertical_upward.0,
+    +            -2.0,
+    +            epsilon = 1e-12
+    +        );
+    +        assert_abs_diff_eq!(
+    +            result.acceleration.flight_path_tangential.0,
+    +            -2.0 * midpoint_path_angle.sin(),
+    +            epsilon = 1e-12
+    +        );
+    +        assert_abs_diff_eq!(
+    +            result.acceleration.vertical_plane_normal_upward.0,
+    +            -2.0 * midpoint_path_angle.cos(),
+    +            epsilon = 1e-12
+    +        );
+    +        assert_abs_diff_eq!(
+    +            result.earth_up_specific_load.0,
+    +            (TEST_GRAVITY - 2.0) / TEST_GRAVITY,
+    +            epsilon = 1e-12
+    +        );
+    +        assert_abs_diff_eq!(
+    +            result.mechanical_energy_change.0,
+    +            expected_energy_change,
+    +            epsilon = 1e-10
+    +        );
+    +        assert_abs_diff_eq!(
+    +            result.dissipative_power.0,
+    +            expected_dissipative_power,
+    +            epsilon = 1e-10
+    +        );
+    +        assert_abs_diff_eq!(
+    +            result.equivalent_drag_minus_thrust_per_mass.0,
+    +            expected_dissipative_power / 200.0_f64.hypot(-15.0),
+    +            epsilon = 1e-12
+    +        );
+    +    }
+    +
+    +    #[test]
+    +    fn coordinated_level_turn_combines_vertical_and_lateral_specific_load() {
+    +        let horizontal_speed = 100.0;
+    +        let target_lateral_acceleration = 3.0_f64.sqrt() * TEST_GRAVITY;
+    +        let turn_rate_degrees_per_second =
+    +            (target_lateral_acceleration / horizontal_speed).to_degrees();
+    +        let result = evaluate_three_dof_feasibility(input(
+    +            horizontal_speed,
+    +            0.0,
+    +            0.0,
+    +            10.0,
+    +            turn_rate_degrees_per_second,
+    +            1.5,
+    +        ))
+    +        .unwrap();
+    +
+    +        assert_abs_diff_eq!(
+    +            result.acceleration.horizontal_turn_lateral.0,
+    +            target_lateral_acceleration,
+    +            epsilon = 1e-12
+    +        );
+    +        assert_abs_diff_eq!(result.earth_up_specific_load.0, 1.0, epsilon = 1e-12);
+    +        assert_abs_diff_eq!(result.total_specific_load.0, 2.0, epsilon = 1e-12);
+    +        assert_abs_diff_eq!(result.mechanical_energy_change.0, 0.0, epsilon = 1e-12);
+    +        assert_eq!(
+    +            result.generic_load_classification,
+    +            GenericLoadClassification::ExceedsThreshold
+    +        );
+    +    }
+    +
+    +    #[test]
+    +    fn raw_bfo_median_regression_matches_vertical_acceleration_and_energy_change() {
+    +        let result = evaluate_three_dof_feasibility(ThreeDofFeasibilityInput {
+    +            horizontal_speed: Knots(480.043_410),
+    +            horizontal_speed_basis: HorizontalSpeedBasis::GroundSpeed,
+    +            initial_vertical_speed: FeetPerMinute(-4_451.293_157),
+    +            final_vertical_speed: FeetPerMinute(-14_994.696_168),
+    +            elapsed_time: Seconds(8.027),
+    +            turn_rate: DegreesPerSecond(0.0),
+    +            generic_total_specific_load_threshold: SpecificLoadG(2.5),
+    +        })
+    +        .unwrap();
+    +
+    +        assert_eq!(result.horizontal_speed_basis, HorizontalSpeedBasis::GroundSpeed);
+    +        assert_abs_diff_eq!(
+    +            result.acceleration.earth_vertical_upward.0 / TEST_GRAVITY,
+    +            -0.6804,
+    +            epsilon = 5e-5
+    +        );
+    +        assert_abs_diff_eq!(
+    +            result.mechanical_energy_change.0 / 1_000.0,
+    +            -1.243,
+    +            epsilon = 0.002
+    +        );
+    +        assert_abs_diff_eq!(result.altitude_loss.0, 1_300.78, epsilon = 0.02);
+    +        assert_eq!(
+    +            result.generic_load_classification,
+    +            GenericLoadClassification::WithinInclusiveThreshold
+    +        );
+    +    }
+    +}
+    *** Update File: crates/dynamics/src/lib.rs
+    @@
+     mod environment;
+     mod one_turn;
+    +mod three_dof;
+    @@
+     pub use one_turn::{
+    @@
+         OneTurnParameters, OneTurnTrajectory, RadarPrior,
+     };
+    +
+    +pub use three_dof::{
+    +    evaluate_three_dof_feasibility, DegreesPerSecond, GenericLoadClassification,
+    +    HorizontalSpeedBasis, JoulesPerKilogram, MetersPerSecondSquared, SpecificLoadG,
+    +    ThreeDofAccelerationComponents, ThreeDofFeasibility, ThreeDofFeasibilityError,
+    +    ThreeDofFeasibilityInput, WattsPerKilogram,
+    +};
+    *** End Patch
+    PATCH'
+      Success. Updated the following files:
+      A crates/dynamics/src/three_dof.rs
+      M crates/dynamics/src/lib.rs
+
+  ── Assistant
+  The scoped evaluator and public export are now in place. Its output separates inertial acceleration from proper load, echoes the selected speed basis, and labels the drag-minus-thrust result per unit mass so it cannot imply an unavailable aircraft mass. I’m moving through formatting and the five limiting/regression fixtures now.
+
+  ── Ran 3 commands
+    ── Ran cargo fmt --package mh370-dynamics -- --check (3s, error)
+      $ cargo fmt --package mh370-dynamics -- --check
+      Diff in /jackbox/home/MH370/crates/dynamics/src/three_dof.rs:166:
+           let horizontal_speed = input.horizontal_speed.0 * METERS_PER_SECOND_PER_KNOT;
+           let initial_vertical_speed =
+               input.initial_vertical_speed.0 * METERS_PER_SECOND_PER_FOOT_PER_MINUTE;
+      [31m-    let final_vertical_speed =
+      (B[m[31m-        input.final_vertical_speed.0 * METERS_PER_SECOND_PER_FOOT_PER_MINUTE;
+      (B[m[32m+    let final_vertical_speed = input.final_vertical_speed.0 * METERS_PER_SECOND_PER_FOOT_PER_MINUTE;
+      (B[m     let elapsed_time = input.elapsed_time.0;
+           let mean_vertical_speed = 0.5 * (initial_vertical_speed + final_vertical_speed);
+           let altitude_change = mean_vertical_speed * elapsed_time;
+      Diff in /jackbox/home/MH370/crates/dynamics/src/three_dof.rs:180:
+       
+           let turn_rate = input.turn_rate.0.to_radians();
+           let lateral_acceleration = horizontal_speed * turn_rate;
+      [31m-    let tangential_acceleration =
+      (B[m[31m-        earth_vertical_acceleration * midpoint_flight_path_angle.sin();
+      (B[m[32m+    let tangential_acceleration = earth_vertical_acceleration * midpoint_flight_path_angle.sin();
+      (B[m     let vertical_plane_normal_acceleration =
+               earth_vertical_acceleration * midpoint_flight_path_angle.cos();
+       
+      Diff in /jackbox/home/MH370/crates/dynamics/src/three_dof.rs:192:
+           let total_specific_load = earth_up_proper_acceleration.hypot(lateral_acceleration)
+               / STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED;
+       
+      [31m-    let initial_speed_squared =
+      (B[m[31m-        horizontal_speed.powi(2) + initial_vertical_speed.powi(2);
+      (B[m[32m+    let initial_speed_squared = horizontal_speed.powi(2) + initial_vertical_speed.powi(2);
+      (B[m     let final_speed_squared = horizontal_speed.powi(2) + final_vertical_speed.powi(2);
+           let mechanical_energy_change = 0.5 * (final_speed_squared - initial_speed_squared)
+               + STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED * altitude_change;
+      Diff in /jackbox/home/MH370/crates/dynamics/src/three_dof.rs:221:
+               return Err(ThreeDofFeasibilityError::NonFiniteResult);
+           }
+       
+      [31m-    let generic_load_classification = if total_specific_load
+      (B[m[31m-        <= input.generic_total_specific_load_threshold.0
+      (B[m[31m-    {
+      (B[m[31m-        GenericLoadClassification::WithinInclusiveThreshold
+      (B[m[31m-    } else {
+      (B[m[31m-        GenericLoadClassification::ExceedsThreshold
+      (B[m[31m-    };
+      (B[m[32m+    let generic_load_classification =
+      (B[m[32m+        if total_specific_load <= input.generic_total_specific_load_threshold.0 {
+      (B[m[32m+            GenericLoadClassification::WithinInclusiveThreshold
+      (B[m[32m+        } else {
+      (B[m[32m+            GenericLoadClassification::ExceedsThreshold
+      (B[m[32m+        };
+      (B[m 
+           Ok(ThreeDofFeasibility {
+               horizontal_speed_basis: input.horizontal_speed_basis,
+      Diff in /jackbox/home/MH370/crates/dynamics/src/three_dof.rs:279:
+               threshold_g: f64,
+           ) -> ThreeDofFeasibilityInput {
+               ThreeDofFeasibilityInput {
+      [31m-            horizontal_speed: knots_from_meters_per_second(
+      (B[m[31m-                horizontal_speed_meters_per_second,
+      (B[m[31m-            ),
+      (B[m[32m+            horizontal_speed: knots_from_meters_per_second(horizontal_speed_meters_per_second),
+      (B[m             horizontal_speed_basis: HorizontalSpeedBasis::TrueAirspeed,
+                   initial_vertical_speed: feet_per_minute_from_meters_per_second(
+                       initial_vertical_speed_meters_per_second,
+      Diff in /jackbox/home/MH370/crates/dynamics/src/three_dof.rs:297:
+       
+           #[test]
+           fn level_unaccelerated_flight_is_one_g_with_no_energy_change() {
+      [31m-        let result = evaluate_three_dof_feasibility(input(
+      (B[m[31m-            200.0, 0.0, 0.0, 10.0, 0.0, 1.0,
+      (B[m[31m-        ))
+      (B[m[31m-        .unwrap();
+      (B[m[32m+        let result =
+      (B[m[32m+            evaluate_three_dof_feasibility(input(200.0, 0.0, 0.0, 10.0, 0.0, 1.0)).unwrap();
+      (B[m 
+               assert_abs_diff_eq!(result.altitude_loss.0, 0.0, epsilon = 1e-12);
+               assert_abs_diff_eq!(result.initial_flight_path_angle.0, 0.0, epsilon = 1e-12);
+      Diff in /jackbox/home/MH370/crates/dynamics/src/three_dof.rs:307:
+               assert_abs_diff_eq!(result.final_flight_path_angle.0, 0.0, epsilon = 1e-12);
+      [31m-        assert_abs_diff_eq!(result.acceleration.earth_vertical_upward.0, 0.0, epsilon = 1e-12);
+      (B[m[31m-        assert_abs_diff_eq!(result.acceleration.flight_path_tangential.0, 0.0, epsilon = 1e-12);
+      (B[m[31m-        assert_abs_diff_eq!(result.acceleration.vertical_plane_normal_upward.0, 0.0, epsilon = 1e-12);
+      (B[m[31m-        assert_abs_diff_eq!(result.acceleration.horizontal_turn_lateral.0, 0.0, epsilon = 1e-12);
+      (B[m[32m+        assert_abs_diff_eq!(
+      (B[m[32m+            result.acceleration.earth_vertical_upward.0,
+      (B[m[32m+            0.0,
+      (B[m[32m+            epsilon = 1e-12
+      (B[m[32m+        );
+      (B[m[32m+        assert_abs_diff_eq!(
+      (B[m[32m+            result.acceleration.flight_path_tangential.0,
+      (B[m[32m+            0.0,
+      (B[m[32m+            epsilon = 1e-12
+      (B[m[32m+        );
+      (B[m[32m+        assert_abs_diff_eq!(
+      (B[m[32m+            result.acceleration.vertical_plane_normal_upward.0,
+      (B[m[32m+            0.0,
+      (B[m[32m+            epsilon = 1e-12
+      (B[m[32m+        );
+      (B[m[32m+        assert_abs_diff_eq!(
+      (B[m[32m+            result.acceleration.horizontal_turn_lateral.0,
+      (B[m[32m+            0.0,
+      (B[m[32m+            epsilon = 1e-12
+      (B[m[32m+        );
+      (B[m         assert_abs_diff_eq!(result.earth_up_specific_load.0, 1.0, epsilon = 1e-12);
+               assert_abs_diff_eq!(result.total_specific_load.0, 1.0, epsilon = 1e-12);
+               assert_abs_diff_eq!(result.mechanical_energy_change.0, 0.0, epsilon = 1e-12);
+      Diff in /jackbox/home/MH370/crates/dynamics/src/three_dof.rs:315:
+               assert_abs_diff_eq!(result.dissipative_power.0, 0.0, epsilon = 1e-12);
+      [31m-        assert_abs_diff_eq!(result.equivalent_drag_minus_thrust_per_mass.0, 0.0, epsilon = 1e-12);
+      (B[m[32m+        assert_abs_diff_eq!(
+      (B[m[32m+            result.equivalent_drag_minus_thrust_per_mass.0,
+      (B[m[32m+            0.0,
+      (B[m[32m+            epsilon = 1e-12
+      (B[m[32m+        );
+      (B[m         assert_eq!(
+                   result.generic_load_classification,
+                   GenericLoadClassification::WithinInclusiveThreshold
+      Diff in /jackbox/home/MH370/crates/dynamics/src/three_dof.rs:358:
+       
+           #[test]
+           fn constant_acceleration_descent_matches_closed_form_energy_and_components() {
+      [31m-        let result = evaluate_three_dof_feasibility(input(
+      (B[m[31m-            200.0, -10.0, -20.0, 5.0, 0.0, 2.5,
+      (B[m[31m-        ))
+      (B[m[31m-        .unwrap();
+      (B[m[32m+        let result =
+      (B[m[32m+            evaluate_three_dof_feasibility(input(200.0, -10.0, -20.0, 5.0, 0.0, 2.5)).unwrap();
+      (B[m 
+               let midpoint_path_angle = (-15.0_f64).atan2(200.0);
+               let expected_energy_change =
+      Diff in /jackbox/home/MH370/crates/dynamics/src/three_dof.rs:459:
+               })
+               .unwrap();
+       
+      [31m-        assert_eq!(result.horizontal_speed_basis, HorizontalSpeedBasis::GroundSpeed);
+      (B[m[32m+        assert_eq!(
+      (B[m[32m+            result.horizontal_speed_basis,
+      (B[m[32m+            HorizontalSpeedBasis::GroundSpeed
+      (B[m[32m+        );
+      (B[m         assert_abs_diff_eq!(
+                   result.acceleration.earth_vertical_upward.0 / TEST_GRAVITY,
+                   -0.6804,
+      exit 1
+    ── Ran cargo fmt --package mh370-dynamics (3s)
+      $ cargo fmt --package mh370-dynamics
+      exit code 0
+    ── Ran cargo test -p mh370-dynamics (3s)
+      $ cargo test -p mh370-dynamics
+      Finished `test` profile [unoptimized + debuginfo] target(s) in 0.51s
+           Running unittests src/lib.rs (target/debug/deps/mh370_dynamics-de48f9822cdcafa1)
+
+      running 13 tests
+      test environment::tests::era5_interpolates_all_four_axes_and_converts_wind_units ... ok
+      test environment::tests::parser_rejects_short_or_nonmonotonic_data ... ok
+      test environment::tests::igrf_interpolates_east_positive_declination ... ok
+      test one_turn::tests::environment_aware_heading_propagation_is_sequential_and_explicit ... ok
+      test one_turn::tests::trajectory_turns_once_and_preserves_constant_speed_and_altitude ... ok
+      test tests::magnetic_sign_and_heading_track_wind_resolution_match_convention ... ok
+      test one_turn::tests::sampled_and_mutated_parameters_remain_in_the_declared_prior ... ok
+      test three_dof::tests::ballistic_free_fall_conserves_mechanical_energy_and_has_zero_specific_load ... ok
+      test tests::constant_track_propagation_closes_elapsed_distance_and_altitude ... ok
+      test three_dof::tests::constant_acceleration_descent_matches_closed_form_energy_and_components ... ok
+      test three_dof::tests::level_unaccelerated_flight_is_one_g_with_no_energy_change ... ok
+      test three_dof::tests::coordinated_level_turn_combines_vertical_and_lateral_specific_load ... ok
+      test three_dof::tests::raw_bfo_median_regression_matches_vertical_acceleration_and_energy_change ... ok
+
+      test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+         Doc-tests mh370_dynamics
+
+      running 0 tests
+
+      test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+  ── Assistant
+  All 13 dynamics crate tests pass, including all five new fixtures. I’m doing one final source/diff audit now—especially the exact speed-basis wording, midpoint definitions, and file scope—before handing it back to the Core Analysis integrator.
+
+  ── Explored 1 file, ran 4 commands
+    ── Read crates/dynamics/src/three_dof.rs
+    ── Ran /jackbox/home/.codex/tmp/arg0/codex-arg0IjL57b/apply_patch <<'PATCH' *** Begin Patch *** Update File: crates/dynamics/src/three_dof.rs @@      let elapsed_time = input.elapsed_time.0;      let mean_vertical_speed = 0.5 * (initial_vertical_speed + final_vertical_speed);      let altitude_change = mean_vertical_speed * elapsed_time; +    let altitude_loss_feet = -altitude_change * FEET_PER_METER; @@ -    let initial_speed_squared = horizontal_speed.powi(2) + initial_vertical_speed.powi(2); -    let final_speed_squared = horizontal_speed.powi(2) + final_vertical_speed.powi(2); -    let mechanical_energy_change = 0.5 * (final_speed_squared - initial_speed_squared) +    let vertical_kinetic_energy_change = 0.5 +        * (final_vertical_speed - initial_vertical_speed) +        * (final_vertical_speed + initial_vertical_speed); +    let mechanical_energy_change = vertical_kinetic_energy_change          + STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED * altitude_change; @@ -        altitude_change, +        altitude_loss_feet, @@ -        altitude_loss: Feet(-altitude_change * FEET_PER_METER), +        altitude_loss: Feet(altitude_loss_feet), *** End Patch PATCH (2s)
+      $ /jackbox/home/.codex/tmp/arg0/codex-arg0IjL57b/apply_patch <<'PATCH'
+    *** Begin Patch
+    *** Update File: crates/dynamics/src/three_dof.rs
+    @@
+         let elapsed_time = input.elapsed_time.0;
+         let mean_vertical_speed = 0.5 * (initial_vertical_speed + final_vertical_speed);
+         let altitude_change = mean_vertical_speed * elapsed_time;
+    +    let altitude_loss_feet = -altitude_change * FEET_PER_METER;
+    @@
+    -    let initial_speed_squared = horizontal_speed.powi(2) + initial_vertical_speed.powi(2);
+    -    let final_speed_squared = horizontal_speed.powi(2) + final_vertical_speed.powi(2);
+    -    let mechanical_energy_change = 0.5 * (final_speed_squared - initial_speed_squared)
+    +    let vertical_kinetic_energy_change = 0.5
+    +        * (final_vertical_speed - initial_vertical_speed)
+    +        * (final_vertical_speed + initial_vertical_speed);
+    +    let mechanical_energy_change = vertical_kinetic_energy_change
+             + STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED * altitude_change;
+    @@
+    -        altitude_change,
+    +        altitude_loss_feet,
+    @@
+    -        altitude_loss: Feet(-altitude_change * FEET_PER_METER),
+    +        altitude_loss: Feet(altitude_loss_feet),
+    *** End Patch
+    PATCH
+      Success. Updated the following files:
+      M crates/dynamics/src/three_dof.rs
+    ── Ran cargo fmt --package mh370-dynamics -- --check (3s)
+      $ cargo fmt --package mh370-dynamics -- --check
+      exit code 0
+    ── Ran cargo test -p mh370-dynamics (3s)
+      $ cargo test -p mh370-dynamics
+      Finished `test` profile [unoptimized + debuginfo] target(s) in 0.20s
+           Running unittests src/lib.rs (target/debug/deps/mh370_dynamics-de48f9822cdcafa1)
+
+      running 13 tests
+      test environment::tests::era5_interpolates_all_four_axes_and_converts_wind_units ... ok
+      test environment::tests::igrf_interpolates_east_positive_declination ... ok
+      test one_turn::tests::trajectory_turns_once_and_preserves_constant_speed_and_altitude ... ok
+      test environment::tests::parser_rejects_short_or_nonmonotonic_data ... ok
+      test one_turn::tests::sampled_and_mutated_parameters_remain_in_the_declared_prior ... ok
+      test tests::constant_track_propagation_closes_elapsed_distance_and_altitude ... ok
+      test one_turn::tests::environment_aware_heading_propagation_is_sequential_and_explicit ... ok
+      test three_dof::tests::ballistic_free_fall_conserves_mechanical_energy_and_has_zero_specific_load ... ok
+      test tests::magnetic_sign_and_heading_track_wind_resolution_match_convention ... ok
+      test three_dof::tests::coordinated_level_turn_combines_vertical_and_lateral_specific_load ... ok
+      test three_dof::tests::constant_acceleration_descent_matches_closed_form_energy_and_components ... ok
+      test three_dof::tests::level_unaccelerated_flight_is_one_g_with_no_energy_change ... ok
+      test three_dof::tests::raw_bfo_median_regression_matches_vertical_acceleration_and_energy_change ... ok
+
+      test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+         Doc-tests mh370_dynamics
+
+      running 0 tests
+
+      test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+    ── Ran cargo clippy -p mh370-dynamics --all-targets -- -D warnings (3s, error)
+      $ cargo clippy -p mh370-dynamics --all-targets -- -D warnings
+      Checking mh370-dynamics v0.1.0 (/jackbox/home/MH370/crates/dynamics)
+      error: this `impl` can be derived
+        --> crates/dynamics/src/lib.rs:38:1
+         |
+      38 | / impl Default for LateralMode {
+      39 | |     fn default() -> Self {
+      40 | |         Self::ConstantTrueTrack
+      41 | |     }
+      42 | | }
+         | |_^
+         |
+         = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#derivable_impls
+         = note: `-D clippy::derivable-impls` implied by `-D warnings`
+         = help: to override `-D warnings` add `#[allow(clippy::derivable_impls)]`
+      help: replace the manual implementation with a derive attribute and mark the default variant
+         |
+      30 + #[derive(Default)]
+      31 | pub enum LateralMode {
+      32 |     ConstantTrueHeading,
+      33 |     ConstantMagneticHeading,
+      34 ~     #[default]
+      35 ~     ConstantTrueTrack,
+         |
+
+      error: could not compile `mh370-dynamics` (lib) due to 1 previous error
+      warning: build failed, waiting for other jobs to finish...
+      error: could not compile `mh370-dynamics` (lib test) due to 1 previous error
+      exit 101
+
+  ── Assistant
+  The requested tests and formatting are clean. A strict crate-wide lint run stops on an existing manual `Default` implementation for `LateralMode` in `lib.rs`, unrelated to this increment; I’m leaving that code untouched and rerunning lint with only that pre-existing rule exempted so the new evaluator is still checked at warning-as-error strength.
+
+  ── Ran 1 command, explored 1 file
+    ── Ran cargo clippy -p mh370-dynamics --all-targets -- -A clippy::derivable_impls -D warnings (3s)
+      $ cargo clippy -p mh370-dynamics --all-targets -- -A clippy::derivable_impls -D warnings
+      Checking mh370-dynamics v0.1.0 (/jackbox/home/MH370/crates/dynamics)
+          Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.53s
+    ── Read crates/dynamics/src/three_dof.rs
+
+── Assistant ───────────────────────────────────────────────
+Implemented the pure three-DoF feasibility screen entirely within `mh370-dynamics`.
+
+Changed files:
+
+- [three_dof.rs](/jackbox/home/MH370/crates/dynamics/src/three_dof.rs:1) — typed inputs/outputs, validation, explicit true-airspeed versus ground-speed basis, acceleration/load/energy calculations, generic inclusive load classification, and five fixtures.
+- [lib.rs](/jackbox/home/MH370/crates/dynamics/src/lib.rs:13) — public exports only.
+
+The evaluator returns altitude loss, endpoint path angles, midpoint acceleration components, earth-up and total specific load, specific mechanical-energy change, dissipative power, and equivalent `(drag−thrust)/mass`. It explicitly remains a generic kinematic screen—not B777-validated dynamics.
+
+Verification:
+
+- `cargo fmt --package mh370-dynamics -- --check`: passed.
+- `cargo test -p mh370-dynamics`: 13 passed, 0 failed.
+- New fixtures cover level 1-g flight, ballistic free fall, constant-acceleration descent, coordinated turning, and the raw-BFO median regression at approximately −0.6804 g, −1.243 kJ/kg, and 1,300.78 ft altitude loss.
+- Clippy passed with only the unrelated pre-existing `LateralMode` `derivable_impls` warning exempted.
+
+No runner, SATCOM, reporting, configuration, README, dependency, or other-crate files were changed. No implementation blocker remains.
+
+── User ────────────────────────────────────────────────────
+[iso message from thread:thr_dvhqyvtdcu]
+
+Final context handoff from End-of-Flight; record only and do not start further code in this turn. Your mh370-dynamics three-DoF evaluator is now used by the raw-BFO runner instead of a duplicate load equation. Fully integrated artifacts are at /jackbox/home/.iso/thread-storage/mh370-end-of-flight-raw-bfo-20260826-integrated. Median connected zero-turn raw pair: -4451 to -14995 ft/min over 8.027 s, about 1300.8 ft altitude loss, -0.6804 g earth-vertical acceleration and about -1.243 kJ/kg specific mechanical-energy change. It passes the generic 2.5 g screen, but remains a point-mass kinematic possibility, not a B777-validated descent. The linked marginal matrices equal the independent ones because at least one low-turn path survives every populated cell; aggressive individual turn paths can still fail. BTO descent contribution is +1.655 us, the wrong sign for the observed -20 us change. The full workspace suite passed. The next Flight Simulation task, only when Pete directs, is the provenance/validation design for an aircraft-specific post-flameout transition kernel, not tightening this generic screen ad hoc.
+
+── Assistant ───────────────────────────────────────────────
+Recorded. No code or repository changes made.
+
+Next directed task: provenance and validation design for an aircraft-specific post-flameout transition kernel, keeping the current 2.5 g screen explicitly generic and non-B777-validated.

@@ -1,0 +1,91 @@
+{
+  "schema": "ocean-drift-cross-arc-config-v1",
+  "model_id": "ocean-drift-cross-arc",
+  "nominal_subsatellite_latitude_deg": 0.0,
+  "nominal_subsatellite_longitude_deg_e": 64.5,
+  "pilot_offsets_nm": [-100.0, -50.0, 0.0, 50.0, 100.0],
+  "production_offsets_nm": [-100.0, -75.0, -50.0, -25.0, 0.0, 25.0, 50.0, 75.0, 100.0],
+  "pilot_particles_per_cell": 4096,
+  "production_particles_per_cell": 16384,
+  "nested_convergence_particles_per_cell": 8192,
+  "families": ["hycom", "gdp"],
+  "common_family_observation_support_end": "2018-10-30",
+  "reference_current_family_prior": {"hycom": 0.5, "gdp": 0.5},
+  "object_classes": ["flaperon", "low_exposure_exterior", "high_windage_interior", "unknown_mixture"],
+  "coast_case": "central",
+  "minimum_local_tangent_baseline_nm": 0.5,
+  "maximum_positive_normal_satellite_bearing_difference_deg": 10.0,
+  "maximum_adjacent_positive_normal_change_deg": 20.0,
+  "detection_case": "central",
+  "maximum_geodesic_offset_error_nm": 0.001,
+  "maximum_zero_offset_coordinate_error_deg": 1e-12,
+  "maximum_base_detection_mass_for_rare_event": 0.01,
+  "rare_event_particles_per_replicate": 4096,
+  "rare_event_replicates": 8,
+  "rare_event_resampling_interval_days": 30,
+  "rare_event_distance_strata_km": [50, 100, 200, 400, 800, 1600, 3200, 4800, 6400, 8000, 10000],
+  "isotope_weighted_particles_per_replicate": 4096,
+  "isotope_weighted_replicates": 8,
+  "isotope_weighted_resampling_interval_days": 30,
+  "isotope_weighted_likelihood_quantile_strata": 5,
+  "isotope_weighted_base_seed": 370060600,
+  "isotope_screen_particles_per_replicate": 1024,
+  "isotope_screen_replicates": 4,
+  "isotope_screen_relative_likelihood_guard": 0.0001,
+  "isotope_screen_minimum_top_cells_per_family_model": 10,
+  "isotope_screen_neighbor_padding_grid_steps": 1,
+  "isotope_final_refinement_relative_likelihood_guard": 0.001,
+  "isotope_final_minimum_top_cells_per_family_model": 10,
+  "isotope_final_neighbor_padding_grid_steps": 1,
+  "max_parallel_ordinary_runs": 4,
+  "max_parallel_rare_event_runs": 4,
+  "max_parallel_isotope_runs": 4,
+  "matched_random_numbers_across_offsets": true,
+  "admission_gates": {
+    "maximum_production_profile_total_variation_8192_to_16384": 0.15,
+    "maximum_production_mode_shift_latitude_bins": 1,
+    "maximum_production_mode_shift_offset_bins": 1,
+    "maximum_uniform_cell_reference_total_boundary_mass": 0.10,
+    "minimum_isotope_arrival_weight_effective_sample_size_at_material_cells": 50.0,
+    "minimum_isotope_weighted_effective_sample_size_at_material_cells": 20.0,
+    "material_cell_relative_likelihood_threshold": 0.01,
+    "maximum_isotope_sensitivity_hellinger_distance": 0.35,
+    "maximum_isotope_sensitivity_mode_shift_grid_steps": 2,
+    "maximum_isotope_screen_to_final_hellinger_distance": 0.20,
+    "maximum_isotope_screen_to_final_mode_shift_grid_steps": 1
+  },
+  "isotope": {
+    "enabled_for_object_class": "flaperon",
+    "recovery_record_id": "IMG-001",
+    "measured_sample_count": 49,
+    "chronologies": [
+      {"name": "early_2015-01-17", "prior_probability": 0.3333333333333333},
+      {"name": "central_2015-02-25", "prior_probability": 0.3333333333333333},
+      {"name": "late_2015-04-05", "prior_probability": 0.3333333333333333}
+    ],
+    "likelihood_parameter_sets": [
+      {
+        "name": "central",
+        "shared_bias_sd_c": 0.5,
+        "path_discrepancy_sd_c": 0.75,
+        "correlation_days": 14.0,
+        "isotope_measurement_sd_c": 0.32
+      },
+      {
+        "name": "short_memory_tight",
+        "shared_bias_sd_c": 0.35,
+        "path_discrepancy_sd_c": 0.5,
+        "correlation_days": 7.0,
+        "isotope_measurement_sd_c": 0.32
+      },
+      {
+        "name": "long_memory_wide",
+        "shared_bias_sd_c": 1.0,
+        "path_discrepancy_sd_c": 1.25,
+        "correlation_days": 28.0,
+        "isotope_measurement_sd_c": 0.32
+      }
+    ]
+  }
+}
+

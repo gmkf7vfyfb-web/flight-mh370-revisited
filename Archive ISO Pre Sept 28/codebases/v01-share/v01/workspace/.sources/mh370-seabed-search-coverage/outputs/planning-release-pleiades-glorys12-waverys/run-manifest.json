@@ -1,0 +1,59 @@
+{
+  "deterministic": true,
+  "generator": "code/build.py",
+  "generator_sha256": "25c7bb4ec09d2f55f8f422ee6aa7eba59d677aa3693efb2009db22b944214b90",
+  "input": {
+    "bytes": 695314,
+    "logical_path": "runs/mh370/release-v0.1/conditional/pleiades-glorys12-waverys/conditional-spatial-particles.csv",
+    "particle_count": 2560,
+    "role": "release_input",
+    "sha256": "09c22d7688fb4a74ceb724095989415460ae8df9e93a7b067b99850e182b43a1",
+    "weight_column": "conditional_weight",
+    "weight_mode": "linear",
+    "weights_normalized_by_planner": true
+  },
+  "outputs": [
+    {
+      "bytes": 404146,
+      "path": "outputs/planning-release-pleiades-glorys12-waverys/index.html",
+      "sha256": "3ceba7cd134357ceed52f299fb048537101829e4a40aa431bbedcc56089375bc"
+    },
+    {
+      "bytes": 224835,
+      "path": "outputs/planning-release-pleiades-glorys12-waverys/ordered-tiles-posterior-only.csv",
+      "sha256": "3a2ab0d76f366b109e546f22622dd57d197a716791ef837e4058afec09dccafd"
+    },
+    {
+      "bytes": 224849,
+      "path": "outputs/planning-release-pleiades-glorys12-waverys/ordered-tiles-proxy-logistics.csv",
+      "sha256": "e28398d4b8367b32f8cdd75fc65cd983e39478d9694931488718d88353ffc3d0"
+    },
+    {
+      "bytes": 3922,
+      "path": "outputs/planning-release-pleiades-glorys12-waverys/plan-summary.json",
+      "sha256": "be69e1eb3f63b3d8866bb88cc337d104e52bb2881bc5176165b67566addf9d3c"
+    },
+    {
+      "bytes": 98358,
+      "path": "outputs/planning-release-pleiades-glorys12-waverys/search-plan.pdf",
+      "sha256": "9c18987f589d2a5350308b23db01e76dc9bbbc4edbce0f0a0fa465805ab0a02a"
+    },
+    {
+      "bytes": 540492,
+      "path": "outputs/planning-release-pleiades-glorys12-waverys/search-plan.png",
+      "sha256": "3dbb9f74f273a7b2e34fa83716bb55ad61bf9a53f721303f7552f895842f5687"
+    },
+    {
+      "bytes": 401510,
+      "path": "outputs/planning-release-pleiades-glorys12-waverys/search-plan.svg",
+      "sha256": "18f6b7fd8d00851031819185aad9070216e1ef5b981f7287029027b61ef26429"
+    },
+    {
+      "bytes": 11027,
+      "path": "outputs/planning-release-pleiades-glorys12-waverys/selected-tiles.geojson",
+      "sha256": "96acc489b5854fa7b0fcabeabd1e2015fa9c77dcaeac5653e3a0580c55b2a1bb"
+    }
+  ],
+  "schema_version": 1,
+  "snapshot_date": "2026-08-31"
+}

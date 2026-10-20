@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "required_columns": ["latitude_deg", "longitude_deg"],
+  "weight_contract": {
+    "selected_by_cli": "--weight-column",
+    "linear": "finite nonnegative values with positive sum",
+    "log": "natural-log weights normalized by logsumexp; negative infinity is allowed for zero support, while NaN and positive infinity are rejected"
+  },
+  "coordinate_reference_system": "OGC:CRS84 longitude/latitude degrees",
+  "row_semantics": "One weighted impact-posterior particle per row. Extra identity and model columns are preserved only through the input hash.",
+  "planner_semantics": "The planner does not update posterior weights. It smooths the supplied weighted point population onto equal-area local tiles for decision sensitivity.",
+  "supported_release_columns": ["weight", "baseline_weight", "conditional_weight"]
+}

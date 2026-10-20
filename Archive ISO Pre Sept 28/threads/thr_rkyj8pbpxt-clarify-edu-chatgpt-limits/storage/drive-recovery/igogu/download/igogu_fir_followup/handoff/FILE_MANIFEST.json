@@ -1,0 +1,571 @@
+{
+  "created_utc": "2026-09-19T21:05:27.043272+00:00",
+  "classification": "all recoverable new scientific source/data/results/QA and continuation records; compiled caches excluded",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 9030,
+      "sha256": "2bf9dcd8b7ba4606955b3245e2d8b0ca7f8e2eea4e812107a0a39909f2b08a5f"
+    },
+    {
+      "path": "code/README.md",
+      "bytes": 735,
+      "sha256": "50cfefe44d0e49d7956ff9bdb85cf14205d8c2a4c804bfc179cd631d00ebaa2a"
+    },
+    {
+      "path": "code/build_waypoint_catalog.py",
+      "bytes": 3401,
+      "sha256": "e1c1077a027379c2eb7dbb1b020ac0c075547e4a09de17ad265d09efcb4c2025"
+    },
+    {
+      "path": "code/fir_model.py",
+      "bytes": 3996,
+      "sha256": "932cca1d69611d33ad52b807fba16db1e933a94113cfa4e77bb5cc5abbf38750"
+    },
+    {
+      "path": "code/fit_later_example.py",
+      "bytes": 2259,
+      "sha256": "97241934f63df248570d9d73a604fc72fece770910b1b2335ea9b969bd0f2dcf"
+    },
+    {
+      "path": "code/fit_later_gates.py",
+      "bytes": 1842,
+      "sha256": "034b19afc0b0167cf1e12ace4710256e165e0a0c79a52f2761002195a1e3bdae"
+    },
+    {
+      "path": "code/fit_prefix.py",
+      "bytes": 3807,
+      "sha256": "6181657de4aa7d9463495942fc8da14a561eb6fa857839eadaf058dc6cf1e926"
+    },
+    {
+      "path": "code/fit_smoother_example.py",
+      "bytes": 2175,
+      "sha256": "c70760987a1e2470e055224f0bf5318749df99e4e6f19f582f0b788421fe29c0"
+    },
+    {
+      "path": "code/full_continuation.py",
+      "bytes": 3671,
+      "sha256": "059e1461b561fab3ccca43c8b2aee1e8cb76440c529f35cfca05814045d66c84"
+    },
+    {
+      "path": "code/full_fir_engine.cpp",
+      "bytes": 14434,
+      "sha256": "4713878016893a9a667038d2759a695cf64a24fa1abf60619bee0f6ae0839861"
+    },
+    {
+      "path": "code/full_fir_fit_engine.cpp",
+      "bytes": 14441,
+      "sha256": "c67d7d30797e747761a902c937a02197e3597afd7046e09b6e32a65bd04d5740"
+    },
+    {
+      "path": "code/make_report.py",
+      "bytes": 20054,
+      "sha256": "6c6f19c989927294c35ae5dc5e3e02610db5565ba7ac49380337b11ba26bcca1"
+    },
+    {
+      "path": "code/package_checkpoint.py",
+      "bytes": 2650,
+      "sha256": "3f45fa20473f9a88b8e90250a69b0ae471db7db3769aabb74d300c99744d3924"
+    },
+    {
+      "path": "code/prefix_engine.cpp",
+      "bytes": 12109,
+      "sha256": "d78df3435bf1458aae6d91fbcccad1620503dec4ae4ec1b1187dc1b7d8b6e9f4"
+    },
+    {
+      "path": "code/validate_fits.py",
+      "bytes": 2316,
+      "sha256": "7ddae9e48c284437ac36e94cbd33c854a6e7060aafed505744af06a713fe36b8"
+    },
+    {
+      "path": "code/validate_waypoints.py",
+      "bytes": 2759,
+      "sha256": "1efcafaf98d4dc6ab58147c41cee7abbf41d321ce6383ad9edfeebd7fb58e9d5"
+    },
+    {
+      "path": "code/waypoint_audit.py",
+      "bytes": 3247,
+      "sha256": "6067cc13a91cd1ce6361c7c717a72bf698bd5b18a9f5772f7f31b0118b99e8c4"
+    },
+    {
+      "path": "code/waypoint_engine.cpp",
+      "bytes": 15759,
+      "sha256": "e2128ef2a4db632460817100fa512e38da4c280d47342ff9e64fd18d12d6448f"
+    },
+    {
+      "path": "code/waypoint_exact_shortlist.py",
+      "bytes": 3541,
+      "sha256": "a973abf217ac3cef76efc3c1b47841386f7daef61348dbeb6e7f8798c89c4242"
+    },
+    {
+      "path": "code/waypoint_summary.py",
+      "bytes": 2628,
+      "sha256": "e063426a071d6326c788955eea305a28df335a31e3813ded4d63e3cafdcd3478"
+    },
+    {
+      "path": "handoff/IGOGU_FIR_20260919_START_HERE.md",
+      "bytes": 7345,
+      "sha256": "3311d16c107e4155bd49ac909fcd1e55b88258e74faf02a6d1d5fd431efaa8a5"
+    },
+    {
+      "path": "handoff/IGOGU_FIR_20260919_SUMMARY.md",
+      "bytes": 3733,
+      "sha256": "0c978a7dfd335f6ae5bc97d8507a861589852afa9d649479c32bac6e95cd8f0a"
+    },
+    {
+      "path": "handoff/STATUS.json",
+      "bytes": 1150,
+      "sha256": "1bb23c330a34478bb8da8c2637f9ca06799c4f386b0a0a0dbd371df5849c406a"
+    },
+    {
+      "path": "handoff/environment.json",
+      "bytes": 373,
+      "sha256": "2f2705259894a84f817d6fd31e51445e791dc10649f2bde6818dec207e3d9398"
+    },
+    {
+      "path": "handoff/restore_all_igogu_20260919.py",
+      "bytes": 2036,
+      "sha256": "b1e1a61d734572d9eabee53eaab8370612dd3a5fbf631b8b84c8cbab010b8516"
+    },
+    {
+      "path": "history/fit_later_gates_v1.py",
+      "bytes": 1693,
+      "sha256": "c66e649aa6126fe01c686ce0e2cde2c30e343784f46207d8dfdfdc8a824752e1"
+    },
+    {
+      "path": "history/later_gate_fit_v1.json",
+      "bytes": 896,
+      "sha256": "e0b6d44a2a0c8825823d81a4a0bf03aaae5ce2083181f0b2d5ccd14000e92080"
+    },
+    {
+      "path": "history/later_gate_fit_v1.npz",
+      "bytes": 29796,
+      "sha256": "1d622793bf46bbb15594c2c8886c6c9cb0707179663470d2f30a032b4d3dc6da"
+    },
+    {
+      "path": "inputs/australia_aip_current.pdf",
+      "bytes": 5324250,
+      "sha256": "4e0564f00e9ac98863058b236a348ff62dd32dd3d19af7de8d88de51d04047a9"
+    },
+    {
+      "path": "inputs/australia_aip_index.html",
+      "bytes": 28480,
+      "sha256": "b3e74e6f1d6588b41b3f881a9b3c7f8b4f156e1f756134d5d3c4278a81f69d94"
+    },
+    {
+      "path": "inputs/australia_aip_pending.pdf",
+      "bytes": 5324250,
+      "sha256": "4e0564f00e9ac98863058b236a348ff62dd32dd3d19af7de8d88de51d04047a9"
+    },
+    {
+      "path": "inputs/australia_dated_fetch_log.json",
+      "bytes": 592,
+      "sha256": "ad7903df64a66e349a27733bf9a9fdf8e2560bbb0508d4fc278ba6fb286972bc"
+    },
+    {
+      "path": "inputs/australia_enroute.txt",
+      "bytes": 588068,
+      "sha256": "763ae2a9715efc0332324f67eec2e3c4ac8b35afb23e0b3f5bad842fa29e95dd"
+    },
+    {
+      "path": "inputs/australia_ersa_index.html",
+      "bytes": 280369,
+      "sha256": "7eee4ccd74c9270a9061efcc2bb20e4934b25b8cee9e04e248eceb2396f0cfa0"
+    },
+    {
+      "path": "inputs/australia_fetch_log.json",
+      "bytes": 492,
+      "sha256": "1ec1f7dcc703d73bc3b4d9849796776c5f7f650457936efbf512446b2c893007"
+    },
+    {
+      "path": "inputs/australia_guides.html",
+      "bytes": 21790,
+      "sha256": "a8953ed297e5e891a3c54149e741d718b1d45500638deba8b84f1d2307f292da"
+    },
+    {
+      "path": "inputs/australia_ifr_waypoints.pdf",
+      "bytes": 115814,
+      "sha256": "c53322fc6471c38595b7fb462d216db8d364920ceedfed677874abe8f4ba7677"
+    },
+    {
+      "path": "inputs/australia_ifr_waypoints.txt",
+      "bytes": 75917,
+      "sha256": "3f41beaa1315d940453e7d7313e813791965316dedf916fa87dd14023d81e965"
+    },
+    {
+      "path": "inputs/australia_publications.html",
+      "bytes": 22496,
+      "sha256": "01d6f283d27b7354933e5a6460d404b64c715d25468949bfd0e6d482b3e92894"
+    },
+    {
+      "path": "inputs/geography.json",
+      "bytes": 3364,
+      "sha256": "297e440b13f10f52b63cd5d8b0eeb7276b5496032fe1b5452a9ada68b640ac27"
+    },
+    {
+      "path": "inputs/historical_waypoint_check.json",
+      "bytes": 1779,
+      "sha256": "53ce78e5d827dabfd3e74199515b5d3c40380e17e9a15a4b3c4f066096bd05f7"
+    },
+    {
+      "path": "inputs/icao_2010_rasmag13_ip09.pdf",
+      "bytes": 1176498,
+      "sha256": "5564bd06aeebca3b64968814c547d5160abb6cef2a0767d7e9dc9fc0d460c31c"
+    },
+    {
+      "path": "inputs/india_enr44.pdf",
+      "bytes": 568552,
+      "sha256": "8511d51609b2f066d84e9badc58823542d5e0719f6980dd21d9b90cec8d43cb7"
+    },
+    {
+      "path": "inputs/india_enr44.txt",
+      "bytes": 21441,
+      "sha256": "f5fedfe20fb68e0666710c48451f5f887aadf5d74bd2b87e12f353d985cc5dbc"
+    },
+    {
+      "path": "inputs/indonesia_bulva_record.html",
+      "bytes": 284810,
+      "sha256": "b07f3130ec1aa973139c6c359b341c6fed2d1146aa60adab6db239e44e6899cc"
+    },
+    {
+      "path": "inputs/indonesia_waypoints.html",
+      "bytes": 1038431,
+      "sha256": "aaf7e4e69aadcb4b6d1ced7fbd3c1b4ded98335afa945151ce43253f254be772"
+    },
+    {
+      "path": "inputs/waypoint_catalog.csv",
+      "bytes": 204007,
+      "sha256": "31be43670b766a009c0fdc8edb94352599d57dcec41375edfa9989c2b98abb0a"
+    },
+    {
+      "path": "inputs/waypoint_catalog_provenance.json",
+      "bytes": 1272,
+      "sha256": "2b97ae3627f7fc8f075260f0c1500f015cb3df41e1edb7ef074c69a768df3b64"
+    },
+    {
+      "path": "inputs/waypoint_fetch_log.json",
+      "bytes": 706,
+      "sha256": "06df699ad536a317b57dfdd346a4b1f2c2d00502e4be1e3d8d91871bc4602f34"
+    },
+    {
+      "path": "output/early_FIR_turns.png",
+      "bytes": 225322,
+      "sha256": "131b5dda9c0359b9fb08e6d961752aee1653fd1456966726df5c3bd2db76f5bf"
+    },
+    {
+      "path": "output/early_FIR_turns.svg",
+      "bytes": 700853,
+      "sha256": "d72ac8fe4896136332e3cc123863fce9e6adccf63c85a9513405662cd2e121b7"
+    },
+    {
+      "path": "output/early_turn_fit_grid.csv",
+      "bytes": 25399,
+      "sha256": "6b7aaa5c4bb829fc8489c162bb85b1c7e9119374faea5c9b8460d7563c7d1568"
+    },
+    {
+      "path": "output/early_turn_fit_grid.json",
+      "bytes": 57660,
+      "sha256": "99c12c58be5655d5ed69d139ea2a2568da5393df4d980e5831cf8bd4f8d49e14"
+    },
+    {
+      "path": "output/early_turn_fits.npz",
+      "bytes": 57745,
+      "sha256": "611a9ce71aee268b64a2de71aa8f93b3f21aa74ccf86ade7118d2533cbbca799"
+    },
+    {
+      "path": "output/early_turn_paths.json",
+      "bytes": 1025247,
+      "sha256": "6bd1f55fb0a18a15e09fa2f354095d3ab7696eeef85f43db3310102381c2bd56"
+    },
+    {
+      "path": "output/fit_later_example.log",
+      "bytes": 3662,
+      "sha256": "9226b773b302e6e16dc6071a4204dd738d04f55b678d79a89f2274b35a85e34c"
+    },
+    {
+      "path": "output/fit_later_gates.log",
+      "bytes": 611,
+      "sha256": "372754ee5addc2dd35b3263dc344735a1136fd401b4bdadf419d9fb1684cd929"
+    },
+    {
+      "path": "output/fit_prefix.log",
+      "bytes": 8851,
+      "sha256": "4cae44cce261e4d0035b903ee257102d28e405c9d91647bef892f05017f2c358"
+    },
+    {
+      "path": "output/fit_smoother.log",
+      "bytes": 2695,
+      "sha256": "9fa4c452c74f41d007bb06fce1909e2453db507a55a32b7c15faa4262863968f"
+    },
+    {
+      "path": "output/full_FIR_feasible_example.png",
+      "bytes": 341807,
+      "sha256": "3fdcd283c755b0e3a44f0424bb6e6acc38c2b62109a0a77f994795cc7cf31fec"
+    },
+    {
+      "path": "output/full_FIR_feasible_example.svg",
+      "bytes": 450457,
+      "sha256": "6fe65b4eb6192a8c67a58f357deb4a19ea6b01ca2b43a6c882633a3727ac7b5b"
+    },
+    {
+      "path": "output/full_continuation.log",
+      "bytes": 9018,
+      "sha256": "513f1ef57b904b14546d9c736367e01451bcb991daf3070dfb7ec8da3114b016"
+    },
+    {
+      "path": "output/later_fit_paths.json",
+      "bytes": 375254,
+      "sha256": "a8916f0d994b173f0511428b3bc25b8c665853496a0db955da1c41eb980072ae"
+    },
+    {
+      "path": "output/later_fit_trials.json",
+      "bytes": 4660,
+      "sha256": "a8144b9b8694aa42b89d193f0e4aebc87749b641dc262b59e35ba3f56bcf8a81"
+    },
+    {
+      "path": "output/later_fit_trials.npz",
+      "bytes": 8019,
+      "sha256": "59be9c1acb81acdf19ac4c564d642cefa27e33ae0ba33b75cca881316666709f"
+    },
+    {
+      "path": "output/later_gate_fit.json",
+      "bytes": 927,
+      "sha256": "66fc7c72344356ddd734407fbda168f2f8b8b9227332a15c626d80887e2c123f"
+    },
+    {
+      "path": "output/later_gate_fit.npz",
+      "bytes": 29817,
+      "sha256": "b5a3cbdaaed1ba087f0fd366697435cf846fb1487cc9ca7c80560cbfc52d7df9"
+    },
+    {
+      "path": "output/later_gate_fit_fine.npz",
+      "bytes": 125643,
+      "sha256": "c5d6a033dbad7f2f5b5ff85f592228d227c4b6e5887caec7ceb073be1d0054c1"
+    },
+    {
+      "path": "output/mh370_IGOGU_FIR_and_waypoints.pdf",
+      "bytes": 907605,
+      "sha256": "b57dfb9f17799d8980bcaa0a83cb85896f84afc6e83c6c15e7d45e325423e0ae"
+    },
+    {
+      "path": "output/smoother_fit_0.npz",
+      "bytes": 30345,
+      "sha256": "a96cc1a401bb0d567e79acaab8ac26b1704d4a630588325a8581c470ab4f9544"
+    },
+    {
+      "path": "output/smoother_fit_1.npz",
+      "bytes": 30172,
+      "sha256": "8df537b3db00bc2ef734c75bd0b79783ca39efc7d21b3f3b5a68d0a3ac888456"
+    },
+    {
+      "path": "output/smoother_fit_2.npz",
+      "bytes": 30148,
+      "sha256": "b67c55f084261ee407106501a32fed5e84ac76887fd1d9a9382b69893711f47c"
+    },
+    {
+      "path": "output/smoother_fit_trials.json",
+      "bytes": 3420,
+      "sha256": "d9aa3929b1b5ccae045acd59e3a9b3ce17073cb22c53eac82a06fdf438cb9d16"
+    },
+    {
+      "path": "output/unturned_later_continuation.csv",
+      "bytes": 5939,
+      "sha256": "b577662202e2874a33a77da2afd7549047f5d00830b3050a326f75935259a095"
+    },
+    {
+      "path": "output/unturned_later_continuation.npz",
+      "bytes": 65985,
+      "sha256": "f53fd4c33d56849d9f7bb3494da96ee19a8f5741c253c4b69df6d89ee3f4e52b"
+    },
+    {
+      "path": "output/unturned_later_paths.json",
+      "bytes": 2012999,
+      "sha256": "9d90ac92c743cfbb6371581c5d530906f8a21c9b4110654a087ac638f8b7688f"
+    },
+    {
+      "path": "output/validate_fits.log",
+      "bytes": 1209,
+      "sha256": "f586ece5609f4946bb6d391f8490debf14c30a8589ff32adcc3b8131d89cfc9b"
+    },
+    {
+      "path": "output/waypoint_audit.log",
+      "bytes": 928,
+      "sha256": "23c72d3f4276da3d71edf678923ec5c5d10eb04081b9dcd3bac74c3ebe98b6ca"
+    },
+    {
+      "path": "output/waypoint_audit_summary.json",
+      "bytes": 927,
+      "sha256": "09d0bf304e68a7c4a18eb933d4c1f6c0ddcf4c3f258a4a15ba222ff68e033add"
+    },
+    {
+      "path": "output/waypoint_catalog.log",
+      "bytes": 10244,
+      "sha256": "2c8dc1406fbd064a266ba9de8d3d0b9ea6edc11c49c5dc8003bb79abf8bc602e"
+    },
+    {
+      "path": "output/waypoint_exact.log",
+      "bytes": 1352,
+      "sha256": "896a7902a91f520eb05b6c0c8a16ba3ae56f48034d052778d57648f205ea169c"
+    },
+    {
+      "path": "output/waypoint_exact_cells/refined_a_1_0.npz",
+      "bytes": 164375,
+      "sha256": "f19755f030798e66c56c08edbe74f0695ce1204ad8cd013ef51d252c35ff9764"
+    },
+    {
+      "path": "output/waypoint_exact_cells/refined_a_1_1.npz",
+      "bytes": 162337,
+      "sha256": "7376f6fc4b9fe56b7bfbe1d56355fd90dcdc791665f050ababc1451509350702"
+    },
+    {
+      "path": "output/waypoint_exact_cells/refined_a_2_0.npz",
+      "bytes": 446566,
+      "sha256": "d73ab7399d91a3c913e82beec7180a3382ea175dad34abe46930fa1954a7beb2"
+    },
+    {
+      "path": "output/waypoint_exact_cells/refined_a_2_1.npz",
+      "bytes": 356236,
+      "sha256": "b5a863b11983b4d43f8930e738ccf27a3b3ab4d2759e8ae6e5e1d4cdf9f5a687"
+    },
+    {
+      "path": "output/waypoint_exact_cells/refined_a_3_0.npz",
+      "bytes": 137898,
+      "sha256": "389d1b3f29ad49b4eac439e1547a948a5443daa116e5c057dc8d5590cea0b97a"
+    },
+    {
+      "path": "output/waypoint_exact_cells/refined_a_3_1.npz",
+      "bytes": 220106,
+      "sha256": "7de6806a622edd0e1f6b5a4a7812f43740d8be93acd577bbabeb9739150140a6"
+    },
+    {
+      "path": "output/waypoint_exact_cells/refined_a_4_0.npz",
+      "bytes": 327802,
+      "sha256": "cf1e1bbd4ca2de2ec6ed89485590ee57509a21b7ebc2dda4bc6aca68993e8fab"
+    },
+    {
+      "path": "output/waypoint_exact_cells/refined_a_4_1.npz",
+      "bytes": 259071,
+      "sha256": "0ad953e83e4c366b0d931ec8fac28e0f8d78ac2cd147893c451db26e081d8399"
+    },
+    {
+      "path": "output/waypoint_exact_cells/refined_b_1_0.npz",
+      "bytes": 163323,
+      "sha256": "489ae819a487f359584c7d9f4d5fbb6d51d783d404bd6bb147aaa4d357c3f82b"
+    },
+    {
+      "path": "output/waypoint_exact_cells/refined_b_1_1.npz",
+      "bytes": 161774,
+      "sha256": "d3a7f226e8939931e43d709bcda217ca830e9e9a73687da470ae5370b96f1ef2"
+    },
+    {
+      "path": "output/waypoint_exact_cells/refined_b_2_0.npz",
+      "bytes": 446023,
+      "sha256": "5d2804e57f9498ca7fdd8b7ca176ebd93d11fef4f05dfa20850a009d06347be3"
+    },
+    {
+      "path": "output/waypoint_exact_cells/refined_b_2_1.npz",
+      "bytes": 353567,
+      "sha256": "9d13351a0fcf0a21ed51fea14fbc77640bc64bc692910872a15bd60d839a1905"
+    },
+    {
+      "path": "output/waypoint_exact_cells/refined_b_3_0.npz",
+      "bytes": 138581,
+      "sha256": "c19041e44d10c2769cd4eaed7dc23a126dcf5232aa13e4fac4f5d4ddfca33acd"
+    },
+    {
+      "path": "output/waypoint_exact_cells/refined_b_3_1.npz",
+      "bytes": 220219,
+      "sha256": "c71458811ef1c1e1af82fcf8bb29e012d1cbc280ab7fedd77baba469cf90314b"
+    },
+    {
+      "path": "output/waypoint_exact_cells/refined_b_4_0.npz",
+      "bytes": 330551,
+      "sha256": "d3c5b723d0a7c73dbdd934994c6d073e85434f8c8ba54235ff8dd51f8fd9cb5a"
+    },
+    {
+      "path": "output/waypoint_exact_cells/refined_b_4_1.npz",
+      "bytes": 263975,
+      "sha256": "6d65d9f1e918b6c103da365f4660b724177c473af406f02b231d59764960240d"
+    },
+    {
+      "path": "output/waypoint_exact_shortlist.csv",
+      "bytes": 5238,
+      "sha256": "5b07dfba2c99b390821cf639ec5dafbce3499f5c3815f5a8e97b639f1e38b5aa"
+    },
+    {
+      "path": "output/waypoint_exact_summary.json",
+      "bytes": 462,
+      "sha256": "f9d8405cc09b012fd3ad05c35d92283e795ab87d3bdb7485be97e52e99af74bc"
+    },
+    {
+      "path": "output/waypoint_proximity.csv",
+      "bytes": 368783,
+      "sha256": "2c4b4cd8410595e435a98ca7aeddcc0c4c243d82a68ef48bf14946645c17aada"
+    },
+    {
+      "path": "output/waypoint_proximity.png",
+      "bytes": 179073,
+      "sha256": "a6b398be0371dc4390dcefd124ab0ce7e60757fdd500ea36fb989a4a44bf2ffd"
+    },
+    {
+      "path": "output/waypoint_proximity.svg",
+      "bytes": 486886,
+      "sha256": "bf5e28790b6401b949f60df126875d87ad6ab287585e603cc38d938c680725c4"
+    },
+    {
+      "path": "output/waypoint_resample_measure.npz",
+      "bytes": 33072104,
+      "sha256": "ec8c181800e9a8584eaa81a8cbaf4bfae6927126354d11115be3e9fa7476a326"
+    },
+    {
+      "path": "output/waypoint_summary.log",
+      "bytes": 2661,
+      "sha256": "b5dee96625e64c7eae5dcc17edb3f7bdc97c840dcd6f3e3a5b72cf6ca7500c3f"
+    },
+    {
+      "path": "qa/development_failures.json",
+      "bytes": 632,
+      "sha256": "0ad22f2162e315eb7bf89195d6e8f042ef03acbeb962a6c40397ef82e42ac148"
+    },
+    {
+      "path": "qa/fit_numerical_validation.json",
+      "bytes": 3793,
+      "sha256": "98f5da2d5ccc85f5ffe81e67bfbb67b5699c1274be860e4aa87587e697800e94"
+    },
+    {
+      "path": "qa/report_layout.json",
+      "bytes": 338,
+      "sha256": "4054396ca661ac1f39787a6aa246e7a9b03ee71361f3a28cb854706599c89214"
+    },
+    {
+      "path": "qa/report_page_1.png",
+      "bytes": 108009,
+      "sha256": "01b00973f2b4b1b54b04e1f9a137a165eed75e8e782cec2104e66d387f3ba926"
+    },
+    {
+      "path": "qa/report_page_2.png",
+      "bytes": 119354,
+      "sha256": "04baa23af5b822716658843cdd67b76121effe26c29eb32b500c07a322b48193"
+    },
+    {
+      "path": "qa/report_page_3.png",
+      "bytes": 105001,
+      "sha256": "afc1876dc733122273142678a33d116b615b67e82704362e8e4ef5503c7050ae"
+    },
+    {
+      "path": "qa/report_page_4.png",
+      "bytes": 119345,
+      "sha256": "d0d8c88eac7e2b84ac0151b9d4301f409597757b24d7770fe679b6ae99029046"
+    },
+    {
+      "path": "qa/waypoint_distance_checks.csv",
+      "bytes": 27519,
+      "sha256": "aa25135a7a97692cd73513f020fcd285d8b7d26c6ef753ba16d485f6073b1401"
+    },
+    {
+      "path": "qa/waypoint_validation.json",
+      "bytes": 334,
+      "sha256": "5b151cc05aaebe1ae7c95a81a0a08d1ee606d74b006e10ab930eb11bd2e86f0b"
+    }
+  ]
+}

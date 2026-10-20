@@ -1,0 +1,339 @@
+{
+  "schema_version": 3,
+  "engine_version": "0.1.0",
+  "executable_sha256": "5a47d3538d0c0e5021213822301f5958d0bec8c50fe7893ffa050e58b59ac8f8",
+  "command": "estimate-ocean-drift",
+  "config_path": ".sources/ocean-drift-input-preparation/outputs/gdp-waverys-stringent-multi-debris-sensitivity.toml",
+  "config_sha256": "3ad50231cc0d053e5f4e65aacffc3a77d0a190885c3d934db95d8f91a803f96b",
+  "family": "gdp",
+  "isotope_enabled": true,
+  "seed": 3700271,
+  "particles_per_cell": 1024,
+  "sampling": {
+    "method": "adaptive_smc",
+    "resampling_interval_days": 30.0,
+    "selection_strength": 4.0,
+    "start_days_before_recovery": 365.0
+  },
+  "coast_enabled": true,
+  "current_maximum_interpolation_gap_hours": null,
+  "current_renormalizes_persistent_land_corners": false,
+  "motion_family_ids": [
+    "measured-flaperon-response",
+    "low-exposure-exterior",
+    "uncertain-interior-panels-low-exposure-comparator",
+    "unobserved-low-exposure-non-recovery-population",
+    "unobserved-high-windage-non-recovery-population"
+  ],
+  "stokes_velocity_scales": {
+    "low-exposure-exterior": 1.0,
+    "measured-flaperon-response": 1.0,
+    "uncertain-interior-panels-low-exposure-comparator": 1.0,
+    "unobserved-high-windage-non-recovery-population": 0.0,
+    "unobserved-low-exposure-non-recovery-population": 1.0
+  },
+  "stokes_renormalizes_finite_spatial_corners": true,
+  "input_sha256": {
+    "coast.binary": "0f540daa0ed0216edb3dac391ef308b138e2c599f8fd5823430cadadd60c3ae2",
+    "coast.metadata": "e05659432546f60ffbec02cbe7ae6e08bbfba4654db1160c1884a936d118dbe2",
+    "currents.binary": "f25ff1192a47a69cd24e089c245f663c224f67f1550859489d260d960fcefc33",
+    "currents.metadata": "6dadbde2a962c7f3a923407d565742aec1e6f2e375926a32180724e8acd1f3c6",
+    "isotope_records": "a5231772727d2adae24dcc082abc02beb597448720be30dfbb2b46ac3fe4957a",
+    "source_cells": "0180bc2cfa53e901c7896f9be05d204507cbceefd81cb63fc765b48b7d875279",
+    "sst.binary": "9a8fdb023e7f4d719547b2393c913dddba7ff0f788f1c8b83839a08916635fc0",
+    "sst.metadata": "ba70afa6e56ac411fd76859895cf6a3695d06fbe0da02c409c560aba8f97471b",
+    "stokes.binary": "749b4d886b06bdd07294a1ebe377d132009325febc7d35b2cddf6c5d16c65b82",
+    "stokes.metadata": "905b9f7a6f5d81c3e2e962dad3ffb6d0f97a30f6bce695f59e71a21e3e66b224",
+    "wind.binary": "c151628e9dd072fcb56f00cace91ab6057ccc35391646a91d5caa0b6d2aabd62",
+    "wind.metadata": "b689d546dc3aa76f7b67e7241e2cae739cda8e89ca0443734b190e5367470fda"
+  },
+  "input_metadata": {
+    "coast": {
+      "axis_order": [
+        "time",
+        "latitude",
+        "longitude"
+      ],
+      "binary_format": "MHGRID1 little-endian",
+      "binary_sha256": "0f540daa0ed0216edb3dac391ef308b138e2c599f8fd5823430cadadd60c3ae2",
+      "component_units": {
+        "land_fraction": "binary fraction 0 water 1 persistent wave-model mask"
+      },
+      "converter_version": "ocean-input-preparation-v4",
+      "definition": "land_fraction=1 exactly where both WAVERYS Stokes components are missing at every retrieved three-hour analysis; the converter rejects a time-varying or component-varying mask",
+      "family": "cmems_waverys_reanalysis",
+      "field_role": "coastal_support",
+      "latitude_units": "degrees_north WGS84",
+      "limitations": [
+        "This is the native wave model persistent support mask, not a measured shoreline-distance, beaching-probability, retention, or refloating model.",
+        "Its 0.2-degree coastal support is coarser than GLORYS12 currents and can terminate a path before the geometric shoreline.",
+        "No beaching_rate component is present, so the transport code cannot invent coastal retention."
+      ],
+      "longitude_units": "degrees_east WGS84",
+      "name": "CMEMS WAVERYS persistent-mask coastal support field",
+      "persistent_mask_counts": {
+        "masked_cells": 37276,
+        "water_cells": 135500
+      },
+      "retrieval_manifest": {
+        "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/retrieval-manifest.json",
+        "sha256": "bf5cac99d10f80e94f9f77f3d2fd776ebba32409d139c0307ef000696fbab43f"
+      },
+      "schema": "mh370-gridded-field-input-v1",
+      "time_axis": "constant over the WAVERYS retrieval interval"
+    },
+    "currents": {
+      "axis_order": [
+        "time",
+        "latitude",
+        "longitude"
+      ],
+      "binary_format": "MHGRID1 little-endian",
+      "binary_sha256": "f25ff1192a47a69cd24e089c245f663c224f67f1550859489d260d960fcefc33",
+      "component_units": {
+        "u": "m s-1 east",
+        "u_error": "m s-1 standard error",
+        "v": "m s-1 north",
+        "v_error": "m s-1 standard error"
+      },
+      "converter_version": "ocean-input-preparation-v1",
+      "family": "gdp",
+      "finite_ocean_fraction": 0.6335462279936839,
+      "latitude_units": "degrees_north WGS84",
+      "limitations": [
+        "This preserved subset is 0.5 degree; the current official product is 0.25 degree.",
+        "Land and sparsely observed missing cells are not nearest-filled.",
+        "Formal mean-current standard errors are not eddy diffusivity."
+      ],
+      "longitude_units": "degrees_east WGS84",
+      "name": "NOAA GDP drifter-derived monthly mean surface currents",
+      "preserved_grid_resolution_degrees": 0.5,
+      "schema": "mh370-gridded-field-input-v1",
+      "source_files": [
+        {
+          "path": "/jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/analyses/D-0042-hierarchical-debris-drift/inputs/environment/gdp_monthlymeans_10E_150E_50S_25N_0p5deg.nc",
+          "sha256": "abe9d9bf4caffaabdc7330effc70de3518d6ba4fa7406aa24d1277f13015b941"
+        }
+      ],
+      "time_axis": "climatological month 0=January through 11=December; piecewise monthly"
+    },
+    "sst": {
+      "axis_order": [
+        "time",
+        "latitude",
+        "longitude"
+      ],
+      "binary_format": "MHGRID1 little-endian",
+      "binary_sha256": "9a8fdb023e7f4d719547b2393c913dddba7ff0f788f1c8b83839a08916635fc0",
+      "component_units": {
+        "sst": "degree C"
+      },
+      "converter_version": "ocean-input-preparation-v1",
+      "field_role": "sst",
+      "latitude_units": "degrees_north WGS84",
+      "limitations": [
+        "SST is an analyzed gridded product, not an in-situ observation along the flaperon path."
+      ],
+      "longitude_units": "degrees_east WGS84",
+      "name": "NOAA 1/4 degree daily OISST v2.1 regional subset",
+      "preserved_grid_resolution_degrees": 0.25,
+      "schema": "mh370-gridded-field-input-v1",
+      "source_files": [
+        {
+          "path": "/jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/analyses/D-0060-cross-arc-debris-drift/inputs/isotope/source_files/noaa_oisst_20150117_20150224_10e150e_50s25n.nc",
+          "sha256": "1772f87f80f10dd6dd0d6fb55c380d3ecc6fd99c3b9bd62f3c9fbff17aeedd6d"
+        },
+        {
+          "path": "/jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/analyses/D-0060-cross-arc-debris-drift/inputs/isotope/source_files/noaa_oisst_20150225_20150729_10e150e_50s25n.nc",
+          "sha256": "20bd1653f2bb723c3dcfa0edf1e2effe45eff401218973fa12c0bcb5a7768a2d"
+        }
+      ],
+      "time_axis": "UTC Unix seconds"
+    },
+    "stokes": {
+      "axis_order": [
+        "time",
+        "latitude",
+        "longitude"
+      ],
+      "binary_format": "MHGRID schema 3 little-endian packed i16 with distinct persistent-land sentinel",
+      "binary_sha256": "749b4d886b06bdd07294a1ebe377d132009325febc7d35b2cddf6c5d16c65b82",
+      "component_units": {
+        "u": "m s-1 east surface Stokes",
+        "v": "m s-1 north surface Stokes"
+      },
+      "converter_version": "ocean-input-preparation-v4",
+      "dataset_id": "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+      "dataset_part": "default",
+      "dataset_version": "202411",
+      "family": "cmems_waverys_reanalysis",
+      "field_role": "stokes",
+      "finite_component_fractions_including_land": {
+        "u": 0.7842524424688614,
+        "v": 0.7842524424688614
+      },
+      "first_time_unix_seconds": 1394150400.0,
+      "last_time_unix_seconds": 1485896400.0,
+      "latitude_spacing_degrees": [
+        0.19999695,
+        0.19999886,
+        0.19999981,
+        0.19999993,
+        0.19999999,
+        0.2,
+        0.20000002,
+        0.20000005,
+        0.20000029,
+        0.20000076
+      ],
+      "latitude_units": "degrees_north WGS84",
+      "limitations": [
+        "WAVERYS is assimilative through significant-wave-height observations and uses GLORYS12 currents in the wave calculation.",
+        "The field is surface Stokes velocity; a partially submerged flaperon response is represented only through an explicit scale sensitivity in transport configuration.",
+        "Land and any missing ocean value remain the packed missing sentinel; no missing value is converted to zero velocity.",
+        "Direct aerodynamic windage and object-specific residual leeway remain separate model terms."
+      ],
+      "longitude_spacing_degrees": [
+        0.19999695,
+        0.19999886,
+        0.19999981,
+        0.20000076,
+        0.20000458,
+        0.20001221
+      ],
+      "longitude_units": "degrees_east WGS84",
+      "maximum_time_gap_hours": 3.0,
+      "name": "CMEMS WAVERYS MFWAM three-hourly native-grid surface Stokes velocity",
+      "packing": {
+        "add_offset": 0.0,
+        "encoding": "signed i16",
+        "missing_value": -30000,
+        "persistent_land_mask_value": -29999,
+        "scale_factor": 0.001
+      },
+      "persistent_missing_mask_audit": {
+        "changed_cells": 0,
+        "intermittently_missing_cells": 0,
+        "interpretation": "The invariant upstream mask is preserved in the Stokes field and exported separately as explicit coastal support; finite-corner renormalization remains an explicit run choice.",
+        "missing_fraction": 0.21574755753113856,
+        "persistent_missing_cells": 37276,
+        "time_component_comparisons": 16991
+      },
+      "product_id": "GLOBAL_MULTIYEAR_WAV_001_032",
+      "retrieval_manifest": {
+        "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/retrieval-manifest.json",
+        "sha256": "bf5cac99d10f80e94f9f77f3d2fd776ebba32409d139c0307ef000696fbab43f"
+      },
+      "schema": "mh370-gridded-field-input-v2",
+      "source_file_bytes": 550843242,
+      "source_file_count": 35,
+      "spatial_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "time_axis": "UTC Unix seconds; upstream three-hourly instantaneous analyses",
+      "time_count": 8496,
+      "time_gap_counts_hours": {
+        "3": 8495
+      }
+    },
+    "wind": {
+      "axis_order": [
+        "time",
+        "latitude",
+        "longitude"
+      ],
+      "binary_format": "MHGRID1 little-endian",
+      "binary_sha256": "c151628e9dd072fcb56f00cace91ab6057ccc35391646a91d5caa0b6d2aabd62",
+      "component_units": {
+        "u": "m s-1 east",
+        "v": "m s-1 north"
+      },
+      "converter_version": "ocean-input-preparation-v4",
+      "coverage": {
+        "east_degrees": 150.0,
+        "first_time_utc": "2014-01-01T00:00:00+00:00",
+        "last_time_utc": "2017-12-31T00:00:00+00:00",
+        "north_degrees": 25.71389961242676,
+        "south_degrees": -50.47520065307617,
+        "west_degrees": 9.375
+      },
+      "field_role": "wind_10m",
+      "latitude_regridding": "linear interpolation onto equal spacing with the source endpoint latitudes and row count",
+      "latitude_units": "degrees_north WGS84",
+      "limitations": [
+        "Daily winds omit subdaily variability and are used only when direct windage is explicitly nonzero.",
+        "The native Gaussian latitude grid is linearly regridded; this field is a direct-windage sensitivity, not a primary atmospheric product."
+      ],
+      "longitude_units": "degrees_east WGS84",
+      "name": "NCEP-DOE Reanalysis 2 daily 10 m winds, regular-latitude diagnostic field",
+      "schema": "mh370-gridded-field-input-v1",
+      "source_files": [
+        {
+          "path": "/jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/analyses/D-0042-hierarchical-debris-drift/inputs/environment/ncep_r2_uwnd_10m_2014_daily.nc",
+          "sha256": "d6be5312caeb6bb093464a1120024090605ada8e1f0f134124f7dbe22741184d"
+        },
+        {
+          "path": "/jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/analyses/D-0042-hierarchical-debris-drift/inputs/environment/ncep_r2_vwnd_10m_2014_daily.nc",
+          "sha256": "27b49a114952577ec55af3b9d2ecf2aa10e8014449ea67d1dbce4380983e5ac8"
+        },
+        {
+          "path": "/jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/analyses/D-0042-hierarchical-debris-drift/inputs/environment/ncep_r2_uwnd_10m_2015_daily.nc",
+          "sha256": "64a5fc633f3dc5876f2fc1436713b0159383da6961a01dde083804ee872417cd"
+        },
+        {
+          "path": "/jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/analyses/D-0042-hierarchical-debris-drift/inputs/environment/ncep_r2_vwnd_10m_2015_daily.nc",
+          "sha256": "a3cb6a9bc1b1f2defab197008a980cbf74cbf57e7cde4f90fe0681d7d41b6b14"
+        },
+        {
+          "path": "/jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/analyses/D-0042-hierarchical-debris-drift/inputs/environment/ncep_r2_uwnd_10m_2016_daily.nc",
+          "sha256": "040d588ea43a708363c6540352a3898bbffe23ac9562ab283273bb764d9c6a3f"
+        },
+        {
+          "path": "/jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/analyses/D-0042-hierarchical-debris-drift/inputs/environment/ncep_r2_vwnd_10m_2016_daily.nc",
+          "sha256": "f08a40268b54b509da8c2665eedc39cc5356080cb0dffc8acee7487ee0103db5"
+        },
+        {
+          "path": "/jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/analyses/D-0042-hierarchical-debris-drift/inputs/environment/ncep_r2_uwnd_10m_2017_daily.nc",
+          "sha256": "a6508858e22a609646a004033e6898d4b4012bc67e647faef28c89ce6fbff159"
+        },
+        {
+          "path": "/jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/analyses/D-0042-hierarchical-debris-drift/inputs/environment/ncep_r2_vwnd_10m_2017_daily.nc",
+          "sha256": "5368789a01ec3e1c7b82b9e01e1bcadb246a60076e9e28d2dffd11880fcfb38c"
+        }
+      ],
+      "source_latitude_axis": "T62 Gaussian, ascending after source-row reversal",
+      "target_spacing_degrees": {
+        "latitude": 1.9047279357910156,
+        "longitude": 1.875
+      },
+      "time_axis": "UTC Unix seconds"
+    }
+  },
+  "outputs": {
+    "source-area.csv": "1eb5634577f9041283bc80a5212ede5bb23cdebb8b0c14372215454571c34526",
+    "source-area.json": "29413e73827f88ece2e6a6c2b3cacbc8f00397eef16d7106bee89052f5dd6f40",
+    "source-area.pdf": "d2148b1d6bf28534480212649d6502004c443ed0044b8f83ab5f54a3f031de75",
+    "source-area.png": "dbd75043d5b5b392dda148eb2b342356084cc5c3535dbfe5871679a673ede74a",
+    "source-area.svg": "ee2ba99085152f6db6675b22bfcd6c5184846f19d7ef88c6917c12cb9be97f70"
+  },
+  "limitations": [
+    "This preserved subset is 0.5 degree; the current official product is 0.25 degree.",
+    "Land and sparsely observed missing cells are not nearest-filled.",
+    "Formal mean-current standard errors are not eddy diffusivity.",
+    "Daily winds omit subdaily variability and are used only when direct windage is explicitly nonzero.",
+    "The native Gaussian latitude grid is linearly regridded; this field is a direct-windage sensitivity, not a primary atmospheric product.",
+    "WAVERYS is assimilative through significant-wave-height observations and uses GLORYS12 currents in the wave calculation.",
+    "The field is surface Stokes velocity; a partially submerged flaperon response is represented only through an explicit scale sensitivity in transport configuration.",
+    "Land and any missing ocean value remain the packed missing sentinel; no missing value is converted to zero velocity.",
+    "Direct aerodynamic windage and object-specific residual leeway remain separate model terms.",
+    "This is the native wave model persistent support mask, not a measured shoreline-distance, beaching-probability, retention, or refloating model.",
+    "Its 0.2-degree coastal support is coarser than GLORYS12 currents and can terminate a path before the geometric shoreline.",
+    "No beaching_rate component is present, so the transport code cannot invent coastal retention.",
+    "SST is an analyzed gridded product, not an in-situ observation along the flaperon path.",
+    "Discovery is not beaching; configured discovery-delay distributions are explicit model choices.",
+    "The Gaussian spatial encounter kernel and midpoint integrator are explicit model choices, not published measurements."
+  ]
+}

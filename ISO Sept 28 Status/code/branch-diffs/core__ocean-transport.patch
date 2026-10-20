@@ -1,0 +1,3062 @@
+diff --git a/.sources/ocean-drift/bran.py b/.sources/ocean-drift/bran.py
+new file mode 100644
+index 0000000..7913407
+--- /dev/null
++++ b/.sources/ocean-drift/bran.py
+@@ -0,0 +1,137 @@
++#!/usr/bin/env python3
++"""BRAN2016 surface currents to MHGRID schema 3 (crates/ocean/src/field.rs).
++
++Source: CSIRO Bluelink ReANalysis BRAN2016 (OFAM3, 0.1 deg, daily means), NCI THREDDS
++OPeNDAP: https://thredds.nci.org.au/thredds/dodsC/gb6/BRAN/BRAN_2016/OFAM/ocean_{u,v}_YYYY_MM.nc.
++No login. BRAN is free to use with an acknowledgement ("BRAN is made freely available by
++CSIRO Bluelink and is supported by the Bluelink Partnership: a collaboration between the
++Australian Department of Defence, Bureau of Meteorology and CSIRO"); CSIRO asks users to
++email bluelinkinfo@csiro.au with their organisation and intended use. BRAN2016 covers
++January 1994 to August 2016.
++
++The top level (2.5 m) of u and v on the B-grid velocity points is cut server-side to the
++requested box and written with the source's own packing (int16 x 3.051851e-4 m/s), so
++values are exact. Stamps are the source's (12:00 UTC, the centre of each daily mean).
++Cells missing on every day are written as land at the end.
++
++    bran.py --start 2014-03-07 --end 2014-03-24 [--south -55 --north 15 --west 0 --east 180] \
++        --output <file.mhgrid>
++"""
++
++import argparse
++import json
++import struct
++import time
++import urllib.request
++from concurrent.futures import ThreadPoolExecutor
++from datetime import date, datetime, timedelta, timezone
++from pathlib import Path
++
++import numpy as np
++
++import mhgrid
++
++URL = "https://thredds.nci.org.au/thredds/dodsC/gb6/BRAN/BRAN_2016/OFAM/ocean_{}_{:%Y_%m}.nc"
++SCALE = 3.051851e-4
++EPOCH_1979 = datetime(1979, 1, 1, tzinfo=timezone.utc).timestamp()
++
++
++def fetch(url, attempts=6):
++    for attempt in range(attempts):
++        try:
++            with urllib.request.urlopen(url, timeout=300) as response:
++                return response.read()
++        except Exception:
++            if attempt == attempts - 1:
++                raise
++            time.sleep(2**attempt)
++
++
++def ascii_values(url):
++    """The values of a one-variable DAP2 ASCII response: its last line, comma-separated."""
++    return np.array([float(v) for v in fetch(url).decode().strip().split("\n")[-1].split(",")])
++
++
++def dods_int32(blob):
++    """Values of a single-array DAP2 response (XDR: count twice, then big-endian int32)."""
++    data = blob[blob.index(b"\nData:\n") + 7 :]
++    n, m = struct.unpack(">II", data[:8])
++    if n != m or len(data) != 8 + 4 * n:
++        raise ValueError("unexpected DAP2 payload")
++    return np.frombuffer(data, ">i4", n, 8)
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
++    parser.add_argument("--start", type=date.fromisoformat, required=True)
++    parser.add_argument("--end", type=date.fromisoformat, required=True, help="last day, inclusive")
++    for edge, default in (("south", -55.0), ("north", 15.0), ("west", 0.0), ("east", 180.0)):
++        parser.add_argument(f"--{edge}", type=float, default=default)
++    parser.add_argument("--workers", type=int, default=4, help="parallel OPeNDAP requests (be kind to NCI)")
++    parser.add_argument("--output", required=True)
++    args = parser.parse_args()
++    months = sorted({(d.year, d.month) for d in (args.start + timedelta(k) for k in range((args.end - args.start).days + 1))})
++    probe = URL.format("u", date(*months[0], 1))
++    all_lat, all_lon = ascii_values(f"{probe}.ascii?yu_ocean"), ascii_values(f"{probe}.ascii?xu_ocean")
++    rows = np.flatnonzero((all_lat >= args.south - 1e-4) & (all_lat <= args.north + 1e-4))
++    cols = np.flatnonzero((all_lon >= args.west - 1e-4) & (all_lon <= args.east + 1e-4))
++    Y0, Y1, X0, X1 = rows[0], rows[-1], cols[0], cols[-1]
++    lat, lon = all_lat[Y0 : Y1 + 1], all_lon[X0 : X1 + 1]
++    plan, times = [], []
++    for year, month in months:
++        stamps = ascii_values(f"{URL.format('u', date(year, month, 1))}.ascii?Time")
++        for k, days in enumerate(stamps):
++            t = EPOCH_1979 + 86_400.0 * days
++            if args.start <= datetime.fromtimestamp(t, timezone.utc).date() <= args.end:
++                plan.append((year, month, k))
++                times.append(t)
++    writer = mhgrid.Writer(args.output, times, lat, lon, ["u", "v"], SCALE)
++
++    def convert(task):
++        t, c, (year, month, k) = task
++        var = ("u", "v")[c]
++        query = f"{var}.{var}%5B{k}:{k}%5D%5B0:0%5D%5B{Y0}:{Y1}%5D%5B{X0}:{X1}%5D"
++        raw = dods_int32(fetch(f"{URL.format(var, date(year, month, 1))}.dods?{query}")).reshape(len(lat), len(lon))
++        absent = raw == -32768
++        if np.abs(raw[~absent]).max(initial=0) >= 29_990:
++            raise ValueError("packed value collides with the MHGRID sentinels")
++        writer.write(t, c, np.where(absent, mhgrid.MISSING, raw).astype("<i2"))
++        return absent
++
++    ever_finite = np.zeros((len(lat), len(lon)), bool)
++    tasks = [(t, c, step) for t, step in enumerate(plan) for c in (0, 1)]
++    with ThreadPoolExecutor(args.workers) as pool:
++        for n, absent in enumerate(pool.map(convert, tasks), 1):
++            ever_finite |= ~absent
++            if n % 50 == 0:
++                print(f"{n}/{len(tasks)} slices", flush=True)
++    writer.close()
++    land = ~ever_finite
++    for c in range(2):
++        values = np.memmap(args.output, "<i2", "r+", offset=writer.value_offsets[c], shape=writer.shape)
++        for t in range(len(times)):
++            values[t][land] = mhgrid.LAND
++        values.flush()
++        del values
++    manifest = {
++        "name": "BRAN2016 (OFAM3) surface current (2.5 m), daily mean",
++        "product": "CSIRO Bluelink ReANalysis BRAN2016",
++        "source": URL.format("{u,v}", date(2014, 1, 1)).replace("2014_01", "YYYY_MM"),
++        "acknowledgement": "BRAN is made freely available by CSIRO Bluelink and is supported by the Bluelink "
++                           "Partnership: a collaboration between the Australian Department of Defence, Bureau of "
++                           "Meteorology and CSIRO.",
++        "time": {"first_utc": datetime.fromtimestamp(times[0], timezone.utc).isoformat(),
++                 "last_utc": datetime.fromtimestamp(times[-1], timezone.utc).isoformat(), "count": len(times),
++                 "stamp": "source Time (days since 1979-01-01), 12:00 UTC centre of each daily mean"},
++        "grid": {"latitude": [float(lat[0]), float(lat[-1]), len(lat)], "longitude": [float(lon[0]), float(lon[-1]), len(lon)]},
++        "packing": {"scale": SCALE, "offset": 0.0, "missing": mhgrid.MISSING, "land": mhgrid.LAND},
++        "land_cells": int(land.sum()),
++        "sha256": mhgrid.sha256(args.output),
++        "created_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
++    }
++    Path(args.output + ".json").write_text(json.dumps(manifest, indent=1) + "\n")
++    print(json.dumps({k: manifest[k] for k in ("time", "land_cells", "sha256")}))
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/.sources/ocean-drift/cmems.py b/.sources/ocean-drift/cmems.py
+new file mode 100644
+index 0000000..3050656
+--- /dev/null
++++ b/.sources/ocean-drift/cmems.py
+@@ -0,0 +1,214 @@
++#!/usr/bin/env python3
++"""Copernicus Marine surface fields for crates/ocean: retrieval and conversion to MHGRID.
++
++Datasets (0-180E, 55S-15N, 2014-03-07 to 2017-01-31):
++  glorys12  GLOBAL_MULTIYEAR_PHY_001_030 / cmems_mod_glo_phy_my_0.083deg_P1D-m,
++            uo/vo at the top level (0.494 m), 1/12 deg, daily means.
++  waverys   GLOBAL_MULTIYEAR_WAV_001_032 / cmems_mod_glo_wav_my_0.2deg_PT3H-i
++            (version 202411), surface Stokes drift VSDX/VSDY, 0.2 deg, 3-hourly
++            instantaneous.
++
++  cmems.py retrieve glorys12 --raw <dir>     monthly netCDF files via the copernicusmarine
++                                             toolbox; needs COPERNICUSMARINE_SERVICE_USERNAME
++                                             and _PASSWORD (Pete's login; ask before use)
++  cmems.py convert glorys12 --raw <dir> --output <file.mhgrid>
++  cmems.py check glorys12 --raw <dir> --against <file.mhgrid> [--every 29]
++
++Conversion reads the packed int16 values directly (h5py) and treats only _FillValue
++as absent. netCDF4's automatic valid_min/valid_max masking must not be used: the
++previous converter lost every GLORYS12 current beyond -1.91/+2.63 m/s that way (the
++Agulhas and Somali currents). Cells absent at every time in both components are
++written as land; any other absent value stays missing. GLORYS12 daily means are
++stamped at 00:00 of their day upstream; they are written at 12:00, the centre of
++the averaging day. WAVERYS fields are instantaneous and keep their stamps.
++`check` compares sampled slices with an existing file, e.g. the previous conversion.
++"""
++
++import argparse
++import calendar
++import json
++import os
++import subprocess
++import sys
++from datetime import date, datetime, timedelta, timezone
++from pathlib import Path
++
++import h5py
++import numpy as np
++
++import mhgrid
++
++EPOCH_1950 = datetime(1950, 1, 1, tzinfo=timezone.utc).timestamp()
++DATASETS = {
++    "glorys12": {
++        "product": "GLOBAL_MULTIYEAR_PHY_001_030",
++        "dataset": "cmems_mod_glo_phy_my_0.083deg_P1D-m",
++        "toolbox_extra": ["--minimum-depth", "0.49402499198913574", "--maximum-depth", "0.49402499198913574"],
++        "variables": ("uo", "vo"),
++        "pattern": "cmems-glorys12-surface-{:%Y-%m}.nc",
++        "time_shift_s": 43_200.0,
++        "name": "CMEMS GLORYS12V1 surface current (0.494 m), daily mean",
++    },
++    "waverys": {
++        "product": "GLOBAL_MULTIYEAR_WAV_001_032",
++        "dataset": "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
++        "toolbox_extra": ["--dataset-version", "202411", "--dataset-part", "default"],
++        "variables": ("VSDX", "VSDY"),
++        "pattern": "cmems-waverys-stokes-{:%Y-%m}.nc",
++        "time_shift_s": 0.0,
++        "name": "CMEMS WAVERYS surface Stokes drift, 3-hourly instantaneous",
++    },
++}
++FIRST, LAST = date(2014, 3, 7), date(2017, 1, 31)
++BOUNDS = {"west": 0.0, "east": 180.0, "south": -55.0, "north": 15.0}
++SCALE = 0.001
++
++
++def months():
++    first = FIRST
++    while first <= LAST:
++        last = min(LAST, date(first.year, first.month, calendar.monthrange(first.year, first.month)[1]))
++        yield first, last
++        first = last + timedelta(1)
++
++
++def retrieve(spec, raw):
++    for user in ("COPERNICUSMARINE_SERVICE_USERNAME", "COPERNICUSMARINE_SERVICE_PASSWORD"):
++        if user not in os.environ:
++            sys.exit(f"{user} is not set")
++    raw.mkdir(parents=True, exist_ok=True)
++    for first, last in months():
++        name = spec["pattern"].format(first)
++        if (raw / name).exists():
++            continue
++        command = ["copernicusmarine", "subset", "--dataset-id", spec["dataset"], *spec["toolbox_extra"],
++                   *sum((["--variable", v] for v in spec["variables"]), []),
++                   "--start-datetime", f"{first}T00:00:00Z", "--end-datetime", f"{last}T23:59:59Z",
++                   "--minimum-longitude", str(BOUNDS["west"]), "--maximum-longitude", str(BOUNDS["east"]),
++                   "--minimum-latitude", str(BOUNDS["south"]), "--maximum-latitude", str(BOUNDS["north"]),
++                   "--coordinates-selection-method", "outside", "--output-directory", str(raw),
++                   "--output-filename", name, "--file-format", "netcdf", "--disable-progress-bar"]
++        subprocess.run(command, check=True)
++
++
++class Source:
++    """The monthly files of one dataset, read slice by slice as float (NaN = _FillValue)."""
++
++    def __init__(self, spec, raw):
++        self.spec, self.files = spec, [raw / spec["pattern"].format(first) for first, _ in months()]
++        self.times, self.index = [], []
++        for n, path in enumerate(self.files):
++            with h5py.File(path, "r") as f:
++                if n == 0:
++                    self.latitudes = f["latitude"][:].astype(np.float64)
++                    self.longitudes = f["longitude"][:].astype(np.float64)
++                elif not (np.array_equal(f["latitude"][:], self.latitudes) and np.array_equal(f["longitude"][:], self.longitudes)):
++                    raise ValueError(f"{path.name}: grid differs")
++                if f["time"].attrs["units"] not in (b"hours since 1950-01-01", "hours since 1950-01-01"):
++                    raise ValueError(f"{path.name}: unexpected time units")
++                hours = f["time"][:].astype(np.float64)
++                self.times.extend(EPOCH_1950 + 3600.0 * hours + spec["time_shift_s"])
++                self.index.extend((n, k) for k in range(len(hours)))
++        if not np.all(np.diff(self.times) > 0):
++            raise ValueError("times overlap or repeat")
++
++    def slice(self, t):
++        n, k = self.index[t]
++        with h5py.File(self.files[n], "r") as f:
++            out = []
++            for name in self.spec["variables"]:
++                var = f[name]
++                packed = var[k, 0] if var.ndim == 4 else var[k]
++                scale = float(np.ravel(var.attrs["scale_factor"])[0])
++                offset = float(np.ravel(var.attrs.get("add_offset", [0.0]))[0])
++                fill = np.ravel(var.attrs["_FillValue"])[0]
++                out.append(np.where(packed == fill, np.nan, packed * scale + offset))
++            return out
++
++
++def convert(spec, raw, output):
++    source = Source(spec, raw)
++    # Land: absent in both components at every time. First pass over the absent-value masks.
++    absent_always = None
++    for t in range(len(source.times)):
++        u, v = source.slice(t)
++        absent = np.isnan(u) & np.isnan(v)
++        absent_always = absent if absent_always is None else absent_always & absent
++    writer = mhgrid.Writer(output, source.times, source.latitudes, source.longitudes, ["u", "v"], SCALE)
++    missing_counts = [0, 0]
++    for t in range(len(source.times)):
++        for c, values in enumerate(source.slice(t)):
++            missing_counts[c] += int(np.count_nonzero(np.isnan(values) & ~absent_always))
++            writer.write(t, c, writer.pack(values, land=absent_always))
++    digest = writer.close()
++    manifest = {
++        "name": spec["name"],
++        "product": spec["product"],
++        "dataset": spec["dataset"],
++        "variables": list(spec["variables"]),
++        "time": {"first_utc": iso(source.times[0]), "last_utc": iso(source.times[-1]), "count": len(source.times),
++                 "shift_applied_s": spec["time_shift_s"]},
++        "grid": {"latitude": [source.latitudes[0], source.latitudes[-1], len(source.latitudes)],
++                 "longitude": [source.longitudes[0], source.longitudes[-1], len(source.longitudes)]},
++        "packing": {"scale": SCALE, "offset": 0.0, "missing": mhgrid.MISSING, "land": mhgrid.LAND},
++        "land_cells": int(absent_always.sum()),
++        "missing_values_off_land": {"u": missing_counts[0], "v": missing_counts[1]},
++        "sources": {p.name: mhgrid.sha256(p) for p in source.files},
++        "sha256": digest,
++        "created_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
++    }
++    Path(str(output) + ".json").write_text(json.dumps(manifest, indent=1) + "\n")
++    print(json.dumps({k: manifest[k] for k in ("time", "land_cells", "missing_values_off_land", "sha256")}))
++
++
++def check(spec, raw, against, every):
++    """Compare sampled slices of `against` with a fresh read of the raw files."""
++    source = Source(spec, raw)
++    with open(against, "rb") as f:
++        head = f.read(32)
++        nt, ny, nx, nc = (int(n) for n in np.frombuffer(head[16:32], "<u4"))
++        times = np.fromfile(f, "<f8", nt)
++    base = 32 + 8 * (nt + ny + nx)
++    offsets = [base + 40 + c * (40 + 2 * nt * ny * nx) for c in range(nc)]
++    shift = np.round(times - np.asarray(source.times))
++    print(f"time stamps: {sorted(set(shift.tolist()))} s from the fresh read")
++    old = [np.memmap(against, "<i2", "r", offset=o, shape=(nt, ny, nx)) for o in offsets]
++    writer = mhgrid.Writer.__new__(mhgrid.Writer)
++    writer.scale, writer.offset, writer.path = SCALE, 0.0, Path(against)
++    for t in range(0, nt, every):
++        for c, values in enumerate(source.slice(t)):
++            fresh = writer.pack(values)
++            stored = np.asarray(old[c][t])
++            differ = fresh != stored
++            recovered = differ & (stored == mhgrid.MISSING) & np.isfinite(values)
++            land = differ & (stored == mhgrid.LAND) & ~np.isfinite(values)
++            other = differ & ~recovered & ~land
++            extreme = np.abs(values[recovered]).min() if recovered.any() else float("nan")
++            print(f"{iso(source.times[t])} {spec['variables'][c]}: {int(recovered.sum())} values recovered "
++                  f"(|v| >= {extreme:.2f} m/s), {int(other.sum())} other differences")
++
++
++def iso(t):
++    return datetime.fromtimestamp(t, timezone.utc).isoformat()
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
++    parser.add_argument("action", choices=("retrieve", "convert", "check"))
++    parser.add_argument("dataset", choices=DATASETS)
++    parser.add_argument("--raw", type=Path, required=True)
++    parser.add_argument("--output")
++    parser.add_argument("--against")
++    parser.add_argument("--every", type=int, default=29)
++    args = parser.parse_args()
++    spec = DATASETS[args.dataset]
++    if args.action == "retrieve":
++        retrieve(spec, args.raw)
++    elif args.action == "convert":
++        convert(spec, args.raw, args.output)
++    else:
++        check(spec, args.raw, args.against, args.every)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/.sources/ocean-drift/era5_wind.py b/.sources/ocean-drift/era5_wind.py
+new file mode 100644
+index 0000000..a9c982c
+--- /dev/null
++++ b/.sources/ocean-drift/era5_wind.py
+@@ -0,0 +1,190 @@
++#!/usr/bin/env python3
++"""ERA5 10 m wind (u10, v10) from the public ARCO ERA5 bucket to MHGRID schema 3.
++
++Source: gs://gcp-public-data-arco-era5/raw/date-variable-single_level/YYYY/MM/DD/
++10m_{u,v}_component_of_wind/surface.nc, the original ECMWF daily netCDF3 files
++(24 hourly fields on the 0.25 deg global grid, int16 packed per file). No login is
++needed. Only the requested latitude rows of the requested hours are fetched, by
++HTTP range request, then unpacked with each file's own scale and offset and
++repacked at 0.005 m/s. Latitude is flipped to ascending order.
++
++    era5_wind.py --start 2014-03-07 --end 2014-05-31 --step-hours 1 \
++        --south -55 --north 5 --west 50 --east 135 --output <file.mhgrid>
++
++--stride 2 keeps every second row and column (0.5 deg), for long runs where windage needs
++only synoptic-scale wind.
++
++Writes <file.mhgrid> and <file.mhgrid.json> (provenance: every source file's
++generation and etag, the packing, and the output sha256).
++"""
++
++import argparse
++import json
++import struct
++import time
++import urllib.request
++from concurrent.futures import ThreadPoolExecutor
++from datetime import date, datetime, timedelta, timezone
++
++import numpy as np
++
++import mhgrid
++
++BUCKET = "https://storage.googleapis.com/gcp-public-data-arco-era5/raw/date-variable-single_level"
++VARIABLES = {"u": "10m_u_component_of_wind", "v": "10m_v_component_of_wind"}
++SCALE = 0.005  # m/s per packed unit: +/-150 m/s range
++
++
++def fetch(url, first=None, last=None, attempts=6):
++    request = urllib.request.Request(url)
++    if first is not None:
++        request.add_header("Range", f"bytes={first}-{last}")
++    for attempt in range(attempts):
++        try:
++            with urllib.request.urlopen(request, timeout=60) as response:
++                return response.read(), dict(response.headers)
++        except Exception:
++            if attempt == attempts - 1:
++                raise
++            time.sleep(2**attempt)
++
++
++def netcdf3_header(blob):
++    """Dimensions and variables (type, shape, attributes, begin) of a classic/64-bit-offset file."""
++    if blob[:3] != b"CDF" or blob[3] not in (1, 2):
++        raise ValueError("not a netCDF3 file")
++    offset_size = 8 if blob[3] == 2 else 4
++    at = 8
++    sizes = {1: 1, 2: 1, 3: 2, 4: 4, 5: 4, 6: 8}
++    codes = {1: "b", 2: "c", 3: ">i2", 4: ">i4", 5: ">f4", 6: ">f8"}
++
++    def u32():
++        nonlocal at
++        at += 4
++        return struct.unpack(">I", blob[at - 4 : at])[0]
++
++    def name():
++        nonlocal at
++        n = u32()
++        s = blob[at : at + n].decode()
++        at += (n + 3) // 4 * 4
++        return s
++
++    def attributes():
++        nonlocal at
++        tag, count = u32(), u32()
++        out = {}
++        for _ in range(count if tag else 0):
++            key, kind, n = name(), u32(), u32()
++            raw = blob[at : at + n * sizes[kind]]
++            at += (n * sizes[kind] + 3) // 4 * 4
++            out[key] = raw.decode(errors="replace") if kind == 2 else np.frombuffer(raw, codes[kind]).tolist()
++        return out
++
++    dims = []
++    tag, count = u32(), u32()
++    for _ in range(count if tag else 0):
++        dims.append((name(), u32()))
++    attributes()
++    variables = {}
++    tag, count = u32(), u32()
++    for _ in range(count if tag else 0):
++        key = name()
++        shape = [dims[u32()][1] for _ in range(u32())]
++        attrs = attributes()
++        kind, _vsize = u32(), u32()
++        begin = struct.unpack(">Q" if offset_size == 8 else ">I", blob[at : at + offset_size])[0]
++        at += offset_size
++        variables[key] = {"dtype": codes[kind], "shape": shape, "attrs": attrs, "begin": begin}
++    return dict(dims), variables
++
++
++def one_value(attrs, key):
++    value = attrs[key]
++    return float(value[0] if isinstance(value, list) else value)
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
++    parser.add_argument("--start", type=date.fromisoformat, required=True)
++    parser.add_argument("--end", type=date.fromisoformat, required=True, help="last day, inclusive")
++    parser.add_argument("--step-hours", type=int, default=1)
++    parser.add_argument("--south", type=float, required=True)
++    parser.add_argument("--north", type=float, required=True)
++    parser.add_argument("--west", type=float, required=True)
++    parser.add_argument("--east", type=float, required=True)
++    parser.add_argument("--stride", type=int, default=1, help="keep every n-th row and column")
++    parser.add_argument("--workers", type=int, default=12)
++    parser.add_argument("--output", required=True)
++    args = parser.parse_args()
++    if 24 % args.step_hours:
++        raise SystemExit("--step-hours must divide 24")
++
++    days = [args.start + timedelta(d) for d in range((args.end - args.start).days + 1)]
++    hours = list(range(0, 24, args.step_hours))
++    url = lambda day, var: f"{BUCKET}/{day:%Y/%m/%d}/{VARIABLES[var]}/surface.nc"
++    head, _ = fetch(url(days[0], "u"), 0, 65535)
++    dims, variables = netcdf3_header(head)
++    nlat, nlon = dims["latitude"], dims["longitude"]
++    latitudes = 90.0 - 0.25 * np.arange(nlat)
++    longitudes = 0.25 * np.arange(nlon)
++    rows = np.flatnonzero((latitudes >= args.south - 1e-9) & (latitudes <= args.north + 1e-9))
++    cols = np.flatnonzero((longitudes >= args.west - 1e-9) & (longitudes <= args.east + 1e-9))[:: args.stride]
++    times = [datetime(d.year, d.month, d.day, h, tzinfo=timezone.utc).timestamp() for d in days for h in hours]
++    keep = np.arange(len(rows))[:: args.stride]
++    writer = mhgrid.Writer(args.output, times, latitudes[rows[keep]][::-1], longitudes[cols], ["u", "v"], SCALE)
++    sources = {}
++
++    def convert(task):
++        day_index, day, var = task
++        blob, headers = fetch(url(day, var), 0, 65535)
++        file_dims, file_vars = netcdf3_header(blob)
++        key = "u10" if var == "u" else "v10"
++        info = file_vars[key]
++        if file_dims["latitude"] != nlat or file_dims["longitude"] != nlon or info["shape"] != [24, nlat, nlon]:
++            raise ValueError(f"{day} {var}: unexpected grid {info['shape']}")
++        attrs = info["attrs"]
++        scale, offset, fill = one_value(attrs, "scale_factor"), one_value(attrs, "add_offset"), one_value(attrs, "_FillValue")
++        record = 2 * nlat * nlon
++        for k, hour in enumerate(hours):
++            first = info["begin"] + hour * record + 2 * rows[0] * nlon
++            raw, _ = fetch(url(day, var), first, first + 2 * len(rows) * nlon - 1)
++            packed = np.frombuffer(raw, ">i2").reshape(len(rows), nlon)[np.ix_(keep, cols)]
++            values = np.where(packed == fill, np.nan, packed * scale + offset)[::-1]
++            if np.isnan(values).any():
++                raise ValueError(f"{day} {var} {hour:02d}h: missing values")
++            writer.write(day_index * len(hours) + k, 0 if var == "u" else 1, writer.pack(values))
++        return f"{day}/{var}", {"generation": headers.get("x-goog-generation"), "etag": headers.get("ETag"),
++                                "scale_factor": scale, "add_offset": offset}
++
++    tasks = [(i, day, var) for i, day in enumerate(days) for var in ("u", "v")]
++    started = time.time()
++    with ThreadPoolExecutor(args.workers) as pool:
++        for n, (key, info) in enumerate(pool.map(convert, tasks), 1):
++            sources[key] = info
++            if n % 20 == 0:
++                print(f"{n}/{len(tasks)} files, {time.time() - started:.0f} s", flush=True)
++    digest = writer.close()
++    manifest = {
++        "name": "ERA5 10 m wind (u10, v10), hourly analyses",
++        "source": f"{BUCKET}/YYYY/MM/DD/{{10m_u,10m_v}}_component_of_wind/surface.nc",
++        "source_note": "ECMWF ERA5 reanalysis (Hersbach et al. 2020), public ARCO ERA5 copy; Copernicus licence",
++        "components": {"u": "m/s eastward", "v": "m/s northward"},
++        "time": {"first_utc": datetime.fromtimestamp(times[0], timezone.utc).isoformat(),
++                 "last_utc": datetime.fromtimestamp(times[-1], timezone.utc).isoformat(),
++                 "step_hours": args.step_hours, "meaning": "instantaneous analysis at the stamped hour"},
++        "grid": {"latitude": [float(latitudes[rows[keep]].min()), float(latitudes[rows[keep]].max()), 0.25 * args.stride],
++                 "longitude": [float(longitudes[cols].min()), float(longitudes[cols].max()), 0.25 * args.stride]},
++        "packing": {"scale": SCALE, "offset": 0.0, "missing": mhgrid.MISSING, "land": mhgrid.LAND},
++        "sha256": digest,
++        "created_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
++        "sources": dict(sorted(sources.items())),
++    }
++    with open(args.output + ".json", "w") as stream:
++        json.dump(manifest, stream, indent=1)
++        stream.write("\n")
++    print(f"wrote {args.output} ({digest}) in {time.time() - started:.0f} s")
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/.sources/ocean-drift/gshhg_land.py b/.sources/ocean-drift/gshhg_land.py
+new file mode 100644
+index 0000000..3e99784
+--- /dev/null
++++ b/.sources/ocean-drift/gshhg_land.py
+@@ -0,0 +1,112 @@
++#!/usr/bin/env python3
++"""GSHHG shoreline to the MHLAND1 bit raster read by crates/ocean/src/land.rs.
++
++Source: GSHHG 2.3.7 (Wessel & Smith), full resolution, level-1 (land) polygons, from
++https://github.com/GenericMappingTools/gshhg-gmt/releases/download/2.3.7/gshhg-bin-2.3.7.zip
++(LGPL). Lakes are left as land: a drifting object cannot reach them.
++
++A cell is land when its centre is inside a land polygon (even-odd scanline fill).
++
++    gshhg_land.py <gshhg-bin-2.3.7.zip> <out.mhland> [--cell-arcsec 30]
++"""
++
++import argparse
++import hashlib
++import json
++import struct
++import zipfile
++from datetime import datetime, timezone
++
++import numpy as np
++
++SOUTH, NORTH, WEST, EAST = -55.0, 15.0, 0.0, 180.0
++
++
++def land_polygons(blob):
++    """Yield (lon, lat) arrays in degrees for every level-1 polygon, longitude unwrapped."""
++    at = 0
++    while at < len(blob):
++        header = struct.unpack(">11i", blob[at : at + 44])
++        n, flag = header[1], header[2]
++        points = np.frombuffer(blob, ">i4", 2 * n, at + 44).reshape(n, 2) * 1e-6
++        at += 44 + 8 * n
++        if flag & 255 != 1:
++            continue
++        lon = np.degrees(np.unwrap(np.radians(points[:, 0])))
++        lon -= 360.0 * np.floor((lon.min() + 180.0) / 360.0)  # west edge in [-180, 180)
++        yield lon, points[:, 1]
++
++
++def rasterise(polygons, cell):
++    ny, nx = round((NORTH - SOUTH) / cell), round((EAST - WEST) / cell)
++    crossings = [[] for _ in range(ny)]
++    for lon, lat in polygons:
++        if lat.max() < SOUTH or lat.min() > NORTH or lon.max() < WEST or lon.min() > EAST:
++            continue
++        x0, y0 = lon, lat
++        x1, y1 = np.roll(lon, -1), np.roll(lat, -1)
++        # Rows whose centre latitude c satisfies min(y0, y1) <= c < max(y0, y1).
++        lo = np.ceil((np.minimum(y0, y1) - SOUTH) / cell - 0.5).astype(np.int64)
++        hi = np.ceil((np.maximum(y0, y1) - SOUTH) / cell - 0.5).astype(np.int64)
++        lo, hi = np.clip(lo, 0, ny), np.clip(hi, 0, ny)
++        count = hi - lo
++        keep = count > 0
++        if not keep.any():
++            continue
++        edge = np.repeat(np.flatnonzero(keep), count[keep])
++        start = np.repeat(lo[keep], count[keep])
++        row = start + np.arange(len(edge)) - np.repeat(np.cumsum(count[keep]) - count[keep], count[keep])
++        centre = SOUTH + (row + 0.5) * cell
++        x = x0[edge] + (centre - y0[edge]) * (x1[edge] - x0[edge]) / (y1[edge] - y0[edge])
++        order = np.lexsort((x, row))
++        row, x = row[order], x[order]
++        bounds = np.flatnonzero(np.diff(row)) + 1
++        for r, xs in zip(row[np.r_[0, bounds]], np.split(x, bounds)):
++            if len(xs) % 2:
++                raise ValueError(f"odd crossing count in row {r}")
++            crossings[r].append(xs)
++    rows = np.zeros((ny, (nx + 7) // 8), np.uint8)
++    centres = WEST + (np.arange(nx) + 0.5) * cell
++    for r in range(ny):
++        if not crossings[r]:
++            continue
++        inside = np.zeros(nx, bool)
++        for xs in crossings[r]:
++            a = np.searchsorted(centres, xs[0::2])
++            b = np.searchsorted(centres, xs[1::2])
++            depth = np.zeros(nx + 1, np.int32)
++            np.add.at(depth, a, 1)
++            np.add.at(depth, b, -1)
++            inside |= np.cumsum(depth[:-1]) > 0
++        rows[r] = np.packbits(inside, bitorder="little")
++    return rows, ny, nx
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
++    parser.add_argument("zip")
++    parser.add_argument("output")
++    parser.add_argument("--cell-arcsec", type=float, default=30.0)
++    args = parser.parse_args()
++    cell = args.cell_arcsec / 3600.0
++    blob = zipfile.ZipFile(args.zip).read("gshhs_f.b")
++    rows, ny, nx = rasterise(land_polygons(blob), cell)
++    with open(args.output, "wb") as out:
++        out.write(b"MHLAND1\0" + struct.pack("<3d2I", SOUTH, WEST, cell, ny, nx) + rows.tobytes())
++    digest = hashlib.sha256(open(args.output, "rb").read()).hexdigest()
++    manifest = {
++        "source": "GSHHG 2.3.7 full resolution, level 1 (gshhs_f.b in gshhg-bin-2.3.7.zip)",
++        "source_sha256": hashlib.sha256(open(args.zip, "rb").read()).hexdigest(),
++        "grid": {"south": SOUTH, "west": WEST, "cell_deg": cell, "ny": ny, "nx": nx},
++        "land_fraction": float(np.unpackbits(rows, axis=1, bitorder="little")[:, :nx].mean()),
++        "sha256": digest,
++        "created_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
++    }
++    with open(args.output + ".json", "w") as stream:
++        json.dump(manifest, stream, indent=1)
++        stream.write("\n")
++    print(json.dumps(manifest))
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/.sources/ocean-drift/mhgrid.py b/.sources/ocean-drift/mhgrid.py
+new file mode 100644
+index 0000000..af98dc2
+--- /dev/null
++++ b/.sources/ocean-drift/mhgrid.py
+@@ -0,0 +1,83 @@
++"""Writer for MHGRID schema 3, the gridded-field layout read by crates/ocean/src/field.rs.
++
++Layout (little-endian, C order, longitude fastest; axes strictly increasing):
++    b"MHGRID1\\0", u32 schema=3, u32 time_axis=0 (Unix seconds),
++    u32 nt, ny, nx, nc, f64 times[nt], latitudes[ny], longitudes[nx],
++    then per component: 16-byte NUL-padded name, u32 encoding=1 (packed i16),
++    f64 scale, f64 offset, i16 missing, i16 land, i16 values[nt][ny][nx].
++A value is offset + scale * packed. `missing` marks an absent value, `land` a cell
++that is dry at every time. Neither is ever read as zero.
++"""
++
++import hashlib
++import os
++import struct
++from pathlib import Path
++
++import numpy as np
++
++MAGIC = b"MHGRID1\0"
++MISSING = -30000
++LAND = -29999
++
++
++class Writer:
++    """Sizes the file up front so slices can be written in any order, from any thread: every
++    write is positional (os.pwrite), with no shared file offset to race on."""
++
++    def __init__(self, path, times, latitudes, longitudes, names, scale, offset=0.0):
++        self.path = Path(path)
++        self.shape = (len(times), len(latitudes), len(longitudes))
++        self.scale, self.offset = float(scale), float(offset)
++        for axis in (times, latitudes, longitudes):
++            if not np.all(np.diff(np.asarray(axis, dtype=float)) > 0):
++                raise ValueError("MHGRID axes must be strictly increasing")
++        header = MAGIC + struct.pack("<6I", 3, 0, *self.shape, len(names))
++        header += b"".join(np.asarray(a, dtype="<f8").tobytes() for a in (times, latitudes, longitudes))
++        slab = 2 * int(np.prod(self.shape))
++        self.path.parent.mkdir(parents=True, exist_ok=True)
++        self.fd = os.open(self.path, os.O_RDWR | os.O_CREAT | os.O_TRUNC, 0o644)
++        os.pwrite(self.fd, header, 0)
++        at = len(header)
++        self.value_offsets = []
++        for name in names:
++            meta = name.encode("ascii").ljust(16, b"\0") + struct.pack("<Iddhh", 1, self.scale, self.offset, MISSING, LAND)
++            os.pwrite(self.fd, meta, at)
++            at += len(meta)
++            self.value_offsets.append(at)
++            at += slab
++        os.ftruncate(self.fd, at)
++
++    def pack(self, values, land=None):
++        """Float values (NaN = missing) to packed i16; `land` marks persistently dry cells."""
++        values = np.asarray(values, dtype=np.float64)
++        finite = np.isfinite(values)
++        packed = np.full(values.shape, MISSING, dtype="<i2")
++        scaled = np.rint((values[finite] - self.offset) / self.scale)
++        if scaled.size and (scaled.min() < -29990 or scaled.max() > 32767):
++            raise ValueError(f"{self.path.name}: value outside the packed range")
++        packed[finite] = scaled.astype("<i2")
++        if land is not None:
++            packed[land & ~finite] = LAND
++        return packed
++
++    def write(self, time_index, component, packed):
++        packed = np.ascontiguousarray(packed, dtype="<i2")
++        if packed.shape != self.shape[1:]:
++            raise ValueError(f"slice shape {packed.shape}, expected {self.shape[1:]}")
++        data = packed.tobytes()
++        if os.pwrite(self.fd, data, self.value_offsets[component] + 2 * time_index * packed.size) != len(data):
++            raise OSError(f"{self.path.name}: short write")
++
++    def close(self):
++        os.fsync(self.fd)
++        os.close(self.fd)
++        return sha256(self.path)
++
++
++def sha256(path):
++    digest = hashlib.sha256()
++    with open(path, "rb") as stream:
++        for block in iter(lambda: stream.read(1 << 22), b""):
++            digest.update(block)
++    return digest.hexdigest()
+diff --git a/.sources/ocean-drift/oscar.py b/.sources/ocean-drift/oscar.py
+new file mode 100644
+index 0000000..19b52b7
+--- /dev/null
++++ b/.sources/ocean-drift/oscar.py
+@@ -0,0 +1,149 @@
++#!/usr/bin/env python3
++"""OSCAR v2.0 Final surface currents to MHGRID schema 3 (crates/ocean/src/field.rs).
++
++Source: NASA PO.DAAC OSCAR_L4_OC_FINAL_V2.0 (doi:10.5067/OSCAR-25F20), daily global 0.25 deg
++netCDF granules. Total current (u, v): geostrophic (DUACS altimetry) + Ekman (ERA5 wind) +
++buoyancy (CMC SST), averaged over the top 30 m. Needs an Earthdata login in ~/.netrc.
++
++Each day is downloaded, checked against its published md5, cut to 0-180E, 55S-15N and
++written; the global granule is then deleted, so only the subset uses disk. Granules are
++daily means over 00:00-23:59:59 UTC (stored with a 00:00 stamp and a "julian" calendar label,
++but their time_bounds are Gregorian days); they are stamped at 12:00 here.
++
++Missing values (-999) are missing, except that OSCAR's coast is written as land: cells missing
++on every day, plus cells within two cells of those that are missing on any day. OSCAR leaves
++some near-shore currents undefined on some days (about 860 such cells in the drift domain,
++mostly in the Indonesian archipelago, each undefined on about a fifth of days); an object
++there is at OSCAR's coast, not in a data gap. Other gaps (the sea-ice edge south of 45S) stay
++missing.
++
++    oscar.py --start 2014-03-07 --end 2014-03-24 --output <file.mhgrid>
++    oscar.py --relabel-land <file.mhgrid>     apply the coast rule to an existing file
++"""
++
++import argparse
++import hashlib
++import json
++import subprocess
++import tempfile
++import time
++from datetime import date, datetime, timedelta, timezone
++from pathlib import Path
++
++import h5py
++import numpy as np
++
++import mhgrid
++
++URL = "https://archive.podaac.earthdata.nasa.gov/podaac-ops-cumulus-{}/OSCAR_L4_OC_FINAL_V2.0/oscar_currents_final_{:%Y%m%d}.nc"
++SCALE = 0.001
++SOUTH, NORTH, WEST, EAST = -55.0, 15.0, 0.0, 180.0
++
++
++def download(day, target, cookies):
++    for attempt in range(5):
++        try:
++            subprocess.run(["curl", "-sfL", "-n", "-c", cookies, "-b", cookies, "-o", str(target),
++                            URL.format("protected", day)], check=True)
++            expected = subprocess.run(["curl", "-sfL", URL.format("public", day) + ".md5"], check=True,
++                                      capture_output=True, text=True).stdout.split()[0]
++            if hashlib.md5(target.read_bytes()).hexdigest() == expected:
++                return expected
++        except subprocess.CalledProcessError:
++            pass
++        time.sleep(2**attempt)
++    raise RuntimeError(f"could not download OSCAR for {day}")
++
++
++def label_land(path):
++    """Write OSCAR's coast as land (see the module note); returns the number of land cells."""
++    with open(path, "rb") as f:
++        head = f.read(32)
++    nt, ny, nx, _ = (int(n) for n in np.frombuffer(head[16:32], "<u4"))
++    base = 32 + 8 * (nt + ny + nx)
++    values = [np.memmap(path, "<i2", "r+", offset=base + 40 + c * (40 + 2 * nt * ny * nx), shape=(nt, ny, nx)) for c in range(2)]
++    absent_count = np.zeros((ny, nx), np.int64)
++    for t in range(nt):
++        absent_count += (values[0][t] <= mhgrid.LAND) | (values[1][t] <= mhgrid.LAND)
++    always = absent_count == nt
++    padded = np.pad(always, 2)
++    near = np.zeros_like(always)
++    for dy in range(5):
++        for dx in range(5):
++            near |= padded[dy : dy + ny, dx : dx + nx]
++    land = always | (near & (absent_count > 0))
++    for c in range(2):
++        for t in range(nt):
++            values[c][t][land] = mhgrid.LAND
++        values[c].flush()
++    return int(land.sum())
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
++    parser.add_argument("--start", type=date.fromisoformat)
++    parser.add_argument("--end", type=date.fromisoformat, help="last day, inclusive")
++    parser.add_argument("--output")
++    parser.add_argument("--relabel-land", metavar="FILE")
++    args = parser.parse_args()
++    if args.relabel_land:
++        cells = label_land(args.relabel_land)
++        sidecar = Path(args.relabel_land + ".json")
++        manifest = json.loads(sidecar.read_text())
++        manifest.update(land_cells=cells, land_rule="missing every day, or within two cells of that and missing any day",
++                        sha256=mhgrid.sha256(args.relabel_land))
++        sidecar.write_text(json.dumps(manifest, indent=1) + "\n")
++        print(json.dumps({k: manifest[k] for k in ("land_cells", "sha256")}))
++        return
++    if not (args.start and args.end and args.output):
++        parser.error("--start, --end and --output are required")
++    days = [args.start + timedelta(d) for d in range((args.end - args.start).days + 1)]
++    lat = -89.75 + 0.25 * np.arange(719)
++    lon = 0.25 * np.arange(1440)
++    rows = np.flatnonzero((lat >= SOUTH - 1e-9) & (lat <= NORTH + 1e-9))
++    cols = np.flatnonzero((lon >= WEST - 1e-9) & (lon <= EAST + 1e-9))
++    times = [datetime(d.year, d.month, d.day, 12, tzinfo=timezone.utc).timestamp() for d in days]
++    writer = mhgrid.Writer(args.output, times, lat[rows], lon[cols], ["u", "v"], SCALE)
++    sources = {}
++    with tempfile.TemporaryDirectory() as scratch:
++        granule, cookies = Path(scratch) / "granule.nc", str(Path(scratch) / "cookies")
++        for t, day in enumerate(days):
++            sources[f"{day}"] = download(day, granule, cookies)
++            with h5py.File(granule, "r") as f:
++                if not (np.allclose(f["lat"][:], lat) and np.allclose(f["lon"][:], lon)):
++                    raise ValueError(f"{day}: unexpected grid")
++                bounds = f["time"].attrs["time_bounds"].decode()
++                if not bounds.startswith(f"{day:%Y-%m-%d} 00:00:00"):
++                    raise ValueError(f"{day}: time bounds {bounds}")
++                for c, name in enumerate(("u", "v")):
++                    values = f[name][0][np.ix_(cols, rows)].T.astype(np.float64)  # [lon, lat] -> [lat, lon]
++                    values[values == -999.0] = np.nan
++                    writer.write(t, c, writer.pack(values))
++            granule.unlink()
++            if t % 50 == 0:
++                print(f"{day}", flush=True)
++    writer.close()
++    land_cells = label_land(args.output)
++    manifest = {
++        "name": "OSCAR v2.0 Final total surface current (top 30 m mean), daily",
++        "product": "OSCAR_L4_OC_FINAL_V2.0",
++        "dataset": "doi:10.5067/OSCAR-25F20",
++        "source": URL.format("protected", date(1, 1, 1)).replace("00010101", "YYYYMMDD"),
++        "time": {"first_utc": datetime.fromtimestamp(times[0], timezone.utc).isoformat(),
++                 "last_utc": datetime.fromtimestamp(times[-1], timezone.utc).isoformat(), "count": len(times),
++                 "stamp": "12:00 UTC, centre of the averaged day"},
++        "grid": {"latitude": [float(lat[rows][0]), float(lat[rows][-1]), len(rows)],
++                 "longitude": [float(lon[cols][0]), float(lon[cols][-1]), len(cols)]},
++        "packing": {"scale": SCALE, "offset": 0.0, "missing": mhgrid.MISSING, "land": mhgrid.LAND},
++        "land_cells": land_cells,
++        "land_rule": "missing every day, or within two cells of that and missing any day",
++        "md5": sources,
++        "sha256": mhgrid.sha256(args.output),
++        "created_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
++    }
++    Path(args.output + ".json").write_text(json.dumps(manifest, indent=1) + "\n")
++    print(json.dumps({k: manifest[k] for k in ("time", "land_cells", "sha256")}))
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/AGENTS.md b/AGENTS.md
+index ec00540..68b3cbb 100644
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -11,6 +11,7 @@ enough to read in an afternoon.
+ crates/geo         shared WGS-84 geometry and units
+ crates/satcom      BTO/BFO measurement model, observation loading
+ crates/flight      cruise + manoeuvre dynamics, ERA5/IGRF environment
++crates/ocean       surface drift: current/Stokes/wind fields, land mask, transport
+ crates/hypothesis  the fixed hook API between core and hypotheses
+ crates/mh370       runner: config, filter, hypotheses, artifacts, local app (ui/)
+ hypotheses/<name>/ one directory per hypothesis (discovered automatically)
+@@ -21,7 +22,7 @@ data/              measured inputs (README lists provenance)
+ .archive/          frozen previous codebase: read-only reference, never used
+ ```
+ 
+-The core spokes (`satcom`, `flight`) depend only on `geo`. Hypotheses depend
++The core spokes (`satcom`, `flight`, `ocean`) depend only on `geo`. Hypotheses depend
+ only on `hypothesis`, `geo`, `serde` and `toml`. They never depend on core
+ crates or on each other, and the build fails if a hypothesis references
+ another. The runner composes everything and holds no scientific equations.
+diff --git a/Cargo.lock b/Cargo.lock
+index a6edf88..e5e3f49 100644
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -110,6 +110,7 @@ dependencies = [
+  "mh370-geo",
+  "mh370-hypotheses",
+  "mh370-hypothesis",
++ "mh370-ocean",
+  "mh370-satcom",
+  "rand",
+  "rand_chacha",
+@@ -153,6 +154,13 @@ dependencies = [
+  "toml",
+ ]
+ 
++[[package]]
++name = "mh370-ocean"
++version = "1.0.0"
++dependencies = [
++ "mh370-geo",
++]
++
+ [[package]]
+ name = "mh370-satcom"
+ version = "1.0.0"
+diff --git a/Cargo.toml b/Cargo.toml
+index ef02046..f60d877 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -1,6 +1,6 @@
+ [workspace]
+ resolver = "2"
+-members = ["crates/geo", "crates/satcom", "crates/flight", "crates/hypothesis", "crates/mh370", "hypotheses"]
++members = ["crates/geo", "crates/satcom", "crates/flight", "crates/ocean", "crates/hypothesis", "crates/mh370", "hypotheses"]
+ 
+ [workspace.package]
+ version = "1.0.0"
+@@ -11,6 +11,7 @@ license = "MIT"
+ geo = { path = "crates/geo", package = "mh370-geo" }
+ satcom = { path = "crates/satcom", package = "mh370-satcom" }
+ flight = { path = "crates/flight", package = "mh370-flight" }
++ocean = { path = "crates/ocean", package = "mh370-ocean" }
+ hypothesis = { path = "crates/hypothesis", package = "mh370-hypothesis" }
+ hypotheses = { path = "hypotheses", package = "mh370-hypotheses" }
+ rand = "0.8"
+diff --git a/Makefile b/Makefile
+index ff2dcf1..b807761 100644
+--- a/Makefile
++++ b/Makefile
+@@ -9,11 +9,12 @@
+ # Core refactor check:   make regress [REF=<commit>]   (base output byte-identical to REF, default main)
+ # Impact fixture:        make fixture                  (runs/fixture: smoke scale, 00:11 stop, placeholder impacts)
+ # Impact module check:   make evaluate H=<name>        (that module on the fixture's impacts, in seconds)
++# Drift product:         make drift D=<drift.toml>     (crates/ocean; writes data/external/drift/<name>)
+ PYTHON ?= .venv/bin/python
+ CONFIG ?= config/davey2016.toml
+ RUN    ?= runs/davey2016
+ 
+-.PHONY: report run app serve hypothesis sensitivity control smoke fixture evaluate new-hypothesis scope regress test venv clean need-H need-base
++.PHONY: report run app serve hypothesis sensitivity control smoke fixture evaluate new-hypothesis scope regress drift test venv clean need-H need-base
+ 
+ report: $(RUN)/run.json
+ 	$(PYTHON) report/build_report.py $(RUN) mh370-davey2016-reproduction.pdf
+@@ -131,11 +132,16 @@ regress:
+ 	git worktree remove --force $(REGRESS)/main
+ 	@echo "Base estimate is byte-identical to $(REF)."
+ 
++# Drift products are read by other modules, so they go to data/external (outside git).
++drift:
++	@test -n "$(D)" || { echo "usage: make drift D=<drift.toml>"; exit 1; }
++	cargo run --release -- drift $(D) data/external/drift/$(basename $(notdir $(D)))
++
+ test:
+ 	cargo test --release
+ 
+ venv:
+-	python3 -m venv .venv && .venv/bin/pip install numpy matplotlib openpyxl xarray zarr gcsfs
++	python3 -m venv .venv && .venv/bin/pip install numpy matplotlib openpyxl xarray zarr gcsfs h5py
+ 
+ clean:
+ 	rm -rf runs target
+diff --git a/README.md b/README.md
+index d52c73d..1aae48a 100644
+--- a/README.md
++++ b/README.md
+@@ -200,3 +200,29 @@ Binary layouts are documented in `crates/flight/src/environment.rs`.
+ The two `.bin` grids (~350 MB) are not in git. Rebuild them with the scripts in
+ `.sources/era5-weather/` and `.sources/igrf14-declination/`, or copy them from
+ an existing checkout.
++
++### Ocean drift inputs
++
++`crates/ocean` carries floating objects with the surface current, Stokes drift and
++10 m wind (`mh370 drift`, configs in `config/ocean.toml` and `config/drift/`). Its
++inputs are too large for git and live in `data/external/ocean/`
++(`/jackbox/home/MH370-inputs`). Each file has a `.json` sidecar with its sources and
++sha256, and is rebuilt by a script in `.sources/ocean-drift/`. The MHGRID and MHLAND
++layouts are documented in `crates/ocean/src/field.rs` and `land.rs`.
++
++| File | Content | Source |
++|---|---|---|
++| `glorys12/glorys12-surface-currents.mhgrid` | Surface (0.494 m) current, 1/12°, daily means stamped 12:00 UTC, 0–180°E × 55°S–15°N, 2014-03-07 to 2017-01-31 (7.7 GB) | CMEMS GLOBAL_MULTIYEAR_PHY_001_030 (GLORYS12V1); `cmems.py` |
++| `waverys/waverys-stokes.mhgrid` | Surface Stokes drift, 0.2°, 3-hourly, same domain and period | CMEMS GLOBAL_MULTIYEAR_WAV_001_032 (WAVERYS); `cmems.py` |
++| `oscar2/oscar2-currents-20140307-20160831.mhgrid` | Total current averaged over the top 30 m (geostrophic + Ekman + buoyancy), 0.25°, daily, 0–180°E × 55°S–15°N. Near-shore cells OSCAR leaves undefined on some days count as its coast | NASA PO.DAAC OSCAR v2.0 Final (doi:10.5067/OSCAR-25F20), Earthdata login; `oscar.py` |
++| `bran2016/bran2016-currents-20140307-20160831.mhgrid` | Surface (2.5 m) current, 0.1°, daily, 20–150°E × 55°S–5°N; BRAN2016 ends in August 2016 | CSIRO Bluelink BRAN2016 via NCI OPeNDAP, free with acknowledgement; `bran.py` |
++| `era5-wind10/era5-wind10-*.mhgrid` | 10 m wind: 0.25° hourly for March–May 2014, and 0.5° 3-hourly for 2014-03-07 to 2016-08-31 | ECMWF ERA5 original daily files in the public ARCO bucket; `era5_wind.py` |
++| `gshhg/gshhg-f-land-30s.mhland` | Land at 30″ (≈0.9 km), 0–180°E × 55°S–15°N | GSHHG 2.3.7 full resolution (LGPL); `gshhg_land.py` |
++| `gdp/gdp_6hour_20{14,15,16}.csv` | Drifter positions every 6 h with drogue-loss times, 30–115°E × 50°S–5°N | NOAA Global Drifter Program |
++
++Two departures from how these inputs were used before:
++- **Strong currents.** The previous GLORYS12 conversion let netCDF4 mask values outside
++  each file's valid_min/valid_max, so currents beyond −1.91/+2.63 m/s (the Agulhas and
++  Somali currents) became missing. `cmems.py` treats only `_FillValue` as missing.
++- **Time stamps.** Daily means are stamped at 12:00 UTC, the centre of the averaged day,
++  not at 00:00.
+diff --git a/config/drift/gdp-dispersion.toml b/config/drift/gdp-dispersion.toml
+new file mode 100644
+index 0000000..299fcd7
+--- /dev/null
++++ b/config/drift/gdp-dispersion.toml
+@@ -0,0 +1,51 @@
++# GDP drifter dispersion, 2014-16: 60-day segments starting every 3 days in 20-45S, 60-115E, for
++# setting each ocean model's random-walk diffusivity. Undrogued drifters float like debris
++# (current + Stokes); the dispersion ratio (variance of modelled over observed displacements,
++# report/drift_replay.py) shows how much spread each model lacks at each diffusivity.
++# Build: make drift D=config/drift/gdp-dispersion.toml
++base = "../ocean.toml"
++name = "gdp-dispersion"
++models = ["glorys12", "oscar2", "bran2016"]
++stokes = "waverys"
++wind = "era5_wind_3h"
++land = "gshhg_land"
++step_s = 10800.0
++
++[replay]
++drifters = ["gdp_2014", "gdp_2015", "gdp_2016"]
++first_utc = "2014-03-08T00:00:00Z"
++last_utc = "2016-06-30T00:00:00Z"
++every_days = 3.0
++horizon_days = 60.0
++south = -45.0
++north = -20.0
++west = 60.0
++east = 115.0
++
++[[classes]]
++name = "stokes1-K0"
++stokes = 1.0
++diffusivity_m2_s = 0.0
++
++[[classes]]
++name = "stokes1-K300"
++stokes = 1.0
++diffusivity_m2_s = 300.0
++
++[[classes]]
++name = "stokes1-K1000"
++stokes = 1.0
++diffusivity_m2_s = 1000.0
++
++[[classes]]
++name = "stokes1-K3000"
++stokes = 1.0
++diffusivity_m2_s = 3000.0
++
++[[classes]]
++name = "current-K0"
++diffusivity_m2_s = 0.0
++
++[[classes]]
++name = "current-K1000"
++diffusivity_m2_s = 1000.0
+diff --git a/config/drift/gdp-replay-2014.toml b/config/drift/gdp-replay-2014.toml
+new file mode 100644
+index 0000000..edda9a4
+--- /dev/null
++++ b/config/drift/gdp-replay-2014.toml
+@@ -0,0 +1,42 @@
++# GDP drifter replay, March-December 2014: 15-day segments starting every 3 days at 00:00 UTC
++# in 25-45S, 60-115E (the Pleiades calibration request), for each ocean model and response.
++# Drogued drifters follow the current at 15 m; undrogued ones float at the surface like debris
++# (current + Stokes drift + some windage). replay.csv holds every segment's predicted and
++# observed end. Build: make drift D=config/drift/gdp-replay-2014.toml
++base = "../ocean.toml"
++name = "gdp-replay-2014"
++models = ["glorys12", "oscar2", "bran2016"]
++stokes = "waverys"
++wind = "era5_wind_3h"
++land = "gshhg_land"
++step_s = 3600.0
++
++[replay]
++drifters = ["gdp_2014"]
++first_utc = "2014-03-08T00:00:00Z"
++last_utc = "2014-12-16T00:00:00Z"
++every_days = 3.0
++horizon_days = 15.0
++south = -45.0
++north = -25.0
++west = 60.0
++east = 115.0
++
++[[classes]]
++name = "current"
++
++[[classes]]
++name = "w0.012"
++windage = 0.012
++
++[[classes]]
++name = "w0.030"
++windage = 0.03
++
++[[classes]]
++name = "stokes0.5"
++stokes = 0.5
++
++[[classes]]
++name = "stokes1.0"
++stokes = 1.0
+diff --git a/config/drift/pleiades-map-fine.toml b/config/drift/pleiades-map-fine.toml
+new file mode 100644
+index 0000000..a3a4e6f
+--- /dev/null
++++ b/config/drift/pleiades-map-fine.toml
+@@ -0,0 +1,18 @@
++# Pleiades drift map at 0.0125 deg over 42-32S, 82-96E, the box that holds 99.3% of the base
++# 00:19 posterior (Pleiades' choice). Same release, end, windage and inputs as pleiades-map.toml,
++# which stays the 0.05 deg map outside this box. Build: make drift D=config/drift/pleiades-map-fine.toml
++base = "pleiades-map.toml"
++name = "pleiades-map-fine"
++
++[grid]
++south = -42.0
++north = -32.0
++west = 82.0
++east = 96.0
++step = 0.0125
++
++[check]
++south = -42.0
++north = -32.0
++west = 82.0
++east = 96.0
+diff --git a/config/drift/pleiades-map.toml b/config/drift/pleiades-map.toml
+new file mode 100644
+index 0000000..999dd16
+--- /dev/null
++++ b/config/drift/pleiades-map.toml
+@@ -0,0 +1,42 @@
++# Drift map for Pleiades: where objects released on a 0.05 deg grid at 2014-03-08 00:40 UTC
++# are at 2014-03-23 04:00 UTC (the image time). Velocity is surface current plus a fraction
++# of the ERA5 10 m wind; Griffin & Oke's 1.2% stands in for Stokes drift, so there is no
++# explicit Stokes term, and there is no random walk. Build: make drift D=config/drift/pleiades-map.toml
++base = "../ocean.toml"
++name = "pleiades-map"
++models = ["glorys12", "oscar2", "bran2016"]
++wind = "era5_wind_hourly"
++land = "gshhg_land"
++release_utc = "2014-03-08T00:40:00Z"
++end_utc = "2014-03-23T04:00:00Z"
++step_s = 3600.0
++# Impact lies between 00:20 and 01:00; report the fastest object speed in that hour.
++speed_window_utc = ["2014-03-08T00:00:00Z", "2014-03-08T01:00:00Z"]
++
++[grid]
++south = -50.0
++north = -15.0
++west = 70.0
++east = 115.0
++step = 0.05
++
++[[classes]]
++name = "w0.000"
++windage = 0.0
++
++[[classes]]
++name = "w0.012"
++windage = 0.012
++
++[[classes]]
++name = "w0.030"
++windage = 0.03
++
++# Objects released between the nodes, integrated directly, against bilinear interpolation.
++[check]
++sources = 2000
++seed = 1
++south = -40.0
++north = -30.0
++west = 85.0
++east = 100.0
+diff --git a/config/ocean.toml b/config/ocean.toml
+new file mode 100644
+index 0000000..82e151f
+--- /dev/null
++++ b/config/ocean.toml
+@@ -0,0 +1,32 @@
++# Ocean models and shared inputs for drift products (crates/ocean, `mh370 drift`).
++# Each model key below is a current field and is also the model's name in the shared
++# 'ocean-model' alternative. The fields live outside git (data/external is
++# /jackbox/home/MH370-inputs); README (Data) gives their provenance, and
++# .sources/ocean-drift/ holds the scripts that build them.
++
++[inputs]
++# CMEMS GLORYS12V1 surface (0.494 m) currents, 1/12 deg, daily means stamped at 12:00 UTC.
++glorys12 = "../data/external/ocean/glorys12/glorys12-surface-currents.mhgrid"
++# OSCAR v2.0 Final total current (top 30 m mean; includes a wind-driven Ekman term), 0.25 deg,
++# daily means stamped at 12:00 UTC, 2014-03-07 to 2016-08-31, 0-180E, 55S-15N. Its coast
++# includes near-shore cells it leaves undefined on some days (see oscar.py).
++oscar2 = "../data/external/ocean/oscar2/oscar2-currents-20140307-20160831.mhgrid"
++# CSIRO BRAN2016 (OFAM3) surface (2.5 m) current, 0.1 deg, daily means stamped at 12:00 UTC,
++# 2014-03-07 to 2016-08-31 (BRAN2016 ends in August 2016), 20-150E, 55S-5N. Free to use with
++# CSIRO Bluelink's acknowledgement.
++bran2016 = "../data/external/ocean/bran2016/bran2016-currents-20140307-20160831.mhgrid"
++# CMEMS WAVERYS surface Stokes drift, 0.2 deg, 3-hourly.
++waverys = "../data/external/ocean/waverys/waverys-stokes.mhgrid"
++# ERA5 10 m wind, 0.25 deg, hourly, 2014-03-07 to 2014-05-31, 50-135E, 55S-5N.
++era5_wind_hourly = "../data/external/ocean/era5-wind10/era5-wind10-hourly-20140307-20140531.mhgrid"
++# ERA5 10 m wind, 0.5 deg, 3-hourly, 2014-03-07 to 2016-08-31, 0-180E, 55S-15N (long runs).
++era5_wind_3h = "../data/external/ocean/era5-wind10/era5-wind10-3h-0p5-20140307-20160831.mhgrid"
++# NOAA Global Drifter Program 6-hourly positions, 30-115E, 50S-5N, with drogue-loss times.
++gdp_2014 = "../data/external/ocean/gdp/gdp_6hour_2014.csv"
++gdp_2015 = "../data/external/ocean/gdp/gdp_6hour_2015.csv"
++gdp_2016 = "../data/external/ocean/gdp/gdp_6hour_2016.csv"
++# SATCOM observations and ephemeris, to place the 7th arc for ensemble source grids.
++satcom_observations = "../data/satcom-observations.csv"
++satcom_ephemeris = "../data/satellite-ephemeris.csv"
++# GSHHG 2.3.7 full-resolution land, 30 arc-second raster, 0-180E, 55S-15N.
++gshhg_land = "../data/external/ocean/gshhg/gshhg-f-land-30s.mhland"
+diff --git a/crates/mh370/Cargo.toml b/crates/mh370/Cargo.toml
+index 7830079..5d3c86b 100644
+--- a/crates/mh370/Cargo.toml
++++ b/crates/mh370/Cargo.toml
+@@ -9,6 +9,7 @@ license.workspace = true
+ geo.workspace = true
+ satcom.workspace = true
+ flight.workspace = true
++ocean.workspace = true
+ hypothesis.workspace = true
+ hypotheses.workspace = true
+ rand.workspace = true
+diff --git a/crates/mh370/src/config.rs b/crates/mh370/src/config.rs
+index e2ab6e4..7cb89a7 100644
+--- a/crates/mh370/src/config.rs
++++ b/crates/mh370/src/config.rs
+@@ -298,16 +298,23 @@ pub fn load(paths: &[PathBuf]) -> Result<Config, String> {
+ /// As `load`, with one further table merged last. The app sends its controls through
+ /// here, so a run made in the app is the same as one made with an override file.
+ pub fn load_with(paths: &[PathBuf], last: Option<toml::Table>) -> Result<Config, String> {
+-    let mut table = load_table(&paths[0], 0)?;
+-    for path in &paths[1..] {
+-        merge(&mut table, load_table(path, 0)?);
+-    }
++    let mut table = load_merged(paths)?;
+     if let Some(last) = last {
+         merge(&mut table, last);
+     }
+     toml::Value::Table(table).try_into().map_err(|e| format!("{}: {e}", paths[0].display()))
+ }
+ 
++/// A config (following `base`) with override files merged over it, as a plain table. Every
++/// kind of config (filter runs, drift products) is loaded through here.
++pub fn load_merged(paths: &[PathBuf]) -> Result<toml::Table, String> {
++    let mut table = load_table(&paths[0], 0)?;
++    for path in &paths[1..] {
++        merge(&mut table, load_table(path, 0)?);
++    }
++    Ok(table)
++}
++
+ fn load_table(path: &Path, depth: usize) -> Result<toml::Table, String> {
+     if depth > 8 {
+         return Err(format!("{}: base configs nest too deeply", path.display()));
+diff --git a/crates/mh370/src/drift.rs b/crates/mh370/src/drift.rs
+new file mode 100644
+index 0000000..41f9900
+--- /dev/null
++++ b/crates/mh370/src/drift.rs
+@@ -0,0 +1,804 @@
++//! Drift maps: `mh370 drift <drift.toml> [<override.toml>...] <output-dir>`.
++//!
++//! Objects are released on a regular latitude/longitude grid at one time and carried by each
++//! named ocean model to an end time (crates/ocean), one object per grid node and class. A class
++//! has a fixed response (Stokes factor, windage, leeway). For each model the product is the end
++//! latitude and longitude of every node and class, as little-endian f32 arrays [lat][lon]
++//! (row 0 = south, longitude fastest), NaN where not computed: the node is on land, the path
++//! reached land, or it left a field's domain. A TOML manifest describes the grid, inputs and
++//! integrator, and reports an interpolation test: objects released at random points between
++//! the nodes, integrated directly and compared with bilinear interpolation of the node ends.
++//!
++//! With an `[ensemble]` table, many objects are released from every node of a source grid
++//! around the 7th arc, each class's response drawn per object from its stated ranges, and each
++//! object's fate, stopping time and position are written (for debris-find likelihoods).
++//!
++//! With a `[replay]` table instead of a grid, the objects are GDP drifters: segments of a fixed
++//! horizon start on a fixed schedule, and every segment's predicted end point is written beside
++//! the observed one (replay.csv), with the drifter's drogue state. A path that stops (land, or
++//! out of a field's domain) keeps its last position and is still scored, so the statistics are
++//! not those of survivors.
++
++use crate::config;
++use crate::output::code_revision;
++use ocean::{Environment, Fate, Field, Land, Particle, Response};
++use rayon::prelude::*;
++use serde::Deserialize;
++use std::collections::BTreeMap;
++use std::path::{Path, PathBuf};
++
++#[derive(Deserialize)]
++#[serde(deny_unknown_fields)]
++struct DriftConfig {
++    name: String,
++    /// Input files (resolved relative to the config that names them).
++    inputs: BTreeMap<String, PathBuf>,
++    /// Current fields to run, by `inputs` key. The key is the shared 'ocean-model' name.
++    models: Vec<String>,
++    /// `inputs` keys of the Stokes, wind and land inputs, where used.
++    #[serde(default)]
++    stokes: Option<String>,
++    #[serde(default)]
++    wind: Option<String>,
++    #[serde(default)]
++    land: Option<String>,
++    step_s: f64,
++    #[serde(default)]
++    diffusivity_m2_s: f64,
++    classes: Vec<Class>,
++    /// A drift map: release on a grid at one time, end at another.
++    #[serde(default)]
++    release_utc: Option<String>,
++    #[serde(default)]
++    end_utc: Option<String>,
++    #[serde(default)]
++    grid: Option<Grid>,
++    /// Report the largest object speed over the grid in this interval (e.g. around release).
++    #[serde(default)]
++    speed_window_utc: Option<[String; 2]>,
++    #[serde(default)]
++    check: Option<Check>,
++    /// Or a drifter replay.
++    #[serde(default)]
++    replay: Option<Replay>,
++    /// Or a release of many objects per node of a source grid around the 7th arc.
++    #[serde(default)]
++    ensemble: Option<Ensemble>,
++}
++
++#[derive(Deserialize)]
++#[serde(deny_unknown_fields)]
++struct Replay {
++    /// GDP 6-hourly drifter files, by `inputs` key: ID, time, latitude, longitude, drogue-loss time.
++    drifters: Vec<String>,
++    /// Segments start every `every_days` from `first_utc` to `last_utc` and last `horizon_days`.
++    first_utc: String,
++    last_utc: String,
++    every_days: f64,
++    horizon_days: f64,
++    /// Segments must start in this box.
++    #[serde(flatten)]
++    area: Area,
++}
++
++#[derive(Deserialize, Clone, Copy)]
++#[serde(deny_unknown_fields)]
++struct Grid {
++    south: f64,
++    north: f64,
++    west: f64,
++    east: f64,
++    step: f64,
++}
++
++#[derive(Deserialize)]
++#[serde(deny_unknown_fields)]
++struct Class {
++    name: String,
++    #[serde(default)]
++    stokes: Param,
++    #[serde(default)]
++    windage: Param,
++    #[serde(default)]
++    leeway_m_s: Param,
++    #[serde(default)]
++    leeway_left_deg: Param,
++    /// Random-walk diffusivity for this class; the config's `diffusivity_m2_s` if absent.
++    #[serde(default)]
++    diffusivity_m2_s: Option<f64>,
++}
++
++/// A response term: a fixed value, or (ensembles only) a uniform range drawn once per object.
++#[derive(Deserialize, Clone, Copy, Debug)]
++#[serde(untagged)]
++enum Param {
++    Fixed(f64),
++    Range([f64; 2]),
++}
++
++impl Default for Param {
++    fn default() -> Self {
++        Param::Fixed(0.0)
++    }
++}
++
++impl Param {
++    fn at(&self, u: f64) -> f64 {
++        match *self {
++            Param::Fixed(v) => v,
++            Param::Range([a, b]) => a + u * (b - a),
++        }
++    }
++    fn nonzero(&self) -> bool {
++        !matches!(self, Param::Fixed(v) if *v == 0.0)
++    }
++    fn toml(&self) -> toml::Value {
++        match *self {
++            Param::Fixed(v) => v.into(),
++            Param::Range([a, b]) => toml::Value::Array(vec![a.into(), b.into()]),
++        }
++    }
++}
++
++#[derive(Deserialize)]
++#[serde(deny_unknown_fields)]
++struct Ensemble {
++    release_utc: String,
++    end_utc: String,
++    /// Objects per source node, class and seed.
++    particles: usize,
++    seeds: Vec<u64>,
++    sources: Sources,
++    /// South, north, west, east: an object outside this box has left the domain. The same box
++    /// for every ocean model keeps fates comparable across models.
++    #[serde(default)]
++    domain: Option<[f64; 4]>,
++}
++
++/// Source nodes: a regular grid, kept where it is at sea and between `inside_nm` inside and
++/// `beyond_nm` beyond the arc of SATCOM epoch `arc_epoch` (inputs `satcom_observations` and
++/// `satcom_ephemeris`). Distance from the arc is `satcom::arc_distance_nm` at sea level, the
++/// measure the end-of-flight stage gives each impact.
++#[derive(Deserialize)]
++#[serde(deny_unknown_fields)]
++struct Sources {
++    south: f64,
++    north: f64,
++    west: f64,
++    east: f64,
++    step: f64,
++    inside_nm: f64,
++    beyond_nm: f64,
++    arc_epoch: String,
++}
++
++#[derive(Deserialize)]
++#[serde(deny_unknown_fields)]
++struct Check {
++    sources: usize,
++    seed: u64,
++    #[serde(flatten)]
++    area: Area,
++}
++
++#[derive(Deserialize)]
++struct Area {
++    south: f64,
++    north: f64,
++    west: f64,
++    east: f64,
++}
++
++impl Class {
++    /// The response with each ranged term at quantile `u[k]` of its range.
++    fn response_at(&self, u: [f64; 4]) -> Response {
++        Response {
++            stokes: self.stokes.at(u[0]),
++            windage: self.windage.at(u[1]),
++            leeway_mps: self.leeway_m_s.at(u[2]),
++            leeway_left_deg: self.leeway_left_deg.at(u[3]),
++        }
++    }
++    fn response(&self) -> Response {
++        self.response_at([0.0; 4])
++    }
++    fn diffusivity(&self, cfg: &DriftConfig) -> f64 {
++        self.diffusivity_m2_s.unwrap_or(cfg.diffusivity_m2_s)
++    }
++    fn is_fixed(&self) -> bool {
++        [self.stokes, self.windage, self.leeway_m_s, self.leeway_left_deg].iter().all(|p| matches!(p, Param::Fixed(_)))
++    }
++}
++
++impl Grid {
++    fn shape(&self) -> (usize, usize) {
++        let n = |a: f64, b: f64| ((b - a) / self.step).round() as usize + 1;
++        (n(self.south, self.north), n(self.west, self.east))
++    }
++
++    /// Bilinear interpolation of a node array at (lat, lon); NaN if any corner is NaN.
++    fn interpolate(&self, values: &[f64], lat: f64, lon: f64) -> f64 {
++        let (ny, nx) = self.shape();
++        let (y, x) = ((lat - self.south) / self.step, (lon - self.west) / self.step);
++        let (i, j) = ((y.floor() as usize).min(ny - 2), (x.floor() as usize).min(nx - 2));
++        let (fy, fx) = (y - i as f64, x - j as f64);
++        let v = |a: usize, b: usize| values[a * nx + b];
++        (1.0 - fy) * ((1.0 - fx) * v(i, j) + fx * v(i, j + 1)) + fy * ((1.0 - fx) * v(i + 1, j) + fx * v(i + 1, j + 1))
++    }
++}
++
++pub fn main(args: &[String]) -> Result<(), String> {
++    if args.len() < 2 {
++        return Err("usage: mh370 drift <drift.toml> [<override.toml>...] <output-dir>".into());
++    }
++    let paths: Vec<PathBuf> = args.iter().map(PathBuf::from).collect();
++    let (configs, out) = paths.split_at(paths.len() - 1);
++    let cfg: DriftConfig = toml::Value::Table(config::load_merged(configs)?)
++        .try_into()
++        .map_err(|e| format!("{}: {e}", configs[0].display()))?;
++    if !(cfg.step_s > 0.0 && !cfg.classes.is_empty()) {
++        return Err("drift config needs a positive step and a class".into());
++    }
++    if cfg.ensemble.is_none() && !cfg.classes.iter().all(Class::is_fixed) {
++        return Err("response ranges are for ensembles; maps and replays need fixed values".into());
++    }
++    let map = match (&cfg.replay, &cfg.ensemble, &cfg.grid, &cfg.release_utc, &cfg.end_utc) {
++        (Some(_), None, None, None, None) | (None, Some(_), None, None, None) => None,
++        (None, None, Some(grid), Some(release), Some(end)) => {
++            let (release, end) = (satcom::parse_utc(release)?, satcom::parse_utc(end)?);
++            let (ny, nx) = grid.shape();
++            if !(end > release && grid.step > 0.0 && ny >= 2 && nx >= 2) {
++                return Err("a drift map needs end > release and a 2x2 or larger grid".into());
++            }
++            Some((*grid, release, end))
++        }
++        _ => return Err("a drift config has one of: [grid] with release_utc and end_utc, [replay], or [ensemble]".into()),
++    };
++    let replay = cfg.replay.as_ref().map(|r| segments(&cfg, r)).transpose()?;
++    let input = |key: &Option<String>, what: &str| -> Result<Option<PathBuf>, String> {
++        key.as_ref()
++            .map(|k| cfg.inputs.get(k).cloned().ok_or_else(|| format!("{what} input `{k}` is not in [inputs]")))
++            .transpose()
++    };
++    let land = input(&cfg.land, "land")?.map(|p| Land::open(&p)).transpose()?;
++    let sources = cfg.ensemble.as_ref().map(|e| source_nodes(&cfg, e, land.as_ref())).transpose()?;
++    let responds = |f: fn(&Class) -> bool| cfg.classes.iter().any(f);
++    let open = |path: Option<PathBuf>, needed: bool, what: &str| -> Result<Option<Field>, String> {
++        match (path, needed) {
++            (Some(p), true) => Field::open(&p).map(Some),
++            (None, true) => Err(format!("a class responds to {what}, but no {what} input is named")),
++            _ => Ok(None),
++        }
++    };
++    let mut stokes = open(input(&cfg.stokes, "stokes")?, responds(|c| c.stokes.nonzero()), "Stokes drift")?;
++    let mut wind = open(input(&cfg.wind, "wind")?, responds(|c| c.windage.nonzero() || c.leeway_m_s.nonzero()), "wind")?;
++    for model in &cfg.models {
++        let path = cfg.inputs.get(model).ok_or_else(|| format!("model `{model}` is not in [inputs]"))?;
++        let mut current = Field::open(path)?;
++        let dir = out[0].join(model);
++        std::fs::create_dir_all(&dir).map_err(|e| format!("{}: {e}", dir.display()))?;
++        let started = std::time::Instant::now();
++        match (&map, &replay) {
++            (Some((grid, release, end)), _) => {
++                run_map(&cfg, model, &mut current, stokes.as_mut(), wind.as_mut(), land.as_ref(), grid, (*release, *end), &dir)?
++            }
++            (_, Some(segments)) => run_replay(&cfg, &mut current, stokes.as_mut(), wind.as_mut(), land.as_ref(), segments, &dir)?,
++            _ => run_ensemble(&cfg, model, &mut current, stokes.as_mut(), wind.as_mut(), land.as_ref(), sources.as_ref().unwrap(), &dir)?,
++        }
++        eprintln!("{}: {model} in {:.0} s", cfg.name, started.elapsed().as_secs_f64());
++    }
++    Ok(())
++}
++
++#[allow(clippy::too_many_arguments)]
++fn run_map(
++    cfg: &DriftConfig,
++    model: &str,
++    current: &mut Field,
++    mut stokes: Option<&mut Field>,
++    mut wind: Option<&mut Field>,
++    land: Option<&Land>,
++    grid: &Grid,
++    (release, end): (f64, f64),
++    dir: &Path,
++) -> Result<(), String> {
++    let (ny, nx) = grid.shape();
++    let nodes: Vec<(f64, f64)> =
++        (0..ny).flat_map(|i| (0..nx).map(move |j| (grid.south + i as f64 * grid.step, grid.west + j as f64 * grid.step))).collect();
++    let checks: Vec<(f64, f64)> = cfg.check.as_ref().map_or(Vec::new(), |c| {
++        (0..c.sources as u64)
++            .map(|k| {
++                let u = |d: u64| ocean::uniform([c.seed, k, d]);
++                (c.area.south + u(0) * (c.area.north - c.area.south), c.area.west + u(1) * (c.area.east - c.area.west))
++            })
++            .collect()
++    });
++    let starts: Vec<(f64, f64)> = nodes.iter().chain(&checks).copied().collect();
++    let mut particles: Vec<Particle> = cfg
++        .classes
++        .iter()
++        .flat_map(|c| starts.iter().map(move |&(lat, lon)| Particle::new(lat, lon, c.response())))
++        .collect();
++    if let Some(land) = land {
++        for p in particles.iter_mut().filter(|p| land.is_land(p.lat, p.lon)) {
++            (p.fate, p.stopped_unix_s) = (Fate::Beached, release);
++        }
++    }
++
++    let diffusivities: Vec<f64> = cfg.classes.iter().map(|c| c.diffusivity(cfg)).collect();
++    let steps = ((end - release) / cfg.step_s).ceil() as usize;
++    for k in 0..steps {
++        let t = release + k as f64 * cfg.step_s;
++        let dt = cfg.step_s.min(end - t);
++        load(current, &mut stokes, &mut wind, t, t + dt)?;
++        let env = Environment { current, stokes: stokes.as_deref(), wind: wind.as_deref(), land };
++        particles.par_iter_mut().enumerate().for_each(|(i, p)| {
++            let diffusivity = diffusivities[i / starts.len()];
++            let noise = if diffusivity > 0.0 { ocean::gaussian_pair([0, i as u64, k as u64]) } else { [0.0; 2] };
++            env.step(p, t, dt, diffusivity, noise);
++        });
++    }
++
++    // Largest object speed over the sea nodes in the speed window, per class.
++    let speeds = match &cfg.speed_window_utc {
++        None => Vec::new(),
++        Some([a, b]) => {
++            let (a, b) = (satcom::parse_utc(a)?, satcom::parse_utc(b)?);
++            load(current, &mut stokes, &mut wind, a, b)?;
++            let env = &Environment { current, stokes: stokes.as_deref(), wind: wind.as_deref(), land };
++            let times: Vec<f64> = (0..=6).map(|s| a + (b - a) * s as f64 / 6.0).collect();
++            cfg.classes
++                .iter()
++                .map(|c| {
++                    let r = c.response();
++                    nodes
++                        .par_iter()
++                        .filter(|&&(lat, lon)| !land.is_some_and(|l| l.is_land(lat, lon)))
++                        .flat_map_iter(|&(lat, lon)| times.iter().filter_map(move |&t| env.velocity(t, lat, lon, &r).ok()))
++                        .map(|v| v[0].hypot(v[1]))
++                        .reduce(|| 0.0, f64::max)
++                })
++                .collect()
++        }
++    };
++
++    // Arrays, fates and the interpolation test, per class.
++    let per_class = starts.len();
++    let mut manifest = toml::Table::new();
++    let mut classes = Vec::new();
++    for (c, class) in cfg.classes.iter().enumerate() {
++        let block = &particles[c * per_class..(c + 1) * per_class];
++        let end_of = |p: &Particle| if p.fate == Fate::Afloat { (p.lat, p.lon) } else { (f64::NAN, f64::NAN) };
++        let lat: Vec<f64> = block[..nodes.len()].iter().map(|p| end_of(p).0).collect();
++        let lon: Vec<f64> = block[..nodes.len()].iter().map(|p| end_of(p).1).collect();
++        let files = [format!("{}-lat.f32", class.name), format!("{}-lon.f32", class.name)];
++        for (file, values) in files.iter().zip([&lat, &lon]) {
++            let bytes: Vec<u8> = values.iter().flat_map(|&v| (v as f32).to_le_bytes()).collect();
++            std::fs::write(dir.join(file), bytes).map_err(|e| format!("{file}: {e}"))?;
++        }
++        let count = |f: Fate| block[..nodes.len()].iter().filter(|p| p.fate == f).count() as i64;
++        let mut errors: Vec<f64> = Vec::new();
++        let mut not_computed = 0;
++        for (p, &(slat, slon)) in block[nodes.len()..].iter().zip(&checks) {
++            let direct = end_of(p);
++            let (ilat, ilon) = (grid.interpolate(&lat, slat, slon), grid.interpolate(&lon, slat, slon));
++            if direct.0.is_finite() && ilat.is_finite() && ilon.is_finite() {
++                errors.push(great_circle_km(direct, (ilat, ilon)));
++            } else {
++                not_computed += 1;
++            }
++        }
++        errors.sort_by(f64::total_cmp);
++        classes.push((class, files, [count(Fate::Afloat), count(Fate::Beached), count(Fate::LeftDomain), count(Fate::NoData)], errors, not_computed));
++    }
++
++    let float = |x: f64| toml::Value::Float(x);
++    let floats = |xs: Vec<f64>| toml::Value::Array(xs.into_iter().map(float).collect());
++    let strings = |xs: Vec<String>| toml::Value::Array(xs.into_iter().map(toml::Value::String).collect());
++    let quantile = |e: &Vec<f64>, q: f64| if e.is_empty() { f64::NAN } else { e[((e.len() - 1) as f64 * q).round() as usize] };
++    let set = |t: &mut toml::Table, k: &str, v: toml::Value| {
++        t.insert(k.into(), v);
++    };
++    set(&mut manifest, "product", cfg.name.clone().into());
++    set(&mut manifest, "model", model.into());
++    set(&mut manifest, "release_utc", cfg.release_utc.clone().unwrap().into());
++    set(&mut manifest, "end_utc", cfg.end_utc.clone().unwrap().into());
++    set(&mut manifest, "lat0_deg", float(grid.south));
++    set(&mut manifest, "lon0_deg", float(grid.west));
++    set(&mut manifest, "step_deg", float(grid.step));
++    set(&mut manifest, "nlat", (ny as i64).into());
++    set(&mut manifest, "nlon", (nx as i64).into());
++    set(&mut manifest, "classes", strings(classes.iter().map(|c| c.0.name.clone()).collect()));
++    set(&mut manifest, "windage", floats(classes.iter().map(|c| c.0.windage.at(0.0)).collect()));
++    set(&mut manifest, "stokes_factor", floats(classes.iter().map(|c| c.0.stokes.at(0.0)).collect()));
++    set(&mut manifest, "leeway_m_s", floats(classes.iter().map(|c| c.0.leeway_m_s.at(0.0)).collect()));
++    set(&mut manifest, "leeway_left_deg", floats(classes.iter().map(|c| c.0.leeway_left_deg.at(0.0)).collect()));
++    set(&mut manifest, "latitude_files", strings(classes.iter().map(|c| c.1[0].clone()).collect()));
++    set(&mut manifest, "longitude_files", strings(classes.iter().map(|c| c.1[1].clone()).collect()));
++    set(&mut manifest, "array_layout", "little-endian f32 [nlat][nlon], row 0 = lat0_deg, NaN = not computed".into());
++    set(&mut manifest, "not_computed", "node on land, path reached land (GSHHG raster or the model's dry cells), or left a field's domain".into());
++    if !speeds.is_empty() {
++        set(&mut manifest, "max_release_speed_m_s", floats(speeds));
++        set(&mut manifest, "speed_window_utc", strings(cfg.speed_window_utc.clone().unwrap().to_vec()));
++    }
++    set(&mut manifest, "integrator", "explicit midpoint (RK2) on WGS-84, radii of curvature at each start point".into());
++    set(&mut manifest, "step_s", float(cfg.step_s));
++    set(&mut manifest, "diffusivity_m2_s", floats(classes.iter().map(|c| c.0.diffusivity(cfg)).collect()));
++    set(&mut manifest, "time_interpolation", "linear between field time stamps; daily means stamped at 12:00 UTC".into());
++    set(&mut manifest, "space_interpolation", "bilinear over wet nodes, renormalised; never filled with zero".into());
++    set(&mut manifest, "code_revision", code_revision().into());
++    set(&mut manifest, "fields", provenance(cfg, current, stokes.as_deref(), wind.as_deref()));
++    let mut fates = toml::Table::new();
++    for (i, name) in ["afloat", "beached", "left_domain", "no_data"].iter().enumerate() {
++        fates.insert((*name).into(), toml::Value::Array(classes.iter().map(|c| c.2[i].into()).collect()));
++    }
++    set(&mut manifest, "node_fates", toml::Value::Table(fates));
++    if let Some(check) = &cfg.check {
++        let mut t = toml::Table::new();
++        let per = |f: &dyn Fn(&Vec<f64>) -> f64| floats(classes.iter().map(|c| f(&c.3)).collect());
++        t.insert("area".into(), floats(vec![check.area.south, check.area.north, check.area.west, check.area.east]));
++        t.insert("seed".into(), (check.seed as i64).into());
++        t.insert("n".into(), toml::Value::Array(classes.iter().map(|c| (c.3.len() as i64).into()).collect()));
++        t.insert("not_computed".into(), toml::Value::Array(classes.iter().map(|c| c.4.into()).collect()));
++        t.insert("median_km".into(), per(&|e| quantile(e, 0.5)));
++        t.insert("p95_km".into(), per(&|e| quantile(e, 0.95)));
++        t.insert("p99_km".into(), per(&|e| quantile(e, 0.99)));
++        t.insert("max_km".into(), per(&|e| e.last().copied().unwrap_or(f64::NAN)));
++        let over = |km: f64| per(&move |e: &Vec<f64>| e.iter().filter(|&&x| x > km).count() as f64 / e.len() as f64);
++        t.insert("fraction_over_3km".into(), over(3.0));
++        t.insert("fraction_over_25km".into(), over(25.0));
++        set(&mut manifest, "interpolation_test", toml::Value::Table(t));
++    }
++    let text = toml::to_string(&manifest).map_err(|e| e.to_string())?;
++    std::fs::write(dir.join("manifest.toml"), text).map_err(|e| e.to_string())
++}
++
++/// Ensemble release nodes: sea nodes of a regular grid in the band around the 7th arc, each with
++/// its grid row and column and its distance from the arc (NM, positive beyond it).
++struct SourceSet {
++    grid: Grid,
++    nodes: Vec<(usize, usize, f64, f64, f64)>,
++}
++
++fn source_nodes(cfg: &DriftConfig, e: &Ensemble, land: Option<&Land>) -> Result<SourceSet, String> {
++    let s = &e.sources;
++    let input = |k: &str| cfg.inputs.get(k).ok_or_else(|| format!("an ensemble needs input `{k}` to place the arc"));
++    let epochs = satcom::load_epochs(input("satcom_observations")?, input("satcom_ephemeris")?)?;
++    let epoch = epochs.iter().find(|x| x.id == s.arc_epoch).ok_or_else(|| format!("no SATCOM epoch `{}`", s.arc_epoch))?;
++    let bto = epoch.bto_us.ok_or("the arc epoch has no BTO")?;
++    let grid = Grid { south: s.south, north: s.north, west: s.west, east: s.east, step: s.step };
++    let (ny, nx) = grid.shape();
++    let mut nodes = Vec::new();
++    for i in 0..ny {
++        for j in 0..nx {
++            let (lat, lon) = (s.south + i as f64 * s.step, s.west + j as f64 * s.step);
++            let d = satcom::arc_distance_nm(epoch.satellite_km, lat, lon, 0.0, bto);
++            if (-s.inside_nm..=s.beyond_nm).contains(&d) && !land.is_some_and(|l| l.is_land(lat, lon)) {
++                nodes.push((i, j, lat, lon, d));
++            }
++        }
++    }
++    if nodes.is_empty() {
++        return Err("no source node lies at sea within the band".into());
++    }
++    Ok(SourceSet { grid, nodes })
++}
++
++/// Many objects from every source node; each object's fate, stopping time and position.
++#[allow(clippy::too_many_arguments)]
++fn run_ensemble(
++    cfg: &DriftConfig,
++    model: &str,
++    current: &mut Field,
++    mut stokes: Option<&mut Field>,
++    mut wind: Option<&mut Field>,
++    land: Option<&Land>,
++    sources: &SourceSet,
++    dir: &Path,
++) -> Result<(), String> {
++    const RESPONSE_KEY: u64 = 0x5eed_0f_0b1ec7;
++    let e = cfg.ensemble.as_ref().unwrap();
++    let (release, end) = (satcom::parse_utc(&e.release_utc)?, satcom::parse_utc(&e.end_utc)?);
++    if !(end > release && e.particles > 0 && !e.seeds.is_empty()) {
++        return Err("an ensemble needs end > release, particles and seeds".into());
++    }
++    let (n_src, n_cls, n) = (sources.nodes.len(), cfg.classes.len(), e.particles);
++    let per_seed = n_src * n_cls * n;
++    // Particle index: ((seed * sources + source) * classes + class) * particles + k.
++    let mut particles = Vec::with_capacity(e.seeds.len() * per_seed);
++    for &seed in &e.seeds {
++        for &(_, _, lat, lon, _) in &sources.nodes {
++            for (c, class) in cfg.classes.iter().enumerate() {
++                for k in 0..n {
++                    let id = ((particles.len() % per_seed) as u64, c, k).0;
++                    let u = [0, 1, 2, 3].map(|d| ocean::uniform([seed ^ RESPONSE_KEY, id, d]));
++                    particles.push(Particle::new(lat, lon, class.response_at(u)));
++                }
++            }
++        }
++    }
++    let diffusivities: Vec<f64> = cfg.classes.iter().map(|c| c.diffusivity(cfg)).collect();
++    let steps = ((end - release) / cfg.step_s).ceil() as usize;
++    for k in 0..steps {
++        let t = release + k as f64 * cfg.step_s;
++        let dt = cfg.step_s.min(end - t);
++        load(current, &mut stokes, &mut wind, t, t + dt)?;
++        let env = Environment { current, stokes: stokes.as_deref(), wind: wind.as_deref(), land };
++        particles.par_iter_mut().enumerate().for_each(|(i, p)| {
++            if p.fate != Fate::Afloat {
++                return;
++            }
++            let diffusivity = diffusivities[(i % per_seed) / n % n_cls];
++            let noise = if diffusivity > 0.0 {
++                ocean::gaussian_pair([e.seeds[i / per_seed], (i % per_seed) as u64, k as u64])
++            } else {
++                [0.0; 2]
++            };
++            env.step(p, t, dt, diffusivity, noise);
++            if let Some([south, north, west, east]) = e.domain {
++                if p.fate == Fate::Afloat && !((south..=north).contains(&p.lat) && (west..=east).contains(&p.lon)) {
++                    (p.fate, p.stopped_unix_s) = (Fate::LeftDomain, t + dt);
++                }
++            }
++        });
++        if k % 240 == 0 {
++            let afloat = particles.iter().filter(|p| p.fate == Fate::Afloat).count();
++            eprintln!("{}: {model} day {:.0}, {afloat} of {} afloat", cfg.name, (t - release) / 86_400.0, particles.len());
++        }
++    }
++
++    // Arrays per seed and class, [source][object]: fate (u8: 0 afloat at the end, 1 beached,
++    // 2 left the domain, 3 no data), days from release to stopping (NaN if afloat at the end),
++    // and the stopping (or final) latitude and longitude.
++    let write = |name: &str, bytes: Vec<u8>| std::fs::write(dir.join(name), bytes).map_err(|e| format!("{name}: {e}"));
++    let code = |f: Fate| match f {
++        Fate::Afloat => 0u8,
++        Fate::Beached => 1,
++        Fate::LeftDomain => 2,
++        Fate::NoData => 3,
++    };
++    let mut fates = toml::Table::new();
++    for (si, &seed) in e.seeds.iter().enumerate() {
++        for (c, class) in cfg.classes.iter().enumerate() {
++            let block: Vec<&Particle> = (0..n_src)
++                .flat_map(|s| (0..n).map(move |k| si * per_seed + (s * n_cls + c) * n + k))
++                .map(|i| &particles[i])
++                .collect();
++            let stem = format!("{}-seed{seed}", class.name);
++            let days = |p: &&Particle| if p.fate == Fate::Afloat { f32::NAN } else { ((p.stopped_unix_s - release) / 86_400.0) as f32 };
++            write(&format!("{stem}-fate.u8"), block.iter().map(|p| code(p.fate)).collect())?;
++            write(&format!("{stem}-days.f32"), block.iter().flat_map(|p| days(p).to_le_bytes()).collect())?;
++            write(&format!("{stem}-lat.f32"), block.iter().flat_map(|p| (p.lat as f32).to_le_bytes()).collect())?;
++            write(&format!("{stem}-lon.f32"), block.iter().flat_map(|p| (p.lon as f32).to_le_bytes()).collect())?;
++            let counts: Vec<toml::Value> = (0..4u8).map(|f| (block.iter().filter(|p| code(p.fate) == f).count() as i64).into()).collect();
++            fates.insert(stem, toml::Value::Array(counts));
++        }
++    }
++    write("sources.f64", sources.nodes.iter().flat_map(|&(_, _, lat, lon, arc)| [lat, lon, arc]).flat_map(f64::to_le_bytes).collect())?;
++    write("sources-index.u32", sources.nodes.iter().flat_map(|&(i, j, ..)| [i as u32, j as u32]).flat_map(u32::to_le_bytes).collect())?;
++
++    let mut m = toml::Table::new();
++    let mut set = |k: &str, v: toml::Value| {
++        m.insert(k.into(), v);
++    };
++    set("product", cfg.name.clone().into());
++    set("model", model.into());
++    set("release_utc", e.release_utc.clone().into());
++    set("end_utc", e.end_utc.clone().into());
++    set("particles_per_source_class_seed", (n as i64).into());
++    set("seeds", toml::Value::Array(e.seeds.iter().map(|&s| (s as i64).into()).collect()));
++    set("sources", (n_src as i64).into());
++    let g = &sources.grid;
++    set("grid", toml::Value::Array([g.south, g.north, g.west, g.east, g.step].map(Into::into).to_vec()));
++    set("inside_nm", e.sources.inside_nm.into());
++    set("beyond_nm", e.sources.beyond_nm.into());
++    set("arc_epoch", e.sources.arc_epoch.clone().into());
++    if let Some(d) = e.domain {
++        set("domain", toml::Value::Array(d.map(Into::into).to_vec()));
++    }
++    let mut classes = toml::Table::new();
++    for class in &cfg.classes {
++        let mut t = toml::Table::new();
++        t.insert("stokes".into(), class.stokes.toml());
++        t.insert("windage".into(), class.windage.toml());
++        t.insert("leeway_m_s".into(), class.leeway_m_s.toml());
++        t.insert("leeway_left_deg".into(), class.leeway_left_deg.toml());
++        t.insert("diffusivity_m2_s".into(), class.diffusivity(cfg).into());
++        classes.insert(class.name.clone(), toml::Value::Table(t));
++    }
++    set("classes", toml::Value::Table(classes));
++    set("fate_counts", toml::Value::Table(fates));
++    set("fate_codes", "counts are [afloat at end, beached, left domain, no data]; fate.u8 uses 0-3 in that order".into());
++    set(
++        "files",
++        concat!(
++            "sources.f64: [source] lat, lon, distance from the arc (NM, + beyond); sources-index.u32: [source] grid row, ",
++            "column; <class>-seed<k>-{fate.u8, days.f32, lat.f32, lon.f32}: [source][object], days to stopping (NaN if ",
++            "afloat), stopping or final position; little-endian"
++        )
++        .into(),
++    );
++    set("step_s", cfg.step_s.into());
++    set("responses", "ranged terms are uniform, drawn once per object".into());
++    set("code_revision", code_revision().into());
++    set("fields", provenance(cfg, current, stokes.as_deref(), wind.as_deref()));
++    std::fs::write(dir.join("manifest.toml"), toml::to_string(&m).map_err(|e| e.to_string())?).map_err(|e| e.to_string())
++}
++
++/// Replay GDP drifter segments and write each one's predicted end beside the observed end.
++fn run_replay(
++    cfg: &DriftConfig,
++    current: &mut Field,
++    mut stokes: Option<&mut Field>,
++    mut wind: Option<&mut Field>,
++    land: Option<&Land>,
++    (first, segments): &(f64, Vec<Segment>),
++    dir: &Path,
++) -> Result<(), String> {
++    let n = segments.len();
++    let mut particles: Vec<Particle> =
++        cfg.classes.iter().flat_map(|c| segments.iter().map(move |s| Particle::new(s.start.0, s.start.1, c.response()))).collect();
++    if let Some(land) = land {
++        for (i, p) in particles.iter_mut().enumerate().filter(|(_, p)| land.is_land(p.lat, p.lon)) {
++            (p.fate, p.stopped_unix_s) = (Fate::Beached, segments[i % n].start_unix_s);
++        }
++    }
++    let diffusivities: Vec<f64> = cfg.classes.iter().map(|c| c.diffusivity(cfg)).collect();
++    let steps = segments.iter().map(|s| s.start_step + s.steps).max().unwrap_or(0);
++    for k in 0..steps {
++        let t = first + k as f64 * cfg.step_s;
++        load(current, &mut stokes, &mut wind, t, t + cfg.step_s)?;
++        let env = Environment { current, stokes: stokes.as_deref(), wind: wind.as_deref(), land };
++        particles.par_iter_mut().enumerate().for_each(|(i, p)| {
++            let s = &segments[i % n];
++            if (s.start_step..s.start_step + s.steps).contains(&k) {
++                let diffusivity = diffusivities[i / n];
++                let noise = if diffusivity > 0.0 { ocean::gaussian_pair([0, i as u64, k as u64]) } else { [0.0; 2] };
++                env.step(p, t, cfg.step_s, diffusivity, noise);
++            }
++        });
++    }
++    let mut csv = String::from("id,drogue,start_unix_s,start_lat,start_lon,end_lat,end_lon");
++    for c in &cfg.classes {
++        csv += &format!(",{0}_lat,{0}_lon,{0}_fate", c.name);
++    }
++    csv.push('\n');
++    for (j, s) in segments.iter().enumerate() {
++        csv += &format!("{},{},{},{:.5},{:.5},{:.5},{:.5}", s.id, s.drogue, s.start_unix_s, s.start.0, s.start.1, s.end.0, s.end.1);
++        for c in 0..cfg.classes.len() {
++            let p = &particles[c * n + j];
++            csv += &format!(",{:.5},{:.5},{}", p.lat, p.lon, format!("{:?}", p.fate).to_lowercase());
++        }
++        csv.push('\n');
++    }
++    std::fs::write(dir.join("replay.csv"), csv).map_err(|e| e.to_string())?;
++    let r = cfg.replay.as_ref().unwrap();
++    let mut manifest = toml::Table::new();
++    manifest.insert("product".into(), cfg.name.clone().into());
++    manifest.insert("first_utc".into(), r.first_utc.clone().into());
++    manifest.insert("last_utc".into(), r.last_utc.clone().into());
++    manifest.insert("every_days".into(), r.every_days.into());
++    manifest.insert("horizon_days".into(), r.horizon_days.into());
++    manifest.insert("area".into(), toml::Value::Array([r.area.south, r.area.north, r.area.west, r.area.east].map(Into::into).to_vec()));
++    for state in ["drogued", "undrogued", "transition"] {
++        manifest.insert(format!("{state}_segments"), (segments.iter().filter(|s| s.drogue == state).count() as i64).into());
++    }
++    manifest.insert("step_s".into(), cfg.step_s.into());
++    manifest.insert("diffusivity_m2_s".into(), toml::Value::Array(diffusivities.iter().map(|&k| k.into()).collect()));
++    manifest.insert("code_revision".into(), code_revision().into());
++    manifest.insert("fields".into(), provenance(cfg, current, stokes.as_deref(), wind.as_deref()));
++    std::fs::write(dir.join("manifest.toml"), toml::to_string(&manifest).map_err(|e| e.to_string())?).map_err(|e| e.to_string())
++}
++
++/// One drifter segment: where it started, where it was one horizon later, and its drogue state.
++struct Segment {
++    id: String,
++    drogue: &'static str,
++    start_unix_s: f64,
++    start_step: usize,
++    steps: usize,
++    start: (f64, f64),
++    end: (f64, f64),
++}
++
++/// Segments from the GDP files: a drifter at a scheduled start time inside the area, with an
++/// observation exactly one horizon later. Returns the first scheduled start and the segments.
++fn segments(cfg: &DriftConfig, r: &Replay) -> Result<(f64, Vec<Segment>), String> {
++    let (first, last) = (satcom::parse_utc(&r.first_utc)?, satcom::parse_utc(&r.last_utc)?);
++    let (every, horizon) = (r.every_days * 86_400.0, r.horizon_days * 86_400.0);
++    let whole = |x: f64| (x / cfg.step_s - (x / cfg.step_s).round()).abs() < 1e-9;
++    if !(last >= first && every > 0.0 && horizon > 0.0 && whole(every) && whole(horizon)) {
++        return Err("a replay needs last_utc >= first_utc, and every_days and horizon_days in whole steps".into());
++    }
++    let mut tracks: BTreeMap<String, (f64, BTreeMap<i64, (f64, f64)>)> = BTreeMap::new();
++    for key in &r.drifters {
++        let path = cfg.inputs.get(key).ok_or_else(|| format!("drifter input `{key}` is not in [inputs]"))?;
++        let text = std::fs::read_to_string(path).map_err(|e| format!("{}: {e}", path.display()))?;
++        for (n, line) in text.lines().enumerate().skip(2) {
++            let bad = || format!("{}: line {}", path.display(), n + 1);
++            let f: Vec<&str> = line.split(',').collect();
++            if f.len() != 5 {
++                return Err(bad());
++            }
++            let (lat, lon): (f64, f64) = (f[2].parse().map_err(|_| bad())?, f[3].parse().map_err(|_| bad())?);
++            let track = tracks.entry(f[0].into()).or_insert((satcom::parse_utc(f[4])?, BTreeMap::new()));
++            track.1.insert(satcom::parse_utc(f[1])? as i64, (lat, lon));
++        }
++    }
++    let mut out = Vec::new();
++    for (id, (lost, track)) in &tracks {
++        for (&t0, &start) in track {
++            let t0 = t0 as f64;
++            let k = (t0 - first) / every;
++            let inside = (r.area.south..=r.area.north).contains(&start.0) && (r.area.west..=r.area.east).contains(&start.1);
++            if !(t0 >= first && t0 <= last && (k - k.round()).abs() < 1e-9 && inside) {
++                continue;
++            }
++            let Some(&end) = track.get(&((t0 + horizon) as i64)) else { continue };
++            let drogue = if t0 + horizon < *lost {
++                "drogued"
++            } else if t0 >= *lost {
++                "undrogued"
++            } else {
++                "transition"
++            };
++            let start_step = ((t0 - first) / cfg.step_s).round() as usize;
++            out.push(Segment { id: id.clone(), drogue, start_unix_s: t0, start_step, steps: (horizon / cfg.step_s).round() as usize, start, end });
++        }
++    }
++    if out.is_empty() {
++        return Err("no drifter segments match the replay schedule and area".into());
++    }
++    Ok((first, out))
++}
++
++/// Input files, their products and hashes (from each file's .json sidecar), for a manifest.
++fn provenance(cfg: &DriftConfig, current: &Field, stokes: Option<&Field>, wind: Option<&Field>) -> toml::Value {
++    let land = cfg.land.as_ref().and_then(|k| cfg.inputs.get(k)).map(PathBuf::as_path);
++    let mut fields = toml::Table::new();
++    for (role, path) in [("current", Some(current.path.as_path())), ("stokes", stokes.map(|f| f.path.as_path())), ("wind", wind.map(|f| f.path.as_path())), ("land", land)] {
++        let Some(path) = path else { continue };
++        let mut t = toml::Table::new();
++        let absolute = std::fs::canonicalize(path).unwrap_or_else(|_| path.to_path_buf());
++        t.insert("path".into(), absolute.display().to_string().into());
++        let sidecar: serde_json::Value = std::fs::read_to_string(format!("{}.json", path.display()))
++            .ok()
++            .and_then(|s| serde_json::from_str(&s).ok())
++            .unwrap_or_default();
++        for key in ["name", "product", "dataset", "source", "sha256"] {
++            if let Some(v) = sidecar.get(key).and_then(|v| v.as_str()) {
++                t.insert(key.into(), v.into());
++            }
++        }
++        fields.insert(role.into(), toml::Value::Table(t));
++    }
++    toml::Value::Table(fields)
++}
++
++/// Make every field's slices for [t0, t1] resident.
++fn load(current: &mut Field, stokes: &mut Option<&mut Field>, wind: &mut Option<&mut Field>, t0: f64, t1: f64) -> Result<(), String> {
++    current.load(t0, t1)?;
++    stokes.as_deref_mut().map_or(Ok(()), |f| f.load(t0, t1))?;
++    wind.as_deref_mut().map_or(Ok(()), |f| f.load(t0, t1))
++}
++
++fn great_circle_km(a: (f64, f64), b: (f64, f64)) -> f64 {
++    let (p1, p2) = (a.0.to_radians(), b.0.to_radians());
++    let h = ((p2 - p1) / 2.0).sin().powi(2) + p1.cos() * p2.cos() * ((b.1 - a.1).to_radians() / 2.0).sin().powi(2);
++    2.0 * 6_371.008_8 * h.sqrt().asin()
++}
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++
++    #[test]
++    fn bilinear_interpolation_of_node_values_is_exact_for_a_linear_field() {
++        let grid = Grid { south: -50.0, north: -49.0, west: 70.0, east: 71.0, step: 0.5 };
++        let (ny, nx) = grid.shape();
++        let values: Vec<f64> = (0..ny * nx).map(|k| 3.0 * (k / nx) as f64 - 2.0 * (k % nx) as f64).collect();
++        let v = grid.interpolate(&values, -49.25, 70.75);
++        assert!((v - (3.0 * 1.5 - 2.0 * 1.5)).abs() < 1e-12, "{v}");
++        assert_eq!(grid.interpolate(&values, -49.0, 71.0), values[ny * nx - 1]);
++    }
++}
+diff --git a/crates/mh370/src/main.rs b/crates/mh370/src/main.rs
+index e0bc81b..37aa43d 100644
+--- a/crates/mh370/src/main.rs
++++ b/crates/mh370/src/main.rs
+@@ -8,6 +8,7 @@
+ //!                                                    impact modules on a samples file (impacts.rs)
+ //!        `mh370 terminal <run-dir> <config.toml> [<override.toml>...] <out-dir>`
+ //!                                                    the end-of-flight stage again, from a run's hand-off
++//!        `mh370 drift <drift.toml> [<override.toml>...] <output-dir>`   drift map (crates/ocean)
+ //!
+ //! The core estimate is the Davey et al. (2016) model with no hypotheses enabled.
+ //! A config may enable hypotheses (`[hypotheses.<name>]`); each acts only through the
+@@ -15,6 +16,7 @@
+ 
+ mod config;
+ mod describe;
++mod drift;
+ mod filter;
+ mod handoff;
+ mod impacts;
+@@ -40,6 +42,7 @@ fn main() {
+         Some("summarise") => summarise(&args[1..]),
+         Some("evaluate") => impacts::evaluate(&args[1..]),
+         Some("terminal") => rerun_terminal(&args[1..]),
++        Some("drift") => drift::main(&args[1..]),
+         _ if args.len() >= 2 => {
+             let paths: Vec<PathBuf> = args.iter().map(PathBuf::from).collect();
+             let (configs, out) = paths.split_at(paths.len() - 1);
+@@ -52,6 +55,7 @@ fn main() {
+             eprintln!("       mh370 summarise <run-dir>");
+             eprintln!("       mh370 evaluate <config.toml> [<override.toml>...] <samples> <out-dir>");
+             eprintln!("       mh370 terminal <run-dir> <config.toml> [<override.toml>...] <out-dir>");
++            eprintln!("       mh370 drift <drift.toml> [<override.toml>...] <output-dir>");
+             std::process::exit(2);
+         }
+     };
+diff --git a/crates/ocean/Cargo.toml b/crates/ocean/Cargo.toml
+new file mode 100644
+index 0000000..9d40bf1
+--- /dev/null
++++ b/crates/ocean/Cargo.toml
+@@ -0,0 +1,9 @@
++[package]
++name = "mh370-ocean"
++description = "Surface drift: gridded current, Stokes and wind fields, land mask, midpoint transport on WGS-84"
++version.workspace = true
++edition.workspace = true
++license.workspace = true
++
++[dependencies]
++geo.workspace = true
+diff --git a/crates/ocean/src/field.rs b/crates/ocean/src/field.rs
+new file mode 100644
+index 0000000..985637e
+--- /dev/null
++++ b/crates/ocean/src/field.rs
+@@ -0,0 +1,360 @@
++//! Gridded surface vector fields (current, Stokes drift, 10 m wind) in the MHGRID layout,
++//! read one time slice at a time.
++//!
++//! Layout (little-endian, C order, longitude fastest; every axis strictly increasing):
++//! `MHGRID1\0`, u32 schema = 3, u32 time axis = 0 (Unix seconds), u32 nt/ny/nx/nc, f64 times,
++//! latitudes (deg N) and longitudes (deg E), then for each component a 16-byte NUL-padded name,
++//! u32 encoding = 1 (packed i16), f64 scale, f64 offset, i16 missing, i16 land, and i16 values
++//! [time][latitude][longitude]; a value is offset + scale * packed. `land` marks a cell that is
++//! dry at every time (the model's own coast), `missing` any other absent value. A field has the
++//! two components `u` (east) and `v` (north), in m/s. Written by `.sources/ocean-drift/mhgrid.py`.
++//!
++//! [`Field::load`] reads the slices that bracket an interval and drops the others, so a
++//! multi-gigabyte series never sits in memory; sampling uses only loaded slices. Interpolation
++//! is bilinear in space and linear in time. Dry corners are dropped and the remaining weights
++//! renormalised; a point whose corners are all dry is on land. A missing corner makes the
++//! value missing. Nothing is ever filled with zero.
++
++use std::fs::File;
++use std::os::unix::fs::FileExt;
++use std::path::{Path, PathBuf};
++
++/// Why a field has no value at a point.
++#[derive(Debug, Clone, Copy, PartialEq, Eq)]
++pub enum Miss {
++    /// Outside the field's latitude/longitude domain.
++    Outside,
++    /// Every surrounding grid node is dry: the model's coast.
++    Land,
++    /// A surrounding wet node has no value at this time.
++    Missing,
++}
++
++pub struct Field {
++    pub path: PathBuf,
++    file: File,
++    times: Vec<f64>,
++    lat: Vec<f64>,
++    lon: Vec<f64>,
++    scale: [f64; 2],
++    offset: [f64; 2],
++    missing: [i16; 2],
++    land: [i16; 2],
++    values_at: [u64; 2],
++    /// Loaded slices: time index and interleaved (u, v) packed values.
++    slices: Vec<(usize, Vec<[i16; 2]>)>,
++}
++
++impl Field {
++    pub fn open(path: &Path) -> Result<Self, String> {
++        let err = |e: String| format!("{}: {e}", path.display());
++        let file = File::open(path).map_err(|e| err(e.to_string()))?;
++        let mut at = 0u64;
++        let take = |at: &mut u64, n: usize| -> Result<Vec<u8>, String> {
++            let mut buf = vec![0; n];
++            file.read_exact_at(&mut buf, *at).map_err(|e| err(format!("truncated header ({e})")))?;
++            *at += n as u64;
++            Ok(buf)
++        };
++        let head = take(&mut at, 32)?;
++        let word = |i: usize| u32::from_le_bytes(head[8 + 4 * i..12 + 4 * i].try_into().unwrap()) as usize;
++        if &head[..8] != b"MHGRID1\0" || word(0) != 3 || word(1) != 0 {
++            return Err(err("not an MHGRID schema-3 file with a Unix-time axis".into()));
++        }
++        let (nt, ny, nx, nc) = (word(2), word(3), word(4), word(5));
++        let f64s = |bytes: Vec<u8>| -> Vec<f64> {
++            bytes.chunks_exact(8).map(|c| f64::from_le_bytes(c.try_into().unwrap())).collect()
++        };
++        let times = f64s(take(&mut at, 8 * nt)?);
++        let lat = f64s(take(&mut at, 8 * ny)?);
++        let lon = f64s(take(&mut at, 8 * nx)?);
++        for axis in [&times, &lat, &lon] {
++            if axis.len() < 2 || axis.windows(2).any(|w| !(w[1] > w[0])) {
++                return Err(err("axes must have two or more strictly increasing values".into()));
++            }
++        }
++        let slab = 2 * (nt * ny * nx) as u64;
++        let (mut scale, mut offset, mut missing, mut land, mut values_at) = ([0.0; 2], [0.0; 2], [0; 2], [0; 2], [0; 2]);
++        let mut names = Vec::new();
++        for _ in 0..nc {
++            let meta = take(&mut at, 40)?;
++            let name = String::from_utf8_lossy(&meta[..16]).trim_end_matches('\0').to_string();
++            let c = match name.as_str() {
++                "u" => 0,
++                "v" => 1,
++                other => return Err(err(format!("unexpected component `{other}`"))),
++            };
++            if u32::from_le_bytes(meta[16..20].try_into().unwrap()) != 1 {
++                return Err(err("components must be packed i16".into()));
++            }
++            scale[c] = f64::from_le_bytes(meta[20..28].try_into().unwrap());
++            offset[c] = f64::from_le_bytes(meta[28..36].try_into().unwrap());
++            missing[c] = i16::from_le_bytes(meta[36..38].try_into().unwrap());
++            land[c] = i16::from_le_bytes(meta[38..40].try_into().unwrap());
++            values_at[c] = at;
++            at += slab;
++            names.push(c);
++        }
++        if names.len() != 2 || names[0] == names[1] {
++            return Err(err("a field needs exactly the components u and v".into()));
++        }
++        let size = file.metadata().map_err(|e| err(e.to_string()))?.len();
++        if size != at {
++            return Err(err(format!("file is {size} bytes, header implies {at}")));
++        }
++        Ok(Self { path: path.to_path_buf(), file, times, lat, lon, scale, offset, missing, land, values_at, slices: Vec::new() })
++    }
++
++    /// First and last time (Unix s).
++    pub fn time_range(&self) -> (f64, f64) {
++        (self.times[0], self.times[self.times.len() - 1])
++    }
++
++    /// South, north, west, east (degrees).
++    pub fn bounds(&self) -> [f64; 4] {
++        [self.lat[0], self.lat[self.lat.len() - 1], self.lon[0], self.lon[self.lon.len() - 1]]
++    }
++
++    /// Make the slices that bracket every time in [t0, t1] resident, and drop the others.
++    pub fn load(&mut self, t0: f64, t1: f64) -> Result<(), String> {
++        let (start, end) = self.time_range();
++        if !(t0 >= start && t1 <= end && t0 <= t1) {
++            return Err(format!("{}: {t0}..{t1} lies outside the field's time range {start}..{end}", self.path.display()));
++        }
++        let first = locate(&self.times, t0).map(|(i, _)| i).unwrap();
++        let last = (locate(&self.times, t1).map(|(i, _)| i).unwrap() + 1).min(self.times.len() - 1);
++        self.slices.retain(|(i, _)| (first..=last).contains(i));
++        let cells = self.lat.len() * self.lon.len();
++        for i in first..=last {
++            if self.slices.iter().any(|(j, _)| *j == i) {
++                continue;
++            }
++            let mut bytes = vec![0u8; 2 * cells];
++            let mut slice = vec![[0i16; 2]; cells];
++            for c in 0..2 {
++                self.file
++                    .read_exact_at(&mut bytes, self.values_at[c] + 2 * (i * cells) as u64)
++                    .map_err(|e| format!("{}: {e}", self.path.display()))?;
++                for (k, pair) in slice.iter_mut().enumerate() {
++                    pair[c] = i16::from_le_bytes([bytes[2 * k], bytes[2 * k + 1]]);
++                }
++            }
++            self.slices.push((i, slice));
++        }
++        Ok(())
++    }
++
++    /// East and north components (m/s) at a time within a loaded interval.
++    pub fn sample(&self, unix_s: f64, lat: f64, lon: f64) -> Result<[f64; 2], Miss> {
++        let (y, x) = match (locate(&self.lat, lat), locate(&self.lon, lon)) {
++            (Some(y), Some(x)) => (y, x),
++            _ => return Err(Miss::Outside),
++        };
++        let (i, f) = locate(&self.times, unix_s).expect("sample time outside the field; the runner checks spans");
++        let a = self.spatial(i, y, x)?;
++        if f == 0.0 {
++            return Ok(a);
++        }
++        let b = self.spatial(i + 1, y, x)?;
++        Ok([a[0] + f * (b[0] - a[0]), a[1] + f * (b[1] - a[1])])
++    }
++
++    /// As [`Field::sample`], but a point on this field's land takes the value of the nearest wet
++    /// node within `reach` nodes. Used for Stokes drift: the wave model's coast is coarser than
++    /// the current model's, and near it the offshore wave forcing is the better estimate. A zero
++    /// there would stall exactly the onshore transport that beaches debris.
++    pub fn sample_extended(&self, unix_s: f64, lat: f64, lon: f64, reach: usize) -> Result<[f64; 2], Miss> {
++        match self.sample(unix_s, lat, lon) {
++            Err(Miss::Land) => {}
++            other => return other,
++        }
++        let (y, x) = (locate(&self.lat, lat).unwrap(), locate(&self.lon, lon).unwrap());
++        let (i, f) = locate(&self.times, unix_s).unwrap();
++        let (cy, cx) = (y.0 as f64 + y.1, x.0 as f64 + x.1);
++        let lo = |c: usize| c.saturating_sub(reach);
++        let nearest = (lo(y.0)..=(y.0 + 1 + reach).min(self.lat.len() - 1))
++            .flat_map(|j| (lo(x.0)..=(x.0 + 1 + reach).min(self.lon.len() - 1)).map(move |k| (j, k)))
++            .filter(|&(j, k)| self.node(i, j, k).is_some_and(|p| p[0] != self.land[0]))
++            .min_by(|a, b| {
++                let d = |(j, k): (usize, usize)| (j as f64 - cy).powi(2) + (k as f64 - cx).powi(2);
++                d(*a).total_cmp(&d(*b))
++            })
++            .ok_or(Miss::Land)?;
++        let at = |t: usize| -> Result<[f64; 2], Miss> {
++            let p = self.node(t, nearest.0, nearest.1).unwrap();
++            if p[0] == self.missing[0] || p[1] == self.missing[1] {
++                return Err(Miss::Missing);
++            }
++            Ok([0, 1].map(|c| self.offset[c] + self.scale[c] * f64::from(p[c])))
++        };
++        let a = at(i)?;
++        if f == 0.0 {
++            return Ok(a);
++        }
++        let b = at(i + 1)?;
++        Ok([a[0] + f * (b[0] - a[0]), a[1] + f * (b[1] - a[1])])
++    }
++
++    fn node(&self, time: usize, y: usize, x: usize) -> Option<[i16; 2]> {
++        self.slices.iter().find(|(i, _)| *i == time).map(|(_, s)| s[y * self.lon.len() + x])
++    }
++
++    fn spatial(&self, time: usize, (iy, fy): (usize, f64), (ix, fx): (usize, f64)) -> Result<[f64; 2], Miss> {
++        let slice = &self
++            .slices
++            .iter()
++            .find(|(i, _)| *i == time)
++            .expect("field slice not loaded; call Field::load for the step first")
++            .1;
++        let nx = self.lon.len();
++        let (mut sum, mut weight) = ([0.0; 2], 0.0);
++        for (dy, wy) in [(0, 1.0 - fy), (1, fy)] {
++            for (dx, wx) in [(0, 1.0 - fx), (1, fx)] {
++                let w = wy * wx;
++                if w == 0.0 {
++                    continue;
++                }
++                let p = slice[(iy + dy) * nx + ix + dx];
++                if p[0] == self.land[0] || p[1] == self.land[1] {
++                    continue;
++                }
++                if p[0] == self.missing[0] || p[1] == self.missing[1] {
++                    return Err(Miss::Missing);
++                }
++                for c in 0..2 {
++                    sum[c] += w * (self.offset[c] + self.scale[c] * f64::from(p[c]));
++                }
++                weight += w;
++            }
++        }
++        if weight == 0.0 {
++            return Err(Miss::Land);
++        }
++        Ok([sum[0] / weight, sum[1] / weight])
++    }
++}
++
++/// Lower index and fraction of `v` on a strictly increasing axis; `None` outside it.
++pub(crate) fn locate(axis: &[f64], v: f64) -> Option<(usize, f64)> {
++    let n = axis.len();
++    if !(v >= axis[0] && v <= axis[n - 1]) {
++        return None;
++    }
++    // Near-regular axes: the arithmetic guess is exact or off by one; a short walk corrects it.
++    let mut i = (((v - axis[0]) / (axis[n - 1] - axis[0]) * (n - 1) as f64) as usize).min(n - 2);
++    while i > 0 && v < axis[i] {
++        i -= 1;
++    }
++    while i < n - 2 && v >= axis[i + 1] {
++        i += 1;
++    }
++    Some((i, ((v - axis[i]) / (axis[i + 1] - axis[i])).clamp(0.0, 1.0)))
++}
++
++#[cfg(test)]
++pub(crate) mod tests {
++    use super::*;
++
++    /// Write a small MHGRID file: `values(t, y, x) -> (u, v)`, NaN = missing, None = land.
++    pub fn write_field(
++        path: &Path,
++        times: &[f64],
++        lat: &[f64],
++        lon: &[f64],
++        values: impl Fn(usize, usize, usize) -> Option<(f64, f64)>,
++    ) {
++        let scale = 0.001_f64;
++        let mut bytes = b"MHGRID1\0".to_vec();
++        for n in [3, 0, times.len(), lat.len(), lon.len(), 2] {
++            bytes.extend((n as u32).to_le_bytes());
++        }
++        for axis in [times, lat, lon] {
++            axis.iter().for_each(|v| bytes.extend(v.to_le_bytes()));
++        }
++        for (c, name) in ["u", "v"].iter().enumerate() {
++            let mut label = [0u8; 16];
++            label[..1].copy_from_slice(name.as_bytes());
++            bytes.extend(label);
++            bytes.extend(1u32.to_le_bytes());
++            bytes.extend(scale.to_le_bytes());
++            bytes.extend(0.0f64.to_le_bytes());
++            bytes.extend((-30000i16).to_le_bytes());
++            bytes.extend((-29999i16).to_le_bytes());
++            for t in 0..times.len() {
++                for y in 0..lat.len() {
++                    for x in 0..lon.len() {
++                        let packed = match values(t, y, x) {
++                            None => -29999,
++                            Some(uv) => {
++                                let v = if c == 0 { uv.0 } else { uv.1 };
++                                if v.is_nan() { -30000 } else { (v / scale).round() as i16 }
++                            }
++                        };
++                        bytes.extend(packed.to_le_bytes());
++                    }
++                }
++            }
++        }
++        std::fs::write(path, bytes).unwrap();
++    }
++
++    #[test]
++    fn interpolation_matches_hand_values_and_never_fills_land_with_zero() {
++        let path = std::env::temp_dir().join(format!("mh370-field-{}.mhgrid", std::process::id()));
++        // u = 1 + t/10 + lat + 2 lon on a 2x2 grid over two times; node (lat 1, lon 1) is dry.
++        write_field(&path, &[0.0, 10.0], &[0.0, 1.0], &[0.0, 1.0], |t, y, x| {
++            (y == 1 && x == 1).then_some(()).map_or(Some((1.0 + t as f64 + y as f64 + 2.0 * x as f64, -0.5)), |_| None)
++        });
++        let mut f = Field::open(&path).unwrap();
++        f.load(0.0, 10.0).unwrap();
++        // At (0.25, 0.5), t = 5: weights 0.375, 0.375, 0.125 (0.125 on the dry node dropped).
++        let expected = (0.375 * 1.0 + 0.375 * 3.0 + 0.125 * 2.0) / 0.875 + 0.5;
++        let [u, v] = f.sample(5.0, 0.25, 0.5).unwrap();
++        assert!((u - expected).abs() < 1e-9, "{u} vs {expected}");
++        assert!((v + 0.5).abs() < 1e-9);
++        assert_eq!(f.sample(5.0, 1.0, 1.0), Err(Miss::Land));
++        assert_eq!(f.sample(5.0, 1.5, 0.5), Err(Miss::Outside));
++        std::fs::remove_file(&path).unwrap();
++    }
++
++    #[test]
++    fn extended_sampling_takes_the_nearest_wet_node_on_land_only() {
++        let path = std::env::temp_dir().join(format!("mh370-field-extend-{}.mhgrid", std::process::id()));
++        // 4 x 4 nodes at 1-degree spacing; only the column x = 3 is wet, with u = 0.1 * (y + 1).
++        let axis = [0.0, 1.0, 2.0, 3.0];
++        write_field(&path, &[0.0, 10.0], &axis, &axis, |_, y, x| (x == 3).then_some((0.1 * (y + 1) as f64, 0.0)));
++        let mut f = Field::open(&path).unwrap();
++        f.load(0.0, 10.0).unwrap();
++        assert_eq!(f.sample(0.0, 1.2, 0.9), Err(Miss::Land));
++        // Nearest wet node to (1.2, 0.9) within two nodes is (y 1, x 3): u = 0.2.
++        let [u, _] = f.sample_extended(0.0, 1.2, 0.9, 2).unwrap();
++        assert!((u - 0.2).abs() < 1e-9, "{u}");
++        assert_eq!(f.sample_extended(0.0, 1.2, 0.2, 1), Err(Miss::Land));
++        // Where the field is wet, extended sampling is ordinary sampling.
++        assert_eq!(f.sample_extended(0.0, 1.5, 2.5, 2), f.sample(0.0, 1.5, 2.5));
++        std::fs::remove_file(&path).unwrap();
++    }
++
++    #[test]
++    fn a_missing_wet_value_is_missing_not_zero() {
++        let path = std::env::temp_dir().join(format!("mh370-field-missing-{}.mhgrid", std::process::id()));
++        write_field(&path, &[0.0, 10.0], &[0.0, 1.0], &[0.0, 1.0], |t, y, x| {
++            Some(if t == 1 && y == 0 && x == 0 { (f64::NAN, 0.0) } else { (0.2, 0.1) })
++        });
++        let mut f = Field::open(&path).unwrap();
++        f.load(0.0, 10.0).unwrap();
++        assert_eq!(f.sample(0.0, 0.5, 0.5), Ok([0.2, 0.1]));
++        assert_eq!(f.sample(5.0, 0.5, 0.5), Err(Miss::Missing));
++        std::fs::remove_file(&path).unwrap();
++    }
++
++    #[test]
++    fn locate_handles_near_regular_axes() {
++        let axis: Vec<f64> = (0..841).map(|i| -55.0 + f64::from(i as f32 * 0.083_333_33)).collect();
++        for v in [-55.0, -54.99, -30.04, 14.9] {
++            let (i, f) = locate(&axis, v).unwrap();
++            assert!(axis[i] <= v && v <= axis[i + 1] && (0.0..=1.0).contains(&f));
++        }
++        assert_eq!(locate(&axis, 20.0), None);
++    }
++}
+diff --git a/crates/ocean/src/land.rs b/crates/ocean/src/land.rs
+new file mode 100644
+index 0000000..7bbbf04
+--- /dev/null
++++ b/crates/ocean/src/land.rs
+@@ -0,0 +1,88 @@
++//! High-resolution land mask: a bit raster built from the GSHHG shoreline, so that small
++//! islands on the drift paths (Réunion, Mauritius, Rodrigues, Nosy Boraha) are land even
++//! where an ocean model's own grid does not resolve them.
++//!
++//! Layout (little-endian): `MHLAND1\0`, f64 south and west edges (deg), f64 cell size (deg),
++//! u32 ny, u32 nx, then ny rows (south first) of ceil(nx / 8) bytes; bit `x % 8` of byte
++//! `x / 8` is set when the centre of cell (y, x) is on land. Written by
++//! `.sources/ocean-drift/gshhg_land.py`. Points outside the raster are water.
++
++use std::path::Path;
++
++pub struct Land {
++    south: f64,
++    west: f64,
++    cell: f64,
++    ny: usize,
++    nx: usize,
++    row_bytes: usize,
++    bits: Vec<u8>,
++}
++
++impl Land {
++    pub fn open(path: &Path) -> Result<Self, String> {
++        let bytes = std::fs::read(path).map_err(|e| format!("{}: {e}", path.display()))?;
++        let f64_at = |i: usize| f64::from_le_bytes(bytes[i..i + 8].try_into().unwrap());
++        let u32_at = |i: usize| u32::from_le_bytes(bytes[i..i + 4].try_into().unwrap()) as usize;
++        if bytes.len() < 40 || &bytes[..8] != b"MHLAND1\0" {
++            return Err(format!("{}: not an MHLAND1 raster", path.display()));
++        }
++        let (ny, nx) = (u32_at(32), u32_at(36));
++        let row_bytes = nx.div_ceil(8);
++        if bytes.len() != 40 + ny * row_bytes {
++            return Err(format!("{}: raster size does not match its header", path.display()));
++        }
++        Ok(Self { south: f64_at(8), west: f64_at(16), cell: f64_at(24), ny, nx, row_bytes, bits: bytes[40..].to_vec() })
++    }
++
++    pub fn is_land(&self, lat: f64, lon: f64) -> bool {
++        let y = ((lat - self.south) / self.cell).floor();
++        let x = ((lon - self.west) / self.cell).floor();
++        if !(y >= 0.0 && x >= 0.0 && (y as usize) < self.ny && (x as usize) < self.nx) {
++            return false;
++        }
++        let (y, x) = (y as usize, x as usize);
++        self.bits[y * self.row_bytes + x / 8] >> (x % 8) & 1 == 1
++    }
++
++    /// Walking the straight segment from `a` to `b` (lat, lon) at a third of a cell, the last
++    /// point at sea before the first land point, or `None` if the whole segment is at sea.
++    pub fn landfall(&self, a: (f64, f64), b: (f64, f64)) -> Option<(f64, f64)> {
++        let span = (b.0 - a.0).abs().max((b.1 - a.1).abs() * a.0.to_radians().cos());
++        let n = ((3.0 * span / self.cell).ceil() as usize).max(1);
++        let at = |k: usize| {
++            let s = k as f64 / n as f64;
++            (a.0 + s * (b.0 - a.0), a.1 + s * (b.1 - a.1))
++        };
++        (1..=n).find(|&k| self.is_land(at(k).0, at(k).1)).map(|k| at(k - 1))
++    }
++
++    #[cfg(test)]
++    pub(crate) fn from_fn(south: f64, west: f64, cell: f64, ny: usize, nx: usize, land: impl Fn(usize, usize) -> bool) -> Self {
++        let row_bytes = nx.div_ceil(8);
++        let mut bits = vec![0u8; ny * row_bytes];
++        for y in 0..ny {
++            for x in 0..nx {
++                if land(y, x) {
++                    bits[y * row_bytes + x / 8] |= 1 << (x % 8);
++                }
++            }
++        }
++        Self { south, west, cell, ny, nx, row_bytes, bits }
++    }
++}
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++
++    #[test]
++    fn a_thin_island_between_two_points_is_found() {
++        // A one-cell-wide north-south strip of land at x = 50 on a 0.01-degree raster.
++        let land = Land::from_fn(-1.0, 0.0, 0.01, 200, 100, |_, x| x == 50);
++        assert!(land.is_land(0.0, 0.505) && !land.is_land(0.0, 0.495));
++        let (lat, lon) = land.landfall((0.0, 0.40), (0.0, 0.60)).unwrap();
++        assert!(lat == 0.0 && (0.496..0.5).contains(&lon), "{lon}");
++        assert_eq!(land.landfall((0.0, 0.40), (0.0, 0.49)), None);
++    }
++}
+diff --git a/crates/ocean/src/lib.rs b/crates/ocean/src/lib.rs
+new file mode 100644
+index 0000000..9b05de5
+--- /dev/null
++++ b/crates/ocean/src/lib.rs
+@@ -0,0 +1,14 @@
++//! Surface drift of floating objects: gridded current, Stokes-drift and 10 m wind fields, a
++//! high-resolution land mask, and a midpoint transport step on WGS-84.
++//!
++//! One transport law serves every drift-dependent module (debris finds, Pleiades imagery,
++//! aerial search). The runner advances all particles of a product in lockstep: it loads the
++//! field slices that bracket a step, then steps every particle in parallel.
++
++pub mod field;
++pub mod land;
++pub mod transport;
++
++pub use field::{Field, Miss};
++pub use land::Land;
++pub use transport::{displace, gaussian_pair, uniform, Environment, Fate, Particle, Response};
+diff --git a/crates/ocean/src/transport.rs b/crates/ocean/src/transport.rs
+new file mode 100644
+index 0000000..00d1b76
+--- /dev/null
++++ b/crates/ocean/src/transport.rs
+@@ -0,0 +1,258 @@
++//! One transport step for a floating object: explicit midpoint (RK2) on the WGS-84 ellipsoid.
++//!
++//! Velocity (m/s) = current + s * Stokes + w * wind10 + a fixed leeway speed along the wind
++//! direction turned `leeway_left_deg` to the left of downwind. Every response term is the
++//! object's, stated explicitly, and zero by default. An optional random walk adds an
++//! independent Gaussian displacement of variance 2 K dt to each component (K = diffusivity).
++//!
++//! A particle stops, and records why, when it reaches land (the high-resolution mask, or a
++//! point where the ocean model has no wet grid node), leaves a field's domain, or meets a
++//! missing value. Stopped particles are kept, never dropped, so that statistics over an
++//! ensemble count every release.
++
++use crate::field::{Field, Miss};
++use crate::land::Land;
++
++/// How an object moves relative to the surface current.
++#[derive(Debug, Clone, Copy, Default, PartialEq)]
++pub struct Response {
++    /// Multiplier on the surface Stokes drift.
++    pub stokes: f64,
++    /// Fraction of the 10 m wind vector (direct windage).
++    pub windage: f64,
++    /// Fixed wind-relative leeway speed (m/s), independent of wind speed.
++    pub leeway_mps: f64,
++    /// Direction of the fixed leeway, degrees to the left of downwind.
++    pub leeway_left_deg: f64,
++}
++
++#[derive(Debug, Clone, Copy, PartialEq, Eq)]
++pub enum Fate {
++    Afloat,
++    /// Reached land; the position is the last point at sea.
++    Beached,
++    /// Left the domain of a field it needs.
++    LeftDomain,
++    /// A field it needs has a missing value there.
++    NoData,
++}
++
++#[derive(Debug, Clone, Copy, PartialEq)]
++pub struct Particle {
++    pub lat: f64,
++    pub lon: f64,
++    pub fate: Fate,
++    /// When the particle stopped (Unix s); meaningless while afloat.
++    pub stopped_unix_s: f64,
++    pub response: Response,
++}
++
++impl Particle {
++    pub fn new(lat: f64, lon: f64, response: Response) -> Self {
++        Self { lat, lon, fate: Fate::Afloat, stopped_unix_s: f64::NAN, response }
++    }
++
++    fn stop(&mut self, fate: Fate, unix_s: f64) {
++        self.fate = fate;
++        self.stopped_unix_s = unix_s;
++    }
++}
++
++/// The fields a drift needs. Stokes and wind may be absent when no object responds to them.
++pub struct Environment<'a> {
++    pub current: &'a Field,
++    pub stokes: Option<&'a Field>,
++    pub wind: Option<&'a Field>,
++    pub land: Option<&'a Land>,
++}
++
++impl Environment<'_> {
++    /// Velocity (east, north; m/s) of an object with response `r`.
++    pub fn velocity(&self, unix_s: f64, lat: f64, lon: f64, r: &Response) -> Result<[f64; 2], Fate> {
++        let fate = |m: Miss| match m {
++            Miss::Outside => Fate::LeftDomain,
++            Miss::Land => Fate::Beached,
++            Miss::Missing => Fate::NoData,
++        };
++        let mut v = self.current.sample(unix_s, lat, lon).map_err(fate)?;
++        if r.stokes != 0.0 {
++            let field = self.stokes.expect("a Stokes response needs a Stokes field");
++            // The wave model's coast is not the current model's: where only the wave model is dry,
++            // the nearest wet wave node within two nodes stands in. Beyond that, the particle is
++            // treated as on land.
++            let s = field.sample_extended(unix_s, lat, lon, 2).map_err(fate)?;
++            v = [v[0] + r.stokes * s[0], v[1] + r.stokes * s[1]];
++        }
++        if r.windage != 0.0 || r.leeway_mps != 0.0 {
++            let w = self.wind.expect("a wind response needs a wind field").sample(unix_s, lat, lon).map_err(fate)?;
++            v = [v[0] + r.windage * w[0], v[1] + r.windage * w[1]];
++            let speed = w[0].hypot(w[1]);
++            if r.leeway_mps != 0.0 && speed > 0.0 {
++                let (sin, cos) = r.leeway_left_deg.to_radians().sin_cos();
++                let (e, n) = (w[0] / speed, w[1] / speed);
++                // Rotate the downwind unit vector counter-clockwise (to the left) by the angle.
++                v = [v[0] + r.leeway_mps * (e * cos - n * sin), v[1] + r.leeway_mps * (e * sin + n * cos)];
++            }
++        }
++        Ok(v)
++    }
++
++    /// Advance an afloat particle from `unix_s` by `dt_s`. `noise` holds two standard normal
++    /// deviates for the random walk (ignored when `diffusivity_m2_s` is zero).
++    pub fn step(&self, p: &mut Particle, unix_s: f64, dt_s: f64, diffusivity_m2_s: f64, noise: [f64; 2]) {
++        if p.fate != Fate::Afloat {
++            return;
++        }
++        let v1 = match self.velocity(unix_s, p.lat, p.lon, &p.response) {
++            Ok(v) => v,
++            Err(fate) => return p.stop(fate, unix_s),
++        };
++        let mid = displace(p.lat, p.lon, v1[0] * dt_s / 2.0, v1[1] * dt_s / 2.0);
++        if self.reaches_land(p, mid, unix_s + dt_s / 2.0) {
++            return;
++        }
++        let v2 = match self.velocity(unix_s + dt_s / 2.0, mid.0, mid.1, &p.response) {
++            Ok(v) => v,
++            Err(fate) => return p.stop(fate, unix_s + dt_s / 2.0),
++        };
++        let sd = (2.0 * diffusivity_m2_s * dt_s).sqrt();
++        let end = displace(p.lat, p.lon, v2[0] * dt_s + sd * noise[0], v2[1] * dt_s + sd * noise[1]);
++        if !self.reaches_land(p, end, unix_s + dt_s) {
++            (p.lat, p.lon) = end;
++        }
++    }
++
++    /// Stop the particle at its landfall if the segment to `to` crosses the land mask.
++    fn reaches_land(&self, p: &mut Particle, to: (f64, f64), unix_s: f64) -> bool {
++        let Some(landfall) = self.land.and_then(|land| land.landfall((p.lat, p.lon), to)) else {
++            return false;
++        };
++        (p.lat, p.lon) = landfall;
++        p.stop(Fate::Beached, unix_s);
++        true
++    }
++}
++
++/// Move a point by an east/north displacement (m), using the ellipsoid's radii of curvature
++/// at the start point.
++pub fn displace(lat: f64, lon: f64, east_m: f64, north_m: f64) -> (f64, f64) {
++    geo::advance(lat, lon, 0.0, north_m / geo::M_PER_KT_S, east_m / geo::M_PER_KT_S, 1.0)
++}
++
++/// Two independent standard normal deviates determined by `key` alone (e.g. seed, particle,
++/// step), so results do not depend on thread scheduling. SplitMix64 hashing and Box-Muller.
++pub fn gaussian_pair(key: [u64; 3]) -> [f64; 2] {
++    let a = splitmix64(splitmix64(splitmix64(key[0]) ^ key[1]) ^ key[2]);
++    let b = splitmix64(a);
++    let u1 = ((a >> 11) as f64 + 0.5) / (1u64 << 53) as f64;
++    let u2 = (b >> 11) as f64 / (1u64 << 53) as f64;
++    let r = (-2.0 * u1.ln()).sqrt();
++    let (sin, cos) = (std::f64::consts::TAU * u2).sin_cos();
++    [r * cos, r * sin]
++}
++
++/// A uniform deviate in [0, 1) determined by `key` alone.
++pub fn uniform(key: [u64; 3]) -> f64 {
++    (splitmix64(splitmix64(splitmix64(key[0]) ^ key[1]) ^ key[2] ^ 0x5bd1_e995) >> 11) as f64 / (1u64 << 53) as f64
++}
++
++fn splitmix64(x: u64) -> u64 {
++    let mut z = x.wrapping_add(0x9e37_79b9_7f4a_7c15);
++    z = (z ^ (z >> 30)).wrapping_mul(0xbf58_476d_1ce4_e5b9);
++    z = (z ^ (z >> 27)).wrapping_mul(0x94d0_49bb_1331_11eb);
++    z ^ (z >> 31)
++}
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++    use crate::field::tests::write_field;
++
++    fn constant_field(name: &str, u: f64, v: f64) -> Field {
++        let path = std::env::temp_dir().join(format!("mh370-{name}-{}.mhgrid", std::process::id()));
++        write_field(&path, &[0.0, 1e6], &[-60.0, 10.0], &[0.0, 180.0], |_, _, _| Some((u, v)));
++        let mut field = Field::open(&path).unwrap();
++        field.load(0.0, 1e6).unwrap();
++        std::fs::remove_file(&path).unwrap();
++        field
++    }
++
++    fn drift(env: &Environment, start: (f64, f64), r: Response, days: f64, dt: f64) -> Particle {
++        let mut p = Particle::new(start.0, start.1, r);
++        let mut t = 0.0;
++        while t < days * 86_400.0 {
++            env.step(&mut p, t, dt, 0.0, [0.0; 2]);
++            t += dt;
++        }
++        p
++    }
++
++    #[test]
++    fn constant_current_displacement_matches_the_ellipsoid() {
++        // 0.1 m/s for one day in 3-hour midpoint steps. Independent values: WGS-84 meridional
++        // radius M and prime-vertical radius N at 35 S, from the textbook formulas.
++        let (a, e2, phi) = (6_378_137.0_f64, 0.006_694_379_990_14_f64, (-35.0_f64).to_radians());
++        let w = (1.0 - e2 * phi.sin().powi(2)).sqrt();
++        let (m, n) = (a * (1.0 - e2) / w.powi(3), a / w);
++        let east = constant_field("east", 0.1, 0.0);
++        let env = Environment { current: &east, stokes: None, wind: None, land: None };
++        let p = drift(&env, (-35.0, 90.0), Response::default(), 1.0, 10_800.0);
++        let east_m = (p.lon - 90.0).to_radians() * n * phi.cos();
++        assert!((east_m - 8_640.0).abs() < 20.0 && p.lat == -35.0, "{east_m}");
++        let north = constant_field("north", 0.0, 0.1);
++        let env = Environment { current: &north, stokes: None, wind: None, land: None };
++        let p = drift(&env, (-35.0, 90.0), Response::default(), 1.0, 10_800.0);
++        let north_m = (p.lat + 35.0).to_radians() * m;
++        assert!((north_m - 8_640.0).abs() < 20.0, "{north_m}");
++    }
++
++    #[test]
++    fn stokes_windage_and_leeway_add_as_stated() {
++        let still = constant_field("still", 0.0, 0.0);
++        let waves = constant_field("waves", 0.1, 0.0);
++        let wind = constant_field("wind", 0.0, 10.0);
++        let env = Environment { current: &still, stokes: Some(&waves), wind: Some(&wind), land: None };
++        // 0.5 x Stokes east, 2% of a 10 m/s northerly-blowing wind, and 0.1 m/s leeway 16 deg
++        // left of downwind (north), i.e. towards 344 deg true.
++        let r = Response { stokes: 0.5, windage: 0.02, leeway_mps: 0.1, leeway_left_deg: 16.0 };
++        let [e, n] = env.velocity(0.0, -30.0, 90.0, &r).unwrap();
++        let (sin, cos) = 16f64.to_radians().sin_cos();
++        assert!((e - (0.05 - 0.1 * sin)).abs() < 1e-9 && (n - (0.2 + 0.1 * cos)).abs() < 1e-9, "{e} {n}");
++        assert_eq!(env.velocity(0.0, -30.0, 90.0, &Response::default()), Ok([0.0, 0.0]));
++    }
++
++    #[test]
++    fn random_walk_has_the_declared_daily_rms() {
++        // CSIRO's 5 NM/day two-dimensional RMS: per-component variance 2 K dt with
++        // K = (5 NM / sqrt 2)^2 / (2 days) = 248.2 m2/s.
++        let still = constant_field("walk", 0.0, 0.0);
++        let env = Environment { current: &still, stokes: None, wind: None, land: None };
++        let k = (5.0 * 1852.0 / 2f64.sqrt()).powi(2) / (2.0 * 86_400.0);
++        let n = 20_000;
++        let mut sum_sq = 0.0;
++        for i in 0..n {
++            let mut p = Particle::new(-30.0, 90.0, Response::default());
++            for s in 0..24 {
++                env.step(&mut p, 3600.0 * s as f64, 3600.0, k, gaussian_pair([7, i, s]));
++            }
++            let (m, nr) = geo::radii_of_curvature_km(-30.0);
++            let dn = (p.lat + 30.0).to_radians() * m * 1000.0;
++            let de = (p.lon - 90.0).to_radians() * nr * 1000.0 * 30f64.to_radians().cos();
++            sum_sq += dn * dn + de * de;
++        }
++        let rms_nm = (sum_sq / n as f64).sqrt() / 1852.0;
++        assert!((rms_nm - 5.0).abs() < 0.08, "{rms_nm}");
++    }
++
++    #[test]
++    fn a_particle_stops_at_an_island_and_is_kept() {
++        let east = constant_field("island", 0.5, 0.0);
++        let land = Land::from_fn(-31.0, 89.0, 0.01, 200, 200, |_, x| x == 150);
++        let env = Environment { current: &east, stokes: None, wind: None, land: Some(&land) };
++        let p = drift(&env, (-30.0, 90.0), Response::default(), 2.0, 3600.0);
++        assert_eq!(p.fate, Fate::Beached);
++        assert!((90.49..90.5).contains(&p.lon), "{}", p.lon);
++        // 0.5 deg of longitude at 30 S is 48.2 km: 96,400 s at 0.5 m/s, ending an hourly step.
++        assert!((96_400.0..=100_000.0).contains(&p.stopped_unix_s), "{}", p.stopped_unix_s);
++    }
++}
+diff --git a/report/drift_replay.py b/report/drift_replay.py
+new file mode 100644
+index 0000000..6f785ce
+--- /dev/null
++++ b/report/drift_replay.py
+@@ -0,0 +1,134 @@
++#!/usr/bin/env python3
++"""Drifter-replay statistics: how far each ocean model and object response misses GDP drifters.
++
++Reads <run>/<model>/replay.csv written by `mh370 drift` with a [replay] table. For every
++model, response class and drogue state it gives the number of segments, the RMS error per
++component, the median distance error, the mean east/north bias, the skill against a
++no-motion forecast (1 - MSE_model / MSE_no_motion), and the maximum-likelihood isotropic
++bivariate Student-t (nu, scale) of the error vectors, with its gain over a Gaussian in
++log-likelihood per segment. Every segment counts, including paths that stopped early (they
++keep their last position). Errors are east/north distances on the WGS-84 ellipsoid at the
++observed end. The dispersion ratio is the variance of modelled displacements (start to
++predicted end) over that of observed ones: below 1, the model spreads objects too little.
++
++    drift_replay.py <run-dir> [--png <file.png>]    writes <run-dir>/replay-summary.toml
++"""
++
++import argparse
++import csv
++import math
++from pathlib import Path
++
++import numpy as np
++
++A, E2 = 6378.137, 0.00669437999014
++
++
++def errors_km(lat, lon, lat_obs, lon_obs):
++    phi = np.radians(lat_obs)
++    w = np.sqrt(1 - E2 * np.sin(phi) ** 2)
++    m, n = A * (1 - E2) / w**3, A / w
++    return np.radians(lon - lon_obs) * n * np.cos(phi), np.radians(lat - lat_obs) * m
++
++
++def student_t_fit(east, north):
++    """ML isotropic bivariate t: f(e) = (1 / 2 pi s^2) (1 + r^2 / (nu s^2))^-(nu/2 + 1)."""
++    r2 = east**2 + north**2
++    best = (-np.inf, None, None)
++    for nu in np.exp(np.linspace(np.log(0.5), np.log(200.0), 160)):
++        for s in np.linspace(5.0, 400.0, 400):
++            ll = np.sum(-np.log(2 * np.pi * s * s) - (nu / 2 + 1) * np.log1p(r2 / (nu * s * s)))
++            if ll > best[0]:
++                best = (ll, nu, s)
++    s2 = r2.mean() / 2
++    gaussian = np.sum(-np.log(2 * np.pi * s2) - r2 / (2 * s2))
++    return best[1], best[2], (best[0] - gaussian) / len(r2)
++
++
++def summarise(path):
++    rows = list(csv.DictReader(open(path)))
++    classes = [k[:-4] for k in rows[0] if k.endswith("_lat") and k not in ("start_lat", "end_lat")]
++    col = lambda key: np.array([float(r[key]) for r in rows])
++    drogue = np.array([r["drogue"] for r in rows])
++    lat_obs, lon_obs = col("end_lat"), col("end_lon")
++    rest_e, rest_n = errors_km(col("start_lat"), col("start_lon"), lat_obs, lon_obs)
++    # Displacements from the start, in the same east/north metric.
++    obs_e, obs_n = -rest_e, -rest_n
++    out = {}
++    for c in classes:
++        e, n = errors_km(col(f"{c}_lat"), col(f"{c}_lon"), lat_obs, lon_obs)
++        stopped = np.array([r[f"{c}_fate"] != "afloat" for r in rows])
++        for state in ("drogued", "undrogued", "transition"):
++            k = drogue == state
++            if k.sum() < 10:
++                continue
++            nu, scale, gain = student_t_fit(e[k], n[k])
++            model_e, model_n = obs_e[k] + e[k], obs_n[k] + n[k]
++            dispersion = (np.var(model_e) + np.var(model_n)) / (np.var(obs_e[k]) + np.var(obs_n[k]))
++            mse, mse_rest = np.mean(e[k] ** 2 + n[k] ** 2), np.mean(rest_e[k] ** 2 + rest_n[k] ** 2)
++            out[(c, state)] = {
++                "n": int(k.sum()),
++                "stopped": int(stopped[k].sum()),
++                "rms_per_component_km": float(np.sqrt(mse / 2)),
++                "median_error_km": float(np.median(np.hypot(e[k], n[k]))),
++                "bias_east_km": float(e[k].mean()),
++                "bias_north_km": float(n[k].mean()),
++                "skill_vs_no_motion": float(1 - mse / mse_rest),
++                "student_t_nu": float(nu),
++                "student_t_scale_km": float(scale),
++                "student_t_gain_per_segment": float(gain),
++                "dispersion_ratio": float(dispersion),
++            }
++    return out
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
++    parser.add_argument("run")
++    parser.add_argument("--png")
++    args = parser.parse_args()
++    run = Path(args.run)
++    results = {model.name: summarise(model / "replay.csv") for model in sorted(run.iterdir()) if (model / "replay.csv").exists()}
++    lines = ["# Drifter replay statistics (report/drift_replay.py). Errors in km.\n"]
++    for model, table in results.items():
++        for (c, state), stats in table.items():
++            lines.append(f'[{model}."{c}".{state}]')
++            lines += [f"{k} = {v:.4g}" if isinstance(v, float) else f"{k} = {v}" for k, v in stats.items()]
++            lines.append("")
++    (run / "replay-summary.toml").write_text("\n".join(lines))
++    header = f"{'model':9s} {'class':10s} {'state':10s} {'n':>5s} {'rms/comp':>8s} {'median':>7s} {'biasE':>6s} {'biasN':>6s} {'skill':>6s} {'t nu':>5s} {'t scale':>7s} {'disp':>5s}"
++    print(header)
++    for model, table in results.items():
++        for (c, state), s in table.items():
++            print(f"{model:9s} {c:10s} {state:10s} {s['n']:5d} {s['rms_per_component_km']:8.1f} {s['median_error_km']:7.1f} "
++                  f"{s['bias_east_km']:6.1f} {s['bias_north_km']:6.1f} {s['skill_vs_no_motion']:6.2f} {s['student_t_nu']:5.2f} {s['student_t_scale_km']:7.1f} {s['dispersion_ratio']:5.2f}")
++    if args.png:
++        import matplotlib
++
++        matplotlib.use("Agg")
++        import matplotlib.pyplot as plt
++
++        fig, axes = plt.subplots(1, 2, figsize=(11, 4.2), sharey=True)
++        for ax, state in zip(axes, ("drogued", "undrogued")):
++            labels, rms, med = [], [], []
++            for model, table in results.items():
++                for (c, st), s in table.items():
++                    if st == state:
++                        labels.append(f"{model}\n{c}")
++                        rms.append(s["rms_per_component_km"])
++                        med.append(s["median_error_km"])
++            x = np.arange(len(labels))
++            ax.bar(x - 0.2, med, 0.4, label="median distance error", color="#4C78A8")
++            ax.bar(x + 0.2, rms, 0.4, label="RMS error per component", color="#F58518")
++            ax.set_xticks(x, labels, fontsize=7)
++            ax.set_title(f"{state} drifters")
++            ax.set_ylabel("km")
++            ax.grid(axis="y", alpha=0.3)
++        axes[0].legend(fontsize=8)
++        fig.suptitle(f"GDP drifter replay: {run.name}")
++        fig.tight_layout()
++        fig.savefig(args.png, dpi=130)
++
++
++if __name__ == "__main__":
++    main()

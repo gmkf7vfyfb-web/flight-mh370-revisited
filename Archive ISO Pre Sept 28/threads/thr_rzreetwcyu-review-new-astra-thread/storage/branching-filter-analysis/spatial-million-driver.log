@@ -1,0 +1,10 @@
+usage: render_spatial_comparisons.py [-h] [--state STATE] [--suffix SUFFIX]
+render_spatial_comparisons.py: error: argument --suffix: expected one argument
+Traceback (most recent call last):
+  File "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/run_spatial_comparisons.py", line 27, in <module>
+    subprocess.run([sys.executable,str(B/'render_spatial_comparisons.py'),'--state',str(P),'--suffix',s['report_suffix']],check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/usr/bin/python3', '/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/render_spatial_comparisons.py', '--state', '/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/spatial-million-status.json', '--suffix', '-million']' returned non-zero exit status 2.

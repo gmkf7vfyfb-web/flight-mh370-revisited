@@ -1,0 +1,23 @@
+Completed the source-only package entirely within the requested directory.
+
+Key outputs:
+
+- [Browser-viewable report and map](/jackbox/home/MH370/.sources/mh370-seabed-search-coverage/outputs/report.html)
+- [Evidence register](/jackbox/home/MH370/.sources/mh370-seabed-search-coverage/data/evidence-register.json)
+- [Readiness assessment](/jackbox/home/MH370/.sources/mh370-seabed-search-coverage/data/readiness.json)
+- [Source/hash lock](/jackbox/home/MH370/.sources/mh370-seabed-search-coverage/provenance/sources.lock.json)
+- [Citation ledger](/jackbox/home/MH370/.sources/mh370-seabed-search-coverage/provenance/citations.json)
+- [Reproduction instructions](/jackbox/home/MH370/.sources/mh370-seabed-search-coverage/README.md)
+
+The package preserves the detailed official Deep Tow WFS footprint while classifying Dong Hai Jiu as coarse and GO Phoenix as a catalog rectangle. [AusSeabed’s official WFS](https://warehouse.ausseabed.gov.au/geoserver/wfs?service=WFS&request=GetCapabilities&version=2.0.0) did not expose an equivalent Phase-2 AUV coverage vector.
+
+ATSB reports 860 km² for the Ocean Shield AUV effort, but no public machine-readable mission swaths were obtained, so none were digitized or fabricated. [ATSB source](https://www.atsb.gov.au/sites/default/files/media/5668327/ae2014054_mh370__search_areas_30jul2015.pdf). Exact OI swaths likewise remain blocked; only reported totals are retained from [Ocean Infinity](https://oceaninfinity.com/news/conclusion-of-current-search-for-malaysian-airlines-flight-mh370/) and [Malaysia’s 2026 update](https://www.mot.gov.my/en/Kenyataan%20Media/Year%202026/MH370%20Search%20Operation%202025-2026%20-%20Update%20to%20Families.pdf).
+
+Readiness is:
+
+- Negative-search likelihood: **not ready**—quality, holidays, exact OI/Bluefin swaths, and calibrated PoD remain unresolved.
+- ~7,500 km² planning: **area arithmetic only**—15,000 − 7,571 gives approximately 7,429 km², but no defensible remainder polygon can be produced.
+
+Live GA inputs, archived official-origin ATSB bytes, and the Malaysian PDF hashes verified. Repeated builds were byte-identical; embedded JavaScript parsed successfully. The package is 1.3 MiB, contains no `.tmp`, caches, intermediates, or symlinks, and the `/tmp` research workspace was removed.
+
+::inline-vis{file=".sources/mh370-seabed-search-coverage/outputs/report.html" height="720"}

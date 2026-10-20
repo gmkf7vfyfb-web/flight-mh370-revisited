@@ -1,0 +1,72 @@
+schema_version = 1
+name = "MH370 published final-radar locus and N571 through 00:11 UTC with medium BFO"
+seeds = [370023, 370024, 370025]
+
+[[families]]
+name = "final-radar-n571-through-0011-medium-bfo"
+use_bfo = true
+bfo_sd_override_hz = 4.0
+
+[inputs]
+observations = "../inputs/accident/satcom-final-radar-through-0011.csv"
+satellite_ephemeris = "../inputs/accident/satellite-through-0011.csv"
+ground_station_position_km = { x = -2368.8, y = 4881.1, z = -3342.0 }
+
+[convergence]
+maximum_seed_mean_separation_nm = 30.0
+maximum_log_evidence_range = 0.8
+minimum_mutation_acceptance = 0.02
+
+[model]
+use_bfo = false
+
+[model.tempering]
+particles = 10000
+seed = 0
+target_ess_fraction = 0.8
+mutation_steps = 8
+mutation_scale = 0.006
+maximum_mutation_scale = 0.08
+minimum_temperature_increment = 0.000001
+maximum_temperature_steps = 200
+
+[model.radar]
+time_s = 0.0
+latitude_deg = 6.578
+longitude_deg = 96.340
+position_sd_nm = 2.0
+control_mean_deg_true = 296.0
+control_sd_deg = 2.0
+mach_min = 0.73
+mach_max = 0.84
+altitude_min_ft = 25000.0
+altitude_max_ft = 43000.0
+
+[model.dynamics]
+turn_time_min_s = 600.0
+turn_time_max_s = 3600.0
+
+[model.satcom]
+bfo_bias_prior_mean_hz = 150.0
+bfo_bias_prior_sd_hz = 25.0
+
+[model.satcom.bto]
+speed_of_light_km_s = 299792.458
+nominal_delay_us = 499962.0
+channel_term_us = 4283.0
+
+[model.satcom.bfo]
+satellite_afc_hz = 0.0
+uplink_hz = 1646652500.0
+downlink_hz = 3615152500.0
+speed_of_light_km_s = 299792.458
+nominal_satellite_longitude_deg = 64.5
+nominal_satellite_altitude_km = 36210.12
+
+[model.end_of_flight]
+mode = "last_contact"
+minimum_along_track_nm = 0.0
+maximum_along_track_nm = 0.0
+cross_track_sd_nm = 0.0
+minimum_delay_seconds = 0.0
+maximum_delay_seconds = 0.0

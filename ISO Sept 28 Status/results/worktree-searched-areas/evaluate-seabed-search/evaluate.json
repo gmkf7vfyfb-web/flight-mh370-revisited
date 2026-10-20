@@ -1,0 +1,63 @@
+{
+  "code_revision": "7eb2d54-dirty",
+  "columns": [
+    "weight",
+    "arc-kernel:loglik",
+    "seabed-search:loglik",
+    "seabed-search:covered_fraction_phase2-2014-2017",
+    "seabed-search:covered_fraction_bluefin-2014",
+    "seabed-search:detectable_miss_probability",
+    "seabed-search:no_find_probability"
+  ],
+  "config_paths": [
+    "hypotheses/seabed-search/run.toml"
+  ],
+  "modules": [
+    {
+      "absolute_scale": false,
+      "alternatives": [],
+      "name": "arc-kernel",
+      "observations": [],
+      "parameters": {
+        "distance_nm": {
+          "mean": 0.0,
+          "sd": 50.0
+        },
+        "takeover_unix_s": 1394237977.443
+      },
+      "prediction_columns": []
+    },
+    {
+      "absolute_scale": true,
+      "alternatives": [],
+      "name": "seabed-search",
+      "observations": [
+        "search:phase2-2014-2017",
+        "search:bluefin-2014"
+      ],
+      "parameters": {
+        "campaigns": [
+          {
+            "detection_probability": 0.945,
+            "layer": "phase2",
+            "name": "phase2-2014-2017"
+          },
+          {
+            "detection_probability": 0.9,
+            "layer": "bluefin-2014",
+            "name": "bluefin-2014"
+          }
+        ],
+        "undetectable_probability": 0.05
+      },
+      "prediction_columns": [
+        "covered_fraction_phase2-2014-2017",
+        "covered_fraction_bluefin-2014",
+        "detectable_miss_probability",
+        "no_find_probability"
+      ]
+    }
+  ],
+  "rows": 22960,
+  "samples": "runs/fixture/bto-bfo/seed-1/impacts.npy"
+}

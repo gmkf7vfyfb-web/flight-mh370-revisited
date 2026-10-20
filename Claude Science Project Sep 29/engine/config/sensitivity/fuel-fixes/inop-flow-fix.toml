@@ -1,0 +1,7 @@
+# Core finding, 10 Oct 2026 (PROVISIONAL-OVERNIGHT): internal-v1's grid_inop (live-engine flow on one engine) is
+# 2.00x its own source tables, LRC INOP FF and holding INOP FF ("kg/h, one engine inoperative"), at every
+# tabulated state checked (ratio 1.99-2.01): the shared lookup's per-engine x2 for the twin tables ("kg/h per
+# engine") was applied to the INOP set too. This halves every one-engine phase in runs using tanks = 2.
+# 0.5 corrects it in the engine until the fuel session rebuilds the model. Layer after s6-tanks.toml.
+[fuel]
+inop_flow_scale = 0.5

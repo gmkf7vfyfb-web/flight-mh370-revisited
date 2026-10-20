@@ -1,0 +1,52 @@
+{
+  "generated_utc": "2026-09-09T09:34:23.226498+00:00",
+  "initial_candidates": 255000,
+  "altitude_quantiles_05_50_95_ft": [
+    31000.0,
+    37000.0,
+    42000.0
+  ],
+  "weighted_mean_altitude_ft": 37130.575954407985,
+  "positive_weight_altitude_range_ft": [
+    25000.0,
+    43000.0
+  ],
+  "probability_exactly_35000ft": 0.09352656183666574,
+  "mach_quantiles_05_50_95": [
+    0.74068792,
+    0.82534508,
+    0.8395035
+  ],
+  "altitude_change_probabilities": {
+    "0": 0.36555219297673514,
+    "1": 0.2623639090795722,
+    "2": 0.3720838979436926
+  },
+  "by_run": [
+    {
+      "seed": 37091631,
+      "altitude_quantiles_05_50_95_ft": [
+        32000.0,
+        38000.0,
+        42000.0
+      ]
+    },
+    {
+      "seed": 37091632,
+      "altitude_quantiles_05_50_95_ft": [
+        31000.0,
+        38000.0,
+        42000.0
+      ]
+    },
+    {
+      "seed": 37091633,
+      "altitude_quantiles_05_50_95_ft": [
+        31000.0,
+        37000.0,
+        42000.0
+      ]
+    }
+  ],
+  "interpretation": "35,000 ft is solely the plotted BTO reference arc. Quantiles describe the conditional finite-sample terminal distribution, not a measurement of flight altitude."
+}

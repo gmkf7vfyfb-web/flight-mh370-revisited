@@ -1,0 +1,43 @@
+# BFO 4 Hz against Davey's 7 Hz, on the six-tempered fuel model. Reduced scale: this answers a
+# direction-and-magnitude question ("how much would a full run move the peak and shape"), not a
+# quotable one, so it is 4 replicates of 3.5M rather than 8 of 7M - about a quarter of the cost.
+# Report direction-robust with the magnitude explicitly unconverged; the shoulder's half-to-half
+# spread was +/-19% even at 8 replicates in the earlier fuel runs, so do not quote 3 decimals.
+#
+# 4 Hz is the value implied by the data assuming no transient bias, and in earlier converged runs
+# it was the largest single lever on the shoulder outside the sampler (0.0368 -> 0.1182).
+name = "6temper-bfo4hz"
+seeds = [1, 2, 3, 4]
+particles_per_mode = [700000, 700000, 700000, 700000, 700000]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[inputs]
+fuel_tables = "../../data/fuel-tables.json"
+observations = "../../data/variants/satcom-observations-bfo4hz.csv"
+
+[prior]
+track_sd_deg = 1.0
+
+[dynamics]
+mach_range = [0.73, 0.84]
+altitude_range_ft = [25000.0, 43000.0]
+bfo_vertical_rate = true
+
+[fuel]
+initial_kg = 36609.0
+zfw_kg = 174196.0
+factor_mean = 1.0085
+factor_sd = 0.0178
+require_power_until = "m0011"
+proposal = "endurance"
+proposal_prior_mix = 0.15
+proposal_cells = 16
+exhaustion_target_utc = "2014-03-08T00:17:30Z"
+exhaustion_sd_s = 300.0
+
+[sampler]
+temper_epochs = ["m1839", "m1941", "m2041", "m2141", "m2241", "m0011"]
+temper_stages = 16

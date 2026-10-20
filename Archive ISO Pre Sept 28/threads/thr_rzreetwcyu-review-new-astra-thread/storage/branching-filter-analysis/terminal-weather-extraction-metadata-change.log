@@ -1,0 +1,110 @@
+✓ Initialized. View run at 
+https://modal.com/apps/<account>/main/ap-r3vY1Z9Y3yb8cVUUv9EVll
+✓ Created objects.
+├── 🔨 Created mount 
+│   /jackbox/home/MH370/.sources/ecmwf-era5-weather/code/extract_mh370.py
+├── 🔨 Created function extract.
+└── 🔨 Created function finalize.
+Traceback (most recent call last):
+  File "/pkg/modal/_runtime/container_io_manager.py", line 977, in handle_input_exception
+    yield
+  File "/pkg/modal/_container_entrypoint.py", line 187, in run_input_sync
+    values = io_context.call_function_sync()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/pkg/modal/_runtime/container_io_manager.py", line 265, in call_function_sync
+    expected_value_or_values = self.finalized_function.callable(*args, **kwargs)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/extract_mh370.py", line 481, in extract
+    metadata_identity, metadata_payload = source_identity(filesystem)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/extract_mh370.py", line 295, in source_identity
+    raise RuntimeError(
+RuntimeError: ARCO consolidated metadata generation changed: 1788750193349326 != 1788578126795769
+Traceback (most recent call last):
+  File "/pkg/modal/_runtime/container_io_manager.py", line 977, in handle_input_exception
+    yield
+  File "/pkg/modal/_container_entrypoint.py", line 187, in run_input_sync
+    values = io_context.call_function_sync()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/pkg/modal/_runtime/container_io_manager.py", line 265, in call_function_sync
+    expected_value_or_values = self.finalized_function.callable(*args, **kwargs)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/extract_mh370.py", line 481, in extract
+    metadata_identity, metadata_payload = source_identity(filesystem)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/extract_mh370.py", line 295, in source_identity
+    raise RuntimeError(
+RuntimeError: ARCO consolidated metadata generation changed: 1788750193349326 != 1788578126795769
+Traceback (most recent call last):
+Stopping app - uncaught exception raised locally: RuntimeError('ARCO consolidated metadata generation changed: 1788750193349326 != 1788578126795769').
+  File "/pkg/modal/_runtime/container_io_manager.py", line 977, in handle_input_exception
+    yield
+  File "/pkg/modal/_container_entrypoint.py", line 187, in run_input_sync
+    values = io_context.call_function_sync()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/pkg/modal/_runtime/container_io_manager.py", line 265, in call_function_sync
+    expected_value_or_values = self.finalized_function.callable(*args, **kwargs)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/extract_mh370.py", line 481, in extract
+    metadata_identity, metadata_payload = source_identity(filesystem)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/extract_mh370.py", line 295, in source_identity
+    raise RuntimeError(
+RuntimeError: ARCO consolidated metadata generation changed: 1788750193349326 != 1788578126795769
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /jackbox/home/MH370/.sources/ecmwf-era5-weather/code/extract_mh370.py:1020   │
+│ in main                                                                      │
+│                                                                              │
+│   1019 │   │   )                                                             │
+│ ❱ 1020 │   first = extract.remote("independent-a", terminal)                 │
+│   1021 │   second = extract.remote("independent-b", terminal)                │
+│                                                                              │
+│ /tmp/mh371-era5-tools/lib/python3.14/site-packages/modal/_object.py:46 in    │
+│ wrapped                                                                      │
+│                                                                              │
+│    45 │   │   await self.hydrate()                                           │
+│ ❱  46 │   │   return await method(self, *args, **kwargs)                     │
+│    47                                                                        │
+│                                                                              │
+│ /tmp/mh371-era5-tools/lib/python3.14/site-packages/modal/_functions.py:1841  │
+│ in remote                                                                    │
+│                                                                              │
+│   1840 │   │                                                                 │
+│ ❱ 1841 │   │   return await self._call_function(args, kwargs)                │
+│   1842                                                                       │
+│                                                                              │
+│ /tmp/mh371-era5-tools/lib/python3.14/site-packages/modal/_functions.py:1778  │
+│ in _call_function                                                            │
+│                                                                              │
+│   1777 │   │                                                                 │
+│ ❱ 1778 │   │   return await invocation.run_function()                        │
+│   1779                                                                       │
+│                                                                              │
+│ /tmp/mh371-era5-tools/lib/python3.14/site-packages/modal/_functions.py:502   │
+│ in run_function                                                              │
+│                                                                              │
+│    501 │   │   │   # No more retries left.                                   │
+│ ❱  502 │   │   │   return await _process_result(                             │
+│    503 │   │   │   │   await_response.output.result, await_response.output.d │
+│                                                                              │
+│ /tmp/mh371-era5-tools/lib/python3.14/site-packages/modal/_utils/function_uti │
+│ ls.py:572 in _process_result                                                 │
+│                                                                              │
+│   571 │   │   │                                                              │
+│ ❱ 572 │   │   │   raise exc_with_hints(exc)                                  │
+│   573                                                                        │
+│                                                                              │
+│     ...Remote call to Modal Function (ta-01M238XZ6FRWQ7P5Y3051DYG2R)...      │
+│                                                                              │
+│ /root/extract_mh370.py:481 in extract                                        │
+│                                                                              │
+│ ❱ 481 metadata_identity, metadata_payload = source_identity(filesystem)      │
+│                                                                              │
+│                                                                              │
+│ /root/extract_mh370.py:295 in source_identity                                │
+│                                                                              │
+│ ❱ 295 raise RuntimeError(                                                    │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+RuntimeError: ARCO consolidated metadata generation changed: 1788750193349326 !=
+1788578126795769

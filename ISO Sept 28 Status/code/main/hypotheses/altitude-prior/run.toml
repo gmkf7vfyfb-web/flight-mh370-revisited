@@ -1,0 +1,12 @@
+# Base estimate with the 18:01 altitude concentrated near FL350 (SD 2,000 ft).
+base = "../../config/davey2016.toml"
+name = "altitude-prior"
+seeds = [1, 2, 3, 4]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[hypotheses.altitude-prior]
+mean_ft = 35000.0
+sd_ft = 2000.0

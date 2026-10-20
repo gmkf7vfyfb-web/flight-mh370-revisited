@@ -1,0 +1,14 @@
+Dataset {
+    Float32 lon[lon = 192];
+    Float64 time[time = 365];
+    Float32 lat[lat = 94];
+    Grid {
+     ARRAY:
+        Float32 vwnd[time = 365][lat = 94][lon = 192];
+     MAPS:
+        Float64 time[time = 365];
+        Float32 lat[lat = 94];
+        Float32 lon[lon = 192];
+    } vwnd;
+    Float64 time_bnds[time = 365][nbnds = 2];
+} Datasets/ncep.reanalysis.dailyavgs/surface_gauss/vwnd.10m.gauss.2014.nc;

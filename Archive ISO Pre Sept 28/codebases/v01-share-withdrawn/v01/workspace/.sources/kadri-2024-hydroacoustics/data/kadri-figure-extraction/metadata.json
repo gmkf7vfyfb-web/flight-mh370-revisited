@@ -1,0 +1,285 @@
+{
+  "status": "EXTRACTED_PUBLICATION_FIGURES_AND_DIGITISED_PLOT_VECTORS",
+  "warning": "These are publication figures and plot vertices, not raw CTBTO waveforms. Processing, filtering, decimation, plotting and array-element selection cannot be reconstructed from the figures alone.",
+  "sources": {
+    "kadri-2024-hydroacoustic-mh370.pdf": {
+      "sha256": "b4f8f37ad1577a0f4726e6acdbfeea295b89197c88fac4ab5546d80bd9eb9db4",
+      "doi": "10.1038/s41598-024-60529-1"
+    },
+    "kadri-2025-ctbto-poster-hydroacoustic-mh370.pdf": {
+      "sha256": "97775dd669262dd97f052bdf30bff3a8b2da31b529d8b5248e8124d215a7d2af"
+    }
+  },
+  "axis_calibration": "Figure 9 x axes and station/start times were OCR-checked against the rendered source at 5x. The plotted x range is 0\u201310 min. Pressure ticks are plotted as 10^6 microPa, converted to Pa; panels a\u2013c span -1 to +1 Pa, d spans -2 to +2 Pa, and e spans -4 to +4 Pa.",
+  "figure_catalogue": [
+    {
+      "source": "kadri-2024-hydroacoustic-mh370.pdf",
+      "figure": 4,
+      "page": 4,
+      "description": "F-35A; Yemenia 626; Sriwijaya 182",
+      "file": "published-figures/kadri-2024-figure4.png",
+      "method": "lossless embedded-image extraction",
+      "xref": 81,
+      "width_px": 2008,
+      "height_px": 2176,
+      "sha256": "7b2d3d299fe2fb9912f495379f076bae4d6c5a9d602b7743111de060f092ffd1"
+    },
+    {
+      "source": "kadri-2024-hydroacoustic-mh370.pdf",
+      "figure": 5,
+      "page": 5,
+      "description": "Air France 447; Transair 810; Lion Air 904",
+      "file": "published-figures/kadri-2024-figure5.png",
+      "method": "lossless embedded-image extraction",
+      "xref": 98,
+      "width_px": 2008,
+      "height_px": 2153,
+      "sha256": "0c62b5e6e40fbcf37b396666de54e13d0f5379396864029398f5722936011550"
+    },
+    {
+      "source": "kadri-2024-hydroacoustic-mh370.pdf",
+      "figure": 6,
+      "page": 6,
+      "description": "AB Aviation 1103; AirAsia 8501; Asiana 991",
+      "file": "published-figures/kadri-2024-figure6.jpeg",
+      "method": "lossless embedded-image extraction",
+      "xref": 118,
+      "width_px": 2008,
+      "height_px": 1781,
+      "sha256": "594eb49b9d0e6463f69d06c85555ce6a01c52cc5f407b707bcfd999be1bc093d"
+    },
+    {
+      "source": "kadri-2024-hydroacoustic-mh370.pdf",
+      "figure": 8,
+      "page": 8,
+      "description": "ARA San Juan calibration grenade at H03S/H04S/H10N",
+      "file": "published-figures/kadri-2024-figure8.jpeg",
+      "method": "lossless embedded-image extraction",
+      "xref": 196,
+      "width_px": 1500,
+      "height_px": 1584,
+      "sha256": "a8230a43b96d03ec62e27a78fd0b0f6b49e22355938254df14b5868e50e87ed3"
+    },
+    {
+      "source": "kadri-2024-hydroacoustic-mh370.pdf",
+      "figure": 7,
+      "page": 7,
+      "description": "ARA San Juan explosion at H03S/H04S/H10N",
+      "file": "published-figures/kadri-2024-figure7.png",
+      "method": "PDF vector/raster composite render",
+      "clip_pdf_points": [
+        155.906,
+        50.5,
+        515.906,
+        424.927
+      ],
+      "scale_px_per_pdf_point": 5.0,
+      "width_px": 1801,
+      "height_px": 1873,
+      "sha256": "20125dea3cabeb3ce69200ec74603bdf64c2ca5d8d2b73de66e57d969aa4f5c2"
+    },
+    {
+      "source": "kadri-2024-hydroacoustic-mh370.pdf",
+      "figure": 9,
+      "page": 9,
+      "description": "MH370-window H01W/H08S panels",
+      "file": "published-figures/kadri-2024-figure9.png",
+      "method": "PDF vector/raster composite render",
+      "clip_pdf_points": [
+        71.505,
+        50.499,
+        554.173,
+        566.131
+      ],
+      "scale_px_per_pdf_point": 5.0,
+      "width_px": 2414,
+      "height_px": 2579,
+      "sha256": "b34226ac9f54de591201b2a6b20715e03392d9ccb14973e87524386a35823aba"
+    },
+    {
+      "source": "kadri-2025-ctbto-poster-hydroacoustic-mh370.pdf",
+      "figure": "poster-page-2",
+      "page": 2,
+      "description": "poster results/methods page",
+      "file": "published-figures/kadri-2025-poster-page2.png",
+      "method": "PDF vector/raster composite render",
+      "clip_pdf_points": [
+        0.0,
+        0.0,
+        960.0,
+        540.0
+      ],
+      "scale_px_per_pdf_point": 3.0,
+      "width_px": 2880,
+      "height_px": 1620,
+      "sha256": "35d5a36b19fe2d6bc64b36c4351c2811779f7162f7f0d3b6a7f535e3a9ee2151"
+    },
+    {
+      "source": "kadri-2025-ctbto-poster-hydroacoustic-mh370.pdf",
+      "figure": "poster-page-3",
+      "page": 3,
+      "description": "poster results/methods page",
+      "file": "published-figures/kadri-2025-poster-page3.png",
+      "method": "PDF vector/raster composite render",
+      "clip_pdf_points": [
+        0.0,
+        0.0,
+        960.0,
+        540.0
+      ],
+      "scale_px_per_pdf_point": 3.0,
+      "width_px": 2880,
+      "height_px": 1620,
+      "sha256": "506b2982f6a60031b4c4bc528c8d671858e97afc1230f62677c6f54e3ff3f735"
+    },
+    {
+      "source": "kadri-2025-ctbto-poster-hydroacoustic-mh370.pdf",
+      "figure": "poster-page-4",
+      "page": 4,
+      "description": "poster results/methods page",
+      "file": "published-figures/kadri-2025-poster-page4.png",
+      "method": "PDF vector/raster composite render",
+      "clip_pdf_points": [
+        0.0,
+        0.0,
+        960.0,
+        540.0
+      ],
+      "scale_px_per_pdf_point": 3.0,
+      "width_px": 2880,
+      "height_px": 1620,
+      "sha256": "0fc3ca02c7b63cf988dd715d28ae9e1657b066ffaadfaa2eff5522bec8aa43e5"
+    },
+    {
+      "source": "kadri-2025-ctbto-poster-hydroacoustic-mh370.pdf",
+      "figure": "poster-page-5",
+      "page": 5,
+      "description": "poster results/methods page",
+      "file": "published-figures/kadri-2025-poster-page5.png",
+      "method": "PDF vector/raster composite render",
+      "clip_pdf_points": [
+        0.0,
+        0.0,
+        960.0,
+        540.0
+      ],
+      "scale_px_per_pdf_point": 3.0,
+      "width_px": 2880,
+      "height_px": 1620,
+      "sha256": "1d6ca8330a4863791e3e2cf319fcbd47e5ddcba44751d4df73d1881db4743fe9"
+    }
+  ],
+  "figure9_vector_traces": [
+    {
+      "panel": "a",
+      "station": "H01W",
+      "start_utc": "2014-03-08T00:27:00Z",
+      "axes": [
+        361.212,
+        61.067,
+        544.836,
+        126.376
+      ],
+      "pressure_min_pa": -1.0,
+      "pressure_max_pa": 1.0,
+      "file": "figure9-vector-traces/kadri-2024-figure9-panel-a-H01W.csv",
+      "drawing_indices_zero_based": [
+        126
+      ],
+      "point_count": 8706,
+      "sha256": "7e23cd37aae91effbfc7e69e13b96e5a6c19b4128b45d65f60d13040bb0950cc",
+      "coordinate_quantisation_note": "PDF vector vertices exported directly; half the plotted 0.311 pt linewidth corresponds to the indicative coordinate uncertainties below",
+      "indicative_half_linewidth_time_s": 0.508103515880277,
+      "indicative_half_linewidth_pressure_pa": 0.00476197767535868
+    },
+    {
+      "panel": "b",
+      "station": "H01W",
+      "start_utc": "2014-03-08T00:37:00Z",
+      "axes": [
+        361.212,
+        165.567,
+        544.836,
+        230.876
+      ],
+      "pressure_min_pa": -1.0,
+      "pressure_max_pa": 1.0,
+      "file": "figure9-vector-traces/kadri-2024-figure9-panel-b-H01W.csv",
+      "drawing_indices_zero_based": [
+        69
+      ],
+      "point_count": 8721,
+      "sha256": "d28d7fd0f54627299db873b23f3a0fc27b40531e108ed026851d55ed966e76c8",
+      "coordinate_quantisation_note": "PDF vector vertices exported directly; half the plotted 0.311 pt linewidth corresponds to the indicative coordinate uncertainties below",
+      "indicative_half_linewidth_time_s": 0.508103515880277,
+      "indicative_half_linewidth_pressure_pa": 0.00476197767535868
+    },
+    {
+      "panel": "c",
+      "station": "H01W",
+      "start_utc": "2014-03-08T00:47:00Z",
+      "axes": [
+        361.212,
+        268.197,
+        544.836,
+        333.506
+      ],
+      "pressure_min_pa": -1.0,
+      "pressure_max_pa": 1.0,
+      "file": "figure9-vector-traces/kadri-2024-figure9-panel-c-H01W.csv",
+      "drawing_indices_zero_based": [
+        32,
+        33
+      ],
+      "point_count": 8716,
+      "sha256": "bab9e57665717858e239eb5a89a3a3acd52c2fc676c5c45a702c49ea6598e2c6",
+      "coordinate_quantisation_note": "PDF vector vertices exported directly; half the plotted 0.311 pt linewidth corresponds to the indicative coordinate uncertainties below",
+      "indicative_half_linewidth_time_s": 0.508103515880277,
+      "indicative_half_linewidth_pressure_pa": 0.004761977675358682
+    },
+    {
+      "panel": "d",
+      "station": "H08S",
+      "start_utc": "2014-03-08T01:00:00Z",
+      "axes": [
+        360.588,
+        372.067,
+        544.836,
+        437.376
+      ],
+      "pressure_min_pa": -2.0,
+      "pressure_max_pa": 2.0,
+      "file": "figure9-vector-traces/kadri-2024-figure9-panel-d-H08S.csv",
+      "drawing_indices_zero_based": [
+        160
+      ],
+      "point_count": 8935,
+      "sha256": "fe5615cd3c0f74c8b885ad6351cec9667a0817995a220fb7dc9ba9415aa8f1bc",
+      "coordinate_quantisation_note": "PDF vector vertices exported directly; half the plotted 0.311 pt linewidth corresponds to the indicative coordinate uncertainties below",
+      "indicative_half_linewidth_time_s": 0.5063827015761365,
+      "indicative_half_linewidth_pressure_pa": 0.009523955350717364
+    },
+    {
+      "panel": "e",
+      "station": "H08S",
+      "start_utc": "2014-03-08T01:10:00Z",
+      "axes": [
+        361.833,
+        479.047,
+        544.836,
+        544.356
+      ],
+      "pressure_min_pa": -4.0,
+      "pressure_max_pa": 4.0,
+      "file": "figure9-vector-traces/kadri-2024-figure9-panel-e-H08S.csv",
+      "drawing_indices_zero_based": [
+        197
+      ],
+      "point_count": 8973,
+      "sha256": "8fdf1287fcffac695e54f97930436adc5bb452be7e77ae24c757717b4c5ddd98",
+      "coordinate_quantisation_note": "PDF vector vertices exported directly; half the plotted 0.311 pt linewidth corresponds to the indicative coordinate uncertainties below",
+      "indicative_half_linewidth_time_s": 0.5098277077424961,
+      "indicative_half_linewidth_pressure_pa": 0.019047910701434728
+    }
+  ]
+}

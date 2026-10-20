@@ -1,0 +1,66 @@
+{
+  "schema_id": "mh370-release-capsule",
+  "schema_version": 1,
+  "release_id": "v0.1",
+  "capsule_directory_name": "v01",
+  "capsule_assembled_utc": "2026-09-06",
+  "release_status": "releaseable milestone; model-conditional and evidential boundaries apply",
+  "original_release_manifest": {
+    "path": "workspace/runs/mh370/release-v0.1/release-manifest.json",
+    "sha256": "b5d89ff95bd26594506674dd51a04b36e23a04946ac0b835f85b5ee1b16db9e1",
+    "indexed_artifacts": 70
+  },
+  "producer_binary": {
+    "path": "bin/linux-x86_64/mh370-v0.1",
+    "sha256": "de28b0adc6de796026e6075da614b5e11c78459d4beafbca42f6e30b10758b4b",
+    "program_version": "0.1.0",
+    "platform": "x86_64-unknown-linux-gnu",
+    "minimum_glibc_symbol_version": "2.35"
+  },
+  "producer_source_lock": {
+    "path": "workspace/runs/mh370/release-v0.1/impact/source-tree.lock.json",
+    "file_sha256": "b7d5c1b314b9f500bec44b9383587e5dc8faa2cb470672c3e98cbd70a2afc59c",
+    "source_tree_sha256": "d43975e6be06a07db8ceebdc48009613ce5701638d4d3511e316e74eca2d952d",
+    "locked_files": 80,
+    "matching_in_capsule_source": 64,
+    "changed_after_release": 16,
+    "missing": 0
+  },
+  "fresh_mh371_control": {
+    "classification": "truth-separated known-flight control",
+    "config": "workspace/configs/mh371-analog-medium.toml",
+    "run_directory": "workspace/runs/mh371/v0.1-medium-control",
+    "pdf": "views/mh371/mh371-v0.1-medium-bfo-control.pdf",
+    "pdf_sha256": "aaa5cb54830933691f5b3f009e94b9e5472c74ce53ba13dcdbaab58d2bee21bc",
+    "producer_sha256": "de28b0adc6de796026e6075da614b5e11c78459d4beafbca42f6e30b10758b4b",
+    "numerical_valid": true
+  },
+  "included": [
+    "complete current product source and configurations",
+    "all compact runtime inputs",
+    "vendored Rust dependencies",
+    "all supporting .sources research recreations and retained papers",
+    "complete five-seed 00:11 core outputs",
+    "complete corrected-R600 outputs",
+    "complete release-v0.1 bundle",
+    "MH371 retained controls plus a fresh portable v0.1 control",
+    "curated report and geometry views",
+    "environment and dependency records",
+    "standard-library integrity verifier"
+  ],
+  "excluded": [
+    "working virtual environment",
+    "Cargo build directory except the exact producer binary",
+    "Python bytecode caches",
+    "unrelated exploratory run directories",
+    "credentials and dotenv files"
+  ],
+  "interpretation": {
+    "structural_family_pooling": "prohibited",
+    "ocean_drift_weight": 0,
+    "hydroacoustic_weight": 0,
+    "pleiades_status": "display-only or unresolved conditional sensitivity",
+    "search_plan_status": "provisional and non-operational",
+    "mh371_status": "control only; not MH370 evidence"
+  }
+}

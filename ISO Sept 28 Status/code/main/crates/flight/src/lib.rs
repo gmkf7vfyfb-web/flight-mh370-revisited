@@ -1,0 +1,869 @@
+//! Aircraft cruise and manoeuvre dynamics of Davey et al. (2016), ch. 6-8.
+//!
+//! Cruise: Mach, control angle and wind error follow Ornstein-Uhlenbeck processes
+//! about their set points; true air speed follows local ERA5 temperature; ground
+//! velocity follows the selected autopilot mode. Manoeuvres: turns, Mach changes
+//! and altitude changes arrive independently with exponential gaps of common mean
+//! tau (Jeffreys prior on 0.1-10 h) and are executed at fixed rates.
+
+pub mod environment;
+
+use environment::{Environment, Weather, MPS_PER_KNOT};
+use geo::{advance, radii_of_curvature_km, wrap_pi, KM_PER_FT, KM_S_PER_KT};
+use rand::Rng;
+use rand_distr::{Distribution, Exp1, StandardNormal};
+use serde::{Deserialize, Serialize};
+use std::f64::consts::{LN_2, PI};
+
+/// Model parameters. `Default` is Davey et al. (2016) Table 8.2 and ch. 6-7.
+#[derive(Debug, Clone)]
+pub struct Parameters {
+    pub mach_reversion_per_s: f64,
+    pub mach_noise_per_s: f64,
+    pub angle_reversion_per_s: f64,
+    pub angle_noise_rad2_per_s: f64,
+    pub wind_reversion_per_s: f64,
+    pub wind_noise_kt2_per_s: f64,
+    pub tau_range_h: (f64, f64),
+    pub mach_range: (f64, f64),
+    pub altitude_range_ft: (f64, f64),
+    pub altitude_step_ft: f64,
+    pub bank_angle_deg: f64,
+    pub mach_rate_per_s: f64,
+    pub climb_rate_ft_per_s: f64,
+    /// Mean time before lateral navigation reverts to a heading-hold mode.
+    pub lnav_switch_mean_s: f64,
+    pub cruise_step_s: f64,
+    pub manoeuvre_step_s: f64,
+}
+
+impl Default for Parameters {
+    fn default() -> Self {
+        Self {
+            mach_reversion_per_s: 1.058e-2,
+            mach_noise_per_s: 2.05e-7,
+            angle_reversion_per_s: 9.792e-3,
+            angle_noise_rad2_per_s: 4.074e-8,
+            wind_reversion_per_s: 1.087e-3,
+            wind_noise_kt2_per_s: 0.070_21,
+            tau_range_h: (0.1, 10.0),
+            mach_range: (0.73, 0.84),
+            altitude_range_ft: (25_000.0, 43_000.0),
+            altitude_step_ft: 1_000.0,
+            bank_angle_deg: 15.0,
+            mach_rate_per_s: 0.1 / 60.0,
+            climb_rate_ft_per_s: 4_000.0 / 60.0,
+            lnav_switch_mean_s: 6.0 / LN_2 * 3600.0,
+            cruise_step_s: 10.0,
+            manoeuvre_step_s: 5.0,
+        }
+    }
+}
+
+impl Parameters {
+    fn stationary_sd(reversion: f64, noise: f64) -> f64 {
+        (noise / (2.0 * reversion)).sqrt()
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[repr(u8)]
+pub enum Mode {
+    TrueHeading = 0,
+    MagneticHeading = 1,
+    TrueTrack = 2,
+    MagneticTrack = 3,
+    LateralNavigation = 4,
+}
+
+impl Mode {
+    pub const ALL: [Mode; 5] = [Mode::TrueHeading, Mode::MagneticHeading, Mode::TrueTrack, Mode::MagneticTrack, Mode::LateralNavigation];
+    fn magnetic(self) -> bool {
+        matches!(self, Mode::MagneticHeading | Mode::MagneticTrack)
+    }
+    fn holds_heading(self) -> bool {
+        matches!(self, Mode::TrueHeading | Mode::MagneticHeading)
+    }
+}
+
+/// Initial-state distribution at the start time (ch. 4).
+#[derive(Debug, Clone)]
+pub struct Prior {
+    pub unix_s: f64,
+    pub lat: f64,
+    pub lon: f64,
+    pub position_sd_nm: f64,
+    pub track_deg: f64,
+    pub track_sd_deg: f64,
+    /// Initial Mach set point, uniform on this range unless `mach_gaussian` is set.
+    pub mach_range: (f64, f64),
+    /// Initial Mach set point ~ N(mean, sd), unbounded.
+    pub mach_gaussian: Option<(f64, f64)>,
+    /// Initial altitude: discrete levels (ft) with relative weights.
+    pub altitude_levels: Vec<(f64, f64)>,
+}
+
+impl Prior {
+    /// The base-estimate altitude prior: uniform on the manoeuvre levels.
+    pub fn uniform_altitude_levels(p: &Parameters) -> Vec<(f64, f64)> {
+        let levels = ((p.altitude_range_ft.1 - p.altitude_range_ft.0) / p.altitude_step_ft).round() as u32;
+        (0..=levels).map(|k| (p.altitude_range_ft.0 + p.altitude_step_ft * f64::from(k), 1.0)).collect()
+    }
+
+    fn sample_altitude<R: Rng>(&self, rng: &mut R) -> f64 {
+        let levels = &self.altitude_levels;
+        if levels.iter().all(|(_, w)| *w == levels[0].1) {
+            // u32, not usize: the integer width changes which random words are consumed.
+            return levels[rng.gen_range(0..=(levels.len() - 1) as u32) as usize].0;
+        }
+        let total: f64 = levels.iter().map(|(_, w)| w).sum();
+        let mut u = rng.gen::<f64>() * total;
+        for (level, weight) in levels {
+            if u < *weight {
+                return *level;
+            }
+            u -= weight;
+        }
+        levels[levels.len() - 1].0
+    }
+}
+
+/// A flight plan imposed by a route hypothesis (the estimate itself has none).
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct Guidance {
+    /// Waypoints (latitude, longitude in degrees) flown in order along great circles.
+    pub waypoints: Vec<(f64, f64)>,
+    /// What the aircraft does after the last waypoint.
+    pub after: AfterRoute,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+pub enum AfterRoute {
+    /// Resume the estimate's model: the particle's own autopilot mode, random manoeuvres.
+    Free,
+    /// Lateral navigation to a fixed point for the rest of the flight (no random turns).
+    Destination { lat: f64, lon: f64 },
+    /// Hold `mode` at this control angle for the rest of the flight (no random turns);
+    /// degrees, magnetic for magnetic modes.
+    Hold { mode: Mode, angle_deg: f64 },
+}
+
+/// Where a guided aircraft is in its plan.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub enum Phase {
+    Route(usize),
+    Destination(f64, f64),
+    Hold,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct GuidanceState {
+    pub plan: Guidance,
+    pub phase: Phase,
+    /// The autopilot mode the particle was drawn with, resumed by `AfterRoute::Free`.
+    pub free_mode: Mode,
+}
+
+/// A waypoint counts as reached within this distance (or once it is behind the aircraft).
+const CAPTURE_NM: f64 = 2.0;
+/// Course corrections below this are applied directly rather than flown as a banked turn.
+const DIRECT_CORRECTION_RAD: f64 = 1.0 * PI / 180.0;
+
+/// Air data behind the current ground velocity.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct AirData {
+    pub true_air_speed_kt: f64,
+    /// True air heading, radians from north (after declination in the magnetic modes).
+    pub heading_rad: f64,
+    /// Nominal wind (times the environment's wind scale) plus the wind-error state.
+    pub wind_north_kt: f64,
+    pub wind_east_kt: f64,
+    pub temperature_k: f64,
+}
+
+/// The full dynamic state. It serialises completely (guidance included), so a trajectory
+/// written at one epoch continues exactly when read back.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Aircraft {
+    pub unix_s: f64,
+    pub lat: f64,
+    pub lon: f64,
+    pub alt_ft: f64,
+    alt_target_ft: f64,
+    /// Mach set point (ramps towards its target during an acceleration).
+    pub mach: f64,
+    mach_target: f64,
+    mach_deviation: f64,
+    /// Control-angle set point, radians; its meaning depends on `mode`.
+    control: f64,
+    turn_remaining: f64,
+    control_deviation: f64,
+    wind_error_north_kt: f64,
+    wind_error_east_kt: f64,
+    pub mode: Mode,
+    lnav_switch_unix_s: f64,
+    lnav_switch_to: Mode,
+    pub tau_s: f64,
+    next_turn: f64,
+    next_acceleration: f64,
+    next_climb: f64,
+    pub turns: u16,
+    pub accelerations: u16,
+    pub climbs: u16,
+    /// Total angle turned by commanded turns since the start (radians, unsigned). Output-only.
+    pub turned_rad: f64,
+    /// Time each manoeuvre clock has run (turn, acceleration, climb), s: the exposure in Eq. 7.3.
+    exposure_s: [f64; 3],
+    /// Ground velocity at `unix_s`, knots.
+    pub v_north_kt: f64,
+    pub v_east_kt: f64,
+    /// Environment at the last lookup. In steady cruise it is refreshed every
+    /// `ENVIRONMENT_REFRESH_S`; the grids are hourly at 0.5 deg, so the change over
+    /// one minute (~15 km) is far below the wind-error process (5.7 kt SD).
+    weather: Weather,
+    declination_rad: f64,
+    environment_age_s: f64,
+    /// Present only for aircraft following a hypothesis's flight plan.
+    pub guidance: Option<Box<GuidanceState>>,
+}
+
+const ENVIRONMENT_REFRESH_S: f64 = 60.0;
+
+impl Aircraft {
+    /// Draw from the prior with the autopilot mode fixed (the runner stratifies by mode).
+    pub fn sample<R: Rng>(prior: &Prior, mode: Mode, p: &Parameters, env: &impl Environment, rng: &mut R) -> Self {
+        let normal = |rng: &mut R| -> f64 { StandardNormal.sample(rng) };
+        let (m, n) = radii_of_curvature_km(prior.lat);
+        let sd_km = prior.position_sd_nm * geo::KM_PER_NM;
+        let lat = prior.lat + (normal(rng) * sd_km / m).to_degrees();
+        let lon = prior.lon + (normal(rng) * sd_km / (n * prior.lat.to_radians().cos())).to_degrees();
+        let track = (prior.track_deg + prior.track_sd_deg * normal(rng)).to_radians();
+        let alt_ft = prior.sample_altitude(rng);
+        let mach = match prior.mach_gaussian {
+            None => rng.gen_range(prior.mach_range.0..prior.mach_range.1),
+            Some((mean, sd)) => mean + sd * normal(rng),
+        };
+        let (ln_lo, ln_hi) = (p.tau_range_h.0.ln(), p.tau_range_h.1.ln());
+        let tau_s = rng.gen_range(ln_lo..ln_hi).exp() * 3600.0;
+        let exp = |rng: &mut R| -> f64 { Exp1.sample(rng) };
+
+        let mut a = Self {
+            unix_s: prior.unix_s,
+            lat,
+            lon,
+            alt_ft,
+            alt_target_ft: alt_ft,
+            mach,
+            mach_target: mach,
+            mach_deviation: normal(rng) * Parameters::stationary_sd(p.mach_reversion_per_s, p.mach_noise_per_s),
+            control: 0.0,
+            turn_remaining: 0.0,
+            control_deviation: normal(rng) * Parameters::stationary_sd(p.angle_reversion_per_s, p.angle_noise_rad2_per_s),
+            wind_error_north_kt: normal(rng) * Parameters::stationary_sd(p.wind_reversion_per_s, p.wind_noise_kt2_per_s),
+            wind_error_east_kt: normal(rng) * Parameters::stationary_sd(p.wind_reversion_per_s, p.wind_noise_kt2_per_s),
+            mode,
+            lnav_switch_unix_s: prior.unix_s + exp(rng) * p.lnav_switch_mean_s,
+            lnav_switch_to: if rng.gen_bool(0.5) { Mode::TrueHeading } else { Mode::MagneticHeading },
+            tau_s,
+            next_turn: prior.unix_s + exp(rng) * tau_s,
+            next_acceleration: prior.unix_s + exp(rng) * tau_s,
+            next_climb: prior.unix_s + exp(rng) * tau_s,
+            turns: 0,
+            accelerations: 0,
+            climbs: 0,
+            exposure_s: [0.0; 3],
+            turned_rad: 0.0,
+            v_north_kt: 0.0,
+            v_east_kt: 0.0,
+            weather: Weather { temperature_k: 0.0, wind_east_kt: 0.0, wind_north_kt: 0.0 },
+            declination_rad: 0.0,
+            environment_age_s: 0.0,
+            guidance: None,
+        };
+        a.refresh_environment(env);
+        // The prior direction is a ground track; express it in the mode's control angle.
+        let w = a.weather;
+        let declination = a.declination_rad;
+        let reference = if a.mode.holds_heading() {
+            let (wn, we) = (w.wind_north_kt + a.wind_error_north_kt, w.wind_east_kt + a.wind_error_east_kt);
+            let air = a.air_speed_kt(w.speed_of_sound_kt());
+            let cross = -wn * track.sin() + we * track.cos();
+            track - (cross / air).clamp(-1.0, 1.0).asin()
+        } else {
+            track
+        };
+        a.control = wrap_pi(reference - if a.mode.magnetic() { declination } else { 0.0 } - a.control_deviation);
+        a.update_ground_velocity(env);
+        a
+    }
+
+    fn air_speed_kt(&self, speed_of_sound_kt: f64) -> f64 {
+        (self.mach + self.mach_deviation) * speed_of_sound_kt
+    }
+
+    fn refresh_environment(&mut self, env: &impl Environment) {
+        self.weather = env.weather(self.unix_s, self.alt_ft, self.lat, self.lon);
+        if self.mode.magnetic() || self.lnav_switch_to.magnetic() {
+            self.declination_rad = env.declination_deg(self.alt_ft, self.lat, self.lon).to_radians();
+        }
+        self.environment_age_s = 0.0;
+    }
+
+    /// Ground velocity (north, east kt), true air speed (kt) and wind (north, east kt)
+    /// from the cached environment.
+    fn kinematics(&self) -> (f64, f64, f64, f64, f64) {
+        let w = self.weather;
+        let air = self.air_speed_kt(w.speed_of_sound_kt());
+        let (wn, we) = (w.wind_north_kt + self.wind_error_north_kt, w.wind_east_kt + self.wind_error_east_kt);
+        let mut angle = self.control + self.control_deviation;
+        if self.mode.magnetic() {
+            angle += self.declination_rad;
+        }
+        let (s, c) = angle.sin_cos();
+        let (vn, ve) = if self.mode.holds_heading() {
+            (air * c + wn, air * s + we)
+        } else {
+            // Eq. 6.18: ground speed along a commanded track with a known wind.
+            let along = wn * c + we * s;
+            let cross = -wn * s + we * c;
+            let gs = along + (air * air - cross * cross).max(0.0).sqrt();
+            (gs * c, gs * s)
+        };
+        (vn, ve, air, wn, we)
+    }
+
+    /// Air data from the same values `kinematics` uses, so air velocity plus wind is the
+    /// ground velocity.
+    pub fn air_data(&self) -> AirData {
+        let (vn, ve, air, wn, we) = self.kinematics();
+        AirData {
+            true_air_speed_kt: air,
+            heading_rad: (ve - we).atan2(vn - wn),
+            wind_north_kt: wn,
+            wind_east_kt: we,
+            temperature_k: self.weather.temperature_k,
+        }
+    }
+
+    /// Vertical speed, ft/min: plus or minus the climb rate during a level change, else zero.
+    pub fn vertical_speed_fpm(&self, p: &Parameters) -> f64 {
+        if self.alt_ft == self.alt_target_ft {
+            0.0
+        } else {
+            (p.climb_rate_ft_per_s * 60.0).copysign(self.alt_target_ft - self.alt_ft)
+        }
+    }
+
+    fn update_ground_velocity(&mut self, env: &impl Environment) {
+        self.refresh_environment(env);
+        let (vn, ve, ..) = self.kinematics();
+        self.v_north_kt = vn;
+        self.v_east_kt = ve;
+    }
+
+    /// Advance the aircraft to `unix_s`, sampling manoeuvres and cruise noise.
+    pub fn propagate<R: Rng>(&mut self, unix_s: f64, p: &Parameters, env: &impl Environment, rng: &mut R) {
+        let normal = |rng: &mut R| -> f64 { StandardNormal.sample(rng) };
+        while self.unix_s < unix_s {
+            self.start_due_manoeuvres(p, env, rng);
+            if self.guidance.is_some() {
+                self.steer(env, rng);
+            }
+            let manoeuvring = self.turn_remaining != 0.0 || self.mach != self.mach_target || self.alt_ft != self.alt_target_ft;
+            let mut dt = if manoeuvring { p.manoeuvre_step_s } else { p.cruise_step_s };
+            dt = dt.min(unix_s - self.unix_s);
+            for event in [self.next_turn, self.next_acceleration, self.next_climb, self.lnav_switch_time()] {
+                if event > self.unix_s {
+                    dt = dt.min(event - self.unix_s);
+                }
+            }
+
+            // The random-turn clock does not run while a flight plan steers.
+            let turn_clock = self.turn_remaining == 0.0 && self.guidance.is_none();
+            for (exposure, running) in self.exposure_s.iter_mut().zip([
+                turn_clock,
+                self.mach == self.mach_target,
+                self.alt_ft == self.alt_target_ft,
+            ]) {
+                if running {
+                    *exposure += dt;
+                }
+            }
+            if manoeuvring || self.environment_age_s >= ENVIRONMENT_REFRESH_S {
+                self.refresh_environment(env);
+            }
+            // Turn increment for this step (fixed-bank rate, Eq. 7.4). Half is applied before the
+            // position update and half after, so the path is second-order accurate in dt.
+            let mut turn_step = 0.0;
+            if self.turn_remaining != 0.0 {
+                let air = self.air_speed_kt(self.weather.speed_of_sound_kt());
+                let rate = 9.806_65 * p.bank_angle_deg.to_radians().tan() / (air * MPS_PER_KNOT);
+                turn_step = self.turn_remaining.abs().min(rate * dt).copysign(self.turn_remaining);
+                self.control += 0.5 * turn_step;
+            }
+            let (vn, ve, ..) = self.kinematics();
+            let (lat, lon) = advance(self.lat, self.lon, self.alt_ft, vn, ve, dt);
+            if self.mode == Mode::LateralNavigation {
+                // Great-circle course drift: d(azimuth)/dt = v_east tan(lat) / R.
+                let (_, radius) = radii_of_curvature_km(self.lat);
+                self.control += ve * KM_S_PER_KT * self.lat.to_radians().tan() / (radius + self.alt_ft * KM_PER_FT) * dt;
+            }
+            self.lat = lat;
+            self.lon = lon;
+
+            if turn_step != 0.0 {
+                self.control += 0.5 * turn_step;
+                self.turn_remaining -= turn_step;
+                self.turned_rad += turn_step.abs();
+                if self.turn_remaining.abs() < 1e-12 {
+                    self.turn_remaining = 0.0;
+                    if self.guidance.is_none() {
+                        self.next_turn = self.unix_s + dt + self.exp_gap(rng);
+                    }
+                }
+            }
+            if self.mach != self.mach_target {
+                self.mach = step_towards(self.mach, self.mach_target, p.mach_rate_per_s * dt);
+                if self.mach == self.mach_target {
+                    self.next_acceleration = self.unix_s + dt + self.exp_gap(rng);
+                }
+            }
+            if self.alt_ft != self.alt_target_ft {
+                self.alt_ft = step_towards(self.alt_ft, self.alt_target_ft, p.climb_rate_ft_per_s * dt);
+                if self.alt_ft == self.alt_target_ft {
+                    self.next_climb = self.unix_s + dt + self.exp_gap(rng);
+                }
+            }
+
+            let ou = |x: f64, beta: f64, q: f64, rng: &mut R| {
+                let phi = (-beta * dt).exp();
+                x * phi + (q / (2.0 * beta) * (1.0 - phi * phi)).sqrt() * normal(rng)
+            };
+            self.mach_deviation = ou(self.mach_deviation, p.mach_reversion_per_s, p.mach_noise_per_s, rng);
+            self.control_deviation = ou(self.control_deviation, p.angle_reversion_per_s, p.angle_noise_rad2_per_s, rng);
+            self.wind_error_north_kt = ou(self.wind_error_north_kt, p.wind_reversion_per_s, p.wind_noise_kt2_per_s, rng);
+            self.wind_error_east_kt = ou(self.wind_error_east_kt, p.wind_reversion_per_s, p.wind_noise_kt2_per_s, rng);
+            self.unix_s += dt;
+            self.environment_age_s += dt;
+        }
+        self.control = wrap_pi(self.control);
+        self.update_ground_velocity(env);
+    }
+
+    /// Gibbs update of the static manoeuvre time constant given this path's history.
+    ///
+    /// With the Jeffreys prior (Eq. 7.6) and the path likelihood tau^-N exp(-E/tau)
+    /// (Eq. 7.3 over the three independent manoeuvre types), the rate lambda = 1/tau has
+    /// density proportional to lambda^(N-1) exp(-E lambda) on [1/tau_max, 1/tau_min].
+    /// Pending gaps are memoryless, so running clocks are redrawn from the new tau.
+    /// This keeps duplicated particles from sharing a handful of tau values after resampling.
+    pub fn refresh_manoeuvre_rate<R: Rng>(&mut self, p: &Parameters, rng: &mut R) {
+        const GRID: usize = 512;
+        let n = f64::from(self.turns + self.accelerations + self.climbs);
+        let e: f64 = self.exposure_s.iter().sum();
+        let (lo, hi) = ((1.0 / (p.tau_range_h.1 * 3600.0)).ln(), (1.0 / (p.tau_range_h.0 * 3600.0)).ln());
+        // Log density in u = ln(lambda): n u - e exp(u) (log-concave); inverse CDF on a fine grid.
+        let du = (hi - lo) / GRID as f64;
+        let log_density = |u: f64| n * u - e * u.exp();
+        let peak = (0..=GRID).map(|i| log_density(lo + i as f64 * du)).fold(f64::NEG_INFINITY, f64::max);
+        let mut cdf = [0.0; GRID + 1];
+        let mut previous = (log_density(lo) - peak).exp();
+        for i in 1..=GRID {
+            let current = (log_density(lo + i as f64 * du) - peak).exp();
+            cdf[i] = cdf[i - 1] + 0.5 * (previous + current);
+            previous = current;
+        }
+        let target = rng.gen::<f64>() * cdf[GRID];
+        let i = cdf.partition_point(|&c| c < target).clamp(1, GRID);
+        let fraction = (target - cdf[i - 1]) / (cdf[i] - cdf[i - 1]).max(f64::MIN_POSITIVE);
+        self.tau_s = (-(lo + (i as f64 - 1.0 + fraction) * du)).exp();
+
+        let now = self.unix_s;
+        for next in [&mut self.next_turn, &mut self.next_acceleration, &mut self.next_climb] {
+            if next.is_finite() {
+                let gap: f64 = Exp1.sample(rng);
+                *next = now + gap * self.tau_s;
+            }
+        }
+    }
+
+    /// Follow `plan` from now on: fly true track along its waypoints, then apply its
+    /// after-route policy. Random turns stop while the plan steers; speed and altitude
+    /// changes and all cruise noise continue as in the estimate.
+    pub fn set_guidance<R: Rng>(&mut self, plan: Guidance, env: &impl Environment, rng: &mut R) {
+        let free_mode = self.mode;
+        self.enter_mode(Mode::TrueTrack, env);
+        self.next_turn = f64::INFINITY;
+        self.guidance = Some(Box::new(GuidanceState { plan, phase: Phase::Route(0), free_mode }));
+        self.steer(env, rng);
+    }
+
+    /// Switch autopilot mode keeping the current air heading (heading modes) or ground
+    /// track (track modes).
+    fn enter_mode(&mut self, mode: Mode, env: &impl Environment) {
+        self.refresh_environment(env);
+        let (vn, ve, _, wn, we) = self.kinematics();
+        self.mode = mode;
+        self.refresh_environment(env);
+        let mut angle = if mode.holds_heading() { (ve - we).atan2(vn - wn) } else { ve.atan2(vn) };
+        if mode.magnetic() {
+            angle -= self.declination_rad;
+        }
+        self.control = angle - self.control_deviation;
+        self.turn_remaining = 0.0;
+    }
+
+    /// Point the control angle at the plan's current target; advance the plan when a
+    /// waypoint is reached.
+    fn steer<R: Rng>(&mut self, env: &impl Environment, rng: &mut R) {
+        loop {
+            let Some(g) = self.guidance.as_deref() else { return };
+            let target = match g.phase {
+                Phase::Route(i) if i < g.plan.waypoints.len() => g.plan.waypoints[i],
+                Phase::Route(_) => {
+                    let after = g.plan.after;
+                    self.finish_route(after, env, rng);
+                    continue;
+                }
+                Phase::Destination(lat, lon) => (lat, lon),
+                Phase::Hold => return,
+            };
+            let (bearing, distance_nm) = bearing_and_distance((self.lat, self.lon), target);
+            let error = wrap_pi(bearing - self.control - self.control_deviation);
+            if let Phase::Route(i) = g.phase {
+                if distance_nm < CAPTURE_NM || error.abs() > PI / 2.0 {
+                    self.guidance.as_mut().unwrap().phase = Phase::Route(i + 1);
+                    continue;
+                }
+            }
+            if error.abs() < DIRECT_CORRECTION_RAD {
+                self.control += error;
+                self.turn_remaining = 0.0;
+            } else {
+                self.turn_remaining = error;
+            }
+            return;
+        }
+    }
+
+    fn finish_route<R: Rng>(&mut self, after: AfterRoute, env: &impl Environment, rng: &mut R) {
+        match after {
+            AfterRoute::Free => {
+                let mode = self.guidance.take().unwrap().free_mode;
+                self.enter_mode(mode, env);
+                self.next_turn = self.unix_s + self.exp_gap(rng);
+            }
+            AfterRoute::Destination { lat, lon } => {
+                self.guidance.as_mut().unwrap().phase = Phase::Destination(lat, lon);
+            }
+            AfterRoute::Hold { mode, angle_deg } => {
+                self.enter_mode(mode, env);
+                self.turn_remaining = wrap_pi(angle_deg.to_radians() - self.control - self.control_deviation);
+                self.guidance.as_mut().unwrap().phase = Phase::Hold;
+            }
+        }
+    }
+
+    fn lnav_switch_time(&self) -> f64 {
+        if self.mode == Mode::LateralNavigation { self.lnav_switch_unix_s } else { f64::INFINITY }
+    }
+
+    fn exp_gap<R: Rng>(&self, rng: &mut R) -> f64 {
+        let e: f64 = Exp1.sample(rng);
+        e * self.tau_s
+    }
+
+    fn start_due_manoeuvres<R: Rng>(&mut self, p: &Parameters, env: &impl Environment, rng: &mut R) {
+        // A started manoeuvre suspends its clock until it completes; a draw equal to the
+        // current value (e.g. the same flight level) completes immediately.
+        let now = self.unix_s;
+        if self.next_turn <= now {
+            self.turn_remaining = rng.gen_range(-PI..PI);
+            self.turns += 1;
+            self.next_turn = if self.turn_remaining == 0.0 { now + self.exp_gap(rng) } else { f64::INFINITY };
+        }
+        if self.next_acceleration <= now {
+            self.mach_target = rng.gen_range(p.mach_range.0..p.mach_range.1);
+            self.accelerations += 1;
+            self.next_acceleration = if self.mach_target == self.mach { now + self.exp_gap(rng) } else { f64::INFINITY };
+        }
+        if self.next_climb <= now {
+            let levels = ((p.altitude_range_ft.1 - p.altitude_range_ft.0) / p.altitude_step_ft).round() as u32;
+            self.alt_target_ft = p.altitude_range_ft.0 + p.altitude_step_ft * f64::from(rng.gen_range(0..=levels));
+            self.climbs += 1;
+            self.next_climb = if self.alt_target_ft == self.alt_ft { now + self.exp_gap(rng) } else { f64::INFINITY };
+        }
+        if self.lnav_switch_time() <= now {
+            // Revert to heading hold, keeping the current air heading.
+            self.refresh_environment(env);
+            let (vn, ve, _, wn, we) = self.kinematics();
+            let mut heading = (ve - we).atan2(vn - wn);
+            if self.lnav_switch_to.magnetic() {
+                heading -= self.declination_rad;
+            }
+            self.mode = self.lnav_switch_to;
+            self.control = heading - self.control_deviation;
+        }
+    }
+}
+
+/// Initial great-circle bearing (radians from north) and distance (NM) from `a` to `b`, on a sphere.
+fn bearing_and_distance(a: (f64, f64), b: (f64, f64)) -> (f64, f64) {
+    let (la1, lo1, la2, lo2) = (a.0.to_radians(), a.1.to_radians(), b.0.to_radians(), b.1.to_radians());
+    let d_lon = lo2 - lo1;
+    let bearing = (d_lon.sin() * la2.cos()).atan2(la1.cos() * la2.sin() - la1.sin() * la2.cos() * d_lon.cos());
+    let h = ((la2 - la1) / 2.0).sin().powi(2) + la1.cos() * la2.cos() * (d_lon / 2.0).sin().powi(2);
+    (bearing, 2.0 * 3440.065 * h.sqrt().asin())
+}
+
+fn step_towards(value: f64, target: f64, max_step: f64) -> f64 {
+    if (target - value).abs() <= max_step { target } else { value + max_step.copysign(target - value) }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use environment::CalmAir;
+    use rand::SeedableRng;
+    use rand_chacha::ChaCha8Rng;
+
+    fn prior() -> Prior {
+        Prior {
+            unix_s: 0.0,
+            lat: 0.0,
+            lon: 90.0,
+            position_sd_nm: 0.0,
+            track_deg: 180.0,
+            track_sd_deg: 0.0,
+            mach_range: (0.73, 0.84),
+            mach_gaussian: None,
+            altitude_levels: Prior::uniform_altitude_levels(&Parameters::default()),
+        }
+    }
+
+    fn quiet() -> Parameters {
+        // No manoeuvres within the test horizon, negligible cruise noise.
+        Parameters {
+            tau_range_h: (1e9, 1.1e9),
+            mach_noise_per_s: 1e-30,
+            angle_noise_rad2_per_s: 1e-30,
+            wind_noise_kt2_per_s: 1e-30,
+            lnav_switch_mean_s: 1e12,
+            ..Parameters::default()
+        }
+    }
+
+    #[test]
+    fn unmanoeuvred_cruise_flies_south_at_true_air_speed_in_still_air() {
+        let mut rng = ChaCha8Rng::seed_from_u64(1);
+        for _ in 0..20 {
+            let mut a = Aircraft::sample(&prior(), Mode::ALL[rng.gen_range(0..5)], &quiet(), &CalmAir, &mut rng);
+            let tas = a.mach * (1.4f64 * 287.052_87 * 216.65).sqrt() / MPS_PER_KNOT;
+            a.propagate(3600.0, &quiet(), &CalmAir, &mut rng);
+            // Independent estimate: meridional arc on WGS-84 near the equator is ~59.7 NM per degree.
+            let south_nm = -a.lat * 59.7;
+            assert!((south_nm - tas).abs() / tas < 0.01, "{south_nm} vs {tas} in {:?}", a.mode);
+            assert!((a.lon - 90.0).abs() < 1e-6);
+        }
+    }
+
+    #[test]
+    fn manoeuvre_counts_follow_the_exponential_gap_model() {
+        // tau fixed at 1 h, no manoeuvre duration effects dominate: ~T/tau manoeuvres of each type.
+        let p = Parameters { tau_range_h: (1.0, 1.0 + 1e-9), ..Parameters::default() };
+        let mut rng = ChaCha8Rng::seed_from_u64(2);
+        let (mut turns, mut accels, n) = (0u32, 0u32, 400);
+        for _ in 0..n {
+            let mut a = Aircraft::sample(&prior(), Mode::TrueTrack, &p, &CalmAir, &mut rng);
+            a.propagate(6.0 * 3600.0, &p, &CalmAir, &mut rng);
+            turns += u32::from(a.turns);
+            accels += u32::from(a.accelerations);
+        }
+        // Expected just under 6 per 6 h (finite manoeuvre durations lengthen gaps slightly).
+        for mean in [turns as f64 / n as f64, accels as f64 / n as f64] {
+            assert!((5.0..6.3).contains(&mean), "{mean}");
+        }
+    }
+
+    #[test]
+    fn tau_refresh_matches_its_conditional_distribution() {
+        // No manoeuvres over E: lambda density ~ lambda^-1 exp(-E lambda); with N events,
+        // ~ lambda^(N-1) exp(-E lambda). Compare the sample mean of lambda with quadrature.
+        let p = Parameters::default();
+        let mut rng = ChaCha8Rng::seed_from_u64(4);
+        let mut a = Aircraft::sample(&prior(), Mode::TrueTrack, &p, &CalmAir, &mut rng);
+        for (events, exposure_h) in [(0u16, 6.0), (1, 18.0), (4, 18.0)] {
+            a.turns = events;
+            a.accelerations = 0;
+            a.climbs = 0;
+            a.exposure_s = [exposure_h * 3600.0, 0.0, 0.0];
+            let draws = 20_000;
+            let mean: f64 = (0..draws)
+                .map(|_| {
+                    a.refresh_manoeuvre_rate(&p, &mut rng);
+                    3600.0 / a.tau_s
+                })
+                .sum::<f64>()
+                / draws as f64;
+            // Independent midpoint quadrature in lambda (per hour) on [0.1, 10].
+            let (mut z, mut m) = (0.0, 0.0);
+            for k in 0..200_000 {
+                let l = 0.1 + (k as f64 + 0.5) * (9.9 / 200_000.0);
+                let d = l.powi(i32::from(events) - 1) * (-exposure_h * l).exp();
+                z += d;
+                m += d * l;
+            }
+            assert!((mean - m / z).abs() / (m / z) < 0.02, "{events}: {mean} vs {}", m / z);
+        }
+    }
+
+    #[test]
+    fn a_full_turn_returns_to_its_start() {
+        // Limiting case: a 360-degree turn (two 180-degree turns) at 15 deg bank closes its circle.
+        // Radius v^2 / (g tan 15deg) is ~7.5 km at 290 m/s; a first-order integrator misses by ~km.
+        let p = Parameters { manoeuvre_step_s: 5.0, ..quiet() };
+        let mut rng = ChaCha8Rng::seed_from_u64(5);
+        let mut b = Aircraft::sample(&prior(), Mode::TrueTrack, &p, &CalmAir, &mut rng);
+        b.turn_remaining = PI - 1e-9;
+        let tas = b.air_speed_kt(CalmAir.weather(0.0, 0.0, 0.0, 0.0).speed_of_sound_kt()) * MPS_PER_KNOT;
+        let period = std::f64::consts::TAU * tas / (9.806_65 * 15f64.to_radians().tan());
+        b.propagate(period / 2.0, &p, &CalmAir, &mut rng);
+        b.turn_remaining = PI - 1e-9;
+        b.propagate(period, &p, &CalmAir, &mut rng);
+        let miss_km = ((b.lat - 0.0).powi(2) + (b.lon - 90.0).powi(2)).sqrt() * 111.3;
+        assert!(miss_km < 0.3, "circle misses its start by {miss_km} km");
+    }
+
+    const MEKAR: (f64, f64) = (6.503888888888889, 96.49111111111111);
+    const NILAM: (f64, f64) = (6.756388888888889, 95.97638888888889);
+    const IGOGU: (f64, f64) = (7.516944444444444, 94.41666666666667);
+
+    /// Frequent random manoeuvres (tau ~ 0.1 h) and no cruise noise, to show guidance suppresses turns.
+    fn busy() -> Parameters {
+        Parameters { tau_range_h: (0.1, 0.1 + 1e-9), lnav_switch_mean_s: 1e12, ..quiet() }
+    }
+
+    fn start_on_n571() -> Prior {
+        // 10 NM past MEKAR toward NILAM (flat-earth offset is ample over 10 NM).
+        let (b, d) = bearing_and_distance(MEKAR, NILAM);
+        let f = 10.0 / d;
+        Prior {
+            lat: MEKAR.0 + f * (NILAM.0 - MEKAR.0),
+            lon: MEKAR.1 + f * (NILAM.1 - MEKAR.1),
+            track_deg: b.to_degrees(),
+            ..prior()
+        }
+    }
+
+    #[test]
+    fn a_route_is_flown_through_its_waypoints_then_held() {
+        let p = busy();
+        let mut rng = ChaCha8Rng::seed_from_u64(6);
+        let mut a = Aircraft::sample(&start_on_n571(), Mode::MagneticHeading, &p, &CalmAir, &mut rng);
+        let plan = Guidance { waypoints: vec![NILAM, IGOGU], after: AfterRoute::Hold { mode: Mode::TrueTrack, angle_deg: 180.0 } };
+        a.set_guidance(plan, &CalmAir, &mut rng);
+        let (mut near_nilam, mut near_igogu) = (f64::MAX, f64::MAX);
+        for k in 1..=240 {
+            a.propagate(k as f64 * 15.0, &p, &CalmAir, &mut rng);
+            near_nilam = near_nilam.min(bearing_and_distance((a.lat, a.lon), NILAM).1);
+            near_igogu = near_igogu.min(bearing_and_distance((a.lat, a.lon), IGOGU).1);
+        }
+        assert!(near_nilam < CAPTURE_NM + 0.5, "closest to NILAM {near_nilam} NM");
+        assert!(near_igogu < CAPTURE_NM + 0.5, "closest to IGOGU {near_igogu} NM");
+        let track = a.v_east_kt.atan2(a.v_north_kt).to_degrees().rem_euclid(360.0);
+        assert!((track - 180.0).abs() < 0.5, "held track {track}");
+        assert_eq!(a.turns, 0, "random turns must not start while a plan steers");
+        assert!(a.accelerations > 0, "speed changes continue under guidance");
+    }
+
+    #[test]
+    fn lateral_navigation_to_a_destination_closes_at_ground_speed() {
+        let p = busy();
+        let mut rng = ChaCha8Rng::seed_from_u64(7);
+        let mut a = Aircraft::sample(&prior(), Mode::TrueTrack, &p, &CalmAir, &mut rng);
+        let dest = (-45.0, 104.0);
+        a.set_guidance(Guidance { waypoints: vec![], after: AfterRoute::Destination { lat: dest.0, lon: dest.1 } }, &CalmAir, &mut rng);
+        let (_, d0) = bearing_and_distance((a.lat, a.lon), dest);
+        let mut flown = 0.0;
+        for k in 1..=120 {
+            a.propagate(k as f64 * 60.0, &p, &CalmAir, &mut rng);
+            flown += a.v_north_kt.hypot(a.v_east_kt) / 60.0;
+        }
+        let (bearing, d1) = bearing_and_distance((a.lat, a.lon), dest);
+        // Two hours on the great circle: the distance falls by what was flown (1% for speed-change sampling).
+        assert!(((d0 - d1) - flown).abs() / flown < 0.01, "closed {} NM of {flown} NM", d0 - d1);
+        let track = a.v_east_kt.atan2(a.v_north_kt);
+        assert!(wrap_pi(track - bearing).abs() < 1f64.to_radians());
+        assert_eq!(a.turns, 0);
+    }
+
+    #[test]
+    fn a_free_policy_hands_back_to_the_particles_own_mode_and_random_turns() {
+        let p = busy();
+        let mut rng = ChaCha8Rng::seed_from_u64(8);
+        let mut a = Aircraft::sample(&start_on_n571(), Mode::MagneticTrack, &p, &CalmAir, &mut rng);
+        a.set_guidance(Guidance { waypoints: vec![NILAM], after: AfterRoute::Free }, &CalmAir, &mut rng);
+        a.propagate(3.0 * 3600.0, &p, &CalmAir, &mut rng);
+        assert!(a.guidance.is_none());
+        assert_eq!(a.mode, Mode::MagneticTrack);
+        assert!(a.turns > 0, "random turns resume after the route");
+    }
+
+    #[test]
+    fn air_data_and_wind_reproduce_the_ground_velocity() {
+        // Still air, so the wind is the wind-error state alone: nonzero, and carried through.
+        let p = Parameters::default();
+        let mut rng = ChaCha8Rng::seed_from_u64(9);
+        for mode in Mode::ALL {
+            let mut a = Aircraft::sample(&prior(), mode, &p, &CalmAir, &mut rng);
+            a.propagate(1800.0, &p, &CalmAir, &mut rng);
+            let d = a.air_data();
+            let (s, c) = d.heading_rad.sin_cos();
+            assert!((d.true_air_speed_kt * c + d.wind_north_kt - a.v_north_kt).abs() < 1e-9, "{mode:?}");
+            assert!((d.true_air_speed_kt * s + d.wind_east_kt - a.v_east_kt).abs() < 1e-9, "{mode:?}");
+            assert!(d.wind_north_kt != 0.0 && d.wind_east_kt != 0.0);
+        }
+    }
+
+    #[test]
+    fn a_serialised_aircraft_continues_bit_identically() {
+        // Written mid-flight and read back, the state must continue exactly as the original on
+        // the same random stream. Three states: free and mid-manoeuvre (an infinite clock), and
+        // guided (always an infinite turn clock) on its route and then to its destination.
+        let p = busy();
+        let mut rng = ChaCha8Rng::seed_from_u64(10);
+        let mut free = Aircraft::sample(&prior(), Mode::MagneticTrack, &p, &CalmAir, &mut rng);
+        let mut t = 0.0;
+        while [free.next_turn, free.next_acceleration, free.next_climb].iter().all(|c| c.is_finite()) {
+            t += 30.0;
+            assert!(t < 7200.0, "no manoeuvre started in two hours");
+            free.propagate(t, &p, &CalmAir, &mut rng);
+        }
+        let mut guided = Aircraft::sample(&start_on_n571(), Mode::TrueHeading, &p, &CalmAir, &mut rng);
+        let after = AfterRoute::Destination { lat: -30.0, lon: 95.0 };
+        guided.set_guidance(Guidance { waypoints: vec![NILAM, IGOGU], after }, &CalmAir, &mut rng);
+        let mut on_route = guided.clone();
+        on_route.propagate(300.0, &p, &CalmAir, &mut rng);
+        guided.propagate(1500.0, &p, &CalmAir, &mut rng);
+        assert!(matches!(on_route.guidance.as_ref().unwrap().phase, Phase::Route(_)));
+        assert!(matches!(guided.guidance.as_ref().unwrap().phase, Phase::Destination(..)));
+        for (mut a, stop) in [(free, t), (on_route, 300.0), (guided, 1500.0)] {
+            let written = toml::to_string(&a).unwrap();
+            assert!(written.contains("= inf"), "no infinite clock at {stop} s");
+            let mut read: Aircraft = toml::from_str(&written).unwrap();
+            assert_eq!(toml::to_string(&read).unwrap(), written);
+            let (mut r1, mut r2) = (ChaCha8Rng::seed_from_u64(11), ChaCha8Rng::seed_from_u64(11));
+            a.propagate(stop + 3600.0, &p, &CalmAir, &mut r1);
+            read.propagate(stop + 3600.0, &p, &CalmAir, &mut r2);
+            assert_eq!(toml::to_string(&read).unwrap(), toml::to_string(&a).unwrap(), "after {stop} s");
+        }
+    }
+
+    #[test]
+    fn ou_stationary_sd_matches_published_values() {
+        let p = Parameters::default();
+        assert!((Parameters::stationary_sd(p.mach_reversion_per_s, p.mach_noise_per_s) - 3.113e-3).abs() < 1e-5);
+        assert!((Parameters::stationary_sd(p.angle_reversion_per_s, p.angle_noise_rad2_per_s).to_degrees() - 0.0826).abs() < 1e-3);
+        assert!((Parameters::stationary_sd(p.wind_reversion_per_s, p.wind_noise_kt2_per_s) - 5.684).abs() < 1e-2);
+    }
+}

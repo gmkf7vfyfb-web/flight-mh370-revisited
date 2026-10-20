@@ -1,0 +1,80 @@
+{
+  "status": "source-artifact review; no flight or impact posterior update",
+  "retrieved_utc": "2026-09-07T22:42:53.143154+00:00",
+  "artifacts": {
+    "drift-relative-curves.csv": {
+      "source_path": "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/sensitivity-curves.csv",
+      "sha256": "62aa8fd1f7028622d58abab1677a7ee934c526567e99250468db52674f732630"
+    },
+    "drift-stability.json": {
+      "source_path": "/jackbox/home/MH370/inputs/evidence/ocean-drift-cmems-full-domain.json",
+      "sha256": "8554e9717008a06919f5471791f549f0fc6addc34eb0fbb54dcf0b0d265aebbf"
+    },
+    "pleiades-manifest.json": {
+      "source_path": "/jackbox/home/MH370/inputs/evidence/pleiades-conditional-source-surface/manifest.json",
+      "sha256": "b16fa3830f607c19e254a9a2b8cc52b05ab79b82028d1ffb31dab10eebee34ba"
+    },
+    "pleiades-grid.csv": {
+      "source_path": "/jackbox/home/MH370/inputs/evidence/pleiades-conditional-source-surface/grid.csv",
+      "sha256": "8473b9179798b9edc1bf5825e9ec94b9c51565e760c527bb07b4e58770ac40e8"
+    },
+    "pleiades-surfaces.csv": {
+      "source_path": "/jackbox/home/MH370/inputs/evidence/pleiades-conditional-source-surface/surfaces.csv",
+      "sha256": "a68773b196de790b6700346959ae72e9bcdae532686e86c23913443af8d6a748"
+    },
+    "search-readiness.json": {
+      "source_path": "/jackbox/home/MH370/.sources/mh370-seabed-search-coverage/data/readiness.json",
+      "sha256": "780f17ed3d170993b66128691e2eef3087e02d17d7f5ff4a3b6aa1e45e70dc9a"
+    }
+  },
+  "reproduce_snapshot": "Copy the listed immutable source inputs to the named artifact files; verify SHA256; run the canonical browser-report command. No source implementation is imported into the estimator.",
+  "conditions": {
+    "drift": "Five distinct source-prior-removed curves from the earlier sensitivity audit; counts, identity and transport assumptions differ; no family pooling. Full-domain family failed numerical checks.",
+    "pleiades": "Exactly one unknown associated object uniformly weighted across twelve rating5 locations. BRAN2016,OSCAR,GLORYS12/WAVERYS are alternative proxies for the same image evidence. Outside the declared strip is unsupported, not zero.",
+    "search": "No valid broad impact probabilities or complete calibrated detection/coverage model. No optimal7500km2 selection follows from witness frequency."
+  },
+  "current_contract_status_addendum": {
+    "source": "/jackbox/home/MH370/.sources/mh370-seabed-search-coverage/data/current-contract-status.json",
+    "sha256": "7c22f1c71f11c82f4878bb6f541eefa95a8c03ad88899e9e0b36973703d8eb58",
+    "reported_source_html_sha256": "e6a19a0d53b4bf430a25a496954985fe9005a18f4adfd96f5e8a9e625236f33f",
+    "retrieved_on": "2026-09-07"
+  },
+  "search_and_trace_context_inputs": [
+    {
+      "source": "/jackbox/home/MH370/.sources/mh370-seabed-search-coverage/data/map/search-evidence-atlas.geojson",
+      "snapshot": "search-evidence-atlas.geojson",
+      "sha256": "6c582ee17ca21dae1a4f06778d8f4314c111c429b2d8cc75e008381c508a0e5e"
+    },
+    {
+      "source": "/jackbox/home/MH370/.sources/kadri-2024-hydroacoustics/data/kadri-figure-extraction/metadata.json",
+      "snapshot": "metadata.json",
+      "sha256": "c80de542924df6cda30a2c7252a34a5cb3c15d4183f16ae95622d1665aeb6580"
+    },
+    {
+      "source": "/jackbox/home/MH370/.sources/kadri-2024-hydroacoustics/data/kadri-figure-extraction/figure9-vector-traces/kadri-2024-figure9-panel-a-H01W.csv",
+      "snapshot": "kadri-2024-figure9-panel-a-H01W.csv",
+      "sha256": "7e23cd37aae91effbfc7e69e13b96e5a6c19b4128b45d65f60d13040bb0950cc"
+    },
+    {
+      "source": "/jackbox/home/MH370/.sources/kadri-2024-hydroacoustics/data/kadri-figure-extraction/figure9-vector-traces/kadri-2024-figure9-panel-b-H01W.csv",
+      "snapshot": "kadri-2024-figure9-panel-b-H01W.csv",
+      "sha256": "d28d7fd0f54627299db873b23f3a0fc27b40531e108ed026851d55ed966e76c8"
+    },
+    {
+      "source": "/jackbox/home/MH370/.sources/kadri-2024-hydroacoustics/data/kadri-figure-extraction/figure9-vector-traces/kadri-2024-figure9-panel-c-H01W.csv",
+      "snapshot": "kadri-2024-figure9-panel-c-H01W.csv",
+      "sha256": "bab9e57665717858e239eb5a89a3a3acd52c2fc676c5c45a702c49ea6598e2c6"
+    },
+    {
+      "source": "/jackbox/home/MH370/.sources/kadri-2024-hydroacoustics/data/kadri-figure-extraction/figure9-vector-traces/kadri-2024-figure9-panel-d-H08S.csv",
+      "snapshot": "kadri-2024-figure9-panel-d-H08S.csv",
+      "sha256": "fe5615cd3c0f74c8b885ad6351cec9667a0817995a220fb7dc9ba9415aa8f1bc"
+    },
+    {
+      "source": "/jackbox/home/MH370/.sources/kadri-2024-hydroacoustics/data/kadri-figure-extraction/figure9-vector-traces/kadri-2024-figure9-panel-e-H08S.csv",
+      "snapshot": "kadri-2024-figure9-panel-e-H08S.csv",
+      "sha256": "8fdf1287fcffac695e54f97930436adc5bb452be7e77ae24c757717b4c5ddd98"
+    }
+  ],
+  "search_and_trace_context_condition": "Display context only. Search footprint geometry is not a missed-detection likelihood. Publication figure vertices are already filtered/decimated display traces, not raw multichannel receiver data."
+}

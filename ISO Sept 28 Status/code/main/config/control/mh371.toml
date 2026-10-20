@@ -1,0 +1,33 @@
+# Known-flight control: 9M-MRO's previous flight, MH371 Beijing to Kuala Lumpur, 7 March 2014.
+# Layered on the base: `mh370 config/davey2016.toml config/control/mh371.toml runs/mh371`
+# (`make control`), so the dynamics, measurement model and sampler are the base's unchanged.
+# Only the flight's inputs and prior differ. Scored by report/mh371_score.py, the only code
+# that reads the truth track; this file and the scorer were committed before the first run.
+#
+# Window: Davey et al. (2016) Fig. 9.7, 01:59 to 06:54 UTC. Five R1200 BTOs chosen by rule
+# (.sources/mh371/build.py); BTO only, because the satellite + EAFC terms the BFO needs are
+# tabulated only for MH370's bursts. Weather: ERA5, 01:00-08:00 UTC, 20S-60N 60-150E (regional,
+# .sources/era5-weather/extend.py; queries outside the box clamp to its edge). Declared pre-run
+# change: the first version used NCEP FNL; replaced by ERA5, the base's source, before the run.
+
+name = "mh371-control"
+seeds = [1, 2, 3, 4]
+
+[[cases]]
+id = "bto-only"
+use_bfo = false
+
+[inputs]
+observations = "../../data/mh371/satcom-observations.csv"
+ephemeris = "../../data/mh371/satellite-ephemeris.csv"
+era5 = "../../data/mh371/era5-wind-temperature.bin"
+
+# The last ACARS report at or before the window start (declared read, build.py): position,
+# and true heading standing in for the track, with 5 deg for the unknown wind crab.
+[prior]
+time_utc = "2014-03-07T01:58:59Z"
+latitude_deg = 39.034000
+longitude_deg = 114.594000
+position_sd_nm = 0.5
+track_deg = 182.90
+track_sd_deg = 5.0

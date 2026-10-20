@@ -1,0 +1,12 @@
+all-data theta: {'spiral_doubling_s': 107.90759, 'trim_cl_offset': -0.15328, 'windmilling_per_engine': 0.00034, 'rat_increment': 0.00041, 'residual_bank_deg': 18.58697, 'residual_bank_left_probability': 0.58598, 'spiral_divergent_weight': 0.50007}
+Case 01: FAIL  p(dive class) 0.44  p(direction) 0.46  out-of-sample loglik -140.2  failed: phugoid_period_s, phugoid_damping, bank20_deg, peak_descent_fpm
+Case 02: FAIL  p(dive class) 0.44  p(direction) 0.44  out-of-sample loglik -47.9  failed: phugoid_period_s, phugoid_damping, bank20_deg, peak_descent_fpm
+Case 03: FAIL  p(dive class) 0.42  p(direction) 0.46  out-of-sample loglik -68.6  failed: peak_descent_fpm, chord15_nm, d_end_nm, t_end_s
+Case 04: FAIL  p(dive class) 0.44  p(direction) 0.24  out-of-sample loglik -110.5  failed: bank20_deg, t15_s, peak_descent_fpm, chord15_nm, d_end_nm, t_end_s
+Case 05: FAIL  p(dive class) 0.44  p(direction) 0.44  out-of-sample loglik -390.0  failed: phugoid_period_s, phugoid_damping, bank20_deg, t15_s, peak_descent_fpm, chord15_nm, d_end_nm, t_end_s
+Case 06: FAIL  p(dive class) 0.38  p(direction) 0.30  out-of-sample loglik -201.7  failed: t15_s, peak_descent_fpm, chord15_nm, d_end_nm, t_end_s
+Case 07: FAIL  p(dive class) 0.44  p(direction) 0.45  out-of-sample loglik -125.6  failed: phugoid_period_s, phugoid_damping, bank20_deg, peak_descent_fpm
+Case 08: FAIL  p(dive class) 0.44  p(direction) 0.57  out-of-sample loglik -52.8  failed: phugoid_period_s, phugoid_damping, bank20_deg, d_end_nm, t_end_s
+Case 09: FAIL  p(dive class) 0.44  p(direction) 0.45  out-of-sample loglik -42.9  failed: phugoid_period_s, phugoid_damping, bank20_deg, t_end_s
+Case 10: FAIL  p(dive class) 0.44  p(direction) 0.29  out-of-sample loglik -101.7  failed: bank20_deg, t15_s, peak_descent_fpm, chord15_nm, d_end_nm
+gate: FAILED

@@ -1,0 +1,961 @@
+
+
+===== PAGE 1 =====
+ 
+ 
+ 
+ 
+ 
+Analysis of Low Frequency Underwater Acoustic Signals 
+Possibly Related to the Loss of Malaysian Airlines Flight 
+MH370 
+Prepared for: 
+Australian Transport Safety Bureau 
+Prepared by:   
+Dr Alec J Duncan, Dr Alexander Gavrilov, Dr Rob McCauley  
+ 
+PROJECT CMST 1308 
+REPORT 2014-30 
+ 
+June 23rd 2014 
+Centre for Marine Science and Technology 
+
+===== PAGE 2 =====
+ 2 
+ 
+Executive Summary 
+Malaysian Airlines flight MH370 disappeared in the early hours of 8th March 2014 and its 
+whereabouts remain unknown.  Current search efforts are based on position information 
+derived from a satellite communication system and are focussed on the Indian Ocean, 
+within Australia's search and rescue zone.  The Australian Transport Safety Bureau 
+(ATSB) has asked the Centre for Marine Science and Technology (CMST) to analyse 
+signals received on underwater sound recorders operated by CMST that form part of the 
+Australian Government funded Integrated Marine Observing System (IMOS), and on 
+hydroacoustic stations operated by the Comprehensive Nuclear Test Ban Treaty 
+Organisation (CTBTO) in an attempt to detect and localise underwater sounds that could 
+be associated with the impact of the aircraft on the water or with the implosion of 
+wreckage as the aircraft sank.   
+One acoustic event of particular interest has been identified that occurred at a time that 
+could potentially link it to MH370 and appears to have been received  on one of the IMOS 
+recorders near the Perth Canyon (RCS) and at the CTBTO hydroacoustic station at Cape 
+Leeuwin (HA01).   
+A detailed analysis of these signals has resulted in an approximate localisation for the 
+source that is compatible with the time of the last satellite handshake with the aircraft, but 
+incompatible with the satellite to aircraft range derived from this handshake.  There 
+appear to be three possible explanations for this discrepancy:  
+1.  The signals received at HA01 and RCS are from the same acoustic event, but the 
+source of the signals is unrelated to MH370.  
+2.  The signals received at HA01 and RCS are from different acoustic events, which 
+may or may not be related to MH370.   
+3. The signals received at HA01 and RCS are from the same acoustic event, and the 
+source of the signals is related to MH370, but there is a problem with the position 
+line determined from the satellite handshake data.   
+Of these, the first explanation seems the most likely as the characteristics of the 
+signals are not unusual, it is only their arrival time and to some extent the direction 
+from which they came that make them of interest. 
+
+===== PAGE 3 =====
+ 3 
+ 
+If the second explanation was correct then there would still be some prospect that the 
+signal received at HA01 could be related to the aircraft, in which case the combination 
+of the HA01 bearing and the position arc derived from the satellite handshake data 
+would provide an accurate location on which to base a search.  However, the analysis 
+carried out here indicates that, while not impossible, this explanation is unlikely. 
+The third explanation also seems unlikely because of the intense scrutiny the satellite 
+handshake data has been subjected to. However, should the arc defined by the 
+handshake data be called into question, the various timing and acoustic considerations 
+discussed here would suggest that a reasonable place to look for the aircraft would be 
+near where the position line defined by a bearing of 301.6° from HA01 crosses the 
+Chagos-Laccadive Ridge, at approximately 2.3°S, 73.7°E.  If the source of the 
+detected signals was the aircraft impacting the sea surface then this would most likely 
+have occurred in water depths less than 2000m and where the seabed slopes 
+downwards towards the east or southeast.  These considerations could be used to 
+further refine the search area.  If, instead, the received sounds were due to debris 
+imploding at depth it is much less certain where along the position line from HA01 
+this would have occurred. 
+
+===== PAGE 4 =====
+ 4 
+ 
+Contents 
+ 
+1 Introduction ......................................................................................................................5 
+2 Signal descriptions and analysis ........................................................................................6 
+3 Automated signal detection algorithm ............................................................................. 11 
+3.1 General description ..................................................................................................... 11 
+3.2 Mathematical derivation .............................................................................................. 12 
+3.3 Results ........................................................................................................................ 13 
+4 Independent time calibration check ................................................................................. 14 
+5 Estimate of the probability that events at HA01 and RCS are from the same source ......... 17 
+6 Analysis of data from HA08S ......................................................................................... 20 
+7 Discussion ...................................................................................................................... 25 
+8 Conclusions .................................................................................................................... 31 
+ 
+ 
+ 
+  
+
+===== PAGE 5 =====
+ 5 
+ 
+1 Introduction 
+Malaysian Airlines flight MH370 disappeared in the early hours of 8th March 2014 and its 
+whereabouts remain unknown.  Current search efforts are based on position information 
+derived from a satellite communication system and are focussed on the Indian Ocean, 
+within Australia's search and rescue zone.  The Australian Transport Safety Bureau 
+(ATSB) has asked the Centre for Marine Science and Technology (CMST) to analyse 
+signals received on underwater sound recorders operated by CMST as part of the 
+Integrated Marine Observing System (IMOS) and on hydroacoustic stations operated by 
+the Comprehensive Nuclear Test Ban Treaty Organisation (CTBTO) in an attempt to 
+detect and localise underwater sounds that could be associated with the impact of the 
+aircraft on the water or with the implosion of wreckage as the aircraft sank.  This report 
+collects together the results of various analyses that have been carried out by CMST, 
+several of which have previously been reported to ATSB in summary reports. 
+One acoustic event of particular interest has been identified that occurred at a time that 
+could potentially link it to MH370 and appears to have been received on CMST's acoustic 
+recorders near the Perth Canyon (RCS), and at the CTBTO hydroacoustic station at Cape 
+Leeuwin (HA01). Section 2 describes the signals associated with this event and the 
+attempt made to localise it.  Section 3 details an automatic detection algorithm that was 
+developed to search for the same event in data from HA08S  and was also used to 
+characterise all events arriving at HA01 within an eight hour time period.  HA08S and 
+HA01 were the only operational CTBTO hydroacoustic stations in the Indian ocean at the 
+time, The use of two of the separate events to check the calibration of the clock offset 
+between RCS and HA01 is described in Section 4, while Section 5 details an initial 
+attempt to estimate the probability that the signals at RCS and HA01 originated from the 
+same source.  Section 6 details the results of a search for the same event in data from 
+HA08S, Section 7 provides a discussion that attempts to draw these various strands 
+together, and the conclusions that can be drawn from this work are detailed in Section 8. 
+  
+
+===== PAGE 6 =====
+ 6 
+ 
+2 Signal descriptions and analysis 
+An underwater sound recorder operated by the Centre for Marine Science and Technology 
+as part of IMOS and located at the seabed in 450 m water depth in the Perth Canyon 
+(Rottnest Trench) received a transient signal at approximately 01:34:00 UTC on 8th 
+March 2014.  (This receiver is referred to as RCS in what follows.)  After correction for 
+clock drift the time of arrival of the peak energy in this signal has been calculated to be 
+01:33:44 UTC  +/- 4 seconds.  The signal and its spectrogram are shown in Figure 1. 
+A search of data from the Comprehensive Test ban Treaty Organisation's hydroacoustic 
+station off Cape Leeuwin, Western Australia (HA01) carried out by the authors has 
+revealed a signal believed to be from the same source, with a peak energy arrival time of 
+01:34:50 UTC +/- 3seconds.  The signals and their spectrograms are shown in Figure 2. 
+Although the signal to noise ratio was poor on a single HA01 hydrophone, the signal at 
+HA01 was strongly correlated between the station's three hydrophones which allowed the 
+bearing of the source to be calculated with considerable accuracy.  The result was a 
+bearing of 301.6° +/- 0.75°. 
+Projecting this bearing back from HA01 towards the source, computing the expected time 
+difference between signals arriving at the two receiving stations as a function of distance 
+along the track, and matching this to the measured time difference  results in a most 
+probable position for the sound source of 5.93°S, 77.22°E (see Figure 3).  Calculations 
+were carried out using Matlab's mapping toolbox and the WGS84 elipsoid.  Further 
+details of this result are given in Table 1. 
+Uncertainties of +/- 0.75° in bearing from HA01 and +/- 4 s in travel time difference 
+result in the bounding box shown in Figure 3 and uncertainties of +/- 1° in bearing and +/- 
+7 s in time difference result in the somewhat larger bounding box shown in Figure 4.   
+Calculated latitudes and longitudes of the vertices of the bounding box are given in Table 
+2.  The bounding box is very elongated along the bearing from HA01 which is a result of 
+the hyperbolic position line obtained from the arrival time difference being almost parallel 
+to the bearing from HA01 at that range.   
+If the source was at the most probable position, then the signal would have been emitted 
+at approximately 00:39:11 UTC. 
+
+===== PAGE 7 =====
+ 7 
+ 
+The travel time differences have been calculated using acoustic group velocities estimated 
+from numerical waveform modelling using an adiabatic normal mode model and 
+climatological sound speed profiles for the appropriate time of year from the World 
+Ocean Atlas 2005, (NOAA 2005).  This gave a mean group velocity of 1486.20 m/s along 
+the path from the most probable source location to HA01 and 1486.35 m/s along the path 
+from the most probable source location to RCS. 
+ 
+Figure 1.  Time series (top) and spectrogram (bottom) showing the signal received at the Perth Canyon 
+logger at 01:33:44 UTC on 8th March 2014.  The spectrogram colour scale is in dB relative to the largest 
+value in the spectrogram. 
+ 
+
+
+===== PAGE 8 =====
+ 8 
+ 
+ 
+Figure 2.  Time series (top) and spectrograms (bottom) showing the signals received at the three 
+hydrophones of HA01 at 01:34:50 UTC on 8thMarch  2014.  The spectrogram colour scales are in dB 
+relative to the largest value in each spectrogram.  Times scales are the same as for Figure 1.
+
+
+===== PAGE 9 =====
+ 9 
+ 
+ 
+Figure 3.Map showing most probable location for the source of the received sound signals (magenta asterisk) and the uncertainty region (yellow polygon) based on an 
+uncertainty of +/- 0.75° in the bearing from HA01 and a +/- 4s uncertainty in the difference between signal arrival times at RCS and HA01.  
+
+
+===== PAGE 10 =====
+ 10 
+ 
+ 
+Figure 4.  As for Figure 3 except the uncertainty region is based on  +/- 1° in bearing and  +/- 7s in arrival time difference. 
+ 
+
+
+===== PAGE 11 =====
+ 11 
+ 
+ 
+Table 1.Details of most probable position. 
+Position 5.93°S, 77.22°E 
+Distance to HA01 (km) 4961.6 
+Distance to RCS (km) 4864.0 
+Signal travel time to HA01 (s) 3338.4 
+Signal travel time to RCS (s) 3272.4 
+Calculated arrival time difference (s) 66.0 
+Measured arrival time difference (s) 66.0 
+ 
+ 
+Table 2.  Uncertainty box bounds 
+Vertex Position with +/-0.75° bearing error 
+and +/-4 s timing error 
+Position with +/-1° bearing 
+error and +/-7 s timing error 
+Northwest 16.8°N, 53.3°E 16.6°N, 53.1°E 
+Northeast 1.6°S, 73.8°E 8.1°N. 64.7°E 
+Southwest 9.5°S, 80.1°E 14.2°S, 84.9°E 
+Southeast 19.5°S, 92.0°E 23.0°S, 96.3°E 
+ 
+ 
+3 Automated signal detection algorithm 
+3.1 General description 
+To provide an efficient means of searching for other arrivals a Matlab program was 
+written that breaks the signals received at a CTBTO hydroacoustic station into short 
+blocks and then iteratively calculates the bearing to any sources.  A 95% block overlap 
+was used so that any genuine signal should appear as a detection in multiple blocks.   
+
+===== PAGE 12 =====
+ 12 
+ 
+Each block was processed by computing the bearing to the strongest source using the 
+conventional plane-wave fitting method (Menke, 1984, del Pezzo and Giudicepietro, 
+2002), estimating that signal using a least squares process, subtracting the estimated signal 
+from the received signals (with appropriate time adjustments) to produce modified 
+signals, and then applying the plane wave fitting method to the modified signals.  This 
+process can be repeated an arbitrary number of times, but it was found that there was little 
+point in proceeding beyond three iterations. 
+At each stage the integrity of the fitted bearing was checked by requiring a discrepancy in 
+the arrival time differences of no more than 10 ms, a fitted group velocity in the range 
+1420m/s to 1550m/s, and at least one neighbouring detection with a bearing within +/-
+0.5°.  The last criterion is based on the expectation that, because of the 95% block 
+overlap, any genuine detection would occur in multiple adjacent blocks. 
+3.2 Mathematical derivation 
+Working in the horizontal ( )YX ,  plane, assume the incoming signal is made up of N  
+plane waves coming from different directions.  Then the received signal at time t  at 
+receiver { }Mm 1∈ , located at mm yx ,  can be written: 
+( ) ( ) ( )tyxyxtstyxp mm
+N
+n
+mynmxnnmm ,,,,
+1
+1 ενν +−−=∑
+=
+  (1) 
+where 
+n
+gn
+xn
+c θν cos1= is the X-component of the slowness (inverse sound speed), 
+n
+gn
+yn
+c θν sin1= is the Y-component of the slowness, 
+gnc is the plane wave group velocity, 
+nθ is the direction in which the wave is travelling 
+()⋅ns is the waveform of signal n , and 
+( )tyx ,,ε is random noise that is assumed uncorrelated between receivers. 
+
+===== PAGE 13 =====
+ 13 
+ 
+If the signals are ordered such that 321 sss >>>>  etc. then 1xν  and 1yν  can be 
+estimated using the plane-wave fitting method (Menke, 1984, del Pezzo and 
+Giudicepietro, 2002) and can therefore be considered known.  We can write: 
+( ) ( ) ( )tyxpyxtstyxp mmmymxmm ,,,, 21111 +−−= νν  (2) 
+where ( ) ( ) ( )tyxyxtstyxp mm
+N
+kn
+mynmxnnmmk ,,,, ενν +−−=∑
+=
+. 
+So: 
+( ) ( ) ( )mymxmmmymxmm yxtyxptsyxtyxp 1121111 ,,,, νννν +++=++ . (3) 
+Defining mynmxnmn yxtt νν ++=′  we can rewrite (3) as: 
+( ) ( ) ( )12111 ,,,, mmmmmm tyxptstyxp ′+=′ . (4) 
+If the ( )12 ,, mmm tyxp ′  are treated as noise that is uncorrelated between sensors then 
+equation (4) defines a set of three equations in terms of the unknown ( )ts1 .  The 
+assumption that the ( )12 ,, mmm tyxp ′  are uncorrelated between sensors is justified because, 
+by definition, all signal components that are correlated between sensors when the time 
+delays associated with 1mt′  are applied are included in ( )ts1 .  The least squares estimate of 
+( )ts1  is simply the average over the appropriately delayed sensor outputs: 
+( ) ( )∑
+=
+′=
+M
+m
+mmm tyxpts
+1
+111 ,,3
+1  (5) 
+Once ( )ts1
+  has been estimated, the residual signals can be calculated using a 
+rearrangement of (2): 
+( ) ( ) ( )mymxmmmm yxtstyxptyxp 11112 ,,,, νν −−−=   (6) 
+The plane-wave fitting algorithm can then be applied to ( )tyxp mm ,,2  and the process 
+repeated to estimate ( )ts2
+ , and so on. 
+3.3 Results 
+The results of applying two iterations of this algorithm to the HA01 data from 00:10:00 
+UTC on the 8th March to 08:00:00 UTC on the same day are shown in Figure 1.  These 
+
+===== PAGE 14 =====
+ 14 
+ 
+results were obtained a block duration of 20s and a block overlap of 19s.  A zero-phase 
+high pass filter with a cut-off frequency of 3 Hz was applied to the data prior to 
+processing to remove very low frequency flow noise. 
+The vast majority of the detections originated from the Antarctic sector, which extends 
+from 158° to 209°, or from just outside it.  The majority of these are likely to be ice 
+cracking events, although some may be some seismic events along a seafloor spreading 
+ridge between Australia and Antarctica. 
+The 01:34:50 arrival (indicated by the orange arrow) stands out as being the only signal 
+over this time period that originated from a northerly direction. 
+ 
+Figure 5.All automatic detections at HA01 between 00:00:10 and 08:00:00 UTC on 8th March 2014.  The 
+detection possibly associated with MH370 is indicated by the orange arrow.  Blue crosses indicate 
+detections made on the first iteration, red crosses are detections made on the second iteration.  The dark 
+green arrows indicate the two detections used for  cross-checking the clock drift calibration. 
+ 
+4 Independent time calibration check 
+The estimate of the range of the source from HA01 is strongly dependent on the measured 
+difference between the signal arrival times at RCS and HA01.  The RCS recorder was 
+deployed for a period of approximately three months during which its internal clock, 
+which was set to UTC time prior to deployment and checked against UTC time after 
+0 1 2 3 4 5 6 7 8
+0
+50
+100
+150
+200
+250
+300
+350
+Hours after 08-Mar-2014 00:00:00
+Bearing from HA01(deg)
+
+===== PAGE 15 =====
+ 15 
+ 
+deployment, gained 31.76 seconds (this is done in the noise logger hardware software 
+using and external GPS and its UTC transmitted time).  The time reference in both cases 
+was the 1 pulse per second output from a GPS receiver.  Assuming this drift rate was 
+constant throughout the deployment, early on the 8th March 25.8 seconds must be 
+subtracted from times according to the recorder clock in order to convert them to UTC.  
+An independent check of the accuracy of the drift correction of RCS compared with 
+HA01 was carried out using two events other than the primary signal of interest, that 
+resulted in signals that were received at both HA01 and RCS.  The first of these resulted 
+in a signal that was received at HA01 at 04:59:21 UTC on 8th March 2014 (17961 seconds 
+after midnight) and came from a bearing of 210.2°.  The corresponding signal arrived at 
+RCS at 05:03:01 (18181 seconds after midnight).  Both signals had high signal to noise 
+ratio. 
+The second event was of much lower amplitude but came from a similar direction, and 
+resulted in a signal that was received at HA01 at 05:14:28 UTC (18868 seconds after 
+midnight) on the same day from a bearing of 208.5°.  The corresponding signal was 
+received at RCS at 05:18:13(19093 seconds after midnight). 
+For each event, the arrival times and bearings at HA01 were used to compute a predicted 
+arrival time at RCS, which was then compared to the measured arrival time.  The results 
+were computed using an assumed source range of 5000 km and an assumed group 
+velocity of 1484 m/s and are given in Table 3.   
+Both arrivals came from a direction that is only about 15° from the direction of the line 
+joining RCS and HA01, so the predicted arrival times at RCS depend only weakly on the 
+source range assumption.  A sensitivity study showed a 2 second increase in predicted 
+arrival time if the assumed source range from HA01 was reduced to 1,000km, and a 0.2 
+second decrease if the source range was increased to 10,000km. 
+The assumed group velocity of 1484 m/s was obtained from numerical propagation 
+modelling for a signal arriving from this direction and is considered accurate to within +/- 
+5 m/s.  The effect of this uncertainty is considered along with other sources of error in the 
+following analysis. 
+The uncertainties in the predicted arrival times at RCS were estimated based on a local 
+plane geometry approximation to the ellipsoidal Earth in the vicinity of HA01 and RCS, 
+
+===== PAGE 16 =====
+ 16 
+ 
+and the assumption that the source is an infinite distance away from the two stations.  
+Note that this approximation has only been used to estimate the uncertainties.  The actual 
+arrival time calculations are based on ellipsoidal geometry and were carried out using 
+Matlab's Mapping Toolbox. 
+With this approximation the arrival time at RCS is given by: 
+( )
+g
+HARCS
+c
+dtt αθ −+= cos
+01  
+where 01HAt  is the arrival time at HA01 (seconds), d  is the distance between HA01 and 
+RCS (m), θ is the bearing of the source from HA01, α  is the bearing of RCS from HA01 
+(13.65°), and gc  is the group velocity of the sound.  The uncertainty in the predicted 
+arrival time is given by: 
+δθθδδδ ∂
+∂+∂
+∂+∂
+∂= RCS
+g
+g
+RCS
+HA
+HA
+RCS
+RCS
+tcc
+ttt
+tt 01
+01
+ 
+whereδθ  is the uncertainty in the bearing to the source (radians) etc.  This leads to: 
+( )δθαθδδδ −∆+∆+= tan01
+g
+g
+HARCS
+c
+ctt  
+where ( )
+gc
+d αθ −=∆ cos  is the absolute value of the time delay between the signal 
+arriving at HA01 and at RCS in seconds. 
+In both cases the predicted and actual arrival times agree within uncertainties, with the 
+maximum discrepancy being 3.2 seconds.  This provides strong evidence that the clock 
+synchronisation between HA01 and RCS is at least this accurate. 
+ 
+
+===== PAGE 17 =====
+ 17 
+ 
+Table 3.  Times are in seconds after 00:00:00 UTC on 8th March 2014. 
+Arrival time 
+at HA01 
+(seconds) 
+Source 
+bearing from 
+HA01 
+(degrees) 
+Predicted 
+arrival 
+time 
+difference 
+(seconds) 
+Predicted 
+arrival time at 
+RCS 
+(seconds) 
+Actual 
+arrival time 
+at RCS 
+(seconds) 
+Predicted - 
+actual 
+(seconds) 
+17961 +/-2 210.2 +/-1 223.2 +/-2 18184.2 +/-4 18181 +/-2 3.2 +/-6 
+18868 +/-3 208.5 +/-1 225.0 +/-2 19093.0 +/-5 19093 +/-2 0 +/-7 
+ 
+ 
+5 Estimate of the probability that events at HA01 and RCS are from 
+the same source 
+The estimate of the range of the source from HA01 depends on the assumption that the 
+signals received at HA01 and RCS were generated by the same source and at the same 
+time.  An estimate has therefore been made of the probability that two signals arriving 
+within a time window that would result in a valid fix, did so purely by chance.  It should 
+be noted that this estimate is based on very limited data and should therefore be treated as 
+indicative only. 
+Let )(AP be the a-priori probability that the HA01 and RCS arrivals are from the same 
+source, and )(BP  be the a-priori probability that an arrival is observed at the RCS within 
+a time interval of the arrival at HA01 that results in a valid fix. 
+Then ( ) ( )APAP −=1  is the a-priori probability that the arrivals are from different 
+sources and ( ) ( )BPBP −=1  is the a-priori probability that there was no arrival in the 
+time interval required for a valid fix. 
+We want to calculate the a-posteriori probability that the arrivals are signals from the 
+same source, given that the arrival at RCS occurred within the required time interval for a 
+valid fix, i.e. )|( BAP , based on estimates of the probability of observing an arrival in the 
+required time interval given that the signals are from the same source, i.e. )|( ABP , and 
+
+===== PAGE 18 =====
+ 18 
+ 
+the probability of observing an arrival in the required time interval given that the signals 
+are not from the same source, )|( ABP . 
+This can be done using Bayes Theorem (Walpole & Myers, 1985) : 
+( ) ( )
+( )BP
+ABPAPBAP |)|( =
+ (7) 
+which can also be written: 
+( ) ( ) ( )
+( ) ( ) ( ) ( )ABPAPABPAP
+ABPAPBAP ||
+|| +=
+ (8) 
+So the problem reduces to estimating the various probabilities on the right hand side of 
+Eq. (8). 
+If the signals are from the same source, then the RCS arrival must occur within the valid 
+time interval, so 1)|( =ABP . 
+)|( ABP can be estimated by looking at the statistics of similar arrivals at RCS over a 
+long period of time.  So far we have only looked at five hours of data, which is only 
+enough for a very rough estimate, however even this is potentially useful as a starting 
+point.  There were two arrivals at RCS in that five hour period with broadly similar 
+characteristics (duration and bandwidth) to the HA01 arrival – the one within the feasible 
+time interval and another about 3 hours later.  (The second arrival was actually a bit 
+different in that it had a different pulse shape and a somewhat broader bandwidth, but for 
+the purposes of this analysis we’ll consider them as two events from the same process.)  If 
+we assume these pulses originate from a Poisson process, then an estimate of the 
+process’s rate parameter is 41011.1)36005/(2 −×=×=λ  events per second.  The 
+probability of receiving k  arrivals within a given time interval T  is then given by the 
+Poisson probability mass function: 
+( ) ( ) T
+k
+ek
+TkXP λλ −== !
+ (9) 
+The probability of receiving one arrival within the feasible time interval is then: 
+( ) ( ) TTeXPABP λλ −=== 1|  (10) 
+
+===== PAGE 19 =====
+ 19 
+ 
+whereT  is the duration of the feasible time interval and can be determined from the 
+geometry.  Valid arrival time differences range from -200 s (for a source 40km from 
+HA01, negative indicates the signal arrives at HA01 first) to +80 s for a source at 
+15,000km range, giving an interval duration of T =280 s.  Substituting this into Eq. (10) 
+with the previously calculated value of λgives ( ) 030.0| =ABP . 
+The other term required in order to evaluate Equation (8) is )(AP , the a-priori probability 
+that the HA01 and RCS arrivals are from the same source.  This can be interpreted to 
+mean the probability that one would assign given only information about the 
+characteristics of the two signals and without any knowledge of their relative arrival 
+times.  The arrivals at HA01 and RCS have very similar durations and spectra that are 
+unlike the majority of other signals received at HA01, and the ratio of their amplitudes is 
+consistent with model predictions.  )(AP should therefore be reasonably high, however as 
+it is unclear (at least to the author) how this could be determined from the available data, 
+results are plotted below in Figure 1 with )(AP  as a parameter. 
+It can be seen that providing )(AP  is greater than 0.03, )|( BAP  will be greater than 0.5.  
+Furthermore, if )(AP > 0.5, then )|( BAP > 0.97. 
+Although the dependence of the final result on the difficult to determine a-priori 
+probability, and the small amount of data used to estimate )|( ABP  make this analysis 
+somewhat unsatisfactory, it does indicate that it is quite likely that the signals received at 
+HA01 and RCS are from the same source.  Analysis of considerably more data from both 
+HA01 and RCS would provide a more robust result, but this has not been attempted.  
+
+===== PAGE 20 =====
+ 20 
+ 
+ 
+Figure 6.Plot of the a-posteriori probability against the a-priori probability that the arrivals at the two 
+stations are from the same source. 
+ 
+6 Analysis of data from HA08S 
+Figure 6 shows the automatically calculated arrival bearings as a function of arrival time 
+for all detections at HA08S.  These results are summarised in Table 1.  The two lines of 
+detections that occur at almost constant bearings of 35° and 113° have characteristics 
+consistent with offshore seismic surveys, which appear to have been taking place off Sri 
+Lanka or in the Bay of Bengal, and off the northwest coast of Australia respectively.  
+There were two other detections, one at about 700 seconds from a bearing of 168.1° and 
+one at 7135 seconds from a bearing of 93°.  Position lines corresponding to these various 
+detections are shown in Figure 8. 
+A curve showing the expected arrival bearing at HA08S as a function of arrival time for 
+the signal detected at HA01 at 01:34:50 on 8/3/2014 UTC is overlaid on Figure 6 It can be 
+seen that neither of the discreet detections is consistent with the HA01 data. 
+
+
+===== PAGE 21 =====
+ 21 
+ 
+ 
+Figure 7.  All automatic detections at HA08S  between 00:00:00 and 03:00:00 UTC on 8th March 2014.  The 
+black dotted line shows the expected arrival bearing at HA08S as a function of arrival time for the signal 
+detected at HA01 at 01:34:50 on 8/3/2014 UTC. 
+ 
+Table 4  Summary of HA08S detections 
+Time range (hours 
+after 00:00:00 on 
+8/3/2014 UTC)) 
+Bearing 
+range 
+(deg) 
+Figure 7 
+line colour 
+Likely source 
+0 to 3.00 34.9 - 35.4 Yellow Seismic survey off Sri Lanka or in 
+Bay of Bengal 
+0 to 2.14 113.0 - 
+113.6 
+Green Seismic survey off NW Australia 
+0.19 to 0.20 168.05 White Unknown.  Possibly ice cracking 
+noise or a small seismic event. 
+1.98 to 2.00 92.5 to 93.5 Red Small earthquake in the Java Trench 
+ 
+0.5 1 1.5 2 2.5
+0
+50
+100
+150
+200
+250
+300
+350
+Arrival time (hours after 08-Mar-2014 00:00:00)
+Bearing at HA08 (deg) 08-Mar-2014 00:00:00
+
+===== PAGE 22 =====
+ 22 
+ 
+ 
+Figure 8.  Map showing position lines for the HA08S detections listed in Figure 4.  The location of the TGS 
+seismic survey is shown by the magenta dot labelled "TGS". 
+ 
+Enquiries with industry contacts revealed that at the time MH370 is thought to have 
+crashed, two seismic surveys were taking place off the northwest coast of Australia, close 
+to the position line based on the 113° bearing from HA08S.  These were the Woodside 
+Centaurus 3D Survey and the TGS Huzzas 3D Survey.  Both operators have provided the 
+navigation data from the relevant survey lines, which are plotted in Figure 8.   
+The Woodside survey line was over a fairly flat seabed in just over 1000 m of water, 
+whereas the TGS survey was over the continental slope in about 260 m of water.  The 
+time of reception of the last shot and the change in bearing with time both clearly indicate 
+that the signals received at HA08S were from the TGS survey.  The Woodside survey was 
+not detected.  This is consistent with the physics of acoustic propagation which requires a 
+shallow sound source, such as a seismic survey airgun array, to be over a favourably 
+sloping seabed in order to efficiently couple the sound into the Deep Sound Channel and 
+achieve very long range propagation. 
+
+
+===== PAGE 23 =====
+ 23 
+ 
+The navigation data provided by TGS allowed a check to be made of the bearing accuracy 
+of HA08S.  The results are plotted in Figure 9 and show a mean bearing offset of 0.6°.  
+The resolution of the bearing measurement is sufficient to clearly track the northeast to 
+southwest motion of the survey vessel. 
+ 
+Figure 9.  Map of Northwest Cape region, Australia, showing seismic survey lines being shot by Woodside 
+(red) and  TGS (magenta) around the time MH370 is thought to have crashed.  The green line is the position 
+line from HA08S 
+50km 
+
+===== PAGE 24 =====
+ 24 
+ 
+ 
+Figure 10.Plot of bearing vs. time for detections at HA08S that correspond to the TGS Huzzas 3D seismic 
+survey (crosses).  The magenta line is the calculated bearing based on the survey navigation data provided 
+by TGS.  
+ 
+1000 2000 3000 4000 5000 6000 7000
+112
+112.2
+112.4
+112.6
+112.8
+113
+113.2
+113.4
+113.6
+113.8
+114
+Arrival time (seconds after 08-Mar-2014 00:00:00)
+Azimuth at HA08 (deg) 08-Mar-2014 00:00:00
+
+===== PAGE 25 =====
+ 25 
+ 
+7 Discussion 
+Even with the largest likely uncertainties of +/- 1° in the bearing from HA01 and +/- 7s in 
+the difference between the times of arrival of the signals at HA01 and RCS, the 
+uncertainty region for the source location does not intersect the arc defined by the last 
+satellite handshake (see Figure 11).  An investigation of the timing error required to place 
+the source location on the satellite handshake arc indicated that the arrival time difference 
+would have to be 17 seconds less than measured, which is well outside uncertainties.  Our 
+estimate of the time of arrival of the signal at HA01 has been confirmed by Mark Prior 
+from the CTBTO in Vienna, and the correction for clock drift in the RCS recorder has 
+been checked and rechecked.  Furthermore, the time calibration checks described in 
+Section 4 provide independent confirmation that time of arrival measurements made at the 
+two stations are consistent once the clock drift correction has been applied. 
+ 
+Figure 11.  Map showing the uncertainty region (yellow polygon) based on an uncertainty of +/- 1° in the 
+bearing from HA01 and +/- 7s in the arrival time difference, with the approximate location of the arc 
+defined by the satellite handshake data superimposed (red line). 
+ 
+
+
+===== PAGE 26 =====
+ 26 
+ 
+It is therefore apparent that the acoustic measurements are inconsistent with the satellite 
+handshake data.  We consider three possible explanations for this: 
+1.  The signals received at HA01 and RCS are from the same acoustic event, but the 
+source of the signals is unrelated to MH370.  
+This seems the most likely explanation as the characteristics of the received signals 
+are similar to those of some natural events.  The origin of these events is not certain, 
+but they are thought to be of natural seismic origin. Events from this particular 
+direction are not particularly common, but do occur.  An analysis of five years of 
+historical data from HA01 that was available to the authors indicated that over that 
+period there was an average of about one event per day from this direction.  However, 
+on closer inspection it became apparent that most of these events occurred on one day, 
+and then became progressively less frequent.  (This is a common pattern with natural 
+seismic events.)  It would be useful to analyse data from the year or so leading up to 
+8th March 2014 in order to obtain a better estimate of the statistics relevant to that 
+date, but this has not been done. 
+2.  The signals received at HAO1 and RCS are from different acoustic events, which 
+may or may not be related to MH370. 
+If this were the case then the distance determination would be invalid and the source 
+of the signal received at HA01 could be anywhere along the position line defined by 
+the measured bearing from HA01, including on the satellite handshake arc.  However, 
+the analysis carried out in Section 5, while imperfect, indicates that it is more likely 
+that the signals received at the two stations are from the same event.  Also, if the 
+sound source was on the satellite arc the signal would have been generated at 01:16:19 
+UTC on 8th March, some 25 minutes after the latest time it is thought that MH370 
+could have hit the water (00:51:00 UTC according to ATSB).  The signal could, 
+however, have been generated by the implosion of sinking debris if this occurred well 
+after the initial impact, although this would be expected to be within a few km of the 
+surface impact site. 
+3. The signals received at HA01 and RCS are from the same acoustic event, and the 
+source of the signals is related to MH370, but there is a problem with the position line 
+determined from the satellite handshake data. 
+
+===== PAGE 27 =====
+ 27 
+ 
+If this were the case then the location of the aircraft would be much further from the 
+Australian coast than the satellite handshake data would indicate.  This explanation 
+seems unlikely given the intense scrutiny that the satellite handshake data has been 
+subjected to, however it is worth noting that the time at which the signal was received 
+at HA01 is consistent with the time the aircraft is thought to have crashed if the impact 
+occurred in the central portion of the uncertainty box plotted in Figure 3.  To make 
+this explicit, Figure 12 plots the source locations for a signal generated at the earliest 
+possible impact time (00:19:49 UTC - north-western triangle), at the latest possible 
+impact time (00:51:00 UTC - south-eastern triangle) and following the arc given by 
+the signal received at HA01, based on the computed acoustic travel time to HA01 
+assuming a mean group velocity of 1486 m/s. These extreme locations can be seen to 
+bracket the most probable position obtained solely from the acoustic data. 
+ 
+Figure 12.  Map showing the smaller uncertainty box with range limits based on the earliest and latest times  
+it is thought the aircraft could have hit the water superimposed (white triangles), assuming the aircraft crash 
+was along the arc from HA01 given by the signal of interest. The arrow indicates the only area between 
+these range limits that also satisfies the requirements for efficient coupling of sound from a near-surface 
+source into the Deep Sound Channel.  
+ 
+
+
+===== PAGE 28 =====
+ 28 
+ 
+Another consideration is that for sound from a near-surface sound source to be 
+detectible at ranges of thousands of kilometres it must couple into the Deep Sound 
+Channel well. A near surface source will generate sound in the water mostly at steep 
+angles and will not efficiently couple into the Deep Sound Channel unless the seabed 
+bathymetry is favourable. For the signal sound energy to couple into the Deep Sound 
+Channel it is necessary for the seafloor at the source location to be sloping downwards 
+towards the receiver.  This allows sound reflected from the seabed to be directed into 
+the Deep Sound Channel where it can propagate with very little attenuation.  This 
+process is most effective when the water depth is also shallow enough that the seabed 
+intersects the Deep Sound Channel, the axis of which lies somewhere between 800-
+1200 m depth depending on latitude. 
+The only area between the locations defined by the earliest and latest impact times 
+along the arc form HA01 given by the signal of interest that satisfies this criterion is 
+on the Chagos-Laccadive Ridge, the submarine ridge that extends northwards from 
+HA08S.  The bearing from HA01 crosses this ridge at approximately 2.3°S, 73.7°E, 
+just south of the Maldives, as indicated by the arrow in Figure 12. 
+The water depths along this bearing of 301.6°, and bearings 0.75° either side of it are 
+plotted as a function of range from HA01 in Figure, along with plots of the computed 
+acoustic transmission loss between a 20 Hz sound source, 30 m below the water 
+surface, and HA01.  Note that the way the transmission loss is plotted, an upward 
+excursion corresponds to a reduction in transmission loss, which corresponds to an 
+increase in the received signal.  The transmission loss was computed using the 
+Parabolic Equation acoustic propagation model RamGeo (Collins 1993), using range-
+dependent sound speed profiles from the World Ocean Atlas, 2005 (NOAA 2005), and 
+assuming a low reflectivity, silt seabed with geoacoustic parameters from Jensen 
+(2011).  The effect would be enhanced if the seabed were harder and more reflective.  
+Transmission loss calculations were also carried out for frequencies of 10 Hz and 40 
+Hz and produced similar results. 
+As expected, oceanographic features that result in sharp reductions in water depth give 
+rise to corresponding reductions in transmission loss, which would correspond to an 
+improved likelihood of detecting a signal for a source at that location.  The effect 
+does, however, depend critically on water depth.  It can be seen that the Chagos-
+
+===== PAGE 29 =====
+ 29 
+ 
+Laccadive Ridge is too deep to have much effect along a bearing of 301.6° where it 
+reaches a minimum depth of about 2200 m, but reduces the transmission loss by 20 
+dB along 302.36° where it rises to a minimum depth of just over 1000m. 
+ 
+Figure 13.  Top panel shows the bathymetry along the position line defined by a bearing of 301.61° from 
+HA01, and bearings 0.75° either side of this as a function of distance from HA01.  Red vertical lines 
+indicate the range limits computed from the earliest and latest possible impact times.  Various 
+oceanographic features are indicated.  The middle and lower panels show the computed transmission loss 
+between a 20Hz acoustic source, 30m below the water surface, and HA01 as a function of range from 
+HA01.  Middle panel is for a bearing of 301.61°, lower panel is for 302.36°. 
+ 
+The above argument applies only if the source of the sound was the impact of the 
+plane on the water surface.  If it was the implosion of sinking debris, some time after 
+0 1000 2000 3000 4000 5000 6000 7000 8000 9000
+-6000
+-5000
+-4000
+-3000
+-2000
+-1000
+0
+Distance from HA01 (km)
+Depth (m)
+ 
+ 
+Az = 300.86
+Az = 301.61
+Az = 302.36
+HA01
+Naturaliste
+Plateau
+Batavia 
+Seamount
+Ninety
+East
+Ridge
+Osborn
+Plateau
+Chagos-Laccadive
+Ridge
+0 1 2 3 4 5 6 7 8 9
+x 10
+6
+80
+100
+120
+140
+160
+180
+Range (m)
+Transmission Loss (dB)
+RAMGeo - MH370_CrossFixBase, Point HA01, Azimuth 301.61: f=20Hz, Zs=1100m, Zr=30m
+0 1 2 3 4 5 6 7 8 9
+x 10
+6
+80
+100
+120
+140
+160
+180
+Range (m)
+Transmission Loss (dB)
+RAMGeo - MH370_CrossFixBase, Point HA01, Azimuth 302.36: f=20Hz, Zs=1100m, Zr=30m
+
+===== PAGE 30 =====
+ 30 
+ 
+the impact, then the location could be closer to HA01 than the range limits based on 
+the impact time would indicate.  If the implosion occurred in the upper one hundred 
+metres or so of the water column then the same considerations regarding bathymetry 
+would apply, and other possible locations for the aircraft would include the Ninety 
+East Ridge and the Osborn Plateau.  However, if an implosion  occurred deeper, then 
+efficient deep sound channel propagation would be possible irrespective of the 
+bathymetry.  This effect is illustrated in Figure 14, which plots the transmission loss 
+as a function of the distance of the source from HA01, and the source depth.   
+ 
+Figure 14.Transmission loss for 20 Hz acoustic signals arriving at HA01 at a bearing of 301.61° as a 
+function of the distance of the source from HA01 and the depth of the source.  
+ 
+CMST are attempting to obtain other sources of acoustic data from the Indian Ocean 
+which may contain the signals discussed here and may allow a better definition of the 
+acoustic data discussed here. These sources are: 
+ 
+
+
+===== PAGE 31 =====
+ 31 
+ 
+1. IMOS passive acoustic recorder located west of Dampier, North Western Australia 
+(19º 23.06’ S, 115º 54.92). This mooring is expected to be recovered in early 
+August 2014. This receiver is on a 33% duty cycle. 
+2. IMOS passive acoustic recorder located north of Broome, North Western Australia 
+(15º 29.002’ S, 121º 15.06’ E). This mooring is expected to be recovered in early 
+August 2014. This receiver is on a 33% duty cycle. 
+3. Marine seismic survey recordings operating in the northern Indian Ocean over the 
+time frame of aircraft impact.  We have had an excellent response from the marine 
+seismic community with regard to searching for seismic surveys operating in this 
+area over the time frame of interest. If we can locate seismic surveys which were 
+operating over the time frame of interest in areas where it is possible they may 
+have received the signals disucssed here we will request their streamer data to 
+check for signals of interest. Marine seismic surveys tyically collect data at a 60-
+80% duty cycle although analysis would be complicated by the presence of the 
+intense marine seismic source signals. 
+ 
+8 Conclusions 
+Analysis of the low frequency acoustic signals that were received at RCS and HA01 
+around the time that MH370 disappeared has identified one acoustic event that could 
+possibly be linked to the loss of the aircraft.  It is also possible that this was a natural 
+event and unrelated to the aircraft. 
+A detailed analysis of these signals has resulted in an approximate localisation for the 
+source of the signals that is compatible with the time of the last satellite handshake with 
+the aircraft, but not compatible with the satellite to aircraft range derived from this 
+handshake which is being used to guide the search.  There appear to be three possible 
+explanations for this discrepancy:  
+1.  The signals received at HA01 and RCS are from the same acoustic event, but the 
+source of the signals is unrelated to MH370.  
+2.  The signals received at HAO1 and RCS are from different acoustic events, which 
+may or may not be related to MH370.   
+
+===== PAGE 32 =====
+ 32 
+ 
+3. The signals received at HA01 and RCS are from the same acoustic event, and the 
+source of the signals is related to MH370, but there is a problem with the position 
+line determined from the satellite handshake data.   
+Of these, the first explanation seems the most likely as the characteristics of the 
+signals are not unusual, it is only their arrival time and to some extent the direction 
+from which they came that make them of interest. 
+If the second explanation was correct then there would still be some prospect that the 
+signal received at HA01 could be related to the aircraft, in which case the combination 
+of the HA01 bearing and the position arc derived from the satellite handshake data 
+would provide an accurate location on which to base a search.  However, the analysis 
+carried out here indicates that, while not impossible, this explanation is unlikely. 
+The third explanation also seems unlikely because of the intense scrutiny the satellite 
+handshake data has been subjected to, however, should the arc defined by the 
+handshake data be called into question, the various acoustic considerations discussed 
+here would suggest that a reasonable place to look for the aircraft would be near 
+where the position line defined by a bearing of 301.6° from HA01 crosses the Chagos-
+Laccadive Ridge, at approximately 2.3°S, 73.7°E.  If the source of the detected signals 
+was the aircraft impacting the sea surface then this would most likely have occurred in 
+water depths less than 2000 m and where the seabed slopes downwards towards the 
+east or southeast.  This consideration could be used to further refine the search area. If, 
+instead, the received sounds were due to debris imploding at depth it is much less 
+certain where along the position line from HA01 this would have occurred. 
+The CMST are still to receive further passive acoustic data which may improve the 
+location estimate provided here and allow a better definition of the signal source. 
+  
+
+===== PAGE 33 =====
+ 33 
+ 
+References 
+Collins, M. D. (1993),  A split-step Pade solution for the parabolic equation method. The 
+Journal of the Acoustical Society of America, 93(4), 1736-1742. 
+del Pezzo, E., and Giudicepietro, F. (2002), Plane wave fitting method for a plane, small 
+aperture, short period seismic array: a MATHCAD program, Computers & Geosciences, 
+Vol. 28, pp 59-64.  
+Jensen, F. B., Kuperman, W. A., Porter, M. B., & Schmidt, H. (2011). Computational 
+Ocean Acoustics, Springer, ISBN 978-1-4419-8677-1. 
+Menke W., (1984), Geophysical Data Analysis: Discrete Inverse Theory, Academic Press, 
+New York. 
+Walpole, R. E., and Meyers, R. H. (1985),Probability and Statistics for Engineers, 
+Macmillan, ISBN 0-02-946950-3. 
+NOAA. (2005), World Ocean Atlas, National Oceanic and Atmospheric Administration, 
+National Environmental Satellite, Data, and Information Service 61-62, U.S. Government 
+Printing Office, Washington, D.C., 182 pp., CD-ROM 

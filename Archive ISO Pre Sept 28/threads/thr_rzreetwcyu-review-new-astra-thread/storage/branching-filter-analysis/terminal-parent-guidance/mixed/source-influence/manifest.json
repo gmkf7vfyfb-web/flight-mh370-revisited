@@ -1,0 +1,71 @@
+{
+  "command": "diagnose-impact-mixture-sources",
+  "completed": [
+    {
+      "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-parent-guidance/mixed/source-influence/37097211--openap26-positive-lift-3-targets--cowling-37093011.json",
+      "results": 156,
+      "sha256": "0950638550401f9854b7686b5678fdcb50bb6274ca9b623c6b382a9ce9e24645"
+    },
+    {
+      "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-parent-guidance/mixed/source-influence/37097211--openap2020-positive-lift-3-targets--cowling-37093011.json",
+      "results": 156,
+      "sha256": "a0d43cfacc45bd05ecf6a7fa62df4116f31fa783e5989ecee94b0fce7c9476b9"
+    },
+    {
+      "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-parent-guidance/mixed/source-influence/37097211--openap26-positive-lift-3-targets--cowling-37093012.json",
+      "results": 156,
+      "sha256": "d946cad13f30453dca5eed865bfe16544e57c79deb89b729d5b1c9b5504027e8"
+    },
+    {
+      "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-parent-guidance/mixed/source-influence/37097211--openap2020-positive-lift-3-targets--cowling-37093012.json",
+      "results": 156,
+      "sha256": "9b6875f984513a6cc6d0dc7910a2ea4a9940370d7893bca63a6376606696602a"
+    },
+    {
+      "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-parent-guidance/mixed/source-influence/37097212--openap26-positive-lift-3-targets--cowling-37093011.json",
+      "results": 156,
+      "sha256": "914979f6b7d1d551999d61f03c9e5e45701b7700f0f97c5da4101ae9c4f32f93"
+    },
+    {
+      "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-parent-guidance/mixed/source-influence/37097212--openap2020-positive-lift-3-targets--cowling-37093011.json",
+      "results": 156,
+      "sha256": "9a1a514a792364a0ae949bf8a3dc36c25264a0570cc157dd39b9eefafa98e9fa"
+    },
+    {
+      "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-parent-guidance/mixed/source-influence/37097212--openap26-positive-lift-3-targets--cowling-37093012.json",
+      "results": 156,
+      "sha256": "a488024a9d5f7320d9783f12dd739f20d25d645cd42724a066766cd5b057eb7e"
+    },
+    {
+      "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-parent-guidance/mixed/source-influence/37097212--openap2020-positive-lift-3-targets--cowling-37093012.json",
+      "results": 156,
+      "sha256": "604d28b6a5d4fe51868c7ada52eeb8aefdffbf50581c2756ed70e17c233f3d32"
+    }
+  ],
+  "conditions": [
+    "Numerical source inclusion is a sensitivity diagnostic, not a physical observation or confidence interval.",
+    "Each case is renormalized on the selected cruise sources and, for drift, native model support before the same initial case probabilities are assigned.",
+    "Drift and search likelihoods are unchanged. The all-sources calculations reproduce the saved mixtures.",
+    "Source influence combines each cruise run with its sampled terminal descendants; this does not separately identify cruise versus terminal sampling error.",
+    "Leaving sources out cannot detect trajectories missed by every original run. Independent synthetic recovery remains necessary."
+  ],
+  "elapsed_seconds": 2.076447144,
+  "executable_sha256": "6fdcbac828f471496c7ce9fee66af5f019ba6a45bc4743ac3935087d89a1a9dd",
+  "input_manifest": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-parent-guidance/mixed/model-mixture/manifest.json",
+  "inputs": {
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-parent-guidance/mixed/model-mixture/37097211--openap2020-positive-lift-3-targets--cowling-37093011.json": "804173f440b4768244b19785bee0fbf3aaec7fe14811ac428fb6d00815c16541",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-parent-guidance/mixed/model-mixture/37097211--openap2020-positive-lift-3-targets--cowling-37093012.json": "15edfec8e9c71472aff713fa408c417a3d5c61f0656a54c352ea4776ce2a1857",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-parent-guidance/mixed/model-mixture/37097211--openap26-positive-lift-3-targets--cowling-37093011.json": "6d0c85185f99d8b59ab4ef4e2e3d524d6679e66edd5eaae877b6bf96d89cc6ce",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-parent-guidance/mixed/model-mixture/37097211--openap26-positive-lift-3-targets--cowling-37093012.json": "3cb4edb901f2bc1829b1f1d88bc70fb718219e68fb2bf6834293fb685d89f203",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-parent-guidance/mixed/model-mixture/37097212--openap2020-positive-lift-3-targets--cowling-37093011.json": "8f48ddc170e9319cdedc18239e55c30ed6f9c2ef754657398968d3b1c3403dd0",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-parent-guidance/mixed/model-mixture/37097212--openap2020-positive-lift-3-targets--cowling-37093012.json": "5bdaf5d7b5fd317e6e05be3cb76edb728b0e1de68ae2d324714997b363970295",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-parent-guidance/mixed/model-mixture/37097212--openap26-positive-lift-3-targets--cowling-37093011.json": "367ef4b7e559d79eb5edb47c3f15148d6d42b798edc0da9603d4d5157820d665",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-parent-guidance/mixed/model-mixture/37097212--openap26-positive-lift-3-targets--cowling-37093012.json": "242ac328f575afe56b1a48c0875bb3269df5f860696aba6152784be9ee9ba6fe",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-parent-guidance/mixed/model-mixture/manifest.json": "7615fd9967c0c1e423807902db936163d683ed730f075ae156b701d55031bc5b",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-parent-guidance/terminal-seed-37097211-conditioned/summary.json": "c45cccca0c0fb7e67c29fb2a7bc9d4a9fad77107945c5062262499e32a9d9f1a",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-parent-guidance/terminal-seed-37097212-conditioned/summary.json": "e9e25bdca4f9abd35cd3fc90b3a801e777a88b463a93050d54af64b44c1471b7"
+  },
+  "maximum_original_reproduction_error": 6.106226635438361e-16,
+  "new_samples": 0,
+  "status": "completed"
+}

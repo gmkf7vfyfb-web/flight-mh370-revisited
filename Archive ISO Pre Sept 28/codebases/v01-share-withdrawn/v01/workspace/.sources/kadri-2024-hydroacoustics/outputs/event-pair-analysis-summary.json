@@ -1,0 +1,45 @@
+{
+  "status": "PUBLICATION_TRACE_AND_POST_HOC_GEOMETRY_CONTROL_NOT_EVENT_ASSOCIATION",
+  "table_event_results": [
+    {
+      "event_id": "event_004958",
+      "arrival_utc": "2014-03-08T00:49:58Z",
+      "bearing_deg": 260.41,
+      "above_panel_q99_at_any_tested_half_window": false,
+      "broad_bearing_conditional_h08s_window": {
+        "q2p5_utc": "2014-03-08T01:04:50.971Z",
+        "median_utc": "2014-03-08T01:07:37.003Z",
+        "q97p5_utc": "2014-03-08T01:11:05.002Z"
+      }
+    },
+    {
+      "event_id": "event_005331",
+      "arrival_utc": "2014-03-08T00:53:31Z",
+      "bearing_deg": 257.58,
+      "above_panel_q99_at_any_tested_half_window": false,
+      "broad_bearing_conditional_h08s_window": {
+        "q2p5_utc": "2014-03-08T01:07:50.426Z",
+        "median_utc": "2014-03-08T01:10:11.434Z",
+        "q97p5_utc": "2014-03-08T01:13:36.908Z"
+      }
+    }
+  ],
+  "screened_h08s_context": [
+    {
+      "arrival_utc": "2014-03-08T01:03:13.150Z",
+      "above_publication_panel_q99": true,
+      "periodic_context": "within_periodic_airgun_mask"
+    },
+    {
+      "arrival_utc": "2014-03-08T01:12:49.500Z",
+      "above_publication_panel_q99": true,
+      "periodic_context": "within_periodic_airgun_mask"
+    }
+  ],
+  "interpretation": [
+    "neither selected Table 1 time is above the publication-panel q99 screen within \u00b12, \u00b15 or \u00b110 seconds",
+    "the 01:03:13.150 H08S feature is too early for the central 95% conditional timing windows of either selected Table 1 bearing",
+    "the 01:12:49.500 H08S feature lies inside the broad 95% conditional window for the 00:53:31 bearing, but outside it for 00:49:58, and is within the periodic airgun mask",
+    "range-difference and bearing intersections are compatibility regions, not source associations or posterior evidence"
+  ]
+}

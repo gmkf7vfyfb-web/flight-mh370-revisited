@@ -1,0 +1,187 @@
+{
+  "model": "davey-configuration-reconstruction",
+  "status": "PUBLISHED_PARAMETER_RECONSTRUCTION_NOT_EXACT_REPRODUCTION",
+  "generated_at_utc": "2026-08-20T01:01:19.405335+00:00",
+  "reference": {
+    "source_id": "S-davey-2016-bayesian-methods-mh370",
+    "figure": "Fig. 10.3 bottom latitude density at 00:19 UTC",
+    "digitized_curve": "data/davey_fig10_3_digitized_latitude_pdf.csv",
+    "digitized_curve_sha256": "ae2d701df29be8c37720caafe744bc7735a22e4c0765d31820fefa2fe7f400ed",
+    "latitude_deg": {
+      "q025": -39.38784445699935,
+      "median": -37.542287106612136,
+      "q975": -34.91320817348614,
+      "mode": -37.91999999999811
+    }
+  },
+  "runs": {
+    "primary_bto_bfo_300k": {
+      "particle_count": 300000,
+      "seed": 370023,
+      "raw_latitude_summary": {
+        "q025": -38.27353855876432,
+        "median": -37.376220682882504,
+        "q975": -32.597280504424155
+      },
+      "raw_latitude_mode_deg_bin_0_2": -37.29999999999982,
+      "probability_north_of_equator": 0.0,
+      "probability_tau_gt_1h": 0.9885708250189558,
+      "mean_turn_count_after_1839": 0.09837382431388875
+    },
+    "replicate_bto_bfo_180k_seed370024": {
+      "particle_count": 180000,
+      "seed": 370024,
+      "raw_latitude_summary": {
+        "q025": -39.8013255927036,
+        "median": -38.21142656855913,
+        "q975": -32.397608297106444
+      },
+      "raw_latitude_mode_deg_bin_0_2": -39.49999999999985,
+      "probability_north_of_equator": 0.0,
+      "probability_tau_gt_1h": 0.9846022009067479,
+      "mean_turn_count_after_1839": 1.24625152938103
+    },
+    "replicate_bto_bfo_180k_seed370025": {
+      "particle_count": 180000,
+      "seed": 370025,
+      "raw_latitude_summary": {
+        "q025": -38.41745346445987,
+        "median": -37.591120650988,
+        "q975": -30.03120327117637
+      },
+      "raw_latitude_mode_deg_bin_0_2": -37.49999999999982,
+      "probability_north_of_equator": 0.0,
+      "probability_tau_gt_1h": 0.9999971266613819,
+      "mean_turn_count_after_1839": 0.5984474693169679
+    }
+  },
+  "comparison": {
+    "primary": {
+      "latitude_deg": {
+        "q025": -38.524782621258964,
+        "median": -37.39528932818245,
+        "q975": -32.948996006320975,
+        "mode": -37.299999999998015
+      },
+      "versus_davey": {
+        "overlap_coefficient": 0.5138900238178468,
+        "jensen_shannon_nats": 0.16952571316505483
+      },
+      "acceptance": {
+        "errors": {
+          "latitude_median_abs_error_deg": 0.14699777842968587,
+          "latitude_mode_abs_error_deg": 0.6200000000000969,
+          "latitude_q025_abs_error_deg": 0.863061835740389,
+          "latitude_q975_abs_error_deg": 1.9642121671651651
+        },
+        "checks": {
+          "median": true,
+          "mode": false,
+          "q025": true,
+          "q975": false,
+          "overlap": false,
+          "jensen_shannon": false
+        },
+        "passes_all": false
+      }
+    },
+    "pooled_particle_weighted": {
+      "latitude_deg": {
+        "q025": -39.7448443569766,
+        "median": -37.497448278876426,
+        "q975": -31.73718597236111,
+        "mode": -37.499999999998046
+      },
+      "versus_davey": {
+        "overlap_coefficient": 0.7085447237607068,
+        "jensen_shannon_nats": 0.0613534998712999
+      },
+      "acceptance": {
+        "errors": {
+          "latitude_median_abs_error_deg": 0.044838827735709685,
+          "latitude_mode_abs_error_deg": 0.42000000000006565,
+          "latitude_q025_abs_error_deg": 0.35699989997724657,
+          "latitude_q975_abs_error_deg": 3.176022201125029
+        },
+        "checks": {
+          "median": true,
+          "mode": true,
+          "q025": true,
+          "q975": false,
+          "overlap": false,
+          "jensen_shannon": false
+        },
+        "passes_all": false
+      }
+    },
+    "pooled_equal_run_weighted": {
+      "latitude_deg": {
+        "q025": -39.80493775475516,
+        "median": -37.53504123574659,
+        "q975": -31.239095378234282,
+        "mode": -37.499999999998046
+      },
+      "versus_davey": {
+        "overlap_coefficient": 0.7421400013515764,
+        "jensen_shannon_nats": 0.051575185604998665
+      },
+      "acceptance": {
+        "errors": {
+          "latitude_median_abs_error_deg": 0.007245870865546067,
+          "latitude_mode_abs_error_deg": 0.42000000000006565,
+          "latitude_q025_abs_error_deg": 0.4170932977558053,
+          "latitude_q975_abs_error_deg": 3.674112795251858
+        },
+        "checks": {
+          "median": true,
+          "mode": true,
+          "q025": true,
+          "q975": false,
+          "overlap": false,
+          "jensen_shannon": false
+        },
+        "passes_all": false
+      }
+    }
+  },
+  "seed_stability": {
+    "primary_bto_bfo_300k__vs__replicate_bto_bfo_180k_seed370024": {
+      "metrics": {
+        "overlap_coefficient": 0.33050694726058877,
+        "jensen_shannon_nats": 0.3093022561424692
+      },
+      "median_difference_deg": 0.8352058856766291
+    },
+    "primary_bto_bfo_300k__vs__replicate_bto_bfo_180k_seed370025": {
+      "metrics": {
+        "overlap_coefficient": 0.7107261940169853,
+        "jensen_shannon_nats": 0.06188516769736883
+      },
+      "median_difference_deg": 0.21489996810549883
+    },
+    "replicate_bto_bfo_180k_seed370024__vs__replicate_bto_bfo_180k_seed370025": {
+      "metrics": {
+        "overlap_coefficient": 0.43340371272203326,
+        "jensen_shannon_nats": 0.23327805124174228
+      },
+      "median_difference_deg": 0.6203059175711303
+    }
+  },
+  "bto_only_control": {
+    "particle_count": 300000,
+    "seed": 370023,
+    "latitude_deg": {
+      "q025": -39.24370679554262,
+      "median": -37.768784250564956,
+      "q975": 44.795684730151926
+    },
+    "probability_north_of_equator": 0.3332876642216623,
+    "interpretation": "BFO observations through 00:11 remove the northern BTO-only mode in all three BTO+BFO runs."
+  },
+  "conclusion": "The central latitude agrees, but the predeclared full-distribution reproduction criterion is not met and the seed replicas are not stable in the tails.",
+  "configuration_sha256": "9f5704df7cd014efb0edb38cc491ffd6e92c8ec83aa78713c5f63f7e52ad62a7",
+  "runtime": {
+    "python": "3.14.7",
+    "numpy": "2.5.2"
+  }
+}

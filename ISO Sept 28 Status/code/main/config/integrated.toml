@@ -1,0 +1,51 @@
+# The integrated estimate: the filter to 00:11 UTC, then the end-of-flight stage, which continues
+# each posterior trajectory to impact and scores the 00:19 bursts with the core measurement model.
+# Until the end-of-flight model is ready the terminal module is arc-kernel, a placeholder: its
+# impacts are plumbing, not a result.
+base = "davey2016.toml"
+name = "integrated"
+exclude_epochs = ["m0019a", "m0019b"]
+
+[terminal]
+module = "arc-kernel"
+handoff = 10000
+handoff_floor = 200
+children = 10
+arc = "m0019a"
+target = "all"
+# One, either, both or none of the 00:19 transmissions: one weight column each, from the same
+# children. The R1200 BTO is the corrected anomalous value (see README).
+options = [
+    { id = "none", use = [] },
+    { id = "r600", use = ["m0019a.bto", "m0019a.bfo"] },
+    { id = "r1200", use = ["m0019b.bfo"] },
+    { id = "r1200-with-bto", use = ["m0019b.bto", "m0019b.bfo"] },
+    { id = "both", use = ["m0019a.bto", "m0019a.bfo", "m0019b.bfo"] },
+    { id = "all", use = ["m0019a.bto", "m0019a.bfo", "m0019b.bto", "m0019b.bfo"] },
+    { id = "r600-bto", use = ["m0019a.bto"] },
+    { id = "both-bto", use = ["m0019a.bto", "m0019b.bto"] },
+]
+
+# The 00:19 BFO measurement alternatives ("final-bfo-model"), equally likely a priori.
+[terminal.bfo_models.no-offset]
+prior = 0.3333333333333333
+
+# Holland (2018, arXiv:1702.02432v3): the R1200 acknowledge 17-130 Hz above a steady oscillator
+# (Sec. V-B), the R600 log-on request 0-6 Hz above that (Sec. V-A). Extrapolated from seven log-ons
+# after long outages (Table II; footnote 13: less after this ~1 min outage); the uniform densities
+# are an analyst choice.
+[terminal.bfo_models.startup-offset]
+prior = 0.3333333333333333
+second_hz = [17.0, 130.0]
+first_minus_second_hz = [0.0, 6.0]
+points = [64, 16]
+
+# A declared sensitivity: independent 34 Hz errors, the spread of the historical start-up offsets,
+# (136 - 17)/sqrt(12). It drops the assumptions that the offset is positive and shared.
+[terminal.bfo_models.inflated]
+prior = 0.3333333333333333
+sd_hz = 34.0
+
+[hypotheses.arc-kernel]
+takeover_unix_s = 1394237977.443 # 00:19:37.443 UTC, the last transmission
+distance_nm = { mean = 0.0, sd = 50.0 }

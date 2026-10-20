@@ -1,0 +1,12 @@
+# Diagnostic: the base estimate at a small particle count over 50 seeds, to measure how much
+# the shoulder share (34.5-36.5 S at 00:19) varies when a filter rests on few trajectory families.
+name = "sparse-7k"
+particles_per_mode = [1000,500,2500,500,2500]
+seeds = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[output]
+route_samples = 200

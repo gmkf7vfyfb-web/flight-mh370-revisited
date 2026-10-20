@@ -1,0 +1,22 @@
+metric,value,unit,interpretation
+observed_interstation_lag,1076.15,s,H08S peak minus H01W peak
+oscar_predicted_interstation_lag,1080.70758,s,OSCAR point mode at central celerity
+source_time_offset,-4.55758124,s,H08S implied source time minus H01W
+pair_implied_celerity,1.50635262,km s^-1,Distance difference divided by observed lag
+central_expected_h08_panel_time,5.05758124,s,Seconds after Figure 9e begins
+fitted_airgun_period,9.9740351,s,Interior panel-e periodic fit
+fitted_predecessor_centre,-0.0543643479,s,Extrapolated from original cadence fit
+robust_predecessor_centre,-0.0778086369,s,Robust refit after cycle extraction
+robust_predecessor_q025,-0.212812039,s,Residual-bootstrap lower bound
+robust_predecessor_q975,0.0553088519,s,Residual-bootstrap upper bound
+boundary_forward_score,4.87826671,dimensionless,Fully supported forward score at panel start
+boundary_forward_point_percentile,90.3180035,%,Against all supported starts
+expected_window_maximum_score,5.3287902,dimensionless,Maximum in central expected arrival +/- tolerance
+matched_ten_second_window_p,0.631578947,probability,Overlapping interior ten-second controls
+cycle_window_p,0.631578947,probability,Interior airgun-cycle ten-second controls
+periodic_phase_probability,0.913889152,probability,Random phase chance of a pulse within the observed offset
+boundary_four_second_rms_percentile_among_pulses,62.7118644,%,Raw boundary segment versus interior pulse tails
+h01_panel_max_surrogate_p,0.000999000999,probability,Existing publication-trace IAAFT control
+oscar_expected_h01w_bearing,263.548605,deg,Initial great-circle bearing
+reported_nearby_h01w_bearing,57,deg,Kadri Figure 9 rectangle 1
+bearing_difference,153.451395,deg,Circular absolute difference

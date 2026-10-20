@@ -1,0 +1,19 @@
+schema_version = 1
+name = "Broader cruise, R600 and CMEMS nine-episode drift sensitivity"
+code_revision = "recorded-executable-and-source-hashes"
+branch_id = "cmems-nine-episodes-r600"
+relative_likelihood_floor = 0.0
+maximum_source_time_offset_s = 7200.0
+
+[terminal_conditioned_source]
+directory = "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-conditioned-seed-37091811"
+terminal_family = "openap26-positive-lift-3-targets"
+contact_case = "r600-no-startup-offset"
+
+[model]
+kind = "ocean_drift"
+handoff = "/jackbox/home/MH370/inputs/evidence/ocean-drift-cmems-full-domain.json"
+family_id = "cmems-glorys12-waverys-full-domain"
+source_time_unix_s = 1394237940.0
+maximum_nearest_cell_distance_nm = 75.0
+allow_diagnostic_family = true

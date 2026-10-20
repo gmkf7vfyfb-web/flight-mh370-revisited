@@ -1,0 +1,158 @@
+# End of flight: making 00:19 Holland H1 and H2 estimable (architecture 10:50 -0600, 11 Oct 2026; Pete confirmed 11:00)
+
+**SMOKE SCALE, PROVISIONAL. Not evidence.** Section 1 is N = 1 child x 4 descents on core run D `next-d-free` seed 1 (m0011
+look-ahead hand-off, read with `handoff::read_corrected`), constraint `unpowered` (the reference). Section 2 (full N = 8 x 4, seeds
+1 and 2) is added when the run ends. Binary `/tmp/mh370-eof-he` (sha256 b747f8065050a76f), module branch `hypothesis/end-of-flight`.
+
+## What changed (module only; switches off = earlier behaviour; 108 tests pass)
+
+1. **Piloted rapid descent (item 4) widened.** Eligible shapes: powered emergency descent (as before), powered or unpowered
+   continuous descent, unpowered best glide (new). Stepped shapes are not eligible (declared gap G-st). Commanded rate
+   U[6,500, 40,000] ft/min; upper end from NTSB AAB-02/01 (EgyptAir 990, Boeing 767-300ER: about 39,000 ft/min, load factor
+   down to about -0.2 g, Mach 0.99). Load-factor floor U[-1.0, 0.8] g (CS-25.337(c)). New: the target Mach is limited to the Mach
+   of VMO = 330 KCAS at the current altitude (777-200 VMO 330 KCAS / MMO 0.87, FAA TCDS T00001SE). Label: `latent:pushover_drawn`
+   = 1 is the emergency-descent shape; the base shape code stays in `latent:shape`.
+2. **INTERIM parametric pitch-down** in uncontrolled free flight (no intervention from the onset; the free phase after control
+   maintained then lost). During the pulse the trim lift is replaced by load factor n ~ U[-0.31, 0.69] g (Boeing no-input
+   simulations: peak downward accelerations 0.31-1.31 g below 1 g, SIR App. 1.6E case by case) for U[4, 20] s, starting
+   U[0, 900] s after the free phase begins. Prior probability a U[0, 1] hyper-parameter, proposal 0.5 = the marginal; exact
+   re-weighting with `latent:pitchdown_eligible` / `pitchdown_drawn`. Labelled INTERIM until the 6-DOF gate passes.
+3. **Targeted proposal** (Pete GO). The push-over start (onset + hold) and the pitch-down start are drawn, with probability w,
+   uniformly in [00:19:29.416 + a, 00:19:29.416 + b] intersected with the prior support, otherwise from the prior. The exact
+   ln(prior/proposal) goes into the profile correction; `terminal.within_parent = "unnormalised"` (core request 9) keeps it exact
+   (self-normalisation within a parent cancels it at N = 1). Adopted w = 0.8, [a, b] = [-20, +2] s (table below).
+4. Normalisation check (run C free seed 1, N = 1, recipe without these changes): self-normalised against unnormalised weights
+   give Held Out ln Z -0.0292 vs -0.0289, families A1 0.119 / A2 0.326 / B 0.554 in both, effective parents 99,030 vs 94,515
+   (`n1-normalisation-run-c-free-s1.json`). At 00:11 the proposal corrections are small, so the bias found at 22:41 does not
+   move the 00:11 products. Unnormalised weights are used from now on.
+
+## 1. N = 1 smoke, run D free seed 1 (`n1-targeting-*.json`; tool `smoke/holland_ess.py`)
+
+| Arm | Option | ln Z | Effective impacts | A1 share / eff. | A2 share / eff. | B share / eff. | Push-over share | Pitch-down share | Median latitude |
+|---|---|---|---|---|---|---|---|---|---|
+| Items 2-4 (run D smoke), self-normalised, no pitch-down | 00:19 Held Out | -0.05 | 177291 | 0.12 / 20707 | 0.32 / 56216 | 0.56 / 100278 | 0.14 | 0.00 | -37.52 |
+| Items 2-4 (run D smoke), self-normalised, no pitch-down | 00:19 R600 BTO Only | -5.71 | 227573 | 0.10 / 22770 | 0.31 / 73831 | 0.58 / 130980 | 0.15 | 0.00 | -38.08 |
+| Items 2-4 (run D smoke), self-normalised, no pitch-down | 00:19 Holland H1 | -29.36 | 5 | 0.00 / 2 | 0.23 / 1 | 0.77 / 4 | 1.00 | 0.00 | -38.11 |
+| Items 2-4 (run D smoke), self-normalised, no pitch-down | 00:19 Holland H2 | -23.28 | 6 | 0.00 / 1 | 0.56 / 3 | 0.44 / 3 | 1.00 | 0.00 | -37.83 |
+| New recipe, untargeted | 00:19 Held Out | -0.06 | 139406 | 0.12 / 20549 | 0.32 / 55928 | 0.56 / 67308 | 0.28 | 0.24 | -37.41 |
+| New recipe, untargeted | 00:19 R600 BTO Only | -5.73 | 175801 | 0.11 / 22243 | 0.31 / 72388 | 0.58 / 87977 | 0.29 | 0.24 | -37.98 |
+| New recipe, untargeted | 00:19 Holland H1 | -29.04 | 9 | 0.15 / 2 | 0.44 / 8 | 0.42 / 2 | 0.85 | 0.24 | -37.87 |
+| New recipe, untargeted | 00:19 Holland H2 | -21.84 | 11 | 0.04 / 1 | 0.18 / 11 | 0.78 / 7 | 0.95 | 0.15 | -38.03 |
+| New recipe, targeted 0.5 in [-30, +2] s | 00:19 Held Out | -0.06 | 125551 | 0.12 / 16982 | 0.32 / 51032 | 0.56 / 61131 | 0.28 | 0.24 | -37.41 |
+| New recipe, targeted 0.5 in [-30, +2] s | 00:19 R600 BTO Only | -5.73 | 159364 | 0.11 / 19612 | 0.31 / 65115 | 0.58 / 80227 | 0.29 | 0.24 | -37.99 |
+| New recipe, targeted 0.5 in [-30, +2] s | 00:19 Holland H1 | -28.69 | 76 | 0.06 / 18 | 0.49 / 45 | 0.45 / 26 | 0.93 | 0.31 | -37.80 |
+| New recipe, targeted 0.5 in [-30, +2] s | 00:19 Holland H2 | -22.04 | 32 | 0.05 / 13 | 0.34 / 28 | 0.61 / 14 | 0.93 | 0.25 | -37.49 |
+| New recipe, targeted 0.8 in [-30, +2] s | 00:19 Held Out | -0.06 | 96156 | 0.12 / 11021 | 0.32 / 39304 | 0.56 / 48091 | 0.28 | 0.24 | -37.40 |
+| New recipe, targeted 0.8 in [-30, +2] s | 00:19 R600 BTO Only | -5.73 | 126050 | 0.11 / 14716 | 0.31 / 50529 | 0.58 / 64386 | 0.29 | 0.24 | -37.99 |
+| New recipe, targeted 0.8 in [-30, +2] s | 00:19 Holland H1 | -28.71 | 117 | 0.06 / 18 | 0.46 / 66 | 0.48 / 45 | 0.93 | 0.30 | -37.81 |
+| New recipe, targeted 0.8 in [-30, +2] s | 00:19 Holland H2 | -22.10 | 33 | 0.04 / 18 | 0.39 / 16 | 0.56 / 16 | 0.92 | 0.30 | -37.36 |
+| New recipe, targeted 0.8 in [-20, +2] s (adopted) | 00:19 Held Out | -0.06 | 96182 | 0.12 / 10955 | 0.32 / 39216 | 0.56 / 48197 | 0.28 | 0.24 | -37.40 |
+| New recipe, targeted 0.8 in [-20, +2] s (adopted) | 00:19 R600 BTO Only | -5.73 | 126221 | 0.11 / 14415 | 0.31 / 50049 | 0.58 / 64911 | 0.29 | 0.24 | -37.98 |
+| New recipe, targeted 0.8 in [-20, +2] s (adopted) | 00:19 Holland H1 | -28.92 | 158 | 0.07 / 17 | 0.49 / 82 | 0.44 / 62 | 0.92 | 0.29 | -37.83 |
+| New recipe, targeted 0.8 in [-20, +2] s (adopted) | 00:19 Holland H2 | -21.98 | 49 | 0.05 / 16 | 0.38 / 19 | 0.57 / 25 | 0.92 | 0.26 | -37.59 |
+
+| Arm | ln BF H1:H2 at W = 60 / 300 / 900 / 1,775 / 3,600 s | Break-even W (s) |
+|---|---|---|
+| Items 2-4 (run D smoke), self-normalised, no pitch-down | -1.98 / -0.37 / +0.72 / +1.40 / +2.11 | 436 |
+| New recipe, untargeted | -3.10 / -1.49 / -0.39 / +0.29 / +0.99 | 1331 |
+| New recipe, targeted 0.5 in [-30, +2] s | -2.55 / -0.94 / +0.16 / +0.84 / +1.54 | 768 |
+| New recipe, targeted 0.8 in [-30, +2] s | -2.52 / -0.91 / +0.19 / +0.87 / +1.58 | 745 |
+| New recipe, targeted 0.8 in [-20, +2] s (adopted) | -2.85 / -1.24 / -0.14 / +0.54 / +1.25 | 1032 |
+
+H1:H2: "other" (H2) has no log-on-time density, so its likelihood is 1/W over a declared log-on window W; H1 carries the
+Erlang(8, 14.875 s) lag density. ln BF(H1:H2) = ln Z_H1 - ln Z_H2 + ln W. The break-even W moves with Monte Carlo noise at these
+ESS (436-1,331 s); the full-N value replaces it.
+
+Reading (smoke): targeting raises H1 effective impacts 9 -> 158 and H2 11 -> 49 at N = 1; the other options keep ESS above 96,000.
+ln Z of H1/H2 does not move outside Monte Carlo noise (H1 -28.7 to -29.4; H2 -21.8 to -23.3), which is the check that the
+proposal correction is exact. 92-95% of the H1/H2 posterior is in push-over rows. Effective impacts equal effective parents for
+H1/H2: each contributing impact comes from a different parent, so ESS scales about linearly with children (expected about 32x
+at N = 8 x 4).
+
+## 2. Full N (8 children x 4 descents), core run D `next-d-free`, seeds 1 and 2 (SMOKE, not evidence)
+
+**Arm A** (binary b747f806, w = 0.8 in [-20, +2] s, no load-factor ceiling; `fullN-armA-*.json`), constraint `unpowered`:
+
+| Option | ln Z seed 1 / seed 2 | Effective impacts seed 1 / seed 2 | Pooled (equal seed weights) | A1 / A2 / B effective impacts, seed 1 | seed 2 | Median latitude s1 / s2 |
+|---|---|---|---|---|---|---|
+| 00:19 Held Out | -0.06 / -0.06 | 760870 / 765858 | 1526711 | 86819 / 315068 / 378453 | 83970 / 328120 / 379070 | -37.41 / -37.36 |
+| 00:19 R600 BTO Only | -5.73 / -5.76 | 984410 / 925159 | 1907730 | 113472 / 403283 / 498220 | 99490 / 388088 / 468307 | -37.98 / -37.82 |
+| 00:19 R600 BTO + Raw BFO | -12.72 / -12.72 | 22109 / 25177 | 47087 | 2194 / 8675 / 12303 | 2750 / 8017 / 14630 | -37.41 / -37.44 |
+| 00:19 Holland H1 | -28.82 / -28.60 | 935 / 241 | 766 | 47 / 575 / 397 | 12 / 568 / 309 | -37.72 / -37.47 |
+| 00:19 Holland H2 | -22.04 / -22.04 | 190 / 133 | 313 | 6 / 68 / 150 | 16 / 31 / 145 | -37.27 / -37.40 |
+
+H1:H2 break-even W: seed 1 878 s, seed 2 709 s.
+
+**Gate (H1 and H2 at least 1,000 effective impacts) NOT MET by arm A:** pooled H1 766, H2 313. Effective impacts grew about 6x
+from N = 1, not 32x. Diagnosis (`/tmp/heavy.py`, rows of largest posterior weight): ESS is limited by rare mechanisms the targeted
+window does not serve, which carry the x5 out-of-window correction: (i) A1 rows (no intervention) with a pitch-down; (ii) for H2,
+push-overs that began 130-430 s before 00:19:29 and reach the H2 state through a pull-out phugoid. In seed 1, 41% of the H2
+posterior is in (ii).
+
+**Arm B** (w = 0.5, window [-15, +6] s, load-factor ceiling U[1.5, 5.0] g; seed 1 only, then stopped): H1 451, H2 201 effective
+impacts (`fullN-armB-w05-run-d-free-s1.json`). A lower targeting weight does not help; w = 0.8 is kept.
+
+### 2C. Arm C (adopted recipe: w = 0.8 in [-15, +6] s, load-factor ceiling U[1.5, 5.0] g, structural columns; binary b075f3b6; `fullN-armC-*.json`)
+
+| Option | ln Z s1 / s2 | Effective impacts s1 / s2 | Pooled | With survival factor: ln Z s1 / s2 | effective impacts s1 / s2 | pooled | P(breakup before 00:19:37), s1 | Median latitude s1 / s2 |
+|---|---|---|---|---|---|---|---|---|
+| 00:19 Held Out | -0.06 / -0.06 | 754343 / 762491 | 1516790 | -0.22 / -0.24 | 705193 / 690972 | 1396020 | 0.146 | -37.42 / -37.36 |
+| 00:19 R600 BTO Only | -5.72 / -5.76 | 985980 / 931111 | 1915521 | -5.87 / -5.92 | 951557 / 878732 | 1827392 | 0.132 | -37.98 / -37.82 |
+| 00:19 R600 BTO + Raw BFO | -12.72 / -12.70 | 21884 / 21479 | 43360 | -12.83 / -12.81 | 22049 / 20169 | 42134 | 0.097 | -37.42 / -37.44 |
+| 00:19 Holland H1 | -28.76 / -28.73 | 682 / 768 | 1445 | -28.76 / -28.76 | 700 / 849 | 1535 | 0.008 | -37.43 / -37.51 |
+| 00:19 Holland H2 | -21.66 / -21.57 | 192 / 141 | 325 | -22.60 / -22.54 | 339 / 213 | 523 | 0.612 | -37.32 / -37.57 |
+
+| Family effective impacts (A1 / A2 / B) | Holland H1 s1 | s2 | Holland H2 s1 | s2 |
+|---|---|---|---|---|
+| no survival factor | 20 / 543 / 427 | 36 / 505 / 430 | 10 / 51 / 132 | 9 / 31 / 138 |
+
+H1:H2 ln BF at W = 60 / 300 / 900 / 1,775 / 3,600 s: seed 1 -3.01 / -1.40 / -0.30 / +0.38 / +1.09 (break-even 1212 s); seed 2 -3.07 / -1.46 / -0.36 / +0.31 / +1.02 (break-even 1295 s). Without the survival factor; with it, H2 ln Z falls by about 0.95 nat, so the break-even W rises by a factor of about 2.6.
+
+**Gate: H1 MET** (pooled 1,445; 1,535 with the survival factor). **H2 NOT MET** (325; 523 with the survival factor). ln Z is
+stable between seeds (H1 -28.76 / -28.73, H2 -21.66 / -21.57). **Arm D** (two target components, 0.4 on [-15, +6] s and 0.4 on
+[-6, +4] s; seed 1; `fullN-armD-*.json`): H2 202 (390 with the survival factor) against arm C's 192 (339); H1 526 against 682.
+The timing proposal is no longer what limits H2: its ESS is set by the spread of parent weight x likelihood over the few
+thousand rows that reach the H2 state, and grows with the number of parents (seeds, strata) about linearly, with children only
+about as N^0.4. Expected for the full sweep (4 strata x 4 seeds): H2 about 1,000 with the survival factor, about 650 without
+(free stratum alone, by the per-seed values above). H2 remains a declared COVERAGE GAP until the sweep shows it.
+
+## 3. Findings on the way (N = 1, run D free seed 1; `n1-inflight-structure-*.json`, `n1-survival-factor-*.json`)
+
+1. **Piloted pull-outs pulled 5-8 g.** Without a ceiling, the best-glide capture after a push-over (and the pull-out at the end of
+   one) flies the fixed best-glide lift coefficient at high dynamic pressure: 32% of the prior had a peak load factor above
+   2.5 g; for best-glide shapes with a push-over, 99-100% (median 4.7 g). Fix (module): a per-descent load-factor ceiling on the
+   piloted laws, U[1.5, 5.0] g (2.5 g limit load, CS-25.337(b); China Airlines 006, NTSB AAR-86/03, about 5 g, damaged, landed).
+   Prior share above 2.5 g: 32% -> 27%. The rest is free flight (no-intervention spiral dives near the surface, maintained-then-lost
+   after the loss), which the ceiling does not touch.
+2. **In-flight structural outcome (G13, PROVISIONAL), now emitted per impact.** Columns `latent:struct_*` and `latent:inflight_p_*`
+   (peaks, P(intact), P(partial damage, continued flight), P(breakup), where the peak was). Fragility as in `StructureParams`
+   (sources: CS-25.335(b), 25.337, 25.303/305, 25.629; VD 380 KEAS / MD 0.95 DECLARED, not public). Prior: intact 0.56,
+   partial 0.06, breakup 0.38. Held Out posterior: intact 0.59, partial 0.06, breakup 0.35 (A1 breakup 0.51). Holland H1: breakup
+   0.98; H2: 0.93. The driver is speed, not load: H1/H2 posterior peak speed ratio median 1.45-1.53 (q05 1.16-1.38) against
+   VD/MD, max Mach median 1.02-1.06. **Caveat:** such speeds are reachable because the model has no transonic drag rise above the
+   crest Mach (G-H2; drag calibration 1(B) pending), so P(breakup) for dives is an upper-side estimate until then. Trajectories are
+   not changed by these columns (partial damage flown undamaged: G-pd; breakup keeps the intact impact point: G-bf).
+3. **Breakup before the log-on.** A breakup before 00:19:37 contradicts the log-on itself. New columns give the peaks and
+   P(breakup) up to 00:19:37.443. In H2's posterior P(breakup before 00:19:37) = 0.65 (the early push-overs of item (ii) above);
+   H1 0.002; Held Out 0.15. With the factor (1 - P) applied: H2 ln Z -21.53 -> -22.57, H2 effective impacts 29 -> 67 (N = 1); H1
+   unchanged; Held Out ln Z -0.06 -> -0.22. **Proposal to architecture:** the `alive` constraint carries (1 - P(breakup before
+   00:19:37)); results are shown both ways until ruled.
+
+## COVERAGE
+
+- (a) FEASIBLE set: piloted descents to about 39,000 ft/min and unloading to -1.0 g (NTSB AAB-02/01; CS-25.337(c)); speed to
+  VMO/MMO and beyond in a dive (EgyptAir 990 reached Mach 0.99); uncontrolled pitch-downs with peak downward accelerations
+  0.31-1.31 g below 1 g and no-input descents to 24,000-58,000 ft/min (SIR App. 1.6E).
+- (b) MODEL'S REACH: push-over to 40,000 ft/min, floor -1.0 g, in emergency, continuous and best-glide shapes; interim pitch-down
+  in free flight. GAPS: G-st stepped shapes have no push-over (declared, conditional); G-H2 no structural limit (4.5% of impacts
+  at or above Mach 1 at sea level in run C; the probabilistic in-flight structural columns of section 3 now price it, with the
+  212 m/s two-version display kept as the stop-gap); transonic drag rise above the crest Mach missing (drag calibration 1(B));
+  G-pd and G-bf (section 3);
+  the pitch-down is parametric (INTERIM, not the 6-DOF).
+- (c) PROPOSAL COVERAGE: sections 1-2; full-N arm A per family A1 / A2 / B effective impacts for H1 47 / 575 / 397 and
+  12 / 568 / 309, H2 6 / 68 / 150 and 16 / 31 / 145 (seeds 1 / 2). A1 under H1/H2 is a COVERAGE GAP (fewer than 50 effective
+  impacts): it is reached only through the interim pitch-down. H2 overall below the 1,000 gate in arm A.
+- Bounds and sources: rate U[6,500, 40,000] ft/min (NTSB AAB-02/01); floor U[-1.0, 0.8] g (CS-25.337(c)); hold U[0, 300] s
+  (declared reaction time, covers the log-on lag); VMO 330 KCAS (FAA TCDS T00001SE); pitch-down n U[-0.31, 0.69] g (SIR App. 1.6E),
+  duration U[4, 20] s and delay U[0, 900] s (declared); piloted load-factor ceiling U[1.5, 5.0] g (CS-25.337(b); NTSB AAR-86/03);
+  structural fragility (section 3; VD and MD declared).

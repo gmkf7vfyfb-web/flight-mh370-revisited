@@ -1,0 +1,6 @@
+# Diagnostic smoke 1 (Pete, 10 Oct ~18:10 UTC; architecture 00:19 push-over study §6): the fixed-trim lift
+# coefficient after a maintained-then-lost loss of control is referenced to the state AT THE LOSS, not the
+# takeover state. Same draws; only the trim reference changes. Ruling ~18:45 item 3 adopts this for the base
+# once the smoke is reported.
+[hypotheses.end-of-flight.envelope]
+trim_reference_at_loss = true

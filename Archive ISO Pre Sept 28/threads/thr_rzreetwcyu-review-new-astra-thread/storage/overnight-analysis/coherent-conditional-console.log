@@ -1,0 +1,10 @@
+{"step": 0, "temperature": 1e-10, "pre_resample_ess": 526.9999999999986, "mutation_acceptance": 0.315399169921875, "independence_acceptances": 3862, "proposal_scale": 0.826592073399655, "root_count": 527, "log_normalizer": -0.664271271532094, "elapsed_s": 159.56953610799974, "evaluations": 33897, "mean": [-35.60559055243736, 90.76345118034787, 22481.166136276337]}
+{"step": 1, "temperature": 0.09885715614943862, "pre_resample_ess": 819.2000000000269, "mutation_acceptance": 0.23699951171875, "independence_acceptances": 2364, "proposal_scale": 0.8212364484104956, "root_count": 504, "log_normalizer": -10.201592647789418, "elapsed_s": 316.32141460300045, "evaluations": 66665, "mean": [-35.70181739770768, 90.4253819126161, 22468.632955062734]}
+{"step": 2, "temperature": 0.24161248655571338, "pre_resample_ess": 819.2000000000083, "mutation_acceptance": 0.27032470703125, "independence_acceptances": 2097, "proposal_scale": 0.8296246934849588, "root_count": 482, "log_normalizer": -23.593859575001, "elapsed_s": 451.04004665300454, "evaluations": 99433, "mean": [-35.7945078316801, 90.29435417211063, 22453.93605431196]}
+Traceback (most recent call last):
+  File "/tmp/mh370-command-sampler/sampler.py", line 263, in <module>
+    result=smc(model,q,args.particles,args.seed,args.moves,args.seconds,args.output/'progress.jsonl')
+  File "/tmp/mh370-command-sampler/sampler.py", line 172, in smc
+    if time.monotonic()-t0>max_seconds:raise TimeoutError('SMC runtime limit during mutation')
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TimeoutError: SMC runtime limit during mutation

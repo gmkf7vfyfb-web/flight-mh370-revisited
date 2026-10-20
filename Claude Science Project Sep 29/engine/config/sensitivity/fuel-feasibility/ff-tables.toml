@@ -1,0 +1,23 @@
+# Core order 2026-10-15b step 3 (fuel feasibility), variant A: the fuel model behind the
+# "one in eight feasible" reading (no-exhaustion-prior's [fuel] block, Boeing-derived tables,
+# kappa ~ N(1.0085, 0.0178)), TRACKED BUT NOT CONSTRAINING: no require_power_until, no
+# exhaustion-timing term, no hard reject, default ("reject") proposal, which with no deadline
+# draws the profile from Davey's prior alone. The posterior is therefore Davey's; fuel is
+# bookkeeping only. Stack: davey2016-inmarsat.toml + this file.
+# Reduced scale: 1/4 of Davey's per-seed particle count, 4 seeds.
+name = "ff-tables"
+seeds = [1, 2, 3, 4]
+particles_per_mode = [250000, 125000, 625000, 125000, 625000]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[inputs]
+fuel_tables = "../../../data/fuel-tables.json"
+
+[fuel]
+initial_kg = 36609.0
+zfw_kg = 174196.0
+factor_mean = 1.0085
+factor_sd = 0.0178

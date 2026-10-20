@@ -1,0 +1,571 @@
+{
+  "schema": "mh370-packed-current-field-spot-check-v1",
+  "source_kind": "cmems_glorys12_float",
+  "manifest": ".sources/ocean-drift-input-preparation/outputs/cmems-glorys12-full-domain-retrieval-manifest.json",
+  "manifest_sha256": "7e9261a1017d795e82a36220084496efe9122f973ba1d33e82d0f7dadb11fedb",
+  "field": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-glorys12.mhgrid",
+  "field_sha256": "d532482adda31b357ed4d2e899074255d277f64a99b5c2503be699ad1c5e6d52",
+  "field_schema": 3,
+  "field_shape": [
+    1062,
+    841,
+    2161
+  ],
+  "checked_values": 48,
+  "mismatch_count": 0,
+  "checks": [
+    {
+      "source_file": "cmems-glorys12-surface-2014-03.nc",
+      "source_file_sha256": "c4fabfe4bbbddd2772d8cf6ca63527e308f993548160547096d5acd671f22697",
+      "unix_seconds": 1394150400.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": 0.0030518509447574615,
+          "expected_packed_i16": 3,
+          "packed_i16": 3,
+          "packed_metres_per_second": 0.003,
+          "absolute_quantization_error_metres_per_second": 5.1850944757461485e-05
+        },
+        "v": {
+          "source_metres_per_second": 0.001831110566854477,
+          "expected_packed_i16": 2,
+          "packed_i16": 2,
+          "packed_metres_per_second": 0.002,
+          "absolute_quantization_error_metres_per_second": 0.0001688894331455231
+        }
+      }
+    },
+    {
+      "source_file": "cmems-glorys12-surface-2014-03.nc",
+      "source_file_sha256": "c4fabfe4bbbddd2772d8cf6ca63527e308f993548160547096d5acd671f22697",
+      "unix_seconds": 1395187200.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.12207403779029846,
+          "expected_packed_i16": -122,
+          "packed_i16": -122,
+          "packed_metres_per_second": -0.122,
+          "absolute_quantization_error_metres_per_second": 7.403779029846458e-05
+        },
+        "v": {
+          "source_metres_per_second": -0.0317392498254776,
+          "expected_packed_i16": -32,
+          "packed_i16": -32,
+          "packed_metres_per_second": -0.032,
+          "absolute_quantization_error_metres_per_second": 0.00026075017452240057
+        }
+      }
+    },
+    {
+      "source_file": "cmems-glorys12-surface-2014-03.nc",
+      "source_file_sha256": "c4fabfe4bbbddd2772d8cf6ca63527e308f993548160547096d5acd671f22697",
+      "unix_seconds": 1396224000.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.17883846536278725,
+          "expected_packed_i16": -179,
+          "packed_i16": -179,
+          "packed_metres_per_second": -0.179,
+          "absolute_quantization_error_metres_per_second": 0.00016153463721274575
+        },
+        "v": {
+          "source_metres_per_second": -0.048829615116119385,
+          "expected_packed_i16": -49,
+          "packed_i16": -49,
+          "packed_metres_per_second": -0.049,
+          "absolute_quantization_error_metres_per_second": 0.00017038488388061712
+        }
+      }
+    },
+    {
+      "source_file": "cmems-glorys12-surface-2014-08.nc",
+      "source_file_sha256": "1eaac4d16426419ff85d1ee1ccabc0d0b99b05f9e61bb8ab5e6945a3709d423f",
+      "unix_seconds": 1406851200.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.08117923513054848,
+          "expected_packed_i16": -81,
+          "packed_i16": -81,
+          "packed_metres_per_second": -0.081,
+          "absolute_quantization_error_metres_per_second": 0.00017923513054847462
+        },
+        "v": {
+          "source_metres_per_second": -0.15625476837158203,
+          "expected_packed_i16": -156,
+          "packed_i16": -156,
+          "packed_metres_per_second": -0.156,
+          "absolute_quantization_error_metres_per_second": 0.00025476837158203147
+        }
+      }
+    },
+    {
+      "source_file": "cmems-glorys12-surface-2014-08.nc",
+      "source_file_sha256": "1eaac4d16426419ff85d1ee1ccabc0d0b99b05f9e61bb8ab5e6945a3709d423f",
+      "unix_seconds": 1408147200.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.1831110566854477,
+          "expected_packed_i16": -183,
+          "packed_i16": -183,
+          "packed_metres_per_second": -0.183,
+          "absolute_quantization_error_metres_per_second": 0.00011105668544769687
+        },
+        "v": {
+          "source_metres_per_second": 0.15564439818263054,
+          "expected_packed_i16": 156,
+          "packed_i16": 156,
+          "packed_metres_per_second": 0.156,
+          "absolute_quantization_error_metres_per_second": 0.00035560181736946084
+        }
+      }
+    },
+    {
+      "source_file": "cmems-glorys12-surface-2014-08.nc",
+      "source_file_sha256": "1eaac4d16426419ff85d1ee1ccabc0d0b99b05f9e61bb8ab5e6945a3709d423f",
+      "unix_seconds": 1409443200.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": 0.06530961021780968,
+          "expected_packed_i16": 65,
+          "packed_i16": 65,
+          "packed_metres_per_second": 0.065,
+          "absolute_quantization_error_metres_per_second": 0.0003096102178096749
+        },
+        "v": {
+          "source_metres_per_second": -0.11352885514497757,
+          "expected_packed_i16": -114,
+          "packed_i16": -114,
+          "packed_metres_per_second": -0.114,
+          "absolute_quantization_error_metres_per_second": 0.00047114485502243453
+        }
+      }
+    },
+    {
+      "source_file": "cmems-glorys12-surface-2015-01.nc",
+      "source_file_sha256": "31524037cc5367e34f1c0ff4bd3984955fa8792b6eb16814e5d29388f2e8b2fd",
+      "unix_seconds": 1420070400.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.05310220643877983,
+          "expected_packed_i16": -53,
+          "packed_i16": -53,
+          "packed_metres_per_second": -0.053,
+          "absolute_quantization_error_metres_per_second": 0.00010220643877983243
+        },
+        "v": {
+          "source_metres_per_second": -0.24170659482479095,
+          "expected_packed_i16": -242,
+          "packed_i16": -242,
+          "packed_metres_per_second": -0.242,
+          "absolute_quantization_error_metres_per_second": 0.0002934051752090383
+        }
+      }
+    },
+    {
+      "source_file": "cmems-glorys12-surface-2015-01.nc",
+      "source_file_sha256": "31524037cc5367e34f1c0ff4bd3984955fa8792b6eb16814e5d29388f2e8b2fd",
+      "unix_seconds": 1421366400.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": 0.11658070608973503,
+          "expected_packed_i16": 117,
+          "packed_i16": 117,
+          "packed_metres_per_second": 0.117,
+          "absolute_quantization_error_metres_per_second": 0.00041929391026497564
+        },
+        "v": {
+          "source_metres_per_second": -0.23255104199051857,
+          "expected_packed_i16": -233,
+          "packed_i16": -233,
+          "packed_metres_per_second": -0.233,
+          "absolute_quantization_error_metres_per_second": 0.0004489580094814427
+        }
+      }
+    },
+    {
+      "source_file": "cmems-glorys12-surface-2015-01.nc",
+      "source_file_sha256": "31524037cc5367e34f1c0ff4bd3984955fa8792b6eb16814e5d29388f2e8b2fd",
+      "unix_seconds": 1422662400.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": 0.316171757876873,
+          "expected_packed_i16": 316,
+          "packed_i16": 316,
+          "packed_metres_per_second": 0.316,
+          "absolute_quantization_error_metres_per_second": 0.00017175787687301325
+        },
+        "v": {
+          "source_metres_per_second": -0.04028443247079849,
+          "expected_packed_i16": -40,
+          "packed_i16": -40,
+          "packed_metres_per_second": -0.04,
+          "absolute_quantization_error_metres_per_second": 0.0002844324707984916
+        }
+      }
+    },
+    {
+      "source_file": "cmems-glorys12-surface-2015-06.nc",
+      "source_file_sha256": "d80cdef1f0545c33e284cec8b45982f36e868e6311b7a4a12b3edca06b7b1b47",
+      "unix_seconds": 1433116800.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.046388134360313416,
+          "expected_packed_i16": -46,
+          "packed_i16": -46,
+          "packed_metres_per_second": -0.046,
+          "absolute_quantization_error_metres_per_second": 0.0003881343603134163
+        },
+        "v": {
+          "source_metres_per_second": -0.07202368229627609,
+          "expected_packed_i16": -72,
+          "packed_i16": -72,
+          "packed_metres_per_second": -0.07200000000000001,
+          "absolute_quantization_error_metres_per_second": 2.368229627608409e-05
+        }
+      }
+    },
+    {
+      "source_file": "cmems-glorys12-surface-2015-06.nc",
+      "source_file_sha256": "d80cdef1f0545c33e284cec8b45982f36e868e6311b7a4a12b3edca06b7b1b47",
+      "unix_seconds": 1434412800.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.03723258152604103,
+          "expected_packed_i16": -37,
+          "packed_i16": -37,
+          "packed_metres_per_second": -0.037,
+          "absolute_quantization_error_metres_per_second": 0.00023258152604103272
+        },
+        "v": {
+          "source_metres_per_second": -0.051271095871925354,
+          "expected_packed_i16": -51,
+          "packed_i16": -51,
+          "packed_metres_per_second": -0.051000000000000004,
+          "absolute_quantization_error_metres_per_second": 0.00027109587192535034
+        }
+      }
+    },
+    {
+      "source_file": "cmems-glorys12-surface-2015-06.nc",
+      "source_file_sha256": "d80cdef1f0545c33e284cec8b45982f36e868e6311b7a4a12b3edca06b7b1b47",
+      "unix_seconds": 1435622400.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": 0.017090365290641785,
+          "expected_packed_i16": 17,
+          "packed_i16": 17,
+          "packed_metres_per_second": 0.017,
+          "absolute_quantization_error_metres_per_second": 9.036529064178345e-05
+        },
+        "v": {
+          "source_metres_per_second": -0.119022186845541,
+          "expected_packed_i16": -119,
+          "packed_i16": -119,
+          "packed_metres_per_second": -0.11900000000000001,
+          "absolute_quantization_error_metres_per_second": 2.2186845540991817e-05
+        }
+      }
+    },
+    {
+      "source_file": "cmems-glorys12-surface-2015-10.nc",
+      "source_file_sha256": "776e8b8afde445f9e57ee26c47a7f3d754ceb82ed5b6249e39acd963e8466358",
+      "unix_seconds": 1443657600.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": 0.02136295661330223,
+          "expected_packed_i16": 21,
+          "packed_i16": 21,
+          "packed_metres_per_second": 0.021,
+          "absolute_quantization_error_metres_per_second": 0.00036295661330222953
+        },
+        "v": {
+          "source_metres_per_second": 0.39185766130685806,
+          "expected_packed_i16": 392,
+          "packed_i16": 392,
+          "packed_metres_per_second": 0.392,
+          "absolute_quantization_error_metres_per_second": 0.00014233869314195235
+        }
+      }
+    },
+    {
+      "source_file": "cmems-glorys12-surface-2015-10.nc",
+      "source_file_sha256": "776e8b8afde445f9e57ee26c47a7f3d754ceb82ed5b6249e39acd963e8466358",
+      "unix_seconds": 1444953600.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.07202368229627609,
+          "expected_packed_i16": -72,
+          "packed_i16": -72,
+          "packed_metres_per_second": -0.07200000000000001,
+          "absolute_quantization_error_metres_per_second": 2.368229627608409e-05
+        },
+        "v": {
+          "source_metres_per_second": 0.011597033590078354,
+          "expected_packed_i16": 12,
+          "packed_i16": 12,
+          "packed_metres_per_second": 0.012,
+          "absolute_quantization_error_metres_per_second": 0.00040296640992164637
+        }
+      }
+    },
+    {
+      "source_file": "cmems-glorys12-surface-2015-10.nc",
+      "source_file_sha256": "776e8b8afde445f9e57ee26c47a7f3d754ceb82ed5b6249e39acd963e8466358",
+      "unix_seconds": 1446249600.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.08545182645320892,
+          "expected_packed_i16": -85,
+          "packed_i16": -85,
+          "packed_metres_per_second": -0.085,
+          "absolute_quantization_error_metres_per_second": 0.00045182645320891723
+        },
+        "v": {
+          "source_metres_per_second": -0.17883846536278725,
+          "expected_packed_i16": -179,
+          "packed_i16": -179,
+          "packed_metres_per_second": -0.179,
+          "absolute_quantization_error_metres_per_second": 0.00016153463721274575
+        }
+      }
+    },
+    {
+      "source_file": "cmems-glorys12-surface-2016-03.nc",
+      "source_file_sha256": "4adf6d392253abcf54ab797bce2aec1ca7207e61e7a37bf1cde5945b7c479d96",
+      "unix_seconds": 1456790400.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": 0.15442365780472755,
+          "expected_packed_i16": 154,
+          "packed_i16": 154,
+          "packed_metres_per_second": 0.154,
+          "absolute_quantization_error_metres_per_second": 0.0004236578047275563
+        },
+        "v": {
+          "source_metres_per_second": 0.10376293212175369,
+          "expected_packed_i16": 104,
+          "packed_i16": 104,
+          "packed_metres_per_second": 0.10400000000000001,
+          "absolute_quantization_error_metres_per_second": 0.00023706787824631648
+        }
+      }
+    },
+    {
+      "source_file": "cmems-glorys12-surface-2016-03.nc",
+      "source_file_sha256": "4adf6d392253abcf54ab797bce2aec1ca7207e61e7a37bf1cde5945b7c479d96",
+      "unix_seconds": 1458086400.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.13183996081352234,
+          "expected_packed_i16": -132,
+          "packed_i16": -132,
+          "packed_metres_per_second": -0.132,
+          "absolute_quantization_error_metres_per_second": 0.00016003918647766735
+        },
+        "v": {
+          "source_metres_per_second": -0.043946653604507446,
+          "expected_packed_i16": -44,
+          "packed_i16": -44,
+          "packed_metres_per_second": -0.044,
+          "absolute_quantization_error_metres_per_second": 5.334639549255116e-05
+        }
+      }
+    },
+    {
+      "source_file": "cmems-glorys12-surface-2016-03.nc",
+      "source_file_sha256": "4adf6d392253abcf54ab797bce2aec1ca7207e61e7a37bf1cde5945b7c479d96",
+      "unix_seconds": 1459382400.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": 0.17822809517383575,
+          "expected_packed_i16": 178,
+          "packed_i16": 178,
+          "packed_metres_per_second": 0.178,
+          "absolute_quantization_error_metres_per_second": 0.00022809517383576283
+        },
+        "v": {
+          "source_metres_per_second": -0.12390514835715294,
+          "expected_packed_i16": -124,
+          "packed_i16": -124,
+          "packed_metres_per_second": -0.124,
+          "absolute_quantization_error_metres_per_second": 9.485164284706027e-05
+        }
+      }
+    },
+    {
+      "source_file": "cmems-glorys12-surface-2016-08.nc",
+      "source_file_sha256": "b8347ee03e766435618f21653f472a6725a4fcb3ad0e34a520fcef272a875ad7",
+      "unix_seconds": 1470009600.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.08056886494159698,
+          "expected_packed_i16": -81,
+          "packed_i16": -81,
+          "packed_metres_per_second": -0.081,
+          "absolute_quantization_error_metres_per_second": 0.0004311350584030177
+        },
+        "v": {
+          "source_metres_per_second": 0.07995849475264549,
+          "expected_packed_i16": 80,
+          "packed_i16": 80,
+          "packed_metres_per_second": 0.08,
+          "absolute_quantization_error_metres_per_second": 4.150524735450911e-05
+        }
+      }
+    },
+    {
+      "source_file": "cmems-glorys12-surface-2016-08.nc",
+      "source_file_sha256": "b8347ee03e766435618f21653f472a6725a4fcb3ad0e34a520fcef272a875ad7",
+      "unix_seconds": 1471305600.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.2142399363219738,
+          "expected_packed_i16": -214,
+          "packed_i16": -214,
+          "packed_metres_per_second": -0.214,
+          "absolute_quantization_error_metres_per_second": 0.00023993632197380488
+        },
+        "v": {
+          "source_metres_per_second": 0.14954069629311562,
+          "expected_packed_i16": 150,
+          "packed_i16": 150,
+          "packed_metres_per_second": 0.15,
+          "absolute_quantization_error_metres_per_second": 0.0004593037068843786
+        }
+      }
+    },
+    {
+      "source_file": "cmems-glorys12-surface-2016-08.nc",
+      "source_file_sha256": "b8347ee03e766435618f21653f472a6725a4fcb3ad0e34a520fcef272a875ad7",
+      "unix_seconds": 1472601600.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.11474959552288055,
+          "expected_packed_i16": -115,
+          "packed_i16": -115,
+          "packed_metres_per_second": -0.115,
+          "absolute_quantization_error_metres_per_second": 0.0002504044771194508
+        },
+        "v": {
+          "source_metres_per_second": -0.28015991672873497,
+          "expected_packed_i16": -280,
+          "packed_i16": -280,
+          "packed_metres_per_second": -0.28,
+          "absolute_quantization_error_metres_per_second": 0.00015991672873494345
+        }
+      }
+    },
+    {
+      "source_file": "cmems-glorys12-surface-2017-01.nc",
+      "source_file_sha256": "1014a58c4ac118141d45bc45b08dfe4fb400cdd2f270192df2eb45d157371d27",
+      "unix_seconds": 1483228800.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.08972441777586937,
+          "expected_packed_i16": -90,
+          "packed_i16": -90,
+          "packed_metres_per_second": -0.09,
+          "absolute_quantization_error_metres_per_second": 0.00027558222413062716
+        },
+        "v": {
+          "source_metres_per_second": 0.07385479286313057,
+          "expected_packed_i16": 74,
+          "packed_i16": 74,
+          "packed_metres_per_second": 0.074,
+          "absolute_quantization_error_metres_per_second": 0.00014520713686942688
+        }
+      }
+    },
+    {
+      "source_file": "cmems-glorys12-surface-2017-01.nc",
+      "source_file_sha256": "1014a58c4ac118141d45bc45b08dfe4fb400cdd2f270192df2eb45d157371d27",
+      "unix_seconds": 1484524800.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": -0.24781029671430588,
+          "expected_packed_i16": -248,
+          "packed_i16": -248,
+          "packed_metres_per_second": -0.248,
+          "absolute_quantization_error_metres_per_second": 0.00018970328569412054
+        },
+        "v": {
+          "source_metres_per_second": -0.19409772008657455,
+          "expected_packed_i16": -194,
+          "packed_i16": -194,
+          "packed_metres_per_second": -0.194,
+          "absolute_quantization_error_metres_per_second": 9.772008657454867e-05
+        }
+      }
+    },
+    {
+      "source_file": "cmems-glorys12-surface-2017-01.nc",
+      "source_file_sha256": "1014a58c4ac118141d45bc45b08dfe4fb400cdd2f270192df2eb45d157371d27",
+      "unix_seconds": 1485820800.0,
+      "latitude_deg": -20.0,
+      "longitude_deg": 90.0,
+      "values": {
+        "u": {
+          "source_metres_per_second": 0.01037629321217537,
+          "expected_packed_i16": 10,
+          "packed_i16": 10,
+          "packed_metres_per_second": 0.01,
+          "absolute_quantization_error_metres_per_second": 0.00037629321217536905
+        },
+        "v": {
+          "source_metres_per_second": -0.06286812946200371,
+          "expected_packed_i16": -63,
+          "packed_i16": -63,
+          "packed_metres_per_second": -0.063,
+          "absolute_quantization_error_metres_per_second": 0.00013187053799629256
+        }
+      }
+    }
+  ],
+  "method": "Standalone parser compared raw NetCDF velocity components with exact packed-field grid nodes. Native HYCOM int16 must match exactly; CMEMS current and WAVERYS float values must match independent nearest-0.001 m/s quantization. Schema 3 distinguishes persistent-land masking from intermittent missing data with separate sentinels; finite values are unchanged. Rust unit tests independently check scale and both missing semantics."
+}

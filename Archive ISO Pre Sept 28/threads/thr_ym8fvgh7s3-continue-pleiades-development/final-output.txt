@@ -1,0 +1,18 @@
+The discrepancy was stale reporting, not nondeterminism.
+
+`59b235e3…` was the manifest before the follow-up added packaged PNG/SVG files and the explicit `core_likelihood_rule`. Those packaging/provenance changes produced the current authoritative manifest hash. The scientific grid, schema, and surface CSV did not change.
+
+| File | Authoritative SHA-256 |
+| --- | --- |
+| `manifest.json` | `b16fa3830f607c19e254a9a2b8cc52b05ab79b82028d1ffb31dab10eebee34ba` |
+| `README.md` | `74a92d89f283ef3913a682832df36b72ce8c003aff1f780cb380cb0bd8d1ce23` |
+| `comparison.html` | `b9b9cfdfed1973d237431458b92b6820a2bc2c0cf1d0fb148b24fa870580c0c1` |
+| `comparison.png` | `99318d6bbc0f1bdf2d3b7bff39890826a09d5c2d9fa23c70b1a3bf049cbe881d` |
+| `comparison.svg` | `d682553289750cf2d77d4ac759ce5bfc78e9f398b7006687627e647aef47ec91` |
+| `grid.csv` | `8473b9179798b9edc1bf5825e9ec94b9c51565e760c527bb07b4e58770ac40e8` |
+| `likelihood-surface-schema-v1.json` | `525ba150f273ebeba9b0e1a2752b6a5bc83a1c82393e5b5f90b9ee88c8527b6d` |
+| `surfaces.csv` | `a68773b196de790b6700346959ae72e9bcdae532686e86c23913443af8d6a748` |
+
+The documented byte-identical check returned `checked: true`. All 20 source-only tests passed. Hashes were identical before and after verification.
+
+The authoritative [manifest](/jackbox/home/MH370/.sources/pleiades-bran2016-forward-inversion/outputs/likelihood-handoff/manifest.json) is therefore `b16fa383…`; all `59b235…` references should be superseded. No files were edited during this audit.

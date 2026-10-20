@@ -1,0 +1,387 @@
+{
+  "scope": "Twenty declared conditional-mode full histories from the original compiled model; independent engineering diagnostic, not a posterior sample or evidence estimate.",
+  "initializer_identity": {
+    "baseline_vs_instrumented_exact_cases": 20,
+    "strict_instrumented_replay_exact_cases": 20,
+    "mismatches": []
+  },
+  "contacts": {
+    "m1839": {
+      "cases": 20,
+      "support_lost": 0,
+      "all_supported_after": true,
+      "factor_summaries": {
+        "log_bto": {
+          "minimum": 0.0,
+          "median": 0.0,
+          "maximum": 0.0,
+          "mean": 0.0,
+          "sample_sd": 0.0
+        },
+        "log_bfo": {
+          "minimum": -169.85947334608244,
+          "median": -13.526790416493737,
+          "maximum": -3.061337823945634,
+          "mean": -29.98772331319098,
+          "sample_sd": 39.897474265756706
+        },
+        "log_measurement": {
+          "minimum": -169.85947334608244,
+          "median": -13.526790416493737,
+          "maximum": -3.061337823945634,
+          "mean": -29.98772331319098,
+          "sample_sd": 39.897474265756706
+        },
+        "log_proposal_correction": {
+          "minimum": -13.297724922840196,
+          "median": -6.019138305325309,
+          "maximum": 2.99573227355399,
+          "mean": -4.496461042878694,
+          "sample_sd": 3.998126086432738
+        },
+        "log_net_increment": {
+          "minimum": -175.55828406893087,
+          "median": -16.96279199857438,
+          "maximum": -5.644033553314335,
+          "mean": -34.484184356069676,
+          "sample_sd": 40.04341167636414
+        }
+      },
+      "conditional_twenty_case_ess": {
+        "before": 1.820785503327816,
+        "measurement_only": 1.4273774216483717,
+        "proposal_only": 2.733578484070315,
+        "measurement_plus_proposal": 1.9958423155881317,
+        "measurement_only_ratio_to_before": 0.7839349660020801,
+        "proposal_only_ratio_to_before": 1.5013182382406958,
+        "joint_ratio_to_before": 1.0961435665762758
+      },
+      "conditional_twenty_case_weight_diagnostics": {
+        "before": {
+          "ess": 1.820785503327816,
+          "maximum_weight": 0.7322780879909234,
+          "winner": {
+            "index": 9,
+            "seed": 37091714,
+            "mode": 4
+          }
+        },
+        "measurement_only": {
+          "ess": 1.4273774216483717,
+          "maximum_weight": 0.8325650368021521,
+          "winner": {
+            "index": 9,
+            "seed": 37091714,
+            "mode": 4
+          }
+        },
+        "proposal_only": {
+          "ess": 2.733578484070315,
+          "maximum_weight": 0.44816611059525385,
+          "winner": {
+            "index": 6,
+            "seed": 37091714,
+            "mode": 1
+          }
+        },
+        "measurement_plus_proposal": {
+          "ess": 1.9958423155881317,
+          "maximum_weight": 0.6868794291891508,
+          "winner": {
+            "index": 9,
+            "seed": 37091714,
+            "mode": 4
+          }
+        }
+      },
+      "unweighted_measurement_proposal_correlation": -0.013536791887251341,
+      "likelihood_compatible_subset": {
+        "within_2_log_units": {
+          "cases": 8,
+          "proposal_correction_minimum": -13.297724922840196,
+          "proposal_correction_maximum": -2.045098570187763,
+          "proposal_correction_range": 11.252626352652433,
+          "case_ids": [
+            {
+              "index": 2,
+              "seed": 37091713,
+              "mode": 2
+            },
+            {
+              "index": 3,
+              "seed": 37091713,
+              "mode": 3
+            },
+            {
+              "index": 5,
+              "seed": 37091714,
+              "mode": 0
+            },
+            {
+              "index": 7,
+              "seed": 37091714,
+              "mode": 2
+            },
+            {
+              "index": 9,
+              "seed": 37091714,
+              "mode": 4
+            },
+            {
+              "index": 10,
+              "seed": 37111900,
+              "mode": 0
+            },
+            {
+              "index": 18,
+              "seed": 37111901,
+              "mode": 3
+            },
+            {
+              "index": 19,
+              "seed": 37111901,
+              "mode": 4
+            }
+          ]
+        },
+        "within_5_log_units": {
+          "cases": 9,
+          "proposal_correction_minimum": -13.297724922840196,
+          "proposal_correction_maximum": -0.583509805968919,
+          "proposal_correction_range": 12.714215116871276,
+          "case_ids": [
+            {
+              "index": 1,
+              "seed": 37091713,
+              "mode": 1
+            },
+            {
+              "index": 2,
+              "seed": 37091713,
+              "mode": 2
+            },
+            {
+              "index": 3,
+              "seed": 37091713,
+              "mode": 3
+            },
+            {
+              "index": 5,
+              "seed": 37091714,
+              "mode": 0
+            },
+            {
+              "index": 7,
+              "seed": 37091714,
+              "mode": 2
+            },
+            {
+              "index": 9,
+              "seed": 37091714,
+              "mode": 4
+            },
+            {
+              "index": 10,
+              "seed": 37111900,
+              "mode": 0
+            },
+            {
+              "index": 18,
+              "seed": 37111901,
+              "mode": 3
+            },
+            {
+              "index": 19,
+              "seed": 37111901,
+              "mode": 4
+            }
+          ]
+        }
+      }
+    },
+    "m1941": {
+      "cases": 20,
+      "support_lost": 0,
+      "all_supported_after": true,
+      "factor_summaries": {
+        "log_bto": {
+          "minimum": -1704.0334462354347,
+          "median": -7.359836643968009,
+          "maximum": -4.3397543751303775,
+          "mean": -249.19712232515002,
+          "sample_sd": 521.8019196329342
+        },
+        "log_bfo": {
+          "minimum": -58.599817723002076,
+          "median": -6.410052888836123,
+          "maximum": -3.0332129521842024,
+          "mean": -12.96546307191986,
+          "sample_sd": 16.157941676745022
+        },
+        "log_measurement": {
+          "minimum": -1717.9130014910697,
+          "median": -14.846853972961501,
+          "maximum": -7.5901517099637275,
+          "mean": -262.16258539706985,
+          "sample_sd": 519.8312109310785
+        },
+        "log_proposal_correction": {
+          "minimum": -26.548752057145535,
+          "median": -4.696310872086047,
+          "maximum": 0.11520406588189491,
+          "mean": -6.84417318353194,
+          "sample_sd": 7.568736493435693
+        },
+        "log_net_increment": {
+          "minimum": -1720.3873145141208,
+          "median": -19.519114273397225,
+          "maximum": -7.4749476440818325,
+          "mean": -269.0067585806018,
+          "sample_sd": 522.1738204333553
+        }
+      },
+      "conditional_twenty_case_ess": {
+        "before": 1.9958423155881335,
+        "measurement_only": 2.2089819517267495,
+        "proposal_only": 2.016500262501518,
+        "measurement_plus_proposal": 1.0533227321001748,
+        "measurement_only_ratio_to_before": 1.1067918214149137,
+        "proposal_only_ratio_to_before": 1.0103504904931815,
+        "joint_ratio_to_before": 0.5277584926792086
+      },
+      "conditional_twenty_case_weight_diagnostics": {
+        "before": {
+          "ess": 1.9958423155881335,
+          "maximum_weight": 0.6868794291891505,
+          "winner": {
+            "index": 9,
+            "seed": 37091714,
+            "mode": 4
+          }
+        },
+        "measurement_only": {
+          "ess": 2.2089819517267495,
+          "maximum_weight": 0.5139840342938187,
+          "winner": {
+            "index": 10,
+            "seed": 37111900,
+            "mode": 0
+          }
+        },
+        "proposal_only": {
+          "ess": 2.016500262501518,
+          "maximum_weight": 0.5157368691722389,
+          "winner": {
+            "index": 7,
+            "seed": 37091714,
+            "mode": 2
+          }
+        },
+        "measurement_plus_proposal": {
+          "ess": 1.0533227321001748,
+          "maximum_weight": 0.9740254146580691,
+          "winner": {
+            "index": 10,
+            "seed": 37111900,
+            "mode": 0
+          }
+        }
+      },
+      "unweighted_measurement_proposal_correlation": 0.30292871319892894,
+      "likelihood_compatible_subset": {
+        "within_2_log_units": {
+          "cases": 5,
+          "proposal_correction_minimum": -11.55982122063704,
+          "proposal_correction_maximum": 0.11520406588189491,
+          "proposal_correction_range": 11.675025286518935,
+          "case_ids": [
+            {
+              "index": 2,
+              "seed": 37091713,
+              "mode": 2
+            },
+            {
+              "index": 6,
+              "seed": 37091714,
+              "mode": 1
+            },
+            {
+              "index": 10,
+              "seed": 37111900,
+              "mode": 0
+            },
+            {
+              "index": 12,
+              "seed": 37111900,
+              "mode": 2
+            },
+            {
+              "index": 18,
+              "seed": 37111901,
+              "mode": 3
+            }
+          ]
+        },
+        "within_5_log_units": {
+          "cases": 8,
+          "proposal_correction_minimum": -11.55982122063704,
+          "proposal_correction_maximum": 0.11520406588189491,
+          "proposal_correction_range": 11.675025286518935,
+          "case_ids": [
+            {
+              "index": 2,
+              "seed": 37091713,
+              "mode": 2
+            },
+            {
+              "index": 6,
+              "seed": 37091714,
+              "mode": 1
+            },
+            {
+              "index": 7,
+              "seed": 37091714,
+              "mode": 2
+            },
+            {
+              "index": 10,
+              "seed": 37111900,
+              "mode": 0
+            },
+            {
+              "index": 12,
+              "seed": 37111900,
+              "mode": 2
+            },
+            {
+              "index": 13,
+              "seed": 37111900,
+              "mode": 3
+            },
+            {
+              "index": 18,
+              "seed": 37111901,
+              "mode": 3
+            },
+            {
+              "index": 19,
+              "seed": 37111901,
+              "mode": 4
+            }
+          ]
+        }
+      }
+    }
+  },
+  "factor_rows": {
+    "path": "/workspace/scratch/c386ceede7a0/rerun/candidate-20260919T0733/results/physical-probe-factor-rows.csv",
+    "bytes": 10281,
+    "sha256": "f91cadc5bdadc5b37697c25b1514741513c2fefd857c0e80026329fc5f879aec"
+  },
+  "interpretation_limits": [
+    "The cases are four fixed seed vectors in each of five modes, not draws from the archived filtering population.",
+    "ESS values describe only this twenty-case weighted diagnostic and must not be reported as posterior ESS.",
+    "A factor's dispersion or ESS effect in this diagnostic cannot by itself identify the cause of the archived 96\u201398% root concentration.",
+    "No fuel-exhaustion endpoint or hydroacoustic evidence is added."
+  ]
+}

@@ -1,0 +1,77 @@
+{
+ "case_seed": 9002,
+ "impact": {
+  "lat": 18.926540519856275,
+  "lon": 104.67295062722184,
+  "unix_s": 1394238284.9349306,
+  "cross_arc_nm": -44.27012820091194
+ },
+ "family": "B",
+ "family4_code": 3.0,
+ "cause": "C1",
+ "p_c1_given_descent": 0.9999999760557975,
+ "bfo_model_0019": "inflated",
+ "bias_hz": 183.8514310058459,
+ "ocean_model": "glorys12",
+ "finds": [
+  16,
+  16,
+  3,
+  16,
+  16,
+  16,
+  16,
+  16,
+  16
+ ],
+ "finds_items": [
+  "reunion-right-flaperon",
+  "mossel-bay-engine-cowling-roy",
+  "paindane-right-flap-fairing",
+  "vilanculos-horizontal-stabilizer-panel",
+  "mauritius-left-outboard-flap",
+  "rodrigues-door-closet-panel",
+  "chidenguele-right-fan-cowling",
+  "antsiraka-cabin-interior-panel",
+  "pemba-right-outboard-flap"
+ ],
+ "items_dropped": [],
+ "truth_inside_drift_nodes": false,
+ "p_no_find": 1.0,
+ "search_detected": false,
+ "descent_draw": {
+  "n_descents_of_parent": 1024,
+  "ess": 16.204693665386493,
+  "row": 790
+ },
+ "route_stratum": "MagneticHeading",
+ "core_m0011": {
+  "lat": 17.853731155395508,
+  "lon": 104.42561340332031,
+  "alt_ft": 26000.0,
+  "gs_kt": 486.75616455078125,
+  "track_deg": 23.074615478515625,
+  "bto_pred": 17633.75830078125,
+  "bto_pred_port": 17633.75716697343,
+  "bto_syn": 17653.052762037212,
+  "vup_fpm": 0.0,
+  "bfo_pred": 59.98552241043274,
+  "bfo_syn": 246.40781122160772
+ },
+ "synthetic_0019": {
+  "m0019a": {
+   "bto": 17914.285681729656,
+   "bfo": 228.6911057184703
+  },
+  "m0019b": {
+   "bto": 18052.24586957985,
+   "bfo": 254.02965972581515
+  }
+ },
+ "pred_0019": {
+  "btoA": 18004.136566327885,
+  "btoB": 18000.01628141367,
+  "bfoA_nobias": 52.28661774156956,
+  "bfoB_nobias": 51.47081199752756
+ }
+}

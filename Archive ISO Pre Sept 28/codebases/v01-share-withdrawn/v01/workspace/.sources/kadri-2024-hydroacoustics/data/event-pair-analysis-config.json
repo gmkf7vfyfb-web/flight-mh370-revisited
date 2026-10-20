@@ -1,0 +1,194 @@
+{
+  "status": "DECLARED_PUBLICATION_TRACE_AND_CONDITIONAL_TWO_STATION_GEOMETRY_CONTROL",
+  "random_seed": 3700084,
+  "monte_carlo_sample_count": 500000,
+  "earth_radius_km": 6371.0088,
+  "stations": {
+    "H01W": {
+      "name": "Cape Leeuwin",
+      "latitude_deg": -34.892,
+      "longitude_deg_e": 114.141
+    },
+    "H08S": {
+      "name": "Diego Garcia South",
+      "latitude_deg": -7.639,
+      "longitude_deg_e": 72.484
+    }
+  },
+  "selected_table_events": [
+    "event_004958",
+    "event_005331"
+  ],
+  "acoustic_celerity_km_s": [
+    1.43,
+    1.57
+  ],
+  "celerity_basis": "Kadri (2024), p. 13: 1500 \u00b1 70 m/s for the Table 1 seventh-arc timing calculation.",
+  "bearing_half_widths_deg": {
+    "formal": 0.5,
+    "broad_control": 3.3
+  },
+  "bearing_basis": "\u00b10.5\u00b0 is Kadri's p. 14 Table 1 location tolerance; \u00b13.3\u00b0 is a declared noisy-bearing control motivated by the p. 15 earthquake example.",
+  "table_trace_search_half_windows_s": [
+    2,
+    5,
+    10
+  ],
+  "interstation_arrival_tolerance_s": 5,
+  "arrival_tolerance_basis": "Conservative rounding of the previous homogeneous-layer AGW control's largest sampled 2\u201340 Hz correction (under 5 s); this is not a complete propagation uncertainty.",
+  "trace_screen": {
+    "regular_grid_dt_s": 0.05,
+    "energy_windows_s": [
+      1,
+      2,
+      4
+    ],
+    "candidate_minimum_separation_s": 5,
+    "candidate_score_quantile_per_panel": 0.99,
+    "panel_edge_guard_s": 10
+  },
+  "screened_features": {
+    "H01W": [
+      {
+        "panel": "b",
+        "event_utc": "2014-03-08T00:39:23.700Z",
+        "score": 3.80924257,
+        "q99_threshold": 3.78920466
+      },
+      {
+        "panel": "c",
+        "event_utc": "2014-03-08T00:52:04.350Z",
+        "score": 11.8980253,
+        "q99_threshold": 7.18505701
+      }
+    ],
+    "H08S": [
+      {
+        "panel": "d",
+        "event_utc": "2014-03-08T01:03:13.150Z",
+        "score": 7.70699083,
+        "q99_threshold": 7.64006587,
+        "periodic_context": "within_periodic_airgun_mask"
+      },
+      {
+        "panel": "e",
+        "event_utc": "2014-03-08T01:12:49.500Z",
+        "score": 13.6697581,
+        "q99_threshold": 13.5959683,
+        "periodic_context": "within_periodic_airgun_mask"
+      }
+    ]
+  },
+  "interpretation": "All timings are conditional pairing controls on filtered publication-figure geometry. No pairing is an observed cross-station association.",
+  "impact_time_control_utc": [
+    "2014-03-08T00:19:37Z",
+    "2014-03-08T00:49:37Z"
+  ],
+  "impact_time_control_basis": "Declared 30-minute maximum-flight control after the final 00:19:37 SATCOM message; not a flight-time posterior.",
+  "celerity_grid_count_for_joint_time_control": 281,
+  "source_reported_figure9_signals": [
+    {
+      "id": "figure9_rectangle_1",
+      "arrival_utc": "2014-03-08T00:52:00Z",
+      "bearing_deg": 57.0,
+      "status": "Kadri p. 9 and Figure 9 caption: first major signal; incompatible direction"
+    },
+    {
+      "id": "figure9_rectangle_2",
+      "arrival_utc": "2014-03-08T00:54:30Z",
+      "bearing_deg": 306.18,
+      "status": "Kadri Table 1 major candidate and Figure 9 rectangle 2; preferred plausible-direction candidate"
+    }
+  ],
+  "impact_time_monte_carlo": {
+    "sample_count": 500000,
+    "random_seed": 3700085,
+    "celerity_distribution": "uniform over acoustic_celerity_km_s",
+    "spatial_distribution": "integrated PDF reference_power_marginalization__core",
+    "quantiles": [0.025, 0.5, 0.975],
+    "status": "DECLARED_TIMING_SUMMARY_NOT_EVENT_ASSOCIATION_POSTERIOR"
+  },
+  "noted_events": [
+    {
+      "id": "screened_h01_003923",
+      "station": "H01W",
+      "panel": "b",
+      "arrival_utc": "2014-03-08T00:39:23.700Z",
+      "category": "independently_screened_publication_trace",
+      "bearing_deg": null,
+      "status": "q99 local-energy screen; no measured bearing"
+    },
+    {
+      "id": "edge_h01_004701",
+      "station": "H01W",
+      "panel": "c",
+      "arrival_utc": "2014-03-08T00:47:01.700Z",
+      "category": "edge_affected_screen",
+      "bearing_deg": null,
+      "status": "1.7 seconds inside a separately drawn panel; not robust event evidence"
+    },
+    {
+      "id": "kadri_table_004958",
+      "station": "H01W",
+      "panel": "c",
+      "arrival_utc": "2014-03-08T00:49:58Z",
+      "category": "kadri_table_1_transient",
+      "bearing_deg": 260.41,
+      "status": "source-reported Table 1 transient; not independently recovered from the publication trace"
+    },
+    {
+      "id": "figure9_rectangle_1",
+      "station": "H01W",
+      "panel": "c",
+      "arrival_utc": "2014-03-08T00:52:00Z",
+      "category": "kadri_figure9_major_signal",
+      "bearing_deg": 57.0,
+      "status": "Figure 9 rectangle 1; incompatible-direction signal"
+    },
+    {
+      "id": "screened_h01_005204",
+      "station": "H01W",
+      "panel": "c",
+      "arrival_utc": "2014-03-08T00:52:04.350Z",
+      "category": "independently_screened_publication_trace",
+      "bearing_deg": null,
+      "status": "q99 local-energy screen near Figure 9 rectangle 1; no measured bearing"
+    },
+    {
+      "id": "kadri_table_005331",
+      "station": "H01W",
+      "panel": "c",
+      "arrival_utc": "2014-03-08T00:53:31Z",
+      "category": "kadri_table_1_transient",
+      "bearing_deg": 257.58,
+      "status": "source-reported Table 1 transient; not independently recovered from the publication trace"
+    },
+    {
+      "id": "figure9_rectangle_2",
+      "station": "H01W",
+      "panel": "c",
+      "arrival_utc": "2014-03-08T00:54:30Z",
+      "category": "kadri_figure9_preferred_signal",
+      "bearing_deg": 306.18,
+      "status": "Figure 9 rectangle 2 and Table 1 preferred plausible-direction candidate"
+    },
+    {
+      "id": "screened_h08_010313",
+      "station": "H08S",
+      "panel": "d",
+      "arrival_utc": "2014-03-08T01:03:13.150Z",
+      "category": "independently_screened_periodic_context",
+      "bearing_deg": null,
+      "status": "within periodic airgun train; no measured cross-station association"
+    },
+    {
+      "id": "screened_h08_011249",
+      "station": "H08S",
+      "panel": "e",
+      "arrival_utc": "2014-03-08T01:12:49.500Z",
+      "category": "independently_screened_periodic_context",
+      "bearing_deg": null,
+      "status": "within periodic airgun train; no measured cross-station association"
+    }
+  ]
+}

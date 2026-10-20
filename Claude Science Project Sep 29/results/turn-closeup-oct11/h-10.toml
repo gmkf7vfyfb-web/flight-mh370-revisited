@@ -1,0 +1,13 @@
+name = "closeup-h-10"
+particles_per_mode = [12000, 6000, 30000, 6000, 30000]
+seeds = [1]
+[output]
+handoff_rows = 100
+handoff_epochs = []
+route_samples = 300
+[output.trace]
+from_utc = "2014-03-07T18:22:00Z"
+to_utc = "2014-03-07T18:42:40Z"
+interval_s = 40
+[dynamics.early.routes]
+only = [10]

@@ -1,0 +1,226 @@
+{
+  "comparison": "Same four fixed fuel-conditioned generated flights; two100k runs each per method; originalphysicaltarget unchanged",
+  "methods": [
+    {
+      "name": "original_command_guide",
+      "median_coordinate_cdf_gaps": [
+        0.11520792713420852,
+        0.10548838822108762
+      ],
+      "interval_recovery": [
+        {
+          "replicate": 0,
+          "coordinate": "latitude",
+          "total_data_sets": 4,
+          "computed_posteriors": 4,
+          "uncomputed_posteriors": 0,
+          "intervals": [
+            {
+              "nominal_mass": 0.5,
+              "inside": 1,
+              "wilson95_fraction_among_computed": [
+                0.04558726080970055,
+                0.6993581574175981
+              ]
+            },
+            {
+              "nominal_mass": 0.9,
+              "inside": 2,
+              "wilson95_fraction_among_computed": [
+                0.15003898915214947,
+                0.8499610108478506
+              ]
+            }
+          ]
+        },
+        {
+          "replicate": 0,
+          "coordinate": "longitude",
+          "total_data_sets": 4,
+          "computed_posteriors": 4,
+          "uncomputed_posteriors": 0,
+          "intervals": [
+            {
+              "nominal_mass": 0.5,
+              "inside": 0,
+              "wilson95_fraction_among_computed": [
+                0.0,
+                0.4898908364545973
+              ]
+            },
+            {
+              "nominal_mass": 0.9,
+              "inside": 3,
+              "wilson95_fraction_among_computed": [
+                0.30064184258240184,
+                0.9544127391902995
+              ]
+            }
+          ]
+        },
+        {
+          "replicate": 1,
+          "coordinate": "latitude",
+          "total_data_sets": 4,
+          "computed_posteriors": 4,
+          "uncomputed_posteriors": 0,
+          "intervals": [
+            {
+              "nominal_mass": 0.5,
+              "inside": 1,
+              "wilson95_fraction_among_computed": [
+                0.04558726080970055,
+                0.6993581574175981
+              ]
+            },
+            {
+              "nominal_mass": 0.9,
+              "inside": 2,
+              "wilson95_fraction_among_computed": [
+                0.15003898915214947,
+                0.8499610108478506
+              ]
+            }
+          ]
+        },
+        {
+          "replicate": 1,
+          "coordinate": "longitude",
+          "total_data_sets": 4,
+          "computed_posteriors": 4,
+          "uncomputed_posteriors": 0,
+          "intervals": [
+            {
+              "nominal_mass": 0.5,
+              "inside": 0,
+              "wilson95_fraction_among_computed": [
+                0.0,
+                0.4898908364545973
+              ]
+            },
+            {
+              "nominal_mass": 0.9,
+              "inside": 3,
+              "wilson95_fraction_among_computed": [
+                0.30064184258240184,
+                0.9544127391902995
+              ]
+            }
+          ]
+        }
+      ],
+      "elapsed_seconds": 2176.711071929
+    },
+    {
+      "name": "complete_command_history_mixture",
+      "median_coordinate_cdf_gaps": [
+        0.1808576935465284,
+        0.1864311528521627
+      ],
+      "interval_recovery": [
+        {
+          "replicate": 0,
+          "coordinate": "latitude",
+          "total_data_sets": 4,
+          "computed_posteriors": 4,
+          "uncomputed_posteriors": 0,
+          "intervals": [
+            {
+              "nominal_mass": 0.5,
+              "inside": 1,
+              "wilson95_fraction_among_computed": [
+                0.04558726080970055,
+                0.6993581574175981
+              ]
+            },
+            {
+              "nominal_mass": 0.9,
+              "inside": 3,
+              "wilson95_fraction_among_computed": [
+                0.30064184258240184,
+                0.9544127391902995
+              ]
+            }
+          ]
+        },
+        {
+          "replicate": 0,
+          "coordinate": "longitude",
+          "total_data_sets": 4,
+          "computed_posteriors": 4,
+          "uncomputed_posteriors": 0,
+          "intervals": [
+            {
+              "nominal_mass": 0.5,
+              "inside": 0,
+              "wilson95_fraction_among_computed": [
+                0.0,
+                0.4898908364545973
+              ]
+            },
+            {
+              "nominal_mass": 0.9,
+              "inside": 4,
+              "wilson95_fraction_among_computed": [
+                0.5101091635454027,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "replicate": 1,
+          "coordinate": "latitude",
+          "total_data_sets": 4,
+          "computed_posteriors": 4,
+          "uncomputed_posteriors": 0,
+          "intervals": [
+            {
+              "nominal_mass": 0.5,
+              "inside": 1,
+              "wilson95_fraction_among_computed": [
+                0.04558726080970055,
+                0.6993581574175981
+              ]
+            },
+            {
+              "nominal_mass": 0.9,
+              "inside": 1,
+              "wilson95_fraction_among_computed": [
+                0.04558726080970055,
+                0.6993581574175981
+              ]
+            }
+          ]
+        },
+        {
+          "replicate": 1,
+          "coordinate": "longitude",
+          "total_data_sets": 4,
+          "computed_posteriors": 4,
+          "uncomputed_posteriors": 0,
+          "intervals": [
+            {
+              "nominal_mass": 0.5,
+              "inside": 0,
+              "wilson95_fraction_among_computed": [
+                0.0,
+                0.4898908364545973
+              ]
+            },
+            {
+              "nominal_mass": 0.9,
+              "inside": 2,
+              "wilson95_fraction_among_computed": [
+                0.15003898915214947,
+                0.8499610108478506
+              ]
+            }
+          ]
+        }
+      ],
+      "elapsed_seconds": 2184.93423174
+    }
+  ],
+  "truth_hashes_match": true
+}

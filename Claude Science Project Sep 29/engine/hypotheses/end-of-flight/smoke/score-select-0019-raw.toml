@@ -1,0 +1,15 @@
+# SMOKE (17 Oct 2026): aimed candidate selection at the 00:19 pair, aimed at D3 (both BFOs as recorded) ONLY. The proposal target
+# "both" mixes the 00:19 BFO models by terminal.bfo_models priors (crates/mh370/src/terminal.rs target_log_likelihood, "for
+# proposals only"); the stored loglik columns are per model and do not depend on these priors. Here the mixture is tilted to the
+# no-offset model, so the K = 8 selection hunts for the raw pair. Exact selection correction (request 9). Not a production setting.
+[terminal]
+target = "both"
+[terminal.bfo_models.no-offset]
+prior = 0.98
+[terminal.bfo_models.startup-offset]
+prior = 0.01
+[terminal.bfo_models.inflated]
+prior = 0.01
+[hypotheses.end-of-flight.proposal]
+score_select_k = 8
+score_select_epochs = ["m0019a", "m0019b"]

@@ -1,0 +1,14 @@
+{
+  "first_step_s": 0.03125,
+  "second_step_s": 0.015625,
+  "paired_continuations": 384,
+  "outcome_changes": [],
+  "max_impact_separation_m": 17.275522786496065,
+  "max_bfo_difference_hz": 0.3228225951707486,
+  "bfo_difference_50_95_99_hz": [
+    0.023414293543567055,
+    0.1611718091239993,
+    0.2133947712687018
+  ],
+  "interpretation": "Difference decreases approximately linearly with the staircase-control cadence; the .03125s production approximation is small relative to the declared7Hz BFO error. This is a32-parent control, not a universal error bound."
+}

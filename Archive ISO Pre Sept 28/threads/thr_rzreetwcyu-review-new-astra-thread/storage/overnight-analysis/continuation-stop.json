@@ -1,0 +1,65 @@
+{
+  "stopped_utc": "2026-09-08T01:14:06.930776+00:00",
+  "reason": "Bounded overnight analysis and reports completed. Broad posterior validation failed; sampling is stopped within the agreed cap. No running numerical work or justified pending experiment remains. The requested all-evidence impact posterior is not achieved.",
+  "actions": [
+    {
+      "id": "auto_vqdjsmc4p2o",
+      "name": "MH370 overnight continuation 2026-09-08T02:30:00Z",
+      "returncode": 0,
+      "stdout": "Automation auto_vqdjsmc4p2o paused\n",
+      "stderr": ""
+    },
+    {
+      "id": "auto_sq0zk5x2ejc",
+      "name": "MH370 overnight continuation 2026-09-08T04:00:00Z",
+      "returncode": 0,
+      "stdout": "Automation auto_sq0zk5x2ejc paused\n",
+      "stderr": ""
+    },
+    {
+      "id": "auto_mkkakdkryas",
+      "name": "MH370 overnight continuation 2026-09-08T06:15:00Z",
+      "returncode": 0,
+      "stdout": "Automation auto_mkkakdkryas paused\n",
+      "stderr": ""
+    }
+  ],
+  "owner_automations_after": [
+    {
+      "id": "auto_mkkakdkryas",
+      "enabled": false,
+      "last_run_status": null,
+      "last_error": null
+    },
+    {
+      "id": "auto_sq0zk5x2ejc",
+      "enabled": false,
+      "last_run_status": null,
+      "last_error": null
+    },
+    {
+      "id": "auto_vqdjsmc4p2o",
+      "enabled": false,
+      "last_run_status": null,
+      "last_error": null
+    },
+    {
+      "id": "auto_zhpnjtmcdnm",
+      "enabled": false,
+      "last_run_status": "failed",
+      "last_error": "Command turn.submit failed"
+    },
+    {
+      "id": "auto__hbpebwqvve",
+      "enabled": false,
+      "last_run_status": "running",
+      "last_error": null
+    },
+    {
+      "id": "auto_mpx8mnf6xgw",
+      "enabled": false,
+      "last_run_status": "running",
+      "last_error": null
+    }
+  ]
+}

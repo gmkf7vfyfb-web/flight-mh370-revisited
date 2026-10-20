@@ -1,0 +1,383 @@
+{
+  "comparison": {
+    "current_isotope_effect": {
+      "isotope_log_penalty_span": 0.002246803088922304,
+      "jensen_shannon_nats": 1.9811055217567186e-12,
+      "total_variation": 1.387764419368817e-07
+    },
+    "earlier_isotope_effect": {
+      "isotope_log_likelihood_span": 135.87570088828042,
+      "jensen_shannon_nats": 0.3395493428704558,
+      "total_variation": 0.640493399554283
+    },
+    "earlier_screen_vs_current_screen": {
+      "jensen_shannon_nats": 0.48211432061100445,
+      "not_like_for_like": true,
+      "total_variation": 0.8507002250255871
+    },
+    "screened_profile_expansion": {
+      "effective_source_cell_ratio": 7.100903091666545,
+      "equal_tail": {
+        "50": {
+          "current_width_degrees": 13.0926818847656,
+          "earlier_width_degrees": 3.7597045898438033,
+          "width_ratio": 3.482369843666237
+        },
+        "90": {
+          "current_width_degrees": 22.6062622070313,
+          "earlier_width_degrees": 8.949920654296903,
+          "width_ratio": 2.525861745620942
+        },
+        "95": {
+          "current_width_degrees": 26.0637512207031,
+          "earlier_width_degrees": 9.734375,
+          "width_ratio": 2.67749611256019
+        },
+        "99": {
+          "current_width_degrees": 28.4841918945312,
+          "earlier_width_degrees": 9.734375,
+          "width_ratio": 2.9261449137239115
+        }
+      },
+      "highest_mass": {
+        "50": {
+          "current_selected_cells": 15,
+          "earlier_selected_cells": 2,
+          "selected_cell_ratio": 7.5
+        },
+        "90": {
+          "current_selected_cells": 34,
+          "earlier_selected_cells": 5,
+          "selected_cell_ratio": 6.8
+        },
+        "95": {
+          "current_selected_cells": 41,
+          "earlier_selected_cells": 7,
+          "selected_cell_ratio": 5.857142857142857
+        },
+        "99": {
+          "current_selected_cells": 52,
+          "earlier_selected_cells": 9,
+          "selected_cell_ratio": 5.777777777777778
+        }
+      },
+      "warning": "Earlier and current profiles are not like-for-like: field resolution, sampler, and isotope behavior all changed."
+    }
+  },
+  "inputs": {
+    "comparators": {
+      "count": 7,
+      "path": ".sources/ocean-drift-input-preparation/inputs/published-drift-comparators.csv",
+      "sha256": "f77ecfbb44f9b7f9d1668485ee0aacc824fa438e35b1e1fdb4a0a70c677eae53"
+    },
+    "current": {
+      "family": "cmems_glorys12_reanalysis",
+      "mean_terminated_fraction": 0.46426828640275125,
+      "particles_per_cell": 2048,
+      "path": ".sources/ocean-drift-input-preparation/outputs/cmems-glorys12-waverys-stability/runs/doubled/source-area.json",
+      "seed": 3700019,
+      "sha256": "712272f0c13faa3a2539cc260882646c50e839e904f3f4bded014e4ef56d9a20"
+    },
+    "earlier": {
+      "family": "hycom",
+      "particles_per_cell": 64,
+      "path": ".sources/ocean-drift-input-preparation/outputs/demo-hycom-run/source-area.json",
+      "seed": 3700019,
+      "sha256": "2249ce396aa3ebef68800001aa4562ab9f439f6aa6a31bdfcd65327741e95148"
+    }
+  },
+  "interpretation": [
+    "The current conservative isotope screen is effectively neutral for this run.",
+    "The earlier narrow profile depended on a superseded density-ranking likelihood and rare-arrival samples with very low effective sample size.",
+    "The current profile remains diagnostic; field, motion, recovery, and sampling limitations are reported separately.",
+    "Published comparators are labelled context and are not pooled or treated as commensurate posterior intervals."
+  ],
+  "layout_audit": {
+    "all_pass": true,
+    "legend_does_not_overlap_footer": true,
+    "legend_to_footer_gap_pixels": 9.945105820105852,
+    "profile_y_label_does_not_overlap_ticks": true,
+    "profile_y_label_to_tick_gap_pixels": 59.835277777777776,
+    "study_labels_inside_canvas": true,
+    "x_label_does_not_overlap_legend": true,
+    "x_label_to_legend_gap_pixels": 7.318783068783063
+  },
+  "outputs": {
+    "cmems-glorys12-waverys-football-field.pdf": {
+      "bytes": 42512,
+      "sha256": "63d8cf2cf5db25ab0b2366f6ffae1b44bf251e98973c8339929cbdfd894dd0cf"
+    },
+    "cmems-glorys12-waverys-football-field.png": {
+      "bytes": 571807,
+      "sha256": "7e1070bd3a291b027145d4f67005f365a8459b753f22182d6473f174d62b6bc1"
+    },
+    "cmems-glorys12-waverys-football-field.svg": {
+      "bytes": 174180,
+      "sha256": "e493e8b35d79a77a14ade0900d3782e78fbd6e65a375d4427c5d94d4cb01a0a7"
+    },
+    "cmems-glorys12-waverys-source-comparison.csv": {
+      "bytes": 3713,
+      "sha256": "aeaf661ad36a8e0ea520ede76016150e876c6922c6e7b0012c0ed7607643f9ab"
+    }
+  },
+  "purpose": "diagnostic comparison; not central-estimator evidence",
+  "schema": "mh370-ocean-drift-source-comparison-v1",
+  "software": {
+    "matplotlib": "3.11.1",
+    "python": "3.14.7"
+  },
+  "summaries": {
+    "current_debris_only": {
+      "effective_source_cells": 41.970824389612694,
+      "equal_tail": {
+        "50": {
+          "cell_count": 25,
+          "latitude_max_s": 31.6832275390625,
+          "latitude_min_s": 18.5905456542969,
+          "width_degrees": 13.0926818847656
+        },
+        "90": {
+          "cell_count": 43,
+          "latitude_max_s": 35.7523803710938,
+          "latitude_min_s": 13.1461181640625,
+          "width_degrees": 22.6062622070313
+        },
+        "95": {
+          "cell_count": 50,
+          "latitude_max_s": 37.3558349609375,
+          "latitude_min_s": 11.2920837402344,
+          "width_degrees": 26.0637512207031
+        },
+        "99": {
+          "cell_count": 56,
+          "latitude_max_s": 39.15478515625,
+          "latitude_min_s": 10.6705932617188,
+          "width_degrees": 28.4841918945312
+        }
+      },
+      "field": "debris_only",
+      "highest_mass": {
+        "50": {
+          "cell_count": 15,
+          "enclosed_mass": 0.5257803297207768,
+          "latitude_max_s": 35.7523803710938,
+          "latitude_min_s": 16.1953430175781,
+          "width_degrees": 19.5570373535157
+        },
+        "90": {
+          "cell_count": 34,
+          "enclosed_mass": 0.9041051500578045,
+          "latitude_max_s": 35.7523803710938,
+          "latitude_min_s": 10.6705932617188,
+          "width_degrees": 25.081787109375
+        },
+        "95": {
+          "cell_count": 41,
+          "enclosed_mass": 0.953609641117457,
+          "latitude_max_s": 37.7345886230469,
+          "latitude_min_s": 10.6705932617188,
+          "width_degrees": 27.063995361328104
+        },
+        "99": {
+          "cell_count": 52,
+          "enclosed_mass": 0.9924040743352975,
+          "latitude_max_s": 38.8143920898438,
+          "latitude_min_s": 10.0475158691406,
+          "width_degrees": 28.7668762207032
+        }
+      },
+      "name": "current_debris_only",
+      "peak_cell": "arc-129",
+      "peak_latitude_s": 17.9958801269531
+    },
+    "current_screen": {
+      "effective_source_cells": 41.97081974949728,
+      "equal_tail": {
+        "50": {
+          "cell_count": 25,
+          "latitude_max_s": 31.6832275390625,
+          "latitude_min_s": 18.5905456542969,
+          "width_degrees": 13.0926818847656
+        },
+        "90": {
+          "cell_count": 43,
+          "latitude_max_s": 35.7523803710938,
+          "latitude_min_s": 13.1461181640625,
+          "width_degrees": 22.6062622070313
+        },
+        "95": {
+          "cell_count": 50,
+          "latitude_max_s": 37.3558349609375,
+          "latitude_min_s": 11.2920837402344,
+          "width_degrees": 26.0637512207031
+        },
+        "99": {
+          "cell_count": 56,
+          "latitude_max_s": 39.15478515625,
+          "latitude_min_s": 10.6705932617188,
+          "width_degrees": 28.4841918945312
+        }
+      },
+      "field": "screen",
+      "highest_mass": {
+        "50": {
+          "cell_count": 15,
+          "enclosed_mass": 0.5257803339425743,
+          "latitude_max_s": 35.7523803710938,
+          "latitude_min_s": 16.1953430175781,
+          "width_degrees": 19.5570373535157
+        },
+        "90": {
+          "cell_count": 34,
+          "enclosed_mass": 0.9041051848774573,
+          "latitude_max_s": 35.7523803710938,
+          "latitude_min_s": 10.6705932617188,
+          "width_degrees": 25.081787109375
+        },
+        "95": {
+          "cell_count": 41,
+          "enclosed_mass": 0.9536096558991932,
+          "latitude_max_s": 37.7345886230469,
+          "latitude_min_s": 10.6705932617188,
+          "width_degrees": 27.063995361328104
+        },
+        "99": {
+          "cell_count": 52,
+          "enclosed_mass": 0.9924040838728795,
+          "latitude_max_s": 38.8143920898438,
+          "latitude_min_s": 10.0475158691406,
+          "width_degrees": 28.7668762207032
+        }
+      },
+      "name": "current_screen",
+      "peak_cell": "arc-129",
+      "peak_latitude_s": 17.9958801269531
+    },
+    "earlier_debris_only": {
+      "effective_source_cells": 21.00372003431436,
+      "equal_tail": {
+        "50": {
+          "cell_count": 8,
+          "latitude_max_s": 35.7523803710938,
+          "latitude_min_s": 32.6375732421875,
+          "width_degrees": 3.1148071289062997
+        },
+        "90": {
+          "cell_count": 23,
+          "latitude_max_s": 38.4640808105469,
+          "latitude_min_s": 28.6707763671875,
+          "width_degrees": 9.793304443359403
+        },
+        "95": {
+          "cell_count": 27,
+          "latitude_max_s": 38.8143920898438,
+          "latitude_min_s": 27.0890502929688,
+          "width_degrees": 11.725341796875
+        },
+        "99": {
+          "cell_count": 60,
+          "latitude_max_s": 40.7008972167969,
+          "latitude_min_s": 11.2920837402344,
+          "width_degrees": 29.408813476562504
+        }
+      },
+      "field": "debris_only",
+      "highest_mass": {
+        "50": {
+          "cell_count": 7,
+          "enclosed_mass": 0.5403808846739545,
+          "latitude_max_s": 35.7523803710938,
+          "latitude_min_s": 31.6832275390625,
+          "width_degrees": 4.0691528320313
+        },
+        "90": {
+          "cell_count": 20,
+          "enclosed_mass": 0.9129909456631354,
+          "latitude_max_s": 40.7008972167969,
+          "latitude_min_s": 27.0890502929688,
+          "width_degrees": 13.611846923828104
+        },
+        "95": {
+          "cell_count": 23,
+          "enclosed_mass": 0.9633533198601657,
+          "latitude_max_s": 40.7008972167969,
+          "latitude_min_s": 27.0890502929688,
+          "width_degrees": 13.611846923828104
+        },
+        "99": {
+          "cell_count": 26,
+          "enclosed_mass": 0.9903904551684386,
+          "latitude_max_s": 40.7008972167969,
+          "latitude_min_s": 11.2920837402344,
+          "width_degrees": 29.408813476562504
+        }
+      },
+      "name": "earlier_debris_only",
+      "peak_cell": "arc-161",
+      "peak_latitude_s": 34.9004821777344
+    },
+    "earlier_density_ranked": {
+      "effective_source_cells": 5.910631254601018,
+      "equal_tail": {
+        "50": {
+          "cell_count": 9,
+          "latitude_max_s": 34.4627380371094,
+          "latitude_min_s": 30.7030334472656,
+          "width_degrees": 3.7597045898438033
+        },
+        "90": {
+          "cell_count": 20,
+          "latitude_max_s": 36.5713806152344,
+          "latitude_min_s": 27.6214599609375,
+          "width_degrees": 8.949920654296903
+        },
+        "95": {
+          "cell_count": 22,
+          "latitude_max_s": 37.3558349609375,
+          "latitude_min_s": 27.6214599609375,
+          "width_degrees": 9.734375
+        },
+        "99": {
+          "cell_count": 22,
+          "latitude_max_s": 37.3558349609375,
+          "latitude_min_s": 27.6214599609375,
+          "width_degrees": 9.734375
+        }
+      },
+      "field": "screen",
+      "highest_mass": {
+        "50": {
+          "cell_count": 2,
+          "enclosed_mass": 0.5363629374913927,
+          "latitude_max_s": 31.6832275390625,
+          "latitude_min_s": 30.7030334472656,
+          "width_degrees": 0.9801940917968999
+        },
+        "90": {
+          "cell_count": 5,
+          "enclosed_mass": 0.9068323134399175,
+          "latitude_max_s": 34.9004821777344,
+          "latitude_min_s": 27.6214599609375,
+          "width_degrees": 7.279022216796903
+        },
+        "95": {
+          "cell_count": 7,
+          "enclosed_mass": 0.9780629145913224,
+          "latitude_max_s": 37.3558349609375,
+          "latitude_min_s": 27.6214599609375,
+          "width_degrees": 9.734375
+        },
+        "99": {
+          "cell_count": 9,
+          "enclosed_mass": 0.9951165187451811,
+          "latitude_max_s": 37.3558349609375,
+          "latitude_min_s": 27.6214599609375,
+          "width_degrees": 9.734375
+        }
+      },
+      "name": "earlier_density_ranked",
+      "peak_cell": "arc-154",
+      "peak_latitude_s": 31.6832275390625
+    }
+  }
+}

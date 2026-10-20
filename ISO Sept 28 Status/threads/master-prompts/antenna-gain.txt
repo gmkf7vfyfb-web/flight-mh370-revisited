@@ -1,0 +1,70 @@
+YOUR JOB: "Antenna gain" (hypothesis work: hypotheses/antenna-gain/, created with `make new-hypothesis H=antenna-gain`)
+
+WHY, AND WHAT NOT TO DO (Pete, 28 Sep 2026)
+Pete wants the module created and set up from the prior work, but not integrated yet. It stays parked until the estimator runs stably and convergently to impact; then Pete decides. So the deliverable is:
+- a clean, tested module that could be switched on later;
+- a clear list of what it would need from the core.
+It is not an estimate. Don't run it at full scale, and don't ask for its core changes to be built.
+
+WHAT IT MEASURES
+The SATCOM logs carry received power for the R1200 bursts. A path predicts a received-power departure from:
+- the aircraft's attitude: heading, pitch and roll;
+- the satellite's direction;
+- the installed antenna's gain pattern.
+A likelihood compares that prediction with the logs. This is directional information that BTO and BFO don't carry.
+
+PRIOR WORK
+All of it is read-only reference: never import it, run it in place, or copy it in wholesale.
+- Pete's paper, Large (2019), with a recreation under /jackbox/home/MH370-v01-share-withdrawn-one-turn-20260907/v01/workspace/.sources/large-2019-antenna-gain/:
+  - the paper: paper/paper.pdf;
+  - the recreation's README;
+  - code: blocked_prediction.py, build_runtime_grid.py, publication_controls.py and their tests;
+  - data: the first-pass gain surface CSV, "GAIN IN AC COORDS TO 68 EL 360 AZ.xlsx", event_channel_means.csv, and the early-MH370 forward-power control.
+- The old Rust crate, 815 lines: .../v01/workspace/crates/antenna/src/{lib.rs, directional.rs}. It has:
+  - the gain-grid format;
+  - attitude-aware geometry: a yaw-pitch-roll rotation into aircraft axes, with level, pitch and roll limiting-case tests;
+  - the target-EIRP link model;
+  - the conditional power score.
+- The Ball AES gain-pattern specification Pete uploaded: /jackbox/home/.iso/attachments/proj_pm8k5krhiy/BALL-GAIN-PATTERN-9M-MRO-AES-Antenna-TechSpecs-1787258060837-o7unox.pdf.
+- Old antenna-conditioned filter runs (configs, results, logs): /jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/antenna-* and .../branching-filter-analysis/antenna-*.
+- Earlier threads: "MH370 antenna gain model – continuation" (thr_b6qutrkpmh) and "Passive Radar WSPR / RxGain Testing" (thr_e7vf6bjiyt). Read them with `iso thread log <id>`; don't message them.
+
+PRIOR FINDINGS TO CARRY FORWARD (from the recreation's README; don't re-derive them)
+- The held-out comparison between the two precompensation endpoints was inconclusive:
+  - full target-EIRP precompensation versus no precompensation: mean log-density difference +0.116 per point, 95% interval [−0.194, +0.462], sign-flip p = 0.536;
+  - a forward-only check reversed the sign.
+  So the two endpoints stay separate conditional alternatives, with no prior weight between them.
+- The event-level s.d. was 1.72 dB, from the blocked no-precompensation RMSE. It wasn't tuned to MH371 truth.
+- The gain surface is an uncommissioned first pass:
+  - it isn't verified as the installed pattern;
+  - it has no port/starboard handoff behaviour;
+  - it disagrees materially with the workbook gain at the first MH371 event.
+- Call-channel (C-channel) received power was not integrated, for three reasons: no calibration, a free offset absorbs the signal, and serial dependence within a burst.
+- Use at the end of flight also needs HPA output limits, antenna side selection and restart-channel power calibration.
+- A mistake not to repeat: in the old work, MH371 was not run blind (the window moved after the truth was seen). Here, only the core's MH371 scorer reads the ACARS truth.
+
+SET UP
+- Code: port only what the module needs, rewritten against the current hook API: epoch_log_likelihood with EpochView and StateView, and alternatives() for the two precompensation endpoints. Drop the old domain crate types. Dependencies: hypothesis, geo, serde and toml only.
+- Data:
+  - Check the provenance and licence of the gain surface and the Ball specification.
+  - If they aren't clearly redistributable, keep them under /jackbox/home/MH370-inputs/antenna/ (data/external in your worktree) and ask Pete. Don't commit them.
+- Observations:
+  - Find the received-power fields for each R1200 burst, starting from /jackbox/home/MH370/data/satcom-observations.csv and the Inmarsat log sources listed in README.
+  - Propose IDs in the existing scheme (e.g. "m1941.rxpower"). They must not double-count the BTO or BFO.
+- core_requests: list what StateView and EpochView lack, e.g.:
+  - true heading, pitch and roll, or the state that implies them;
+  - the satellite position at each epoch, unless you read the core's ephemeris file by path.
+  Send the list to thr_4pbhvf3sxi.
+- Tests:
+  - the gain at a tabulated azimuth and elevation, against the source table;
+  - level, pitch and roll limiting cases for the geometry;
+  - the likelihood against a hand-computed value.
+- hypothesis.toml:
+  - status "open", with the question in one sentence;
+  - summary empty;
+  - core_requests filled in.
+- The lib.rs doc comment says the module is parked and why, and quotes the prior results above with their source.
+- Runs: none at full scale. `make smoke H=antenna-gain` exercising the code path is enough, and smoke runs are never evidence.
+- When done:
+  - tell thr_4pbhvf3sxi the branch is ready for review;
+  - give Pete a short summary, with a PNG if there's a figure (e.g. the gain surface in aircraft coordinates).

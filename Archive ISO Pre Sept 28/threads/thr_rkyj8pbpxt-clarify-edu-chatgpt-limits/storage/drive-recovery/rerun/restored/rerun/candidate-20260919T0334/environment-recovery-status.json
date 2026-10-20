@@ -1,0 +1,41 @@
+{
+  "observed_utc": "2026-09-19T06:44:24Z",
+  "status": "Exact MH370 ERA5 and IGRF inputs recovered; only the Rust compiler toolchain remains open",
+  "era5": {
+    "original_path": "project/inputs/environment/mh370-era5-grid.bin",
+    "original_bytes": 337328648,
+    "original_sha256": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4",
+    "drive_multipart_folder_id": "1kypp3KKFOwnvOieMH4xHlmFtw7yGpqMJ",
+    "drive_manifest_file_id": "1ogAfQ9O2AV2YB4E_NK2uv5XTGjIjnCz3",
+    "local_path": "rerun/recovered-environment/mh370-era5-grid.bin",
+    "receipt": "rerun/recovered-environment/era5-recovery-receipt.json",
+    "reassembly_script": "rerun/recovered-environment/reassemble_multipart.py",
+    "manifest_sha256": "142601a3ff9301199adecc084a695d6ee63423dbc70f9c79494e6f06b1791f62",
+    "parts_verified": 11,
+    "materialization": "complete; every part and the final concatenation matched its saved byte count and SHA256"
+  },
+  "igrf": {
+    "mh370_physical_target": {
+      "bytes": 12497900,
+      "sha256": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1",
+      "drive_file_id": "1Avr6Lzgb7Iwcpx1rECEeBjDvmkjieikX",
+      "status": "recovered exactly and confirmed by every available resolved MH370 config"
+    },
+    "mh371_separate_control": {
+      "bytes": 5564268,
+      "sha256": "fbedb84fe68c6e547ff484fec47fbc89e28660fb2010ba4f336d0622467c933f",
+      "drive_file_id": "1kbuMNC-C2b24fVTxWFn7AdMgSwpYT00J",
+      "status": "recovered exactly but explicitly excluded as a substitute for MH370 replays"
+    },
+    "source_reconciliation": "Checkpoint 4 incorrectly treated the MH371 control grid identity as the remaining physical-replay input. Archived resolved configs and independent evidence archives consistently name mh370-igrf14-grid.bin."
+  },
+  "rust_toolchain": {
+    "required_channel": "1.98.0",
+    "toolchain_file_sha256": "23a67d71b57fef846d42150a2d0dcec5bb6ab7342b400a1966b8168f9481b917",
+    "status": "exact toolchain specification recovered, but compiler binaries are absent after workspace pruning; direct official download timed out under the restricted network",
+    "cargo": null,
+    "rustc": null,
+    "precompiled_validation": "15 SATCOM and 73 particle-filter tests pass; these binaries predate the runner-only exporter integration"
+  },
+  "scientific_effect": "The exact weather and magnetic inputs are no longer blockers, and a regression test prevents MH370/MH371 grid substitution. Runner compilation, disabled/enabled replay identity, and physical factor rows are still required before interpreting the 18:39/19:41 bottleneck."
+}

@@ -1,0 +1,623 @@
+{
+ "source": "runs/eof-s6-n16-s1",
+ "seeds": [
+  "seed-1"
+ ],
+ "children": 16,
+ "bin_edges_nm": [
+  -110.0,
+  -105.0,
+  -100.0,
+  -95.0,
+  -90.0,
+  -85.0,
+  -80.0,
+  -75.0,
+  -70.0,
+  -65.0,
+  -60.0,
+  -55.0,
+  -50.0,
+  -45.0,
+  -40.0,
+  -35.0,
+  -30.0,
+  -25.0,
+  -20.0,
+  -15.0,
+  -10.0,
+  -5.0,
+  0.0,
+  5.0,
+  10.0,
+  15.0,
+  20.0,
+  25.0,
+  30.0,
+  35.0,
+  40.0,
+  45.0,
+  50.0,
+  55.0,
+  60.0,
+  65.0,
+  70.0,
+  75.0,
+  80.0,
+  85.0,
+  90.0,
+  95.0,
+  100.0,
+  105.0,
+  110.0
+ ],
+ "controls": [
+  "ditching-attempt",
+  "maintained-then-lost",
+  "no-intervention",
+  "upset-then-recovery"
+ ],
+ "code_revision": "9d109c8",
+ "options": {
+  "none__other": {
+   "included_share": 0.7659003738622499,
+   "ess": 1227897.0219518626,
+   "outside_range_share": 0.03639637449258605,
+   "pooled_weight_share": 0.7659003738622499,
+   "pooled_radius_nm_50_90_99": [
+    40.38391884614909,
+    92.86173935245202,
+    135.2904527625149
+   ],
+   "ditching-attempt_weight_share": 0.19208162849028243,
+   "ditching-attempt_radius_nm_50_90_99": [
+    80.38119666792137,
+    115.6497639137159,
+    158.20283971873468
+   ],
+   "maintained-then-lost_weight_share": 0.1925624374202038,
+   "maintained-then-lost_radius_nm_50_90_99": [
+    36.46626354707039,
+    80.61775852213825,
+    114.74951793211522
+   ],
+   "no-intervention_weight_share": 0.1901834005621182,
+   "no-intervention_radius_nm_50_90_99": [
+    11.1019092036673,
+    37.294147979324975,
+    91.36063049512062
+   ],
+   "upset-then-recovery_weight_share": 0.19107290738964544,
+   "upset-then-recovery_radius_nm_50_90_99": [
+    43.411366748309675,
+    74.43428914020781,
+    116.97511994535274
+   ]
+  },
+  "none__fuel-exhaustion": {
+   "included_share": 0.9993993334806823,
+   "ess": 138761.79228835664,
+   "outside_range_share": 0.030830228571159874,
+   "pooled_weight_share": 0.9993993334806823,
+   "pooled_radius_nm_50_90_99": [
+    43.79868205316275,
+    99.43304638237375,
+    119.36146996071234
+   ],
+   "ditching-attempt_weight_share": 0.26845766994905707,
+   "ditching-attempt_radius_nm_50_90_99": [
+    91.77173334542604,
+    112.07141427789244,
+    127.73676149811286
+   ],
+   "maintained-then-lost_weight_share": 0.26676355906553284,
+   "maintained-then-lost_radius_nm_50_90_99": [
+    44.57605043022875,
+    87.74577581869292,
+    109.08704276434378
+   ],
+   "no-intervention_weight_share": 0.23103158227955162,
+   "no-intervention_radius_nm_50_90_99": [
+    14.475384075839983,
+    39.81493037409462,
+    88.09033366632652
+   ],
+   "upset-then-recovery_weight_share": 0.23314652218654075,
+   "upset-then-recovery_radius_nm_50_90_99": [
+    44.372041257315644,
+    73.34001188941761,
+    92.88649448835484
+   ]
+  },
+  "r600_inflated__other": {
+   "included_share": 0.9112520185408692,
+   "ess": 351676.9347128784,
+   "outside_range_share": 0.0471417888028311,
+   "pooled_weight_share": 0.9112520185408692,
+   "pooled_radius_nm_50_90_99": [
+    54.547670376434255,
+    98.53306155192992,
+    137.32626129003435
+   ],
+   "ditching-attempt_weight_share": 0.3327152250892859,
+   "ditching-attempt_radius_nm_50_90_99": [
+    81.2855217518209,
+    112.92838191192531,
+    152.51265783024033
+   ],
+   "maintained-then-lost_weight_share": 0.38204266326220065,
+   "maintained-then-lost_radius_nm_50_90_99": [
+    40.765751618415415,
+    80.41943149480653,
+    110.76602099502101
+   ],
+   "no-intervention_weight_share": 0.09775527120687268,
+   "no-intervention_radius_nm_50_90_99": [
+    19.47841367978048,
+    69.26052423659375,
+    111.76637667210873
+   ],
+   "upset-then-recovery_weight_share": 0.09873885898251003,
+   "upset-then-recovery_radius_nm_50_90_99": [
+    51.28698924667298,
+    81.64314399875975,
+    116.14224055817628
+   ]
+  },
+  "r600_inflated__fuel-exhaustion": {
+   "included_share": 0.999942909468504,
+   "ess": 59376.984879368814,
+   "outside_range_share": 0.034357513709803375,
+   "pooled_weight_share": 0.999942909468504,
+   "pooled_radius_nm_50_90_99": [
+    49.78162674744197,
+    99.94561379158925,
+    118.63632373966348
+   ],
+   "ditching-attempt_weight_share": 0.3059503572916512,
+   "ditching-attempt_radius_nm_50_90_99": [
+    88.68240173757061,
+    111.01108932546052,
+    124.4971234099562
+   ],
+   "maintained-then-lost_weight_share": 0.35597880958001127,
+   "maintained-then-lost_radius_nm_50_90_99": [
+    45.95756103197424,
+    85.28277440025924,
+    106.74672218259562
+   ],
+   "no-intervention_weight_share": 0.16808348839963255,
+   "no-intervention_radius_nm_50_90_99": [
+    17.944237861136568,
+    64.19697992723275,
+    96.28631771085334
+   ],
+   "upset-then-recovery_weight_share": 0.1699302541972089,
+   "upset-then-recovery_radius_nm_50_90_99": [
+    50.56545874326988,
+    79.00939760949147,
+    96.06301143330516
+   ]
+  },
+  "r600_no-offset__other": {
+   "included_share": 0.9998502230593681,
+   "ess": 28634.952733085756,
+   "outside_range_share": 0.01547281390385355,
+   "pooled_weight_share": 0.9998502230593681,
+   "pooled_radius_nm_50_90_99": [
+    43.77034175446099,
+    92.64350470548798,
+    114.28429428539734
+   ],
+   "ditching-attempt_weight_share": 0.3166245157608293,
+   "ditching-attempt_radius_nm_50_90_99": [
+    74.21091034811408,
+    103.0128645342865,
+    120.87502367492435
+   ],
+   "maintained-then-lost_weight_share": 0.34487893476224324,
+   "maintained-then-lost_radius_nm_50_90_99": [
+    36.51993472467058,
+    81.06762862427203,
+    103.58305225308995
+   ],
+   "no-intervention_weight_share": 0.1700994506836106,
+   "no-intervention_radius_nm_50_90_99": [
+    15.708053201135613,
+    59.952194474760326,
+    97.47896703615018
+   ],
+   "upset-then-recovery_weight_share": 0.16824732185268498,
+   "upset-then-recovery_radius_nm_50_90_99": [
+    49.79719521152655,
+    79.81414256220197,
+    107.6798461148789
+   ]
+  },
+  "r600_no-offset__fuel-exhaustion": {
+   "included_share": 0.9999957370119517,
+   "ess": 9049.77086638046,
+   "outside_range_share": 0.029303598039959956,
+   "pooled_weight_share": 0.9999957370119517,
+   "pooled_radius_nm_50_90_99": [
+    41.36555236017738,
+    96.87915663156659,
+    116.7722175745766
+   ],
+   "ditching-attempt_weight_share": 0.26991728454622477,
+   "ditching-attempt_radius_nm_50_90_99": [
+    50.880482115475495,
+    110.28657021742855,
+    122.82624404704211
+   ],
+   "maintained-then-lost_weight_share": 0.2770793534830501,
+   "maintained-then-lost_radius_nm_50_90_99": [
+    36.86915970524585,
+    88.30478716731146,
+    108.50827867359565
+   ],
+   "no-intervention_weight_share": 0.22481221667067217,
+   "no-intervention_radius_nm_50_90_99": [
+    17.463477224395813,
+    63.67881360214668,
+    94.84901619601145
+   ],
+   "upset-then-recovery_weight_share": 0.22818688231200482,
+   "upset-then-recovery_radius_nm_50_90_99": [
+    51.44505616811733,
+    79.37550314210829,
+    98.92206892696883
+   ]
+  },
+  "r600_startup-offset__other": {
+   "included_share": 0.9997577227038625,
+   "ess": 24257.937913720103,
+   "outside_range_share": 0.034531874429816416,
+   "pooled_weight_share": 0.9997577227038625,
+   "pooled_radius_nm_50_90_99": [
+    48.48380691654282,
+    101.74235426730844,
+    120.44519214236807
+   ],
+   "ditching-attempt_weight_share": 0.3067680682588913,
+   "ditching-attempt_radius_nm_50_90_99": [
+    94.46098788652839,
+    110.57813175066734,
+    126.28380272649764
+   ],
+   "maintained-then-lost_weight_share": 0.40017736719255814,
+   "maintained-then-lost_radius_nm_50_90_99": [
+    38.90719921319677,
+    90.43406832273922,
+    109.4526487341482
+   ],
+   "no-intervention_weight_share": 0.14963497066691755,
+   "no-intervention_radius_nm_50_90_99": [
+    12.166863980912503,
+    30.897730938898555,
+    92.04598029488244
+   ],
+   "upset-then-recovery_weight_share": 0.14317731658549562,
+   "upset-then-recovery_radius_nm_50_90_99": [
+    43.86964992547287,
+    73.6134037014802,
+    97.82029375022779
+   ]
+  },
+  "r600_startup-offset__fuel-exhaustion": {
+   "included_share": 0.9999390577104609,
+   "ess": 9662.399628981335,
+   "outside_range_share": 0.05712377342876993,
+   "pooled_weight_share": 0.9999390577104609,
+   "pooled_radius_nm_50_90_99": [
+    71.20039669832961,
+    106.71695068998585,
+    122.06110077778395
+   ],
+   "ditching-attempt_weight_share": 0.4102048099951153,
+   "ditching-attempt_radius_nm_50_90_99": [
+    97.87517900899978,
+    112.57409838745602,
+    126.09213709269517
+   ],
+   "maintained-then-lost_weight_share": 0.42254123473110555,
+   "maintained-then-lost_radius_nm_50_90_99": [
+    48.52190134221491,
+    95.40083205424449,
+    110.93323356833115
+   ],
+   "no-intervention_weight_share": 0.08576781742350227,
+   "no-intervention_radius_nm_50_90_99": [
+    14.127120105172017,
+    42.2717234054053,
+    85.43838127725465
+   ],
+   "upset-then-recovery_weight_share": 0.08142519556073768,
+   "upset-then-recovery_radius_nm_50_90_99": [
+    45.72978477232275,
+    72.02554659811926,
+    92.13675461289051
+   ]
+  },
+  "r1200_inflated__other": {
+   "included_share": 0.9999999999710478,
+   "ess": 3055.051109276972,
+   "outside_range_share": 0.013327448203906588,
+   "pooled_weight_share": 0.9999999999710478,
+   "pooled_radius_nm_50_90_99": [
+    18.030604101181588,
+    96.82153129496443,
+    114.35873808647457
+   ],
+   "ditching-attempt_weight_share": 0.1689978517912828,
+   "ditching-attempt_radius_nm_50_90_99": [
+    96.14581114081939,
+    109.23044612080741,
+    124.03333715563708
+   ],
+   "maintained-then-lost_weight_share": 0.7229188293420743,
+   "maintained-then-lost_radius_nm_50_90_99": [
+    12.145718096141755,
+    76.60723151903683,
+    105.12108492235193
+   ],
+   "no-intervention_weight_share": 0.057947701233950516,
+   "no-intervention_radius_nm_50_90_99": [
+    9.013016636657737,
+    25.322977409431672,
+    46.82758833530502
+   ],
+   "upset-then-recovery_weight_share": 0.05013561760374029,
+   "upset-then-recovery_radius_nm_50_90_99": [
+    40.85145998556528,
+    65.38833735431737,
+    89.43245825481226
+   ]
+  },
+  "r1200_inflated__fuel-exhaustion": {
+   "included_share": 0.9999999999999905,
+   "ess": 993.60919418985,
+   "outside_range_share": 0.01708373671823619,
+   "pooled_weight_share": 0.9999999999999905,
+   "pooled_radius_nm_50_90_99": [
+    63.88068940420966,
+    99.63179478391716,
+    117.05326748733195
+   ],
+   "ditching-attempt_weight_share": 0.3360669582802257,
+   "ditching-attempt_radius_nm_50_90_99": [
+    88.37046327088979,
+    107.72036349500969,
+    122.75138376104425
+   ],
+   "maintained-then-lost_weight_share": 0.6125738348378272,
+   "maintained-then-lost_radius_nm_50_90_99": [
+    25.919360078518267,
+    85.21862994757586,
+    106.93040320040431
+   ],
+   "no-intervention_weight_share": 0.03106617220469028,
+   "no-intervention_radius_nm_50_90_99": [
+    8.857018586520296,
+    31.29661845649844,
+    39.88579072474859
+   ],
+   "upset-then-recovery_weight_share": 0.020293034677247333,
+   "upset-then-recovery_radius_nm_50_90_99": [
+    38.84863496283272,
+    58.49915445211088,
+    78.415737053553
+   ]
+  },
+  "r1200_no-offset__other": {
+   "included_share": 1.0,
+   "ess": 475.61603546609683,
+   "outside_range_share": 0.0028266777106798714,
+   "pooled_weight_share": 1.0,
+   "pooled_radius_nm_50_90_99": [
+    14.105190177846271,
+    88.37004877727492,
+    107.0545786931269
+   ],
+   "ditching-attempt_weight_share": 0.1301243002811364,
+   "ditching-attempt_radius_nm_50_90_99": [
+    90.8557191534918,
+    103.06304251603426,
+    121.04643232403589
+   ],
+   "maintained-then-lost_weight_share": 0.8229400044831294,
+   "maintained-then-lost_radius_nm_50_90_99": [
+    10.865668969937134,
+    70.90385026759299,
+    98.12280863516764
+   ],
+   "no-intervention_weight_share": 0.02694523022361391,
+   "no-intervention_radius_nm_50_90_99": [
+    7.693373068952766,
+    37.121090186656104,
+    46.82759387064673
+   ],
+   "upset-then-recovery_weight_share": 0.019990465012120248,
+   "upset-then-recovery_radius_nm_50_90_99": [
+    38.46257738259145,
+    57.94510303947002,
+    57.945125143184924
+   ]
+  },
+  "r1200_no-offset__fuel-exhaustion": {
+   "included_share": 0.9999999999999999,
+   "ess": 147.24491738688226,
+   "outside_range_share": 0.003238994945744531,
+   "pooled_weight_share": 0.9999999999999999,
+   "pooled_radius_nm_50_90_99": [
+    50.996928830230736,
+    90.85579563556419,
+    107.05453776049033
+   ],
+   "ditching-attempt_weight_share": 0.28222132488471846,
+   "ditching-attempt_radius_nm_50_90_99": [
+    78.87006999969337,
+    99.75334993879078,
+    121.04598855988395
+   ],
+   "maintained-then-lost_weight_share": 0.6893696054811324,
+   "maintained-then-lost_radius_nm_50_90_99": [
+    15.651287624846209,
+    77.90216256906503,
+    98.1227927714187
+   ],
+   "no-intervention_weight_share": 0.01940192053776664,
+   "no-intervention_radius_nm_50_90_99": [
+    5.639751712419325,
+    37.12248818615289,
+    37.12415061766158
+   ],
+   "upset-then-recovery_weight_share": 0.009007149096382446,
+   "upset-then-recovery_radius_nm_50_90_99": [
+    35.66472896836884,
+    50.99692904974313,
+    57.945122642017814
+   ]
+  },
+  "r1200_startup-offset__other": {
+   "included_share": 1.0,
+   "ess": 805.181149356168,
+   "outside_range_share": 0.0028277078634310034,
+   "pooled_weight_share": 1.0,
+   "pooled_radius_nm_50_90_99": [
+    11.170286071376394,
+    81.36116668824855,
+    97.37654090958621
+   ],
+   "ditching-attempt_weight_share": 0.09922637115496924,
+   "ditching-attempt_radius_nm_50_90_99": [
+    86.7233823207643,
+    96.09172572422712,
+    108.78658989671418
+   ],
+   "maintained-then-lost_weight_share": 0.8806874605534576,
+   "maintained-then-lost_radius_nm_50_90_99": [
+    9.672334306380723,
+    56.73343710902865,
+    95.18277523143428
+   ],
+   "no-intervention_weight_share": 0.013563128349312427,
+   "no-intervention_radius_nm_50_90_99": [
+    9.13222191730277,
+    25.66020251038743,
+    46.82760051701229
+   ],
+   "upset-then-recovery_weight_share": 0.006523039942260676,
+   "upset-then-recovery_radius_nm_50_90_99": [
+    52.28849136480433,
+    53.4686066516059,
+    53.468860599619234
+   ]
+  },
+  "r1200_startup-offset__fuel-exhaustion": {
+   "included_share": 0.9999999999999999,
+   "ess": 203.64679936795906,
+   "outside_range_share": 0.00035532400145778627,
+   "pooled_weight_share": 0.9999999999999999,
+   "pooled_radius_nm_50_90_99": [
+    21.00005372818913,
+    88.3706427393593,
+    97.37601869321703
+   ],
+   "ditching-attempt_weight_share": 0.23410347766932113,
+   "ditching-attempt_radius_nm_50_90_99": [
+    83.98984391475317,
+    92.88529075392158,
+    108.78632115249566
+   ],
+   "maintained-then-lost_weight_share": 0.7330007670239136,
+   "maintained-then-lost_radius_nm_50_90_99": [
+    11.143497032578084,
+    78.93415255422045,
+    95.77306647305329
+   ],
+   "no-intervention_weight_share": 0.0249509782918758,
+   "no-intervention_radius_nm_50_90_99": [
+    9.132212364491654,
+    25.660227772500214,
+    25.66026614836224
+   ],
+   "upset-then-recovery_weight_share": 0.007944777014889487,
+   "upset-then-recovery_radius_nm_50_90_99": [
+    38.84867198871249,
+    50.99692469918444,
+    52.28851387506848
+   ]
+  },
+  "both_inflated__other": {
+   "included_share": 0.9999999999800327,
+   "ess": 543.4730307914376,
+   "outside_range_share": 0.018964495098203235,
+   "pooled_weight_share": 0.9999999999800327,
+   "pooled_radius_nm_50_90_99": [
+    37.40533635971991,
+    101.4840682416982,
+    117.50425877871707
+   ],
+   "ditching-attempt_weight_share": 0.23984538146540918,
+   "ditching-attempt_radius_nm_50_90_99": [
+    95.12601982924934,
+    109.23055945373144,
+    122.39320213374927
+   ],
+   "maintained-then-lost_weight_share": 0.733002089969468,
+   "maintained-then-lost_radius_nm_50_90_99": [
+    15.37372323815692,
+    79.62862539226599,
+    109.79733677864049
+   ],
+   "no-intervention_weight_share": 0.01611816513563149,
+   "no-intervention_radius_nm_50_90_99": [
+    8.376665617624829,
+    16.403755301202835,
+    40.457286544642216
+   ],
+   "upset-then-recovery_weight_share": 0.011034363409524005,
+   "upset-then-recovery_radius_nm_50_90_99": [
+    42.25356898991485,
+    69.47489876452839,
+    84.43265357821709
+   ]
+  },
+  "both_inflated__fuel-exhaustion": {
+   "included_share": 0.9999999999999942,
+   "ess": 191.45209791946175,
+   "outside_range_share": 0.016841863736609543,
+   "pooled_weight_share": 0.9999999999999942,
+   "pooled_radius_nm_50_90_99": [
+    64.16225839795159,
+    99.56066359565101,
+    115.06800486851077
+   ],
+   "ditching-attempt_weight_share": 0.3468621617197366,
+   "ditching-attempt_radius_nm_50_90_99": [
+    88.00578404938788,
+    107.03470175391949,
+    119.76696130737514
+   ],
+   "maintained-then-lost_weight_share": 0.6446466325143472,
+   "maintained-then-lost_radius_nm_50_90_99": [
+    24.235835480191195,
+    81.42231730113154,
+    104.57427463715773
+   ],
+   "no-intervention_weight_share": 0.005523743194460771,
+   "no-intervention_radius_nm_50_90_99": [
+    8.179352189081397,
+    18.305197524146628,
+    42.904434966836746
+   ],
+   "upset-then-recovery_weight_share": 0.0029674625714496434,
+   "upset-then-recovery_radius_nm_50_90_99": [
+    37.83663923816607,
+    68.68650704785134,
+    77.9728746104301
+   ]
+  }
+ }
+}

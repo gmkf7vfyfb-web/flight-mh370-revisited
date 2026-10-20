@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "suite_name": "MH370 00:11 release comparison: ERA5 constant-true-track control",
+  "interpretation": "Descriptive common-raster comparisons of separately conditioned posterior families; these are not posterior model probabilities or Bayes factors.",
+  "comparisons": [
+    {
+      "reference_family": "bto-only",
+      "comparison_family": "bto-bfo-medium",
+      "centroid_separation_nm": 8.601989030283878,
+      "single_factor_change": "bfo",
+      "spatial": {
+        "raster_columns": 64,
+        "raster_rows": 64,
+        "bounds": {
+          "longitude_min_deg": 84.18403472773963,
+          "longitude_max_deg": 94.56546149038672,
+          "latitude_min_deg": -39.40521644764882,
+          "latitude_max_deg": -32.6952458157657
+        },
+        "overlap_coefficient": 0.7117962063242105,
+        "total_variation_distance": 0.28820379367578897,
+        "jensen_shannon_divergence_nats": 0.074017191569111,
+        "first_hpd_area_km2": {
+          "mass_50": 7100.119114209998,
+          "mass_90": 23322.269319067625,
+          "mass_95": 29918.988578566492,
+          "mass_99": 44802.40064015814
+        },
+        "second_hpd_area_km2": {
+          "mass_50": 4068.1336136123455,
+          "mass_90": 13189.535475296827,
+          "mass_95": 17075.489301773232,
+          "mass_99": 25663.14487799785
+        },
+        "method": "64x64 union-support raster with the publication 5-cell separable display kernel; descriptive model-family comparison only"
+      }
+    },
+    {
+      "reference_family": "bto-bfo-medium",
+      "comparison_family": "bto-bfo-gain-conditional",
+      "centroid_separation_nm": 0.18914211237484474,
+      "single_factor_change": "conditional_antenna_gain",
+      "spatial": {
+        "raster_columns": 64,
+        "raster_rows": 64,
+        "bounds": {
+          "longitude_min_deg": 85.110866598976,
+          "longitude_max_deg": 91.1615779562683,
+          "latitude_min_deg": -38.89159216605017,
+          "latitude_max_deg": -35.206545967579565
+        },
+        "overlap_coefficient": 0.9871521729649101,
+        "total_variation_distance": 0.01284782703509051,
+        "jensen_shannon_divergence_nats": 0.00014837093237603905,
+        "first_hpd_area_km2": {
+          "mass_50": 2495.1390491983952,
+          "mass_90": 8229.8226476808,
+          "mass_95": 10606.609624157953,
+          "mass_99": 16155.516413188638
+        },
+        "second_hpd_area_km2": {
+          "mass_50": 2549.2428360483323,
+          "mass_90": 8337.542765631775,
+          "mass_95": 10769.387681972337,
+          "mass_99": 16315.673293995504
+        },
+        "method": "64x64 union-support raster with the publication 5-cell separable display kernel; descriptive model-family comparison only"
+      }
+    }
+  ]
+}

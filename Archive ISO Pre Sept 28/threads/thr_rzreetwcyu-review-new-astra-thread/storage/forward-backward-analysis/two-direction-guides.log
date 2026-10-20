@@ -1,0 +1,46 @@
+{
+  "status": "computational guide, not a probability estimate or physical prior",
+  "counts": [
+    2,
+    1,
+    1
+  ],
+  "late_exhaustion_condition": false,
+  "fits": 43,
+  "retained_guides": 14,
+  "mixture_centres": 14,
+  "retained_latitude_span_deg": [
+    -37.282241998582855,
+    -26.422280817766865
+  ],
+  "best_data_fit_cost": 13.645625578408598,
+  "fit_evaluations": 3240,
+  "geometry_evaluations": 378,
+  "elapsed_s": 12.524051845997747,
+  "input_sha256": {
+    "/tmp/mh370-command-sampler/build_flight_guides.py": "878bb402f971fe9d829e84f75869fe00af5ce5dc45fd09101319627699e721de",
+    "/tmp/mh370-command-sampler/sampler.py": "f2da83b4b381c2d3be7e51141ff1bb84b5ccfb78c78c0c0e0f30669a652fc5ac",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/forward-backward-analysis/mh370-screening-flight.toml": "c50c7f123e499dc31379b7ce0db8f515b036f500ba26f631c6741f84e2de63cd",
+    "/jackbox/home/MH370/target/release/mh370": "a90229e990276cd3450ee7db2268942758211f82cfb70a0a8f1eff47cd0d001f",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/forward-backward-analysis/four-direction-corrected-guides/guides.jsonl": "ab0008738e878b2306209dd8c53d91d48a1d4a8d2947ed4a7453e6bbcb87b707"
+  },
+  "command": [
+    "/tmp/mh370-command-sampler/build_flight_guides.py",
+    "--output",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/forward-backward-analysis/two-direction-guides",
+    "--config",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/forward-backward-analysis/mh370-screening-flight.toml",
+    "--counts",
+    "2",
+    "1",
+    "1",
+    "--workers",
+    "4",
+    "--seconds",
+    "90",
+    "--calls-per-fit",
+    "450",
+    "--witnesses",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/forward-backward-analysis/four-direction-corrected-guides/guides.jsonl"
+  ]
+}

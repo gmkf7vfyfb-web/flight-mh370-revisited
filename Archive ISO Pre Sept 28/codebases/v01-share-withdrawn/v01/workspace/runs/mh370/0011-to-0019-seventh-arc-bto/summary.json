@@ -1,0 +1,49 @@
+{
+  "schema_version": 2,
+  "name": "MH370 00:11 to corrected R600 BTO control",
+  "status": "complete",
+  "model_scope": "short-horizon frozen constant-true-track control; not the physical end-of-flight transition kernel",
+  "selection": "00:19 R600 BTO only",
+  "source_epoch_id": "m0011",
+  "target_epoch_id": "m0019a",
+  "target_time_utc": "2014-03-08T00:19:29.000Z",
+  "propagation_duration_s": 510.0,
+  "source_handoffs": 5,
+  "particles": 150000,
+  "posterior_ess": 135729.35471456984,
+  "seed_posterior_ess": {
+    "370023": 27053.201463855614,
+    "370024": 27189.479769797792,
+    "370025": 26722.242706600897,
+    "370026": 27379.648722237012,
+    "370027": 27396.16806721607
+  },
+  "log_evidence_increment": -5.322955965823477,
+  "seed_log_evidence_increments": {
+    "370023": -5.325370810753228,
+    "370024": -5.320224011288573,
+    "370025": -5.325111917722726,
+    "370026": -5.322424376911327,
+    "370027": -5.321658666592501
+  },
+  "endpoint_mean": {
+    "latitude": -37.45457823555044,
+    "longitude": 89.37349274383365
+  },
+  "endpoint_latitude_90_deg": [
+    -38.11968396929992,
+    -36.96575307837979
+  ],
+  "endpoint_longitude_90_deg": [
+    88.25237745536822,
+    90.15145623525001
+  ],
+  "maximum_source_mean_separation_nm": 3.3029390431525356,
+  "elapsed_seconds": 2.09482738,
+  "limitations": [
+    "The 00:19:29 R600 BTO is the only new selection observable.",
+    "No 00:19 BFO, startup received power, end-of-flight displacement, drift, hydroacoustics, or antenna likelihood is applied.",
+    "Control model: short continuation paths preserve each 00:11 particle's final constant true track, ground speed, and altitude.",
+    "The interval is conditional on the one-turn and frozen-continuation model; it is not full MH370 path uncertainty."
+  ]
+}

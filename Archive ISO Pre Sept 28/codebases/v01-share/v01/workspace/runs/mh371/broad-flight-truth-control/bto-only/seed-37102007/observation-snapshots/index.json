@@ -1,0 +1,833 @@
+{
+  "schema": "mh370-broad-observation-snapshot-index",
+  "schema_version": 1,
+  "family": "bto-only",
+  "seed": 37102007,
+  "semantics": "ordinary filtering population after each named physical observation; initialized population is unconditioned",
+  "scientific_strata": [
+    {
+      "id": 0,
+      "name": "log-tau-bin-0p1-to-0p316h--constant-true-heading",
+      "initial_lateral_mode": "constant_true_heading",
+      "maneuver_process": {
+        "lateral_clock": {
+          "mean_interval_s": 640.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "speed_clock": {
+          "mean_interval_s": 640.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "altitude_clock": {
+          "mean_interval_s": 640.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "lateral_mode_weights": {
+          "constant_true_heading": 0.2,
+          "constant_magnetic_heading": 0.2,
+          "constant_true_track": 0.2,
+          "constant_magnetic_track": 0.2,
+          "great_circle_track_continuation": 0.2
+        },
+        "maximum_course_change_deg": 180.0,
+        "target_mach_min": 0.3,
+        "target_mach_max": 0.87,
+        "target_altitude_min_ft": 10000.0,
+        "target_altitude_max_ft": 43000.0,
+        "great_circle_leg_length_nm": 600.0
+      },
+      "scientific_prior_probability": 0.05000000000000001,
+      "allocated_particles": 1000
+    },
+    {
+      "id": 1,
+      "name": "log-tau-bin-0p1-to-0p316h--constant-magnetic-heading",
+      "initial_lateral_mode": "constant_magnetic_heading",
+      "maneuver_process": {
+        "lateral_clock": {
+          "mean_interval_s": 640.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "speed_clock": {
+          "mean_interval_s": 640.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "altitude_clock": {
+          "mean_interval_s": 640.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "lateral_mode_weights": {
+          "constant_true_heading": 0.2,
+          "constant_magnetic_heading": 0.2,
+          "constant_true_track": 0.2,
+          "constant_magnetic_track": 0.2,
+          "great_circle_track_continuation": 0.2
+        },
+        "maximum_course_change_deg": 180.0,
+        "target_mach_min": 0.3,
+        "target_mach_max": 0.87,
+        "target_altitude_min_ft": 10000.0,
+        "target_altitude_max_ft": 43000.0,
+        "great_circle_leg_length_nm": 600.0
+      },
+      "scientific_prior_probability": 0.05000000000000001,
+      "allocated_particles": 1000
+    },
+    {
+      "id": 2,
+      "name": "log-tau-bin-0p1-to-0p316h--constant-true-track",
+      "initial_lateral_mode": "constant_true_track",
+      "maneuver_process": {
+        "lateral_clock": {
+          "mean_interval_s": 640.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "speed_clock": {
+          "mean_interval_s": 640.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "altitude_clock": {
+          "mean_interval_s": 640.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "lateral_mode_weights": {
+          "constant_true_heading": 0.2,
+          "constant_magnetic_heading": 0.2,
+          "constant_true_track": 0.2,
+          "constant_magnetic_track": 0.2,
+          "great_circle_track_continuation": 0.2
+        },
+        "maximum_course_change_deg": 180.0,
+        "target_mach_min": 0.3,
+        "target_mach_max": 0.87,
+        "target_altitude_min_ft": 10000.0,
+        "target_altitude_max_ft": 43000.0,
+        "great_circle_leg_length_nm": 600.0
+      },
+      "scientific_prior_probability": 0.05000000000000001,
+      "allocated_particles": 1000
+    },
+    {
+      "id": 3,
+      "name": "log-tau-bin-0p1-to-0p316h--constant-magnetic-track",
+      "initial_lateral_mode": "constant_magnetic_track",
+      "maneuver_process": {
+        "lateral_clock": {
+          "mean_interval_s": 640.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "speed_clock": {
+          "mean_interval_s": 640.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "altitude_clock": {
+          "mean_interval_s": 640.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "lateral_mode_weights": {
+          "constant_true_heading": 0.2,
+          "constant_magnetic_heading": 0.2,
+          "constant_true_track": 0.2,
+          "constant_magnetic_track": 0.2,
+          "great_circle_track_continuation": 0.2
+        },
+        "maximum_course_change_deg": 180.0,
+        "target_mach_min": 0.3,
+        "target_mach_max": 0.87,
+        "target_altitude_min_ft": 10000.0,
+        "target_altitude_max_ft": 43000.0,
+        "great_circle_leg_length_nm": 600.0
+      },
+      "scientific_prior_probability": 0.05000000000000001,
+      "allocated_particles": 1000
+    },
+    {
+      "id": 4,
+      "name": "log-tau-bin-0p1-to-0p316h--great-circle-continuation",
+      "initial_lateral_mode": "great_circle_track_continuation",
+      "maneuver_process": {
+        "lateral_clock": {
+          "mean_interval_s": 640.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "speed_clock": {
+          "mean_interval_s": 640.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "altitude_clock": {
+          "mean_interval_s": 640.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "lateral_mode_weights": {
+          "constant_true_heading": 0.2,
+          "constant_magnetic_heading": 0.2,
+          "constant_true_track": 0.2,
+          "constant_magnetic_track": 0.2,
+          "great_circle_track_continuation": 0.2
+        },
+        "maximum_course_change_deg": 180.0,
+        "target_mach_min": 0.3,
+        "target_mach_max": 0.87,
+        "target_altitude_min_ft": 10000.0,
+        "target_altitude_max_ft": 43000.0,
+        "great_circle_leg_length_nm": 600.0
+      },
+      "scientific_prior_probability": 0.05000000000000001,
+      "allocated_particles": 1000
+    },
+    {
+      "id": 5,
+      "name": "log-tau-bin-0p316-to-1h--constant-true-heading",
+      "initial_lateral_mode": "constant_true_heading",
+      "maneuver_process": {
+        "lateral_clock": {
+          "mean_interval_s": 2024.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "speed_clock": {
+          "mean_interval_s": 2024.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "altitude_clock": {
+          "mean_interval_s": 2024.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "lateral_mode_weights": {
+          "constant_true_heading": 0.2,
+          "constant_magnetic_heading": 0.2,
+          "constant_true_track": 0.2,
+          "constant_magnetic_track": 0.2,
+          "great_circle_track_continuation": 0.2
+        },
+        "maximum_course_change_deg": 180.0,
+        "target_mach_min": 0.3,
+        "target_mach_max": 0.87,
+        "target_altitude_min_ft": 10000.0,
+        "target_altitude_max_ft": 43000.0,
+        "great_circle_leg_length_nm": 600.0
+      },
+      "scientific_prior_probability": 0.05000000000000001,
+      "allocated_particles": 1000
+    },
+    {
+      "id": 6,
+      "name": "log-tau-bin-0p316-to-1h--constant-magnetic-heading",
+      "initial_lateral_mode": "constant_magnetic_heading",
+      "maneuver_process": {
+        "lateral_clock": {
+          "mean_interval_s": 2024.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "speed_clock": {
+          "mean_interval_s": 2024.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "altitude_clock": {
+          "mean_interval_s": 2024.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "lateral_mode_weights": {
+          "constant_true_heading": 0.2,
+          "constant_magnetic_heading": 0.2,
+          "constant_true_track": 0.2,
+          "constant_magnetic_track": 0.2,
+          "great_circle_track_continuation": 0.2
+        },
+        "maximum_course_change_deg": 180.0,
+        "target_mach_min": 0.3,
+        "target_mach_max": 0.87,
+        "target_altitude_min_ft": 10000.0,
+        "target_altitude_max_ft": 43000.0,
+        "great_circle_leg_length_nm": 600.0
+      },
+      "scientific_prior_probability": 0.05000000000000001,
+      "allocated_particles": 1000
+    },
+    {
+      "id": 7,
+      "name": "log-tau-bin-0p316-to-1h--constant-true-track",
+      "initial_lateral_mode": "constant_true_track",
+      "maneuver_process": {
+        "lateral_clock": {
+          "mean_interval_s": 2024.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "speed_clock": {
+          "mean_interval_s": 2024.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "altitude_clock": {
+          "mean_interval_s": 2024.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "lateral_mode_weights": {
+          "constant_true_heading": 0.2,
+          "constant_magnetic_heading": 0.2,
+          "constant_true_track": 0.2,
+          "constant_magnetic_track": 0.2,
+          "great_circle_track_continuation": 0.2
+        },
+        "maximum_course_change_deg": 180.0,
+        "target_mach_min": 0.3,
+        "target_mach_max": 0.87,
+        "target_altitude_min_ft": 10000.0,
+        "target_altitude_max_ft": 43000.0,
+        "great_circle_leg_length_nm": 600.0
+      },
+      "scientific_prior_probability": 0.05000000000000001,
+      "allocated_particles": 1000
+    },
+    {
+      "id": 8,
+      "name": "log-tau-bin-0p316-to-1h--constant-magnetic-track",
+      "initial_lateral_mode": "constant_magnetic_track",
+      "maneuver_process": {
+        "lateral_clock": {
+          "mean_interval_s": 2024.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "speed_clock": {
+          "mean_interval_s": 2024.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "altitude_clock": {
+          "mean_interval_s": 2024.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "lateral_mode_weights": {
+          "constant_true_heading": 0.2,
+          "constant_magnetic_heading": 0.2,
+          "constant_true_track": 0.2,
+          "constant_magnetic_track": 0.2,
+          "great_circle_track_continuation": 0.2
+        },
+        "maximum_course_change_deg": 180.0,
+        "target_mach_min": 0.3,
+        "target_mach_max": 0.87,
+        "target_altitude_min_ft": 10000.0,
+        "target_altitude_max_ft": 43000.0,
+        "great_circle_leg_length_nm": 600.0
+      },
+      "scientific_prior_probability": 0.05000000000000001,
+      "allocated_particles": 1000
+    },
+    {
+      "id": 9,
+      "name": "log-tau-bin-0p316-to-1h--great-circle-continuation",
+      "initial_lateral_mode": "great_circle_track_continuation",
+      "maneuver_process": {
+        "lateral_clock": {
+          "mean_interval_s": 2024.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "speed_clock": {
+          "mean_interval_s": 2024.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "altitude_clock": {
+          "mean_interval_s": 2024.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "lateral_mode_weights": {
+          "constant_true_heading": 0.2,
+          "constant_magnetic_heading": 0.2,
+          "constant_true_track": 0.2,
+          "constant_magnetic_track": 0.2,
+          "great_circle_track_continuation": 0.2
+        },
+        "maximum_course_change_deg": 180.0,
+        "target_mach_min": 0.3,
+        "target_mach_max": 0.87,
+        "target_altitude_min_ft": 10000.0,
+        "target_altitude_max_ft": 43000.0,
+        "great_circle_leg_length_nm": 600.0
+      },
+      "scientific_prior_probability": 0.05000000000000001,
+      "allocated_particles": 1000
+    },
+    {
+      "id": 10,
+      "name": "log-tau-bin-1-to-3p16h--constant-true-heading",
+      "initial_lateral_mode": "constant_true_heading",
+      "maneuver_process": {
+        "lateral_clock": {
+          "mean_interval_s": 6402.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "speed_clock": {
+          "mean_interval_s": 6402.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "altitude_clock": {
+          "mean_interval_s": 6402.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "lateral_mode_weights": {
+          "constant_true_heading": 0.2,
+          "constant_magnetic_heading": 0.2,
+          "constant_true_track": 0.2,
+          "constant_magnetic_track": 0.2,
+          "great_circle_track_continuation": 0.2
+        },
+        "maximum_course_change_deg": 180.0,
+        "target_mach_min": 0.3,
+        "target_mach_max": 0.87,
+        "target_altitude_min_ft": 10000.0,
+        "target_altitude_max_ft": 43000.0,
+        "great_circle_leg_length_nm": 600.0
+      },
+      "scientific_prior_probability": 0.05000000000000001,
+      "allocated_particles": 1000
+    },
+    {
+      "id": 11,
+      "name": "log-tau-bin-1-to-3p16h--constant-magnetic-heading",
+      "initial_lateral_mode": "constant_magnetic_heading",
+      "maneuver_process": {
+        "lateral_clock": {
+          "mean_interval_s": 6402.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "speed_clock": {
+          "mean_interval_s": 6402.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "altitude_clock": {
+          "mean_interval_s": 6402.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "lateral_mode_weights": {
+          "constant_true_heading": 0.2,
+          "constant_magnetic_heading": 0.2,
+          "constant_true_track": 0.2,
+          "constant_magnetic_track": 0.2,
+          "great_circle_track_continuation": 0.2
+        },
+        "maximum_course_change_deg": 180.0,
+        "target_mach_min": 0.3,
+        "target_mach_max": 0.87,
+        "target_altitude_min_ft": 10000.0,
+        "target_altitude_max_ft": 43000.0,
+        "great_circle_leg_length_nm": 600.0
+      },
+      "scientific_prior_probability": 0.05000000000000001,
+      "allocated_particles": 1000
+    },
+    {
+      "id": 12,
+      "name": "log-tau-bin-1-to-3p16h--constant-true-track",
+      "initial_lateral_mode": "constant_true_track",
+      "maneuver_process": {
+        "lateral_clock": {
+          "mean_interval_s": 6402.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "speed_clock": {
+          "mean_interval_s": 6402.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "altitude_clock": {
+          "mean_interval_s": 6402.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "lateral_mode_weights": {
+          "constant_true_heading": 0.2,
+          "constant_magnetic_heading": 0.2,
+          "constant_true_track": 0.2,
+          "constant_magnetic_track": 0.2,
+          "great_circle_track_continuation": 0.2
+        },
+        "maximum_course_change_deg": 180.0,
+        "target_mach_min": 0.3,
+        "target_mach_max": 0.87,
+        "target_altitude_min_ft": 10000.0,
+        "target_altitude_max_ft": 43000.0,
+        "great_circle_leg_length_nm": 600.0
+      },
+      "scientific_prior_probability": 0.05000000000000001,
+      "allocated_particles": 1000
+    },
+    {
+      "id": 13,
+      "name": "log-tau-bin-1-to-3p16h--constant-magnetic-track",
+      "initial_lateral_mode": "constant_magnetic_track",
+      "maneuver_process": {
+        "lateral_clock": {
+          "mean_interval_s": 6402.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "speed_clock": {
+          "mean_interval_s": 6402.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "altitude_clock": {
+          "mean_interval_s": 6402.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "lateral_mode_weights": {
+          "constant_true_heading": 0.2,
+          "constant_magnetic_heading": 0.2,
+          "constant_true_track": 0.2,
+          "constant_magnetic_track": 0.2,
+          "great_circle_track_continuation": 0.2
+        },
+        "maximum_course_change_deg": 180.0,
+        "target_mach_min": 0.3,
+        "target_mach_max": 0.87,
+        "target_altitude_min_ft": 10000.0,
+        "target_altitude_max_ft": 43000.0,
+        "great_circle_leg_length_nm": 600.0
+      },
+      "scientific_prior_probability": 0.05000000000000001,
+      "allocated_particles": 1000
+    },
+    {
+      "id": 14,
+      "name": "log-tau-bin-1-to-3p16h--great-circle-continuation",
+      "initial_lateral_mode": "great_circle_track_continuation",
+      "maneuver_process": {
+        "lateral_clock": {
+          "mean_interval_s": 6402.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "speed_clock": {
+          "mean_interval_s": 6402.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "altitude_clock": {
+          "mean_interval_s": 6402.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "lateral_mode_weights": {
+          "constant_true_heading": 0.2,
+          "constant_magnetic_heading": 0.2,
+          "constant_true_track": 0.2,
+          "constant_magnetic_track": 0.2,
+          "great_circle_track_continuation": 0.2
+        },
+        "maximum_course_change_deg": 180.0,
+        "target_mach_min": 0.3,
+        "target_mach_max": 0.87,
+        "target_altitude_min_ft": 10000.0,
+        "target_altitude_max_ft": 43000.0,
+        "great_circle_leg_length_nm": 600.0
+      },
+      "scientific_prior_probability": 0.05000000000000001,
+      "allocated_particles": 1000
+    },
+    {
+      "id": 15,
+      "name": "log-tau-bin-3p16-to-10h--constant-true-heading",
+      "initial_lateral_mode": "constant_true_heading",
+      "maneuver_process": {
+        "lateral_clock": {
+          "mean_interval_s": 20243.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "speed_clock": {
+          "mean_interval_s": 20243.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "altitude_clock": {
+          "mean_interval_s": 20243.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "lateral_mode_weights": {
+          "constant_true_heading": 0.2,
+          "constant_magnetic_heading": 0.2,
+          "constant_true_track": 0.2,
+          "constant_magnetic_track": 0.2,
+          "great_circle_track_continuation": 0.2
+        },
+        "maximum_course_change_deg": 180.0,
+        "target_mach_min": 0.3,
+        "target_mach_max": 0.87,
+        "target_altitude_min_ft": 10000.0,
+        "target_altitude_max_ft": 43000.0,
+        "great_circle_leg_length_nm": 600.0
+      },
+      "scientific_prior_probability": 0.05000000000000001,
+      "allocated_particles": 1000
+    },
+    {
+      "id": 16,
+      "name": "log-tau-bin-3p16-to-10h--constant-magnetic-heading",
+      "initial_lateral_mode": "constant_magnetic_heading",
+      "maneuver_process": {
+        "lateral_clock": {
+          "mean_interval_s": 20243.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "speed_clock": {
+          "mean_interval_s": 20243.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "altitude_clock": {
+          "mean_interval_s": 20243.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "lateral_mode_weights": {
+          "constant_true_heading": 0.2,
+          "constant_magnetic_heading": 0.2,
+          "constant_true_track": 0.2,
+          "constant_magnetic_track": 0.2,
+          "great_circle_track_continuation": 0.2
+        },
+        "maximum_course_change_deg": 180.0,
+        "target_mach_min": 0.3,
+        "target_mach_max": 0.87,
+        "target_altitude_min_ft": 10000.0,
+        "target_altitude_max_ft": 43000.0,
+        "great_circle_leg_length_nm": 600.0
+      },
+      "scientific_prior_probability": 0.05000000000000001,
+      "allocated_particles": 1000
+    },
+    {
+      "id": 17,
+      "name": "log-tau-bin-3p16-to-10h--constant-true-track",
+      "initial_lateral_mode": "constant_true_track",
+      "maneuver_process": {
+        "lateral_clock": {
+          "mean_interval_s": 20243.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "speed_clock": {
+          "mean_interval_s": 20243.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "altitude_clock": {
+          "mean_interval_s": 20243.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "lateral_mode_weights": {
+          "constant_true_heading": 0.2,
+          "constant_magnetic_heading": 0.2,
+          "constant_true_track": 0.2,
+          "constant_magnetic_track": 0.2,
+          "great_circle_track_continuation": 0.2
+        },
+        "maximum_course_change_deg": 180.0,
+        "target_mach_min": 0.3,
+        "target_mach_max": 0.87,
+        "target_altitude_min_ft": 10000.0,
+        "target_altitude_max_ft": 43000.0,
+        "great_circle_leg_length_nm": 600.0
+      },
+      "scientific_prior_probability": 0.05000000000000001,
+      "allocated_particles": 1000
+    },
+    {
+      "id": 18,
+      "name": "log-tau-bin-3p16-to-10h--constant-magnetic-track",
+      "initial_lateral_mode": "constant_magnetic_track",
+      "maneuver_process": {
+        "lateral_clock": {
+          "mean_interval_s": 20243.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "speed_clock": {
+          "mean_interval_s": 20243.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "altitude_clock": {
+          "mean_interval_s": 20243.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "lateral_mode_weights": {
+          "constant_true_heading": 0.2,
+          "constant_magnetic_heading": 0.2,
+          "constant_true_track": 0.2,
+          "constant_magnetic_track": 0.2,
+          "great_circle_track_continuation": 0.2
+        },
+        "maximum_course_change_deg": 180.0,
+        "target_mach_min": 0.3,
+        "target_mach_max": 0.87,
+        "target_altitude_min_ft": 10000.0,
+        "target_altitude_max_ft": 43000.0,
+        "great_circle_leg_length_nm": 600.0
+      },
+      "scientific_prior_probability": 0.05000000000000001,
+      "allocated_particles": 1000
+    },
+    {
+      "id": 19,
+      "name": "log-tau-bin-3p16-to-10h--great-circle-continuation",
+      "initial_lateral_mode": "great_circle_track_continuation",
+      "maneuver_process": {
+        "lateral_clock": {
+          "mean_interval_s": 20243.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "speed_clock": {
+          "mean_interval_s": 20243.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "altitude_clock": {
+          "mean_interval_s": 20243.0,
+          "minimum_interval_s": 60.0,
+          "gamma_shape": 1.0
+        },
+        "lateral_mode_weights": {
+          "constant_true_heading": 0.2,
+          "constant_magnetic_heading": 0.2,
+          "constant_true_track": 0.2,
+          "constant_magnetic_track": 0.2,
+          "great_circle_track_continuation": 0.2
+        },
+        "maximum_course_change_deg": 180.0,
+        "target_mach_min": 0.3,
+        "target_mach_max": 0.87,
+        "target_altitude_min_ft": 10000.0,
+        "target_altitude_max_ft": 43000.0,
+        "great_circle_leg_length_nm": 600.0
+      },
+      "scientific_prior_probability": 0.05000000000000001,
+      "allocated_particles": 1000
+    }
+  ],
+  "snapshots": [
+    {
+      "snapshot_position": 0,
+      "observation_index": null,
+      "observation_id": "mh371-t0-exposed",
+      "observation_kind": "initial",
+      "enabled_evidence_components": [],
+      "observation_time_s": 0.0,
+      "path": "initial.csv",
+      "sha256": "8031456a74b21528245d122c9e3959428d7bd01e80ab98ae5ffcb49bb5144430"
+    },
+    {
+      "snapshot_position": 1,
+      "observation_index": 0,
+      "observation_id": "mh371_0200",
+      "observation_kind": "satcom",
+      "enabled_evidence_components": [
+        "bto"
+      ],
+      "observation_time_s": 527.9210003139451,
+      "path": "observation-0000.csv",
+      "sha256": "fc078ca35b4546e5bd98019f6b62025f1557f4263a8b36f07131460b7dca67e7"
+    },
+    {
+      "snapshot_position": 2,
+      "observation_index": 1,
+      "observation_id": "mh371_0300",
+      "observation_kind": "satcom",
+      "enabled_evidence_components": [
+        "bto"
+      ],
+      "observation_time_s": 5542.427999717183,
+      "path": "observation-0001.csv",
+      "sha256": "02b7aa7781c41acf89b2064c5bf51af5e7174aad44314012821affff4ae2d1ae"
+    },
+    {
+      "snapshot_position": 3,
+      "observation_index": 2,
+      "observation_id": "mh371_0400",
+      "observation_kind": "satcom",
+      "enabled_evidence_components": [
+        "bto"
+      ],
+      "observation_time_s": 8217.915999800898,
+      "path": "observation-0002.csv",
+      "sha256": "c0c740f473b0d6f4bbc823fa8ae575a653edd73cd4e4a92ca1d545b6a19c16d7"
+    },
+    {
+      "snapshot_position": 4,
+      "observation_index": 3,
+      "observation_id": "mh371_0500",
+      "observation_kind": "satcom",
+      "enabled_evidence_components": [
+        "bto"
+      ],
+      "observation_time_s": 12217.411000030115,
+      "path": "observation-0003.csv",
+      "sha256": "f37b3936410675c5e418d7270a265ff080fd635af0bf241dd8762e2efd5a5bb1"
+    },
+    {
+      "snapshot_position": 5,
+      "observation_index": 4,
+      "observation_id": "mh371_0600",
+      "observation_kind": "satcom",
+      "enabled_evidence_components": [
+        "bto"
+      ],
+      "observation_time_s": 15704.409000095911,
+      "path": "observation-0004.csv",
+      "sha256": "84d0695086bcbd9891fb6cc7e4b6364aa6a69f55b21260837da2ee638fa6631a"
+    },
+    {
+      "snapshot_position": 6,
+      "observation_index": 5,
+      "observation_id": "mh371_0648",
+      "observation_kind": "satcom",
+      "enabled_evidence_components": [
+        "bto"
+      ],
+      "observation_time_s": 18033.90700021293,
+      "path": "observation-0005.csv",
+      "sha256": "4f093b92f9640e4fcdb102e0360c47e81311614a031bb30bb85ca8d8cd1d492b"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+time_utc,channel,message,bfo_hz,bto_raw_us,bto_correction_us,bto_sd_us,note
+2014-03-07T18:25:27.421Z,R600,log-on request,142,17120,-4600,62,R600 log-on offset as for the 00:19:29 R600 (23000 -> 18400)
+2014-03-07T18:25:34.461Z,R1200,log-on acknowledge,273,51700,-39100,43,anomalous log-on BTO: -5 x 7820 us (Davey sec. 5.2); BFO in warm-up transient
+2014-03-07T18:27:03.905Z,R1200,eleven octet user data,176,12560,0,29,BFO in warm-up transient
+2014-03-07T18:27:04.405Z,R1200,four octet user data,175,12520,0,29,BFO in warm-up transient
+2014-03-07T18:27:08.404Z,R1200,acknowledge user data,172,12520,0,29,BFO in warm-up transient
+2014-03-07T18:28:05.904Z,R1200,access request,144,12500,0,29,
+2014-03-07T18:28:10.260Z,T1200,user data (first of six T-channel units: BFO 148/148/147/147/147/147),148,7540,,,T-channel BTO uses a different timing reference; BFO only
+2014-03-07T18:28:14.904Z,R1200,acknowledge user data,143,12480,0,29,

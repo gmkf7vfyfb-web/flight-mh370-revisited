@@ -1,0 +1,16 @@
+# Run G (architecture ruling 11 Oct 04:35 -0600, item 2): confirmation of the routes finding. Routes stratum
+# with turn_backs = true (overshoot capture), restricted to the routes above 0.1 % in the pilot
+# (10 NILAM-ANOKO-BULVA, 11 NILAM-ANOKO-ISBIX, 3 NILAM-IGOGU-ISBIX, 2 NILAM-IGOGU-BULVA, 19 NILAM-SAMAK-ISBIX,
+# 43 MEKAR-SAMAK-ISBIX), about 500k particles per route (3M per seed, run C's 2:1:5:1:5 mode ratio), seeds 1-8,
+# RUN C SAMPLER (no [sampler] block: inherited from the common stack; not ad50, given run E).
+# Hand-off rows cut to 1000: this run measures evidence and densities, and deskstar disk is short.
+name = "next-g-routes"
+particles_per_mode = [428_572, 214_286, 1_071_428, 214_286, 1_071_428]
+seeds = [1, 2, 3, 4, 5, 6, 7, 8]
+
+[output]
+handoff_rows = 1000
+
+[dynamics.early.routes]
+only = [10, 11, 3, 2, 19, 43]
+turn_backs = true

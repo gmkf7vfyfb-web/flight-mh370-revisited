@@ -1,0 +1,30 @@
+schema_version = 2
+name = "mh371-cruise-control-assessment"
+expected_inference_sha256 = "e097dcfb303acb515a8b6bee90450574b88968d647b82d5b3d3eea5bf56c37ec"
+expected_truth_sha256 = "65de30cc4e20fc77a1d6048449d5654046fd78f83f325d14d2d26c6ccd9751c9"
+expected_seeds = [37102001, 37102002]
+ground_station_position_km = { x = -2368.8, y = 4881.1, z = -3342.0 }
+
+[grid]
+latitude_min_deg = -15.0
+latitude_max_deg = 60.0
+longitude_min_deg = 75.0
+longitude_max_deg = 140.0
+cell_size_deg = 0.25
+
+[satcom]
+bfo_bias_prior_mean_hz = 150.0
+bfo_bias_prior_sd_hz = 25.0
+
+[satcom.bto]
+speed_of_light_km_s = 299792.458
+nominal_delay_us = 499962.0
+channel_term_us = 4283.0
+
+[satcom.bfo]
+satellite_afc_hz = 0.0
+uplink_hz = 1646652500.0
+downlink_hz = 3615152500.0
+speed_of_light_km_s = 299792.458
+nominal_satellite_longitude_deg = 64.5
+nominal_satellite_altitude_km = 36210.12

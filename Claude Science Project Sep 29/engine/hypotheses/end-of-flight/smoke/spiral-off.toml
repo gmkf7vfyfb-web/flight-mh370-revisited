@@ -1,0 +1,5 @@
+# The pre-calibration free dynamics: no divergent spiral. At weight 0 no extra uniform is drawn, so the
+# original impact columns are bit-identical to runs before 9 Oct's spiral mode (checked, 00:11 seed 1, N = 4).
+# Pass AFTER terminal.toml to reproduce earlier results, or to reverse the PROVISIONAL-OVERNIGHT dive class.
+[hypotheses.end-of-flight.envelope]
+spiral_divergent_weight = 0.0

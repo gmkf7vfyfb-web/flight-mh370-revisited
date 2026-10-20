@@ -1,0 +1,71 @@
+{
+  "purpose": "Independent BFO vector/units composition and scalar bias-variance control",
+  "status": "passed; not physical calibration",
+  "checks": [
+    {
+      "epoch": "m1828a",
+      "independent_bfo_without_bias_hz": -8.550124604177437,
+      "canonical_bfo_without_bias_hz": -8.550124604177324,
+      "absolute_difference_hz": 1.1368683772161603e-13
+    },
+    {
+      "epoch": "m1828b",
+      "independent_bfo_without_bias_hz": -8.492408614863535,
+      "canonical_bfo_without_bias_hz": -8.492408614863422,
+      "absolute_difference_hz": 1.1368683772161603e-13
+    },
+    {
+      "epoch": "m1839",
+      "independent_bfo_without_bias_hz": -58.60084680957311,
+      "canonical_bfo_without_bias_hz": -58.600846809573,
+      "absolute_difference_hz": 1.1368683772161603e-13
+    },
+    {
+      "epoch": "m1941",
+      "independent_bfo_without_bias_hz": -46.49189115624893,
+      "canonical_bfo_without_bias_hz": -46.491891156248904,
+      "absolute_difference_hz": 2.842170943040401e-14
+    },
+    {
+      "epoch": "m2041",
+      "independent_bfo_without_bias_hz": -9.948773742716579,
+      "canonical_bfo_without_bias_hz": -9.948773742716579,
+      "absolute_difference_hz": 0.0
+    },
+    {
+      "epoch": "m2141",
+      "independent_bfo_without_bias_hz": 18.078325626853236,
+      "canonical_bfo_without_bias_hz": 18.07832562685335,
+      "absolute_difference_hz": 1.1368683772161603e-13
+    },
+    {
+      "epoch": "m2241",
+      "independent_bfo_without_bias_hz": 53.87148282017487,
+      "canonical_bfo_without_bias_hz": 53.87148282017498,
+      "absolute_difference_hz": 1.1368683772161603e-13
+    },
+    {
+      "epoch": "m2315",
+      "independent_bfo_without_bias_hz": 74.881995009184,
+      "canonical_bfo_without_bias_hz": 74.881995009184,
+      "absolute_difference_hz": 0.0
+    },
+    {
+      "epoch": "m0011",
+      "independent_bfo_without_bias_hz": 104.5091808420027,
+      "canonical_bfo_without_bias_hz": 104.50918084200259,
+      "absolute_difference_hz": 1.1368683772161603e-13
+    }
+  ],
+  "maximum_absolute_bfo_difference_hz": 1.1368683772161603e-13,
+  "independent_constant_bias_variance_hz2": 5.397426859358478,
+  "stored_bias_variance_hz2": 5.397426859358477,
+  "elapsed_s": 0.011026441003195941,
+  "input_sha256": {
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/terminal-composition-control.json": "741c799e3599eec6a65e16b151a7913112becb0483d55b5155782596cc9d9c5e",
+    "/jackbox/home/MH370/.sources/holland-2018-bfo-descent/code/recreate.py": "80cd7b2c9a065f9d45ec5ed1ee62baf2c0402e80775350b7ecffd388b8309510",
+    "/jackbox/home/MH370/configs/mh370-broad-powered-flight-diagnostic.toml": "1d404bceb70d70825a770e3c80aa3638a4bd103e287b0898022ce2cfd4766a2e",
+    "/jackbox/home/MH370/inputs/accident/satellite-ephemeris.csv": "4c56c26d77c826caa2a8084ee29ff459a493641c72ca165d52a92d29908ae2c2",
+    "/jackbox/home/MH370/inputs/accident/satcom-observations.csv": "bd344ba05826f9176f394ac42e04b5f2ba4c5705c8a980b7655579024dc0d4e0"
+  }
+}

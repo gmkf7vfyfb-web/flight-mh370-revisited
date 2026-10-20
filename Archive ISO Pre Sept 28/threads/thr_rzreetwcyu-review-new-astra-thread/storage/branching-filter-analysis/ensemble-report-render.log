@@ -1,0 +1,116 @@
+{
+  "status": "provisional conditional PDF; Monte Carlo variation reported without a fixed pass/fail threshold",
+  "total_initial_candidates": 1020000,
+  "regions": {
+    "south_of_35S": 0.874580627835261,
+    "between_35S_and_38S": 0.864556367435761,
+    "north_of_35S": 0.12541937216473897,
+    "north_of_30S": 0.01024562549173783,
+    "south_of_38S": 0.010024260399500062
+  },
+  "additional_vs_baseline_cdf_difference": [
+    0.06791496293026034,
+    0.10778849702993126
+  ],
+  "combined_vs_baseline_cdf_difference": [
+    0.052354160982932385,
+    0.08309179718478443
+  ],
+  "terminal_operating_state": {
+    "altitude_ft": {
+      "quantiles_05_50_95": [
+        32000.0,
+        37000.0,
+        42000.0
+      ],
+      "positive_weight_range": [
+        25000.0,
+        43000.0
+      ],
+      "probability_exactly_35000": 0.10019566231641855
+    },
+    "mach": {
+      "quantiles_05_50_95": [
+        0.74147122,
+        0.82229583,
+        0.83882642
+      ],
+      "positive_weight_range": [
+        0.71854133,
+        0.8512645
+      ]
+    },
+    "limited_turns": {
+      "1": 0.7821677238879094,
+      "2": 0.13465861890238817,
+      "3": 0.032174914437914336,
+      "4": 0.05099874277178805
+    },
+    "limited_speed_changes": {
+      "0": 0.4074605788895196,
+      "1": 0.2588621263276779,
+      "2": 0.33367729478280256
+    },
+    "limited_altitude_changes": {
+      "0": 0.355885157602983,
+      "1": 0.27663173440335387,
+      "2": 0.3674831079936631
+    }
+  },
+  "cell_ranked_probability_areas": {
+    "5": {
+      "0.5": {
+        "area_km2": 2650.0,
+        "probability_in_selected_cells": 0.5023992579377476
+      },
+      "0.8": {
+        "area_km2": 7925.0,
+        "probability_in_selected_cells": 0.8002587967736511
+      },
+      "0.9": {
+        "area_km2": 13050.0,
+        "probability_in_selected_cells": 0.9002742005727008
+      },
+      "0.95": {
+        "area_km2": 18825.0,
+        "probability_in_selected_cells": 0.9500252527414116
+      }
+    },
+    "10": {
+      "0.5": {
+        "area_km2": 3100.0,
+        "probability_in_selected_cells": 0.501634623664972
+      },
+      "0.8": {
+        "area_km2": 9400.0,
+        "probability_in_selected_cells": 0.8024192618177152
+      },
+      "0.9": {
+        "area_km2": 15100.0,
+        "probability_in_selected_cells": 0.9003659472954857
+      },
+      "0.95": {
+        "area_km2": 21800.0,
+        "probability_in_selected_cells": 0.9503329829468834
+      }
+    },
+    "20": {
+      "0.5": {
+        "area_km2": 4800.0,
+        "probability_in_selected_cells": 0.5218407181479977
+      },
+      "0.8": {
+        "area_km2": 12800.0,
+        "probability_in_selected_cells": 0.8015665918660375
+      },
+      "0.9": {
+        "area_km2": 20400.0,
+        "probability_in_selected_cells": 0.9025107756084996
+      },
+      "0.95": {
+        "area_km2": 28400.0,
+        "probability_in_selected_cells": 0.9511959734016708
+      }
+    }
+  }
+}

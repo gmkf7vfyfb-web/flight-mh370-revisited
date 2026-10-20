@@ -1,0 +1,29 @@
+{
+  "axis_order": [
+    "time",
+    "latitude",
+    "longitude"
+  ],
+  "binary_format": "MHGRID1 little-endian",
+  "binary_sha256": "b4471f0f9eba79a1d1f9aab958715e35659e548979dcf033f08a0a87efd2e2f2",
+  "component_units": {
+    "land_fraction": "binary fraction 0 ocean 1 land"
+  },
+  "converter_version": "ocean-input-preparation-v2",
+  "definition": "land_fraction=1 only where eastward surface current is missing at every retrieved analysis; intermittently missing ocean cells remain ocean and terminate as missing field coverage when encountered",
+  "family": "hycom_gofs31_reanalysis",
+  "field_role": "coastal_support",
+  "latitude_units": "degrees_north WGS84",
+  "limitations": [
+    "This model wet mask distinguishes land from data gaps; it is not a shoreline-distance or beaching-probability model.",
+    "No beaching_rate component is present, so the transport code cannot invent coastal retention."
+  ],
+  "longitude_units": "degrees_east WGS84",
+  "name": "Native HYCOM persistent wet-mask coastal support field",
+  "retrieval_manifest": {
+    "path": "/tmp/mh370-ocean-native/tiles/retrieval-manifest.json",
+    "sha256": "ef79539d15d75ed598bf27420013a7797462ea17ea5bce7573f4b714222ce742"
+  },
+  "schema": "mh370-gridded-field-input-v1",
+  "time_axis": "constant over the native-current retrieval interval"
+}

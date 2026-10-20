@@ -1,0 +1,54 @@
+# BFO standard deviation 4 Hz instead of Davey's 7 Hz, on the current best model.
+#
+# Carried on 6temper-realloc, NOT on best-model-6temper. The allocation changed this morning and
+# 6temper-realloc is now the base: split-half 0.9109 against 0.8869, median span 0.216 deg against
+# 0.306, Fig 10.3 overlap 0.7879 against 0.7822. Running the sensitivity on the superseded
+# allocation would make it un-comparable with everything that follows.
+#
+# FOUR replicates, not eight, at the same 7M per replicate. The particles per replicate match the
+# base exactly so the posteriors are directly comparable; the replicate count is halved because
+# this is a direction question and the magnitude would be reported unconverged either way. The
+# calibrated floor at four replicates is 0.896.
+#
+# Davey uses 7 Hz a priori (sec. 5.3) and treats the measurement standard deviations as a known
+# input whose inflation moves the result incrementally (Assumption 2, p. 73). 4 Hz is the value
+# implied by the data if there is no transient bias. This project's own within-cluster
+# successive-difference study puts the fast random component near 0.995 Hz (95% interval about
+# 0.859-1.183 Hz), with slow or intermittent bias excluded, so 4 Hz sits between the published
+# figure and the fast-noise-only one.
+#
+# Tightening the BFO should sharpen mode discrimination. The shoulder deficit is present in the
+# BTO-only case too, so BFO tightening is not expected to restore it; this bounds that.
+name = "bfo4hz-fixed"
+seeds = [1, 2, 3, 4]
+particles_per_mode = [1000000, 500000, 2500000, 500000, 2500000]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[inputs]
+observations = "../../data/variants/satcom-observations-bfo4hz.csv"
+fuel_tables = "../../data/fuel-tables.json"
+
+[prior]
+track_sd_deg = 1.0
+
+[dynamics]
+mach_range = [0.73, 0.84]
+altitude_range_ft = [25000.0, 43000.0]
+bfo_vertical_rate = true
+
+[fuel]
+initial_kg = 36609.0
+zfw_kg = 174196.0
+factor_mean = 1.0085
+factor_sd = 0.0178
+require_power_until = "m0011"
+proposal = "endurance"
+proposal_prior_mix = 0.15
+proposal_cells = 16
+
+[sampler]
+temper_epochs = ["m1839", "m1941", "m2041", "m2141", "m2241", "m0011"]
+temper_stages = 16

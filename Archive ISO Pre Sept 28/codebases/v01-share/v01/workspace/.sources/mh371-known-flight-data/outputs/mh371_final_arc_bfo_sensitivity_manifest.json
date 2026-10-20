@@ -1,0 +1,135 @@
+{
+  "schema_version": "mh371-final-arc-bfo-sensitivity-v1",
+  "status": "complete_truth_separated_conditional_endpoint_sensitivity",
+  "terminal_epoch": "mh371_0648",
+  "truth_role": "scorer_overlay_and_error_diagnostics_only_loaded_after_posterior_summary",
+  "inference_boundary": "stochastic_piecewise_constant_magnetic_heading; no turn-rate, bank-angle, route-intent, or continuous-manoeuvre constraint",
+  "display_kernel": {
+    "type": "gaussian_latitude_kde_visualization_only",
+    "bandwidth_deg": 0.18,
+    "grid_points": 520,
+    "interval_source": "unsmoothed_equal_seed_particle_weights"
+  },
+  "generator": {
+    "path": "/jackbox/home/MH370/.sources/mh371-known-flight-data/code/final_arc_sensitivity.mjs",
+    "sha256": "d83d834c6e2487126b1149218e9d04fc65a672a8203662196f66a35e3518b973"
+  },
+  "truth_input": {
+    "path": "inputs/controls/mh371-truth.csv",
+    "sha256": "65de30cc4e20fc77a1d6048449d5654046fd78f83f325d14d2d26c6ccd9751c9",
+    "latitude": 5.250377319594012,
+    "longitude": 104.48740942974945
+  },
+  "families": [
+    {
+      "model_family": "mh370_analog_prior_loose_bfo",
+      "bfo_sd_hz": 7,
+      "runs": [
+        {
+          "path": "/tmp/mh371-spread-audit-analog/inference-seed-37102001.json",
+          "sha256": "f6a76dad9e3fbfcaa2fa2575fbd1837c56576a5f80f07e75b4ac3a24cc3aa0f2",
+          "seed": 37102001,
+          "particles": 12000
+        },
+        {
+          "path": "/tmp/mh371-spread-audit-analog/inference-seed-37102002.json",
+          "sha256": "472739e183c0f8d12efeec9cbeb18bf66b414949f5477ef20d6e25cd0407db4d",
+          "seed": 37102002,
+          "particles": 12000
+        }
+      ],
+      "latitude_q025_deg": 2.1294909286109776,
+      "latitude_q975_deg": 9.877619333487791,
+      "quantile_endpoint_separation_nm": 472.01089317278155,
+      "particle_ess": [
+        489.1556377690084,
+        444.2600283971409
+      ],
+      "root_ess": [
+        34.99148960940026,
+        33.46332145180872
+      ],
+      "seed_mean_error_nm": [
+        76.12968233578202,
+        15.339363681847539
+      ]
+    },
+    {
+      "model_family": "mh370_analog_prior_medium_bfo",
+      "bfo_sd_hz": 4,
+      "runs": [
+        {
+          "path": "/tmp/mh371-spread-audit-medium/inference-seed-37102001.json",
+          "sha256": "64bea4e11fbb36aa6db11bb60c0667dd52e4b01cad7263073f94bd01f83e8a54",
+          "seed": 37102001,
+          "particles": 12000
+        },
+        {
+          "path": "/tmp/mh371-spread-audit-medium/inference-seed-37102002.json",
+          "sha256": "8e593973523ed8f7e6261ff6dcfa074ced988f7bdde7997bcdeb7fc93642d259",
+          "seed": 37102002,
+          "particles": 12000
+        }
+      ],
+      "latitude_q025_deg": 1.860501451773717,
+      "latitude_q975_deg": 8.415307592233368,
+      "quantile_endpoint_separation_nm": 399.32348396885476,
+      "particle_ess": [
+        472.91374828801725,
+        442.43416061725077
+      ],
+      "root_ess": [
+        33.18526104083983,
+        27.905690574827876
+      ],
+      "seed_mean_error_nm": [
+        21.816722629743413,
+        30.896622968810576
+      ]
+    },
+    {
+      "model_family": "mh370_analog_prior_observed_bfo",
+      "bfo_sd_hz": 1.5,
+      "runs": [
+        {
+          "path": "/tmp/mh371-spread-audit-observed/inference-seed-37102001.json",
+          "sha256": "4060a7607512a360af8af6630079be48b428323c55b135f5bb85315ed86a8246",
+          "seed": 37102001,
+          "particles": 12000
+        },
+        {
+          "path": "/tmp/mh371-spread-audit-observed/inference-seed-37102002.json",
+          "sha256": "12de33500bfaa91540368674e3d965f7e0ffd48c431a10dca8efbabd0b8a4f2e",
+          "seed": 37102002,
+          "particles": 12000
+        }
+      ],
+      "latitude_q025_deg": 2.539222967013994,
+      "latitude_q975_deg": 6.456060672218055,
+      "quantile_endpoint_separation_nm": 236.74152934006315,
+      "particle_ess": [
+        378.31052686515596,
+        383.47484027277477
+      ],
+      "root_ess": [
+        16.27951932612955,
+        20.86577069471946
+      ],
+      "seed_mean_error_nm": [
+        28.385589527103807,
+        45.577371376629166
+      ]
+    }
+  ],
+  "limitations": [
+    "known-flight computational control; not evidence about MH370 geography",
+    "the endpoint distribution is conditional on the declared stochastic motion family and BFO width",
+    "the model does not establish continuous aircraft-performance feasibility between observations",
+    "terminal root ESS is low enough that local density bumps and seed differences are numerical warnings, not established physical modes",
+    "great-circle separation between latitude-quantile particles is an endpoint-span summary, not a traced central-arc integral"
+  ],
+  "outputs": {
+    "mh371_final_arc_bfo_sensitivity.svg": "e24a80eb4a06e3285cf161ef7f04cf79e88d6509ec420e0c14a33b49f8fdcc65",
+    "mh371_final_arc_bfo_sensitivity.csv": "c6d3cf25094ce63202effd675a9f8f60dce111cb8e15942953d5a5d5e04ccaba"
+  }
+}

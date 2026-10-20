@@ -1,0 +1,11 @@
+# Default sampler for extension runs from 11 Oct 2026 (architecture ruling 00:40 -0600, item 4).
+# Adaptive tempering on run C's six epochs: each stage takes the largest exponent step whose stage ESS
+# stays at or above half the ESS at a vanishing step (sampler-change smoke, job fa64accf: about 5 stages
+# per epoch instead of 16; free split-half 0.768 -> 0.804 at quarter scale; routes unchanged).
+# CAVEAT (11 Oct, after run E): quarter-scale only. Run E (ad50 + resample 0.2, full scale) was WORSE
+# than run C (0.896 vs 0.918); core has asked to withdraw this default until an ad50-only full-scale test.
+# Config-gated: config/davey2016.toml and every earlier run config are unchanged and byte-identical.
+[sampler]
+temper_epochs = ["m1839", "m1941", "m2041", "m2141", "m2241", "m0011"]
+temper_stages = 16
+temper_target_ess = 0.5

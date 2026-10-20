@@ -1,0 +1,21 @@
+{
+  "status": "FAMILY_CONDITIONAL_REDUCED_ORDER_SENSITIVITY_NOT_IMPACT_OR_DETECTION_POSTERIOR",
+  "sample_count_per_family_and_coupling_prior": 1000000,
+  "random_seed": 3700054,
+  "aircraft_mass_kg": 174369.0,
+  "aircraft_mass_basis": "Actual 9M-MRO zero-fuel weight on the final loadsheet; used as a fuel-exhaustion impact-mass surrogate, not a measured mass at 00:19 UTC.",
+  "normal_energy_only": true,
+  "empirical_relation_check": {
+    "f35_reported_pressure_pa": 0.7,
+    "model_pressure_pa": 0.5313438793659473,
+    "model_to_reported_ratio": 0.7590626848084961
+  },
+  "interpretive_limits": [
+    "coupling distributions are sensitivity priors, not measured MH370 coupling probabilities",
+    "only the normal kinetic-energy component enters the explosion-equivalent pressure relation",
+    "horizontal hydrodynamics, breakup, cavitation, ventilation, sea state and fuel are omitted",
+    "Flight 1549 is a cross-aircraft contact-rate analogue; all energies use the declared 777 mass",
+    "the partially arrested family is a logarithmic bridge, not a physically inferred probability density",
+    "no weights across impact families are supplied and pressure is not converted to detection probability"
+  ]
+}

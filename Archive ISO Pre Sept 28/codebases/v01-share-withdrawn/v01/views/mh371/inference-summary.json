@@ -1,0 +1,31 @@
+{
+  "schema_version": "mh370-known-flight-inference-summary-v2",
+  "status": "complete_truth_separated_bto_bfo_control",
+  "experiment_name": "mh371-cruise-mh370_analog_prior_medium_bfo",
+  "inference_sha256": "e097dcfb303acb515a8b6bee90450574b88968d647b82d5b3d3eea5bf56c37ec",
+  "inference_config_sha256": "3a53487b3ec48f1223490385d2a98a29f35aea17fbb27d6ebcd149bfb3cf0fbe",
+  "seeds": [
+    {
+      "seed": 37102001,
+      "particles": 12000,
+      "checkpoints": 7,
+      "final_particle_ess": 472.91374828801446,
+      "final_root_ess": 33.18526104083981,
+      "log_evidence": -66.31599243411875,
+      "artifact": "inference-seed-37102001.json",
+      "artifact_sha256": "64bea4e11fbb36aa6db11bb60c0667dd52e4b01cad7263073f94bd01f83e8a54"
+    },
+    {
+      "seed": 37102002,
+      "particles": 12000,
+      "checkpoints": 7,
+      "final_particle_ess": 442.434160617252,
+      "final_root_ess": 27.905690574828025,
+      "log_evidence": -66.29461888896378,
+      "artifact": "inference-seed-37102002.json",
+      "artifact_sha256": "8e593973523ed8f7e6261ff6dcfa074ced988f7bdde7997bcdeb7fc93642d259"
+    }
+  ],
+  "elapsed_seconds": 0.563263922,
+  "threads": 8
+}

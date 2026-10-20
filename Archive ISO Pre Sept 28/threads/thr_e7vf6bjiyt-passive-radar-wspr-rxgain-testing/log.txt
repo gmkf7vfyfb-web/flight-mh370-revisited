@@ -1,0 +1,618 @@
+── User ────────────────────────────────────────────────────
+Let's run the control test again on MH371, using the most promising approach found so far. Try three different approaces and report back on the results.
+
+── Worked for (7m 8s) ──────────────────────────────────────
+  ── Assistant
+  I’ll check which methods can actually run on the available MH371 data, select three defensible approaches, and rerun them against the same controls. I’ll keep these historical-report tests separate from the raw-waveform detector, which still lacks suitable real data.
+
+  ── Explored 2 searches, 2 files
+    ── Searched for .sources/godfrey-wspr-passive-radar/code
+    ── Read .sources/godfrey-wspr-passive-radar/README.md
+    ── Searched for "^def
+    ── Read .sources/godfrey-wspr-passive-radar/code/whole_track_oracle.py
+
+  ── Assistant
+  I’ll compare three methods at the existing 25 km spatial scale: the published anomaly threshold, frequency anomalies after removing shared transmitter/receiver effects, and the combined, background-calibrated anomaly score—our strongest developed approach for archived reports.
+
+  Each will use the same 20 time-shifted and 48 spatially displaced control tracks. These test association with the known route, not blind recovery of an unknown trajectory; the controls are dependent, so their ranks will not be presented as formal significance probabilities.
+
+  ── Ran 2 commands, explored 2 files, 1 search, created 1 file
+    ── Ran OPENBLAS_NUM_THREADS=1 .venv/bin/python .sources/godfrey-wspr-passive-radar/code/whole_track_oracle.py --mh371-wspr /tmp/wspr_mh371_whole_track_controls_20140306_2030_20140307_1230.csv --mh370-wspr /tmp/wspr_mh370_early_whole_track_controls_20140307_1130_2330.csv --output-directory /tmp/wspr-mh371-control-rerun-20260912 (4m 55s)
+      $ OPENBLAS_NUM_THREADS=1 .venv/bin/python .sources/godfrey-wspr-passive-radar/code/whole_track_oracle.py --mh371-wspr /tmp/wspr_mh371_whole_track_controls_20140306_2030_20140307_1230.csv --mh370-wspr /tmp/wspr_mh370_early_whole_track_controls_20140307_1130_2330.csv --output-directory /tmp/wspr-mh371-control-rerun-20260912
+      MH370: feature=empirical_surprisal sigma_km=25 time_rank=16/21 spatial_rank=42/49
+      MH371: feature=empirical_surprisal sigma_km=25 time_rank=19/21 spatial_rank=38/49
+      results=/tmp/wspr-mh371-control-rerun-20260912/results.json
+    ── Read .sources/godfrey-wspr-passive-radar/code/whole_track_oracle.py
+    ── Ran OPENBLAS_NUM_THREADS=1 .venv/bin/python -m unittest discover -s .sources/godfrey-wspr-passive-radar/code -p 'test_whole_track_*.py'
+      $ OPENBLAS_NUM_THREADS=1 .venv/bin/python -m unittest discover -s .sources/godfrey-wspr-passive-radar/code -p 'test_whole_track_*.py'
+      .............................................
+      ----------------------------------------------------------------------
+      Ran 45 tests in 0.054s
+
+      OK
+    ── Read .sources/godfrey-wspr-passive-radar/outputs/whole-track-oracle/whole_track_oracle_scores.csv
+    ── Created .sources/godfrey-wspr-passive-radar/code/report_mh371_method_comparison.py +67
+      """Report three declared MH371 spot-data methods from a fresh canonical run."""
+      import argparse
+      import hashlib
+      import json
+      from pathlib import Path
+      import matplotlib
+      matplotlib.use('Agg')
+      import matplotlib.pyplot as plt
+      import numpy as np
+      import pandas as pd
+
+      METHODS = {
+          'published_anomaly': 'Published threshold',
+          'adjusted_frequency_abs': 'Shared-effect-adjusted frequency',
+          'empirical_surprisal': 'Background-calibrated combined score',
+      }
+
+      def main():
+          p=argparse.ArgumentParser(description=__doc__)
+          p.add_argument('--run',type=Path,required=True)
+          p.add_argument('--output',type=Path,required=True)
+          a=p.parse_args();a.output.mkdir(parents=True,exist_ok=True)
+          source=a.run/'whole_track_oracle_scores.csv'
+          scores=pd.read_csv(source)
+          ranks=pd.read_csv(a.run/'whole_track_oracle_rank_summary.csv')
+          mask=lambda d: (d.flight=='MH371') & (d.sigma_km==25) & (d.geometry_hypothesis=='full_great_circle_upper_bound') & d.feature.isin(METHODS)
+          scores=scores[mask(scores)];ranks=ranks[mask(ranks)]
+          rows=[];fig,axes=plt.subplots(1,3,figsize=(12,4.5),layout='constrained')
+          for ax,(feature,label) in zip(axes,METHODS.items()):
+              d=scores[scores.feature==feature]
+              actual=d[d.control_family=='actual']
+              assert len(actual)==1
+              actual=actual.iloc[0];rank=ranks[ranks.feature==feature].iloc[0]
+              for x,family,color in [(0,'time_shift','#64748b'),(1,'spatial_rotation','#93a8b9')]:
+                  values=d[d.control_family==family].copy()
+                  if family=='time_shift':values=values[values.time_shift_minutes.abs()>=30]
+                  y=values.contrast.to_numpy()
+                  assert len(y)==(20 if x==0 else 48), (family,len(y))
+                  ax.scatter(x+np.linspace(-.16,.16,len(y)),y,s=20,color=color,alpha=.75)
+              ax.axhline(actual.contrast,color='#b42318',lw=2,label='True track')
+              ax.axhline(0,color='black',lw=.7,ls=':')
+              ax.set_xticks([0,1],['Time controls','Spatial controls'])
+              ax.set_title(label,fontsize=10);ax.set_ylabel('Near-track minus off-track score')
+              ax.legend(frameon=False,fontsize=8)
+              row={'method':label,'feature':feature,'contrast':actual.contrast,
+                   'time_rank':int(rank.time_descending_rank),'time_total':int(rank.time_control_count+1),
+                   'spatial_rank':int(rank.spatial_descending_rank),'spatial_total':int(rank.spatial_control_count+1),
+                   'scored_reports':int(actual.feature_valid_reports),'effective_exposed_reports':actual.exposed_effective_count}
+              rows.append(row)
+          fig.suptitle('MH371: three WSPR report-data controls — 25 km scale',fontsize=13)
+          fig.savefig(a.output/'mh371_method_comparison.png',dpi=180)
+          fig.savefig(a.output/'mh371_method_comparison.pdf');plt.close(fig)
+          pd.DataFrame(rows).to_csv(a.output/'comparison.csv',index=False)
+          text=['# MH371 three-method control rerun','',
+                'Fresh computation on the existing frozen historical inputs; not an independent new flight. Methods and the 25 km scale were declared before inspecting the rerun results.',
+                '', '| Method | Actual contrast | Time rank | Spatial rank | Effective exposed reports |',
+                '| --- | ---: | ---: | ---: | ---: |']
+          for r in rows:text.append(f"| {r['method']} | {r['contrast']:.4f} | {r['time_rank']}/{r['time_total']} | {r['spatial_rank']}/{r['spatial_total']} | {r['effective_exposed_reports']:.2f} |")
+          text+=['','Rank 1 is strongest. Positive contrast means larger anomaly evidence near the aircraft than away from it. Scores have different units across methods; compare each method with its own controls, not absolute values between methods.',
+                 '', 'The published method uses the 0.75-standard-deviation SNR/frequency flag. The frequency method removes same-link background and shared transmitter/receiver effects before taking absolute frequency residuals. The combined method calibrates adjusted SNR/frequency anomaly magnitude against off-evaluation background.',
+                 '', 'All use station-balanced, packet-averaged full-great-circle proximity, with 20 eligible time shifts and 48 spatial rotations. Ranks are descriptive, not calibrated p-values. These are known-track association controls, not blind localization. PHaRLAP and the unvalidated raw-waveform detector are not applied. Maidenhead cell centres and interpolated track points remain assumptions. No new estimator observable is justified by this comparison.']
+          (a.output/'summary.md').write_text('\n'.join(text)+'\n')
+          paths=[source,a.run/'results.json',a.run/'whole_track_oracle_rank_summary.csv',Path(__file__)]
+          manifest={'input_and_code_sha256':{str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths},
+                    'output_sha256':{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in a.output.iterdir() if p.is_file() and p.name!='manifest.json'},
+                    'scope':'Existing-data rerun; three predeclared methods, 25 km; no newly blinded validation sample'}
+          (a.output/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
+          print(pd.DataFrame(rows).to_string(index=False))
+
+      if __name__=='__main__':main()
+    ── Searched for control_family= in .sources/godfrey-wspr-passive-radar/code/whole_track_oracle.py
+
+  ── Assistant
+  The rerun is still computing, and all 45 focused whole-track tests passed. One important limit: this repeats MH371 data we have already examined. It can verify the results, but it cannot provide a fresh blind validation or remove the effects of earlier method exploration.
+
+  ── Explored 1 file, 1 list, 1 search
+    ── Read .sources/godfrey-wspr-passive-radar/code/whole_track_oracle.py
+    ── Listed files in /tmp/wspr-mh371-control-rerun-20260912
+    ── Searched for time|runtime|duration in .sources/godfrey-wspr-passive-radar/outputs/whole-track-oracle/results.json
+
+  ── Assistant
+  The analysis covers the available MH371 track from 01:33:58 to 07:24:05 UTC on 7 March 2014. The runner has verified the archived inputs against their recorded hashes. I’m also retaining the original scale and control definitions, rather than tuning them to improve MH371’s ranking.
+
+  ── Explored 1 search, ran 1 command
+    ── Searched for "^def in score_flight
+    ── Ran OPENBLAS_NUM_THREADS=1 .venv/bin/python .sources/godfrey-wspr-passive-radar/code/report_mh371_method_comparison.py --run .sources/godfrey-wspr-passive-radar/outputs/whole-track-oracle --output /tmp/wspr-method-report-fixture (1s)
+      $ OPENBLAS_NUM_THREADS=1 .venv/bin/python .sources/godfrey-wspr-passive-radar/code/report_mh371_method_comparison.py --run .sources/godfrey-wspr-passive-radar/outputs/whole-track-oracle --output /tmp/wspr-method-report-fixture
+      method                feature  contrast  time_rank  time_total  spatial_rank  spatial_total  scored_reports  effective_exposed_reports
+                       Published threshold      published_anomaly -0.003233         10          21            24             49           33366                  24.859828
+          Shared-effect-adjusted frequency adjusted_frequency_abs -0.143572         16          21            34             49           36797                  31.368926
+      Background-calibrated combined score    empirical_surprisal -0.135741         19          21            38             49           36797                  31.368926
+
+  ── Assistant
+  The report-generation check passed. The fresh calculation is still running; it includes the original early-MH370 companion run because the canonical runner processes both flights together. I’ll report the three MH371 comparisons you requested and check that they reproduce the archived results.
+
+  ── Explored 1 search, edited 1 file, ran 2 commands
+    ── Searched for class Oracle|def prepare_report|for  in .sources/godfrey-wspr-passive-radar/code/whole_track_oracle.py
+    ── Edited .sources/godfrey-wspr-passive-radar/README.md +23
+      @@ -482,2 +482,25 @@
+       
+      +### MH371 three-method comparison
+      +
+      +`code/report_mh371_method_comparison.py` compares three declared archived-report
+      +features at the unchanged 25 km scale: published threshold, shared-effect-adjusted
+      +absolute frequency residual, and background-calibrated combined surprisal. It
+      +requires fresh canonical oracle outputs and checks for the same 20 eligible time
+      +controls and 48 spatial controls for every plotted method. It does not fit a new
+      +detector or apply PHaRLAP, and repeating an already examined flight is not fresh
+      +blind validation. Scores have different units across methods. Rank 1 means the
+      +strongest anomaly contrast among truth plus that control family; these dependent
+      +control ranks are not calibrated p-values.
+      +
+      +After the whole-track oracle command above, generate the comparison with:
+      +
+      +    .venv/bin/python .sources/godfrey-wspr-passive-radar/code/report_mh371_method_comparison.py \
+      +      --run /tmp/wspr-mh371-control-rerun-20260912 \
+      +      --output .sources/godfrey-wspr-passive-radar/outputs/mh371-method-comparison
+      +
+      +The `--run` argument must point to the chosen oracle output directory. Its
+      +`results.json` and input/score hashes are linked by the comparison manifest.
+      +
+      +### Whole-track PHaRLAP signal pilot
+      +
+       `code/whole_track_direct_path.py` restricts opportunities to the transmitter-to-
+    ── Edited .sources/godfrey-wspr-passive-radar/README.md -2
+      @@ -480,4 +480,2 @@
+       
+      -### Whole-track PHaRLAP signal pilot
+      -
+       ### MH371 three-method comparison
+    ── Ran OPENBLAS_NUM_THREADS=1 .venv/bin/python .sources/godfrey-wspr-passive-radar/code/report_mh371_method_comparison.py --run /tmp/wspr-mh371-control-rerun-20260912 --output .sources/godfrey-wspr-passive-radar/outputs/mh371-method-comparison (2s)
+      $ OPENBLAS_NUM_THREADS=1 .venv/bin/python .sources/godfrey-wspr-passive-radar/code/report_mh371_method_comparison.py --run /tmp/wspr-mh371-control-rerun-20260912 --output .sources/godfrey-wspr-passive-radar/outputs/mh371-method-comparison
+      method                feature  contrast  time_rank  time_total  spatial_rank  spatial_total  scored_reports  effective_exposed_reports
+                       Published threshold      published_anomaly -0.003233         10          21            24             49           33366                  24.859828
+          Shared-effect-adjusted frequency adjusted_frequency_abs -0.143572         16          21            34             49           36797                  31.368926
+      Background-calibrated combined score    empirical_surprisal -0.135741         19          21            38             49           36797                  31.368926
+    ── Ran .venv/bin/python - <<'PY' import pandas as pd,json from pathlib import Path new=Path('/tmp/wspr-mh371-control-rerun-20260912');old=Path('.sources/godfrey-wspr-passive-radar/outputs/whole-track-oracle') for n in ['whole_track_oracle_scores.csv','whole_track_oracle_rank_summary.csv','whole_track_block_comparisons.csv']:  a=pd.read_csv(new/n);b=pd.read_csv(old/n)  pd.testing.assert_frame_equal(a[a.flight=='MH371'].reset_index(drop=True),b[b.flight=='MH371'].reset_index(drop=True))  print(n,'MH371 reproduced') r=json.loads((new/'results.json').read_text());print(r['block_sign_flip_summaries'][1]);print(r['diagnostics']['MH371']['reports_in_truth_track_time_window']) PY
+      $ .venv/bin/python - <<'PY'
+    import pandas as pd,json
+    from pathlib import Path
+    new=Path('/tmp/wspr-mh371-control-rerun-20260912');old=Path('.sources/godfrey-wspr-passive-radar/outputs/whole-track-oracle')
+    for n in ['whole_track_oracle_scores.csv','whole_track_oracle_rank_summary.csv','whole_track_block_comparisons.csv']:
+     a=pd.read_csv(new/n);b=pd.read_csv(old/n)
+     pd.testing.assert_frame_equal(a[a.flight=='MH371'].reset_index(drop=True),b[b.flight=='MH371'].reset_index(drop=True))
+     print(n,'MH371 reproduced')
+    r=json.loads((new/'results.json').read_text());print(r['block_sign_flip_summaries'][1]);print(r['diagnostics']['MH371']['reports_in_truth_track_time_window'])
+    PY
+      whole_track_oracle_scores.csv MH371 reproduced
+      whole_track_oracle_rank_summary.csv MH371 reproduced
+      whole_track_block_comparisons.csv MH371 reproduced
+      {'actual_above_control_median_blocks': 3, 'block_count': 6, 'block_minutes': 60, 'conditional_sign_flip_tail_fraction': 0.765625, 'flight': 'MH371', 'interpretation': 'Conditional sign-flip enumeration; adjacent WSPR and station dependence make this a descriptive sensitivity, not a calibrated flight-level p-value.', 'sum_actual_minus_control_median': -1.2290278043600955}
+      47319
+
+  ── Assistant
+  The fresh rerun reproduced the archived MH371 results. None of the three methods shows excess anomalies near the true track: the published threshold ranks near the middle of the controls, and both adjusted methods rank lower.
+
+  For the combined score, only three of six time blocks exceed their time-control median. That also provides no consistent positive association. I’m checking the final chart and downloadable table now.
+
+  ── Ran 2 commands, viewed 1 image, edited 1 file
+    ── Ran .venv/bin/python - <<'PY' from pathlib import Path from PIL import Image import hashlib,json p=Path('.sources/godfrey-wspr-passive-radar/outputs/mh371-method-comparison') m=json.loads((p/'manifest.json').read_text()) for n,h in m['output_sha256'].items():assert hashlib.sha256((p/n).read_bytes()).hexdigest()==h im=Image.open(p/'mh371_method_comparison.png');im.load();print('PNG decoded:',im.size) print((p/'summary.md').read_text()) PY
+      $ .venv/bin/python - <<'PY'
+    from pathlib import Path
+    from PIL import Image
+    import hashlib,json
+    p=Path('.sources/godfrey-wspr-passive-radar/outputs/mh371-method-comparison')
+    m=json.loads((p/'manifest.json').read_text())
+    for n,h in m['output_sha256'].items():assert hashlib.sha256((p/n).read_bytes()).hexdigest()==h
+    im=Image.open(p/'mh371_method_comparison.png');im.load();print('PNG decoded:',im.size)
+    print((p/'summary.md').read_text())
+    PY
+      PNG decoded: (2160, 810)
+      # MH371 three-method control rerun
+
+      Fresh computation on the existing frozen historical inputs; not an independent new flight. Methods and the 25 km scale were declared before inspecting the rerun results.
+
+      | Method | Actual contrast | Time rank | Spatial rank | Effective exposed reports |
+      | --- | ---: | ---: | ---: | ---: |
+      | Published threshold | -0.0032 | 10/21 | 24/49 | 24.86 |
+      | Shared-effect-adjusted frequency | -0.1436 | 16/21 | 34/49 | 31.37 |
+      | Background-calibrated combined score | -0.1357 | 19/21 | 38/49 | 31.37 |
+
+      Rank 1 is strongest. Positive contrast means larger anomaly evidence near the aircraft than away from it. Scores have different units across methods; compare each method with its own controls, not absolute values between methods.
+
+      The published method uses the 0.75-standard-deviation SNR/frequency flag. The frequency method removes same-link background and shared transmitter/receiver effects before taking absolute frequency residuals. The combined method calibrates adjusted SNR/frequency anomaly magnitude against off-evaluation background.
+
+      All use station-balanced, packet-averaged full-great-circle proximity, with 20 eligible time shifts and 48 spatial rotations. Ranks are descriptive, not calibrated p-values. These are known-track association controls, not blind localization. PHaRLAP and the unvalidated raw-waveform detector are not applied. Maidenhead cell centres and interpolated track points remain assumptions. No new estimator observable is justified by this comparison.
+    ── Viewed image: /jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/outputs/mh371-method-comparison/mh371_method_comparison.png
+    ── Ran ".venv/bin/python - <<'PY' from pathlib import Path import hashlib,json p=Path('.sources/godfrey-wspr-passive-radar');lines=(p/'SHA256SUMS').read_text().splitlines() names=['README.md','code/report_mh371_method_comparison.py']+[str(f.relative_to(p)) for f in sorted((p/'outputs/mh371-method-comparison').iterdir()) if f.is_file()] changes=[];adds=[] for n in names:  new=hashlib.sha256((p/n).read_bytes()).hexdigest()+'  ./'+n;old=next((x for x in lines if x.endswith('  ./'+n)),None)  if old and old"'!=new:changes.append((lines.index(old),old,new))  elif not old:adds.append(new) print(json.dumps(dict(changes=sorted(changes),adds=adds,last=lines[-1]))) PY'
+      $ ".venv/bin/python - <<'PY'
+    from pathlib import Path
+    import hashlib,json
+    p=Path('.sources/godfrey-wspr-passive-radar');lines=(p/'SHA256SUMS').read_text().splitlines()
+    names=['README.md','code/report_mh371_method_comparison.py']+[str(f.relative_to(p)) for f in sorted((p/'outputs/mh371-method-comparison').iterdir()) if f.is_file()]
+    changes=[];adds=[]
+    for n in names:
+     new=hashlib.sha256((p/n).read_bytes()).hexdigest()+'  ./'+n;old=next((x for x in lines if x.endswith('  ./'+n)),None)
+     if old and old"'!=new:changes.append((lines.index(old),old,new))
+     elif not old:adds.append(new)
+    print(json.dumps(dict(changes=sorted(changes),adds=adds,last=lines[-1])))
+    PY'
+      {"changes": [[0, "6c2e2dfa57b1f3ca86fdec52f6710679ebff0ca94d8ceaad17626d75eccc7552  ./README.md", "2ed985c3806d6c6e110467e589d79a0351d74bdd19d1db868aed6ee355ce6042  ./README.md"]], "adds": ["a7a78d9fd08076f45db1905864457d69168b16427301dd090fd6c2ef72080a96  ./code/report_mh371_method_comparison.py", "ea9ffb8a24754b81c80c62f55f076a74938786c88cbbb4d9963adf0d520e3381  ./outputs/mh371-method-comparison/comparison.csv", "4d4113d2143f70b32ee077b011025151b4764b5b8a92dd2f0252676d2985a345  ./outputs/mh371-method-comparison/manifest.json", "b1db8167868b7ae5e22c6f0cf22b45e1cf21107d2aa05a80150f73ee241946bd  ./outputs/mh371-method-comparison/mh371_method_comparison.pdf", "8414ad3e9e9b0368d4d987845fa4b85ac1e39054090010ba4eb4b222d4424711  ./outputs/mh371-method-comparison/mh371_method_comparison.png", "98e7853438cc3042fa3c6b33dc7af879d87d4ea4e07bd9f886cd3901b553328a  ./outputs/mh371-method-comparison/summary.md"], "last": "90d2c4740b1872aa1dddedad54701383fcb9d3de9cf38fd483b3e613763e77dd  ./outputs/live-waveform-access/utah-command-diagnostic/receiver_status.txt"}
+    ── Edited .sources/godfrey-wspr-passive-radar/SHA256SUMS +7 -1
+      @@ -1,2 +1,2 @@
+      -6c2e2dfa57b1f3ca86fdec52f6710679ebff0ca94d8ceaad17626d75eccc7552  ./README.md
+      +2ed985c3806d6c6e110467e589d79a0351d74bdd19d1db868aed6ee355ce6042  ./README.md
+       be24599fcc593147114801116420627357f0182ecfa379c9a460cc9d60e1e6ff  ./citation-ledger.md
+      @@ -395 +395,7 @@
+       90d2c4740b1872aa1dddedad54701383fcb9d3de9cf38fd483b3e613763e77dd  ./outputs/live-waveform-access/utah-command-diagnostic/receiver_status.txt
+      +a7a78d9fd08076f45db1905864457d69168b16427301dd090fd6c2ef72080a96  ./code/report_mh371_method_comparison.py
+      +ea9ffb8a24754b81c80c62f55f076a74938786c88cbbb4d9963adf0d520e3381  ./outputs/mh371-method-comparison/comparison.csv
+      +4d4113d2143f70b32ee077b011025151b4764b5b8a92dd2f0252676d2985a345  ./outputs/mh371-method-comparison/manifest.json
+      +b1db8167868b7ae5e22c6f0cf22b45e1cf21107d2aa05a80150f73ee241946bd  ./outputs/mh371-method-comparison/mh371_method_comparison.pdf
+      +8414ad3e9e9b0368d4d987845fa4b85ac1e39054090010ba4eb4b222d4424711  ./outputs/mh371-method-comparison/mh371_method_comparison.png
+      +98e7853438cc3042fa3c6b33dc7af879d87d4ea4e07bd9f886cd3901b553328a  ./outputs/mh371-method-comparison/summary.md
+
+── Assistant ───────────────────────────────────────────────
+The MH371 rerun is complete. **None of the three approaches distinguished the aircraft’s true track from the controls.**
+
+Using the same 25 km scale, 20 time-shifted controls and 48 spatial controls:
+
+| Approach | Time rank | Spatial rank |
+|---|---:|---:|
+| Published 0.75-SD anomaly threshold | 10/21 | 24/49 |
+| Frequency anomalies with shared station effects removed | 16/21 | 34/49 |
+| Background-calibrated combined SNR/frequency score | 19/21 | 38/49 |
+
+**Rank 1 means strongest evidence.** The published method sits near the middle; the adjusted methods perform worse. All three show slightly or substantially *less* anomaly evidence near the actual aircraft than away from it.
+
+Important qualification: this reruns previously examined **archived reports**, using full-great-circle geometry—not PHaRLAP or the raw-waveform detector. It is a known-track association test, not fresh blind localization. Dependent control ranks are not formal p-values.
+
+The results reproduced the archived calculations; 45 focused tests passed.
+
+[PNG chart](/jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/outputs/mh371-method-comparison/mh371_method_comparison.png) · [Results CSV](/jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/outputs/mh371-method-comparison/comparison.csv) · [Method and summary](/jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/outputs/mh371-method-comparison/summary.md)
+
+── User ────────────────────────────────────────────────────
+Can you do a fresh blind localization , using the best model we have? Also, can you please provide a summary for me of less than 500 words for the paper. Assume the reader has zero knowledge of the technique and what we have done on this topic. Explain in accessible terms what we tested, how we did it, be explicit about all assumptions and limitations, show the most powerful results and the most impactful charts and diagrams, draw conclusions and point to further work. If required for brevity point the user to prior literature for more details of the methodology but provide a summary of the critical points. Provide LaTex mathematics. Thanks.
+
+── Worked for (6m 26s) ─────────────────────────────────────
+  ── Assistant
+  I’ll check whether the existing model and data support a genuinely fresh blind localization—not another score of the known route—and run the strongest defensible test available. I’ll also prepare a paper summary under 500 words, with LaTeX equations and selected figures, clearly separating measured results from assumptions and simulations.
+
+  ── Explored 1 file, 1 list
+    ── Read .sources/godfrey-wspr-passive-radar/README.md
+    ── Listed files in /tmp/mh371-wspr-trajectory-bank-release-gauss5/
+
+  ── Assistant
+  There is a truth-separated localization test available: score 24,000 candidate MH371 paths without loading the recorded flight track, freeze those scores, then reveal truth for evaluation. I’ll rerun it with the fixed background-calibrated model.
+
+  Two qualifications matter for the paper: this is a fresh computation on previously studied data, not a newly blinded experiment; and the candidate paths are constrained by satellite/flight modelling, so it is not WSPR-only global localization. I’m using the citation-checking skill to ground the manuscript’s claims in the actual results.
+
+  ── Ran 4 commands, explored 1 search, 1 list
+    ── Ran OPENBLAS_NUM_THREADS=1 .venv/bin/python .sources/godfrey-wspr-passive-radar/code/score_mh371_trajectory_bank.py score --bank-directory /tmp/mh371-wspr-trajectory-bank-release-gauss5 --wspr /tmp/wspr_mh371_whole_track_controls_20140306_2030_20140307_1230.csv --wspr-manifest .sources/godfrey-wspr-passive-radar/data/whole-track/whole_track_wspr_manifest.json --output-directory /tmp/mh371-blind-localization-scores-20260915 (1m 59s)
+      $ OPENBLAS_NUM_THREADS=1 .venv/bin/python .sources/godfrey-wspr-passive-radar/code/score_mh371_trajectory_bank.py score --bank-directory /tmp/mh371-wspr-trajectory-bank-release-gauss5 --wspr /tmp/wspr_mh371_whole_track_controls_20140306_2030_20140307_1230.csv --wspr-manifest .sources/godfrey-wspr-passive-radar/data/whole-track/whole_track_wspr_manifest.json --output-directory /tmp/mh371-blind-localization-scores-20260915
+      exit code 0
+    ── Searched for add_argument|savefig|png in .sources/godfrey-wspr-passive-radar/code/postprocess_trajectory_bank.py
+    ── Listed files in /tmp/mh371-wspr-trajectory-bank-release-evaluation
+    ── Ran .venv/bin/python - <<'PY' import json p='/tmp/mh371-wspr-trajectory-bank-release-evaluation/results.json' r=json.load(open(p));print(list(r));print(json.dumps(r['primary_score_truth_diagnostics'],indent=2) if 'primary_score_truth_diagnostics' in r else '') for k,v in r.items():  if isinstance(v,dict):print(k,list(v)[:14]) PY
+      $ .venv/bin/python - <<'PY'
+    import json
+    p='/tmp/mh371-wspr-trajectory-bank-release-evaluation/results.json'
+    r=json.load(open(p));print(list(r));print(json.dumps(r['primary_score_truth_diagnostics'],indent=2) if 'primary_score_truth_diagnostics' in r else '')
+    for k,v in r.items():
+     if isinstance(v,dict):print(k,list(v)[:14])
+    PY
+      ['baseline_error', 'conditional_score_tilts', 'control_scope', 'evaluation_grid', 'geometry_opportunity', 'inputs', 'limitations', 'outputs', 'primary', 'schema', 'search_corrected_grid', 'separation_contract', 'status']
+
+      baseline_error ['mean_error_km', 'median_error_km', 'rms_error_km']
+      conditional_score_tilts ['definition', 'rows', 'status']
+      evaluation_grid ['median_definition', 'packet_count', 'quadrature_nodes', 'rms_definition']
+      geometry_opportunity ['definition', 'posterior_weighted_correlation_with_negative_rms_error', 'scoreable_baseline_posterior_mass', 'scoreable_trajectories', 'truth_effective_exposed_link_count', 'truth_minimum_full_gc_distance_km', 'truth_posterior_weighted_percentile_in_bank', 'truth_reports_within_25_km', 'truth_reports_within_75_km', 'truth_track_value', 'truth_unweighted_percentile_in_bank']
+      inputs ['bank_manifest', 'blind_score_manifest', 'blind_scores', 'code', 'frozen_report_evidence', 'truth_provenance', 'truth_track']
+      outputs ['conditional_score_tilts.csv', 'feature_sigma_truth_diagnostics.csv', 'trajectory_truth_evaluation.csv.gz']
+      primary ['feature', 'relationship_to_accuracy', 'scoreable_baseline_posterior_mass', 'scoreable_trajectories', 'sigma_km', 'truth_posterior_weighted_percentile_in_bank', 'truth_track_score', 'truth_unweighted_percentile_in_bank']
+      search_corrected_grid ['candidate_baseline_mass_with_any_defined_specification', 'candidate_paths_with_any_defined_specification', 'rule', 'specification_count', 'truth_max_within_specification_weighted_percentile', 'truth_search_max_percentile_among_candidate_search_maxima']
+    ── Ran .venv/bin/python - <<'PY' import json r=json.load(open('/tmp/mh371-wspr-trajectory-bank-release-evaluation/results.json')) print(r['primary']['relationship_to_accuracy']['top_score_mass_subsets']) print(r['search_corrected_grid']) PY
+      $ .venv/bin/python - <<'PY'
+    import json
+    r=json.load(open('/tmp/mh371-wspr-trajectory-bank-release-evaluation/results.json'))
+    print(r['primary']['relationship_to_accuracy']['top_score_mass_subsets'])
+    print(r['search_corrected_grid'])
+    PY
+      [{'actual_baseline_mass_fraction': 0.5004956684529374, 'included_baseline_posterior_mass': 0.9999999999999373, 'mean_error_km': 205.4424611742956, 'median_error_km': 180.7947562526658, 'positive_baseline_weight_trajectories': 20980, 'requested_top_included_mass_fraction': 0.5, 'rms_error_km': 229.70241794036474, 'score_threshold': -0.1325636945330927, 'selected_trajectories': 11266}, {'actual_baseline_mass_fraction': 0.25022404367310386, 'included_baseline_posterior_mass': 0.9999999999999373, 'mean_error_km': 258.24440717111173, 'median_error_km': 253.97961756868418, 'positive_baseline_weight_trajectories': 20980, 'requested_top_included_mass_fraction': 0.25, 'rms_error_km': 273.9263089856685, 'score_threshold': -0.0877272021438291, 'selected_trajectories': 6976}, {'actual_baseline_mass_fraction': 0.10032414878012336, 'included_baseline_posterior_mass': 0.9999999999999373, 'mean_error_km': 291.24583982933905, 'median_error_km': 277.18203634223363, 'positive_baseline_weight_trajectories': 20980, 'requested_top_included_mass_fraction': 0.1, 'rms_error_km': 294.4870329773962, 'score_threshold': 0.1108529705487952, 'selected_trajectories': 2359}, {'actual_baseline_mass_fraction': 0.0500143882020815, 'included_baseline_posterior_mass': 0.9999999999999373, 'mean_error_km': 289.9345244464992, 'median_error_km': 275.7668568850928, 'positive_baseline_weight_trajectories': 20980, 'requested_top_included_mass_fraction': 0.05, 'rms_error_km': 291.8808173090418, 'score_threshold': 0.2677128418391199, 'selected_trajectories': 911}, {'actual_baseline_mass_fraction': 0.0106326207613608, 'included_baseline_posterior_mass': 0.9999999999999373, 'mean_error_km': 303.4256559662603, 'median_error_km': 284.1990474301277, 'positive_baseline_weight_trajectories': 20980, 'requested_top_included_mass_fraction': 0.01, 'rms_error_km': 305.3622499723128, 'score_threshold': 0.3600970150017487, 'selected_trajectories': 337}]
+      {'candidate_baseline_mass_with_any_defined_specification': 0.9999999999999373, 'candidate_paths_with_any_defined_specification': 24000, 'rule': 'take the maximum posterior-weighted within-specification percentile over all frozen feature-by-sigma cells for truth and every bank path', 'specification_count': 44, 'truth_max_within_specification_weighted_percentile': 0.8888511798290898, 'truth_search_max_percentile_among_candidate_search_maxima': 50.201741993909806}
+    ── Ran OPENBLAS_NUM_THREADS=1 .venv/bin/python -m unittest discover -s .sources/godfrey-wspr-passive-radar/code -p 'test*trajectory_bank.py'
+      $ OPENBLAS_NUM_THREADS=1 .venv/bin/python -m unittest discover -s .sources/godfrey-wspr-passive-radar/code -p 'test*trajectory_bank.py'
+      ......
+      ----------------------------------------------------------------------
+      Ran 6 tests in 0.012s
+
+      OK
+
+  ── Assistant
+  The scoring process is running without a truth-track input, and the six trajectory-bank tests passed. I’ll use two results figures—the control comparison and whether high WSPR scores select more accurate paths—plus a small diagram showing where truth is withheld. That makes the test and its limitations easier to explain than a dense intersection map.
+
+  ── Created 1 file, explored 1 search, 1 list, ran 2 commands
+    ── Created .sources/godfrey-wspr-passive-radar/code/report_wspr_manuscript.py +33
+      """Generate concise manuscript text and truth-separation diagram from evaluation."""
+      import argparse
+      import hashlib
+      import json
+      from pathlib import Path
+      import matplotlib
+      matplotlib.use('Agg')
+      import matplotlib.pyplot as plt
+
+      def main():
+          p=argparse.ArgumentParser(description=__doc__)
+          p.add_argument('--evaluation',type=Path,required=True)
+          p.add_argument('--output',type=Path,required=True)
+          a=p.parse_args();r=json.loads(a.evaluation.read_text());a.output.mkdir(parents=True,exist_ok=True)
+          primary=r['primary'];top=next(x for x in primary['relationship_to_accuracy']['top_score_mass_subsets'] if x['requested_top_included_mass_fraction']==.1)
+          text=rf'''WSPR (Weak Signal Propagation Reporter) records amateur-radio reception reports, including signal-to-noise ratio and frequency. Aircraft might perturb radio signals, but ionospheric variability and transmitter/receiver behavior also do so. A geographic crossing of radio-link great circles therefore does not itself establish aircraft detection.
+
+      We tested whether anomalous reports preferentially identify known flights, then whether they select accurate MH371 candidate trajectories. Three archived-report methods were compared: the published 0.75-standard-deviation anomaly flag, shared-effect-adjusted frequency residuals, and a background-calibrated combined signal/frequency score. The latter uses same-link median/MAD baselines excluding the tested slot, reported transmitter-power adjustment, and shared transmitter/receiver corrections estimated from other stations. Anomaly magnitude is calibrated against reports outside evaluation windows, producing centered evidence $E_i$, not an aircraft probability.
+
+      For candidate trajectory $x$, packet-averaged exposure is $q_i(x)=sum_k w_kexp[-d_{{ik}}(x)^2/(2sigma^2)]mathbf{{1}}[d_{{ik}}(x)leq3sigma]$, where $d_{{ik}}$ is distance to the link's great circle, five quadrature weights sum to one, and $sigma=25$ km. With station-balancing weights $a_i$, the score is $C(x)=rac{{sum_i a_iq_iE_i}}{{sum_i a_iq_i}}-rac{{sum_i a_i(1-q_i)E_i}}{{sum_i a_i(1-q_i)}}$. Positive values indicate stronger anomalies near the candidate than elsewhere.
+
+      On MH371, the combined score ranked 19/21 against time-shifted tracks and 38/49 against spatially displaced tracks; neither alternative produced positive near-track excess. Separately, 24,000 BTO/BFO-and-dynamics-constrained candidate paths were scored before loading the recorded aircraft track. Truth reached only the {primary['truth_posterior_weighted_percentile_in_bank']:.1f}th posterior-weighted score percentile. Selecting the highest-scoring 10% of baseline probability mass increased the weighted mean of whole-path RMS errors from {r['baseline_error']['mean_error_km']:.1f} to {top['mean_error_km']:.1f} km. Allowing every candidate the same 44-choice feature/scale search left truth at the {r['search_corrected_grid']['truth_search_max_percentile_among_candidate_search_maxima']:.1f}th percentile.
+
+      Assumptions include decoded reports only, six-character station locators represented by cell centres, interpolated aircraft motion, and permissive full-great-circle propagation. These localization runs do not use PHaRLAP, verified antenna patterns, realized ionospheric modes, scattering amplitudes, or waveform phase/delay. Separate PHaRLAP screening retained too few effective exposures for strong inference. The candidate bank restricts the search; its dependent paths and controls do not supply calibrated significance probabilities. This is a fresh computational rerun of previously studied data, not a newly blinded experiment or WSPR-only global localization. Historical environmental-grid hashes also prevent complete bank regeneration from current replacement grids.
+
+      We found no demonstrated localization benefit under these models, not proof that HF aircraft sensing is impossible. Synthetic multireceiver recovery requires unverified echo strengths and does not validate real detection. Further work requires synchronized raw HF recordings, documented receiver behavior, independent aircraft truth, and genuinely held-out flights and receivers before thresholds are tuned or an estimator likelihood is justified.'''
+          assert len(text.split())<500,len(text.split())
+          (a.output/'manuscript.md').write_text(text+'\n')
+          (a.output/'manuscript.tex').write_text(text.replace('24,000','24{,}000').replace('10%','10\\%')+'\n')
+          fig,ax=plt.subplots(figsize=(11,3.3),layout='constrained');ax.set_xlim(0,1);ax.set_ylim(0,1);ax.axis('off')
+          boxes=[(.14,.70,'WSPR reports\nBackground + station correction'),(.14,.25,'SATCOM + flight dynamics\n24,000 candidate paths'),(.51,.48,'Score every candidate\nFreeze scores'),(.86,.48,'Reveal recorded track\nEvaluate errors + controls')]
+          for x,y,s in boxes:ax.text(x,y,s,ha='center',va='center',fontsize=10,bbox=dict(boxstyle='round,pad=.65',fc='#edf2f5',ec='#334155'))
+          for start,end in [((.29,.70),(.38,.53)),((.29,.25),(.38,.43)),((.65,.48),(.73,.48))]:ax.annotate('',xy=end,xytext=start,arrowprops=dict(arrowstyle='->',color='#334155',lw=1.6))
+          ax.axvline(.70,.18,.82,color='#b42318',ls='--');ax.text(.70,.90,'Truth withheld until this boundary',ha='center',fontsize=10,color='#b42318')
+          ax.text(.5,.02,'Truth-separated computation; previously studied flight, not a new blind dataset',ha='center',fontsize=10)
+          fig.savefig(a.output/'truth_separation.png',dpi=180);fig.savefig(a.output/'truth_separation.pdf');plt.close(fig)
+          manifest={'summary_whitespace_token_count':len(text.split()),'evaluation_path':str(a.evaluation),'evaluation_sha256':hashlib.sha256(a.evaluation.read_bytes()).hexdigest(),'code_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'files':{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in a.output.iterdir() if p.is_file() and p.name!='manifest.json'}}
+          (a.output/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n');print('Summary count:',len(text.split()))
+
+      if __name__=='__main__':main()
+    ── Searched for score_mh371_trajectory_bank.py score
+    ── Ran .venv/bin/python - <<'PY' import pandas as pd for p in ['/tmp/mh371-wspr-trajectory-bank-release-evaluation/trajectory_truth_evaluation.csv.gz','/tmp/mh371-wspr-trajectory-bank-release-gauss5/trajectory_segments.csv.gz','/tmp/mh371-wspr-trajectory-bank-release-gauss5/segment_packet_states.csv.gz']:  d=pd.read_csv(p,nrows=1);print(p,list(d.columns));print(d.to_dict('records')) PY
+      $ .venv/bin/python - <<'PY'
+    import pandas as pd
+    for p in ['/tmp/mh371-wspr-trajectory-bank-release-evaluation/trajectory_truth_evaluation.csv.gz','/tmp/mh371-wspr-trajectory-bank-release-gauss5/trajectory_segments.csv.gz','/tmp/mh371-wspr-trajectory-bank-release-gauss5/segment_packet_states.csv.gz']:
+     d=pd.read_csv(p,nrows=1);print(p,list(d.columns));print(d.to_dict('records'))
+    PY
+      /tmp/mh371-wspr-trajectory-bank-release-evaluation/trajectory_truth_evaluation.csv.gz ['trajectory_id', 'seed', 'final_particle_index', 'root_particle_index', 'pooled_log_weight', 'baseline_weight', 'primary_wspr_contrast', 'primary_exposed_weight', 'primary_exposed_effective_count', 'primary_reports_within_25_km', 'primary_reports_within_75_km', 'minimum_full_gc_distance_km', 'search_max_weighted_midpercentile', 'search_max_specification', 'time_aligned_quadrature_rms_error_km', 'time_aligned_node_median_error_km', 'time_aligned_node_p90_error_km']
+      [{'trajectory_id': 'mh371:37102001:particle0', 'seed': 37102001, 'final_particle_index': 0, 'root_particle_index': 162, 'pooled_log_weight': -322.79052515347144, 'baseline_weight': 6.514125407660222e-141, 'primary_wspr_contrast': -0.1819754885012129, 'primary_exposed_weight': 72.90715162634272, 'primary_exposed_effective_count': 42.04267323798117, 'primary_reports_within_25_km': 74, 'primary_reports_within_75_km': 157, 'minimum_full_gc_distance_km': 0.0019098759572691, 'search_max_weighted_midpercentile': 0.9306163054934072, 'search_max_specification': 'contrast__adjusted_snr_abs__sigma_100_km', 'time_aligned_quadrature_rms_error_km': 145.89607902366723, 'time_aligned_node_median_error_km': 32.48804473876953, 'time_aligned_node_p90_error_km': 170.49691772460938}]
+      /tmp/mh371-wspr-trajectory-bank-release-gauss5/trajectory_segments.csv.gz ['trajectory_id', 'leg_index', 'segment_id', 'parent_particle_index', 'child_particle_index', 'start_time_s', 'end_time_s']
+      [{'trajectory_id': 'mh371:37102001:particle0', 'leg_index': 0, 'segment_id': 'mh371:37102001:leg0:child162', 'parent_particle_index': 162, 'child_particle_index': 162, 'start_time_s': 0.0, 'end_time_s': 527.921000314}]
+      /tmp/mh371-wspr-trajectory-bank-release-gauss5/segment_packet_states.csv.gz ['segment_id', 'seed', 'leg_index', 'child_particle_index', 'slot_start_utc', 'slot_start_unix_s', 'quadrature_node', 'sample_offset_s', 'quadrature_weight', 'seconds_from_t0', 'latitude_deg', 'longitude_deg_e', 'altitude_ft', 'track_true_deg', 'ground_speed_knots', 'mach', 'magnetic_heading_deg']
+      [{'segment_id': 'mh371:37102001:leg0:child162', 'seed': 37102001, 'leg_index': 0, 'child_particle_index': 162, 'slot_start_utc': '2014-03-07T01:48:00Z', 'slot_start_unix_s': 1394156880, 'quadrature_node': 0, 'sample_offset_s': 6.182812950656, 'quadrature_weight': 0.1184634425280946, 'seconds_from_t0': 6.182812929153, 'latitude_deg': 39.905554366043, 'longitude_deg_e': 115.591816803987, 'altitude_ft': 39401.665342229, 'track_true_deg': 218.49168150336, 'ground_speed_knots': 392.226186249, 'mach': 0.773907100122, 'magnetic_heading_deg': 235.041413042439}]
+    ── Listed files in /tmp/mh371-wspr-trajectory-bank-release-gauss5/*.gz
+    ── Ran OPENBLAS_NUM_THREADS=1 .venv/bin/python .sources/godfrey-wspr-passive-radar/code/score_mh371_trajectory_bank.py evaluate --bank-directory /tmp/mh371-wspr-trajectory-bank-release-gauss5 --blind-score-directory /tmp/mh371-blind-localization-scores-20260915 --truth-track .sources/godfrey-wspr-passive-radar/data/known-flight/known_flight_track_observations.csv --truth-provenance .sources/godfrey-wspr-passive-radar/data/known-flight/known_flight_track_provenance.json --output-directory /tmp/mh371-blind-localization-evaluation-20260915 (7s)
+      $ OPENBLAS_NUM_THREADS=1 .venv/bin/python .sources/godfrey-wspr-passive-radar/code/score_mh371_trajectory_bank.py evaluate --bank-directory /tmp/mh371-wspr-trajectory-bank-release-gauss5 --blind-score-directory /tmp/mh371-blind-localization-scores-20260915 --truth-track .sources/godfrey-wspr-passive-radar/data/known-flight/known_flight_track_observations.csv --truth-provenance .sources/godfrey-wspr-passive-radar/data/known-flight/known_flight_track_provenance.json --output-directory /tmp/mh371-blind-localization-evaluation-20260915
+      exit code 0
+
+  ── Assistant
+  Candidate scoring has finished. The scores are now frozen, and the separate evaluation process is loading the recorded track to measure localization error. The manuscript draft is about 400 words, including the equations, and explicitly describes this as truth-separated rather than newly blinded.
+
+  ── Explored 1 list, 1 search, ran 3 commands, viewed 2 images
+    ── Listed files in /tmp/mh371-blind-localization-scores-20260915
+    ── Ran OPENBLAS_NUM_THREADS=1 .venv/bin/python .sources/godfrey-wspr-passive-radar/code/postprocess_trajectory_bank.py --evaluation-directory /tmp/mh371-blind-localization-evaluation-20260915 --output-directory .sources/godfrey-wspr-passive-radar/outputs/whole-track-trajectory-bank/publication (2s)
+      $ OPENBLAS_NUM_THREADS=1 .venv/bin/python .sources/godfrey-wspr-passive-radar/code/postprocess_trajectory_bank.py --evaluation-directory /tmp/mh371-blind-localization-evaluation-20260915 --output-directory .sources/godfrey-wspr-passive-radar/outputs/whole-track-trajectory-bank/publication
+      exit code 0
+    ── Ran OPENBLAS_NUM_THREADS=1 .venv/bin/python .sources/godfrey-wspr-passive-radar/code/report_wspr_manuscript.py --evaluation /tmp/mh371-blind-localization-evaluation-20260915/results.json --output .sources/godfrey-wspr-passive-radar/outputs/wspr-manuscript
+      $ OPENBLAS_NUM_THREADS=1 .venv/bin/python .sources/godfrey-wspr-passive-radar/code/report_wspr_manuscript.py --evaluation /tmp/mh371-blind-localization-evaluation-20260915/results.json --output .sources/godfrey-wspr-passive-radar/outputs/wspr-manuscript
+      Summary count: 400
+    ── Ran .venv/bin/python - <<'PY' import json,pandas as pd from pathlib import Path p=Path('/tmp/mh371-blind-localization-evaluation-20260915');r=json.loads((p/'results.json').read_text());old=json.loads(Path('/tmp/mh371-wspr-trajectory-bank-release-evaluation/results.json').read_text()) for key in ['primary','baseline_error','search_corrected_grid']:  assert r[key]==old[key],key print('Primary, baseline error and search-corrected results reproduced exactly.') d=pd.read_csv(p/'trajectory_truth_evaluation.csv.gz');best=d.loc[d.primary_wspr_contrast.idxmax()] print(best[['trajectory_id','primary_wspr_contrast','time_aligned_quadrature_rms_error_km','baseline_weight']].to_dict()) PY
+      $ .venv/bin/python - <<'PY'
+    import json,pandas as pd
+    from pathlib import Path
+    p=Path('/tmp/mh371-blind-localization-evaluation-20260915');r=json.loads((p/'results.json').read_text());old=json.loads(Path('/tmp/mh371-wspr-trajectory-bank-release-evaluation/results.json').read_text())
+    for key in ['primary','baseline_error','search_corrected_grid']:
+     assert r[key]==old[key],key
+    print('Primary, baseline error and search-corrected results reproduced exactly.')
+    d=pd.read_csv(p/'trajectory_truth_evaluation.csv.gz');best=d.loc[d.primary_wspr_contrast.idxmax()]
+    print(best[['trajectory_id','primary_wspr_contrast','time_aligned_quadrature_rms_error_km','baseline_weight']].to_dict())
+    PY
+      Primary, baseline error and search-corrected results reproduced exactly.
+      {'trajectory_id': 'mh371:37102001:particle6799', 'primary_wspr_contrast': 0.6101978214146406, 'time_aligned_quadrature_rms_error_km': 281.2146894115863, 'baseline_weight': 5.120993682499354e-12}
+    ── Viewed image: /jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/outputs/wspr-manuscript/truth_separation.png
+    ── Viewed image: /jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/outputs/whole-track-trajectory-bank/publication/mh371-blind-wspr-trajectory-recovery.png
+    ── Searched for Blind whole|blind|shade|shad|10th|90th in .sources/godfrey-wspr-passive-radar/code/postprocess_trajectory_bank.py
+
+  ── Assistant
+  The localization rerun also failed to recover the track: truth scored at the 43.6th weighted percentile, and selecting the highest-scoring 10% of candidate probability mass increased mean path error from 150.8 to 291.2 km. The apparent advantage of the best post-hoc anomaly definition fell to the 50.2nd percentile when every candidate received the same search.
+
+  I’m correcting the figure title to “truth-separated” so it does not imply a newly blinded experiment.
+
+  ── Edited 5 files, ran 4 commands, viewed 1 image
+    ── Edited .sources/godfrey-wspr-passive-radar/code/postprocess_trajectory_bank.py +5 -2
+      @@ -184,3 +184,3 @@
+           figure.suptitle(
+      -        "Blind whole-trajectory WSPR recovery control — MH371 cruise",
+      +        "Truth-separated WSPR trajectory recovery — MH371 cruise",
+               fontsize=15,
+      @@ -308,3 +308,6 @@
+           ).iloc[0]
+      -    markdown = f"""# Blind whole-trajectory WSPR recovery control
+      +    markdown = f"""# Truth-separated whole-trajectory WSPR recovery control
+      +
+      +This computation withholds the recorded track until scores are frozen. The flight
+      +has been studied previously; this rerun is not a newly blinded experiment.
+    ── Ran OPENBLAS_NUM_THREADS=1 .venv/bin/python .sources/godfrey-wspr-passive-radar/code/postprocess_trajectory_bank.py --evaluation-directory /tmp/mh371-blind-localization-evaluation-20260915 --output-directory .sources/godfrey-wspr-passive-radar/outputs/whole-track-trajectory-bank/publication (2s)
+      $ OPENBLAS_NUM_THREADS=1 .venv/bin/python .sources/godfrey-wspr-passive-radar/code/postprocess_trajectory_bank.py --evaluation-directory /tmp/mh371-blind-localization-evaluation-20260915 --output-directory .sources/godfrey-wspr-passive-radar/outputs/whole-track-trajectory-bank/publication
+      exit code 0
+    ── Edited .sources/godfrey-wspr-passive-radar/code/report_wspr_manuscript.py +3 -3
+      @@ -17,3 +17,3 @@
+       
+      -We tested whether anomalous reports preferentially identify known flights, then whether they select accurate MH371 candidate trajectories. Three archived-report methods were compared: the published 0.75-standard-deviation anomaly flag, shared-effect-adjusted frequency residuals, and a background-calibrated combined signal/frequency score. The latter uses same-link median/MAD baselines excluding the tested slot, reported transmitter-power adjustment, and shared transmitter/receiver corrections estimated from other stations. Anomaly magnitude is calibrated against reports outside evaluation windows, producing centered evidence $E_i$, not an aircraft probability.
+      +We tested whether anomalous reports preferentially identify known flights, then whether they select accurate MH371 candidate trajectories. Three archived-report methods were compared: the published 0.75-standard-deviation anomaly flag, shared-effect-adjusted frequency residuals, and a background-calibrated combined signal/frequency score. The latter uses same-link median and median absolute deviation (robust measures of typical level and spread), excluding the tested slot, reported transmitter-power adjustment, and shared transmitter/receiver corrections estimated from other stations. Anomaly magnitude is calibrated against reports outside evaluation windows, producing centered evidence $E_i$, not an aircraft probability.
+       
+      @@ -21,5 +21,5 @@
+       
+      -On MH371, the combined score ranked 19/21 against time-shifted tracks and 38/49 against spatially displaced tracks; neither alternative produced positive near-track excess. Separately, 24,000 BTO/BFO-and-dynamics-constrained candidate paths were scored before loading the recorded aircraft track. Truth reached only the {primary['truth_posterior_weighted_percentile_in_bank']:.1f}th posterior-weighted score percentile. Selecting the highest-scoring 10% of baseline probability mass increased the weighted mean of whole-path RMS errors from {r['baseline_error']['mean_error_km']:.1f} to {top['mean_error_km']:.1f} km. Allowing every candidate the same 44-choice feature/scale search left truth at the {r['search_corrected_grid']['truth_search_max_percentile_among_candidate_search_maxima']:.1f}th percentile.
+      +On MH371, the combined score ranked 19/21 against time-shifted tracks and 38/49 against spatially displaced tracks (rank 1 is strongest); neither alternative produced positive near-track excess. Separately, 24,000 candidate paths constrained by satellite timing/frequency measurements and flight dynamics were scored before loading the recorded aircraft track. Truth reached only the {primary['truth_posterior_weighted_percentile_in_bank']:.1f}th posterior-weighted score percentile. Selecting the highest-scoring 10% of baseline probability mass increased the weighted mean of whole-path root-mean-square errors from {r['baseline_error']['mean_error_km']:.1f} to {top['mean_error_km']:.1f} km. Allowing every candidate the same 44-choice feature/scale search left truth at the {r['search_corrected_grid']['truth_search_max_percentile_among_candidate_search_maxima']:.1f}th percentile.
+       
+      -Assumptions include decoded reports only, six-character station locators represented by cell centres, interpolated aircraft motion, and permissive full-great-circle propagation. These localization runs do not use PHaRLAP, verified antenna patterns, realized ionospheric modes, scattering amplitudes, or waveform phase/delay. Separate PHaRLAP screening retained too few effective exposures for strong inference. The candidate bank restricts the search; its dependent paths and controls do not supply calibrated significance probabilities. This is a fresh computational rerun of previously studied data, not a newly blinded experiment or WSPR-only global localization. Historical environmental-grid hashes also prevent complete bank regeneration from current replacement grids.
+      +Assumptions include decoded reports only, six-character station locators represented by cell centres, interpolated aircraft motion, and permissive full-great-circle propagation. These localization runs do not use ionospheric ray tracing, verified antenna patterns, realized propagation modes, scattering amplitudes, or waveform phase/delay. Separate PHaRLAP ray-tracing screening retained too few effective exposures for strong inference. The candidate bank restricts the search; its dependent paths and controls do not supply calibrated significance probabilities. This is a fresh computational rerun of previously studied data, not a newly blinded experiment or WSPR-only global localization. Historical environmental-grid hashes also prevent complete bank regeneration from current replacement grids.
+    ── Ran OPENBLAS_NUM_THREADS=1 .venv/bin/python .sources/godfrey-wspr-passive-radar/code/report_wspr_manuscript.py --evaluation /tmp/mh371-blind-localization-evaluation-20260915/results.json --output .sources/godfrey-wspr-passive-radar/outputs/wspr-manuscript
+      $ OPENBLAS_NUM_THREADS=1 .venv/bin/python .sources/godfrey-wspr-passive-radar/code/report_wspr_manuscript.py --evaluation /tmp/mh371-blind-localization-evaluation-20260915/results.json --output .sources/godfrey-wspr-passive-radar/outputs/wspr-manuscript
+      Summary count: 424
+    ── Edited .sources/godfrey-wspr-passive-radar/README.md +19
+      @@ -482,2 +482,21 @@
+       
+      +The 15 September truth-separated localization rerun used the preserved bank with
+      +`score_mh371_trajectory_bank.py score` and then its separate `evaluate` command.
+      +Score outputs are `/tmp/mh371-blind-localization-scores-20260915`; evaluation
+      +outputs are `/tmp/mh371-blind-localization-evaluation-20260915`. The primary,
+      +baseline-error and search-adjusted result objects reproduced the archived values
+      +exactly. The score command has no truth input. This is renewed computation, not a
+      +newly blinded flight or unconstrained WSPR-only localization. The publication
+      +report retains the frozen score/evaluation identities. Generate the concise
+      +manuscript and workflow diagram with:
+      +
+      +    .venv/bin/python .sources/godfrey-wspr-passive-radar/code/report_wspr_manuscript.py \
+      +      --evaluation /tmp/mh371-blind-localization-evaluation-20260915/results.json \
+      +      --output .sources/godfrey-wspr-passive-radar/outputs/wspr-manuscript
+      +
+      +The summary is under 500 words, with inline LaTeX in both Markdown and a LaTeX
+      +fragment. Its manifest records the evaluation and generator hashes. The report
+      +does not claim to enumerate every implementation setting; the full scientific
+      +settings and limitations remain in the source reports above.
+      +
+       `code/report_mh371_method_comparison.py` compares three declared archived-report
+    ── Edited .sources/godfrey-wspr-passive-radar/citation-ledger.md +14
+      @@ -283 +283,15 @@
+       adopted from search snippets or the secondary compilation of critical articles.
+      +
+      +## Manuscript localization rerun (15 September 2026)
+      +
+      +| Claim | Retrieved source | Locator | Evidence | Status |
+      +| --- | --- | --- | --- | --- |
+      +| Truth was withheld from scoring | `/tmp/mh371-blind-localization-scores-20260915/manifest.json` and `code/score_mh371_trajectory_bank.py` | `truth_boundary`; separate score/evaluate command interfaces | Score command has no truth argument; completed before evaluate was launched | FOUND for computation separation, not a newly blinded experiment |
+      +| Truth scores at 43.6th percentile | `/tmp/mh371-blind-localization-evaluation-20260915/results.json` | `primary.truth_posterior_weighted_percentile_in_bank` | 43.59 percent, rounded in generated manuscript | FOUND |
+      +| High scores do not improve localization | Same evaluation result | `baseline_error.mean_error_km`; `primary.relationship_to_accuracy.top_score_mass_subsets`, fraction 0.1 | 150.82 versus 291.25 km | FOUND; weighted mean of per-path RMS errors, not error of a posterior mean location |
+      +| Equal specification search removes apparent advantage | Same evaluation result | `search_corrected_grid.truth_search_max_percentile_among_candidate_search_maxima` | 50.20th percentile | FOUND; descriptive conditional rank |
+      +| Three-method association controls do not show positive excess | `outputs/mh371-method-comparison/comparison.csv` | All three MH371 rows at 25 km | Negative actual contrasts; time/spatial ranks reported in summary | FOUND |
+      +
+      +No new literature-derived performance claim was added to the concise manuscript.
+      +Its broader PHaRLAP and simulation caveats refer to the independently generated
+      +direct-path pilot and heldout-receiver reports documented above, not new data.
+    ── Ran ".venv/bin/python - <<'PY' from pathlib import Path import hashlib,json from PIL import Image p=Path('.sources/godfrey-wspr-passive-radar');lines=(p/'SHA256SUMS').read_text().splitlines() names=['README.md','citation-ledger.md','code/report_wspr_manuscript.py','code/postprocess_trajectory_bank.py'] for directory in ['outputs/wspr-manuscript','outputs/whole-track-trajectory-bank']:  names += [str(f.relative_to(p)) for f in (p/directory).rglob('*') if f.is_file()] for name in ['outputs/wspr-manuscript/truth_separation.png','outputs/whole-track-trajectory-bank/publication/mh371-blind-wspr-trajectory-recovery.png','outputs/mh371-method-comparison/mh371_method_comparison.png']:  im=Image.open(p/name);im.load() changes=[];adds=[] for n in names:  new=hashlib.sha256((p/n).read_bytes()).hexdigest()+'  ./'+n;old=next((x for x in lines if x.endswith('  ./'+n)),None)  if old and old"'!=new:changes.append((lines.index(old),old,new))  elif not old:adds.append(new) print(json.dumps(dict(changes=sorted(changes),adds=adds,last=lines[-1]))) PY'
+      $ ".venv/bin/python - <<'PY'
+    from pathlib import Path
+    import hashlib,json
+    from PIL import Image
+    p=Path('.sources/godfrey-wspr-passive-radar');lines=(p/'SHA256SUMS').read_text().splitlines()
+    names=['README.md','citation-ledger.md','code/report_wspr_manuscript.py','code/postprocess_trajectory_bank.py']
+    for directory in ['outputs/wspr-manuscript','outputs/whole-track-trajectory-bank']:
+     names += [str(f.relative_to(p)) for f in (p/directory).rglob('*') if f.is_file()]
+    for name in ['outputs/wspr-manuscript/truth_separation.png','outputs/whole-track-trajectory-bank/publication/mh371-blind-wspr-trajectory-recovery.png','outputs/mh371-method-comparison/mh371_method_comparison.png']:
+     im=Image.open(p/name);im.load()
+    changes=[];adds=[]
+    for n in names:
+     new=hashlib.sha256((p/n).read_bytes()).hexdigest()+'  ./'+n;old=next((x for x in lines if x.endswith('  ./'+n)),None)
+     if old and old"'!=new:changes.append((lines.index(old),old,new))
+     elif not old:adds.append(new)
+    print(json.dumps(dict(changes=sorted(changes),adds=adds,last=lines[-1])))
+    PY'
+      {"changes": [[0, "2ed985c3806d6c6e110467e589d79a0351d74bdd19d1db868aed6ee355ce6042  ./README.md", "e3b5cb4ffdf60ad3ad4978127e07deb88a44781f1b46a866c37de285daa69a74  ./README.md"], [1, "be24599fcc593147114801116420627357f0182ecfa379c9a460cc9d60e1e6ff  ./citation-ledger.md", "44a1a9937f2f8b6ce188880708fe1ff2a650e6df6aebcdad2809cb1f8d74e2b7  ./citation-ledger.md"], [25, "8b2bab8c9c1ea87275fb3cc1efae1a6af242d1bba61137b73d73e2b3f49b6fea  ./code/postprocess_trajectory_bank.py", "3d83c587cca70df2eabd6257f1bfcd98a07d4be9a83390a96c1a8920d4dd43eb  ./code/postprocess_trajectory_bank.py"], [105, "0ed38581f47aa0c313f7217a10b3364183ff65495443c03e748c3551c2081b2e  ./outputs/whole-track-trajectory-bank/blind_score_manifest.json", "106da54a17392d8707a6c45504e34ea12ca3c85bf51629aeb2220cd9c0deb0cc  ./outputs/whole-track-trajectory-bank/blind_score_manifest.json"], [106, "2343a351e169b6e0216cf6864f9b334cc134192e2d402968337743ac41dcf526  ./outputs/whole-track-trajectory-bank/conditional_score_tilts.csv", "e04391c3659637a6d12ff100e0284eaeecdd55a3cc87dbaa9e3bd8cf1fc7c711  ./outputs/whole-track-trajectory-bank/conditional_score_tilts.csv"], [107, "45b91ebee1d099cbd484704693333c8b7aed0b30c3c0811da270e9fb275d5443  ./outputs/whole-track-trajectory-bank/feature_sigma_truth_diagnostics.csv", "f09c053677e52098acc6d7dbe0a55bbc7f6df7d68795dfbeaf7e4e36ca7f950e  ./outputs/whole-track-trajectory-bank/feature_sigma_truth_diagnostics.csv"], [109, "18dd93851a24ca420aed81dfa79f9e25982cf30a0f7b5f930e1897d51c1585fa  ./outputs/whole-track-trajectory-bank/manifest.json", "a4236359c4924f783e18eef0f1014ed77c4b7b4a744265f9fb27d2ba73e8925e  ./outputs/whole-track-trajectory-bank/manifest.json"], [110, "1c854bc1b74abb93aada93a9f72695d8e343f221e2d4a6446eb6e706531315ef  ./outputs/whole-track-trajectory-bank/publication/manifest.json", "3620a2ecda42a7c0f5d3ce432301b0cbdec77d7c38774d08a8e5d6b82f19e436  ./outputs/whole-track-trajectory-bank/publication/manifest.json"], [111, "48b3749383ed8b4bc38b50b716376154211ed448882763dc6f983ba148a1fbb7  ./outputs/whole-track-trajectory-bank/publication/mh371-blind-wspr-trajectory-recovery.pdf", "b04d0cbadd0ce860105ed60d690de2d3b02d77b6e33af057f8ca035ceaf06f47  ./outputs/whole-track-trajectory-bank/publication/mh371-blind-wspr-trajectory-recovery.pdf"], [112, "1155c86f51133a78155667fe32ef16870c5597881ddfc75018170b296e3b79e1  ./outputs/whole-track-trajectory-bank/publication/mh371-blind-wspr-trajectory-recovery.png", "376c5b78032b9904a098e0c0e9fc3ba28df1ecf68087f47dd97fa370354f7058  ./outputs/whole-track-trajectory-bank/publication/mh371-blind-wspr-trajectory-recovery.png"], [115, "3854cb88cc2e1b9b44268d2355cc3b7f7ccbc1ca8cb1f4933aafbf11e0b6e364  ./outputs/whole-track-trajectory-bank/publication/mh371_blind_wspr_trajectory_recovery_summary.md", "e4e48e59a66842efcc9237cef47729e3d317fbc4d384d00aed7a7855f68393f5  ./outputs/whole-track-trajectory-bank/publication/mh371_blind_wspr_trajectory_recovery_summary.md"], [117, "ef32018699ebf9da024763e55f82f326be6cf05158dcd82548a617ff81a745f9  ./outputs/whole-track-trajectory-bank/results.json", "a5c1fee3621d3b5a6d0eaa428cafbb982ecc22e8e26fa78e3ae5ff20eb636fd4  ./outputs/whole-track-trajectory-bank/results.json"], [118, "edacc6cb21a76bc81ab6323132a9d13ac6d46d6fcefd69468d99a6c2dbf624e5  ./outputs/whole-track-trajectory-bank/score_grid_summary.csv", "8fdb2dc02b370c200b3bb4d20fa3c9379f56291fc3066f8897b15af3de5f6210  ./outputs/whole-track-trajectory-bank/score_grid_summary.csv"]], "adds": ["ba92cc8a31285f8677b5adbe72372a334a78884b1c989682f33955bcd827d518  ./code/report_wspr_manuscript.py", "2a1bc8f4ee9a7e2537541ccef7cd8c27595dc61f4d461cf877543a7d00bac4e5  ./outputs/wspr-manuscript/manuscript.md", "a8355640b0577964e173ee1393cb276aafd6ae7418b1c7f79d4a3db29e5c8f0d  ./outputs/wspr-manuscript/manuscript.tex", "b5dd69c1a71ea1f985ad94d3ac76da0c6cbd2c7e82857b18beed8b5afbcbf24f  ./outputs/wspr-manuscript/truth_separation.png", "e4aa1084c9e48c502eece18f822960e8d77f28488d27c486a1d00d5c635715d2  ./outputs/wspr-manuscript/truth_separation.pdf", "f7cd5907d419b312c2acda1148e9f9a107792205c2c29e0022fa06a9e26bbb78  ./outputs/wspr-manuscript/manifest.json"], "last": "98e7853438cc3042fa3c6b33dc7af879d87d4ea4e07bd9f886cd3901b553328a  ./outputs/mh371-method-comparison/summary.md"}
+    ── Edited .sources/godfrey-wspr-passive-radar/SHA256SUMS +19 -13
+      @@ -1,3 +1,3 @@
+      -2ed985c3806d6c6e110467e589d79a0351d74bdd19d1db868aed6ee355ce6042  ./README.md
+      -be24599fcc593147114801116420627357f0182ecfa379c9a460cc9d60e1e6ff  ./citation-ledger.md
+      +e3b5cb4ffdf60ad3ad4978127e07deb88a44781f1b46a866c37de285daa69a74  ./README.md
+      +44a1a9937f2f8b6ce188880708fe1ff2a650e6df6aebcdad2809cb1f8d74e2b7  ./citation-ledger.md
+       a4b8ca7f80f84fe8c6278ef72637f79309399f9ba1792938829f348388b5bbbb  ./code/reproduce_author_roc.py
+      @@ -25,3 +25,3 @@
+       5233f4ad60719ac258febe4e97102944ab2bc6bb621b5b27dd1ceace9326ca8d  ./code/plot_post_restart_pharlap_residuals.py
+      -8b2bab8c9c1ea87275fb3cc1efae1a6af242d1bba61137b73d73e2b3f49b6fea  ./code/postprocess_trajectory_bank.py
+      +3d83c587cca70df2eabd6257f1bfcd98a07d4be9a83390a96c1a8920d4dd43eb  ./code/postprocess_trajectory_bank.py
+       5811a5342ef79e2a6db5b7af4a7d0a57fbd55529051bf0ad724f433c8dac897d  ./code/postprocess_whole_track_direct.py
+      @@ -105,16 +105,16 @@
+       24d0a53028d7e99128312bbc87dbcff734400e4ccde2995b612370e2a7658554  ./outputs/whole-track-pharlap/results.json
+      -0ed38581f47aa0c313f7217a10b3364183ff65495443c03e748c3551c2081b2e  ./outputs/whole-track-trajectory-bank/blind_score_manifest.json
+      -2343a351e169b6e0216cf6864f9b334cc134192e2d402968337743ac41dcf526  ./outputs/whole-track-trajectory-bank/conditional_score_tilts.csv
+      -45b91ebee1d099cbd484704693333c8b7aed0b30c3c0811da270e9fb275d5443  ./outputs/whole-track-trajectory-bank/feature_sigma_truth_diagnostics.csv
+      +106da54a17392d8707a6c45504e34ea12ca3c85bf51629aeb2220cd9c0deb0cc  ./outputs/whole-track-trajectory-bank/blind_score_manifest.json
+      +e04391c3659637a6d12ff100e0284eaeecdd55a3cc87dbaa9e3bd8cf1fc7c711  ./outputs/whole-track-trajectory-bank/conditional_score_tilts.csv
+      +f09c053677e52098acc6d7dbe0a55bbc7f6df7d68795dfbeaf7e4e36ca7f950e  ./outputs/whole-track-trajectory-bank/feature_sigma_truth_diagnostics.csv
+       f81c8ce560ccac9b174e0c61d92f992c0484b6302f01a0ee13da321fd038ef5d  ./outputs/whole-track-trajectory-bank/geometry_opportunity_summary.csv
+      -18dd93851a24ca420aed81dfa79f9e25982cf30a0f7b5f930e1897d51c1585fa  ./outputs/whole-track-trajectory-bank/manifest.json
+      -1c854bc1b74abb93aada93a9f72695d8e343f221e2d4a6446eb6e706531315ef  ./outputs/whole-track-trajectory-bank/publication/manifest.json
+      -48b3749383ed8b4bc38b50b716376154211ed448882763dc6f983ba148a1fbb7  ./outputs/whole-track-trajectory-bank/publication/mh371-blind-wspr-trajectory-recovery.pdf
+      -1155c86f51133a78155667fe32ef16870c5597881ddfc75018170b296e3b79e1  ./outputs/whole-track-trajectory-bank/publication/mh371-blind-wspr-trajectory-recovery.png
+      +a4236359c4924f783e18eef0f1014ed77c4b7b4a744265f9fb27d2ba73e8925e  ./outputs/whole-track-trajectory-bank/manifest.json
+      +3620a2ecda42a7c0f5d3ce432301b0cbdec77d7c38774d08a8e5d6b82f19e436  ./outputs/whole-track-trajectory-bank/publication/manifest.json
+      +b04d0cbadd0ce860105ed60d690de2d3b02d77b6e33af057f8ca035ceaf06f47  ./outputs/whole-track-trajectory-bank/publication/mh371-blind-wspr-trajectory-recovery.pdf
+      +376c5b78032b9904a098e0c0e9fc3ba28df1ecf68087f47dd97fa370354f7058  ./outputs/whole-track-trajectory-bank/publication/mh371-blind-wspr-trajectory-recovery.png
+       7041d40edf4ed9fd32f07308b6c399bbfa4002fbf521c6a8dd876c28dec8d99f  ./outputs/whole-track-trajectory-bank/publication/mh371_blind_wspr_trajectory_recovery_caption.md
+       940a585de2440f2aa469d2eef6c08270e9b405c46fb8520e361c083bdffd74bd  ./outputs/whole-track-trajectory-bank/publication/mh371_blind_wspr_trajectory_recovery_summary.csv
+      -3854cb88cc2e1b9b44268d2355cc3b7f7ccbc1ca8cb1f4933aafbf11e0b6e364  ./outputs/whole-track-trajectory-bank/publication/mh371_blind_wspr_trajectory_recovery_summary.md
+      +e4e48e59a66842efcc9237cef47729e3d317fbc4d384d00aed7a7855f68393f5  ./outputs/whole-track-trajectory-bank/publication/mh371_blind_wspr_trajectory_recovery_summary.md
+       b1b814b66fbb9ff28ec6ad3590a67218a3aed6cfc5620dab3abbcd4cec78a15e  ./outputs/whole-track-trajectory-bank/publication/mh371_wspr_score_error_bins.csv
+      -ef32018699ebf9da024763e55f82f326be6cf05158dcd82548a617ff81a745f9  ./outputs/whole-track-trajectory-bank/results.json
+      -edacc6cb21a76bc81ab6323132a9d13ac6d46d6fcefd69468d99a6c2dbf624e5  ./outputs/whole-track-trajectory-bank/score_grid_summary.csv
+      +a5c1fee3621d3b5a6d0eaa428cafbb982ecc22e8e26fa78e3ae5ff20eb636fd4  ./outputs/whole-track-trajectory-bank/results.json
+      +8fdb2dc02b370c200b3bb4d20fa3c9379f56291fc3066f8897b15af3de5f6210  ./outputs/whole-track-trajectory-bank/score_grid_summary.csv
+       806c14dabffb1462223f1bb5e275d27b2537bd50eda66956b5cedda50ea1a0eb  ./outputs/whole-track-trajectory-bank/trajectory_bank_manifest.json
+      @@ -401 +401,7 @@
+       98e7853438cc3042fa3c6b33dc7af879d87d4ea4e07bd9f886cd3901b553328a  ./outputs/mh371-method-comparison/summary.md
+      +ba92cc8a31285f8677b5adbe72372a334a78884b1c989682f33955bcd827d518  ./code/report_wspr_manuscript.py
+      +2a1bc8f4ee9a7e2537541ccef7cd8c27595dc61f4d461cf877543a7d00bac4e5  ./outputs/wspr-manuscript/manuscript.md
+      +a8355640b0577964e173ee1393cb276aafd6ae7418b1c7f79d4a3db29e5c8f0d  ./outputs/wspr-manuscript/manuscript.tex
+      +b5dd69c1a71ea1f985ad94d3ac76da0c6cbd2c7e82857b18beed8b5afbcbf24f  ./outputs/wspr-manuscript/truth_separation.png
+      +e4aa1084c9e48c502eece18f822960e8d77f28488d27c486a1d00d5c635715d2  ./outputs/wspr-manuscript/truth_separation.pdf
+      +f7cd5907d419b312c2acda1148e9f9a107792205c2c29e0022fa06a9e26bbb78  ./outputs/wspr-manuscript/manifest.json
+    ── Viewed image: /jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/outputs/whole-track-trajectory-bank/publication/mh371-blind-wspr-trajectory-recovery.png
+    ── Ran .venv/bin/python - <<'PY' from pathlib import Path import json,hashlib p=Path('.sources/godfrey-wspr-passive-radar/outputs/wspr-manuscript');m=json.loads((p/'manifest.json').read_text()) for n,h in m['files'].items():assert hashlib.sha256((p/n).read_bytes()).hexdigest()==h assert hashlib.sha256(Path(m['evaluation_path']).read_bytes()).hexdigest()==m['evaluation_sha256'] assert len((p/'manuscript.md').read_text().split())<500 print('Manuscript files, evaluation identity and under-500 count verified.') PY
+      $ .venv/bin/python - <<'PY'
+    from pathlib import Path
+    import json,hashlib
+    p=Path('.sources/godfrey-wspr-passive-radar/outputs/wspr-manuscript');m=json.loads((p/'manifest.json').read_text())
+    for n,h in m['files'].items():assert hashlib.sha256((p/n).read_bytes()).hexdigest()==h
+    assert hashlib.sha256(Path(m['evaluation_path']).read_bytes()).hexdigest()==m['evaluation_sha256']
+    assert len((p/'manuscript.md').read_text().split())<500
+    print('Manuscript files, evaluation identity and under-500 count verified.')
+    PY
+      Manuscript files, evaluation identity and under-500 count verified.
+
+── Assistant ───────────────────────────────────────────────
+The fresh **truth-separated localization rerun is complete**: it did not recover MH371. Scoring excluded the recorded track until evaluation. However, because we have previously studied this flight, it cannot honestly be called a *newly blinded experiment*.
+
+### Proposed paper text — under 500 words
+
+WSPR (Weak Signal Propagation Reporter) records amateur-radio reception reports, including signal-to-noise ratio and frequency. Aircraft might perturb these signals, but ionospheric variability and transmitter/receiver behavior also do so. Consequently, intersecting radio-link great circles do not themselves establish aircraft detection.
+
+We tested whether anomalies preferentially occur near known flights, then whether they select accurate MH371 trajectories. Three methods were compared: the published 0.75-standard-deviation anomaly flag, frequency residuals corrected for shared station effects, and a background-calibrated combined signal/frequency score. The latter uses same-link medians and median absolute deviations—robust measures of typical level and spread—excluding the tested slot, adjusts for reported transmitter power, and estimates shared transmitter/receiver effects from other stations. Anomaly magnitude is calibrated against reports outside evaluation windows, producing centered evidence \(E_i\), not an aircraft probability.
+
+For candidate trajectory \(x\), packet-averaged exposure is
+
+\[
+q_i(x)=\sum_k w_k
+\exp\!\left[-\frac{d_{ik}(x)^2}{2\sigma^2}\right]
+\mathbf{1}\!\left[d_{ik}(x)\leq3\sigma\right],
+\]
+
+where \(d_{ik}\) is distance to the link’s great circle, five sampling weights sum to one, and \(\sigma=25\) km. With station-balancing weights \(a_i\), anomaly contrast is
+
+\[
+C(x)=
+\frac{\sum_i a_iq_iE_i}{\sum_i a_iq_i}
+-
+\frac{\sum_i a_i(1-q_i)E_i}{\sum_i a_i(1-q_i)}.
+\]
+
+Positive contrast means stronger anomalies near the candidate than elsewhere.
+
+For MH371, the combined score ranked 19/21 against time-shifted tracks and 38/49 against spatially displaced tracks, where rank 1 is strongest. Neither alternative produced positive near-track excess. Separately, 24,000 paths constrained by satellite timing/frequency measurements and flight dynamics were scored before revealing the recorded track. Truth reached only the 43.6th score percentile, weighted by baseline model probabilities. Selecting the highest-scoring 10% of baseline probability mass increased the weighted mean of whole-path root-mean-square errors from **150.8 to 291.2 km**. Allowing every candidate the same 44-choice feature/scale search left truth at the 50.2nd percentile.
+
+Assumptions include successfully decoded reports only, station-locator cell centres, interpolated aircraft motion, and permissive full-great-circle propagation. These localization runs exclude ionospheric ray tracing, verified antenna patterns, realized propagation modes, scattering amplitudes, and waveform phase/delay. Separate PHaRLAP screening retained too few effective exposures for strong inference. Dependent candidates and controls do not supply calibrated significance probabilities. This is a rerun of previously studied data, not newly blinded or WSPR-only global localization. Missing historical environmental-grid versions also limit complete bank regeneration.
+
+We found no demonstrated localization benefit under these models—not proof that HF aircraft sensing is impossible. Synthetic recovery does not establish real detection. Further work requires synchronized raw HF recordings, documented receiver behavior, independent aircraft truth, and genuinely held-out flights and receivers.
+
+### Recommended figures
+
+**Main results:** truth receives an ordinary score; favoring high-scoring paths worsens accuracy. Shading in panel B shows within-bin 10th–90th error percentiles, not confidence intervals.
+
+![MH371 localization results](/jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/outputs/whole-track-trajectory-bank/publication/mh371-blind-wspr-trajectory-recovery.png)
+
+**Method diagram:** shows the boundary between scoring and truth evaluation.
+
+![Truth-separated workflow](/jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/outputs/wspr-manuscript/truth_separation.png)
+
+[Three-method control chart](/jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/outputs/mh371-method-comparison/mh371_method_comparison.png) · [Manuscript Markdown](/jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/outputs/wspr-manuscript/manuscript.md) · [LaTeX fragment](/jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/outputs/wspr-manuscript/manuscript.tex)

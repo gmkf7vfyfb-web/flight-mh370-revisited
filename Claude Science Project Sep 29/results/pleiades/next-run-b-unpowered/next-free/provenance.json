@@ -1,0 +1,23 @@
+{
+ "impacts_root": "/Users/pete/Downloads/mh370-exchange/end-of-flight/next-run/next-free",
+ "options": [
+  "none+unpowered",
+  "r600-bto+unpowered",
+  "r600/no-offset+unpowered"
+ ],
+ "seeds": [
+  "seed-1",
+  "seed-2",
+  "seed-3",
+  "seed-4"
+ ],
+ "labels": "core (b): request-17 sampler fix IN, split-half NOT converged; two-tank bookkeeping only; internal-v1 fuel (one-engine flow 2x its tables); Inmarsat ephemeris; descent idle floor ON; EoF sweep run by an architecture stand-in; existence constraint variant (b) 'unpowered' (sensitivity); PROVISIONAL-OVERNIGHT; stratum next-free",
+ "variants": {
+  "base": "Phase 2 + Bluefin-21",
+  "oi2018-2025": "+ OI 2018 + OI 2025-26 SE band"
+ },
+ "models": [
+  "glorys12v1+era5-wind10",
+  "globcurrent-my-p1d+era5-wind10"
+ ]
+}

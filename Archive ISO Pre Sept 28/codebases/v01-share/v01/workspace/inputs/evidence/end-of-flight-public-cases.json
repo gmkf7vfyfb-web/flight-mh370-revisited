@@ -1,0 +1,256 @@
+{
+  "status": "REPRODUCED CASE CLASSIFICATION; DERIVED DISTANCE TO LAST RECORD, NOT IMPACT OR ARC DISTANCE",
+  "archive_sha256": "e400ac73478dff8698cd344a69d7969804f6adb0eb2121d5cacd3b58d63111db",
+  "conventions": {
+    "descent_positive": true,
+    "distance_unit": "nautical mile",
+    "altitude_unit": "foot",
+    "acceleration_reference_ft_s2": 32.174,
+    "differentiation": "two-second centred vertical rate; two-second and eight-second centred acceleration sensitivity"
+  },
+  "reported_comparator": {
+    "high_rate_cases": [
+      "03",
+      "04",
+      "05",
+      "06",
+      "10"
+    ],
+    "distance_interval_nm": [
+      4.7,
+      7.9
+    ]
+  },
+  "derived": {
+    "high_rate_cases_1s_acceleration": [
+      "03",
+      "04",
+      "05",
+      "06",
+      "10"
+    ],
+    "high_rate_cases_8s_acceleration": [
+      "03",
+      "04",
+      "05",
+      "06",
+      "10"
+    ],
+    "distance_from_first_15000_fpm_to_last_record_nm": [
+      4.707313059550038,
+      7.973923352518741
+    ],
+    "last_record_altitude_high_rate_cases_ft": [
+      484,
+      1131
+    ]
+  },
+  "limitations": [
+    "The files do not include latitude/longitude or seventh-arc geometry.",
+    "The files do not identify each case's 00:19 alignment time or configuration metadata.",
+    "The final records are 473–1,131 ft above the altitude datum in the high-rate cases, so they are not water-contact samples.",
+    "The ten engineered cases have no sampling distribution or probability weights."
+  ],
+  "cases": [
+    {
+      "case": "01",
+      "input_sha256": "794f4e89ba4b6d7c08add6409d87fabc3eb408451df5860b26e53a7dc1b97e7a",
+      "sample_count": 2504,
+      "last_record": {
+        "time_s": 2503,
+        "x_nm": 26.358450181509944,
+        "y_nm": -99.44000244140625,
+        "altitude_ft": 535
+      },
+      "peak_descent_fpm": 4740,
+      "peak_downward_acceleration_1s_g": 0.2952694722446696,
+      "peak_downward_acceleration_8s_g": 0.22145210418350222,
+      "exceeds_15000_fpm": false,
+      "exceeds_067g_1s": false,
+      "exceeds_067g_8s": false,
+      "first_15000_fpm": null
+    },
+    {
+      "case": "02",
+      "input_sha256": "57372f0893b72116cefc5b16fbcc578318dccaaba26f368ecfa09d9ca72073a2",
+      "sample_count": 2462,
+      "last_record": {
+        "time_s": 2461,
+        "x_nm": 30.35866179905625,
+        "y_nm": -98.80851745605469,
+        "altitude_ft": 517
+      },
+      "peak_descent_fpm": 6300,
+      "peak_downward_acceleration_1s_g": 0.2952694722446696,
+      "peak_downward_acceleration_8s_g": 0.22339466650090134,
+      "exceeds_15000_fpm": false,
+      "exceeds_067g_1s": false,
+      "exceeds_067g_8s": false,
+      "first_15000_fpm": null
+    },
+    {
+      "case": "03",
+      "input_sha256": "39c47bfe3e0c7ded8d1d1ad45cc913cfab479710314060364d38f0303b26074d",
+      "sample_count": 578,
+      "last_record": {
+        "time_s": 577,
+        "x_nm": 12.207236583291449,
+        "y_nm": -34.10316467285156,
+        "altitude_ft": 653
+      },
+      "peak_descent_fpm": 53040,
+      "peak_downward_acceleration_1s_g": 1.2276993845962578,
+      "peak_downward_acceleration_8s_g": 1.2121588860570647,
+      "exceeds_15000_fpm": true,
+      "exceeds_067g_1s": true,
+      "exceeds_067g_8s": true,
+      "first_15000_fpm": {
+        "time_s": 448,
+        "descent_fpm": 16380,
+        "distance_to_last_record_nm": 4.707313059550038
+      }
+    },
+    {
+      "case": "04",
+      "input_sha256": "5bed89c470358ca4be2ac732acb5cc644f66d3d5d8b56ef1075f7d54edcb49f2",
+      "sample_count": 454,
+      "last_record": {
+        "time_s": 453,
+        "x_nm": -9.907716187033003,
+        "y_nm": -20.051422119140625,
+        "altitude_ft": 484
+      },
+      "peak_descent_fpm": 33510,
+      "peak_downward_acceleration_1s_g": 0.8624976689252192,
+      "peak_downward_acceleration_8s_g": 0.833359234164232,
+      "exceeds_15000_fpm": true,
+      "exceeds_067g_1s": true,
+      "exceeds_067g_8s": true,
+      "first_15000_fpm": {
+        "time_s": 309,
+        "descent_fpm": 15090,
+        "distance_to_last_record_nm": 6.765621512071136
+      }
+    },
+    {
+      "case": "05",
+      "input_sha256": "4220717be3f73554e360552b087dbbd8f4a0ca901d894f53d230293f8ce23b7a",
+      "sample_count": 1892,
+      "last_record": {
+        "time_s": 1891,
+        "x_nm": 17.316938567375036,
+        "y_nm": -106.37214660644531,
+        "altitude_ft": 658
+      },
+      "peak_descent_fpm": 24150,
+      "peak_downward_acceleration_1s_g": 0.8547274196556226,
+      "peak_downward_acceleration_8s_g": 0.7673121153726612,
+      "exceeds_15000_fpm": true,
+      "exceeds_067g_1s": true,
+      "exceeds_067g_8s": true,
+      "first_15000_fpm": {
+        "time_s": 1810,
+        "descent_fpm": 15390,
+        "distance_to_last_record_nm": 5.105701730782424
+      }
+    },
+    {
+      "case": "06",
+      "input_sha256": "48fcf2c009a80f4a29d8878df1babfa9ceea6c48af1ad5da9087d7d5bbb5c976",
+      "sample_count": 385,
+      "last_record": {
+        "time_s": 384,
+        "x_nm": 8.982815262909517,
+        "y_nm": -26.085433959960938,
+        "altitude_ft": 742
+      },
+      "peak_descent_fpm": 43320,
+      "peak_downward_acceleration_1s_g": 1.1810778889786784,
+      "peak_downward_acceleration_8s_g": 1.148054329582893,
+      "exceeds_15000_fpm": true,
+      "exceeds_067g_1s": true,
+      "exceeds_067g_8s": true,
+      "first_15000_fpm": {
+        "time_s": 295,
+        "descent_fpm": 15000,
+        "distance_to_last_record_nm": 7.973923352518741
+      }
+    },
+    {
+      "case": "07",
+      "input_sha256": "35002bb04f753fa612d0c5406ae2594141a0cb29f81cc3d3320d7a24567d7c4b",
+      "sample_count": 2435,
+      "last_record": {
+        "time_s": 2434,
+        "x_nm": 16.146068937720752,
+        "y_nm": -103.31954956054688,
+        "altitude_ft": 496
+      },
+      "peak_descent_fpm": 4860,
+      "peak_downward_acceleration_1s_g": 0.2952694722446696,
+      "peak_downward_acceleration_8s_g": 0.2156244172313048,
+      "exceeds_15000_fpm": false,
+      "exceeds_067g_1s": false,
+      "exceeds_067g_8s": false,
+      "first_15000_fpm": null
+    },
+    {
+      "case": "08",
+      "input_sha256": "40043027ddba50ce0d56b33d790490a1769a2abed4708d6f637de3d3e8d2f2bf",
+      "sample_count": 2235,
+      "last_record": {
+        "time_s": 2234,
+        "x_nm": 16.7673510430462,
+        "y_nm": -71.80686950683594,
+        "altitude_ft": 480
+      },
+      "peak_descent_fpm": 7140,
+      "peak_downward_acceleration_1s_g": 0.3263504693230559,
+      "peak_downward_acceleration_8s_g": 0.2350500404052962,
+      "exceeds_15000_fpm": false,
+      "exceeds_067g_1s": false,
+      "exceeds_067g_8s": false,
+      "first_15000_fpm": null
+    },
+    {
+      "case": "09",
+      "input_sha256": "692a34fd1b4ce021e0fcaa5e2e82d7fb587e5c9a3d7450b072217f5298f53532",
+      "sample_count": 2250,
+      "last_record": {
+        "time_s": 2249,
+        "x_nm": 36.88744060025954,
+        "y_nm": -77.09747314453125,
+        "altitude_ft": 473
+      },
+      "peak_descent_fpm": 6900,
+      "peak_downward_acceleration_1s_g": 0.2952694722446696,
+      "peak_downward_acceleration_8s_g": 0.21368185491390565,
+      "exceeds_15000_fpm": false,
+      "exceeds_067g_1s": false,
+      "exceeds_067g_8s": false,
+      "first_15000_fpm": null
+    },
+    {
+      "case": "10",
+      "input_sha256": "3257ebbccdc37fa9a98e1e721dbd510c6d4036bb6cb09ecfacd2fcf5b96f3ba6",
+      "sample_count": 474,
+      "last_record": {
+        "time_s": 473,
+        "x_nm": -7.7116239446527555,
+        "y_nm": -22.954559326171875,
+        "altitude_ft": 1131
+      },
+      "peak_descent_fpm": 57990,
+      "peak_downward_acceleration_1s_g": 1.2898613787530304,
+      "peak_downward_acceleration_8s_g": 1.270435755579039,
+      "exceeds_15000_fpm": true,
+      "exceeds_067g_1s": true,
+      "exceeds_067g_8s": true,
+      "first_15000_fpm": {
+        "time_s": 315,
+        "descent_fpm": 15030,
+        "distance_to_last_record_nm": 7.3128221088109475
+      }
+    }
+  ]
+}

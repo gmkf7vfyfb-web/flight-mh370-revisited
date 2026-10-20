@@ -1,0 +1,7 @@
+# Core request 20 Phase 1 smoke: repro-radar size per seed (run I), one seed per invocation (the job appends
+# a seeds file), the m0011 hand-off only, no trace.
+particles_per_mode = [500_000, 250_000, 1_250_000, 250_000, 1_250_000]
+[output]
+handoff_epochs = ["m0011"]
+handoff_floor = 200
+route_samples = 2000

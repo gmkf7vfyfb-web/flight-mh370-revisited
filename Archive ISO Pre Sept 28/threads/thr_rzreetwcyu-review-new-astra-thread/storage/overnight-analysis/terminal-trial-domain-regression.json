@@ -1,0 +1,857 @@
+{
+  "source_witness": 118,
+  "source_case": 240,
+  "refinements": [
+    {
+      "step_s": 1.0,
+      "status": "terminal_integration_trial_unresolved",
+      "case": {
+        "error": "trial integration state lies outside the point-mass turn-coordinate domain (flight-path angle 90.00222664037142 degrees); refinement or a different coordinate model is required",
+        "status": "terminal_integration_trial_unresolved"
+      }
+    },
+    {
+      "step_s": 0.5,
+      "status": "explicit_source_state_conditional_example; not a posterior draw",
+      "case": {
+        "acoustic_arrival_predictions": [],
+        "aerodynamic_evidence_status": "conditional_attached_flow_proxy_not_b777_terminal_calibration",
+        "aerodynamic_family": "openap_published2020_attached_flow",
+        "aerodynamics": {
+          "induced_drag_factor": 0.051,
+          "maximum_bank_angle": 60.0,
+          "maximum_lift_coefficient": 1.5,
+          "maximum_true_airspeed": 700.0,
+          "minimum_lift_coefficient": -1.5,
+          "minimum_true_airspeed": 50.0,
+          "reference_area": 427.8,
+          "zero_lift_drag_coefficient": 0.034
+        },
+        "attempt": {
+          "checkpoint_status": {
+            "unreached": {
+              "next_requested_elapsed": 162.86365684404518,
+              "termination": {
+                "declared_envelope_exit": "near_vertical_flight_path"
+              }
+            }
+          },
+          "checkpoints": [],
+          "control_transition": {
+            "reached": {
+              "event": {
+                "elapsed": 0.0,
+                "from": "controlled",
+                "post_trigger_command": {
+                  "bank_angle": 1.4439306780695915,
+                  "lift_coefficient": 1.0209584532305598,
+                  "mode": "uncontrolled"
+                },
+                "pre_trigger_command": {
+                  "bank_angle": 0.0,
+                  "lift_load_factor": 1.0,
+                  "mode": "controlled"
+                },
+                "state": {
+                  "apu": {
+                    "elapsed_in_mode": 0.0,
+                    "fuel_flow": 0.0,
+                    "generator_online": false,
+                    "mode": "off"
+                  },
+                  "electrical": {
+                    "dual_engine_generator_loss_elapsed": 0.0,
+                    "satcom_powered": false,
+                    "source": "unpowered"
+                  },
+                  "engines": {
+                    "left": {
+                      "fuel_flow": 0.0,
+                      "generator_online": false,
+                      "mode": "windmilling",
+                      "thrust": 0.0
+                    },
+                    "right": {
+                      "fuel_flow": 0.0,
+                      "generator_online": false,
+                      "mode": "windmilling",
+                      "thrust": 0.0
+                    }
+                  },
+                  "fuel": {
+                    "apu_feed": 15.0,
+                    "left_engine_feed": 0.0,
+                    "right_engine_feed": 0.0,
+                    "unusable": 0.0
+                  },
+                  "kinematics": {
+                    "ground_speed": 241.43486305527975,
+                    "ground_track_true": 129.85328876539498,
+                    "point_mass": {
+                      "altitude": 20982.896810857186,
+                      "flight_path_angle": -0.02300289999740102,
+                      "heading_true": 132.4679461349168,
+                      "position": {
+                        "latitude": -30.503214330284997,
+                        "longitude": 97.72849847780532
+                      },
+                      "time": 22497.552343155956,
+                      "true_airspeed": 233.1249585804102
+                    },
+                    "vertical_speed": -0.09359415319308334
+                  },
+                  "mass": 174384.0,
+                  "ocxo": {
+                    "power": "unpowered",
+                    "restart_count": 0,
+                    "unpowered_duration": 0.0
+                  }
+                },
+                "time": 22497.552343155956,
+                "to": "uncontrolled",
+                "trigger": "dual_engine_flameout"
+              }
+            }
+          },
+          "transition": {
+            "events": [
+              {
+                "kind": {
+                  "engine": "left",
+                  "event": "engine_flameout"
+                },
+                "time": 22497.552343155956
+              },
+              {
+                "kind": {
+                  "engine": "right",
+                  "event": "engine_flameout"
+                },
+                "time": 22497.552343155956
+              },
+              {
+                "kind": {
+                  "event": "dual_engine_generator_loss"
+                },
+                "time": 22497.552343155956
+              },
+              {
+                "kind": {
+                  "event": "satcom_power_lost"
+                },
+                "time": 22497.552343155956
+              },
+              {
+                "kind": {
+                  "event": "apu_start"
+                },
+                "time": 22498.552343155956
+              }
+            ],
+            "family": {
+              "control": "controlled",
+              "restart_transient": "common_ocxo_warmup"
+            },
+            "impact": null,
+            "model_weight": 1.0,
+            "terminal": {
+              "apu": {
+                "elapsed_in_mode": 18.5,
+                "fuel_flow": 0.0,
+                "generator_online": false,
+                "mode": "starting"
+              },
+              "electrical": {
+                "dual_engine_generator_loss_elapsed": 19.5,
+                "satcom_powered": false,
+                "source": "unpowered"
+              },
+              "engines": {
+                "left": {
+                  "fuel_flow": 0.0,
+                  "generator_online": false,
+                  "mode": "windmilling",
+                  "thrust": 0.0
+                },
+                "right": {
+                  "fuel_flow": 0.0,
+                  "generator_online": false,
+                  "mode": "windmilling",
+                  "thrust": 0.0
+                }
+              },
+              "fuel": {
+                "apu_feed": 14.5,
+                "left_engine_feed": 0.0,
+                "right_engine_feed": 0.0,
+                "unusable": 0.0
+              },
+              "kinematics": {
+                "ground_speed": 23.66007976025186,
+                "ground_track_true": 85.50481806764314,
+                "point_mass": {
+                  "altitude": 27480.842375675675,
+                  "flight_path_angle": 90.00786851185393,
+                  "heading_true": 144.2530663639601,
+                  "position": {
+                    "latitude": -30.51454011151206,
+                    "longitude": 97.74615965235716
+                  },
+                  "time": 22517.052343155956,
+                  "true_airspeed": 59.17188155082338
+                },
+                "vertical_speed": 59.17188099283478
+              },
+              "mass": 174383.5,
+              "ocxo": {
+                "power": "unpowered",
+                "restart_count": 0,
+                "unpowered_duration": 19.5
+              }
+            },
+            "termination": {
+              "declared_envelope_exit": "near_vertical_flight_path"
+            }
+          }
+        },
+        "attitude_status": "point-mass flight-path angle and commanded bank; body pitch, water entry and breakup are not resolved",
+        "boundary": {
+          "apu_accessible_reserved_fuel": 15.0,
+          "convention": "pre_discrete_event",
+          "inaccessible_reserved_fuel": 0.0,
+          "initial": {
+            "apu": {
+              "elapsed_in_mode": 0.0,
+              "fuel_flow": 0.0,
+              "generator_online": false,
+              "mode": "off"
+            },
+            "electrical": {
+              "dual_engine_generator_loss_elapsed": null,
+              "satcom_powered": true,
+              "source": "engine_generators"
+            },
+            "engines": {
+              "left": {
+                "fuel_flow": 0.0,
+                "generator_online": true,
+                "mode": "running",
+                "thrust": 0.0
+              },
+              "right": {
+                "fuel_flow": 0.0,
+                "generator_online": true,
+                "mode": "running",
+                "thrust": 0.0
+              }
+            },
+            "flight": {
+              "altitude": 20982.896810857186,
+              "flight_path_angle": -0.02300289999740102,
+              "heading_true": 132.4679461349168,
+              "position": {
+                "latitude": -30.503214330284997,
+                "longitude": 97.72849847780532
+              },
+              "time": 22497.552343155956,
+              "true_airspeed": 233.1249585804102
+            },
+            "fuel": {
+              "apu_feed": 15.0,
+              "left_engine_feed": 0.0,
+              "right_engine_feed": 0.0,
+              "unusable": 0.0
+            },
+            "mass": {
+              "non_fuel_mass": 174369.0
+            },
+            "ocxo": {
+              "power": "powered",
+              "restart_count": 0,
+              "unpowered_duration": 0.0
+            }
+          }
+        },
+        "final_contact_bto": [
+          {
+            "contact_time_utc_unix_s": 1394237969.416,
+            "status": "checkpoint_unresolved; not an exclusion",
+            "termination": {
+              "declared_envelope_exit": "near_vertical_flight_path"
+            }
+          }
+        ],
+        "final_contact_condition": "BTO geometry conditional on an airborne transmitter; power/restart predictions are reported separately, not used as a calibrated timing likelihood; no final BFO or posterior weights",
+        "r600_likelihood_applied": false,
+        "status": "explicit_source_state_conditional_example; not a posterior draw",
+        "weather_sampling_counts": [
+          159,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "step_s": 0.25,
+      "status": "explicit_source_state_conditional_example; not a posterior draw",
+      "case": {
+        "acoustic_arrival_predictions": [],
+        "aerodynamic_evidence_status": "conditional_attached_flow_proxy_not_b777_terminal_calibration",
+        "aerodynamic_family": "openap_published2020_attached_flow",
+        "aerodynamics": {
+          "induced_drag_factor": 0.051,
+          "maximum_bank_angle": 60.0,
+          "maximum_lift_coefficient": 1.5,
+          "maximum_true_airspeed": 700.0,
+          "minimum_lift_coefficient": -1.5,
+          "minimum_true_airspeed": 50.0,
+          "reference_area": 427.8,
+          "zero_lift_drag_coefficient": 0.034
+        },
+        "attempt": {
+          "checkpoint_status": {
+            "unreached": {
+              "next_requested_elapsed": 162.86365684404518,
+              "termination": {
+                "declared_envelope_exit": "near_vertical_flight_path"
+              }
+            }
+          },
+          "checkpoints": [],
+          "control_transition": {
+            "reached": {
+              "event": {
+                "elapsed": 0.0,
+                "from": "controlled",
+                "post_trigger_command": {
+                  "bank_angle": 1.4439306780695915,
+                  "lift_coefficient": 1.0209584532305598,
+                  "mode": "uncontrolled"
+                },
+                "pre_trigger_command": {
+                  "bank_angle": 0.0,
+                  "lift_load_factor": 1.0,
+                  "mode": "controlled"
+                },
+                "state": {
+                  "apu": {
+                    "elapsed_in_mode": 0.0,
+                    "fuel_flow": 0.0,
+                    "generator_online": false,
+                    "mode": "off"
+                  },
+                  "electrical": {
+                    "dual_engine_generator_loss_elapsed": 0.0,
+                    "satcom_powered": false,
+                    "source": "unpowered"
+                  },
+                  "engines": {
+                    "left": {
+                      "fuel_flow": 0.0,
+                      "generator_online": false,
+                      "mode": "windmilling",
+                      "thrust": 0.0
+                    },
+                    "right": {
+                      "fuel_flow": 0.0,
+                      "generator_online": false,
+                      "mode": "windmilling",
+                      "thrust": 0.0
+                    }
+                  },
+                  "fuel": {
+                    "apu_feed": 15.0,
+                    "left_engine_feed": 0.0,
+                    "right_engine_feed": 0.0,
+                    "unusable": 0.0
+                  },
+                  "kinematics": {
+                    "ground_speed": 241.43486305527975,
+                    "ground_track_true": 129.85328876539498,
+                    "point_mass": {
+                      "altitude": 20982.896810857186,
+                      "flight_path_angle": -0.02300289999740102,
+                      "heading_true": 132.4679461349168,
+                      "position": {
+                        "latitude": -30.503214330284997,
+                        "longitude": 97.72849847780532
+                      },
+                      "time": 22497.552343155956,
+                      "true_airspeed": 233.1249585804102
+                    },
+                    "vertical_speed": -0.09359415319308334
+                  },
+                  "mass": 174384.0,
+                  "ocxo": {
+                    "power": "unpowered",
+                    "restart_count": 0,
+                    "unpowered_duration": 0.0
+                  }
+                },
+                "time": 22497.552343155956,
+                "to": "uncontrolled",
+                "trigger": "dual_engine_flameout"
+              }
+            }
+          },
+          "transition": {
+            "events": [
+              {
+                "kind": {
+                  "engine": "left",
+                  "event": "engine_flameout"
+                },
+                "time": 22497.552343155956
+              },
+              {
+                "kind": {
+                  "engine": "right",
+                  "event": "engine_flameout"
+                },
+                "time": 22497.552343155956
+              },
+              {
+                "kind": {
+                  "event": "dual_engine_generator_loss"
+                },
+                "time": 22497.552343155956
+              },
+              {
+                "kind": {
+                  "event": "satcom_power_lost"
+                },
+                "time": 22497.552343155956
+              },
+              {
+                "kind": {
+                  "event": "apu_start"
+                },
+                "time": 22498.552343155956
+              }
+            ],
+            "family": {
+              "control": "controlled",
+              "restart_transient": "common_ocxo_warmup"
+            },
+            "impact": null,
+            "model_weight": 1.0,
+            "terminal": {
+              "apu": {
+                "elapsed_in_mode": 18.5,
+                "fuel_flow": 0.0,
+                "generator_online": false,
+                "mode": "starting"
+              },
+              "electrical": {
+                "dual_engine_generator_loss_elapsed": 19.5,
+                "satcom_powered": false,
+                "source": "unpowered"
+              },
+              "engines": {
+                "left": {
+                  "fuel_flow": 0.0,
+                  "generator_online": false,
+                  "mode": "windmilling",
+                  "thrust": 0.0
+                },
+                "right": {
+                  "fuel_flow": 0.0,
+                  "generator_online": false,
+                  "mode": "windmilling",
+                  "thrust": 0.0
+                }
+              },
+              "fuel": {
+                "apu_feed": 14.5,
+                "left_engine_feed": 0.0,
+                "right_engine_feed": 0.0,
+                "unusable": 0.0
+              },
+              "kinematics": {
+                "ground_speed": 23.654048880329754,
+                "ground_track_true": 85.49064828072736,
+                "point_mass": {
+                  "altitude": 27479.399213554927,
+                  "flight_path_angle": 90.01427454982208,
+                  "heading_true": 145.38963201064232,
+                  "position": {
+                    "latitude": -30.51454303262676,
+                    "longitude": 97.74616267504598
+                  },
+                  "time": 22517.052343155956,
+                  "true_airspeed": 59.20155481449633
+                },
+                "vertical_speed": 59.20155297718526
+              },
+              "mass": 174383.5,
+              "ocxo": {
+                "power": "unpowered",
+                "restart_count": 0,
+                "unpowered_duration": 19.5
+              }
+            },
+            "termination": {
+              "declared_envelope_exit": "near_vertical_flight_path"
+            }
+          }
+        },
+        "attitude_status": "point-mass flight-path angle and commanded bank; body pitch, water entry and breakup are not resolved",
+        "boundary": {
+          "apu_accessible_reserved_fuel": 15.0,
+          "convention": "pre_discrete_event",
+          "inaccessible_reserved_fuel": 0.0,
+          "initial": {
+            "apu": {
+              "elapsed_in_mode": 0.0,
+              "fuel_flow": 0.0,
+              "generator_online": false,
+              "mode": "off"
+            },
+            "electrical": {
+              "dual_engine_generator_loss_elapsed": null,
+              "satcom_powered": true,
+              "source": "engine_generators"
+            },
+            "engines": {
+              "left": {
+                "fuel_flow": 0.0,
+                "generator_online": true,
+                "mode": "running",
+                "thrust": 0.0
+              },
+              "right": {
+                "fuel_flow": 0.0,
+                "generator_online": true,
+                "mode": "running",
+                "thrust": 0.0
+              }
+            },
+            "flight": {
+              "altitude": 20982.896810857186,
+              "flight_path_angle": -0.02300289999740102,
+              "heading_true": 132.4679461349168,
+              "position": {
+                "latitude": -30.503214330284997,
+                "longitude": 97.72849847780532
+              },
+              "time": 22497.552343155956,
+              "true_airspeed": 233.1249585804102
+            },
+            "fuel": {
+              "apu_feed": 15.0,
+              "left_engine_feed": 0.0,
+              "right_engine_feed": 0.0,
+              "unusable": 0.0
+            },
+            "mass": {
+              "non_fuel_mass": 174369.0
+            },
+            "ocxo": {
+              "power": "powered",
+              "restart_count": 0,
+              "unpowered_duration": 0.0
+            }
+          }
+        },
+        "final_contact_bto": [
+          {
+            "contact_time_utc_unix_s": 1394237969.416,
+            "status": "checkpoint_unresolved; not an exclusion",
+            "termination": {
+              "declared_envelope_exit": "near_vertical_flight_path"
+            }
+          }
+        ],
+        "final_contact_condition": "BTO geometry conditional on an airborne transmitter; power/restart predictions are reported separately, not used as a calibrated timing likelihood; no final BFO or posterior weights",
+        "r600_likelihood_applied": false,
+        "status": "explicit_source_state_conditional_example; not a posterior draw",
+        "weather_sampling_counts": [
+          315,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "step_s": 0.125,
+      "status": "explicit_source_state_conditional_example; not a posterior draw",
+      "case": {
+        "acoustic_arrival_predictions": [],
+        "aerodynamic_evidence_status": "conditional_attached_flow_proxy_not_b777_terminal_calibration",
+        "aerodynamic_family": "openap_published2020_attached_flow",
+        "aerodynamics": {
+          "induced_drag_factor": 0.051,
+          "maximum_bank_angle": 60.0,
+          "maximum_lift_coefficient": 1.5,
+          "maximum_true_airspeed": 700.0,
+          "minimum_lift_coefficient": -1.5,
+          "minimum_true_airspeed": 50.0,
+          "reference_area": 427.8,
+          "zero_lift_drag_coefficient": 0.034
+        },
+        "attempt": {
+          "checkpoint_status": {
+            "unreached": {
+              "next_requested_elapsed": 162.86365684404518,
+              "termination": {
+                "declared_envelope_exit": "near_vertical_flight_path"
+              }
+            }
+          },
+          "checkpoints": [],
+          "control_transition": {
+            "reached": {
+              "event": {
+                "elapsed": 0.0,
+                "from": "controlled",
+                "post_trigger_command": {
+                  "bank_angle": 1.4439306780695915,
+                  "lift_coefficient": 1.0209584532305598,
+                  "mode": "uncontrolled"
+                },
+                "pre_trigger_command": {
+                  "bank_angle": 0.0,
+                  "lift_load_factor": 1.0,
+                  "mode": "controlled"
+                },
+                "state": {
+                  "apu": {
+                    "elapsed_in_mode": 0.0,
+                    "fuel_flow": 0.0,
+                    "generator_online": false,
+                    "mode": "off"
+                  },
+                  "electrical": {
+                    "dual_engine_generator_loss_elapsed": 0.0,
+                    "satcom_powered": false,
+                    "source": "unpowered"
+                  },
+                  "engines": {
+                    "left": {
+                      "fuel_flow": 0.0,
+                      "generator_online": false,
+                      "mode": "windmilling",
+                      "thrust": 0.0
+                    },
+                    "right": {
+                      "fuel_flow": 0.0,
+                      "generator_online": false,
+                      "mode": "windmilling",
+                      "thrust": 0.0
+                    }
+                  },
+                  "fuel": {
+                    "apu_feed": 15.0,
+                    "left_engine_feed": 0.0,
+                    "right_engine_feed": 0.0,
+                    "unusable": 0.0
+                  },
+                  "kinematics": {
+                    "ground_speed": 241.43486305527975,
+                    "ground_track_true": 129.85328876539498,
+                    "point_mass": {
+                      "altitude": 20982.896810857186,
+                      "flight_path_angle": -0.02300289999740102,
+                      "heading_true": 132.4679461349168,
+                      "position": {
+                        "latitude": -30.503214330284997,
+                        "longitude": 97.72849847780532
+                      },
+                      "time": 22497.552343155956,
+                      "true_airspeed": 233.1249585804102
+                    },
+                    "vertical_speed": -0.09359415319308334
+                  },
+                  "mass": 174384.0,
+                  "ocxo": {
+                    "power": "unpowered",
+                    "restart_count": 0,
+                    "unpowered_duration": 0.0
+                  }
+                },
+                "time": 22497.552343155956,
+                "to": "uncontrolled",
+                "trigger": "dual_engine_flameout"
+              }
+            }
+          },
+          "transition": {
+            "events": [
+              {
+                "kind": {
+                  "engine": "left",
+                  "event": "engine_flameout"
+                },
+                "time": 22497.552343155956
+              },
+              {
+                "kind": {
+                  "engine": "right",
+                  "event": "engine_flameout"
+                },
+                "time": 22497.552343155956
+              },
+              {
+                "kind": {
+                  "event": "dual_engine_generator_loss"
+                },
+                "time": 22497.552343155956
+              },
+              {
+                "kind": {
+                  "event": "satcom_power_lost"
+                },
+                "time": 22497.552343155956
+              },
+              {
+                "kind": {
+                  "event": "apu_start"
+                },
+                "time": 22498.552343155956
+              }
+            ],
+            "family": {
+              "control": "controlled",
+              "restart_transient": "common_ocxo_warmup"
+            },
+            "impact": null,
+            "model_weight": 1.0,
+            "terminal": {
+              "apu": {
+                "elapsed_in_mode": 18.5,
+                "fuel_flow": 0.0,
+                "generator_online": false,
+                "mode": "starting"
+              },
+              "electrical": {
+                "dual_engine_generator_loss_elapsed": 19.5,
+                "satcom_powered": false,
+                "source": "unpowered"
+              },
+              "engines": {
+                "left": {
+                  "fuel_flow": 0.0,
+                  "generator_online": false,
+                  "mode": "windmilling",
+                  "thrust": 0.0
+                },
+                "right": {
+                  "fuel_flow": 0.0,
+                  "generator_online": false,
+                  "mode": "windmilling",
+                  "thrust": 0.0
+                }
+              },
+              "fuel": {
+                "apu_feed": 14.5,
+                "left_engine_feed": 0.0,
+                "right_engine_feed": 0.0,
+                "unusable": 0.0
+              },
+              "kinematics": {
+                "ground_speed": 23.6526525111498,
+                "ground_track_true": 85.48592432536994,
+                "point_mass": {
+                  "altitude": 27479.03997568581,
+                  "flight_path_angle": 90.01623516461471,
+                  "heading_true": 146.68119774861424,
+                  "position": {
+                    "latitude": -30.5145437482445,
+                    "longitude": 97.74616340773287
+                  },
+                  "time": 22517.052343155956,
+                  "true_airspeed": 59.20887795718455
+                },
+                "vertical_speed": 59.20887558020765
+              },
+              "mass": 174383.5,
+              "ocxo": {
+                "power": "unpowered",
+                "restart_count": 0,
+                "unpowered_duration": 19.5
+              }
+            },
+            "termination": {
+              "declared_envelope_exit": "near_vertical_flight_path"
+            }
+          }
+        },
+        "attitude_status": "point-mass flight-path angle and commanded bank; body pitch, water entry and breakup are not resolved",
+        "boundary": {
+          "apu_accessible_reserved_fuel": 15.0,
+          "convention": "pre_discrete_event",
+          "inaccessible_reserved_fuel": 0.0,
+          "initial": {
+            "apu": {
+              "elapsed_in_mode": 0.0,
+              "fuel_flow": 0.0,
+              "generator_online": false,
+              "mode": "off"
+            },
+            "electrical": {
+              "dual_engine_generator_loss_elapsed": null,
+              "satcom_powered": true,
+              "source": "engine_generators"
+            },
+            "engines": {
+              "left": {
+                "fuel_flow": 0.0,
+                "generator_online": true,
+                "mode": "running",
+                "thrust": 0.0
+              },
+              "right": {
+                "fuel_flow": 0.0,
+                "generator_online": true,
+                "mode": "running",
+                "thrust": 0.0
+              }
+            },
+            "flight": {
+              "altitude": 20982.896810857186,
+              "flight_path_angle": -0.02300289999740102,
+              "heading_true": 132.4679461349168,
+              "position": {
+                "latitude": -30.503214330284997,
+                "longitude": 97.72849847780532
+              },
+              "time": 22497.552343155956,
+              "true_airspeed": 233.1249585804102
+            },
+            "fuel": {
+              "apu_feed": 15.0,
+              "left_engine_feed": 0.0,
+              "right_engine_feed": 0.0,
+              "unusable": 0.0
+            },
+            "mass": {
+              "non_fuel_mass": 174369.0
+            },
+            "ocxo": {
+              "power": "powered",
+              "restart_count": 0,
+              "unpowered_duration": 0.0
+            }
+          }
+        },
+        "final_contact_bto": [
+          {
+            "contact_time_utc_unix_s": 1394237969.416,
+            "status": "checkpoint_unresolved; not an exclusion",
+            "termination": {
+              "declared_envelope_exit": "near_vertical_flight_path"
+            }
+          }
+        ],
+        "final_contact_condition": "BTO geometry conditional on an airborne transmitter; power/restart predictions are reported separately, not used as a calibrated timing likelihood; no final BFO or posterior weights",
+        "r600_likelihood_applied": false,
+        "status": "explicit_source_state_conditional_example; not a posterior draw",
+        "weather_sampling_counts": [
+          627,
+          0,
+          0
+        ]
+      }
+    }
+  ]
+}

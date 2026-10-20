@@ -1,0 +1,166 @@
+{
+  "schema_version": "mh371-era5-grid-manifest-v1",
+  "status": "extracted_from_arco_era5",
+  "source": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3",
+  "source_access_revision": "google-research/arco-era5@8fb5e9b982f489ba91af3ced9ce0b0a8ade8dd7d",
+  "source_attributes": {
+    "valid_time_start": "1940-01-01",
+    "valid_time_stop": "2026-04-30",
+    "last_updated": "2026-09-05 03:15:26.016363+00:00"
+  },
+  "times_utc": [
+    "2014-03-07T01:00:00",
+    "2014-03-07T02:00:00",
+    "2014-03-07T03:00:00",
+    "2014-03-07T04:00:00",
+    "2014-03-07T05:00:00",
+    "2014-03-07T06:00:00",
+    "2014-03-07T07:00:00",
+    "2014-03-07T08:00:00"
+  ],
+  "source_pressure_levels_hpa": [
+    150,
+    175,
+    200,
+    225,
+    250,
+    300,
+    350,
+    400,
+    450,
+    500,
+    550,
+    600,
+    650,
+    700
+  ],
+  "flight_levels_ft": [
+    10000,
+    15000,
+    20000,
+    25000,
+    30000,
+    35000,
+    40000,
+    43000
+  ],
+  "flight_level_pressure_interpolation": [
+    {
+      "target_pressure_hpa": 696.8164162360137,
+      "lower_source_hpa": 650.0,
+      "upper_source_hpa": 700.0,
+      "log_pressure_weight_to_upper": 0.9384904189926336
+    },
+    {
+      "target_pressure_hpa": 571.8194184101366,
+      "lower_source_hpa": 550.0,
+      "upper_source_hpa": 600.0,
+      "log_pressure_weight_to_upper": 0.44712499186566496
+    },
+    {
+      "target_pressure_hpa": 465.6323923628082,
+      "lower_source_hpa": 450.0,
+      "upper_source_hpa": 500.0,
+      "log_pressure_weight_to_upper": 0.32411461016158516
+    },
+    {
+      "target_pressure_hpa": 376.0089029857536,
+      "lower_source_hpa": 350.0,
+      "upper_source_hpa": 400.0,
+      "log_pressure_weight_to_upper": 0.5368001139722183
+    },
+    {
+      "target_pressure_hpa": 300.8956253743883,
+      "lower_source_hpa": 300.0,
+      "upper_source_hpa": 350.0,
+      "log_pressure_weight_to_upper": 0.019338029566215165
+    },
+    {
+      "target_pressure_hpa": 238.4227292089148,
+      "lower_source_hpa": 225.0,
+      "upper_source_hpa": 250.0,
+      "log_pressure_weight_to_upper": 0.5499675919558962
+    },
+    {
+      "target_pressure_hpa": 187.5390288603344,
+      "lower_source_hpa": 175.0,
+      "upper_source_hpa": 200.0,
+      "log_pressure_weight_to_upper": 0.5182377146496167
+    },
+    {
+      "target_pressure_hpa": 162.35683386635253,
+      "lower_source_hpa": 150.0,
+      "upper_source_hpa": 175.0,
+      "log_pressure_weight_to_upper": 0.5135319355907861
+    }
+  ],
+  "latitude_bounds_deg": [
+    -30.0,
+    90.0
+  ],
+  "longitude_bounds_deg": [
+    -180.0,
+    180.0
+  ],
+  "domain_coverage_contract": {
+    "purpose": "broad repeated-manoeuvre MH371 control",
+    "longitude": "complete WGS-84 [-180, 180) query support at 0.5 degree spacing; the +180 axis endpoint is an exact duplicate of the -180 physical meridian for non-periodic runtime interpolation",
+    "latitude": "-30 to 90 degrees; conservatively contains the five-hour powered-flight reach from the exposed source state under the configured Mach and altitude limits",
+    "boundary_semantics": "a particle outside this domain is a data-coverage failure, not evidence against its control history",
+    "deterministic_reach_bound": {
+      "source_mean_latitude_deg": 39.911433333333335,
+      "duration_s": 18033.90700021293,
+      "mach_cap": 0.89,
+      "mach_cap_note": "deliberately exceeds the release control's configured 0.87 MMO",
+      "maximum_grid_temperature_k": 291.294921875,
+      "maximum_grid_wind_m_s": 96.68896738346655,
+      "maximum_true_airspeed_m_s": 304.50990795403413,
+      "maximum_ground_speed_m_s": 401.1988753375007,
+      "maximum_reach_nm": 3906.6863965585894,
+      "southern_boundary_distance_lower_bound_nm": 4174.08537391091,
+      "southern_margin_nm": 267.39897735232034,
+      "proof": "ground speed is bounded by Mach times the maximum grid speed of sound plus the maximum grid wind magnitude; reaching the southern latitude requires at least delta-latitude times the minimum WGS-84 meridional radius",
+      "residual_caveat": "the source-position Gaussian has mathematically unbounded tails, so no finite environmental grid can cover its literal support; the quoted deterministic bound starts at the exposed source mean"
+    }
+  },
+  "grid_step_deg": 0.5,
+  "variables_in_binary_order": [
+    "temperature_k",
+    "wind_east_m_s",
+    "wind_north_m_s"
+  ],
+  "binary_format": {
+    "magic": "MHERA5V1",
+    "byte_order": "little_endian",
+    "axis_order": [
+      "time",
+      "flight_level",
+      "latitude",
+      "longitude"
+    ],
+    "axis_direction": [
+      "ascending",
+      "ascending",
+      "descending",
+      "ascending"
+    ],
+    "axis_types": [
+      "int64_unix_seconds",
+      "float32",
+      "float32",
+      "float32"
+    ],
+    "field_type": "float32",
+    "longitude_seam": "+180 degree column exactly duplicates -180 degrees"
+  },
+  "array_shape_time_flight_level_lat_lon": [
+    8,
+    8,
+    241,
+    721
+  ],
+  "output_path": "mh371/2014-03-07/mh371-era5-grid.bin",
+  "output_sha256": "44a65c9b043be2a71754722275877d9bff66df1342eb616d883159c65d3f63aa",
+  "output_bytes": 133452416,
+  "elapsed_seconds": 34.627947637000005
+}

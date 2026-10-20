@@ -1,0 +1,1275 @@
+{
+  "conditional_source_branches": [
+    {
+      "aerodynamic_family": "openap_v2_6_0_attached_flow",
+      "attitude": "unresolved_null",
+      "contact_duration": "unresolved_null",
+      "effective_sample_size": 1901.9245354391278,
+      "environment_diagnostics_by_seed": {
+        "370023": {
+          "above_maximum_pressure_altitude_clamp_count": 12716,
+          "below_minimum_pressure_altitude_clamp_count": 25838,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 1605912
+        },
+        "370024": {
+          "above_maximum_pressure_altitude_clamp_count": 12516,
+          "below_minimum_pressure_altitude_clamp_count": 25902,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 1600816
+        },
+        "370025": {
+          "above_maximum_pressure_altitude_clamp_count": 11436,
+          "below_minimum_pressure_altitude_clamp_count": 25874,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 1596840
+        },
+        "370026": {
+          "above_maximum_pressure_altitude_clamp_count": 13588,
+          "below_minimum_pressure_altitude_clamp_count": 25834,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 1601784
+        },
+        "370027": {
+          "above_maximum_pressure_altitude_clamp_count": 12896,
+          "below_minimum_pressure_altitude_clamp_count": 25840,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 1607384
+        }
+      },
+      "fuel_anchor_kg": 33524.10488196,
+      "fuel_at_0011_kg": 44.72809508096543,
+      "fuel_projection_elapsed_s": 20573.099999904633,
+      "hpd_area_km2": {
+        "0.5": 3050.3177994008583,
+        "0.9": 10182.1080871181,
+        "0.95": 13762.092278365904,
+        "0.99": 22675.713792891216
+      },
+      "id": "gain-conditioned-0011-primary-eof",
+      "kong_minus_martin_arc1_fraction": -0.00349430206695633,
+      "left_feed_endurance_s": 19.976621588723773,
+      "metrics": {
+        "displacement_nm": {
+          "central_90": [
+            90.81476329324003,
+            115.75942085520737
+          ],
+          "mean": 105.16265164768222,
+          "median": 106.60113629059131
+        },
+        "dual_flameout_elapsed_s": {
+          "central_90": [
+            19.97662158872481,
+            19.97662158872481
+          ],
+          "mean": 19.976621588724814,
+          "median": 19.97662158872481
+        },
+        "horizontal_speed_m_s": {
+          "central_90": [
+            88.20521832308178,
+            88.80605069226054
+          ],
+          "mean": 88.45552897557806,
+          "median": 88.42668225129356
+        },
+        "impact_angle_deg": {
+          "central_90": [
+            4.290763449000207,
+            4.32125652610625
+          ],
+          "mean": 4.308004444119067,
+          "median": 4.309273201888852
+        },
+        "impact_utc_unix_s": {
+          "central_90": [
+            1394238904.5368493,
+            1394239151.535976
+          ],
+          "mean": 1394239049.4802017,
+          "median": 1394239066.091211
+        },
+        "total_energy_j": {
+          "central_90": [
+            682182680.1602733,
+            691455191.5867628
+          ],
+          "mean": 686039117.8168854,
+          "median": 685592819.68828
+        },
+        "vertical_speed_m_s": {
+          "central_90": [
+            -6.665744934899141,
+            -6.661263410804651
+          ],
+          "mean": -6.663398488417808,
+          "median": -6.663419508350673
+        }
+      },
+      "outcome_mass_by_seed": {
+        "370023": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ],
+        "370024": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ],
+        "370025": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ],
+        "370026": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ],
+        "370027": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ]
+      },
+      "particles": 2560,
+      "r600_log_evidence_increment_by_seed": {
+        "370023": -5.979600689983991,
+        "370024": -6.018946112122581,
+        "370025": -5.9971413467406505,
+        "370026": -5.972100792337525,
+        "370027": -5.950768633514484
+      },
+      "r600_log_evidence_increment_mean": -5.983711514939846,
+      "r600_status_counts": {
+        "reached": 2560
+      },
+      "right_feed_endurance_s": 19.976621588723777,
+      "role": "conditional-gain source-posterior sensitivity",
+      "source_seed_combination": "equal_numerical_replicates",
+      "source_seeds": [
+        370023,
+        370024,
+        370025,
+        370026,
+        370027
+      ],
+      "title": "Conditional antenna-gain 00:11 source \u00b7 primary EOF family",
+      "weighted_mean_ground_heading_deg": 184.94704406855143,
+      "weighted_mean_position": {
+        "latitude_deg": -38.154862815531935,
+        "longitude_deg": 89.40675189675815
+      }
+    }
+  ],
+  "families": [
+    {
+      "aerodynamic_family": "openap_v2_6_0_attached_flow",
+      "attitude": "unresolved_null",
+      "contact_duration": "unresolved_null",
+      "effective_sample_size": 1930.340481006153,
+      "environment_diagnostics_by_seed": {
+        "370023": {
+          "above_maximum_pressure_altitude_clamp_count": 11752,
+          "below_minimum_pressure_altitude_clamp_count": 25850,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 1599260
+        },
+        "370024": {
+          "above_maximum_pressure_altitude_clamp_count": 12948,
+          "below_minimum_pressure_altitude_clamp_count": 25842,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 1603640
+        },
+        "370025": {
+          "above_maximum_pressure_altitude_clamp_count": 13552,
+          "below_minimum_pressure_altitude_clamp_count": 25810,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 1609596
+        },
+        "370026": {
+          "above_maximum_pressure_altitude_clamp_count": 13302,
+          "below_minimum_pressure_altitude_clamp_count": 25898,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 1609056
+        },
+        "370027": {
+          "above_maximum_pressure_altitude_clamp_count": 13820,
+          "below_minimum_pressure_altitude_clamp_count": 25868,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 1609744
+        }
+      },
+      "fuel_anchor_kg": 33524.10488196,
+      "fuel_at_0011_kg": 44.72809508096543,
+      "fuel_projection_elapsed_s": 20573.099999904633,
+      "hpd_area_km2": {
+        "0.5": 2956.108493015713,
+        "0.9": 9591.644267919244,
+        "0.95": 12762.372612878175,
+        "0.99": 20497.088270450367
+      },
+      "id": "arc1-current-polar-best-glide-equal-feed",
+      "kong_minus_martin_arc1_fraction": -0.00349430206695633,
+      "left_feed_endurance_s": 19.976621588723773,
+      "metrics": {
+        "displacement_nm": {
+          "central_90": [
+            91.71912731940354,
+            115.84605834370845
+          ],
+          "mean": 105.44695709635377,
+          "median": 106.90701845112511
+        },
+        "dual_flameout_elapsed_s": {
+          "central_90": [
+            19.97662158872481,
+            19.97662158872481
+          ],
+          "mean": 19.97662158872481,
+          "median": 19.97662158872481
+        },
+        "horizontal_speed_m_s": {
+          "central_90": [
+            88.20676485199505,
+            88.79298958305796
+          ],
+          "mean": 88.46009002447283,
+          "median": 88.43610397431357
+        },
+        "impact_angle_deg": {
+          "central_90": [
+            4.291245886541338,
+            4.321237385725516
+          ],
+          "mean": 4.307806129734982,
+          "median": 4.308793594891732
+        },
+        "impact_utc_unix_s": {
+          "central_90": [
+            1394238913.5944164,
+            1394239152.2809753
+          ],
+          "mean": 1394239052.4800193,
+          "median": 1394239069.5630667
+        },
+        "total_energy_j": {
+          "central_90": [
+            682206466.7463936,
+            691249415.9449413
+          ],
+          "mean": 686109414.0327466,
+          "median": 685736181.0351624
+        },
+        "vertical_speed_m_s": {
+          "central_90": [
+            -6.66566455367073,
+            -6.661403936080367
+          ],
+          "mean": -6.663435145458575,
+          "median": -6.663426977497288
+        }
+      },
+      "outcome_mass_by_seed": {
+        "370023": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ],
+        "370024": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ],
+        "370025": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ],
+        "370026": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ],
+        "370027": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ]
+      },
+      "particles": 2560,
+      "r600_log_evidence_increment_by_seed": {
+        "370023": -5.953186016516315,
+        "370024": -5.947202672337786,
+        "370025": -5.948588767523847,
+        "370026": -5.970570795181781,
+        "370027": -5.960787608150372
+      },
+      "r600_log_evidence_increment_mean": -5.956067171942021,
+      "r600_status_counts": {
+        "reached": 2560
+      },
+      "right_feed_endurance_s": 19.976621588723777,
+      "role": "primary conditional release proxy",
+      "source_seed_combination": "equal_numerical_replicates",
+      "source_seeds": [
+        370023,
+        370024,
+        370025,
+        370026,
+        370027
+      ],
+      "title": "Arc-1 fuel \u00b7 current OpenAP polar \u00b7 best glide \u00b7 equal feed",
+      "weighted_mean_ground_heading_deg": 184.93684673957017,
+      "weighted_mean_position": {
+        "latitude_deg": -38.159566569743056,
+        "longitude_deg": 89.40882087055583
+      }
+    },
+    {
+      "aerodynamic_family": "openap_v2_6_0_attached_flow",
+      "attitude": "unresolved_null",
+      "contact_duration": "unresolved_null",
+      "effective_sample_size": 1218.4476047908754,
+      "environment_diagnostics_by_seed": {
+        "370023": {
+          "above_maximum_pressure_altitude_clamp_count": 5974,
+          "below_minimum_pressure_altitude_clamp_count": 12958,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 1180192
+        },
+        "370024": {
+          "above_maximum_pressure_altitude_clamp_count": 6900,
+          "below_minimum_pressure_altitude_clamp_count": 12954,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 1189852
+        },
+        "370025": {
+          "above_maximum_pressure_altitude_clamp_count": 6372,
+          "below_minimum_pressure_altitude_clamp_count": 12996,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 1186572
+        },
+        "370026": {
+          "above_maximum_pressure_altitude_clamp_count": 7184,
+          "below_minimum_pressure_altitude_clamp_count": 12928,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 1190044
+        },
+        "370027": {
+          "above_maximum_pressure_altitude_clamp_count": 7812,
+          "below_minimum_pressure_altitude_clamp_count": 12958,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 1192472
+        }
+      },
+      "fuel_anchor_kg": 43800.0,
+      "fuel_at_0011_kg": 1190.654890185775,
+      "fuel_projection_elapsed_s": 25456.0,
+      "hpd_area_km2": {
+        "0.5": 5851.749974827018,
+        "0.9": 20518.800364148512,
+        "0.95": 26218.27086520274,
+        "0.99": 37430.632799659405
+      },
+      "id": "final-acars-current-polar-best-glide-equal-feed",
+      "kong_minus_martin_arc1_fraction": -0.00349430206695633,
+      "left_feed_endurance_s": 784.8367557005906,
+      "metrics": {
+        "displacement_nm": {
+          "central_90": [
+            152.5184795527053,
+            213.2238813754849
+          ],
+          "mean": 190.99687301636894,
+          "median": 193.7795791519932
+        },
+        "dual_flameout_elapsed_s": {
+          "central_90": [
+            784.8367557005913,
+            784.8367557005913
+          ],
+          "mean": 784.8367557005914,
+          "median": 784.8367557005913
+        },
+        "horizontal_speed_m_s": {
+          "central_90": [
+            87.30389217877348,
+            87.86677678124381
+          ],
+          "mean": 87.54877854269589,
+          "median": 87.54467401700884
+        },
+        "impact_angle_deg": {
+          "central_90": [
+            4.333031027171226,
+            4.355578027206192
+          ],
+          "mean": 4.346059351951433,
+          "median": 4.34615139164474
+        },
+        "impact_utc_unix_s": {
+          "central_90": [
+            1394239461.191836,
+            1394239920.608665
+          ],
+          "mean": 1394239762.792622,
+          "median": 1394239784.8009934
+        },
+        "total_energy_j": {
+          "central_90": [
+            668376027.0611582,
+            676979541.5224339
+          ],
+          "mean": 672113204.1009395,
+          "median": 672048490.5049106
+        },
+        "vertical_speed_m_s": {
+          "central_90": [
+            -6.65898409364921,
+            -6.648133771935787
+          ],
+          "mean": -6.653586100038181,
+          "median": -6.653664530981589
+        }
+      },
+      "outcome_mass_by_seed": {
+        "370023": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ],
+        "370024": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ],
+        "370025": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ],
+        "370026": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ],
+        "370027": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ]
+      },
+      "particles": 1280,
+      "r600_log_evidence_increment_by_seed": {
+        "370023": -5.248206510098588,
+        "370024": -5.253595238182724,
+        "370025": -5.287879660074349,
+        "370026": -5.276111041129922,
+        "370027": -5.263343760873441
+      },
+      "r600_log_evidence_increment_mean": -5.265827242071805,
+      "r600_status_counts": {
+        "reached": 1280
+      },
+      "right_feed_endurance_s": 784.8367557005906,
+      "role": "fuel-history sensitivity",
+      "source_seed_combination": "equal_numerical_replicates",
+      "source_seeds": [
+        370023,
+        370024,
+        370025,
+        370026,
+        370027
+      ],
+      "title": "Final ACARS fuel \u00b7 current OpenAP polar \u00b7 best glide \u00b7 equal feed",
+      "weighted_mean_ground_heading_deg": 183.8739292476632,
+      "weighted_mean_position": {
+        "latitude_deg": -39.57957081830061,
+        "longitude_deg": 89.21904368574255
+      }
+    },
+    {
+      "aerodynamic_family": "openap_published2020_attached_flow",
+      "attitude": "unresolved_null",
+      "contact_duration": "unresolved_null",
+      "effective_sample_size": 840.2833484910527,
+      "environment_diagnostics_by_seed": {
+        "370023": {
+          "above_maximum_pressure_altitude_clamp_count": 6032,
+          "below_minimum_pressure_altitude_clamp_count": 11284,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 682644
+        },
+        "370024": {
+          "above_maximum_pressure_altitude_clamp_count": 7102,
+          "below_minimum_pressure_altitude_clamp_count": 11320,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 689800
+        },
+        "370025": {
+          "above_maximum_pressure_altitude_clamp_count": 6638,
+          "below_minimum_pressure_altitude_clamp_count": 11336,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 687340
+        },
+        "370026": {
+          "above_maximum_pressure_altitude_clamp_count": 6986,
+          "below_minimum_pressure_altitude_clamp_count": 11318,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 689988
+        },
+        "370027": {
+          "above_maximum_pressure_altitude_clamp_count": 7682,
+          "below_minimum_pressure_altitude_clamp_count": 11286,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 691496
+        }
+      },
+      "fuel_anchor_kg": 33524.10488196,
+      "fuel_at_0011_kg": 44.72809508096543,
+      "fuel_projection_elapsed_s": 20573.099999904633,
+      "hpd_area_km2": {
+        "0.5": 2731.149756966125,
+        "0.9": 8980.000208085272,
+        "0.95": 12287.044147057268,
+        "0.99": 19230.144279521915
+      },
+      "id": "arc1-published-polar-best-glide-equal-feed",
+      "kong_minus_martin_arc1_fraction": -0.00349430206695633,
+      "left_feed_endurance_s": 19.976621588723773,
+      "metrics": {
+        "displacement_nm": {
+          "central_90": [
+            72.16410365689646,
+            92.80390331939167
+          ],
+          "mean": 84.43758001910223,
+          "median": 86.01664218860948
+        },
+        "dual_flameout_elapsed_s": {
+          "central_90": [
+            19.97662158872481,
+            19.97662158872481
+          ],
+          "mean": 19.976621588724814,
+          "median": 19.97662158872481
+        },
+        "horizontal_speed_m_s": {
+          "central_90": [
+            81.974163786561,
+            82.5846186216563
+          ],
+          "mean": 82.2140361465128,
+          "median": 82.15265671138046
+        },
+        "impact_angle_deg": {
+          "central_90": [
+            5.31440804797111,
+            5.355885219270118
+          ],
+          "mean": 5.339213017623466,
+          "median": 5.342911949220599
+        },
+        "impact_utc_unix_s": {
+          "central_90": [
+            1394238694.7504208,
+            1394238912.0431976
+          ],
+          "mean": 1394238826.213584,
+          "median": 1394238845.3201566
+        },
+        "total_energy_j": {
+          "central_90": [
+            591011354.5655168,
+            599764992.6219958
+          ],
+          "mean": 594443550.1066576,
+          "median": 593562616.3828285
+        },
+        "vertical_speed_m_s": {
+          "central_90": [
+            -7.686608691240803,
+            -7.680493393846739
+          ],
+          "mean": -7.683471128839275,
+          "median": -7.683498572298088
+        }
+      },
+      "outcome_mass_by_seed": {
+        "370023": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ],
+        "370024": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ],
+        "370025": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ],
+        "370026": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ],
+        "370027": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ]
+      },
+      "particles": 1280,
+      "r600_log_evidence_increment_by_seed": {
+        "370023": -6.469379881847166,
+        "370024": -6.393514823459027,
+        "370025": -6.367721448888943,
+        "370026": -6.339880417055575,
+        "370027": -6.40469274520471
+      },
+      "r600_log_evidence_increment_mean": -6.395037863291084,
+      "r600_status_counts": {
+        "reached": 1280
+      },
+      "right_feed_endurance_s": 19.976621588723777,
+      "role": "attached-flow aerodynamic sensitivity",
+      "source_seed_combination": "equal_numerical_replicates",
+      "source_seeds": [
+        370023,
+        370024,
+        370025,
+        370026,
+        370027
+      ],
+      "title": "Arc-1 fuel \u00b7 published 2020 polar \u00b7 best glide \u00b7 equal feed",
+      "weighted_mean_ground_heading_deg": 185.01936946140322,
+      "weighted_mean_position": {
+        "latitude_deg": -37.81376001562238,
+        "longitude_deg": 89.45277317066751
+      }
+    },
+    {
+      "aerodynamic_family": "openap_v2_6_0_attached_flow",
+      "attitude": "unresolved_null",
+      "contact_duration": "unresolved_null",
+      "effective_sample_size": 1250.2955316670511,
+      "environment_diagnostics_by_seed": {
+        "370023": {
+          "above_maximum_pressure_altitude_clamp_count": 0,
+          "below_minimum_pressure_altitude_clamp_count": 6984,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 377756
+        },
+        "370024": {
+          "above_maximum_pressure_altitude_clamp_count": 0,
+          "below_minimum_pressure_altitude_clamp_count": 6964,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 381556
+        },
+        "370025": {
+          "above_maximum_pressure_altitude_clamp_count": 0,
+          "below_minimum_pressure_altitude_clamp_count": 6916,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 380212
+        },
+        "370026": {
+          "above_maximum_pressure_altitude_clamp_count": 0,
+          "below_minimum_pressure_altitude_clamp_count": 6940,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 381652
+        },
+        "370027": {
+          "above_maximum_pressure_altitude_clamp_count": 0,
+          "below_minimum_pressure_altitude_clamp_count": 6962,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 382472
+        }
+      },
+      "fuel_anchor_kg": 33524.10488196,
+      "fuel_at_0011_kg": 44.72809508096543,
+      "fuel_projection_elapsed_s": 20573.099999904633,
+      "hpd_area_km2": {
+        "0.5": 2645.2709107967366,
+        "0.9": 9135.576816578767,
+        "0.95": 11820.772082390158,
+        "0.99": 17203.129868048432
+      },
+      "id": "arc1-current-polar-low-lift-equal-feed",
+      "kong_minus_martin_arc1_fraction": -0.00349430206695633,
+      "left_feed_endurance_s": 19.976621588723773,
+      "metrics": {
+        "displacement_nm": {
+          "central_90": [
+            59.49044189784784,
+            81.81847389044823
+          ],
+          "mean": 73.9192889966899,
+          "median": 75.04763909906741
+        },
+        "dual_flameout_elapsed_s": {
+          "central_90": [
+            19.97662158872481,
+            19.97662158872481
+          ],
+          "mean": 19.97662158872481,
+          "median": 19.97662158872481
+        },
+        "horizontal_speed_m_s": {
+          "central_90": [
+            139.02032222008785,
+            139.66965456176035
+          ],
+          "mean": 139.31885674472215,
+          "median": 139.31883528994277
+        },
+        "impact_angle_deg": {
+          "central_90": [
+            5.254588580014122,
+            5.492605772080671
+          ],
+          "mean": 5.382998855066378,
+          "median": 5.386599728646775
+        },
+        "impact_utc_unix_s": {
+          "central_90": [
+            1394238085.68535,
+            1394238253.8795059
+          ],
+          "mean": 1394238196.0772064,
+          "median": 1394238205.818945
+        },
+        "total_energy_j": {
+          "central_90": [
+            1700070915.2965572,
+            1715890958.8913448
+          ],
+          "mean": 1707285391.1001372,
+          "median": 1707213787.0965729
+        },
+        "vertical_speed_m_s": {
+          "central_90": [
+            -13.384825493794086,
+            -12.814808817522923
+          ],
+          "mean": -13.12777884368371,
+          "median": -13.138798485702385
+        }
+      },
+      "outcome_mass_by_seed": {
+        "370023": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ],
+        "370024": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ],
+        "370025": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ],
+        "370026": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ],
+        "370027": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ]
+      },
+      "particles": 1280,
+      "r600_log_evidence_increment_by_seed": {
+        "370023": -5.185314020693529,
+        "370024": -5.173164579969433,
+        "370025": -5.211642399829076,
+        "370026": -5.186313261651366,
+        "370027": -5.188035381473385
+      },
+      "r600_log_evidence_increment_mean": -5.188893928723358,
+      "r600_status_counts": {
+        "reached": 1280
+      },
+      "right_feed_endurance_s": 19.976621588723777,
+      "role": "uncontrolled-lift sensitivity",
+      "source_seed_combination": "equal_numerical_replicates",
+      "source_seeds": [
+        370023,
+        370024,
+        370025,
+        370026,
+        370027
+      ],
+      "title": "Arc-1 fuel \u00b7 current OpenAP polar \u00b7 CL 0.30 \u00b7 equal feed",
+      "weighted_mean_ground_heading_deg": 187.47943572580942,
+      "weighted_mean_position": {
+        "latitude_deg": -37.629077089458214,
+        "longitude_deg": 89.32252788310043
+      }
+    },
+    {
+      "aerodynamic_family": "openap_v2_6_0_attached_flow",
+      "attitude": "unresolved_null",
+      "contact_duration": "unresolved_null",
+      "effective_sample_size": 962.4438995510961,
+      "environment_diagnostics_by_seed": {
+        "370023": {
+          "above_maximum_pressure_altitude_clamp_count": 4592,
+          "below_minimum_pressure_altitude_clamp_count": 12940,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 796664
+        },
+        "370024": {
+          "above_maximum_pressure_altitude_clamp_count": 5370,
+          "below_minimum_pressure_altitude_clamp_count": 12940,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 804884
+        },
+        "370025": {
+          "above_maximum_pressure_altitude_clamp_count": 4856,
+          "below_minimum_pressure_altitude_clamp_count": 12962,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 802048
+        },
+        "370026": {
+          "above_maximum_pressure_altitude_clamp_count": 5596,
+          "below_minimum_pressure_altitude_clamp_count": 12896,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 805080
+        },
+        "370027": {
+          "above_maximum_pressure_altitude_clamp_count": 6082,
+          "below_minimum_pressure_altitude_clamp_count": 12894,
+          "density_rule": "ISA pressure at pressure altitude divided by dry-air gas constant and interpolated ERA5 temperature",
+          "family_id": "era5_pressure_altitude_4d",
+          "limitations": [
+            "ERA5 provides horizontal wind and temperature only; vertical wind is zero in the point-mass equations.",
+            "Below 500 ft, only pressure altitude is clamped to 500 ft; UTC and WGS84 position remain dynamic and unclamped.",
+            "Above 43,000 ft, only pressure altitude is clamped to 43,000 ft; this affects proxy trajectories that briefly leave the extraction envelope.",
+            "Pressure altitude is used as geometric height in point-mass position/impact integration."
+          ],
+          "sample_count": 806836
+        }
+      },
+      "fuel_anchor_kg": 33524.10488196,
+      "fuel_at_0011_kg": 44.72809508096543,
+      "fuel_projection_elapsed_s": 20573.099999904633,
+      "hpd_area_km2": {
+        "0.5": 3212.242168878198,
+        "0.9": 10520.848513832694,
+        "0.95": 14526.125182091302,
+        "0.99": 22639.01749121053
+      },
+      "id": "arc1-current-polar-best-glide-left-first-10s",
+      "kong_minus_martin_arc1_fraction": -0.00349430206695633,
+      "left_feed_endurance_s": 14.976621588723772,
+      "metrics": {
+        "displacement_nm": {
+          "central_90": [
+            90.2508977718259,
+            115.73046725193828
+          ],
+          "mean": 105.26054990522492,
+          "median": 107.13306319445256
+        },
+        "dual_flameout_elapsed_s": {
+          "central_90": [
+            24.97662158872481,
+            24.97662158872481
+          ],
+          "mean": 24.97662158872481,
+          "median": 24.97662158872481
+        },
+        "horizontal_speed_m_s": {
+          "central_90": [
+            88.19545875238437,
+            88.80887865192275
+          ],
+          "mean": 88.45507091150321,
+          "median": 88.41924697032286
+        },
+        "impact_angle_deg": {
+          "central_90": [
+            4.290511092049707,
+            4.321695018704987
+          ],
+          "mean": 4.308090944961711,
+          "median": 4.3095522314984
+        },
+        "impact_utc_unix_s": {
+          "central_90": [
+            1394238896.8928192,
+            1394239149.9974353
+          ],
+          "mean": 1394239048.3497992,
+          "median": 1394239069.9571354
+        },
+        "total_energy_j": {
+          "central_90": [
+            682033780.0245234,
+            691498166.0740727
+          ],
+          "mean": 686032375.1416662,
+          "median": 685476952.8851545
+        },
+        "vertical_speed_m_s": {
+          "central_90": [
+            -6.665794266688806,
+            -6.661478585065282
+          ],
+          "mean": -6.663496194101796,
+          "median": -6.663486574949196
+        }
+      },
+      "outcome_mass_by_seed": {
+        "370023": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ],
+        "370024": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ],
+        "370025": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ],
+        "370026": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ],
+        "370027": [
+          {
+            "prior_normalized_mass": 1.0,
+            "r600_conditioned_normalized_mass": 1.0,
+            "termination": "impact"
+          }
+        ]
+      },
+      "particles": 1280,
+      "r600_log_evidence_increment_by_seed": {
+        "370023": -6.000259893311972,
+        "370024": -5.925392435411147,
+        "370025": -5.923776540851372,
+        "370026": -5.883450002439221,
+        "370027": -5.939010938342839
+      },
+      "r600_log_evidence_increment_mean": -5.93437796207131,
+      "r600_status_counts": {
+        "reached": 1280
+      },
+      "right_feed_endurance_s": 24.976621588723777,
+      "role": "effective-feed chronology sensitivity",
+      "source_seed_combination": "equal_numerical_replicates",
+      "source_seeds": [
+        370023,
+        370024,
+        370025,
+        370026,
+        370027
+      ],
+      "title": "Arc-1 fuel \u00b7 current OpenAP polar \u00b7 best glide \u00b7 left first by 10 s",
+      "weighted_mean_ground_heading_deg": 184.93327511353547,
+      "weighted_mean_position": {
+        "latitude_deg": -38.154660488419,
+        "longitude_deg": 89.413536011393
+      }
+    }
+  ],
+  "family_combination": "separate",
+  "hpd_method": "weighted Gaussian KDE on fixed 241x241 longitude-latitude raster; cell area uses spherical latitude scaling; display diagnostic only",
+  "map_bounds_degrees": {
+    "latitude": [
+      -41.75,
+      -36.25
+    ],
+    "longitude": [
+      85.0,
+      91.25
+    ]
+  },
+  "schema_id": "mh370-impact-release-report",
+  "schema_version": 1,
+  "scientific_boundary": [
+    "No probability or averaging across terminal model families.",
+    "R600 BTO is the only added SATCOM likelihood and recorded reception requires physical SATCOM power at the checkpoint.",
+    "R1200 BTO is held out; final BFO and log-on time/occurrence do not update weights.",
+    "OpenAP attached-flow polars are not calibrated B777 terminal aerodynamics.",
+    "Impact attitude and contact duration are unresolved null fields."
+  ]
+}

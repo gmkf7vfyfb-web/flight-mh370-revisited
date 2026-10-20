@@ -1,0 +1,6 @@
+# Run J (core), 16 Oct 2026. Definition: config/sensitivity/run-j/README.md. Job: engine/scripts/job-run-j.sh.
+# Companion predictive check (Pete 15 Oct): score the held-out 18:25:27 R600 burst (BTO and BFO) on the repro family.
+# ln p(R600 | other data) = ln Z(this) - ln Z(run-j-repro), seed by seed (seeds 1-8). Put this file LAST.
+[inputs]
+observations = "../../../data/variants/satcom-observations-bfo432-r600-1825.csv"
+ephemeris = "../../../data/variants/satellite-ephemeris-inmarsat-r600-1825.csv"

@@ -1,0 +1,14 @@
+bin/linux-x86_64/mh370-v0.1
+  format: ELF 64-bit LSB PIE executable, x86-64
+  minimum recorded ABI note: GNU/Linux 4.4.0
+  stripped: yes
+  SHA-256: d20eb4bf68133592b9324e7f056962e198623eec309fc054fbd1c6172d6a7e7c
+  dynamic libraries at freeze:
+    libgcc_s.so.1
+    libm.so.6
+    libc.so.6
+    ld-linux-x86-64.so.2
+
+Use `ldd bin/linux-x86_64/mh370-v0.1` on the target host to resolve concrete
+library paths. The complete Rust source and vendored dependencies are included
+for rebuilding on another supported host.

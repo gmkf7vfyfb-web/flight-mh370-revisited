@@ -1,0 +1,53 @@
+{
+  "ancestor_sampling": true,
+  "block_input_changes": [
+    32,
+    25,
+    69,
+    91,
+    22
+  ],
+  "chain_sha256": "bd43dd038887392db999e72cdbf604d2ce5aa88f01673bf7145d52f5fb968799",
+  "code_sha256": "9fb900599f833b22cf1db56a7840e920dfb759202a9932e7dfc7f8c96fbc10ed",
+  "elapsed_seconds": 143.272995453,
+  "exchanges_accepted": [
+    24,
+    28,
+    26,
+    23
+  ],
+  "exchanges_attempted": [
+    64,
+    64,
+    64,
+    64
+  ],
+  "executable_sha256": "d35e85ef0b134fd68ed951ba32f044f189cf3f3b02cef82b894c303132860aa5",
+  "fuel_condition_time_s": 22150.0,
+  "initial_input_changes": 32,
+  "inputs": {
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-ancestor-sampling/reference-37102101/reference.json": "73b81ff311a071b4cf8de6a65514192457a04a7e2b86eacfb77cae201521ecac",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102101/resolved-config.json": "ee8f7eeef568b2dd123fbbdf07b9a32ee4843c0f03b11606987c2640b636c4c9",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/observations.csv": "d9607356782660ccc034d215607ef9979d99db8aa393c487d9693a42c4a99c42",
+    "/jackbox/home/MH370/inputs/accident/satellite-through-0011.csv": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+    "/jackbox/home/MH370/inputs/environment/mh370-era5-grid.bin": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4",
+    "/jackbox/home/MH370/inputs/environment/mh370-igrf14-grid.bin": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1"
+  },
+  "iterations": 128,
+  "likelihood_powers": [
+    0.0625,
+    0.125,
+    0.25,
+    0.5,
+    1.0
+  ],
+  "particles": 64,
+  "reference": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-ancestor-sampling/reference-37102101/reference.json",
+  "scientific_source_sha256": "ac41c09e8d4a645a7608e432ebcfd5186727fe07fa7d738b35b9eb57cefe6645",
+  "scope": "Fixed likelihood-only replicas with exact full-suffix PGAS and alternating exact exchanges. Exported chain has beta=1; physical priors, marginal observation likelihood and source data unchanged. Dependent diagnostic samples, not independent flights or an evidence estimate.",
+  "seed": 37118302,
+  "selected_path_exact_replay_checks": 129,
+  "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102101",
+  "status": "completed",
+  "through_block": 4
+}

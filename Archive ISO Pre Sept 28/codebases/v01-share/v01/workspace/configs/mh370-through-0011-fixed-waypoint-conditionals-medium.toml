@@ -1,0 +1,117 @@
+schema_version = 2
+name = "MH370 through 00:11 UTC: fixed-waypoint conditionals with fresh constant-true-track reference"
+seeds = [370023, 370024, 370025]
+
+# Fresh reference fit from the same priors, evidence, executable, and numerical
+# settings as the fixed-waypoint conditionals. Structural families remain
+# separate; the suite does not assign or pool model probabilities.
+[[families]]
+name = "constant-true-track-reference"
+use_bfo = true
+bfo_sd_override_hz = 4.0
+lateral_mode = "constant_true_track"
+
+[[families]]
+name = "direct-to-davis-plateau-sla"
+use_bfo = true
+bfo_sd_override_hz = 4.0
+lateral_mode = "lateral_navigation"
+
+[families.fixed_waypoint]
+target_name = "Davis Plateau Ski Landing Area facility reference point"
+latitude_deg = -68.47060
+longitude_deg = 78.84061
+arrival_radius_nm = 1.0
+coordinate_source_title = "Australian Antarctic Data Centre, ‘Davis Plateau Ski Landing Area’ (Informal Antarctic/sub-Antarctic Gazetteer ID 137992)"
+coordinate_source_uri = "https://data.aad.gov.au/aadc/gaz/display_name.cfm?gaz_id=137992"
+coordinate_frame_assumption = "Published geographic latitude/longitude treated as WGS84 for estimator propagation; the source does not state a horizontal datum."
+coordinate_source_date = "2009/10 GPS source epoch; accessed 2026-08-31"
+coordinate_note = "Gazetteer Narrative/Location/Source/Comments reference point; the seasonal site can move by a few hundred metres. This is not a runway threshold and does not establish inclusion in the 9M-MRO navigation database."
+
+[[families]]
+name = "direct-to-fossil-bluff"
+use_bfo = true
+bfo_sd_override_hz = 4.0
+lateral_mode = "lateral_navigation"
+
+[families.fixed_waypoint]
+target_name = "Fossil Bluff Airfield Camp facility reference point"
+latitude_deg = -71.3293333333
+longitude_deg = -68.2670000000
+arrival_radius_nm = 1.0
+coordinate_source_title = "Final Report of the Thirty-first Antarctic Treaty Consultative Meeting, Volume II (COMNAP Details of Antarctic Facilities table)"
+coordinate_source_uri = "https://documents.ats.aq/ATCM31/fr/ATCM31_fr001_e.pdf"
+coordinate_frame_assumption = "Published geographic latitude/longitude treated as WGS84 for estimator propagation; the source does not state a horizontal datum."
+coordinate_source_date = "2008; PDF page 527 / printed report page 529, Fossil Bluff row"
+coordinate_note = "COMNAP facility reference point for a 1200 m ski landing area/Airfield Camp listed as seasonal. This is not a runway threshold and does not establish inclusion in the 9M-MRO navigation database."
+
+[inputs]
+observations = "../inputs/accident/satcom-through-0011.csv"
+satellite_ephemeris = "../inputs/accident/satellite-through-0011.csv"
+ground_station_position_km = { x = -2368.8, y = 4881.1, z = -3342.0 }
+fit_through_epoch_id = "m0011"
+
+[environment]
+era5 = "../inputs/environment/mh370-era5-grid.bin"
+igrf = "../inputs/environment/mh370-igrf14-grid.bin"
+time_origin_unix_s = 1394215309.0
+integration_step_s = 30.0
+
+[convergence]
+maximum_seed_mean_separation_nm = 30.0
+maximum_log_evidence_range = 0.8
+minimum_mutation_acceptance = 0.02
+
+[model]
+use_bfo = false
+
+[model.tempering]
+particles = 30000
+seed = 0
+target_ess_fraction = 0.8
+mutation_steps = 8
+mutation_scale = 0.006
+maximum_mutation_scale = 0.08
+minimum_temperature_increment = 0.000001
+maximum_temperature_steps = 200
+
+[model.radar]
+time_s = 0.0
+latitude_deg = 5.624829
+longitude_deg = 99.048157
+position_sd_nm = 0.5
+control_mean_deg_true = 295.66
+control_sd_deg = 1.0
+mach_min = 0.73
+mach_max = 0.84
+altitude_min_ft = 25000.0
+altitude_max_ft = 43000.0
+
+[model.dynamics]
+turn_time_min_s = 600.0
+turn_time_max_s = 3600.0
+
+[model.satcom]
+bfo_bias_prior_mean_hz = 150.0
+bfo_bias_prior_sd_hz = 25.0
+
+[model.satcom.bto]
+speed_of_light_km_s = 299792.458
+nominal_delay_us = 499962.0
+channel_term_us = 4283.0
+
+[model.satcom.bfo]
+satellite_afc_hz = 0.0
+uplink_hz = 1646652500.0
+downlink_hz = 3615152500.0
+speed_of_light_km_s = 299792.458
+nominal_satellite_longitude_deg = 64.5
+nominal_satellite_altitude_km = 36210.12
+
+[model.end_of_flight]
+mode = "last_contact"
+minimum_along_track_nm = 0.0
+maximum_along_track_nm = 0.0
+cross_track_sd_nm = 0.0
+minimum_delay_seconds = 0.0
+maximum_delay_seconds = 0.0

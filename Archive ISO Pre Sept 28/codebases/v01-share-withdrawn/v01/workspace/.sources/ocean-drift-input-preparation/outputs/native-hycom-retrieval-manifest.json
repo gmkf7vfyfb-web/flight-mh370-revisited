@@ -1,0 +1,3798 @@
+{
+  "schema": "mh370-native-hycom-retrieval-v2",
+  "dataset": "GOFS 3.1-like HYCOM+NCODA GLBv0.08 experiment 53.X reanalysis",
+  "dataset_documentation": "https://www.hycom.org/dataserver/gofs-3pt1/reanalysis",
+  "catalogs": {
+    "2014": "https://tds.hycom.org/thredds/catalogs/GLBv0.08/expt_53.X.html?dataset=GLBv0.08-expt_53.X-2014",
+    "2015": "https://tds.hycom.org/thredds/catalogs/GLBv0.08/expt_53.X.html?dataset=GLBv0.08-expt_53.X-2015"
+  },
+  "retrieval_started_utc": "2026-08-26T00:51:10.831599+00:00",
+  "retrieval_completed_utc": "2026-08-26T00:51:14.686197+00:00",
+  "requested_domain_degrees": {
+    "west": 10.0,
+    "east": 150.0,
+    "south": -50.0,
+    "north": 30.0
+  },
+  "requested_periods": {
+    "2014": [
+      "2014-03-07T00:00:00Z",
+      "2014-12-31T00:00:00Z"
+    ],
+    "2015": [
+      "2015-01-01T00:00:00Z",
+      "2015-07-30T00:00:00Z"
+    ]
+  },
+  "variables": [
+    "water_u",
+    "water_v"
+  ],
+  "surface_depth_m": 0.0,
+  "horizontal_stride": 1,
+  "time_stride_available_three_hour_analyses": 8,
+  "time_sampling_limitation": "Approximately daily subsample, not a daily mean; upstream missing analyses cause variable phase changes.",
+  "full_time_axis_audit": {
+    "opendap_2014": "https://tds.hycom.org/thredds/dodsC/GLBv0.08/expt_53.X/data/2014.ascii?time",
+    "opendap_2015": "https://tds.hycom.org/thredds/dodsC/GLBv0.08/expt_53.X/data/2015.ascii?time",
+    "retrieved_ascii_sha256": {
+      "2014": "41e08872079fcb5f3feb9984d99d1fe44ddbf0ebdb63d6375310274124b7f1de",
+      "2015": "ce11abd49a261719da1a143d0a14117f87a1f34a1e0c0a87211cd0f5be708838"
+    },
+    "available_time_counts": {
+      "2014": 2857,
+      "2015": 2861
+    },
+    "available_gap_counts_hours": {
+      "2014": {
+        "3": 2805,
+        "6": 49,
+        "9": 1,
+        "27": 1
+      },
+      "2015": {
+        "3": 2810,
+        "6": 49,
+        "9": 1
+      }
+    },
+    "finding": "The stride-8 sequence's 48 h and 54 h gaps contained available three-hour analyses; one exact analysis was inserted into each gap so the retained maximum gap is 30 h."
+  },
+  "supplemental_times": {
+    "2014": [
+      "2014-06-29T12:00:00Z",
+      "2014-12-31T06:00:00Z"
+    ]
+  },
+  "primary_tile_count": 56,
+  "supplemental_tile_count": 56,
+  "tile_count": 112,
+  "tiles": [
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E010p0_E030p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=30.0&south=10.0&east=30.0&west=10.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 141446,
+      "sha256": "0aec262e205cc5c4f2df4cf557c2cdb3fe3a8da3962308968cd8dbf205fbce23",
+      "shape": [
+        293,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E010p0_E030p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=10.0&south=-10.0&east=30.0&west=10.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 2327654,
+      "sha256": "946d85621447f9bc1dc868f4dda811a43ea199e3f7ebf75d1e966cac2faa14cd",
+      "shape": [
+        293,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E010p0_E030p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-10.0&south=-30.0&east=30.0&west=10.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 8909422,
+      "sha256": "026141e9090a08259314aecb37468343e5b0060a35011da057668a48bc1d8d2f",
+      "shape": [
+        293,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E010p0_E030p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-30.0&south=-50.0&east=30.0&west=10.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 59174868,
+      "sha256": "3b3c24a5268a1dfcf098afd45e9fdd1205cb54f68c58c80cdcc831706bc57489",
+      "shape": [
+        293,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E030p0_E050p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=30.0&south=10.0&east=50.0&west=30.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 7922162,
+      "sha256": "9e36806b08c2c18b826c91ddd48646774e57bc095d5e02cecd07b3e57e14724f",
+      "shape": [
+        293,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        30.0,
+        50.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E030p0_E050p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=10.0&south=-10.0&east=50.0&west=30.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 14008759,
+      "sha256": "718967a0f0d120265bd8b43aca64f330e20411ad5199b2602a2974864adda181",
+      "shape": [
+        293,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        30.0,
+        50.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E030p0_E050p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-10.0&south=-30.0&east=50.0&west=30.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 25040014,
+      "sha256": "43994d626ad4e755dfad8bcf3fe229391dd44b009a8585358d7aabb09d88a209",
+      "shape": [
+        293,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        30.0,
+        50.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E030p0_E050p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-30.0&south=-50.0&east=50.0&west=30.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 63040318,
+      "sha256": "fe6dcc869f4b79493a7550fc387e26912a3c4789677378d33fe84978d44640c1",
+      "shape": [
+        293,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        30.0,
+        50.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E050p0_E070p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=30.0&south=10.0&east=70.0&west=50.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 26775024,
+      "sha256": "5389339243eef75f93d460ba637b5c0091d6de775514eb0afcb5dbb8a39d611e",
+      "shape": [
+        293,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        50.0,
+        70.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E050p0_E070p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=10.0&south=-10.0&east=70.0&west=50.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 40336924,
+      "sha256": "d06a52fd2fc46df3a495206e2dbeb254f2e4be196d379464c7faa30b9e3d9746",
+      "shape": [
+        293,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        50.0,
+        70.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E050p0_E070p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-10.0&south=-30.0&east=70.0&west=50.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 40853228,
+      "sha256": "c2aca978287dc3095fd40a35c93b6c33126e4e0a604aefbd1eb9ae606a8d8fa7",
+      "shape": [
+        293,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        50.0,
+        70.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E050p0_E070p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-30.0&south=-50.0&east=70.0&west=50.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 63431488,
+      "sha256": "f9369c530efd4c3e1c2816ac2fcdcfd70bcd3a4f5f1082f80f7c12c90451a831",
+      "shape": [
+        293,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        50.0,
+        70.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E070p0_E090p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=30.0&south=10.0&east=90.0&west=70.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 15059220,
+      "sha256": "52b98b85af0ff37a8f79f896ddbc356ccd6a0d04e5170d630185a147696e72c7",
+      "shape": [
+        293,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        70.0,
+        90.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E070p0_E090p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=10.0&south=-10.0&east=90.0&west=70.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 39572558,
+      "sha256": "688b7a4db6a5995b231652586a9752d2f07120cb3d3d359c5250737978ca43b5",
+      "shape": [
+        293,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        70.0,
+        90.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E070p0_E090p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-10.0&south=-30.0&east=90.0&west=70.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 40730246,
+      "sha256": "b28aea6faf437eaacd74a388cdc1cdcda39356e1210c32ad30891bd0bb0dcd40",
+      "shape": [
+        293,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        70.0,
+        90.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E070p0_E090p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-30.0&south=-50.0&east=90.0&west=70.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 63326437,
+      "sha256": "85127eacd4414b04731df9677d8113c68904bae440e43c52188b4f5c00b8c2bc",
+      "shape": [
+        293,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        70.0,
+        90.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E090p0_E110p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=30.0&south=10.0&east=110.0&west=90.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 12016207,
+      "sha256": "dc4804a602c0b47620ad66400e7e4f9e8733530c3ffa3f369a970f71a78d8833",
+      "shape": [
+        293,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        90.0,
+        110.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E090p0_E110p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=10.0&south=-10.0&east=110.0&west=90.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 35396921,
+      "sha256": "f9c63a3910ad5ed2f9ee2c12f3dc9b01257aebf99eef0867de06749c079e0a6c",
+      "shape": [
+        293,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        90.0,
+        110.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E090p0_E110p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-10.0&south=-30.0&east=110.0&west=90.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 40900469,
+      "sha256": "321424696598bdcb8ed8154c6fbdb8bd029938dac761dffeb15109667da48df6",
+      "shape": [
+        293,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        90.0,
+        110.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E090p0_E110p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-30.0&south=-50.0&east=110.0&west=90.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 62915004,
+      "sha256": "3ddb613127363599f381bbeb8dc6ce9272996844a642e446210309aac06def96",
+      "shape": [
+        293,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        90.0,
+        110.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E110p0_E130p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=30.0&south=10.0&east=130.0&west=110.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 33242277,
+      "sha256": "ef9b6411b6e6325c025908bf68b78c320f3157fc6a9e8d3c108d46157024cee6",
+      "shape": [
+        293,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        110.0,
+        130.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E110p0_E130p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=10.0&south=-10.0&east=130.0&west=110.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 33487052,
+      "sha256": "fc19eabc5b44f030ca3a3a7dde57201bc2c767734f32839301bf044893c41515",
+      "shape": [
+        293,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        110.0,
+        130.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E110p0_E130p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-10.0&south=-30.0&east=130.0&west=110.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 21996558,
+      "sha256": "c9d292909ae90a8343542500a0fc323c40d842c13a089c89ae3e525e76878294",
+      "shape": [
+        293,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        110.0,
+        130.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E110p0_E130p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-30.0&south=-50.0&east=130.0&west=110.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 57762511,
+      "sha256": "46464d2e0cc576fa970e1e81d18bc810a5707e63eb21712717c360b75322ca65",
+      "shape": [
+        293,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        110.0,
+        130.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E130p0_E150p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=30.0&south=10.0&east=150.0&west=130.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 41398650,
+      "sha256": "39148367452f8b585e8f32f613053db499356e410053f5e29a832c98f18fc0d3",
+      "shape": [
+        293,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        130.0,
+        150.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E130p0_E150p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=10.0&south=-10.0&east=150.0&west=130.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 34620737,
+      "sha256": "abd06cce41c18bea399ea1b825e1815b27a8eaefe52e3aeaa4c9ea7e60833130",
+      "shape": [
+        293,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        130.0,
+        150.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E130p0_E150p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-10.0&south=-30.0&east=150.0&west=130.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 11655301,
+      "sha256": "ab22d4156d951a6961f17893f234514608d44e01cb90ff3d1fa9eb1fc56452f3",
+      "shape": [
+        293,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        130.0,
+        150.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2014_E130p0_E150p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-30.0&south=-50.0&east=150.0&west=130.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2014-03-07T00%3A00%3A00Z&time_end=2014-12-31T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 50075160,
+      "sha256": "44a49c4f359950a4e018c165187bc650fc7b4b369685daf07a6eb21c7b988323",
+      "shape": [
+        293,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 293,
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "last_time_utc": "2014-12-30T06:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 251,
+        "27_hours": 38,
+        "30_hours": 2,
+        "48_hours": 1
+      },
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        130.0,
+        150.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E010p0_E030p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=30.0&south=10.0&east=30.0&west=10.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 109672,
+      "sha256": "62dc1b12c9d546fbac220d3f7e933f200d4f65ca3ce2790aa78a93faf0b0eef3",
+      "shape": [
+        206,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E010p0_E030p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=10.0&south=-10.0&east=30.0&west=10.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 1647283,
+      "sha256": "44369c9b37aa1a613c229b29639e9fc0b43f3860c9f9f855a54853bf482d51d3",
+      "shape": [
+        206,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E010p0_E030p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=-10.0&south=-30.0&east=30.0&west=10.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 6268768,
+      "sha256": "38d3daeb21e2b877382c8e2a762eaaeabf0ff4385875254a2a5128df4abf05bd",
+      "shape": [
+        206,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E010p0_E030p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=-30.0&south=-50.0&east=30.0&west=10.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 41623278,
+      "sha256": "76f5304f7ee25413367ae7858cb4cb3f7e35f585fb4400bb66867918d544415f",
+      "shape": [
+        206,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E030p0_E050p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=30.0&south=10.0&east=50.0&west=30.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 5567605,
+      "sha256": "6ddef0eecdd178b3b140c24d4673a69f4761ee1dd41a713a15bb1ffbcfbc7f3e",
+      "shape": [
+        206,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        30.0,
+        50.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E030p0_E050p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=10.0&south=-10.0&east=50.0&west=30.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 9795773,
+      "sha256": "0711cc59b4ea1087b1b490a386051f89e2b59bfb396482ea2c364e645f1c7bbf",
+      "shape": [
+        206,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        30.0,
+        50.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E030p0_E050p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=-10.0&south=-30.0&east=50.0&west=30.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 17506676,
+      "sha256": "6e06aa61656ac363781f93f645bc0bdf972bb7f4bb65c074a06ea01eca986b4b",
+      "shape": [
+        206,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        30.0,
+        50.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E030p0_E050p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=-30.0&south=-50.0&east=50.0&west=30.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 44468673,
+      "sha256": "72199cb3e0300943a6f0a6e83722c6df8ec4c2ce9cc98683d9b837eb93daeeb0",
+      "shape": [
+        206,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        30.0,
+        50.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E050p0_E070p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=30.0&south=10.0&east=70.0&west=50.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 18795862,
+      "sha256": "a79e91fefd7daab9db5ca454319915c8575a2e5857c05612438bb561505384dc",
+      "shape": [
+        206,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        50.0,
+        70.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E050p0_E070p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=10.0&south=-10.0&east=70.0&west=50.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 28325859,
+      "sha256": "3689af9b4b383fd7d74db6dcc9bee9775e8c36bcde3241cfa7e53837811c1408",
+      "shape": [
+        206,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        50.0,
+        70.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E050p0_E070p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=-10.0&south=-30.0&east=70.0&west=50.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 28788360,
+      "sha256": "11ba23b2a924e130a035073a10e2107c296bf39011354b19b2b996129885188d",
+      "shape": [
+        206,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        50.0,
+        70.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E050p0_E070p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=-30.0&south=-50.0&east=70.0&west=50.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 44463899,
+      "sha256": "c4cd335e2b7d0ba046f74338a94de57eae4f44bcc4f50b1a30f477af5d0039ab",
+      "shape": [
+        206,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        50.0,
+        70.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E070p0_E090p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=30.0&south=10.0&east=90.0&west=70.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 10652771,
+      "sha256": "9a26771cc7a9028fda1928d3462463cc69f74bcf3d44205ced3ac1b0ce6ba1ac",
+      "shape": [
+        206,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        70.0,
+        90.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E070p0_E090p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=10.0&south=-10.0&east=90.0&west=70.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 27787012,
+      "sha256": "b4a80679c58a3d9139c044cfd3bcd01f7a240d858be477f58c27f1b9fee383dd",
+      "shape": [
+        206,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        70.0,
+        90.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E070p0_E090p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=-10.0&south=-30.0&east=90.0&west=70.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 28698442,
+      "sha256": "c47a28e2a9104f49352850091ed11d909d86541d981cd0c454e1aa086a6824fb",
+      "shape": [
+        206,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        70.0,
+        90.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E070p0_E090p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=-30.0&south=-50.0&east=90.0&west=70.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 44484298,
+      "sha256": "c4fd8669f9cf322ea760d46e2782f2887f2557cdc87abd588aa365ef469a1c19",
+      "shape": [
+        206,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        70.0,
+        90.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E090p0_E110p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=30.0&south=10.0&east=110.0&west=90.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 8426557,
+      "sha256": "824704f9442adf1ad571c96548c876e6292ea75afdb51e7437fe23fdf4132bc5",
+      "shape": [
+        206,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        90.0,
+        110.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E090p0_E110p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=10.0&south=-10.0&east=110.0&west=90.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 24868545,
+      "sha256": "75f0faf84f5de49fb7f0b405c069d4f4622c547228c41d1e03edfdf0463fcb1a",
+      "shape": [
+        206,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        90.0,
+        110.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E090p0_E110p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=-10.0&south=-30.0&east=110.0&west=90.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 28601689,
+      "sha256": "71da30bb8c5d2fde36e8966d522d6cc1afc9c238a713c61e5f6d3f6ef59b31a1",
+      "shape": [
+        206,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        90.0,
+        110.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E090p0_E110p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=-30.0&south=-50.0&east=110.0&west=90.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 44038931,
+      "sha256": "dc46b5e4611ad5bbc3ab13b9a62d8bec301af078ffcb3d05bc114384ffb668be",
+      "shape": [
+        206,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        90.0,
+        110.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E110p0_E130p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=30.0&south=10.0&east=130.0&west=110.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 23480669,
+      "sha256": "612219178ca86867d1e2e5221370cf34cad331a8316e8fec9438fcabe4ba0204",
+      "shape": [
+        206,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        110.0,
+        130.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E110p0_E130p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=10.0&south=-10.0&east=130.0&west=110.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 23534589,
+      "sha256": "4f5b381c8df62793c66265123b455d9632ac578953082bc1c85d224a0acaf3dd",
+      "shape": [
+        206,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        110.0,
+        130.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E110p0_E130p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=-10.0&south=-30.0&east=130.0&west=110.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 15357222,
+      "sha256": "0e4186d3c792f10c22fc0a4c57e286fcc6bf4b0f1bcf73fa9d9af66694c62839",
+      "shape": [
+        206,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        110.0,
+        130.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E110p0_E130p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=-30.0&south=-50.0&east=130.0&west=110.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 40420723,
+      "sha256": "f0ecf80a7b886a9fa49c6db482355b68f807d60c063a9706bb03e9351d98a8ab",
+      "shape": [
+        206,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        110.0,
+        130.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E130p0_E150p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=30.0&south=10.0&east=150.0&west=130.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 29253292,
+      "sha256": "52cf933bc8653cf0f52401138833694f46f3327f39e844ee28ad3dbd91aa9f62",
+      "shape": [
+        206,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        130.0,
+        150.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E130p0_E150p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=10.0&south=-10.0&east=150.0&west=130.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 24442370,
+      "sha256": "6509bbca9925920ef48b93f55691613d5ae4b0a331f67a8232a34ef204517c12",
+      "shape": [
+        206,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        130.0,
+        150.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E130p0_E150p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=-10.0&south=-30.0&east=150.0&west=130.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 8241926,
+      "sha256": "a28f9774255363159067655684049443f96df675deb0623fd94db3baccaacc96",
+      "shape": [
+        206,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        130.0,
+        150.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/2015_E130p0_E150p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2015?var=water_u&var=water_v&north=-30.0&south=-50.0&east=150.0&west=130.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time_start=2015-01-01T00%3A00%3A00Z&time_end=2015-07-30T00%3A00%3A00Z&timeStride=8",
+      "size_bytes": 35050546,
+      "sha256": "4ce638b35e7f411c11aeef18db47762b2cb9867c0ab667ca312944d9a00eff57",
+      "shape": [
+        206,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 206,
+      "first_time_utc": "2015-01-01T12:00:00Z",
+      "last_time_utc": "2015-07-29T12:00:00Z",
+      "time_gap_counts": {
+        "24_hours": 176,
+        "27_hours": 26,
+        "30_hours": 3
+      },
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        130.0,
+        150.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    }
+  ],
+  "supplemental_tiles": [
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E010p0_E030p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=30.0&south=10.0&east=30.0&west=10.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 38082,
+      "sha256": "52f46febebebb2c0ace3046ff328d31166dfa3c3fee40a5aed6baa803254eb71",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E010p0_E030p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=10.0&south=-10.0&east=30.0&west=10.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 45549,
+      "sha256": "a9b04b03f5f958fb47699893c6bdc4b1685794c4bda4466be9d70ca4a1653a92",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E010p0_E030p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-10.0&south=-30.0&east=30.0&west=10.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 68236,
+      "sha256": "a4f83bc649c79aae3b53fb1e7f9e96654b21cf4ddf921dbdf02c672104825aef",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E010p0_E030p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-30.0&south=-50.0&east=30.0&west=10.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 240106,
+      "sha256": "1af51f599885720d197bee257dcbfa40e0078ca229589027bccda4ca52288b46",
+      "shape": [
+        1,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E030p0_E050p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=30.0&south=10.0&east=50.0&west=30.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 65002,
+      "sha256": "de01a872a8a5e4be5034559613db2a79a67f90c240de4453d8c4157e9c9fa824",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        30.0,
+        50.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E030p0_E050p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=10.0&south=-10.0&east=50.0&west=30.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 85972,
+      "sha256": "79bbf61a70770d80a4c9dc47f412186954a8c6fcd132186f6919e35406d6c1eb",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        30.0,
+        50.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E030p0_E050p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-10.0&south=-30.0&east=50.0&west=30.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 123341,
+      "sha256": "eb3eade3ce016f75a7f5849487896ed7550db259f37e632c22a9f18eca3932fb",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        30.0,
+        50.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E030p0_E050p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-30.0&south=-50.0&east=50.0&west=30.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 254137,
+      "sha256": "782bcf117063df761c83c3c23e7cf72b9d0c9375cab3d9b7ed8a05ea202f0cbe",
+      "shape": [
+        1,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        30.0,
+        50.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E050p0_E070p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=30.0&south=10.0&east=70.0&west=50.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 128905,
+      "sha256": "aa899e8cc44f82ad2437894005ffad8eca0a60d8f5445c2045664ce88e3b08cb",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        50.0,
+        70.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E050p0_E070p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=10.0&south=-10.0&east=70.0&west=50.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 176431,
+      "sha256": "4129907e24fd3d5710fd3a00400c3c31c425560cdf3aa1c6b0c9e1a24f8f235e",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        50.0,
+        70.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E050p0_E070p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-10.0&south=-30.0&east=70.0&west=50.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 177667,
+      "sha256": "3a902122323d98ad4f158907c87147fb84bb3b14176a156f88f80c55b3b1b838",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        50.0,
+        70.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E050p0_E070p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-30.0&south=-50.0&east=70.0&west=50.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 253610,
+      "sha256": "355f837f9cdf8c4361fd63489ba977dbc184be7f5735fc58d76176a734fb2569",
+      "shape": [
+        1,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        50.0,
+        70.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E070p0_E090p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=30.0&south=10.0&east=90.0&west=70.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 88569,
+      "sha256": "9bf6308d100b5a8fed2cdc61d6523e56ef5f7f0bea5e2896dd6d3216884a678a",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        70.0,
+        90.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E070p0_E090p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=10.0&south=-10.0&east=90.0&west=70.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 173285,
+      "sha256": "8ad555c463bf59e215f4ced2d9b91fbe15c172ce4456ac5eb948abcfb383c387",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        70.0,
+        90.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E070p0_E090p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-10.0&south=-30.0&east=90.0&west=70.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 177416,
+      "sha256": "78b52edb788fbbba6377fa2c40aa685a18d5f7b4753a0292fa7d575e7dec363a",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        70.0,
+        90.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E070p0_E090p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-30.0&south=-50.0&east=90.0&west=70.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 253683,
+      "sha256": "3996098b52a0be33e4a4d8e4e767e30d82e9f6ac64d63f57c62481624a79bdfa",
+      "shape": [
+        1,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        70.0,
+        90.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E090p0_E110p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=30.0&south=10.0&east=110.0&west=90.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 78598,
+      "sha256": "03a6dfad7be93c205fe976952137ff0171eb6346720642879ec31a977074ce9d",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        90.0,
+        110.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E090p0_E110p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=10.0&south=-10.0&east=110.0&west=90.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 158511,
+      "sha256": "1264c7d0dae58d119120ab69751b7c4d6bb74ae475a3cfbe79647e751be82b27",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        90.0,
+        110.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E090p0_E110p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-10.0&south=-30.0&east=110.0&west=90.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 176987,
+      "sha256": "6f99765c231cbb092089ba5238d22b9b25e53672c739bb139c31355b75d30ac1",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        90.0,
+        110.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E090p0_E110p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-30.0&south=-50.0&east=110.0&west=90.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 252476,
+      "sha256": "82b4e92a0cdea3987632b4e523ae25a0d339b760183549e75d2ef2bed6b7f29a",
+      "shape": [
+        1,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        90.0,
+        110.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E110p0_E130p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=30.0&south=10.0&east=130.0&west=110.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 151795,
+      "sha256": "98db0973ef8e2a6e0835165ccc49dfff5ba55ac5b094a762667b439cdba8797a",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        110.0,
+        130.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E110p0_E130p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=10.0&south=-10.0&east=130.0&west=110.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 152257,
+      "sha256": "c09ef55ab7136e3315ae469d939d9d2c71eef6c75e6a40134ed9fc002303af67",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        110.0,
+        130.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E110p0_E130p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-10.0&south=-30.0&east=130.0&west=110.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 113236,
+      "sha256": "c0a2199b162e2899c3bb7a8c001dd5f0c178fc534d9b6c04e51c8cdfc7a5eaea",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        110.0,
+        130.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E110p0_E130p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-30.0&south=-50.0&east=130.0&west=110.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 236259,
+      "sha256": "c81958325e17a6ab96e9bd006f65d6e6124f9451a10baa12b2699401629319b4",
+      "shape": [
+        1,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        110.0,
+        130.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E130p0_E150p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=30.0&south=10.0&east=150.0&west=130.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 180657,
+      "sha256": "722b6ca398090dfbcdb841e1206aac772c34d0e75d2e9ada1d29e8118afe9153",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        130.0,
+        150.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E130p0_E150p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=10.0&south=-10.0&east=150.0&west=130.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 155595,
+      "sha256": "69ab8a89cf890be50a94f6a844857455238a5c9e3417964bd3fe20cbc667805b",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        130.0,
+        150.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E130p0_E150p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-10.0&south=-30.0&east=150.0&west=130.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 77013,
+      "sha256": "e5cc731c9f70f6ea3b849a402831c64572a39b27b73a7158697ec5b37c416474",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        130.0,
+        150.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20140629T120000Z_E130p0_E150p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-30.0&south=-50.0&east=150.0&west=130.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-06-29T12%3A00%3A00Z",
+      "size_bytes": 209463,
+      "sha256": "f12da17b22a8d95d3fa282afc7c77d8e95ce63f77f572e2fd6d104e763a77f28",
+      "shape": [
+        1,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-06-29T12:00:00Z",
+      "last_time_utc": "2014-06-29T12:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        130.0,
+        150.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E010p0_E030p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=30.0&south=10.0&east=30.0&west=10.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 38082,
+      "sha256": "d41b9efc2ddff592bfdc7776b8a8fd53f622203e74831e6f635c3923a2e7d8e4",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E010p0_E030p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=10.0&south=-10.0&east=30.0&west=10.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 45477,
+      "sha256": "70a16522a5e20744816670261d5035e9331bcae2d6a8a7e06622d0fe91b41e1b",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E010p0_E030p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-10.0&south=-30.0&east=30.0&west=10.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 68228,
+      "sha256": "7f8580e885556cc5a68f9a498efcf86dd78db6e2fe8b062ae8a4af1933de6408",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E010p0_E030p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-30.0&south=-50.0&east=30.0&west=10.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 240245,
+      "sha256": "c38ac1cf60b21349fcba0404be34bbe63f7be016b5840638bb9a7c5d4c509ac1",
+      "shape": [
+        1,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E030p0_E050p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=30.0&south=10.0&east=50.0&west=30.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 65273,
+      "sha256": "600f340caacf6992e029e87ad39e947eadd4d8bc500e8bb769d7095869e9e42e",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        30.0,
+        50.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E030p0_E050p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=10.0&south=-10.0&east=50.0&west=30.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 85095,
+      "sha256": "f05eb2dfc62dc14b2d432290cf55f294468a4bfcf0f4ee30a66010fdc373730e",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        30.0,
+        50.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E030p0_E050p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-10.0&south=-30.0&east=50.0&west=30.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 122737,
+      "sha256": "75248dc3bbb7d36e3c4b0fc0b89ff4fd7a38cdd133d7e7a77ee825428d376869",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        30.0,
+        50.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E030p0_E050p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-30.0&south=-50.0&east=50.0&west=30.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 253269,
+      "sha256": "209e2d4252cb180d8c15647030f97f7ee40bbdf1516c54152454176d997fe6ec",
+      "shape": [
+        1,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        30.0,
+        50.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E050p0_E070p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=30.0&south=10.0&east=70.0&west=50.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 128516,
+      "sha256": "c985d594f66f07fdb721c8f822d62cc0ea0e313b64c3c4ff0e4b0cecc0199510",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        50.0,
+        70.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E050p0_E070p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=10.0&south=-10.0&east=70.0&west=50.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 176496,
+      "sha256": "79bb931172d870c555ae4a72ed8042458c257e5daf79d6ad8dce98c6aa13ca1f",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        50.0,
+        70.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E050p0_E070p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-10.0&south=-30.0&east=70.0&west=50.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 178639,
+      "sha256": "dc15194b6b63f6ae25d8ce20a81e69c6bdce3dd5b6d1a8d2102942d7729cc728",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        50.0,
+        70.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E050p0_E070p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-30.0&south=-50.0&east=70.0&west=50.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 255250,
+      "sha256": "115512e7fad248b4c60cb5f6808465a82a8385c7a43fcf59ea39f01520d64c12",
+      "shape": [
+        1,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        50.0,
+        70.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E070p0_E090p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=30.0&south=10.0&east=90.0&west=70.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 89060,
+      "sha256": "eafc6ca2eb8710bb01dafa099a3d99e9eccef2eae249568f52ed6c031a445bf9",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        70.0,
+        90.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E070p0_E090p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=10.0&south=-10.0&east=90.0&west=70.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 174701,
+      "sha256": "2ac7acee12d18abe4b29f8160a58695f49c637d705c810f9a0a327d8509d8031",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        70.0,
+        90.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E070p0_E090p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-10.0&south=-30.0&east=90.0&west=70.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 178647,
+      "sha256": "fdcd3716b9812970453a3d099044e4b14f83b9d59d3e63363c709d48420fdba9",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        70.0,
+        90.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E070p0_E090p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-30.0&south=-50.0&east=90.0&west=70.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 254817,
+      "sha256": "284cbf97bd34785408c3961d2183e98549f3a59f8d4ce47d6f0d37490ec677e9",
+      "shape": [
+        1,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        70.0,
+        90.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E090p0_E110p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=30.0&south=10.0&east=110.0&west=90.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 78499,
+      "sha256": "77fafce5ed0ef83ff06bffd9786eb19ac0c015e581ad6c21ecd7436b968b832e",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        90.0,
+        110.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E090p0_E110p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=10.0&south=-10.0&east=110.0&west=90.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 159409,
+      "sha256": "c2bd9201de2d8927cdb8d8af734973acd3ea0c16dd04b51dd55f76ae38aec16f",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        90.0,
+        110.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E090p0_E110p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-10.0&south=-30.0&east=110.0&west=90.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 177998,
+      "sha256": "ceb01856cd7ac29db3fac2df6becfd64e57cbe2ee7bbfa9797443a4eb1951a56",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        90.0,
+        110.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E090p0_E110p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-30.0&south=-50.0&east=110.0&west=90.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 253211,
+      "sha256": "35fd833052a635d78d3d28ad57fc8967cd6d4a58a0a053bb2330a8c60793f6a2",
+      "shape": [
+        1,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        90.0,
+        110.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E110p0_E130p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=30.0&south=10.0&east=130.0&west=110.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 151006,
+      "sha256": "27d70ddc22772b17947511dc41f9a96ccc69ec62e931318ebc88eb9b02b99f5a",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        110.0,
+        130.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E110p0_E130p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=10.0&south=-10.0&east=130.0&west=110.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 152297,
+      "sha256": "6dff99cde9d05d079342c7cf5ccba363028b18e350551dd8a9ba00fc7bb60b55",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        110.0,
+        130.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E110p0_E130p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-10.0&south=-30.0&east=130.0&west=110.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 112192,
+      "sha256": "d0d1307246063534926ac02052b4f1226cd5a1ff9374718767e4beb822da1ae4",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        110.0,
+        130.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E110p0_E130p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-30.0&south=-50.0&east=130.0&west=110.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 235383,
+      "sha256": "29d79bf7a3aa9d3f2f98019e7ba98e41271b57bb63f5d60b5837a1758f89b1eb",
+      "shape": [
+        1,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        110.0,
+        130.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E130p0_E150p0_N010p0_N030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=30.0&south=10.0&east=150.0&west=130.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 178598,
+      "sha256": "b424be40876accb2dde48c387a24682e714c8de64e87efb5aeecff1dbdc5af0b",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        10.0,
+        30.0
+      ],
+      "longitude_bounds_deg": [
+        130.0,
+        150.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E130p0_E150p0_S010p0_N010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=10.0&south=-10.0&east=150.0&west=130.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 154950,
+      "sha256": "37ed16e8ff35e6a085efe18706833e07433e03395d4d22e12db1356fccc38a9c",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -10.0,
+        10.0
+      ],
+      "longitude_bounds_deg": [
+        130.0,
+        150.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E130p0_E150p0_S030p0_S010p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-10.0&south=-30.0&east=150.0&west=130.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 76917,
+      "sha256": "2cd3e248e391972048b33cb2e92b9d9439f22a804b3d48ac8e40e826a3eeba8b",
+      "shape": [
+        1,
+        1,
+        251,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -30.0,
+        -10.0
+      ],
+      "longitude_bounds_deg": [
+        130.0,
+        150.0
+      ],
+      "median_latitude_spacing_deg": 0.07999992370605469,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    },
+    {
+      "path": "/tmp/mh370-ocean-native/tiles/supplement_20141231T060000Z_E130p0_E150p0_S050p0_S030p0.nc",
+      "request_url": "https://ncss.hycom.org/thredds/ncss/grid/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&north=-30.0&south=-50.0&east=150.0&west=130.0&disableProjSubset=on&horizStride=1&vertCoord=0&accept=netcdf4&time=2014-12-31T06%3A00%3A00Z",
+      "size_bytes": 208959,
+      "sha256": "da3f3fb579311639e172ca5bc55a5fb3a8b84ac6c4b3d7542403a80474c9951f",
+      "shape": [
+        1,
+        1,
+        376,
+        251
+      ],
+      "time_units": "hours since 2000-01-01 00:00:00",
+      "time_count": 1,
+      "first_time_utc": "2014-12-31T06:00:00Z",
+      "last_time_utc": "2014-12-31T06:00:00Z",
+      "time_gap_counts": {},
+      "latitude_bounds_deg": [
+        -50.0,
+        -30.0
+      ],
+      "longitude_bounds_deg": [
+        130.0,
+        150.0
+      ],
+      "median_latitude_spacing_deg": 0.04000091552734375,
+      "median_longitude_spacing_deg": 0.0799560546875,
+      "component_units": {
+        "water_u": "m/s",
+        "water_v": "m/s"
+      }
+    }
+  ]
+}

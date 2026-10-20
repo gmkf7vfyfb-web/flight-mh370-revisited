@@ -1,0 +1,1639 @@
+{
+  "bridge": {
+    "forecast_spread_multiplier": 1.0,
+    "potential_floor": 0.001
+  },
+  "candidates": 20000,
+  "checkpoints": [
+    {
+      "ancestor_resampled": false,
+      "cumulative_log_evidence": -6.026426303634166,
+      "distinct_root_ancestors": 20000,
+      "guide_ess": null,
+      "log_evidence_increment": -6.026426303634166,
+      "maximum_normalized_weight": 0.00028048902840165996,
+      "maximum_root_weight": 0.00028048902840165996,
+      "observation_index": 0,
+      "observation_time_s": 1425.0,
+      "posterior_ess": 7899.599954410955,
+      "posterior_resampled": true,
+      "root_effective_sample_size": 7899.599954410955,
+      "roots_with_mass_at_least_1e_3": 0,
+      "roots_with_mass_at_least_1e_6": 15544,
+      "strata": [
+        {
+          "conditional_ess": 1486.2255037694176,
+          "distinct_root_ancestors": 4000,
+          "id": 0,
+          "log_posterior_mass": -1.7178443893075137,
+          "maximum_normalized_log_weight": -8.460582259653924,
+          "maximum_normalized_weight": 0.00021164880023223488,
+          "particle_count": 4000,
+          "posterior_mass": 0.1794525611432131,
+          "root_effective_sample_size": 1486.2255037694176
+        },
+        {
+          "conditional_ess": 1548.4028472439256,
+          "distinct_root_ancestors": 4000,
+          "id": 1,
+          "log_posterior_mass": -1.641169093751059,
+          "maximum_normalized_log_weight": -8.557200345390333,
+          "maximum_normalized_weight": 0.00019215651314283006,
+          "particle_count": 4000,
+          "posterior_mass": 0.193753393948015,
+          "root_effective_sample_size": 1548.4028472439256
+        },
+        {
+          "conditional_ess": 1617.1792276475592,
+          "distinct_root_ancestors": 4000,
+          "id": 2,
+          "log_posterior_mass": -1.5830677025856232,
+          "maximum_normalized_log_weight": -8.557210119136718,
+          "maximum_normalized_weight": 0.0001921546350629824,
+          "particle_count": 4000,
+          "posterior_mass": 0.20534419606837842,
+          "root_effective_sample_size": 1617.179227647559
+        },
+        {
+          "conditional_ess": 1643.4868689235645,
+          "distinct_root_ancestors": 4000,
+          "id": 3,
+          "log_posterior_mass": -1.5497697063743932,
+          "maximum_normalized_log_weight": -8.48994184138709,
+          "maximum_normalized_weight": 0.00020552521282926056,
+          "particle_count": 4000,
+          "posterior_mass": 0.21229685881089738,
+          "root_effective_sample_size": 1643.4868689235645
+        },
+        {
+          "conditional_ess": 1609.513667933523,
+          "distinct_root_ancestors": 4000,
+          "id": 4,
+          "log_posterior_mass": -1.5646892850952367,
+          "maximum_normalized_log_weight": -8.178975948199097,
+          "maximum_normalized_weight": 0.00028048902840165996,
+          "particle_count": 4000,
+          "posterior_mass": 0.2091529900294993,
+          "root_effective_sample_size": 1609.513667933523
+        }
+      ]
+    },
+    {
+      "ancestor_resampled": false,
+      "cumulative_log_evidence": -17.074334717104072,
+      "distinct_root_ancestors": 9777,
+      "guide_ess": null,
+      "log_evidence_increment": -11.047908413469905,
+      "maximum_normalized_weight": 0.00065356436274994,
+      "maximum_root_weight": 0.00140630715508439,
+      "observation_index": 1,
+      "observation_time_s": 1576.0,
+      "posterior_ess": 5020.503709737611,
+      "posterior_resampled": true,
+      "root_effective_sample_size": 1722.1353730022195,
+      "roots_with_mass_at_least_1e_3": 127,
+      "roots_with_mass_at_least_1e_6": 5664,
+      "strata": [
+        {
+          "conditional_ess": 864.7386791497587,
+          "distinct_root_ancestors": 1910,
+          "id": 0,
+          "log_posterior_mass": -1.821223408613732,
+          "maximum_normalized_log_weight": -7.333069540461394,
+          "maximum_normalized_weight": 0.00065356436274994,
+          "particle_count": 4000,
+          "posterior_mass": 0.16182764843939973,
+          "root_effective_sample_size": 279.3697079050029
+        },
+        {
+          "conditional_ess": 994.3305999822679,
+          "distinct_root_ancestors": 1952,
+          "id": 1,
+          "log_posterior_mass": -1.6242570431732322,
+          "maximum_normalized_log_weight": -7.415377312841303,
+          "maximum_normalized_weight": 0.0006019252361310574,
+          "particle_count": 4000,
+          "posterior_mass": 0.19705802643714915,
+          "root_effective_sample_size": 328.58899934193323
+        },
+        {
+          "conditional_ess": 1046.3665014195233,
+          "distinct_root_ancestors": 1964,
+          "id": 2,
+          "log_posterior_mass": -1.5650324503503317,
+          "maximum_normalized_log_weight": -7.468552486305646,
+          "maximum_normalized_weight": 0.0005707538732646011,
+          "particle_count": 4000,
+          "posterior_mass": 0.2090812283040916,
+          "root_effective_sample_size": 357.0314718292451
+        },
+        {
+          "conditional_ess": 1020.8066085473354,
+          "distinct_root_ancestors": 1982,
+          "id": 3,
+          "log_posterior_mass": -1.5332840267293841,
+          "maximum_normalized_log_weight": -7.504542292626467,
+          "maximum_normalized_weight": 0.0005505777961974062,
+          "particle_count": 4000,
+          "posterior_mass": 0.21582572476987597,
+          "root_effective_sample_size": 375.94866606045406
+        },
+        {
+          "conditional_ess": 1101.5497385111762,
+          "distinct_root_ancestors": 1969,
+          "id": 4,
+          "log_posterior_mass": -1.53151727607215,
+          "maximum_normalized_log_weight": -7.76264092973632,
+          "maximum_normalized_weight": 0.0004253318246749873,
+          "particle_count": 4000,
+          "posterior_mass": 0.21620737204947912,
+          "root_effective_sample_size": 381.8631048279944
+        }
+      ]
+    },
+    {
+      "ancestor_resampled": false,
+      "cumulative_log_evidence": -26.705362719740172,
+      "distinct_root_ancestors": 3603,
+      "guide_ess": null,
+      "log_evidence_increment": -9.6310280026361,
+      "maximum_normalized_weight": 0.00026150871467606494,
+      "maximum_root_weight": 0.001215726284546109,
+      "observation_index": 2,
+      "observation_time_s": 1585.0,
+      "posterior_ess": 14258.134346764242,
+      "posterior_resampled": false,
+      "root_effective_sample_size": 2013.10555996399,
+      "roots_with_mass_at_least_1e_3": 6,
+      "roots_with_mass_at_least_1e_6": 3512,
+      "strata": [
+        {
+          "conditional_ess": 2747.5827052875743,
+          "distinct_root_ancestors": 650,
+          "id": 0,
+          "log_posterior_mass": -1.8480790253195973,
+          "maximum_normalized_log_weight": -8.873508008659996,
+          "maximum_normalized_weight": 0.0001400504268167727,
+          "particle_count": 4000,
+          "posterior_mass": 0.15753950522866186,
+          "root_effective_sample_size": 327.9583194603105
+        },
+        {
+          "conditional_ess": 2890.068435400781,
+          "distinct_root_ancestors": 696,
+          "id": 1,
+          "log_posterior_mass": -1.6420302284329704,
+          "maximum_normalized_log_weight": -8.698964973530533,
+          "maximum_normalized_weight": 0.0001667583209722429,
+          "particle_count": 4000,
+          "posterior_mass": 0.1935866179993312,
+          "root_effective_sample_size": 383.8835840566673
+        },
+        {
+          "conditional_ess": 2943.5000922017093,
+          "distinct_root_ancestors": 737,
+          "id": 2,
+          "log_posterior_mass": -1.5553393434652119,
+          "maximum_normalized_log_weight": -8.307267626619257,
+          "maximum_normalized_weight": 0.00024671724685949246,
+          "particle_count": 4000,
+          "posterior_mass": 0.21111772906232426,
+          "root_effective_sample_size": 417.9207961097176
+        },
+        {
+          "conditional_ess": 2863.6411889756796,
+          "distinct_root_ancestors": 774,
+          "id": 3,
+          "log_posterior_mass": -1.5461078789367848,
+          "maximum_normalized_log_weight": -8.313260048892992,
+          "maximum_normalized_weight": 0.00024524323379931777,
+          "particle_count": 4000,
+          "posterior_mass": 0.21307567835453164,
+          "root_effective_sample_size": 445.47779887916016
+        },
+        {
+          "conditional_ess": 2945.415890982559,
+          "distinct_root_ancestors": 746,
+          "id": 4,
+          "log_posterior_mass": -1.4930760223261759,
+          "maximum_normalized_log_weight": -8.249042949293496,
+          "maximum_normalized_weight": 0.00026150871467606494,
+          "particle_count": 4000,
+          "posterior_mass": 0.22468046935515196,
+          "root_effective_sample_size": 439.42153701655485
+        }
+      ]
+    },
+    {
+      "ancestor_resampled": false,
+      "cumulative_log_evidence": -32.54183615716868,
+      "distinct_root_ancestors": 3603,
+      "guide_ess": null,
+      "log_evidence_increment": -5.836473437428507,
+      "maximum_normalized_weight": 0.03643701361412553,
+      "maximum_root_weight": 0.03654889657186027,
+      "observation_index": 3,
+      "observation_time_s": 2286.0,
+      "posterior_ess": 221.0461981415023,
+      "posterior_resampled": true,
+      "root_effective_sample_size": 203.44511190316797,
+      "roots_with_mass_at_least_1e_3": 148,
+      "roots_with_mass_at_least_1e_6": 3155,
+      "strata": [
+        {
+          "conditional_ess": 62.80127531029932,
+          "distinct_root_ancestors": 650,
+          "id": 0,
+          "log_posterior_mass": -1.7010766030677584,
+          "maximum_normalized_log_weight": -4.295139291775172,
+          "maximum_normalized_weight": 0.013634672367286224,
+          "particle_count": 4000,
+          "posterior_mass": 0.1824869522442034,
+          "root_effective_sample_size": 53.83658909528907
+        },
+        {
+          "conditional_ess": 143.79402706197314,
+          "distinct_root_ancestors": 696,
+          "id": 1,
+          "log_posterior_mass": -1.724034419435616,
+          "maximum_normalized_log_weight": -4.976962780309279,
+          "maximum_normalized_weight": 0.0068949723333687615,
+          "particle_count": 4000,
+          "posterior_mass": 0.17834517529497787,
+          "root_effective_sample_size": 111.96979495532803
+        },
+        {
+          "conditional_ess": 28.685780879144676,
+          "distinct_root_ancestors": 737,
+          "id": 2,
+          "log_posterior_mass": -1.5361967804137102,
+          "maximum_normalized_log_weight": -3.3121701634579304,
+          "maximum_normalized_weight": 0.03643701361412553,
+          "particle_count": 4000,
+          "posterior_mass": 0.2151979922537935,
+          "root_effective_sample_size": 27.3824977595911
+        },
+        {
+          "conditional_ess": 26.742325516027268,
+          "distinct_root_ancestors": 774,
+          "id": 3,
+          "log_posterior_mass": -1.51976242217056,
+          "maximum_normalized_log_weight": -3.462608247889739,
+          "maximum_normalized_weight": 0.03134789222268228,
+          "particle_count": 4000,
+          "posterior_mass": 0.21876385422048059,
+          "root_effective_sample_size": 25.456932472238684
+        },
+        {
+          "conditional_ess": 114.27374078195332,
+          "distinct_root_ancestors": 746,
+          "id": 4,
+          "log_posterior_mass": -1.583740799710546,
+          "maximum_normalized_log_weight": -4.996742387479449,
+          "maximum_normalized_weight": 0.006759932410125134,
+          "particle_count": 4000,
+          "posterior_mass": 0.20520602598654425,
+          "root_effective_sample_size": 95.3740621590117
+        }
+      ]
+    },
+    {
+      "ancestor_resampled": true,
+      "cumulative_log_evidence": -51.00480190791501,
+      "distinct_root_ancestors": 2126,
+      "guide_ess": null,
+      "log_evidence_increment": -18.462965750746328,
+      "maximum_normalized_weight": 0.7820283207243974,
+      "maximum_root_weight": 0.7820283207243974,
+      "observation_index": 4,
+      "observation_time_s": 5953.0,
+      "posterior_ess": 1.6304688463066417,
+      "posterior_resampled": false,
+      "root_effective_sample_size": 1.599680462697616,
+      "roots_with_mass_at_least_1e_3": 12,
+      "roots_with_mass_at_least_1e_6": 52,
+      "strata": [
+        {
+          "conditional_ess": 1.2100038542516274,
+          "distinct_root_ancestors": 364,
+          "id": 0,
+          "log_posterior_mass": -3.455527543885657,
+          "maximum_normalized_log_weight": -3.5548069765636527,
+          "maximum_normalized_weight": 0.02858689232396044,
+          "particle_count": 4000,
+          "posterior_mass": 0.03157064506145422,
+          "root_effective_sample_size": 1.2077164374615765
+        },
+        {
+          "conditional_ess": 3.67926776885754,
+          "distinct_root_ancestors": 447,
+          "id": 1,
+          "log_posterior_mass": -7.920863934254729,
+          "maximum_normalized_log_weight": -8.640551052109686,
+          "maximum_normalized_weight": 0.00017678945519357698,
+          "particle_count": 4000,
+          "posterior_mass": 0.0003630885063564433,
+          "root_effective_sample_size": 3.0419327711658406
+        },
+        {
+          "conditional_ess": 1.078972864816548,
+          "distinct_root_ancestors": 399,
+          "id": 2,
+          "log_posterior_mass": -0.20769336514249737,
+          "maximum_normalized_log_weight": -0.24586432333250177,
+          "maximum_normalized_weight": 0.7820283207243974,
+          "particle_count": 4000,
+          "posterior_mass": 0.8124561258886642,
+          "root_effective_sample_size": 1.0785341703744389
+        },
+        {
+          "conditional_ess": 32.381769602195924,
+          "distinct_root_ancestors": 445,
+          "id": 3,
+          "log_posterior_mass": -1.9329009962656638,
+          "maximum_normalized_log_weight": -4.100782362009206,
+          "maximum_normalized_weight": 0.01655971464080059,
+          "particle_count": 4000,
+          "posterior_mass": 0.14472773427927602,
+          "root_effective_sample_size": 1.7172383564403266
+        },
+        {
+          "conditional_ess": 1.5122218771971874,
+          "distinct_root_ancestors": 471,
+          "id": 4,
+          "log_posterior_mass": -4.520607898013225,
+          "maximum_normalized_log_weight": -4.74336099872544,
+          "maximum_normalized_weight": 0.00870932490877051,
+          "particle_count": 4000,
+          "posterior_mass": 0.01088240626425762,
+          "root_effective_sample_size": 1.452713005765707
+        }
+      ]
+    }
+  ],
+  "code_sha256": "7c60cc1c03e54e09d3f38510750fa7e2082368dc2d985992fc6500f50e41eee6",
+  "csv_sha256": "51305bedec623eddbfa8d1b3f6895396b81d9d748e3e8664945d795fdc62392a",
+  "cumulative_log_evidence": -51.00480190791501,
+  "elapsed_seconds": 9.926854505,
+  "executable_sha256": "746b087439606190418face8708e7f39886a4b696ace1fa0a9747d2f6ee4aeff",
+  "inputs": {
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102100/filter-checkpoints.json": "4932fe93f13c665dfe2aa7bdc04d5749c035f1cd6561eedc63096144d7864da2",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102100/initial-allocation.json": "b921d8f7fd36e07833b5f8b6091f2b499819715c4df30444db3a49f1845c5ae1",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102100/resolved-config.json": "3c61d7762af44a641a00371c80d46f3844dcf8e9b95370d51301b3b219c2ee5b",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102100/sequential-filter-config.json": "2eab9f7525937cb6f67ba479c878fb4aa631b15a2f10fca682835c8d9802130e",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/observations.csv": "d9607356782660ccc034d215607ef9979d99db8aa393c487d9693a42c4a99c42",
+    "/jackbox/home/MH370/inputs/accident/satellite-through-0011.csv": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+    "/jackbox/home/MH370/inputs/environment/mh370-era5-grid.bin": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4",
+    "/jackbox/home/MH370/inputs/environment/mh370-igrf14-grid.bin": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1"
+  },
+  "intermediate_potential_checkpoints": [
+    {
+      "endpoint": {
+        "distinct_positive_roots": 2126,
+        "elapsed_seconds": 114.59375,
+        "log_evidence_increment": -12.19003434194088,
+        "maximum_particle_weight": 0.7820283207243974,
+        "maximum_root_weight": 0.7820283207243974,
+        "positive_particles": 20000,
+        "posterior_effective_sample_size": 1.6304688463066417,
+        "root_effective_sample_size": 1.599680462697616,
+        "strata": [
+          {
+            "conditional_ess": 1.2100038542516274,
+            "distinct_root_ancestors": 364,
+            "id": 0,
+            "log_posterior_mass": -3.455527543885657,
+            "maximum_normalized_log_weight": -3.5548069765636527,
+            "maximum_normalized_weight": 0.02858689232396044,
+            "particle_count": 4000,
+            "posterior_mass": 0.03157064506145422,
+            "root_effective_sample_size": 1.2077164374615765
+          },
+          {
+            "conditional_ess": 3.67926776885754,
+            "distinct_root_ancestors": 447,
+            "id": 1,
+            "log_posterior_mass": -7.920863934254729,
+            "maximum_normalized_log_weight": -8.640551052109686,
+            "maximum_normalized_weight": 0.00017678945519357698,
+            "particle_count": 4000,
+            "posterior_mass": 0.0003630885063564433,
+            "root_effective_sample_size": 3.0419327711658406
+          },
+          {
+            "conditional_ess": 1.078972864816548,
+            "distinct_root_ancestors": 399,
+            "id": 2,
+            "log_posterior_mass": -0.20769336514249737,
+            "maximum_normalized_log_weight": -0.24586432333250177,
+            "maximum_normalized_weight": 0.7820283207243974,
+            "particle_count": 4000,
+            "posterior_mass": 0.8124561258886642,
+            "root_effective_sample_size": 1.0785341703744389
+          },
+          {
+            "conditional_ess": 32.381769602195924,
+            "distinct_root_ancestors": 445,
+            "id": 3,
+            "log_posterior_mass": -1.9329009962656638,
+            "maximum_normalized_log_weight": -4.100782362009206,
+            "maximum_normalized_weight": 0.01655971464080059,
+            "particle_count": 4000,
+            "posterior_mass": 0.14472773427927602,
+            "root_effective_sample_size": 1.7172383564403266
+          },
+          {
+            "conditional_ess": 1.5122218771971874,
+            "distinct_root_ancestors": 471,
+            "id": 4,
+            "log_posterior_mass": -4.520607898013225,
+            "maximum_normalized_log_weight": -4.74336099872544,
+            "maximum_normalized_weight": 0.00870932490877051,
+            "particle_count": 4000,
+            "posterior_mass": 0.01088240626425762,
+            "root_effective_sample_size": 1.452713005765707
+          }
+        ]
+      },
+      "observation_index": 4,
+      "observation_time_s": 5953.0,
+      "points": [
+        {
+          "candidate_pool": {
+            "candidate_effective_sample_size": 14996.214565888444,
+            "candidate_log_evidence_increment": -6.087705452306837,
+            "candidate_root_effective_sample_size": 122.37021460310366,
+            "candidates_per_particle": 1,
+            "configured_candidates": 20000,
+            "distinct_positive_candidate_roots": 2733,
+            "generated_candidates": 20000,
+            "maximum_candidate_root_weight": 0.051128953877547484,
+            "maximum_candidate_weight": 0.00040219800900200665,
+            "observation_index": 4,
+            "observation_time_s": 4119.5,
+            "output_resampling_log_correction": -6.572520305780927e-14,
+            "positive_candidates": 20000,
+            "realized_log_evidence_increment": -6.087705452306903,
+            "strata": [
+              {
+                "candidate_log_posterior_mass": -1.7170166968139657,
+                "candidate_posterior_mass": 0.17960115416720146,
+                "conditional_candidate_effective_sample_size": 3084.8639749444524,
+                "conditional_candidate_root_effective_sample_size": 46.261954420197156,
+                "conditional_maximum_candidate_root_weight": 0.08085109884509564,
+                "conditional_maximum_candidate_weight": 0.0008791950032322349,
+                "configured_candidates": 4000,
+                "distinct_positive_candidate_roots": 470,
+                "estimated_log_predictive_mass": -7.804722149120803,
+                "generated_candidates": 4000,
+                "id": 0,
+                "input_particles": 4000,
+                "input_positive_roots": 470,
+                "output_log_posterior_mass": -1.7170166968139,
+                "output_posterior_mass": 0.17960115416721326,
+                "positive_candidates": 4000,
+                "sampled_ancestor_roots": 470
+              },
+              {
+                "candidate_log_posterior_mass": -1.7788857628465404,
+                "candidate_posterior_mass": 0.16882615488085478,
+                "conditional_candidate_effective_sample_size": 3025.238571988405,
+                "conditional_candidate_root_effective_sample_size": 94.17817293166303,
+                "conditional_maximum_candidate_root_weight": 0.04242009580295258,
+                "conditional_maximum_candidate_weight": 0.0009012163146549009,
+                "configured_candidates": 4000,
+                "distinct_positive_candidate_roots": 528,
+                "estimated_log_predictive_mass": -7.8665912151533774,
+                "generated_candidates": 4000,
+                "id": 1,
+                "input_particles": 4000,
+                "input_positive_roots": 528,
+                "output_log_posterior_mass": -1.7788857628464712,
+                "output_posterior_mass": 0.16882615488086647,
+                "positive_candidates": 4000,
+                "sampled_ancestor_roots": 528
+              },
+              {
+                "candidate_log_posterior_mass": -1.5252532472701645,
+                "candidate_posterior_mass": 0.21756595190453637,
+                "conditional_candidate_effective_sample_size": 3002.880309222964,
+                "conditional_candidate_root_effective_sample_size": 15.220567188827529,
+                "conditional_maximum_candidate_root_weight": 0.23500439030084017,
+                "conditional_maximum_candidate_weight": 0.000999772753989231,
+                "configured_candidates": 4000,
+                "distinct_positive_candidate_roots": 558,
+                "estimated_log_predictive_mass": -7.6129586995770016,
+                "generated_candidates": 4000,
+                "id": 2,
+                "input_particles": 4000,
+                "input_positive_roots": 558,
+                "output_log_posterior_mass": -1.525253247270097,
+                "output_posterior_mass": 0.21756595190455105,
+                "positive_candidates": 4000,
+                "sampled_ancestor_roots": 558
+              },
+              {
+                "candidate_log_posterior_mass": -1.465568251660578,
+                "candidate_posterior_mass": 0.2309467183265756,
+                "conditional_candidate_effective_sample_size": 3072.328433894091,
+                "conditional_candidate_root_effective_sample_size": 15.511113535182975,
+                "conditional_maximum_candidate_root_weight": 0.20008903510593704,
+                "conditional_maximum_candidate_weight": 0.000844753434749266,
+                "configured_candidates": 4000,
+                "distinct_positive_candidate_roots": 597,
+                "estimated_log_predictive_mass": -7.553273703967415,
+                "generated_candidates": 4000,
+                "id": 3,
+                "input_particles": 4000,
+                "input_positive_roots": 597,
+                "output_log_posterior_mass": -1.4655682516605104,
+                "output_posterior_mass": 0.2309467183265912,
+                "positive_candidates": 4000,
+                "sampled_ancestor_roots": 597
+              },
+              {
+                "candidate_log_posterior_mass": -1.5942536750661622,
+                "candidate_posterior_mass": 0.20306002072083196,
+                "conditional_candidate_effective_sample_size": 3013.657396330685,
+                "conditional_candidate_root_effective_sample_size": 66.13239558211664,
+                "conditional_maximum_candidate_root_weight": 0.04807720914488247,
+                "conditional_maximum_candidate_weight": 0.0019806853538883004,
+                "configured_candidates": 4000,
+                "distinct_positive_candidate_roots": 580,
+                "estimated_log_predictive_mass": -7.681959127372999,
+                "generated_candidates": 4000,
+                "id": 4,
+                "input_particles": 4000,
+                "input_positive_roots": 580,
+                "output_log_posterior_mass": -1.5942536750660956,
+                "output_posterior_mass": 0.2030600207208455,
+                "positive_candidates": 4000,
+                "sampled_ancestor_roots": 580
+              }
+            ]
+          },
+          "elapsed_seconds": 1833.5,
+          "output_distinct_positive_roots": 2496,
+          "output_effective_sample_size": 19737.145891835888,
+          "output_maximum_particle_weight": 0.0000577366795816478,
+          "output_maximum_root_weight": 0.05112799869756965,
+          "output_positive_particles": 20000,
+          "output_root_effective_sample_size": 122.34151147116916,
+          "output_strata": [
+            {
+              "conditional_ess": 3999.9999999997935,
+              "distinct_root_ancestors": 435,
+              "id": 0,
+              "log_posterior_mass": -1.7170166968139,
+              "maximum_normalized_log_weight": -10.011066336915928,
+              "maximum_normalized_weight": 0.00004490028854180332,
+              "particle_count": 4000,
+              "posterior_mass": 0.17960115416721326,
+              "root_effective_sample_size": 46.18777640497467
+            },
+            {
+              "conditional_ess": 3999.9999999998063,
+              "distinct_root_ancestors": 501,
+              "id": 1,
+              "log_posterior_mass": -1.7788857628464712,
+              "maximum_normalized_log_weight": -10.072935402948499,
+              "maximum_normalized_weight": 0.000042206538720216625,
+              "particle_count": 4000,
+              "posterior_mass": 0.16882615488086647,
+              "root_effective_sample_size": 94.10436173716704
+            },
+            {
+              "conditional_ess": 3999.9999999998063,
+              "distinct_root_ancestors": 500,
+              "id": 2,
+              "log_posterior_mass": -1.525253247270097,
+              "maximum_normalized_log_weight": -9.819302887372125,
+              "maximum_normalized_weight": 0.00005439148797613777,
+              "particle_count": 4000,
+              "posterior_mass": 0.21756595190455105,
+              "root_effective_sample_size": 15.220642234999143
+            },
+            {
+              "conditional_ess": 3999.9999999998063,
+              "distinct_root_ancestors": 522,
+              "id": 3,
+              "log_posterior_mass": -1.4655682516605104,
+              "maximum_normalized_log_weight": -9.759617891762538,
+              "maximum_normalized_weight": 0.0000577366795816478,
+              "particle_count": 4000,
+              "posterior_mass": 0.2309467183265912,
+              "root_effective_sample_size": 15.501352493005271
+            },
+            {
+              "conditional_ess": 3999.9999999997935,
+              "distinct_root_ancestors": 538,
+              "id": 4,
+              "log_posterior_mass": -1.5942536750660956,
+              "maximum_normalized_log_weight": -9.888303315168123,
+              "maximum_normalized_weight": 0.000050765005180211375,
+              "particle_count": 4000,
+              "posterior_mass": 0.2030600207208455,
+              "root_effective_sample_size": 66.3014561457305
+            }
+          ],
+          "point_index": 0,
+          "point_time_s": 4119.5
+        },
+        {
+          "candidate_pool": {
+            "candidate_effective_sample_size": 12612.236098734675,
+            "candidate_log_evidence_increment": 0.1324855631960269,
+            "candidate_root_effective_sample_size": 98.50230421879564,
+            "candidates_per_particle": 1,
+            "configured_candidates": 20000,
+            "distinct_positive_candidate_roots": 2496,
+            "generated_candidates": 20000,
+            "maximum_candidate_root_weight": 0.06932914058216412,
+            "maximum_candidate_weight": 0.0008944373982726243,
+            "observation_index": 4,
+            "observation_time_s": 5036.25,
+            "output_resampling_log_correction": 6.461498003318411e-14,
+            "positive_candidates": 20000,
+            "realized_log_evidence_increment": 0.1324855631960915,
+            "strata": [
+              {
+                "candidate_log_posterior_mass": -1.706004442564715,
+                "candidate_posterior_mass": 0.18158989791843236,
+                "conditional_candidate_effective_sample_size": 2534.705712159291,
+                "conditional_candidate_root_effective_sample_size": 40.61771400745454,
+                "conditional_maximum_candidate_root_weight": 0.09586449193621599,
+                "conditional_maximum_candidate_weight": 0.002524886744147225,
+                "configured_candidates": 4000,
+                "distinct_positive_candidate_roots": 435,
+                "estimated_log_predictive_mass": -1.573518879368688,
+                "generated_candidates": 4000,
+                "id": 0,
+                "input_particles": 4000,
+                "input_positive_roots": 435,
+                "output_log_posterior_mass": -1.7060044425647778,
+                "output_posterior_mass": 0.18158989791842095,
+                "positive_candidates": 4000,
+                "sampled_ancestor_roots": 435
+              },
+              {
+                "candidate_log_posterior_mass": -1.8483297574913717,
+                "candidate_posterior_mass": 0.15750000995795002,
+                "conditional_candidate_effective_sample_size": 2455.7717180797185,
+                "conditional_candidate_root_effective_sample_size": 98.64688528358822,
+                "conditional_maximum_candidate_root_weight": 0.03448555883987893,
+                "conditional_maximum_candidate_weight": 0.0031315018813221933,
+                "configured_candidates": 4000,
+                "distinct_positive_candidate_roots": 501,
+                "estimated_log_predictive_mass": -1.7158441942953448,
+                "generated_candidates": 4000,
+                "id": 1,
+                "input_particles": 4000,
+                "input_positive_roots": 501,
+                "output_log_posterior_mass": -1.8483297574914346,
+                "output_posterior_mass": 0.15750000995794014,
+                "positive_candidates": 4000,
+                "sampled_ancestor_roots": 501
+              },
+              {
+                "candidate_log_posterior_mass": -1.4730290995713278,
+                "candidate_posterior_mass": 0.22923007176807872,
+                "conditional_candidate_effective_sample_size": 2609.8483899345943,
+                "conditional_candidate_root_effective_sample_size": 9.684771722309293,
+                "conditional_maximum_candidate_root_weight": 0.3024434798079512,
+                "conditional_maximum_candidate_weight": 0.003901919985339282,
+                "configured_candidates": 4000,
+                "distinct_positive_candidate_roots": 500,
+                "estimated_log_predictive_mass": -1.3405435363753009,
+                "generated_candidates": 4000,
+                "id": 2,
+                "input_particles": 4000,
+                "input_positive_roots": 500,
+                "output_log_posterior_mass": -1.4730290995713915,
+                "output_posterior_mass": 0.22923007176806412,
+                "positive_candidates": 4000,
+                "sampled_ancestor_roots": 500
+              },
+              {
+                "candidate_log_posterior_mass": -1.4737066893871742,
+                "candidate_posterior_mass": 0.2290748004170468,
+                "conditional_candidate_effective_sample_size": 2640.4762010565028,
+                "conditional_candidate_root_effective_sample_size": 18.422821946536157,
+                "conditional_maximum_candidate_root_weight": 0.17039384756456594,
+                "conditional_maximum_candidate_weight": 0.0024353299374889467,
+                "configured_candidates": 4000,
+                "distinct_positive_candidate_roots": 522,
+                "estimated_log_predictive_mass": -1.3412211261911473,
+                "generated_candidates": 4000,
+                "id": 3,
+                "input_particles": 4000,
+                "input_positive_roots": 522,
+                "output_log_posterior_mass": -1.473706689387237,
+                "output_posterior_mass": 0.2290748004170324,
+                "positive_candidates": 4000,
+                "sampled_ancestor_roots": 522
+              },
+              {
+                "candidate_log_posterior_mass": -1.5964959227487585,
+                "candidate_posterior_mass": 0.20260521993849204,
+                "conditional_candidate_effective_sample_size": 2538.5492022882577,
+                "conditional_candidate_root_effective_sample_size": 50.38603243752294,
+                "conditional_maximum_candidate_root_weight": 0.059002037365288355,
+                "conditional_maximum_candidate_weight": 0.0022415982775586115,
+                "configured_candidates": 4000,
+                "distinct_positive_candidate_roots": 538,
+                "estimated_log_predictive_mass": -1.4640103595527316,
+                "generated_candidates": 4000,
+                "id": 4,
+                "input_particles": 4000,
+                "input_positive_roots": 538,
+                "output_log_posterior_mass": -1.5964959227488205,
+                "output_posterior_mass": 0.20260521993847946,
+                "positive_candidates": 4000,
+                "sampled_ancestor_roots": 538
+              }
+            ]
+          },
+          "elapsed_seconds": 916.75,
+          "output_distinct_positive_roots": 2294,
+          "output_effective_sample_size": 19622.10674501741,
+          "output_maximum_particle_weight": 0.00005730751794201604,
+          "output_maximum_root_weight": 0.06934209670983871,
+          "output_positive_particles": 20000,
+          "output_root_effective_sample_size": 98.44473700850101,
+          "output_strata": [
+            {
+              "conditional_ess": 3999.999999999806,
+              "distinct_root_ancestors": 402,
+              "id": 0,
+              "log_posterior_mass": -1.7060044425647778,
+              "maximum_normalized_log_weight": -10.000054082666805,
+              "maximum_normalized_weight": 0.00004539747447960524,
+              "particle_count": 4000,
+              "posterior_mass": 0.18158989791842095,
+              "root_effective_sample_size": 40.589151534523815
+            },
+            {
+              "conditional_ess": 3999.999999999806,
+              "distinct_root_ancestors": 467,
+              "id": 1,
+              "log_posterior_mass": -1.8483297574914346,
+              "maximum_normalized_log_weight": -10.142379397593462,
+              "maximum_normalized_weight": 0.00003937500248948503,
+              "particle_count": 4000,
+              "posterior_mass": 0.15750000995794014,
+              "root_effective_sample_size": 98.51488806245847
+            },
+            {
+              "conditional_ess": 3999.9999999997935,
+              "distinct_root_ancestors": 451,
+              "id": 2,
+              "log_posterior_mass": -1.4730290995713915,
+              "maximum_normalized_log_weight": -9.767078739673419,
+              "maximum_normalized_weight": 0.00005730751794201604,
+              "particle_count": 4000,
+              "posterior_mass": 0.22923007176806412,
+              "root_effective_sample_size": 9.67982760227074
+            },
+            {
+              "conditional_ess": 3999.999999999806,
+              "distinct_root_ancestors": 473,
+              "id": 3,
+              "log_posterior_mass": -1.473706689387237,
+              "maximum_normalized_log_weight": -9.767756329489265,
+              "maximum_normalized_weight": 0.000057268700104258103,
+              "particle_count": 4000,
+              "posterior_mass": 0.2290748004170324,
+              "root_effective_sample_size": 18.4025653176051
+            },
+            {
+              "conditional_ess": 3999.9999999998063,
+              "distinct_root_ancestors": 501,
+              "id": 4,
+              "log_posterior_mass": -1.5964959227488205,
+              "maximum_normalized_log_weight": -9.890545562850848,
+              "maximum_normalized_weight": 0.000050651304984619875,
+              "particle_count": 4000,
+              "posterior_mass": 0.20260521993847946,
+              "root_effective_sample_size": 50.44040781069717
+            }
+          ],
+          "point_index": 1,
+          "point_time_s": 5036.25
+        },
+        {
+          "candidate_pool": {
+            "candidate_effective_sample_size": 11465.836148041795,
+            "candidate_log_evidence_increment": 0.03153782967451191,
+            "candidate_root_effective_sample_size": 76.36087529625988,
+            "candidates_per_particle": 1,
+            "configured_candidates": 20000,
+            "distinct_positive_candidate_roots": 2294,
+            "generated_candidates": 20000,
+            "maximum_candidate_root_weight": 0.09130087712845923,
+            "maximum_candidate_weight": 0.0009548771325651144,
+            "observation_index": 4,
+            "observation_time_s": 5494.625,
+            "output_resampling_log_correction": 1.496580637194711e-13,
+            "positive_candidates": 20000,
+            "realized_log_evidence_increment": 0.031537829674661566,
+            "strata": [
+              {
+                "candidate_log_posterior_mass": -1.6683988346639294,
+                "candidate_posterior_mass": 0.1885487217510727,
+                "conditional_candidate_effective_sample_size": 2128.3974630698526,
+                "conditional_candidate_root_effective_sample_size": 34.74574418787561,
+                "conditional_maximum_candidate_root_weight": 0.11162693808101597,
+                "conditional_maximum_candidate_weight": 0.0050643521934122145,
+                "configured_candidates": 4000,
+                "distinct_positive_candidate_roots": 402,
+                "estimated_log_predictive_mass": -1.6368610049894174,
+                "generated_candidates": 4000,
+                "id": 0,
+                "input_particles": 4000,
+                "input_positive_roots": 402,
+                "output_log_posterior_mass": -1.6683988346640781,
+                "output_posterior_mass": 0.18854872175104465,
+                "positive_candidates": 4000,
+                "sampled_ancestor_roots": 402
+              },
+              {
+                "candidate_log_posterior_mass": -1.867576690583387,
+                "candidate_posterior_mass": 0.15449760404199497,
+                "conditional_candidate_effective_sample_size": 2244.003424932477,
+                "conditional_candidate_root_effective_sample_size": 87.45847308021284,
+                "conditional_maximum_candidate_root_weight": 0.04150274429110295,
+                "conditional_maximum_candidate_weight": 0.005199679462554265,
+                "configured_candidates": 4000,
+                "distinct_positive_candidate_roots": 467,
+                "estimated_log_predictive_mass": -1.8360388609088751,
+                "generated_candidates": 4000,
+                "id": 1,
+                "input_particles": 4000,
+                "input_positive_roots": 467,
+                "output_log_posterior_mass": -1.867576690583535,
+                "output_posterior_mass": 0.15449760404197213,
+                "positive_candidates": 4000,
+                "sampled_ancestor_roots": 467
+              },
+              {
+                "candidate_log_posterior_mass": -1.4040487454106843,
+                "candidate_posterior_mass": 0.24560057404117397,
+                "conditional_candidate_effective_sample_size": 2547.757778948753,
+                "conditional_candidate_root_effective_sample_size": 6.565259209640377,
+                "conditional_maximum_candidate_root_weight": 0.37174537349881354,
+                "conditional_maximum_candidate_weight": 0.003767665852558884,
+                "configured_candidates": 4000,
+                "distinct_positive_candidate_roots": 451,
+                "estimated_log_predictive_mass": -1.3725109157361723,
+                "generated_candidates": 4000,
+                "id": 2,
+                "input_particles": 4000,
+                "input_positive_roots": 451,
+                "output_log_posterior_mass": -1.404048745410833,
+                "output_posterior_mass": 0.24560057404113741,
+                "positive_candidates": 4000,
+                "sampled_ancestor_roots": 451
+              },
+              {
+                "candidate_log_posterior_mass": -1.5744943395283202,
+                "candidate_posterior_mass": 0.20711225468748465,
+                "conditional_candidate_effective_sample_size": 2244.2589699434534,
+                "conditional_candidate_root_effective_sample_size": 26.74616890684988,
+                "conditional_maximum_candidate_root_weight": 0.1261645148559674,
+                "conditional_maximum_candidate_weight": 0.0036586164872478466,
+                "configured_candidates": 4000,
+                "distinct_positive_candidate_roots": 473,
+                "estimated_log_predictive_mass": -1.5429565098538083,
+                "generated_candidates": 4000,
+                "id": 3,
+                "input_particles": 4000,
+                "input_positive_roots": 473,
+                "output_log_posterior_mass": -1.574494339528469,
+                "output_posterior_mass": 0.20711225468745384,
+                "positive_candidates": 4000,
+                "sampled_ancestor_roots": 473
+              },
+              {
+                "candidate_log_posterior_mass": -1.5884553664262886,
+                "candidate_posterior_mass": 0.2042408454782739,
+                "conditional_candidate_effective_sample_size": 2441.3484844297395,
+                "conditional_candidate_root_effective_sample_size": 41.37824272249995,
+                "conditional_maximum_candidate_root_weight": 0.08032123440330223,
+                "conditional_maximum_candidate_weight": 0.003957715532068353,
+                "configured_candidates": 4000,
+                "distinct_positive_candidate_roots": 501,
+                "estimated_log_predictive_mass": -1.5569175367517767,
+                "generated_candidates": 4000,
+                "id": 4,
+                "input_particles": 4000,
+                "input_positive_roots": 501,
+                "output_log_posterior_mass": -1.5884553664264356,
+                "output_posterior_mass": 0.2042408454782439,
+                "positive_candidates": 4000,
+                "sampled_ancestor_roots": 501
+              }
+            ]
+          },
+          "elapsed_seconds": 458.375,
+          "output_distinct_positive_roots": 2188,
+          "output_effective_sample_size": 19574.299973800415,
+          "output_maximum_particle_weight": 0.00006140014351028436,
+          "output_maximum_root_weight": 0.09130201339979468,
+          "output_positive_particles": 20000,
+          "output_root_effective_sample_size": 76.33977128613046,
+          "output_strata": [
+            {
+              "conditional_ess": 3999.9999999997935,
+              "distinct_root_ancestors": 376,
+              "id": 0,
+              "log_posterior_mass": -1.6683988346640781,
+              "maximum_normalized_log_weight": -9.962448474766106,
+              "maximum_normalized_weight": 0.00004713718043776117,
+              "particle_count": 4000,
+              "posterior_mass": 0.18854872175104465,
+              "root_effective_sample_size": 34.686241268822876
+            },
+            {
+              "conditional_ess": 3999.999999999805,
+              "distinct_root_ancestors": 453,
+              "id": 1,
+              "log_posterior_mass": -1.867576690583535,
+              "maximum_normalized_log_weight": -10.161626330685563,
+              "maximum_normalized_weight": 0.000038624401010493036,
+              "particle_count": 4000,
+              "posterior_mass": 0.15449760404197213,
+              "root_effective_sample_size": 87.56471579776932
+            },
+            {
+              "conditional_ess": 3999.9999999997935,
+              "distinct_root_ancestors": 419,
+              "id": 2,
+              "log_posterior_mass": -1.404048745410833,
+              "maximum_normalized_log_weight": -9.69809838551286,
+              "maximum_normalized_weight": 0.00006140014351028436,
+              "particle_count": 4000,
+              "posterior_mass": 0.24560057404113741,
+              "root_effective_sample_size": 6.564124107894918
+            },
+            {
+              "conditional_ess": 3999.9999999998063,
+              "distinct_root_ancestors": 455,
+              "id": 3,
+              "log_posterior_mass": -1.574494339528469,
+              "maximum_normalized_log_weight": -9.868543979630497,
+              "maximum_normalized_weight": 0.00005177806367186346,
+              "particle_count": 4000,
+              "posterior_mass": 0.20711225468745384,
+              "root_effective_sample_size": 26.755405428002597
+            },
+            {
+              "conditional_ess": 3999.9999999998063,
+              "distinct_root_ancestors": 485,
+              "id": 4,
+              "log_posterior_mass": -1.5884553664264356,
+              "maximum_normalized_log_weight": -9.882505006528463,
+              "maximum_normalized_weight": 0.000051060211369560976,
+              "particle_count": 4000,
+              "posterior_mass": 0.2042408454782439,
+              "root_effective_sample_size": 41.33063995329645
+            }
+          ],
+          "point_index": 2,
+          "point_time_s": 5494.625
+        },
+        {
+          "candidate_pool": {
+            "candidate_effective_sample_size": 8715.099435396429,
+            "candidate_log_evidence_increment": -0.09591239839132037,
+            "candidate_root_effective_sample_size": 104.30883448079665,
+            "candidates_per_particle": 1,
+            "configured_candidates": 20000,
+            "distinct_positive_candidate_roots": 2188,
+            "generated_candidates": 20000,
+            "maximum_candidate_root_weight": 0.06915300983952206,
+            "maximum_candidate_weight": 0.0033105476049210725,
+            "observation_index": 4,
+            "observation_time_s": 5723.8125,
+            "output_resampling_log_correction": -1.0458300891968975e-13,
+            "positive_candidates": 20000,
+            "realized_log_evidence_increment": -0.09591239839142496,
+            "strata": [
+              {
+                "candidate_log_posterior_mass": -1.56805153512441,
+                "candidate_posterior_mass": 0.20845094626736832,
+                "conditional_candidate_effective_sample_size": 2334.650752606904,
+                "conditional_candidate_root_effective_sample_size": 28.548796009589953,
+                "conditional_maximum_candidate_root_weight": 0.12636321711516402,
+                "conditional_maximum_candidate_weight": 0.0036334614385884717,
+                "configured_candidates": 4000,
+                "distinct_positive_candidate_roots": 376,
+                "estimated_log_predictive_mass": -1.6639639335157304,
+                "generated_candidates": 4000,
+                "id": 0,
+                "input_particles": 4000,
+                "input_positive_roots": 376,
+                "output_log_posterior_mass": -1.5680515351243045,
+                "output_posterior_mass": 0.2084509462673903,
+                "positive_candidates": 4000,
+                "sampled_ancestor_roots": 376
+              },
+              {
+                "candidate_log_posterior_mass": -1.8426812074655234,
+                "candidate_posterior_mass": 0.1583921739877229,
+                "conditional_candidate_effective_sample_size": 2341.6602192484397,
+                "conditional_candidate_root_effective_sample_size": 105.67459574735135,
+                "conditional_maximum_candidate_root_weight": 0.0287003461787344,
+                "conditional_maximum_candidate_weight": 0.005459221403633188,
+                "configured_candidates": 4000,
+                "distinct_positive_candidate_roots": 453,
+                "estimated_log_predictive_mass": -1.9385936058568438,
+                "generated_candidates": 4000,
+                "id": 1,
+                "input_particles": 4000,
+                "input_positive_roots": 453,
+                "output_log_posterior_mass": -1.8426812074654197,
+                "output_posterior_mass": 0.15839217398773933,
+                "positive_candidates": 4000,
+                "sampled_ancestor_roots": 453
+              },
+              {
+                "candidate_log_posterior_mass": -1.4896166910698898,
+                "candidate_posterior_mass": 0.2254590594495469,
+                "conditional_candidate_effective_sample_size": 1274.4581063024868,
+                "conditional_candidate_root_effective_sample_size": 9.434218539113848,
+                "conditional_maximum_candidate_root_weight": 0.3067209186818997,
+                "conditional_maximum_candidate_weight": 0.01468358651457031,
+                "configured_candidates": 4000,
+                "distinct_positive_candidate_roots": 419,
+                "estimated_log_predictive_mass": -1.5855290894612102,
+                "generated_candidates": 4000,
+                "id": 2,
+                "input_particles": 4000,
+                "input_positive_roots": 419,
+                "output_log_posterior_mass": -1.4896166910697861,
+                "output_posterior_mass": 0.2254590594495703,
+                "positive_candidates": 4000,
+                "sampled_ancestor_roots": 419
+              },
+              {
+                "candidate_log_posterior_mass": -1.5622788356049433,
+                "candidate_posterior_mass": 0.2096577508535452,
+                "conditional_candidate_effective_sample_size": 1644.367081273516,
+                "conditional_candidate_root_effective_sample_size": 28.028399582068523,
+                "conditional_maximum_candidate_root_weight": 0.1250700475208825,
+                "conditional_maximum_candidate_weight": 0.01008910525903671,
+                "configured_candidates": 4000,
+                "distinct_positive_candidate_roots": 455,
+                "estimated_log_predictive_mass": -1.6581912339962637,
+                "generated_candidates": 4000,
+                "id": 3,
+                "input_particles": 4000,
+                "input_positive_roots": 455,
+                "output_log_posterior_mass": -1.562278835604836,
+                "output_posterior_mass": 0.2096577508535677,
+                "positive_candidates": 4000,
+                "sampled_ancestor_roots": 455
+              },
+              {
+                "candidate_log_posterior_mass": -1.6192858978435678,
+                "candidate_posterior_mass": 0.19804006944181668,
+                "conditional_candidate_effective_sample_size": 2086.0091982648355,
+                "conditional_candidate_root_effective_sample_size": 45.018968880578505,
+                "conditional_maximum_candidate_root_weight": 0.08417253798910021,
+                "conditional_maximum_candidate_weight": 0.007476381605629442,
+                "configured_candidates": 4000,
+                "distinct_positive_candidate_roots": 485,
+                "estimated_log_predictive_mass": -1.7151982962348882,
+                "generated_candidates": 4000,
+                "id": 4,
+                "input_particles": 4000,
+                "input_positive_roots": 485,
+                "output_log_posterior_mass": -1.6192858978434614,
+                "output_posterior_mass": 0.19804006944183775,
+                "positive_candidates": 4000,
+                "sampled_ancestor_roots": 485
+              }
+            ]
+          },
+          "elapsed_seconds": 229.1875,
+          "output_distinct_positive_roots": 2147,
+          "output_effective_sample_size": 19748.41439685729,
+          "output_maximum_particle_weight": 0.00005636476486239257,
+          "output_maximum_root_weight": 0.06915956648615579,
+          "output_positive_particles": 20000,
+          "output_root_effective_sample_size": 104.24391907661315,
+          "output_strata": [
+            {
+              "conditional_ess": 3999.9999999998063,
+              "distinct_root_ancestors": 368,
+              "id": 0,
+              "log_posterior_mass": -1.5680515351243045,
+              "maximum_normalized_log_weight": -9.862101175226332,
+              "maximum_normalized_weight": 0.00005211273656684758,
+              "particle_count": 4000,
+              "posterior_mass": 0.2084509462673903,
+              "root_effective_sample_size": 28.50190428348005
+            },
+            {
+              "conditional_ess": 3999.9999999997935,
+              "distinct_root_ancestors": 449,
+              "id": 1,
+              "log_posterior_mass": -1.8426812074654197,
+              "maximum_normalized_log_weight": -10.136730847567447,
+              "maximum_normalized_weight": 0.00003959804349693484,
+              "particle_count": 4000,
+              "posterior_mass": 0.15839217398773933,
+              "root_effective_sample_size": 105.6272940927933
+            },
+            {
+              "conditional_ess": 3999.9999999997935,
+              "distinct_root_ancestors": 406,
+              "id": 2,
+              "log_posterior_mass": -1.4896166910697861,
+              "maximum_normalized_log_weight": -9.783666331171814,
+              "maximum_normalized_weight": 0.00005636476486239257,
+              "particle_count": 4000,
+              "posterior_mass": 0.2254590594495703,
+              "root_effective_sample_size": 9.432115882976086
+            },
+            {
+              "conditional_ess": 3999.9999999998063,
+              "distinct_root_ancestors": 449,
+              "id": 3,
+              "log_posterior_mass": -1.562278835604836,
+              "maximum_normalized_log_weight": -9.856328475706864,
+              "maximum_normalized_weight": 0.00005241443771339193,
+              "particle_count": 4000,
+              "posterior_mass": 0.2096577508535677,
+              "root_effective_sample_size": 28.012185300605665
+            },
+            {
+              "conditional_ess": 3999.999999999805,
+              "distinct_root_ancestors": 475,
+              "id": 4,
+              "log_posterior_mass": -1.6192858978434614,
+              "maximum_normalized_log_weight": -9.913335537945489,
+              "maximum_normalized_weight": 0.00004951001736045944,
+              "particle_count": 4000,
+              "posterior_mass": 0.19804006944183775,
+              "root_effective_sample_size": 44.95442744917344
+            }
+          ],
+          "point_index": 3,
+          "point_time_s": 5723.8125
+        },
+        {
+          "candidate_pool": {
+            "candidate_effective_sample_size": 9009.36056044394,
+            "candidate_log_evidence_increment": -0.25333695097799036,
+            "candidate_root_effective_sample_size": 129.8164449470785,
+            "candidates_per_particle": 1,
+            "configured_candidates": 20000,
+            "distinct_positive_candidate_roots": 2147,
+            "generated_candidates": 20000,
+            "maximum_candidate_root_weight": 0.04387598019247506,
+            "maximum_candidate_weight": 0.0053187382854987895,
+            "observation_index": 4,
+            "observation_time_s": 5838.40625,
+            "output_resampling_log_correction": 1.1879386363489175e-13,
+            "positive_candidates": 20000,
+            "realized_log_evidence_increment": -0.25333695097787157,
+            "strata": [
+              {
+                "candidate_log_posterior_mass": -1.5229546906716502,
+                "candidate_posterior_mass": 0.21806661473939803,
+                "conditional_candidate_effective_sample_size": 2378.940117261419,
+                "conditional_candidate_root_effective_sample_size": 21.815927097204213,
+                "conditional_maximum_candidate_root_weight": 0.1592036634833303,
+                "conditional_maximum_candidate_weight": 0.0065239430648349195,
+                "configured_candidates": 4000,
+                "distinct_positive_candidate_roots": 368,
+                "estimated_log_predictive_mass": -1.7762916416496406,
+                "generated_candidates": 4000,
+                "id": 0,
+                "input_particles": 4000,
+                "input_positive_roots": 368,
+                "output_log_posterior_mass": -1.5229546906717673,
+                "output_posterior_mass": 0.21806661473937253,
+                "positive_candidates": 4000,
+                "sampled_ancestor_roots": 368
+              },
+              {
+                "candidate_log_posterior_mass": -1.8602247045105467,
+                "candidate_posterior_mass": 0.15563765395561094,
+                "conditional_candidate_effective_sample_size": 2910.8836454268276,
+                "conditional_candidate_root_effective_sample_size": 112.54896880945985,
+                "conditional_maximum_candidate_root_weight": 0.030431866238010655,
+                "conditional_maximum_candidate_weight": 0.003960999262371099,
+                "configured_candidates": 4000,
+                "distinct_positive_candidate_roots": 449,
+                "estimated_log_predictive_mass": -2.113561655488537,
+                "generated_candidates": 4000,
+                "id": 1,
+                "input_particles": 4000,
+                "input_positive_roots": 449,
+                "output_log_posterior_mass": -1.8602247045106637,
+                "output_posterior_mass": 0.15563765395559273,
+                "positive_candidates": 4000,
+                "sampled_ancestor_roots": 449
+              },
+              {
+                "candidate_log_posterior_mass": -1.5907421253147194,
+                "candidate_posterior_mass": 0.2037743295175504,
+                "conditional_candidate_effective_sample_size": 2421.0209092991613,
+                "conditional_candidate_root_effective_sample_size": 16.82630547375623,
+                "conditional_maximum_candidate_root_weight": 0.21531652341271068,
+                "conditional_maximum_candidate_weight": 0.004822790815756035,
+                "configured_candidates": 4000,
+                "distinct_positive_candidate_roots": 406,
+                "estimated_log_predictive_mass": -1.8440790762927097,
+                "generated_candidates": 4000,
+                "id": 2,
+                "input_particles": 4000,
+                "input_positive_roots": 406,
+                "output_log_posterior_mass": -1.5907421253148364,
+                "output_posterior_mass": 0.20377432951752655,
+                "positive_candidates": 4000,
+                "sampled_ancestor_roots": 406
+              },
+              {
+                "candidate_log_posterior_mass": -1.5119787481601803,
+                "candidate_posterior_mass": 0.22047328494216506,
+                "conditional_candidate_effective_sample_size": 1057.774085995123,
+                "conditional_candidate_root_effective_sample_size": 24.630680619395694,
+                "conditional_maximum_candidate_root_weight": 0.1252752276643314,
+                "conditional_maximum_candidate_weight": 0.024124184872983637,
+                "configured_candidates": 4000,
+                "distinct_positive_candidate_roots": 449,
+                "estimated_log_predictive_mass": -1.7653156991381707,
+                "generated_candidates": 4000,
+                "id": 3,
+                "input_particles": 4000,
+                "input_positive_roots": 449,
+                "output_log_posterior_mass": -1.5119787481602973,
+                "output_posterior_mass": 0.22047328494213925,
+                "positive_candidates": 4000,
+                "sampled_ancestor_roots": 449
+              },
+              {
+                "candidate_log_posterior_mass": -1.5992494077422388,
+                "candidate_posterior_mass": 0.2020481168452755,
+                "conditional_candidate_effective_sample_size": 2084.9602997720963,
+                "conditional_candidate_root_effective_sample_size": 47.089784280295156,
+                "conditional_maximum_candidate_root_weight": 0.08745783791783815,
+                "conditional_maximum_candidate_weight": 0.011004351978451482,
+                "configured_candidates": 4000,
+                "distinct_positive_candidate_roots": 475,
+                "estimated_log_predictive_mass": -1.8525863587202291,
+                "generated_candidates": 4000,
+                "id": 4,
+                "input_particles": 4000,
+                "input_positive_roots": 475,
+                "output_log_posterior_mass": -1.5992494077423558,
+                "output_posterior_mass": 0.20204811684525187,
+                "positive_candidates": 4000,
+                "sampled_ancestor_roots": 475
+              }
+            ]
+          },
+          "elapsed_seconds": 114.59375,
+          "output_distinct_positive_roots": 2126,
+          "output_effective_sample_size": 19730.48005835149,
+          "output_maximum_particle_weight": 0.00005511832123553482,
+          "output_maximum_root_weight": 0.04386242442864699,
+          "output_positive_particles": 20000,
+          "output_root_effective_sample_size": 129.77144011761936,
+          "output_strata": [
+            {
+              "conditional_ess": 3999.999999999805,
+              "distinct_root_ancestors": 364,
+              "id": 0,
+              "log_posterior_mass": -1.5229546906717673,
+              "maximum_normalized_log_weight": -9.817004330773795,
+              "maximum_normalized_weight": 0.00005451665368484313,
+              "particle_count": 4000,
+              "posterior_mass": 0.21806661473937253,
+              "root_effective_sample_size": 21.796523999335218
+            },
+            {
+              "conditional_ess": 3999.9999999998013,
+              "distinct_root_ancestors": 447,
+              "id": 1,
+              "log_posterior_mass": -1.8602247045106637,
+              "maximum_normalized_log_weight": -10.154274344612691,
+              "maximum_normalized_weight": 0.00003890941348889818,
+              "particle_count": 4000,
+              "posterior_mass": 0.15563765395559273,
+              "root_effective_sample_size": 112.51758087201128
+            },
+            {
+              "conditional_ess": 3999.9999999997985,
+              "distinct_root_ancestors": 399,
+              "id": 2,
+              "log_posterior_mass": -1.5907421253148364,
+              "maximum_normalized_log_weight": -9.884791765416864,
+              "maximum_normalized_weight": 0.00005094358237938164,
+              "particle_count": 4000,
+              "posterior_mass": 0.20377432951752655,
+              "root_effective_sample_size": 16.834520868492888
+            },
+            {
+              "conditional_ess": 3999.999999999806,
+              "distinct_root_ancestors": 445,
+              "id": 3,
+              "log_posterior_mass": -1.5119787481602973,
+              "maximum_normalized_log_weight": -9.806028388262325,
+              "maximum_normalized_weight": 0.00005511832123553482,
+              "particle_count": 4000,
+              "posterior_mass": 0.22047328494213925,
+              "root_effective_sample_size": 24.60410457974628
+            },
+            {
+              "conditional_ess": 3999.999999999805,
+              "distinct_root_ancestors": 471,
+              "id": 4,
+              "log_posterior_mass": -1.5992494077423558,
+              "maximum_normalized_log_weight": -9.893299047844383,
+              "maximum_normalized_weight": 0.00005051202921131297,
+              "particle_count": 4000,
+              "posterior_mass": 0.20204811684525187,
+              "root_effective_sample_size": 47.10371059480207
+            }
+          ],
+          "point_index": 4,
+          "point_time_s": 5838.40625
+        }
+      ],
+      "realized_log_evidence_increment": -18.462965750746328
+    }
+  ],
+  "maximum_root_weight": 0.7820283207243974,
+  "observations": [
+    {
+      "id": "m1825",
+      "measurement": {
+        "bfo": null,
+        "bfo_sd": null,
+        "bto": 12597.780101685643,
+        "bto_sd": 43.0,
+        "ground_station_position_km": {
+          "x": -2368.8,
+          "y": 4881.1,
+          "z": -3342.0
+        },
+        "satellite_position_km": {
+          "x": 18138.16627,
+          "y": 38070.30314,
+          "z": 1150.214015
+        },
+        "satellite_velocity_km_s": {
+          "x": 0.001818,
+          "y": -0.00106,
+          "z": 0.026624
+        },
+        "time": 1425.0
+      },
+      "satellite_afc_hz": 10.61649122807,
+      "time_utc": "2014-03-07T18:25:34.000Z"
+    },
+    {
+      "id": "m1828a",
+      "measurement": {
+        "bfo": 168.66614651379555,
+        "bfo_sd": 7.0,
+        "bto": 12423.651789439133,
+        "bto_sd": 29.0,
+        "ground_station_position_km": {
+          "x": -2368.8,
+          "y": 4881.1,
+          "z": -3342.0
+        },
+        "satellite_position_km": {
+          "x": 18138.44957,
+          "y": 38070.13916,
+          "z": 1154.167633
+        },
+        "satellite_velocity_km_s": {
+          "x": 0.001817,
+          "y": -0.001053,
+          "z": 0.0257
+        },
+        "time": 1576.0
+      },
+      "satellite_afc_hz": 10.245614035088,
+      "time_utc": "2014-03-07T18:28:05.000Z"
+    },
+    {
+      "id": "m1828b",
+      "measurement": {
+        "bfo": 183.64238767050242,
+        "bfo_sd": 7.0,
+        "bto": 12482.015705065976,
+        "bto_sd": 29.0,
+        "ground_station_position_km": {
+          "x": -2368.8,
+          "y": 4881.1,
+          "z": -3342.0
+        },
+        "satellite_position_km": {
+          "x": 18138.46645,
+          "y": 38070.12942,
+          "z": 1154.398872
+        },
+        "satellite_velocity_km_s": {
+          "x": 0.001817,
+          "y": -0.001053,
+          "z": 0.025645
+        },
+        "time": 1585.0
+      },
+      "satellite_afc_hz": 10.22350877193,
+      "time_utc": "2014-03-07T18:28:14.000Z"
+    },
+    {
+      "id": "m1839",
+      "measurement": {
+        "bfo": 201.17084312048553,
+        "bfo_sd": 7.0,
+        "bto": null,
+        "bto_sd": null,
+        "ground_station_position_km": {
+          "x": -2368.8,
+          "y": 4881.1,
+          "z": -3342.0
+        },
+        "satellite_position_km": {
+          "x": 18139.78015,
+          "y": 38069.3819,
+          "z": 1170.877272
+        },
+        "satellite_velocity_km_s": {
+          "x": 0.001815,
+          "y": -0.001021,
+          "z": 0.021317
+        },
+        "time": 2286.0
+      },
+      "satellite_afc_hz": 8.501754385965,
+      "time_utc": "2014-03-07T18:39:55.000Z"
+    },
+    {
+      "id": "m1941",
+      "measurement": {
+        "bfo": 271.9516799634473,
+        "bfo_sd": 7.0,
+        "bto": 11875.779737854902,
+        "bto_sd": 29.0,
+        "ground_station_position_km": {
+          "x": -2368.8,
+          "y": 4881.1,
+          "z": -3342.0
+        },
+        "satellite_position_km": {
+          "x": 18146.73487,
+          "y": 38065.88964,
+          "z": 1206.651849
+        },
+        "satellite_velocity_km_s": {
+          "x": 0.001883,
+          "y": -0.000824,
+          "z": -0.001964
+        },
+        "time": 5953.0
+      },
+      "satellite_afc_hz": -0.500555555556,
+      "time_utc": "2014-03-07T19:41:02.000Z"
+    }
+  ],
+  "original_checkpoint": {
+    "ancestor_resampled": false,
+    "cumulative_log_evidence": -54.24129584571255,
+    "distinct_root_ancestors": 3603,
+    "guide_ess": null,
+    "log_evidence_increment": -27.535933125972377,
+    "maximum_normalized_weight": 0.6160685992603739,
+    "maximum_root_weight": 0.6160685992603739,
+    "observation_index": 3,
+    "observation_time_s": 5953.0,
+    "posterior_ess": 2.5194555916383865,
+    "posterior_resampled": true,
+    "root_effective_sample_size": 2.519334187242678,
+    "roots_with_mass_at_least_1e_3": 29,
+    "roots_with_mass_at_least_1e_6": 396,
+    "strata": [
+      {
+        "conditional_ess": 1.5936020845085108,
+        "distinct_root_ancestors": 650,
+        "id": 0,
+        "log_posterior_mass": -3.2065139408885095,
+        "maximum_normalized_log_weight": -3.445792756462299,
+        "maximum_normalized_weight": 0.03187947935915002,
+        "particle_count": 4000,
+        "posterior_mass": 0.040497544315688146,
+        "root_effective_sample_size": 1.5935970017302483
+      },
+      {
+        "conditional_ess": 1.460692841943995,
+        "distinct_root_ancestors": 696,
+        "id": 1,
+        "log_posterior_mass": -0.28058254745748934,
+        "maximum_normalized_log_weight": -0.4843969592132811,
+        "maximum_normalized_weight": 0.6160685992603739,
+        "particle_count": 4000,
+        "posterior_mass": 0.7553435897757972,
+        "root_effective_sample_size": 1.4606253028360168
+      },
+      {
+        "conditional_ess": 3.9515781502998992,
+        "distinct_root_ancestors": 737,
+        "id": 2,
+        "log_posterior_mass": -2.3436002741084097,
+        "maximum_normalized_log_weight": -3.2989862553898237,
+        "maximum_normalized_weight": 0.03692057647181737,
+        "particle_count": 4000,
+        "posterior_mass": 0.09598145587826108,
+        "root_effective_sample_size": 3.9515655757669945
+      },
+      {
+        "conditional_ess": 3.055863992433803,
+        "distinct_root_ancestors": 774,
+        "id": 3,
+        "log_posterior_mass": -2.3700473913143556,
+        "maximum_normalized_log_weight": -3.1722939116580657,
+        "maximum_normalized_weight": 0.04190735578819163,
+        "particle_count": 4000,
+        "posterior_mass": 0.09347629620854749,
+        "root_effective_sample_size": 3.054876411090542
+      },
+      {
+        "conditional_ess": 2.3203539824331876,
+        "distinct_root_ancestors": 746,
+        "id": 4,
+        "log_posterior_mass": -4.219832017883799,
+        "maximum_normalized_log_weight": -4.7412903741053825,
+        "maximum_normalized_weight": 0.008727377334799625,
+        "particle_count": 4000,
+        "posterior_mass": 0.014701113821705728,
+        "root_effective_sample_size": 2.3171074541829313
+      }
+    ]
+  },
+  "posterior_ess": 1.6304688463066417,
+  "root_effective_sample_size": 1.599680462697616,
+  "schedule": [
+    {
+      "kind": "standard"
+    },
+    {
+      "kind": "standard"
+    },
+    {
+      "kind": "standard"
+    },
+    {
+      "kind": "standard"
+    },
+    {
+      "kind": "bridge",
+      "points": [
+        {
+          "candidates_per_particle": 1,
+          "point": {
+            "time_s": 4119.5
+          }
+        },
+        {
+          "candidates_per_particle": 1,
+          "point": {
+            "time_s": 5036.25
+          }
+        },
+        {
+          "candidates_per_particle": 1,
+          "point": {
+            "time_s": 5494.625
+          }
+        },
+        {
+          "candidates_per_particle": 1,
+          "point": {
+            "time_s": 5723.8125
+          }
+        },
+        {
+          "candidates_per_particle": 1,
+          "point": {
+            "time_s": 5838.40625
+          }
+        }
+      ]
+    }
+  ],
+  "scientific_source_sha256": "b363e520bf6c4787bc2522c17a335615f916de3b9ce58a5e7571fc7b3e065a60",
+  "scope": "Same physical cruise/observation configuration; additional computational resampling and transition subdivision. Original prefix checked; temporary potentials compensated by existing particle engine. Numerical integration partitions change and require sensitivity assessment. Fuel remains00:11; no generating truth is read.",
+  "seed": 37102100,
+  "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102100",
+  "status": "completed intermediate-resampling comparison; not full-flight validation",
+  "threads": 4,
+  "through_block": 4
+}

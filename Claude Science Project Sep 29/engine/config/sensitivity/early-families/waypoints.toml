@@ -1,0 +1,19 @@
+[dynamics.early]
+mach_range = [0.45, 0.87]
+mach_until_utc = "2014-03-07T18:40:00Z"
+cas_envelope_kt = [210.0, 330.0]
+
+# 6 x 8 = 48 routes, uniform. Index = first_index * 8 + then_index (early.npy "route").
+[dynamics.early.routes]
+share = 1.0
+start_utc = "2014-03-07T18:01:49Z"
+waypoints_csv = "data/waypoints.csv"
+first = [
+  ["VAMPI", "MEKAR", "NILAM", "IGOGU"],
+  ["VAMPI", "MEKAR", "NILAM", "ANOKO"],
+  ["VAMPI", "MEKAR", "NILAM", "SAMAK"],
+  ["VAMPI", "MEKAR", "NILAM", "NOPEK"],
+  ["VAMPI", "MEKAR", "NILAM", "LAGOG"],
+  ["VAMPI", "MEKAR", "SAMAK"],
+]
+then = [[], ["BEDAX"], ["BULVA"], ["ISBIX"], ["POSOD"], ["MUTMI"], ["PIPOV"], ["BEBIM"]]

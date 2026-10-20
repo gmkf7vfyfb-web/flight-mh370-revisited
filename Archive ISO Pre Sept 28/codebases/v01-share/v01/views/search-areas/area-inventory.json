@@ -1,0 +1,72 @@
+{
+  "area_rule": "Reported totals, source catalog attributes, and context-outline areas are different quantities and must not be summed.",
+  "rounding": {
+    "expression": "15,000 - 7,571 = 7,429 km2",
+    "warning": "15,000 is estimated and 7,571 is approximate; 7,429 is derived planning arithmetic, not an exact remainder polygon."
+  },
+  "rows": [
+    {
+      "id": "phase2-deep-tow",
+      "plotted_area_semantics": "source catalog attribute",
+      "plotted_geometry": "official detailed L0 data footprint",
+      "plotted_or_catalog_area_km2": 130961,
+      "reported_but_unplotted_km2": null,
+      "source_grade": "A"
+    },
+    {
+      "id": "phase2-dong-hai-jiu",
+      "plotted_area_semantics": "source catalog attribute",
+      "plotted_geometry": "official coarse L0 catalog footprint",
+      "plotted_or_catalog_area_km2": 46884.288,
+      "reported_but_unplotted_km2": null,
+      "source_grade": "A"
+    },
+    {
+      "id": "phase2-go-phoenix",
+      "plotted_area_semantics": "source catalog attribute",
+      "plotted_geometry": "official catalog bounding rectangle",
+      "plotted_or_catalog_area_km2": 82606,
+      "reported_but_unplotted_km2": null,
+      "source_grade": "A"
+    },
+    {
+      "id": "bluefin-artemis-2014",
+      "plotted_area_semantics": "spherical area of display polygons",
+      "plotted_geometry": "two official application display polygons",
+      "plotted_or_catalog_area_km2": 771.410286,
+      "reported_area_km2": 860,
+      "reported_but_unplotted_km2": 88.589714,
+      "reported_minus_display_km2": 88.589714,
+      "source_grade": "A for display polygons and total; swaths unresolved"
+    },
+    {
+      "id": "ocean-infinity-2018",
+      "plotted_area_semantics": "outline support, not covered area",
+      "plotted_geometry": "approximate context outline only",
+      "plotted_or_catalog_area_km2": 148993.3,
+      "reported_area_km2": {
+        "later_context": 120000,
+        "lower_bound": 112000
+      },
+      "reported_but_unplotted_km2": {
+        "later_dataset_context": 120000,
+        "operator_lower_bound": 112000
+      },
+      "source_grade": "A for totals; C for outline",
+      "unplotted_semantics": "No exact AUV swath geometry obtained; the two totals are contextual alternatives, not quantities to sum."
+    },
+    {
+      "derived_rounded_remainder_km2": 7429,
+      "estimated_contract_area_km2": 15000,
+      "id": "ocean-infinity-2025-2026",
+      "plotted_area_semantics": "proposal/context support, not surveyed area",
+      "plotted_geometry": "two approximate proposal outlines plus AIS vessel tracks",
+      "plotted_or_catalog_area_km2": 15839.8,
+      "reported_but_unplotted_km2": 7571,
+      "reported_surveyed_area_km2": 7571,
+      "source_grade": "A for totals; C for outlines/tracks"
+    }
+  ],
+  "schema_version": 1,
+  "snapshot_date": "2026-08-31"
+}

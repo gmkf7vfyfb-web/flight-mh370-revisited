@@ -1,0 +1,17 @@
+# Sensitivity: wide Mach range. Mach is drawn from 0.50-0.86 (the estimate uses Davey's
+# 0.73-0.84) at the prior and at every speed change, so slow segments such as the
+# ~340-400 kt implied by the 18:25-18:28 BTOs are not excluded a priori, and cruise can
+# reach close to the 777's MMO (0.87). Fuel endurance is not modelled, so long slow flight
+# is not penalised; Davey chose 0.73-0.84 partly on endurance grounds.
+name = "mach-wide"
+seeds = [1, 2, 3, 4]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[dynamics]
+mach_range = [0.50, 0.86]
+
+[output]
+history_after_epoch = "m1839"

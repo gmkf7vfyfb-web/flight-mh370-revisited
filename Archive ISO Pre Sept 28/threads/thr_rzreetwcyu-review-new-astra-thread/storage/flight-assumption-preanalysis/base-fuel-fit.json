@@ -1,0 +1,440 @@
+{
+  "request": {
+    "initial": [
+      5.624844422380384,
+      99.04799502059595,
+      295.6708791726847,
+      0.8132546826136652,
+      35035.02682436326,
+      0.0
+    ],
+    "initial_mode": "constant_true_track",
+    "commands": [
+      {
+        "time": 2045.1050378193165,
+        "mode": "constant_true_track",
+        "control": 186.1896176808001
+      }
+    ],
+    "flow_scale": 1.0,
+    "continue_until_s": 23000.0
+  },
+  "metrics": {
+    "valid": true,
+    "latitude": -36.33775020104391,
+    "longitude": 89.50684567878056,
+    "max_bto_sigma": 1.3116050641622459,
+    "max_bfo_sigma": 1.1640488097477504,
+    "joint_chi2": 10.54820089159618,
+    "bias_hz": 150.16935519844162,
+    "fuel_kg": 332.5761724424416,
+    "exhaustion_time": null,
+    "satcom_compatible": true
+  },
+  "result": {
+    "bias": {
+      "mean_hz": 150.16935519844162,
+      "variance_hz2": 5.397426859358477
+    },
+    "continuation": {
+      "exhaustion_time": 22375.57020331252,
+      "fuel_kg": 15.0,
+      "outcome": "exhausted",
+      "state": {
+        "altitude": 35035.02682436326,
+        "bfo_bias": 150.16935519844162,
+        "ground_speed": 448.2234656463042,
+        "position": {
+          "latitude": -36.80633987047147,
+          "longitude": 89.44665729351146
+        },
+        "time": 22375.57020331252,
+        "track_true": 185.91421998867057,
+        "vertical_speed": 0.0
+      },
+      "time": 22375.57020331252
+    },
+    "diagnostics": {
+      "altitude_events": 0,
+      "fuel_anchor_count": 1,
+      "fuel_flow_multiplier_bound_hits": 0,
+      "fuel_outside_martin_domain_seconds": 0.0,
+      "integration_segments": 1008,
+      "last_fuel_anchor_mass_adjustment_kg": -28.555934848525794,
+      "lateral_events": 0,
+      "magnetic_altitude_clamp_seconds": 0.0,
+      "powered_additional_drag_limit_exceeded_segments": 0,
+      "powered_additional_drag_required_segments": 0,
+      "powered_boundary_seconds": {
+        "bank": 0.0,
+        "climb_rate": 0.0,
+        "descent_rate": 0.0,
+        "lower_altitude": 0.0,
+        "magnetic_altitude_clamp": 0.0,
+        "roll_rate": 0.0,
+        "stall_or_minimum_mach_floor": 0.0,
+        "upper_altitude": 0.0,
+        "vertical_acceleration": 0.0,
+        "vmo_or_mmo_ceiling": 0.0
+      },
+      "powered_segments_screened": 1008,
+      "powered_target_clamp_count": 0,
+      "powered_thrust_proxy_cap_segments": 0,
+      "powered_thrust_proxy_extrapolation_segments": 1008,
+      "powered_upper_thrust_failure_segments": 0,
+      "speed_events": 0,
+      "steady_segments": 161,
+      "transition_segments": 847
+    },
+    "endpoint": {
+      "altitude": 35035.02682436326,
+      "bfo_bias": 150.16935519844162,
+      "ground_speed": 452.6860549084114,
+      "position": {
+        "latitude": -36.33775020104391,
+        "longitude": 89.50684567878056
+      },
+      "time": 22150.0,
+      "track_true": 185.90168366019864,
+      "vertical_speed": 0.0
+    },
+    "fits": [
+      {
+        "aircraft": {
+          "altitude": 35035.02682436326,
+          "bfo_bias": 150.0,
+          "ground_speed": 478.8506552069405,
+          "position": {
+            "latitude": 7.027055137369485,
+            "longitude": 96.15212882338335
+          },
+          "time": 1425.0,
+          "track_true": 295.93996557721687,
+          "vertical_speed": 0.0
+        },
+        "bfo_sd_hz": null,
+        "bto_sd_us": 43.0,
+        "fit": {
+          "bfo_innovation_hz": null,
+          "bto_residual_us": -34.75369047780987,
+          "log_likelihood": -5.006752765130634,
+          "predicted_bfo_without_bias_hz": null,
+          "predicted_bto_us": 12634.75369047781
+        },
+        "id": "m1825",
+        "mach": 0.8132546826136652,
+        "observed_bfo_hz": null,
+        "predictive_bfo_sd_hz": null,
+        "time": 1425.0
+      },
+      {
+        "aircraft": {
+          "altitude": 35035.02682436326,
+          "bfo_bias": 152.31263275298272,
+          "ground_speed": 477.42153623321144,
+          "position": {
+            "latitude": 7.173844354146882,
+            "longitude": 95.84977595070438
+          },
+          "time": 1576.0,
+          "track_true": 295.91360827389144,
+          "vertical_speed": 0.0
+        },
+        "bfo_sd_hz": 7.0,
+        "bto_sd_us": 29.0,
+        "fit": {
+          "bfo_innovation_hz": 2.4939431608165705,
+          "bto_residual_us": -14.667968084278982,
+          "log_likelihood": -8.594314786664118,
+          "predicted_bfo_without_bias_hz": -8.493943160816581,
+          "predicted_bto_us": 12514.667968084279
+        },
+        "id": "m1828a",
+        "mach": 0.8132546826136652,
+        "observed_bfo_hz": 144.0,
+        "predictive_bfo_sd_hz": 25.96150997149434,
+        "time": 1576.0
+      },
+      {
+        "aircraft": {
+          "altitude": 35035.02682436326,
+          "bfo_bias": 151.88749376060596,
+          "ground_speed": 477.35232072806934,
+          "position": {
+            "latitude": 7.182579589302897,
+            "longitude": 95.83177720148421
+          },
+          "time": 1585.0,
+          "track_true": 295.92170339754546,
+          "vertical_speed": 0.0
+        },
+        "bfo_sd_hz": 7.0,
+        "bto_sd_us": 29.0,
+        "fit": {
+          "bfo_innovation_hz": -0.8836088817558618,
+          "bto_residual_us": -27.560924122168217,
+          "log_likelihood": -7.934884684232186,
+          "predicted_bfo_without_bias_hz": -8.42902387122686,
+          "predicted_bto_us": 12507.560924122168
+        },
+        "id": "m1828b",
+        "mach": 0.8132546826136652,
+        "observed_bfo_hz": 143.0,
+        "predictive_bfo_sd_hz": 9.71790540496977,
+        "time": 1585.0
+      },
+      {
+        "aircraft": {
+          "altitude": 35035.02682436326,
+          "bfo_bias": 151.45711080208608,
+          "ground_speed": 475.76417769614415,
+          "position": {
+            "latitude": 7.338888537459809,
+            "longitude": 94.5398014426919
+          },
+          "time": 2286.0,
+          "track_true": 199.56108395942417,
+          "vertical_speed": 0.0
+        },
+        "bfo_sd_hz": 7.0,
+        "bto_sd_us": null,
+        "fit": {
+          "bfo_innovation_hz": -1.3248908995075794,
+          "bto_residual_us": null,
+          "log_likelihood": -3.0733476061757967,
+          "predicted_bfo_without_bias_hz": -62.739073449098385,
+          "predicted_bto_us": null
+        },
+        "id": "m1839",
+        "mach": 0.8132546826136652,
+        "observed_bfo_hz": 87.823529412,
+        "predictive_bfo_sd_hz": 8.519144766915355,
+        "time": 2286.0
+      },
+      {
+        "aircraft": {
+          "altitude": 35035.02682436326,
+          "bfo_bias": 152.94019401245504,
+          "ground_speed": 481.3366468244759,
+          "position": {
+            "latitude": -0.8128615395944823,
+            "longitude": 93.56741732319972
+          },
+          "time": 5953.0,
+          "track_true": 186.44658862085342,
+          "vertical_speed": 0.0
+        },
+        "bfo_sd_hz": 7.0,
+        "bto_sd_us": 29.0,
+        "fit": {
+          "bfo_innovation_hz": 6.048606565168825,
+          "bto_residual_us": 37.191467373399064,
+          "log_likelihood": -8.395874161427603,
+          "predicted_bfo_without_bias_hz": -46.505717367254896,
+          "predicted_bto_us": 11462.808532626601
+        },
+        "id": "m1941",
+        "mach": 0.8132546826136652,
+        "observed_bfo_hz": 111.0,
+        "predictive_bfo_sd_hz": 8.05713098238819,
+        "time": 5953.0
+      },
+      {
+        "aircraft": {
+          "altitude": 35035.02682436326,
+          "bfo_bias": 152.53693659122726,
+          "ground_speed": 482.41962420216305,
+          "position": {
+            "latitude": -8.860404627254802,
+            "longitude": 92.71936946670303
+          },
+          "time": 9555.0,
+          "track_true": 185.92862700816423,
+          "vertical_speed": 0.0
+        },
+        "bfo_sd_hz": 7.0,
+        "bto_sd_us": 29.0,
+        "fit": {
+          "bfo_innovation_hz": -2.047902487963114,
+          "bto_residual_us": -38.03654686070513,
+          "log_likelihood": -8.155250804994516,
+          "predicted_bfo_without_bias_hz": -9.89229152449192,
+          "predicted_bto_us": 11778.036546860705
+        },
+        "id": "m2041",
+        "mach": 0.8132546826136652,
+        "observed_bfo_hz": 141.0,
+        "predictive_bfo_sd_hz": 7.81117888005857,
+        "time": 9555.0
+      },
+      {
+        "aircraft": {
+          "altitude": 35035.02682436326,
+          "bfo_bias": 152.07498712487632,
+          "ground_speed": 480.9958813544672,
+          "position": {
+            "latitude": -16.904601106934766,
+            "longitude": 91.83712809515976
+          },
+          "time": 13177.0,
+          "track_true": 185.93161396902832,
+          "vertical_speed": 0.0
+        },
+        "bfo_sd_hz": 7.0,
+        "bto_sd_us": 29.0,
+        "fit": {
+          "bfo_innovation_hz": -2.8079136362675285,
+          "bto_residual_us": -37.561944879591465,
+          "log_likelihood": -8.14699531255297,
+          "predicted_bfo_without_bias_hz": 18.270977045040276,
+          "predicted_bto_us": 12817.561944879591
+        },
+        "id": "m2141",
+        "mach": 0.8132546826136652,
+        "observed_bfo_hz": 168.0,
+        "predictive_bfo_sd_hz": 7.658244462967239,
+        "time": 13177.0
+      },
+      {
+        "aircraft": {
+          "altitude": 35035.02682436326,
+          "bfo_bias": 151.7510704875129,
+          "ground_speed": 471.668227524677,
+          "position": {
+            "latitude": -24.83003447139149,
+            "longitude": 90.96107744818136
+          },
+          "time": 16772.0,
+          "track_true": 185.91090298680655,
+          "vertical_speed": 0.0
+        },
+        "bfo_sd_hz": 7.0,
+        "bto_sd_us": 29.0,
+        "fit": {
+          "bfo_innovation_hz": -2.2928115259132653,
+          "bto_residual_us": 21.72854051174363,
+          "log_likelihood": -7.5539958631309,
+          "predicted_bfo_without_bias_hz": 54.21782440103696,
+          "predicted_bto_us": 14518.271459488256
+        },
+        "id": "m2241",
+        "mach": 0.8132546826136652,
+        "observed_bfo_hz": 204.0,
+        "predictive_bfo_sd_hz": 7.553895149487787,
+        "time": 16772.0
+      },
+      {
+        "aircraft": {
+          "altitude": 35035.02682436326,
+          "bfo_bias": 150.5466170119106,
+          "ground_speed": 468.1860472543465,
+          "position": {
+            "latitude": -29.206290721624548,
+            "longitude": 90.44599200447453
+          },
+          "time": 18793.0,
+          "track_true": 186.44895062277146,
+          "vertical_speed": 0.0
+        },
+        "bfo_sd_hz": 7.0,
+        "bto_sd_us": null,
+        "fit": {
+          "bfo_innovation_hz": -9.730056957305521,
+          "bto_residual_us": null,
+          "log_likelihood": -3.7773972385411616,
+          "predicted_bfo_without_bias_hz": 75.25484853879261,
+          "predicted_bto_us": null
+        },
+        "id": "m2315",
+        "mach": 0.8132546826136652,
+        "observed_bfo_hz": 217.275862069,
+        "predictive_bfo_sd_hz": 7.478132678311503,
+        "time": 18793.0
+      },
+      {
+        "aircraft": {
+          "altitude": 35035.02682436326,
+          "bfo_bias": 150.16935519844162,
+          "ground_speed": 452.6860549084114,
+          "position": {
+            "latitude": -36.33775020104391,
+            "longitude": 89.50684567878056
+          },
+          "time": 22150.0,
+          "track_true": 185.90168366019864,
+          "vertical_speed": 0.0
+        },
+        "bfo_sd_hz": 7.0,
+        "bto_sd_us": 29.0,
+        "fit": {
+          "bfo_innovation_hz": -3.424933647396756,
+          "bto_residual_us": 16.541349054547027,
+          "log_likelihood": -7.478619213153426,
+          "predicted_bfo_without_bias_hz": 104.87831663548616,
+          "predicted_bto_us": 18023.458650945453
+        },
+        "id": "m0011",
+        "mach": 0.8132546826136652,
+        "observed_bfo_hz": 252.0,
+        "predictive_bfo_sd_hz": 7.420617058988139,
+        "time": 22150.0
+      }
+    ],
+    "fuel": {
+      "dual_engine_exhaustion_time": null,
+      "left_exhaustion_time": null,
+      "left_usable_feed": 166.2880862212208,
+      "reserved_fuel": 15.0,
+      "right_exhaustion_time": null,
+      "right_usable_feed": 166.2880862212208,
+      "time": 22150.0,
+      "unusable_fuel": 0.0,
+      "zero_fuel_weight": 174369.0
+    },
+    "fuel_status": {
+      "status": "valid"
+    },
+    "trace": [
+      {
+        "aircraft": {
+          "altitude": 35035.02682436326,
+          "bfo_bias": 150.0,
+          "ground_speed": 491.39078074936566,
+          "position": {
+            "latitude": 5.624844422380384,
+            "longitude": 99.04799502059598
+          },
+          "time": 0.0,
+          "track_true": 295.6708791726847,
+          "vertical_speed": 0.0
+        },
+        "fuel_kg": 36342.01542690996,
+        "heading_true_deg": 296.8479249673817,
+        "mach": 0.8132546826136652
+      },
+      {
+        "aircraft": {
+          "altitude": 35035.02682436326,
+          "bfo_bias": 150.16935519844162,
+          "ground_speed": 452.6860549084114,
+          "position": {
+            "latitude": -36.33775020104391,
+            "longitude": 89.50684567878056
+          },
+          "time": 22150.0,
+          "track_true": 185.90168366019864,
+          "vertical_speed": 0.0
+        },
+        "bank_deg": 0.057344898699696806,
+        "fuel_kg": 347.5761724424416,
+        "heading_true_deg": 190.14478817300866,
+        "mach": 0.8132546826136652
+      }
+    ],
+    "valid": true
+  },
+  "target_latitude": null,
+  "objective": 13.927341013043007,
+  "calls": 73,
+  "elapsed_s": 0.5571732709940989
+}

@@ -1,0 +1,56 @@
+Functions sorted by metric: Exclusive Total CPU Time
+
+Excl. Total    Incl. Total     Name
+CPU            CPU
+  sec.      %    sec.      %
+58.863 100.00  58.863 100.00   <Total>
+21.048  35.76  21.048  35.76   <static>@0x8a5d2 (<libm.so.6>)
+ 6.958  11.82   6.958  11.82   <[f64]>::partition_point::<mh370_dynamics::environment::bracket::{closure#0}>
+ 5.275   8.96   5.275   8.96   <mh370_dynamics::environment::Era5Grid>::interpolate
+ 4.874   8.28  14.487  24.61   mh370_domain::geodesy::destination_wgs84_with_bearing
+ 4.626   7.86  14.349  24.38   <mh370_dynamics::environment::Era5Grid>::sample
+ 3.132   5.32  10.077  17.12   <mh370_dynamics::environment::IgrfGrid>::declination
+ 1.564   2.66   3.872   6.58   mh370_end_of_flight::powered_fuel::flow_law_with_scale
+ 1.204   2.05   1.204   2.05   hypot
+ 1.153   1.96  24.387  41.43   <mh370_dynamics::stochastic_cruise::StochasticCruiseConfig>::update_velocity
+ 0.904   1.54   0.904   1.54   <static>@0x175a00 (<libc.so.6>)
+ 0.834   1.42   6.445  10.95   atan2
+ 0.812   1.38   0.812   1.38   mh370_end_of_flight::powered_fuel::broad_configuration_valid
+ 0.727   1.23  32.394  55.03   <mh370_dynamics::stochastic_cruise::StochasticCruiseConfig>::forecast_command
+ 0.648   1.10   1.258   2.14   mh370_satcom::satcom::bfo_components
+ 0.623   1.06  55.654  94.55   <mh370_dynamics::stochastic_cruise::StochasticCruiseConfig>::propagate_with_commands::<rand_chacha::chacha::ChaCha8Rng, <mh370_estimator::cruise_filter::CruiseFilterModel>::propose_random_with_noise<rand_chacha::chacha::ChaCha8Rng>::{closure#0}, <mh370_estimator::cruise_filter::CruiseFilterModel>::propose_random_with_noise<rand_chacha::chacha::ChaCha8Rng>::{closure#1}, <mh370_estimator::cruise_filter::CruiseFilterModel>::propose_random_with_noise<rand_chacha::chacha::ChaCha8Rng>::{closure#2}>
+ 0.607   1.03   0.607   1.03   compiler_builtins::math::libm_math::fmod::fmod
+ 0.473   0.80   0.473   0.80   mh370_end_of_flight::powered_fuel::validate_segment
+ 0.469   0.80   1.069   1.82   exp
+ 0.465   0.79   2.552   4.34   mh370_satcom::observation::evaluate_observation
+ 0.450   0.76   0.752   1.28   mh370_dynamics::stochastic_cruise::ou::<rand_chacha::chacha::ChaCha8Rng>
+ 0.432   0.73   5.526   9.39   <mh370_end_of_flight::fuel_consistency::FuelConsistencyModel>::advance
+ 0.414   0.70   0.659   1.12   mh370_satcom::satcom::bto
+ 0.314   0.53   0.314   0.53   mh370_end_of_flight::fuel_performance::martin_trent892_lrc_coefficient
+ 0.137   0.23   0.137   0.23   rand_chacha::guts::refill_wide::impl_avx2
+ 0.131   0.22   0.131   0.22   <mh370_domain::observation::SatcomObservation>::validate
+ 0.120   0.20   0.727   1.23   fmod
+ 0.080   0.14  34.905  59.30   <mh370_estimator::cruise_filter::CruiseFilterModel>::command_scores
+ 0.059   0.10   1.562   2.65   <mh370_dynamics::stochastic_cruise::CruiseEnvironment>::sample
+ 0.056   0.09   0.056   0.09   log
+ 0.044   0.07   0.044   0.07   sha2::sha256::soft::compress
+ 0.041   0.07   0.041   0.07   <f64>::clamp
+ 0.040   0.07   0.071   0.12   <mh370_domain::units::LatLon>::new
+ 0.027   0.05   0.059   0.10   mh370_particle_filter::resampling::select_auxiliary_candidate::<rand_chacha::chacha::ChaCha8Rng>
+ 0.026   0.04   0.029   0.05   <static>@0xa5c2b (<libc.so.6>)
+ 0.018   0.03   0.025   0.04   <mh370_dynamics::stochastic_cruise::StochasticCruiseConfig>::command_partition
+ 0.015   0.03   0.064   0.11   pow
+ 0.014   0.02   0.042   0.07   mh370_particle_filter::resampling::logsumexp
+ 0.007   0.01   0.007   0.01   malloc
+ 0.005   0.01  55.794  94.79   <&mh370_particle_filter::stratified::run_stratified_bootstrap_epoch<mh370::branching_flight_commands::TimedModel<mh370_particle_filter::model::FuturePotentialModel<mh370_estimator::cruise_filter::CruiseFilterModel>>>::{closure#0} as core::ops::function::FnMut<((usize, &mh370_particle_filter::model::FuturePotentialState<mh370_estimator::cruise_filter::CruiseParticle>),)>>::call_mut
+ 0.005   0.01   0.007   0.01   mh370_particle_filter::stratified::resample_within_strata::<mh370_particle_filter::model::FuturePotentialState<mh370_estimator::cruise_filter::CruiseParticle>>
+ 0.004   0.01   0.004   0.01   <static>@0x84b35 (<libm.so.6>)
+ 0.004   0.01   0.004   0.01   free
+ 0.004   0.01   0.004   0.01   mh370_end_of_flight::powered_fuel::remaining_fuel_envelope
+ 0.004   0.01   0.004   0.01   rand_chacha::guts::refill_wide
+ 0.003   0.01   0.003   0.01   <static>@0xa43e4 (<libc.so.6>)
+ 0.003   0.01   0.003   0.01   mh370_particle_filter::filter::weight_diagnostics
+ 0.002   0.00   0.002   0.00   __vdso_clock_gettime
+ 0.002   0.00   0.031   0.05   mh370_particle_filter::rng::rng_for
+ 0.001   0.00   0.001   0.00   <mh370_dynamics::environment::Era5Grid>::parse
+

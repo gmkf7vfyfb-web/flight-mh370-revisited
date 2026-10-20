@@ -1,0 +1,13 @@
+# Run-J item 6 check (Pete GO 15 Oct 2026): the PURE reproduction davey2016-inmarsat.toml with BFO sd
+# 4.3177 Hz (Davey Table 5.1). No fuel, speed envelope, radar or families. Purpose: does our shoulder at 4 Hz match Davey's
+# 7 Hz shoulder (0.2406) because of the BFO sd, or because of the rest of the production stack?
+# Stack: davey2016-inmarsat.toml + this file. 4 seeds x 7M (Davey's per-seed count).
+name = "repro-bfo432"
+seeds = [1, 2, 3, 4]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[inputs]
+observations = "../../../data/variants/satcom-observations-bfo432.csv"

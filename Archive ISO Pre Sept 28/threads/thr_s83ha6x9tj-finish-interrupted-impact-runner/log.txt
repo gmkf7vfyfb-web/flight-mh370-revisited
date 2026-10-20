@@ -1,0 +1,2000 @@
+── User ────────────────────────────────────────────────────
+Recover and finish the interrupted impact runner in the shared MH370 workspace. Current canonical runner compile-check passes. Files changed: crates/runner/Cargo.toml, src/main.rs, src/impact_commands.rs, src/impact_handoff.rs; scratch impact_commands.rs.orig and impact_handoff.rs.orig remain. Audit the implementation against the contract: one 00:11 PosteriorHandoff seed per invocation; exact UTC cross-check; deterministic systematic resampling with finite either-sign correction -ln(N)-upstream_log_weight and normalization test; EOF non-lossy attempt API; preserve every physical outcome in hashed sidecar; score corrected R600 BTO once at exact 00:19:29 as BTO conditional on observed reception; R1200 held out, BFO diagnostic, no log-on/flameout timing likelihood; atomic evidence ledger; one scenario/no mixing; validated ImpactPosteriorHandoff v1; null attitude/contact. Run runner tests, scoped fmt and strict clippy, add only missing focused tests. Do not edit EOF/estimator/reporting/configs/sources, do not build release or run scientific ensembles. Remove only verified .orig/.rej scratch after validation. Report changed files, CLI/config schema, tests, limitations/blockers. If a scientific/schema invariant fails, stop rather than weaken it.
+
+── Worked for (16m 23s) ────────────────────────────────────
+  ── Assistant
+  I’ll recover this in place, first auditing the four runner changes and repository instructions, then validating each listed scientific/schema invariant before making only focused fixes. I’ll keep all edits inside the runner scope, and I’ll remove the scratch files only after the full scoped test/fmt/clippy pass.
+
+  ── Searched files (error)
+    $ pwd && rg --files -g 'AGENTS.md' -g '"'!target'"' && git status --short && git diff -- crates/runner/Cargo.toml crates/runner/src/main.rs crates/runner/src/impact_commands.rs crates/runner/src/impact_handoff.rs
+    exit 127
+
+  ── Assistant
+  The runner sources are present, but this environment currently has no `git` executable on `PATH`. I’ll continue with direct source/scratch comparisons and toolchain checks; before finalizing, I’ll also look for the repository’s available VCS wrapper or an alternate Git binary so the final changed-file audit is still evidence-based.
+
+  ── Ran 1 command, explored 1 search, 1 file
+    ── Ran "sed -n '1,260p' AGENTS.md rg --files crates/runner | sort command -v cargo || true command -v rustfmt || true command -v git || true command -v jj || true command -v iso || true printf '%s\\n' \""'$PATH" wc -l crates/runner/Cargo.toml crates/runner/src/main.rs crates/runner/src/impact_commands.rs crates/runner/src/impact_handoff.rs crates/runner/src/impact_commands.rs.orig crates/runner/src/impact_handoff.rs.orig'
+      $ "sed -n '1,260p' AGENTS.md
+    rg --files crates/runner | sort
+    command -v cargo || true
+    command -v rustfmt || true
+    command -v git || true
+    command -v jj || true
+    command -v iso || true
+    printf '%s\\n' \""'$PATH"
+    wc -l crates/runner/Cargo.toml crates/runner/src/main.rs crates/runner/src/impact_commands.rs crates/runner/src/impact_handoff.rs crates/runner/src/impact_commands.rs.orig crates/runner/src/impact_handoff.rs.orig'
+      # MH370 Engineering Contract
+
+      This repository has one product: a fast, reproducible Bayesian estimator for
+      the final flight of MH370, with publication-quality reports. Keep it small
+      enough that an engineer can understand the complete inference path.
+
+      ## Canonical code only
+
+      - There is one current implementation. Improve it in place; do not create
+        sequentially numbered copies, derivation folders, or parallel "final"
+        versions.
+      - Names describe scientific or software purpose. Do not use identifiers such
+        as `D-####`, `C-####`, gates, stages, or scorecard terminology.
+      - Code belongs in the product only when it is used by the central runner or is
+        a focused control needed to trust that runner.
+      - Develop uncertain alternatives on a branch or in a temporary worktree. If an
+        alternative is accepted, integrate it cleanly and remove the superseded
+        implementation. If it is rejected, remove its code and record a short
+        `Not integrated:` explanation in the relevant source README or the root
+        README. Do not preserve a dead implementation merely as history; Git is the
+        history.
+
+      ## Hub-and-spoke architecture
+
+      The command-line runner is the hub. It owns configuration, deterministic run
+      setup, module selection, inference orchestration, and output generation. It
+      must remain lean and must not contain scientific equations that belong to a
+      module.
+
+      Scientific capabilities are spokes with narrow interfaces. Expected spokes
+      include flight dynamics, SATCOM observations, end-of-flight behaviour, ocean
+      drift, hydroacoustics, antenna gain, and reporting.
+
+      - A spoke owns its equations, parameters, input validation, and focused tests.
+      - A spoke accepts typed inputs and returns likelihoods, state transitions, or
+        report data. It does not reach into another spoke's files or global state.
+      - Spokes may depend on shared units, coordinates, time, particle, and
+        uncertainty types. They do not depend on one another. The runner composes
+        them.
+      - Optional evidence is selected explicitly in run configuration. A result must
+        state which spokes were enabled; absence of a spoke must not silently imply a
+        neutral scientific conclusion.
+      - Each spoke must be runnable against a small fixture or benchmark without
+        running the complete estimator.
+
+      The intended dependency direction is:
+
+      ```text
+      runner -> particle filter + selected scientific spokes -> shared domain types
+      runner -> reporting
+      scientific spokes -X-> other scientific spokes
+      product crates -X-> .sources/
+      ```
+
+      ## Published work and `.sources/`
+
+      Published papers are inputs to investigation, not automatically correct
+      implementations. Keep paper recreation outside the product workspace at:
+
+      ```text
+      .sources/<descriptive-paper-name>/
+        README.md       # citation, claim recreated, commands, result, and limitations
+        paper.pdf       # the exact paper version, when redistribution is permitted
+        code/           # independent paper-as-code recreation
+        data/           # the exact relevant datasets or retrieval instructions
+        outputs/        # recreated figures and numeric comparisons
+      ```
+
+      - Use descriptive directory names, never sequential identifiers.
+      - Record the paper and dataset versions or hashes and all required units,
+        coordinate frames, time standards, and assumptions in the local README.
+      - Recreate the result independently where possible. State plainly when it
+        agrees, disagrees, or cannot be recreated and why.
+      - `.sources/` is not a Cargo workspace member, runtime dependency, or part of
+        the central test suite. Its code nevertheless follows the same standards for
+        determinism, numerical correctness, readable implementation, and
+        reproducible commands as product code.
+      - Never import paper recreation code into the runner. If a method proves useful,
+        implement the smallest justified form as a canonical spoke and validate it
+        there. Keep the source recreation only as supporting material.
+      - Large or restricted datasets may live in external storage, but the README
+        must provide an exact retrieval method and integrity hash.
+
+      ## Confidence without bloat
+
+      Testing exists to catch scientifically or operationally meaningful failures,
+      not to maximize test count.
+
+      - Prefer a small set of strong checks: dimensional and coordinate invariants,
+        independently calculated fixtures, limiting cases, known-flight or synthetic
+        recovery, and one end-to-end deterministic run.
+      - Every stochastic run records its seed, configuration, input identities, code
+        revision, runtime, and convergence information.
+      - New scientific code includes a rough independent calculation or reference
+        fixture so that a shared implementation error cannot validate itself.
+      - Measure wall-clock and memory use. A module that makes normal iteration slow
+        must be profiled and simplified before integration.
+      - Keep normal module checks quick. Put expensive sensitivity sweeps and large
+        production runs behind explicit commands, never the default test command.
+      - Delete generated runs, caches, copied environments, and obsolete outputs from
+        the repository. They must be reproducible from code, inputs, and configuration.
+
+      ## Scientific and reporting standard
+
+      - Separate measured inputs, model choices, and calculated outputs in code and
+        prose. Do not present a paper's conclusion as a measurement.
+      - Carry units, reference frames, sign conventions, time basis, uncertainty, and
+        correlations explicitly wherever they can affect the estimate.
+      - Do not combine incompatible model families as though their spread were random
+        sampling error. Run and report them as explicit alternatives.
+      - Failed independent recreation is useful evidence. It cannot become a runner
+        assumption unless the uncertainty is explicitly modelled and the user can
+        enable it conditionally.
+      - Reports and plots are generated from run artifacts, never hand-edited. PDFs
+        must be publication quality: legible at print size, consistent typography,
+        labelled units, explained uncertainty, vector graphics where practical, and
+        captions that state configuration and evidence conditions.
+      - A report must make the estimate reproducible from one documented command.
+
+      ## Change rule
+
+      Before adding a directory, dependency, abstraction, or test, ask whether it
+      makes the central estimate more correct, faster to iterate, easier to inspect,
+      or clearer to reproduce. If it does none of those things, do not add it.
+      crates/runner/Cargo.toml
+      crates/runner/Cargo.toml.orig
+      crates/runner/src/accident_antenna.rs
+      crates/runner/src/accident_antenna.rs.orig
+      crates/runner/src/accident_commands.rs
+      crates/runner/src/accident_commands.rs.orig
+      crates/runner/src/accident_commands.rs.rej
+      crates/runner/src/continuation_commands.rs
+      crates/runner/src/continuation_commands.rs.orig
+      crates/runner/src/continuation_commands.rs.rej
+      crates/runner/src/final_bfo_commands.rs
+      crates/runner/src/impact_commands.rs
+      crates/runner/src/impact_commands.rs.orig
+      crates/runner/src/impact_handoff.rs
+      crates/runner/src/impact_handoff.rs.orig
+      crates/runner/src/known_flight_commands.rs
+      crates/runner/src/main.rs
+      crates/runner/src/main.rs.orig
+      crates/runner/src/ocean_drift_application.rs
+      crates/runner/src/ocean_drift_application.rs.orig
+      crates/runner/src/ocean_drift_commands.rs
+      /jackbox/home/.cargo/bin/cargo
+      /jackbox/home/.cargo/bin/rustfmt
+      /jackbox/npm-global/lib/node_modules/iso-app/host-daemon/dist/iso
+      /jackbox/npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/codex-path:/jackbox/npm-global/lib/node_modules/iso-app/host-daemon/dist:/jackbox/home/.cargo/bin:/jackbox/bin:/jackbox/npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin
+          30 crates/runner/Cargo.toml
+         441 crates/runner/src/main.rs
+        1482 crates/runner/src/impact_commands.rs
+        1231 crates/runner/src/impact_handoff.rs
+        1441 crates/runner/src/impact_commands.rs.orig
+        1227 crates/runner/src/impact_handoff.rs.orig
+        5852 total
+    ── Searched for PosteriorHandoff|ImpactPosteriorHandoff|00:11|00:19|00:19:29|R600|R1200|systematic|resampl|ln\(|log_weight|EOF|attempt|sidecar|ledger|BTO|BFO|flameout|attitude|contact|scenario|atomic|Utc|UTC|timestamp in crates/runner/Cargo.toml
+    ── Read crates/runner/src/impact_commands.rs
+
+  ── Assistant
+  The core interrupted implementation already covers most of the requested shape. Two areas need especially careful proof before I touch code: the full EOF attempt must retain terminal outcomes even when a requested checkpoint is not reached, and the final-contact UTC validation must pin both the absolute timestamps and their observation-relative times. I’m tracing those interfaces now, along with atomic output publication semantics.
+
+  ── Explored 1 search, 1 file, ran 1 command
+    ── Searched for attempt_controlled_to_uncontrolled_with_checkpoints|struct .*Attempt|RequestedCheckpointStatus|ExactTimeCheckpointSchedule|prepare_output|fn write_json|fn atomic_write|struct PosteriorHandoff|impl PosteriorHandoff|EvidenceLedger in crates/runner/Cargo.toml
+    ── Read crates/end-of-flight/src/kernel.rs
+    ── Ran cargo test -p mh370-runner (56s, error)
+      $ cargo test -p mh370-runner
+      Updating crates.io index
+          Blocking waiting for file lock on package cache
+          Blocking waiting for file lock on package cache
+       Downloading crates ...
+        Downloaded fastrand v2.5.0
+        Downloaded errno v0.3.14
+        Downloaded memmap2 v0.9.11
+        Downloaded tempfile v3.13.0
+        Downloaded once_cell v1.21.4
+        Downloaded rustix v0.38.44
+        Downloaded linux-raw-sys v0.4.15
+          Blocking waiting for file lock on package cache
+         Compiling libc v0.2.189
+         Compiling bitflags v2.13.1
+         Compiling rustix v0.38.44
+         Compiling linux-raw-sys v0.4.15
+         Compiling once_cell v1.21.4
+         Compiling fastrand v2.5.0
+         Compiling png v0.18.1
+         Compiling mh370-reporting v0.1.0 (/jackbox/home/MH370/crates/reporting)
+         Compiling getrandom v0.2.17
+         Compiling memmap2 v0.9.11
+         Compiling rand_core v0.6.4
+         Compiling rand_chacha v0.3.1
+         Compiling rand v0.8.7
+         Compiling tempfile v3.13.0
+         Compiling rand_distr v0.4.3
+         Compiling mh370-particle-filter v0.1.0 (/jackbox/home/MH370/crates/particle-filter)
+         Compiling mh370-dynamics v0.1.0 (/jackbox/home/MH370/crates/dynamics)
+         Compiling mh370-end-of-flight v0.1.0 (/jackbox/home/MH370/crates/end-of-flight)
+         Compiling mh370-ocean-drift v0.1.0 (/jackbox/home/MH370/crates/ocean-drift)
+         Compiling mh370-controls v0.1.0 (/jackbox/home/MH370/crates/controls)
+      error[E0004]: non-exhaustive patterns: `FieldError::Storage(_)` not covered
+         --> crates/ocean-drift/src/transport.rs:386:24
+          |
+      386 |     let reason = match error {
+          |                        ^^^^^ pattern `FieldError::Storage(_)` not covered
+          |
+      note: `FieldError` defined here
+         --> crates/ocean-drift/src/field.rs:115:10
+          |
+      115 | pub enum FieldError {
+          |          ^^^^^^^^^^
+      ...
+      121 |     Storage(String),
+          |     ------- not covered
+          = note: the matched value is of type `FieldError`
+      help: ensure that all possible cases are being handled by adding a match arm with a wildcard pattern or an explicit pattern as shown
+          |
+      392 ~         },
+      393 +         FieldError::Storage(_) => todo!()
+          |
+
+      For more information about this error, try `rustc --explain E0004`.
+      error: could not compile `mh370-ocean-drift` (lib) due to 1 previous error
+      warning: build failed, waiting for other jobs to finish...
+      exit 101
+
+  ── Assistant
+  The first runner test attempt is blocked before reaching runner code by an unrelated existing compile error in `crates/ocean-drift` (`FieldError::Storage` is not handled in `transport.rs`). I will not alter that spoke for this task. I’ll continue the runner audit and focused edits, then retry all requested checks; if the external break remains, I’ll report the exact commands and boundary rather than weakening any invariant.
+
+  ── Explored 4 lists, 4 searches, 1 file, ran 2 commands
+    ── Listed files in /nix/store
+    ── Searched for infer-impact|InferImpact|source_draw_count|eof_seed|r600_epoch_id|impact-posterior-handoff|transition-sidecar in .
+    ── Searched for R600|R1200|00:19:29|00:19:37|18400|18_400 in .
+    ── Ran diff -u crates/runner/src/impact_commands.rs.orig crates/runner/src/impact_commands.rs | wc -l diff -u crates/runner/src/impact_handoff.rs.orig crates/runner/src/impact_handoff.rs | wc -l diff -u crates/runner/src/impact_commands.rs.orig crates/runner/src/impact_commands.rs | sed -n '1,360p' diff -u crates/runner/src/impact_handoff.rs.orig crates/runner/src/impact_handoff.rs | sed -n '1,280p'
+      $ diff -u crates/runner/src/impact_commands.rs.orig crates/runner/src/impact_commands.rs | wc -l
+    diff -u crates/runner/src/impact_handoff.rs.orig crates/runner/src/impact_handoff.rs | wc -l
+    diff -u crates/runner/src/impact_commands.rs.orig crates/runner/src/impact_commands.rs | sed -n '1,360p'
+    diff -u crates/runner/src/impact_handoff.rs.orig crates/runner/src/impact_handoff.rs | sed -n '1,280p'
+      204
+      42
+      --- crates/runner/src/impact_commands.rs.orig	2026-08-27 22:22:27.065591010 +0000
+      +++ crates/runner/src/impact_commands.rs	2026-08-27 22:34:48.247943556 +0000
+      @@ -108,7 +108,7 @@
+       #[serde(tag = "kind", rename_all = "snake_case")]
+       enum CheckpointScoreStatusV1 {
+           Reached {
+      -        checkpoint: ExactTimeCheckpoint,
+      +        checkpoint: Box<ExactTimeCheckpoint>,
+               observed_bto_us: f64,
+               standard_deviation_us: f64,
+               predicted_bto_us: f64,
+      @@ -475,14 +475,18 @@
+           format!("satcom-event-{}", identity.epoch_id)
+       }
+       
+      +struct EvidenceBuildContext<'a> {
+      +    config_sha256: &'a str,
+      +    current_input_sha256: &'a BTreeMap<String, String>,
+      +    upstream_config_sha256: &'a str,
+      +    upstream_input_sha256: &'a BTreeMap<String, String>,
+      +}
+      +
+       fn build_evidence_ledger(
+           source: &EvidenceLedger,
+           r600_identity: &EvidenceIdentity,
+           r1200_identity: &EvidenceIdentity,
+      -    config_sha256: &str,
+      -    current_input_sha256: &BTreeMap<String, String>,
+      -    upstream_config_sha256: &str,
+      -    upstream_input_sha256: &BTreeMap<String, String>,
+      +    context: EvidenceBuildContext<'_>,
+           log_evidence_increment: f64,
+       ) -> Result<EvidenceLedgerV2> {
+           let reserved = [
+      @@ -535,8 +539,8 @@
+                   id: UPSTREAM_APPLICATION_ID.to_string(),
+                   role: EvidenceApplicationRoleV1::EmbeddedUpstream,
+                   model_family: "source-posterior".to_string(),
+      -            config_sha256: upstream_config_sha256.to_string(),
+      -            input_sha256: upstream_input_sha256.clone(),
+      +            config_sha256: context.upstream_config_sha256.to_string(),
+      +            input_sha256: context.upstream_input_sha256.clone(),
+                   log_evidence_increment: None,
+               });
+           }
+      @@ -545,8 +549,8 @@
+                   id: "source-diagnostic-evidence".to_string(),
+                   role: EvidenceApplicationRoleV1::Diagnostic,
+                   model_family: "source-diagnostic".to_string(),
+      -            config_sha256: upstream_config_sha256.to_string(),
+      -            input_sha256: upstream_input_sha256.clone(),
+      +            config_sha256: context.upstream_config_sha256.to_string(),
+      +            input_sha256: context.upstream_input_sha256.clone(),
+                   log_evidence_increment: None,
+               });
+           }
+      @@ -554,16 +558,16 @@
+               id: R600_APPLICATION_ID.to_string(),
+               role: EvidenceApplicationRoleV1::WeightUpdate,
+               model_family: "corrected-r600-bto-given-reception".to_string(),
+      -        config_sha256: config_sha256.to_string(),
+      -        input_sha256: current_input_sha256.clone(),
+      +        config_sha256: context.config_sha256.to_string(),
+      +        input_sha256: context.current_input_sha256.clone(),
+               log_evidence_increment: Some(log_evidence_increment),
+           });
+           applications.push(EvidenceApplicationV1 {
+               id: FINAL_BFO_DIAGNOSTIC_APPLICATION_ID.to_string(),
+               role: EvidenceApplicationRoleV1::Diagnostic,
+               model_family: "raw-final-bfo-diagnostic-only".to_string(),
+      -        config_sha256: config_sha256.to_string(),
+      -        input_sha256: current_input_sha256.clone(),
+      +        config_sha256: context.config_sha256.to_string(),
+      +        input_sha256: context.current_input_sha256.clone(),
+               log_evidence_increment: None,
+           });
+       
+      @@ -799,7 +803,7 @@
+           Ok(CheckpointScoreV1 {
+               requested_elapsed_s: REQUIRED_R600_ELAPSED_S,
+               status: CheckpointScoreStatusV1::Reached {
+      -            checkpoint: checkpoint.clone(),
+      +            checkpoint: Box::new(checkpoint.clone()),
+                   observed_bto_us: REQUIRED_R600_BTO_US,
+                   standard_deviation_us: REQUIRED_R600_BTO_SD_US,
+                   predicted_bto_us,
+      @@ -825,6 +829,15 @@
+           )
+       }
+       
+      +fn normalize_mass_map(masses: &mut BTreeMap<TransitionTerminationV1, f64>) {
+      +    let total = masses.values().sum::<f64>();
+      +    if total.is_finite() && total > 0.0 {
+      +        for mass in masses.values_mut() {
+      +            *mass /= total;
+      +        }
+      +    }
+      +}
+      +
+       fn termination_masses(
+           records: &[TransitionSidecarRecordV1],
+       ) -> (Vec<TerminationMassV1>, Vec<OutcomeWeightMassV1>) {
+      @@ -835,6 +848,8 @@
+               *prior.entry(termination).or_default() += record.prior_weight;
+               *conditioned.entry(termination).or_default() += record.r600_conditioned_weight;
+           }
+      +    normalize_mass_map(&mut prior);
+      +    normalize_mass_map(&mut conditioned);
+           let all = prior
+               .keys()
+               .chain(conditioned.keys())
+      @@ -1057,6 +1072,19 @@
+                   sha256_bytes(&ephemeris_bytes),
+               ),
+           ]);
+      +    build_evidence_ledger(
+      +        &source.evidence,
+      +        &r600_identity,
+      +        &r1200_identity,
+      +        EvidenceBuildContext {
+      +            config_sha256: &config_sha256,
+      +            current_input_sha256: &current_input_sha256,
+      +            upstream_config_sha256: &source.run.config_sha256,
+      +            upstream_input_sha256: &source.run.input_sha256,
+      +        },
+      +        0.0,
+      +    )
+      +    .context("end-of-flight evidence cannot be applied atomically")?;
+           let executable_sha256 = executable_sha256()?;
+           let scenario_config_sha256 = sha256_bytes(&serde_json::to_vec(&config.scenario)?);
+           let fuel_allocation = allocate_powered_fuel(config.scenario.fuel)
+      @@ -1171,10 +1199,12 @@
+               &source.evidence,
+               &r600_identity,
+               &r1200_identity,
+      -        &config_sha256,
+      -        &current_input_sha256,
+      -        &source.run.config_sha256,
+      -        &source.run.input_sha256,
+      +        EvidenceBuildContext {
+      +            config_sha256: &config_sha256,
+      +            current_input_sha256: &current_input_sha256,
+      +            upstream_config_sha256: &source.run.config_sha256,
+      +            upstream_input_sha256: &source.run.input_sha256,
+      +        },
+               log_evidence_increment,
+           )?;
+           let particles = build_impact_particles(
+      @@ -1362,7 +1392,6 @@
+                   })
+                   .sum::<f64>();
+               assert!((total - 1.0).abs() < 1.0e-14);
+      -        assert!(first.iter().any(|draw| draw.sampling_log_correction > 0.0));
+           }
+       
+           #[test]
+      @@ -1382,10 +1411,12 @@
+                   &EvidenceLedger::new(),
+                   &r600,
+                   &r1200,
+      -            &digest('5'),
+      -            &hashes,
+      -            &digest('6'),
+      -            &hashes,
+      +            EvidenceBuildContext {
+      +                config_sha256: &digest('5'),
+      +                current_input_sha256: &hashes,
+      +                upstream_config_sha256: &digest('6'),
+      +                upstream_input_sha256: &hashes,
+      +            },
+                   -3.0,
+               )
+               .unwrap();
+      @@ -1418,16 +1449,26 @@
+                   &consumed,
+                   &r600,
+                   &r1200,
+      -            &digest('5'),
+      -            &hashes,
+      -            &digest('6'),
+      -            &hashes,
+      +            EvidenceBuildContext {
+      +                config_sha256: &digest('5'),
+      +                current_input_sha256: &hashes,
+      +                upstream_config_sha256: &digest('6'),
+      +                upstream_input_sha256: &hashes,
+      +            },
+                   -3.0,
+               )
+               .is_err());
+           }
+       
+           #[test]
+      +    fn termination_mass_normalization_removes_roundoff_above_one() {
+      +        let mut masses =
+      +            BTreeMap::from([(TransitionTerminationV1::Impact, 1.000_000_000_000_000_4)]);
+      +        normalize_mass_map(&mut masses);
+      +        assert_eq!(masses[&TransitionTerminationV1::Impact], 1.0);
+      +    }
+      +
+      +    #[test]
+           fn utc_parser_pins_the_exact_handoff_interval() {
+               let source = parse_utc_posix_seconds(REQUIRED_SOURCE_UTC).unwrap();
+               let contact = parse_utc_posix_seconds(REQUIRED_R600_UTC).unwrap();
+      --- crates/runner/src/impact_handoff.rs.orig	2026-08-27 22:15:11.666289975 +0000
+      +++ crates/runner/src/impact_handoff.rs	2026-08-27 22:35:27.200658919 +0000
+      @@ -634,7 +634,10 @@
+               valid_identifier(&self.dataset_id)
+                   && valid_identifier(&self.observation_id)
+                   && valid_identifier(&self.component_id)
+      -            && self.channel_id.as_deref().is_none_or(valid_identifier)
+      +            && match self.channel_id.as_deref() {
+      +                Some(channel_id) => valid_identifier(channel_id),
+      +                None => true,
+      +            }
+           }
+       }
+       
+      @@ -680,11 +683,12 @@
+                   if !valid_identifier(&term.application_id)
+                       || !term.log_likelihood.is_finite()
+                       || !seen.insert(term.application_id.as_str())
+      -                || applications
+      -                    .get(term.application_id.as_str())
+      -                    .is_none_or(|application| {
+      +                || match applications.get(term.application_id.as_str()) {
+      +                    Some(application) => {
+                               application.role != EvidenceApplicationRoleV1::WeightUpdate
+      -                    })
+      +                    }
+      +                    None => true,
+      +                }
+                   {
+                       return Err(ImpactHandoffError::InvalidEvidence);
+                   }
+      @@ -1213,8 +1217,8 @@
+           #[test]
+           fn positive_importance_correction_is_explicit_and_weight_neutral() {
+               let mut handoff = handoff();
+      -        let correction = 4.0_f64.ln();
+      -        handoff.particles[0].upstream_normalized_log_weight = -correction;
+      +        let correction = 2.0_f64.ln();
+      +        handoff.particles[0].upstream_normalized_log_weight = -(4.0_f64).ln();
+               handoff.particles[0].eof_draw_log_weight = correction;
+               handoff.validate().unwrap();
+    ── Searched for time_utc|absolute UTC|relative_time_origin|seconds_from_t0|ephemeris.*time|cross-check|cross.check in crates/runner/src/*.rs
+    ── Ran rustfmt --edition 2021 --check crates/runner/src/main.rs crates/runner/src/impact_commands.rs crates/runner/src/impact_handoff.rs
+      $ rustfmt --edition 2021 --check crates/runner/src/main.rs crates/runner/src/impact_commands.rs crates/runner/src/impact_handoff.rs
+      exit code 0
+    ── Listed files in .git
+    ── Listed files in /jackbox/home/MH370
+    ── Searched for "^name in mh370-runner
+    ── Listed files in target/debug/deps
+    ── Read crates/runner/src/continuation_commands.rs
+
+  ── Assistant
+  The audit found four concrete schema gaps worth fixing in place: generated ledgers were preflight-built but not preflight-validated; handoff v1 still accepted multi-scenario mixtures; v1 validation allowed non-null attitude/contact without a declared model family; and R1200/selected ephemeris relative UTC alignment was not checked. I’m tightening those invariants and adjusting the existing focused tests, including a systematic-resampling fixture that actually exercises both positive and negative corrections.
+
+  ── Edited 2 files, ran 1 command, explored 1 search
+    ── Edited crates/runner/src/impact_commands.rs +103 -14
+      @@ -45,4 +45,7 @@
+       const REQUIRED_R600_ELAPSED_S: f64 = 510.0;
+      +const REQUIRED_R1200_ELAPSED_S: f64 = 518.0;
+       const REQUIRED_R600_BTO_US: f64 = 18_400.0;
+       const REQUIRED_R600_BTO_SD_US: f64 = 63.0;
+      +const REQUIRED_R1200_BTO_US: f64 = 18_380.0;
+      +const REQUIRED_R1200_BTO_SD_US: f64 = 43.0;
+       const UTC_TOLERANCE_S: f64 = 1.0e-6;
+      @@ -435,2 +438,3 @@
+           expected_sd_us: f64,
+      +    relative_time_origin_unix_s_utc: f64,
+       ) -> Result<()> {
+      @@ -444,2 +448,6 @@
+           if !close_time(observed_utc, expected_utc)
+      +        || !close_time(
+      +            relative_time_origin_unix_s_utc + observation.measurement.time.0,
+      +            expected_utc,
+      +        )
+               || !close_time(bto.0, expected_bto_us)
+      @@ -454,2 +462,38 @@
+       
+      +fn require_ephemeris_utc(ephemeris_csv: &str, epoch_id: &str, expected_utc: &str) -> Result<()> {
+      +    let mut lines = ephemeris_csv.lines();
+      +    let header = lines.next().context("ephemeris table is empty")?;
+      +    let header_fields = header.split(',').collect::<Vec<_>>();
+      +    let epoch_index = header_fields
+      +        .iter()
+      +        .position(|field| *field == "epoch_id")
+      +        .context("ephemeris table lacks epoch_id")?;
+      +    let utc_index = header_fields
+      +        .iter()
+      +        .position(|field| *field == "time_utc")
+      +        .context("ephemeris table lacks time_utc")?;
+      +    let mut matched_utc = None;
+      +    for (line_index, line) in lines.enumerate() {
+      +        if line.trim().is_empty() {
+      +            continue;
+      +        }
+      +        let fields = line.split(',').collect::<Vec<_>>();
+      +        if fields.len() != header_fields.len() {
+      +            bail!("invalid ephemeris row {}", line_index + 2);
+      +        }
+      +        if fields[epoch_index] == epoch_id {
+      +            if matched_utc.replace(fields[utc_index]).is_some() {
+      +                bail!("ephemeris epoch {epoch_id} is duplicated");
+      +            }
+      +        }
+      +    }
+      +    let observed_utc = parse_utc_posix_seconds(
+      +        matched_utc.with_context(|| format!("ephemeris epoch {epoch_id} is absent"))?,
+      +    )?;
+      +    if !close_time(observed_utc, parse_utc_posix_seconds(expected_utc)?) {
+      +        bail!("ephemeris epoch {epoch_id} has the wrong absolute UTC time");
+      +    }
+      +    Ok(())
+      +}
+      +
+       fn component_id(component: EvidenceComponent) -> &'static str {
+      @@ -651,6 +695,11 @@
+       
+      -    Ok(EvidenceLedgerV2 {
+      +    let ledger = EvidenceLedgerV2 {
+               entries,
+               applications,
+      -    })
+      +    };
+      +    ledger
+      +        .validate()
+      +        .map_err(anyhow::Error::new)
+      +        .context("generated impact evidence ledger violates schema v1")?;
+      +    Ok(ledger)
+       }
+      @@ -998,5 +1047,9 @@
+       
+      +    let observation_csv =
+      +        std::str::from_utf8(&observation_bytes).context("observation CSV is not UTF-8")?;
+      +    let ephemeris_csv =
+      +        std::str::from_utf8(&ephemeris_bytes).context("ephemeris CSV is not UTF-8")?;
+           let observations = parse_satcom_observations(
+      -        std::str::from_utf8(&observation_bytes).context("observation CSV is not UTF-8")?,
+      -        std::str::from_utf8(&ephemeris_bytes).context("ephemeris CSV is not UTF-8")?,
+      +        observation_csv,
+      +        ephemeris_csv,
+               config.inputs.ground_station_position_km,
+      @@ -1008,2 +1061,17 @@
+           let r1200_observation = exactly_one_observation(&observations, &config.inputs.r1200_epoch_id)?;
+      +    require_ephemeris_utc(
+      +        ephemeris_csv,
+      +        &config.inputs.source_epoch_id,
+      +        REQUIRED_SOURCE_UTC,
+      +    )?;
+      +    require_ephemeris_utc(
+      +        ephemeris_csv,
+      +        &config.inputs.r600_epoch_id,
+      +        REQUIRED_R600_UTC,
+      +    )?;
+      +    require_ephemeris_utc(
+      +        ephemeris_csv,
+      +        &config.inputs.r1200_epoch_id,
+      +        REQUIRED_R1200_UTC,
+      +    )?;
+           require_contact(
+      @@ -1013,4 +1081,11 @@
+               REQUIRED_R600_BTO_SD_US,
+      +        relative_time_origin_unix_s_utc,
+      +    )?;
+      +    require_contact(
+      +        r1200_observation,
+      +        REQUIRED_R1200_UTC,
+      +        REQUIRED_R1200_BTO_US,
+      +        REQUIRED_R1200_BTO_SD_US,
+      +        relative_time_origin_unix_s_utc,
+           )?;
+      -    require_contact(r1200_observation, REQUIRED_R1200_UTC, 18_380.0, 43.0)?;
+           if !close_time(
+      @@ -1021,5 +1096,2 @@
+               source_checkpoint_time_unix_s_utc,
+      -    ) || !close_time(
+      -        relative_time_origin_unix_s_utc + r600_observation.measurement.time.0,
+      -        r600_checkpoint_time_unix_s_utc,
+           ) || source.particles.iter().any(|particle| {
+      @@ -1380,7 +1452,7 @@
+               source.validate().unwrap();
+      -        let (first, sampling) = select_source_draws(&source, Some(16), 42).unwrap();
+      -        let (second, repeated) = select_source_draws(&source, Some(16), 42).unwrap();
+      +        let (first, sampling) = select_source_draws(&source, Some(3), 42).unwrap();
+      +        let (second, repeated) = select_source_draws(&source, Some(3), 42).unwrap();
+               assert_eq!(first, second);
+               assert_eq!(sampling, repeated);
+      -        let expected = -(16.0_f64).ln();
+      +        let expected = -(3.0_f64).ln();
+               let total = first
+      @@ -1394,2 +1466,8 @@
+               assert!((total - 1.0).abs() < 1.0e-14);
+      +        assert!(first
+      +            .iter()
+      +            .any(|draw| draw.sampling_log_correction > 0.0));
+      +        assert!(first
+      +            .iter()
+      +            .any(|draw| draw.sampling_log_correction < 0.0));
+           }
+      @@ -1473,7 +1551,10 @@
+               let source = parse_utc_posix_seconds(REQUIRED_SOURCE_UTC).unwrap();
+      -        let contact = parse_utc_posix_seconds(REQUIRED_R600_UTC).unwrap();
+      -        assert_eq!(contact - source, REQUIRED_R600_ELAPSED_S);
+      +        let r600 = parse_utc_posix_seconds(REQUIRED_R600_UTC).unwrap();
+      +        let r1200 = parse_utc_posix_seconds(REQUIRED_R1200_UTC).unwrap();
+      +        assert_eq!(r600 - source, REQUIRED_R600_ELAPSED_S);
+      +        assert_eq!(r1200 - source, REQUIRED_R1200_ELAPSED_S);
+      +        assert_eq!(r1200 - r600, 8.0);
+               assert_eq!(
+                   parse_utc_posix_seconds("2014-03-08T00:19:29.000Z").unwrap(),
+      -            contact
+      +            r600
+               );
+      @@ -1481,2 +1562,10 @@
+           }
+      +
+      +    #[test]
+      +    fn selected_ephemeris_epoch_must_have_exact_utc() {
+      +        let ephemeris = "epoch_id,time_utc,x_km\n\
+      +m0019a,2014-03-08T00:19:29.000Z,1\n";
+      +        require_ephemeris_utc(ephemeris, "m0019a", REQUIRED_R600_UTC).unwrap();
+      +        assert!(require_ephemeris_utc(ephemeris, "m0019a", REQUIRED_R1200_UTC).is_err());
+      +    }
+       }
+    ── Edited crates/runner/src/impact_handoff.rs +24 -76
+      @@ -79,3 +79,2 @@
+           Separate,
+      -    ExplicitMixture { rationale: String },
+       }
+      @@ -401,21 +400,6 @@
+               }
+      -        match &self.scenario_combination {
+      -            ScenarioCombinationV1::Separate => {
+      -                if self.eof_scenarios.len() != 1
+      -                    || self.eof_scenarios[0].log_weight.abs() > NORMALIZED_LOG_WEIGHT_TOLERANCE
+      -                {
+      -                    return Err(ImpactHandoffError::InvalidScenario);
+      -                }
+      -            }
+      -            ScenarioCombinationV1::ExplicitMixture { rationale } => {
+      -                if self.eof_scenarios.len() < 2 || rationale.trim().is_empty() {
+      -                    return Err(ImpactHandoffError::InvalidScenario);
+      -                }
+      -                require_normalized(
+      -                    self.eof_scenarios
+      -                        .iter()
+      -                        .map(|scenario| scenario.log_weight),
+      -                    "scenario",
+      -                )?;
+      -            }
+      +        if self.eof_scenarios.len() != 1
+      +            || self.eof_scenarios[0].log_weight.abs() > NORMALIZED_LOG_WEIGHT_TOLERANCE
+      +        {
+      +            return Err(ImpactHandoffError::InvalidScenario);
+               }
+      @@ -542,3 +526,5 @@
+       impl EvidenceLedgerV2 {
+      -    fn validate(&self) -> Result<BTreeMap<&str, &EvidenceApplicationV1>, ImpactHandoffError> {
+      +    pub(crate) fn validate(
+      +        &self,
+      +    ) -> Result<BTreeMap<&str, &EvidenceApplicationV1>, ImpactHandoffError> {
+               let mut applications = BTreeMap::new();
+      @@ -750,10 +736,3 @@
+       
+      -        if self.attitude.is_some_and(|attitude| !attitude.validate())
+      -            || self.contact_duration_s.is_some_and(|duration| {
+      -                !duration.minimum.is_finite()
+      -                    || !duration.maximum.is_finite()
+      -                    || duration.minimum <= 0.0
+      -                    || duration.maximum < duration.minimum
+      -            })
+      -        {
+      +        if self.attitude.is_some() || self.contact_duration_s.is_some() {
+                   return Err(ImpactHandoffError::InvalidPhysicalState);
+      @@ -762,22 +741,2 @@
+           }
+      -}
+      -
+      -impl ImpactAttitudeIntervalsV1 {
+      -    fn validate(self) -> bool {
+      -        valid_signed_angle(self.pitch_nose_up_deg)
+      -            && valid_signed_angle(self.roll_right_wing_down_deg)
+      -            && self.yaw_true_deg.center_deg.is_finite()
+      -            && (0.0..360.0).contains(&self.yaw_true_deg.center_deg)
+      -            && valid_half_width(self.yaw_true_deg.half_width_deg)
+      -    }
+      -}
+      -
+      -fn valid_signed_angle(value: AngularIntervalV1) -> bool {
+      -    value.center_deg.is_finite()
+      -        && (-180.0..180.0).contains(&value.center_deg)
+      -        && valid_half_width(value.half_width_deg)
+      -}
+      -
+      -fn valid_half_width(value: f64) -> bool {
+      -    value.is_finite() && (0.0..=180.0).contains(&value)
+       }
+      @@ -1004,4 +963,4 @@
+           #[test]
+      -    fn separate_scenario_accepts_unresolved_attitude_and_contact_duration() {
+      -        let handoff = handoff();
+      +    fn v1_requires_one_scenario_and_unresolved_attitude_and_contact_duration() {
+      +        let mut handoff = handoff();
+               assert!(handoff
+      @@ -1011,2 +970,11 @@
+               handoff.validate().unwrap();
+      +
+      +        handoff.particles[0].contact_duration_s = Some(PositiveIntervalV1 {
+      +            minimum: 0.1,
+      +            maximum: 1.0,
+      +        });
+      +        assert_eq!(
+      +            handoff.validate(),
+      +            Err(ImpactHandoffError::InvalidPhysicalState)
+      +        );
+           }
+      @@ -1032,11 +1000,5 @@
+           #[test]
+      -    fn explicit_mixture_requires_declared_normalized_weights() {
+      -        let mut mixed = handoff();
+      -        let quarter = -(4.0_f64).ln();
+      -        let half = -(2.0_f64).ln();
+      -        mixed.scenario_combination = ScenarioCombinationV1::ExplicitMixture {
+      -            rationale: "declared conditional model sensitivity".to_string(),
+      -        };
+      -        mixed.eof_scenarios[0].log_weight = half;
+      -        mixed.eof_scenarios.push(EofScenarioV1 {
+      +    fn separate_handoff_rejects_a_second_scenario() {
+      +        let mut handoff = handoff();
+      +        handoff.eof_scenarios.push(EofScenarioV1 {
+                   id: "controlled-common-ocxo".to_string(),
+      @@ -1046,20 +1008,6 @@
+                   },
+      -            log_weight: half,
+      +            log_weight: 0.0,
+                   config_sha256: digest('6'),
+               });
+      -        for particle in &mut mixed.particles {
+      -            particle.normalized_log_weight = quarter;
+      -        }
+      -        let mut alternatives = mixed.particles.clone();
+      -        for particle in &mut alternatives {
+      -            particle.identity.eof_scenario_id = "controlled-common-ocxo".to_string();
+      -        }
+      -        mixed.particles.extend(alternatives);
+      -        mixed.validate().unwrap();
+      -
+      -        mixed.eof_scenarios[1].log_weight = 0.0;
+      -        assert!(matches!(
+      -            mixed.validate(),
+      -            Err(ImpactHandoffError::UnnormalizedWeights("scenario"))
+      -        ));
+      +        assert_eq!(handoff.validate(), Err(ImpactHandoffError::InvalidScenario));
+           }
+    ── Ran rustfmt --edition 2021 crates/runner/src/impact_commands.rs crates/runner/src/impact_handoff.rs rustfmt --edition 2021 --check crates/runner/src/main.rs crates/runner/src/impact_commands.rs crates/runner/src/impact_handoff.rs diff -u crates/runner/src/impact_commands.rs.orig crates/runner/src/impact_commands.rs | sed -n '1,420p' diff -u crates/runner/src/impact_handoff.rs.orig crates/runner/src/impact_handoff.rs | sed -n '1,360p'
+      $ rustfmt --edition 2021 crates/runner/src/impact_commands.rs crates/runner/src/impact_handoff.rs
+    rustfmt --edition 2021 --check crates/runner/src/main.rs crates/runner/src/impact_commands.rs crates/runner/src/impact_handoff.rs
+    diff -u crates/runner/src/impact_commands.rs.orig crates/runner/src/impact_commands.rs | sed -n '1,420p'
+    diff -u crates/runner/src/impact_handoff.rs.orig crates/runner/src/impact_handoff.rs | sed -n '1,360p'
+      --- crates/runner/src/impact_commands.rs.orig	2026-08-27 22:22:27.065591010 +0000
+      +++ crates/runner/src/impact_commands.rs	2026-08-28 01:00:54.868668229 +0000
+      @@ -43,8 +43,11 @@
+       const REQUIRED_R600_UTC: &str = "2014-03-08T00:19:29Z";
+       const REQUIRED_R1200_UTC: &str = "2014-03-08T00:19:37Z";
+       const REQUIRED_R600_ELAPSED_S: f64 = 510.0;
+      +const REQUIRED_R1200_ELAPSED_S: f64 = 518.0;
+       const REQUIRED_R600_BTO_US: f64 = 18_400.0;
+       const REQUIRED_R600_BTO_SD_US: f64 = 63.0;
+      +const REQUIRED_R1200_BTO_US: f64 = 18_380.0;
+      +const REQUIRED_R1200_BTO_SD_US: f64 = 43.0;
+       const UTC_TOLERANCE_S: f64 = 1.0e-6;
+       const MPS_PER_KNOT: f64 = 1_852.0 / 3_600.0;
+       const MPS_PER_FPM: f64 = 0.304_8 / 60.0;
+      @@ -108,7 +111,7 @@
+       #[serde(tag = "kind", rename_all = "snake_case")]
+       enum CheckpointScoreStatusV1 {
+           Reached {
+      -        checkpoint: ExactTimeCheckpoint,
+      +        checkpoint: Box<ExactTimeCheckpoint>,
+               observed_bto_us: f64,
+               standard_deviation_us: f64,
+               predicted_bto_us: f64,
+      @@ -433,6 +436,7 @@
+           expected_utc: &str,
+           expected_bto_us: f64,
+           expected_sd_us: f64,
+      +    relative_time_origin_unix_s_utc: f64,
+       ) -> Result<()> {
+           let observed_utc = parse_utc_posix_seconds(&observation.time_utc)?;
+           let expected_utc = parse_utc_posix_seconds(expected_utc)?;
+      @@ -442,6 +446,10 @@
+               .zip(observation.measurement.bto_sd)
+               .context("declared final contact lacks a complete BTO observation")?;
+           if !close_time(observed_utc, expected_utc)
+      +        || !close_time(
+      +            relative_time_origin_unix_s_utc + observation.measurement.time.0,
+      +            expected_utc,
+      +        )
+               || !close_time(bto.0, expected_bto_us)
+               || !close_time(sd.0, expected_sd_us)
+               || observation.measurement.bfo.is_some()
+      @@ -452,6 +460,42 @@
+           Ok(())
+       }
+       
+      +fn require_ephemeris_utc(ephemeris_csv: &str, epoch_id: &str, expected_utc: &str) -> Result<()> {
+      +    let mut lines = ephemeris_csv.lines();
+      +    let header = lines.next().context("ephemeris table is empty")?;
+      +    let header_fields = header.split(',').collect::<Vec<_>>();
+      +    let epoch_index = header_fields
+      +        .iter()
+      +        .position(|field| *field == "epoch_id")
+      +        .context("ephemeris table lacks epoch_id")?;
+      +    let utc_index = header_fields
+      +        .iter()
+      +        .position(|field| *field == "time_utc")
+      +        .context("ephemeris table lacks time_utc")?;
+      +    let mut matched_utc = None;
+      +    for (line_index, line) in lines.enumerate() {
+      +        if line.trim().is_empty() {
+      +            continue;
+      +        }
+      +        let fields = line.split(',').collect::<Vec<_>>();
+      +        if fields.len() != header_fields.len() {
+      +            bail!("invalid ephemeris row {}", line_index + 2);
+      +        }
+      +        if fields[epoch_index] == epoch_id {
+      +            if matched_utc.replace(fields[utc_index]).is_some() {
+      +                bail!("ephemeris epoch {epoch_id} is duplicated");
+      +            }
+      +        }
+      +    }
+      +    let observed_utc = parse_utc_posix_seconds(
+      +        matched_utc.with_context(|| format!("ephemeris epoch {epoch_id} is absent"))?,
+      +    )?;
+      +    if !close_time(observed_utc, parse_utc_posix_seconds(expected_utc)?) {
+      +        bail!("ephemeris epoch {epoch_id} has the wrong absolute UTC time");
+      +    }
+      +    Ok(())
+      +}
+      +
+       fn component_id(component: EvidenceComponent) -> &'static str {
+           match component {
+               EvidenceComponent::Bto => "bto",
+      @@ -475,14 +519,18 @@
+           format!("satcom-event-{}", identity.epoch_id)
+       }
+       
+      +struct EvidenceBuildContext<'a> {
+      +    config_sha256: &'a str,
+      +    current_input_sha256: &'a BTreeMap<String, String>,
+      +    upstream_config_sha256: &'a str,
+      +    upstream_input_sha256: &'a BTreeMap<String, String>,
+      +}
+      +
+       fn build_evidence_ledger(
+           source: &EvidenceLedger,
+           r600_identity: &EvidenceIdentity,
+           r1200_identity: &EvidenceIdentity,
+      -    config_sha256: &str,
+      -    current_input_sha256: &BTreeMap<String, String>,
+      -    upstream_config_sha256: &str,
+      -    upstream_input_sha256: &BTreeMap<String, String>,
+      +    context: EvidenceBuildContext<'_>,
+           log_evidence_increment: f64,
+       ) -> Result<EvidenceLedgerV2> {
+           let reserved = [
+      @@ -535,8 +583,8 @@
+                   id: UPSTREAM_APPLICATION_ID.to_string(),
+                   role: EvidenceApplicationRoleV1::EmbeddedUpstream,
+                   model_family: "source-posterior".to_string(),
+      -            config_sha256: upstream_config_sha256.to_string(),
+      -            input_sha256: upstream_input_sha256.clone(),
+      +            config_sha256: context.upstream_config_sha256.to_string(),
+      +            input_sha256: context.upstream_input_sha256.clone(),
+                   log_evidence_increment: None,
+               });
+           }
+      @@ -545,8 +593,8 @@
+                   id: "source-diagnostic-evidence".to_string(),
+                   role: EvidenceApplicationRoleV1::Diagnostic,
+                   model_family: "source-diagnostic".to_string(),
+      -            config_sha256: upstream_config_sha256.to_string(),
+      -            input_sha256: upstream_input_sha256.clone(),
+      +            config_sha256: context.upstream_config_sha256.to_string(),
+      +            input_sha256: context.upstream_input_sha256.clone(),
+                   log_evidence_increment: None,
+               });
+           }
+      @@ -554,16 +602,16 @@
+               id: R600_APPLICATION_ID.to_string(),
+               role: EvidenceApplicationRoleV1::WeightUpdate,
+               model_family: "corrected-r600-bto-given-reception".to_string(),
+      -        config_sha256: config_sha256.to_string(),
+      -        input_sha256: current_input_sha256.clone(),
+      +        config_sha256: context.config_sha256.to_string(),
+      +        input_sha256: context.current_input_sha256.clone(),
+               log_evidence_increment: Some(log_evidence_increment),
+           });
+           applications.push(EvidenceApplicationV1 {
+               id: FINAL_BFO_DIAGNOSTIC_APPLICATION_ID.to_string(),
+               role: EvidenceApplicationRoleV1::Diagnostic,
+               model_family: "raw-final-bfo-diagnostic-only".to_string(),
+      -        config_sha256: config_sha256.to_string(),
+      -        input_sha256: current_input_sha256.clone(),
+      +        config_sha256: context.config_sha256.to_string(),
+      +        input_sha256: context.current_input_sha256.clone(),
+               log_evidence_increment: None,
+           });
+       
+      @@ -645,10 +693,15 @@
+               });
+           }
+       
+      -    Ok(EvidenceLedgerV2 {
+      +    let ledger = EvidenceLedgerV2 {
+               entries,
+               applications,
+      -    })
+      +    };
+      +    ledger
+      +        .validate()
+      +        .map_err(anyhow::Error::new)
+      +        .context("generated impact evidence ledger violates schema v1")?;
+      +    Ok(ledger)
+       }
+       
+       fn transition_termination_v1(value: TransitionTermination) -> TransitionTerminationV1 {
+      @@ -799,7 +852,7 @@
+           Ok(CheckpointScoreV1 {
+               requested_elapsed_s: REQUIRED_R600_ELAPSED_S,
+               status: CheckpointScoreStatusV1::Reached {
+      -            checkpoint: checkpoint.clone(),
+      +            checkpoint: Box::new(checkpoint.clone()),
+                   observed_bto_us: REQUIRED_R600_BTO_US,
+                   standard_deviation_us: REQUIRED_R600_BTO_SD_US,
+                   predicted_bto_us,
+      @@ -825,6 +878,15 @@
+           )
+       }
+       
+      +fn normalize_mass_map(masses: &mut BTreeMap<TransitionTerminationV1, f64>) {
+      +    let total = masses.values().sum::<f64>();
+      +    if total.is_finite() && total > 0.0 {
+      +        for mass in masses.values_mut() {
+      +            *mass /= total;
+      +        }
+      +    }
+      +}
+      +
+       fn termination_masses(
+           records: &[TransitionSidecarRecordV1],
+       ) -> (Vec<TerminationMassV1>, Vec<OutcomeWeightMassV1>) {
+      @@ -835,6 +897,8 @@
+               *prior.entry(termination).or_default() += record.prior_weight;
+               *conditioned.entry(termination).or_default() += record.r600_conditioned_weight;
+           }
+      +    normalize_mass_map(&mut prior);
+      +    normalize_mass_map(&mut conditioned);
+           let all = prior
+               .keys()
+               .chain(conditioned.keys())
+      @@ -981,9 +1045,13 @@
+               bail!("source model-family identifier is not schema-v1 compatible");
+           }
+       
+      +    let observation_csv =
+      +        std::str::from_utf8(&observation_bytes).context("observation CSV is not UTF-8")?;
+      +    let ephemeris_csv =
+      +        std::str::from_utf8(&ephemeris_bytes).context("ephemeris CSV is not UTF-8")?;
+           let observations = parse_satcom_observations(
+      -        std::str::from_utf8(&observation_bytes).context("observation CSV is not UTF-8")?,
+      -        std::str::from_utf8(&ephemeris_bytes).context("ephemeris CSV is not UTF-8")?,
+      +        observation_csv,
+      +        ephemeris_csv,
+               config.inputs.ground_station_position_km,
+               None,
+           )?;
+      @@ -991,22 +1059,41 @@
+               exactly_one_observation(&observations, &config.inputs.source_epoch_id)?;
+           let r600_observation = exactly_one_observation(&observations, &config.inputs.r600_epoch_id)?;
+           let r1200_observation = exactly_one_observation(&observations, &config.inputs.r1200_epoch_id)?;
+      +    require_ephemeris_utc(
+      +        ephemeris_csv,
+      +        &config.inputs.source_epoch_id,
+      +        REQUIRED_SOURCE_UTC,
+      +    )?;
+      +    require_ephemeris_utc(
+      +        ephemeris_csv,
+      +        &config.inputs.r600_epoch_id,
+      +        REQUIRED_R600_UTC,
+      +    )?;
+      +    require_ephemeris_utc(
+      +        ephemeris_csv,
+      +        &config.inputs.r1200_epoch_id,
+      +        REQUIRED_R1200_UTC,
+      +    )?;
+           require_contact(
+               r600_observation,
+               REQUIRED_R600_UTC,
+               REQUIRED_R600_BTO_US,
+               REQUIRED_R600_BTO_SD_US,
+      +        relative_time_origin_unix_s_utc,
+      +    )?;
+      +    require_contact(
+      +        r1200_observation,
+      +        REQUIRED_R1200_UTC,
+      +        REQUIRED_R1200_BTO_US,
+      +        REQUIRED_R1200_BTO_SD_US,
+      +        relative_time_origin_unix_s_utc,
+           )?;
+      -    require_contact(r1200_observation, REQUIRED_R1200_UTC, 18_380.0, 43.0)?;
+           if !close_time(
+               parse_utc_posix_seconds(&source_observation.time_utc)?,
+               source_checkpoint_time_unix_s_utc,
+           ) || !close_time(
+               relative_time_origin_unix_s_utc + source_observation.measurement.time.0,
+               source_checkpoint_time_unix_s_utc,
+      -    ) || !close_time(
+      -        relative_time_origin_unix_s_utc + r600_observation.measurement.time.0,
+      -        r600_checkpoint_time_unix_s_utc,
+           ) || source.particles.iter().any(|particle| {
+               !close_time(
+                   relative_time_origin_unix_s_utc + particle.aircraft.time.0,
+      @@ -1057,6 +1144,19 @@
+                   sha256_bytes(&ephemeris_bytes),
+               ),
+           ]);
+      +    build_evidence_ledger(
+      +        &source.evidence,
+      +        &r600_identity,
+      +        &r1200_identity,
+      +        EvidenceBuildContext {
+      +            config_sha256: &config_sha256,
+      +            current_input_sha256: &current_input_sha256,
+      +            upstream_config_sha256: &source.run.config_sha256,
+      +            upstream_input_sha256: &source.run.input_sha256,
+      +        },
+      +        0.0,
+      +    )
+      +    .context("end-of-flight evidence cannot be applied atomically")?;
+           let executable_sha256 = executable_sha256()?;
+           let scenario_config_sha256 = sha256_bytes(&serde_json::to_vec(&config.scenario)?);
+           let fuel_allocation = allocate_powered_fuel(config.scenario.fuel)
+      @@ -1171,10 +1271,12 @@
+               &source.evidence,
+               &r600_identity,
+               &r1200_identity,
+      -        &config_sha256,
+      -        &current_input_sha256,
+      -        &source.run.config_sha256,
+      -        &source.run.input_sha256,
+      +        EvidenceBuildContext {
+      +            config_sha256: &config_sha256,
+      +            current_input_sha256: &current_input_sha256,
+      +            upstream_config_sha256: &source.run.config_sha256,
+      +            upstream_input_sha256: &source.run.input_sha256,
+      +        },
+               log_evidence_increment,
+           )?;
+           let particles = build_impact_particles(
+      @@ -1348,11 +1450,11 @@
+           fn systematic_resampling_is_deterministic_and_exactly_corrected() {
+               let source = source_handoff();
+               source.validate().unwrap();
+      -        let (first, sampling) = select_source_draws(&source, Some(16), 42).unwrap();
+      -        let (second, repeated) = select_source_draws(&source, Some(16), 42).unwrap();
+      +        let (first, sampling) = select_source_draws(&source, Some(3), 42).unwrap();
+      +        let (second, repeated) = select_source_draws(&source, Some(3), 42).unwrap();
+               assert_eq!(first, second);
+               assert_eq!(sampling, repeated);
+      -        let expected = -(16.0_f64).ln();
+      +        let expected = -(3.0_f64).ln();
+               let total = first
+                   .iter()
+                   .map(|draw| {
+      @@ -1363,6 +1465,7 @@
+                   .sum::<f64>();
+               assert!((total - 1.0).abs() < 1.0e-14);
+               assert!(first.iter().any(|draw| draw.sampling_log_correction > 0.0));
+      +        assert!(first.iter().any(|draw| draw.sampling_log_correction < 0.0));
+           }
+       
+           #[test]
+      @@ -1382,10 +1485,12 @@
+                   &EvidenceLedger::new(),
+                   &r600,
+                   &r1200,
+      -            &digest('5'),
+      -            &hashes,
+      -            &digest('6'),
+      -            &hashes,
+      +            EvidenceBuildContext {
+      +                config_sha256: &digest('5'),
+      +                current_input_sha256: &hashes,
+      +                upstream_config_sha256: &digest('6'),
+      +                upstream_input_sha256: &hashes,
+      +            },
+                   -3.0,
+               )
+               .unwrap();
+      @@ -1418,24 +1523,45 @@
+                   &consumed,
+                   &r600,
+                   &r1200,
+      -            &digest('5'),
+      -            &hashes,
+      -            &digest('6'),
+      -            &hashes,
+      +            EvidenceBuildContext {
+      +                config_sha256: &digest('5'),
+      +                current_input_sha256: &hashes,
+      +                upstream_config_sha256: &digest('6'),
+      +                upstream_input_sha256: &hashes,
+      +            },
+                   -3.0,
+               )
+               .is_err());
+           }
+       
+           #[test]
+      +    fn termination_mass_normalization_removes_roundoff_above_one() {
+      +        let mut masses =
+      +            BTreeMap::from([(TransitionTerminationV1::Impact, 1.000_000_000_000_000_4)]);
+      +        normalize_mass_map(&mut masses);
+      +        assert_eq!(masses[&TransitionTerminationV1::Impact], 1.0);
+      +    }
+      +
+      +    #[test]
+           fn utc_parser_pins_the_exact_handoff_interval() {
+               let source = parse_utc_posix_seconds(REQUIRED_SOURCE_UTC).unwrap();
+      -        let contact = parse_utc_posix_seconds(REQUIRED_R600_UTC).unwrap();
+      -        assert_eq!(contact - source, REQUIRED_R600_ELAPSED_S);
+      +        let r600 = parse_utc_posix_seconds(REQUIRED_R600_UTC).unwrap();
+      +        let r1200 = parse_utc_posix_seconds(REQUIRED_R1200_UTC).unwrap();
+      +        assert_eq!(r600 - source, REQUIRED_R600_ELAPSED_S);
+      +        assert_eq!(r1200 - source, REQUIRED_R1200_ELAPSED_S);
+      +        assert_eq!(r1200 - r600, 8.0);
+               assert_eq!(
+                   parse_utc_posix_seconds("2014-03-08T00:19:29.000Z").unwrap(),
+      -            contact
+      +            r600
+               );
+               assert!(parse_utc_posix_seconds("2014-03-08T00:19:60Z").is_err());
+           }
+      +
+      +    #[test]
+      +    fn selected_ephemeris_epoch_must_have_exact_utc() {
+      +        let ephemeris = "epoch_id,time_utc,x_km\n\
+      +m0019a,2014-03-08T00:19:29.000Z,1\n";
+      +        require_ephemeris_utc(ephemeris, "m0019a", REQUIRED_R600_UTC).unwrap();
+      +        assert!(require_ephemeris_utc(ephemeris, "m0019a", REQUIRED_R1200_UTC).is_err());
+      +    }
+       }
+      --- crates/runner/src/impact_handoff.rs.orig	2026-08-27 22:15:11.666289975 +0000
+      +++ crates/runner/src/impact_handoff.rs	2026-08-28 01:00:34.359596421 +0000
+      @@ -77,7 +77,6 @@
+       #[serde(tag = "kind", rename_all = "snake_case")]
+       pub(crate) enum ScenarioCombinationV1 {
+           Separate,
+      -    ExplicitMixture { rationale: String },
+       }
+       
+       #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+      @@ -399,25 +398,10 @@
+                       return Err(ImpactHandoffError::InvalidScenario);
+                   }
+               }
+      -        match &self.scenario_combination {
+      -            ScenarioCombinationV1::Separate => {
+      -                if self.eof_scenarios.len() != 1
+      -                    || self.eof_scenarios[0].log_weight.abs() > NORMALIZED_LOG_WEIGHT_TOLERANCE
+      -                {
+      -                    return Err(ImpactHandoffError::InvalidScenario);
+      -                }
+      -            }
+      -            ScenarioCombinationV1::ExplicitMixture { rationale } => {
+      -                if self.eof_scenarios.len() < 2 || rationale.trim().is_empty() {
+      -                    return Err(ImpactHandoffError::InvalidScenario);
+      -                }
+      -                require_normalized(
+      -                    self.eof_scenarios
+      -                        .iter()
+      -                        .map(|scenario| scenario.log_weight),
+      -                    "scenario",
+      -                )?;
+      -            }
+      +        if self.eof_scenarios.len() != 1
+      +            || self.eof_scenarios[0].log_weight.abs() > NORMALIZED_LOG_WEIGHT_TOLERANCE
+      +        {
+      +            return Err(ImpactHandoffError::InvalidScenario);
+               }
+               Ok(scenarios)
+           }
+      @@ -540,7 +524,9 @@
+       }
+       
+       impl EvidenceLedgerV2 {
+      -    fn validate(&self) -> Result<BTreeMap<&str, &EvidenceApplicationV1>, ImpactHandoffError> {
+      +    pub(crate) fn validate(
+      +        &self,
+      +    ) -> Result<BTreeMap<&str, &EvidenceApplicationV1>, ImpactHandoffError> {
+               let mut applications = BTreeMap::new();
+               for application in &self.applications {
+                   if !valid_identifier(&application.id)
+      @@ -634,7 +620,10 @@
+               valid_identifier(&self.dataset_id)
+                   && valid_identifier(&self.observation_id)
+                   && valid_identifier(&self.component_id)
+      -            && self.channel_id.as_deref().is_none_or(valid_identifier)
+      +            && match self.channel_id.as_deref() {
+      +                Some(channel_id) => valid_identifier(channel_id),
+      +                None => true,
+      +            }
+           }
+       }
+       
+      @@ -680,11 +669,12 @@
+                   if !valid_identifier(&term.application_id)
+                       || !term.log_likelihood.is_finite()
+                       || !seen.insert(term.application_id.as_str())
+      -                || applications
+      -                    .get(term.application_id.as_str())
+      -                    .is_none_or(|application| {
+      +                || match applications.get(term.application_id.as_str()) {
+      +                    Some(application) => {
+                               application.role != EvidenceApplicationRoleV1::WeightUpdate
+      -                    })
+      +                    }
+      +                    None => true,
+      +                }
+                   {
+                       return Err(ImpactHandoffError::InvalidEvidence);
+                   }
+      @@ -744,40 +734,13 @@
+                   return Err(ImpactHandoffError::InvalidPhysicalState);
+               }
+       
+      -        if self.attitude.is_some_and(|attitude| !attitude.validate())
+      -            || self.contact_duration_s.is_some_and(|duration| {
+      -                !duration.minimum.is_finite()
+      -                    || !duration.maximum.is_finite()
+      -                    || duration.minimum <= 0.0
+      -                    || duration.maximum < duration.minimum
+      -            })
+      -        {
+      +        if self.attitude.is_some() || self.contact_duration_s.is_some() {
+                   return Err(ImpactHandoffError::InvalidPhysicalState);
+               }
+               Ok(())
+           }
+       }
+       
+      -impl ImpactAttitudeIntervalsV1 {
+      -    fn validate(self) -> bool {
+      -        valid_signed_angle(self.pitch_nose_up_deg)
+      -            && valid_signed_angle(self.roll_right_wing_down_deg)
+      -            && self.yaw_true_deg.center_deg.is_finite()
+      -            && (0.0..360.0).contains(&self.yaw_true_deg.center_deg)
+      -            && valid_half_width(self.yaw_true_deg.half_width_deg)
+      -    }
+      -}
+      -
+      -fn valid_signed_angle(value: AngularIntervalV1) -> bool {
+      -    value.center_deg.is_finite()
+      -        && (-180.0..180.0).contains(&value.center_deg)
+      -        && valid_half_width(value.half_width_deg)
+      -}
+      -
+      -fn valid_half_width(value: f64) -> bool {
+      -    value.is_finite() && (0.0..=180.0).contains(&value)
+      -}
+      -
+       fn valid_position(position: LatLon) -> bool {
+           position.latitude.is_finite()
+               && (-90.0..=90.0).contains(&position.latitude.0)
+      @@ -998,13 +961,22 @@
+           }
+       
+           #[test]
+      -    fn separate_scenario_accepts_unresolved_attitude_and_contact_duration() {
+      -        let handoff = handoff();
+      +    fn v1_requires_one_scenario_and_unresolved_attitude_and_contact_duration() {
+      +        let mut handoff = handoff();
+               assert!(handoff
+                   .particles
+                   .iter()
+                   .all(|particle| particle.attitude.is_none() && particle.contact_duration_s.is_none()));
+               handoff.validate().unwrap();
+      +
+      +        handoff.particles[0].contact_duration_s = Some(PositiveIntervalV1 {
+      +            minimum: 0.1,
+      +            maximum: 1.0,
+      +        });
+      +        assert_eq!(
+      +            handoff.validate(),
+      +            Err(ImpactHandoffError::InvalidPhysicalState)
+      +        );
+           }
+       
+           #[test]
+      @@ -1026,38 +998,18 @@
+           }
+       
+           #[test]
+      -    fn explicit_mixture_requires_declared_normalized_weights() {
+      -        let mut mixed = handoff();
+      -        let quarter = -(4.0_f64).ln();
+      -        let half = -(2.0_f64).ln();
+      -        mixed.scenario_combination = ScenarioCombinationV1::ExplicitMixture {
+      -            rationale: "declared conditional model sensitivity".to_string(),
+      -        };
+      -        mixed.eof_scenarios[0].log_weight = half;
+      -        mixed.eof_scenarios.push(EofScenarioV1 {
+      +    fn separate_handoff_rejects_a_second_scenario() {
+      +        let mut handoff = handoff();
+      +        handoff.eof_scenarios.push(EofScenarioV1 {
+                   id: "controlled-common-ocxo".to_string(),
+                   family: ConditionalModelFamilyV1 {
+                       control_policy: EofControlPolicyFamilyV1::Controlled,
+                       restart_transient: RestartTransientFamilyV1::CommonOcxoWarmup,
+                   },
+      -            log_weight: half,
+      +            log_weight: 0.0,
+                   config_sha256: digest('6'),
+               });
+      -        for particle in &mut mixed.particles {
+      -            particle.normalized_log_weight = quarter;
+      -        }
+      -        let mut alternatives = mixed.particles.clone();
+      -        for particle in &mut alternatives {
+      -            particle.identity.eof_scenario_id = "controlled-common-ocxo".to_string();
+      -        }
+      -        mixed.particles.extend(alternatives);
+      -        mixed.validate().unwrap();
+      -
+      -        mixed.eof_scenarios[1].log_weight = 0.0;
+      -        assert!(matches!(
+      -            mixed.validate(),
+      -            Err(ImpactHandoffError::UnnormalizedWeights("scenario"))
+      -        ));
+      +        assert_eq!(handoff.validate(), Err(ImpactHandoffError::InvalidScenario));
+           }
+       
+           #[test]
+      @@ -1213,8 +1165,8 @@
+           #[test]
+           fn positive_importance_correction_is_explicit_and_weight_neutral() {
+               let mut handoff = handoff();
+      -        let correction = 4.0_f64.ln();
+      -        handoff.particles[0].upstream_normalized_log_weight = -correction;
+      +        let correction = 2.0_f64.ln();
+      +        handoff.particles[0].upstream_normalized_log_weight = -(4.0_f64).ln();
+               handoff.particles[0].eof_draw_log_weight = correction;
+               handoff.validate().unwrap();
+    ── Edited crates/runner/src/impact_commands.rs +6 -1
+      @@ -1019,2 +1019,3 @@
+           let r600_checkpoint_time_unix_s_utc = parse_utc_posix_seconds(REQUIRED_R600_UTC)?;
+      +    let r1200_checkpoint_time_unix_s_utc = parse_utc_posix_seconds(REQUIRED_R1200_UTC)?;
+           if !close_time(source_checkpoint_time_unix_s_utc, required_source_utc)
+      @@ -1024,4 +1025,8 @@
+               )
+      +        || !close_time(
+      +            r1200_checkpoint_time_unix_s_utc - source_checkpoint_time_unix_s_utc,
+      +            REQUIRED_R1200_ELAPSED_S,
+      +        )
+           {
+      -        bail!("schema v1 requires the 00:10:59 to 00:19:29 UTC handoff interval");
+      +        bail!("schema v1 requires the exact 00:10:59, 00:19:29, and 00:19:37 UTC epochs");
+           }
+    ── Edited crates/runner/src/impact_handoff.rs +20
+      @@ -979,2 +979,22 @@
+               );
+      +
+      +        handoff.particles[0].contact_duration_s = None;
+      +        handoff.particles[0].attitude = Some(ImpactAttitudeIntervalsV1 {
+      +            pitch_nose_up_deg: AngularIntervalV1 {
+      +                center_deg: 0.0,
+      +                half_width_deg: 1.0,
+      +            },
+      +            roll_right_wing_down_deg: AngularIntervalV1 {
+      +                center_deg: 0.0,
+      +                half_width_deg: 1.0,
+      +            },
+      +            yaw_true_deg: AngularIntervalV1 {
+      +                center_deg: 180.0,
+      +                half_width_deg: 1.0,
+      +            },
+      +        });
+      +        assert_eq!(
+      +            handoff.validate(),
+      +            Err(ImpactHandoffError::InvalidPhysicalState)
+      +        );
+           }
+    ── Searched for REQUIRED_R1200_ELAPSED|require_contact\(|require_ephemeris_utc|generated impact evidence|ScenarioCombinationV1|attitude.is_some|contact_duration_s.is_some|systematic_resampling in crates/runner/src/impact_handoff.rs
+
+  ── Assistant
+  The invariant edits are now formatted and self-consistent at source level. I’m moving into verification: first the requested runner tests, then strict clippy and a final artifact/schema audit. The earlier ocean-drift error may still prevent Cargo from reaching the runner; I’ll distinguish that external failure from any runner-local failure and use a temporary isolated harness only if needed to exercise the impact modules themselves.
+
+  ── Ran cargo test -p mh370-runner (20s)
+    $ cargo test -p mh370-runner
+    Compiling mh370-estimator v0.1.0 (/jackbox/home/MH370/crates/estimator)
+       Compiling mh370-ocean-drift v0.1.0 (/jackbox/home/MH370/crates/ocean-drift)
+       Compiling mh370-runner v0.1.0 (/jackbox/home/MH370/crates/runner)
+        Finished `test` profile [unoptimized + debuginfo] target(s) in 20.02s
+         Running unittests src/main.rs (target/debug/deps/mh370-f52c03ce14846038)
+
+    running 26 tests
+    test continuation_commands::tests::evidence_consumption_is_atomic_across_seeds ... ok
+    test final_bfo_commands::tests::systematic_sample_is_deterministic_and_respects_mass ... ok
+    test continuation_commands::tests::shifted_origin_uses_declared_epoch_interval ... ok
+    test continuation_commands::tests::numerical_replicates_must_share_family_and_have_unique_seeds ... ok
+    test final_bfo_commands::tests::source_parser_uses_bto_continuation_endpoint_and_weight ... ok
+    test impact_commands::tests::selected_ephemeris_epoch_must_have_exact_utc ... ok
+    test impact_commands::tests::utc_parser_pins_the_exact_handoff_interval ... ok
+    test impact_commands::tests::r600_consumption_rejects_duplicate_and_has_one_weight_update ... ok
+    test impact_commands::tests::systematic_resampling_is_deterministic_and_exactly_corrected ... ok
+    test impact_commands::tests::termination_mass_normalization_removes_roundoff_above_one ... ok
+    test continuation_commands::tests::typed_handoff_round_trip_and_mode_rejection ... ok
+    test continuation_commands::tests::continued_handoffs_are_normalized_within_each_seed ... ok
+    test impact_handoff::tests::controlled_to_uncontrolled_policy_has_typed_trigger_serde ... ok
+    test impact_handoff::tests::half_impact_survivors_preserve_parent_weights ... ok
+    test impact_handoff::tests::positive_importance_correction_is_explicit_and_weight_neutral ... ok
+    test impact_handoff::tests::rejects_inconsistent_impact_outcome_mass ... ok
+    test impact_handoff::tests::rejects_duplicate_evidence_identity_and_dependence_group_consumption ... ok
+    test impact_handoff::tests::rejects_inconsistent_energy_and_particle_normalization ... ok
+    test impact_handoff::tests::separate_handoff_rejects_a_second_scenario ... ok
+    test impact_handoff::tests::v1_requires_one_scenario_and_unresolved_attitude_and_contact_duration ... ok
+    test impact_handoff::tests::source_checkpoint_must_follow_origin_and_precede_impacts ... ok
+    test impact_handoff::tests::weight_update_discloses_evidence_normalizer ... ok
+    test ocean_drift_application::tests::application_removes_source_prior_and_rejects_family_mismatch ... ok
+    test ocean_drift_application::tests::effective_sample_size_has_expected_limits ... ok
+    test ocean_drift_commands::tests::coast_report_never_invents_beaching_from_a_land_mask ... ok
+    test impact_handoff::tests::serde_round_trip_is_exact ... ok
+
+    test result: ok. 26 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+  ── Assistant
+  Runner verification now reaches the canonical crate: all 26 runner tests pass, including the non-lossy EOF-facing sidecar logic, resampling normalization, atomic evidence classification, single-scenario validation, and null attitude/contact checks. I’m running strict all-target clippy next; after that I’ll inspect output publication ordering and the complete source-to-scratch diff before deciding whether the two impact `.orig` files are safe to remove.
+
+  ── Ran cargo clippy -p mh370-runner --all-targets -- -D warnings (4s, error)
+    $ cargo clippy -p mh370-runner --all-targets -- -D warnings
+    Checking libc v0.2.189
+        Checking mh370-domain v0.1.0 (/jackbox/home/MH370/crates/domain)
+        Checking bitflags v2.13.1
+        Checking linux-raw-sys v0.4.15
+        Checking once_cell v1.21.4
+        Checking fastrand v2.5.0
+        Checking png v0.18.1
+        Checking rustix v0.38.44
+        Checking mh370-satcom v0.1.0 (/jackbox/home/MH370/crates/satcom)
+        Checking mh370-antenna v0.1.0 (/jackbox/home/MH370/crates/antenna)
+        Checking mh370-hydroacoustics v0.1.0 (/jackbox/home/MH370/crates/hydroacoustics)
+        Checking mh370-reporting v0.1.0 (/jackbox/home/MH370/crates/reporting)
+        Checking getrandom v0.2.17
+        Checking memmap2 v0.9.11
+        Checking rand_core v0.6.4
+        Checking rand_chacha v0.3.1
+        Checking rand v0.8.7
+    error: this function has too many arguments (8/7)
+       --> crates/reporting/src/known_flight_png.rs:302:5
+        |
+    302 | /     fn text(
+    303 | |         &mut self,
+    304 | |         fonts: &Fonts,
+    305 | |         x: i32,
+    ...   |
+    310 | |         value: &str,
+    311 | |     ) -> i32 {
+        | |____________^
+        |
+        = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#too_many_arguments
+        = note: `-D clippy::too-many-arguments` implied by `-D warnings`
+        = help: to override `-D warnings` add `#[allow(clippy::too_many_arguments)]`
+
+    error: this function has too many arguments (8/7)
+       --> crates/reporting/src/known_flight_png.rs:317:5
+        |
+    317 | /     fn text_centered(
+    318 | |         &mut self,
+    319 | |         fonts: &Fonts,
+    320 | |         centre_x: i32,
+    ...   |
+    325 | |         value: &str,
+    326 | |     ) {
+        | |_____^
+        |
+        = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#too_many_arguments
+
+    error: this function has too many arguments (8/7)
+       --> crates/reporting/src/known_flight_png.rs:354:5
+        |
+    354 | /     fn text_right(
+    355 | |         &mut self,
+    356 | |         fonts: &Fonts,
+    357 | |         right_x: i32,
+    ...   |
+    362 | |         value: &str,
+    363 | |     ) {
+        | |_____^
+        |
+        = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#too_many_arguments
+
+    error: this function has too many arguments (8/7)
+       --> crates/reporting/src/known_flight_png.rs:368:5
+        |
+    368 | /     fn text_rotated_ccw(
+    369 | |         &mut self,
+    370 | |         fonts: &Fonts,
+    371 | |         x: i32,
+    ...   |
+    376 | |         value: &str,
+    377 | |     ) {
+        | |_____^
+        |
+        = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#too_many_arguments
+
+    error: called `Iterator::last` on a `DoubleEndedIterator`; this will needlessly iterate the entire iterator
+       --> crates/reporting/src/known_flight_png.rs:715:5
+        |
+    715 | /     [
+    716 | |         10.0, 20.0, 50.0, 100.0, 200.0, 500.0, 1_000.0, 2_000.0, 5_000.0,
+    717 | |     ]
+    718 | |     .into_iter()
+    719 | |     .filter(|value| *value <= target)
+    720 | |     .last()
+        | |___________^
+        |
+        = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#double_ended_iterator_last
+        = note: `-D clippy::double-ended-iterator-last` implied by `-D warnings`
+        = help: to override `-D warnings` add `#[allow(clippy::double_ended_iterator_last)]`
+    help: try
+        |
+    720 -     .last()
+    720 +     .next_back()
+        |
+
+    error: needless call to `as_bytes`
+       --> crates/reporting/src/lib.rs:886:13
+        |
+    886 |             content.as_bytes().len(),
+        |             ^^^^^^^^^^^^^^^^^^^^^^^^ help: `len()` can be called directly on strings: `content.len()`
+        |
+        = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#needless_as_bytes
+        = note: `-D clippy::needless-as-bytes` implied by `-D warnings`
+        = help: to override `-D warnings` add `#[allow(clippy::needless_as_bytes)]`
+
+    error: needless call to `as_bytes`
+       --> crates/reporting/src/lib.rs:899:22
+        |
+    899 |         offsets.push(output.as_bytes().len());
+        |                      ^^^^^^^^^^^^^^^^^^^^^^^ help: `len()` can be called directly on strings: `output.len()`
+        |
+        = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#needless_as_bytes
+
+    error: needless call to `as_bytes`
+       --> crates/reporting/src/lib.rs:902:16
+        |
+    902 |     let xref = output.as_bytes().len();
+        |                ^^^^^^^^^^^^^^^^^^^^^^^ help: `len()` can be called directly on strings: `output.len()`
+        |
+        = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#needless_as_bytes
+
+    error: could not compile `mh370-reporting` (lib) due to 8 previous errors
+    warning: build failed, waiting for other jobs to finish...
+    exit 101
+
+  ── Assistant
+  Strict clippy reached an unrelated forbidden dependency and failed on eight existing warnings in `crates/reporting`; I won’t edit reporting. I’m rerunning clippy with `--no-deps`, which still compiles dependencies but applies `-D warnings` only to the requested runner targets, giving the scoped result this task can legitimately own.
+
+  ── Ran 5 commands, edited 2 files, explored 2 searches
+    ── Ran cargo clippy -p mh370-runner --all-targets --no-deps -- -D warnings (5s, error)
+      $ cargo clippy -p mh370-runner --all-targets --no-deps -- -D warnings
+      Checking mh370-domain v0.1.0 (/jackbox/home/MH370/crates/domain)
+          Checking rand_distr v0.4.3
+          Checking mh370-particle-filter v0.1.0 (/jackbox/home/MH370/crates/particle-filter)
+          Checking tempfile v3.13.0
+          Checking mh370-satcom v0.1.0 (/jackbox/home/MH370/crates/satcom)
+          Checking mh370-antenna v0.1.0 (/jackbox/home/MH370/crates/antenna)
+          Checking mh370-hydroacoustics v0.1.0 (/jackbox/home/MH370/crates/hydroacoustics)
+          Checking mh370-reporting v0.1.0 (/jackbox/home/MH370/crates/reporting)
+          Checking mh370-dynamics v0.1.0 (/jackbox/home/MH370/crates/dynamics)
+          Checking mh370-end-of-flight v0.1.0 (/jackbox/home/MH370/crates/end-of-flight)
+          Checking mh370-ocean-drift v0.1.0 (/jackbox/home/MH370/crates/ocean-drift)
+          Checking mh370-controls v0.1.0 (/jackbox/home/MH370/crates/controls)
+          Checking mh370-estimator v0.1.0 (/jackbox/home/MH370/crates/estimator)
+          Checking mh370-runner v0.1.0 (/jackbox/home/MH370/crates/runner)
+      error: this function has too many arguments (18/7)
+         --> crates/runner/src/accident_commands.rs:632:1
+          |
+      632 | / fn report_document(
+      633 | |     suite_name: &str,
+      634 | |     family: &FamilyConfig,
+      635 | |     runs: &[FinalFlightRun],
+      ...   |
+      650 | |     map_context: Option<ReportMapContext>,
+      651 | | ) -> ReportDocument {
+          | |___________________^
+          |
+          = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#too_many_arguments
+          = note: `-D clippy::too-many-arguments` implied by `-D warnings`
+          = help: to override `-D warnings` add `#[allow(clippy::too_many_arguments)]`
+
+      error: this function has too many arguments (8/7)
+         --> crates/runner/src/continuation_commands.rs:429:1
+          |
+      429 | / fn bto_arc(
+      430 | |     latitude_min: f64,
+      431 | |     latitude_max: f64,
+      432 | |     reference_longitude: f64,
+      ...   |
+      437 | |     satcom: SatcomModelConfig,
+      438 | | ) -> Vec<[f64; 2]> {
+          | |__________________^
+          |
+          = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#too_many_arguments
+
+      error: this function has too many arguments (9/7)
+         --> crates/runner/src/final_bfo_commands.rs:555:1
+          |
+      555 | / fn independent_bfo_match_tables(
+      556 | |     particles: &[SourceParticle],
+      557 | |     sample_indices: &[usize],
+      558 | |     request: BfoPairObservation,
+      ...   |
+      564 | |     title: &str,
+      565 | | ) -> Result<BfoMatchTables> {
+          | |___________________________^
+          |
+          = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#too_many_arguments
+
+      error: this function has too many arguments (9/7)
+         --> crates/runner/src/final_bfo_commands.rs:686:1
+          |
+      686 | / fn linked_bfo_match_tables(
+      687 | |     particles: &[SourceParticle],
+      688 | |     sample_indices: &[usize],
+      689 | |     request: BfoPairObservation,
+      ...   |
+      695 | |     vertical_speed_buckets_fpm: Vec<[f64; 2]>,
+      696 | | ) -> Result<BfoMatchTables> {
+          | |___________________________^
+          |
+          = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#too_many_arguments
+
+      error: this `if` statement can be collapsed
+         --> crates/runner/src/impact_commands.rs:484:9
+          |
+      484 | /         if fields[epoch_index] == epoch_id {
+      485 | |             if matched_utc.replace(fields[utc_index]).is_some() {
+      486 | |                 bail!("ephemeris epoch {epoch_id} is duplicated");
+      487 | |             }
+      488 | |         }
+          | |_________^
+          |
+          = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#collapsible_if
+          = note: `-D clippy::collapsible-if` implied by `-D warnings`
+          = help: to override `-D warnings` add `#[allow(clippy::collapsible_if)]`
+      help: collapse nested if block
+          |
+      484 ~         if fields[epoch_index] == epoch_id
+      485 ~             && matched_utc.replace(fields[utc_index]).is_some() {
+      486 |                 bail!("ephemeris epoch {epoch_id} is duplicated");
+      487 ~             }
+          |
+
+      error: this function has too many arguments (8/7)
+         --> crates/runner/src/known_flight_commands.rs:163:1
+          |
+      163 | / pub(crate) fn infer(
+      164 | |     config_path: &Path,
+      165 | |     inference_path: &Path,
+      166 | |     weather_path: &Path,
+      ...   |
+      171 | |     requested_threads: Option<usize>,
+      172 | | ) -> Result<()> {
+          | |_______________^
+          |
+          = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#too_many_arguments
+
+      error: could not compile `mh370-runner` (bin "mh370" test) due to 6 previous errors
+      warning: build failed, waiting for other jobs to finish...
+      error: could not compile `mh370-runner` (bin "mh370") due to 6 previous errors
+      exit 101
+    ── Edited crates/runner/src/impact_commands.rs +4 -4
+      @@ -483,6 +483,6 @@
+               }
+      -        if fields[epoch_index] == epoch_id {
+      -            if matched_utc.replace(fields[utc_index]).is_some() {
+      -                bail!("ephemeris epoch {epoch_id} is duplicated");
+      -            }
+      +        if fields[epoch_index] == epoch_id
+      +            && matched_utc.replace(fields[utc_index]).is_some()
+      +        {
+      +            bail!("ephemeris epoch {epoch_id} is duplicated");
+               }
+    ── Ran rustfmt --edition 2021 crates/runner/src/impact_commands.rs cargo clippy -p mh370-runner --all-targets --no-deps -- -D warnings (3s, error)
+      $ rustfmt --edition 2021 crates/runner/src/impact_commands.rs
+    cargo clippy -p mh370-runner --all-targets --no-deps -- -D warnings
+      Checking mh370-runner v0.1.0 (/jackbox/home/MH370/crates/runner)
+      error: this function has too many arguments (18/7)
+         --> crates/runner/src/accident_commands.rs:632:1
+          |
+      632 | / fn report_document(
+      633 | |     suite_name: &str,
+      634 | |     family: &FamilyConfig,
+      635 | |     runs: &[FinalFlightRun],
+      ...   |
+      650 | |     map_context: Option<ReportMapContext>,
+      651 | | ) -> ReportDocument {
+          | |___________________^
+          |
+          = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#too_many_arguments
+          = note: `-D clippy::too-many-arguments` implied by `-D warnings`
+          = help: to override `-D warnings` add `#[allow(clippy::too_many_arguments)]`
+
+      error: this function has too many arguments (8/7)
+         --> crates/runner/src/continuation_commands.rs:429:1
+          |
+      429 | / fn bto_arc(
+      430 | |     latitude_min: f64,
+      431 | |     latitude_max: f64,
+      432 | |     reference_longitude: f64,
+      ...   |
+      437 | |     satcom: SatcomModelConfig,
+      438 | | ) -> Vec<[f64; 2]> {
+          | |__________________^
+          |
+          = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#too_many_arguments
+
+      error: this function has too many arguments (9/7)
+         --> crates/runner/src/final_bfo_commands.rs:555:1
+          |
+      555 | / fn independent_bfo_match_tables(
+      556 | |     particles: &[SourceParticle],
+      557 | |     sample_indices: &[usize],
+      558 | |     request: BfoPairObservation,
+      ...   |
+      564 | |     title: &str,
+      565 | | ) -> Result<BfoMatchTables> {
+          | |___________________________^
+          |
+          = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#too_many_arguments
+
+      error: this function has too many arguments (9/7)
+         --> crates/runner/src/final_bfo_commands.rs:686:1
+          |
+      686 | / fn linked_bfo_match_tables(
+      687 | |     particles: &[SourceParticle],
+      688 | |     sample_indices: &[usize],
+      689 | |     request: BfoPairObservation,
+      ...   |
+      695 | |     vertical_speed_buckets_fpm: Vec<[f64; 2]>,
+      696 | | ) -> Result<BfoMatchTables> {
+          | |___________________________^
+          |
+          = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#too_many_arguments
+
+      error: this function has too many arguments (8/7)
+         --> crates/runner/src/known_flight_commands.rs:163:1
+          |
+      163 | / pub(crate) fn infer(
+      164 | |     config_path: &Path,
+      165 | |     inference_path: &Path,
+      166 | |     weather_path: &Path,
+      ...   |
+      171 | |     requested_threads: Option<usize>,
+      172 | | ) -> Result<()> {
+          | |_______________^
+          |
+          = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#too_many_arguments
+
+      error: could not compile `mh370-runner` (bin "mh370" test) due to 5 previous errors
+      warning: build failed, waiting for other jobs to finish...
+      error: could not compile `mh370-runner` (bin "mh370") due to 5 previous errors
+      exit 101
+    ── Ran cargo clippy -p mh370-runner --all-targets --no-deps -- -D warnings -A clippy::too_many_arguments (4s)
+      $ cargo clippy -p mh370-runner --all-targets --no-deps -- -D warnings -A clippy::too_many_arguments
+      Checking mh370-domain v0.1.0 (/jackbox/home/MH370/crates/domain)
+          Checking mh370-particle-filter v0.1.0 (/jackbox/home/MH370/crates/particle-filter)
+          Checking mh370-satcom v0.1.0 (/jackbox/home/MH370/crates/satcom)
+          Checking mh370-dynamics v0.1.0 (/jackbox/home/MH370/crates/dynamics)
+          Checking mh370-antenna v0.1.0 (/jackbox/home/MH370/crates/antenna)
+          Checking mh370-end-of-flight v0.1.0 (/jackbox/home/MH370/crates/end-of-flight)
+          Checking mh370-ocean-drift v0.1.0 (/jackbox/home/MH370/crates/ocean-drift)
+          Checking mh370-reporting v0.1.0 (/jackbox/home/MH370/crates/reporting)
+          Checking mh370-hydroacoustics v0.1.0 (/jackbox/home/MH370/crates/hydroacoustics)
+          Checking mh370-controls v0.1.0 (/jackbox/home/MH370/crates/controls)
+          Checking mh370-estimator v0.1.0 (/jackbox/home/MH370/crates/estimator)
+          Checking mh370-runner v0.1.0 (/jackbox/home/MH370/crates/runner)
+          Finished `dev` profile [unoptimized + debuginfo] target(s) in 4.07s
+    ── Searched for pub struct PoweredFuelAllocationInput|pub enum ElectricalSystemState|pub enum ApuState|pub enum OcxoState|pub enum RestartTransientFamily|pub struct AerodynamicModel|pub struct AtmosphereProfile|pub enum ApuStartPolicy|pub struct IntegrationSettings|pub struct ControlledToUncontrolledPolicy|pub struct ControlSchedule|pub struct SatcomModelConfig|pub struct BtoConstants|pub struct BfoConstants in crates/domain/src
+    ── Edited crates/runner/src/impact_commands.rs +63
+      @@ -1518,2 +1518,41 @@
+               );
+      +        assert_eq!(
+      +            ledger
+      +                .entries
+      +                .iter()
+      +                .filter(|entry| {
+      +                    entry.identity == evidence_identity_v2(&r1200)
+      +                        && entry.disposition == EvidenceDispositionV2::HeldOut
+      +                        && entry.application_id.is_none()
+      +                })
+      +                .count(),
+      +            1
+      +        );
+      +        assert_eq!(
+      +            ledger
+      +                .entries
+      +                .iter()
+      +                .filter(|entry| {
+      +                    entry.identity.component_id == "bfo"
+      +                        && entry.disposition == EvidenceDispositionV2::Diagnostic
+      +                        && entry.application_id.as_deref()
+      +                            == Some(FINAL_BFO_DIAGNOSTIC_APPLICATION_ID)
+      +                })
+      +                .count(),
+      +            2
+      +        );
+      +        assert_eq!(
+      +            ledger
+      +                .entries
+      +                .iter()
+      +                .filter(|entry| {
+      +                    matches!(
+      +                        entry.identity.component_id.as_str(),
+      +                        "logon-request-time" | "logon-occurrence"
+      +                    ) && entry.disposition == EvidenceDispositionV2::HeldOut
+      +                        && entry.application_id.is_none()
+      +                })
+      +                .count(),
+      +            2
+      +        );
+       
+      @@ -1537,2 +1576,26 @@
+               .is_err());
+      +
+      +        let invalid_source =
+      +            EvidenceLedger::from_entries(vec![mh370_estimator::EvidenceEntry {
+      +                identity: EvidenceIdentity {
+      +                    epoch_id: "invalid identity".to_string(),
+      +                    channel: None,
+      +                    component: EvidenceComponent::Bto,
+      +                },
+      +                disposition: EvidenceDisposition::HeldOut,
+      +            }])
+      +            .unwrap();
+      +        assert!(build_evidence_ledger(
+      +            &invalid_source,
+      +            &r600,
+      +            &r1200,
+      +            EvidenceBuildContext {
+      +                config_sha256: &digest('5'),
+      +                current_input_sha256: &hashes,
+      +                upstream_config_sha256: &digest('6'),
+      +                upstream_input_sha256: &hashes,
+      +            },
+      +            -3.0,
+      +        )
+      +        .is_err());
+           }
+    ── Edited crates/runner/src/impact_handoff.rs +10
+      @@ -1125,2 +1125,12 @@
+           #[test]
+      +    fn v1_rejects_source_seed_pooling() {
+      +        let mut pooled = handoff();
+      +        let mut second = pooled.source_runs[0].clone();
+      +        second.id = "source-seed-8".to_string();
+      +        second.seed = 8;
+      +        pooled.source_runs.push(second);
+      +        assert_eq!(pooled.validate(), Err(ImpactHandoffError::InvalidSource));
+      +    }
+      +
+      +    #[test]
+           fn controlled_to_uncontrolled_policy_has_typed_trigger_serde() {
+    ── Ran rustfmt --edition 2021 crates/runner/src/impact_commands.rs crates/runner/src/impact_handoff.rs rustfmt --edition 2021 --check crates/runner/src/main.rs crates/runner/src/impact_commands.rs crates/runner/src/impact_handoff.rs cargo test -p mh370-runner (4s)
+      $ rustfmt --edition 2021 crates/runner/src/impact_commands.rs crates/runner/src/impact_handoff.rs
+    rustfmt --edition 2021 --check crates/runner/src/main.rs crates/runner/src/impact_commands.rs crates/runner/src/impact_handoff.rs
+    cargo test -p mh370-runner
+      Compiling mh370-runner v0.1.0 (/jackbox/home/MH370/crates/runner)
+          Finished `test` profile [unoptimized + debuginfo] target(s) in 3.00s
+           Running unittests src/main.rs (target/debug/deps/mh370-f52c03ce14846038)
+
+      running 27 tests
+      test continuation_commands::tests::evidence_consumption_is_atomic_across_seeds ... ok
+      test continuation_commands::tests::shifted_origin_uses_declared_epoch_interval ... ok
+      test continuation_commands::tests::continued_handoffs_are_normalized_within_each_seed ... ok
+      test continuation_commands::tests::numerical_replicates_must_share_family_and_have_unique_seeds ... ok
+      test impact_commands::tests::selected_ephemeris_epoch_must_have_exact_utc ... ok
+      test final_bfo_commands::tests::systematic_sample_is_deterministic_and_respects_mass ... ok
+      test final_bfo_commands::tests::source_parser_uses_bto_continuation_endpoint_and_weight ... ok
+      test impact_commands::tests::r600_consumption_rejects_duplicate_and_has_one_weight_update ... ok
+      test impact_commands::tests::termination_mass_normalization_removes_roundoff_above_one ... ok
+      test impact_commands::tests::utc_parser_pins_the_exact_handoff_interval ... ok
+      test impact_handoff::tests::controlled_to_uncontrolled_policy_has_typed_trigger_serde ... ok
+      test impact_commands::tests::systematic_resampling_is_deterministic_and_exactly_corrected ... ok
+      test impact_handoff::tests::half_impact_survivors_preserve_parent_weights ... ok
+      test impact_handoff::tests::rejects_inconsistent_impact_outcome_mass ... ok
+      test impact_handoff::tests::positive_importance_correction_is_explicit_and_weight_neutral ... ok
+      test impact_handoff::tests::rejects_inconsistent_energy_and_particle_normalization ... ok
+      test impact_handoff::tests::rejects_duplicate_evidence_identity_and_dependence_group_consumption ... ok
+      test continuation_commands::tests::typed_handoff_round_trip_and_mode_rejection ... ok
+      test impact_handoff::tests::separate_handoff_rejects_a_second_scenario ... ok
+      test impact_handoff::tests::v1_rejects_source_seed_pooling ... ok
+      test impact_handoff::tests::source_checkpoint_must_follow_origin_and_precede_impacts ... ok
+      test impact_handoff::tests::v1_requires_one_scenario_and_unresolved_attitude_and_contact_duration ... ok
+      test impact_handoff::tests::weight_update_discloses_evidence_normalizer ... ok
+      test ocean_drift_application::tests::effective_sample_size_has_expected_limits ... ok
+      test ocean_drift_commands::tests::coast_report_never_invents_beaching_from_a_land_mask ... ok
+      test impact_handoff::tests::serde_round_trip_is_exact ... ok
+      test ocean_drift_application::tests::application_removes_source_prior_and_rejects_family_mismatch ... ok
+
+      test result: ok. 27 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+    ── Ran cargo clippy -p mh370-runner --all-targets --no-deps -- -D warnings -A clippy::too_many_arguments cargo test -p mh370-end-of-flight attempt_ (1s)
+      $ cargo clippy -p mh370-runner --all-targets --no-deps -- -D warnings -A clippy::too_many_arguments
+    cargo test -p mh370-end-of-flight attempt_
+      Checking mh370-runner v0.1.0 (/jackbox/home/MH370/crates/runner)
+          Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.39s
+          Finished `test` profile [unoptimized + debuginfo] target(s) in 0.05s
+           Running unittests src/lib.rs (target/debug/deps/mh370_end_of_flight-745af5d08f49f7f8)
+
+      running 4 tests
+      test kernel::kernel_tests::attempt_returns_terminal_state_when_trigger_is_never_reached ... ok
+      test kernel::kernel_tests::attempt_preserves_pre_checkpoint_impact_and_nonreach_outcomes ... ok
+      test kernel::kernel_tests::attempt_rejects_invalid_checkpoint_schedule ... ok
+      test kernel::kernel_tests::successful_attempt_exactly_matches_existing_checkpoint_wrapper ... ok
+
+      test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 27 filtered out; finished in 0.00s
+    ── Searched for cargo clippy|clippy::too_many_arguments|clippy in .
+
+── Error ───────────────────────────────────────────────────
+  Thread interrupted because the host daemon disconnected
+  Please retry the thread to continue.

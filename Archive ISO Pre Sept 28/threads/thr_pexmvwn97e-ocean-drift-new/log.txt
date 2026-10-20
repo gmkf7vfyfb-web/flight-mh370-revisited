@@ -1,0 +1,2117 @@
+── User ────────────────────────────────────────────────────
+I am seeing an error, has three thread stalled or still working?
+
+── Worked for (22m 1s) ─────────────────────────────────────
+  ── Assistant
+  I’m checking the live processes now. The visible error was from the monitoring call being interrupted, not necessarily the scientific run itself.
+
+  ── Explored 2 lists, 1 search
+    ── Listed files in .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris
+    ── Searched for cmems-full-domain-stringent-stability|estimate-ocean-drift
+    ── Listed files in .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability
+
+  ── Assistant
+  It was not scientifically stalled. The primary full-domain CMEMS run completed successfully and is fully manifest-backed. The seed-stability replication was terminated when the turn was interrupted; it left only its generated config and no partial scientific output. I’m restarting that replication from the same hash-pinned executable and unchanged settings now.
+
+  ── Ran .venv/bin/python .sources/ocean-drift-input-preparation/code/run_source_stability.py --runner /jackbox/home/.cache/mh370-ocean-drift-executables/mh370-6ac6d41bd3399e856706441d9dacd993f4ce0493a120219027afaa7ebc0e7fe5 --base-config /tmp/mh370-cmems-full-domain-stringent-multi-debris.toml --output .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability --existing-case reference:/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris:/tmp/mh370-cmems-full-domain-stringent-multi-debris.toml --case alternate:3701271:1024 --case doubled:3700271:2048 (13m 14s, error)
+    $ .venv/bin/python .sources/ocean-drift-input-preparation/code/run_source_stability.py --runner /jackbox/home/.cache/mh370-ocean-drift-executables/mh370-6ac6d41bd3399e856706441d9dacd993f4ce0493a120219027afaa7ebc0e7fe5 --base-config /tmp/mh370-cmems-full-domain-stringent-multi-debris.toml --output .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability --existing-case reference:/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris:/tmp/mh370-cmems-full-domain-stringent-multi-debris.toml --case alternate:3701271:1024 --case doubled:3700271:2048
+    exit 143
+
+  ── Context compacted
+
+  ── Assistant
+  I’m checking the live worker and its last durable outputs now. The main CMEMS run is already safe; I’m verifying whether the follow-up stability replica is still computing or exited at the error you saw.
+
+  ── Searched for run_source_stability|mh370-6ac6d41b|PID
+    $ ps -eo pid,ppid,stat,etime,%cpu,%mem,rss,cmd --sort=-rss | rg 'run_source_stability|mh370-6ac6d41b|PID' | head -n 12
+  find .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability -maxdepth 2 -type f -printf '%TY-%Tm-%TdT%TH:%TM:%TSZ %s %p\n' 2>/dev/null | sort | tail -n 20
+  iso status
+
+  ── Assistant
+  It has not stalled. The stability replica is actively using ~96% CPU and 8.8 GB RAM; it is only about two minutes into the alternate-seed case. The apparent error was the earlier interrupted worker, which left no scientific result and was restarted cleanly.
+
+  The completed primary CMEMS result and its manifest are safe and deterministic. This follow-up is intentionally quiet until each long case finishes; after the alternate-seed run it will run the doubled-particle case. I’ll keep monitoring it and preserve each completed output.
+
+  ── Explored 1 search, 5 lists, 3 files, ran 3 commands
+    ── Searched for argparse|add_argument|current|stokes|horizon|attempt|year|output|family in .sources/ocean-drift-input-preparation/code/build_family_likelihood_handoff.py
+    ── Listed files in target/release/examples/validate_current_trajectories
+    ── Ran validation_source=/jackbox/home/MH370/target/release/examples/validate_current_trajectories validation_copy=/jackbox/home/.cache/mh370-ocean-drift-executables/validate_current_trajectories-821263a60a872248fd0ece0f2897c98482f822dbbe1362ee570c6edaf312a117 if [ ! -e "$validation_copy" ]; then cp --reflink=auto "$validation_source" "$validation_copy"; fi chmod 0555 "$validation_copy" sha256sum "$validation_source" "$validation_copy" "$validation_copy" --help | head -n 60
+      $ validation_source=/jackbox/home/MH370/target/release/examples/validate_current_trajectories
+    validation_copy=/jackbox/home/.cache/mh370-ocean-drift-executables/validate_current_trajectories-821263a60a872248fd0ece0f2897c98482f822dbbe1362ee570c6edaf312a117
+    if [ ! -e "$validation_copy" ]; then cp --reflink=auto "$validation_source" "$validation_copy"; fi
+    chmod 0555 "$validation_copy"
+    sha256sum "$validation_source" "$validation_copy"
+    "$validation_copy" --help | head -n 60
+      821263a60a872248fd0ece0f2897c98482f822dbbe1362ee570c6edaf312a117  /jackbox/home/MH370/target/release/examples/validate_current_trajectories
+      821263a60a872248fd0ece0f2897c98482f822dbbe1362ee570c6edaf312a117  /jackbox/home/.cache/mh370-ocean-drift-executables/validate_current_trajectories-821263a60a872248fd0ece0f2897c98482f822dbbe1362ee570c6edaf312a117
+      Error: "usage: validate_current_trajectories FAMILY CURRENT.mhgrid GDP_6H.csv [horizon_days] [segments] [output.json] [STOKES.mhgrid|none] [MAX_CURRENT_GAP_HOURS] [STOKES_VELOCITY_SCALE] [RENORMALIZE_FINITE_STOKES_CORNERS] [RENORMALIZE_FINITE_CURRENT_CORNERS]"
+    ── Read .sources/ocean-drift-input-preparation/code/run_trajectory_validation.py
+    ── Listed files in /jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-glorys12.mhgrid
+    ── Listed files in .sources/ocean-drift-input-preparation
+    ── Read .sources/ocean-drift-input-preparation/inputs/family-likelihood-handoff.json
+    ── Listed files in .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/runs/alternate
+    ── Read .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris/runtime.json
+    ── Ran free -h ps -p 410540 -o pid,stat,etime,%cpu,%mem,rss,vsz
+      $ free -h
+    ps -p 410540 -o pid,stat,etime,%cpu,%mem,rss,vsz
+      total        used        free      shared  buff/cache   available
+      Mem:            23Gi        21Gi       311Mi       173Mi       1.6Gi       1.3Gi
+      Swap:           23Gi        17Gi       5.3Gi
+          PID STAT     ELAPSED %CPU %MEM   RSS    VSZ
+       410540 S<l        03:34  223 41.8 10214868 18630568
+    ── Ran ps -eo pid,ppid,stat,etime,%cpu,%mem,rss,cmd --sort=-rss | head -n 18
+      $ ps -eo pid,ppid,stat,etime,%cpu,%mem,rss,cmd --sort=-rss | head -n 18
+      PID    PPID STAT     ELAPSED %CPU %MEM   RSS CMD
+       410540  410537 S<l        03:42  224 41.8 10215788 /jackbox/home/.cache/mh370-ocean-drift-executables/mh370-6ac6d41bd3399e856706441d9dacd993f4ce0493a120219027afaa7ebc0e7fe5 estimate-ocean-drift --config /jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/configs/alternate.toml --output /jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/runs/alternate
+       411370  398377 R<sl       01:05 40.2  1.2 296520 .venv/bin/python -c exec("""import importlib.util,sys,pandas as pd,numpy as np,pathlib root=\"/jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/analyses\"; path=root+\"/D-0031-all-arc-public-core-wspr/src/run_analysis.py\"; spec=importlib.util.spec_from_file_location(\"d31_count2\",path); m=importlib.util.module_from_spec(spec); sys.modules[\"d31_count2\"]=m; spec.loader.exec_module(m) m.d0011.ROI_LAT=(0.,30.); m.MAP_EXTENT=(64.,130.,0.,30.); m.d0030.MAP_EXTENT=m.MAP_EXTENT; m.d0013.MAP_EXTENT=m.MAP_EXTENT; m.BAND_NM=m.d0030.BAND_NM=m.d0013.BAND_NM=100.; m.WINDOW_MINUTES=m.d0030.WINDOW_MINUTES=10. audit=pd.read_csv(root+\"/D-0033-known-flight-wspr-controls/outputs/known_flight_bto_arc_input_audit.csv\"); states=m.d0011.read_ephemeris_states(m.d0011.EPHEMERIS,set(audit.ephemeris_second.astype(int))); arcs={} for x in audit.itertuples():  sat=states[int(x.ephemeris_second)]; ges=float(np.linalg.norm(sat-m.d0011.GES_ECEF_KM)); target=m.d0011.C_KM_S*(float(x.median_bto_us)-m.d0011.BTO_BIAS_US)*1e-6/2-ges; arcs[x.epoch]=m.d0011.BtoArc(name=x.epoch,handshake=pd.Timestamp(x.representative_time_utc),wspr_slot=pd.Timestamp(x.representative_time_utc).ceil(\"2min\"),bto_us=float(x.median_bto_us),satellite_ecef_km=sat,target_range_km=target) d10=m.d0012.d0010; d10.WSPR_FILE=pathlib.Path(root+\"/D-0033-known-flight-wspr-controls/inputs/wspr_20140306_2345_20140308_0500.csv.gz\"); d10.PROVENANCE_FILE=pathlib.Path(root+\"/D-0033-known-flight-wspr-controls/inputs/wspr_provenance.json\"); spots,_=d10.load_spots(); spots,_=m.d0030.d0029.apply_six_character_geometry(spots); sm=spots.set_index(\"id\") def bear(a,b,c,d):  p1=np.radians(a); p2=np.radians(c); dl=np.radians(d-b); return (np.degrees(np.arctan2(np.sin(dl)*np.cos(p2),np.cos(p1)*np.sin(p2)-np.sin(p1)*np.cos(p2)*np.cos(dl)))+360)%360 def prof(p,idcol,k):  q=p[[\"radio_time\",\"lat_deg\",\"lon_deg_E\",idcol]].rename(columns={idcol:\"id\"}).drop_duplicates().reset_index(drop=True); z=sm.loc[q.id].reset_index(drop=True); out=[]  for role in [\"tx\",\"rx\"]:   other=\"rx\" if role==\"tx\" else \"tx\"; canon=bear(z[role+\"_locator_center_lat\"],z[role+\"_locator_center_lon\"],z[other+\"_locator_center_lat\"],z[other+\"_locator_center_lon\"]); cb=bear(z[role+\"_locator_center_lat\"],z[role+\"_locator_center_lon\"],q.lat_deg,q.lon_deg_E); branch=(np.abs(((cb-canon+180)%360)-180)>90).astype(int); out.append(pd.DataFrame({\"epoch\":k,\"id\":q.id,\"role\":role,\"branch\":branch}))  return pd.concat(out) allp=[] for k,a in arcs.items():  p=m.analyze_epoch(spots,a,k)[\"pairs\"]; pr=pd.concat([prof(p,\"spot_id_1\",k),prof(p,\"spot_id_2\",k)]).drop_duplicates(); allp.append(pr); print(k,len(pr)) u=pd.concat(allp).drop_duplicates([\"id\",\"role\",\"branch\"]); print(\"union profiles\",len(u)); print(\"branches per id\",u.groupby(\"id\").size().value_counts().sort_index().to_dict()) """)
+       398114  398099 SNl+       43:10  6.4  1.0 247820 /jackbox/opt/node-v24.19.0-linux-x64/bin/node /jackbox/npm-global/lib/node_modules/iso-app/server/dist/index.js
+       398377  398370 SNl+       42:18  3.8  1.0 245004 /jackbox/npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/bin/codex app-server
+       406794  406787 SNl+       11:39  6.5  0.8 213468 /jackbox/npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/bin/codex app-server
+       398128  398099 SNl+       43:09  0.5  0.4 105924 /jackbox/opt/node-v24.19.0-linux-x64/bin/node /jackbox/npm-global/lib/node_modules/iso-app/host-daemon/dist/daemon-bundle.mjs
+       410153  410146 SNl+       04:14  2.1  0.4 101536 /jackbox/npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/bin/codex app-server
+       411284  406794 S<sl       01:19  315  0.3 92840 target/release/mh370 estimate --config /tmp/mh370-0011-core-comparison-better-mixing.toml --output /tmp/mh370-0011-core-comparison-better-mixing-20260827 --threads 8
+       410283  410267 SNl        04:11  0.6  0.2 67960 node /jackbox/home/.npm/_npx/99336612077b7094/node_modules/.bin/xcodebuildmcp mcp
+       410267  410153 SNl        04:12  0.2  0.1 34560 npm exec xcodebuildmcp@latest mcp
+       398155  398128 SNl+       43:08  0.0  0.0 21640 /jackbox/opt/node-v24.19.0-linux-x64/bin/node /jackbox/npm-global/lib/node_modules/iso-app/host-daemon/dist/iso-parcel-watcher-child.mjs
+       398212  398205 SNl+       42:57  0.0  0.0 19972 /jackbox/npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/bin/codex app-server
+       407888  407859 SNl        10:11  0.2  0.0 13972 node /jackbox/home/.npm/_npx/99336612077b7094/node_modules/.bin/xcodebuildmcp mcp
+       407809  407770 SNl        10:18  0.2  0.0 13928 node /jackbox/home/.npm/_npx/99336612077b7094/node_modules/.bin/xcodebuildmcp mcp
+       407686  407656 SNl        10:25  0.2  0.0 13912 node /jackbox/home/.npm/_npx/99336612077b7094/node_modules/.bin/xcodebuildmcp mcp
+       406985  406953 SNl        11:37  0.2  0.0 13868 node /jackbox/home/.npm/_npx/99336612077b7094/node_modules/.bin/xcodebuildmcp mcp
+       407250  407226 SNl        11:05  0.2  0.0 13860 node /jackbox/home/.npm/_npx/99336612077b7094/node_modules/.bin/xcodebuildmcp mcp
+    ── Listed files in .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris
+
+  ── Assistant
+  Checkpoint: the replica remains healthy and compute-bound, not hung. It has no output file yet because the runner writes the scientific bundle atomically near completion; I’m leaving the hash-pinned process undisturbed and avoiding other high-memory validation work until it finishes.
+
+  ── Ran 2 commands, explored 5 lists, 2 searches, 2 files
+    ── Ran date -u +'%Y-%m-%dT%H:%M:%SZ' ps -p 410540 -o pid,stat,etime,%cpu,%mem,rss,vsz free -h | sed -n '1,3p'
+      $ date -u +'%Y-%m-%dT%H:%M:%SZ'
+    ps -p 410540 -o pid,stat,etime,%cpu,%mem,rss,vsz
+    free -h | sed -n '1,3p'
+      2026-08-27T22:19:29Z
+          PID STAT     ELAPSED %CPU %MEM   RSS    VSZ
+       410540 S<l        04:49  216 46.1 11263148 18630568
+                     total        used        free      shared  buff/cache   available
+      Mem:            23Gi        22Gi       302Mi       120Mi       1.5Gi       1.2Gi
+      Swap:           23Gi        17Gi       5.5Gi
+    ── Listed files in .sources/ocean-drift-input-preparation/outputs/validation
+    ── Searched for elapsed_wall_seconds|maximum_child_resident|family|output_sha256 in .sources/ocean-drift-input-preparation/outputs/validation/cmems-glorys12-daily-currents-validation-resource.json
+    ── Listed files in .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/runs/alternate
+    ── Searched for CONVERTER_VERSION|persistent|intermittent|missing_value|land_mask|changed_cells in .sources/ocean-drift-input-preparation/code/prepare_inputs.py
+    ── Read .sources/ocean-drift-input-preparation/code/prepare_inputs.py
+    ── Listed files in .sources/ocean-drift-input-preparation
+    ── Listed files in .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/runs/alternate
+    ── Listed files in /nix/store/*-git-*/bin/git
+    ── Read .sources/ocean-drift-input-preparation/code/run_source_stability.py
+    ── Ran date -u +'%H:%M:%SZ' ps -p 410540 -o pid,stat,etime,%cpu,%mem,rss,vsz free -h | sed -n '1,3p'
+      $ date -u +'%H:%M:%SZ'
+    ps -p 410540 -o pid,stat,etime,%cpu,%mem,rss,vsz
+    free -h | sed -n '1,3p'
+      22:23:25Z
+          PID STAT     ELAPSED %CPU %MEM   RSS    VSZ
+       410540 S<l        08:45  237 47.6 11612804 18630568
+                     total        used        free      shared  buff/cache   available
+      Mem:            23Gi        21Gi       537Mi        97Mi       1.5Gi       1.4Gi
+      Swap:           23Gi        14Gi       9.3Gi
+
+  ── Assistant
+  The alternate-seed replica is still progressing normally at high CPU, with memory holding around the same level as the completed reference run. There is no partial-output corruption or retry loop; the UI error did not stop the active computation.
+
+  ── Explored 2 searches, 2 files, 2 lists, ran 2 commands
+    ── Searched for validate_current_trajectories|drogue|stokes|terminal_hold|persistence|Termination in crates
+    ── Read crates/ocean-drift/examples/validate_current_trajectories.rs
+    ── Listed files in .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/runs/alternate
+    ── Listed files in .sources/ocean-drift-input-preparation
+    ── Searched for full-domain|GLORYS12|WAVERYS|native-resolution|CMEMS|multi-debris|family likelihood|admiss in .sources/ocean-drift-input-preparation/README.md
+    ── Read .sources/ocean-drift-input-preparation/README.md
+    ── Ran date -u +'%H:%M:%SZ' ps -p 410540 -o pid,stat,etime,%cpu,%mem,rss,vsz free -h | sed -n '1,3p'
+      $ date -u +'%H:%M:%SZ'
+    ps -p 410540 -o pid,stat,etime,%cpu,%mem,rss,vsz
+    free -h | sed -n '1,3p'
+      22:26:10Z
+          PID STAT     ELAPSED %CPU %MEM   RSS    VSZ
+       410540 S<l        11:30  246 45.0 10980908 18630568
+                     total        used        free      shared  buff/cache   available
+      Mem:            23Gi        21Gi       607Mi        60Mi       2.0Gi       2.1Gi
+      Swap:           23Gi        15Gi       8.2Gi
+    ── Ran df -h /jackbox/home /tmp | sed -n '1,5p' du -sh .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability 2>/dev/null
+      $ df -h /jackbox/home /tmp | sed -n '1,5p'
+    du -sh .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability 2>/dev/null
+      Filesystem      Size  Used Avail Use% Mounted on
+      /dev/sda2       462G  421G   39G  92% /jackbox
+      overlay         462G  421G   39G  92% /
+      14M	.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris
+      12K	.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability
+
+  ── Assistant
+  Still working normally. The active case is the required seed-change replication, not a third failed attempt; it is deliberately using the same immutable executable and full-domain fields as the completed reference so the comparison remains matched.
+
+  ── Explored 1 list, viewed 1 image
+    ── Listed files in .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/runs/alternate
+    ── Viewed image: /jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris/source-area.png
+
+  ── Assistant
+  A real interruption just occurred: the active replica received SIGTERM, so it is no longer computing. I’m inspecting the exact partial state and the host/process cause now; the completed primary result remains unaffected. I will not reuse or overwrite any partial scientific output.
+
+  ── Explored 2 lists, 1 search, ran 1 command
+    ── Listed files in .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability
+    ── Listed files in /jackbox/home/.iso
+    ── Searched for 410540|410537|sigterm|signal|terminate|killed|80579|d7e3d0|error|disconnect|oom in /jackbox/home/.iso/logs/server.190855.log
+    ── Ran for f in /sys/fs/cgroup/memory.events /sys/fs/cgroup/memory.events.local /sys/fs/cgroup/memory.current /sys/fs/cgroup/memory.max /sys/fs/cgroup/memory.swap.current /sys/fs/cgroup/memory.swap.max; do if [ -r "$f" ]; then echo "$f"; sed -n '"'1,40p' \""'$f"; fi; done ps -eo pid,ppid,stat,lstart,etime,%cpu,%mem,rss,cmd --sort=-rss | head -n 15
+      $ for f in /sys/fs/cgroup/memory.events /sys/fs/cgroup/memory.events.local /sys/fs/cgroup/memory.current /sys/fs/cgroup/memory.max /sys/fs/cgroup/memory.swap.current /sys/fs/cgroup/memory.swap.max; do if [ -r "$f" ]; then echo "$f"; sed -n '"'1,40p' \""'$f"; fi; done
+    ps -eo pid,ppid,stat,lstart,etime,%cpu,%mem,rss,cmd --sort=-rss | head -n 15
+      /sys/fs/cgroup/memory.events
+      low 0
+      high 0
+      max 6253453
+      oom 0
+      oom_kill 0
+      oom_group_kill 0
+      sock_throttled 233178
+      /sys/fs/cgroup/memory.events.local
+      low 0
+      high 0
+      max 6253453
+      oom 0
+      oom_kill 0
+      oom_group_kill 0
+      sock_throttled 233178
+      /sys/fs/cgroup/memory.current
+      2458345472
+      /sys/fs/cgroup/memory.max
+      12884901888
+      /sys/fs/cgroup/memory.swap.current
+      2427060224
+      /sys/fs/cgroup/memory.swap.max
+      max
+          PID    PPID STAT                  STARTED     ELAPSED %CPU %MEM   RSS CMD
+       406794  406787 SNl+ Thu Aug 27 22:06:42 2026       21:51  6.7  0.8 217824 /jackbox/npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/bin/codex app-server
+       398377  398370 SNl+ Thu Aug 27 21:36:03 2026       52:29  4.3  0.7 186360 /jackbox/npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/bin/codex app-server
+       398114  398099 SNl+ Thu Aug 27 21:35:11 2026       53:21  5.9  0.7 183528 /jackbox/opt/node-v24.19.0-linux-x64/bin/node /jackbox/npm-global/lib/node_modules/iso-app/server/dist/index.js
+       398128  398099 SNl+ Thu Aug 27 21:35:12 2026       53:20  0.6  0.4 113504 /jackbox/opt/node-v24.19.0-linux-x64/bin/node /jackbox/npm-global/lib/node_modules/iso-app/host-daemon/dist/daemon-bundle.mjs
+       410153  410146 SNl+ Thu Aug 27 22:14:07 2026       14:25  2.8  0.4 98872 /jackbox/npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/bin/codex app-server
+       398155  398128 SNl+ Thu Aug 27 21:35:13 2026       53:19  0.1  0.2 70644 /jackbox/opt/node-v24.19.0-linux-x64/bin/node /jackbox/npm-global/lib/node_modules/iso-app/host-daemon/dist/iso-parcel-watcher-child.mjs
+       411284  406794 S<sl Thu Aug 27 22:17:02 2026       11:31  355  0.2 66932 target/release/mh370 estimate --config /tmp/mh370-0011-core-comparison-better-mixing.toml --output /tmp/mh370-0011-core-comparison-better-mixing-20260827 --threads 8
+       414759  398377 SNl  Thu Aug 27 22:26:42 2026       01:50  1.4  0.1 37416 npm exec xcodebuildmcp@latest mcp
+       398212  398205 SNl+ Thu Aug 27 21:35:24 2026       53:09  0.0  0.0 20516 /jackbox/npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/bin/codex app-server
+       414801  414759 SNl  Thu Aug 27 22:26:46 2026       01:46  3.0  0.0 14368 node /jackbox/home/.npm/_npx/99336612077b7094/node_modules/.bin/xcodebuildmcp mcp
+       410422  410153 SNl  Thu Aug 27 22:14:25 2026       14:07  0.2  0.0  9196 /jackbox/npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/bin/codex-code-mode-host
+       407109  406794 SNl  Thu Aug 27 22:06:58 2026       21:34  0.3  0.0  7796 /jackbox/npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/bin/codex-code-mode-host
+       398670  398377 SNl  Thu Aug 27 21:36:36 2026       51:56  0.2  0.0  6928 /jackbox/npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/bin/codex-code-mode-host
+       412019  406794 SNl  Thu Aug 27 22:20:16 2026       08:16  0.2  0.0  6928 npm exec xcodebuildmcp@latest mcp
+
+  ── Assistant
+  The check is conclusive: exit code 143 was an external SIGTERM, not an out-of-memory kill (`oom=0`, `oom_kill=0`), and the runner had written no partial result files. I’m relaunching the exact hash-pinned stability command in a detached process session so a tool/turn disconnect cannot terminate it again; output scope and scientific settings are unchanged.
+
+  ── Explored 3 searches, 2 files, ran 1 command
+    ── Searched for rg run_source
+    ── Ran iso thread tell thr_94ecfzphq2 --mode queue "Ocean-drift checkpoint: primary full-domain CMEMS run remains complete/manifested (source SHA 5798db6878502adef429658497bdb6e9f431affc2d8cdbed88a1c54735b76531). The seed-replica managed exec received external SIGTERM 143 after ~14 min; cgroup reports oom=0/oom_kill=0 and no partial science files existed. I relaunched the identical stability command detached with immutable runner SHA 6ac6d41bd3399e856706441d9dacd993f4ce0493a120219027afaa7ebc0e7fe5; parent PID 415779 / runner PID 415781. Please continue avoiding broad process cleanup. I will report admission only after seed/doubled + replay diagnostics."
+      $ iso thread tell thr_94ecfzphq2 --mode queue "Ocean-drift checkpoint: primary full-domain CMEMS run remains complete/manifested (source SHA 5798db6878502adef429658497bdb6e9f431affc2d8cdbed88a1c54735b76531). The seed-replica managed exec received external SIGTERM 143 after ~14 min; cgroup reports oom=0/oom_kill=0 and no partial science files existed. I relaunched the identical stability command detached with immutable runner SHA 6ac6d41bd3399e856706441d9dacd993f4ce0493a120219027afaa7ebc0e7fe5; parent PID 415779 / runner PID 415781. Please continue avoiding broad process cleanup. I will report admission only after seed/doubled + replay diagnostics."
+      Thread thr_94ecfzphq2 updated
+    ── Read /sys/fs/cgroup/memory.events
+    ── Searched for struct GriddedField|from_bytes|Packed|values in crates/ocean-drift/src
+    ── Read crates/ocean-drift/src/field.rs
+    ── Searched for rayon|par_iter|scope|thread::|available_parallelism in crates/runner/src/ocean_drift_commands.rs
+    ── Read /sys/fs/cgroup/memory.events
+
+  ── Assistant
+  The detached relaunch is active and now independent of the IDE/tool session (re-parented to PID 1). It is loading the same full fields now. So: the earlier process did stop, but the thread itself is healthy, the completed reference is safe, and the matched replica is running again with the disconnect failure mode removed.
+
+  ── Ran 2 commands, explored 1 file, 1 search
+    ── Ran ps -L -p 415781 -o tid,stat,psr,%cpu,rss,comm | head -n 30 ps -L -p 415781 --no-headers | wc -l
+      $ ps -L -p 415781 -o tid,stat,psr,%cpu,rss,comm | head -n 30
+    ps -L -p 415781 --no-headers | wc -l
+      TID STAT PSR %CPU   RSS COMMAND
+       415781 RN     2 65.3 6106428 mh370-6ac6d41bd
+      1
+    ── Read /sys/fs/cgroup/memory.events
+    ── Searched for CMEMS|GLORYS|WAVERYS|admiss|multi-debris|ESS|stability|trajectory in .sources/ocean-drift-input-preparation/VALIDATION.md
+    ── Read /sys/fs/cgroup/memory.events
+    ── Ran date -u +'%H:%M:%SZ' ps -p 415779,415781 -o pid,ppid,sid,stat,etime,%cpu,%mem,rss,vsz ps -L -p 415781 --no-headers | wc -l free -h | sed -n '1,3p'
+      $ date -u +'%H:%M:%SZ'
+    ps -p 415779,415781 -o pid,ppid,sid,stat,etime,%cpu,%mem,rss,vsz
+    ps -L -p 415781 --no-headers | wc -l
+    free -h | sed -n '1,3p'
+      22:30:55Z
+          PID    PPID     SID STAT     ELAPSED %CPU %MEM   RSS    VSZ
+       415779       1  415779 SNs        01:40  0.1  0.0  4672  48104
+       415781  415779  415779 RN         01:40 63.4 29.0 7085684 18082800
+      1
+                     total        used        free      shared  buff/cache   available
+      Mem:            23Gi        18Gi       2.4Gi        47Mi       3.3Gi       5.1Gi
+      Swap:           23Gi        14Gi       9.2Gi
+
+  ── Assistant
+  The new worker remains active after detachment and is now holding the full 18 GB virtual field set while staying below the host’s resident-memory limit. No OOM events or new errors have appeared. I’m continuing the replica rather than treating the earlier SIGTERM as scientific output.
+
+  ── Explored 2 files
+    ── Read /sys/fs/cgroup/memory.events
+    ── Read crates/ocean-drift/examples/validate_current_trajectories.rs
+
+  ── Assistant
+  The full-domain replay would otherwise double-buffer multi-gigabyte fields in its validation example. I’m making one narrow spoke-only change now: use the existing streaming field decoder there, matching the production loader. This does not touch the runner or the active hash-pinned source run, and it is needed to keep the later replay within memory.
+
+  ── Edited 1 file, explored 3 files, 3 searches, 1 list, ran 2 commands
+    ── Edited crates/ocean-drift/examples/validate_current_trajectories.rs +11 -3
+      @@ -6,3 +6,3 @@
+       
+      -use std::{collections::BTreeMap, env, fs};
+      +use std::{collections::BTreeMap, env, fs, io::BufReader};
+       
+      @@ -153,3 +153,7 @@
+               .unwrap_or(false);
+      -    let mut field = GriddedField::from_bytes(family, &fs::read(&arguments[2])?)?;
+      +    let current_file = fs::File::open(&arguments[2])?;
+      +    let mut field = GriddedField::from_reader(
+      +        family,
+      +        BufReader::with_capacity(1024 * 1024, current_file),
+      +    )?;
+           field.set_maximum_time_interpolation_gap_seconds(
+      @@ -160,3 +164,7 @@
+           let stokes = if let Some(path) = stokes_path {
+      -        let mut stokes = GriddedField::from_bytes("stokes", &fs::read(path)?)?;
+      +        let stokes_file = fs::File::open(path)?;
+      +        let mut stokes = GriddedField::from_reader(
+      +            "stokes",
+      +            BufReader::with_capacity(1024 * 1024, stokes_file),
+      +        )?;
+               stokes.set_renormalize_finite_spatial_corners(renormalize_finite_stokes_corners);
+    ── Read /sys/fs/cgroup/memory.events
+    ── Searched for "^"\[\[ocean_drift\.motion_families\]\]|"^id in =
+    ── Read /proc/415781/io
+    ── Read .sources/ocean-drift-input-preparation/outputs/ARTIFACT-SHA256.txt
+    ── Listed files in .
+    ── Read /sys/fs/cgroup/memory.events
+    ── Ran "cat /sys/fs/cgroup/memory.current /sys/fs/cgroup/memory.swap.current /sys/fs/cgroup/memory.max /sys/fs/cgroup/memory.swap.max for f in /proc/meminfo; do rg 'MemAvailable|SwapFree|SwapTotal|Committed_AS|CommitLimit' \""'$f"; done'
+      $ "cat /sys/fs/cgroup/memory.current /sys/fs/cgroup/memory.swap.current /sys/fs/cgroup/memory.max /sys/fs/cgroup/memory.swap.max
+    for f in /proc/meminfo; do rg 'MemAvailable|SwapFree|SwapTotal|Committed_AS|CommitLimit' \""'$f"; done'
+      7099506688
+      15675908096
+      12884901888
+      max
+      MemAvailable:    3906960 kB
+      SwapTotal:      24394748 kB
+      SwapFree:        1153348 kB
+      CommitLimit:    36592236 kB
+      Committed_AS:   49703600 kB
+    ── Ran for status in /proc/[0-9]*/status; do swap_kib=$(awk '"'/"'^VmSwap:/{print $2}'"' \""'$status" 2>/dev/null); if [ -n "$swap_kib" ] && [ "$swap_kib" -gt 100000 ]; then pid=${status#/proc/}; pid=${pid%/status}; name=$(awk '"'/"'^Name:/{print $2}'"' \""'$status"); printf '"'%12s %8s %s\\n' \""'$swap_kib" "$pid" "$name"; fi; done | sort -nr | head -n 20 (1s)
+      $ for status in /proc/[0-9]*/status; do swap_kib=$(awk '"'/"'^VmSwap:/{print $2}'"' \""'$status" 2>/dev/null); if [ -n "$swap_kib" ] && [ "$swap_kib" -gt 100000 ]; then pid=${status#/proc/}; pid=${pid%/status}; name=$(awk '"'/"'^Name:/{print $2}'"' \""'$status"); printf '"'%12s %8s %s\\n' \""'$swap_kib" "$pid" "$name"; fi; done | sort -nr | head -n 20
+      12147228   415781 mh370-6ac6d41bd
+            614264   398114 MainThread
+            209076   406794 codex
+            154800   398377 codex
+            152448   398128 MainThread
+            145188   411284 mh370
+    ── Searched for "^Name:
+    ── Searched for "^VmRSS:
+
+  ── Assistant
+  The detached worker is still healthy. It has finished loading and is simulating with seven deterministic worker threads. The host is heavily swap-backed for these 18 GB packed fields, but there are still no OOM events; this memory pressure will be reported as a practical limitation rather than hidden behind the RSS figure.
+
+  ── Explored 2 searches, 3 files, ran 3 commands
+    ── Searched for "'^Name:|''^VmSize:|''^VmRSS:|''^VmSwap:' \"/proc/"$pid/status; fi; done
+    ── Ran awk '/"'^VmSwap:/{if ($2 > 100000) print $2, FILENAME}'"' /proc/[0-9]*/status 2>/dev/null | sort -nr | head -n 40
+      $ awk '/"'^VmSwap:/{if ($2 > 100000) print $2, FILENAME}'"' /proc/[0-9]*/status 2>/dev/null | sort -nr | head -n 40
+      11145536 /proc/415781/status
+      621948 /proc/398114/status
+      149800 /proc/411284/status
+      127984 /proc/398377/status
+      119260 /proc/406794/status
+      108408 /proc/398155/status
+    ── Read /proc/swaps
+    ── Read /sys/fs/cgroup/memory.current
+    ── Searched for from_reader in crates/ocean-drift/examples
+    ── Read /sys/fs/cgroup/memory.events
+    ── Ran ps -p 415781 -o pid,ni,pri,psr,stat,etime,%cpu,cmd ps -p 411284 -o pid,ni,pri,psr,stat,etime,%cpu,cmd
+      $ ps -p 415781 -o pid,ni,pri,psr,stat,etime,%cpu,cmd
+    ps -p 411284 -o pid,ni,pri,psr,stat,etime,%cpu,cmd
+      PID  NI PRI PSR STAT     ELAPSED %CPU CMD
+       415781   -   3   1 SNl        05:43  120 /jackbox/home/.cache/mh370-ocean-drift-executables/mh370-6ac6d41bd3399e856706441d9dacd993f4ce0493a120219027afaa7ebc0e7fe5 estimate-ocean-drift --config /jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/configs/alternate.toml --output /jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/runs/alternate
+          PID  NI PRI PSR STAT     ELAPSED %CPU CMD
+       411284   -  23   0 S<sl       17:56  362 target/release/mh370 estimate --config /tmp/mh370-0011-core-comparison-better-mixing.toml --output /tmp/mh370-0011-core-comparison-better-mixing-20260827 --threads 8
+    ── Ran "date -u +'%H:%M:%SZ' ps -p 415779 -o pid,ppid,sid,stat,etime,%cpu,%mem,rss,vsz children="'$(pgrep -P 415779 | tr '"'\\n' ','); children="'${children%,}; if [ -n "$children" ]; then ps -p "$children" -o pid,ppid,sid,stat,etime,%cpu,%mem,rss,vsz,cmd; fi cat /sys/fs/cgroup/memory.events wc -c /tmp/mh370-cmems-full-domain-stringent-stability.log'
+      $ "date -u +'%H:%M:%SZ'
+    ps -p 415779 -o pid,ppid,sid,stat,etime,%cpu,%mem,rss,vsz
+    children="'$(pgrep -P 415779 | tr '"'\\n' ','); children="'${children%,}; if [ -n "$children" ]; then ps -p "$children" -o pid,ppid,sid,stat,etime,%cpu,%mem,rss,vsz,cmd; fi
+    cat /sys/fs/cgroup/memory.events
+    wc -c /tmp/mh370-cmems-full-domain-stringent-stability.log'
+      22:35:20Z
+          PID    PPID     SID STAT     ELAPSED %CPU %MEM   RSS    VSZ
+       415779       1  415779 SNs        06:05  0.0  0.0   156  48104
+          PID    PPID     SID STAT     ELAPSED %CPU %MEM   RSS    VSZ CMD
+       415781  415779  415779 SNl        06:05  126 29.1 7105032 18630568 /jackbox/home/.cache/mh370-ocean-drift-executables/mh370-6ac6d41bd3399e856706441d9dacd993f4ce0493a120219027afaa7ebc0e7fe5 estimate-ocean-drift --config /jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/configs/alternate.toml --output /jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/runs/alternate
+      low 0
+      high 0
+      max 6253453
+      oom 0
+      oom_kill 0
+      oom_group_kill 0
+      sock_throttled 234304
+      0 /tmp/mh370-cmems-full-domain-stringent-stability.log
+
+── Error ───────────────────────────────────────────────────
+  Thread interrupted because the host daemon disconnected
+  Please retry the thread to continue.
+
+── User ────────────────────────────────────────────────────
+I see an error, are you still working or is there an issue?
+
+── Worked for (20m 1s) ─────────────────────────────────────
+  ── Assistant
+  I’m checking the detached CMEMS replica and its durable output now. The last visible “error” was the IDE turn being interrupted; the worker was deliberately detached so it should have survived that.
+
+  ── Listed files in .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability
+    $ date -u +'%Y-%m-%dT%H:%M:%SZ'
+  ps -p 415779 -o pid,ppid,sid,stat,lstart,etime,%cpu,%mem,rss,vsz,cmd || true
+  pgrep -P 415779 | xargs -r ps -o pid,ppid,sid,stat,lstart,etime,%cpu,%mem,rss,vsz,cmd -p
+  find .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability -maxdepth 3 -type f -printf '%TY-%Tm-%TdT%TH:%TM:%TSZ %s %p\n' 2>/dev/null | sort | tail -n 30
+  wc -c /tmp/mh370-cmems-full-domain-stringent-stability.log 2>/dev/null || true
+  tail -n 30 /tmp/mh370-cmems-full-domain-stringent-stability.log 2>/dev/null || true
+  cat /sys/fs/cgroup/memory.events
+
+  ── Assistant
+  There is a real issue, but no completed result was lost. The detached replica was eventually killed by the environment’s 12 GB memory limit (`oom_kill=1`); it produced no partial science files. The completed primary CMEMS run and manifest remain safe.
+
+  I’m still working. I will not launch the same memory-heavy command a third time. I’m switching the ocean-field loader to file-backed streaming/mapping for the replication and drifter validation, then I’ll rerun the exact matched cases. Until that succeeds, CMEMS remains diagnostic-only.
+
+  ── Explored 2 files, researched 2 search queries, ran 1 command
+    ── Read Cargo.toml
+    ── Ran web search: docs.rs memmap2 latest MmapOptions map file Rust
+    ── Read crates/ocean-drift/src/field.rs
+    ── Ran web search: docs.rs tempfile latest tempfile() unnamed temporary file Rust
+    ── Ran iso thread tell thr_94ecfzphq2 --mode queue "Ocean-drift blocker/update: detached full-domain seed replica was kernel OOM-killed (SIGKILL; cgroup oom_kill=1) under the 12 GB environment limit; no partial output, primary manifest remains safe. I will not repeat the same command. To obey the no-runner-edit boundary, I am implementing thresholded file-backed packed-field storage inside crates/ocean-drift only (mmap of secure unnamed temp files), with tiny equivalence/truncation fixtures, then rebuilding a private hash-pinned runner and rerunning exact cases. This will touch crates/ocean-drift/src/field.rs, its Cargo.toml, and Cargo.lock for pinned memmap2/tempfile dependencies; please avoid concurrent Cargo.lock rewrites if possible. CMEMS remains admitted=false meanwhile."
+      $ iso thread tell thr_94ecfzphq2 --mode queue "Ocean-drift blocker/update: detached full-domain seed replica was kernel OOM-killed (SIGKILL; cgroup oom_kill=1) under the 12 GB environment limit; no partial output, primary manifest remains safe. I will not repeat the same command. To obey the no-runner-edit boundary, I am implementing thresholded file-backed packed-field storage inside crates/ocean-drift only (mmap of secure unnamed temp files), with tiny equivalence/truncation fixtures, then rebuilding a private hash-pinned runner and rerunning exact cases. This will touch crates/ocean-drift/src/field.rs, its Cargo.toml, and Cargo.lock for pinned memmap2/tempfile dependencies; please avoid concurrent Cargo.lock rewrites if possible. CMEMS remains admitted=false meanwhile."
+      Thread thr_94ecfzphq2 updated
+
+  ── Assistant
+  The recovery is now scoped: large packed components will spill once into secure unnamed files and be read through immutable file-backed maps; small fixtures stay in ordinary vectors. This preserves the exact bytes, interpolation, hashes, and science while replacing swap-backed anonymous memory. I’m adding an equivalence fixture before rebuilding.
+
+  ── Edited 2 files, explored 1 file, 1 search, ran 1 command
+    ── Edited crates/ocean-drift/Cargo.toml +2
+      @@ -8,2 +8,3 @@
+       [dependencies]
+      +memmap2 = "=0.9.11"
+       mh370-domain = { path = "../domain" }
+      @@ -15,2 +16,3 @@
+       serde_json.workspace = true
+      +tempfile = "=3.13.0"
+       thiserror.workspace = true
+    ── Edited crates/ocean-drift/src/field.rs +85 -7
+      @@ -1,3 +1,9 @@
+      -use std::{collections::BTreeMap, io::Read};
+      +use std::{
+      +    collections::BTreeMap,
+      +    fs::File,
+      +    io::{Read, Write},
+      +    sync::Arc,
+      +};
+       
+      +use memmap2::{Mmap, MmapOptions};
+       use mh370_domain::LatLon;
+      @@ -8,2 +14,4 @@
+       const PACKED_I16: u32 = 1;
+      +const FILE_BACKED_PACKED_BYTES: usize = 256 * 1024 * 1024;
+      +const FILE_BACKED_COPY_BUFFER_BYTES: usize = 4 * 1024 * 1024;
+       
+      @@ -39,3 +47,3 @@
+           PackedI16 {
+      -        values: Vec<i16>,
+      +        values: PackedI16Values,
+               scale: f64,
+      @@ -47,2 +55,25 @@
+       
+      +#[derive(Debug, Clone)]
+      +enum PackedI16Values {
+      +    Owned(Vec<i16>),
+      +    FileBacked {
+      +        bytes: Arc<Mmap>,
+      +        // Retain the immutable, unnamed backing file for the complete map
+      +        // lifetime. It has no path that another process can replace or edit.
+      +        _file: Arc<File>,
+      +    },
+      +}
+      +
+      +impl PackedI16Values {
+      +    fn value(&self, index: usize) -> i16 {
+      +        match self {
+      +            Self::Owned(values) => values[index],
+      +            Self::FileBacked { bytes, .. } => {
+      +                let offset = index * 2;
+      +                i16::from_le_bytes([bytes[offset], bytes[offset + 1]])
+      +            }
+      +        }
+      +    }
+      +}
+      +
+       impl FieldComponent {
+      @@ -58,4 +89,5 @@
+                   } => {
+      -                if values[index] == *missing
+      -                    || persistent_land_mask.is_some_and(|value| values[index] == value)
+      +                let packed = values.value(index);
+      +                if packed == *missing
+      +                    || persistent_land_mask.is_some_and(|value| packed == value)
+                       {
+      @@ -63,3 +95,3 @@
+                       } else {
+      -                    *offset + *scale * f64::from(values[index])
+      +                    *offset + *scale * f64::from(packed)
+                       }
+      @@ -76,3 +108,3 @@
+                       ..
+      -            } => persistent_land_mask.is_some_and(|value| values[index] == value),
+      +            } => persistent_land_mask.is_some_and(|value| values.value(index) == value),
+               }
+      @@ -87,2 +119,4 @@
+           MissingComponent(String),
+      +    #[error("field storage failure: {0}")]
+      +    Storage(String),
+           #[error("position lies outside the field")]
+      @@ -167,3 +201,3 @@
+                       FieldComponent::PackedI16 {
+      -                    values: reader.i16s(count)?,
+      +                    values: reader.packed_i16s(count, FILE_BACKED_PACKED_BYTES)?,
+                           scale,
+      @@ -412,2 +446,42 @@
+           }
+      +    fn packed_i16s(
+      +        &mut self,
+      +        count: usize,
+      +        file_backed_threshold_bytes: usize,
+      +    ) -> Result<PackedI16Values, FieldError> {
+      +        let byte_count = count
+      +            .checked_mul(2)
+      +            .ok_or(FieldError::InvalidFormat("dimension overflow"))?;
+      +        if byte_count < file_backed_threshold_bytes {
+      +            return self.i16s(count).map(PackedI16Values::Owned);
+      +        }
+      +
+      +        let mut file = tempfile::tempfile().map_err(storage_error)?;
+      +        let mut buffer = vec![0; FILE_BACKED_COPY_BUFFER_BYTES.min(byte_count)];
+      +        let mut remaining = byte_count;
+      +        while remaining > 0 {
+      +            let length = remaining.min(buffer.len());
+      +            self.input
+      +                .read_exact(&mut buffer[..length])
+      +                .map_err(|_| FieldError::InvalidFormat("truncated"))?;
+      +            file.write_all(&buffer[..length]).map_err(storage_error)?;
+      +            remaining -= length;
+      +        }
+      +        file.sync_data().map_err(storage_error)?;
+      +
+      +        let file = Arc::new(file);
+      +        // SAFETY: `tempfile()` creates a private unnamed file. The retained
+      +        // `Arc<File>` is never exposed or mutated after this point, so the
+      +        // mapped byte range cannot be truncated or changed while it is read.
+      +        let bytes = unsafe {
+      +            MmapOptions::new()
+      +                .len(byte_count)
+      +                .map(file.as_ref())
+      +                .map_err(storage_error)?
+      +        };
+      +        Ok(PackedI16Values::FileBacked {
+      +            bytes: Arc::new(bytes),
+      +            _file: file,
+      +        })
+      +    }
+           fn values<T>(
+      @@ -436,2 +510,6 @@
+       
+      +fn storage_error(error: std::io::Error) -> FieldError {
+      +    FieldError::Storage(error.to_string())
+      +}
+      +
+       #[cfg(test)]
+    ── Read crates/ocean-drift/src/field.rs
+    ── Edited crates/ocean-drift/src/field.rs +27
+      @@ -599,2 +599,29 @@
+           #[test]
+      +    fn file_backed_packed_values_match_owned_values_and_reject_truncation() {
+      +        let expected = [-29_999_i16, -12, 0, 32_767];
+      +        let bytes = expected
+      +            .iter()
+      +            .flat_map(|value| value.to_le_bytes())
+      +            .collect::<Vec<_>>();
+      +
+      +        let mut owned_reader = Reader::new(bytes.as_slice());
+      +        let owned = owned_reader.packed_i16s(expected.len(), usize::MAX).unwrap();
+      +        assert!(matches!(owned, PackedI16Values::Owned(_)));
+      +
+      +        let mut mapped_reader = Reader::new(bytes.as_slice());
+      +        let mapped = mapped_reader.packed_i16s(expected.len(), 0).unwrap();
+      +        assert!(matches!(mapped, PackedI16Values::FileBacked { .. }));
+      +        for (index, value) in expected.into_iter().enumerate() {
+      +            assert_eq!(owned.value(index), value);
+      +            assert_eq!(mapped.value(index), value);
+      +        }
+      +
+      +        let mut truncated_reader = Reader::new(&bytes[..bytes.len() - 1]);
+      +        assert_eq!(
+      +            truncated_reader.packed_i16s(expected.len(), 0),
+      +            Err(FieldError::InvalidFormat("truncated"))
+      +        );
+      +    }
+      +
+      +    #[test]
+           fn configured_time_gap_is_outside_support_not_interpolated() {
+    ── Edited crates/ocean-drift/src/field.rs +2 -2
+      @@ -619,6 +619,6 @@
+               let mut truncated_reader = Reader::new(&bytes[..bytes.len() - 1]);
+      -        assert_eq!(
+      +        assert!(matches!(
+                   truncated_reader.packed_i16s(expected.len(), 0),
+                   Err(FieldError::InvalidFormat("truncated"))
+      -        );
+      +        ));
+           }
+    ── Ran cargo fmt -p mh370-ocean-drift -- --check CARGO_TARGET_DIR=/tmp/mh370-ocean-drift-file-backed-target cargo test -p mh370-ocean-drift --lib field::tests::file_backed_packed_values_match_owned_values_and_reject_truncation (1m 9s, error)
+      $ cargo fmt -p mh370-ocean-drift -- --check
+    CARGO_TARGET_DIR=/tmp/mh370-ocean-drift-file-backed-target cargo test -p mh370-ocean-drift --lib field::tests::file_backed_packed_values_match_owned_values_and_reject_truncation
+      Updating crates.io index
+          Blocking waiting for file lock on package cache
+           Locking 17 packages to latest compatible versions
+            Adding errno v0.3.14
+            Adding fastrand v2.5.0
+            Adding linux-raw-sys v0.4.15
+            Adding memmap2 v0.9.11
+            Adding once_cell v1.21.4
+            Adding rustix v0.38.44
+            Adding tempfile v3.13.0 (available: v3.27.0)
+            Adding windows-sys v0.59.0
+            Adding windows-targets v0.52.6
+            Adding windows_aarch64_gnullvm v0.52.6
+            Adding windows_aarch64_msvc v0.52.6
+            Adding windows_i686_gnu v0.52.6
+            Adding windows_i686_gnullvm v0.52.6
+            Adding windows_i686_msvc v0.52.6
+            Adding windows_x86_64_gnu v0.52.6
+            Adding windows_x86_64_gnullvm v0.52.6
+            Adding windows_x86_64_msvc v0.52.6
+          Blocking waiting for file lock on package cache
+          Blocking waiting for file lock on package cache
+         Compiling proc-macro2 v1.0.107
+         Compiling quote v1.0.47
+         Compiling unicode-ident v1.0.24
+         Compiling libc v0.2.189
+         Compiling crossbeam-utils v0.8.22
+         Compiling zerocopy v0.8.56
+         Compiling cfg-if v1.0.4
+         Compiling crossbeam-epoch v0.9.20
+         Compiling autocfg v1.5.1
+         Compiling libm v0.2.16
+         Compiling serde_core v1.0.229
+         Compiling crossbeam-deque v0.8.7
+         Compiling num-traits v0.2.19
+         Compiling syn v3.0.4
+         Compiling getrandom v0.2.17
+         Compiling syn v2.0.119
+         Compiling rand_core v0.6.4
+         Compiling serde v1.0.229
+         Compiling thiserror v1.0.69
+         Compiling rayon-core v1.13.0
+         Compiling zmij v1.0.23
+         Compiling rustix v0.38.44
+         Compiling bitflags v2.13.1
+         Compiling linux-raw-sys v0.4.15
+         Compiling serde_json v1.0.151
+         Compiling itoa v1.0.18
+         Compiling memchr v2.8.3
+         Compiling serde_derive v1.0.229
+         Compiling thiserror-impl v1.0.69
+         Compiling once_cell v1.21.4
+         Compiling either v1.18.0
+         Compiling ppv-lite86 v0.2.21
+         Compiling fastrand v2.5.0
+         Compiling rayon v1.12.0
+         Compiling rand_chacha v0.3.1
+         Compiling rand v0.8.7
+         Compiling tempfile v3.13.0
+         Compiling approx v0.5.1
+         Compiling memmap2 v0.9.11
+         Compiling rand_distr v0.4.3
+         Compiling mh370-domain v0.1.0 (/jackbox/home/MH370/crates/domain)
+         Compiling mh370-ocean-drift v0.1.0 (/jackbox/home/MH370/crates/ocean-drift)
+      error[E0004]: non-exhaustive patterns: `field::FieldError::Storage(_)` not covered
+         --> crates/ocean-drift/src/transport.rs:386:24
+          |
+      386 |     let reason = match error {
+          |                        ^^^^^ pattern `field::FieldError::Storage(_)` not covered
+          |
+      note: `field::FieldError` defined here
+         --> crates/ocean-drift/src/field.rs:115:10
+          |
+      115 | pub enum FieldError {
+          |          ^^^^^^^^^^
+      ...
+      121 |     Storage(String),
+          |     ------- not covered
+          = note: the matched value is of type `field::FieldError`
+      help: ensure that all possible cases are being handled by adding a match arm with a wildcard pattern or an explicit pattern as shown
+          |
+      392 ~         },
+      393 +         field::FieldError::Storage(_) => todo!()
+          |
+
+      For more information about this error, try `rustc --explain E0004`.
+      error: could not compile `mh370-ocean-drift` (lib test) due to 1 previous error
+      exit 101
+    ── Searched for cargo test|rustc|mh370-ocean-drift-file-backed
+
+  ── Assistant
+  The new storage fixture is compiling now. Formatting found only three mechanical line-wrap differences, and I’ll apply them after this focused build. A concurrent Core Cargo test is also active, so dependency resolution is waiting rather than failing; I’m not killing or racing it.
+
+  ── Explored 3 lists, 1 file, ran 4 commands, edited 1 file
+    ── Listed files in Cargo.lock
+    ── Ran 'for pid in 435116 435266; do echo "children of $pid"; ps --ppid "$pid" -o pid,ppid,stat,etime,%cpu,%mem,rss,wchan:28,cmd; done find /jackbox/home/.cargo -maxdepth 3 -type f -name '"'*.crate' -mmin -5 -printf '%TY-%Tm-%TdT%TH:%TM:%TSZ %s %p\\n' 2>/dev/null | tail -n 30"
+      $ 'for pid in 435116 435266; do echo "children of $pid"; ps --ppid "$pid" -o pid,ppid,stat,etime,%cpu,%mem,rss,wchan:28,cmd; done
+    find /jackbox/home/.cargo -maxdepth 3 -type f -name '"'*.crate' -mmin -5 -printf '%TY-%Tm-%TdT%TH:%TM:%TSZ %s %p\\n' 2>/dev/null | tail -n 30"
+      children of 435116
+          PID    PPID STAT     ELAPSED %CPU %MEM   RSS WCHAN                        CMD
+      children of 435266
+          PID    PPID STAT     ELAPSED %CPU %MEM   RSS WCHAN                        CMD
+    ── Listed files in /proc/$pid/fd
+    ── Ran cargo fmt -p mh370-ocean-drift -- --emit files cargo fmt -p mh370-ocean-drift -- --check
+      $ cargo fmt -p mh370-ocean-drift -- --emit files
+    cargo fmt -p mh370-ocean-drift -- --check
+      exit code 0
+    ── Listed files in /jackbox/home/.cargo/registry/cache
+    ── Ran CARGO_TARGET_DIR=/tmp/mh370-ocean-drift-file-backed-target cargo test -p mh370-ocean-drift --lib field::tests::file_backed_packed_values_match_owned_values_and_reject_truncation (error)
+      $ CARGO_TARGET_DIR=/tmp/mh370-ocean-drift-file-backed-target cargo test -p mh370-ocean-drift --lib field::tests::file_backed_packed_values_match_owned_values_and_reject_truncation
+      error[E0004]: non-exhaustive patterns: `field::FieldError::Storage(_)` not covered
+         --> crates/ocean-drift/src/transport.rs:386:24
+          |
+      386 |     let reason = match error {
+          |                        ^^^^^ pattern `field::FieldError::Storage(_)` not covered
+          |
+      note: `field::FieldError` defined here
+         --> crates/ocean-drift/src/field.rs:113:10
+          |
+      113 | pub enum FieldError {
+          |          ^^^^^^^^^^
+      ...
+      119 |     Storage(String),
+          |     ------- not covered
+          = note: the matched value is of type `field::FieldError`
+      help: ensure that all possible cases are being handled by adding a match arm with a wildcard pattern or an explicit pattern as shown
+          |
+      392 ~         },
+      393 +         field::FieldError::Storage(_) => todo!()
+          |
+
+      For more information about this error, try `rustc --explain E0004`.
+      error: could not compile `mh370-ocean-drift` (lib test) due to 1 previous error
+      exit 101
+    ── Read crates/ocean-drift/src/transport.rs
+    ── Edited crates/ocean-drift/src/transport.rs +1 -1
+      @@ -389,3 +389,3 @@
+               FieldError::MissingValue => PathTerminationReason::MissingFieldCoverage,
+      -        FieldError::InvalidFormat(_) | FieldError::MissingComponent(_) => {
+      +        FieldError::InvalidFormat(_) | FieldError::MissingComponent(_) | FieldError::Storage(_) => {
+                   PathTerminationReason::NumericalFailure
+    ── Ran cargo fmt -p mh370-ocean-drift -- --emit files CARGO_TARGET_DIR=/tmp/mh370-ocean-drift-file-backed-target cargo test -p mh370-ocean-drift --lib field::tests::file_backed_packed_values_match_owned_values_and_reject_truncation (1s)
+      $ cargo fmt -p mh370-ocean-drift -- --emit files
+    CARGO_TARGET_DIR=/tmp/mh370-ocean-drift-file-backed-target cargo test -p mh370-ocean-drift --lib field::tests::file_backed_packed_values_match_owned_values_and_reject_truncation
+      Compiling mh370-ocean-drift v0.1.0 (/jackbox/home/MH370/crates/ocean-drift)
+          Finished `test` profile [unoptimized + debuginfo] target(s) in 1.25s
+           Running unittests src/lib.rs (/tmp/mh370-ocean-drift-file-backed-target/debug/deps/mh370_ocean_drift-2df93626d430473e)
+
+      running 1 test
+      test field::tests::file_backed_packed_values_match_owned_values_and_reject_truncation ... ok
+
+      test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 24 filtered out; finished in 0.01s
+
+  ── Assistant
+  The file-backed/owned equivalence and truncation fixture passes. I’m now running the complete focused spoke tests, then building an isolated private runner; this does not replace Core’s executable or alter runner source. Before the expensive rerun I’ll pin and report the new binary hash.
+
+  ── Ran 5 commands, explored 1 search, 1 list
+    ── Ran CARGO_TARGET_DIR=/tmp/mh370-ocean-drift-file-backed-target cargo test -p mh370-ocean-drift (2s)
+      $ CARGO_TARGET_DIR=/tmp/mh370-ocean-drift-file-backed-target cargo test -p mh370-ocean-drift
+      Finished `test` profile [unoptimized + debuginfo] target(s) in 2.06s
+           Running unittests src/lib.rs (/tmp/mh370-ocean-drift-file-backed-target/debug/deps/mh370_ocean_drift-2df93626d430473e)
+
+      running 25 tests
+      test field::tests::january_is_month_zero ... ok
+      test field::tests::configured_time_gap_is_outside_support_not_interpolated ... ok
+      test field::tests::trilinear_axis_order_matches_independent_calculation ... ok
+      test field::tests::packed_i16_preserves_scale_and_missing_values ... ok
+      test isotope::tests::equation_two_reconstructs_published_endpoint_temperature ... ok
+      test isotope::tests::simultaneous_threshold_increases_for_more_independent_records ... ok
+      test observations::tests::australian_non_recovery_penalizes_landfall_and_unresolved_coverage ... ok
+      test isotope::tests::maximum_penalties_are_ordered_and_finite ... ok
+      test observations::tests::co_recovered_objects_are_one_likelihood_factor ... ok
+      test observations::tests::legacy_recovery_window_is_not_exact_beaching_time ... ok
+      test field::tests::finite_corner_renormalization_is_explicit_and_never_uses_zero ... ok
+      test observations::tests::delay_bins_change_compatibility_without_multiplying_discovery_rows ... ok
+      test sampling::tests::independent_configuration_has_no_checkpoints ... ok
+      test sampling::tests::adaptive_checkpoints_stop_at_last_recovery_not_later_non_recovery ... ok
+      test source_area::tests::deterministic_stream_keys_are_distinct_and_order_independent ... ok
+      test source_area::tests::shared_episode_profiles_motion_laws_without_multiplying_them ... ok
+      test transport::tests::fixed_seed_reproduces_diffusive_path ... ok
+      test transport::tests::absent_required_wind_is_a_configuration_failure_not_missing_coverage ... ok
+      test transport::tests::configured_stokes_scale_has_the_expected_analytic_displacement ... ok
+      test transport::tests::one_day_constant_eastward_fixture_matches_analytic_distance ... ok
+      test transport::tests::fixed_wind_relative_leeway_is_not_rescaled_by_wind_speed ... ok
+      test transport::tests::termination_taxonomy_distinguishes_land_beaching_time_and_missing_data ... ok
+      test field::tests::file_backed_packed_values_match_owned_values_and_reject_truncation ... ok
+      test sampling::tests::correction_weights_make_rank_biased_resampling_unbiased ... ok
+      test sampling::tests::correction_weights_remain_unbiased_through_multiple_synthetic_levels ... ok
+
+      test result: ok. 25 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.25s
+
+           Running tests/epochs.rs (/tmp/mh370-ocean-drift-file-backed-target/debug/deps/epochs-1be6fc67686022a3)
+
+      running 1 test
+      test canonical_utc_epochs_match_independent_unix_conversion ... ok
+
+      test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+           Running tests/field_semantics.rs (/tmp/mh370-ocean-drift-file-backed-target/debug/deps/field_semantics-0707db2209bba3f1)
+
+      running 2 tests
+      test monthly_means_are_piecewise_and_december_does_not_blend_into_january ... ok
+      test missing_error_corners_are_not_silently_replaced_with_zero ... ok
+
+      test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+           Running tests/isotope_compatibility.rs (/tmp/mh370-ocean-drift-file-backed-target/debug/deps/isotope_compatibility-2d12653ac0bbf0e6)
+
+      running 4 tests
+      test missing_sst_coverage_is_neutral_and_reported_not_survivor_conditioned ... ok
+      test one_unevaluable_chronology_prevents_all_chronology_rejection ... ok
+      test any_compatible_chronology_is_neutral_despite_an_incompatible_alternative ... ok
+      test marginal_penalty_is_soft_and_rejection_is_bounded ... ok
+
+      test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+           Running tests/raw_field_spot.rs (/tmp/mh370-ocean-drift-file-backed-target/debug/deps/raw_field_spot-3eabe158a66e1f8c)
+
+      running 4 tests
+      test converted_fields_match_independently_read_raw_netcdf_points ... ignored, requires converted external current, Stokes, and wind fields
+      test extended_glorys12_matches_raw_netcdf_node_with_packing_tolerance ... ignored, requires extended native-resolution CMEMS current field
+      test extended_waverys_matches_raw_netcdf_node_with_packing_tolerance ... ignored, requires extended native-resolution CMEMS Stokes field
+      test regridded_wind_matches_independent_gaussian_row_interpolation ... ignored, requires converted external wind field
+
+      test result: ok. 0 passed; 0 failed; 4 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+           Running tests/source_area_conditional.rs (/tmp/mh370-ocean-drift-file-backed-target/debug/deps/source_area_conditional-58dc61582863ae76)
+
+      running 2 tests
+      test non_recovery_population_uses_an_independent_forward_ensemble ... ok
+      test no_arrival_cell_is_reported_without_aborting_conditional_surface ... ok
+
+      test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+         Doc-tests mh370_ocean_drift
+
+      running 0 tests
+
+      test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+    ── Ran CARGO_TARGET_DIR=/tmp/mh370-ocean-drift-file-backed-target /usr/bin/time -v cargo build --release -p mh370-runner --bin mh370 (error)
+      $ CARGO_TARGET_DIR=/tmp/mh370-ocean-drift-file-backed-target /usr/bin/time -v cargo build --release -p mh370-runner --bin mh370
+      /usr/bin/bash: line 1: /usr/bin/time: No such file or directory
+      exit 127
+    ── Ran CARGO_TARGET_DIR=/tmp/mh370-ocean-drift-file-backed-target time cargo build --release -p mh370-runner --bin mh370 (error)
+      $ CARGO_TARGET_DIR=/tmp/mh370-ocean-drift-file-backed-target time cargo build --release -p mh370-runner --bin mh370
+      /usr/bin/bash: line 1: time: command not found
+      exit 127
+    ── Ran CARGO_TARGET_DIR=/tmp/mh370-ocean-drift-file-backed-target cargo build --release -p mh370-runner --bin mh370 (1m 2s)
+      $ CARGO_TARGET_DIR=/tmp/mh370-ocean-drift-file-backed-target cargo build --release -p mh370-runner --bin mh370
+      Compiling thiserror v1.0.69
+         Compiling zerocopy v0.8.56
+         Compiling crossbeam-utils v0.8.22
+         Compiling version_check v0.9.5
+         Compiling syn v3.0.4
+         Compiling syn v2.0.119
+         Compiling getrandom v0.2.17
+         Compiling rand_core v0.6.4
+         Compiling generic-array v0.14.7
+         Compiling crossbeam-epoch v0.9.20
+         Compiling autocfg v1.5.1
+         Compiling num-traits v0.2.19
+         Compiling typenum v1.20.1
+         Compiling crossbeam-deque v0.8.7
+         Compiling rayon-core v1.13.0
+         Compiling zmij v1.0.23
+         Compiling equivalent v1.0.2
+         Compiling thiserror-impl v1.0.69
+         Compiling crypto-common v0.1.7
+         Compiling block-buffer v0.10.4
+         Compiling simd-adler32 v0.3.10
+         Compiling serde_json v1.0.151
+         Compiling bitflags v2.13.1
+         Compiling crc32fast v1.5.1
+         Compiling either v1.18.0
+         Compiling digest v0.10.7
+         Compiling rayon v1.12.0
+         Compiling ppv-lite86 v0.2.21
+         Compiling rustix v0.38.44
+         Compiling utf8parse v0.2.2
+         Compiling memchr v2.8.3
+         Compiling adler2 v2.0.1
+         Compiling cpufeatures v0.2.17
+         Compiling itoa v1.0.18
+         Compiling sha2 v0.10.9
+         Compiling miniz_oxide v0.8.9
+         Compiling rand_chacha v0.3.1
+         Compiling serde_derive v1.0.229
+         Compiling rand v0.8.7
+         Compiling anstyle-parse v1.0.0
+         Compiling core_maths v0.1.1
+         Compiling linux-raw-sys v0.4.15
+         Compiling anstyle-query v1.1.5
+         Compiling is_terminal_polyfill v1.70.2
+         Compiling rand_distr v0.4.3
+         Compiling colorchoice v1.0.5
+         Compiling foldhash v0.1.5
+         Compiling hashbrown v0.17.1
+         Compiling allocator-api2 v0.2.21
+         Compiling anstyle v1.0.14
+         Compiling hashbrown v0.15.5
+         Compiling anstream v1.0.0
+         Compiling indexmap v2.14.0
+         Compiling ttf-parser v0.25.1
+         Compiling flate2 v1.1.9
+         Compiling fdeflate v0.3.7
+         Compiling winnow v0.7.15
+         Compiling fastrand v2.5.0
+         Compiling anyhow v1.0.104
+         Compiling heck v0.5.0
+         Compiling toml_write v0.1.2
+         Compiling strsim v0.11.1
+         Compiling once_cell v1.21.4
+         Compiling mh370-domain v0.1.0 (/jackbox/home/MH370/crates/domain)
+         Compiling mh370-particle-filter v0.1.0 (/jackbox/home/MH370/crates/particle-filter)
+         Compiling serde_spanned v0.6.9
+         Compiling mh370-satcom v0.1.0 (/jackbox/home/MH370/crates/satcom)
+         Compiling mh370-dynamics v0.1.0 (/jackbox/home/MH370/crates/dynamics)
+         Compiling toml_datetime v0.6.11
+         Compiling clap_lex v1.1.0
+         Compiling clap_builder v4.6.6
+         Compiling mh370-antenna v0.1.0 (/jackbox/home/MH370/crates/antenna)
+         Compiling mh370-end-of-flight v0.1.0 (/jackbox/home/MH370/crates/end-of-flight)
+         Compiling tempfile v3.13.0
+         Compiling fontdue v0.9.4
+         Compiling toml_edit v0.22.27
+         Compiling clap_derive v4.6.4
+         Compiling png v0.18.1
+         Compiling memmap2 v0.9.11
+         Compiling mh370-ocean-drift v0.1.0 (/jackbox/home/MH370/crates/ocean-drift)
+         Compiling mh370-reporting v0.1.0 (/jackbox/home/MH370/crates/reporting)
+         Compiling mh370-estimator v0.1.0 (/jackbox/home/MH370/crates/estimator)
+         Compiling toml v0.8.23
+         Compiling clap v4.6.6
+         Compiling mh370-controls v0.1.0 (/jackbox/home/MH370/crates/controls)
+         Compiling mh370-hydroacoustics v0.1.0 (/jackbox/home/MH370/crates/hydroacoustics)
+         Compiling hex v0.4.3
+         Compiling mh370-runner v0.1.0 (/jackbox/home/MH370/crates/runner)
+          Finished `release` profile [optimized] target(s) in 1m 01s
+    ── Searched for cargo build --release -p mh370-runner|rustc.*mh370_runner
+    ── Ran ps --ppid 439863 -o pid,ppid,stat,etime,%cpu,%mem,rss,cmd | head -n 20 ps -p 439863 -o pid,stat,etime,%cpu,rss,wchan:32,cmd
+      $ ps --ppid 439863 -o pid,ppid,stat,etime,%cpu,%mem,rss,cmd | head -n 20
+    ps -p 439863 -o pid,stat,etime,%cpu,rss,wchan:32,cmd
+      PID    PPID STAT     ELAPSED %CPU %MEM   RSS CMD
+       441295  439863 S<l        00:30 97.4  2.7 671360 /jackbox/home/.rustup/toolchains/1.98.0-x86_64-unknown-linux-gnu/bin/rustc --crate-name mh370 --edition=2021 crates/runner/src/main.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C opt-level=3 -C lto=thin -C codegen-units=1 --check-cfg cfg(docsrs,test) --check-cfg cfg(feature, values()) -C metadata=d8e1031c13f4df15 -C extra-filename=-8861541c7fc50af7 --out-dir /tmp/mh370-ocean-drift-file-backed-target/release/deps -C strip=symbols -L dependency=/tmp/mh370-ocean-drift-file-backed-target/release/deps --extern anyhow=/tmp/mh370-ocean-drift-file-backed-target/release/deps/libanyhow-8a8025eaff5f48b7.rlib --extern clap=/tmp/mh370-ocean-drift-file-backed-target/release/deps/libclap-55a1e449b4086e19.rlib --extern hex=/tmp/mh370-ocean-drift-file-backed-target/release/deps/libhex-a3a58660482d57cc.rlib --extern mh370_antenna=/tmp/mh370-ocean-drift-file-backed-target/release/deps/libmh370_antenna-964b84d7464b1498.rlib --extern mh370_controls=/tmp/mh370-ocean-drift-file-backed-target/release/deps/libmh370_controls-2dedc11954ed101b.rlib --extern mh370_domain=/tmp/mh370-ocean-drift-file-backed-target/release/deps/libmh370_domain-cd4c1df2db2a4907.rlib --extern mh370_dynamics=/tmp/mh370-ocean-drift-file-backed-target/release/deps/libmh370_dynamics-d85b4fe6453cf81d.rlib --extern mh370_end_of_flight=/tmp/mh370-ocean-drift-file-backed-target/release/deps/libmh370_end_of_flight-0e59f1724fc991e6.rlib --extern mh370_estimator=/tmp/mh370-ocean-drift-file-backed-target/release/deps/libmh370_estimator-fc2b86fe11f7db87.rlib --extern mh370_hydroacoustics=/tmp/mh370-ocean-drift-file-backed-target/release/deps/libmh370_hydroacoustics-ce4c46d61c0d98f2.rlib --extern mh370_ocean_drift=/tmp/mh370-ocean-drift-file-backed-target/release/deps/libmh370_ocean_drift-3bc8e198a9c3ba71.rlib --extern mh370_reporting=/tmp/mh370-ocean-drift-file-backed-target/release/deps/libmh370_reporting-bfe585905fdf4fb7.rlib --extern mh370_satcom=/tmp/mh370-ocean-drift-file-backed-target/release/deps/libmh370_satcom-62c8465cb4c0850e.rlib --extern rayon=/tmp/mh370-ocean-drift-file-backed-target/release/deps/librayon-42e54a431df00893.rlib --extern serde=/tmp/mh370-ocean-drift-file-backed-target/release/deps/libserde-a5e4e999cf3314dc.rlib --extern serde_json=/tmp/mh370-ocean-drift-file-backed-target/release/deps/libserde_json-57fc3b2a2ebd7899.rlib --extern sha2=/tmp/mh370-ocean-drift-file-backed-target/release/deps/libsha2-29e717a0056bf8f9.rlib --extern toml=/tmp/mh370-ocean-drift-file-backed-target/release/deps/libtoml-c9a9e7fe337d64ed.rlib
+          PID STAT     ELAPSED %CPU   RSS WCHAN                            CMD
+       439863 S<sl       00:44  0.6 49440 futex_wait                       /jackbox/home/.rustup/toolchains/1.98.0-x86_64-unknown-linux-gnu/bin/cargo build --release -p mh370-runner --bin mh370
+    ── Listed files in /tmp/mh370-ocean-drift-file-backed-target/release/mh370
+
+  ── Assistant
+  All 34 focused spoke checks now pass, including isotope limiting cases, SMC unbiasedness, termination taxonomy, and the new file-backed equivalence test. The private release runner is in its final link step; no production executable has been replaced.
+
+  ── Explored 1 list, ran 4 commands
+    ── Listed files in /tmp/mh370-ocean-drift-file-backed-target/release/mh370
+    ── Ran sha256sum /tmp/mh370-ocean-drift-file-backed-target/release/mh370 stat -c '%s %y %n' /tmp/mh370-ocean-drift-file-backed-target/release/mh370 sha256sum crates/ocean-drift/src/field.rs crates/ocean-drift/src/transport.rs crates/ocean-drift/examples/validate_current_trajectories.rs crates/ocean-drift/Cargo.toml Cargo.lock
+      $ sha256sum /tmp/mh370-ocean-drift-file-backed-target/release/mh370
+    stat -c '%s %y %n' /tmp/mh370-ocean-drift-file-backed-target/release/mh370
+    sha256sum crates/ocean-drift/src/field.rs crates/ocean-drift/src/transport.rs crates/ocean-drift/examples/validate_current_trajectories.rs crates/ocean-drift/Cargo.toml Cargo.lock
+      cff9acf0ff84f943956512eba0f48529dfb904250839a28033c07e1f2423b213  /tmp/mh370-ocean-drift-file-backed-target/release/mh370
+      6470096 2026-08-28 00:54:53.736455275 +0000 /tmp/mh370-ocean-drift-file-backed-target/release/mh370
+      919f84200c6bfea5f41e3f0e0d2b04106e2d195af1082fc7550b6b2f03b667e0  crates/ocean-drift/src/field.rs
+      c8c44adab8ae937e8e0d1ca2f147e9fe56cc43a015dcff7fd3e5bdd3a46b6db8  crates/ocean-drift/src/transport.rs
+      6dfe00216372f61451b3546ac7320390c476654046060edc3ce5f41b79509f5e  crates/ocean-drift/examples/validate_current_trajectories.rs
+      6993c7e749542efd1060e18affe62b617596180d3796398dfa515ae461b874b4  crates/ocean-drift/Cargo.toml
+      64495d4f0c7778760260e37e99629fbf520f05d7d70cff366589d842d58be567  Cargo.lock
+    ── Ran source_binary=/tmp/mh370-ocean-drift-file-backed-target/release/mh370 pinned_binary=/jackbox/home/.cache/mh370-ocean-drift-executables/mh370-cff9acf0ff84f943956512eba0f48529dfb904250839a28033c07e1f2423b213 if [ ! -e "$pinned_binary" ]; then cp --reflink=auto "$source_binary" "$pinned_binary"; fi chmod 0555 "$pinned_binary" sha256sum "$source_binary" "$pinned_binary" CARGO_TARGET_DIR=/tmp/mh370-ocean-drift-file-backed-target cargo build --release -p mh370-ocean-drift --example validate_current_trajectories (8s)
+      $ source_binary=/tmp/mh370-ocean-drift-file-backed-target/release/mh370
+    pinned_binary=/jackbox/home/.cache/mh370-ocean-drift-executables/mh370-cff9acf0ff84f943956512eba0f48529dfb904250839a28033c07e1f2423b213
+    if [ ! -e "$pinned_binary" ]; then cp --reflink=auto "$source_binary" "$pinned_binary"; fi
+    chmod 0555 "$pinned_binary"
+    sha256sum "$source_binary" "$pinned_binary"
+    CARGO_TARGET_DIR=/tmp/mh370-ocean-drift-file-backed-target cargo build --release -p mh370-ocean-drift --example validate_current_trajectories
+      Compiling serde_derive v1.0.229
+         Compiling serde v1.0.229
+         Compiling mh370-domain v0.1.0 (/jackbox/home/MH370/crates/domain)
+         Compiling mh370-ocean-drift v0.1.0 (/jackbox/home/MH370/crates/ocean-drift)
+          Finished `release` profile [optimized] target(s) in 8.39s
+    ── Ran sha256sum /tmp/mh370-ocean-drift-file-backed-target/release/examples/validate_current_trajectories stat -c '%s %y %n' /tmp/mh370-ocean-drift-file-backed-target/release/examples/validate_current_trajectories
+      $ sha256sum /tmp/mh370-ocean-drift-file-backed-target/release/examples/validate_current_trajectories
+    stat -c '%s %y %n' /tmp/mh370-ocean-drift-file-backed-target/release/examples/validate_current_trajectories
+      4c932534558d9e378566663d307b7d43a8cf7ab6ec89c477458ce177d4698553  /tmp/mh370-ocean-drift-file-backed-target/release/examples/validate_current_trajectories
+      589304 2026-08-28 00:55:27.064166982 +0000 /tmp/mh370-ocean-drift-file-backed-target/release/examples/validate_current_trajectories
+    ── Ran source_binary=/tmp/mh370-ocean-drift-file-backed-target/release/examples/validate_current_trajectories pinned_binary=/jackbox/home/.cache/mh370-ocean-drift-executables/validate_current_trajectories-4c932534558d9e378566663d307b7d43a8cf7ab6ec89c477458ce177d4698553 if [ ! -e "$pinned_binary" ]; then cp --reflink=auto "$source_binary" "$pinned_binary"; fi chmod 0555 "$pinned_binary" sha256sum "$source_binary" "$pinned_binary"
+      $ source_binary=/tmp/mh370-ocean-drift-file-backed-target/release/examples/validate_current_trajectories
+    pinned_binary=/jackbox/home/.cache/mh370-ocean-drift-executables/validate_current_trajectories-4c932534558d9e378566663d307b7d43a8cf7ab6ec89c477458ce177d4698553
+    if [ ! -e "$pinned_binary" ]; then cp --reflink=auto "$source_binary" "$pinned_binary"; fi
+    chmod 0555 "$pinned_binary"
+    sha256sum "$source_binary" "$pinned_binary"
+      4c932534558d9e378566663d307b7d43a8cf7ab6ec89c477458ce177d4698553  /tmp/mh370-ocean-drift-file-backed-target/release/examples/validate_current_trajectories
+      4c932534558d9e378566663d307b7d43a8cf7ab6ec89c477458ce177d4698553  /jackbox/home/.cache/mh370-ocean-drift-executables/validate_current_trajectories-4c932534558d9e378566663d307b7d43a8cf7ab6ec89c477458ce177d4698553
+
+  ── Assistant
+  The isolated binaries are now pinned:
+
+  - source runner SHA-256 `cff9acf0…3b213`
+  - trajectory validator SHA-256 `4c932534…98553`
+
+  Before committing another long replica, I’m doing a one-path full-field smoke run. It exercises both 7.7 GB GLORYS12 and 10.7 GB WAVERYS maps and will verify that resident/swap memory stays bounded while producing the same typed samples.
+
+  ── Ran 1 command, explored 1 search
+    ── Ran smoke_output=/tmp/mh370-full-domain-file-backed-smoke.json smoke_log=/tmp/mh370-full-domain-file-backed-smoke.log if [ -e "$smoke_output" ] || [ -e "$smoke_log" ]; then   echo "smoke target already exists; refusing to overwrite"   exit 2 fi setsid -f /jackbox/home/.cache/mh370-ocean-drift-executables/validate_current_trajectories-4c932534558d9e378566663d307b7d43a8cf7ab6ec89c477458ce177d4698553 '"\\   cmems_glorys12_full_domain_file_backed_smoke \\   /jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-glorys12.mhgrid \\   /tmp/gdp_6hour_2014.csv \\   5 1 \""'$smoke_output" '"\\   /jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-waverys-stokes.mhgrid \\   36 1 true true \\   </dev/null >\""'$smoke_log" 2>&1 sleep 1 ps -eo pid,ppid,sid,stat,lstart,etime,%cpu,%mem,rss,vsz,cmd | rg '"'cmems_glorys12_full_domain_file_backed_smoke' | rg -v 'rg cmems' ls -l \""'$smoke_log" (1s)
+      $ smoke_output=/tmp/mh370-full-domain-file-backed-smoke.json
+    smoke_log=/tmp/mh370-full-domain-file-backed-smoke.log
+    if [ -e "$smoke_output" ] || [ -e "$smoke_log" ]; then
+      echo "smoke target already exists; refusing to overwrite"
+      exit 2
+    fi
+    setsid -f /jackbox/home/.cache/mh370-ocean-drift-executables/validate_current_trajectories-4c932534558d9e378566663d307b7d43a8cf7ab6ec89c477458ce177d4698553 '"\\
+      cmems_glorys12_full_domain_file_backed_smoke \\
+      /jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-glorys12.mhgrid \\
+      /tmp/gdp_6hour_2014.csv \\
+      5 1 \""'$smoke_output" '"\\
+      /jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-waverys-stokes.mhgrid \\
+      36 1 true true \\
+      </dev/null >\""'$smoke_log" 2>&1
+    sleep 1
+    ps -eo pid,ppid,sid,stat,lstart,etime,%cpu,%mem,rss,vsz,cmd | rg '"'cmems_glorys12_full_domain_file_backed_smoke' | rg -v 'rg cmems'
+    ls -l \""'$smoke_log"
+      442405       1  442405 DNs  Fri Aug 28 00:56:04 2026       00:01  8.8  0.0  8976  10988 /jackbox/home/.cache/mh370-ocean-drift-executables/validate_current_trajectories-4c932534558d9e378566663d307b7d43a8cf7ab6ec89c477458ce177d4698553 cmems_glorys12_full_domain_file_backed_smoke /jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-glorys12.mhgrid /tmp/gdp_6hour_2014.csv 5 1 /tmp/mh370-full-domain-file-backed-smoke.json /jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-waverys-stokes.mhgrid 36 1 true true
+      -rw-r--r-- 1 root root 0 Aug 28 00:56 /tmp/mh370-full-domain-file-backed-smoke.log
+    ── Searched for "^VmHWM:
+
+  ── Assistant
+  The full-field smoke test is behaving as intended: after mapping the first multi-gigabyte component, the validator itself is using only ~9 MB RSS and 0 swap. Disk-backed page cache is being throttled safely instead of anonymous memory growing toward the 12 GB kill limit. I’m waiting for both components/fields and the one-path result before launching the replicas.
+
+  ── Explored 1 search, 1 list
+    ── Searched for "^VmHWM:
+    ── Listed files in /tmp/mh370-full-domain-file-backed-smoke.json
+
+  ── Assistant
+  The full-field smoke run completed successfully in 46 seconds: both native fields loaded, one trajectory completed, RSS peaked around 25 MB during loading, swap stayed at zero for the process, and no new OOM event occurred. I’m now restarting the exact alternate-seed and doubled-particle stability cases with this pinned loader; evidence, seeds, proposals, currents, Stokes, windage, and isotope settings are unchanged.
+
+  ── Explored 1 list, 1 search, ran 1 command
+    ── Listed files in $stability_root/runs/alternate
+    ── Ran iso thread tell thr_94ecfzphq2 --mode queue "Ocean-drift recovery: full-field anonymous loader OOM was reproduced/confirmed. Ocean-only file-backed packed storage now passes all 34 focused tests; no runner source edit. Full GLORYS+WAVERYS one-path smoke completed in 46 s with ~25 MiB process HWM during load and zero process swap. Private runner SHA cff9acf0ff84f943956512eba0f48529dfb904250839a28033c07e1f2423b213. Exact alternate/doubled stability command relaunched detached (parent PID 442972, current child 442974). Please avoid broad cleanup; admitted remains false pending diagnostics."
+      $ iso thread tell thr_94ecfzphq2 --mode queue "Ocean-drift recovery: full-field anonymous loader OOM was reproduced/confirmed. Ocean-only file-backed packed storage now passes all 34 focused tests; no runner source edit. Full GLORYS+WAVERYS one-path smoke completed in 46 s with ~25 MiB process HWM during load and zero process swap. Private runner SHA cff9acf0ff84f943956512eba0f48529dfb904250839a28033c07e1f2423b213. Exact alternate/doubled stability command relaunched detached (parent PID 442972, current child 442974). Please avoid broad cleanup; admitted remains false pending diagnostics."
+      Thread thr_94ecfzphq2 updated
+    ── Searched for "^VmHWM:
+
+  ── Assistant
+  The real alternate-seed run has now mapped both GLORYS components and begun WAVERYS. Process RSS is ~48 MB with zero swap, versus ~11 GB RSS plus >11 GB swap before the fix; the kernel OOM count has not increased. This is the same science with a safer storage representation.
+
+  ── Explored 2 searches
+    ── Searched for "^VmHWM:
+    ── Searched for "^(Rss
+
+  ── Assistant
+  The simulation phase is active. Although RSS now includes mapped pages, `/proc` shows only ~355 MB anonymous memory; ~8.8 GB is clean file-backed data that the kernel can reclaim, with ~38 MB swap. That is the key distinction the old loader lacked, and the OOM counter remains unchanged.
+
+  ── Explored 3 searches, 2 files
+    ── Searched for "^VmHWM:
+    ── Searched for ArgumentParser|cmems-glorys12-manifest|cmems-waverys-manifest|combine-cmems-coast-support|args\. in .sources/ocean-drift-input-preparation/code/prepare_inputs.py
+    ── Read .sources/ocean-drift-input-preparation/code/prepare_inputs.py
+    ── Searched for "^VmHWM:
+    ── Read crates/ocean-drift/tests/raw_field_spot.rs
+
+  ── Assistant
+  The full-field raw spot tests still used `fs::read`, which would reintroduce the same double-buffering only in ignored validation commands. I’m routing those tests through the canonical streaming decoder as well; this is a focused test-harness correction, not a scientific change.
+
+  ── Edited crates/ocean-drift/tests/raw_field_spot.rs +14 -36
+    @@ -1,2 +1,2 @@
+    -use std::{env, fs};
+    +use std::{env, fs::File, io::BufReader};
+     
+    @@ -5,2 +5,8 @@
+     
+    +fn load_field(name: &str, environment_variable: &str) -> GriddedField {
+    +    let path = env::var(environment_variable).unwrap();
+    +    let file = File::open(path).unwrap();
+    +    GriddedField::from_reader(name, BufReader::with_capacity(1024 * 1024, file)).unwrap()
+    +}
+    +
+     #[test]
+    @@ -8,7 +14,3 @@
+     fn converted_fields_match_independently_read_raw_netcdf_points() {
+    -    let hycom = GriddedField::from_bytes(
+    -        "HYCOM",
+    -        &fs::read(env::var("MH370_HYCOM_FIELD").unwrap()).unwrap(),
+    -    )
+    -    .unwrap();
+    +    let hycom = load_field("HYCOM", "MH370_HYCOM_FIELD");
+         let hycom_sample = hycom
+    @@ -22,7 +24,3 @@
+     
+    -    let gdp = GriddedField::from_bytes(
+    -        "GDP",
+    -        &fs::read(env::var("MH370_GDP_FIELD").unwrap()).unwrap(),
+    -    )
+    -    .unwrap();
+    +    let gdp = load_field("GDP", "MH370_GDP_FIELD");
+         let gdp_sample = gdp
+    @@ -35,7 +33,3 @@
+     
+    -    let stokes = GriddedField::from_bytes(
+    -        "ERA5 Stokes",
+    -        &fs::read(env::var("MH370_STOKES_FIELD").unwrap()).unwrap(),
+    -    )
+    -    .unwrap();
+    +    let stokes = load_field("ERA5 Stokes", "MH370_STOKES_FIELD");
+         let stokes_sample = stokes
+    @@ -46,7 +40,3 @@
+     
+    -    let wind = GriddedField::from_bytes(
+    -        "NCEP R2 wind",
+    -        &fs::read(env::var("MH370_WIND_FIELD").unwrap()).unwrap(),
+    -    )
+    -    .unwrap();
+    +    let wind = load_field("NCEP R2 wind", "MH370_WIND_FIELD");
+         let wind_sample = wind
+    @@ -66,7 +56,3 @@
+     fn regridded_wind_matches_independent_gaussian_row_interpolation() {
+    -    let wind = GriddedField::from_bytes(
+    -        "NCEP R2 wind",
+    -        &fs::read(env::var("MH370_WIND_FIELD").unwrap()).unwrap(),
+    -    )
+    -    .unwrap();
+    +    let wind = load_field("NCEP R2 wind", "MH370_WIND_FIELD");
+         let sample = wind
+    @@ -84,7 +70,3 @@
+     fn extended_glorys12_matches_raw_netcdf_node_with_packing_tolerance() {
+    -    let currents = GriddedField::from_bytes(
+    -        "CMEMS GLORYS12",
+    -        &fs::read(env::var("MH370_GLORYS12_FIELD").unwrap()).unwrap(),
+    -    )
+    -    .unwrap();
+    +    let currents = load_field("CMEMS GLORYS12", "MH370_GLORYS12_FIELD");
+         let sample = currents
+    @@ -104,7 +86,3 @@
+     fn extended_waverys_matches_raw_netcdf_node_with_packing_tolerance() {
+    -    let stokes = GriddedField::from_bytes(
+    -        "CMEMS WAVERYS",
+    -        &fs::read(env::var("MH370_WAVERYS_FIELD").unwrap()).unwrap(),
+    -    )
+    -    .unwrap();
+    +    let stokes = load_field("CMEMS WAVERYS", "MH370_WAVERYS_FIELD");
+         let sample = stokes
+
+  ── Ran cargo fmt -p mh370-ocean-drift -- --emit files cargo fmt -p mh370-ocean-drift -- --check
+    $ cargo fmt -p mh370-ocean-drift -- --emit files
+  cargo fmt -p mh370-ocean-drift -- --check
+    exit code 0
+
+  ── Searched for "^VmHWM:
+    $ date -u +'%H:%M:%SZ'
+  ps -p 442972,442974 -o pid,ppid,sid,stat,etime,%cpu,%mem,rss,vsz
+  rg '"'^VmHWM:|''^VmRSS:|''^VmSwap:'"' /proc/442974/status 2>/dev/null || true
+  rg '"'^(Pss_Anon|Pss_File|Private_Clean|Private_Dirty|Swap):'"' /proc/442974/smaps_rollup 2>/dev/null || true
+  cat /sys/fs/cgroup/memory.events
+  wc -c /tmp/mh370-cmems-full-domain-stringent-stability.log
+
+  ── Context compacted
+
+  ── Assistant
+  I’m still working. I’m checking the pinned CMEMS stability run now to distinguish a harmless detached-process message from an actual failure; I’ll report the exact process and output state in a moment.
+
+  ── Searched for "^(oom
+    $ ps -o pid,ppid,stat,etime,%cpu,%mem,rss,vsz,cmd -p 442972,442974
+  if [ -r /proc/442974/status ]; then rg '"'^(Name|State|VmPeak|VmSize|VmHWM|VmRSS|VmSwap|Threads):'"' /proc/442974/status; fi
+  if [ -r /proc/442974/smaps_rollup ]; then rg '"'^(Rss|Pss|Pss_Anon|Pss_File|Anonymous|Swap):'"' /proc/442974/smaps_rollup; fi
+  rg '"'^(oom|oom_kill|max) '"' /sys/fs/cgroup/memory.events
+  wc -c /tmp/mh370-cmems-full-domain-stringent-stability.log
+  find .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability -maxdepth 2 -type f -printf '%P %s\n' 2>/dev/null | sort | tail -40
+
+  ── Assistant
+  The current run is healthy: the alternate-seed CMEMS replica is active (7 threads, ~154% CPU, 6½ minutes elapsed). The error you saw likely reflects the earlier attempt, which genuinely hit the 12 GB memory limit; I fixed that by file-backing the 18 GB of current/wave fields and restarted with a hash-pinned executable.
+
+  It now has only ~117 MB of anonymous memory; the large ~10.9 GB figure is clean, reclaimable mapped field data. There has been no new OOM and no partial scientific output. The primary CMEMS run is already preserved; this is the replication/stability check, followed by the doubled-particle check.
+
+  ── Assistant
+  While that replica runs, I’m keeping load low and preparing the reproducibility record: exact retrieval/conversion commands, field hashes, masking semantics, and the CMEMS-only handoff. I won’t touch the runner or integrated estimator.
+
+  ── Explored 1 search, 2 files, 1 list
+    ── Searched for conversion|receipt|GLORYS|WAVERYS|full-domain|family-likelihood-handoff in .sources/ocean-drift-input-preparation/outputs
+    ── Read .sources/ocean-drift-input-preparation/README.md
+    ── Read /jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-glorys12.mhgrid.json
+    ── Listed files in /tmp
+
+── Error ───────────────────────────────────────────────────
+  Thread interrupted because the host daemon disconnected
+  Please retry the thread to continue.
+
+── User ────────────────────────────────────────────────────
+I see an error, 20 mins after I last checked in, did you stop working at that point? Where are we at?
+
+── Worked for (7m 26s) ─────────────────────────────────────
+  ── Assistant
+  I did not intentionally stop. The visible error was the workspace/command turn being interrupted while I was hashing the large field files; the detached scientific run should have continued independently. I’m checking its process, output, and OOM counters now and will give you exact progress—not an assumption.
+
+  ── Searched for run_source_stability|mh370-cff9acf0
+    $ date -u '+%Y-%m-%dT%H:%M:%SZ'
+  ps -eo pid,ppid,stat,etime,%cpu,rss,cmd | rg 'run_source_stability|mh370-cff9acf0' | rg -v 'rg '
+  rg '"'^(oom|oom_kill|max) '"' /sys/fs/cgroup/memory.events
+  wc -c /tmp/mh370-cmems-full-domain-stringent-stability.log 2>/dev/null || true
+  find .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability -maxdepth 3 -type f -printf '%P %s\n' 2>/dev/null | sort
+  if [ -r /proc/442974/status ]; then rg '"'^(State|VmHWM|VmRSS|VmSwap|Threads):'"' /proc/442974/status; fi
+  if [ -r /proc/442974/smaps_rollup ]; then rg '"'^(Rss|Pss_Anon|Pss_File|Anonymous|Swap):'"' /proc/442974/smaps_rollup; fi
+
+  ── Assistant
+  Good news: both pending replications completed while the UI turn was interrupted. The alternate-seed and doubled-particle CMEMS runs both produced full JSON/CSV/PNG/SVG/PDF artifacts and a stability summary; there was no second OOM (`oom_kill` remains at the single earlier event). I’m extracting the actual stability numbers now.
+
+  ── Read /tmp/mh370-cmems-full-domain-stringent-stability.log
+    $ sed -n '1,220p' /tmp/mh370-cmems-full-domain-stringent-stability.log
+  sed -n '1,120p' .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/stability-runs.csv
+  rg -n '"(comparison|case|seed|particles_per_cell|peak|total_variation|jaccard|endpoint|credible|runtime|maximum_rss|termination|effective|stable|pass|interval)' .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/stability-summary.json | head -240
+  sha256sum .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/stability-summary.json .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/stability-runs.csv .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/runs/alternate/source-area.json .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/runs/doubled/source-area.json
+
+  ── Assistant
+  Replication is scientifically useful but not yet sufficient for admission: peaks move from arc‑152 (reference) to 156 (new seed) and 154 (double particles), while every-recovery ESS ≥200 remains zero source mass. Runtime was 49.4 minutes for the alternate seed and 112.1 minutes for doubled particles. This confirms the run did not stall; it completed a substantial calculation.
+
+  I’m moving to the matched multi-year drifter replay now. The family remains “diagnostic only” unless support, stability, and every-event ESS all clear the documented criteria.
+
+  ── Explored 2 files, ran 1 command
+    ── Read /sys/fs/cgroup/memory.current
+    ── Read .sources/ocean-drift-input-preparation/code/run_trajectory_validation.py
+    ── Ran mkdir -p .sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain : > /tmp/mh370-cmems-full-domain-trajectory-validation.log nohup nice -n 10 .venv/bin/python .sources/ocean-drift-input-preparation/code/run_trajectory_validation.py --runner /jackbox/home/.cache/mh370-ocean-drift-executables/validate_current_trajectories-4c932534558d9e378566663d307b7d43a8cf7ab6ec89c477458ce177d4698553 --family cmems_glorys12_full_domain --field /jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-glorys12.mhgrid --trajectory 2014:/tmp/gdp_6hour_2014.csv --trajectory 2015:/tmp/mh370-gdp-validation/gdp_6hour_2015.csv --trajectory 2016:/tmp/mh370-gdp-validation/gdp_6hour_2016.csv --horizon 5 --horizon 15 --horizon 30 --attempts 600 --stokes /jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-waverys-stokes.mhgrid --stokes-scale 1 --renormalize-finite-stokes-corners --renormalize-finite-current-corners --maximum-interpolation-gap-hours 36 --output .sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain > /tmp/mh370-cmems-full-domain-trajectory-validation.log 2>&1 < /dev/null & validation_job_pid=$! disown "$validation_job_pid" 2>/dev/null || true printf '"'%s\\n' \""'$validation_job_pid" sleep 2 ps -o pid,ppid,stat,etime,%cpu,rss,cmd --forest -p "$validation_job_pid" --ppid "$validation_job_pid" (2s)
+      $ mkdir -p .sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain
+    : > /tmp/mh370-cmems-full-domain-trajectory-validation.log
+    nohup nice -n 10 .venv/bin/python .sources/ocean-drift-input-preparation/code/run_trajectory_validation.py --runner /jackbox/home/.cache/mh370-ocean-drift-executables/validate_current_trajectories-4c932534558d9e378566663d307b7d43a8cf7ab6ec89c477458ce177d4698553 --family cmems_glorys12_full_domain --field /jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-glorys12.mhgrid --trajectory 2014:/tmp/gdp_6hour_2014.csv --trajectory 2015:/tmp/mh370-gdp-validation/gdp_6hour_2015.csv --trajectory 2016:/tmp/mh370-gdp-validation/gdp_6hour_2016.csv --horizon 5 --horizon 15 --horizon 30 --attempts 600 --stokes /jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-waverys-stokes.mhgrid --stokes-scale 1 --renormalize-finite-stokes-corners --renormalize-finite-current-corners --maximum-interpolation-gap-hours 36 --output .sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain > /tmp/mh370-cmems-full-domain-trajectory-validation.log 2>&1 < /dev/null &
+    validation_job_pid=$!
+    disown "$validation_job_pid" 2>/dev/null || true
+    printf '"'%s\\n' \""'$validation_job_pid"
+    sleep 2
+    ps -o pid,ppid,stat,etime,%cpu,rss,cmd --forest -p "$validation_job_pid" --ppid "$validation_job_pid"
+      PID    PPID STAT     ELAPSED %CPU   RSS CMD
+       471300  471298 SN         00:02  1.4 20228 .venv/bin/python .sources/ocean-drift-input-preparation/code/run_trajectory_validation.py --runner /jackbox/home/.cache/mh370-ocean-drift-executables/validate_current_trajectories-4c932534558d9e378566663d307b7d43a8cf7ab6ec89c477458ce177d4698553 --family cmems_glorys12_full_domain --field /jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-glorys12.mhgrid --trajectory 2014:/tmp/gdp_6hour_2014.csv --trajectory 2015:/tmp/mh370-gdp-validation/gdp_6hour_2015.csv --trajectory 2016:/tmp/mh370-gdp-validation/gdp_6hour_2016.csv --horizon 5 --horizon 15 --horizon 30 --attempts 600 --stokes /jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-waverys-stokes.mhgrid --stokes-scale 1 --renormalize-finite-stokes-corners --renormalize-finite-current-corners --maximum-interpolation-gap-hours 36 --output .sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain
+       471302  471300 DN         00:01  9.1  8920  \_ /jackbox/home/.cache/mh370-ocean-drift-executables/validate_current_trajectories-4c932534558d9e378566663d307b7d43a8cf7ab6ec89c477458ce177d4698553 cmems_glorys12_full_domain /jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-glorys12.mhgrid /tmp/gdp_6hour_2014.csv 5 600 /jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain/cmems-glorys12-full-domain-currents-2014-5d.json none 36 1 false true
+
+  ── Assistant
+  The next validation job is now detached and active, beginning with the 2014 five-day currents-only replay. It will run the exact same 600 attempted drifter paths for 2014–2016 at 5/15/30 days, then repeat them with WAVERYS Stokes kept as a distinct term. Every terminated path is scored via terminal hold rather than discarded.
+
+  ── Explored 1 file, ran 1 command
+    ── Read .sources/ocean-drift-input-preparation/outputs/cmems-glorys12-full-domain-retrieval-manifest.json
+    ── Ran ".venv/bin/python --version .venv/bin/python -c 'import numpy,xarray,h5netcdf; print(\"numpy=\"+numpy.__version__); print(\"xarray=\"+xarray.__version__); print(\"h5netcdf=\"+h5netcdf.__version__)' ps -o pid,ppid,stat,etime,%cpu,rss,cmd --forest -p 471300 --ppid 471300 if child_pid="'$(pgrep -P 471300 | head -1); then rg '"'"'^(State|VmHWM|VmRSS|VmSwap|Threads):'"' /proc/"'$child_pid/status; fi df -h /tmp'
+      $ ".venv/bin/python --version
+    .venv/bin/python -c 'import numpy,xarray,h5netcdf; print(\"numpy=\"+numpy.__version__); print(\"xarray=\"+xarray.__version__); print(\"h5netcdf=\"+h5netcdf.__version__)'
+    ps -o pid,ppid,stat,etime,%cpu,rss,cmd --forest -p 471300 --ppid 471300
+    if child_pid="'$(pgrep -P 471300 | head -1); then rg '"'"'^(State|VmHWM|VmRSS|VmSwap|Threads):'"' /proc/"'$child_pid/status; fi
+    df -h /tmp'
+      numpy=2.5.2
+      xarray=2026.7.0
+      h5netcdf=1.8.1
+          PID    PPID STAT     ELAPSED %CPU   RSS CMD
+      rg: /proc//status: IO error for operation on /proc//status: No such file or directory (os error 2)
+      Filesystem      Size  Used Avail Use% Mounted on
+      overlay         462G  436G   23G  95% /
+
+  ── Assistant
+  The replay launcher exited sooner than expected, so I’m checking its log before claiming progress. This may be a validation-case error rather than the source simulation; the completed source artifacts remain unaffected.
+
+  ── Read /tmp/mh370-cmems-full-domain-trajectory-validation.log
+    $ sed -n '1,240p' /tmp/mh370-cmems-full-domain-trajectory-validation.log
+  find .sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain -maxdepth 1 -type f -printf '%f %s\n' | sort
+  rg '"'^(oom|oom_kill|max) '"' /sys/fs/cgroup/memory.events
+  ps -eo pid,ppid,stat,etime,%cpu,rss,cmd | rg 'validate_current_trajectories|run_trajectory_validation' | rg -v 'rg ' || true
+
+  ── Assistant
+  The first replay launcher was cleaned up with its shell before it entered the calculation—no OOM, no output, and no scientific failure. I’m relaunching it in a true independent session, the same mechanism that allowed both stability replicas to finish through the earlier UI interruption.
+
+  ── Ran 2 commands
+    ── Ran : > /tmp/mh370-cmems-full-domain-trajectory-validation.log setsid nohup nice -n 10 .venv/bin/python .sources/ocean-drift-input-preparation/code/run_trajectory_validation.py --runner /jackbox/home/.cache/mh370-ocean-drift-executables/validate_current_trajectories-4c932534558d9e378566663d307b7d43a8cf7ab6ec89c477458ce177d4698553 --family cmems_glorys12_full_domain --field /jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-glorys12.mhgrid --trajectory 2014:/tmp/gdp_6hour_2014.csv --trajectory 2015:/tmp/mh370-gdp-validation/gdp_6hour_2015.csv --trajectory 2016:/tmp/mh370-gdp-validation/gdp_6hour_2016.csv --horizon 5 --horizon 15 --horizon 30 --attempts 600 --stokes /jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-waverys-stokes.mhgrid --stokes-scale 1 --renormalize-finite-stokes-corners --renormalize-finite-current-corners --maximum-interpolation-gap-hours 36 --output .sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain > /tmp/mh370-cmems-full-domain-trajectory-validation.log 2>&1 < /dev/null & validation_session_pid=$! printf '"'%s\\n' \""'$validation_session_pid" sleep 3 ps -o pid,ppid,sid,stat,etime,%cpu,rss,cmd --forest -p "$validation_session_pid" --ppid "$validation_session_pid" (3s)
+      $ : > /tmp/mh370-cmems-full-domain-trajectory-validation.log
+    setsid nohup nice -n 10 .venv/bin/python .sources/ocean-drift-input-preparation/code/run_trajectory_validation.py --runner /jackbox/home/.cache/mh370-ocean-drift-executables/validate_current_trajectories-4c932534558d9e378566663d307b7d43a8cf7ab6ec89c477458ce177d4698553 --family cmems_glorys12_full_domain --field /jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-glorys12.mhgrid --trajectory 2014:/tmp/gdp_6hour_2014.csv --trajectory 2015:/tmp/mh370-gdp-validation/gdp_6hour_2015.csv --trajectory 2016:/tmp/mh370-gdp-validation/gdp_6hour_2016.csv --horizon 5 --horizon 15 --horizon 30 --attempts 600 --stokes /jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-waverys-stokes.mhgrid --stokes-scale 1 --renormalize-finite-stokes-corners --renormalize-finite-current-corners --maximum-interpolation-gap-hours 36 --output .sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain > /tmp/mh370-cmems-full-domain-trajectory-validation.log 2>&1 < /dev/null &
+    validation_session_pid=$!
+    printf '"'%s\\n' \""'$validation_session_pid"
+    sleep 3
+    ps -o pid,ppid,sid,stat,etime,%cpu,rss,cmd --forest -p "$validation_session_pid" --ppid "$validation_session_pid"
+      PID    PPID     SID STAT     ELAPSED %CPU   RSS CMD
+       471534  471533  471534 SNs        00:03  1.0 20256 .venv/bin/python .sources/ocean-drift-input-preparation/code/run_trajectory_validation.py --runner /jackbox/home/.cache/mh370-ocean-drift-executables/validate_current_trajectories-4c932534558d9e378566663d307b7d43a8cf7ab6ec89c477458ce177d4698553 --family cmems_glorys12_full_domain --field /jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-glorys12.mhgrid --trajectory 2014:/tmp/gdp_6hour_2014.csv --trajectory 2015:/tmp/mh370-gdp-validation/gdp_6hour_2015.csv --trajectory 2016:/tmp/mh370-gdp-validation/gdp_6hour_2016.csv --horizon 5 --horizon 15 --horizon 30 --attempts 600 --stokes /jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-waverys-stokes.mhgrid --stokes-scale 1 --renormalize-finite-stokes-corners --renormalize-finite-current-corners --maximum-interpolation-gap-hours 36 --output .sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain
+       471536  471534  471534 DN         00:02 35.1  8924  \_ /jackbox/home/.cache/mh370-ocean-drift-executables/validate_current_trajectories-4c932534558d9e378566663d307b7d43a8cf7ab6ec89c477458ce177d4698553 cmems_glorys12_full_domain /jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-glorys12.mhgrid /tmp/gdp_6hour_2014.csv 5 600 /jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain/cmems-glorys12-full-domain-currents-2014-5d.json none 36 1 false true
+    ── Ran sleep 3 ps -o pid,ppid,sid,stat,etime,%cpu,rss,cmd --forest -p 471534 --ppid 471534 wc -c /tmp/mh370-cmems-full-domain-trajectory-validation.log (3s)
+      $ sleep 3
+    ps -o pid,ppid,sid,stat,etime,%cpu,rss,cmd --forest -p 471534 --ppid 471534
+    wc -c /tmp/mh370-cmems-full-domain-trajectory-validation.log
+      PID    PPID     SID STAT     ELAPSED %CPU   RSS CMD
+       471534       1  471534 SNs        00:10  0.2 20256 .venv/bin/python .sources/ocean-drift-input-preparation/code/run_trajectory_validation.py --runner /jackbox/home/.cache/mh370-ocean-drift-executables/validate_current_trajectories-4c932534558d9e378566663d307b7d43a8cf7ab6ec89c477458ce177d4698553 --family cmems_glorys12_full_domain --field /jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-glorys12.mhgrid --trajectory 2014:/tmp/gdp_6hour_2014.csv --trajectory 2015:/tmp/mh370-gdp-validation/gdp_6hour_2015.csv --trajectory 2016:/tmp/mh370-gdp-validation/gdp_6hour_2016.csv --horizon 5 --horizon 15 --horizon 30 --attempts 600 --stokes /jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-waverys-stokes.mhgrid --stokes-scale 1 --renormalize-finite-stokes-corners --renormalize-finite-current-corners --maximum-interpolation-gap-hours 36 --output .sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain
+       471536  471534  471534 DN         00:10 22.0  8920  \_ /jackbox/home/.cache/mh370-ocean-drift-executables/validate_current_trajectories-4c932534558d9e378566663d307b7d43a8cf7ab6ec89c477458ce177d4698553 cmems_glorys12_full_domain /jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-glorys12.mhgrid /tmp/gdp_6hour_2014.csv 5 600 /jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain/cmems-glorys12-full-domain-currents-2014-5d.json none 36 1 false true
+      0 /tmp/mh370-cmems-full-domain-trajectory-validation.log
+
+  ── Assistant
+  The replay is now correctly detached (`PPID 1`, its own session) and actively loading the first field. So the answer is: I did not stop at your check-in; one UI-bound hash command was interrupted, the long scientific replicas completed, and the only brief loss was a replay launcher that had not yet produced data. That launcher is now fixed and persistent.
+
+  ── Created 1 file, explored 1 list
+    ── Created .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-conversion-receipt.json +143
+      {
+        "schema": "mh370-cmems-full-domain-conversion-receipt-v1",
+        "converter": {
+          "path": ".sources/ocean-drift-input-preparation/code/prepare_inputs.py",
+          "sha256": "976e36b6e6dd1eda4bb7d11e2f29e7c3cf9441b1983a802e27ca81dc7f859a5a",
+          "version": "ocean-input-preparation-v5"
+        },
+        "environment": {
+          "python": "3.14.7",
+          "numpy": "2.5.2",
+          "xarray": "2026.7.0",
+          "h5netcdf": "1.8.1"
+        },
+        "commands": [
+          [
+            ".venv/bin/python",
+            ".sources/ocean-drift-input-preparation/code/prepare_inputs.py",
+            "--cmems-glorys12-manifest",
+            ".sources/ocean-drift-input-preparation/outputs/cmems-glorys12-full-domain-retrieval-manifest.json",
+            "--output",
+            "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted"
+          ],
+          [
+            ".venv/bin/python",
+            ".sources/ocean-drift-input-preparation/code/prepare_inputs.py",
+            "--cmems-waverys-manifest",
+            ".sources/ocean-drift-input-preparation/outputs/cmems-waverys-full-domain-retrieval-manifest.json",
+            "--output",
+            "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted"
+          ],
+          [
+            ".venv/bin/python",
+            ".sources/ocean-drift-input-preparation/code/prepare_inputs.py",
+            "--combine-cmems-coast-support",
+            "--output",
+            "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted"
+          ]
+        ],
+        "retrievals": {
+          "currents": {
+            "product_id": "GLOBAL_MULTIYEAR_PHY_001_030",
+            "dataset_id": "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+            "manifest_path": ".sources/ocean-drift-input-preparation/outputs/cmems-glorys12-full-domain-retrieval-manifest.json",
+            "manifest_sha256": "7e9261a1017d795e82a36220084496efe9122f973ba1d33e82d0f7dadb11fedb",
+            "aggregate_source_sha256": "9016b8b4bc9f532b37e4919b759017eb1453fcaf9e1db008ed7757647c0b502e",
+            "source_file_count": 35,
+            "source_bytes": 3721251223,
+            "time_count": 1062,
+            "time_basis": "daily fields labelled at 00:00 UTC",
+            "units": {
+              "uo": "m s-1 east",
+              "vo": "m s-1 north"
+            },
+            "spatial_bounds_degrees": {
+              "west": 0.0,
+              "east": 180.0,
+              "south": -55.0,
+              "north": 15.0
+            },
+            "period_utc": {
+              "start": "2014-03-07T00:00:00Z",
+              "end": "2017-01-31T00:00:00Z"
+            }
+          },
+          "stokes": {
+            "product_id": "GLOBAL_MULTIYEAR_WAV_001_032",
+            "dataset_id": "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+            "dataset_version": "202411",
+            "dataset_part": "default",
+            "manifest_path": ".sources/ocean-drift-input-preparation/outputs/cmems-waverys-full-domain-retrieval-manifest.json",
+            "manifest_sha256": "8328b876443ccbea92e77afc0967dba60922db82a189a0b110b69d66da527b43",
+            "aggregate_source_sha256": "6d88e6da3205a22a053f413ec41e81609aac5fe3b98bc129965d794dd6b9c5fb",
+            "source_file_count": 35,
+            "source_bytes": 1036618373,
+            "time_count": 8496,
+            "time_basis": "three-hourly instantaneous analyses on a Gregorian UTC axis",
+            "units": {
+              "VSDX": "m s-1 east surface Stokes",
+              "VSDY": "m s-1 north surface Stokes"
+            },
+            "spatial_bounds_degrees": {
+              "west": 0.0,
+              "east": 180.0,
+              "south": -55.0,
+              "north": 15.0
+            },
+            "period_utc": {
+              "start": "2014-03-07T00:00:00Z",
+              "end": "2017-01-31T21:00:00Z"
+            }
+          }
+        },
+        "outputs": {
+          "currents": {
+            "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-glorys12.mhgrid",
+            "bytes": 7720352072,
+            "sha256": "d532482adda31b357ed4d2e899074255d277f64a99b5c2503be699ad1c5e6d52",
+            "metadata_sha256": "61c6559deb978d5cbf2041e7e43f8e32db3bbacde49376cae6d134308b836ee3",
+            "packing_scale_m_s": 0.001,
+            "ordinary_missing_sentinel": -30000,
+            "persistent_land_sentinel": -29999,
+            "persistent_missing_cells": 365620,
+            "intermittently_missing_cells": 5418
+          },
+          "stokes": {
+            "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-waverys-stokes.mhgrid",
+            "bytes": 10747552080,
+            "sha256": "33b73a88da9d76a8828c274fcd19a9a550326842c6c7ddea241e1bf3f6f92fea",
+            "metadata_sha256": "d6f6e3541dc526a1e91a09e577f3f488dad7c5485eedef61b9a94f18999357b6",
+            "packing_scale_m_s": 0.001,
+            "ordinary_missing_sentinel": -30000,
+            "persistent_land_sentinel": -29999,
+            "persistent_missing_cells": 62542,
+            "intermittently_or_component_missing_cells": 1136
+          },
+          "coastal_support": {
+            "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-glorys12-waverys-coast.mhgrid",
+            "bytes": 14563288,
+            "sha256": "5b08d121da01b271bacd9f87614c0178e9a56de0c7ee59c81010bdbec318f668",
+            "metadata_sha256": "886f151454efe376bdee4b7b6cdb77b6a6b8a986982f29fc9739cf6c0d65497f",
+            "grid_cells": 1817401,
+            "union_land_cells": 368406,
+            "interpretation": "union of persistent model-support masks; not a measured shoreline or calibrated beaching, retention, or refloating model"
+          }
+        },
+        "conversion_resources": {
+          "currents": {
+            "elapsed_wall_seconds": 165.088435,
+            "maximum_resident_set_kib": 151012
+          },
+          "stokes": {
+            "elapsed_wall_seconds": 790.426499,
+            "maximum_resident_set_kib": 87416
+          },
+          "coastal_support_union": {
+            "elapsed_wall_seconds": 0.2,
+            "elapsed_precision": "rounded to 0.1 second",
+            "maximum_resident_set_kib": 87736
+          }
+        },
+        "missing_data_policy": "No missing current or Stokes value is converted to zero. Only a cell missing in both components at every time is persistent coastal support. Intermittent or component-specific gaps remain ordinary missing coverage and terminate with that typed reason when sampled.",
+        "separation": "Currents and surface Stokes velocity are distinct fields. Direct windage and object-response uncertainty are not embedded in either field."
+      }
+    ── Listed files in .sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain
+
+  ── Assistant
+  The replay is progressing quickly: 2014’s 5-day and 15-day currents-only cases are already complete, and the 30-day case is running. The durable conversion receipt is also now written and JSON-validated, including exact Copernicus product/dataset versions, time bases, hashes, units, missing-mask rules, conversion runtime, and memory.
+
+  ── Explored 4 files, 1 search
+    ── Read .sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain/cmems-glorys12-full-domain-currents-2014-5d.json
+    ── Read .sources/ocean-drift-input-preparation/inputs/family-likelihood-handoff.json
+    ── Read .sources/ocean-drift-input-preparation/code/build_family_likelihood_handoff.py
+    ── Read .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/stability-summary.json
+    ── Searched for query.*family|require-admissible|out_of_support in .sources/ocean-drift-input-preparation/README.md
+
+  ── Assistant
+  I’m using the iso CLI coordination skill now solely to send Core a precise checkpoint: completed CMEMS replications, their failed stability/ESS diagnostics, the recovered replay process, and the fact that runner/integrator files remain untouched.
+
+  ── Explored 4 files, 2 lists, ran 1 command
+    ── Read /jackbox/home/.iso/runtime/global-skills/051cefb156e94b93b5e2578a675241b5008ea1dbc7132545e87c8f9b68faaaa9/skills/iso-cli/SKILL.md
+    ── Ran iso status --json iso thread tell thr_94ecfzphq2 "Ocean Drift checkpoint: both hash-pinned full-domain CMEMS replications completed despite the UI interruption. Reference/alternate/doubled peaks are arc-152/156/154; reference-vs-alternate TV=0.354, max 90/95/99 endpoint shift=4 cells, min set Jaccard=0.667; reference-vs-doubled TV=0.394, max shift=6, min Jaccard=0.533. Every-recovery ESS>=200 surface mass remains 0 (doubled only 0.123 at >=100). Therefore the CMEMS surface is unambiguously diagnostic-only regardless of validation. No second OOM; private runner stayed hash-pinned. Full 2014-2016 5/15/30-day currents-only + distinct-WAVERYS replay is now truly detached under PID 471534 and progressing. Exact conversion receipt written; no runner/estimator/reporting/config edits." --mode queue (4s)
+      $ iso status --json
+    iso thread tell thr_94ecfzphq2 "Ocean Drift checkpoint: both hash-pinned full-domain CMEMS replications completed despite the UI interruption. Reference/alternate/doubled peaks are arc-152/156/154; reference-vs-alternate TV=0.354, max 90/95/99 endpoint shift=4 cells, min set Jaccard=0.667; reference-vs-doubled TV=0.394, max shift=6, min Jaccard=0.533. Every-recovery ESS>=200 surface mass remains 0 (doubled only 0.123 at >=100). Therefore the CMEMS surface is unambiguously diagnostic-only regardless of validation. No second OOM; private runner stayed hash-pinned. Full 2014-2016 5/15/30-day currents-only + distinct-WAVERYS replay is now truly detached under PID 471534 and progressing. Exact conversion receipt written; no runner/estimator/reporting/config edits." --mode queue
+      {
+        "dataDir": "/jackbox/home/.iso",
+        "project": {
+          "id": "proj_pm8k5krhiy",
+          "name": "MH370 Main Thread"
+        },
+        "thread": {
+          "id": "thr_pexmvwn97e",
+          "status": "active",
+          "title": "Ocean Drift New",
+          "pinnedAt": null,
+          "parentThreadId": null,
+          "environment": {
+            "display": {
+              "modeLabel": "Working locally",
+              "compactModeLabel": "Local",
+              "id": "env_v88zhv5sgs",
+              "mode": "direct",
+              "workspaceDisplayKind": "other"
+            },
+            "hostId": "host_dccwjaevcd"
+          }
+        },
+        "childThreads": [],
+        "pendingTodos": null
+      }
+      Thread thr_94ecfzphq2 updated
+    ── Read crates/ocean-drift/src/field.rs
+    ── Read .sources/ocean-drift-input-preparation/README.md
+    ── Listed files in .sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain
+    ── Read .sources/ocean-drift-input-preparation/outputs/ARTIFACT-SHA256.txt
+    ── Listed files in .sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain
+
+  ── Assistant
+  At this point, the completed evidence is already enough to answer the admission question: CMEMS cannot yet be used to narrow the flight posterior because its seed/particle surface changes far more than allowed and the nine-event effective sample requirement fails. The remaining replay is still worth completing because it tells us whether the currents and Stokes fields themselves predict drifter motion better than simple baselines—it cannot erase the source-calibration failure.
+
+  ── Listed files in .sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain
+    $ ps -o pid,ppid,sid,stat,etime,%cpu,rss,cmd --forest -p 471534 --ppid 471534
+  find .sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain -maxdepth 1 -name '*.json' -printf '%f %s\n' | sort
+  if child_pid="'$(pgrep -P 471534 | head -1); then rg '"'"'^(State|VmHWM|VmRSS|VmSwap|Threads):'"' /proc/"'$child_pid/status; fi
+  rg '"'"'^(oom|oom_kill|max) '"' /sys/fs/cgroup/memory.events
+  df -h /tmp
+
+── Error ───────────────────────────────────────────────────
+  Thread interrupted because the host daemon disconnected
+  Please retry the thread to continue.
+
+── User ────────────────────────────────────────────────────
+I see a host daemon error?
+
+── Worked for (14m 46s) ────────────────────────────────────
+  ── Assistant
+  Yes—the host daemon interrupted the chat turn again, but it did not stop the detached validation job. I’m checking the live PID and completed-case count now; the source replicas and conversion artifacts were already safely written before this daemon error.
+
+  ── Listed files in .sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain
+    $ date -u '+%Y-%m-%dT%H:%M:%SZ'
+  ps -o pid,ppid,sid,stat,etime,%cpu,rss,cmd --forest -p 471534 --ppid 471534
+  find .sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain -maxdepth 1 -type f -printf '%f %s\n' | sort
+  wc -c /tmp/mh370-cmems-full-domain-trajectory-validation.log 2>/dev/null || true
+  sed -n '1,160p' /tmp/mh370-cmems-full-domain-trajectory-validation.log 2>/dev/null || true
+  rg '"'^(oom|oom_kill|max) '"' /sys/fs/cgroup/memory.events
+
+  ── Assistant
+  Confirmed: the daemon error was only the interactive host connection. The validation process is alive under `PPID 1`, with 16 of 18 replay cases complete; it is running case 17 now (2016, 15-day, currents + distinct Stokes). There is no new OOM and no scientific output loss. I’m still working.
+
+  ── Listed files in .sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain
+    $ sleep 20
+  ps -o pid,ppid,sid,stat,etime,%cpu,rss,cmd --forest -p 471534 --ppid 471534
+  find .sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain -maxdepth 1 -type f -printf '%f %s\n' | sort | tail -12
+  rg '"'^(oom|oom_kill|max) '"' /sys/fs/cgroup/memory.events
+
+  ── Assistant
+  Case 17 has finished; the final 30-day currents-plus-Stokes replay is running now. I’m preparing the CMEMS-only handoff specification in the output directory so it can be built immediately when that last case closes. It will not pool CMEMS with HYCOM or GDP.
+
+  ── Ran 1 command, created 1 file, explored 1 list
+    ── Ran mkdir -p .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff
+      $ mkdir -p .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff
+      exit code 0
+    ── Created .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/specification.json +56
+      {
+        "schema": "mh370-ocean-drift-family-likelihood-specification-v1",
+        "title": "MH370 full-domain CMEMS ocean-drift admission surface",
+        "admission_thresholds": {
+          "maximum_query_distance_nm": 75.0,
+          "maximum_out_of_support_fraction": 0.01,
+          "minimum_event_arrival_ess": 200.0,
+          "minimum_surface_mass_with_event_ess": 0.9,
+          "maximum_replication_total_variation": 0.1,
+          "maximum_contour_endpoint_shift_cells": 2,
+          "minimum_contour_set_jaccard": 0.8,
+          "minimum_validation_complete_fraction": 0.95,
+          "maximum_median_error_ratio_to_persistence": 1.0,
+          "minimum_median_fraction_better_than_persistence": 0.5
+        },
+        "families": [
+          {
+            "id": "cmems-glorys12-waverys-full-domain",
+            "label": "Full-domain GLORYS12 currents + distinct WAVERYS Stokes",
+            "color": "#D97706",
+            "role": "time-varying assimilative-current family with distinct wave Stokes sensitivity",
+            "source_result": ".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris/source-area.json",
+            "stability_summary": ".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/stability-summary.json",
+            "trajectory_validation_csv": ".sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain/cmems-full-domain-current-trajectory-overall.csv",
+            "trajectory_validation_family": "cmems_glorys12_full_domain_plus_distinct_stokes",
+            "expected_recovery_events": [
+              "reunion-flaperon-recovery",
+              "mossel-bay-engine-cowling-recovery",
+              "paindane-flap-fairing-recovery",
+              "vilanculos-stabilizer-recovery",
+              "chidenguele-fan-cowling-recovery",
+              "mauritius-left-flap-recovery",
+              "pemba-right-flap-recovery",
+              "rodrigues-door-panel-recovery",
+              "antsiraka-cabin-panel-recovery"
+            ],
+            "expected_non_recoveries": [
+              "western-australia-no-recovery-low-exposure-population",
+              "western-australia-no-recovery-high-windage-population"
+            ],
+            "conditions": [
+              "GLORYS12V1 daily native 1/12-degree surface currents from 0E-180E and 55S-15N over 2014-03-07 through 2017-01-31",
+              "WAVERYS three-hourly 0.2-degree surface Stokes velocity is a distinct field with an explicit one-times response; direct windage remains separate",
+              "the same nine stringent recovery episodes, two Australian non-recovery populations, object-response laws, seed, proposal accounting, and conservative arrival-conditional isotope screen are used as the matched family comparison",
+              "the source-cell prior is removed before the conditional likelihood is exposed"
+            ],
+            "limitations": [
+              "GLORYS12V1 assimilates ocean observations; the drifter replay is not guaranteed statistically held out",
+              "WAVERYS assimilates significant wave height and uses GLORYS12 currents in its wave calculation",
+              "one-times surface Stokes response, object leeway, diffusivity, recovery kernels, and beaching-to-discovery delays are sensitivities rather than jointly out-of-sample calibrated parameters",
+              "the persistent GLORYS12/WAVERYS support-mask union distinguishes land encounter but is not a measured shoreline or calibrated beaching, retention, or refloating model",
+              "this family remains separate from native HYCOM and GDP; no subjective family weight or pooled surface is reported"
+            ]
+          }
+        ]
+      }
+    ── Listed files in .sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain
+
+  ── Assistant
+  All 18 replay cases are now complete. The parent process is only finishing the resource receipt and re-hashing the two large field inputs; I’m leaving that intact because those hashes are the provenance link. After it exits I’ll summarize the table and build the browser handoff.
+
+  ── Explored 1 list, 2 files
+    ── Listed files in .sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain
+    ── Read .sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain/cmems-full-domain-current-trajectory.md
+    ── Read .sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain/cmems-glorys12-full-domain-validation-resource.json
+
+  ── Assistant
+  The replay result is strong for field mechanics: completion is 98.8–100% across all 18 cases, and both currents-only and currents-plus-Stokes beat persistence in every aggregate year/horizon row. The key caveat is physical targeting: Stokes improves undrogued surface trajectories but often degrades drogued current-followers, so this is not a fitted flaperon-response coefficient. I’m building the admission handoff now.
+
+  ── Explored 1 list, 1 search, 1 file, ran 1 command
+    ── Listed files in .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff
+    ── Searched for "(decision|admitted|failed_checks|surface_summary|peak_cell_id|peak_latitude_s|latitude_s_equal_tail_intervals|surface_weighted_out_of_support_fraction|surface_mass_with_every_recovery_ess_at_least_threshold|isotope_path_classification_counts|maximum_total_variation|maximum_90_95_99_endpoint_shift_cells|minimum_90_95_99_highest_weight_set_jaccard|minimum_complete_fraction|median_error_ratio_to_persistence|median_fraction_better_than_persistence|name|passed|value|maximum_effective_sample_size|median_effective_sample_size) in .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.json
+    ── Read .sources/ocean-drift-input-preparation/code/query_family_likelihood.py
+    ── Ran .venv/bin/python .sources/ocean-drift-input-preparation/code/query_family_likelihood.py --handoff .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.json --family cmems-glorys12-waverys-full-domain --latitude -30.7030334472656 --longitude 97.6808013916016 .venv/bin/python .sources/ocean-drift-input-preparation/code/query_family_likelihood.py --handoff .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.json --family cmems-glorys12-waverys-full-domain --latitude 0 --longitude 0 .venv/bin/python .sources/ocean-drift-input-preparation/code/query_family_likelihood.py --handoff .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.json --family cmems-glorys12-waverys-full-domain --latitude -30.7030334472656 --longitude 97.6808013916016 --require-admissible query_status=$? printf '"'require-admissible exit=%s\\n' \""'$query_status"
+      $ .venv/bin/python .sources/ocean-drift-input-preparation/code/query_family_likelihood.py --handoff .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.json --family cmems-glorys12-waverys-full-domain --latitude -30.7030334472656 --longitude 97.6808013916016
+    .venv/bin/python .sources/ocean-drift-input-preparation/code/query_family_likelihood.py --handoff .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.json --family cmems-glorys12-waverys-full-domain --latitude 0 --longitude 0
+    .venv/bin/python .sources/ocean-drift-input-preparation/code/query_family_likelihood.py --handoff .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.json --family cmems-glorys12-waverys-full-domain --latitude -30.7030334472656 --longitude 97.6808013916016 --require-admissible
+    query_status=$?
+    printf '"'require-admissible exit=%s\\n' \""'$query_status"
+      {
+        "status": "ok",
+        "family_id": "cmems-glorys12-waverys-full-domain",
+        "decision": "diagnostic_only",
+        "may_apply_to_estimator": false,
+        "nearest_cell_id": "arc-152",
+        "nearest_cell_distance_nm": 0.0,
+        "evidence_log_likelihood": -44.221917515405025,
+        "relative_log_likelihood": 0.0,
+        "relative_likelihood": 1.0
+      }
+      {
+        "status": "out_of_support",
+        "family_id": "cmems-glorys12-waverys-full-domain",
+        "decision": "diagnostic_only",
+        "may_apply_to_estimator": false,
+        "nearest_cell_id": "arc-192",
+        "nearest_cell_distance_nm": 4565.237301472061,
+        "maximum_distance_nm": 75.0,
+        "evidence_log_likelihood": null,
+        "relative_log_likelihood": null,
+        "relative_likelihood": null
+      }
+      {
+        "status": "ok",
+        "family_id": "cmems-glorys12-waverys-full-domain",
+        "decision": "diagnostic_only",
+        "may_apply_to_estimator": false,
+        "nearest_cell_id": "arc-152",
+        "nearest_cell_distance_nm": 0.0,
+        "evidence_log_likelihood": -44.221917515405025,
+        "relative_log_likelihood": 0.0,
+        "relative_likelihood": 1.0
+      }
+      require-admissible exit=3
+
+  ── Assistant
+  The CMEMS handoff is built and deterministic on a second rebuild. Its machine decision is `diagnostic_only`, with explicit failed diagnostics: 1.746% likelihood-weighted out-of-support loss (limit 1%), zero surface mass with ESS ≥200 for every recovery (required 90%), and unstable replications (TV 0.394, maximum interval-endpoint shift 6 cells, minimum set Jaccard 0.533). Predictive replay and the conservative isotope screen both pass.
+
+  ── Explored 1 file
+    ── Read .sources/ocean-drift-input-preparation/code/verify_native_field.py
+
+  ── Assistant
+  I’m running the independent raw-NetCDF spot checks next. These parse the packed MHGRID format separately from Rust and compare exact grid-node values to eight spread-out Copernicus monthly files; no missing value is eligible to become zero. The checks also re-hash each full packed field, so they may take a minute despite the small sample count.
+
+  ── Explored 2 searches
+    ── Searched for "(field_shape|checked_values|mismatch_count|source_kind|field_sha256|manifest_sha256) in .sources/ocean-drift-input-preparation/outputs/cmems-glorys12-full-domain-spot-check.json
+    ── Searched for "(field_shape|checked_values|mismatch_count|source_kind|field_sha256|manifest_sha256) in .sources/ocean-drift-input-preparation/outputs/cmems-waverys-full-domain-spot-check.json
+
+  ── Assistant
+  Both independent checks passed: 48 GLORYS values and 48 WAVERYS values, zero mismatches, with the expected full-field hashes. I’m now running the Rust-side ignored external-field spot fixtures and then focused linting; these exercise the production loader rather than the independent Python parser.
+
+  ── Explored 1 file, ran 3 commands
+    ── Read crates/ocean-drift/tests/raw_field_spot.rs
+    ── Ran MH370_GLORYS12_FIELD=/jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-glorys12.mhgrid CARGO_TARGET_DIR=/tmp/mh370-ocean-drift-file-backed-target cargo test -p mh370-ocean-drift --test raw_field_spot extended_glorys12_matches_raw_netcdf_node_with_packing_tolerance -- --ignored (20s)
+      $ MH370_GLORYS12_FIELD=/jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-glorys12.mhgrid CARGO_TARGET_DIR=/tmp/mh370-ocean-drift-file-backed-target cargo test -p mh370-ocean-drift --test raw_field_spot extended_glorys12_matches_raw_netcdf_node_with_packing_tolerance -- --ignored
+      Finished `test` profile [unoptimized + debuginfo] target(s) in 0.64s
+           Running tests/raw_field_spot.rs (/tmp/mh370-ocean-drift-file-backed-target/debug/deps/raw_field_spot-3eabe158a66e1f8c)
+
+      running 1 test
+      test extended_glorys12_matches_raw_netcdf_node_with_packing_tolerance ... ok
+
+      test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 19.24s
+    ── Ran MH370_WAVERYS_FIELD=/jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-waverys-stokes.mhgrid CARGO_TARGET_DIR=/tmp/mh370-ocean-drift-file-backed-target cargo test -p mh370-ocean-drift --test raw_field_spot extended_waverys_matches_raw_netcdf_node_with_packing_tolerance -- --ignored (9s)
+      $ MH370_WAVERYS_FIELD=/jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-waverys-stokes.mhgrid CARGO_TARGET_DIR=/tmp/mh370-ocean-drift-file-backed-target cargo test -p mh370-ocean-drift --test raw_field_spot extended_waverys_matches_raw_netcdf_node_with_packing_tolerance -- --ignored
+      test extended_waverys_matches_raw_netcdf_node_with_packing_tolerance ... ok
+
+      test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 9.67s
+    ── Ran cargo fmt --all -- --check CARGO_TARGET_DIR=/tmp/mh370-ocean-drift-file-backed-target cargo clippy -p mh370-ocean-drift --all-targets -- -D warnings (4s)
+      $ cargo fmt --all -- --check
+    CARGO_TARGET_DIR=/tmp/mh370-ocean-drift-file-backed-target cargo clippy -p mh370-ocean-drift --all-targets -- -D warnings
+      Checking cfg-if v1.0.4
+          Checking libc v0.2.189
+          Checking zerocopy v0.8.56
+          Checking crossbeam-utils v0.8.22
+          Checking libm v0.2.16
+          Checking serde_core v1.0.229
+          Checking bitflags v2.13.1
+          Checking linux-raw-sys v0.4.15
+          Checking crossbeam-epoch v0.9.20
+          Checking rustix v0.38.44
+          Checking crossbeam-deque v0.8.7
+          Checking rayon-core v1.13.0
+          Checking num-traits v0.2.19
+          Checking getrandom v0.2.17
+          Checking thiserror v1.0.69
+          Checking zmij v1.0.23
+          Checking rand_core v0.6.4
+          Checking once_cell v1.21.4
+          Checking either v1.18.0
+          Checking memchr v2.8.3
+          Checking fastrand v2.5.0
+          Checking itoa v1.0.18
+          Checking rayon v1.12.0
+          Checking memmap2 v0.9.11
+          Checking approx v0.5.1
+          Checking serde v1.0.229
+          Checking serde_json v1.0.151
+          Checking tempfile v3.13.0
+          Checking mh370-domain v0.1.0 (/jackbox/home/MH370/crates/domain)
+          Checking ppv-lite86 v0.2.21
+          Checking rand_chacha v0.3.1
+          Checking rand v0.8.7
+          Checking rand_distr v0.4.3
+          Checking mh370-ocean-drift v0.1.0 (/jackbox/home/MH370/crates/ocean-drift)
+          Finished `dev` profile [unoptimized + debuginfo] target(s) in 3.71s
+
+  ── Assistant
+  The external Rust field fixtures pass for both full GLORYS and WAVERYS fields. Formatting and strict focused linting also pass with no warnings. I’m rerunning the complete ocean-drift test target once more before updating the scientific status documents and artifact ledger.
+
+  ── Ran 1 command, explored 2 searches, 2 files
+    ── Ran CARGO_TARGET_DIR=/tmp/mh370-ocean-drift-file-backed-target cargo test -p mh370-ocean-drift
+      $ CARGO_TARGET_DIR=/tmp/mh370-ocean-drift-file-backed-target cargo test -p mh370-ocean-drift
+      test sampling::tests::correction_weights_make_rank_biased_resampling_unbiased ... ok
+      test sampling::tests::correction_weights_remain_unbiased_through_multiple_synthetic_levels ... ok
+
+      test result: ok. 25 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.26s
+
+           Running tests/epochs.rs (/tmp/mh370-ocean-drift-file-backed-target/debug/deps/epochs-1be6fc67686022a3)
+
+      running 1 test
+      test canonical_utc_epochs_match_independent_unix_conversion ... ok
+
+      test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+           Running tests/field_semantics.rs (/tmp/mh370-ocean-drift-file-backed-target/debug/deps/field_semantics-0707db2209bba3f1)
+
+      running 2 tests
+      test missing_error_corners_are_not_silently_replaced_with_zero ... ok
+      test monthly_means_are_piecewise_and_december_does_not_blend_into_january ... ok
+
+      test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+           Running tests/isotope_compatibility.rs (/tmp/mh370-ocean-drift-file-backed-target/debug/deps/isotope_compatibility-2d12653ac0bbf0e6)
+
+      running 4 tests
+      test missing_sst_coverage_is_neutral_and_reported_not_survivor_conditioned ... ok
+      test any_compatible_chronology_is_neutral_despite_an_incompatible_alternative ... ok
+      test one_unevaluable_chronology_prevents_all_chronology_rejection ... ok
+      test marginal_penalty_is_soft_and_rejection_is_bounded ... ok
+
+      test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+           Running tests/raw_field_spot.rs (/tmp/mh370-ocean-drift-file-backed-target/debug/deps/raw_field_spot-3eabe158a66e1f8c)
+
+      running 4 tests
+      test converted_fields_match_independently_read_raw_netcdf_points ... ignored, requires converted external current, Stokes, and wind fields
+      test extended_glorys12_matches_raw_netcdf_node_with_packing_tolerance ... ignored, requires extended native-resolution CMEMS current field
+      test extended_waverys_matches_raw_netcdf_node_with_packing_tolerance ... ignored, requires extended native-resolution CMEMS Stokes field
+      test regridded_wind_matches_independent_gaussian_row_interpolation ... ignored, requires converted external wind field
+
+      test result: ok. 0 passed; 0 failed; 4 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+           Running tests/source_area_conditional.rs (/tmp/mh370-ocean-drift-file-backed-target/debug/deps/source_area_conditional-58dc61582863ae76)
+
+      running 2 tests
+      test non_recovery_population_uses_an_independent_forward_ensemble ... ok
+      test no_arrival_cell_is_reported_without_aborting_conditional_surface ... ok
+
+      test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+         Doc-tests mh370_ocean_drift
+
+      running 0 tests
+
+      test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+    ── Searched for Family-specific likelihood handoff|full-global|Full-global|CMEMS WAVERYS retrieval|## All-path drifter replay|## Adaptive source-area sampling|## Reporting and crash-location decision|No ocean-drift|The defensible status in .sources/ocean-drift-input-preparation/VALIDATION.md
+    ── Read .sources/ocean-drift-input-preparation/README.md
+    ── Searched for "elapsed_wall_seconds" in .sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain/cmems-glorys12-full-domain-validation-resource.json
+    ── Read .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.json
+
+  ── Assistant
+  The science status is now clear enough to document without ambiguity: CMEMS field acquisition and mechanics are no longer the blocker; admission is blocked by multi-event rare-arrival ESS, replication instability, slightly excessive out-of-support loss, and uncalibrated surface/coastal response. I’m updating only the ocean-drift source README and validation record to replace the obsolete memory-blocker statement and add these measured results.
+
+  ── Edited 3 files, explored 2 searches, 1 list, 1 file, ran 1 command
+    ── Edited .sources/ocean-drift-input-preparation/README.md +42 -13
+      @@ -128,2 +128,23 @@
+       
+      +The separate full-evidence-domain CMEMS handoff is generated from its
+      +output-local specification and is never added to or averaged with the HYCOM/GDP
+      +handoff:
+      +
+      +```bash
+      +python code/build_family_likelihood_handoff.py \
+      +  --specification \
+      +    outputs/cmems-full-domain-family-likelihood-handoff/specification.json \
+      +  --output outputs/cmems-full-domain-family-likelihood-handoff
+      +```
+      +
+      +Its prior-removed conditional surface peaks at arc-152 (30.70°S), but the
+      +machine decision is `diagnostic_only`: likelihood-weighted missing/outside
+      +support is 1.746%, no surface mass has ESS at least 200 for every recovery,
+      +and matched replication has total variation 0.394, interval-endpoint movement
+      +up to six cells, and minimum highest-weight-set Jaccard 0.533. Predictive
+      +replay and the conservative isotope screen pass their declared diagnostics;
+      +they do not override the failed arrival/calibration diagnostics. The
+      +browser-viewable result is
+      +[`outputs/cmems-full-domain-family-likelihood-handoff/index.html`](outputs/cmems-full-domain-family-likelihood-handoff/index.html).
+      +
+       ## Reproducible native retrieval and conversion
+      @@ -300,9 +321,16 @@
+       normalized diagnostic source-mass-weighted outside-domain fraction is about
+      -0.010%. A full-global
+      -packed GLORYS12-plus-WAVERYS pair would require roughly 28 GB before runtime
+      -overhead, while the regional runs already peak near 11.5 GiB resident memory
+      -on a 23 GiB host. The canonical runner therefore reports outside spatial
+      -support explicitly rather than silently conditioning on survivors; a
+      -full-global in-memory conversion is the current storage/memory blocker, not an
+      -authentication or upstream-coverage blocker.
+      +0.010%. The full evidence-domain GLORYS12 and WAVERYS fields have now also been
+      +converted: 7,720,352,072 and 10,747,552,080 bytes respectively. Large packed
+      +components use immutable unnamed file-backed mappings, avoiding a second
+      +multi-gigabyte in-memory copy while preserving the same typed interpolation
+      +path used by fixtures. The 1,024-particle source run completed in 1,694.6 s at
+      +11,724,316 KiB peak RSS under a 12 GiB memory limit; seed and doubled-particle
+      +replicas also completed. Exact conversion commands, versions, hashes, mask
+      +counts, units, time bases, 165.1/790.4 s conversion runtimes, and memory are in
+      +[`outputs/cmems-full-domain-conversion-receipt.json`](outputs/cmems-full-domain-conversion-receipt.json).
+      +
+      +This removes authentication, upstream coverage, packing, and executable-memory
+      +blockers. It does not make the source result admissible: missing and outside
+      +support remain explicit termination reasons, and surface response, coastal
+      +behavior, eventwise arrival ESS, and replication stability remain limiting.
+       
+      @@ -490,8 +518,9 @@
+         absorbing model mask with no measured retention or refloating process.
+      -- Full-global GLORYS12-plus-WAVERYS packing is impractical in the current
+      -  in-memory runner on this host (roughly 28 GB of fields before runtime
+      -  overhead versus 23 GiB RAM). The regional domain explicitly reports
+      -  outside-spatial-support terminations. Internal missing coverage is low and
+      -  the final normalized source mass is almost entirely inside the domain, so
+      -  this limitation is visible rather than survivor-conditioned.
+      +- Full evidence-domain GLORYS12-plus-WAVERYS packing and source simulation now
+      +  complete with immutable file-backed packed components. The primary run uses
+      +  18.47 GB of packed fields and peaks at 11,724,316 KiB RSS under the 12 GiB
+      +  process limit. This solves the earlier loader-memory blocker, but the result
+      +  still has 1.746% likelihood-weighted missing/outside support, 58.82% land
+      +  encounter under the absorbing model-support mask, zero surface mass with
+      +  ESS at least 200 for every recovery, and unstable seed/particle replication.
+       - The preserved ~0.96° HYCOM extract remains a diagnostic fallback only. It is
+    ── Edited .sources/ocean-drift-input-preparation/VALIDATION.md +84 -9
+      @@ -29,2 +29,12 @@
+       
+      +The later full-evidence-domain experiment removes the earlier field-coverage
+      +and loader-memory uncertainty. It uses daily native-grid GLORYS12 currents and
+      +three-hourly WAVERYS Stokes over 0°E–180°E, 55°S–15°N through 31 January 2017,
+      +the same nine recovery episodes and two Australian non-recovery populations,
+      +and the same object-response and isotope assumptions as the regional family.
+      +The reference/alternate/doubled runs peak at arc-152/156/154. The reference
+      +prior-removed surface peaks at 30.70°S with a 90% equal-tail interval of
+      +29.70–35.75°S. This is still not an accepted crash posterior: the exact surface
+      +fails out-of-support, every-event ESS, and seed/particle stability diagnostics.
+      +
+       ## Family-likelihood admission handoff
+      @@ -51,2 +61,3 @@
+       | GDP monthly climatology + distinct WAVERYS Stokes | nine stringent recovery episodes and two Australian non-recovery response populations | arc-165, 36.57°S / a one-cell 90% interval | 76.01% | 0% | diagnostic only |
+      +| Full-domain GLORYS12 + distinct WAVERYS Stokes | the same nine recovery episodes and two Australian non-recovery populations | arc-152, 30.70°S / 29.70–35.75°S | 1.746% | 0% | diagnostic only |
+       
+      @@ -61,2 +72,17 @@
+       
+      +The full-domain CMEMS family passes complete evidence scope, conservative
+      +isotope behavior, and 5,400-path currents-plus-Stokes replay. It fails three
+      +independent diagnostics. Its likelihood-weighted missing/outside-support
+      +fraction is 1.746% against the declared 1% sensitivity. Mossel Bay reaches at
+      +most ESS 66.7, Chidenguele 179.0, and Paindane 130.1; no source mass has ESS at
+      +least 200 simultaneously for all nine recoveries. Reference-versus-doubled
+      +total variation is 0.394, the maximum 90%/95%/99% equal-tail endpoint movement
+      +is six cells, and minimum highest-weight-set Jaccard is 0.533. The separate
+      +full-domain machine-readable handoff and publication outputs are
+      +[`JSON`](outputs/cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.json),
+      +[`HTML`](outputs/cmems-full-domain-family-likelihood-handoff/index.html),
+      +[`PNG`](outputs/cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.png),
+      +[`SVG`](outputs/cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.svg),
+      +and [`PDF`](outputs/cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.pdf).
+      +
+       The browser report and publication outputs are
+      @@ -81,4 +107,6 @@
+       | --- | --- | --- | --- |
+      -| GLORYS12 `uo`/`vo` | 511 daily 1/12° fields | 526,262 persistent cells; 3,365 intermittently missing/changed cells over 1,021 comparisons | 48 component values, 0 mismatches |
+      -| WAVERYS `VSDX`/`VSDY` | 4,088 three-hourly 0.2° fields | 90,617 persistent cells; 0 intermittent/changed cells over 8,175 comparisons | 48 component values, 0 mismatches |
+      +| Regional GLORYS12 `uo`/`vo` | 511 daily 1/12° fields | 526,262 persistent cells; 3,365 intermittently missing/changed cells over 1,021 comparisons | 48 component values, 0 mismatches |
+      +| Regional WAVERYS `VSDX`/`VSDY` | 4,088 three-hourly 0.2° fields | 90,617 persistent cells; 0 intermittent/changed cells over 8,175 comparisons | 48 component values, 0 mismatches |
+      +| Full-domain GLORYS12 `uo`/`vo` | 1,062 daily 1/12° fields | 365,620 persistent cells; 5,418 intermittently missing/changed cells over 2,123 comparisons | 48 component values, 0 mismatches |
+      +| Full-domain WAVERYS `VSDX`/`VSDY` | 8,496 three-hourly 0.2° fields | 62,542 persistent cells; 1,136 intermittent/component-specific gaps over 16,991 comparisons | 48 component values, 0 mismatches |
+       
+      @@ -126,2 +154,27 @@
+       
+      +### Full evidence-domain replay
+      +
+      +The full-domain replay repeats exactly 600 attempted paths in 2014, 2015, and
+      +2016 at 5, 15, and 30 days, first with currents only and then with distinct 1×
+      +WAVERYS Stokes. All 10,800 attempts remain in the score. At 30 days:
+      +
+      +| Family | Year | Complete | Median model / persistence error | Model better than persistence |
+      +| --- | ---: | ---: | ---: | ---: |
+      +| GLORYS12 currents only | 2014 | 99.8% | 268.0 / 398.2 km | 67.5% |
+      +| GLORYS12 currents only | 2015 | 100.0% | 241.5 / 352.5 km | 66.8% |
+      +| GLORYS12 currents only | 2016 | 99.8% | 226.6 / 320.0 km | 68.0% |
+      +| GLORYS12 + distinct Stokes | 2014 | 98.8% | 307.6 / 398.2 km | 59.5% |
+      +| GLORYS12 + distinct Stokes | 2015 | 99.2% | 254.1 / 352.5 km | 61.8% |
+      +| GLORYS12 + distinct Stokes | 2016 | 99.7% | 244.3 / 320.0 km | 62.0% |
+      +
+      +The nine currents-plus-Stokes aggregate rows pass the declared predictive
+      +diagnostic: minimum completion 98.83%, median error ratio to persistence 0.695,
+      +and median fraction better than persistence 0.638. Sequential case runtimes
+      +sum to 837.0 s and peak child RSS is 4,617,464 KiB. The complete overall,
+      +regional, drogue-state, runtime, and hash records are under
+      +[`outputs/validation/cmems-full-domain/`](outputs/validation/cmems-full-domain/).
+      +GLORYS12 assimilates ocean observations and WAVERYS assimilates significant
+      +wave height while using GLORYS12 currents, so this replay is not guaranteed
+      +statistically held out.
+      +
+       ### Matched WAVERYS response
+      @@ -230,2 +283,20 @@
+       
+      +### Full evidence-domain matched CMEMS family
+      +
+      +The 1,024-particle full-domain run simulates 867,328 paths and completes in
+      +1,694.6 s at 11,724,316 KiB peak RSS. Its prior-removed conditional surface
+      +peaks at arc-152 (30.70°S); 90%, 95%, and 99% equal-tail intervals are
+      +29.70–35.75°S, 27.62–35.75°S, and 26.55–36.97°S. Likelihood-weighted
+      +termination is 1.011% missing coverage, 0.735% outside spatial support, and
+      +58.821% land encounter; beaching, outside-time support, and numerical failure
+      +are zero. The absorbing support-mask land fraction is not a calibrated beach
+      +retention probability.
+      +
+      +Changing the seed moves the peak to arc-156 and doubling particles moves it to
+      +arc-154. Reference comparisons reach total variation 0.394, equal-tail
+      +endpoint movement of six cells, and a minimum highest-weight-set Jaccard of
+      +0.533. Every-recovery ESS at least 200 covers zero likelihood-surface mass.
+      +The adaptive sampler has therefore made the surviving rare-event populations
+      +measurable without making the nine-event product calibrated or stable.
+      +
+       ## Conditional isotope compatibility screen
+      @@ -242,4 +313,7 @@
+       
+      -The 1× doubled WAVERYS run classifies 96,061 arrival paths compatible, 1,098
+      -marginal, 223 rejected, and 15,221 as lacking complete chronology/SST support.
+      +The 1× doubled regional WAVERYS run classifies 96,061 arrival paths compatible,
+      +1,098 marginal, 223 rejected, and 15,221 as lacking complete chronology/SST
+      +support. The full-domain reference run classifies 24,716 compatible, 756
+      +marginal, 149 rejected, and 17,454 missing-coverage paths. In both cases the
+      +screen is neutral or suppressive and never a positive localization term.
+       Removing the screen changes its normalized source profile by total variation
+      @@ -274,7 +348,8 @@
+       of effective arrivals in supported regions, and stable 90%, 95%, and 99%
+      -regions under seed and particle replication. Internal data loss and main-mode
+      -arrival ESS are now adequate. Surface-response and coast sensitivity, however,
+      -fail the stability requirement by a wide margin, and several supported cells
+      -still lack hundreds of effective arrivals. These are scientific diagnostics,
+      -not a gate or scorecard. The defensible status is therefore:
+      +regions under seed and particle replication. Full-domain acquisition and
+      +field mechanics are now adequate, but the CMEMS family still has 1.746%
+      +likelihood-weighted missing/outside support, no surface mass with every-event
+      +ESS at least 200, and seed/particle instability. Surface-response and coast
+      +sensitivity also remain uncalibrated. These are scientific diagnostics, not a
+      +family weight or publication claim. The defensible status is therefore:
+    ── Searched for full-global|Full-global|memory blocker|current storage/memory blocker|in-memory runner|gate|scorecard in .sources/ocean-drift-input-preparation/VALIDATION.md
+    ── Searched for "^Every in .sources/ocean-drift-input-preparation/VALIDATION.md
+    ── Edited .sources/ocean-drift-input-preparation/README.md +6 -4
+      @@ -325,6 +325,8 @@
+       multi-gigabyte in-memory copy while preserving the same typed interpolation
+      -path used by fixtures. The 1,024-particle source run completed in 1,694.6 s at
+      -11,724,316 KiB peak RSS under a 12 GiB memory limit; seed and doubled-particle
+      -replicas also completed. Exact conversion commands, versions, hashes, mask
+      -counts, units, time bases, 165.1/790.4 s conversion runtimes, and memory are in
+      +path used by fixtures. The preserved reference scientific run, made before
+      +that loader-only change, completed in 1,694.6 s at 11,724,316 KiB peak RSS.
+      +Hash-pinned file-backed alternate-seed and doubled-particle replicas then
+      +completed in 2,964.7/6,726.1 s at 12,424,696/12,432,604 KiB peak RSS under a
+      +12 GiB memory limit. Exact conversion commands, versions, hashes, mask counts,
+      +units, time bases, 165.1/790.4 s conversion runtimes, and memory are in
+       [`outputs/cmems-full-domain-conversion-receipt.json`](outputs/cmems-full-domain-conversion-receipt.json).
+    ── Edited .sources/ocean-drift-input-preparation/VALIDATION.md +12
+      @@ -301,2 +301,14 @@
+       
+      +| Replication | Seed | Particles/cell | Runtime | Peak RSS |
+      +| --- | ---: | ---: | ---: | ---: |
+      +| reference | 3700271 | 1,024 | 1,694.6 s | 11,724,316 KiB |
+      +| alternate seed, file-backed loader | 3701271 | 1,024 | 2,964.7 s | 12,424,696 KiB |
+      +| doubled, file-backed loader | 3700271 | 2,048 | 6,726.1 s | 12,432,604 KiB |
+      +
+      +The reference executable predates the loader-only file-backing change; its
+      +field hashes and scientific configuration are identical. The private
+      +file-backed executable is pinned in the two replication manifests. The loader
+      +change is independently covered by owned-versus-file-backed equality and
+      +truncation fixtures.
+      +
+       ## Conditional isotope compatibility screen
+    ── Listed files in cmems-full-domain-stringent-multi-debris
+    ── Read .sources/ocean-drift-input-preparation/outputs/ARTIFACT-SHA256.txt
+    ── Edited .sources/ocean-drift-input-preparation/outputs/ARTIFACT-SHA256.txt +34
+      @@ -117 +117,35 @@
+       ab2de8d9f400c425c82550a10c869c88da88fd84f64df432e045c5eb023c649d  family-likelihood-handoff/index.html
+      +af3ba212844fddf0749f45cc09a2ca74b6d2a671098c739a52055920bf3d0806  cmems-full-domain-conversion-receipt.json
+      +e55cf8ba97c259e0fbc6e5f05dbd1b9e1d68b931830ced7c9207046c42339947  cmems-glorys12-full-domain-spot-check.json
+      +b29d26a2dbbab0dcbb626de8f665093830e3bee3b28c7942a982a883e2b788dc  cmems-waverys-full-domain-spot-check.json
+      +90431bdaa6c5e1c18b322ba2b446e1a528aff0afc090af7351dfdb0fe4cd570c  cmems-full-domain-stringent-multi-debris/resolved-run-config.toml
+      +503f91d2b25beed29158a17782340f2e2c64f0e363034cd24e9e548044ca7865  cmems-full-domain-stringent-multi-debris/run-manifest.json
+      +b17253deadb0bd094f175bd6bd2e3fe11e29063ece2679d4470a3dde0b1ca7ac  cmems-full-domain-stringent-multi-debris/runtime-receipt.json
+      +9df2fbad1bd1c33200a7255a74273c1e7c1c12b225010b8c447f7cff7fa5754a  cmems-full-domain-stringent-multi-debris/source-area.csv
+      +5798db6878502adef429658497bdb6e9f431affc2d8cdbed88a1c54735b76531  cmems-full-domain-stringent-multi-debris/source-area.json
+      +59cabeb5e2e87086f7b3672e98b3f734a563283255d19e2634333ab77e0860d1  cmems-full-domain-stringent-multi-debris/source-area.pdf
+      +03b250bebfd9da6ed4350e4ec525be63e6cee104598170d392df2c6ad696c5db  cmems-full-domain-stringent-multi-debris/source-area.png
+      +49566dda099d74a76dd0eb8b1e6c8e46d0ce3c6b315b5497cfc7df30bd9874c2  cmems-full-domain-stringent-multi-debris/source-area.svg
+      +945faa86370c7bb23e3032c0b1e334a6d2ba4915de40adce46608eeb176ba87f  cmems-full-domain-stringent-stability/stability-summary.json
+      +01d4b3e869045c7a424dd789c4423a35a29b4ca2386b5fd09528c059a5fe1c23  cmems-full-domain-stringent-stability/stability-runs.csv
+      +6f58417cfdefa5b7571178b24f81f9982cda849e32e26d39b0557bc2304c0e3e  cmems-full-domain-stringent-stability/runs/alternate/source-area.json
+      +128af8e47e07650b3cf5a934fc16155b8a7076743818bdab059ed7eb7deee87f  cmems-full-domain-stringent-stability/runs/alternate/source-area.png
+      +7d52ff9770942fa82685f8838398b040c6bbe10a8da83fd092968e8ad421a7f3  cmems-full-domain-stringent-stability/runs/alternate/source-area.svg
+      +b55275e2ff91b04448e55d8aabd0baa0a9f178270eb923580ed22fc71e6696e1  cmems-full-domain-stringent-stability/runs/alternate/source-area.pdf
+      +d07ed65704ad92739b4830652c8406516bedf0b66a6c164df5e45a540312a018  cmems-full-domain-stringent-stability/runs/doubled/source-area.json
+      +9527bfc972d84f45acdea9dfd231205a49b3f52a63934193e946dec954689c6a  cmems-full-domain-stringent-stability/runs/doubled/source-area.png
+      +775727296aa64c6a6894eda6ecb7a468bac741d306d4cb6413c0f4db6dc86204  cmems-full-domain-stringent-stability/runs/doubled/source-area.svg
+      +580772a374537f082ca35ebaa89272e52132726ab845490a9a88d07a79c40f23  cmems-full-domain-stringent-stability/runs/doubled/source-area.pdf
+      +7091949fd84e7d7fedbbce5147356c644e9676f046c7f006bdee524648e38cf9  validation/cmems-full-domain/cmems-full-domain-current-trajectory-overall.csv
+      +f956057357a955bfe5d9b5bf0837a3b9d8556f80b12f7e3584a1f3bd20e707cc  validation/cmems-full-domain/cmems-full-domain-current-trajectory-regions.csv
+      +1a8c5a955fb15572b422054572ce237c9aee3a0fe895f39abc138ec0337a41a5  validation/cmems-full-domain/cmems-full-domain-current-trajectory-drogue-status.csv
+      +15deed7588de2cbae6df00fb50d3cc0e98ba7ef63a38deb314f1895f41bfa612  validation/cmems-full-domain/cmems-full-domain-current-trajectory.md
+      +75c92583232b867c801a4f01594da4a0da408cbcc6434ae2057ba68992ef8823  validation/cmems-full-domain/cmems-glorys12-full-domain-validation-resource.json
+      +0fdb6189050ac3cf019886c7be581ed7a57b8fc7a30a09ceb42cb84069e1f74e  cmems-full-domain-family-likelihood-handoff/artifact-sha256.json
+      +e95910f81f964733725c13ce7c2796875fc9b6562c3012d6f53f112399595356  cmems-full-domain-family-likelihood-handoff/index.html
+      +10de64a6c3f062444ba9b66cb7b02418e3101effe3e8dc12e0a25c2ecdb006e8  cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.csv
+      +bcfc11678c9cd314ab72dc220411a65fad0dd736132b77807035ba380497b044  cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.json
+      +d85079c41422ee72f9b03d8113b9e18dc6ca45d14bf1f1ce67a41216a35715cf  cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.pdf
+      +de2f73ee74094ba0bc79a1a3ff58ab329a23471f1f3879bc92356983e468c5eb  cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.png
+      +e32594f8f3342c8b7c26aca640712fd25c8df264d98e6ea6da39108cea57e2ec  cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.svg
+      +799beed5c2e0fe2ed034e65b5108eee8654b5708874d9249ef96a7074c95dc36  cmems-full-domain-family-likelihood-handoff/specification.json
+    ── Ran sha256sum -c --quiet ARTIFACT-SHA256.txt printf 'artifact ledger verified\n' sha256sum ARTIFACT-SHA256.txt (error)
+      $ sha256sum -c --quiet ARTIFACT-SHA256.txt
+    printf 'artifact ledger verified\n'
+    sha256sum ARTIFACT-SHA256.txt
+      sha256sum: ARTIFACT-SHA256.txt: No such file or directory
+      artifact ledger verified
+      sha256sum: ARTIFACT-SHA256.txt: No such file or directory
+      exit 1
+
+  ── Assistant
+  One housekeeping verification command used the wrong working directory and therefore did not run; it did not alter any artifact. I caught the false “verified” echo and am rerunning the checksum ledger from an explicit directory before treating it as valid.
+
+  ── Ran 2 commands
+    ── Ran cd /jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs sha256sum -c --quiet ARTIFACT-SHA256.txt verification_status=$? printf '"'checksum_status=%s\\n' \""'$verification_status" sha256sum ARTIFACT-SHA256.txt
+      $ cd /jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs
+    sha256sum -c --quiet ARTIFACT-SHA256.txt
+    verification_status=$?
+    printf '"'checksum_status=%s\\n' \""'$verification_status"
+    sha256sum ARTIFACT-SHA256.txt
+      checksum_status=0
+      ca34016683ee19bdc51fce5d194a885a14ccfd02ba2f62fb4cee493b3c1cbcda  ARTIFACT-SHA256.txt
+    ── Ran iso thread show thr_pexmvwn97e --git-diff (error)
+      $ iso thread show thr_pexmvwn97e --git-diff
+      Error: Thread environment does not have a merge base branch
+      exit 1
+
+  ── Assistant
+  The checksum ledger now verifies cleanly. I’m visually inspecting the new CMEMS-only PNG before handoff, specifically checking axis-label clearance, legend/layout, and that the diagnostic-only status is unmissable.
+
+  ── Viewed 2 images
+    ── Viewed image: /jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.png
+    ── Viewed image: /jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris/source-area.png
+
+  ── Assistant
+  The new admission plot passes visual inspection: both y-axis titles clear their tick labels, the family is labelled “DIAGNOSTIC ONLY,” and the figure states “No family pooling.” The large source map is also scientifically consistent—the geographic canvas is broad because it includes the debris-recovery basin, while the source contours remain around the seventh arc. I’m using the inline-visualization skill to embed the new interactive handoff directly in this thread.
+
+  ── Explored 2 files, 1 list, 1 search
+    ── Read /jackbox/home/.iso/runtime/global-skills/051cefb156e94b93b5e2578a675241b5008ea1dbc7132545e87c8f9b68faaaa9/skills/inline-vis/SKILL.md
+    ── Read .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris/run-manifest.json
+    ── Listed files in .git
+    ── Searched for mh370-|run_source_stability|run_trajectory_validation|verify_native_field
+
+  ── Assistant
+  All scientific processes have finished, temporary field copies were automatically released, and disk space returned to its pre-run level. I’m sending Core the final integration contract now: exact family ID, query behavior, artifact hash, admission decision, and the reasons it must not update the central estimator.
+
+  ── Ran iso thread tell thr_94ecfzphq2 "FINAL OCEAN-DRIFT INTEGRATION CONTRACT: family id `cmems-glorys12-waverys-full-domain`; canonical handoff `.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.json`, SHA-256 `bcfc11678c9cd314ab72dc220411a65fad0dd736132b77807035ba380497b044`. Decision is `diagnostic_only`, admitted=false. Do NOT apply to the central estimator. Query contract: prior removed; nearest WGS84 source cell; maximum 75 NM; beyond support return status `out_of_support` with null likelihood; `--require-admissible` exits 3. Evidence scope is all nine stringent recoveries plus both Australian non-recovery populations. Peak arc-152, 30.703S; 90/95/99 equal-tail 29.698-35.752S / 27.621-35.752S / 26.552-36.968S. Failed: out-support 0.0174619>0.01; mass with every recovery ESS>=200 is 0; replication max TV=0.39449, max endpoint shift=6, min Jaccard=0.5333. Passed: 5,400-path currents+distinct-Stokes replay (min completion .9883, median error ratio .6950, median better fraction .6383; assimilation leakage limitation explicit) and conservative arrival-conditional isotope screen (max log compatibility 0; counts 24716 compatible/756 marginal/149 rejected/17454 missing). No family pooling or runner/estimator/reporting/config edits. Browser/PDF/PNG/SVG and hash ledger are in the same output directory; artifact ledger verifies." --mode queue
+    $ iso thread tell thr_94ecfzphq2 "FINAL OCEAN-DRIFT INTEGRATION CONTRACT: family id `cmems-glorys12-waverys-full-domain`; canonical handoff `.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.json`, SHA-256 `bcfc11678c9cd314ab72dc220411a65fad0dd736132b77807035ba380497b044`. Decision is `diagnostic_only`, admitted=false. Do NOT apply to the central estimator. Query contract: prior removed; nearest WGS84 source cell; maximum 75 NM; beyond support return status `out_of_support` with null likelihood; `--require-admissible` exits 3. Evidence scope is all nine stringent recoveries plus both Australian non-recovery populations. Peak arc-152, 30.703S; 90/95/99 equal-tail 29.698-35.752S / 27.621-35.752S / 26.552-36.968S. Failed: out-support 0.0174619>0.01; mass with every recovery ESS>=200 is 0; replication max TV=0.39449, max endpoint shift=6, min Jaccard=0.5333. Passed: 5,400-path currents+distinct-Stokes replay (min completion .9883, median error ratio .6950, median better fraction .6383; assimilation leakage limitation explicit) and conservative arrival-conditional isotope screen (max log compatibility 0; counts 24716 compatible/756 marginal/149 rejected/17454 missing). No family pooling or runner/estimator/reporting/config edits. Browser/PDF/PNG/SVG and hash ledger are in the same output directory; artifact ledger verifies." --mode queue
+    Thread thr_94ecfzphq2 updated
+
+  ── Assistant
+  The first Core message was mangled by shell backtick expansion—no code, data, or artifacts were affected, but several identifiers were omitted from that message. I’m correcting it immediately with shell-safe plain text.
+
+  ── Ran iso thread tell thr_94ecfzphq2 'CORRECTION — FINAL OCEAN-DRIFT INTEGRATION CONTRACT: family id cmems-glorys12-waverys-full-domain; canonical handoff .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.json; SHA-256 bcfc11678c9cd314ab72dc220411a65fad0dd736132b77807035ba380497b044. Decision diagnostic_only, admitted=false. Do NOT apply to the central estimator. Query contract: source prior removed; nearest WGS84 source cell; maximum 75 NM; beyond support return status out_of_support with null likelihood; require-admissible exits 3. Evidence scope is all nine stringent recoveries plus both Australian non-recovery populations. Peak arc-152, 30.703S; 90/95/99 equal-tail 29.698-35.752S / 27.621-35.752S / 26.552-36.968S. Failed: out-support 0.0174619 > 0.01; mass with every recovery ESS >= 200 is 0; replication max TV 0.39449, max endpoint shift 6, min Jaccard 0.5333. Passed: 5,400-path currents plus distinct-Stokes replay (min completion .9883, median error ratio .6950, median better fraction .6383; assimilation leakage limitation explicit) and conservative arrival-conditional isotope screen (max log compatibility 0; counts 24716 compatible, 756 marginal, 149 rejected, 17454 missing). No family pooling or runner, estimator, reporting, or central-config edits. Browser, PDF, PNG, SVG and hash ledger are in the same output directory; artifact ledger verifies. This message supersedes the immediately preceding shell-mangled message.' --mode queue
+    $ iso thread tell thr_94ecfzphq2 'CORRECTION — FINAL OCEAN-DRIFT INTEGRATION CONTRACT: family id cmems-glorys12-waverys-full-domain; canonical handoff .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.json; SHA-256 bcfc11678c9cd314ab72dc220411a65fad0dd736132b77807035ba380497b044. Decision diagnostic_only, admitted=false. Do NOT apply to the central estimator. Query contract: source prior removed; nearest WGS84 source cell; maximum 75 NM; beyond support return status out_of_support with null likelihood; require-admissible exits 3. Evidence scope is all nine stringent recoveries plus both Australian non-recovery populations. Peak arc-152, 30.703S; 90/95/99 equal-tail 29.698-35.752S / 27.621-35.752S / 26.552-36.968S. Failed: out-support 0.0174619 > 0.01; mass with every recovery ESS >= 200 is 0; replication max TV 0.39449, max endpoint shift 6, min Jaccard 0.5333. Passed: 5,400-path currents plus distinct-Stokes replay (min completion .9883, median error ratio .6950, median better fraction .6383; assimilation leakage limitation explicit) and conservative arrival-conditional isotope screen (max log compatibility 0; counts 24716 compatible, 756 marginal, 149 rejected, 17454 missing). No family pooling or runner, estimator, reporting, or central-config edits. Browser, PDF, PNG, SVG and hash ledger are in the same output directory; artifact ledger verifies. This message supersedes the immediately preceding shell-mangled message.' --mode queue
+    Thread thr_94ecfzphq2 updated
+
+── Assistant ───────────────────────────────────────────────
+The host-daemon errors interrupted the UI only; the detached jobs continued and all work is now complete. One earlier run genuinely hit the 12 GiB memory limit, but the file-backed loader fixed it. No later OOM or partial output occurred.
+
+Scientific result: the full-domain CMEMS family is `diagnostic_only` and must not update the central flight estimator.
+
+- Prior-removed peak: arc‑152, 30.70°S.
+- 90% / 95% / 99% intervals: 29.70–35.75°S / 27.62–35.75°S / 26.55–36.97°S.
+- Predictive replay passed: 98.83% minimum completion; median error ratio to persistence 0.695.
+- Admission failed because:
+  - missing/outside support is 1.746% versus the 1% sensitivity;
+  - zero likelihood mass has ESS ≥200 for all nine recoveries;
+  - replication TV reaches 0.394, endpoint movement six cells, Jaccard 0.533;
+  - 58.82% land encounter relies on an uncalibrated absorbing support mask;
+  - Stokes/object response and coastal retention/refloating remain uncalibrated.
+- Isotope remained conservative: 24,716 compatible, 756 marginal, 149 rejected, 17,454 lacking complete coverage; it never positively boosts a trajectory.
+- CMEMS, HYCOM and GDP remain separate—no family averaging or subjective weights.
+
+No further Copernicus authentication is needed. Full-domain GLORYS12 and WAVERYS acquisition, conversion and independent verification are complete.
+
+The interactive handoff:
+
+::inline-vis{file=".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/index.html" height="800"}
+
+Key artifacts:
+
+- [Interactive handoff](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/index.html), [PDF](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.pdf), [PNG](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.png)
+- [Machine-readable likelihood](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.json), SHA‑256 `bcfc11678c9cd314ab72dc220411a65fad0dd736132b77807035ba380497b044`
+- [Primary source result](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris/source-area.json), SHA‑256 `5798db6878502adef429658497bdb6e9f431affc2d8cdbed88a1c54735b76531`
+- [Stability summary](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/stability-summary.json), SHA‑256 `945faa86370c7bb23e3032c0b1e334a6d2ba4915de40adce46608eeb176ba87f`
+- [Validation table](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain/cmems-full-domain-current-trajectory.md)
+- [Conversion receipt](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-conversion-receipt.json), SHA‑256 `af3ba212844fddf0749f45cc09a2ca74b6d2a671098c739a52055920bf3d0806`
+- [Complete artifact ledger](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/ARTIFACT-SHA256.txt), verified, SHA‑256 `ca34016683ee19bdc51fce5d194a885a14ccfd02ba2f62fb4cee493b3c1cbcda`
+
+Runtime measurements:
+
+- Reference: 1,694.6 s, 11,724,316 KiB RSS.
+- Alternate seed: 2,964.7 s, 12,424,696 KiB RSS.
+- Doubled particles: 6,726.1 s, 12,432,604 KiB RSS.
+- Eighteen replay cases: 837.0 s summed, 4,617,464 KiB maximum child RSS.
+
+Changed canonical code:
+
+- [field.rs](/jackbox/home/MH370/crates/ocean-drift/src/field.rs) — immutable file-backed packed fields.
+- [transport.rs](/jackbox/home/MH370/crates/ocean-drift/src/transport.rs) — exhaustive storage-failure taxonomy.
+- [validate_current_trajectories.rs](/jackbox/home/MH370/crates/ocean-drift/examples/validate_current_trajectories.rs) and [raw_field_spot.rs](/jackbox/home/MH370/crates/ocean-drift/tests/raw_field_spot.rs) — streaming field loading.
+- [Cargo.toml](/jackbox/home/MH370/crates/ocean-drift/Cargo.toml), [Cargo.lock](/jackbox/home/MH370/Cargo.lock).
+- [prepare_inputs.py](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/code/prepare_inputs.py) — correct intermittent/component-specific WAVERYS masking.
+- [README.md](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/README.md) and [VALIDATION.md](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/VALIDATION.md).
+
+Verification passed:
+
+- 34 focused Rust tests; four external tests ignored by default.
+- Both full-field ignored Rust fixtures passed explicitly.
+- Independent raw-NetCDF checks: 48 GLORYS + 48 WAVERYS values, zero mismatches.
+- `cargo fmt --check`.
+- Strict focused Clippy with `-D warnings`.
+- Deterministic handoff rebuild.
+- Peak query, explicit out-of-support query, and diagnostic-only rejection (`exit 3`).
+
+No runner, estimator, reporting, central configuration, or unrelated crate was edited. Core received the final integration contract. The direct workspace has no Git metadata, so executable and input SHA‑256 identities provide the reproducible code revision instead of a Git commit.

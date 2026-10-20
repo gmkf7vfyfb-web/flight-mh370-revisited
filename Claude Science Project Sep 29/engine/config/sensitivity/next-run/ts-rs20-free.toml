@@ -1,0 +1,14 @@
+# Sampler-change smoke (core backlog item 2, 11 Oct 2026): run C stack at quarter scale, seeds 1-8.
+# Arm rs20 (ruling 11 Oct 00:40 -0600, item 3): ad50 tempering with resample_ess_fraction 0.2; control = ts-ad50 (job 8).
+name = "ts-rs20-free"
+particles_per_mode = [250_000, 125_000, 625_000, 125_000, 625_000]
+seeds = [1, 2, 3, 4, 5, 6, 7, 8]
+resample_ess_fraction = 0.2
+
+[output]
+handoff_rows = 1000
+
+[sampler]
+temper_epochs = ["m1839", "m1941", "m2041", "m2141", "m2241", "m0011"]
+temper_stages = 16
+temper_target_ess = 0.5

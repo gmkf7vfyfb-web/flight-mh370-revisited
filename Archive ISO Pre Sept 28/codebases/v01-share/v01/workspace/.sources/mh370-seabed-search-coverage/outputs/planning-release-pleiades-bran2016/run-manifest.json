@@ -1,0 +1,59 @@
+{
+  "deterministic": true,
+  "generator": "code/build.py",
+  "generator_sha256": "25c7bb4ec09d2f55f8f422ee6aa7eba59d677aa3693efb2009db22b944214b90",
+  "input": {
+    "bytes": 695827,
+    "logical_path": "runs/mh370/release-v0.1/conditional/pleiades-bran2016/conditional-spatial-particles.csv",
+    "particle_count": 2560,
+    "role": "release_input",
+    "sha256": "f9162c33babfb30cdf6272e16ebcd8b3cd503aa7f4297b8d6694ed50c162f2e3",
+    "weight_column": "conditional_weight",
+    "weight_mode": "linear",
+    "weights_normalized_by_planner": true
+  },
+  "outputs": [
+    {
+      "bytes": 402140,
+      "path": "outputs/planning-release-pleiades-bran2016/index.html",
+      "sha256": "38c0b1ee029c16b21740067eb9e85d20acbd68d955d4debe388bb23fee03c7e3"
+    },
+    {
+      "bytes": 224295,
+      "path": "outputs/planning-release-pleiades-bran2016/ordered-tiles-posterior-only.csv",
+      "sha256": "1b0b2914dc36e644c998b1e17acc0c7f38e35fb2b713f07badf910225c0739f2"
+    },
+    {
+      "bytes": 217691,
+      "path": "outputs/planning-release-pleiades-bran2016/ordered-tiles-proxy-logistics.csv",
+      "sha256": "67479018737a7898798103044cb51ea508bffa7566ee2b85bf48c5bc1df70874"
+    },
+    {
+      "bytes": 3906,
+      "path": "outputs/planning-release-pleiades-bran2016/plan-summary.json",
+      "sha256": "4767c3450070bd6bbff1a8eb84fdb18ff9b257bc8585b7ac94d4726d289c2c92"
+    },
+    {
+      "bytes": 100452,
+      "path": "outputs/planning-release-pleiades-bran2016/search-plan.pdf",
+      "sha256": "fe3a929d049c501063f45cff42eba23ca6e2cdce64217234089c5f8414f2d647"
+    },
+    {
+      "bytes": 519315,
+      "path": "outputs/planning-release-pleiades-bran2016/search-plan.png",
+      "sha256": "58f6d62a4a817a11db7f55db435275111dd7e3ea52811f126bbc1922b24b1cdd"
+    },
+    {
+      "bytes": 399504,
+      "path": "outputs/planning-release-pleiades-bran2016/search-plan.svg",
+      "sha256": "2db12ac904bad43e04e504587519ee3239293e755e86f32f68611508adabeabc"
+    },
+    {
+      "bytes": 11021,
+      "path": "outputs/planning-release-pleiades-bran2016/selected-tiles.geojson",
+      "sha256": "a97d9d92a2040d2ed7b11b514bd24037b623212d8cbddff70ac23b8f9292af12"
+    }
+  ],
+  "schema_version": 1,
+  "snapshot_date": "2026-08-31"
+}

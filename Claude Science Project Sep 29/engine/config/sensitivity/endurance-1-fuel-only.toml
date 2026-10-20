@@ -1,0 +1,67 @@
+# Evidence ladder rung 1 of 4, on the endurance-aware proposal.
+#
+# Fuel alone. No BTO and no BFO enter the likelihood, so this is the prior propagated
+# under the endurance requirement and the exhaustion timing - what the fuel model on its own
+# says about where the aircraft could have reached. The arc residuals are still recorded at
+# every epoch, so the measurements can be read against a posterior that never saw them.
+#
+# The model is stage 2 on Davey's own priors (config/sensitivity/stage2-fuel-narrowmach.toml):
+# fuel and endurance, Mach 0.73-0.84, altitude 25-43 kft, track sd 1 deg, vertical rate in the
+# cruise BFO. Only the evidence admitted to the likelihood changes down the ladder, so the four
+# runs are directly comparable and the movement between them is attributable to the measurements
+# added, not to a changed model.
+#
+# `proposal = "endurance"` replaces rejection-after-the-fact with a proposal that knows the fuel
+# state. Two mechanisms, both exact: a path is dropped at the first epoch where the 00:11
+# deadline is unreachable on the cheapest continuation the tables allow (a subset of what the
+# deadline rejects, so nothing the model keeps is lost), and new Mach targets come from a
+# mixture of the prior and the affordable speeds with the weight corrected by the exact
+# prior-to-proposal ratio. The target posterior is unchanged; only the sampler's efficiency is.
+name = "endurance-1-fuel-only"
+seeds = [1, 2, 3, 4]
+# Particle allocation equalised and doubled, 2.8M per mode against the base
+# [1M, 0.5M, 2.5M, 0.5M, 2.5M]. This is a sampler change, not a model change: the mode prior
+# stays equal and the pooling factors correct for the allocation, so the posterior is unchanged in
+# expectation. The reason is measured, not guessed. The fuel evidence cuts the number of distinct
+# surviving prior draws by about 3.3x (TT 1,020 -> 314, LNAV 1,114 -> 349, MH 295 -> 96,
+# MT 200 -> 76), because the prior proposes many paths that burn out before 00:11 and the
+# require_power_until term correctly rejects them. With only tens of draws left in MH and MT -
+# the two modes that carry the shoulder - the pooled curve depends on the seed and split-half
+# overlap fell to 0.743. Equalising stops starving those two modes and doubling restores the draw
+# count; softening the evidence instead would have traded a real observation for a convergence
+# number.
+particles_per_mode = [2800000, 2800000, 2800000, 2800000, 2800000]
+
+
+[[cases]]
+id = "fuel-only"
+use_bfo = false
+use_bto = false
+
+[inputs]
+observations = "../../data/satcom-observations.csv"
+fuel_tables = "../../data/fuel-tables.json"
+
+[prior]
+track_sd_deg = 1.0
+
+[dynamics]
+# Davey's own range. Assumption 4 makes the 0.73 floor a stand-in for the fuel constraint, so
+# with fuel modelled the floor and the fuel model are two statements of one thing and the prior
+# is a sensible proposal for the posterior. The wide-Mach runs instead put the two in conflict:
+# the prior proposes fast paths and fuel says they cannot reach 00:19.
+mach_range = [0.73, 0.84]
+altitude_range_ft = [25000.0, 43000.0]
+bfo_vertical_rate = true
+
+[fuel]
+initial_kg = 36609.0
+zfw_kg = 174196.0
+factor_mean = 1.0085
+factor_sd = 0.0178
+require_power_until = "m0011"
+proposal = "endurance"
+proposal_prior_mix = 0.15
+proposal_cells = 16
+exhaustion_target_utc = "2014-03-08T00:17:30Z"
+exhaustion_sd_s = 300.0

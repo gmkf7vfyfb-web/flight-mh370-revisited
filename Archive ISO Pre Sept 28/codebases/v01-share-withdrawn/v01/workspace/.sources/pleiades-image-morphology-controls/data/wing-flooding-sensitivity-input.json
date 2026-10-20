@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "status": "FIRST_ORDER_SENSITIVITY_INPUTS; MASS_THICKNESS_AND_RETENTION_VALUES_ARE_ASSUMPTIONS_NOT_BOEING_MANUFACTURING_DATA",
+  "source_context": {
+    "wing_geometry": "Boeing 777-200 airport-planning DXF-derived complete left-wing planform in boeing-selected-component-context.json",
+    "wing_geometry_sha256": "334a0ebde06cd9a8e4384b4073b98a07831acdeed2cf1e051b09294afb3fe8e5",
+    "parameter_origin": "The three complete-left-wing draws from the preserved first-order V1 flooding screen; retained here as exact fixtures.",
+    "engine_point_origin": "Centroid of the preserved Boeing DXF nacelle plan silhouette, reflected to the left wing and expressed relative to the wing-planform bounds centre.",
+    "target_origin": "The exact PHR_4 object 18 PCA-only random-pose minimum pinned in pca-only-selected-display-masks.json."
+  },
+  "water_density_kg_m3": 1025.0,
+  "material_density_kg_m3": 2700.0,
+  "plan_sampling_m": 1.0,
+  "vertical_layers": 5,
+  "shallow_underwater_visibility_m": 0.5,
+  "engine_mass_kg": 7136.0,
+  "engine_mass_point_local_m": {
+    "x": -8.582509149842444,
+    "y": 6.7908666077271445,
+    "z": -2.0
+  },
+  "parameter_draws": [
+    {
+      "draw_index": 0,
+      "dry_mass_kg": 13000.0,
+      "root_max_thickness_m": 2.8,
+      "tip_max_thickness_m": 0.575,
+      "root_mass_bias": 2.85,
+      "trailing_mass_bias": 1.6
+    },
+    {
+      "draw_index": 1,
+      "dry_mass_kg": 6536.0565,
+      "root_max_thickness_m": 2.686,
+      "tip_max_thickness_m": 0.7939,
+      "root_mass_bias": 3.0716,
+      "trailing_mass_bias": 2.2621
+    },
+    {
+      "draw_index": 2,
+      "dry_mass_kg": 6330.1005,
+      "root_max_thickness_m": 2.1033,
+      "tip_max_thickness_m": 0.6135,
+      "root_mass_bias": 3.8873,
+      "trailing_mass_bias": 0.75
+    }
+  ],
+  "original_flood_progress": [0.0, 0.2, 0.4, 0.6, 0.8, 0.95, 1.0],
+  "original_flooding_hypotheses": {
+    "root_trailing_first": [
+      [0.28, 0.12, 0.02],
+      [0.62, 0.45, 0.22],
+      [0.88, 0.75, 0.55]
+    ],
+    "root_leading_first": [
+      [0.02, 0.12, 0.28],
+      [0.22, 0.45, 0.62],
+      [0.55, 0.75, 0.88]
+    ],
+    "tip_trailing_first": [
+      [0.55, 0.75, 0.88],
+      [0.22, 0.45, 0.62],
+      [0.02, 0.12, 0.28]
+    ],
+    "uniform": [
+      [0.25, 0.25, 0.25],
+      [0.25, 0.25, 0.25],
+      [0.25, 0.25, 0.25]
+    ]
+  },
+  "sensor_views": {
+    "off_nadir_degrees": [0.0, 15.0, 30.0],
+    "azimuth_degrees": [0.0, 90.0, 180.0, 270.0]
+  },
+  "compartment_order": [
+    "root-leading",
+    "root-middle",
+    "root-trailing",
+    "midspan-leading",
+    "midspan-middle",
+    "midspan-trailing",
+    "tip-leading",
+    "tip-middle",
+    "tip-trailing"
+  ],
+  "continuous_refinement": {
+    "binary_multistart_count_per_configuration": 4,
+    "coarse_levels": [0.0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1.0],
+    "maximum_coordinate_sweeps": 4,
+    "local_step": 0.03125,
+    "local_sweeps": 3
+  }
+}

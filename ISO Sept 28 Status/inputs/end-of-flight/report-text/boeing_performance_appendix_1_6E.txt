@@ -1,0 +1,454 @@
+SAFETY INVESTIGATION REPORT                                                      APPENDIX 1.6E
+MH370 (9M-MRO) Boeing Performance Analysis – Malaysian Airlines 777 9M-MRO Missing Occurrence – 08
+                                                            March 2014
+
+                Event Report
+                Malaysia Airlines (MAS) reported that a 777-200ER (WB175/9M-MRO) operating as flight MH370
+                en route from Kuala Lumpur, Malaysia to Beijing, China lost communication over Vietnam airspace
+                after leaving Malaysia airspace on 8 March 2014.
+
+                This event is being investigated by the Malaysian Ministry of Transportation (MOT) with the
+                assistance of accredited representatives from the United States National Transportation Safety Board
+                (NTSB), the Australian Transportation Safety Board (ATSB), and the United Kingdom Air
+                Accidents Investigation Branch (AAIB). Boeing is providing technical support to the US NTSB. As
+                of the date of this report, flight data from the flight data recorder (FDR) and quick access recorder
+                (QAR) are not available for analysis. The data currently available consists of aircraft
+                communications addressing and reporting system (ACARS) data, radar data, and satellite data. The
+                analysis presented in this report will focus on the performance of the airplane and describe how the
+                ACARS data were used to analytically determine position and fuel consumption over the Malay
+                Peninsula, how the radar data were used to track the path of the airplane off its charted course and
+                estimate the amount of fuel used through that segment of flight, and how performance range
+                capability augmented analysis to the satellite data to determine the possible flight profiles.
+
+                Available Airplane Position Data
+                The flight departed Kuala Lumpur International Airport – Sepang (KUL) on March 7, 2014 at 16:42
+                Coordinated Universal Time (UTC). The airplane lost contact with air traffic control (ATC) at 17:22
+                UTC during transition from Malaysia to Vietnamese airspace. The last ACARS transmission
+                occurred at 17:06:43 UTC. Primary radar continued the tracking of the flight through time 18:22:12
+                UTC. Satellite data provided communication data through time 00:19:29 UTC on March 8.
+
+                Aircraft Communications Addressing and Reporting System (ACARS)
+                ACARS data provided time history position via latitude and longitude, along with altitude, computed
+                airspeed, wind speed and direction, total fuel weight, and gross weight of the airplane in 300-second
+                time intervals. The fuel recorded prior to takeoff at time 16:41:43 UTC was 49,200 kilograms (kg)
+                (108,467 pounds [lb]), and the gross weight was 492,520 lb. For reference, the maximum takeoff
+                weight for WB175 is 650,000 lb. The last data point transmitted by ACARS was at time 17:06:43
+                UTC. At that time, the airplane was positioned approximately 165 nm northeast of KUL with the
+                fuel weight recorded at 43,800 kg (96,562 lb) and gross weight at 480,600 lb.
+
+                Radar Data
+                The radar data originated from two sources and provided time history position information of the
+                airplane in terms of latitude and longitude, along with altitude in 10-second time intervals. One of
+                the sets also provided altitude and ground speed information; however, they were ultimately
+                determined not to be entirely reliable due to their inconsistent values. The radar data originated from
+                two sources and began at KUL, tracked the airplane over the Malay Peninsula, then over the Gulf of
+                Thailand before a left turn was completed taking the airplane back over the Malay Peninsula and
+                over the Malacca Strait where the radar tracking of the airplane ended at time 18:01:19 UTC. One
+                final data point of the position of the airplane was determined through analysis of radar playback that
+                placed the airplane over the waters north of Indonesia at time 18:22:12 UTC. There were a few
+                breaks in the radar data including a 50-second break around the time of the left turn, a 42-second
+                break between the two radar sources, and a 20-minute, 53-second break to the final radar data point.
+
+                Satellite Data
+                The satellite communication (SATCOM) system on WB175 was in periodic communication with the
+                Perth Ground Station during the flight starting prior to takeoff until the last signal at time 00:19:29
+                UTC. The SATCOM system is used for voice and data communications between the airplane and
+                the ground station, and includes transmittal of data such as ACARS and communication between the
+                crew and ATC. As part of the communication mechanism which allows voice and data
+                communications, the airplane and the satellite periodically exchange signals. The fact that SATCOM
+
+                                                                                                                     1
+SAFETY INVESTIGATION REPORT                                                      APPENDIX 1.6E
+MH370 (9M-MRO) Boeing Performance Analysis – Malaysian Airlines 777 9M-MRO Missing Occurrence – 08
+                                                            March 2014
+
+                signals were received from WB175 until time 00:19:29 UTC indicated that the airplane was still
+                powered, and because the response time changed, that the airplane was still moving. Three key
+                pieces of information used to track WB175 came from the satellite data: 1) UTC time of the
+                communication, 2) burst timing offset (BTO), and 3) burst frequency offset (BFO). BTO is the time
+                for the airplane to respond to a message and was used to determine distance from the satellite to the
+                airplane. BFO is the difference between the expected frequency and the measured frequency when
+                received at the ground station and was used to help determine relative motion of the airplane with
+                respect to the satellite. The BTO was used to create arcs along the earth representing the set of
+                possible airplane positions at the time of communication, but provides no information about where
+                along the arc the airplane was located. The BTO was associated with a UTC time which allowed for
+                path constraints to be applied to the airplane position due to speed limitations. However, the BTO
+                data did not provide direction of travel, and it was unknown if the airplane took a northern route over
+                the Andaman Sea or a southern route over the Indian Ocean after the last radar signal. Analysis of
+                the BFO data (not discussed in this report) eliminated the northern routes. The first satellite
+                communication timing used to define the arcs after the end of the radar data occurred at time 18:28:06
+                UTC with the last transmission occurring at time 00:19:29 UTC, with 5 transmissions in between.
+                The BTO data from the satellite communications are listed in Table 1. The arcs of possible airplane
+                position defined by the BTO from the 7 transmissions are shown in Figure 1.
+
+                                                  Table 1: Satellite BTO Data
+                                                                 BTO
+                                            UTC Time                          Arc
+                                                            (microseconds)
+                                            18:28:05.90         12,500         1
+                                            19:41:02.91         11,500         2
+                                            20:41:04.90         11,740         3
+                                            21:41:26.91         12,780         4
+                                            22:41:21.91         14,540         5
+                                            00:10:59.93         18,040         6
+                                            00:19:29.42         18,440         7
+
+
+
+
+                                                                                                                     2
+SAFETY INVESTIGATION REPORT                                                      APPENDIX 1.6E
+MH370 (9M-MRO) Boeing Performance Analysis – Malaysian Airlines 777 9M-MRO Missing Occurrence – 08
+                                                            March 2014
+
+
+                          Figure 1: Arcs of Possible Airplane Position based upon Satellite BTO Data
+
+
+
+
+                                                                Arc 1
+
+                                                                Arc 2
+
+                                                                 Arc 3
+
+                                                                 Arc 4
+
+                                                                Arc 5
+
+                                                            Arc 6
+
+                                                        Arc 7
+
+
+
+                Wind Data
+                Wind data during the time period and covering the region of the flight were obtained for two time
+                periods during the flight (18:00 UTC and 00:00 UTC) and at 8 altitudes (400 feet, 2500 feet, 4800
+                feet, 9900 feet, 13,800 feet, 18,300 feet, 23,500 feet, and 30,000 feet). The data contained time,
+                latitude, longitude, wind speed, wind direction, and altitude. These data were applied to the available
+                radar data to calculate the true airspeed of the airplane that would be used in the fuel burn analysis.
+                The wind data were also incorporated into the analysis to determine the possible paths of the airplane
+                using the constraints of the satellite data. Linear interpolation of the wind data occurred at the
+                location and time of the assumed flight path in cases where known wind data was not available.
+
+                Assumptions
+                Not all of the parameters needed to calculate the performance range capability of the airplane were
+                available, and many assumptions had to be made to complete this calculation. Below is a list of the
+                general assumptions made about the airplane, its flight path, and the atmosphere:
+
+                    •   The airplane weight information (including fuel weight) contained in the final ACARS report
+                        was valid and accurate
+                    •   Constant last known altitude from ACARS until higher speeds forced altitude restriction
+                    •   Constant altitude for each segment after end of ACARS data
+                    •   Constant speed during each segment
+                    •   No turns during flight segments where data were not available
+                    •   Standard day atmosphere
+
+                The segments referred to above are in reference to the data sources available that defined the flight
+                path of the airplane from the end of the ACARS data to the first satellite arc. Each segment of
+                data/flight path were analyzed and compiled to arrive at a fuel weight at the first satellite arc. The
+
+                                                                                                                     3
+SAFETY INVESTIGATION REPORT                                                      APPENDIX 1.6E
+MH370 (9M-MRO) Boeing Performance Analysis – Malaysian Airlines 777 9M-MRO Missing Occurrence – 08
+                                                                                           March 2014
+
+                fuel weight was known at the last ACARS transmission, so the fuel burn analysis started at that point.
+                The flight segments were defined as follows in Table 2 and depicted in Figure 2:
+
+                                                        Table 2: Flight Segments
+                 Segment          From                                To
+                    1             Last ACARS point                    Radar Data Source 1 – End
+                    2             Radar Data Source 1 – End           Radar Data Source 2 – Start
+                    3             Radar Data Source 2 - Start         Radar Data Source 2 – End
+                    4             Radar Data Source 2 – End           Final Radar Data Source 2 Point
+                    5             Final Radar Data Source 2 Point     First Satellite Arc
+
+                                                                            Figure 2: Flight Segments
+
+
+
+
+                            Segment 5
+                                 (To Arc 1)
+
+
+                                                 Segment 4
+                                           (To the Last Radar Data Point)                                            Segment 2
+                                                                                          Segment 3              (Break Between Radar Data)
+                                                                                         (Radar Data Source 2)
+
+
+                                                                                                                                       End of Radar Data
+                       Starting Point on
+                       Arc 1
+                                                                                                                                       Source 1             Segment 1
+                                                                                                                 Start of Radar Data                       (Radar Data Source 1)
+                                           Last Radar Data Point                                                 Source 2
+
+
+
+                                                                     End of Radar Data
+                                                                     Source 2
+                                                                                                                    Last ACARS
+                                                                                                                    Data Point
+
+
+
+
+                                                                                                                                                               ACARS Data
+
+
+
+
+                Analysis of Fuel Burn
+                ACARS Data
+                The airplane departed with 49,200 kg (108,467 lb) of fuel. At the last ACARS transmission, the
+                amount of fuel onboard was recorded at 43,800 kg (96,562.5 lb).
+
+                Radar Data
+                Time and location information from the radar data determined the ground speed along the segments
+                of flight. The ground speed, along with the wind data, allowed for the calculation of true airspeed.
+                During Segment 1, an average ground speed was calculated based on time and distance traveled. The
+                airplane was assumed to remain at 35,000 feet altitude (FL350) through this entire segment based on
+                the last ACARS transmission. The radar data during this portion of the flight also indicated that the
+                airplane was at FL350 for nearly the entire path. The end of the radar data deviated from constant
+                altitude, with unrealistic changes in ground speed, and were considered unreliable and not
+                incorporated into the fuel burn analysis.
+
+                                                                                                                                                                                   4
+SAFETY INVESTIGATION REPORT                                                      APPENDIX 1.6E
+MH370 (9M-MRO) Boeing Performance Analysis – Malaysian Airlines 777 9M-MRO Missing Occurrence – 08
+                                                             March 2014
+
+
+                Segment 2 consisted of a break between the two radar sources. Knowing the location and time at the
+                end of the first radar source and the location and time at the beginning of the second radar source,
+                the distance between the points was determined and an average ground speed was calculated. The
+                altitude was assumed to remain constant at FL350.
+
+                The third segment of the flight consisted of the second radar source that contained unreliable altitude
+                information. The average ground speed increased during this segment of flight, and after
+                incorporating a tailwind, the true airspeed was estimated to be 510 knots. At FL350 and true airspeed
+                of 510 knots, the Mach number would be 0.885 which is above the maximum operating Mach
+                (MMO) of 0.87 at that altitude. While operating above MMO is technically feasible, the condition
+                was considered unlikely as it would induce an overspeed warning, and the overspeed protection
+                control laws would activate. Activation of the overspeed protection control law results in trailing-
+                edge-up elevator to increase the pitch attitude, thereby slowing down the airplane. Pilot intervention
+                would need to occur by pushing forward on the column to keep the airspeed above MMO. During
+                Segment 3, the assumed altitude of the flight path was reduced to 30,000 feet altitude (FL300) to
+                keep the Mach number below MMO.
+
+                Segment 4 comprises of the flight path between the end of the second radar source and the last radar
+                data point. The average ground speed was slightly slower than Segment 3 but high enough for the
+                assumed altitude to remain at FL300 for the performance fuel burn calculation to avoid exceeding
+                MMO.
+
+                Segment 5 of the flight path continued a northwesterly route from the last radar data point to the first
+                satellite arc. The altitude during this segment was assumed to remain at FL300 for analysis purposes.
+                Boeing 777 performance models were used to determine the fuel flow for each segment. Table 3
+                shows the details at the end of each flight segment and includes the fuel burn analysis results.
+
+                                         Table 3: Flight Segment Details and Fuel Burn
+                                                               Average        Average                     Ending Fuel
+                          Travel               Assumed Wind Component                                       Weight
+                                     Distance                                   True           Mach
+               Segment     Time                  Flight      (+headwind/                                     (lb)
+                                      (nm)                                    Airspeed
+                          (hours)                Level        -tailwind)                                  (Beginning Fuel
+                                                                               (knots)                   Weight = 96,563 lb)
+                  1        0.36       175.3     FL350             -14            478           0.829         91,242
+                  2        0.023       11.1     FL350             -19            470           0.815         90,911
+                  3        0.54        282      FL300             -13            510           0.865         81,104
+                  4        0.34       173.5     FL300             -14            502           0.852         75,425
+                  5        0.092       46.4     FL300              -9            494           0.838         73,908
+
+                Performance Range Capability and Path Creation
+                Boeing used 777 performance data to analytically determine range capability during the satellite data
+                portion of the analysis. WB175 was equipped with two Rolls Royce RB211-Trent-892B high-bypass
+                turbofan engines. An engine efficiency analysis using the fuel burn information provided in the
+                ACARS data was performed by the engine manufacturer, Rolls Royce. This analysis showed that
+                the specific fuel consumption of the right engine is slightly greater as compared to the left engine.
+                The analysis results in this report have taken this difference into account.
+
+                At the first satellite arc, the calculated fuel on board WB175 was 73,908 lb (see Table 3). At each
+                successive arc point, the satellite data provided a UTC time and the response time (BTO) but did not
+                provide a precise location of the airplane or any information about altitude or airspeed. A series of
+                altitude/speed profiles were analyzed to determine the range capability of the airplane. The speed at
+                each altitude ranged from the top of the amber band (minimum operating speed) to the bottom of the
+                upper barber pole (maximum operating speed) and included the maximum range cruise (MRC)
+
+                                                                                                                          5
+SAFETY INVESTIGATION REPORT                                                      APPENDIX 1.6E
+MH370 (9M-MRO) Boeing Performance Analysis – Malaysian Airlines 777 9M-MRO Missing Occurrence – 08
+                                                            March 2014
+
+                speed. Table 4 shows the results of the performance analysis for the altitude/speed combinations
+                that were analyzed, along with travel time and range from Arc 1 with the MRC speed denoted with
+                a “*”.
+
+                           Table 4: Range Capability for Altitude/Speed Combinations (from Arc 1)
+                                              True Airspeed       Mach     Time        Range
+                              Flight Level
+                                                 (knots)        (*=MRC) (hours)         (nm)
+                                 FL400             494             0.861    5.0         2491
+                                 FL400             475             0.828    5.9         2803
+                                 FL400             469            0.818*    6.0         2806
+                                 FL400             417             0.727    6.1         2538
+                                 FL350             500             0.867    4.7         2356
+                                 FL350             475             0.824    5.6         2657
+                                 FL350             466             0.824    5.9         2747
+                                 FL350             443            0.769*    6.2         2711
+                                 FL350             400             0.694    6.6         2624
+                                 FL300             500             0.848    4.5         2270
+                                 FL300             437             0.742    5.7         2523
+                                 FL300             416            0.706*    6.1         2552
+                                 FL300             323             0.548    6.8         2181
+                                 FL250             471             0.782    4.6         2151
+                                 FL250             383            0.642*    6.1         2363
+                                 FL250             291             0.483    6.8         1970
+                                 FL150             407              0.65    4.5         1835
+                                 FL150             333            0.532*    5.8         1923
+                                 FL150             250             0.399    6.75        1662
+                                 FL030             345             0.535    4.2         1446
+                                 FL030             284            0.437*    5.7         1534
+                                 FL030             235             0.359    6.2         1464
+
+                Using the time constraints of the satellite data and the wind data to back out ground speed from true
+                airspeed in the performance analysis in Table 4, flight profiles for each altitude/speed combination
+                were created and depicted in Figure 3. There are numerous possible paths that could have been taken
+                between the arcs, and taking these variations into consideration would have resulted in an endless
+                number of possible solutions. To constrain the problem, it was decided to include the following
+                assumptions: 1) an assumption that changes to the flight path heading could only be made at the arc
+                crossings, and 2) the altitude and true airspeed remained constant throughout the flight path. With
+                those constraints in place, a number of possible flight paths were created that met the conditions of
+                the satellite data in terms of time and position. Each color in Figure 3 designates a flight level, and
+                within those flight levels there are several different true airspeeds.
+
+                Based on the performance range calculation for each altitude/speed combination, some paths were
+                range-limited, meaning that they did not have enough remaining fuel to make it to the 7th arc. A few
+                paths were time-limited, meaning they couldn’t make it to an arc before exceeding the time constraint
+                from the satellite data. Other paths met both the range capability and time constraints to reach the
+                7th arc.
+
+
+
+
+                                                                                                                     6
+SAFETY INVESTIGATION REPORT                                                      APPENDIX 1.6E
+MH370 (9M-MRO) Boeing Performance Analysis – Malaysian Airlines 777 9M-MRO Missing Occurrence – 08
+                                                                   March 2014
+
+
+
+
+                                                    Figure 3: Possible Flight Paths (from Arc 1)
+
+
+                                                        Arc
+                                                         1
+                                                                                                   Path Legend
+                                                                                                   Orange = FL400
+                                                                                                   Red = FL350
+                                                                                                   Blue = FL300
+                                                                                                   Cyan = FL250
+                                                                                                   Green = FL150
+                                                                                                   Magenta = FL030
+                                                    2
+
+
+
+
+                                          3
+
+
+
+
+                                  4
+
+
+
+
+                              5
+                                          471 kts
+                                      475 kts
+
+
+
+
+                             6
+                                         475 kts
+
+
+
+
+                             7
+
+
+
+                End of Flight Scenarios
+
+                                                                                                                     7
+SAFETY INVESTIGATION REPORT                                                      APPENDIX 1.6E
+MH370 (9M-MRO) Boeing Performance Analysis – Malaysian Airlines 777 9M-MRO Missing Occurrence – 08
+                                                              March 2014
+
+                Simulation Session: Engine Flame-Out
+                A simulator session was held to determine possible outcomes of an engine flame-out at the point of
+                fuel exhaustion with no manual intervention. A Boeing 777 fixed-base simulator using the same
+                certified aerodynamic model as a Level D simulator for crew training was used during this session.
+                As such, from a systems and aerodynamic/airplane behavior perspective, the simulator is
+                representative of the expected behavior of WB175 assuming the conditions used in the simulator
+                session existed during the event flight. The initial conditions in some cases were derived from
+                information collected supporting the investigation (i.e. atmosphere, airplane center of gravity [CG]),
+                and in the other cases, the initial conditions were assumptions required to run the simulator that may
+                not be representative of the actual event airplane settings (i.e. autopilot modes, latitude and longitude,
+                heading). Where assumptions were required, there was an attempt to select initial conditions that
+                were considered possible for WB175. The fuel on board was selected to result in the right engine
+                flaming out first due to the performance difference of the right engine stated previously. The
+                simulation was prepared such that the left engine flamed out approximately 4 to 5 minutes after the
+                right engine flame-out. This portion of the simulation was not intended to be representative of
+                WB175 but to provide sufficient time to observe the system effects from the single engine flame-out
+                prior to assessing the dual engine flame-out characteristics.
+
+                The simulator session results are as follows. Upon flame-out of the right engine, the thrust
+                asymmetry compensation (TAC) function input left rudder to minimize the yaw asymmetry caused
+                by the asymmetric thrust, per design. TAC is a control law on the 777 that commands rudder when
+                a thrust asymmetry is detected, and the result is representative of what would have occurred on
+                WB175 given an asymmetric engine shutdown. After flame-out of the right engine, the left engine
+                also flamed out as a result of fuel exhaustion. Following the spool-down of the left engine and
+                resulting electrical power loss, the autopilot disconnected. The ram air turbine (RAT) deployed
+                which enabled a few of the flight deck displays to continue functioning as well as provided hydraulic
+                pressure to a reduced number of control surfaces. As the left engine spooled down, TAC reduced
+                the amount of left rudder input, per design. However, the rudder did not completely return to zero
+                deflection before total loss of power. As a result, a residual amount of rudder, approximately 0.2
+                degrees to the left, remained. This residual rudder caused a slow roll to the left after the autopilot
+                disconnected.
+
+                After the autopilot disconnect, the airplane was allowed to freely respond without any commanded
+                inputs from the flight deck. In each case, the airplane began a descending, spiral turn to the left. It
+                was generally a low bank angle turn that lasted for up to 12 minutes as the airplane descended to sea
+                level. In many cases, but not all, a Phugoid oscillation was observed. This caused the airplane to
+                pitch up and down at low frequency during the spirals. Some of the oscillations were large, but the
+                airplane never stalled during the Phugoid cycles. Some exceedances of design dive speed (VD) were
+                observed.
+
+                The simulator session flight paths from the point of the final engine flame-out to sea level were
+                contained within a 100 nm2 box. That box was observed to extend 10 nm beyond the point of fuel
+                exhaustion and 10 nm to the left of the original flight path (at the point of fuel exhaustion) due to the
+                roll to the left.
+
+                Possible Additional Range due to Driftdown
+                The 100 nm2 box defined by the simulator session at the point of the dual engine flame-out was
+                obtained assuming no inputs were commanded from the flight deck. To quantify the maximum range
+                the airplane could have traveled, the distance covered during driftdown was estimated. The
+                driftdown range is the additional range that the airplane could have achieved after fuel exhaustion if
+                manual control inputs were commanded from the flight deck to maintain wings level flight
+                throughout the glide distance. In general, the airplane could achieve an estimated driftdown range
+                of 0.0034 nm per foot of altitude. Therefore, at FL350 the additional range after the dual engine
+                flame-out would be approximately 120 nm and at FL400 it would be approximately 136 nm.
+
+                                                                                                                        8
+

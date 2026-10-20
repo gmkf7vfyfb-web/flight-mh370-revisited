@@ -1,0 +1,14 @@
+[package]
+name = "mh370-end-of-flight"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+mh370-domain = { path = "../domain" }
+rand.workspace = true
+rand_chacha.workspace = true
+rand_distr.workspace = true
+serde.workspace = true
+thiserror.workspace = true

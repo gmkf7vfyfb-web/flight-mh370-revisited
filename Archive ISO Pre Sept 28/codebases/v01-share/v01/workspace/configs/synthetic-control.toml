@@ -1,0 +1,48 @@
+schema_version = 1
+name = "synthetic-smoke-rust-v1"
+truth_seed = 320101
+
+[filter]
+particles = 8192
+seed = 321001
+algorithm = "auxiliary"
+initial_time_s = 0.0
+ess_resample_fraction = 0.5
+
+[synthetic]
+epochs = 6
+epoch_interval_s = 600.0
+
+initial_time_s = 0.0
+initial_latitude_deg = -6.0
+initial_longitude_deg = 92.0
+initial_altitude_ft = 35000.0
+initial_track_deg = 185.0
+initial_ground_speed_kt = 480.0
+initial_vertical_speed_fpm = 0.0
+initial_bfo_bias_hz = 150.0
+
+prior_latitude_sd_deg = 0.7
+prior_longitude_sd_deg = 0.7
+prior_track_sd_deg = 8.0
+prior_ground_speed_sd_kt = 20.0
+prior_bfo_bias_sd_hz = 25.0
+
+process_track_sd_deg_per_sqrt_hour = 0.5
+process_ground_speed_sd_kt_per_sqrt_hour = 5.0
+process_bfo_bias_sd_hz_per_sqrt_hour = 1.0
+
+bto_sd_us = 29.0
+bfo_sd_hz = 7.0
+guide_inflation = 4.0
+
+satellite_initial_position_km = { x = 18161.90697, y = 38060.47336, z = 1029.903202 }
+satellite_velocity_km_s = { x = 0.002195, y = -0.000728, z = -0.045877 }
+ground_station_position_km = { x = -2368.8, y = 4881.1, z = -3342.0 }
+bto_constants = { speed_of_light_km_s = 299792.458, nominal_delay_us = 499962.0, channel_term_us = 4283.0 }
+bfo_constants = { satellite_afc_hz = -18.075833333333, uplink_hz = 1646652500.0, downlink_hz = 3615152500.0, speed_of_light_km_s = 299792.458, nominal_satellite_longitude_deg = 64.5, nominal_satellite_altitude_km = 36210.12 }
+
+[validation]
+maximum_final_mean_error_nm = 100.0
+minimum_mass_within_100_nm = 0.5
+minimum_final_ess = 100.0

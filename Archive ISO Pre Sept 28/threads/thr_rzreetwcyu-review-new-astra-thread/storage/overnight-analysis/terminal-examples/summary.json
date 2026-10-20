@@ -1,0 +1,54 @@
+{
+  "status": "conditional comparisons on feasibility witnesses; no normalized geographic PDF",
+  "witnesses": 215,
+  "terminal_cases_per_witness": 130,
+  "impact_examples": 22480,
+  "outcome_counts": [
+    {
+      "family": "openap_v2_6_0_attached_flow",
+      "outcome": "\"impact\"",
+      "examples": 10966
+    },
+    {
+      "family": "openap_published2020_attached_flow",
+      "outcome": "\"impact\"",
+      "examples": 11514
+    },
+    {
+      "family": "openap_v2_6_0_attached_flow",
+      "outcome": "terminal_weather_domain_unresolved",
+      "examples": 2953
+    },
+    {
+      "family": "openap_published2020_attached_flow",
+      "outcome": "terminal_weather_domain_unresolved",
+      "examples": 2409
+    },
+    {
+      "family": "openap_v2_6_0_attached_flow",
+      "outcome": "{\"declared_envelope_exit\": \"airspeed_below_minimum\"}",
+      "examples": 56
+    },
+    {
+      "family": "openap_published2020_attached_flow",
+      "outcome": "{\"declared_envelope_exit\": \"airspeed_below_minimum\"}",
+      "examples": 51
+    },
+    {
+      "family": "openap_published2020_attached_flow",
+      "outcome": "{\"declared_envelope_exit\": \"near_vertical_flight_path\"}",
+      "examples": 1
+    }
+  ],
+  "elapsed_s": 27.484425513001042,
+  "posterior_updated": false,
+  "limitations": [
+    "No source-state probability weights.",
+    "The prior to exhaustion retains the last powered control; no new post-00:11 powered commands are added.",
+    "Each post-exhaustion lift coefficient and bank is held constant; these are idealized control alternatives.",
+    "Public attached-flow polars do not validate stalled or compressible terminal flight. Declared envelope exits are retained as unresolved outcomes.",
+    "Point-mass flight-path angle is not body pitch. Body attitude, breakup, water-entry impulse and acoustic coupling remain unresolved.",
+    "No R600 BTO/BFO or successful-logon likelihood is applied by this comparison.",
+    "Weather below 500 ft is explicitly clamped to the lowest grid level."
+  ]
+}

@@ -1,0 +1,361 @@
+{
+  "inherited": {
+    "schema_version": 1,
+    "start_utc": "2014-03-08T00:19:00Z",
+    "observation_utc": "2014-03-23T04:00:00Z",
+    "integration_step_hours": 3,
+    "arc_latitude_range_deg": [
+      -39,
+      -32
+    ],
+    "arc_spacing_nm": 5,
+    "cross_arc_range_nm": [
+      -100,
+      100
+    ],
+    "cross_arc_spacing_nm": 5,
+    "windage_factors": [
+      0,
+      0.012,
+      0.03
+    ],
+    "windage_prior": [
+      0.3333333333333333,
+      0.3333333333333333,
+      0.3333333333333333
+    ],
+    "primary_diffusion_rms_nm_per_day": 5,
+    "diffusion_sensitivity_nm_per_day": [
+      0,
+      10
+    ],
+    "primary_kernel_sigma_km": 10,
+    "kernel_sensitivity_km": [
+      5,
+      20
+    ],
+    "primary_object_set": "all_rating5",
+    "object_set_sensitivity": "morphology_shortlist5",
+    "particles_per_windage_primary": 64,
+    "particles_per_windage_sensitivity": 32,
+    "seeds": [
+      37003801,
+      37003802,
+      37003803
+    ],
+    "bran_subset": {
+      "time_indices": [
+        7,
+        22
+      ],
+      "depth_index": 0,
+      "latitude_indices": [
+        299,
+        499
+      ],
+      "longitude_indices": [
+        799,
+        1049
+      ],
+      "scale_factor": 0.0003051851,
+      "missing_packed_value": -32768
+    },
+    "ncep_wind_subset": {
+      "time_indices": [
+        66,
+        81
+      ],
+      "latitude_indices": [
+        57,
+        73
+      ],
+      "longitude_indices": [
+        42,
+        57
+      ]
+    },
+    "oscar_subset": {
+      "latitude_indices": [
+        179,
+        259
+      ],
+      "longitude_indices": [
+        320,
+        420
+      ]
+    }
+  },
+  "tasks": [
+    {
+      "currentModel": "bran2016",
+      "currentStem": "bran2016-surface-currents-20140308-23",
+      "stokesStem": null,
+      "seed": 37003801,
+      "observationUtc": "2014-03-23T04:00:00Z",
+      "particleCount": 64,
+      "diffusionRmsNmPerDay": 5,
+      "kernelSigmasKm": [
+        5,
+        10,
+        20
+      ],
+      "day": 23
+    },
+    {
+      "currentModel": "bran2016",
+      "currentStem": "bran2016-surface-currents-20140308-23",
+      "stokesStem": null,
+      "seed": 37003802,
+      "observationUtc": "2014-03-23T04:00:00Z",
+      "particleCount": 64,
+      "diffusionRmsNmPerDay": 5,
+      "kernelSigmasKm": [
+        5,
+        10,
+        20
+      ],
+      "day": 23
+    },
+    {
+      "currentModel": "bran2016",
+      "currentStem": "bran2016-surface-currents-20140308-23",
+      "stokesStem": null,
+      "seed": 37003803,
+      "observationUtc": "2014-03-23T04:00:00Z",
+      "particleCount": 64,
+      "diffusionRmsNmPerDay": 5,
+      "kernelSigmasKm": [
+        5,
+        10,
+        20
+      ],
+      "day": 23
+    },
+    {
+      "currentModel": "oscar_v2_final",
+      "currentStem": "oscar-v2-final-20140308-23",
+      "stokesStem": null,
+      "seed": 37003801,
+      "observationUtc": "2014-03-23T04:00:00Z",
+      "particleCount": 64,
+      "diffusionRmsNmPerDay": 5,
+      "kernelSigmasKm": [
+        5,
+        10,
+        20
+      ],
+      "day": 23
+    },
+    {
+      "currentModel": "oscar_v2_final",
+      "currentStem": "oscar-v2-final-20140308-23",
+      "stokesStem": null,
+      "seed": 37003802,
+      "observationUtc": "2014-03-23T04:00:00Z",
+      "particleCount": 64,
+      "diffusionRmsNmPerDay": 5,
+      "kernelSigmasKm": [
+        5,
+        10,
+        20
+      ],
+      "day": 23
+    },
+    {
+      "currentModel": "oscar_v2_final",
+      "currentStem": "oscar-v2-final-20140308-23",
+      "stokesStem": null,
+      "seed": 37003803,
+      "observationUtc": "2014-03-23T04:00:00Z",
+      "particleCount": 64,
+      "diffusionRmsNmPerDay": 5,
+      "kernelSigmasKm": [
+        5,
+        10,
+        20
+      ],
+      "day": 23
+    },
+    {
+      "currentModel": "glorys12_waverys",
+      "currentStem": "cmems-glorys12-surface-currents-20140308-24",
+      "stokesStem": "cmems-waverys-surface-stokes-20140308-23",
+      "seed": 37003801,
+      "observationUtc": "2014-03-23T04:00:00Z",
+      "particleCount": 64,
+      "diffusionRmsNmPerDay": 5,
+      "kernelSigmasKm": [
+        5,
+        10,
+        20
+      ],
+      "day": 23
+    },
+    {
+      "currentModel": "glorys12_waverys",
+      "currentStem": "cmems-glorys12-surface-currents-20140308-24",
+      "stokesStem": "cmems-waverys-surface-stokes-20140308-23",
+      "seed": 37003802,
+      "observationUtc": "2014-03-23T04:00:00Z",
+      "particleCount": 64,
+      "diffusionRmsNmPerDay": 5,
+      "kernelSigmasKm": [
+        5,
+        10,
+        20
+      ],
+      "day": 23
+    },
+    {
+      "currentModel": "glorys12_waverys",
+      "currentStem": "cmems-glorys12-surface-currents-20140308-24",
+      "stokesStem": "cmems-waverys-surface-stokes-20140308-23",
+      "seed": 37003803,
+      "observationUtc": "2014-03-23T04:00:00Z",
+      "particleCount": 64,
+      "diffusionRmsNmPerDay": 5,
+      "kernelSigmasKm": [
+        5,
+        10,
+        20
+      ],
+      "day": 23
+    },
+    {
+      "currentModel": "bran2016",
+      "currentStem": "bran2016-surface-currents-20140308-23",
+      "stokesStem": null,
+      "seed": 37003801,
+      "observationUtc": "2014-03-21T04:00:00Z",
+      "particleCount": 64,
+      "diffusionRmsNmPerDay": 5,
+      "kernelSigmasKm": [
+        5,
+        10,
+        20
+      ],
+      "day": 21
+    },
+    {
+      "currentModel": "bran2016",
+      "currentStem": "bran2016-surface-currents-20140308-23",
+      "stokesStem": null,
+      "seed": 37003802,
+      "observationUtc": "2014-03-21T04:00:00Z",
+      "particleCount": 64,
+      "diffusionRmsNmPerDay": 5,
+      "kernelSigmasKm": [
+        5,
+        10,
+        20
+      ],
+      "day": 21
+    },
+    {
+      "currentModel": "bran2016",
+      "currentStem": "bran2016-surface-currents-20140308-23",
+      "stokesStem": null,
+      "seed": 37003803,
+      "observationUtc": "2014-03-21T04:00:00Z",
+      "particleCount": 64,
+      "diffusionRmsNmPerDay": 5,
+      "kernelSigmasKm": [
+        5,
+        10,
+        20
+      ],
+      "day": 21
+    },
+    {
+      "currentModel": "oscar_v2_final",
+      "currentStem": "oscar-v2-final-20140308-23",
+      "stokesStem": null,
+      "seed": 37003801,
+      "observationUtc": "2014-03-21T04:00:00Z",
+      "particleCount": 64,
+      "diffusionRmsNmPerDay": 5,
+      "kernelSigmasKm": [
+        5,
+        10,
+        20
+      ],
+      "day": 21
+    },
+    {
+      "currentModel": "oscar_v2_final",
+      "currentStem": "oscar-v2-final-20140308-23",
+      "stokesStem": null,
+      "seed": 37003802,
+      "observationUtc": "2014-03-21T04:00:00Z",
+      "particleCount": 64,
+      "diffusionRmsNmPerDay": 5,
+      "kernelSigmasKm": [
+        5,
+        10,
+        20
+      ],
+      "day": 21
+    },
+    {
+      "currentModel": "oscar_v2_final",
+      "currentStem": "oscar-v2-final-20140308-23",
+      "stokesStem": null,
+      "seed": 37003803,
+      "observationUtc": "2014-03-21T04:00:00Z",
+      "particleCount": 64,
+      "diffusionRmsNmPerDay": 5,
+      "kernelSigmasKm": [
+        5,
+        10,
+        20
+      ],
+      "day": 21
+    },
+    {
+      "currentModel": "glorys12_waverys",
+      "currentStem": "cmems-glorys12-surface-currents-20140308-24",
+      "stokesStem": "cmems-waverys-surface-stokes-20140308-23",
+      "seed": 37003801,
+      "observationUtc": "2014-03-21T04:00:00Z",
+      "particleCount": 64,
+      "diffusionRmsNmPerDay": 5,
+      "kernelSigmasKm": [
+        5,
+        10,
+        20
+      ],
+      "day": 21
+    },
+    {
+      "currentModel": "glorys12_waverys",
+      "currentStem": "cmems-glorys12-surface-currents-20140308-24",
+      "stokesStem": "cmems-waverys-surface-stokes-20140308-23",
+      "seed": 37003802,
+      "observationUtc": "2014-03-21T04:00:00Z",
+      "particleCount": 64,
+      "diffusionRmsNmPerDay": 5,
+      "kernelSigmasKm": [
+        5,
+        10,
+        20
+      ],
+      "day": 21
+    },
+    {
+      "currentModel": "glorys12_waverys",
+      "currentStem": "cmems-glorys12-surface-currents-20140308-24",
+      "stokesStem": "cmems-waverys-surface-stokes-20140308-23",
+      "seed": 37003803,
+      "observationUtc": "2014-03-21T04:00:00Z",
+      "particleCount": 64,
+      "diffusionRmsNmPerDay": 5,
+      "kernelSigmasKm": [
+        5,
+        10,
+        20
+      ],
+      "day": 21
+    }
+  ],
+  "interpretation": "Conditional source compatibility. French observation clock time 04:00 UTC is assumed, not verified. Equal fixed family weights; no identity posterior or false-detection denominator."
+}

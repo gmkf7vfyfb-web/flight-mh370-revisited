@@ -1,0 +1,59 @@
+{
+  "deterministic": true,
+  "generator": "code/build.py",
+  "generator_sha256": "25c7bb4ec09d2f55f8f422ee6aa7eba59d677aa3693efb2009db22b944214b90",
+  "input": {
+    "bytes": 695264,
+    "logical_path": "runs/mh370/release-v0.1/conditional/pleiades-equal-family-uncalibrated/conditional-spatial-particles.csv",
+    "particle_count": 2560,
+    "role": "release_input",
+    "sha256": "e8058bb9928199eea234158a54330f1b60cca2b85f32e16d0a1ff07baea8fde1",
+    "weight_column": "conditional_weight",
+    "weight_mode": "linear",
+    "weights_normalized_by_planner": true
+  },
+  "outputs": [
+    {
+      "bytes": 404953,
+      "path": "outputs/planning-release-pleiades-equal-family-uncalibrated/index.html",
+      "sha256": "3e5a4d319d859008c27f8eead60285848e9aeaaf04f64bc5471843d52a342ff6"
+    },
+    {
+      "bytes": 218338,
+      "path": "outputs/planning-release-pleiades-equal-family-uncalibrated/ordered-tiles-posterior-only.csv",
+      "sha256": "46d5157d1b0ca1af4c894ac25361e49f67744125c158be2d5b7075c811ec9177"
+    },
+    {
+      "bytes": 218347,
+      "path": "outputs/planning-release-pleiades-equal-family-uncalibrated/ordered-tiles-proxy-logistics.csv",
+      "sha256": "9f6a5c38b3e3949c85dd86f4f37411a43887de32135bddc42f16ca8dab5f6d39"
+    },
+    {
+      "bytes": 4007,
+      "path": "outputs/planning-release-pleiades-equal-family-uncalibrated/plan-summary.json",
+      "sha256": "16ada25d954daf81e06dd8d6198757ea607021f1c776a334eeabd1f54ca49dee"
+    },
+    {
+      "bytes": 100088,
+      "path": "outputs/planning-release-pleiades-equal-family-uncalibrated/search-plan.pdf",
+      "sha256": "a4ea12a3618f011904325c1f2cb1196df71418d59c4b413712f7c1a8524f8391"
+    },
+    {
+      "bytes": 545529,
+      "path": "outputs/planning-release-pleiades-equal-family-uncalibrated/search-plan.png",
+      "sha256": "55eb2bb182b83ae716bdc141a675532f822af8918150bc60ccbe16d64c8ae59c"
+    },
+    {
+      "bytes": 402250,
+      "path": "outputs/planning-release-pleiades-equal-family-uncalibrated/search-plan.svg",
+      "sha256": "3c4034fcf9d9f10d0d4713111a4f9ee6f08c0cfdc6fdc1f305d5afa23ec27d07"
+    },
+    {
+      "bytes": 11033,
+      "path": "outputs/planning-release-pleiades-equal-family-uncalibrated/selected-tiles.geojson",
+      "sha256": "a6a2e949e8010df6e2726b009894452efc1fc672894ba8a91ba72349516eb8a4"
+    }
+  ],
+  "schema_version": 1,
+  "snapshot_date": "2026-08-31"
+}

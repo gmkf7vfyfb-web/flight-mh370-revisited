@@ -1,0 +1,14 @@
+Blocked by the iso host sandbox before any local inspection or edits. Every filesystem tool fails with:
+
+`bwrap: No permissions to create a new namespace`
+
+No repository files were changed, and I cannot safely hash or audit the preserved workbook without filesystem access.
+
+Research completed:
+
+- The official report confirms ZFW 174,369 kg and the anchor values ([report, pp. 51–52](https://www.mot.gov.my/en/MH370%20Investigation%20Report/01-Report/MH370SafetyInvestigationReport.pdf#page=96)).
+- It lists all six ACARS fuel observations: 49,200; 47,800; 46,500; 45,400; 44,500; and 43,800 kg ([report, Table 1.9A](https://www.mot.gov.my/en/MH370%20Investigation%20Report/01-Report/MH370SafetyInvestigationReport.pdf#page=158)).
+- A preliminary untuned public-equation calculation reproduced total ACARS burn within about 16 kg, with interval RMSE ≈84 kg.
+- The same approximation over-burned the official calculated post-ACARS result by about 4.23 t at Arc 1, so later fuel propagation is not yet eligible for canonical integration ([Appendix 1.6E, Table 3](https://www.mot.gov.my/my/Laporan%20Siasatan%20Mh370/02-Appendices/Appendices%20Set%201%20-%207%20Appendices%201.1A%20to1.9A/Appendix-1.6E-Aircraft-Performance-Analysis-MH370-%289M-MRO%29.pdf#page=5)).
+
+Please repair or restart the iso environment with working unprivileged user namespaces, then tell me to continue. I can resume directly with the workbook inventory, implementation, deterministic outputs, hashes, tests, and browser report.

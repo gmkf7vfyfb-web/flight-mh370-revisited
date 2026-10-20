@@ -1,0 +1,27 @@
+Completed. Exact admission:
+
+`NO_PUBLIC_REDISTRIBUTABLE_MODEL_SPANS_REQUIRED_ENVELOPE`
+
+No implementation-ready parameters were admitted.
+
+Key findings:
+
+- OpenAP is attached-flow point-mass performance data; Trent 892 is not an accepted B772 engine option, and it lacks stall, moments, controls, flameout, and windmilling behavior.
+- Community YASim files have engine-identity mismatches and no located B777 validation. Official JSBSim contains no B777 model.
+- Boeing/ATSB exports are the strongest public behavioral comparator, but expose only trajectories. ATSB also cautions that some motion left the simulator database. [ATSB report](https://www.atsb.gov.au/sites/default/files/media/5773389/ae-2014-054_mh370-search-and-debris-update_aug2017.pdf)
+- NASA TCM supplies generic high-AoA transport data, but no defensible mapping to the B777 exists. [NASA TCM](https://ntrs.nasa.gov/citations/20110014509)
+- Independent calculations reproduced Boeing high-rate cases 3, 4, 5, 6, and 10 and the published 4.7–7.9 NM range.
+- Nine upstream artifacts passed hash verification; all 12 focused tests and all package checksums passed.
+- Duplicate stalled ATSB downloads were terminated with no partial file retained.
+
+Artifacts:
+
+- [Audit README](/jackbox/home/MH370/.sources/b777-end-of-flight-aerodynamics/README.md)
+- [Candidate-family contract](/jackbox/home/MH370/.sources/b777-end-of-flight-aerodynamics/candidate-families.json)
+- [Browser comparison](/jackbox/home/MH370/.sources/b777-end-of-flight-aerodynamics/outputs/comparison.html)
+- [Machine results](/jackbox/home/MH370/.sources/b777-end-of-flight-aerodynamics/outputs/results.json)
+- [Citation ledger](/jackbox/home/MH370/.sources/b777-end-of-flight-aerodynamics/CITATIONS.md)
+
+Only the requested source package was changed; downloads and toolchains stayed under `/tmp`.
+
+::inline-vis{file=".sources/b777-end-of-flight-aerodynamics/outputs/comparison.html" height="900"}

@@ -1,0 +1,56 @@
+{
+  "schema": "mh370-ocean-drift-family-likelihood-specification-v1",
+  "title": "MH370 full-domain CMEMS ocean-drift admission surface",
+  "admission_thresholds": {
+    "maximum_query_distance_nm": 75.0,
+    "maximum_out_of_support_fraction": 0.01,
+    "minimum_event_arrival_ess": 200.0,
+    "minimum_surface_mass_with_event_ess": 0.9,
+    "maximum_replication_total_variation": 0.1,
+    "maximum_contour_endpoint_shift_cells": 2,
+    "minimum_contour_set_jaccard": 0.8,
+    "minimum_validation_complete_fraction": 0.95,
+    "maximum_median_error_ratio_to_persistence": 1.0,
+    "minimum_median_fraction_better_than_persistence": 0.5
+  },
+  "families": [
+    {
+      "id": "cmems-glorys12-waverys-full-domain",
+      "label": "Full-domain GLORYS12 currents + distinct WAVERYS Stokes",
+      "color": "#D97706",
+      "role": "time-varying assimilative-current family with distinct wave Stokes sensitivity",
+      "source_result": ".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris/source-area.json",
+      "stability_summary": ".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/stability-summary.json",
+      "trajectory_validation_csv": ".sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain/cmems-full-domain-current-trajectory-overall.csv",
+      "trajectory_validation_family": "cmems_glorys12_full_domain_plus_distinct_stokes",
+      "expected_recovery_events": [
+        "reunion-flaperon-recovery",
+        "mossel-bay-engine-cowling-recovery",
+        "paindane-flap-fairing-recovery",
+        "vilanculos-stabilizer-recovery",
+        "chidenguele-fan-cowling-recovery",
+        "mauritius-left-flap-recovery",
+        "pemba-right-flap-recovery",
+        "rodrigues-door-panel-recovery",
+        "antsiraka-cabin-panel-recovery"
+      ],
+      "expected_non_recoveries": [
+        "western-australia-no-recovery-low-exposure-population",
+        "western-australia-no-recovery-high-windage-population"
+      ],
+      "conditions": [
+        "GLORYS12V1 daily native 1/12-degree surface currents from 0E-180E and 55S-15N over 2014-03-07 through 2017-01-31",
+        "WAVERYS three-hourly 0.2-degree surface Stokes velocity is a distinct field with an explicit one-times response; direct windage remains separate",
+        "the same nine stringent recovery episodes, two Australian non-recovery populations, object-response laws, seed, proposal accounting, and conservative arrival-conditional isotope screen are used as the matched family comparison",
+        "the source-cell prior is removed before the conditional likelihood is exposed"
+      ],
+      "limitations": [
+        "GLORYS12V1 assimilates ocean observations; the drifter replay is not guaranteed statistically held out",
+        "WAVERYS assimilates significant wave height and uses GLORYS12 currents in its wave calculation",
+        "one-times surface Stokes response, object leeway, diffusivity, recovery kernels, and beaching-to-discovery delays are sensitivities rather than jointly out-of-sample calibrated parameters",
+        "the persistent GLORYS12/WAVERYS support-mask union distinguishes land encounter but is not a measured shoreline or calibrated beaching, retention, or refloating model",
+        "this family remains separate from native HYCOM and GDP; no subjective family weight or pooled surface is reported"
+      ]
+    }
+  ]
+}

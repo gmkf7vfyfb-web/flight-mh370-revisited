@@ -1,0 +1,16 @@
+parameter,primary_value_or_method
+Observation cutoff,00:11:00 UTC; no 00:19 measurement likelihood
+Satellite/RF proposal,Refined v3 BTO+BFO+received-power/3-D-gain SMC summary reconstruction
+Gain precompensation,Gain-survival coefficient already marginalized in proposal; posterior mean 0.677
+Control-family prior,"Equal 1/3: high-level, completed lower-level descent, active controlled descent"
+BFO vertical coefficient,0.009 Hz/fpm
+Effective vertical-BFO sigma,12.0 Hz; sensitivity 8 and 18 Hz
+Low/descent duration,5–120 min completed low phase; 2–45 min active descent
+Performance ceiling,M0.84 plus 15 kt favorable-wind hard-envelope check
+Fuel-exhaustion time after 00:11,"Truncated Normal(8.0 min, 4.5 min), 0–25 min; not conditioned on 00:19"
+Controlled glide,"L/D Uniform(12,18), altitude-scaled; 70% forward-biased, 30% any bearing"
+Terminal-scenario prior,"Equal 1/3 powered controlled ditch, controlled glide, short uncontrolled descent"
+Drift model average,"50% Davey Fig. 11.2 smooth digitization, 50% 12-study meta-analysis latitude model"
+Davey drift use,"Relative likelihood, normalized to unit mean over impact prior"
+Meta drift use,"Normal latitude mean 30.2°S, SD 6.63° from reported 12°S–38°S 95% range"
+Monte Carlo,"900,000 airborne augmentations; 1,200,000 terminal propagations; seed 3700011"

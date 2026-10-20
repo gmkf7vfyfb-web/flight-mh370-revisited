@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MH370 estimator release v0.1</title>
+  <style>
+    :root { color-scheme: light dark; --bg:#f3f5f7; --card:#fff; --ink:#18212b; --muted:#596675; --accent:#075985; --warn:#8a4b08; }
+    @media (prefers-color-scheme: dark) { :root { --bg:#10151b; --card:#18212b; --ink:#edf3f7; --muted:#aebbc6; --accent:#7dd3fc; --warn:#fbbf24; } }
+    * { box-sizing:border-box; }
+    body { margin:0; font:16px/1.55 system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--ink); }
+    main { max-width:1120px; margin:auto; padding:40px 22px 80px; }
+    h1 { font-size:clamp(2rem,5vw,3.6rem); line-height:1.05; margin:.1em 0 .3em; }
+    h2 { margin-top:2.4rem; }
+    p.lead { max-width:850px; font-size:1.15rem; color:var(--muted); }
+    .notice { border-left:5px solid var(--warn); background:var(--card); padding:14px 18px; margin:24px 0; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:18px; }
+    .card { background:var(--card); border-radius:12px; padding:18px; box-shadow:0 2px 12px #0002; }
+    .card img { width:100%; height:210px; object-fit:contain; background:#fff; border-radius:8px; }
+    a { color:var(--accent); }
+    .links a { display:inline-block; margin:4px 12px 4px 0; font-weight:650; }
+    code { overflow-wrap:anywhere; }
+    footer { margin-top:3rem; color:var(--muted); }
+  </style>
+</head>
+<body><main>
+  <p>Frozen assessment and reproduction capsule</p>
+  <h1>MH370 Bayesian estimator · v0.1</h1>
+  <p class="lead">Central SATCOM inference, corrected-R600 seventh arc, explicit conditional end-of-flight families, known-flight control, Davey comparison, and searched-area context.</p>
+  <div class="notice"><strong>Interpretation boundary:</strong> all locations are model-conditional calculations. Search plans are provisional and do not encode a calibrated negative-search likelihood.</div>
+
+  <div class="links">
+    <a href="START_HERE.md">Start here</a>
+    <a href="CHATGPT_HANDOFF.md">ChatGPT handoff</a>
+    <a href="REPRODUCE.md">Reproduce</a>
+    <a href="PROVENANCE.md">Provenance</a>
+    <a href="SCIENTIFIC_BOUNDARIES.md">Scientific boundaries</a>
+    <a href="ARTIFACT_GUIDE.md">Artifact guide</a>
+    <a href="workspace/runs/mh370/release-v0.1/index.html">Original release index</a>
+  </div>
+
+  <h2>Requested views</h2>
+  <div class="grid">
+    <section class="card"><img src="views/mh371/mh371-v0.1-medium-bfo-panels.png" alt="MH371 control panels"><h3>MH371 v0.1 control and arcs</h3><p>Fresh truth-separated medium-BFO control, produced by the exact v0.1 binary.</p><p class="links"><a href="views/mh371/mh371-v0.1-medium-bfo-control.pdf">PDF</a><a href="views/mh371/mh371_final_arc_bfo_sensitivity.svg">Final-arc sensitivity</a><a href="views/mh371/score-summary.json">Metrics</a></p></section>
+    <section class="card"><img src="views/mh370/mh370-v0.1-full-overview.png" alt="MH370 full v0.1 overview"><h3>Full v0.1 overview</h3><p>00:11, corrected-R600 seventh arc, conditional impact, Davey latitude PDF, and searched-area context.</p><p class="links"><a href="views/mh370/mh370-v0.1-full-overview.pdf">PDF</a><a href="views/mh370/mh370-v0.1-full-overview.svg">SVG</a></p></section>
+    <section class="card"><img src="views/mh370/mh370-0011-bto-bfo-medium.png" alt="MH370 medium BFO posterior"><h3>Canonical MH370 00:11 family</h3><p>BTO plus medium-BFO, five seeds. Separate BTO-only and conditional-gain reports are retained.</p><p class="links"><a href="views/mh370/mh370-0011-bto-bfo-medium.pdf">Medium-BFO PDF</a><a href="views/mh370/mh370-0011-bto-only.pdf">BTO-only PDF</a><a href="views/mh370/mh370-0011-bto-bfo-gain-conditional.pdf">Gain-conditional PDF</a></p></section>
+    <section class="card"><img src="views/mh370/mh370-r600-seventh-arc.png" alt="MH370 corrected R600 seventh arc"><h3>Corrected-R600 seventh arc</h3><p>Typed continuation from the canonical 00:11 medium-BFO posterior.</p><p class="links"><a href="views/mh370/mh370-r600-seventh-arc.pdf">PDF</a><a href="views/mh370/mh370-r600-seventh-arc.svg">SVG</a></p></section>
+    <section class="card"><img src="views/davey/canonical-vs-davey-latitude.png" alt="Canonical versus Davey latitude density"><h3>Davey</h3><p>Independent latitude-density comparison and the retained 2016 source paper.</p><p class="links"><a href="views/davey/canonical-vs-davey-latitude.pdf">Comparison PDF</a><a href="views/davey/davey-2016-bayesian-search-paper.pdf">Davey paper</a><a href="views/davey/README.md">Recreation notes</a></p></section>
+    <section class="card"><img src="views/search-areas/seabed-search-evidence-atlas.png" alt="MH370 searched-area evidence atlas"><h3>Searched areas</h3><p>Evidence atlas with source classification. Context only; incomplete geometry cannot support exclusion.</p><p class="links"><a href="views/search-areas/seabed-search-evidence-atlas.pdf">Atlas PDF</a><a href="views/search-areas/search-evidence-atlas.geojson">Atlas GeoJSON</a></p></section>
+    <section class="card"><img src="views/search-areas/baseline-planning-sensitivity.png" alt="MH370 baseline planning sensitivity"><h3>Baseline planning sensitivity</h3><p>Twelve provisional 625 km² tiles; not operational guidance or a negative-search posterior.</p><p class="links"><a href="views/search-areas/baseline-planning-sensitivity.pdf">PDF</a><a href="views/search-areas/baseline-selected-tiles.geojson">Selected tiles</a><a href="views/search-areas/seventh-arc-fl400.geojson">Seventh arc</a></p></section>
+  </div>
+
+  <h2>Conditional impact views</h2>
+  <p class="links"><a href="views/mh370/mh370-impact-location-families.pdf">Location families</a><a href="views/mh370/mh370-impact-dynamics-families.pdf">Dynamics families</a><a href="views/mh370/mh370-impact-gain-source-comparison.pdf">Gain-source comparison</a></p>
+
+  <footer>Capsule assembled 2026-09-06 UTC. Verify with <code>python3 tools/verify_capsule.py</code>.</footer>
+</main></body></html>

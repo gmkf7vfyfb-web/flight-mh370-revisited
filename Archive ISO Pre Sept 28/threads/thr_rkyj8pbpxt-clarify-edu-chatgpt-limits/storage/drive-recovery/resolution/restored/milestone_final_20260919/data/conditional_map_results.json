@@ -1,0 +1,135 @@
+{
+  "scope": "Conditional compatibility surfaces and provisional IGOGU finite-sample selections; no evidence fusion or calibrated wreckage probabilities.",
+  "weights": {
+    "bran2016": 0.3333333333333333,
+    "oscar_v2_final": 0.3333333333333333,
+    "glorys12_waverys": 0.3333333333333333
+  },
+  "normalizations": {
+    "bran2016": 0.9999999999977942,
+    "oscar_v2_final": 0.9999999999980574,
+    "glorys12_waverys": 0.9999999999977707
+  },
+  "mixture_matches_saved": true,
+  "mixture_mode": {
+    "latitude_deg": -35.2178490975009,
+    "longitude_deg": 92.24698269400083
+  },
+  "thresholds": {
+    "0.5": 3.91229662822e-05,
+    "0.9": 9.3478342133e-06,
+    "0.99": 1.2241817507377902e-06
+  },
+  "hpd_grid_area_km2": {
+    "0.5": 9517.983600000005,
+    "0.9": 28768.319800000005,
+    "0.99": 48833.25820000001
+  },
+  "band_mixture_mass_midpoint_quadrature": {
+    "4": {
+      "integral": 0.9999999999978744,
+      "northwest": 0.055320797535857356,
+      "southeast": 0.02374813460267573
+    },
+    "8": {
+      "integral": 0.9999999999978745,
+      "northwest": 0.052930960847634295,
+      "southeast": 0.023730239232302715
+    },
+    "16": {
+      "integral": 0.9999999999978744,
+      "northwest": 0.05372604992806065,
+      "southeast": 0.02366111085840746
+    }
+  },
+  "IGOGU": {
+    "retained_independent_draws": 1710701,
+    "original_ESS": 345.31799301406113,
+    "largest_original_weight": 0.046262459622608616,
+    "regions": {
+      "exhaustion_latitude_34_36S": {
+        "count": 773775,
+        "original_weight_fraction": 0.5645018001600464,
+        "conditional_ESS": 1170.163005854746
+      },
+      "exhaustion_latitude_34_36S_R600_gate": {
+        "count": 770715,
+        "original_weight_fraction": 0.5642404184152092,
+        "conditional_ESS": 1169.2181506862235
+      },
+      "exhaustion_mixture_HPD90": {
+        "count": 66704,
+        "original_weight_fraction": 0.04535738726573817,
+        "conditional_ESS": 26.562342732031016
+      },
+      "exhaustion_mixture_HPD90_R600_gate": {
+        "count": 66432,
+        "original_weight_fraction": 0.045343778447042835,
+        "conditional_ESS": 26.546437949309567
+      },
+      "exhaustion_northwest_band": {
+        "count": 1733,
+        "original_weight_fraction": 2.5130982162028585e-06,
+        "conditional_ESS": 3.6838254905226706
+      },
+      "exhaustion_northwest_band_R600_gate": {
+        "count": 0,
+        "original_weight_fraction": 0.0,
+        "conditional_ESS": 0
+      },
+      "exhaustion_southeast_band": {
+        "count": 0,
+        "original_weight_fraction": 0.0,
+        "conditional_ESS": 0
+      },
+      "exhaustion_southeast_band_R600_gate": {
+        "count": 0,
+        "original_weight_fraction": 0.0,
+        "conditional_ESS": 0
+      },
+      "R600_continuation_latitude_34_36S": {
+        "count": 1295761,
+        "original_weight_fraction": 0.8357800390643507,
+        "conditional_ESS": 1240.9080966934941
+      },
+      "R600_continuation_latitude_34_36S_R600_gate": {
+        "count": 1291032,
+        "original_weight_fraction": 0.8353988245655152,
+        "conditional_ESS": 1239.864983857662
+      },
+      "R600_continuation_mixture_HPD90": {
+        "count": 119464,
+        "original_weight_fraction": 0.0810110921229508,
+        "conditional_ESS": 77.37703852055392
+      },
+      "R600_continuation_mixture_HPD90_R600_gate": {
+        "count": 119088,
+        "original_weight_fraction": 0.08095453985664305,
+        "conditional_ESS": 77.27069419092892
+      },
+      "R600_continuation_northwest_band": {
+        "count": 1223,
+        "original_weight_fraction": 6.696194059369191e-05,
+        "conditional_ESS": 2.229549338952393
+      },
+      "R600_continuation_northwest_band_R600_gate": {
+        "count": 0,
+        "original_weight_fraction": 0.0,
+        "conditional_ESS": 0
+      },
+      "R600_continuation_southeast_band": {
+        "count": 7,
+        "original_weight_fraction": 3.8431277269417655e-10,
+        "conditional_ESS": 1.0017443868742668
+      },
+      "R600_continuation_southeast_band_R600_gate": {
+        "count": 0,
+        "original_weight_fraction": 0.0,
+        "conditional_ESS": 0
+      }
+    },
+    "R600_continuation": "Constant last horizontal ground speed and geodesic course, constant exhaustion altitude; sensitivity only, not a simulated glide. 2-sigma R600 gate = 126 microseconds; no final BFO.",
+    "selection_warning": "Raw draw counts are proposal samples, not equally probable trajectories. All weight fractions describe this unconverged retained finite measure."
+  },
+  "selected_paths_count": 74
+}

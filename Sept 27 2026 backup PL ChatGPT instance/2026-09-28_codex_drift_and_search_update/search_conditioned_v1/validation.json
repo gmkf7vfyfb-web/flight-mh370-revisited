@@ -1,0 +1,48 @@
+{
+  "coverage_mass_before_search": {
+    "atsb_phase2_2014_2017": 0.42008566966979194,
+    "oi2018_total_outline_approx": 0.46963288917682566,
+    "oi2024_proposed_outboard_southeast": 0.03067558471199076,
+    "oi2024_proposed_inboard_northwest": 0.032691066692667,
+    "union_past_envelopes": 0.5783976673703779,
+    "past_envelope_overlap_fraction_of_original_50pct_HPD_mass": 0.869394552883756
+  },
+  "numerical_checks": {
+    "marginal_dependent_10_vs_20_subcell_TV": 0.0020761267729570167,
+    "marginal_dependent_4096_vs_8192_parameter_TV": 2.49828762741998e-07,
+    "marginal_independent_10_vs_20_subcell_TV": 0.0022537888250811866,
+    "marginal_independent_4096_vs_8192_parameter_TV": 1.1866482765692757e-11
+  },
+  "probability_sums": {
+    "original": 1.0,
+    "ATSB_only": 1.0,
+    "marginal_dependent": 1.0,
+    "marginal_independent": 1.0,
+    "weak_dependent": 1.0,
+    "strong_dependent": 1.0
+  },
+  "parameters": {
+    "ATSB_q": [
+      0.9,
+      0.99
+    ],
+    "OI2018_coverage": [
+      0.6,
+      0.95
+    ],
+    "OI2018_q": [
+      0.85,
+      0.99
+    ],
+    "OI2025_coverage": [
+      0.5,
+      0.95
+    ],
+    "OI2025_q": [
+      0.85,
+      0.99
+    ]
+  },
+  "samples": 8192,
+  "seed": 3702026
+}

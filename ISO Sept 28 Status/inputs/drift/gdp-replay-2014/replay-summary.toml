@@ -1,0 +1,541 @@
+# Drifter replay statistics (report/drift_replay.py). Errors in km.
+
+[bran2016."current".drogued]
+n = 1032
+stopped = 0
+rms_per_component_km = 139.1
+median_error_km = 131.3
+bias_east_km = 16.94
+bias_north_km = 1.593
+skill_vs_no_motion = 0.08444
+student_t_nu = 3.684
+student_t_scale_km = 101
+student_t_gain_per_segment = 0.1013
+
+[bran2016."current".undrogued]
+n = 1207
+stopped = 0
+rms_per_component_km = 156.8
+median_error_km = 156.5
+bias_east_km = -18.49
+bias_north_km = -12.03
+skill_vs_no_motion = 0.2802
+student_t_nu = 4.98
+student_t_scale_km = 124.8
+student_t_gain_per_segment = 0.06046
+
+[bran2016."current".transition]
+n = 77
+stopped = 0
+rms_per_component_km = 140.6
+median_error_km = 140.8
+bias_east_km = -21.43
+bias_north_km = 14.01
+skill_vs_no_motion = 0.2745
+student_t_nu = 5.171
+student_t_scale_km = 112.9
+student_t_gain_per_segment = 0.05428
+
+[bran2016."w0.012".drogued]
+n = 1032
+stopped = 0
+rms_per_component_km = 152.7
+median_error_km = 154.3
+bias_east_km = 42.04
+bias_north_km = 20.2
+skill_vs_no_motion = -0.1025
+student_t_nu = 5.79
+student_t_scale_km = 125.8
+student_t_gain_per_segment = 0.04751
+
+[bran2016."w0.012".undrogued]
+n = 1207
+stopped = 2
+rms_per_component_km = 132.6
+median_error_km = 122.7
+bias_east_km = -2.458
+bias_north_km = -6.975
+skill_vs_no_motion = 0.4852
+student_t_nu = 3.684
+student_t_scale_km = 94.1
+student_t_gain_per_segment = 0.1314
+
+[bran2016."w0.012".transition]
+n = 77
+stopped = 0
+rms_per_component_km = 133.9
+median_error_km = 125.8
+bias_east_km = 2.498
+bias_north_km = 39.06
+skill_vs_no_motion = 0.3419
+student_t_nu = 3.684
+student_t_scale_km = 96.08
+student_t_gain_per_segment = 0.1311
+
+[bran2016."w0.030".drogued]
+n = 1032
+stopped = 8
+rms_per_component_km = 214.3
+median_error_km = 235.1
+bias_east_km = 74.07
+bias_north_km = 36.23
+skill_vs_no_motion = -1.171
+student_t_nu = 11.41
+student_t_scale_km = 195.1
+student_t_gain_per_segment = 0.01273
+
+[bran2016."w0.030".undrogued]
+n = 1207
+stopped = 2
+rms_per_component_km = 155.1
+median_error_km = 146
+bias_east_km = 30.54
+bias_north_km = 2.029
+skill_vs_no_motion = 0.2959
+student_t_nu = 4.283
+student_t_scale_km = 116.9
+student_t_gain_per_segment = 0.1014
+
+[bran2016."w0.030".transition]
+n = 77
+stopped = 3
+rms_per_component_km = 206.1
+median_error_km = 223.6
+bias_east_km = 17.43
+bias_north_km = 63.01
+skill_vs_no_motion = -0.5576
+student_t_nu = 6.244
+student_t_scale_km = 171.3
+student_t_gain_per_segment = 0.05134
+
+[bran2016."stokes0.5".drogued]
+n = 1032
+stopped = 0
+rms_per_component_km = 144.8
+median_error_km = 144.4
+bias_east_km = 41.31
+bias_north_km = 17.75
+skill_vs_no_motion = 0.007944
+student_t_nu = 4.796
+student_t_scale_km = 113.9
+student_t_gain_per_segment = 0.0643
+
+[bran2016."stokes0.5".undrogued]
+n = 1207
+stopped = 2
+rms_per_component_km = 137.6
+median_error_km = 131.4
+bias_east_km = -2.032
+bias_north_km = -3.955
+skill_vs_no_motion = 0.4452
+student_t_nu = 4.283
+student_t_scale_km = 103
+student_t_gain_per_segment = 0.1032
+
+[bran2016."stokes0.5".transition]
+n = 77
+stopped = 0
+rms_per_component_km = 137.2
+median_error_km = 121.4
+bias_east_km = -3.875
+bias_north_km = 30.34
+skill_vs_no_motion = 0.3094
+student_t_nu = 3.684
+student_t_scale_km = 99.05
+student_t_gain_per_segment = 0.1044
+
+[bran2016."stokes1.0".drogued]
+n = 1032
+stopped = 2
+rms_per_component_km = 161.4
+median_error_km = 167.8
+bias_east_km = 60.79
+bias_north_km = 32.82
+skill_vs_no_motion = -0.2317
+student_t_nu = 6.991
+student_t_scale_km = 137.7
+student_t_gain_per_segment = 0.03423
+
+[bran2016."stokes1.0".undrogued]
+n = 1207
+stopped = 2
+rms_per_component_km = 129.3
+median_error_km = 118
+bias_east_km = 12.16
+bias_north_km = 6.708
+skill_vs_no_motion = 0.5104
+student_t_nu = 3.548
+student_t_scale_km = 91.13
+student_t_gain_per_segment = 0.1349
+
+[bran2016."stokes1.0".transition]
+n = 77
+stopped = 2
+rms_per_component_km = 140
+median_error_km = 137.9
+bias_east_km = 5.785
+bias_north_km = 54.32
+skill_vs_no_motion = 0.2805
+student_t_nu = 3.972
+student_t_scale_km = 103
+student_t_gain_per_segment = 0.1157
+
+[glorys12."current".drogued]
+n = 1032
+stopped = 0
+rms_per_component_km = 138.1
+median_error_km = 125.5
+bias_east_km = 3.38
+bias_north_km = 7.232
+skill_vs_no_motion = 0.09791
+student_t_nu = 3.548
+student_t_scale_km = 98.06
+student_t_gain_per_segment = 0.1205
+
+[glorys12."current".undrogued]
+n = 1207
+stopped = 0
+rms_per_component_km = 152.5
+median_error_km = 146.2
+bias_east_km = -34.52
+bias_north_km = -13.32
+skill_vs_no_motion = 0.319
+student_t_nu = 4.283
+student_t_scale_km = 115.9
+student_t_gain_per_segment = 0.08089
+
+[glorys12."current".transition]
+n = 77
+stopped = 0
+rms_per_component_km = 129.8
+median_error_km = 121.4
+bias_east_km = -14.62
+bias_north_km = 23.06
+skill_vs_no_motion = 0.3822
+student_t_nu = 3.169
+student_t_scale_km = 90.14
+student_t_gain_per_segment = 0.09169
+
+[glorys12."w0.012".drogued]
+n = 1032
+stopped = 2
+rms_per_component_km = 155.1
+median_error_km = 158.8
+bias_east_km = 28.46
+bias_north_km = 19.49
+skill_vs_no_motion = -0.1379
+student_t_nu = 5.37
+student_t_scale_km = 124.8
+student_t_gain_per_segment = 0.05807
+
+[glorys12."w0.012".undrogued]
+n = 1207
+stopped = 2
+rms_per_component_km = 122.7
+median_error_km = 104.9
+bias_east_km = -8.845
+bias_north_km = -8.903
+skill_vs_no_motion = 0.5589
+student_t_nu = 2.725
+student_t_scale_km = 77.27
+student_t_gain_per_segment = 0.1883
+
+[glorys12."w0.012".transition]
+n = 77
+stopped = 0
+rms_per_component_km = 125.8
+median_error_km = 116.4
+bias_east_km = 5.052
+bias_north_km = 31
+skill_vs_no_motion = 0.4199
+student_t_nu = 3.972
+student_t_scale_km = 93.11
+student_t_gain_per_segment = 0.09323
+
+[glorys12."w0.030".drogued]
+n = 1032
+stopped = 9
+rms_per_component_km = 219.2
+median_error_km = 250.1
+bias_east_km = 70.79
+bias_north_km = 35.33
+skill_vs_no_motion = -1.272
+student_t_nu = 13.27
+student_t_scale_km = 202
+student_t_gain_per_segment = 0.01087
+
+[glorys12."w0.030".undrogued]
+n = 1207
+stopped = 2
+rms_per_component_km = 152.1
+median_error_km = 148.1
+bias_east_km = 25.86
+bias_north_km = -3.91
+skill_vs_no_motion = 0.3222
+student_t_nu = 4.619
+student_t_scale_km = 116.9
+student_t_gain_per_segment = 0.09294
+
+[glorys12."w0.030".transition]
+n = 77
+stopped = 2
+rms_per_component_km = 217.5
+median_error_km = 248.9
+bias_east_km = 20.55
+bias_north_km = 54.78
+skill_vs_no_motion = -0.7358
+student_t_nu = 7.259
+student_t_scale_km = 187.2
+student_t_gain_per_segment = 0.02447
+
+[glorys12."stokes0.5".drogued]
+n = 1032
+stopped = 0
+rms_per_component_km = 145.3
+median_error_km = 140.3
+bias_east_km = 25.07
+bias_north_km = 20.17
+skill_vs_no_motion = 0.0009832
+student_t_nu = 4.125
+student_t_scale_km = 108.9
+student_t_gain_per_segment = 0.09818
+
+[glorys12."stokes0.5".undrogued]
+n = 1207
+stopped = 3
+rms_per_component_km = 130.9
+median_error_km = 116.8
+bias_east_km = -13.07
+bias_north_km = -8.424
+skill_vs_no_motion = 0.4982
+student_t_nu = 3.169
+student_t_scale_km = 88.16
+student_t_gain_per_segment = 0.1577
+
+[glorys12."stokes0.5".transition]
+n = 77
+stopped = 0
+rms_per_component_km = 121
+median_error_km = 107.6
+bias_east_km = -3.128
+bias_north_km = 35.15
+skill_vs_no_motion = 0.4627
+student_t_nu = 3.548
+student_t_scale_km = 86.18
+student_t_gain_per_segment = 0.1181
+
+[glorys12."stokes1.0".drogued]
+n = 1032
+stopped = 7
+rms_per_component_km = 165.7
+median_error_km = 177.2
+bias_east_km = 49.79
+bias_north_km = 33.76
+skill_vs_no_motion = -0.2986
+student_t_nu = 6.991
+student_t_scale_km = 140.6
+student_t_gain_per_segment = 0.04155
+
+[glorys12."stokes1.0".undrogued]
+n = 1207
+stopped = 3
+rms_per_component_km = 121.3
+median_error_km = 99.89
+bias_east_km = 6.969
+bias_north_km = 1.18
+skill_vs_no_motion = 0.5688
+student_t_nu = 2.527
+student_t_scale_km = 72.32
+student_t_gain_per_segment = 0.2285
+
+[glorys12."stokes1.0".transition]
+n = 77
+stopped = 0
+rms_per_component_km = 135.7
+median_error_km = 145.2
+bias_east_km = 21.29
+bias_north_km = 39.42
+skill_vs_no_motion = 0.3248
+student_t_nu = 5.79
+student_t_scale_km = 110.9
+student_t_gain_per_segment = 0.05031
+
+[oscar2."current".drogued]
+n = 1032
+stopped = 2
+rms_per_component_km = 109
+median_error_km = 93.14
+bias_east_km = -7.699
+bias_north_km = 5.484
+skill_vs_no_motion = 0.4376
+student_t_nu = 2.725
+student_t_scale_km = 68.36
+student_t_gain_per_segment = 0.1896
+
+[oscar2."current".undrogued]
+n = 1207
+stopped = 0
+rms_per_component_km = 155.5
+median_error_km = 161.1
+bias_east_km = -36.04
+bias_north_km = -16.51
+skill_vs_no_motion = 0.2919
+student_t_nu = 5.37
+student_t_scale_km = 125.8
+student_t_gain_per_segment = 0.05332
+
+[oscar2."current".transition]
+n = 77
+stopped = 0
+rms_per_component_km = 129.9
+median_error_km = 107.9
+bias_east_km = -28.08
+bias_north_km = 7.516
+skill_vs_no_motion = 0.3809
+student_t_nu = 2.725
+student_t_scale_km = 83.21
+student_t_gain_per_segment = 0.151
+
+[oscar2."w0.012".drogued]
+n = 1032
+stopped = 3
+rms_per_component_km = 123.3
+median_error_km = 112.8
+bias_east_km = 23.35
+bias_north_km = 18.53
+skill_vs_no_motion = 0.2809
+student_t_nu = 3.417
+student_t_scale_km = 86.18
+student_t_gain_per_segment = 0.1326
+
+[oscar2."w0.012".undrogued]
+n = 1207
+stopped = 1
+rms_per_component_km = 117.6
+median_error_km = 96.06
+bias_east_km = -16.47
+bias_north_km = -11.37
+skill_vs_no_motion = 0.5951
+student_t_nu = 2.624
+student_t_scale_km = 72.32
+student_t_gain_per_segment = 0.2193
+
+[oscar2."w0.012".transition]
+n = 77
+stopped = 0
+rms_per_component_km = 113.7
+median_error_km = 85
+bias_east_km = -16.03
+bias_north_km = 37.04
+skill_vs_no_motion = 0.5259
+student_t_nu = 2.434
+student_t_scale_km = 67.37
+student_t_gain_per_segment = 0.2183
+
+[oscar2."w0.030".drogued]
+n = 1032
+stopped = 6
+rms_per_component_km = 190.8
+median_error_km = 204.4
+bias_east_km = 62.56
+bias_north_km = 33.46
+skill_vs_no_motion = -0.7219
+student_t_nu = 8.128
+student_t_scale_km = 166.4
+student_t_gain_per_segment = 0.02533
+
+[oscar2."w0.030".undrogued]
+n = 1207
+stopped = 3
+rms_per_component_km = 134.2
+median_error_km = 118.4
+bias_east_km = 23.86
+bias_north_km = -2.955
+skill_vs_no_motion = 0.4729
+student_t_nu = 2.939
+student_t_scale_km = 87.17
+student_t_gain_per_segment = 0.1888
+
+[oscar2."w0.030".transition]
+n = 77
+stopped = 1
+rms_per_component_km = 195.6
+median_error_km = 199.4
+bias_east_km = 16.72
+bias_north_km = 62.44
+skill_vs_no_motion = -0.4043
+student_t_nu = 4.98
+student_t_scale_km = 155.5
+student_t_gain_per_segment = 0.05483
+
+[oscar2."stokes0.5".drogued]
+n = 1032
+stopped = 4
+rms_per_component_km = 114.3
+median_error_km = 96.05
+bias_east_km = 16.71
+bias_north_km = 19.9
+skill_vs_no_motion = 0.3817
+student_t_nu = 2.83
+student_t_scale_km = 73.31
+student_t_gain_per_segment = 0.1819
+
+[oscar2."stokes0.5".undrogued]
+n = 1207
+stopped = 1
+rms_per_component_km = 129.8
+median_error_km = 120.6
+bias_east_km = -19.29
+bias_north_km = -7.305
+skill_vs_no_motion = 0.5068
+student_t_nu = 3.684
+student_t_scale_km = 92.12
+student_t_gain_per_segment = 0.1363
+
+[oscar2."stokes0.5".transition]
+n = 77
+stopped = 0
+rms_per_component_km = 104.2
+median_error_km = 97.98
+bias_east_km = -12.3
+bias_north_km = 30.88
+skill_vs_no_motion = 0.6016
+student_t_nu = 3.417
+student_t_scale_km = 72.32
+student_t_gain_per_segment = 0.1351
+
+[oscar2."stokes1.0".drogued]
+n = 1032
+stopped = 3
+rms_per_component_km = 136.9
+median_error_km = 131.1
+bias_east_km = 44.03
+bias_north_km = 34.04
+skill_vs_no_motion = 0.1142
+student_t_nu = 4.283
+student_t_scale_km = 104
+student_t_gain_per_segment = 0.08593
+
+[oscar2."stokes1.0".undrogued]
+n = 1207
+stopped = 3
+rms_per_component_km = 112.6
+median_error_km = 87.23
+bias_east_km = 1.943
+bias_north_km = 1.194
+skill_vs_no_motion = 0.6285
+student_t_nu = 2.344
+student_t_scale_km = 64.4
+student_t_gain_per_segment = 0.2676
+
+[oscar2."stokes1.0".transition]
+n = 77
+stopped = 1
+rms_per_component_km = 121.8
+median_error_km = 90.77
+bias_east_km = -5.509
+bias_north_km = 48.32
+skill_vs_no_motion = 0.4555
+student_t_nu = 2.344
+student_t_scale_km = 70.34
+student_t_gain_per_segment = 0.2437

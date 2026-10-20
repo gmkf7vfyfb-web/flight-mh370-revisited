@@ -1,0 +1,180 @@
+{
+  "schema_version": 1,
+  "snapshot_date": "2026-08-31",
+  "coordinate_reference_system": "OGC:CRS84 (longitude, latitude degrees; source declares EPSG:4326)",
+  "policy": {
+    "binary_elimination_mask_available": false,
+    "negative_search_eligibility_rule": "A spatial footprint alone is insufficient. Eligibility requires reviewed swaths plus spatial quality/holiday information and a calibrated detection model.",
+    "bathymetry_is_detection_coverage": false,
+    "approximate_outline_is_detection_coverage": false,
+    "ais_track_is_detection_coverage": false
+  },
+  "geometry_classes": {
+    "official_l0_data_footprint_detailed": "Unmodified official level-0 coverage geometry with detailed parts; exact as a source record, not proven uniform-detection coverage.",
+    "official_l0_catalog_footprint_coarse": "Unmodified official catalog footprint whose coarse boundaries do not resolve vehicle swaths or internal quality.",
+    "official_catalog_bounding_rectangle": "Unmodified official catalog extent represented as a rectangle; not a swath or searched mask.",
+    "official_display_footprint_not_mission_swaths": "Official application display polygons for the named campaign; useful for cartographic context but not a reconstruction of individual mission swaths or valid-data coverage.",
+    "reported_area_only": "Primary source reports area but no machine-readable public coverage geometry was obtained.",
+    "context_proxy_only": "Approximate outline, AIS track, or bathymetry that may orient a reader but cannot eliminate area."
+  },
+  "records": [
+    {
+      "id": "atsb-phase2-deep-tow-l0",
+      "campaign": "ATSB-led Phase 2 underwater search",
+      "period": "2014-09/2017-01",
+      "platform_or_operator": "Deep Tow systems; multi-vessel campaign",
+      "geometry": "official/phase2-deep-tow-l0.geojson.gz",
+      "geometry_class": "official_l0_data_footprint_detailed",
+      "source_geometry_exactly_preserved": true,
+      "source_catalog_area_km2": 130961,
+      "area_semantics": "WFS feature attribute; not recomputed and not a PoD-weighted area",
+      "sonar_quality": null,
+      "holiday_geometry": null,
+      "probability_of_detection": null,
+      "negative_search_eligible": false,
+      "unresolved": ["spatial sonar quality", "complete holiday/LPD masks", "calibrated target-specific PoD", "pass overlap/dependence"]
+    },
+    {
+      "id": "atsb-phase2-dong-hai-jiu-101-l0",
+      "campaign": "ATSB-led Phase 2 underwater search",
+      "period": "2014-09/2017-01",
+      "platform_or_operator": "Dong Hai Jiu 101 / catalog record",
+      "geometry": "official/phase2-dhj-l0.geojson.gz",
+      "geometry_class": "official_l0_catalog_footprint_coarse",
+      "source_geometry_exactly_preserved": true,
+      "source_catalog_area_km2": 46884.288,
+      "area_semantics": "WFS catalog attribute; coarse footprint is not a vehicle-swath mask",
+      "sonar_quality": null,
+      "holiday_geometry": null,
+      "probability_of_detection": null,
+      "negative_search_eligible": false,
+      "unresolved": ["exact vehicle swaths", "spatial sonar quality", "holidays", "calibrated target-specific PoD"]
+    },
+    {
+      "id": "atsb-phase2-go-phoenix-l0",
+      "campaign": "ATSB-led Phase 2 underwater search",
+      "period": "2014-09/2017-01",
+      "platform_or_operator": "GO Phoenix / catalog record",
+      "geometry": "official/phase2-gophoenix-l0.geojson.gz",
+      "geometry_class": "official_catalog_bounding_rectangle",
+      "source_geometry_exactly_preserved": true,
+      "source_catalog_area_km2": 82606,
+      "area_semantics": "WFS catalog attribute; rectangular extent is not a vehicle-swath mask",
+      "sonar_quality": null,
+      "holiday_geometry": null,
+      "probability_of_detection": null,
+      "negative_search_eligible": false,
+      "unresolved": ["exact vehicle swaths", "spatial sonar quality", "holidays", "calibrated target-specific PoD"]
+    },
+    {
+      "id": "atsb-phase2-auv",
+      "campaign": "ATSB-led Phase 2 underwater search",
+      "period": "2014-09/2017-01",
+      "platform_or_operator": "AUV operations",
+      "geometry": null,
+      "geometry_class": "reported_area_only",
+      "source_geometry_exactly_preserved": false,
+      "reported_area_km2": null,
+      "sonar_quality": null,
+      "holiday_geometry": null,
+      "probability_of_detection": null,
+      "negative_search_eligible": false,
+      "unresolved": ["public AUV level-0 coverage feature not located in GA WFS", "exact AUV swaths", "quality", "holidays", "PoD"]
+    },
+    {
+      "id": "bluefin-artemis-2014",
+      "campaign": "Ocean Shield acoustic-detection follow-up",
+      "period": "2014-04/2014-05",
+      "platform_or_operator": "Phoenix International Artemis AUV aboard Ocean Shield",
+      "geometry": "official/bluefin-21-area-searched-2014.geojson",
+      "geometry_class": "official_display_footprint_not_mission_swaths",
+      "source_geometry_exactly_preserved": true,
+      "display_polygon_area_km2": 771.410286,
+      "reported_area_km2": 860,
+      "area_semantics": "ATSB reported total is 860 km2; the two official application display polygons total 771.410286 km2. The 88.589714 km2 difference and internal mission-swath geometry remain unresolved.",
+      "sonar_quality": null,
+      "holiday_geometry": null,
+      "probability_of_detection": null,
+      "negative_search_eligible": false,
+      "unresolved": ["individual mission swaths", "reported-total versus display-polygon difference", "position/overlap uncertainty", "quality", "holidays", "PoD"]
+    },
+    {
+      "id": "ocean-infinity-2018",
+      "campaign": "Ocean Infinity MH370 search",
+      "period": "2018",
+      "platform_or_operator": "Ocean Infinity AUV fleet",
+      "geometry": null,
+      "geometry_class": "reported_area_only",
+      "context_geometry": "context/approximate-ocean-infinity-outlines.geojson#oi2018_total_outline_approx",
+      "context_geometry_class": "context_proxy_only",
+      "context_outline_area_km2": 148993.3,
+      "context_source_grade": "C",
+      "source_geometry_exactly_preserved": false,
+      "reported_area_km2": {"comparator": ">", "value": 112000},
+      "area_semantics": "operator statement; no exact public AUV swath geometry obtained",
+      "sonar_quality": "described by operator as high quality; no spatial QA data obtained",
+      "holiday_geometry": null,
+      "probability_of_detection": null,
+      "negative_search_eligible": false,
+      "unresolved": ["exact AUV swaths", "spatial QA", "holidays/resurveys", "calibrated target-specific PoD"]
+    },
+    {
+      "id": "ocean-infinity-2025-2026",
+      "campaign": "Malaysia/Ocean Infinity MH370 search operation",
+      "period": "2025-03/2026-01",
+      "platform_or_operator": "Ocean Infinity",
+      "geometry": null,
+      "geometry_class": "reported_area_only",
+      "context_geometry": "context/approximate-ocean-infinity-outlines.geojson#oi2024_proposed_outboard_southeast,oi2024_proposed_inboard_northwest",
+      "ais_context_geometry": "context/oi-vessel-track-proxies.geojson",
+      "context_geometry_class": "context_proxy_only",
+      "context_source_grade": "C",
+      "source_geometry_exactly_preserved": false,
+      "contract_area_estimate_km2": 15000,
+      "reported_surveyed_area_km2": 7571,
+      "area_semantics": "both official values are approximate/estimated; difference is planning arithmetic, not a spatial remainder",
+      "sonar_quality": null,
+      "holiday_geometry": null,
+      "probability_of_detection": null,
+      "negative_search_eligible": false,
+      "unresolved": ["authoritative contract boundary", "exact AUV swaths", "overlap", "spatial QA", "holidays/resurveys", "PoD"]
+    }
+  ],
+  "proxy_rules": [
+    {
+      "kind": "approximate_ocean_infinity_outline",
+      "geometry": "context/approximate-ocean-infinity-outlines.geojson",
+      "geometry_class": "context_proxy_only",
+      "negative_search_eligible": false,
+      "rule": "May be displayed only with an explicit approximate label and source; never subtract from a prior or planning polygon."
+    },
+    {
+      "kind": "ais_surface_vessel_track",
+      "geometry": "context/oi-vessel-track-proxies.geojson",
+      "geometry_class": "context_proxy_only",
+      "negative_search_eligible": false,
+      "rule": "A surface-vessel track does not establish AUV location, swath width, altitude, valid sonar data, overlap, or target detectability."
+    },
+    {
+      "kind": "bathymetry",
+      "geometry": null,
+      "geometry_class": "context_proxy_only",
+      "negative_search_eligible": false,
+      "rule": "Seafloor mapping supports mission planning but is not evidence that aircraft-sized targets were searched for or detectable."
+    }
+  ],
+  "reference_layers": [
+    {
+      "id": "seventh-arc-fl400",
+      "geometry": "official/seventh-arc-fl400.geojson",
+      "source_grade": "A",
+      "role": "geometric reference only; not a search footprint"
+    },
+    {
+      "id": "initial-100nm-wide-area",
+      "geometry": "official/initial-100nm-wide-area.geojson",
+      "source_grade": "A",
+      "role": "historical planning context only; not searched seabed"
+    }
+  ]
+}

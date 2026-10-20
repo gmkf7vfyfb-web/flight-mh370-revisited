@@ -1,0 +1,163 @@
+[
+ {
+  "logger": "3315",
+  "window": [
+   "2014-03-08T00:44:31.000000000",
+   "2014-03-08T01:26:17.000000000"
+  ],
+  "searched_s": 880.5,
+  "background_per_hour": 0.8030980892358313,
+  "background_hours": 7.412916666666666,
+  "expected": 0.19642440765893038,
+  "detections": [],
+  "p_value": 1.0
+ },
+ {
+  "logger": "3376",
+  "window": [
+   "2014-03-08T00:44:32.000000000",
+   "2014-03-08T01:26:19.000000000"
+  ],
+  "searched_s": 880.0,
+  "background_per_hour": 0.9566005562881739,
+  "background_hours": 7.498333333333327,
+  "expected": 0.23383569153710917,
+  "detections": [],
+  "p_value": 1.0,
+  "other_nights": {
+   "detections": 5,
+   "searched_hours": 3.178888888888889,
+   "per_hour": 1.5728766165676338
+  }
+ },
+ {
+  "logger": "3250",
+  "window": [
+   "2014-03-08T01:00:26.000000000",
+   "2014-03-08T01:44:08.000000000"
+  ],
+  "searched_s": 847.5,
+  "background_per_hour": 3.0672914853025643,
+  "background_hours": 7.498472222222215,
+  "expected": 0.7220915371649786,
+  "detections": [
+   {
+    "utc": "2014-03-08T01:04:10.258475934",
+    "band_hz": [
+     20.0,
+     40.0
+    ],
+    "s_max_db": 33.76,
+    "snr_db": 33.76,
+    "record": "MH370/3250_ScottReef/531A6B81.DAT"
+   }
+  ],
+  "p_value": 0.5142647405597571
+ },
+ {
+  "logger": "3274",
+  "window": [
+   "2014-03-08T01:08:23.000000000",
+   "2014-03-08T01:48:36.000000000"
+  ],
+  "searched_s": 796.5,
+  "background_per_hour": 0.7324271367125282,
+  "background_hours": 11.083333333333309,
+  "expected": 0.1620495039976469,
+  "detections": [],
+  "p_value": 1.0
+ },
+ {
+  "logger": "3275",
+  "window": [
+   "2014-03-08T01:08:21.000000000",
+   "2014-03-08T01:48:34.000000000"
+  ],
+  "searched_s": 669.5,
+  "background_per_hour": 0.6579402011296319,
+  "background_hours": 7.172777777777771,
+  "expected": 0.12235860129341349,
+  "detections": [],
+  "p_value": 1.0
+ },
+ {
+  "controls": [
+   {
+    "station": "3315",
+    "utc": "2014-03-08T05:03:01Z",
+    "note": "HA01 04:59:21, bearing 210.2 deg (Curtin 2014-30, Table 3)",
+    "strength": {
+     "2-5": {
+      "s_max_db": 1.2,
+      "offset_s": -2.4,
+      "background_per_hour_at_or_above": 160.29
+     },
+     "5-10": {
+      "s_max_db": 10.2,
+      "offset_s": 1.1,
+      "background_per_hour_at_or_above": 2.12
+     },
+     "10-20": {
+      "s_max_db": 14.8,
+      "offset_s": 2.6,
+      "background_per_hour_at_or_above": 1.89
+     },
+     "20-40": {
+      "s_max_db": 17.3,
+      "offset_s": 0.6,
+      "background_per_hour_at_or_above": 0.67
+     }
+    }
+   },
+   {
+    "station": "3315",
+    "utc": "2014-03-08T05:18:13Z",
+    "note": "HA01 05:14:28, bearing 208.5 deg, weaker (Curtin 2014-30, Table 3)",
+    "strength": {
+     "2-5": {
+      "s_max_db": 1.4,
+      "offset_s": -2.5,
+      "background_per_hour_at_or_above": 145.88
+     },
+     "5-10": {
+      "s_max_db": 3.6,
+      "offset_s": 4.5,
+      "background_per_hour_at_or_above": 26.41
+     },
+     "10-20": {
+      "s_max_db": 5.2,
+      "offset_s": 2.0,
+      "background_per_hour_at_or_above": 30.19
+     },
+     "20-40": {
+      "s_max_db": 8.9,
+      "offset_s": -0.5,
+      "background_per_hour_at_or_above": 9.27
+     }
+    }
+   },
+   {
+    "station": "3315",
+    "utc": "2014-03-08T01:33:44Z",
+    "note": "HA01 01:34:50, bearing 301.6 deg; ATSB: likely geological. Opened after the envelope is committed",
+    "strength": {
+     "5-10": {
+      "s_max_db": 14.5,
+      "offset_s": 1.2,
+      "background_per_hour_at_or_above": 1.2
+     },
+     "10-20": {
+      "s_max_db": 13.8,
+      "offset_s": 0.7,
+      "background_per_hour_at_or_above": 2.24
+     },
+     "20-40": {
+      "s_max_db": 12.0,
+      "offset_s": 0.2,
+      "background_per_hour_at_or_above": 2.59
+     }
+    }
+   }
+  ]
+ }
+]

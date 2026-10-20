@@ -1,0 +1,36 @@
+{
+  "status": "REPRODUCIBLE_OUTPUT_HASHES",
+  "inputs": {
+    "data/aligned-detection-config.json": "df020539823547608059ad281d2c67559f0a2546467b706cf233d79913c2f9c6",
+    "data/event-pair-analysis-config.json": "e668bfb9eeb9e302cc8206ae7f68922468cfaa9a67678d0e24d1dea178c7b08e",
+    "data/filter-sensitivity-config.json": "0fd84f9dc766fc19dfe2e2bef9993456b908bc3318efe9bba7b1b66eb799a466",
+    "data/acoustic-alignment-source-targets.csv": "4c89ee99f35cb78a9159ebcd558198057405ed81d724aaa08b3be21bad0ea980",
+    "data/kadri-figure-extraction/metadata.json": "c80de542924df6cda30a2c7252a34a5cb3c15d4183f16ae95622d1665aeb6580",
+    "data/posterior_grids.npz": "1c174d64590229e5948c6d1d51ea03d3c1342d25906d9f0761516eff8159b76b"
+  },
+  "code": {
+    "code/aligned_detection_analysis.py": "f958cbc2eeffda14ca5d1d93b965764ba10916a3dd9e9449a8e1ecfd1eb0bea3",
+    "code/event_pair_analysis.py": "172eae0af7d754afc5ae9b150db2d2e47ca0d1a85d8155c63c5dd20398f23885",
+    "code/filter_sensitivity.py": "453df999febb8e5a5d86468c3eeed5b1bb4927ab234acfa152e48bfddc12ed2f",
+    "code/publication_trace_score_overview.py": "8c87cf08e7c3a9df6bbf72df04d216a158fcd2dc5e91d1c052a0297100fc3574"
+  },
+  "outputs": {
+    "h01w-publication-trace-significance.csv": "2b7d0973fc0630037ba234c6cf37d662ce944adb476bf6d7ef1de08673179271",
+    "h08s-stronger-filter-controls.csv": "581e1aaceb137c5a3d978a1ac49a6c93459ee0d4464ce381e2abbcc6414a4468",
+    "h08s-filter-injection-recovery.csv": "38f8272dc4f60b262030a93b36a068cb56ec9a7c2a4a372903d4a12b8d29e1a8",
+    "source-time-alignment-targets.csv": "ea97c49ac046d5ec8da3a2dbfd5e0c60c241c3372e6176d84fe1bfd019d81418",
+    "h01w-candidate-peak-significance.png": "2cc37bb41246ae030fe82d6348a46ab62fdf99b9db233da2d8cc6635653d35df",
+    "h01w-candidate-peak-significance.pdf": "8112c2b4b96434902bdc7295f7a6abe27fe013db17124a10a226c54f96064bf4",
+    "h08s-stronger-airgun-suppression-control.png": "b2394f83611b098f97ec3d88b33108a00557bf61431a7840a4dd032241ddfdac",
+    "h08s-stronger-airgun-suppression-control.pdf": "dd6d4a7d7d2dca9b4a7a7ea46c00f0ac8b7e89f25d2b32abfc14e50fb2c7ed53",
+    "aligned-local-energy-integrated-pdf-mode.png": "7c3601e4581a8d418c51d6f45d6f332742b66806f1d02a7c15e5a442bd461486",
+    "aligned-local-energy-integrated-pdf-mode.pdf": "b8d5eb851403176537b41c8089f2068b8a5e680782194509ea8925f17618496e",
+    "aligned-local-energy-bran2016-mode.png": "9a87fee471ae29b3c49b3d17f5fd07a25ac945baa2026f39b5b6831a51db6507",
+    "aligned-local-energy-bran2016-mode.pdf": "fb0398d46e19bcdc4e2f1ca92b0c0057f45153c8331dc84511d03e6a425d349f",
+    "aligned-local-energy-oscar-v2-final-mode.png": "87c83e66961ec90eeb60080c397f0eb0eaf0ac6b320957e570d768925f4274aa",
+    "aligned-local-energy-oscar-v2-final-mode.pdf": "00f06ac482aed4e38821bb7ed9cccfda77fe324e1f437b244105000714bb3d73",
+    "aligned-local-energy-bran-oscar-model-average-mode.png": "578ef3def483516feb347d15235e6f33c474f54387abcc6ac64acf6042482742",
+    "aligned-local-energy-bran-oscar-model-average-mode.pdf": "4cd62af43b2729971073a45d0e591a55506dc8250c57e6e320dd0a3a9cad61e1",
+    "aligned-detection-analysis-summary.json": "a9abd1f9db2bae9bc8f56bebae9c5e2e4a3ba79d78441e60f84fc7b94ce73711"
+  }
+}

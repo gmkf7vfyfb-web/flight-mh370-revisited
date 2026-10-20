@@ -1,0 +1,7 @@
+Environment of the iso host at export (29 Sep 2026)
+OS: Linux 7.2.7-1-cachyos-bore x86_64; Arch Linux rolling (container; tools installed with pacman: git python base-devel unzip rsync jq)
+Rust: rustc 1.98.0 (88d9e12ae 2026-08-18); cargo 1.98.0 (797e8a9bc 2026-08-05)
+Python: Python 3.14.7 (shared venv at MH370/.venv; `make venv` rebuilds it)
+Hardware: 6 cores, 23 GB RAM; heavy jobs serialised with `flock /jackbox/home/.mh370-heavy.lock <cmd>`
+Make targets: APP  FIXTURE  FIXTURE_CONFIGS  REGRESS  SMOKE  app clean control evaluate fixture hypothesis need-H need-base new-hypothesis regress report run scope sensitivity serve smoke test venv
+Worktrees: one per thread under MH370-worktrees/<name>; `.iso-env-setup.sh` links the ignored inputs.

@@ -1,0 +1,15 @@
+# Reading a handoff_epochs SNAPSHOT with `mh370 terminal`, with no core change (architecture ruling
+# 2026-10-09). The snapshot run (`reference-snapshots`) carried on to 00:19:37, so it excludes no
+# epochs; the terminal stage takes the bursts it owns from exclude_epochs, so they are named here.
+# The run tree is a symlink tree whose <case>/seed-N points at the run's seed-N/handoff-m0011/,
+# because the stage reads <case>/seed-N/handoff.toml.
+#
+# Pass AFTER the snapshot run's own configs:
+#   config/davey2016.toml config/sensitivity/no-exhaustion-prior.toml
+#   config/sensitivity/reference-snapshots.toml
+#   hypotheses/end-of-flight/smoke/snapshot-m0011.toml hypotheses/end-of-flight/smoke/terminal.toml
+#   hypotheses/end-of-flight/smoke/children-<N>.toml [seed overlay]
+#
+# A snapshot is the UNSCORED FILTERING distribution at 00:11: it has seen no burst after 00:11,
+# and every burst after it belongs to this stage.
+exclude_epochs = ["m0019a", "m0019b"]

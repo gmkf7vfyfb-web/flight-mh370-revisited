@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "engine_version": "0.1.0",
+  "executable_sha256": "bbc64736750035d51561619918e8678e598f8f1a8571a997aa56fd81a0dd69dd",
+  "command": "estimate-ocean-drift",
+  "config_path": ".sources/ocean-drift-input-preparation/outputs/demo-hycom.toml",
+  "config_sha256": "6787ba224b95c81c59e2508be7f2c59eb8f683acb3469b9033253acd8b780096",
+  "family": "hycom",
+  "isotope_enabled": true,
+  "seed": 3700019,
+  "particles_per_cell": 64,
+  "input_sha256": {
+    "currents.binary": "608e3153f8143d22c5a92656e579fe99d55c1656cde045f62aa1660329ef9a64",
+    "currents.metadata": "25f8251123c5b097d97c6b4faa0bf5dadda54ce469bc362f71c01314921707dc",
+    "isotope_records": "a5231772727d2adae24dcc082abc02beb597448720be30dfbb2b46ac3fe4957a",
+    "source_cells": "a776615986bfd44e2025cfbecc940a6305609f55c97d08c31cb39ae9724b4f0a",
+    "sst.binary": "9a8fdb023e7f4d719547b2393c913dddba7ff0f788f1c8b83839a08916635fc0",
+    "sst.metadata": "ba70afa6e56ac411fd76859895cf6a3695d06fbe0da02c409c560aba8f97471b",
+    "stokes.binary": "12d4dc78a9572f2693bd545dfb8ccd9c4553676aa3b2e13a09b880ba9907f15c",
+    "stokes.metadata": "a505c955b675a9bba962d427fb79c6ad426e8333f86a881d0c4e9e5bef0ab1b5"
+  },
+  "input_metadata": {
+    "currents": {
+      "axis_order": [
+        "time",
+        "latitude",
+        "longitude"
+      ],
+      "binary_format": "MHGRID1 little-endian",
+      "binary_sha256": "608e3153f8143d22c5a92656e579fe99d55c1656cde045f62aa1660329ef9a64",
+      "component_units": {
+        "u": "m s-1 east",
+        "v": "m s-1 north"
+      },
+      "converter_version": "ocean-input-preparation-v1",
+      "family": "hycom",
+      "gaps_over_1p5_days": 28,
+      "latitude_units": "degrees_north WGS84",
+      "limitations": [
+        "The preserved field is approximately 0.96 degree, not native 1/12 degree.",
+        "Field interpolation rejects any cell with missing corners and records trajectory termination.",
+        "No Stokes field is included unless selected separately by runner configuration."
+      ],
+      "longitude_units": "degrees_east WGS84",
+      "maximum_gap_days": 3.0,
+      "name": "HYCOM GLBu0.08 surface-current analysis, preserved regional subset",
+      "native_product_resolution_degrees": 0.08,
+      "preserved_grid_resolution_degrees": 0.9600000381469728,
+      "schema": "mh370-gridded-field-input-v1",
+      "source_files": [
+        {
+          "path": "/jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/analyses/D-0042-hierarchical-debris-drift/inputs/environment/hycom_e910_20140308_20140408_surface_0p96deg.nc",
+          "sha256": "e7f91db7f2e69fa9ce5d7fec5784b913bdfef925755de7362b42a6bf8ef7c244"
+        },
+        {
+          "path": "/jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/analyses/D-0042-hierarchical-debris-drift/inputs/environment/hycom_e911_20140409_20160417_surface_0p96deg.nc",
+          "sha256": "2a31fad0c3da2a20fef7018677311af626e29a753948c92f08468dbccecddab2"
+        },
+        {
+          "path": "/jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/analyses/D-0042-hierarchical-debris-drift/inputs/environment/hycom_e912_20160418_20181030_surface_0p96deg.nc",
+          "sha256": "74e32401a03169757d1deb6cf18c29c7c8e8e247c448e2b64d77d7757f102ac3"
+        }
+      ],
+      "time_axis": "UTC Unix seconds",
+      "time_count": 1668
+    },
+    "sst": {
+      "axis_order": [
+        "time",
+        "latitude",
+        "longitude"
+      ],
+      "binary_format": "MHGRID1 little-endian",
+      "binary_sha256": "9a8fdb023e7f4d719547b2393c913dddba7ff0f788f1c8b83839a08916635fc0",
+      "component_units": {
+        "sst": "degree C"
+      },
+      "converter_version": "ocean-input-preparation-v1",
+      "field_role": "sst",
+      "latitude_units": "degrees_north WGS84",
+      "limitations": [
+        "SST is an analyzed gridded product, not an in-situ observation along the flaperon path."
+      ],
+      "longitude_units": "degrees_east WGS84",
+      "name": "NOAA 1/4 degree daily OISST v2.1 regional subset",
+      "preserved_grid_resolution_degrees": 0.25,
+      "schema": "mh370-gridded-field-input-v1",
+      "source_files": [
+        {
+          "path": "/jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/analyses/D-0060-cross-arc-debris-drift/inputs/isotope/source_files/noaa_oisst_20150117_20150224_10e150e_50s25n.nc",
+          "sha256": "1772f87f80f10dd6dd0d6fb55c380d3ecc6fd99c3b9bd62f3c9fbff17aeedd6d"
+        },
+        {
+          "path": "/jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/analyses/D-0060-cross-arc-debris-drift/inputs/isotope/source_files/noaa_oisst_20150225_20150729_10e150e_50s25n.nc",
+          "sha256": "20bd1653f2bb723c3dcfa0edf1e2effe45eff401218973fa12c0bcb5a7768a2d"
+        }
+      ],
+      "time_axis": "UTC Unix seconds"
+    },
+    "stokes": {
+      "axis_order": [
+        "time",
+        "latitude",
+        "longitude"
+      ],
+      "binary_format": "MHGRID1 little-endian",
+      "binary_sha256": "12d4dc78a9572f2693bd545dfb8ccd9c4553676aa3b2e13a09b880ba9907f15c",
+      "component_units": {
+        "u": "m s-1 east Stokes",
+        "v": "m s-1 north Stokes"
+      },
+      "converter_version": "ocean-input-preparation-v1",
+      "field_role": "stokes",
+      "latitude_units": "degrees_north WGS84",
+      "limitations": [
+        "Daily 1 degree Stokes field omits subdaily and subgrid wave variability."
+      ],
+      "longitude_units": "degrees_east WGS84",
+      "name": "ERA5 daily Stokes surface drift, preserved 1 degree regional field",
+      "preserved_grid_resolution_degrees": 1.0,
+      "schema": "mh370-gridded-field-input-v1",
+      "source_files": [
+        {
+          "path": "/jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/analyses/D-0043-generative-debris-drift/inputs/era5_stokes_daily_20140308_20200815_1deg.npz",
+          "sha256": "6f08aa78758b1d80a68c55ec917debcf93520394132387b919077aabe5bfd511"
+        }
+      ],
+      "time_axis": "UTC Unix seconds"
+    }
+  },
+  "outputs": {
+    "source-area.csv": "304a98fb001b01911ad23e2ad6d6cc0be5349e8de4ae81f7456e2e72fa235789",
+    "source-area.json": "2249ce396aa3ebef68800001aa4562ab9f439f6aa6a31bdfcd65327741e95148",
+    "source-area.pdf": "0784cbc83d1680383beb96fa4b949a5ee9dd762b3b1dfeae3eb61dcfce982077",
+    "source-area.png": "6f1d2ec7e30a166f12639bfbffec93f48bf3fcad86b3c594e7a68a1cf8118618",
+    "source-area.svg": "4e3a1926e515f2771fcf93be115ea011ae74e662aec5566b106ef6d680060f19"
+  },
+  "limitations": [
+    "The preserved field is approximately 0.96 degree, not native 1/12 degree.",
+    "Field interpolation rejects any cell with missing corners and records trajectory termination.",
+    "No Stokes field is included unless selected separately by runner configuration.",
+    "Daily 1 degree Stokes field omits subdaily and subgrid wave variability.",
+    "SST is an analyzed gridded product, not an in-situ observation along the flaperon path.",
+    "Discovery is not beaching; the configured recovery window is a model choice.",
+    "The Gaussian spatial encounter kernel and midpoint integrator are explicit model choices, not published measurements."
+  ]
+}

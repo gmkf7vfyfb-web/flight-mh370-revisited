@@ -1,0 +1,110 @@
+{
+  "candidates": 20000,
+  "code_sha256": "b8d358a24ce4f46c9f1582f08f8577968c6e50b5e488bd4c2cf42db5e7f0f239",
+  "contact_components_sha256": "0e28bea1dbb9545945dcc4ba9e4974a49ade894510e434a5602b20a6bd7e4d07",
+  "csv_sha256": "2a3e67e46ea7edcda61078d558b65e9a645120966f78c383a17b04b6ae7376de",
+  "cumulative_log_evidence": -36.437648284110026,
+  "elapsed_seconds": 16.304656894,
+  "executable_sha256": "1aad8e402fea747c5e5b6d0cb0007171c920dce66a9625ec95d118f812b784cf",
+  "gap_proposal_guide": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-joint-turn-guidance/joint-time-original-lookahead.json",
+  "inputs": {
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-joint-turn-guidance/joint-time-original-lookahead.json": "6d849a622f670d4fd76e457387fd167cd741f993c290eaea6f1936c235b45382",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092104/inference-seed-37102108/filter-checkpoints.json": "2d344e3acb5cf4fd9bb3e08a540868e5992e0aa3b25f7ca7aa5fcb61c2b16ca9",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092104/inference-seed-37102108/initial-allocation.json": "b921d8f7fd36e07833b5f8b6091f2b499819715c4df30444db3a49f1845c5ae1",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092104/inference-seed-37102108/resolved-config.json": "fdfd1f7b940f713aebd377dd858c203769ab0764d6e26bce3ce7502ae6a84362",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092104/inference-seed-37102108/sequential-filter-config.json": "15f27c7552a442c3c6199a7a1d45e55ea73a5da5057c6762f81c513ff6f0d4c5",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092104/observations.csv": "c4db81931782a0befcef4ccc6b140e8179d7315695aae5a6bdbbab0842a153c7",
+    "/jackbox/home/MH370/inputs/accident/satellite-through-0011.csv": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+    "/jackbox/home/MH370/inputs/environment/mh370-era5-grid.bin": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4",
+    "/jackbox/home/MH370/inputs/environment/mh370-igrf14-grid.bin": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1"
+  },
+  "log_evidence_increment": -13.35700261173513,
+  "maximum_root_weight": 0.0033208624644174524,
+  "observation_ids": [
+    "m1839",
+    "m1941"
+  ],
+  "original_checkpoint": {
+    "ancestor_resampled": false,
+    "cumulative_log_evidence": -36.43556141240611,
+    "distinct_root_ancestors": 7172,
+    "guide_ess": null,
+    "log_evidence_increment": -13.354915740031228,
+    "maximum_normalized_weight": 0.002456012637654295,
+    "maximum_root_weight": 0.0033139394767139714,
+    "observation_index": 3,
+    "observation_time_s": 5953.0,
+    "posterior_ess": 2202.6433433870898,
+    "posterior_resampled": true,
+    "root_effective_sample_size": 1136.5601569171572,
+    "roots_with_mass_at_least_1e_3": 233,
+    "roots_with_mass_at_least_1e_6": 3981,
+    "strata": [
+      {
+        "conditional_ess": 542.8326350456016,
+        "distinct_root_ancestors": 1486,
+        "id": 0,
+        "log_posterior_mass": -1.1633078282648874,
+        "maximum_normalized_log_weight": -6.009216123085767,
+        "maximum_normalized_weight": 0.002456012637654295,
+        "particle_count": 4000,
+        "posterior_mass": 0.31245093558360826,
+        "root_effective_sample_size": 293.233935056935
+      },
+      {
+        "conditional_ess": 580.3601384971649,
+        "distinct_root_ancestors": 1455,
+        "id": 1,
+        "log_posterior_mass": -1.1796478810707969,
+        "maximum_normalized_log_weight": -6.556939015775661,
+        "maximum_normalized_weight": 0.0014202263541014872,
+        "particle_count": 4000,
+        "posterior_mass": 0.30738695631316865,
+        "root_effective_sample_size": 309.3793524037061
+      },
+      {
+        "conditional_ess": 570.8676669414787,
+        "distinct_root_ancestors": 1421,
+        "id": 2,
+        "log_posterior_mass": -1.7269270948359408,
+        "maximum_normalized_log_weight": -6.985554291496725,
+        "maximum_normalized_weight": 0.0009251503515013948,
+        "particle_count": 4000,
+        "posterior_mass": 0.1778300260326471,
+        "root_effective_sample_size": 242.4880948628807
+      },
+      {
+        "conditional_ess": 423.0545224583747,
+        "distinct_root_ancestors": 1406,
+        "id": 3,
+        "log_posterior_mass": -2.4246516540463254,
+        "maximum_normalized_log_weight": -7.040075961935439,
+        "maximum_normalized_weight": 0.0008760600125165389,
+        "particle_count": 4000,
+        "posterior_mass": 0.08850894540565214,
+        "root_effective_sample_size": 189.96966892351065
+      },
+      {
+        "conditional_ess": 346.08252989600845,
+        "distinct_root_ancestors": 1404,
+        "id": 4,
+        "log_posterior_mass": -2.17310946806948,
+        "maximum_normalized_log_weight": -6.523662959939958,
+        "maximum_normalized_weight": 0.001468280985719497,
+        "particle_count": 4000,
+        "posterior_mass": 0.11382313666492212,
+        "root_effective_sample_size": 185.44397107393485
+      }
+    ]
+  },
+  "posterior_ess": 2218.026877037872,
+  "prefix_seconds": 4.348715214,
+  "root_effective_sample_size": 1134.2772508472412,
+  "scientific_source_sha256": "cf41a1636d8a73588c1331f08110940eb54c045cc8f5a78c4d51c92db177c8ce",
+  "scope": "Deterministic diagnostic replay of existing candidate streams. Full original observations configure fuel timing; no new terminal ensemble or substituted posterior.",
+  "seed": 37102108,
+  "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092104/inference-seed-37102108",
+  "status": "matched-prefix numerical proposal comparison",
+  "threads": 4,
+  "through_block": 4
+}

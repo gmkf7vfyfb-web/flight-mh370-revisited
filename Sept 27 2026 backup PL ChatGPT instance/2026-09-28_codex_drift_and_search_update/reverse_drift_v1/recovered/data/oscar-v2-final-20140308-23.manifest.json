@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "name": "oscar-v2-final-20140308-23",
+  "binary_file": "oscar-v2-final-20140308-23.f32le",
+  "byte_order": "little_endian",
+  "scalar_type": "float32",
+  "value_count": 261792,
+  "sha256": "e24554662c0dde3c6c60ec6c6d78a28c83a25889817f33776e6215dce3f5355a",
+  "source_family": "OSCAR v2 Final",
+  "status": "retrieved",
+  "collection_concept_id": "C2098858642-POCLOUD",
+  "doi": "10.5067/OSCAR-25F20",
+  "variable_order": [
+    "u_east_m_s",
+    "v_north_m_s"
+  ],
+  "dimension_order": [
+    "time",
+    "latitude",
+    "longitude",
+    "component"
+  ],
+  "shape": [
+    16,
+    81,
+    101,
+    2
+  ],
+  "time": {
+    "start_center_utc": "2014-03-08T12:00:00Z",
+    "step_days": 1,
+    "count": 16
+  },
+  "latitude": {
+    "start_deg": -45,
+    "step_deg": 0.25,
+    "count": 81,
+    "ascending": true
+  },
+  "longitude": {
+    "start_deg": 80,
+    "step_deg": 0.25,
+    "count": 101,
+    "ascending": true
+  },
+  "effective_depth": "assumed well-mixed upper 30 m",
+  "units": "m s-1",
+  "missing_vector_count": 64
+}

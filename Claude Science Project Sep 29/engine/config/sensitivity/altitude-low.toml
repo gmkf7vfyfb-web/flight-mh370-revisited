@@ -1,0 +1,31 @@
+# Sensitivity: altitude drawn from 5,000-43,000 ft instead of Davey's 25,000-43,000 ft, at the
+# prior and at every vertical manoeuvre. Isolates the altitude floor; speed keeps the base
+# 0.73-0.84 range so the two effects can be read separately (see slow-and-low.toml for both).
+#
+# Why: the base altitude prior cannot generate a low-altitude leg or an early descent at all, so
+# any such trajectory is excluded a priori rather than tested. AGENTS.md rule 6 requires that
+# low-altitude solutions be tested against speed, fuel and BTO/BFO feasibility instead of being
+# excluded by assumption, and the end-of-flight scenarios of interest (a descent begun well
+# before fuel exhaustion, a controlled approach to a ditching) all start below 25,000 ft.
+#
+# 5,000 ft is the floor because it is an exact node of the ERA5 grid's pressure-altitude axis
+# (500, 5,000, 10,000, 15,000, 20,000, 25,000, 28,000 ... 43,000 ft), so no query is extrapolated
+# or clamped. Note the grid is coarser below 25,000 ft: 5,000 ft spacing against 3,000 ft above.
+#
+# Caveats. The 1,000 ft step is unchanged, so the range now holds 39 levels instead of 19 and each
+# receives about half its former prior mass. Fuel flow at low altitude is far higher and is not
+# modelled here, so low cruise carries no endurance penalty; and the cabin would be unpressurised
+# above about 10,000 ft only in the depressurisation scenarios, which this run does not represent.
+# Read the low-altitude mass as an upper bound.
+name = "altitude-low"
+seeds = [1, 2, 3, 4, 5, 6, 7, 8]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[dynamics]
+altitude_range_ft = [5000.0, 43000.0]
+
+[output]
+history_after_epoch = "m1839"

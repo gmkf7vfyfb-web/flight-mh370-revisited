@@ -1,0 +1,44 @@
+The fresh **truth-separated localization rerun is complete**: it did not recover MH371. Scoring excluded the recorded track until evaluation. However, because we have previously studied this flight, it cannot honestly be called a *newly blinded experiment*.
+
+### Proposed paper text — under 500 words
+
+WSPR (Weak Signal Propagation Reporter) records amateur-radio reception reports, including signal-to-noise ratio and frequency. Aircraft might perturb these signals, but ionospheric variability and transmitter/receiver behavior also do so. Consequently, intersecting radio-link great circles do not themselves establish aircraft detection.
+
+We tested whether anomalies preferentially occur near known flights, then whether they select accurate MH371 trajectories. Three methods were compared: the published 0.75-standard-deviation anomaly flag, frequency residuals corrected for shared station effects, and a background-calibrated combined signal/frequency score. The latter uses same-link medians and median absolute deviations—robust measures of typical level and spread—excluding the tested slot, adjusts for reported transmitter power, and estimates shared transmitter/receiver effects from other stations. Anomaly magnitude is calibrated against reports outside evaluation windows, producing centered evidence \(E_i\), not an aircraft probability.
+
+For candidate trajectory \(x\), packet-averaged exposure is
+
+\[
+q_i(x)=\sum_k w_k
+\exp\!\left[-\frac{d_{ik}(x)^2}{2\sigma^2}\right]
+\mathbf{1}\!\left[d_{ik}(x)\leq3\sigma\right],
+\]
+
+where \(d_{ik}\) is distance to the link’s great circle, five sampling weights sum to one, and \(\sigma=25\) km. With station-balancing weights \(a_i\), anomaly contrast is
+
+\[
+C(x)=
+\frac{\sum_i a_iq_iE_i}{\sum_i a_iq_i}
+-
+\frac{\sum_i a_i(1-q_i)E_i}{\sum_i a_i(1-q_i)}.
+\]
+
+Positive contrast means stronger anomalies near the candidate than elsewhere.
+
+For MH371, the combined score ranked 19/21 against time-shifted tracks and 38/49 against spatially displaced tracks, where rank 1 is strongest. Neither alternative produced positive near-track excess. Separately, 24,000 paths constrained by satellite timing/frequency measurements and flight dynamics were scored before revealing the recorded track. Truth reached only the 43.6th score percentile, weighted by baseline model probabilities. Selecting the highest-scoring 10% of baseline probability mass increased the weighted mean of whole-path root-mean-square errors from **150.8 to 291.2 km**. Allowing every candidate the same 44-choice feature/scale search left truth at the 50.2nd percentile.
+
+Assumptions include successfully decoded reports only, station-locator cell centres, interpolated aircraft motion, and permissive full-great-circle propagation. These localization runs exclude ionospheric ray tracing, verified antenna patterns, realized propagation modes, scattering amplitudes, and waveform phase/delay. Separate PHaRLAP screening retained too few effective exposures for strong inference. Dependent candidates and controls do not supply calibrated significance probabilities. This is a rerun of previously studied data, not newly blinded or WSPR-only global localization. Missing historical environmental-grid versions also limit complete bank regeneration.
+
+We found no demonstrated localization benefit under these models—not proof that HF aircraft sensing is impossible. Synthetic recovery does not establish real detection. Further work requires synchronized raw HF recordings, documented receiver behavior, independent aircraft truth, and genuinely held-out flights and receivers.
+
+### Recommended figures
+
+**Main results:** truth receives an ordinary score; favoring high-scoring paths worsens accuracy. Shading in panel B shows within-bin 10th–90th error percentiles, not confidence intervals.
+
+![MH371 localization results](/jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/outputs/whole-track-trajectory-bank/publication/mh371-blind-wspr-trajectory-recovery.png)
+
+**Method diagram:** shows the boundary between scoring and truth evaluation.
+
+![Truth-separated workflow](/jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/outputs/wspr-manuscript/truth_separation.png)
+
+[Three-method control chart](/jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/outputs/mh371-method-comparison/mh371_method_comparison.png) · [Manuscript Markdown](/jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/outputs/wspr-manuscript/manuscript.md) · [LaTeX fragment](/jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/outputs/wspr-manuscript/manuscript.tex)

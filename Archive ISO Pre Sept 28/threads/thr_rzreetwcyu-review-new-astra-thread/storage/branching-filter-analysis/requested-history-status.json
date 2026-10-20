@@ -1,0 +1,143 @@
+{
+  "status": "completed",
+  "purpose": "Exact recovery of conditional-hypothesis witnesses; no additional candidates",
+  "threads": 4,
+  "runs": [
+    {
+      "source_index": 0,
+      "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631",
+      "config": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/requested-history-config-0.json",
+      "configuration_sha256": "86e36a54f5dea0227b1058e33c116fe80996db05c51df2a5e13cb9ee089cf5e1",
+      "output": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/requested-histories/turns16-mach8-altitude8-vertical-bfo-seed-37091631",
+      "requested_slots": [
+        18069,
+        62480,
+        76699
+      ],
+      "status": "completed",
+      "started_utc": "2026-09-09T13:56:08.550705+00:00",
+      "command": [
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/requested-history-executable",
+        "estimate-branching-flight",
+        "--config",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/requested-history-config-0.json",
+        "--output",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/requested-histories/turns16-mach8-altitude8-vertical-bfo-seed-37091631",
+        "--threads",
+        "4"
+      ],
+      "pid": 261627,
+      "exit_code": 0,
+      "elapsed_seconds": 249.98275406799803,
+      "peak_child_rss_kib": 1522212,
+      "finished_utc": "2026-09-09T14:00:18.791717+00:00",
+      "posterior_byte_identical": true,
+      "exact_contact_checks": 304,
+      "trajectory_sha256": "94824d639af8166e332105327e0d3e88f93022eb1f7ae63feb0e630ba1b6d717"
+    },
+    {
+      "source_index": 1,
+      "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091640",
+      "config": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/requested-history-config-1.json",
+      "configuration_sha256": "4fcbc34362f1c846fe8127fb450b7d39699311949773240842b2ccda8d1d67a6",
+      "output": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/requested-histories/turns16-mach8-altitude8-vertical-bfo-seed-37091640",
+      "requested_slots": [
+        51492,
+        57294,
+        57959,
+        67551
+      ],
+      "status": "completed",
+      "started_utc": "2026-09-09T14:00:18.861644+00:00",
+      "command": [
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/requested-history-executable",
+        "estimate-branching-flight",
+        "--config",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/requested-history-config-1.json",
+        "--output",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/requested-histories/turns16-mach8-altitude8-vertical-bfo-seed-37091640",
+        "--threads",
+        "4"
+      ],
+      "pid": 262107,
+      "exit_code": 0,
+      "elapsed_seconds": 240.34464870899683,
+      "peak_child_rss_kib": 1548692,
+      "finished_utc": "2026-09-09T14:04:19.504206+00:00",
+      "posterior_byte_identical": true,
+      "exact_contact_checks": 288,
+      "trajectory_sha256": "cf0ccd4781a12994e467310d12193e75431682f31be5ba1b8dc2c09815c65034"
+    },
+    {
+      "source_index": 2,
+      "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091711",
+      "config": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/requested-history-config-2.json",
+      "configuration_sha256": "fb29a858c70dffd12d51555ffb53890b831b9af1af7d3f7af8b551060be0355f",
+      "output": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/requested-histories/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091711",
+      "requested_slots": [
+        75793,
+        167541,
+        173553,
+        176368,
+        177742
+      ],
+      "status": "completed",
+      "started_utc": "2026-09-09T14:04:19.568624+00:00",
+      "command": [
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/requested-history-executable",
+        "estimate-branching-flight",
+        "--config",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/requested-history-config-2.json",
+        "--output",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/requested-histories/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091711",
+        "--threads",
+        "4"
+      ],
+      "pid": 262648,
+      "exit_code": 0,
+      "elapsed_seconds": 762.7243773240043,
+      "peak_child_rss_kib": 2889224,
+      "finished_utc": "2026-09-09T14:17:02.833846+00:00",
+      "posterior_byte_identical": true,
+      "exact_contact_checks": 352,
+      "trajectory_sha256": "2fd3d7be34dcacb493f2660409bfedf80ba97f34fb895d46b8a6960816eb84dc"
+    },
+    {
+      "source_index": 3,
+      "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091712",
+      "config": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/requested-history-config-3.json",
+      "configuration_sha256": "88c857052e778a09b4b039deb2719a8173b2bb5b3efddcb934aa30fa8f82dda5",
+      "output": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/requested-histories/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091712",
+      "requested_slots": [
+        191827,
+        196046,
+        203540
+      ],
+      "status": "completed",
+      "started_utc": "2026-09-09T14:17:02.913434+00:00",
+      "command": [
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/requested-history-executable",
+        "estimate-branching-flight",
+        "--config",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/requested-history-config-3.json",
+        "--output",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/requested-histories/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091712",
+        "--threads",
+        "4"
+      ],
+      "pid": 266699,
+      "exit_code": 0,
+      "elapsed_seconds": 731.6317425770103,
+      "peak_child_rss_kib": 2973392,
+      "finished_utc": "2026-09-09T14:29:15.172930+00:00",
+      "posterior_byte_identical": true,
+      "exact_contact_checks": 320,
+      "trajectory_sha256": "5ddec0bdf5679419fc01a4b0b70734778e6fd34dd3e262c7231374f5efda80c6"
+    }
+  ],
+  "driver_pid": 261620,
+  "executable": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/requested-history-executable",
+  "executable_sha256": "545ead62adb11a0313651c96f97c19ce5e934781412e79283893dfae271f2aa9",
+  "updated_utc": "2026-09-09T14:29:15.216497+00:00",
+  "finished_utc": "2026-09-09T14:29:15.216480+00:00"
+}

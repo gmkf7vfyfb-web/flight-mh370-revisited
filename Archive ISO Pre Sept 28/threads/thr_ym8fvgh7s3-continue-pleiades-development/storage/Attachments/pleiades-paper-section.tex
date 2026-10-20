@@ -1,0 +1,105 @@
+% Paper fragment for NAV.cls. Requires amsmath and booktabs; NAV.cls supplies natbib.
+\section{Pl\'eiades imagery: morphology and conditional source-location analysis}
+\label{sec:pleiades-conditional}
+
+On 23 March 2014 near 04:00 UTC, Pl\'eiades 1A acquired four 0.5~m
+southern Indian Ocean scenes. Supplied by French military intelligence and
+CNES, the imagery was examined by Geoscience Australia at the ATSB's
+request~\citep{minchin2017pleiades}. Twelve of at least 70 catalogued objects
+were rated 5 (probably not natural objects or features). This did not identify
+aircraft debris. Targets 06, 18, 19, 26 and 27 were the five rating-5 masks
+stable through 18 segmentation perturbations; the others had weaker geometry.
+Selection measured segmentation stability, not aircraft resemblance.
+
+Eight equal-sized families tested flooding-model and random-pose wings; other
+777 parts; matched random geometry; ocean controls; the whole fuselage; and
+documented-boundary or random-cut fuselage sections. Boeing geometry
+was used~\citep{boeing2024acap}; controls represented containers, nets/ropes,
+clustered cargo/plastic/timber, wreckage/hulls and fish-aggregating
+devices~\citep{hapag2016container,iotc2023observer,lebreton2018plastic}.
+\citet{murphy2013structures} gives six 777 section intervals, including BS~2150
+at the aft pressure bulkhead. These reproducible boundaries are not asserted
+weak points. Contrasting accidents include Asiana separation there, a local
+777 puncture without barrel breakup, and A320 ditching damage to aft skin,
+bulkhead and tail cone~\citep{aaib2010ba38,ntsb2010hudson,ntsb2014asiana}.
+They do not define an MH370 breakup prior.
+
+Each family contained 3,372 masks: 26,976 masks and 134,880 family--object
+comparisons. Fuselage orientation was isotropic; one fifth were fully visible,
+otherwise a linear waterline targeted 15--100\% visibility. These are
+sampling-coverage sensitivities, not pose or flooding probabilities. Ranking
+required visible area, oriented length and width all inside the target
+intervals. Principal-axis-normalised masks were compared under identity and
+three reflections. For eligible candidate $c$, target $o$, family $g$, masks
+$T_o,P_o$, reflection set $\mathcal F$, and size-eligible set $E_o$,
+\begin{equation}
+\begin{aligned}
+  \operatorname{IoU}(A,B)
+    &=\frac{|A\cap B|}{|A\cup B|},\\
+  \ell(c,o)
+    &=1-\frac{
+      \max_{f\in\mathcal F}\operatorname{IoU}(T_o,f(c))+
+      \max_{f\in\mathcal F}\operatorname{IoU}(P_o,f(c))
+    }{2},\\
+  \ell^{*}_{g,o}
+    &=\min_{c\in g\cap E_o}\ell(c,o).
+\end{aligned}
+\label{eq:pleiades-mask-loss}
+\end{equation}
+Lower loss is greater overlap, not an identity probability.
+
+Extended minima were nacelle-side (06), matched random geometry (18/19),
+random-pose wing (26), and documented section 47 (27). The last loss was
+0.3058 versus 0.3145 for random geometry, but 0.3556 when only fully visible
+section masks were admitted. The whole shell ranked lowest for none. Its
+eligible minima required axis/view cosines 0.885--0.988 and visible fractions
+0.305--0.672: near-end-on projection, occlusion, or both. Random geometry
+matched pooled dimension ranges, not outlines, and was deliberately
+competitive. 777 shapes were admissible but not preferentially selected;
+morphology remained non-specific.
+
+\begin{table}[t]
+  \centering
+  \footnotesize
+  \caption{Equal-budget Pl\'eiades morphology controls. Lower loss is better.}
+  \label{tab:pleiades-morphology-controls}
+  \begin{tabular}{lrrr}
+    \toprule
+    Family & Eligible objects & Mean lowest loss\textsuperscript{a} &
+      Objects at lowest loss \\
+    \midrule
+    Flooding-model wing            & 1/5 & 0.3036 & 0 \\
+    Random-pose wing               & 5/5 & 0.3206 & 1 \\
+    Other shortlisted 777 parts    & 4/5 & 0.3624 & 1 \\
+    Matched random geometry        & 5/5 & 0.3244 & 2 \\
+    Generic ocean objects          & 4/5 & 0.3523 & 0 \\
+    Whole 777 fuselage               & 4/5 & 0.3472 & 0 \\
+    Documented 777 fuselage sections & 5/5 & 0.3308 & 1 \\
+    Random 777 fuselage sections     & 4/5 & 0.3353 & 0 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{2pt}
+  \parbox{0.94\linewidth}{\footnotesize\textsuperscript{a}Mean over eligible
+  objects only; family means are therefore not directly comparable.}
+\end{table}
+
+For conditional source location, \citet{griffin2017drift} propagated debris
+forward from trial sites under the assumption that some objects
+were from 9M-MRO. A separate clean-sheet forward-ensemble reconstruction
+released particles from 5,289 cells along and within $\pm100$~NM of the
+seventh arc. BRAN2016 and OSCAR v2 currents were evaluated
+separately~\citep{dohan2021oscar}, with common NCEP
+winds~\citep{kalnay1996reanalysis}, three windage alternatives and
+5~NM/day dispersion. All twelve location likelihoods were averaged equally;
+no object was randomly drawn. The five-object set was a sensitivity.
+
+BRAN's mode was 35.418$^{\circ}$S, 92.886$^{\circ}$E with a 24,309~km$^2$ 90\%
+region; OSCAR's was 34.917$^{\circ}$S, 92.047$^{\circ}$E with 18,393~km$^2$.
+Averaging uniform subsets of one to five objects reproduces that PDF for any
+subset-size prior; a product needs correlated debris and detection models. The
+50:50 BRAN--OSCAR prior mixture has mode 35.300$^{\circ}$S,
+92.891$^{\circ}$E and a 25,896~km$^2$ 90\% region. It is not
+independent-evidence multiplication or a calibrated posterior. These are
+conditional hypotheses for an integrated estimator; none establishes identity
+or updates the main estimate unconditionally.

@@ -1,0 +1,833 @@
+── User ────────────────────────────────────────────────────
+Read-only exact paired audit of better-mixed 00:11 medium versus conditional-gain results. Medium: /tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium (or identical completed medium family under core-comparison-better-mixing); gain: /tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional. Do not edit. Verify manifests/hashes and non-gain settings equivalence. On one common spherical Lambert equal-area 5km grid with canonical five-tap display kernel, compute means/modes, 50/90/95/99 HPD areas, overlap/TV/JS, paired same-seed centroid shifts, seed TVs/ESS/acceptance/evidence ranges, leave-one-seed-out area stability. Determine whether gain effect is resolved relative to Monte Carlo uncertainty. Include exact plot/PDF links and concise publication interpretation; do not call evidence increments a Bayes factor.
+
+── Worked for (12m 45s) ────────────────────────────────────
+  ── Assistant
+  I’ll audit the two completed run families in place, first establishing artifact identity and configuration equivalence, then recomputing every paired spatial and seed-level diagnostic from the stored outputs. I’ll keep the repository and run directories untouched and link only existing generated plots/PDFs.
+
+  ── Explored 1 search, 1 file
+    ── Searched for . in /tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional
+    ── Read AGENTS.md
+
+  ── Assistant
+  Both requested families exist and each contains the same three seeds (`370023–370025`) plus family-level reports. I’m now tracing the exact manifest and analysis conventions in the canonical runner so the grid, five-tap kernel, HPD ordering, and diagnostic definitions match the product rather than an ad hoc reimplementation.
+
+  ── Explored 3 lists, 4 searches, 4 files
+    ── Listed files in .
+    ── Searched for Lambert|equal.area|five.tap|five tap|display kernel|HPD|Jensen|Shannon|total variation|leave.one|posterior.csv|conditional-evidence|mutation in .sources
+    ── Listed files in /tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827
+    ── Read /tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/run-manifest.json
+    ── Read crates/reporting/src/lib.rs
+    ── Searched for spherical lambert|lambert.*equal.*area|equal.*area.*5 ?km|five.tap display|canonical five.tap|0\.06136|0\.24477|0\.38774 in /tmp
+    ── Searched for 2M in /jackbox/home/MH370
+    ── Read /tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/seed-370023/posterior.csv
+    ── Searched for EARTH_RADIUS|earth_radius|6371|6_371|3440\. in .sources
+    ── Read crates/domain/src/geodesy.rs
+    ── Listed files in /tmp
+
+  ── Assistant
+  The provenance check is strong so far: both manifests name the same release executable hash, which matches the current `target/release/mh370`, and the requested medium family also has a completed counterpart under the better-mixing core comparison. I’m checking byte identity of that counterpart and independently re-hashing every declared input/output before using any posterior values.
+
+  ── Ran 7 commands, explored 1 search, 1 file
+    ── Ran python3 - <<'PY' from pathlib import Path import hashlib, json, tomllib runs = {  'medium': Path('/tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827'),  'gain': Path('/tmp/mh370-0011-gain-better-mixing-recovery-20260828'), } for label, root in runs.items():     m=json.loads((root/'run-manifest.json').read_text())     failures=[]     config=Path(m['config_path'])     actual=hashlib.sha256(config.read_bytes()).hexdigest()     if actual "'!= m['"'config_sha256']: failures.append(('config',m['config_sha256'],actual))     for p,d in m['input_sha256'].items():         a=hashlib.sha256(Path(p).read_bytes()).hexdigest()         if a "'!= d: failures.append((p,d,a))     for p,d in m['"'outputs'].items():         a=hashlib.sha256((root/p).read_bytes()).hexdigest()         if a "'!= d: failures.append((p,d,a))     print(label, '"'declared_files', 1+len(m['input_sha256'])+len(m['outputs']), 'failures', len(failures))     for f in failures: print(' FAIL',f) # Compare normalized non-gain config sections and family settings. mp=Path('/tmp/mh370-0011-medium-mutation-sensitivity.toml') gp=Path('/tmp/mh370-0011-gain-better-mixing-recovery.toml') m=tomllib.loads(mp.read_text()); g=tomllib.loads(gp.read_text()) shared=['schema_version','seeds','inputs','environment','convergence','model'] print('shared sections equal', {k:m.get(k)==g.get(k) for k in shared}) fm=m['families'][0].copy(); fg=g['families'][0].copy() for x in (fm,fg):     x.pop('name',None); x.pop('use_antenna_gain',None) print('family non-gain fields equal',fm==fg,fm,fg) print('medium extra top keys', sorted(set(m)-set(g))) print('gain extra top keys', sorted(set(g)-set(m))) # Compare requested medium to better-mixing core family, relative files. a=Path('/tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium') b=Path('/tmp/mh370-0011-core-comparison-better-mixing-20260827/bto-bfo-medium') afiles=sorted(str(p.relative_to(a)) for p in a.rglob('*') if p.is_file()) bfiles=sorted(str(p.relative_to(b)) for p in b.rglob('*') if p.is_file()) print('counterpart file sets equal',afiles==bfiles,'counts',len(afiles),len(bfiles)) diffs=[] for rel in sorted(set(afiles)&set(bfiles)):     ah=hashlib.sha256((a/rel).read_bytes()).hexdigest(); bh=hashlib.sha256((b/rel).read_bytes()).hexdigest()     if ah"'!=bh: diffs.append((rel,ah,bh)) print('"'counterpart byte differences',len(diffs)) for x in diffs: print(' DIFF',*x) PY (1s)
+      $ python3 - <<'PY'
+    from pathlib import Path
+    import hashlib, json, tomllib
+    runs = {
+     'medium': Path('/tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827'),
+     'gain': Path('/tmp/mh370-0011-gain-better-mixing-recovery-20260828'),
+    }
+    for label, root in runs.items():
+        m=json.loads((root/'run-manifest.json').read_text())
+        failures=[]
+        config=Path(m['config_path'])
+        actual=hashlib.sha256(config.read_bytes()).hexdigest()
+        if actual "'!= m['"'config_sha256']: failures.append(('config',m['config_sha256'],actual))
+        for p,d in m['input_sha256'].items():
+            a=hashlib.sha256(Path(p).read_bytes()).hexdigest()
+            if a "'!= d: failures.append((p,d,a))
+        for p,d in m['"'outputs'].items():
+            a=hashlib.sha256((root/p).read_bytes()).hexdigest()
+            if a "'!= d: failures.append((p,d,a))
+        print(label, '"'declared_files', 1+len(m['input_sha256'])+len(m['outputs']), 'failures', len(failures))
+        for f in failures: print(' FAIL',f)
+
+    # Compare normalized non-gain config sections and family settings.
+    mp=Path('/tmp/mh370-0011-medium-mutation-sensitivity.toml')
+    gp=Path('/tmp/mh370-0011-gain-better-mixing-recovery.toml')
+    m=tomllib.loads(mp.read_text()); g=tomllib.loads(gp.read_text())
+    shared=['schema_version','seeds','inputs','environment','convergence','model']
+    print('shared sections equal', {k:m.get(k)==g.get(k) for k in shared})
+    fm=m['families'][0].copy(); fg=g['families'][0].copy()
+    for x in (fm,fg):
+        x.pop('name',None); x.pop('use_antenna_gain',None)
+    print('family non-gain fields equal',fm==fg,fm,fg)
+    print('medium extra top keys', sorted(set(m)-set(g)))
+    print('gain extra top keys', sorted(set(g)-set(m)))
+
+    # Compare requested medium to better-mixing core family, relative files.
+    a=Path('/tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium')
+    b=Path('/tmp/mh370-0011-core-comparison-better-mixing-20260827/bto-bfo-medium')
+    afiles=sorted(str(p.relative_to(a)) for p in a.rglob('*') if p.is_file())
+    bfiles=sorted(str(p.relative_to(b)) for p in b.rglob('*') if p.is_file())
+    print('counterpart file sets equal',afiles==bfiles,'counts',len(afiles),len(bfiles))
+    diffs=[]
+    for rel in sorted(set(afiles)&set(bfiles)):
+        ah=hashlib.sha256((a/rel).read_bytes()).hexdigest(); bh=hashlib.sha256((b/rel).read_bytes()).hexdigest()
+        if ah"'!=bh: diffs.append((rel,ah,bh))
+    print('"'counterpart byte differences',len(diffs))
+    for x in diffs: print(' DIFF',*x)
+    PY
+      medium declared_files 22 failures 0
+      gain declared_files 24 failures 0
+      shared sections equal {'schema_version': True, 'seeds': True, 'inputs': True, 'environment': True, 'convergence': True, 'model': True}
+      family non-gain fields equal True {'use_bfo': True, 'bfo_sd_override_hz': 4.0, 'lateral_mode': 'constant_true_track'} {'use_bfo': True, 'bfo_sd_override_hz': 4.0, 'lateral_mode': 'constant_true_track'}
+      medium extra top keys []
+      gain extra top keys ['evidence']
+      counterpart file sets equal True counts 16 16
+      counterpart byte differences 6
+       DIFF conditional-evidence.json abbb12dff58da1a3b331331e9764e6b53ac684e65c8d9113147f5da60651d65e ea8d4726be88bfcccfe791a8800b4c3d007c6cbe29bcab53a00cc819f9e23a01
+       DIFF posterior.png eb78f6cfcafc972344426ab1d363331f260c40d0e46fdc12585a6543e08ed637 a70c680569db41a4f8a901385d08f9fd998fd3b89d4126813bde5a40c577dd23
+       DIFF report.pdf 004ba3264627bafeaa14b418e958fef4a1aa18b873319d99d5baffe888945b0e cee5ceb004e498aafbe3ce9961d2178468e122fc09236286e4d0893d5c033137
+       DIFF seed-370023/posterior-handoff.json 2401674b825e4c847252649e0e4f75f1dd108d38e54e173e27f1b7d110cce7b2 2f807fdec4ec0e39fb1860c1b1f8f7b44e2b9764cb9158b687f79085d752d900
+       DIFF seed-370024/posterior-handoff.json 5b54638984fa49fe8b82fc1a07b7eef25cd45bc54b79b472a0f4acf33c5b14fe a11bdb8dc4ae783cda584b56ee14e365ce2d62b42959c8de9a59e124deb1fba1
+       DIFF seed-370025/posterior-handoff.json c8f026790dc5b6dce776ceaa622133a854ecd6b203db1a3a2b9e5d30762174c4 f43ec12b7b45b5a9cbd932a75da5b670298507b8c61f4470c23e5db038a470ea
+    ── Ran python3 - <<'PY' for name in ['numpy','scipy','pyproj','pandas']:     try:         m=__import__(name); print(name,getattr(m,'__version__','ok'))     except Exception as e: print(name,'MISSING',e) PY .venv/bin/python - <<'PY' for name in ['numpy','scipy','pyproj','pandas']:     try:         m=__import__(name); print(name,getattr(m,'__version__','ok'))     except Exception as e: print(name,'MISSING',e) PY (7s)
+      $ python3 - <<'PY'
+    for name in ['numpy','scipy','pyproj','pandas']:
+        try:
+            m=__import__(name); print(name,getattr(m,'__version__','ok'))
+        except Exception as e: print(name,'MISSING',e)
+    PY
+    .venv/bin/python - <<'PY'
+    for name in ['numpy','scipy','pyproj','pandas']:
+        try:
+            m=__import__(name); print(name,getattr(m,'__version__','ok'))
+        except Exception as e: print(name,'MISSING',e)
+    PY
+      numpy 2.5.2
+      scipy 1.18.1
+      pyproj MISSING No module named 'pyproj'
+      pandas 3.0.5
+    ── Ran .venv/bin/python - <<'PY' from pathlib import Path import numpy as np, json roots={ 'M':Path('/tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium'), 'G':Path('/tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional')} for fam,r in roots.items():   print(fam)   for seed in [370023,370024,370025]:     a=np.loadtxt(r/f'seed-{seed}/posterior.csv',delimiter=',',skiprows=1,usecols=(1,6,7))     w,lat,lon=a.T     print(seed,'n',len(w),'sumw',repr(w.sum()),'lat',lat.min(),lat.max(),'lon',lon.min(),lon.max(), 'zeros',np.count_nonzero(w==0))     s=json.loads((r/f'seed-{seed}/summary.json').read_text())     print(' summary',s['impact_mean'],'ESS',s['posterior_ess'],'minTESS',s['minimum_tempered_ess'],'acc',s['minimum_mutation_acceptance'],'logZ',s['log_evidence'],'steps',s['temperature_steps']) PY (2s)
+      $ .venv/bin/python - <<'PY'
+    from pathlib import Path
+    import numpy as np, json
+    roots={
+    'M':Path('/tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium'),
+    'G':Path('/tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional')}
+    for fam,r in roots.items():
+      print(fam)
+      for seed in [370023,370024,370025]:
+        a=np.loadtxt(r/f'seed-{seed}/posterior.csv',delimiter=',',skiprows=1,usecols=(1,6,7))
+        w,lat,lon=a.T
+        print(seed,'n',len(w),'sumw',repr(w.sum()),'lat',lat.min(),lat.max(),'lon',lon.min(),lon.max(), 'zeros',np.count_nonzero(w==0))
+        s=json.loads((r/f'seed-{seed}/summary.json').read_text())
+        print(' summary',s['impact_mean'],'ESS',s['posterior_ess'],'minTESS',s['minimum_tempered_ess'],'acc',s['minimum_mutation_acceptance'],'logZ',s['log_evidence'],'steps',s['temperature_steps'])
+    PY
+      M
+      370023 n 30000 sumw np.float64(0.9999999999999982) lat -38.592779860599 -35.391753352725 lon 85.784470276501 90.782930310382 zeros 0
+       summary {'latitude': -36.41589990828096, 'longitude': 89.48156693079687} ESS 28599.15115418337 minTESS 18323.319380493213 acc 0.07734166666666667 logZ -79.06703253852965 steps 22
+      370024 n 30000 sumw np.float64(0.9999999999999983) lat -38.517265619896 -35.489352077934 lon 85.816780141543 90.734386762166 zeros 0
+       summary {'latitude': -36.40981853927568, 'longitude': 89.49309348774835} ESS 28513.88052035335 minTESS 18374.988855999327 acc 0.07754027777777778 logZ -79.00070450972649 steps 22
+      370025 n 30000 sumw np.float64(1.0000000000000047) lat -38.559875592308 -35.482698096483 lon 85.643870782243 90.851622755923 zeros 0
+       summary {'latitude': -36.40476953689189, 'longitude': 89.5009095658931} ESS 28626.156564444413 minTESS 18468.004327789087 acc 0.07773055555555555 logZ -78.9853322038074 steps 22
+      G
+      370023 n 30000 sumw np.float64(1.0000000000000036) lat -38.625923261413 -35.481535867819 lon 85.478434465555 90.764263924712 zeros 0
+       summary {'latitude': -36.41477987801988, 'longitude': 89.48411569816693} ESS 28874.953472218873 minTESS 18323.317153002907 acc 0.07687361111111111 logZ -87.48620566067501 steps 22
+      370024 n 30000 sumw np.float64(1.0) lat -38.45739430458 -35.462084745749 lon 85.849491018274 90.837753940841 zeros 0
+       summary {'latitude': -36.41898518280259, 'longitude': 89.47819470271156} ESS 28888.361279424258 minTESS 18374.98660145106 acc 0.07739305555555556 logZ -87.48753847681012 steps 22
+      370025 n 30000 sumw np.float64(1.0000000000000009) lat -38.438926249414 -35.510406346828 lon 86.012919985818 90.728817259961 zeros 0
+       summary {'latitude': -36.41576166345213, 'longitude': 89.48415501507367} ESS 28657.643854356473 minTESS 18468.001993250753 acc 0.07795277777777777 logZ -87.52292297997211 steps 22
+    ── Ran .venv/bin/python - <<'PY' from pathlib import Path import csv, json, math import numpy as np R_NM=3440.065 KM_PER_NM=1.852 R=R_NM*KM_PER_NM H=5.0 K=np.array([0.06136,0.24477,0.38774,0.24477,0.06136],dtype=np.float64) SEEDS=[370023,370024,370025] ROOTS={ 'M':Path('/tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium'), 'G':Path('/tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional')} def load(path):     a=np.loadtxt(path,delimiter=',',skiprows=1,usecols=(1,6,7))     w,lat,lon=a.T     w=w/w.sum()     return w,lat,lon raw={(f,s):load(r/f'seed-{s}/posterior.csv') for f,r in ROOTS.items() for s in SEEDS} # Projection origin: equal-family/equal-seed weighted spherical mean of all six posteriors. v=np.zeros(3) for (f,s),(w,lat,lon) in raw.items():     ph=np.deg2rad(lat); la=np.deg2rad(lon)     vv=np.stack((np.cos(ph)*np.cos(la),np.cos(ph)*np.sin(la),np.sin(ph)),axis=1)     v += (w[:,None]*vv).sum(axis=0)/6 lon0=math.atan2(v[1],v[0]); lat0=math.atan2(v[2],math.hypot(v[0],v[1])) def fwd(lat,lon):     ph=np.deg2rad(lat); la=np.deg2rad(lon); dl=la-lon0     den=1+math.sin(lat0)*np.sin(ph)+math.cos(lat0)*np.cos(ph)*np.cos(dl)     k=np.sqrt(2/den)     x=R*k*np.cos(ph)*np.sin(dl)     y=R*k*(math.cos(lat0)*np.sin(ph)-math.sin(lat0)*np.cos(ph)*np.cos(dl))     return x,y def inv(x,y):     x=np.asarray(x,dtype=float); y=np.asarray(y,dtype=float)     rho=np.hypot(x,y)     arg=np.clip(rho/(2*R),0,1)     c=2*np.arcsin(arg); sc=np.sin(c); cc=np.cos(c)     # safe scalar/array division     rr=np.where(rho==0,1,rho)     ph=np.arcsin(np.clip(cc*math.sin(lat0)+y*sc*math.cos(lat0)/rr,-1,1))     la=lon0+np.arctan2(x*sc, rho*math.cos(lat0)*cc-y*math.sin(lat0)*sc)     if np.ndim(ph)==0 and rho==0: return math.degrees(lat0),math.degrees(lon0)     ph=np.where(rho==0,lat0,ph); la=np.where(rho==0,lon0,la)     return np.rad2deg(ph),np.rad2deg(la) xy={(f,s):fwd(lat,lon) for (f,s),(w,lat,lon) in raw.items()} allx=np.concatenate([z[0] for z in xy.values()]); ally=np.concatenate([z[1] for z in xy.values()]) xmin=math.floor(allx.min()/H)*H-2*H; xmax=math.ceil(allx.max()/H)*H+2*H ymin=math.floor(ally.min()/H)*H-2*H; ymax=math.ceil(ally.max()/H)*H+2*H nx=int(round((xmax-xmin)/H)); ny=int(round((ymax-ymin)/H)) xc=xmin+(np.arange(nx)+0.5)*H; yc=ymin+(np.arange(ny)+0.5)*H def bin_mass(key):     w,lat,lon=raw[key]; x,y=xy[key]     ix=np.floor((x-xmin)/H).astype(int); iy=np.floor((y-ymin)/H).astype(int)     assert ix.min()>=2 and ix.max()<=nx-3 and iy.min()>=2 and iy.max()<=ny-3     a=np.zeros((ny,nx),float); np.add.at(a,(iy,ix),w); a/=a.sum()     return a def conv_same_axis(a,k,axis):     pad=[(0,0)]*a.ndim; pad[axis]=(len(k)//2,len(k)//2)     p=np.pad(a,pad,mode='constant')     # apply_along_axis output valid length exactly original     return np.apply_along_axis(lambda q:np.convolve(q,k,mode='valid'),axis,p) def smooth(a):     b=conv_same_axis(a,K,1); b=conv_same_axis(b,K,0); b/=b.sum(); return b rawgrid={k:bin_mass(k) for k in raw} grids={k:smooth(a) for k,a in rawgrid.items()} pooled={f:sum(grids[f,s] for s in SEEDS)/3 for f in ROOTS} def hpd(a,q):     z=np.sort(a.ravel())[::-1]     n=int(np.searchsorted(np.cumsum(z),q,side='left')+1)     return n*H*H,n,z[n-1],z[:n].sum() def centroid(a):     x=float((a.sum(axis=0)*xc).sum()); y=float((a.sum(axis=1)*yc).sum())     return (*inv(x,y),x,y) def mode(a):     iy,ix=np.unravel_index(np.argmax(a),a.shape)     lat,lon=inv(xc[ix],yc[iy])     return lat,lon,xc[ix],yc[iy],a[iy,ix],int(ix),int(iy) def gcd_km(p,q):     p1,l1=map(math.radians,p[:2]); p2,l2=map(math.radians,q[:2])     h=math.sin((p2-p1)/2)**2+math.cos(p1)*math.cos(p2)*math.sin((l2-l1)/2)**2     return 2*R*math.asin(math.sqrt(min(1,max(0,h)))) def comp(a,b):     overlap=float(np.minimum(a,b).sum()); tv=float(np.abs(a-b).sum()/2)     m=(a+b)/2     def kl(p):         ok=p>0         return float(np.sum(p[ok]*np.log(p[ok]/m[ok])))     return overlap,tv,0.5*(kl(a)+kl(b)) print('BASIS') print('R_km',repr(R),'origin_lat_lon',repr(math.degrees(lat0)),repr(math.degrees(lon0))) print('support_xy',allx.min(),allx.max(),ally.min(),ally.max()) print('grid_edges',xmin,xmax,ymin,ymax,'shape',ny,nx,'cells',nx*ny,'kernel_sum',K.sum()) print('boundary_mass', {str(k):float(a[[0,1,-2,-1],:].sum()+a[:,[0,1,-2,-1]].sum()) for k,a in rawgrid.items()}) print('\nRAW VERIFICATIONS') max_mean_err=0; max_ess_err=0; max_acc_err=0; max_logz_err=0 for f,r in ROOTS.items():  for s in SEEDS:   w,lat,lon=raw[f,s]; summ=json.loads((r/f'seed-{s}/summary.json').read_text())   latm=float(np.sum(w*lat)); sl=float(np.sum(w*np.sin(np.deg2rad(lon)))); cl=float(np.sum(w*np.cos(np.deg2rad(lon)))); lonm=math.degrees(math.atan2(sl,cl))   ess=1/float(np.sum(w*w))   cps=json.loads((r/f'seed-{s}/checkpoints.json').read_text())   acc=min(x['mutation_acceptance'] for x in cps if x['mutation_acceptance'] is not None)   logz=sum(x['log_evidence_increment'] for x in cps)   err=(abs(latm-summ['impact_mean']['latitude']),abs(lonm-summ['impact_mean']['longitude']))   max_mean_err=max(max_mean_err,*err); max_ess_err=max(max_ess_err,abs(ess-summ['posterior_ess'])); max_acc_err=max(max_acc_err,abs(acc-summ['minimum_mutation_acceptance'])); max_logz_err=max(max_logz_err,abs(logz-summ['log_evidence']))   print(f,s,'mean',latm,lonm,'ess',ess,'acc',acc,'logz',logz,'errors',err,ess-summ['posterior_ess'],acc-summ['minimum_mutation_acceptance'],logz-summ['log_evidence']) print('max_abs_errors',max_mean_err,max_ess_err,max_acc_err,max_logz_err) print('\nPOOLED') for f,a in pooled.items():     c=centroid(a); mo=mode(a)     print(f,'mean_lat_lon_xy',*c,'mode_lat_lon_xy_mass_ixiy',*mo)     print(f,'HPD', {str(q):hpd(a,q) for q in [.5,.9,.95,.99]}) print('pooled_compare overlap tv js',comp(pooled['M'],pooled['G'])) print('pooled mean shift km',gcd_km(centroid(pooled['M']),centroid(pooled['G']))) print('pooled mode shift km',gcd_km(mode(pooled['M']),mode(pooled['G']))) print('\nPAIRED_SEEDS') for s in SEEDS:     cm=centroid(grids['M',s]); cg=centroid(grids['G',s]); ov,tv,js=comp(grids['M',s],grids['G',s])     sm=json.loads((ROOTS['M']/f'seed-{s}/summary.json').read_text()); sg=json.loads((ROOTS['G']/f'seed-{s}/summary.json').read_text())     print(s,'Mcent',cm[:2],'Gcent',cg[:2],'shift_km',gcd_km(cm,cg),'overlap',ov,'tv',tv,'js',js,           'M_ESS',sm['posterior_ess'],'G_ESS',sg['posterior_ess'],           'M_minTESS',sm['minimum_tempered_ess'],'G_minTESS',sg['minimum_tempered_ess'],           'M_acc',sm['minimum_mutation_acceptance'],'G_acc',sg['minimum_mutation_acceptance'],           'M_logZ',sm['log_evidence'],'G_logZ',sg['log_evidence'],'delta_logZ',sg['log_evidence']-sm['log_evidence']) print('\nFAMILY_DIAGNOSTIC_RANGES') for f,r in ROOTS.items():  vals=[]  for s in SEEDS:   z=json.loads((r/f'seed-{s}/summary.json').read_text()); vals.append(z)  for field in ['posterior_ess','minimum_tempered_ess','minimum_mutation_acceptance','log_evidence']:   x=[z[field] for z in vals]; print(f,field,min(x),max(x),'range',max(x)-min(x)) print('\nWITHIN_FAMILY_PAIRWISE') for f in ROOTS:  for i,s in enumerate(SEEDS):   for t in SEEDS[i+1:]: print(f,s,t,'overlap tv js',comp(grids[f,s],grids[f,t]),'centroid_km',gcd_km(centroid(grids[f,s]),centroid(grids[f,t])))  print(f,'seed_to_pool')  for s in SEEDS: print(s,'overlap tv js',comp(grids[f,s],pooled[f]),'centroid_km',gcd_km(centroid(grids[f,s]),centroid(pooled[f]))) print('\nLOO') for f in ROOTS:  full=pooled[f]  print(f,'full areas',{q:hpd(full,q)[0] for q in [.5,.9,.95,.99]})  for omitted in SEEDS:   a=sum(grids[f,s] for s in SEEDS if s"'!=omitted)/2   print(f,'"'omit',omitted,'areas',{q:hpd(a,q)[0] for q in [.5,.9,.95,.99]},'vs_full overlap tv js',comp(a,full),'centroid_km',gcd_km(centroid(a),centroid(full))) print('\nPAIRED PER-SEED HPD DELTAS G-M') for s in SEEDS:  print(s,{q:(hpd(grids['M',s],q)[0],hpd(grids['G',s],q)[0],hpd(grids['G',s],q)[0]-hpd(grids['M',s],q)[0]) for q in [.5,.9,.95,.99]}) print('\nLOO GAIN-MEDIUM DIFFERENCES BY COMMON OMIT') for omitted in SEEDS:  am=sum(grids['M',s] for s in SEEDS if s"'!=omitted)/2; ag=sum(grids['"'G',s] for s in SEEDS if s"'!=omitted)/2  print('"'omit',omitted,'areas_delta',{q:hpd(ag,q)[0]-hpd(am,q)[0] for q in [.5,.9,.95,.99]},'compare',comp(am,ag),'mean_shift',gcd_km(centroid(am),centroid(ag)),'mode_shift',gcd_km(mode(am),mode(ag))) PY
+      $ .venv/bin/python - <<'PY'
+    from pathlib import Path
+    import csv, json, math
+    import numpy as np
+
+    R_NM=3440.065
+    KM_PER_NM=1.852
+    R=R_NM*KM_PER_NM
+    H=5.0
+    K=np.array([0.06136,0.24477,0.38774,0.24477,0.06136],dtype=np.float64)
+    SEEDS=[370023,370024,370025]
+    ROOTS={
+    'M':Path('/tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium'),
+    'G':Path('/tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional')}
+
+    def load(path):
+        a=np.loadtxt(path,delimiter=',',skiprows=1,usecols=(1,6,7))
+        w,lat,lon=a.T
+        w=w/w.sum()
+        return w,lat,lon
+    raw={(f,s):load(r/f'seed-{s}/posterior.csv') for f,r in ROOTS.items() for s in SEEDS}
+
+    # Projection origin: equal-family/equal-seed weighted spherical mean of all six posteriors.
+    v=np.zeros(3)
+    for (f,s),(w,lat,lon) in raw.items():
+        ph=np.deg2rad(lat); la=np.deg2rad(lon)
+        vv=np.stack((np.cos(ph)*np.cos(la),np.cos(ph)*np.sin(la),np.sin(ph)),axis=1)
+        v += (w[:,None]*vv).sum(axis=0)/6
+    lon0=math.atan2(v[1],v[0]); lat0=math.atan2(v[2],math.hypot(v[0],v[1]))
+
+    def fwd(lat,lon):
+        ph=np.deg2rad(lat); la=np.deg2rad(lon); dl=la-lon0
+        den=1+math.sin(lat0)*np.sin(ph)+math.cos(lat0)*np.cos(ph)*np.cos(dl)
+        k=np.sqrt(2/den)
+        x=R*k*np.cos(ph)*np.sin(dl)
+        y=R*k*(math.cos(lat0)*np.sin(ph)-math.sin(lat0)*np.cos(ph)*np.cos(dl))
+        return x,y
+
+    def inv(x,y):
+        x=np.asarray(x,dtype=float); y=np.asarray(y,dtype=float)
+        rho=np.hypot(x,y)
+        arg=np.clip(rho/(2*R),0,1)
+        c=2*np.arcsin(arg); sc=np.sin(c); cc=np.cos(c)
+        # safe scalar/array division
+        rr=np.where(rho==0,1,rho)
+        ph=np.arcsin(np.clip(cc*math.sin(lat0)+y*sc*math.cos(lat0)/rr,-1,1))
+        la=lon0+np.arctan2(x*sc, rho*math.cos(lat0)*cc-y*math.sin(lat0)*sc)
+        if np.ndim(ph)==0 and rho==0: return math.degrees(lat0),math.degrees(lon0)
+        ph=np.where(rho==0,lat0,ph); la=np.where(rho==0,lon0,la)
+        return np.rad2deg(ph),np.rad2deg(la)
+
+    xy={(f,s):fwd(lat,lon) for (f,s),(w,lat,lon) in raw.items()}
+    allx=np.concatenate([z[0] for z in xy.values()]); ally=np.concatenate([z[1] for z in xy.values()])
+    xmin=math.floor(allx.min()/H)*H-2*H; xmax=math.ceil(allx.max()/H)*H+2*H
+    ymin=math.floor(ally.min()/H)*H-2*H; ymax=math.ceil(ally.max()/H)*H+2*H
+    nx=int(round((xmax-xmin)/H)); ny=int(round((ymax-ymin)/H))
+    xc=xmin+(np.arange(nx)+0.5)*H; yc=ymin+(np.arange(ny)+0.5)*H
+
+    def bin_mass(key):
+        w,lat,lon=raw[key]; x,y=xy[key]
+        ix=np.floor((x-xmin)/H).astype(int); iy=np.floor((y-ymin)/H).astype(int)
+        assert ix.min()>=2 and ix.max()<=nx-3 and iy.min()>=2 and iy.max()<=ny-3
+        a=np.zeros((ny,nx),float); np.add.at(a,(iy,ix),w); a/=a.sum()
+        return a
+
+    def conv_same_axis(a,k,axis):
+        pad=[(0,0)]*a.ndim; pad[axis]=(len(k)//2,len(k)//2)
+        p=np.pad(a,pad,mode='constant')
+        # apply_along_axis output valid length exactly original
+        return np.apply_along_axis(lambda q:np.convolve(q,k,mode='valid'),axis,p)
+
+    def smooth(a):
+        b=conv_same_axis(a,K,1); b=conv_same_axis(b,K,0); b/=b.sum(); return b
+    rawgrid={k:bin_mass(k) for k in raw}
+    grids={k:smooth(a) for k,a in rawgrid.items()}
+    pooled={f:sum(grids[f,s] for s in SEEDS)/3 for f in ROOTS}
+
+    def hpd(a,q):
+        z=np.sort(a.ravel())[::-1]
+        n=int(np.searchsorted(np.cumsum(z),q,side='left')+1)
+        return n*H*H,n,z[n-1],z[:n].sum()
+
+    def centroid(a):
+        x=float((a.sum(axis=0)*xc).sum()); y=float((a.sum(axis=1)*yc).sum())
+        return (*inv(x,y),x,y)
+
+    def mode(a):
+        iy,ix=np.unravel_index(np.argmax(a),a.shape)
+        lat,lon=inv(xc[ix],yc[iy])
+        return lat,lon,xc[ix],yc[iy],a[iy,ix],int(ix),int(iy)
+
+    def gcd_km(p,q):
+        p1,l1=map(math.radians,p[:2]); p2,l2=map(math.radians,q[:2])
+        h=math.sin((p2-p1)/2)**2+math.cos(p1)*math.cos(p2)*math.sin((l2-l1)/2)**2
+        return 2*R*math.asin(math.sqrt(min(1,max(0,h))))
+
+    def comp(a,b):
+        overlap=float(np.minimum(a,b).sum()); tv=float(np.abs(a-b).sum()/2)
+        m=(a+b)/2
+        def kl(p):
+            ok=p>0
+            return float(np.sum(p[ok]*np.log(p[ok]/m[ok])))
+        return overlap,tv,0.5*(kl(a)+kl(b))
+
+    print('BASIS')
+    print('R_km',repr(R),'origin_lat_lon',repr(math.degrees(lat0)),repr(math.degrees(lon0)))
+    print('support_xy',allx.min(),allx.max(),ally.min(),ally.max())
+    print('grid_edges',xmin,xmax,ymin,ymax,'shape',ny,nx,'cells',nx*ny,'kernel_sum',K.sum())
+    print('boundary_mass', {str(k):float(a[[0,1,-2,-1],:].sum()+a[:,[0,1,-2,-1]].sum()) for k,a in rawgrid.items()})
+
+    print('\nRAW VERIFICATIONS')
+    max_mean_err=0; max_ess_err=0; max_acc_err=0; max_logz_err=0
+    for f,r in ROOTS.items():
+     for s in SEEDS:
+      w,lat,lon=raw[f,s]; summ=json.loads((r/f'seed-{s}/summary.json').read_text())
+      latm=float(np.sum(w*lat)); sl=float(np.sum(w*np.sin(np.deg2rad(lon)))); cl=float(np.sum(w*np.cos(np.deg2rad(lon)))); lonm=math.degrees(math.atan2(sl,cl))
+      ess=1/float(np.sum(w*w))
+      cps=json.loads((r/f'seed-{s}/checkpoints.json').read_text())
+      acc=min(x['mutation_acceptance'] for x in cps if x['mutation_acceptance'] is not None)
+      logz=sum(x['log_evidence_increment'] for x in cps)
+      err=(abs(latm-summ['impact_mean']['latitude']),abs(lonm-summ['impact_mean']['longitude']))
+      max_mean_err=max(max_mean_err,*err); max_ess_err=max(max_ess_err,abs(ess-summ['posterior_ess'])); max_acc_err=max(max_acc_err,abs(acc-summ['minimum_mutation_acceptance'])); max_logz_err=max(max_logz_err,abs(logz-summ['log_evidence']))
+      print(f,s,'mean',latm,lonm,'ess',ess,'acc',acc,'logz',logz,'errors',err,ess-summ['posterior_ess'],acc-summ['minimum_mutation_acceptance'],logz-summ['log_evidence'])
+    print('max_abs_errors',max_mean_err,max_ess_err,max_acc_err,max_logz_err)
+
+    print('\nPOOLED')
+    for f,a in pooled.items():
+        c=centroid(a); mo=mode(a)
+        print(f,'mean_lat_lon_xy',*c,'mode_lat_lon_xy_mass_ixiy',*mo)
+        print(f,'HPD', {str(q):hpd(a,q) for q in [.5,.9,.95,.99]})
+    print('pooled_compare overlap tv js',comp(pooled['M'],pooled['G']))
+    print('pooled mean shift km',gcd_km(centroid(pooled['M']),centroid(pooled['G'])))
+    print('pooled mode shift km',gcd_km(mode(pooled['M']),mode(pooled['G'])))
+
+    print('\nPAIRED_SEEDS')
+    for s in SEEDS:
+        cm=centroid(grids['M',s]); cg=centroid(grids['G',s]); ov,tv,js=comp(grids['M',s],grids['G',s])
+        sm=json.loads((ROOTS['M']/f'seed-{s}/summary.json').read_text()); sg=json.loads((ROOTS['G']/f'seed-{s}/summary.json').read_text())
+        print(s,'Mcent',cm[:2],'Gcent',cg[:2],'shift_km',gcd_km(cm,cg),'overlap',ov,'tv',tv,'js',js,
+              'M_ESS',sm['posterior_ess'],'G_ESS',sg['posterior_ess'],
+              'M_minTESS',sm['minimum_tempered_ess'],'G_minTESS',sg['minimum_tempered_ess'],
+              'M_acc',sm['minimum_mutation_acceptance'],'G_acc',sg['minimum_mutation_acceptance'],
+              'M_logZ',sm['log_evidence'],'G_logZ',sg['log_evidence'],'delta_logZ',sg['log_evidence']-sm['log_evidence'])
+
+    print('\nFAMILY_DIAGNOSTIC_RANGES')
+    for f,r in ROOTS.items():
+     vals=[]
+     for s in SEEDS:
+      z=json.loads((r/f'seed-{s}/summary.json').read_text()); vals.append(z)
+     for field in ['posterior_ess','minimum_tempered_ess','minimum_mutation_acceptance','log_evidence']:
+      x=[z[field] for z in vals]; print(f,field,min(x),max(x),'range',max(x)-min(x))
+
+    print('\nWITHIN_FAMILY_PAIRWISE')
+    for f in ROOTS:
+     for i,s in enumerate(SEEDS):
+      for t in SEEDS[i+1:]: print(f,s,t,'overlap tv js',comp(grids[f,s],grids[f,t]),'centroid_km',gcd_km(centroid(grids[f,s]),centroid(grids[f,t])))
+     print(f,'seed_to_pool')
+     for s in SEEDS: print(s,'overlap tv js',comp(grids[f,s],pooled[f]),'centroid_km',gcd_km(centroid(grids[f,s]),centroid(pooled[f])))
+
+    print('\nLOO')
+    for f in ROOTS:
+     full=pooled[f]
+     print(f,'full areas',{q:hpd(full,q)[0] for q in [.5,.9,.95,.99]})
+     for omitted in SEEDS:
+      a=sum(grids[f,s] for s in SEEDS if s"'!=omitted)/2
+      print(f,'"'omit',omitted,'areas',{q:hpd(a,q)[0] for q in [.5,.9,.95,.99]},'vs_full overlap tv js',comp(a,full),'centroid_km',gcd_km(centroid(a),centroid(full)))
+
+    print('\nPAIRED PER-SEED HPD DELTAS G-M')
+    for s in SEEDS:
+     print(s,{q:(hpd(grids['M',s],q)[0],hpd(grids['G',s],q)[0],hpd(grids['G',s],q)[0]-hpd(grids['M',s],q)[0]) for q in [.5,.9,.95,.99]})
+
+    print('\nLOO GAIN-MEDIUM DIFFERENCES BY COMMON OMIT')
+    for omitted in SEEDS:
+     am=sum(grids['M',s] for s in SEEDS if s"'!=omitted)/2; ag=sum(grids['"'G',s] for s in SEEDS if s"'!=omitted)/2
+     print('"'omit',omitted,'areas_delta',{q:hpd(ag,q)[0]-hpd(am,q)[0] for q in [.5,.9,.95,.99]},'compare',comp(am,ag),'mean_shift',gcd_km(centroid(am),centroid(ag)),'mode_shift',gcd_km(mode(am),mode(ag)))
+    PY
+      BASIS
+      R_km 6371.00038 origin_lat_lon -36.414773230245224 89.48981042346159
+      support_xy -348.3815509246222 123.22127675955817 -253.19064534545979 112.97261371153013
+      grid_edges -360.0 135.0 -265.0 125.0 shape 78 99 cells 7722 kernel_sum 0.9999999999999999
+      boundary_mass {"('M', 370023)": 0.0, "('M', 370024)": 0.0, "('M', 370025)": 0.0, "('G', 370023)": 0.0, "('G', 370024)": 0.0, "('G', 370025)": 0.0}
+
+      RAW VERIFICATIONS
+      M 370023 mean -36.41589990828083 89.48156693079686 ess 28599.151154183604 acc 0.07734166666666667 logz -79.06703253852965 errors (1.3500311979441904e-13, 1.4210854715202004e-14) 2.3283064365386963e-10 0.0 0.0
+      M 370024 mean -36.40981853927571 89.49309348774837 ess 28513.880520353094 acc 0.07754027777777778 logz -79.00070450972649 errors (2.842170943040401e-14, 1.4210854715202004e-14) -2.546585164964199e-10 0.0 0.0
+      M 370025 mean -36.404769536891635 89.50090956589311 ess 28626.156564444613 acc 0.07773055555555555 logz -78.98533220380742 errors (2.5579538487363607e-13, 1.4210854715202004e-14) 2.000888343900442e-10 0.0 -1.4210854715202004e-14
+      G 370023 mean -36.41477987801986 89.48411569816695 ess 28874.953472218942 acc 0.07687361111111111 logz -87.486205660675 errors (2.1316282072803006e-14, 1.4210854715202004e-14) 6.912159733474255e-11 0.0 1.4210854715202004e-14
+      G 370024 mean -36.418985182802274 89.47819470271153 ess 28888.361279424083 acc 0.07739305555555556 logz -87.48753847681012 errors (3.126388037344441e-13, 2.842170943040401e-14) -1.7462298274040222e-10 0.0 0.0
+      G 370025 mean -36.41576166345204 89.48415501507367 ess 28657.64385435665 acc 0.07795277777777777 logz -87.5229229799721 errors (9.237055564881302e-14, 0.0) 1.7826096154749393e-10 0.0 1.4210854715202004e-14
+      max_abs_errors 3.126388037344441e-13 2.546585164964199e-10 0 1.4210854715202004e-14
+
+      POOLED
+      M mean_lat_lon_xy -36.41162272446589 89.49467427456011 0.435250104814983 0.35030931328588755 mode_lat_lon_xy_mass_ixiy -36.21203353613685 89.79633314634198 27.5 22.5 0.008582847149612488 77 57
+      M HPD {'0.5': (1975.0, 79, np.float64(0.004402351180148646), np.float64(0.5009139273813543)), '0.9': (6600.0, 264, np.float64(0.0009000734458908449), np.float64(0.9007434199810898)), '0.95': (8550.0, 342, np.float64(0.00043486403524519666), np.float64(0.950008101540286)), '0.99': (13125.0, 525, np.float64(9.247726822906927e-05), np.float64(0.9900662054022035))}
+      G mean_lat_lon_xy -36.4180112023571 89.484970948197 -0.4330331731054953 -0.36005694934778654 mode_lat_lon_xy_mass_ixiy -36.21203353613685 89.79633314634198 27.5 22.5 0.00871199256949655 77 57
+      G HPD {'0.5': (2000.0, 80, np.float64(0.004483631993445735), np.float64(0.5044279197337205)), '0.9': (6525.0, 261, np.float64(0.0008920394330295396), np.float64(0.9006213489737899)), '0.95': (8450.0, 338, np.float64(0.0004468855360570438), np.float64(0.9500552760487244)), '0.99': (12950.0, 518, np.float64(8.879829137458865e-05), np.float64(0.990067641292189))}
+      pooled_compare overlap tv js (0.9822518554046151, 0.01774814459538483, 0.00031813960895000175)
+      pooled mean shift km 1.1218449441066844
+      pooled mode shift km 0.0
+
+      PAIRED_SEEDS
+      370023 Mcent (np.float64(-36.41747084683937), np.float64(89.48425722936886)) Gcent (np.float64(-36.416333694834016), np.float64(89.48693218470885)) shift_km 0.27070300254470414 overlap 0.9731854120732492 tv 0.026814587926750892 js 0.0007635754884643305 M_ESS 28599.15115418337 G_ESS 28874.953472218873 M_minTESS 18323.319380493213 G_minTESS 18323.317153002907 M_acc 0.07734166666666667 G_acc 0.07687361111111111 M_logZ -79.06703253852965 G_logZ -87.48620566067501 delta_logZ -8.419173122145367
+      370024 Mcent (np.float64(-36.41133850055455), np.float64(89.49588585515511)) Gcent (np.float64(-36.420492653075904), np.float64(89.48089950007653)) shift_km 1.6835698157451275 overlap 0.9735368326503 tv 0.026463167349700067 js 0.000664001671225453 M_ESS 28513.88052035335 G_ESS 28888.361279424258 M_minTESS 18374.988855999327 G_minTESS 18374.98660145106 M_acc 0.07754027777777778 G_acc 0.07739305555555556 M_logZ -79.00070450972649 G_logZ -87.48753847681012 delta_logZ -8.486833967083626
+      370025 Mcent (np.float64(-36.40605801434836), np.float64(89.50387829117231)) Gcent (np.float64(-36.41720715546083), np.float64(89.48708096550126)) shift_km 1.9484218606802977 overlap 0.9695002251119361 tv 0.030499774888063876 js 0.0007875159715866257 M_ESS 28626.156564444413 G_ESS 28657.643854356473 M_minTESS 18468.004327789087 G_minTESS 18468.001993250753 M_acc 0.07773055555555555 G_acc 0.07795277777777777 M_logZ -78.9853322038074 G_logZ -87.52292297997211 delta_logZ -8.537590776164706
+
+      FAMILY_DIAGNOSTIC_RANGES
+      M posterior_ess 28513.88052035335 28626.156564444413 range 112.27604409106425
+      M minimum_tempered_ess 18323.319380493213 18468.004327789087 range 144.68494729587474
+      M minimum_mutation_acceptance 0.07734166666666667 0.07773055555555555 range 0.00038888888888888307
+      M log_evidence -79.06703253852965 -78.9853322038074 range 0.08170033472224247
+      G posterior_ess 28657.643854356473 28888.361279424258 range 230.71742506778537
+      G minimum_tempered_ess 18323.317153002907 18468.001993250753 range 144.6848402478463
+      G minimum_mutation_acceptance 0.07687361111111111 0.07795277777777777 range 0.0010791666666666588
+      G log_evidence -87.52292297997211 -87.48620566067501 range 0.03671731929709665
+
+      WITHIN_FAMILY_PAIRWISE
+      M 370023 370024 overlap tv js (0.9740093824066768, 0.025990617593323318, 0.0007363959775337822) centroid_km 1.244088011446192
+      M 370023 370025 overlap tv js (0.9714889279414551, 0.028511072058544806, 0.0007109503558770977) centroid_km 2.1664243199445528
+      M 370024 370025 overlap tv js (0.9731470397877287, 0.026852960212271237, 0.0006312565833264941) centroid_km 0.9253834418577894
+      M seed_to_pool
+      370023 overlap tv js (0.9844125093943514, 0.015587490605648588, 0.00025289033403154274) centroid_km 1.1365622673975486
+      370024 overlap tv js (0.9849784584770636, 0.015021541522936473, 0.00023307579618982014) centroid_km 0.11293294842868945
+      370025 overlap tv js (0.9839237082893011, 0.016076291710698746, 0.00021393422354134235) centroid_km 1.0301943042034165
+      G 370023 370024 overlap tv js (0.9790286937577716, 0.020971306242228403, 0.000499204983344873) centroid_km 0.7108069925328648
+      G 370023 370025 overlap tv js (0.9687167664629884, 0.03128323353701163, 0.0007890177714655483) centroid_km 0.09803257069046271
+      G 370024 370025 overlap tv js (0.9718645532526612, 0.028135446747338814, 0.0006742032977773837) centroid_km 0.6628684323284818
+      G seed_to_pool
+      370023 overlap tv js (0.985232959485172, 0.01476704051482794, 0.00021151719907574644) centroid_km 0.25610747994517846
+      370024 overlap tv js (0.9870577249381894, 0.012942275061810686, 0.0001737985488421559) centroid_km 0.4570037557894064
+      370025 overlap tv js (0.9812122823326258, 0.01878771766737424, 0.0002756591240894251) centroid_km 0.20890276994200774
+
+      LOO
+      M full areas {0.5: 1975.0, 0.9: 6600.0, 0.95: 8550.0, 0.99: 13125.0}
+      M omit 370023 areas {0.5: 1975.0, 0.9: 6575.0, 0.95: 8525.0, 0.99: 13100.0} vs_full overlap tv js (0.9922062546971758, 0.007793745302824291, 6.353444821323938e-05) centroid_km 0.5682811347965993
+      M omit 370024 areas {0.5: 2000.0, 0.9: 6625.0, 0.95: 8600.0, 0.99: 13175.0} vs_full overlap tv js (0.9924892292385319, 0.007510770761468243, 5.46682543202019e-05) centroid_km 0.05646647419763568
+      M omit 370025 areas {0.5: 2000.0, 0.9: 6600.0, 0.95: 8550.0, 0.99: 13075.0} vs_full overlap tv js (0.9919618541446507, 0.008038145855349371, 5.576906211266061e-05) centroid_km 0.5150971503127021
+      G full areas {0.5: 2000.0, 0.9: 6525.0, 0.95: 8450.0, 0.99: 12950.0}
+      G omit 370023 areas {0.5: 1975.0, 0.9: 6500.0, 0.95: 8450.0, 0.99: 12925.0} vs_full overlap tv js (0.9926164797425862, 0.00738352025741398, 5.4602057920528837e-05) centroid_km 0.12805374005028924
+      G omit 370024 areas {0.5: 1975.0, 0.9: 6525.0, 0.95: 8450.0, 0.99: 12900.0} vs_full overlap tv js (0.9935288624690948, 0.006471137530905342, 4.525251525055732e-05) centroid_km 0.2285018775867318
+      G omit 370025 areas {0.5: 2000.0, 0.9: 6525.0, 0.95: 8475.0, 0.99: 12975.0} vs_full overlap tv js (0.990606141166313, 0.00939385883368712, 6.731607718512804e-05) centroid_km 0.10445138502073911
+
+      PAIRED PER-SEED HPD DELTAS G-M
+      370023 {0.5: (2000.0, 2025.0, 25.0), 0.9: (6650.0, 6525.0, -125.0), 0.95: (8625.0, 8450.0, -175.0), 0.99: (13150.0, 12950.0, -200.0)}
+      370024 {0.5: (1975.0, 2000.0, 25.0), 0.9: (6525.0, 6525.0, 0.0), 0.95: (8475.0, 8475.0, 0.0), 0.99: (12975.0, 13000.0, 25.0)}
+      370025 {0.5: (1975.0, 1950.0, -25.0), 0.9: (6575.0, 6500.0, -75.0), 0.95: (8575.0, 8425.0, -150.0), 0.99: (13175.0, 12850.0, -325.0)}
+
+      LOO GAIN-MEDIUM DIFFERENCES BY COMMON OMIT
+      omit 370023 areas_delta {0.5: 0.0, 0.9: -75.0, 0.95: -75.0, 0.99: -175.0} compare (0.9772571606006492, 0.022742839399350886, 0.00046084124116328284) mean_shift 1.8156288954831257 mode_shift 0.0
+      omit 370024 areas_delta {0.5: -25.0, 0.9: -100.0, 0.95: -150.0, 0.99: -275.0} compare (0.9814180907694008, 0.018581909230599207, 0.0003722314403855606) mean_shift 0.842098233107241 mode_shift 0.0
+      omit 370025 areas_delta {0.5: 0.0, 0.9: -75.0, 0.95: -75.0, 0.99: -100.0} compare (0.9796412589184444, 0.020358741081555665, 0.0004370513440222147) mean_shift 0.708574098861671 mode_shift 7.07108967879035
+    ── Ran .venv/bin/python - <<'PY' from pathlib import Path import numpy as np, math R=3440.065*1.852 roots={'M':Path('/tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium'),'G':Path('/tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional')} seeds=[370023,370024,370025] data={} V=np.zeros(3) for f,r in roots.items():  for s in seeds:   a=np.loadtxt(r/f'seed-{s}/posterior.csv',delimiter=',',skiprows=1,usecols=(1,6,7)); w,lat,lon=a.T; w/=w.sum(); data[f,s]=(w,lat,lon)   p=np.deg2rad(lat); l=np.deg2rad(lon); v=np.array([(w*np.cos(p)*np.cos(l)).sum(),(w*np.cos(p)*np.sin(l)).sum(),(w*np.sin(p)).sum()]); V+=v/6 lat0=math.atan2(V[2],math.hypot(V[0],V[1])); lon0=math.atan2(V[1],V[0]) def fwd(lat,lon):  p=np.deg2rad(lat); l=np.deg2rad(lon); dl=l-lon0; k=np.sqrt(2/(1+math.sin(lat0)*np.sin(p)+math.cos(lat0)*np.cos(p)*np.cos(dl))); return R*k*np.cos(p)*np.sin(dl),R*k*(math.cos(lat0)*np.sin(p)-math.sin(lat0)*np.cos(p)*np.cos(dl)) def inv(x,y):  rho=math.hypot(x,y)  if rho==0:return math.degrees(lat0),math.degrees(lon0)  c=2*math.asin(rho/(2*R)); sc=math.sin(c); cc=math.cos(c)  p=math.asin(cc*math.sin(lat0)+y*sc*math.cos(lat0)/rho)  l=lon0+math.atan2(x*sc,rho*math.cos(lat0)*cc-y*math.sin(lat0)*sc)  return math.degrees(p),math.degrees(l) def laea_cent(f,s):  w,lat,lon=data[f,s];x,y=fwd(lat,lon);return inv(float(w@x),float(w@y)) def vector_cent(f,s):  w,lat,lon=data[f,s];p=np.deg2rad(lat);l=np.deg2rad(lon);v=np.array([(w*np.cos(p)*np.cos(l)).sum(),(w*np.cos(p)*np.sin(l)).sum(),(w*np.sin(p)).sum()]);return math.degrees(math.atan2(v[2],math.hypot(v[0],v[1]))),math.degrees(math.atan2(v[1],v[0])) def runner_cent(f,s):  w,lat,lon=data[f,s];return float(w@lat),math.degrees(math.atan2(float(<email>(np.deg2rad(lon))),float(<email>(np.deg2rad(lon))))) def pool(method,f):  # apply to concatenation weights /3  w=np.concatenate([data[f,s][0]/3 for s in seeds]); lat=np.concatenate([data[f,s][1] for s in seeds]);lon=np.concatenate([data[f,s][2] for s in seeds]);data[f,'pool']=(w,lat,lon);v=method(f,'pool'); del data[f,'pool'];return v def dist(a,b):  p1,l1=map(math.radians,a);p2,l2=map(math.radians,b);h=math.sin((p2-p1)/2)**2+math.cos(p1)*math.cos(p2)*math.sin((l2-l1)/2)**2;return 2*R*math.asin(math.sqrt(h)) for meth in [runner_cent,vector_cent,laea_cent]:  print(meth.__name__)  m=pool(meth,'M');g=pool(meth,'G');print('pool',m,g,'shift',dist(m,g))  for s in seeds:   a=meth('M',s);b=meth('G',s);print(s,a,b,dist(a,b)) PY
+      $ .venv/bin/python - <<'PY'
+    from pathlib import Path
+    import numpy as np, math
+    R=3440.065*1.852
+    roots={'M':Path('/tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium'),'G':Path('/tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional')}
+    seeds=[370023,370024,370025]
+    data={}
+    V=np.zeros(3)
+    for f,r in roots.items():
+     for s in seeds:
+      a=np.loadtxt(r/f'seed-{s}/posterior.csv',delimiter=',',skiprows=1,usecols=(1,6,7)); w,lat,lon=a.T; w/=w.sum(); data[f,s]=(w,lat,lon)
+      p=np.deg2rad(lat); l=np.deg2rad(lon); v=np.array([(w*np.cos(p)*np.cos(l)).sum(),(w*np.cos(p)*np.sin(l)).sum(),(w*np.sin(p)).sum()]); V+=v/6
+    lat0=math.atan2(V[2],math.hypot(V[0],V[1])); lon0=math.atan2(V[1],V[0])
+    def fwd(lat,lon):
+     p=np.deg2rad(lat); l=np.deg2rad(lon); dl=l-lon0; k=np.sqrt(2/(1+math.sin(lat0)*np.sin(p)+math.cos(lat0)*np.cos(p)*np.cos(dl))); return R*k*np.cos(p)*np.sin(dl),R*k*(math.cos(lat0)*np.sin(p)-math.sin(lat0)*np.cos(p)*np.cos(dl))
+    def inv(x,y):
+     rho=math.hypot(x,y)
+     if rho==0:return math.degrees(lat0),math.degrees(lon0)
+     c=2*math.asin(rho/(2*R)); sc=math.sin(c); cc=math.cos(c)
+     p=math.asin(cc*math.sin(lat0)+y*sc*math.cos(lat0)/rho)
+     l=lon0+math.atan2(x*sc,rho*math.cos(lat0)*cc-y*math.sin(lat0)*sc)
+     return math.degrees(p),math.degrees(l)
+    def laea_cent(f,s):
+     w,lat,lon=data[f,s];x,y=fwd(lat,lon);return inv(float(w@x),float(w@y))
+    def vector_cent(f,s):
+     w,lat,lon=data[f,s];p=np.deg2rad(lat);l=np.deg2rad(lon);v=np.array([(w*np.cos(p)*np.cos(l)).sum(),(w*np.cos(p)*np.sin(l)).sum(),(w*np.sin(p)).sum()]);return math.degrees(math.atan2(v[2],math.hypot(v[0],v[1]))),math.degrees(math.atan2(v[1],v[0]))
+    def runner_cent(f,s):
+     w,lat,lon=data[f,s];return float(w@lat),math.degrees(math.atan2(float(<email>(np.deg2rad(lon))),float(<email>(np.deg2rad(lon)))))
+    def pool(method,f):
+     # apply to concatenation weights /3
+     w=np.concatenate([data[f,s][0]/3 for s in seeds]); lat=np.concatenate([data[f,s][1] for s in seeds]);lon=np.concatenate([data[f,s][2] for s in seeds]);data[f,'pool']=(w,lat,lon);v=method(f,'pool'); del data[f,'pool'];return v
+    def dist(a,b):
+     p1,l1=map(math.radians,a);p2,l2=map(math.radians,b);h=math.sin((p2-p1)/2)**2+math.cos(p1)*math.cos(p2)*math.sin((l2-l1)/2)**2;return 2*R*math.asin(math.sqrt(h))
+    for meth in [runner_cent,vector_cent,laea_cent]:
+     print(meth.__name__)
+     m=pool(meth,'M');g=pool(meth,'G');print('pool',m,g,'shift',dist(m,g))
+     for s in seeds:
+      a=meth('M',s);b=meth('G',s);print(s,a,b,dist(a,b))
+    PY
+      runner_cent
+      pool (-36.41016266148272, 89.49185666500267) (-36.416508908091394, 89.48215513876112) shift 1.1187651884114296
+      370023 (-36.41589990828085, 89.48156693079686) (-36.414779878019864, 89.48411569816695) 0.2598586643873986
+      370024 (-36.40981853927572, 89.49309348774837) (-36.41898518280228, 89.47819470271153) 1.6781988803241679
+      370025 (-36.404769536891635, 89.50090956589311) (-36.41576166345203, 89.48415501507367) 1.9344119527343162
+      vector_cent
+      pool (-36.41161833456889, 89.49469651081075) (-36.41792792246666, 89.48492394597537) shift 1.1211371746445877
+      370023 (-36.417381346423774, 89.48445839660006) (-36.41622117952756, 89.4869311752794) 0.2561267270783271
+      370024 (-36.41124712398518, 89.49587614226218) (-36.42040565970589, 89.48096538780813) 1.6784832903563345
+      370025 (-36.40622575426715, 89.50375358891954) (-36.41715682945794, 89.48687508486721) 1.9387373092366293
+      laea_cent
+      pool (-36.41162269673516, 89.49468943895309) (-36.41793184108397, 89.48491756855036) shift 1.1210578054110774
+      370023 (-36.41738562040112, 89.48445150826755) (-36.416225167710266, 89.48692472487781) 0.2561765761301126
+      370024 (-36.4112513059626, 89.49586934186392) (-36.42040949382148, 89.4809591436997) 1.678420198206274
+      370025 (-36.40623037914497, 89.50374607290415) (-36.41716076373402, 89.48686864730279) 1.9386139153696298
+    ── Ran python3 - <<'PY' from pathlib import Path import json for label,p in [('M',Path('/tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/seed-370023/posterior-handoff.json')),('G',Path('/tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional/seed-370023/posterior-handoff.json'))]:  d=json.loads(p.read_text())  print(label,'keys',list(d))  for k,v in d.items():   if k"'!='"'particles' and k"'!='"'posterior': print(k, v if not isinstance(v,(dict,list)) else (v if len(v)<20 else f'<{type(v).__name__} {len(v)}>'))  print('list lengths',{k:len(v) for k,v in d.items() if isinstance(v,list)}) PY sed -n '1,240p' inputs/evidence/mh370-conditional-antenna-power.json; find inputs/evidence -maxdepth 1 -type f -name '*antenna*' -printf '%f %s bytes\n' | sort (3s)
+      $ python3 - <<'PY'
+    from pathlib import Path
+    import json
+    for label,p in [('M',Path('/tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/seed-370023/posterior-handoff.json')),('G',Path('/tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional/seed-370023/posterior-handoff.json'))]:
+     d=json.loads(p.read_text())
+     print(label,'keys',list(d))
+     for k,v in d.items():
+      if k"'!='"'particles' and k"'!='"'posterior': print(k, v if not isinstance(v,(dict,list)) else (v if len(v)<20 else f'<{type(v).__name__} {len(v)}>'))
+     print('list lengths',{k:len(v) for k,v in d.items() if isinstance(v,list)})
+    PY
+    sed -n '1,240p' inputs/evidence/mh370-conditional-antenna-power.json; find inputs/evidence -maxdepth 1 -type f -name '*antenna*' -printf '%f %s bytes\n' | sort
+      M keys ['schema_version', 'run', 'evidence', 'particles']
+      schema_version 1
+      run {'model_family': 'bto-bfo-medium', 'seed': 370023, 'run_identity_sha256': '1e370f721cca91a99f6f9303f6218641716329dc76e38a1346320b0ab5a1e555', 'config_sha256': '54bf5805b7a5d5ecfe0b2e8bb855c365ba0a56ed8ad5642bbf1728a21b868d6e', 'input_sha256': {'era5': '261f4e1442ffac69df0201371f7dbf42da0ac0fa30065fc04e0e6293677a2a53', 'igrf': '9910a4952f43de2c3a5f07df3a7879139b9d23267a5d4e77dbfedae093973b0e', 'satcom_observations': '0ed8bed1798861536aa659e7fdf5cd8f43ccbe160cdf3c61fb7479b7e0fbb799', 'satellite_ephemeris': 'be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d'}}
+      evidence {'entries': [{'identity': {'epoch_id': 'm1825', 'channel': None, 'component': 'bto'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm1828a', 'channel': None, 'component': 'bto'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm1828a', 'channel': None, 'component': 'bfo'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm1828b', 'channel': None, 'component': 'bto'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm1828b', 'channel': None, 'component': 'bfo'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm1839', 'channel': None, 'component': 'bfo'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm1941', 'channel': None, 'component': 'bto'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm1941', 'channel': None, 'component': 'bfo'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm2041', 'channel': None, 'component': 'bto'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm2041', 'channel': None, 'component': 'bfo'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm2141', 'channel': None, 'component': 'bto'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm2141', 'channel': None, 'component': 'bfo'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm2241', 'channel': None, 'component': 'bto'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm2241', 'channel': None, 'component': 'bfo'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm2315', 'channel': None, 'component': 'bfo'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm0011', 'channel': None, 'component': 'bto'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm0011', 'channel': None, 'component': 'bfo'}, 'disposition': 'consumed'}]}
+      list lengths {'particles': 30000}
+      G keys ['schema_version', 'run', 'evidence', 'particles']
+      schema_version 1
+      run {'model_family': 'bto-bfo-gain-conditional', 'seed': 370023, 'run_identity_sha256': '6a30e66f1f3e8c42e5451e6ae7d79379c33361cd158c8fa4ada1a6c7eda5a073', 'config_sha256': 'd0996bd3d9c0d03ad853fb8b35a2ae8765982c48357188737d113c2c9af5beb1', 'input_sha256': {'antenna_observations': 'f89a6ad90d194caee2413487431376dd7e9199857ad2455f12ec747f681e0907', 'antenna_surface': '971b4c08c6e010857b5cda3af0d16f395da7e8d97660e8ff2f008f4ca0e7d0cd', 'era5': '261f4e1442ffac69df0201371f7dbf42da0ac0fa30065fc04e0e6293677a2a53', 'igrf': '9910a4952f43de2c3a5f07df3a7879139b9d23267a5d4e77dbfedae093973b0e', 'satcom_observations': '0ed8bed1798861536aa659e7fdf5cd8f43ccbe160cdf3c61fb7479b7e0fbb799', 'satellite_ephemeris': 'be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d'}}
+      evidence {'entries': [{'identity': {'epoch_id': 'm1825', 'channel': None, 'component': 'bto'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm1828a', 'channel': None, 'component': 'bto'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm1828a', 'channel': None, 'component': 'bfo'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm1828b', 'channel': None, 'component': 'bto'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm1828b', 'channel': None, 'component': 'bfo'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm1839', 'channel': None, 'component': 'bfo'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm1941', 'channel': None, 'component': 'bto'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm1941', 'channel': None, 'component': 'bfo'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm2041', 'channel': None, 'component': 'bto'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm2041', 'channel': None, 'component': 'bfo'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm2141', 'channel': None, 'component': 'bto'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm2141', 'channel': None, 'component': 'bfo'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm2241', 'channel': None, 'component': 'bto'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm2241', 'channel': None, 'component': 'bfo'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm2315', 'channel': None, 'component': 'bfo'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm0011', 'channel': None, 'component': 'bto'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm0011', 'channel': None, 'component': 'bfo'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm0011', 'channel': 'IOR-R1200-0-36ED', 'component': 'received_power'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm1941', 'channel': 'IOR-R1200-0-36ED', 'component': 'received_power'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm2041', 'channel': 'IOR-R1200-0-36ED', 'component': 'received_power'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm2141', 'channel': 'IOR-R1200-0-36ED', 'component': 'received_power'}, 'disposition': 'consumed'}, {'identity': {'epoch_id': 'm2241', 'channel': 'IOR-R1200-0-36ED', 'component': 'received_power'}, 'disposition': 'consumed'}]}
+      list lengths {'particles': 30000}
+      {
+        "schema_version": "mh370-conditional-antenna-power-v1",
+        "source_id": "mh370-rxgain-conditional-sensitivity",
+        "status": "conditional_sensitivity_only",
+        "surface_basis": "unverified_first_pass_reconstruction",
+        "source_result_sha256": "ebb04c26a803f020864c5398412f3dfd05e7e91d17df783f92a3fd188b0bc94d",
+        "observations": [
+          {
+            "epoch_id": "m1941",
+            "satcom_time_utc": "2014-03-07T19:41:02.000Z",
+            "power_time_utc": "2014-03-07T19:41:02.906Z",
+            "power_time_offset_s": 0.906,
+            "channel": "IOR-R1200-0-36ED",
+            "raw_rows": 1,
+            "source_rows": "7126",
+            "observed_dbm": -54.54
+          },
+          {
+            "epoch_id": "m2041",
+            "satcom_time_utc": "2014-03-07T20:41:04.000Z",
+            "power_time_utc": "2014-03-07T20:41:04.904Z",
+            "power_time_offset_s": 0.904,
+            "channel": "IOR-R1200-0-36ED",
+            "raw_rows": 1,
+            "source_rows": "7128",
+            "observed_dbm": -55.52
+          },
+          {
+            "epoch_id": "m2141",
+            "satcom_time_utc": "2014-03-07T21:41:26.000Z",
+            "power_time_utc": "2014-03-07T21:41:26.905Z",
+            "power_time_offset_s": 0.905,
+            "channel": "IOR-R1200-0-36ED",
+            "raw_rows": 1,
+            "source_rows": "7130",
+            "observed_dbm": -54.11
+          },
+          {
+            "epoch_id": "m2241",
+            "satcom_time_utc": "2014-03-07T22:41:21.000Z",
+            "power_time_utc": "2014-03-07T22:41:21.906Z",
+            "power_time_offset_s": 0.906,
+            "channel": "IOR-R1200-0-36ED",
+            "raw_rows": 1,
+            "source_rows": "7132",
+            "observed_dbm": -53.02
+          },
+          {
+            "epoch_id": "m0011",
+            "satcom_time_utc": "2014-03-08T00:10:59.000Z",
+            "power_time_utc": "2014-03-08T00:10:59.928Z",
+            "power_time_offset_s": 0.928,
+            "channel": "IOR-R1200-0-36ED",
+            "raw_rows": 1,
+            "source_rows": "7187",
+            "observed_dbm": -53.27
+          }
+        ]
+      }
+      mh370-conditional-antenna-power.json 1822 bytes
+      mh371-conditional-antenna-power.json 2439 bytes
+      mh371-first-pass-antenna-gain.bin 261412 bytes
+    ── Searched for struct RunIdentityPreimage|struct PosteriorHandoff|handoff_input_sha256 in crates/runner/src/accident_commands.rs
+    ── Read crates/runner/src/accident_commands.rs
+    ── Ran du -h /tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/seed-*/posterior-handoff.json /tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional/seed-*/posterior-handoff.json; python3 - <<'PY' from pathlib import Path import json, hashlib runs=[Path('/tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827'),Path('/tmp/mh370-0011-gain-better-mixing-recovery-20260828')] for root in runs:  m=json.loads((root/'run-manifest.json').read_text())  print(root.name)  for rel in sorted(x for x in m['outputs'] if x.endswith('posterior-handoff.json')):   d=json.loads((root/rel).read_text())   r=d['run']   pre={    'domain':'mh370-estimate-run-v1','engine_version':m['engine_version'],    'executable_sha256':m['executable_sha256'],'config_sha256':r['config_sha256'],    'input_sha256':dict(sorted(r['input_sha256'].items())),    'model_family':r['model_family'],'seed':r['seed']}   digest=hashlib.sha256(json.dumps(pre,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()   print(rel,'identity_ok',digest==r['run_identity_sha256'],'particles',len(d['particles']),'evidence_entries',len(d['evidence']['entries'])) PY (7s)
+      $ du -h /tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/seed-*/posterior-handoff.json /tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional/seed-*/posterior-handoff.json; python3 - <<'PY'
+    from pathlib import Path
+    import json, hashlib
+    runs=[Path('/tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827'),Path('/tmp/mh370-0011-gain-better-mixing-recovery-20260828')]
+    for root in runs:
+     m=json.loads((root/'run-manifest.json').read_text())
+     print(root.name)
+     for rel in sorted(x for x in m['outputs'] if x.endswith('posterior-handoff.json')):
+      d=json.loads((root/rel).read_text())
+      r=d['run']
+      pre={
+       'domain':'mh370-estimate-run-v1','engine_version':m['engine_version'],
+       'executable_sha256':m['executable_sha256'],'config_sha256':r['config_sha256'],
+       'input_sha256':dict(sorted(r['input_sha256'].items())),
+       'model_family':r['model_family'],'seed':r['seed']}
+      digest=hashlib.sha256(json.dumps(pre,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()
+      print(rel,'identity_ok',digest==r['run_identity_sha256'],'particles',len(d['particles']),'evidence_entries',len(d['evidence']['entries']))
+    PY
+      mh370-0011-medium-mutation-sensitivity-rerun2-20260827
+      bto-bfo-medium/seed-370023/posterior-handoff.json identity_ok True particles 30000 evidence_entries 17
+      bto-bfo-medium/seed-370024/posterior-handoff.json identity_ok True particles 30000 evidence_entries 17
+      bto-bfo-medium/seed-370025/posterior-handoff.json identity_ok True particles 30000 evidence_entries 17
+      mh370-0011-gain-better-mixing-recovery-20260828
+      bto-bfo-gain-conditional/seed-370023/posterior-handoff.json identity_ok True particles 30000 evidence_entries 22
+      bto-bfo-gain-conditional/seed-370024/posterior-handoff.json identity_ok True particles 30000 evidence_entries 22
+      bto-bfo-gain-conditional/seed-370025/posterior-handoff.json identity_ok True particles 30000 evidence_entries 22
+
+  ── Assistant
+  All declared digests now verify independently (zero mismatches), and all six handoff run-identity digests recompute exactly. The three medium posterior CSVs, summaries, and checkpoints are also byte-identical to the better-mixing core-comparison medium family; only provenance/report artifacts differ where the suite title, config identity, or declared optional antenna context is embedded. Spatially, the pooled mode is unchanged and the pooled distributions are already extremely close; I’m finishing the Monte Carlo-resolution call from seed-pair and leave-one-seed-out behavior.
+
+  ── Ran 3 commands
+    ── Ran file /tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/posterior.png /tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/posterior.svg /tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/report.pdf /tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional/posterior.png /tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional/posterior.svg /tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional/report.pdf; if command -v pdfinfo >/dev/null; then pdfinfo /tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/report.pdf; pdfinfo /tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional/report.pdf; fi; python3 - <<'PY' from pathlib import Path import hashlib for p in [ Path('/tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/posterior.svg'), Path('/tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/report.pdf'), Path('/tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional/posterior.svg'), Path('/tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional/report.pdf')]:  print(p, p.stat().st_size, hashlib.sha256(p.read_bytes()).hexdigest()) PY
+      $ file /tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/posterior.png /tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/posterior.svg /tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/report.pdf /tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional/posterior.png /tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional/posterior.svg /tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional/report.pdf; if command -v pdfinfo >/dev/null; then pdfinfo /tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/report.pdf; pdfinfo /tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional/report.pdf; fi; python3 - <<'PY'
+    from pathlib import Path
+    import hashlib
+    for p in [
+    Path('/tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/posterior.svg'),
+    Path('/tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/report.pdf'),
+    Path('/tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional/posterior.svg'),
+    Path('/tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional/report.pdf')]:
+     print(p, p.stat().st_size, hashlib.sha256(p.read_bytes()).hexdigest())
+    PY
+      /tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/posterior.png:    PNG image data, 2800 x 1900, 8-bit/color RGB, non-interlaced
+      /tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/posterior.svg:    SVG Scalable Vector Graphics image
+      /tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/report.pdf:       PDF document, version 1.4, 3 page(s)
+      /tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional/posterior.png: PNG image data, 2800 x 1900, 8-bit/color RGB, non-interlaced
+      /tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional/posterior.svg: SVG Scalable Vector Graphics image
+      /tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional/report.pdf:    PDF document, version 1.4, 3 page(s)
+      /tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/posterior.svg 55966 e85dc45cb000a2a131546f94d053f6545035767c060234d5ae65c8b422dc2b94
+      /tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium/report.pdf 101441 004ba3264627bafeaa14b418e958fef4a1aa18b873319d99d5baffe888945b0e
+      /tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional/posterior.svg 54736 ec4299a43a03b906ed2fe659aea9a2b41ae077afe15a2c940a6a97449ba0ace6
+      /tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional/report.pdf 99545 4b8ca932e85b01b60011dbcda5f99c5886861fb58cad4d5288e6b95204fa8835
+    ── Ran sed -n '1,220p' /tmp/mh370-0011-core-comparison-better-mixing-20260827/bto-bfo-medium/conditional-evidence.json; python3 - <<'PY' from pathlib import Path import hashlib A=Path('/tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium') B=Path('/tmp/mh370-0011-core-comparison-better-mixing-20260827/bto-bfo-medium') for rel in sorted(str(p.relative_to(A)) for p in A.rglob('*') if p.is_file()):  print(('SAME' if hashlib.sha256((A/rel).read_bytes()).digest()==hashlib.sha256((B/rel).read_bytes()).digest() else 'DIFF'),rel) PY (1s)
+      $ sed -n '1,220p' /tmp/mh370-0011-core-comparison-better-mixing-20260827/bto-bfo-medium/conditional-evidence.json; python3 - <<'PY'
+    from pathlib import Path
+    import hashlib
+    A=Path('/tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium')
+    B=Path('/tmp/mh370-0011-core-comparison-better-mixing-20260827/bto-bfo-medium')
+    for rel in sorted(str(p.relative_to(A)) for p in A.rglob('*') if p.is_file()):
+     print(('SAME' if hashlib.sha256((A/rel).read_bytes()).digest()==hashlib.sha256((B/rel).read_bytes()).digest() else 'DIFF'),rel)
+    PY
+      DIFF conditional-evidence.json
+      DIFF posterior.png
+      SAME posterior.svg
+      DIFF report.pdf
+      SAME seed-370023/checkpoints.json
+      DIFF seed-370023/posterior-handoff.json
+      SAME seed-370023/posterior.csv
+      SAME seed-370023/summary.json
+      SAME seed-370024/checkpoints.json
+      DIFF seed-370024/posterior-handoff.json
+      SAME seed-370024/posterior.csv
+      SAME seed-370024/summary.json
+      SAME seed-370025/checkpoints.json
+      DIFF seed-370025/posterior-handoff.json
+      SAME seed-370025/posterior.csv
+      SAME seed-370025/summary.json
+    ── Ran python3 - <<'PY' import math vals={50:[0,-25,0],90:[-75,-100,-75],95:[-75,-150,-75],99:[-175,-275,-100]} for q,x in vals.items():  m=sum(x)/3  se=math.sqrt(2/3*sum((v-m)**2 for v in x))  print(q,'mean loo',m,'jackknife se',se,'range',min(x),max(x)) for base,diff in [(1975,25),(6600,-75),(8550,-100),(13125,-175)]: print(diff/base*100) PY
+      $ python3 - <<'PY'
+    import math
+    vals={50:[0,-25,0],90:[-75,-100,-75],95:[-75,-150,-75],99:[-175,-275,-100]}
+    for q,x in vals.items():
+     m=sum(x)/3
+     se=math.sqrt(2/3*sum((v-m)**2 for v in x))
+     print(q,'mean loo',m,'jackknife se',se,'range',min(x),max(x))
+    for base,diff in [(1975,25),(6600,-75),(8550,-100),(13125,-175)]: print(diff/base*100)
+    PY
+      50 mean loo -8.333333333333334 jackknife se 16.666666666666664 range -25 0
+      90 mean loo -83.33333333333333 jackknife se 16.666666666666668 range -100 -75
+      95 mean loo -100.0 jackknife se 50.0 range -150 -75
+      99 mean loo -183.33333333333334 jackknife se 101.37937550497033 range -275 -100
+      1.2658227848101267
+      -1.1363636363636365
+      -1.1695906432748537
+      -1.3333333333333335
+
+  ── User
+  [iso message from thread:thr_94ecfzphq2]
+
+  The extra-seed run is complete: /tmp/mh370-0011-medium-gain-extra-seeds-20260828/suite-summary.json and both family directories are final. Please perform the queued five-seed combined audit now. Direct equal-seed pooled centroids are medium (-36.417859530808,89.479908825942), gain (-36.419811394913,89.476466530639), 0.2033 NM at 234.8 degrees; independently verify.
+  steer
+
+  ── Ran .venv/bin/python - <<'PY' # Reconstruct approximate local east/north deltas from printed lat/lon using LAEA center, exact enough. import math, numpy as np R=6371.00038 lat0=math.radians(-36.414773230245224); lon0=math.radians(89.48981042346159) pairs=[((-36.41747084683937,89.48425722936886),(-36.416333694834016,89.48693218470885)),((-36.41133850055455,89.49588585515511),(-36.420492653075904,89.48089950007653)),((-36.40605801434836,89.50387829117231),(-36.41720715546083,89.48708096550126))] def f(p):  ph=math.radians(p[0]);dl=math.radians(p[1])-lon0;k=math.sqrt(2/(1+math.sin(lat0)*math.sin(ph)+math.cos(lat0)*math.cos(ph)*math.cos(dl)));return np.array([R*k*math.cos(ph)*math.sin(dl),R*k*(math.cos(lat0)*math.sin(ph)-math.sin(lat0)*math.cos(ph)*math.cos(dl))]) d=np.array([f(g)-f(m) for m,g in pairs]);print(d);print('mean',d.mean(0),'norm',np.linalg.norm(d.mean(0)),'sd',d.std(0,ddof=1),'se',d.std(0,ddof=1)/math.sqrt(3)) # Hotelling T"'^2 with n=3, p=2 -> F p,n-p df 2,1, likely tiny significance n=3;p=2;mu=d.mean(0);S=np.cov(d,rowvar=False,ddof=1);T2=n*<email>(S)@mu;F=(n-p)/(p*(n-1))*T2 print('"'cov',S,'T2',T2,'F(2,1)',F) PY
+    $ .venv/bin/python - <<'PY'
+  # Reconstruct approximate local east/north deltas from printed lat/lon using LAEA center, exact enough.
+  import math, numpy as np
+  R=6371.00038
+  lat0=math.radians(-36.414773230245224); lon0=math.radians(89.48981042346159)
+  pairs=[((-36.41747084683937,89.48425722936886),(-36.416333694834016,89.48693218470885)),((-36.41133850055455,89.49588585515511),(-36.420492653075904,89.48089950007653)),((-36.40605801434836,89.50387829117231),(-36.41720715546083,89.48708096550126))]
+  def f(p):
+   ph=math.radians(p[0]);dl=math.radians(p[1])-lon0;k=math.sqrt(2/(1+math.sin(lat0)*math.sin(ph)+math.cos(lat0)*math.cos(ph)*math.cos(dl)));return np.array([R*k*math.cos(ph)*math.sin(dl),R*k*(math.cos(lat0)*math.sin(ph)-math.sin(lat0)*math.cos(ph)*math.cos(dl))])
+  d=np.array([f(g)-f(m) for m,g in pairs]);print(d);print('mean',d.mean(0),'norm',np.linalg.norm(d.mean(0)),'sd',d.std(0,ddof=1),'se',d.std(0,ddof=1)/math.sqrt(3))
+  # Hotelling T"'^2 with n=3, p=2 -> F p,n-p df 2,1, likely tiny significance
+  n=3;p=2;mu=d.mean(0);S=np.cov(d,rowvar=False,ddof=1);T2=n*<email>(S)@mu;F=(n-p)/(p*(n-1))*T2
+  print('"'cov',S,'T2',T2,'F(2,1)',F)
+  PY
+    [[ 0.2393512   0.126456  ]
+     [-1.34099076 -1.01791507]
+     [-1.50321027 -1.23963971]]
+    mean [-0.86828328 -0.71036626] norm 1.1218449437432128 sd [0.96266266 0.73313987] se [0.55579354 0.4232785 ]
+    cov [[0.92671939 0.7041619 ]
+     [0.7041619  0.53749407]] T2 5.588019862384819 F(2,1) 1.3970049655962047
+
+  ── Assistant
+  I’ve received the completed extra-seed family and am replacing the three-seed inference call with the requested combined five-seed audit. I’ll first verify the new manifest and establish that its two added seeds are configuration-compatible, then recompute the common grid and all paired/leave-one-out diagnostics across all five seeds, including an independent check of the stated direct centroids, 0.2033 NM separation, and 234.8° bearing.
+
+  ── Explored 1 list, ran 1 command
+    ── Listed files in /tmp/mh370-0011-medium-gain-extra-seeds-20260828
+    ── Ran sed -n '1,220p' /tmp/mh370-0011-medium-gain-extra-seeds.toml; python3 - <<'PY' from pathlib import Path import hashlib,json,tomllib root=Path('/tmp/mh370-0011-medium-gain-extra-seeds-20260828') m=json.loads((root/'run-manifest.json').read_text()) checks=[] def ck(label,p,d):  a=hashlib.sha256(Path(p).read_bytes()).hexdigest(); checks.append((label,a==d,d,a)) ck('config',m['config_path'],m['config_sha256']) for p,d in m['input_sha256'].items():ck('input '+p,p,d) for p,d in m['outputs'].items():ck('output '+p,root/p,d) print('new checks',len(checks),'failures',sum(not x[1] for x in checks)) for x in checks:  if not x[1]:print('FAIL',x) # Validate every handoff run-identity digest. for rel in sorted(p for p in m['outputs'] if p.endswith('posterior-handoff.json')):  d=json.loads((root/rel).read_text()); r=d['run']  pre={'domain':'mh370-estimate-run-v1','engine_version':m['engine_version'],'executable_sha256':m['executable_sha256'],'config_sha256':r['config_sha256'],'input_sha256':dict(sorted(r['input_sha256'].items())),'model_family':r['model_family'],'seed':r['seed']}  a=hashlib.sha256(json.dumps(pre,separators=(',',':')).encode()).hexdigest()  print(rel,'identity',a==r['run_identity_sha256'],'particles',len(d['particles']),'evidence',len(d['evidence']['entries'])) # Scientific setting comparisons among configs. paths={'M3':Path('/tmp/mh370-0011-medium-mutation-sensitivity.toml'),'G3':Path('/tmp/mh370-0011-gain-better-mixing-recovery.toml'),'X2':Path('/tmp/mh370-0011-medium-gain-extra-seeds.toml'),'core':Path('/tmp/mh370-0011-core-comparison-better-mixing.toml')} cfg={k:tomllib.loads(p.read_text()) for k,p in paths.items()} for key in ['inputs','environment','convergence','model']:  print(key,'all equal',len({repr(cfg[k][key]) for k in cfg})==1) for label,c in cfg.items():  print(label,'seeds',c['seeds'],'families',c['families']) # Family canonical signatures excluding name and gain toggle, plus gain setting. for label,c in cfg.items():  for f in c['families']:   if f['name'] in ('bto-bfo-medium','bto-bfo-gain-conditional'):    base={k:v for k,v in f.items() if k not in ('name','use_antenna_gain')}    print(label,f['name'],'base',base,'gain',f.get('use_antenna_gain',False)) PY (1s)
+      $ sed -n '1,220p' /tmp/mh370-0011-medium-gain-extra-seeds.toml; python3 - <<'PY'
+    from pathlib import Path
+    import hashlib,json,tomllib
+    root=Path('/tmp/mh370-0011-medium-gain-extra-seeds-20260828')
+    m=json.loads((root/'run-manifest.json').read_text())
+    checks=[]
+    def ck(label,p,d):
+     a=hashlib.sha256(Path(p).read_bytes()).hexdigest(); checks.append((label,a==d,d,a))
+    ck('config',m['config_path'],m['config_sha256'])
+    for p,d in m['input_sha256'].items():ck('input '+p,p,d)
+    for p,d in m['outputs'].items():ck('output '+p,root/p,d)
+    print('new checks',len(checks),'failures',sum(not x[1] for x in checks))
+    for x in checks:
+     if not x[1]:print('FAIL',x)
+    # Validate every handoff run-identity digest.
+    for rel in sorted(p for p in m['outputs'] if p.endswith('posterior-handoff.json')):
+     d=json.loads((root/rel).read_text()); r=d['run']
+     pre={'domain':'mh370-estimate-run-v1','engine_version':m['engine_version'],'executable_sha256':m['executable_sha256'],'config_sha256':r['config_sha256'],'input_sha256':dict(sorted(r['input_sha256'].items())),'model_family':r['model_family'],'seed':r['seed']}
+     a=hashlib.sha256(json.dumps(pre,separators=(',',':')).encode()).hexdigest()
+     print(rel,'identity',a==r['run_identity_sha256'],'particles',len(d['particles']),'evidence',len(d['evidence']['entries']))
+    # Scientific setting comparisons among configs.
+    paths={'M3':Path('/tmp/mh370-0011-medium-mutation-sensitivity.toml'),'G3':Path('/tmp/mh370-0011-gain-better-mixing-recovery.toml'),'X2':Path('/tmp/mh370-0011-medium-gain-extra-seeds.toml'),'core':Path('/tmp/mh370-0011-core-comparison-better-mixing.toml')}
+    cfg={k:tomllib.loads(p.read_text()) for k,p in paths.items()}
+    for key in ['inputs','environment','convergence','model']:
+     print(key,'all equal',len({repr(cfg[k][key]) for k in cfg})==1)
+    for label,c in cfg.items():
+     print(label,'seeds',c['seeds'],'families',c['families'])
+    # Family canonical signatures excluding name and gain toggle, plus gain setting.
+    for label,c in cfg.items():
+     for f in c['families']:
+      if f['name'] in ('bto-bfo-medium','bto-bfo-gain-conditional'):
+       base={k:v for k,v in f.items() if k not in ('name','use_antenna_gain')}
+       print(label,f['name'],'base',base,'gain',f.get('use_antenna_gain',False))
+    PY
+      new checks 32 failures 0
+      bto-bfo-gain-conditional/seed-370026/posterior-handoff.json identity True particles 30000 evidence 22
+      bto-bfo-gain-conditional/seed-370027/posterior-handoff.json identity True particles 30000 evidence 22
+      bto-bfo-medium/seed-370026/posterior-handoff.json identity True particles 30000 evidence 22
+      bto-bfo-medium/seed-370027/posterior-handoff.json identity True particles 30000 evidence 22
+      inputs all equal True
+      environment all equal True
+      convergence all equal True
+      model all equal True
+      M3 seeds [370023, 370024, 370025] families [{'name': 'bto-bfo-medium', 'use_bfo': True, 'bfo_sd_override_hz': 4.0, 'lateral_mode': 'constant_true_track'}]
+      G3 seeds [370023, 370024, 370025] families [{'name': 'bto-bfo-gain-conditional', 'use_bfo': True, 'bfo_sd_override_hz': 4.0, 'use_antenna_gain': True, 'lateral_mode': 'constant_true_track'}]
+      X2 seeds [370026, 370027] families [{'name': 'bto-bfo-medium', 'use_bfo': True, 'bfo_sd_override_hz': 4.0, 'lateral_mode': 'constant_true_track'}, {'name': 'bto-bfo-gain-conditional', 'use_bfo': True, 'bfo_sd_override_hz': 4.0, 'use_antenna_gain': True, 'lateral_mode': 'constant_true_track'}]
+      core seeds [370023, 370024, 370025] families [{'name': 'bto-only', 'use_bfo': False, 'lateral_mode': 'constant_true_track'}, {'name': 'bto-bfo-medium', 'use_bfo': True, 'bfo_sd_override_hz': 4.0, 'lateral_mode': 'constant_true_track'}, {'name': 'bto-bfo-gain-conditional', 'use_bfo': True, 'bfo_sd_override_hz': 4.0, 'use_antenna_gain': True, 'lateral_mode': 'constant_true_track'}]
+      M3 bto-bfo-medium base {'use_bfo': True, 'bfo_sd_override_hz': 4.0, 'lateral_mode': 'constant_true_track'} gain False
+      G3 bto-bfo-gain-conditional base {'use_bfo': True, 'bfo_sd_override_hz': 4.0, 'lateral_mode': 'constant_true_track'} gain True
+      X2 bto-bfo-medium base {'use_bfo': True, 'bfo_sd_override_hz': 4.0, 'lateral_mode': 'constant_true_track'} gain False
+      X2 bto-bfo-gain-conditional base {'use_bfo': True, 'bfo_sd_override_hz': 4.0, 'lateral_mode': 'constant_true_track'} gain True
+      core bto-bfo-medium base {'use_bfo': True, 'bfo_sd_override_hz': 4.0, 'lateral_mode': 'constant_true_track'} gain False
+      core bto-bfo-gain-conditional base {'use_bfo': True, 'bfo_sd_override_hz': 4.0, 'lateral_mode': 'constant_true_track'} gain True
+
+  ── Assistant
+  The added run is clean: all 32 config/input/output hash checks pass, all four new handoff identities recompute, and its executable and six input hashes match the earlier runs. The model, sampler, radar, dynamics, SATCOM, environment, convergence, and family settings are exactly equal across the three-seed and two-seed configs; only seed lists, suite labels/composition, and the intended gain toggle differ. Combining them as five equal-weight seeds is therefore valid.
+
+  ── Ran .venv/bin/python - <<'PY' from pathlib import Path import json, math import numpy as np R_NM=3440.065; KM_PER_NM=1.852; R=R_NM*KM_PER_NM H=5.; K=np.array([.06136,.24477,.38774,.24477,.06136]) SEEDS=[370023,370024,370025,370026,370027] OLD={'M':Path('/tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium'),'G':Path('/tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional')} NEW={'M':Path('/tmp/mh370-0011-medium-gain-extra-seeds-20260828/bto-bfo-medium'),'G':Path('/tmp/mh370-0011-medium-gain-extra-seeds-20260828/bto-bfo-gain-conditional')} def root(f,s):return OLD[f] if s<=370025 else NEW[f] def load(f,s):  a=np.loadtxt(root(f,s)/f'seed-{s}/posterior.csv',delimiter=',',skiprows=1,usecols=(1,6,7));w,lat,lon=a.T;w/=w.sum();return w,lat,lon D={(f,s):load(f,s) for f in 'MG' for s in SEEDS} # Direct canonical runner-style equal-seed centroids. def direct(f, subset=SEEDS):  lat=0;ss=0;cc=0  for s in subset:   w,p,l=D[f,s];lat+=float(w@p)/len(subset);ss+=float(<email>(np.deg2rad(l)))/len(subset);cc+=float(<email>(np.deg2rad(l)))/len(subset)  return lat,math.degrees(math.atan2(ss,cc)) def gc_nm(a,b):  p1,l1=map(math.radians,a);p2,l2=map(math.radians,b);h=math.sin((p2-p1)/2)**2+math.cos(p1)*math.cos(p2)*math.sin((l2-l1)/2)**2;return 2*R_NM*math.asin(math.sqrt(min(1,max(0,h)))) def bearing(a,b):  p1,l1=map(math.radians,a);p2,l2=map(math.radians,b);dl=l2-l1;y=math.sin(dl)*math.cos(p2);x=math.cos(p1)*math.sin(p2)-math.sin(p1)*math.cos(p2)*math.cos(dl);return math.degrees(math.atan2(y,x))%360 md=direct('M');gd=direct('G') print('DIRECT',md,gd,'distance_nm',gc_nm(md,gd),'km',gc_nm(md,gd)*KM_PER_NM,'bearing',bearing(md,gd)) claimedM=(-36.417859530808,89.479908825942);claimedG=(-36.419811394913,89.476466530639) print('CLAIM_ERRORS_DEG',md[0]-claimedM[0],md[1]-claimedM[1],gd[0]-claimedG[0],gd[1]-claimedG[1],'distance_delta_nm',gc_nm(md,gd)-.2033,'bearing_delta',bearing(md,gd)-234.8) # Common spherical LAEA origin = equal-family/equal-seed spherical mean of all ten. v=np.zeros(3) for w,p,l in D.values():  ph=np.deg2rad(p);la=np.deg2rad(l);v+=np.array([(w*np.cos(ph)*np.cos(la)).sum(),(w*np.cos(ph)*np.sin(la)).sum(),(w*np.sin(ph)).sum()])/10 lat0=math.atan2(v[2],math.hypot(v[0],v[1]));lon0=math.atan2(v[1],v[0]) def fwd(p,l):  ph=np.deg2rad(p);la=np.deg2rad(l);dl=la-lon0;kk=np.sqrt(2/(1+math.sin(lat0)*np.sin(ph)+math.cos(lat0)*np.cos(ph)*np.cos(dl)));return R*kk*np.cos(ph)*np.sin(dl),R*kk*(math.cos(lat0)*np.sin(ph)-math.sin(lat0)*np.cos(ph)*np.cos(dl)) def inv(x,y):  x=np.asarray(x);y=np.asarray(y);rho=np.hypot(x,y);rr=np.where(rho==0,1,rho);c=2*np.arcsin(np.clip(rho/(2*R),0,1));sc=np.sin(c);cc=np.cos(c);ph=np.arcsin(np.clip(cc*math.sin(lat0)+y*sc*math.cos(lat0)/rr,-1,1));la=lon0+np.arctan2(x*sc,rho*math.cos(lat0)*cc-y*math.sin(lat0)*sc);ph=np.where(rho==0,lat0,ph);la=np.where(rho==0,lon0,la);return np.rad2deg(ph),np.rad2deg(la) XY={k:fwd(p,l) for k,(w,p,l) in D.items()}; ax=np.concatenate([z[0] for z in XY.values()]);ay=np.concatenate([z[1] for z in XY.values()]) xmin=math.floor(ax.min()/H)*H-10;xmax=math.ceil(ax.max()/H)*H+10;ymin=math.floor(ay.min()/H)*H-10;ymax=math.ceil(ay.max()/H)*H+10 nx=round((xmax-xmin)/H);ny=round((ymax-ymin)/H);xc=xmin+(np.arange(nx)+.5)*H;yc=ymin+(np.arange(ny)+.5)*H def binmass(k):  w,p,l=D[k];x,y=XY[k];ix=np.floor((x-xmin)/H).astype(int);iy=np.floor((y-ymin)/H).astype(int);assert ix.min()>=2 and ix.max()<=nx-3 and iy.min()>=2 and iy.max()<=ny-3;a=np.zeros((ny,nx));np.add.at(a,(iy,ix),w);return a/a.sum() def axisconv(a,axis):  pad=[(0,0),(0,0)];pad[axis]=(2,2);return np.apply_along_axis(lambda q:np.convolve(q,K,mode='valid'),axis,np.pad(a,pad)) def smooth(a):  a=axisconv(axisconv(a,1),0);return a/a.sum() G={k:smooth(binmass(k)) for k in D};P={f:sum(G[f,s] for s in SEEDS)/5 for f in 'MG'} def centroid(a):  x=float(<email>(axis=0));y=float(<email>(axis=1));p,l=inv(x,y);return float(p),float(l),x,y def mode(a):  iy,ix=np.unravel_index(np.argmax(a),a.shape);p,l=inv(xc[ix],yc[iy]);return float(p),float(l),float(xc[ix]),float(yc[iy]),float(a[iy,ix]),int(ix),int(iy) def distkm(a,b):return gc_nm(a,b)*KM_PER_NM def hpd(a,q):  z=np.sort(a.ravel())[::-1];n=int(np.searchsorted(np.cumsum(z),q)+1);return n*25,n,float(z[n-1]),float(z[:n].sum()) def comp(a,b):  ov=float(np.minimum(a,b).sum());tv=float(np.abs(a-b).sum()/2);m=(a+b)/2  def kl(p):   ok=p>0;return float(np.sum(p[ok]*np.log(p[ok]/m[ok])))  return ov,tv,(kl(a)+kl(b))/2 print('\nBASIS R',R,'origin',math.degrees(lat0),math.degrees(lon0),'support',ax.min(),ax.max(),ay.min(),ay.max(),'edges',xmin,xmax,ymin,ymax,'shape',ny,nx,'kernel',K.sum()) print('POOLED') for f in 'MG':print(f,'cent',centroid(P[f]),'mode',mode(P[f]),'hpd',{q:hpd(P[f],q) for q in [.5,.9,.95,.99]}) print('COMPARE',comp(P['M'],P['G']),'cent_km',distkm(centroid(P['M']),centroid(P['G'])),'cent_bearing',bearing(centroid(P['M']),centroid(P['G'])),'mode_km',distkm(mode(P['M']),mode(P['G']))) print('\nSEEDS') for s in SEEDS:  sm=json.loads((root('M',s)/f'seed-{s}/summary.json').read_text());sg=json.loads((root('G',s)/f'seed-{s}/summary.json').read_text());  print(s,'centM',centroid(G['M',s])[:2],'centG',centroid(G['G',s])[:2],'shiftkm',distkm(centroid(G['M',s]),centroid(G['G',s])),'bearing',bearing(centroid(G['M',s]),centroid(G['G',s])),'comp',comp(G['M',s],G['G',s]),'ESS',sm['posterior_ess'],sg['posterior_ess'],'minTESS',sm['minimum_tempered_ess'],sg['minimum_tempered_ess'],'acc',sm['minimum_mutation_acceptance'],sg['minimum_mutation_acceptance'],'logZ',sm['log_evidence'],sg['log_evidence'],'dlogZ',sg['log_evidence']-sm['log_evidence']) print('\nRANGES') for f in 'MG':  ss=[json.loads((root(f,s)/f'seed-{s}/summary.json').read_text()) for s in SEEDS]  for fld in ['posterior_ess','minimum_tempered_ess','minimum_mutation_acceptance','log_evidence']:   z=[x[fld] for x in ss];print(f,fld,min(z),max(z),'spread',max(z)-min(z)) print('\nWITHIN') for f in 'MG':  tv=[];js=[];cd=[]  for i,s in enumerate(SEEDS):   for t in SEEDS[i+1:]:    x=comp(G[f,s],G[f,t]);tv.append(x[1]);js.append(x[2]);cd.append(distkm(centroid(G[f,s]),centroid(G[f,t])))  print(f,'pairTV',min(tv),max(tv),'pairJS',min(js),max(js),'pairCentKm',min(cd),max(cd))  z=[]  for s in SEEDS:z.append(comp(G[f,s],P[f])[1])  print(f,'seed_pool_TV',min(z),max(z),z) print('\nLOO') for f in 'MG':  print(f,'FULL',{q:hpd(P[f],q)[0] for q in [.5,.9,.95,.99]})  for omit in SEEDS:   a=sum(G[f,s] for s in SEEDS if s"'!=omit)/4   print(f,omit,'"'areas',{q:hpd(a,q)[0] for q in [.5,.9,.95,.99]},'fullcomp',comp(a,P[f]),'centkm',distkm(centroid(a),centroid(P[f]))) print('\nCOMMON LOO DELTAS') for omit in SEEDS:  m=sum(G['M',s] for s in SEEDS if s"'!=omit)/4;g=sum(G['"'G',s] for s in SEEDS if s"'!=omit)/4  print(omit,'"'areas',{q:hpd(g,q)[0]-hpd(m,q)[0] for q in [.5,.9,.95,.99]},'comp',comp(m,g),'centkm',distkm(centroid(m),centroid(g)),'bearing',bearing(centroid(m),centroid(g)),'modekm',distkm(mode(m),mode(g))) print('\nSEED HPD DELTAS') for s in SEEDS:print(s,{q:(hpd(G['M',s],q)[0],hpd(G['G',s],q)[0],hpd(G['G',s],q)[0]-hpd(G['M',s],q)[0]) for q in [.5,.9,.95,.99]}) PY (error)
+    $ .venv/bin/python - <<'PY'
+  from pathlib import Path
+  import json, math
+  import numpy as np
+  R_NM=3440.065; KM_PER_NM=1.852; R=R_NM*KM_PER_NM
+  H=5.; K=np.array([.06136,.24477,.38774,.24477,.06136])
+  SEEDS=[370023,370024,370025,370026,370027]
+  OLD={'M':Path('/tmp/mh370-0011-medium-mutation-sensitivity-rerun2-20260827/bto-bfo-medium'),'G':Path('/tmp/mh370-0011-gain-better-mixing-recovery-20260828/bto-bfo-gain-conditional')}
+  NEW={'M':Path('/tmp/mh370-0011-medium-gain-extra-seeds-20260828/bto-bfo-medium'),'G':Path('/tmp/mh370-0011-medium-gain-extra-seeds-20260828/bto-bfo-gain-conditional')}
+  def root(f,s):return OLD[f] if s<=370025 else NEW[f]
+  def load(f,s):
+   a=np.loadtxt(root(f,s)/f'seed-{s}/posterior.csv',delimiter=',',skiprows=1,usecols=(1,6,7));w,lat,lon=a.T;w/=w.sum();return w,lat,lon
+  D={(f,s):load(f,s) for f in 'MG' for s in SEEDS}
+  # Direct canonical runner-style equal-seed centroids.
+  def direct(f, subset=SEEDS):
+   lat=0;ss=0;cc=0
+   for s in subset:
+    w,p,l=D[f,s];lat+=float(w@p)/len(subset);ss+=float(<email>(np.deg2rad(l)))/len(subset);cc+=float(<email>(np.deg2rad(l)))/len(subset)
+   return lat,math.degrees(math.atan2(ss,cc))
+  def gc_nm(a,b):
+   p1,l1=map(math.radians,a);p2,l2=map(math.radians,b);h=math.sin((p2-p1)/2)**2+math.cos(p1)*math.cos(p2)*math.sin((l2-l1)/2)**2;return 2*R_NM*math.asin(math.sqrt(min(1,max(0,h))))
+  def bearing(a,b):
+   p1,l1=map(math.radians,a);p2,l2=map(math.radians,b);dl=l2-l1;y=math.sin(dl)*math.cos(p2);x=math.cos(p1)*math.sin(p2)-math.sin(p1)*math.cos(p2)*math.cos(dl);return math.degrees(math.atan2(y,x))%360
+  md=direct('M');gd=direct('G')
+  print('DIRECT',md,gd,'distance_nm',gc_nm(md,gd),'km',gc_nm(md,gd)*KM_PER_NM,'bearing',bearing(md,gd))
+  claimedM=(-36.417859530808,89.479908825942);claimedG=(-36.419811394913,89.476466530639)
+  print('CLAIM_ERRORS_DEG',md[0]-claimedM[0],md[1]-claimedM[1],gd[0]-claimedG[0],gd[1]-claimedG[1],'distance_delta_nm',gc_nm(md,gd)-.2033,'bearing_delta',bearing(md,gd)-234.8)
+
+  # Common spherical LAEA origin = equal-family/equal-seed spherical mean of all ten.
+  v=np.zeros(3)
+  for w,p,l in D.values():
+   ph=np.deg2rad(p);la=np.deg2rad(l);v+=np.array([(w*np.cos(ph)*np.cos(la)).sum(),(w*np.cos(ph)*np.sin(la)).sum(),(w*np.sin(ph)).sum()])/10
+  lat0=math.atan2(v[2],math.hypot(v[0],v[1]));lon0=math.atan2(v[1],v[0])
+  def fwd(p,l):
+   ph=np.deg2rad(p);la=np.deg2rad(l);dl=la-lon0;kk=np.sqrt(2/(1+math.sin(lat0)*np.sin(ph)+math.cos(lat0)*np.cos(ph)*np.cos(dl)));return R*kk*np.cos(ph)*np.sin(dl),R*kk*(math.cos(lat0)*np.sin(ph)-math.sin(lat0)*np.cos(ph)*np.cos(dl))
+  def inv(x,y):
+   x=np.asarray(x);y=np.asarray(y);rho=np.hypot(x,y);rr=np.where(rho==0,1,rho);c=2*np.arcsin(np.clip(rho/(2*R),0,1));sc=np.sin(c);cc=np.cos(c);ph=np.arcsin(np.clip(cc*math.sin(lat0)+y*sc*math.cos(lat0)/rr,-1,1));la=lon0+np.arctan2(x*sc,rho*math.cos(lat0)*cc-y*math.sin(lat0)*sc);ph=np.where(rho==0,lat0,ph);la=np.where(rho==0,lon0,la);return np.rad2deg(ph),np.rad2deg(la)
+  XY={k:fwd(p,l) for k,(w,p,l) in D.items()}; ax=np.concatenate([z[0] for z in XY.values()]);ay=np.concatenate([z[1] for z in XY.values()])
+  xmin=math.floor(ax.min()/H)*H-10;xmax=math.ceil(ax.max()/H)*H+10;ymin=math.floor(ay.min()/H)*H-10;ymax=math.ceil(ay.max()/H)*H+10
+  nx=round((xmax-xmin)/H);ny=round((ymax-ymin)/H);xc=xmin+(np.arange(nx)+.5)*H;yc=ymin+(np.arange(ny)+.5)*H
+  def binmass(k):
+   w,p,l=D[k];x,y=XY[k];ix=np.floor((x-xmin)/H).astype(int);iy=np.floor((y-ymin)/H).astype(int);assert ix.min()>=2 and ix.max()<=nx-3 and iy.min()>=2 and iy.max()<=ny-3;a=np.zeros((ny,nx));np.add.at(a,(iy,ix),w);return a/a.sum()
+  def axisconv(a,axis):
+   pad=[(0,0),(0,0)];pad[axis]=(2,2);return np.apply_along_axis(lambda q:np.convolve(q,K,mode='valid'),axis,np.pad(a,pad))
+  def smooth(a):
+   a=axisconv(axisconv(a,1),0);return a/a.sum()
+  G={k:smooth(binmass(k)) for k in D};P={f:sum(G[f,s] for s in SEEDS)/5 for f in 'MG'}
+  def centroid(a):
+   x=float(<email>(axis=0));y=float(<email>(axis=1));p,l=inv(x,y);return float(p),float(l),x,y
+  def mode(a):
+   iy,ix=np.unravel_index(np.argmax(a),a.shape);p,l=inv(xc[ix],yc[iy]);return float(p),float(l),float(xc[ix]),float(yc[iy]),float(a[iy,ix]),int(ix),int(iy)
+  def distkm(a,b):return gc_nm(a,b)*KM_PER_NM
+  def hpd(a,q):
+   z=np.sort(a.ravel())[::-1];n=int(np.searchsorted(np.cumsum(z),q)+1);return n*25,n,float(z[n-1]),float(z[:n].sum())
+  def comp(a,b):
+   ov=float(np.minimum(a,b).sum());tv=float(np.abs(a-b).sum()/2);m=(a+b)/2
+   def kl(p):
+    ok=p>0;return float(np.sum(p[ok]*np.log(p[ok]/m[ok])))
+   return ov,tv,(kl(a)+kl(b))/2
+  print('\nBASIS R',R,'origin',math.degrees(lat0),math.degrees(lon0),'support',ax.min(),ax.max(),ay.min(),ay.max(),'edges',xmin,xmax,ymin,ymax,'shape',ny,nx,'kernel',K.sum())
+  print('POOLED')
+  for f in 'MG':print(f,'cent',centroid(P[f]),'mode',mode(P[f]),'hpd',{q:hpd(P[f],q) for q in [.5,.9,.95,.99]})
+  print('COMPARE',comp(P['M'],P['G']),'cent_km',distkm(centroid(P['M']),centroid(P['G'])),'cent_bearing',bearing(centroid(P['M']),centroid(P['G'])),'mode_km',distkm(mode(P['M']),mode(P['G'])))
+  print('\nSEEDS')
+  for s in SEEDS:
+   sm=json.loads((root('M',s)/f'seed-{s}/summary.json').read_text());sg=json.loads((root('G',s)/f'seed-{s}/summary.json').read_text());
+   print(s,'centM',centroid(G['M',s])[:2],'centG',centroid(G['G',s])[:2],'shiftkm',distkm(centroid(G['M',s]),centroid(G['G',s])),'bearing',bearing(centroid(G['M',s]),centroid(G['G',s])),'comp',comp(G['M',s],G['G',s]),'ESS',sm['posterior_ess'],sg['posterior_ess'],'minTESS',sm['minimum_tempered_ess'],sg['minimum_tempered_ess'],'acc',sm['minimum_mutation_acceptance'],sg['minimum_mutation_acceptance'],'logZ',sm['log_evidence'],sg['log_evidence'],'dlogZ',sg['log_evidence']-sm['log_evidence'])
+  print('\nRANGES')
+  for f in 'MG':
+   ss=[json.loads((root(f,s)/f'seed-{s}/summary.json').read_text()) for s in SEEDS]
+   for fld in ['posterior_ess','minimum_tempered_ess','minimum_mutation_acceptance','log_evidence']:
+    z=[x[fld] for x in ss];print(f,fld,min(z),max(z),'spread',max(z)-min(z))
+  print('\nWITHIN')
+  for f in 'MG':
+   tv=[];js=[];cd=[]
+   for i,s in enumerate(SEEDS):
+    for t in SEEDS[i+1:]:
+     x=comp(G[f,s],G[f,t]);tv.append(x[1]);js.append(x[2]);cd.append(distkm(centroid(G[f,s]),centroid(G[f,t])))
+   print(f,'pairTV',min(tv),max(tv),'pairJS',min(js),max(js),'pairCentKm',min(cd),max(cd))
+   z=[]
+   for s in SEEDS:z.append(comp(G[f,s],P[f])[1])
+   print(f,'seed_pool_TV',min(z),max(z),z)
+  print('\nLOO')
+  for f in 'MG':
+   print(f,'FULL',{q:hpd(P[f],q)[0] for q in [.5,.9,.95,.99]})
+   for omit in SEEDS:
+    a=sum(G[f,s] for s in SEEDS if s"'!=omit)/4
+    print(f,omit,'"'areas',{q:hpd(a,q)[0] for q in [.5,.9,.95,.99]},'fullcomp',comp(a,P[f]),'centkm',distkm(centroid(a),centroid(P[f])))
+  print('\nCOMMON LOO DELTAS')
+  for omit in SEEDS:
+   m=sum(G['M',s] for s in SEEDS if s"'!=omit)/4;g=sum(G['"'G',s] for s in SEEDS if s"'!=omit)/4
+   print(omit,'"'areas',{q:hpd(g,q)[0]-hpd(m,q)[0] for q in [.5,.9,.95,.99]},'comp',comp(m,g),'centkm',distkm(centroid(m),centroid(g)),'bearing',bearing(centroid(m),centroid(g)),'modekm',distkm(mode(m),mode(g)))
+  print('\nSEED HPD DELTAS')
+  for s in SEEDS:print(s,{q:(hpd(G['M',s],q)[0],hpd(G['G',s],q)[0],hpd(G['G',s],q)[0]-hpd(G['M',s],q)[0]) for q in [.5,.9,.95,.99]})
+  PY
+    DIRECT (-36.4178595308077, 89.47990883621333) (-36.41981139491293, 89.47646654042829) distance_nm 0.20345420049845728 km 0.3767971793231429 bearing 234.82887163346376
+    CLAIM_ERRORS_DEG 2.984279490192421e-13 1.0271321571053704e-08 7.105427357601002e-14 9.789289379114052e-09 distance_delta_nm 0.0001542004984572687 bearing_delta 0.028871633463751323
+
+    BASIS R 6371.00038 origin -36.42029692542345 89.48103865748956 support -347.620060315924 125.66721638809729 -252.5451922380399 114.50564447208161 edges -360.0 140.0 -265.0 125.0 shape 78 100 kernel 0.9999999999999999
+    POOLED
+    M cent (-36.419355734363975, 89.4827398079971, 0.15221523173626358, 0.10465433548000336) mode (-36.26265275640554, 89.7319923663858, 22.5, 17.5, 0.008432174476195615, 76, 56) hpd {0.5: (2000, 80, 0.004399966344224489, 0.5012882121344837), 0.9: (6625, 265, 0.0008912713942878885, 0.9008829443360553), 0.95: (8600, 344, 0.0004260830087597984, 0.9503821142630156), 0.99: (13150, 526, 8.87108210367519e-05, 0.9900154126279259)}
+    G cent (-36.42123125357015, 89.4793120395727, -0.1544902686825823, -0.1038939379591156) mode (-36.26265275640554, 89.7319923663858, 22.5, 17.5, 0.00859582911940426, 76, 56) hpd {0.5: (2025, 81, 0.004332732972745683, 0.5042902465335255), 0.9: (6600, 264, 0.0008840718858747126, 0.9007107365811573), 0.95: (8550, 342, 0.00042834812700744433, 0.9501030786747324), 0.99: (13075, 523, 8.906242770280966e-05, 0.9900526593081163)}
+    Traceback (most recent call last):
+      File "<stdin>", line 62, in <module>
+      File "<stdin>", line 51, in distkm
+      File "<stdin>", line 20, in gc_nm
+    ValueError: too many values to unpack (expected 2)
+    exit 1
+
+── Error ───────────────────────────────────────────────────
+  Thread interrupted because the host daemon disconnected
+  Please retry the thread to continue.

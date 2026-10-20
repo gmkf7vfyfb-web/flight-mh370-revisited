@@ -1,0 +1,14 @@
+{
+  "declared_utc": "2026-09-08T12:14:14.941293+00:00",
+  "request": "synthetic-generating-request.json",
+  "seed": 37091130,
+  "purpose": "Flexible model-consistent flight fixture declared before generation or recovery. Four direction and two Mach/two altitude changes.",
+  "withheld_inputs": [
+    "generating request",
+    "later true states",
+    "true BFO bias"
+  ],
+  "inference_inputs": "Synthetic noisy BTO/BFO, stated radar/model priors and environmental inputs only.",
+  "truth_must_not_select_proposals": true,
+  "scope": "A future focused flight-recovery control; no generation or inference has run yet."
+}

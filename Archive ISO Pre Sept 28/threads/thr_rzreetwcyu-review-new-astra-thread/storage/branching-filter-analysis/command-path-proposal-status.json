@@ -1,0 +1,51 @@
+{
+  "status": "not_integrated",
+  "updated_utc": "2026-09-09T19:35:18.117523+00:00",
+  "checkout": "/tmp/mh370-cruise-command-proposal",
+  "tests": {
+    "estimator": 64,
+    "particle_filter": 72
+  },
+  "default_control_configuration": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-initial-proposal-prior-control/resolved-config.json",
+  "default_control_reference": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-initial-proposal-prior-control",
+  "default_control_output": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/command-path-default-control",
+  "planned_fixture_indices": [
+    0,
+    2,
+    4,
+    6
+  ],
+  "planned_candidates_per_run": 20000,
+  "planned_independent_replicates": 2,
+  "planned_seeds": [
+    37107900,
+    37107901,
+    37107904,
+    37107905,
+    37107908,
+    37107909,
+    37107912,
+    37107913
+  ],
+  "numerical_attempts": [],
+  "executable": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/command-path-proposal-executable",
+  "executable_sha256": "07c4a95537258213913ba915e32e5bbd54b2794803bfbd834118190354690b33",
+  "archive_sha256": "d239ef56b5618338dbab2671d729986ae2dae33beaf5d284fa16000d892c7d48",
+  "scientific_source_sha256": "937a4ce20331d35d47876169b3fa76c05dde051286d967734f33d4c2edde242e",
+  "default_identity": {
+    "posterior.csv": true,
+    "trajectory-examples.json": true,
+    "log_evidence": true
+  },
+  "default_control_elapsed_seconds": 5.010746982996352,
+  "pilot_status_file": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-command-path-status.json",
+  "pilot_design_sha256": "075c85285d0b6194600709991a08f360488ac5a46741448755b1852caf1e1c14",
+  "pilot_driver_pid": 315786,
+  "pilot_result_summary_sha256": "df40775e27edad796985317cf3152650a1a73aa7215ad9bbad95504829c9e2e9",
+  "larger_pilot_status_file": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-command-path-larger-status.json",
+  "larger_driver_pid": 317139,
+  "decision_utc": "2026-09-09T19:28:45.709233+00:00",
+  "reason": "Same four 100k pairs: median CDF gaps18.09/18.64pp vs original11.52/10.55pp. Hardfixture06 pooled truth support improves to.0574/.0628, but general numerical stability/variance benefit is not established. Keep frozen results; canonical proposal unchanged.",
+  "checkout_removed": true,
+  "checkout_cleanup_record": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/command-path-checkout-cleanup.json"
+}

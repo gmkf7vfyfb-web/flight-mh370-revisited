@@ -1,0 +1,82 @@
+{
+  "checkpoint_utc": "2014-03-08T00:10:59Z",
+  "remaining_usable_fuel_kg": [
+    {
+      "exhaustion_condition": "00:15\u201300:19 UTC",
+      "seconds_after_checkpoint": [
+        241,
+        481
+      ],
+      "full_declared_proxy_envelope": [
+        166.03113960539054,
+        1922.7270335172705
+      ],
+      "level_lrc_table_with_10_percent_flow_interval": [
+        303.8930445189316,
+        843.5396398177995
+      ]
+    },
+    {
+      "exhaustion_condition": "00:17:30 +/-30 seconds",
+      "seconds_after_checkpoint": [
+        361,
+        421
+      ],
+      "full_declared_proxy_envelope": [
+        248.7624726090768,
+        1681.794037953605
+      ],
+      "level_lrc_table_with_10_percent_flow_interval": [
+        455.4075561650803,
+        738.1057979203981
+      ]
+    },
+    {
+      "exhaustion_condition": "00:17:30 +/-60 seconds",
+      "seconds_after_checkpoint": [
+        331,
+        451
+      ],
+      "full_declared_proxy_envelope": [
+        228.07588397974388,
+        1802.221509610959
+      ],
+      "level_lrc_table_with_10_percent_flow_interval": [
+        417.5165481455657,
+        790.8152045113759
+      ]
+    },
+    {
+      "exhaustion_condition": "00:17:30 +/-120 seconds",
+      "seconds_after_checkpoint": [
+        271,
+        511
+      ],
+      "full_declared_proxy_envelope": [
+        186.7102177809267,
+        2043.3106602602788
+      ],
+      "level_lrc_table_with_10_percent_flow_interval": [
+        341.75929412057144,
+        896.2791081247153
+      ]
+    },
+    {
+      "exhaustion_condition": "00:17:30 +/-240 seconds",
+      "seconds_after_checkpoint": [
+        151,
+        631
+      ],
+      "full_declared_proxy_envelope": [
+        104.00892113873032,
+        2526.427208502072
+      ],
+      "level_lrc_table_with_10_percent_flow_interval": [
+        190.34378378870528,
+        1107.3873971010134
+      ]
+    }
+  ],
+  "method": "Independent inverse mass balance dM/dt=-(a+bM), bounding a and b separately across the four public Martin rows and multiplier limits. Shared quantity/rate uncertainty remains in the flight estimator.",
+  "limitation": "Outer feasibility envelopes under declared fuel-model and timing conditions, not confidence intervals. The LRC case additionally assumes operation within the table family. Bounds do not assert all future operating combinations are reachable from each sampled state."
+}

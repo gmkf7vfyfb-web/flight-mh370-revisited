@@ -1,0 +1,1711 @@
+--- page 1 ---
+        Docket No. SA-537 
+ 
+        Exhibit No. 13-B 
+ 
+ 
+ 
+ 
+ 
+NATIONAL TRANSPORTATION SAFETY BOARD 
+ 
+Washington, D.C. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Aircraft Performance Group Study 
+  
+ 
+ 
+ 
+(23 Pages) 
+  
+ 
+--- page 2 ---
+December 6, 2013 
+ 
+Aircraft Performance Group Study 
+ 
+I. ACCIDENT 
+ 
+ Description:  Impact with Sea Wall during Final Approach to Runway 28L 
+ Location: San Francisco International Airport (KSFO), San Francisco, CA 
+ Date: July 6, 2013 
+ Time: 1128 Pacific Daylight Time (PDT) 
+ Aircraft: Boeing 777-200ER, HL7742 
+ Operator: Asiana Airlines 
+ NTSB Number: DCA13MA120   
+ 
+ 
+II. AIRCRAFT PERFORMANCE GROUP 
+ 
+Chairman:  Kevin J. Renze, Ph.D. 
+Vehicle Performance Division, RE-60 
+   National Transportation Safety Board (NTSB) 
+ 
+Members Robert Stoney 
+Federal Aviation Administration (FAA) Test Pilot 
+Seattle Aircraft Certification Office (ACO) 
+ 
+Dae Young Lee 
+Investigator 
+  Aviation and Railway Accident Investigation Board (ARAIB) 
+  Republic of Korea 
+ 
+Sang Yoon Lee 
+Flight Operations Quality Assurance (FOQA) Manager 
+Asiana Airlines 
+ 
+  Paul J. Bolds-Moorehead  
+  777 and 787 Model Lead, Stability & Control  
+Aerodynamics Fleet Support 
+  The Boeing Company 
+ 
+1.0 INTRODUCTION  
+On July 6, 2013 at 11:28 am Pacific daylight time, a Boeing 777-200ER, registration HL7742, 
+operated by Asiana Airlines as flight 214, struck the seawall short of runway 28L at San 
+Francisco International Airport. The airplane was destroyed by impact forces and fire. Three 
+of the 291 passengers were fatally injured. The flight was a regularly scheduled passenger 
+flight from Incheon International Airport (RKSI), Seoul, Korea, and was operated under the 
+provisions of 14 Code of Federal Regulations  Part 129. Visual meteorological conditions 
+prevailed at the time of the accident. 
+The event flight time alignment between the Co ckpit Voice Recorder (CVR), Flight Data 
+Recorder (FDR), Air Traffic Control (ATC) communication recordings, ATC Airport 
+Surveillance Radar (ASR), and ATC Automatic Dependent Surveillance-Broadcast (ADS-B) 
+data was determined. The flight 214 weight and balance records and component weight 
+buildup was examined. A comparison of the maximum landing gear and flaps extended 
+--- page 3 ---
+2 
+speed placards to the documented flight 214 landing gear and flap configurations indicates 
+no landing gear or flap extension placard exceedances. The B777-200ER low speed amber 
+band parameter time history was reconstructed and compared to available FDR data for 
+minimum maneuvering speed during the flight 214 approach and CVR data for an EICAS 
+caution alert event and a stick shaker activation event. Finally, calculated pilot eye height, 
+calculated Precision Approach Path Indicator (PAPI) guidance, and select FDR parameters 
+were plotted to visualize the airplane flight path and energy state as a function of Asiana 
+flight 214 distance from the runway 28L displaced threshold and time prior to impact. 
+ 
+The NTSB and the Boeing calculated minimum maneuver speed profiles compare favorably 
+(within about 1 to 4 knots) with the sparse Flight Management Computer (FMC) minimum 
+maneuver speed data recorded on the FDR. In addition, the calculated timing results for the 
+expected Engine Indicating and Crew Alerting System (EICAS) caution alert AIRSPEED 
+LOW and the stick shaker activation events appear to match the available CVR data within 
+expected timing tolerances for each event.  
+ 
+ 
+2.0 TECHNICAL METHODS 
+ 
+The data sources and technical methods used in this study are described in this section. 
+ 
+ 
+2.1 Time Alignment 
+ 
+The CVR, FDR, ASR radar, ADS-B, ATC communications recordings, ACARS, and video 
+surveillance camera data are each recorded as a function of time. However, the “timestamp” 
+value associated with these data is not necessarily  explicit. Moreover, data from two or more 
+independent sources that record explicit timestamp information are generally not perfectly 
+synchronized to a common or desired reference time basis. In particular, the CVR and the 
+FDR do not explicitly record a time value with each respective event or data sample. In 
+contrast, each record in a radar data log, ATC transcript, many security video frames, and 
+ACARS entry is associated with an explicit time value, but the time reference used for each 
+may not be synchronized to a common reference time basis. 
+ 
+The time alignment process yields one or more equations that correlate recorded information 
+from independent sources to a reference clock, thereby defining the accident event sequence 
+and elapsed time between events. The reference clock selected is generally the ATC radar or 
+ADS-B data time. In this study the reference clock was based on the ADS-B data time. 
+ 
+The ability to correlate information between any two independent sources is dependent on 
+the existence of at least one common event between the two sources. In practice, the FDR 
+discrete parameters that indicate the activation of the Captain’s or First Officer’s VHF radio 
+transmit keys provide common event sources because the begin- and end-keying events are 
+typically recorded on the CVR and the FDR. The communication that occurs between the 
+begin- and end-keying event is typically recorded on both the CVR and the ATC recordings. 
+ 
+ 
+2.1.1 Aircraft Recorder Data 
+ 
+The CVR transcript data and the FDR data for the accident flight are documented in the 
+Cockpit Voice Recorder Factual Report and Transcript and the Flight Data Recorder Group 
+Chairman’s Factual Report, respectively.  
+ 
+ 
+ 
+--- page 4 ---
+3 
+2.1.2 CVR and FDR Alignment 
+ 
+Common events on the CVR and FDR were identified and used to define the CVR/FDR time 
+alignment constraints. Each FDR common event has an associated begin and end time value 
+due to the discrete nature of the FDR data. Corresponding CVR common events are 
+associated with a CVR time value which must be precisely measured. The points on a 
+common event plot of FDR time versus CVR time define the constraints. A curve that 
+satisfies all the constraints defines a mapping from CVR time to FDR time. 
+ 
+ 
+2.1.3 FDR and ATC Alignment 
+ 
+The existence of one or more common events between the ATC transcript and the CVR and 
+the CVR/FDR time alignment permits the FDR data to be aligned to the ATC transcript. Time 
+alignment between the ATC transcript and the FDR data is accomplished by choosing a 
+specific ATC clock time to equal a specific FDR time. 
+ 
+ 
+2.1.4 FDR and Radar/ADS-B Data Alignment 
+ 
+The FDR and ADS-B data were time aligned using the FDR pressure altitude and the ADS-B 
+altitude information. Given local barometric pressure and knowledge of the pressure 
+reference used on the aircraft, the FDR pressure altitude was corrected for atmospheric 
+deviation from standard day conditions. The ADS-B and FDR time alignment was then 
+accomplished by 1) creating an overlay plot of the pressure altitude versus time from each 
+source, 2) adding a +/-50 foot error band to the ADS-B altitude data, and 3) time shifting the 
+ADS-B data with respect to the corrected FDR altitude data to a point where the FDR altitude 
+curve was bounded by the +/-50 foot error band throughout the time period of interest. 
+ 
+ 
+2.1.5 FDR and Security Video Alignment 
+ 
+Security camera video recorded at the KFSO Security Operations Center and other video 
+sources documented in the Attachments 11-21 of the Aircraft Performance Group Crash Site 
+Factual Report have not been explicitly time aligned to date. 
+ 
+ 
+2.2 Airplane Weight and Balance 
+ 
+The accident aircraft weight was estimated by itemizing the aircraft component weights. 
+Component weights include the aircraft empty weight, the crew weights including nominal 
+crew baggage, passenger weights including carry-on baggage and personal effects, cargo, 
+and fuel. The component weight buildup approach sums the component weights to arrive at a 
+weight estimate for the event condition, accounting for weight changes from a reference 
+condition. The HL7742 reference condition is the aircraft weight just prior to flight 214 engine 
+start. Given the component weights and locations, the aircraft moment balance can be 
+calculated. 
+ 
+The longitudinal center of gravity position in  percent Mean Aerodynamic Chord (%MAC) and 
+Index Units (I.U.) can be calculated using the following equations, given the moment arm in 
+inches and the weight (for the latter case): 
+ 
+%MAC       = { [ARM (Inch) - 1174.5] / 278.5 } x 100 
+ 
+Index Units = { WT (lb) x [ARM (Inch) - 1258] } / 400,000 + 50 
+--- page 5 ---
+4 
+2.2.1 Operating Empty Weight 
+ 
+According to Asiana Airlines weight and balance record AAR-QA-529-02, the HL7742 basic 
+empty weight on September 6, 2007 was 309,752.47 pounds with the center of gravity 
+located at 1232.42 inches aft of the referenc e datum. Asiana Airlines computes individual 
+aircraft weights in accordance with their weight and balance control program. The flight 214 
+load sheet reflects a specific aircraft operating empty weight of 325,008 pounds, which 
+includes crew weights for 2 flight crewmem bers, 12 flight attendants, and standard operating 
+items. 
+ 
+ 
+2.2.2 Crew and Crew Baggage Weights 
+ 
+Asiana Airlines uses crew weights (including bags) of 210 pounds per flight crewmember and 
+165 pounds per flight attendant, consistent with the guidance published in their weight and 
+balance control program. 
+ 
+ 
+2.2.3 Passenger Weights 
+ 
+The Asiana Airlines average weight method for international flights accounts for nominal 
+weights of 75 kg (165.3 pounds) per adult, 37 kg (81.6 pounds) per child (between 2 years 
+and less than 13 years of age), and 10 kg (22 pounds) per infant (less than 24 months old). 
+The average weight method includes a 22 pound-per-passenger allowance for carry-on 
+baggage and personal effects.  
+ 
+The flight 214 load sheet reflects a total of 291 passengers (260 adults, 30 children, and 1 
+infant) and 2 reserve flight crewmembers on board. The total weight of 45,790 pounds for 
+293 persons is based on 262 adults (262 x 75 = 19,650 kg), 30 children (30 x 37 = 1,110 kg), 
+and 1 infant (1 x 10 = 10 kg) which yields 20,770 kg (45,790 pounds). 
+ 
+ 
+2.2.4 Fuel Weight 
+ 
+According to the flight 214 load sheet, the planned takeoff fuel for flight 214 was 193,200 
+pounds. Asiana Airlines assumes a 1,000 pound nominal taxi fuel burn for the Boeing 777, 
+yielding a ramp weight of 194,200 pounds. 
+ 
+Prior to flight 214, HL7742 completed flight OZ111 from Kansai International Airport (RJBB) 
+to Incheon and arrived with 14,100 pounds of fuel remaining based on ACARS data. A fuel 
+receipt record documented in the Aircraft Performance Group Accident Site Factual Report 
+shows that a total of 27,685 gallons of fuel (density 6.58 pounds per gallon) were uploaded in 
+Incheon prior to the flight 214 departure. Based on the reported fuel density, HL7742 would 
+have had 196,267 pounds of fuel (remaining fuel plus fuel added is 14,100 + 27685 x 6.58) 
+available at flight 214 engine start for nominal conditions. The FDR data at engine start 
+indicate 62,200, 62,500, and 69,700 pounds of fuel in the left wing tank, right wing tank, and 
+center tank, respectively, for a total ramp fuel load of 194,400 pounds.  
+ 
+During the post-accident airplane recovery effort, the fuelers reported that the center fuel 
+tank was empty, the number 1 fuel tank indicated between 5,000 and 6,000 pounds, and the 
+number 2 fuel tank showed about 8,000 pounds. The fuelers noted that the airplane was not 
+in a wings level attitude when these fuel values were measured. 
+ 
+ 
+--- page 6 ---
+5 
+2.2.5 Cargo Weight 
+ 
+Asiana Airlines accounts for actual weight s for cargo and checked baggage. For flight 214 
+the load sheet documents 304 checked bags that weighed 10,245 pounds (33.7 pounds per 
+bag average) and 12,461 pounds of freight. The total cargo compartment load of 22,706 
+pounds (baggage and freight) was distributed as follows: 3,219 pounds in compartment 1; 
+7,040 pounds in compartment 2; 1,903 pounds in compartment 3; 10,435 pounds in 
+compartment 4; and 111 pounds in compartment 5.  
+ 
+ 
+2.2.6 Boeing Estimate of Airplane Weight and Center of Gravity Position during the Flight 
+ 
+At NTSB request Boeing Engineering estimated the flight 214 weight and balance based on 
+the following fuel burn assumptions during the flight: 
+ 
+a) Burn fuel from the center tanks until the center tanks are empty. In practice, some fuel 
+remains in the center tanks at the time that fuel is switched to burn from the main 
+tanks. However, the remaining center tank fuel is scavenged to the main tanks while 
+burning from the mains. Fuel remaining in the center tanks when the tanks are 
+switched has no effect on the time of arrival center of gravity calculation because that 
+fuel would have been completely scavenged from the center tanks by the time the 
+airplane lands.  
+ 
+b) Burn fuel from the main tanks for the remainder of the flight. 
+ 
+c) Center of gravity calculations equated to a flaps up configuration with landing gear 
+retracted. Extending flaps and landing gear has a negligible net effect because the 
+combined flap and landing gear center of gravity change is small. It is on the order of 
+0.5 %MAC in the aft direction.  
+ 
+d)  Fuel density is 6.8 pounds/gallon. 
+ 
+ 
+2.3 Speed Tape Parameter Calculations (Low Speed Amber Band) 
+ 
+Boeing provided the NTSB with the technical specifications required to reconstruct the speed 
+tape time history of low speed amber band information expected to be presented to the flight 
+crewmembers during the approach. The top of amber band speed is set to the Maneuver 
+Margin above Stick Shaker (V SSNG) value, which can be equated to a normal load factor 
+maneuvering capability of 1.3 g. The minimum speed limit (V MIN) is set to the computed Stick 
+Shaker Speed (V SS) value, which corresponds to the junction between the bottom of the 
+amber band and the top of the red dashed line where stick shaker is scheduled to activate. 
+Boeing and NTSB engineers independently implem ented the relevant speed tape parameter 
+technical specifications1 using the available Asiana flight 214 FDR data. 
+ 
+For the 777-200ER, the calculated stick shaker speed is a function of the following variables: 
+angle of attack, Mach number, calibrated airspeed, slat position, flap position, landing gear 
+position, anti-ice configuration, speedbrake position, and engine thrust. Calculated stick 
+shaker speed values are filtered prior to presentation to the flight crewmembers on the speed 
+tape. For calculation purposes, if the slats are in-between detents, they are assumed to be in 
+the lesser (less extended) detent. In contrast, if the flaps are in-between detents, they are 
+assumed to be in the higher (more extended) detent. 
+                                                 
+1 The B777 speed tape technical specifications are B oeing proprietary data and are not available for public 
+release. 
+--- page 7 ---
+6 
+Stick shaker is activated if the angle of attack equals or exceeds the calculated stick shaker 
+trip point angle of attack (AOA SS_TRIP) and the airplane Air Mode Logic yields a value of 
+Airplane In Air. The computed value of unfiltered stick shaker speed (VSS_UNFILTERED) is latched 
+if the angle of attack equals or exceeds AOA SS_TRIP and the last calculated value of 
+VSS_UNFILTERED equals or exceeds the current calibrated airspeed. The V SS_UNFILTERED value will 
+remain latched until either the calibrated airspeed exceeds V SS_UNFILTERED or the angle of 
+attack decreases below AOA SS_TRIP. If either of these unlatching conditions occurs, a new 
+value of VSS_UNFILTERED is calculated. 
+ 
+The top of amber band speed is set to the calculated Maneuver Margin above Stick Shaker 
+value and is a function of V SS_UNFILTERED, body-axis longitudinal acceleration, and body-axis 
+normal acceleration. Calculated V SSNG values are filtered prior to presentation to the flight 
+crewmembers on the speed tape. 
+ 
+ 
+2.4 Maximum Gear and Flaps Extended Speeds 
+ 
+For barometric altitudes below 36,500 feet, the Maximum Gear Extended Speed (V LE) is 270 
+knots. The Maximum Flaps Extended Speed (VFE) schedule is shown in Table 1. 
+ 
+Table 1: Boeing 777-200ER Maximum  
+Flaps Extended Speed, VFE 
+ 
+Flap Position Speed, knots 
+UP 255 
+5 235 
+15 215 
+20 195 
+25 185 
+30 170 
+ 
+ 
+ 
+2.5 Pilot Eye Height and Precision Approach Path Indicator (PAPI) Guidance 
+ 
+The pilot eye height parameter calculated by Boeing Engineering is based on airplane 
+geometric altitude at the center of gravity with pitch and roll attitude adjustments to account 
+for the pilot eye station. For calculation purposes, the pilot eye station is located 88.5 feet 
+forward of the center of gravity and 3.33 feet above the center of gravity.  
+ 
+The Aircraft Performance Group Crash Site Factual Report documents the necessary data 
+and calculations to determine the PAPI beam pos ition relative to the runway 28L displaced 
+threshold. For this study, the PAPI beam angle (2.98°) and intermediate deviation angles 
+(average values of ±0.185°) were based on the applicable July 2, 2013 FAA flight inspection 
+report results. The PAPI maximum deviation angles (±0.583°) were based on the FAA 
+guidance for Height Group 4 aircraft (Table 7-1 from AC 150/5340-30G). The longitudinal 
+distance from the PAPI installation to the runway 28L displaced threshold is 1,366.5 feet. 
+ 
+ 
+ 
+--- page 8 ---
+7 
+3.0 RESULTS 
+ 
+ 
+3.1 Time Alignment 
+ 
+The time alignment between the FDR data and ADS-B data is summarized in Table 2 below. 
+The Local Time value is based on the ADS-B data time code generated by a GPS clock. 
+ 
+Table 2: Time alignment mapping 
+Local Time UTC Time FDR Time 
+11:27:49.000 18:27:49.000 97911.657 
+  
+The CVR to FDR time alignment solution was found to be linear over the approximately 10 
+minute length of the CVR recording selected. The linear solution required to satisfy the 
+common event CVR/FDR constraints listed in Table 3 is presented in Table 4, where the time  
+ 
+Table 3: CVR/FDR common event constraints 
+CVR Time FDR Low FDR High Event 
+01:49:57.664 97259.012 97260.012 begin transmission 14 
+01:50:02.507 97263.012 97264.012 end transmission 14 
+01:50:05.787 97266.012 97268.012 begin transmission 15 
+01:50:07.144 97268.012 97270.012 end transmission 15 
+01:50:15.035 97276.012 97277.012 begin transmission 16 
+01:50:20.883 97282.012 97283.012 end transmission 16 
+01:50:26.849 97287.012 97289.012 begin transmission 17 
+01:50:28.139 97289.012 97291.012 end transmission 17 
+01:52:29.493 97410.012 97411.012 begin transmission 18 
+01:52:32.940 97414.012 97415.012 end transmission 18 
+01:54:00.987 97502.012 97503.012 begin transmission 19 
+01:54:04.250 97505.012 97506.012 end transmission 19 
+01:54:56.170 97556.012 97558.012 begin transmission 20 
+01:54:57.066 97558.012 97560.012 end transmission 20 
+01:55:02.646 97563.012 97564.012 begin transmission 21 
+01:55:06.227 97567.012 97568.012 end transmission 21 
+01:56:23.608 97645.012 97646.012 begin transmission 22 
+01:56:28.105 97649.012 97650.012 end transmission 22 
+01:58:39.399 97780.012 97781.012 begin transmission 23 
+01:58:41.679 97783.012 97784.012 end transmission 23 
+01:58:55.986 97797.012 97798.012 begin transmission 24 
+01:59:00.833 97802.012 97803.012 end transmission 24 
+01:59:59.470 97860.012 97861.012 begin transmission 25 
+02:00:01.679 97862.012 97863.012 end transmission 25 
+02:00:10.722 97871.012 97873.012 begin transmission 26 
+02:00:12.402 97873.012 97875.012 end transmission 26 
+ 
+relationship is defined as  
+ 
+CVR Time = (slope)(FDR Time) + intercept.    
+--- page 9 ---
+8 
+The uncertainty on the time alignment solution is less than ±0.1 seconds. In Table 4, CVR 
+Time in HH:MM:SS format is converted to total seconds (e.g., 01:56:44.276 = 7004.276 
+seconds).  
+ 
+Table 4: Solution to flight 214 CVR/FDR common event constraints 
+CVR Time FDR Time, 
+Seconds 
+Slope 
+- 
+Intercept, 
+Seconds HH:MM:SS Seconds
+01:56:44.276 7004.276 97665.680 1.00 -90661.404 
+ 
+ 
+3.2 Airplane Weight and Balance 
+ 
+The flight 214 FDR data indicated a ramp weight of 587,840 pounds, a takeoff weight of 
+586,560 pounds and a KSFO arrival weight of 423,360 pounds, for a fuel burn of about 
+163,200 pounds (24,358 gallons). The loading schedule indicated HL7742 weighed 586,703 
+pounds at takeoff of which 193,200 pounds (about 28,836 gallons) was fuel.  
+ 
+The Boeing Engineering assessment of flight 214 weight and balance in Figure 1 indicates 
+an estimated time of arrival weight of about 421,200 pounds and a center of gravity position 
+of 28.5 %MAC. The assumed fuel burn schedule maintained the airplane weight and center 
+of gravity within the approved weight and balance envelope throughout the flight. 
+ 
+Based on the flight 214 load sheet, the center of gravity would have been located at 28.4 
+%MAC at takeoff. The FDR arrival weight of 423,360 pounds was used with the zero fuel 
+weight to estimate that 29,857 pounds (4,456 gallons) of fuel remained at time of arrival. 
+Adding the adjusted wing fuel weight (29,857 pounds) to the adjusted zero fuel weight 
+(393,503 pounds) yields an arrival center of gravity location of 45.65 index units or 28.5 
+%MAC. Flight 214 calculated weight and center of gravity data are summarized in Table 5. 
+ 
+Table 5: Calculated flight 214 center of gravity locations 
+Flight 214 
+Load Sheet 
+Weight 
+(LB) 
+ARM 
+(Inches) 
+Index 
+Units 
+Center of 
+Gravity 
+(%MAC) 
+Zero Fuel Wt.  393,503 1253.79 45.87 28.47 
+Takeoff Wt. 586,703 1253.62 43.60 28.41 
+Landing Wt.  421,204 1253.87 45.65 28.50 
+ 
+ 
+3.3 Speed Tape Parameter Calculations (Low Speed Amber Band) 
+ 
+The NTSB and Boeing calculated speed tape parameter results are compared in Figures 2 
+and 3. The calculated values for the filtered minimum maneuver speed (top of amber band 
+speed), speed for EICAS caution alert AIRSPEED LOW, 2 and filtered stick shaker activation 
+speed are shown for two time periods. The clean wing approach to airplane ground contact 
+time segment is shown in Figure 2. The flaps 30, gear down time period is compared in 
+Figure 3.   
+                                                 
+2 If the airspeed drops below 30 percent of the differ ence between the filtered minimum maneuver speed and the 
+filtered stick shaker activation s peed, an EICAS caution alert is trig gered which illuminates both MASTER 
+CAUTION lights and generates an aural quadruple ch ime, an EICAS text message AIRSPEED LOW, and an 
+airspeed value readout box color change (from white to amber) on the Primary Flight Display (PFD). 
+--- page 10 ---
+9 
+ 
+The Boeing and NTSB amber band parameter calculation results 3 shown in Figures 2–3 are 
+nearly identical. Both calculated minimum maneuver speed profiles compare favorably (within 
+about 1 to 4 knots) with the sparse Flight Management Computer (FMC) minimum maneuver 
+speed data recorded on the FDR. Differences between calculated (NTSB and Boeing) and 
+recorded (flight 214 FDR) minimum maneuver speed parameters are likely due in part to the 
+coarse resolution4 of the FDR angle of attack data (about ±0.352°).  
+ 
+The sensitivity of the speed tape parameter calculations to the FDR combined left and right 
+angle of attack resolution was estimated by adding a constant value of one-half the FDR 
+angle of attack resolution (0.5 times 0.352) to the FDR-based angle of attack input signal at 
+each time step and repeating the minimum maneuver speed calculation. The speed 
+sensitivity to angle of attack results are plotted in Figures 4 and 5 with the added purple line 
+identified as V SSNG_dAOA=+0.175_deg_FILTERED_(NTSB_CALC.). The addition of one-half the angle of 
+attack parameter resolution yields a calculated minimum maneuver speed increase of about 
+1 to 4 knots for the available FDR comparison points. 
+ 
+Although the results are not shown in Figures 2 or 4, Boeing Engineering also reconstructed 
+the V SS_FILTERED and V SSNG_FILTERED values for the earlier flaps-up portion of the descent 
+(including the speed-brakes-up period). The Boeing and NTSB results reportedly differ by 
+less than 1 knot, with the largest difference found during the speedbrake retraction transient. 
+  
+In a separate study, Boeing Engineering used Warning Electronics System (WES) hardware, 
+which calculates the V SS_FILTERED and V SSNG_FILTERED values onboard the airplane, in a 
+laboratory bench test to validate the analytical calculation method outlined in Section 2.3. 
+The Boeing analytical and hardware WES results matched well, with only small differences 
+observed during dynamic conditions. Boeing E ngineering attributed these small differences 
+to filter implementation details and considered them to be insignificant for analytical method 
+validation purposes. 
+ 
+In response to an NTSB request, Boeing Engineering provided a list of EICAS caution alerts 
+that could result in a quadruple chime aural event on the accident airplane. The FDR data 
+and the Boeing and NTSB speed tape parameter reconstruction results are consistent with 
+an EICAS caution alert AIRSPEED LOW at FDR Subframe Reference Number (SRN) 
+97899.6. The CVR data indicate an aural quadruple chime event at FDR SRN 97900.7. A 
+Boeing study found that the time delay between the calculated EICAS caution alert 
+AIRSPEED LOW and the resulting aural quadruple chime on the aircraft should not exceed 
+1.8 seconds. 
+ 
+The FDR data and the Boeing and NTSB speed tape parameter reconstruction results are 
+also consistent with stick shaker activation at FDR SRN 97907.6. The CVR data indicate that 
+an aural stick shaker event began at FDR SRN 97907.8 and continued for at least 2.2 
+seconds. The calculated times for the Boeing and NTSB EICAS caution alert AIRSPEED 
+LOW and expected stick shaker activation in this study are based on zero parameter 
+resolution uncertainty in the applicable FDR parameters.  
+ 
+ 
+                                                 
+3 The Boeing low speed amber band ca lculated results are identified as V SSNG_FILTERED, VLOW, and V SS_FILTERED 
+with respective black, red, and blue lines and matching  color square, circular, and triangular symbols. The NTSB 
+low speed amber band calculated results are identified as V SSNG_FILTERED, VLOW, and V SS_FILTERED with respective 
+magenta, green, and orange lines and matching color square, circular, and triangular symbols. 
+4 The angle of attack resolution on the 256 words per second FDR installed on the accident airplane is 0.3515625 
+degrees. 
+--- page 11 ---
+10 
+3.4 Maximum Gear and Flaps Extended Speeds 
+ 
+A comparison of the maximum landing gear and flaps extended speed placards to the 
+documented flight 214 landing gear and flap configurations is shown in Figures 6 and 7. The 
+data indicate no landing gear or flap extension placard exceedances. However, the B777 
+Landing Attitude Modification (LAM) system  reduced the scheduled flaperon droop in the 
+landing flap configuration for a period of about 40 seconds (ending at about 35 seconds prior 
+to ground impact,  airspeed about 134 knots, altitude about 450 feet agl) while the aircraft 
+was decelerating toward the AFM reference approach speed (VREF).5 
+ 
+ 
+3.5 Pilot Eye Height and Precision Approach Path Indicator (PAPI) Guidance 
+ 
+A profile view of calculated pilot eye height relative to the calculated PAPI beam guidance is 
+shown at the bottom of Figures 8–12 as a function of distance from the runway 28L displaced 
+threshold (in nautical miles) and time prior to impact (in seconds). Each figure also includes 
+FDR parameter time history data for airspeed, Mode Control Panel (MCP) selected speed, 
+autopilot engaged/disengaged status, left and right flight director on/off status, pitch mode, 
+autothrottle mode, left and right engine throttle lever angle, left and right engine N1, and left 
+and right stick shaker. In addition, the FDR sink rate and MCP selected vertical speed 
+parameters are plotted in Figures 8–11. 
+ 
+Flight path and FDR parameters are presented in Figures 8–10 as a function of Asiana flight 
+214 remaining distance and time using altitude scale limits of 2,500; 1,000; and 600 feet; 
+respectively. The FDR pitch attitude and flight director incremental pitch guidance parameters 
+are shown in Figures 11–12 using the 600-foot altitude scale limit format. Recorded control 
+column position (6 parameters) and left and right control column force (2 parameters) are 
+provided in Figure 12. 
+ 
+  
+4.0 SUMMARY 
+ 
+The event flight time alignment between the CVR, FDR, ATC communication recordings, 
+ADS-B, and ASR radar data was determined. Based on the load sheet component weight 
+and balance buildup and the FDR weight parameters, the center of gravity at time of arrival 
+was located at about 28.5 %MAC, near the middle of the envelope. A comparison of the 
+maximum landing gear and flaps extended speed placards to the documented flight 214 
+landing gear and flap configurations indicates no landing gear or flap extension placard 
+exceedances. 
+ 
+The NTSB and the Boeing calculated minimum maneuver speed profiles compare favorably 
+(within about 1 to 4 knots) with the sparse Flight Management Computer (FMC) minimum 
+maneuver speed data recorded on the FDR. In addition, the calculated timing results for the 
+expected EICAS caution alert AIRSPEED LOW and the stick shaker activation events appear 
+to match the available CVR data within expected timing tolerances for each event. Calculated 
+pilot eye height, calculated PAPI guidance, a nd select FDR parameters were plotted to 
+visualize the airplane flight path and energy state as a function of Asiana flight 214 distance 
+from the runway 28L displaced threshold and time prior to impact.  
+                                                 
+5 The LAM system is designed to reduce the likelihood of nose-first contact under certain speed and weight 
+conditions. Landing attitude modification b egins at or slightly faster than V REF and is fully in place at speeds 20 
+knots above VREF. A portion of the approach is commonly flown at V REF+20 as the airplane decelerates toward 
+the approach speed or, for example, with autothrottle off and required wind additives.  
+--- page 12 ---
+Gross Weight (lb x 1000)
+Center of Gravity (% MAC)
+Fuel Burn Schedule
+777-200ERASIANA INCIDENT AT SAN FRANCISCO29 AUG 13G W GeeCALC
+CHECK
+APPD.
+APPD.
+REVISED DATE
+PAGE
+At ZFW:
+393503 lb at 28.47%
+At Landing:
+421204 lb at 28.5%
+At Takeoff:
+586703 lb at 28.41%
+5% 10% 15% 20% 25% 30% 35% 40% 45% 50%
+280
+300
+320
+340
+360
+380
+400
+420
+440
+460
+480
+500
+520
+540
+560
+580
+600
+620
+640
+660
+680
+ 
+FIGURE 1
+11
+--- page 13 ---
+-2000
+-1000
+0
+0
+1
+012345678
+0
+1
+2
+3
+4
+5
+6
+0
+1
+2
+3
+4
+5
+6
+80
+100
+120
+140
+160
+180
+200
+220
+0
+1
+20
+40
+60
+80
+0
+20
+40
+60
+80
+100
+-0.4
+-0.2
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+1.2
+1.4
+-4
+-2
+0
+2
+4
+6
+8
+10
+12
+14
+16
+-10
+0
+10
+20
+30
+-0.8
+-0.6
+-0.4
+-0.2
+0.0
+0
+20
+40
+60
+20
+40
+60
+80
+100
+0
+20
+40
+60
+80
+100
+97250 97300 97350 97400 97450 97500 97550 97600 97650 97700 97750 97800 97850 97900
+0
+1
+0
+2000
+4000
+6000
+8000
+10000
+12000
+                                               NATIONAL TRANSPORTATION SAFETY BOARD
+SAN FRANCISCO INTERNATIONAL AIRPORT (KSFO), SAN FRANCISCO, CA; JULY 6, 2013  [SPEED TAPE CALCULATIONS]
+FIGURE 2: ASIANA AIRLINES BOEING 777-200ER IMPACT WITH SEA WALL AND RUNWAY 28L ON FINAL APPROACH 
+ALTITUDE
+.
+ AltitudeRadioC, 1/2 Hz     AltitudeRadioL, 1/2 Hz     AltitudeRadioR, 1/2 Hz     AltitudePress, 1 Hz
+SELVERTSPEED
+VERTICALSPEED .
+ SELVERTSPEED, 1 Hz     VERTICALSPEED, 1 Hz
+.
+ APEngage, 0=Not_Engaged,1=Engaged, 1 Hz
+.
+ APPitchModes, 0=NA,1=TOGA,2=Alt_Cap,3=GS,4=VS,5=FLCH,6=Flare,7=VNAV,8=FPA,14=Unused,15=Multi_Mode, 1 Hz
+.
+ APRollModes, 0=NA,1=HDG_Hold,2=HDG_Sel,3=TOGA,4=LNAV,5=Loc,6=Rollout,7=Att_Hold,8=Track_Hold,9=Track_Sel,10=BCRS,14=Unused,15=Multi_Mode, 1 Hz
+.
+ ATEngageMode, 0=Invalid,1=AT_Spd,2=AT_Idle,3=AT_Test,4=AT_Hold,5=AT_Thrust,6=AT_Thrust_Ref,7=Mult_Mod, 1 Hz
+SPEED, KNOTS
+.
+ AirspeedComp, 1 Hz     FMCMinManuvSpd, 1/64 Hz     FMCSelRefSpd, 1/64 Hz
+ VSSNG_FILTERED_(BOEING_CALC.),     VLOW_(BOEING_CALC.),     VSS_FILTERED_(BOEING_CALC.)
+ VSSNG_FILTERED_(NTSB_CALC.),         VLOW_(NTSB_CALC.),          VSS_FILTERED_(NTSB_CALC.)
+.
+ StickShakerL, 0=Off,1=On, 1 Hz     StickShakerR, 0=Off,1=On, 1 Hz     SS_(NTSB_CALC.), 0=Off,1=On
+Eng1TLA
+Eng2TLA
+.
+ Eng1TLA, 1 Hz     Eng2TLA, 1 Hz
+Eng1N1
+Eng2N1
+.
+ Eng1N1, 1 Hz     Eng2N1, 1 Hz
+AccelLong
+.
+ AccelLong, 4 Hz
+AccelVert
+.
+ AccelVert, 8 Hz
+AOA
+Pitch
+.
+ AOAIndL, 1 Hz     AOAIndR, 1 Hz     Pitch, 4 Hz
+ElevatorLIB
+ElevatorLOB
+ElevatorRIB
+ElevatorROB
+.
+ ElevatorLIB, 1 Hz     ElevatorLOB, 1 Hz     ElevatorRIB, 1 Hz     ElevatorROB, 1 Hz
+.
+ STALLPROTCMDCPFC, 1 Hz     STALLPROTCMDLPFC, 1 Hz     STALLPROTCMDRPFC, 1 Hz
+SpdBrkHndlC
+SpdBrkHndlL1
+SpdBrkHndlL2
+SpdBrkHndlR
+.
+ SpdBrkHndlC, 1/2 Hz     SpdBrkHndlL1, 1/2 Hz     SpdBrkHndlL2, 1/2 Hz     SpdBrkHndlR, 1/2 Hz
+SlatL1
+SlatL2
+SlatR1
+SlatR2
+.
+ SlatL1, 1/2 Hz     SlatL2, 1/2 Hz     SlatR1, 1/2 Hz     SlatR2, 1/2 Hz
+FLAP TE
+(PERCENT)
+.
+ FlapTEL1, 1/4 Hz     FlapTEL2, 1/4 Hz     FlapTER1, 1/4 Hz     FlapTER2, 1/4 Hz
+DFDR SUBFRAME REFERENCE TIME (SECONDS)
+ GearDnLockNose, 0=NOT_DN_&_LK,1=DN_&_LK, 1 Hz     GearDnLockLMain, 0=NOT_DN_&_LK,1=DN_&_LK, 1 Hz     GearDnLockRMain, 0=NOT_DN_&_LK,1=DN_&_LK, 1 Hz
+12
+--- page 14 ---
+-2000
+-1000
+0
+0
+1
+012345678
+0
+1
+2
+3
+4
+5
+6
+0
+1
+2
+3
+4
+5
+6
+80
+90
+100
+110
+120
+130
+140
+150
+160
+170
+180
+0
+1
+20
+40
+60
+80
+0
+20
+40
+60
+80
+100
+-0.4
+-0.2
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+1.2
+1.4
+-4
+-2
+0
+2
+4
+6
+8
+10
+12
+14
+16
+-10
+0
+10
+20
+30
+-0.8
+-0.6
+-0.4
+-0.2
+0.0
+0
+20
+40
+60
+20
+40
+60
+80
+100
+0
+20
+40
+60
+80
+100
+97825 97830 97835 97840 97845 97850 97855 97860 97865 97870 97875 97880 97885 97890 97895 97900 97905 97910 97915 97920 97925
+0
+1
+0
+200
+400
+600
+800
+1000
+1200
+1400
+1600
+1800
+                                               NATIONAL TRANSPORTATION SAFETY BOARD
+SAN FRANCISCO INTERNATIONAL AIRPORT (KSFO), SAN FRANCISCO, CA; JULY 6, 2013  [SPEED TAPE CALCULATIONS]
+FIGURE 3: ASIANA AIRLINES BOEING 777-200ER IMPACT WITH SEA WALL AND RUNWAY 28L ON FINAL APPROACH 
+ALTITUDE
+.
+ AltitudeRadioC, 1/2 Hz     AltitudeRadioL, 1/2 Hz     AltitudeRadioR, 1/2 Hz     AltitudePress, 1 Hz
+SELVERTSPEED
+VERTICALSPEED .
+ SELVERTSPEED, 1 Hz     VERTICALSPEED, 1 Hz
+.
+ APEngage, 0=Not_Engaged,1=Engaged, 1 Hz
+.
+ APPitchModes, 0=NA,1=TOGA,2=Alt_Cap,3=GS,4=VS,5=FLCH,6=Flare,7=VNAV,8=FPA,14=Unused,15=Multi_Mode, 1 Hz
+.
+ APRollModes, 0=NA,1=HDG_Hold,2=HDG_Sel,3=TOGA,4=LNAV,5=Loc,6=Rollout,7=Att_Hold,8=Track_Hold,9=Track_Sel,10=BCRS,14=Unused,15=Multi_Mode, 1 Hz
+.
+ ATEngageMode, 0=Invalid,1=AT_Spd,2=AT_Idle,3=AT_Test,4=AT_Hold,5=AT_Thrust,6=AT_Thrust_Ref,7=Mult_Mod, 1 Hz
+SPEED, KNOTS
+.
+ AirspeedComp, 1 Hz     FMCMinManuvSpd, 1/64 Hz     FMCSelRefSpd, 1/64 Hz    
+ VSSNG_FILTERED_(BOEING_CALC.),     VLOW_(BOEING_CALC.),     VSS_FILTERED_(BOEING_CALC.)
+ VSSNG_FILTERED_(NTSB_CALC.),         VLOW_(NTSB_CALC.),          VSS_FILTERED_(NTSB_CALC.)
+.
+ StickShakerL, 0=Off,1=On, 1 Hz     StickShakerR, 0=Off,1=On, 1 Hz         SS_(NTSB_CALC.), 0=Off,1=On
+Eng1TLA
+Eng2TLA
+.
+ Eng1TLA, 1 Hz     Eng2TLA, 1 Hz
+Eng1N1
+Eng2N1
+.
+ Eng1N1, 1 Hz     Eng2N1, 1 Hz
+AccelLong
+.
+ AccelLong, 4 Hz
+AccelVert
+.
+ AccelVert, 8 Hz
+AOA
+Pitch
+.
+ AOAIndL, 1 Hz     AOAIndR, 1 Hz     Pitch, 4 Hz
+ElevatorLIB
+ElevatorLOB
+ElevatorRIB
+ElevatorROB
+.
+ ElevatorLIB, 1 Hz     ElevatorLOB, 1 Hz     ElevatorRIB, 1 Hz     ElevatorROB, 1 Hz
+.
+ STALLPROTCMDCPFC, 1 Hz     STALLPROTCMDLPFC, 1 Hz     STALLPROTCMDRPFC, 1 Hz
+SpdBrkHndlC
+SpdBrkHndlL1
+SpdBrkHndlL2
+SpdBrkHndlR
+.
+ SpdBrkHndlC, 1/2 Hz     SpdBrkHndlL1, 1/2 Hz     SpdBrkHndlL2, 1/2 Hz     SpdBrkHndlR, 1/2 Hz
+SlatL1
+SlatL2
+SlatR1
+SlatR2
+.
+ SlatL1, 1/2 Hz     SlatL2, 1/2 Hz     SlatR1, 1/2 Hz     SlatR2, 1/2 Hz
+FLAP TE
+(PERCENT)
+.
+ FlapTEL1, 1/4 Hz     FlapTEL2, 1/4 Hz     FlapTER1, 1/4 Hz     FlapTER2, 1/4 Hz
+DFDR SUBFRAME REFERENCE TIME (SECONDS)
+ GearDnLockNose, 0=NOT_DN_&_LK,1=DN_&_LK, 1 Hz     GearDnLockLMain, 0=NOT_DN_&_LK,1=DN_&_LK, 1 Hz     GearDnLockRMain, 0=NOT_DN_&_LK,1=DN_&_LK, 1 Hz
+13
+--- page 15 ---
+0
+1
+012345678
+0
+1
+2
+3
+4
+5
+6
+90
+100
+110
+120
+130
+140
+150
+160
+170
+180
+190
+0
+1
+97250 97300 97350 97400 97450 97500 97550 97600 97650 97700 97750 97800 97850 97900
+-4
+-2
+0
+2
+4
+6
+8
+10
+12
+14
+16
+0
+2000
+4000
+6000
+8000
+10000
+12000
+                                               NATIONAL TRANSPORTATION SAFETY BOARD
+SAN FRANCISCO INTERNATIONAL AIRPORT (KSFO), SAN FRANCISCO, CA; JULY 6, 2013 [SPEED TAPE CALCULATIONS, ANGLE OF ATTACK SENSITIVITY] 
+FIGURE 4: ASIANA AIRLINES BOEING 777-200ER IMPACT WITH SEA WALL AND RUNWAY 28L ON FINAL APPROACH
+ALTITUDE, FEET
+.
+ AltitudeRadioC, 1/2 Hz     AltitudeRadioL, 1/2 Hz     AltitudeRadioR, 1/2 Hz     AltitudePress, 1 Hz
+.
+ APEngage, 0=Not_Engaged,1=Engaged, 1 Hz
+.
+ APPitchModes, 0=NA,1=TOGA,2=Alt_Cap,3=GS,4=VS,5=FLCH,6=Flare,7=VNAV,8=FPA,14=Unused,15=Multi_Mode, 1 Hz
+.
+ ATEngageMode, 0=Invalid,1=AT_Spd,2=AT_Idle,3=AT_Test,4=AT_Hold,5=AT_Thrust,6=AT_Thrust_Ref,7=Mult_Mod, 1 Hz
+SPEED, KNOTS
+.
+ AirspeedComp, 1 Hz     FMCMinManuvSpd, 1/64 Hz     FMCSelRefSpd, 1/64 Hz     VSSNG_FILTERED_(BOEING_CALC.),     VLOW_(BOEING_CALC.),     VSS_FILTERED_(BOEING_CALC.),     VSSNG_FILTERED_(NTSB_CALC.),     VLOW_(NTSB_CALC.),     VSS_FILTERED_(NTSB_CALC.),         VSSNG_dAOA=+0.175_deg_FILTERED_(NTSB_CALC.)
+.
+ StickShakerL, 0=Off,1=On, 1 Hz     StickShakerR, 0=Off,1=On, 1 Hz     SS_(NTSB_CALC.), 0=UNKNOWN, -99- Hz
+ANGLE OF ATTACK, DEG
+PITCH ATTITUDE, DEG
+DFDR SUBFRAME REFERENCE TIME (SECONDS)
+ AOAIndL, 1 Hz     AOAIndR, 1 Hz     Pitch, 4 Hz
+14
+--- page 16 ---
+0
+1
+012345678
+0
+1
+2
+3
+4
+5
+6
+85
+90
+95
+100
+105
+110
+115
+120
+125
+130
+135
+140
+0
+1
+97825 97830 97835 97840 97845 97850 97855 97860 97865 97870 97875 97880 97885 97890 97895 97900 97905 97910 97915 97920 97925
+-4
+-2
+0
+2
+4
+6
+8
+10
+12
+14
+16
+0
+200
+400
+600
+800
+1000
+1200
+1400
+1600
+1800
+                                               NATIONAL TRANSPORTATION SAFETY BOARD
+SAN FRANCISCO INTERNATIONAL AIRPORT (KSFO), SAN FRANCISCO, CA; JULY 6, 2013 [SPEED TAPE CALCULATIONS, ANGLE OF ATTACK SENSITIVITY] 
+FIGURE 5: ASIANA AIRLINES BOEING 777-200ER IMPACT WITH SEA WALL AND RUNWAY 28L ON FINAL APPROACH
+ALTITUDE, FEET
+.
+ AltitudeRadioC, 1/2 Hz     AltitudeRadioL, 1/2 Hz     AltitudeRadioR, 1/2 Hz     AltitudePress, 1 Hz
+.
+ APEngage, 0=Not_Engaged,1=Engaged, 1 Hz
+.
+ APPitchModes, 0=NA,1=TOGA,2=Alt_Cap,3=GS,4=VS,5=FLCH,6=Flare,7=VNAV,8=FPA,14=Unused,15=Multi_Mode, 1 Hz
+.
+ ATEngageMode, 0=Invalid,1=AT_Spd,2=AT_Idle,3=AT_Test,4=AT_Hold,5=AT_Thrust,6=AT_Thrust_Ref,7=Mult_Mod, 1 Hz
+SPEED, KNOTS
+.
+ AirspeedComp, 1 Hz     FMCMinManuvSpd, 1/64 Hz     FMCSelRefSpd, 1/64 Hz     VSSNG_FILTERED_(BOEING_CALC.),     VLOW_(BOEING_CALC.),     VSS_FILTERED_(BOEING_CALC.),     VSSNG_FILTERED_(NTSB_CALC.),     VLOW_(NTSB_CALC.),     VSS_FILTERED_(NTSB_CALC.),         VSSNG_dAOA=+0.175_deg_FILTERED_(NTSB_CALC.)
+.
+ StickShakerL, 0=Off,1=On, 1 Hz     StickShakerR, 0=Off,1=On, 1 Hz     SS_(NTSB_CALC.), 0=UNKNOWN, -99- Hz
+ANGLE OF ATTACK, DEG
+PITCH ATTITUDE, DEG
+DFDR SUBFRAME REFERENCE TIME (SECONDS)
+ AOAIndL, 1 Hz     AOAIndR, 1 Hz     Pitch, 4 Hz
+15
+--- page 17 ---
+0
+1
+012345678
+0123456
+100
+110
+120
+130
+140
+150
+160
+170
+180
+190
+200
+210
+220
+230
+240
+250
+260
+270
+280
+20
+40
+60
+80
+0
+20
+40
+60
+80
+100
+-4
+-2
+0
+2
+4
+6
+8
+10
+12
+14
+16
+-10
+0
+10
+20
+30
+0
+20
+40
+60
+0
+10
+20
+30
+20
+40
+60
+80
+100
+0
+20
+40
+60
+80
+100
+0
+1
+97250 97300 97350 97400 97450 97500 97550 97600 97650 97700 97750 97800 97850 97900
+0
+1
+0
+2000
+4000
+6000
+8000
+10000
+12000
+                                               NATIONAL TRANSPORTATION SAFETY BOARD
+SAN FRANCISCO INTERNATIONAL AIRPORT (KSFO), SAN FRANCISCO, CA; JULY 6, 2013 [LANDING GEAR AND FLAP EXTENSION PLACARDS] 
+FIGURE 6: ASIANA AIRLINES BOEING 777-200ER IMPACT WITH SEA WALL AND RUNWAY 28L ON FINAL APPROACH
+ALTITUDE
+.
+ AltitudeRadioC, 1/2 Hz     AltitudeRadioL, 1/2 Hz     AltitudeRadioR, 1/2 Hz     AltitudePress, 1 Hz
+.
+ APEngage, 0=Not_Engaged,1=Engaged, 1 Hz
+.
+ APPitchModes, 0=NA,1=TOGA,2=Alt_Cap,3=GS,4=VS,5=FLCH,6=Flare,7=VNAV,8=FPA,14=Unused,15=Multi_Mode, 1 Hz
+.
+ ATEngageMode, 0=Invalid,1=AT_Spd,2=AT_Idle,3=AT_Test,4=AT_Hold,5=AT_Thrust,6=AT_Thrust_Ref,7=Mult_Mod, 1 Hz
+VLE = 270 KNOTS
+VF1 = 255 KNOTS
+VF5 = 235 KNOTS
+VF15 = 215 KNOTS
+VF20 = 195 KNOTS
+VF30 = 170 KNOTS
+VF25 = 185 KNOTS
+SPEED, KNOTS
+.
+ AirspeedComp, 1 Hz     FMCMinManuvSpd, 1/64 Hz     FMCSelRefSpd, 1/64 Hz
+ VLE_(270_KTS_GEAR_EXTENSION)
+ VF1_(255_KTS_EXTENSION)       VF5_(235_KTS_EXTENSION)       VF15_(215_KTS_EXTENSION)
+ VF20_(195_KTS_EXTENSION)     VF25_(185_KTS_EXTENSION)     VF30_(170_KTS_EXTENSION)
+Eng1TLA
+Eng2TLA
+.
+ Eng1TLA, 1 Hz     Eng2TLA, 1 Hz
+Eng1N1
+Eng2N1
+.
+ Eng1N1, 1 Hz     Eng2N1, 1 Hz
+AOA
+Pitch
+.
+ AOAIndL, 1 Hz     AOAIndR, 1 Hz     Pitch, 4 Hz
+ElevatorLIB
+ElevatorLOB
+ElevatorRIB
+ElevatorROB
+.
+ ElevatorLIB, 1 Hz     ElevatorLOB, 1 Hz     ElevatorRIB, 1 Hz     ElevatorROB, 1 Hz
+SpdBrkHndlC
+SpdBrkHndlL1
+SpdBrkHndlL2
+SpdBrkHndlR
+.
+ SpdBrkHndlC, 1/2 Hz     SpdBrkHndlL1, 1/2 Hz     SpdBrkHndlL2, 1/2 Hz     SpdBrkHndlR, 1/2 Hz
+FLAP HANDLE
+(DETENT)
+.
+ FlapHandlePosA1, 1/4 Hz     FlapHandlePosA2, 1/4 Hz     FlapHandlePosB2, 1/4 Hz     FlapHandlePosB1, 1/4 Hz
+SlatL1
+SlatL2
+SlatR1
+SlatR2
+.
+ SlatL1, 1/2 Hz     SlatL2, 1/2 Hz     SlatR1, 1/2 Hz     SlatR2, 1/2 Hz
+FLAP TE
+(PERCENT)
+.
+ FlapTEL1, 1/4 Hz     FlapTEL2, 1/4 Hz     FlapTER1, 1/4 Hz     FlapTER2, 1/4 Hz
+.
+ GearLeverDn, 0=UP,1=DN, 1 Hz     GearLeverUp, 0=DN,1=UP, 1 Hz
+DFDR SUBFRAME REFERENCE TIME (SECONDS)
+ GearDnLockNose, 0=NOT_DN_&_LK,1=DN_&_LK, 1 Hz     GearDnLockLMain, 0=NOT_DN_&_LK,1=DN_&_LK, 1 Hz     GearDnLockRMain, 0=NOT_DN_&_LK,1=DN_&_LK, 1 Hz
+16
+--- page 18 ---
+0
+1
+012345678
+0123456
+100
+110
+120
+130
+140
+150
+160
+170
+180
+190
+200
+210
+220
+230
+240
+250
+260
+270
+280
+20
+40
+60
+80
+0
+20
+40
+60
+80
+100
+-4
+-2
+0
+2
+4
+6
+8
+10
+12
+14
+16
+-10
+0
+10
+20
+30
+0
+20
+40
+60
+0
+10
+20
+30
+20
+40
+60
+80
+100
+0
+20
+40
+60
+80
+100
+0
+1
+97805 97810 97815 97820 97825 97830 97835 97840 97845 97850 97855 97860 97865 97870 97875 97880 97885 97890 97895 97900 97905 97910 97915 97920 97925
+0
+1
+0
+200
+400
+600
+800
+1000
+1200
+1400
+1600
+1800
+2000
+2200
+                                               NATIONAL TRANSPORTATION SAFETY BOARD
+SAN FRANCISCO INTERNATIONAL AIRPORT (KSFO), SAN FRANCISCO, CA; JULY 6, 2013 [LANDING GEAR AND FLAP EXTENSION PLACARDS] 
+FIGURE 7: ASIANA AIRLINES BOEING 777-200ER IMPACT WITH SEA WALL AND RUNWAY 28L ON FINAL APPROACH
+ALTITUDE
+.
+ AltitudeRadioC, 1/2 Hz     AltitudeRadioL, 1/2 Hz     AltitudeRadioR, 1/2 Hz     AltitudePress, 1 Hz
+.
+ APEngage, 0=Not_Engaged,1=Engaged, 1 Hz
+.
+ APPitchModes, 0=NA,1=TOGA,2=Alt_Cap,3=GS,4=VS,5=FLCH,6=Flare,7=VNAV,8=FPA,14=Unused,15=Multi_Mode, 1 Hz
+.
+ ATEngageMode, 0=Invalid,1=AT_Spd,2=AT_Idle,3=AT_Test,4=AT_Hold,5=AT_Thrust,6=AT_Thrust_Ref,7=Mult_Mod, 1 Hz
+VF30 = 170 KNOTS
+VF25 = 185 KNOTS
+VF20 = 195 KNOTS
+VF15 = 215 KNOTS
+VF5 = 235 KNOTS
+VF1 = 255 KNOTS
+VLE = 270 KNOTS
+SPEED, KNOTS
+.
+ AirspeedComp, 1 Hz     FMCMinManuvSpd, 1/64 Hz     FMCSelRefSpd, 1/64 Hz
+ VLE_(270_KTS_GEAR_EXTENSION)
+ VF1_(255_KTS_EXTENSION)       VF5_(235_KTS_EXTENSION)       VF15_(215_KTS_EXTENSION)
+ VF20_(195_KTS_EXTENSION)     VF25_(185_KTS_EXTENSION)     VF30_(170_KTS_EXTENSION)
+Eng1TLA
+Eng2TLA
+.
+ Eng1TLA, 1 Hz     Eng2TLA, 1 Hz
+Eng1N1
+Eng2N1
+.
+ Eng1N1, 1 Hz     Eng2N1, 1 Hz
+AOA
+Pitch
+.
+ AOAIndL, 1 Hz     AOAIndR, 1 Hz     Pitch, 4 Hz
+ElevatorLIB
+ElevatorLOB
+ElevatorRIB
+ElevatorROB
+.
+ ElevatorLIB, 1 Hz     ElevatorLOB, 1 Hz     ElevatorRIB, 1 Hz     ElevatorROB, 1 Hz
+SpdBrkHndlC
+SpdBrkHndlL1
+SpdBrkHndlL2
+SpdBrkHndlR
+.
+ SpdBrkHndlC, 1/2 Hz     SpdBrkHndlL1, 1/2 Hz     SpdBrkHndlL2, 1/2 Hz     SpdBrkHndlR, 1/2 Hz
+FLAP HANDLE
+(DETENT)
+.
+ FlapHandlePosA1, 1/4 Hz     FlapHandlePosA2, 1/4 Hz     FlapHandlePosB2, 1/4 Hz     FlapHandlePosB1, 1/4 Hz
+SlatL1
+SlatL2
+SlatR1
+SlatR2
+.
+ SlatL1, 1/2 Hz     SlatL2, 1/2 Hz     SlatR1, 1/2 Hz     SlatR2, 1/2 Hz
+FLAP TE
+(PERCENT)
+.
+ FlapTEL1, 1/4 Hz     FlapTEL2, 1/4 Hz     FlapTER1, 1/4 Hz     FlapTER2, 1/4 Hz
+.
+ GearLeverDn, 0=UP,1=DN, 1 Hz     GearLeverUp, 0=DN,1=UP, 1 Hz
+DFDR SUBFRAME REFERENCE TIME (SECONDS)
+ GearDnLockNose, 0=NOT_DN_&_LK,1=DN_&_LK, 1 Hz     GearDnLockLMain, 0=NOT_DN_&_LK,1=DN_&_LK, 1 Hz     GearDnLockRMain, 0=NOT_DN_&_LK,1=DN_&_LK, 1 Hz
+17
+--- page 19 ---
+-2000
+-1000
+0
+20
+40
+60
+-7.0 -6.5 -6.0 -5.5 -5.0 -4.5 -4.0 -3 .5 -3.0 -2.5 -2.0 -1.5 -1.0 -0.5 0.0
+0
+500
+1000
+1500
+2000
+2500
+100
+110
+120
+130
+140
+150
+160
+170
+180
+190
+RIGHT F/D ON
+RECORDED AIRSPEED
+A/P ENGAGED & BOTH F/Ds ON
+MCP SELECTED SPEED
+NATIONAL TRANSPORTATION SAFETY BOARD
+ASIANA AIRLINES BOEING 777-200ER FLIGHT 214 FINAL APPROACH; JULY 6, 2013AIRSPEED (KNOTS) V/S (FPM) ALTITUDE (FEET)
+N1
+MAX TLA
+IDLE TLA
+ENGINE 
+TLA; N1
+RECORDED V/S
+LEFT F/D OFF
+A/T MODE
+PITCH MODE FLCHV/S
+THRHOLDTHR
+SPD
+MCP SELECTED V/S
+A/P NOT ENGAGED
+STICK SHAKER    ON
+DISTANCE TO RUNWAY 28L THRESHOLD (NAUTICAL MILES)
+FIGURE 8
+QUADRUPLE
+CHIME
+FINAL
+APPROACH FIX
+-150             -140             -130             -120            -110             -100              -90             -80             -70            -60           -50          -40          -30         -20       -10         0
+CALCULATED
+PILOT EYE HEIGHT
+TIME UNTIL IMPACT (SECONDS)
+WRRR 
+WWWR 
+WWWW 
+RRRR 
+PAPI
+GUIDANCE
+ 
+Page 18,
+--- page 20 ---
+-2000
+-1000
+0
+20
+40
+60
+-2.2 -2.0 -1.8 -1.6 -1.4 -1.2 -1.0 -0.8 -0.6 -0.4 -0.2 0.0
+0
+200
+400
+600
+800
+1000
+100
+110
+120
+130
+140
+150
+160
+RIGHT F/D ON
+RECORDED AIRSPEED
+MCP SELECTED SPEED
+NATIONAL TRANSPORTATION SAFETY BOARD
+ASIANA AIRLINES BOEING 777-200ER FLIGHT 214 FINAL APPROACH; JULY 6, 2013AIRSPEED (KNOTS) V/S (FPM) ALTITUDE (FEET)
+N1
+MAX TLA
+IDLE TLA
+ENGINE 
+TLA; N1
+RECORDED V/S
+LEFT F/D OFF
+A/T MODE
+PITCH MODE FLCH
+THRHOLD
+MCP SELECTED V/S
+A/P NOT ENGAGED
+STICK SHAKER ON
+DISTANCE TO RUNWAY 28L THRESHOLD (NAUTICAL MILES)
+FIGURE 9
+28L
+QUADRUPLE
+CHIME
+-55                  -50                  -45                 -40                 -35                 -30                -25               -20              -15             -10              -5               0
+CALCULATED
+PILOT EYE HEIGHT
+TIME UNTIL IMPACT (SECONDS)
+WRRR 
+ WWWR 
+ WWWW 
+RRRR 
+PAPI
+GUIDANCE
+ 
+Page 19,
+--- page 21 ---
+-1000
+-500
+0
+20
+40
+60
+-1.4 -1.2 -1.0 -0.8 -0.6 -0.4 -0.2 0.0
+0
+100
+200
+300
+400
+500
+600
+100
+110
+120
+130
+140
+FIGURE 10
+28 Seconds
+TLA INPUT
+RIGHT F/D ON
+RECORDED AIRSPEED
+MCP SELECTED SPEED
+NATIONAL TRANSPORTATION SAFETY BOARD
+ASIANA AIRLINES BOEING 777-200ER FLIGHT 214 FINAL APPROACH; JULY 6, 2013AIRSPEED (KNOTS) V/S (FPM) ALTITUDE (FEET)
+N1
+MAX TLA
+IDLE TLA
+ENGINE 
+TLA; N1
+RECORDED V/S
+LEFT F/D OFF
+A/T MODE
+PITCH MODE FLCH
+THRHOLD
+MCP SELECTED V/S
+A/P NOT ENGAGED
+STICK SHAKER ON
+DISTANCE TO RUNWAY 28L THRESHOLD (NAUTICAL MILES)
+19 Seconds
+28L
+QUADRUPLE
+CHIME
+-40                            -35                           -30                           -25                         -20                        -15                      -10                      -5                         0
+CALCULATED
+PILOT EYE HEIGHT
+TIME UNTIL IMPACT (SECONDS)
+ WRRR  WWWR 
+ WWWW 
+ RRRR 
+PAPI
+GUIDANCE
+ 
+Page 20,
+--- page 22 ---
+-1000
+-500
+0
+20
+40
+60
+-1.4 -1.2 -1.0 -0.8 -0.6 -0.4 -0.2 0.0
+0
+100
+200
+300
+400
+500
+600
+0
+5
+10
+110
+120
+130
+140
+ A/P NOT ENGAGED  
+ PITCH MODE FLCH  
+ RIGHT F/D ON  
+ LEFT F/D OFF  
+28 Seconds
+TLA INPUT
+RECORDED AIRSPEED
+MCP SELECTED SPEED
+NATIONAL TRANSPORTATION SAFETY BOARD
+ASIANA AIRLINES BOEING 777-200ER FLIGHT 214 FINAL APPROACH; JULY 6, 2013AIRSPEED (KNOTS)
+MCP SELECTED V/S
+RECORDED V/S
+V/S (FPM) ALTITUDE (FEET)
+N1
+MAX TLA
+IDLE TLA
+ENGINE 
+TLA; N1
+THRA/T MODE HOLD
+STICK SHAKER ON
+DISTANCE TO RUNWAY 28L THRESHOLD (NAUTICAL MILES)
+FIGURE 11
+19 Seconds
+28L
+QUADRUPLE
+CHIME
+-40                            -35                           -30                           -25                         -20                        -15                      -10                      -5                         0
+CALCULATED
+PILOT EYE HEIGHT
+TIME UNTIL IMPACT (SECONDS)
+ WRRR  WWWR 
+ WWWW 
+ RRRR 
+PAPI
+GUIDANCE
+ 
+F/D INCREMENTAL PITCH GUIDANCE RECORDED PITCH
+PITCH;
+F/D CMD
+Page 21,
+--- page 23 ---
+0
+50
+20
+40
+60
+-1.4 -1.2 -1.0 -0.8 -0.6 -0.4 -0.2 0.0
+0
+100
+200
+300
+400
+500
+600
+0
+5
+10
+0
+5
+10
+110
+120
+130
+140
+ A/P NOT ENGAGED  
+ PITCH MODE FLCH  
+ RIGHT F/D ON  
+ LEFT F/D OFF  
+28 Seconds
+TLA INPUT
+RECORDED AIRSPEED
+MCP SELECTED SPEED
+NATIONAL TRANSPORTATION SAFETY BOARD
+ASIANA AIRLINES BOEING 777-200ER FLIGHT 214 FINAL APPROACH; JULY 6, 2013AIRSPEED (KNOTS)
+RIGHT SEAT
+LEFT SEAT
+COLUMN  COLUMN
+   FORCE  POS. 
+         (LB) (DEG)
+ALTITUDE (FEET)
+N1
+MAX TLA
+IDLE TLA
+ENGINE 
+TLA; N1
+THR
+A/T MODE HOLD
+STICK SHAKER ON
+DISTANCE TO RUNWAY 28L THRESHOLD (NAUTICAL MILES)
+FIGURE 12
+19 Seconds
+28L
+QUADRUPLE
+CHIME
+-40                            -35                           -30                           -25                         -20                        -15                      -10                      -5                         0
+CALCULATED
+PILOT EYE HEIGHT
+TIME UNTIL IMPACT (SECONDS)
+ WRRR  WWWR 
+ WWWW 
+ RRRR 
+PAPI
+GUIDANCE
+ 
+F/D INCREMENTAL PITCH GUIDANCE RECORDED PITCH
+PITCH;
+F/D CMD
+Page 22,

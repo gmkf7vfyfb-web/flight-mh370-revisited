@@ -1,0 +1,73 @@
+{
+  "ordered_times": {
+    "draws": 100000,
+    "expected_four_time_means": [
+      0.2,
+      0.4,
+      0.6,
+      0.8
+    ],
+    "maximum_mean_error": 0.0003393057065845251,
+    "log_density_identity_error": 1.3322676295501878e-15,
+    "request_encode_roundtrip_error": 8.081313396246514e-13
+  },
+  "deterministic_dynamics_control": [
+    {
+      "seed": 37091102,
+      "particles": 4096,
+      "mode_frequencies": [
+        0.19677734375,
+        0.199462890625,
+        0.209716796875,
+        0.19287109375,
+        0.201171875
+      ],
+      "expected_mode_frequencies": [
+        0.2,
+        0.2,
+        0.2,
+        0.2,
+        0.2
+      ],
+      "maximum_standardized_mean_error": 0.030144894536957657,
+      "maximum_standardized_variance_error": 0.02001953424895464,
+      "log_normalizer": 0.001413593822724657,
+      "expected_log_normalizer": 0.0,
+      "elapsed_s": 3.089715903000979,
+      "final_acceptance": 0.24407087053571427,
+      "passed": true
+    },
+    {
+      "seed": 37091103,
+      "particles": 4096,
+      "mode_frequencies": [
+        0.202392578125,
+        0.1943359375,
+        0.223876953125,
+        0.18994140625,
+        0.189453125
+      ],
+      "expected_mode_frequencies": [
+        0.2,
+        0.2,
+        0.2,
+        0.2,
+        0.2
+      ],
+      "maximum_standardized_mean_error": 0.03400446381128057,
+      "maximum_standardized_variance_error": 0.04512760074073163,
+      "log_normalizer": 0.025495140503507763,
+      "expected_log_normalizer": 0.0,
+      "elapsed_s": 3.1640281079999113,
+      "final_acceptance": 0.23374720982142858,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "elapsed_s": 6.3617722380004125,
+  "scope": "Numerical proposal/weight and control-space smoothing check, not MH370 validation or physical calibration.",
+  "source_sha256": {
+    "/tmp/mh370-command-sampler/forward_backward_control.py": "dcc1083a6e8939a42570c62ce15ba10da2fa1bb80e4ae8215b96935b6cd766aa",
+    "/tmp/mh370-command-sampler/sampler.py": "072b881bc9d25bd6e5a99acc3d69986b57086a7e68d2980dd02135f512d0ba2b"
+  }
+}

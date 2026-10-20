@@ -1,0 +1,89 @@
+YOUR JOB: "Ocean impact to ocean floor" (hypothesis work: hypotheses/settling/, created with `make new-hypothesis H=settling`)
+
+WHY (Pete, 28 Sep 2026)
+The estimator should produce three outputs, not one:
+- the first water contact, which the end-of-flight stage already produces;
+- the acoustic source;
+- the wreckage resting place on the seabed.
+Your module takes each impact sample to where its wreckage comes to rest. The seabed search should score where the wreckage settled, not where it hit the water, and your map is also what a future seabed search would plan from. Pete asked for this as its own small module: scope the basic model and its variables (depth, currents, the behaviour of the aircraft's elements), then write a first pass. It should learn from AF447, including the mistakes made there, and from other examples and models, aircraft and non-aircraft.
+
+THE MODEL TO START FROM (the methodology Pete shared, section 7; input, not truth)
+  r_wreck = r_release + ∫ U(z(t), t) dt + ∫ v_rel,h(t) dt + Δr_seafloor
+- U is the 3-D current field.
+- v_rel,h is horizontal motion relative to the water caused by the element's own sinking, gliding or tumbling.
+- Δr_seafloor is movement after seabed contact (slope, sediment, downslope sliding).
+Variables to scope:
+- water depth and bathymetry, and the slope at the resting place;
+- current speed and shear with depth;
+- each element's mass, volume, buoyancy, drag, projected area and orientation, and so its terminal sinking speed;
+- release time and position: breakup over the water, and how long an element floats before sinking;
+- glide and tumbling;
+- seabed slope and sediment.
+A first-order scale to test, not assume: at 4,000 m, an element sinking at 1–5 m/s takes about 15–70 minutes, so deep currents of a few cm/s move it only a few hundred metres. Slow sinkers and gliding or tumbling panels may move kilometres. If that holds, element class and hydrodynamics matter more than currents.
+
+BREAKUP FAMILIES
+Which elements exist, and in what state, depends on the impact: its energy and attitude. Pete wants a breakup family set. A breakup field shared by debris drift, acoustics and you is deferred until the estimator runs stably to impact. So for this first pass, define your own small set, in one place, so it can later become the shared field without rewriting your physics:
+- element classes, for example: engines, landing gear, wing box and centre section, fuselage sections, large flat panels, cabin contents;
+- breakup families, for example: low energy and largely intact (a ditching-like contact) versus high energy and highly fragmented (a steep dive);
+- the impact fields that select between them: vertical and total kinetic energy, flight-path angle.
+
+LEARN FROM (a short survey first; cite primary sources)
+- AF447 (2009). BEA final report (July 2012), with its account of the search phases; Stone et al. (2014), "Search for the wreckage of Air France Flight AF 447", Statistical Science 29(1):69–80, the Bayesian analysis that led to the find. The methodology notes the main wreckage lay about 6.5 NM from the last transmitted position, with the seabed debris concentrated in about 600 m × 200 m at about 3,900 m. Check two lessons against the sources:
+  - the 6.5 NM includes flight after the last transmitted position, so it isn't sinking drift;
+  - the earlier phases failed partly through over-trusting reverse drift and assuming the underwater beacons had worked. Our seabed-search module's undetectable-wreck probability ρ exists for exactly that.
+- Other deep-water aircraft wreck fields, e.g.:
+  - SAA295 (1987, Indian Ocean, about 4,400 m);
+  - Air India 182 (1985, about 2,000 m);
+  - EgyptAir 804 (2016, about 3,000 m);
+  - Adam Air 574 (2007);
+  - Flash Airlines 604 (2004);
+  - Yemenia 626 (2009).
+  For each, record the depth, the impact type if known, the size of the wreck field, and the distance between the surface debris and the seabed wreckage where known.
+- Non-aircraft cases:
+  - MV Derbyshire (1980, about 4,200 m, with a well-surveyed debris field);
+  - Titanic (3,800 m; bow and stern came to rest apart);
+  - El Faro (2015, about 4,600 m);
+  - the submarines Thresher and Scorpion;
+  - the two 19th-century shipwrecks that the MH370 seabed search found inside its own search area.
+- Models:
+  - the naval mine fall-through-water models (NPS IMPACT25/28/35, Chu and Fan);
+  - falling-plate dynamics, fluttering and tumbling (Andersen, Pesavento and Wang 2005; Field et al. 1997);
+  - any published object-sinking or wreck-dispersion model.
+- An acoustic note for the Hydroacoustics thread, if the sources support it: trapped air in a sinking section can implode at depth, and the ARA San Juan implosion (2017) was detected by CTBTO hydrophones. Record whether any element could make such an event, and at what time and depth. Don't model the acoustics.
+- Keep the survey as source data and code comments. No .md reports (AGENTS.md). A small CSV of analogue cases with their sources, in your module directory, is fine.
+
+DATA ALREADY HERE
+- Bathymetry: /jackbox/home/MH370-inputs/bathymetry/etopo2022-1min-50S5N-55E145E.i16, with a .toml header. This is ETOPO 2022 at 1 arc-minute.
+- Ocean reanalyses, fetched by the Ocean drift thread: /jackbox/home/MH370-inputs/ocean/ (glorys12, bran2016, oscar2, ...).
+  - Check which files hold depth levels; the drift work may have kept only the surface.
+  - Ask thr_4pbhvf3sxi before downloading any full-depth fields: the disk is tight.
+  - A regional March 2014 profile set over about 42–30°S, 85–100°E is probably all you need.
+
+HOW IT PLUGS IN
+Your module is a transform, not a likelihood.
+- First pass: expose the result through the existing API. prediction_columns() and predict(impact, out) give named predictions per impact sample. For each element class, output the resting offset from the contact point (mean east and north offsets, and their spread, or a few quantiles), plus the depth at rest.
+  - predict() gets no random stream, so compute any Monte Carlo inside it with a seed fixed by the sample. The result must be deterministic.
+  - Read bathymetry and currents from files named in your run.toml, under data/external, as other modules read their rasters.
+  - `make evaluate H=settling` and `make fixture` are on core/stages. Build against them in a scratch worktree, or wait for the merge, which is close.
+- Later integration: the seabed search needs to score your resting positions, and a module can't read another module's output. So the runner must store your outputs beside the impact samples and pass them to impact modules. That is a core request; write it in core_requests and send it to thr_4pbhvf3sxi. It's the same mechanism the deferred shared breakup field needs, so I'll design the two together; don't wait for it.
+- Your consumer is Searched areas: hypotheses/seabed-search, on branch hypothesis/seabed-search. Read its lib.rs to see what it computes: coverage c_k(y), detection probability q_k, and the undetectable probability ρ. Its detection probability may depend on the field's extent and piece sizes, not only its centre. Agree the output with it through thr_4pbhvf3sxi.
+- ImpactView (on core/stages) gives you: time, position, ENU velocity, flight-path angle, mass, total and vertical kinetic energy, descent family, takeover time, place and altitude, mode, and alternative.
+
+DELIVERABLES (first pass, in order)
+1. A short plan for Pete (your first reply).
+2. The survey: analogue cases with depths, field sizes and offsets, and the models with what each assumes.
+3. The first-pass physics in hypotheses/settling/:
+   - element classes and breakup families;
+   - sinking with drag and buoyancy;
+   - glide and tumbling as a bounded lateral motion, with stated uncertainty;
+   - currents by depth;
+   - seabed contact and slope.
+   The lib.rs doc comment states the assumptions and their sources.
+4. Tests:
+   - a hand-computed terminal velocity;
+   - a limiting case: no current and no glide lands directly below the release point;
+   - a check against a closed form in a simple case, e.g. a uniform current and a constant sinking speed.
+5. A report page, PNG for Pete with the PDF alongside:
+   - resting-offset distributions by element class and family, at representative 7th-arc depths;
+   - how much each variable matters: currents, glide, release time.
+6. core_requests in hypothesis.toml, and a message to thr_4pbhvf3sxi when the branch is ready for review.

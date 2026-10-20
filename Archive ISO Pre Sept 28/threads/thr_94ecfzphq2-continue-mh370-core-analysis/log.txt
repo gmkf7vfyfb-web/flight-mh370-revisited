@@ -1,0 +1,92 @@
+── User ────────────────────────────────────────────────────
+Just checking on progress, I see a host daemon error
+
+── Worked for (2m 28s) ─────────────────────────────────────
+  ── Assistant
+  The estimator experiment is still running, and the canonical fixes have passed 165 Rust tests plus 22 reporting tests. The new sampler has not yet passed the flight-level checks, so I have not promoted its outputs to release PDFs.
+
+  I’ll check whether the host-daemon error affected the run or the shared files. I’m using the Iso CLI skill for that infrastructure check.
+
+  ── Explored 2 files, 1 search
+    ── Read /jackbox/home/.iso/runtime/global-skills/051cefb156e94b93b5e2578a675241b5008ea1dbc7132545e87c8f9b68faaaa9/skills/iso-cli/SKILL.md
+    ── Read /tmp/mh371-sequential-path-control.log
+    ── Searched for log|limit|tail
+
+  ── Assistant
+  The check shows that the estimator process and file server are no longer running; my initial status reflected the last check before your message. Iso is connected again, and the saved files are still present. I’m checking which outputs completed so an interrupted run cannot be mistaken for a result.
+
+  ── Explored 1 search, 1 file
+    ── Searched for /jackbox/home/.iso
+    ── Read /jackbox/home/.iso/runtime/global-skills/051cefb156e94b93b5e2578a675241b5008ea1dbc7132545e87c8f9b68faaaa9/skills/share-server-links/SKILL.md
+
+  ── Assistant
+  The interruption left the latest MH371 pilot incomplete—it produced no final seed summary. The earlier broad diagnostic PDFs and saved code remain available. I’m restoring their download server using the share-server skill, without changing the published results.
+
+  ── Explored 2 files, 1 search, created 1 file, ran 1 command
+    ── Read /jackbox/home/.iso/logs/host-daemon.190866.log
+    ── Searched for "msg":".*(disconnect|Disconnected|shutdown|Shutting|exited|failed|Failed) in /jackbox/home/.iso/logs/server.190866.log
+    ── Created /tmp/mh371-sequential-path-control/EXPERIMENT_STATUS.md +11
+      # Interrupted experimental run — not a result
+
+      Checked 2026-09-07 at 15:25 UTC after the user reported a host-daemon error.
+      The producer process is absent, the first seed directory is empty, and no
+      final run manifest was written. The log contains partial stratum/epoch
+      progress only. Neither configured seed completed a publishable artifact.
+
+      Do not treat this directory as a posterior or pool its partial progress.
+      The original log is `/tmp/mh371-sequential-path-control.log`; producer and
+      source snapshots are `/tmp/mh370-sequential-path-producer` and
+      `/tmp/mh370-sequential-path-source.tar.zst`.
+
+      Iso daemon logs record shutdowns/reconnections, but the exact mechanism that
+      terminated this estimator process has not been established.
+    ── Ran 'test ! -e /tmp/mh371-conditional-extension-control && sha256sum /tmp/mh370-conditional-extension-producer; command -v time; iso terminal create --thread thr_94ecfzphq2 --title '"'MH371 broad-history sampler control' --command '/tmp/mh370-conditional-extension-producer estimate-broad-flight --config /tmp/mh371-path-tempering-control.toml --output /tmp/mh371-conditional-extension-control --threads 6 > /tmp/mh371-conditional-extension-control.log 2>&1'"
+      $ 'test ! -e /tmp/mh371-conditional-extension-control && sha256sum /tmp/mh370-conditional-extension-producer; command -v time; iso terminal create --thread thr_94ecfzphq2 --title '"'MH371 broad-history sampler control' --command '/tmp/mh370-conditional-extension-producer estimate-broad-flight --config /tmp/mh371-path-tempering-control.toml --output /tmp/mh371-conditional-extension-control --threads 6 > /tmp/mh371-conditional-extension-control.log 2>&1'"
+      Created terminal term_n5eii9cs8i (MH371 broad-history sampler control)
+    ── Read /tmp/mh371-conditional-extension-control.log
+
+── Assistant ───────────────────────────────────────────────
+The daemon is connected again. Logs show shutdowns/restarts, and the latest experimental run was interrupted. Saved code and earlier reports remain intact.
+
+- Canonical fixes pass 165 Rust tests and 22 reporting tests.
+- Multiple control modes and repeated maneuvers remain supported—no one-turn reversion.
+- I’ve restarted the MH371 sampler experiment in a visible terminal.
+- Reliable full-flight uncertainty is still unresolved; no new validated MH371/MH370 PDFs yet.
+
+The [existing diagnostic downloads](https://internal--8768.iso.abiome.org) are back online. They remain explicitly diagnostic, not validated location estimates.
+
+── User ────────────────────────────────────────────────────
+Are you done?
+
+── Worked for (24s) ────────────────────────────────────────
+  ── Assistant
+  I’ll check whether the restarted run finished and whether it produced a usable result.
+
+  ── Explored 1 file, ran 1 command
+    ── Read /tmp/mh371-conditional-extension-control.log
+    ── Ran .venv/bin/python -c 'import json,pathlib,math; p=pathlib.Path("/tmp/mh371-conditional-extension-control"); summaries=[json.loads(f.read_text()) for f in sorted(p.glob("*/seed-*/summary.json"))]; print(json.dumps([{k:s[k] for k in ("status","seed","log_evidence","mean_latitude_deg","mean_longitude_deg","elapsed_seconds")} for s in summaries],indent=2)); a,b=summaries; lat1,lat2=map(math.radians,[a["mean_latitude_deg"],b["mean_latitude_deg"]]); dlon=math.radians(b["mean_longitude_deg"]-a["mean_longitude_deg"]); h=math.sin((lat2-lat1)/2)**2+math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2; print("Seed mean separation NM:",3440.065*2*math.asin(math.sqrt(h)))'
+      $ .venv/bin/python -c 'import json,pathlib,math; p=pathlib.Path("/tmp/mh371-conditional-extension-control"); summaries=[json.loads(f.read_text()) for f in sorted(p.glob("*/seed-*/summary.json"))]; print(json.dumps([{k:s[k] for k in ("status","seed","log_evidence","mean_latitude_deg","mean_longitude_deg","elapsed_seconds")} for s in summaries],indent=2)); a,b=summaries; lat1,lat2=map(math.radians,[a["mean_latitude_deg"],b["mean_latitude_deg"]]); dlon=math.radians(b["mean_longitude_deg"]-a["mean_longitude_deg"]); h=math.sin((lat2-lat1)/2)**2+math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2; print("Seed mean separation NM:",3440.065*2*math.asin(math.sqrt(h)))'
+      [
+        {
+          "status": "experimental_path_posterior_not_validated_for_release",
+          "seed": 37105001,
+          "log_evidence": -79.73327227639334,
+          "mean_latitude_deg": 18.113124253523868,
+          "mean_longitude_deg": 100.52254480353257,
+          "elapsed_seconds": 447.447063719
+        },
+        {
+          "status": "experimental_path_posterior_not_validated_for_release",
+          "seed": 37105002,
+          "log_evidence": -77.55177716560951,
+          "mean_latitude_deg": 19.57708780338721,
+          "mean_longitude_deg": 99.74240465939216,
+          "elapsed_seconds": 433.75339637
+        }
+      ]
+      Seed mean separation NM: 98.4419369932292
+
+── Assistant ───────────────────────────────────────────────
+No. The latest MH371 experiment finished, but its two independent runs disagree by about 98 nautical miles—still failing the numerical-stability requirement.
+
+The code safeguards are done and tested; multiple modes and repeated maneuvers remain supported. The requested reliable uncertainty results and regenerated MH371/MH370 PDFs are not done. I should not call the release complete.

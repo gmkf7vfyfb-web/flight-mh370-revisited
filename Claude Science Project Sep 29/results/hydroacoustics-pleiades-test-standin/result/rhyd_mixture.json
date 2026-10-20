@@ -1,0 +1,557 @@
+{
+ "00:19 R600 BTO Only": {
+  "p_family_fixed": {
+   "next-free": 0.6947721530492059,
+   "next-repro-radar": 0.15271743570298557,
+   "next-descent-climb": 0.137594663061475,
+   "next-routes": 0.014915748186333568
+  },
+  "p_family_reweighted": {
+   "next-free": 0.6971502264579883,
+   "next-repro-radar": 0.13864934130396464,
+   "next-descent-climb": 0.1477982310516779,
+   "next-routes": 0.01640220118636912
+  },
+  "ln_Z0019_per_family": {
+   "next-free": -5.8023170128643615,
+   "next-repro-radar": -5.902375346033462,
+   "next-descent-climb": -5.73419807780552,
+   "next-routes": -5.710736014415952
+  },
+  "ln_Z0019_seed_sd": {
+   "next-free": 0.12744142877961773,
+   "next-repro-radar": 0.04924913148792016,
+   "next-descent-climb": 0.07893470053444017,
+   "next-routes": 0.027607427020013182
+  },
+  "ess_flight": {
+   "next-free": 6943447.160508954,
+   "next-repro-radar": 6338066.91042913,
+   "next-descent-climb": 7283785.417366298,
+   "next-routes": 7442336.028822928
+  },
+  "ess_H": {
+   "next-free": 366989.3550658447,
+   "next-repro-radar": 570703.8576896203,
+   "next-descent-climb": 328281.8459440504,
+   "next-routes": 328909.9925544789
+  },
+  "not_computed_weight": {
+   "next-free": 0.016063353508287,
+   "next-repro-radar": 0.019747259640137297,
+   "next-descent-climb": 0.013297255820734249,
+   "next-routes": 0.006927123350638678
+  },
+  "check_p_maxabs": 0.0,
+  "reweighted|A": {
+   "lnR": -0.045625644602375004,
+   "split_half_se": 0.014354156336553186,
+   "split_half_max": 0.017291288667729,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "reweighted|A|nc_both": {
+   "lnR": -0.04231181750316548,
+   "split_half_se": 0.014062967458690574,
+   "split_half_max": 0.017143331534890865,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "reweighted|A-IMOS": {
+   "lnR": -0.10001688684101928,
+   "split_half_se": 0.0069520220332301595,
+   "split_half_max": 0.011764846896077985,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "reweighted|A-IMOS|nc_both": {
+   "lnR": -0.10128922142332442,
+   "split_half_se": 0.006760677116006729,
+   "split_half_max": 0.01138713842860209,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "reweighted|A-VKE": {
+   "lnR": -0.037472292476148195,
+   "split_half_se": 0.012916508778019442,
+   "split_half_max": 0.015738264252942336,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "reweighted|A-VKE|nc_both": {
+   "lnR": -0.035401212585283004,
+   "split_half_se": 0.012730748369386181,
+   "split_half_max": 0.015510362603639333,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "reweighted|H01W-only": {
+   "lnR": 0.10339993069148462,
+   "split_half_se": 0.016963432501907474,
+   "split_half_max": 0.018694477120294345,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "reweighted|H01W-only|nc_both": {
+   "lnR": 0.10499275697077848,
+   "split_half_se": 0.016846792184941298,
+   "split_half_max": 0.018647596123054833,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "reweighted|per_stratum_A": {
+   "next-free": -0.04951488855526698,
+   "next-repro-radar": -0.07385649692544471,
+   "next-descent-climb": 0.004077183132258799,
+   "next-routes": -0.009568020680873479
+  },
+  "fixed|A": {
+   "lnR": -0.04656260611758961,
+   "split_half_se": 0.014282983999590241,
+   "split_half_max": 0.017245856512741103,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "fixed|A|nc_both": {
+   "lnR": -0.04322287847948664,
+   "split_half_se": 0.013982290360975144,
+   "split_half_max": 0.017108728970963383,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "fixed|A-IMOS": {
+   "lnR": -0.09992586185736757,
+   "split_half_se": 0.006688040715071117,
+   "split_half_max": 0.011341464300334808,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "fixed|A-IMOS|nc_both": {
+   "lnR": -0.10120486190839667,
+   "split_half_se": 0.00649370843735031,
+   "split_half_max": 0.010959274955946952,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "fixed|A-VKE": {
+   "lnR": -0.0381417374352474,
+   "split_half_se": 0.012818789548850535,
+   "split_half_max": 0.01552217275014764,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "fixed|A-VKE|nc_both": {
+   "lnR": -0.03605807486959017,
+   "split_half_se": 0.012627433296234532,
+   "split_half_max": 0.015276752106819336,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "fixed|H01W-only": {
+   "lnR": 0.10207671624504222,
+   "split_half_se": 0.016723563291195568,
+   "split_half_max": 0.018661474338823092,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "fixed|H01W-only|nc_both": {
+   "lnR": 0.10366914811018746,
+   "split_half_se": 0.01659912947688837,
+   "split_half_max": 0.018616530210055104,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "fixed|per_stratum_A": {
+   "next-free": -0.04951488855526698,
+   "next-repro-radar": -0.07385649692544471,
+   "next-descent-climb": 0.004077183132258799,
+   "next-routes": -0.009568020680873479
+  }
+ },
+ "00:19 Held Out": {
+  "p_family_fixed": {
+   "next-free": 0.6947721530492059,
+   "next-repro-radar": 0.15271743570298557,
+   "next-descent-climb": 0.137594663061475,
+   "next-routes": 0.014915748186333568
+  },
+  "p_family_reweighted": {
+   "next-free": 0.6945986595061164,
+   "next-repro-radar": 0.15225710026168846,
+   "next-descent-climb": 0.13834247983036654,
+   "next-routes": 0.014801760401828613
+  },
+  "ln_Z0019_per_family": {
+   "next-free": -0.10607598730155554,
+   "next-repro-radar": -0.10884509064528602,
+   "next-descent-climb": -0.10040603347979493,
+   "next-routes": -0.1134977035460576
+  },
+  "ln_Z0019_seed_sd": {
+   "next-free": 0.029269353725744088,
+   "next-repro-radar": 0.0032817290704342367,
+   "next-descent-climb": 0.008604526331755156,
+   "next-routes": 0.0055933889327873495
+  },
+  "ess_flight": {
+   "next-free": 11022154.112029303,
+   "next-repro-radar": 10997088.260023706,
+   "next-descent-climb": 11080469.331934795,
+   "next-routes": 10934420.044300348
+  },
+  "ess_H": {
+   "next-free": 1037325.9671092461,
+   "next-repro-radar": 1505007.5768337334,
+   "next-descent-climb": 907857.5886263682,
+   "next-routes": 779123.4409426042
+  },
+  "not_computed_weight": {
+   "next-free": 0.013456323501272719,
+   "next-repro-radar": 0.01650634656537578,
+   "next-descent-climb": 0.012290718228648191,
+   "next-routes": 0.0075485906067082505
+  },
+  "check_p_maxabs": 0.0,
+  "reweighted|A": {
+   "lnR": -0.08172425690228274,
+   "split_half_se": 0.008066440351802153,
+   "split_half_max": 0.010237036040354863,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "reweighted|A|nc_both": {
+   "lnR": -0.07879618417167661,
+   "split_half_se": 0.007838912836384139,
+   "split_half_max": 0.010149453678481912,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "reweighted|A-IMOS": {
+   "lnR": -0.04908034637612635,
+   "split_half_se": 0.003071201639129786,
+   "split_half_max": 0.004709510909477688,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "reweighted|A-IMOS|nc_both": {
+   "lnR": -0.050041375662966625,
+   "split_half_se": 0.002950156119712084,
+   "split_half_max": 0.004434034018736571,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "reweighted|A-VKE": {
+   "lnR": -0.03984185465826107,
+   "split_half_se": 0.007233820826536013,
+   "split_half_max": 0.010225701949390709,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "reweighted|A-VKE|nc_both": {
+   "lnR": -0.038109366906660835,
+   "split_half_se": 0.007105498186716799,
+   "split_half_max": 0.010112838174481109,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "reweighted|H01W-only": {
+   "lnR": -0.0020821463030485376,
+   "split_half_se": 0.010823743264785258,
+   "split_half_max": 0.012872224875901034,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "reweighted|H01W-only|nc_both": {
+   "lnR": -0.0007071088054944608,
+   "split_half_se": 0.010758970224087285,
+   "split_half_max": 0.012885264236651595,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "reweighted|per_stratum_A": {
+   "next-free": -0.08209461600124768,
+   "next-repro-radar": -0.10281588840305966,
+   "next-descent-climb": -0.05511553663550561,
+   "next-routes": -0.03833518667024882
+  },
+  "fixed|A": {
+   "lnR": -0.08174959812110283,
+   "split_half_se": 0.008072278020631905,
+   "split_half_max": 0.010243235437279646,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "fixed|A|nc_both": {
+   "lnR": -0.07882085112148329,
+   "split_half_se": 0.007844089409816166,
+   "split_half_max": 0.01015515947814849,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "fixed|A-IMOS": {
+   "lnR": -0.049074486297717934,
+   "split_half_se": 0.0030648177560818495,
+   "split_half_max": 0.004701786487154774,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "fixed|A-IMOS|nc_both": {
+   "lnR": -0.0500356548520024,
+   "split_half_se": 0.002943603573660235,
+   "split_half_max": 0.0044260645093306406,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "fixed|A-VKE": {
+   "lnR": -0.0398589926802731,
+   "split_half_se": 0.007237991216864689,
+   "split_half_max": 0.010227787884192818,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "fixed|A-VKE|nc_both": {
+   "lnR": -0.038126216852757966,
+   "split_half_se": 0.007109295239222003,
+   "split_half_max": 0.010114607857487024,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "fixed|H01W-only": {
+   "lnR": -0.00211853714627408,
+   "split_half_se": 0.01082145156996319,
+   "split_half_max": 0.012874254513479344,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "fixed|H01W-only|nc_both": {
+   "lnR": -0.0007435469032473496,
+   "split_half_se": 0.010756268771241478,
+   "split_half_max": 0.01288691085415547,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "fixed|per_stratum_A": {
+   "next-free": -0.08209461600124768,
+   "next-repro-radar": -0.10281588840305966,
+   "next-descent-climb": -0.05511553663550561,
+   "next-routes": -0.03833518667024882
+  }
+ },
+ "00:19 R600 BTO + Raw BFO": {
+  "p_family_fixed": {
+   "next-free": 0.6947721530492059,
+   "next-repro-radar": 0.15271743570298557,
+   "next-descent-climb": 0.137594663061475,
+   "next-routes": 0.014915748186333568
+  },
+  "p_family_reweighted": {
+   "next-free": 0.638817690139958,
+   "next-repro-radar": 0.13953015433381613,
+   "next-descent-climb": 0.20408754718364064,
+   "next-routes": 0.017564608342585237
+  },
+  "ln_Z0019_per_family": {
+   "next-free": -12.55996643003679,
+   "next-repro-radar": -12.566310234722474,
+   "next-descent-climb": -12.08176466849788,
+   "next-routes": -12.312533176478004
+  },
+  "ln_Z0019_seed_sd": {
+   "next-free": 0.048357070627566924,
+   "next-repro-radar": 0.10024771307798627,
+   "next-descent-climb": 0.4037174094973709,
+   "next-routes": 0.2662481666229698
+  },
+  "ess_flight": {
+   "next-free": 234505.2481631545,
+   "next-repro-radar": 224929.83675278735,
+   "next-descent-climb": 341470.8405430105,
+   "next-routes": 272772.2263929928
+  },
+  "ess_H": {
+   "next-free": 18153.853414536803,
+   "next-repro-radar": 27004.943091896537,
+   "next-descent-climb": 16106.323779968869,
+   "next-routes": 14125.676525347113
+  },
+  "not_computed_weight": {
+   "next-free": 0.0077588057728860335,
+   "next-repro-radar": 0.010841010173943426,
+   "next-descent-climb": 0.004749167150703333,
+   "next-routes": 0.0051769114773586224
+  },
+  "check_p_maxabs": 0.0,
+  "reweighted|A": {
+   "lnR": -0.15224565752220398,
+   "split_half_se": 0.019114784185717576,
+   "split_half_max": 0.032070133359521996,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "reweighted|A|nc_both": {
+   "lnR": -0.14547757311308074,
+   "split_half_se": 0.01925053369077843,
+   "split_half_max": 0.031837397532416684,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "reweighted|A-IMOS": {
+   "lnR": -0.12117317459818161,
+   "split_half_se": 0.008874282009205382,
+   "split_half_max": 0.012091580841464111,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "reweighted|A-IMOS|nc_both": {
+   "lnR": -0.12087388934608506,
+   "split_half_se": 0.008679873910558536,
+   "split_half_max": 0.011810364875596585,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "reweighted|A-VKE": {
+   "lnR": -0.14624887723883562,
+   "split_half_se": 0.011161308075668952,
+   "split_half_max": 0.014788867227363695,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "reweighted|A-VKE|nc_both": {
+   "lnR": -0.14232496983403636,
+   "split_half_se": 0.011266423033499616,
+   "split_half_max": 0.014145411366273869,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "reweighted|H01W-only": {
+   "lnR": -0.025184422670605833,
+   "split_half_se": 0.020601631113576314,
+   "split_half_max": 0.034350858964701136,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "reweighted|H01W-only|nc_both": {
+   "lnR": -0.022504325412042447,
+   "split_half_se": 0.020548768799583846,
+   "split_half_max": 0.03409933057528866,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "reweighted|per_stratum_A": {
+   "next-free": -0.15840073673169575,
+   "next-repro-radar": -0.17411395986409328,
+   "next-descent-climb": -0.1265177218424165,
+   "next-routes": -0.13584647155122198
+  },
+  "fixed|A": {
+   "lnR": -0.15492422184265586,
+   "split_half_se": 0.02130071410036598,
+   "split_half_max": 0.03548978989389884,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "fixed|A|nc_both": {
+   "lnR": -0.14784711331221817,
+   "split_half_se": 0.021374148984640056,
+   "split_half_max": 0.035104857819205026,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "fixed|A-IMOS": {
+   "lnR": -0.12280815088758029,
+   "split_half_se": 0.008389229268877462,
+   "split_half_max": 0.010806285199730065,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "fixed|A-IMOS|nc_both": {
+   "lnR": -0.12250483536556334,
+   "split_half_se": 0.008172417320562108,
+   "split_half_max": 0.010504185460180393,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "fixed|A-VKE": {
+   "lnR": -0.14750237849355702,
+   "split_half_se": 0.013706033379486579,
+   "split_half_max": 0.018050251810107748,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "fixed|A-VKE|nc_both": {
+   "lnR": -0.14337056123268427,
+   "split_half_se": 0.013801837257668276,
+   "split_half_max": 0.01740727619659313,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "fixed|H01W-only": {
+   "lnR": -0.026897020478252598,
+   "split_half_se": 0.02307200121894651,
+   "split_half_max": 0.03825114603636842,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "fixed|H01W-only|nc_both": {
+   "lnR": -0.02411334981747998,
+   "split_half_se": 0.023001491254576085,
+   "split_half_max": 0.03795422772580395,
+   "reading": "within noise",
+   "reading_lo": "within noise",
+   "reading_hi": "within noise"
+  },
+  "fixed|per_stratum_A": {
+   "next-free": -0.15840073673169575,
+   "next-repro-radar": -0.17411395986409328,
+   "next-descent-climb": -0.1265177218424165,
+   "next-routes": -0.13584647155122198
+  }
+ }
+}

@@ -1,0 +1,2099 @@
+--- page 1 ---
+The Aeronautical Journal (2025), 1–37
+doi:10.1017/aer.2024.141
+RESEARCH ARTICLE
+An estimation method for the fuel burn and other
+performance characteristics of civil transport aircraft;
+part 3 full ﬂight proﬁle when the trajectory is speciﬁed
+D.I.A. Poll1 and U. Schumann2
+1Emeritus Professor of Aerospace Engineering, Cranﬁeld University, Bedford, UK
+2Deutsches Zentrum für Luft- und Raumfahrt, Institut für Physik der Atmosphäre, Oberpaﬀenhofen, Germany
+Corresponding author: D.I.A. Poll; Email: d.i.a.poll@cranﬁeld.ac.uk
+Received: 30 September 2024; Revised: 7 November 2024;Accepted: 13 November 2024
+Keywords: fuel use; engine eﬃciency; lift-to-drag; operating limits; climb; cruise; descent
+Abstract
+If an aircraft’s initial mass, the variation of true airspeed, true rate of climb, wind speed and wind direction with
+time and the relationship between barometric altitude and local temperature are known, the performance along the
+entire ﬂight path can be determined. Previously published work has provided the building blocks for a simple, fast,
+open-source and transparent method to estimate the instantaneous fuel ﬂow rate and the engine overall eﬃciency,
+plus several other performance characteristics for turbofan powered, civil transport aircraft. The ﬂight phases of
+primary interest are the climb, cruise, descent and holding, when the ﬂaps and undercarriage are fully retracted and
+the engine is providing signiﬁcant, positive thrust. However, for completeness, an approximate relation is provided
+for the engine’s ‘ﬂight idle’ condition, together with simple estimates for fuel use during take-oﬀ and landing,
+plus a factor to allow for in-service deterioration. Detailed consideration is also given to the operating limits and
+relations are developed for the estimation of their location in Mach number and ﬂight level space. To apply the
+method, a series of characteristic coeﬃcients and constants must be known. Estimates for these quantities have been
+progressively improved and extended over time. Initially, results were published for 53 aircraft types and variants.
+The data base has now been extended to 67 entries and this is given in tabular form. Finally, to demonstrate the
+method’s accuracy, estimates of fuel ﬂow rate are compared with ﬂight data recorder values for 20 complete ﬂights
+of six diﬀerent aircraft types.
+Nomenclature
+Ae sum of the engine core and bypass jet exit cross sectional areas
+AR wing aspect ratio
+a constant in the skin friction law – Equation (33)
+a∞ speed of sound = (γℜT∞)1/2
+BPR engine nominal bypass ratio
+b constant in the skin friction law – Equation (33)
+bf fuselage width
+Cd airframe drag coeﬃcient = D/(q∞Sref )
+Cdo zero-lift drag coeﬃcient
+Cdw wave drag coeﬃcient
+CL overall lift coeﬃcient= L/(q∞Sref )
+CF mean skin friction coeﬃcient – Equation (33)
+CP speciﬁc heat at constant pressure for air
+CT total aircraft net thrust coeﬃcient= n.Fn/(q∞Sref )
+C© The Author(s), 2025. Published by Cambridge University Press on behalf of Royal Aeronautical Society. This is an Open Access article, distributed
+under the terms of the Creative Commons Attribution licence ( https://creativecommons.org/licenses/by/4.0/), which permits unrestricted re-use,
+distribution and reproduction, provided the original article is properly cited.
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 2 ---
+2 Poll and Schumann
+Ct engine net thrust coeﬃcient= Fn/(q∞Ae)
+c1,2,3 dummy variables – Equations (E11), (E12)a n d(E13)
+D total drag force
+e aircraft Oswald eﬃciency factor
+FCOM ﬂight crew operating manual
+FL ﬂight level
+Fn net installed thrust per engine
+g acceleration due to gravity
+gn net vertical acceleration due to gravity and Coriolis eﬀect
+gISA acceleration due to gravity in the International standard atmosphere (9.80665m/sec2 at sea level)
+H geopotential altitude above local sea level – AppendixA
+h0-2 engine dependent functions – Equations (24), (27)a n d(28)
+h geometric height above local sea level= geodetic height
+J1-3 constants in Equations (42)a n d(44)
+K s lift-dependent drag factor – Equation ( 30)
+k1 miscellaneous lift-dependent drag factor – Equation (37)
+L lift force
+LCV lower caloriﬁc value of fuel (≈43×106J/kg for kerosene)
+L/D lift-to-drag ratio
+l characteristic streamwise length= S
+1/2
+ref
+M∞ ﬂight Mach number = V∞ /a∞
+Mcc crest critical Mach number – Equation (40)
+MTF ‘technology level’ constant in Equation (41)
+MTOM maximum permitted take-oﬀ mass
+m instantaneous total aircraft mass
+˙mf fuel mass ﬂow rate – summed over all engines
+n number of engines on aircraft
+p static pressure
+pi impact pressure – Equation (59)
+q∞ freestream dynamic pressure= 0.5ρ∞(V∞)2 = 0.5γ p∞(M ∞)2
+Rac characteristic Reynolds number – Equation (34)
+ℜ gas constant for air (287.05J/(kg K))
+r the geocentric radius of the Earth at sea level
+rE equatorial radius
+rP polar radius
+S distance travelled through the air
+Sref aerodynamic reference wing area (Airbus deﬁnition)
+s wingspan
+T static temperature
+TR engine throttle parameter – Equation (E4)
+To total temperature – Equation (E5)
+TCDS type certiﬁcate data sheet
+TET ratio of total temperature at turbine entry to freestream total temperature
+t time
+VG speed along ﬂight path relative to the ground
+Vw wind speed
+V∞ true air speed
+X wave drag variable – Equation (40)
+βh aircraft heading angle
+βt aircraft ground track angle
+βw wind direction
+γ ratio of speciﬁc heats for air (=1.4)
+δ2 induced drag wing-fuselage interference factor
+ε angle between the thrust line and the ﬂight direction
+ηo propulsion system overall eﬃciency – Equation (1)
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 3 ---
+The Aeronautical Journal 3
+η2 constant in Equation (27)
+θ climb gradient – Equation (4)
+Λw wing quarter-chord sweep angle
+μ dynamic viscosity
+φ geocentric latitude
+ρ air density = p/(ℜT)
+/Sigma1 coeﬃcient in Equation (24)
+ψ0, ψ6 constant coeﬃcients – Equations (32)a n d(49)
+ω Earth’s angular velocity
+Superscripts
+ac whole aircraft value
+Subscripts
+AC at the aerodynamic ceiling
+B best, or local maximum, value
+buﬀ at buﬀet onset
+CAS calibrated air speed
+CO crossover value
+DO at design optimum conditions
+EAS equivalent air speed
+EC engine characteristic value
+FI ﬂight idle
+IS ‘in service’ value
+ISA International Standard Atmosphere
+LS low speed
+MU maximum useable
+MCC maximum continuous climb rating
+MTO maximum take-oﬀ rating
+MO maximum permitted operational value
+Max maximum value
+Min minimum value
+O when (ηoL/D) has its absolute maximum value
+ref reference
+SC at the service ceiling
+SL at sea level
+SLS at sea level static conditions
+Stall at the 1-g stall condition
+TP at the tropopause
+ηB when (ηoL/D) has its best value at a given Mach number
+∞ ﬂight, or freestream, value
+1.0 Introduction
+Over the past 30 years, the atmospheric science community has been improving the understanding of the
+impact of global aviation on the environment. An essential element in this process has been the avail-
+ability of performance estimates for individual aircraft. Until recently, attention has been focused on
+fuel use, since this determines the amounts of carbon dioxide, water vapour and NOx1 that are released.
+1The engine emits a mixture of nitric oxide and nitrogen dioxide, collectively refered to as NOX.
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 4 ---
+4 Poll and Schumann
+However, it is now recognised that contrails and contrail induced cirrus cloud are an important contribu-
+tor to climate change – see Schumann [1]. Prediction of contrail formation and its environmental impact
+requires a knowledge of the engine’s overall eﬃciency, together with the number and physical charac-
+teristics of the non-volatile particulate matter ( nvPM) in the exhaust. This places increased demands
+upon performance models and more comprehensive, more detailed and more accurate models are now
+required.
+To address these challenges, a novel, open, transparent and independently veriﬁable performance
+model has been under development for several years, as reported in Poll [2] and Poll and Schumann [3,
+4, 5, 6]. Currently, this provides estimates of fuel ﬂow rate, thrust and engine overall eﬃciency for the
+cruise phase only, using a set of input parameters that characterise the airframe and engine combination.
+Estimates of these parameters have been published for 53 aircraft types – see Poll and Schumann [4, 5,
+6]. However, since results are needed for all phases of ﬂight, whilst the method is restricted to steady,
+straight and level ﬂight, its usefulness is limited.
+Here, an improved and extended version of the method is presented. This covers climb, cruise, initial
+descent and holding2 for an aircraft in the clean conﬁguration, i.e. with all high lift devices and the
+undercarriage fully retracted. In addition, a simple estimate is proposed for the engines in the ﬂight idle
+condition sometimes employed during descent and, for completeness, ﬁrst order estimates are provided
+for situations where the undercarriage and ﬂaps are deployed, i.e. take-oﬀ, initial climb out, approach
+and landing.
+For various reasons, large trajectory data sets may contain spurious, or erroneous information and
+consistency checks are needed so that potentially misleading data can be rejected. Therefore, detailed
+consideration is given to the aircraft operating envelope. Approximate relations are developed so that the
+permissible, or achievable, operational Mach number versus ﬂight level (FL) space can be determined
+for an aircraft of given weight ﬂying in a completely general atmosphere.
+2.0 Extension to the general case
+If the overall propulsive eﬃciency of the engine,ηo, is deﬁned as
+ηo = nFnV∞
+˙mf LCV , (1)
+where n is the number of engines on the aircraft, Fn is the installed3, net thrust per engine, V∞ is the
+true airspeed, ˙mf is the total fuel mass ﬂow rate andLCV is the lower4 caloriﬁc value of the fuel, then
+the total fuel consumption per unit distance travelled through the air is
+dmf
+dS = ˙mf
+V∞
+=− dm
+dS =
+(nFn
+D
+)( L
+(ηoL/D) LCV
+)
+. (2)
+Here m is the instantaneous aircraft mass,S is the distance travelled through the air,L is the lift andD is
+the drag. In general,ηo depends upon the net thrust, the altitude and the Mach number,M∞, whilst L/D
+depends upon the drag, the altitude andM∞.
+In the general ﬂight situation, thrust is not equal to the drag and lift is not equal to the weight.
+Therefore, consider an aircraft accelerating and climbing in the vertical plane through still air with an
+instantaneous speed, V∞, relative to a stationary, ground-based observer, as shown in Fig. 1. In gen-
+eral, the engine thrust line is set at a ﬁxed angle, known as the thrust setting angle, relative to the
+aircraft’s longitudinal datum. Hence, the angle, ε, between the thrust line and the direction of travel
+2It should be noted that not all holding takes place in the clean condition.
+3An engine installed in an aircraft delivers about 97% of the thrust of the same engine in isolation, e.g. on a test bed.
+4The lower value is appropriate since water generated in the combustion process leaves the engine in its gaseous phase.
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 5 ---
+The Aeronautical Journal 5
+Figure 1. The forces acting upon an aircraft accelerating and climbing in the vertical plane through
+still air.
+is equal to the sum of the thrust setting angle and the angle-of-attack, also measured relative to the air-
+craft’s longitudinal datum. Since the air is still,V∞ is also equal to the airspeed and the ground speed,
+VG,i s
+VG = V∞
+cos θ , (3)
+where θ is the climb gradient and, ifh is the geometric height above local sea level5, then
+sin θ = dh/dt
+V∞
+and cos θ =
+(
+1 −
+(dh/dt
+V∞
+)2
+)1/2
+. (4)
+Relative to the ground-based frame of reference, when an aircraft is following a curved path in the
+vertical plane, whilst losing mass as fuel is consumed, the acceleration along the ﬂight path is
+1
+gn
+dV∞
+dt =
+(n.Fncosε − D
+mgn
+)
+− sin θ + V∞ ˙mf
+gnm (5)
+and the acceleration normal to the ﬂight path is
+V∞
+gn
+dθ
+dt =
+(L + n.Fnsinε
+mgn
+)
+− cos θ ≈ 0, (6)
+see for example Bower et al. [7].
+Strictly speaking, since the Earth is rotating, a co-ordinate system ﬁxed to the ground is not an inertial
+frame of reference. Consequently, the quantitygn includes not only the planet’s gravitational accelera-
+tion, g, but also the vertical component of the Coriolis acceleration and the centrifugal acceleration due
+to the aircraft’s speed relative to the ground. As shown in AppendixA, g is the sum of Newtonian gravity
+and the vertical component of the Earth’s centrifugal acceleration. Both these elements are functions
+of latitude, φ and h. On the other hand, the vertical component of the Coriolis acceleration depends
+upon φ, VG, and aircraft’s ground track relative to true North,βt, – see, for example, Menke and Abbott
+[8]. In addition, since an aircraft ﬂying at ﬁxed height is also following a circular path,VG provides an
+additional centrifugal acceleration. Combining the two eﬀects gives
+gn − g =− 2ωVGsinβt cosφ − V2
+G
+(r + h) , (7)
+where r is the Earth’s geocentric radius at sea level andω is Earth’s angular velocity. This acceleration
+component is sometimes referred to as the “Eötvös6 eﬀect”.
+For civil transport aircraft, ε is usually less than 5 degrees and so its inﬂuence is always small. In
+addition, the climb gradient,θ, is typically less than 10 degrees and, to ensure passenger comfort, accel-
+erations normal to the ﬂight path are maintained at low levels. Consequently, θ is always a relatively
+5Since the Earth is approximately ellipsoidal, this is the geodetic height.
+6A Hungarian name pronounced “Urtvesh”.
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 6 ---
+6 Poll and Schumann
+small angle and any acceleration normal to the ﬂight path can be neglected without causing a signiﬁcant
+loss of accuracy.
+Therefore, if the instantaneous mass of the aircraft, true airspeed, rate of climb, acceleration along
+the ﬂight path and lift-to-drag ratio are known, the total required thrust is given by
+n.Fn
+m(gSL)ISA
+=
+( gn
+(gSL)ISA
+)( (cos θ
+L/D
+)
++ sin θ
+)
++ 1
+(gSL)ISA
+(dV∞
+dt − V∞
+˙mf
+m
+)
+, (8)
+whilst the required lift is
+L
+m(gSL)ISA
+≈
+( gn
+(gSL)ISA
+)
+cos θ . (9)
+Here, (gSL)ISA is the (constant) reference value for gravity at sea level in the International Standard
+Atmosphere (ISA)[ 9].
+As shown in Appendix A,r e l a t i v et o(gSL)ISA, the maximum possible variation of g due to latitude
+changes is ± 0.25%, whilst, in current operations, the maximum variation of g relative to its value
+at sea level due to altitude changes is about −0.5%. Hence, at the global level, deviations in g from
+(gSL)ISA fall in the range+0.25% (sea level at the poles) to−0.75% (15,000m altitude at the equator). By
+comparison, the vertical component of the Coriolis acceleration has values in the range ± 0.0357m/s2
+(maximum at the equator), i.e.±0.35% of (gSL)ISA, whilst the maximum centrifugal acceleration due to
+ﬂight speed is about−0.01m/s2,o r −0.10% of (gSL)ISA. Therefore, takinggn to be equal to (gSL)ISA,a si s
+often the case in analytic work, introduces an error somewhere in the range+0.5% to −1.2%.
+In general, the air through which the aircraft is travelling will not be still, i.e. there will be a wind.
+However, if the wind is horizontal with speed,Vw, and direction,βw, measured relative to true North, and
+both quantities are steady, then according to Galileo’s principle of independence, a frame of reference
+that moves with the air mass, i.e. with speed,Vw, and direction,βw, relative to the ground, is also inertial.
+Relative to this ‘wind ﬁxed’ frame of reference, V∞ is still the airspeed, h is still the geometric height
+above local sea level andg is unchanged. However, the very small Eötvös acceleration in Equation (7)
+must always be evaluated relative to ground ﬁxed axes and, if the aircraft heading isβh, VG and βt are
+obtained from a solution of the vector wind triangle, see, for example, Huang and Cummings [10], i.e.
+VG =
+√ ( V∞
+cos θ
+)2
++ V2
+w − 2
+(V∞Vw
+cos θ
+)
+cos (βh − βw) (10)
+and
+βt = βh + sin−1
+(Vw
+VG
+sin (βh − βw)
+)
+. (11)
+Consequently, subject only to this small correction, Equations (8) and (9) are valid for a steady, uniform
+wind. Nevertheless, during normal operations, signiﬁcant wind velocity variations are to be expected,
+in which case, a frame of reference moving with the wind speed will no longer be inertial. However, if
+the horizontal wind has a component in the aircraft’s direction of travel, i.e. a tail wind,Vtw, where
+Vtw =− Vwcos (βh − βw) , (12)
+by analogy with the Coriolis acceleration, Equation (8) can be extended to include time varying, wind
+strength by the introduction of an additional, inertial force, i.e.
+n.Fn
+m(gSL)ISA
+=
+( gn
+(gSL)ISA
+)( (cos θ
+L/D
+)
++ sin θ
+)
++ 1
+(gSL)ISA
+(dV∞
+dt − V∞
+˙mf
+m
+)
++ cos θ
+(gSL)ISA
+(dVtw
+dt − Vtw
+˙mf
+m
+)
+. (13)
+7Assuming ﬂight in the ISA at the equator, travelling either due east, or due west, at 36,000 feet and with a Mach number 0.85.
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 7 ---
+The Aeronautical Journal 7
+As described in Appendix B, the aircraft’s air data system uses impact pressure, pi, measured with
+a Pitot tube, the local static pressure, p∞, and total temperature, ( T0)∞ to determine the ﬂight Mach
+number, M∞, local static temperature, T∞, and, hence, true airspeed, V∞. However, whilst, as shown
+in Appendix A, the true rate of climb, dh/dt, can be obtained from a knowledge of the variation of
+p∞ and T∞ with time, the air data system alone cannot provide a value for h. Consequently, in oper-
+ations, when an aircraft is above the ‘transition’ altitude,8 h is replaced by the non-dimensional ﬂight
+level, FL. By international agreement, using p∞ from the air data system, FL is deﬁned as the geopo-
+tential altitude, H, measured in feet, that the aircraft would have if it was operating in the International
+Standard Atmosphere [9] divided by 100. The relationship between ﬂight level andp∞ is also given in
+Appendix A.
+When the trajectory is obtained from a ground-based source, e.g. an air navigation service provider,
+the information might be presented as values of ground speed, ground track and ﬂight level at a series
+of waypoints. In this situation, again using the wind triangle, the airspeed is given by
+V∞cos θ =
+(
+V2
+G + V2
+w + 2VGVwcos (βt − βw)
+)1/2
+, (14)
+whilst, as shown in AppendixA, the true rate of climb is given by
+1
+(aSL)ISA
+dh
+dt = 0.08957
+((gSL)ISA
+g
+)( T∞
+(T∞)ISA
+) dFL
+dt (m/s) . (15)
+Here wind speed, wind direction and temperature information would have to be obtained from a
+meteorological service provider.
+If the aircraft lift and drag coeﬃcients have their usual deﬁnitions, i.e.
+CL = L
+(γ/ 2) p∞M2
+∞Sref
+and CD = D
+(γ/ 2) p∞M2
+∞Sref
+, (16)
+where air is taken to be an ideal gas,Sref is the reference wing area,γ is the ratio of speciﬁc heats, plus
+a total thrust coeﬃcient, CT , deﬁned as
+CT = n.Fn
+(γ/ 2) p∞M2
+∞Sref
+. (17)
+Then Equation (8) becomes
+CT = CL
+( 1
+L/D + tanθ
+)
++ CL
+cos θ
+((gSL)ISA
+gn
+)( 1
+(gSL)ISA
+(dV∞
+dt − V∞
+˙mf
+m
+)
++
+cos θ
+(gSL)ISA
+(dVtw
+dt − Vtw
+˙mf
+m
+))
+. (18)
+This result is applicable to all phases of ﬂight. Consequently, the total fuel consumed per unit time,˙mf ,
+is given by combining Equations (1) and (18), i.e.
+˙mf = nFnV∞
+ηoLCV =
+(γ
+2
+)(CT
+ηo
+M3
+∞
+)( p∞a∞Sref
+LCV
+)
+. (19)
+Further information on aircraft performance can be found in standard texts, e.g. Shevell [ 11]o r
+Young [12].
+3.0 Estimating the overall engine propulsive eﬃciency
+The model relating engine overall eﬃcieny to net thrust, altitiude and Mach number has been fully
+described in Poll and Schumann [6]. Therefore, only a summary will be presented here.
+8The transition altitude is determined by the air traﬃc controller and it can range form 3,000 to 18,000 feet, depending upon
+conditions. Below this level, pressure height is measured relative to sea level, i.e. the altimeter reference value is local static
+pressure at sea level. Above it, the reference pressure is set to 1,013.25hPa, i.e. sea-level static in the ISA, and ﬂight levels are
+used.
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 8 ---
+8 Poll and Schumann
+Figure 2. The variation of overall eﬃciency with thrust coeﬃcient and Mach number for a civil aircraft
+turbofan engine with a nominal bypass ratio of 8. Figure taken from Poll and Schumann [6].
+The thrust coeﬃcient for an individual engine is given by
+Ct = Fn
+(γ/ 2) p∞M2
+∞Ae
+. (20)
+If the bypass and core ﬂows are mixed at exit, Ae is the jet exit area. However, if the bypass and core
+ﬂows are separate,Ae is the sum of the engine core and bypass jet exit cross sectional areas. Hence, from
+Equation (17), the total thrust coeﬃcent is
+CT =
+(n.Ae
+Sref
+)
+Ct . (21)
+The typical variation ofηo with Ct and M∞ i ss h o w ni nF i g .2. For operation at ﬁxed Mach number,
+ηo goes though a local maximum, (ηo)B, at a particular value of Ct, i.e. (Ct)ηB, and the locus of these
+‘best’ points is given by the dashed line in Fig. 2. Poll and Schumann [6] have shown that, for a given
+Mach number, if the values of ηo are normalised with (ηo)B and the corresponding values of Ct are
+normalised with (Ct)ηB, the resulting curves are approximately independent of Mach number for Mach
+numbers greater than 0.4 and almost the same for all engines, irrespective of the overall pressure and
+bypass ratios.
+Furthermore, since, from Equations (20) and (21),
+Ct
+(Ct)ηB
+= CT
+(CT)ηB
+, (22)
+this near-universal curve for individual engines is also applicable to the complete aircraft and, for
+0.3 ≤ CT
+(CT)ηB
+< 1.8, (23)
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 9 ---
+The Aeronautical Journal 9
+it may be represented to a good approximation, by
+ηo
+(ηo)B
+= h0 ≈
+(
+1 − 0.43
+( CT
+(CT)ηB
+− 1
+)2
+)(
+1 + /Sigma1
+( CT
+(CT)ηB
+− 1
+)2
+)
+. (24)
+For M∞ greater than 0.4, /Sigma1is zero and, for
+0.2 ≤ M∞ ≤ 0.4, (25)
+/Sigma1≈ 1.30 (0.4 − M∞) . (26)
+If values of normalised overall eﬃciency are required for normalised thrust coeﬃcients below 0.3, the
+variation may be represented by a fourth order polynomial as described in AppendixC.
+In addition, it has been shown that (ηo)B and (CT )ηB are functions of the Mach number, such that, for
+Mach numbers greater than about 0.2,
+(ηo)B
+(ηo)DO
+= h1 ≈
+( M∞
+MDO
+)η2
+(27)
+and
+(Ct)ηB
+(Ct)DO
+= (CT)ηB
+(CT)DO
+= h2 ≈
+( 1 + 0.55M∞
+1 + 0.55MDO
+)( MDO
+M∞
+)2
+. (28)
+Here, η2 is a function of the bypass ratio, with
+η2 ≈ 0.65 (1 − 0.035 (BPR)) (29)
+and (ηo)DO, MDO, and (CT )DO are the ‘design optimum’ values.
+The design optimum condition is the single combination of aircraft weight, ﬂight level and Mach
+number at which both the airframe lift-to-drag ratio and the engine’s overall eﬃciency have local max-
+imum values when operating in a speciﬁed atmosphere, i.e. ( ηo L/D) is an absolute maximum. As
+described in Poll and Schumann [5], the design weight is set to 80% of the maximum permitted take-oﬀ
+value, i.e. a value close to a typical mid-cruise condition, and the design atmosphere is taken to be the
+International Standard Atmosphere [9]. The design optimum values are characteristic of the aircraft and
+engine combination. Therefore, when the (ηo)DO, MDO, and (CT )DO, are known, the normalising values
+(ηo)B and (CT )ηB for any other operating condition are obtained from Equations (27) and (28). These are
+then used in Equation (24) to give the corresponding value ofηo.
+Estimates of (ηo)DO, MDO, and (CT )DO for 53 diﬀerent aircraft types and variants have been reported
+previously by Poll and Schumann [4, 5, 6]. This list has now been extended to cover 67 aircraft and the
+complete set of values can be found in Tables1 and 2.
+4.0 Estimating the lift-to-drag ratio for the clean conﬁguration
+The variation of an aircraft’s drag with lift is known as its drag polar. During the take-oﬀ, very early
+climb, ﬁnal approach and landing, the high lift devices are deployed and the undercarriage is lowered.
+However, above about 3,000 feet, the aircraft is usually in the clean condition with high lift devices and
+undercarriage fully retracted, but still travelling at low Mach number (M∞ <0.6). In this situation, when
+the lift coeﬃcient lies between 0.3 to 0.7, the polar may be represented, approximately, by the classical
+two-term, low-speed form, i.e.
+Cd = function (CL, Rac) ≈ Cd0 + C2
+L
+π .AR.eLS
+= Cd0 + KC2
+L. (30)
+Here, K is the lift-dependent drag factor,AR is the wing aspect ratio, deﬁned as
+AR = s2
+Sref
+, (31)
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 10 ---
+10 Poll and Schumann
+Table 1. Principal characteristics of a range of turbofan engines powering civil transport aircraft. The characteristics are averages over all
+engines appropriate to the aircraft type and the static thrust and fuel ﬂow at ﬂight idle are total aircraft values
+First Nominal Nominal (F 00)ISA ( ˙mf )max T/O (TET)MCC
+ICAO Flight OPR BPR (kN) (kg/s) (( ˙mf )SLS)FI MEC TREC (ηo)DO η1 (CT)DO (K)
+A30B 1973 26 4.6 466 4.80 0.40 0.674 4.93 0.276 0.322 0.0350 1350
+A306 1983 32 4.9 525 5.08 0.42 0.683 5.34 0.313 0.364 0.0307 1486
+A310 1982 26 5.0 444 4.29 0.38 0.686 5.37 0.334 0.384 0.0329 1474
+A313 1982 28 5.0 480 4.51 0.39 0.684 5.36 0.327 0.375 0.0329 1474
+A318 2002 25 5.2 199 2.06 0.21 0.689 6.03 0.293 0.340 0.0309 1649
+A319 1995 25 5.6 212 1.99 0.21 0.701 5.85 0.283 0.328 0.0316 1600
+A320 1987 27 5.6 225 2.15 0.22 0.701 5.59 0.309 0.358 0.0347 1529
+A321 1993 31 5.3 269 2.69 0.25 0.694 5.74 0.295 0.343 0.0359 1584
+A332 1992 34 5.1 609 5.94 0.49 0.686 5.73 0.325 0.370 0.0250 1576
+A333 1992 34 5.1 604 5.84 0.49 0.687 5.73 0.344 0.391 0.0258 1576
+A338 2018 45 9.0 656 4.96 0.48 0.763 6.25 0.360 0.400 0.0229 1726
+A339 2017 45 9.0 656 4.96 0.48 0.763 6.23 0.359 0.400 0.0239 1723
+A342 1991 30 6.7 579 5.52 0.48 0.725 5.64 0.326 0.367 0.0268 1567
+A343 1991 30 6.7 579 5.52 0.48 0.725 5.66 0.331 0.373 0.0281 1567
+A345 2002 36 7.5 1036 8.79 0.92 0.740 5.67 0.324 0.362 0.0245 1649
+A346 2001 37 7.5 1051 8.96 0.92 0.740 5.68 0.336 0.375 0.0258 1643
+A359 2013 41 9.0 758 5.64 0.58 0.764 6.12 0.371 0.405 0.0225 1706
+A35K 2016 49 8.0 873 7.01 0.65 0.749 6.17 0.364 0.400 0.0223 1719
+A388 2005 38 7.9 1351 10.57 1.07 0.747 5.87 0.363 0.399 0.0216 1667
+BCS1 2013 36 11.3 201 1.44 0.15 0.785 6.23 0.326 0.365 0.0304 1706
+BCS3 2015 36 11.3 201 1.44 0.15 0.785 6.26 0.327 0.365 0.0316 1715
+A20N 2014 34 11.6 256 1.77 0.18 0.787 6.25 0.326 0.363 0.0302 1711
+A21N 2016 34 11.6 256 1.77 0.18 0.787 6.20 0.340 0.380 0.0328 1719
+B712 1998 30 4.6 179 1.82 0.20 0.675 6.00 0.289 0.351 0.0376 1622
+B722 1967 17 1.0 204 3.41 0.42 0.557 4.63 0.243 0.286 0.0328 1244
+B732 1967 17 1.0 137 2.30 0.28 0.557 4.66 0.215 0.269 0.0359 1244
+B733 1984 23 5.1 187 2.01 0.23 0.688 5.50 0.273 0.323 0.0384 1497
+B734 1988 24 5.1 190 2.05 0.24 0.688 5.59 0.269 0.319 0.0377 1539
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 11 ---
+The Aeronautical Journal 11
+Table 1. Continued.
+First Nominal Nominal (F 00)ISA ( ˙mf )max T/O (TET)MCC
+ICAO Flight OPR BPR (kN) (kg/s) (( ˙mf )SLS)FI MEC TREC (ηo)DO η1 (CT)DO (K)
+B735 1989 23 5.1 187 2.01 0.23 0.688 5.69 0.255 0.302 0.0346 1549
+B736 1997 23 5.4 190 1.88 0.20 0.695 5.90 0.289 0.335 0.0310 1615
+B737 1997 26 5.2 214 2.18 0.21 0.691 5.90 0.279 0.323 0.0315 1615
+B738 1997 28 5.1 233 2.43 0.22 0.688 5.90 0.287 0.333 0.0335 1615
+B739 2006 28 5.1 233 2.43 0.22 0.688 6.10 0.282 0.327 0.0330 1672
+B37M 2018 40 8.4 248 2.00 0.19 0.755 6.28 0.336 0.380 0.0305 1726
+B38M 2016 40 8.4 248 2.00 0.19 0.755 6.26 0.338 0.383 0.0316 1719
+B39M 2017 40 8.4 248 2.00 0.19 0.755 6.24 0.345 0.390 0.0331 1723
+B742 1971 25 4.8 882 9.11 0.90 0.679 4.61 0.302 0.338 0.0259 1317
+B743 1980 26 4.8 899 9.19 0.91 0.679 5.05 0.301 0.337 0.0253 1449
+B744 1985 31 5.0 1021 9.79 0.82 0.684 5.30 0.318 0.356 0.0245 1508
+B748 2010 43 8.0 1199 9.81 0.87 0.749 5.89 0.362 0.395 0.0224 1693
+B752 1982 27 4.7 358 3.64 0.35 0.678 5.38 0.302 0.347 0.0280 1474
+B753 1998 27 4.7 358 3.64 0.35 0.678 5.88 0.309 0.355 0.0306 1622
+B762 1984 30 4.9 504 4.86 0.41 0.683 5.41 0.320 0.368 0.0272 1497
+B763 1986 30 4.9 504 4.86 0.41 0.683 5.54 0.307 0.353 0.0240 1519
+B764 1999 31 5.1 513 4.86 0.40 0.688 5.83 0.315 0.361 0.0278 1629
+B77L 2005 41 7.2 1007 9.01 0.75 0.735 5.82 0.349 0.386 0.0239 1667
+B772 1994 38 7.0 781 6.89 0.57 0.731 5.72 0.331 0.367 0.0242 1592
+B77W 1994 42 7.1 1028 9.38 0.76 0.732 5.59 0.351 0.389 0.0264 1592
+B773 1997 36 6.3 745 6.87 0.56 0.716 5.80 0.354 0.394 0.0266 1615
+B788 2009 43 9.0 633 4.82 0.45 0.764 6.06 0.376 0.412 0.0238 1688
+B789 2013 43 9.0 633 4.82 0.45 0.764 6.13 0.376 0.412 0.0239 1706
+B78X 2017 46 8.9 689 5.33 0.47 0.762 6.19 0.365 0.400 0.0243 1723
+E75S 2002 23 5.1 120 1.32 0.13 0.688 6.06 0.241 0.284 0.0339 1649
+E75L 2002 23 5.1 120 1.32 0.13 0.688 6.06 0.241 0.284 0.0345 1649
+E135 1995 17 4.8 66 0.72 0.09 0.680 5.92 0.226 0.273 0.0370 1600
+E145 1995 19 4.7 74 0.82 0.10 0.678 5.92 0.242 0.292 0.0382 1600
+E170 2002 23 5.1 120 1.32 0.13 0.688 6.06 0.241 0.284 0.0354 1649
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 12 ---
+12 Poll and Schumann
+Table 1. Continued.
+First Nominal Nominal (F 00)ISA ( ˙mf )max T/O (TET)MCC
+ICAO Flight OPR BPR (kN) (kg/s) (( ˙mf )SLS)FI MEC TREC (ηo)DO η1 (CT)DO (K)
+E190 2004 27 5.1 167 1.74 0.18 0.687 6.07 0.267 0.310 0.0338 1661
+E195 2004 27 5.1 162 1.67 0.17 0.687 6.07 0.268 0.310 0.0349 1661
+E290 2016 33 11.6 186 1.30 0.14 0.787 6.27 0.331 0.368 0.0292 1719
+E295 2017 36 11.4 201 1.42 0.14 0.786 6.28 0.323 0.360 0.0312 1723
+MD82 1981 20 1.7 185 2.62 0.27 0.583 5.44 0.245 0.299 0.0376 1462
+MD83 1984 20 1.7 193 2.71 0.27 0.582 5.57 0.238 0.290 0.0379 1497
+GLF5 1995 25 4.1 138 1.49 0.17 0.659 5.85 0.318 0.367 0.0293 1600
+CRJ9 1999 23 5.1 121 1.33 0.13 0.688 5.96 0.261 0.304 0.0343 1629
+DC93 1967 16 1.0 130 2.13 0.27 0.556 4.64 0.211 0.257 0.0343 1244
+RJ1H 1987 13 5.1 124 1.43 0.18 0.688 5.68 0.218 0.274 0.0427 1529
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 13 ---
+The Aeronautical Journal 13
+Table 2. Principal characteristics of a range of turbofan powered civil transport aircraft; the design optimum conditions are those at which
+(ηoL/D) has its maximum value for an aircraft with a mass equal to 80% of the maximum permitted take-oﬀ value cruising in the ISA
+Sref sb f λω
+ICAO (m 2) (m) (m) (deg) ψ0 ψ6 MDO (Rac)DO (CL)DO (MTF )ac J1 J2 (FL)MO MMO
+A30B 260.0 44.83 5.64 28.0 8.77 0.693 0.753 9.25E +07 0.548 0.712 0.074 0.868 390 0.82
+A306 260.0 44.84 5.64 28.0 7.80 0.716 0.753 9.86E +07 0.519 0.721 0.076 0.871 410 0.82
+A310 219.0 43.89 5.64 28.0 8.38 0.657 0.772 8.14E +07 0.558 0.744 0.073 0.869 410 0.84
+A313 219.0 43.89 5.64 28.0 8.21 0.711 0.772 8.69E +07 0.564 0.738 0.075 0.870 410 0.84
+A318 122.4 34.10 3.95 25.0 7.47 0.607 0.753 5.42E +07 0.564 0.754 0.075 0.871 410 0.82
+A319 122.4 34.10 3.95 25.0 7.70 0.656 0.753 5.81E +07 0.569 0.755 0.075 0.871 410 0.82
+A320 122.4 34.10 3.95 25.0 8.40 0.656 0.753 5.59E +07 0.590 0.750 0.073 0.869 410 0.82
+A321 122.4 34.15 3.95 25.0 8.63 0.794 0.753 6.51E +07 0.606 0.740 0.074 0.869 391 0.82
+A332 361.6 60.30 5.64 29.7 6.69 0.645 0.786 1.10E +08 0.528 0.762 0.076 0.872 410 0.86
+A333 361.6 60.30 5.64 29.7 6.90 0.645 0.786 1.09E +08 0.535 0.761 0.076 0.872 410 0.86
+A338 374.0 64.00 5.64 30.0 6.21 0.648 0.786 1.12E +08 0.530 0.781 0.078 0.874 415 0.86
+A339 374.0 64.00 5.64 30.0 6.46 0.648 0.786 1.10E +08 0.539 0.779 0.077 0.873 415 0.86
+A342 361.6 60.30 5.64 29.7 7.08 0.711 0.786 1.16E +08 0.551 0.760 0.077 0.872 415 0.86
+A343 361.6 60.30 5.64 29.7 7.38 0.711 0.786 1.14E +08 0.561 0.757 0.076 0.872 415 0.86
+A345 437.3 63.45 5.64 31.1 6.73 0.831 0.796 1.53E +08 0.512 0.762 0.078 0.874 415 0.86
+A346 437.3 63.45 5.64 31.1 7.06 0.822 0.796 1.49E +08 0.523 0.759 0.077 0.873 415 0.86
+A359 445.0 64.75 5.96 32.0 6.14 0.569 0.820 1.21E +08 0.493 0.791 0.078 0.874 431 0.89
+A35K 465.0 64.75 5.96 32.0 6.18 0.625 0.820 1.34E +08 0.500 0.789 0.078 0.874 415 0.89
+A388 845.0 79.80 7.14 30.0 6.13 0.620 0.820 1.95E +08 0.446 0.794 0.082 0.876 431 0.89
+BCS1 115.0 32.50 3.51 26.0 7.34 0.576 0.754 4.88E +07 0.576 0.776 0.076 0.873 410 0.82
+BCS3 115.0 32.50 3.51 26.0 7.72 0.641 0.754 5.35E +07 0.585 0.775 0.075 0.872 410 0.82
+A20N 122.4 35.10 3.59 25.0 7.52 0.705 0.753 5.94E +07 0.598 0.786 0.076 0.873 410 0.82
+A21N 122.4 35.27 3.95 25.0 8.08 0.835 0.753 6.60E +07 0.626 0.777 0.077 0.873 391 0.82
+B712 92.8 28.40 3.40 25.0 8.72 0.748 0.700 5.12E +07 0.594 0.685 0.073 0.867 371 0.82
+B722 157.9 32.92 3.76 32.0 7.90 0.554 0.770 6.49E +07 0.499 0.687 0.072 0.865 420 0.90
+B732 99.0 28.35 3.76 25.0 8.41 0.669 0.700 5.02E +07 0.556 0.678 0.073 0.867 370 0.82
+B733 102.0 28.90 3.76 25.0 9.20 0.700 0.729 5.39E +07 0.578 0.715 0.072 0.867 390 0.82
+B734 102.5 28.90 3.76 25.0 8.90 0.774 0.729 5.86E +07 0.579 0.710 0.074 0.868 370 0.82
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 14 ---
+14 Poll and Schumann
+Table 2. Continued.
+Sref sb f λω
+ICAO (m 2) (m) (m) (deg) ψ0 ψ6 MDO (Rac)DO (CL)DO (MTF )ac J1 J2 (FL)MO MMO
+B735 103.7 28.90 3.76 25.0 8.33 0.681 0.729 5.55E +07 0.550 0.721 0.074 0.870 370 0.82
+B736 124.6 34.30 3.76 25.0 7.42 0.567 0.758 5.14E +07 0.564 0.759 0.075 0.871 410 0.82
+B737 124.6 34.30 3.76 25.0 7.61 0.607 0.758 5.46E +07 0.567 0.758 0.075 0.871 410 0.82
+B738 124.6 34.30 3.76 25.0 8.18 0.684 0.758 6.01E +07 0.581 0.754 0.074 0.870 410 0.82
+B739 124.6 34.32 3.76 25.0 7.93 0.737 0.758 6.42E +07 0.585 0.749 0.075 0.871 410 0.82
+B37M 121.9 33.26 3.76 25.0 7.59 0.700 0.763 6.22E +07 0.573 0.779 0.076 0.872 410 0.82
+B38M 121.9 33.26 3.76 25.0 7.87 0.720 0.763 6.31E +07 0.581 0.777 0.075 0.872 410 0.82
+B39M 121.9 33.26 3.76 25.0 8.06 0.770 0.763 6.50E +07 0.599 0.769 0.076 0.872 410 0.82
+B742 511.0 59.64 6.50 37.5 7.02 0.687 0.810 1.58E +08 0.458 0.692 0.074 0.868 450 0.90
+B743 511.0 59.64 6.50 38.5 6.88 0.698 0.810 1.62E +08 0.453 0.683 0.073 0.867 450 0.90
+B744 547.0 64.44 6.50 37.5 6.69 0.685 0.810 1.62E +08 0.465 0.698 0.074 0.869 450 0.92
+B748 594.0 68.40 6.50 37.5 6.25 0.669 0.830 1.72E +08 0.458 0.732 0.077 0.872 421 0.90
+B752 189.0 38.06 3.76 25.0 7.10 0.623 0.772 8.01E +07 0.497 0.770 0.078 0.874 420 0.86
+B753 189.0 38.06 3.76 25.0 7.59 0.673 0.772 8.20E +07 0.522 0.760 0.078 0.873 430 0.86
+B762 283.3 47.57 5.03 31.5 6.96 0.657 0.772 1.02E +08 0.500 0.719 0.076 0.871 430 0.86
+B763 283.3 47.57 5.03 31.5 6.30 0.582 0.772 9.73E +07 0.470 0.730 0.077 0.873 431 0.86
+B764 283.3 51.92 5.03 31.5 7.20 0.748 0.772 1.05E +08 0.544 0.723 0.075 0.870 450 0.86
+B77L 427.8 64.80 6.20 31.6 6.50 0.765 0.811 1.43E +08 0.519 0.772 0.078 0.873 431 0.89
+B772 427.8 60.93 6.20 31.6 6.46 0.632 0.811 1.29E +08 0.495 0.767 0.078 0.874 431 0.89
+B77W 427.8 64.80 6.20 31.6 7.16 0.774 0.811 1.40E +08 0.542 0.767 0.076 0.872 431 0.89
+B773 427.8 60.93 6.20 31.6 7.07 0.659 0.811 1.29E +08 0.515 0.760 0.077 0.872 431 0.89
+B788 377.0 60.12 5.77 32.2 6.38 0.563 0.815 1.06E +08 0.508 0.784 0.077 0.873 431 0.90
+B789 377.0 60.12 5.77 32.2 6.48 0.627 0.815 1.16E +08 0.509 0.784 0.077 0.873 431 0.90
+B78X 377.0 60.12 5.77 32.2 6.61 0.627 0.815 1.17E +08 0.513 0.782 0.077 0.873 411 0.90
+E75S 83.0 25.00 3.00 22.5 7.85 0.560 0.733 4.09E +07 0.552 0.742 0.075 0.871 410 0.82
+E75L 83.0 25.00 3.00 22.5 7.97 0.560 0.733 4.06E +07 0.556 0.741 0.075 0.871 410 0.82
+E135 51.2 20.04 2.25 22.5 8.02 0.487 0.704 2.64E +07 0.562 0.709 0.074 0.869 370 0.78
+E145 51.2 20.04 2.25 22.5 8.38 0.536 0.704 2.87E +07 0.570 0.706 0.073 0.868 370 0.78
+E170 72.7 25.30 3.15 22.5 8.10 0.589 0.733 3.72E +07 0.598 0.744 0.074 0.869 410 0.82
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 15 ---
+The Aeronautical Journal 15
+Table 2. Continued.
+Sref sb f λω
+ICAO (m 2) (m) (m) (deg) ψ0 ψ6 MDO (Rac)DO (CL)DO (MTF )ac J1 J2 (FL)MO MMO
+E190 86.0 27.71 2.74 22.5 7.90 0.599 0.758 4.28E +07 0.594 0.770 0.074 0.870 410 0.82
+E195 92.5 27.73 3.00 22.5 8.13 0.569 0.758 4.29E +07 0.584 0.766 0.074 0.870 410 0.82
+E290 110.0 33.72 3.00 22.5 6.99 0.552 0.758 4.59E +07 0.578 0.806 0.078 0.874 410 0.82
+E295 110.0 35.12 3.00 22.5 7.52 0.602 0.758 4.72E +07 0.613 0.805 0.076 0.873 410 0.82
+MD82 112.3 32.85 3.35 22.5 8.96 0.721 0.720 5.43E +07 0.612 0.715 0.072 0.866 370 0.84
+MD83 112.3 32.85 3.35 22.5 8.86 0.772 0.720 5.77E +07 0.622 0.709 0.073 0.867 370 0.84
+GLF5 105.6 28.50 2.50 25.0 6.70 0.406 0.772 3.83E +07 0.508 0.765 0.077 0.873 510 0.89
+CRJ9 69.0 22.62 2.69 26.0 7.94 0.607 0.753 4.17E +07 0.550 0.737 0.074 0.869 410 0.85
+DC93 93.0 28.44 3.35 24.0 7.95 0.606 0.733 4.58E +07 0.565 0.719 0.074 0.868 370 0.84
+RJ1H 77.3 26.34 3.50 15.0 9.77 0.838 0.650 4.49E +07 0.637 0.682 0.074 0.869 350 0.73
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 16 ---
+16 Poll and Schumann
+where s is the wingspan, eLS is the low-speed Oswald eﬃciency factor and Cd0 is the zero-lift drag
+coeﬃcient. As described in Poll and Schumann [4], Cd0 is related to the mean skin friction coeﬃcient,
+CF ,b y
+Cd0 = ψ0Cac
+F , (32)
+where ψ0 depends upon the aircraft geometry and, as shown in Poll and Schumann [ 3], the variation
+of CF with Reynolds number at Mach 0.5 can be approximated by a simple power law with constant
+coeﬃcients, i.e.
+Cac
+F ≈ a
+(Rac)b = 0.0269
+(Rac)0.14 . (33)
+Here, the aircraft ﬂight Reynolds number,Rac, is deﬁned as
+Rac = lρ∞V∞
+μ∞
+= S
+1/2
+ref
+(ρ∞a∞
+μ∞
+)
+M∞ = S
+1/2
+ref
+( γ p∞
+μ∞a∞
+)
+M∞, (34)
+where, l is a typical aircraft reference length, taken to be the square root of the reference wing area,a∞
+the local speed of sound andμ∞ the dynamic viscosity.
+As described in Refs (3) and (4), the Oswald factor is a function of Cd0 and aircraft geometry such
+that, from Equations (26), (27) and (28)o fR e f .(4),
+eLS ≈ 1
+1.03 + δ2 + π .AR.k1
+, (35)
+where
+δ2 ≈ 2
+(bf
+s
+)2
+(36)
+and
+k1 ≈ 0.80 (1 − 0.53cos (Λw)) Cd0, (37)
+with bf being the fuselage maximum width andΛw the wing quarter-chord sweep angle. Therefore,
+K = 1
+π .AR.eLS
+≈ k1 +
+(1.03 + δ2
+π .AR
+)
+. (38)
+The zero-lift drag coeﬃcient, Cd0, is the sum of the pressure, or form, drag and the surface skin fric-
+tion drag. At low Mach numbers, the form drag increases with increasing Mach number, whilst the
+skin friction drag decreases. Above a Mach number of about 0.5 these eﬀects are approximately equal.
+Consequently, Cd0 and, hence, K may be assumed to be independent of Mach number.
+At higher Mach numbers, the drag polar is modiﬁed by the eﬀects of compressibility and the general
+form becomes
+Cd = function (CL, M∞, Rac) ≈ Cd0 + KC2
+L + Cdw, (39)
+where Cdw is the wave drag coeﬃcient. IfCd0 and K are independent of Mach number,Cdw must capture
+all the compressibility eﬀects, up to and including the development of regions of supersonic ﬂow and,
+ultimately, the formation of shockwaves. When deﬁned in this way, the wave drag coeﬃcient is a function
+of Mach number, lift coeﬃcient and, to a lesser extent, Reynolds number – see Shevell [11].
+As the ﬂight speed increases, sonic conditions are eventually reached at the point on the wing where
+the local static pressure is lowest. Further increases lead to the formation of a region of supersonic ﬂow
+bounded by the wing surface, a sonic interface9 in the region adjacent to the surface and a terminating
+shockwave. Once this local supersonic zone is established, the terminating shockwave moves rearwards
+and strengthens when either the Mach number, or the lift coeﬃcient is increased. Whilst this zone is
+conﬁned to the front portion of the wing, the associated drag increase is small, being typically less
+9The surface formed by all the points in the ﬂow ﬁeld where the local Mach number is unity.
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 17 ---
+The Aeronautical Journal 17
+than about 10 drag counts10 and this variation is known as drag creep. However, when the terminating
+shockwave moves onto the rear part of the wing, it strengthens. Consequently, the drag changes following
+increases in M∞,o r CL, become much larger and this more rapid variation is referred to as drag rise.
+According to the Poll and Schumann [5] model, which is based upon ideas by Shevell [11], transition
+from drag creep to drag rise is governed by the local Mach number at the wing crest. This is the point
+on the aerofoil where the surface slope is parallel to the undisturbed freestream direction. The drag rise
+begins when supersonic ﬂow is established downstream of the crest and this occurs when the freestream
+Mach number exceeds a threshold value known as the crest critical Mach number, Mcc. This quantity
+depends, primarily, upon wing geometry and the lift coeﬃcient, whilst the magnitude of the wave drag
+is governed by the ratio ofM∞ to Mcc. Hence, the variable controlling the wave drag is taken to be
+X = M∞cos (Λw)
+(MCC)ac , (40)
+where
+(MCC)ac = (MTF)ac − 0.10
+( CL
+cos2 (Λw)
+)
+. (41)
+Here, (MTF)ac is a constant aircraft characteristic that captures the aerofoil technology level and the
+distribution of wing thickness-to-streamwise chord ratio across the span.
+In the drag creep region,
+(Cdw)creep ≈ cos3 (Λw)
+(
+j1(X − j2)2)
+, (42)
+where j1 and j2 are constant aircraft dependent characteristics. IfX is less than j2, the wave drag is zero
+and the drag creep region is deemed to have ended when X reaches the design optimum value, XDO,
+where, from Equations (40) and (41),
+XDO = MDOcos (Λw)
+(MTF)ac − 0.10
+(
+(CL)DO
+cos2(Λw)
+). (43)
+At larger values of X, i.e. in the drag rise region, an additional term is introduced to capture the eﬀect
+of strengthening shock waves. Hence,
+(Cdw)rise ≈ cos3 (Λw)
+(
+j1(X − j2)2 + j3(X − XDO)4)
+, (44)
+where j3 is also a constant and is currently taken to be 40. Values ofj1 and j2 are given in Table2.
+At all ﬂight conditions, the lift-to-drag ratio is given by
+L
+D = CL
+Cd = CL
+(
+Cd0 + KC2
+L + Cdw
+). (45)
+By way of illustration, the variation of L/D with drag coeﬃcient and Mach number at a ﬁxed total
+mass for the A320 has been estimated using the Equations ( 30)–(45) with the input parameters given
+in Table 2. The results are presented in Fig. 3. As expected, the maximum value of L/D and the
+corresponding drag coeﬃcient decrease as the ﬂight Mach number increases.
+5.0 The operational limits
+Whilst the model is valid over a wide range of conditions, there are four principal performance factors
+that can limit the achievable combinations of Mach number and ﬂight level in normal operations.
+101 drag count is equal to a change of 0.0001 inCd.
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 18 ---
+18 Poll and Schumann
+Figure 3. Approximate variation of lift-to-drag ratio for the A320 aircraft with drag coeﬃcient and
+Mach number operating at a total mass of 58,800kg.
+5.1. Maximum lift limit
+The ﬁrst constraint is the lift limit, sometimes referred to as the ‘manoeuvre’ limit, which is linked to the
+conditions at which wing buﬀeting11 is ﬁrst encountered during a speciﬁed manoeuvre – usually a level
+turn. For a given aircraft weight, the onset of buﬀeting deﬁnes an envelope of maximum achievable
+ﬂight level for straight and level ﬂight as a function of Mach number. This envelope also has a local
+maximum, i.e. at a given weight, there is an absolute maximum ﬂight level and this is referred to as the
+“aerodynamic” ceiling.
+Starting immediately after take-oﬀ, the aircraft must stay above the minimum speed dictated by max-
+imum usable wing lift. In straight and level ﬂight at low speed, the wing stalls at a particular value of
+the lift coeﬃcient, (CL)stall, known as the 1g stall condition. However, the stall is preceded by buﬀeting
+beginning at (CL)buﬀ , which is about 90% of (CL)stall. In addition, to give the aircraft some margin for safe
+manoeuvre in an emergency, it is a regulatory requirement that the maximum useable lift coeﬃcient,
+(CL)mu, in straight and level ﬂight be set at a value that allows a 1.3g manoeuvre, e.g. a 40◦ level banked
+turn, to be executed before buﬀet onset, i.e.
+(CL)MU = (CL)buff
+1.3 ≈ (CL)stall
+1.5 , (46)
+Data given in Obert [13] suggests that, for aircraft in the clean conﬁguration at low Mach number, (CL)stall
+is about 1.4 ±0.3, whilst, from Table 2, the average value of (CL)DO is seen to be about 0.55. Hence,
+at low speed, the ratio of ( CL)mu to (CL)DO is about 1.8 ±0.4. Clean condition values are applicable
+for ﬂight above 3,000 feet (FL>30), since at lower altitudes high-lift devices are likely to be used and,
+consequently, (CL)mu will be much higher.
+At high speeds, as Mach number increases, the shock waves on the wing eventually become strong
+enough to cause local, boundary-layer separation and the shock wave system itself may become unsteady.
+11As an aerodynamic limit is approached, the ﬁrst signs are usually weak, unsteady pressure variations in the ﬂow. These are
+sensed by the pilot as vibrations of the aircraft structure, which are described, qualitatively, as “buﬀeting”.
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 19 ---
+The Aeronautical Journal 19
+Figure 4. An estimate of the normalised 1g buﬀet onset and 1.3g manoeuvre boundaries for a typical
+civil transport aircraft in the clean condition. Data are taken from an FCOM and the centre of gravity
+is 35% of the mean aerodynamic chord.
+This also produces time varying forces that present as buﬀeting. Further increases in speed produce
+major changes in the wing ﬂow, eventually leading to a situation in which the aircraft can no longer
+be controlled. This phenomenon is known as the high-speed stall and, for safety reasons, at each Mach
+number, a maximum usable, lift coeﬃcient is imposed such that, relative to straight and level ﬂight,
+and consistent with the low-speed stall, the aircraft must be able to execute a 1.3g level turn without
+encountering any buﬀeting.
+Typical 1g buﬀet onset and 1.3g manoeuvre boundaries are shown in Fig. 4. Here, the solid line
+is a smoothed, empirical estimate of the typical manoeuvre boundary linking the low-speed limit of
+(CL)mu/(CL)DO equal to approximately 1.8 and the high-speed limit based upon data taken from the charts
+given in the Flight Crew Operating Manual (FCOM) of a typical civil transport aircraft. In general, the
+boundary depends upon the location of the aircraft’s centre of gravity and an average value of 35% of the
+mean aerodynamic chord has been assumed. More information can be found in Obert [13] Chapter 26 for
+the low-speed stall and Chapter 28 for buﬀet onset at high speed. The data are normalised using (CL)DO
+and MDO and, in this form, the curves are expected to be broadly similar for all the aircraft considered
+here. The solid diamond symbol shows the ﬂight condition for (ηoL/D)DO and the manoeuvre boundary
+loops around it, leaving a clear margin of safety before the stall.
+Using the deﬁnition of lift coeﬃcient given in Equation ( 16), the variation of ( p∞)min with Mach
+number at the manoeuvre boundary is given by
+(p∞)DO
+(p∞)min
+= 0.8
+((CL)MU
+(CL)DO
+)( MTOM
+m
+)( M∞
+MDO
+)2
+, (47)
+whilst the static pressure at the design optimum condition is,
+(p∞)DO
+(pTP)ISA
+= 0.80
+(CL)DO
+ψ6, (48)
+where (pTP)ISA is the static pressure at the tropopause in the International Standard Atmosphere [9] and,
+using the notation from Poll and Schumann [4],
+ψ6 =
+( MTOM.g
+(γ/ 2)( pTP)ISAM2
+DOSref
+)
+. (49)
+Values ofψ6 are given in Poll and Schumann [5] and are also listed in Table2.
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 20 ---
+20 Poll and Schumann
+Figure 5. Variation of the minimum static pressure (maximum ﬂight level) with Mach number for the
+approximate manoeuvre boundary for two values of aircraft mass. Also shown is a typical cabin pressure
+limit (FL 420), together with a typical maximum operational Mach number limit and an approximate
+structural strength boundary ((VEAS)MO of 360 kt), plus an alternative ATM limit of 250 kt CAS below
+10,000 feet.
+Static pressure is linked directly to the ﬂight level through Equations (A13) and (A14) in AppendixB,
+i.e., if (p∞/(pSL)ISA) is greater than 0.223363,
+FL = 1454.4302
+(
+1 −
+( p∞
+(pSL)ISA
+)0.190263
+)
+, (50)
+otherwise
+FL = 49.02022
+(
+1 − 4.24436ln
+( p∞
+(pSL)ISA
+))
+. (51)
+Relations for the approximate variation of normalised (CL)mu with normalised Mach number are given
+in Appendix D and the form of the manoeuvre boundary, expressed as a normalised pressure versus
+normalised Mach number, is given in Fig. 5. As the aircraft climbs, the Mach number for the onset of
+the low-speed stall increases, whilst that for high-speed stall decreases. Eventually, a condition is reached
+at which both begin at the same Mach number. The resulting ﬂight level is an absolute maximum and
+this is the aircraft’s aerodynamic ceiling. From Equation (D4), it is found that the Mach number at this
+condition, (M∞)AC,i sg i v e nb y
+(M∞)AC ≈ 1.035MDO (52)
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 21 ---
+The Aeronautical Journal 21
+and (p∞)AC is
+(p∞)DO
+(p∞)AC
+≈ 0.544
+((CL)mu
+(CL)DO
+)
+LS
+(MTOM
+m
+)
+≈ 0.98
+(MTOM
+m
+)
+. (53)
+Clearly, the aerodynamic ceiling is strongly dependent upon the aircraft mass.
+5.2. Maximum thrust limit
+The next constraint is the thrust limit, sometimes referred to as the minimum available climb rate. This
+is governed by the engine’s net thrust when it is operating at its maximum continuous climb rating.
+The engine rating is usually determined by specifying a maximum value for the total temperature of the
+mixture of air and the products of combustion at the entry to the engine’s turbine section, i.e. the turbine
+entry temperature, or TET. As described in Ref. (6), the maximum continuous climb value, (TET)MCC,
+is about 0.92 times the maximum at take-oﬀ value, (TET)MTO. With the engine at maximum continuous
+climb, the achievable rate of climb at a given Mach number decreases as the altitude increases and
+the maximum useful operational altitude is deemed to have been reached when it drops to about 300
+feet/minute. This is called the service ceiling for that Mach number.
+From Equations (8) and (9), assuming small angles and neglecting small terms, when the airspeed is
+constant, the residual available rate of climb is
+dh
+dt ≈ V∞
+(n.Fn − D)
+mgn
+= M∞a∞
+(CT − Cd)
+CL
+, (54)
+With the engines at maximum continuous climb, the thrust coeﬃcient is ( CT )MCC and when the rate
+of climb is 300 feet/min, the corresponding service-ceiling, lift coeﬃcient, ( CL)SC, is obtained using
+Equations (39) and (54),
+K (CL)2
+SC + 0.00516
+M∞
+((TTP)ISA
+T∞
+)1/2
+(CL)SC − ((CT)MCC − (Cd0 + Cdw)) = 0, (55)
+where (TTP)ISA is the temperature at the tropopause in the International Standard Atmosphere. An exact
+solution of this equation requires several iterations.
+Sample calculations have been performed for values ofm/MTOM equal to 0.9 and 0.7, with ambient
+temperatures of ISA and ISA +20◦C. The results are given Figs6 and 7. As expected, the thrust limited
+boundaries exhibit maxima corresponding to the highest achievable service ceilings. Changing weight
+has a major eﬀect and increasing the ambient temperature reduces the service ceiling signiﬁcantly.
+Whilst the full calculation is complex, the exact solutions show that the static pressure at the service
+ceiling is not particularly sensitive to the Mach number. Consequently, a reasonable approximate solution
+is given by determining (CL)SC at the design optimum Mach number, MDO. As shown in Appendix E,
+this has the form
+(CL)SC
+(CL)DO
+≈
+(
+c1
+((TET)MCC
+T∞
+)
++ c2
+)1/2
+− c3
+((TTP)ISA
+T∞
+)1/2
+, (56)
+where the coeﬃcients c1, c2 and c3 are constant and functions of the aircraft parameters at the design
+optimum condition, as shown in Equations (E11), (E12) and (E13). The resulting values of static pressure
+ratio are obtained from Equation (47), i.e.
+(p∞)DO
+(p∞)SC
+≈ 0.8
+((CL)SC
+(CL)DO
+)( MTOM
+m
+)
+. (57)
+The service ceiling static pressure is proportional to the aircraft mass and, since, as indicated in
+Equation (56), (CL)SC decreases as atmospheric temperature increases, it also increases as the atmo-
+spheric temperature increases. Hence, the service ceiling ﬂight level decreases as both mass and
+atmospheric temperature increase.
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 22 ---
+22 Poll and Schumann
+Figure 6. Variation of the minimum static pressure with Mach number for the thrust limited boundary
+when m/MTOM is equal to 0.9 and for ISA ambient temperature and ISA+20
+◦
+C. Also shown is manoeu-
+vre limit for m/MTOM equal to 0.9, plus the cabin pressure limit (FL 420), together with a typical
+maximum operational Mach number.
+Figure 7. The same Fig. 6, but for m/MTOM is equal to 0.7.
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 23 ---
+The Aeronautical Journal 23
+5.3. Maximum permitted ﬂight level
+The third restriction is the maximum cabin pressure limit. This is a structural strength constraint that ﬁxes
+the maximum allowable diﬀerence between the internal cabin pressure and the external atmospheric
+pressure. It takes the form of a maximum permitted ﬂight level, FLmax, given in the Type Certiﬁcate
+Data Sheet (TCDS), and, for civil transport aircraft, it is, typically, aboutFL 410. Once again, this can
+be expressed as a ratio of static pressures, i.e. using Equations (47), (48) and (53),
+(p∞)DO
+(p∞)min
+= 0.8 ψ6
+(CL)DO
+((pTP)ISA
+(p∞)min
+)
+= 0.1412 ψ6
+(CL)DO
+EXP
+( FLmax
+208.06
+)
+. (58)
+Results for this limit are included in Figs5, 6 and 7.
+In these examples, when the ambient temperature has theISA value, the service ceiling and the aero-
+dynamic ceiling are close together. At the higher aircraft weight, as shown in Fig. 6, both ceilings are
+below the cabin pressure limit and so the service ceiling is the greatest height that the aircraft can reach.
+Conversely, at the lower aircraft weight given in Fig.7, both the service and the aerodynamic ceilings
+lie above the cabin pressure limit and so the maximum achievable ﬂight level is determined by the cabin
+pressure limit. However, when the ambient temperature is increased toISA +20◦C, the service ceiling
+determines the maximum achievable altitude at both weights.
+5.4. Maximum speed limit
+Finally, the fourth constraint is the maximum operational speed. This is also a structural strength con-
+straint. At low altitudes, this is usually expressed as a maximum permitted value of the dynamic pressure,
+(q∞)MO, which, as shown in AppendixB, is equivalent to a maximum value of the equivalent airspeed,
+(VEAS)MO, i.e.
+(q∞)MO = γ
+2 (pSL)ISA
+((VEAS)MO
+(aSL)ISA
+)2
+= γ
+2 p∞M2
+∞. (59)
+Therefore, at a given Mach number, there is a maximum permitted freestream static pressure, corre-
+sponding to a minimum permitted ﬂight level, where
+(p∞)max = 2(q∞)MO
+γ M2
+∞
+= (pSL)ISA
+( (VEAS)MO
+M∞(aSL)ISA
+)2
+, (60)
+or, using Equation (48),
+(p∞)DO
+(p∞)max
+≈ 0.8
+(ψ6M2
+DO
+(CL)DO
+)( pTP
+pSL
+)
+ISA
+( (aSL)ISA
+(VEAS)MO
+)2( M∞
+MDO
+)2
+. (61)
+At high altitude, (VEAS)MO is replaced by a maximum operational Mach number,MMO. Constant equiv-
+alent airspeed gives way to constant Mach number at the crossover ﬂight level, (FL)CO, which is obtained
+from Equation (61), i.e.
+(p∞)DO
+(p∞)CO
+≈ 0.8 ψ6
+(CL)DO
+(pTP
+pSL
+)
+ISA
+(MMO(aSL)ISA
+(VEAS)MO
+)2
+. (62)
+Values of (VEAS)MO and MMO usually appear in the aircraft’sTCDS and, whilst there is a relationship
+between the two, it is complex and beyond the scope of a simple representation. Nevertheless, data
+presented by Jenkinson et al. [14] suggest that there is a rough correlation, with an uncertainty of about
+± 10%,
+(VEAS)MO
+(aSL)ISA
+≈ 0.57 (MMO + 0.10)) . (63)
+Therefore, approximate values of (VEAS)MO can been obtained from Equation (63) using the values of
+MMO given in Table2.
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 24 ---
+24 Poll and Schumann
+Finally, below 10,000 feet, there may be a limit on the calibrated airspeed, ( VCAS)MO, imposed by
+air traﬃc control. Typically, this would be 250 kt. The relation between calibrated airspeed and Mach
+number is obtained by combining Equations ( B1) and ( B5) from Appendix B, which together with
+Equation (48) gives the relationship between maximum static pressure (minimum ﬂight level) and Mach
+number to be
+(p∞)DO
+(p∞)max
+≈ 0.8 ψ6
+(CL)DO
+(pTP
+pSL
+)
+ISA
+⎛
+⎜⎜⎜⎝
+(
+1 + (γ−1)
+2 M2
+DO
+(
+M∞
+MDO
+)2
+) γ
+(γ−1)
+− 1
+(
+1 + (γ−1)
+2
+(
+(VCAS)MO
+(aSL)ISA
+)2
+) γ
+(γ−1)
+− 1
+⎞
+⎟⎟⎟⎠ . (64)
+A sample maximum operational speed boundary is included in Fig.5 and it is independent of both the
+aircraft weight and the ambient temperature.
+6.0 Determination of the fuel ﬂow rate and engine overall eﬃciency in climb and cruise
+For an aircraft of given total weight, the method’s principal output parameters are the total fuel mass-
+ﬂow rate and the engine overall eﬃciency. These quantities are obtained by applying the following
+computational scheme.
+The input parameters are aircraft type, mass, Mach number, ﬂight level, rate of climb, time rate of
+change of true airspeed and ambient temperature. Withp∞ determined from the deﬁnition of ﬂight level
+and T∞ speciﬁed, sound speed,a∞, true airspeed,V∞, and dynamic viscosity,μ∞, follow. Lift coeﬃcient
+and Reynolds number are then given by Equations (16) and (34). Values of AR, δ2, CF , Cd0 and k1 are
+obtained from Equations (31)t o( 37), followed byeLS and K from Equations (35) and (38).The value of
+the crest critical Mach number,(MCC)ac is found from Equation (41) and X from Equation (40), whilst
+the wave drag coeﬃcient comes from Equation (44). Values of the geometric parametersSref , s, bf , and
+Λw, are listed in Table 2 together with the derived coeﬃcients ψ0, (MTF)ac , (CL)DO, j1 and j2.H a v i n g
+obtained Cdw, the estimate forL/D is obtained from Equation (45).
+The estimation ofηo begins with the calculation of the total, net engine thrust using Equations (4) and
+(13), with the thrust coeﬃcient,CT , following from Equation (17). Using M∞, MDO,( ηo)DO,( CT )DO and
+η2 from Equations (29), (27) and (28)g i v e(ηo)B and (CT )ηB. These quantities are then used in Equation
+(24)t og i v eηo. Values for the engine constants (ηo)DO,( CT )DO and BPR are given in Table1 and MDO is
+given in Table2.
+With the engine overall eﬃciency and the lift-to-drag ratio now determined, the fuel ﬂow rate is given
+by Equation (19).
+7.0 Fuel ﬂow rate estimate for ‘ﬂight idle’ operation in descent
+During the descent phase, the throttles may be set to the ﬂight idle position. In this mode, the net thrust
+is very low, possibly negative, and fuel is being used to keep the engine running at a safe minimum
+speed. Under these conditions, the compressor characteristics may be very diﬀerent from those in climb
+and cruise and there may be variations in the various blade and engine bleed settings.
+When developing the engine model, Poll and Schumann [ 6] made use of information given in
+Jenkinson et al. [14], which includes results for the descent phase. These indicate that, when the ﬂight
+idle fuel ﬂow rate is normalised with respect to its value at sea-level, static conditions, the result has a
+strong dependence upon altitude, but only a weak dependence upon Mach number and nominal bypass
+ratio. Since the engine is producing close to zero net thrust at this condition, unlike the other phases of
+ﬂight, there is no dependence upon aircraft weight. Curve ﬁtting the data gives
+(
+˙mf
+(
+˙mf
+)
+SLS
+)
+FI
+≈ 1 − 0.178
+( FL
+100
+)
++ 0.0085
+( FL
+100
+)2
+. (65)
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 25 ---
+The Aeronautical Journal 25
+Figure 8. Variation of normalised, ﬂight-idle, fuel ﬂow rate with altitude for three aircraft. Open sym-
+bols are FCOM data. The solid line is the estimate from Equation (65) and the dashed lines show the
+± 30% variation.
+Information on descent phase fuel ﬂow is given in the aircraft’sFCOM and, whilst these documents
+are not generally available in the public domain, some manuals and several extracts can be found on the
+internet. Fortunately, the ICAO Aircraft Engine Emissions Data Bank [15] lists fuel ﬂow rates for the
+ﬂight idle throttle setting at sea-level, static conditions for a large number of engines and these values
+are listed in Table 1. The combination of these data with Equation (65) yields an estimate of the ﬂight
+idle fuel burn rate at any ﬂight level.
+Comparisons of FCOM data for three aircraft, one single aisle (aircraft 1) and two twin aisle (aircraft
+2 and 3) are presented in Fig.8, together with the estimates based upon Equation (64) and theICAOdata.
+The results exhibit a large degree of residual scatter, some of which is due to the diﬃculty of estimating
+instantaneous fuel ﬂow rates from the FCOM tables. Nevertheless, the altitude dependence is clearly
+visible, as is the collapse achieved with the chosen normalising parameter.
+Despite the complexity of the situation, this simpliﬁed expression produces estimates that are gener-
+ally within 30% of the values derived from the limitedFCOM data. This rather large uncertainty is oﬀset
+by the fact that, as indicted by the data given in Table 1, the fuel burn rate at ﬂight idle is an order of
+magnitude lower than that at take-oﬀ. Flight idle values should be used when the aircraft is descending
+and the estimated fuel ﬂow rate drops below that given by Equation (65).
+8.0 Fuel ﬂow rate estimates for take-oﬀ, initial climb-out and approach and landing
+Below 3,000 feet, the aircraft is likely to have its ﬂaps fully, or partially, deployed and the undercarriage
+might be lowered. Clearly, this has a major eﬀect on the drag and, since the method, in its current form,
+only addresses the clean conﬁguration, for completeness, some means of estimating fuel ﬂow rate in
+these other situations is required.
+For all but the shortest ﬂights, most of the fuel is consumed in the climb and cruise. Hence, high
+accuracy in other phases of ﬂight is less important and, perhaps, the simplest approach is the use the
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 26 ---
+26 Poll and Schumann
+average landing and take-oﬀ (LTO) cycle speciﬁed for use with the ICAO Aircraft Engine Emissions
+Data Bank [15]. This gives the following recommendations.
+1. At take-oﬀ, the aircraft operates at the maximum available thrust for 0.7 minutes.
+2. During the initial climb out, the engine thrust is reduced to 85% of the maximum available for
+2.2 minutes.
+and
+3. During the ﬁnal approach for landing, the engine thrust is set to 30% of the maximum available
+thrust for 4.0 minutes.
+If the engine type is known, the fuel ﬂow rates can be read directly from the ICAO data base. However,
+in many situations, the engine model will not be known. Therefore, average values for maximum take-
+oﬀ thrust and corresponding fuel ﬂow rates have been obtained for each aircraft type. This was done by
+taking the mean values for all the engine types ﬁtted to each aircraft. These results are listed in Table1.
+In addition, it was found that, relative to maximum take-oﬀ values, when the thrust level is reduced
+to 85% and 30%, the fuel ﬂow rate drops to 0.82±0.02% and 0.28±0.02%. Applying these factors gives
+the approximate fuel for climb-out and approach and landing.
+The relative importance of the fuel used in these stages of ﬂight depends upon how the aircraft is
+operated. For ﬂights close to the maximum possible range, they represent about 5% of the total fuel
+used. However, for very short ﬂights this can increase to over 25%.
+9.0 Engine deterioration in service
+The performance of both airframe and engines varies with time due to in-service deterioration – see,
+for example, Arrieta, Botez and Lasne [ 16]. In the case of the airframe, this is primarily the result
+of dirt accumulation on the outer surface and erosion, or damage, to the paint covering. There is also
+the possibility of rigging errors when major components, e.g. ailerons, are reﬁtted following removal for
+inspection, or repair. All these can result in increased drag. However, this penalty is expected to be small.
+In the case of the engines, dirt is also a major issue, leading to a progressive reduction of component
+polytropic eﬃciencies through surface contamination (fouling) and surface erosion. There is also the
+progressive wearing of seals and bearings. These eﬀects all lead to a steady increase in the rate at which
+fuel is burned for a given thrust.
+As discussed in Ref.16, engine degradation rate depends upon the operational cycle and the operating
+environment. Consequently, results for short haul and long haul are diﬀerent. Airlines can take low-level
+remedial action, such as core washing, whilst the engine is still in service, or the engine can have a major
+overhaul. During its lifetime, an engine might undergo two, or three, complete overhauls and during
+its lifetime an aircraft may need two, or more, sets of new engines. This whole process is driven by
+airline economics. However, irrespective of the operational cycle, as indicated in Ref.16, the maximum
+acceptable increase in fuel consumption before a maintenance intervention is likely to be in the region
+of 5%.
+When the method is applied to a particular aircraft, it is unlikely that the degree of in-service dete-
+rioration will be known. However, as noted above, this extra fuel use is likely to be between 0 to 5%.
+Therefore, it is assumed that the method gives estimates that are representative of a nearly new aircraft
+and that the mean, in-service deterioration is taken to be 2.5%. To capture this, a multiplier of 0.975 is
+applied to the engine overall eﬃciency, i.e. the in-service overall eﬃciency is
+(ηo)IS ≈ 0.975 (ηo) . (66)
+This corrected value is used in Equation (19) to obtain the ﬁnal estimate of the fuel consumption.
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 27 ---
+The Aeronautical Journal 27
+Figure 9. Comparison between estimates for fuel ﬂow rate and values obtained from the ﬂight data
+recorder on an Airbus A320-200 aircraft. Data are taken from 20 complete ﬂights≈2,200 points. The
+solid line shows the mean variation, which has a slope of 0.91 and the dashed lines show the ± 15%
+variation.
+10.0 Comparison with ﬂight data recorder information
+The type of in-ﬂight information required to test any performance model is commercially sensitive and,
+consequently, examples rarely appear in the public domain. However, some years ago Swiss International
+Airlines released a set of ﬂight recorder data (FRD) from operations in 2008 and this has been used in
+a number of studies, e.g. Randle et al. [ 17], Simone et al. [ 18] and, more recently, Hall et al. [ 19].
+The aircraft involved are single examples of the Airbus A320-200, A330-200 and A340-300 and the
+Boeing B757-300, B767-300 and B777-300 types, operating on diﬀerent routes. There are 885 complete
+ﬂights covering the North Atlantic, the tropics and the Indian Ocean, with a wide range of operational
+conditions, masses ranging from empty and to the maximum take-oﬀ values and ambient temperatures
+between ±20 K relative toISA.
+The measurement accuracy of the data has been discussed by Vera-Morales and Hall [ 20], Randle
+et al. [17] and Simone et al. [18]. They estimate that the fuel ﬂow data are accurate to±1% ,w h i l s tt h e
+estimated accuracies of FL, M∞, and T∞ to be ±0.3, ±0.01, and ±2K, respectively. In addition, the
+instantaneous aircraft mass depends upon the input value take-oﬀ mass, whose accuracy is not known.
+The data are also very noisy, exhibiting ﬂuctuations in excess of±10%. There could be many reasons
+for this, including errors introduced during data processing, oscillations due to dynamic response to
+turbulence and other perturbations such as minor pilot, or autopilot, control inputs.
+Figures 9–14 show comparisons between the estimates for instantaneous fuel ﬂow rate and the values
+from the ﬂight data recorder. In each case, 20 complete ﬂights are shown and they have been ﬁltered
+using the performance boundaries described in Section 512. The results arrange themselves into broad
+groups representing the climb, cruise and descent phases. It is also clear that, whilst the noise level is
+signiﬁcant, the majority of the data fall within±15% of the mean line.
+12When applying the manoeuvre and the minimum climb rate criteria, the low-speed value of ( CL)mu/(CL)DO and the value
+of TR from Equation (52) have both been increased by 20%. This reﬂects the maximum uncertainty in these parameters and
+minimises the rejection of potentially valid data.
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 28 ---
+28 Poll and Schumann
+Figure 10. As for Fig.9, but for an Airbus A330-200, with≈2,850 points and a slope of 1.00.
+Figure 11. As for Fig.9, but for an Airbus A340-300, with≈3,850 points and a slope of 0.94.
+The slope of the mean line depends, primarily, upon a combination of two factors. The ﬁrst is the
+accuracy of the model parameter values listed in Tables1 and 2, whilst the second is the accuracy of the
+assumed aircraft take-oﬀ mass. As can be seen from Equation (2), in steady, straight and level cruise,
+(ηoL/D) is constant and, hence, the fuel ﬂow rate is directly proportional to the aircraft’s instantaneous
+mass. There is a stronger dependency on mass in the climb and a weaker dependency in the descent.
+Nevertheless, numerical experiments on the data for complete ﬂights show that the slope of the mean
+line is almost directly proportional to the assumed value of the take-oﬀ mass.
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 29 ---
+The Aeronautical Journal 29
+Figure 12. As for Fig.9, but for a Boeing B757-300, with≈2,100 points and a slope of 0.97.
+Figure 13. As for Fig.9, but for a Boeing B767-300, with≈1,900 points and a slope of 0.91.
+Whilst the FDR information includes take-oﬀ mass, its origin is unknown and its accuracy does
+not appear to have been assessed. Take-oﬀ mass is an important parameter for aircraft performance.
+However, in normal operations, aircraft weight is not measured directly before departure. Consequently,
+the signed-oﬀ, take-oﬀ mass may not be exactly equal to the true take-oﬀ mass. There may be several
+reasons for this mismatch, for example the passenger weight is estimated and the taxi-out fuel may not
+a l lb eu s e dp r i o rt ot a k e - o ﬀ .
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 30 ---
+30 Poll and Schumann
+Figure 14. As for Fig.9, but for a Boeing B777-300, with≈2,700 points and a slope of 1.00.
+Notwithstanding the potential uncertainty relating to take-oﬀ mass, the overall agreement between
+the estimates and the FDR values is good, demonstrating that, within reasonable uncertainty bounds,
+the method works in all phases of ﬂight.
+When the estimates for the total amount of fuel used on each ﬂight are compared, the mean deviations
+relative to theFDR values are−10% for the A320,+1% for the A330,−2% for the A340,−1% for the
+B757, −3% for the B767 and 0% for the B777. Once again, the total fuel used is directly proportional
+to the assumed take-oﬀ mass 13 and so these discrepancies are also due to a combination of errors in
+the model parameter values and in the assumed take-oﬀ mass. Figure15 shows the comparisons for the
+total amount of fuel used on each of the 885 ﬂights. The results have been normalised for each aircraft
+so that deviations from the mean values can be determined. The residual RMS error is found to be less
+than 2%, with just one point exhibiting an error of more than 10%.
+Further improvements in the model will be possible if more ﬂight data, with well characterised
+accuracy, become available.
+11.0 Conclusions
+A performance model has been developed for an aircraft in the clean conﬁguration that can be used in
+climb, cruise, initial descent and holding. It is based upon previously published methods for the estima-
+tion of optimum value (ηoL/D), using a simple relation for the wave drag, and a model for the engine
+overall eﬃciency as a function of Mach number and thrust. The method can be used in situations where
+both the aircraft trajectory and the variation of atmospheric temperature with atmospheric pressure and
+the wind speed components are fully speciﬁed. Such data sets are becoming available to the research
+community and they will be used to give improved insight into the impact of aviation on the environment.
+To provide coverage in all phases of ﬂight, a simpliﬁed model of the fuel ﬂow rate in the ﬂight idle
+mode has been proposed, together with some approximate estimates of the fuel usage during take-oﬀ,
+initial climb and approach and landing. However, since the fuel ﬂow rates in climb and cruise are an
+13As demonstrated in the classic Breguet range equation.
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 31 ---
+The Aeronautical Journal 31
+Figure 15. Comparison of the estimated total trip fuel and the value obtained from the FDR for 885
+ﬂights. The data are normalised to remove any diﬀerences in the mean values. The dashed lines show
+the ±5% variation.
+order of magnitude greater than those at ﬂight idle and the amount of fuel used in take-oﬀ, initial climb,
+approach and landing is a small fraction of the total trip fuel, for all but the shortest of ﬂights, the
+accuracy requirement for these phases is lower than those for climb and cruise.
+The operational boundaries imposed by buﬀet onset and the structural strength constraints of maxi-
+mum cabin pressure diﬀerential and maximum dynamic pressure have been considered and approximate
+relations have been developed. In addition, since the simpliﬁed engine model uses turbine entry tem-
+perature as a throttle variable, the service ceiling can also be estimated and its dependence upon the
+atmospheric static temperature is captured.
+When applying the method, a number of airframe and engine speciﬁc characteristics must be known.
+These have already been estimated for a range of aircraft and, as more data has emerged and the method
+has developed, their accuracy has improved steadily and the number of aircraft in the data base has
+increased. The latest values for 67 diﬀerent aircraft and engine combinations are given in tabular form.
+Estimates of the instantaneous, fuel ﬂow rates and the total trip fuel per ﬂight have been compared
+with values from on-board, ﬂight data recorders for six aircraft, covering single and twin aisle types,
+operating on short, medium and long-range routes. The agreement demonstrates that the method works
+in all phases of ﬂight. The sensitivity of the estimates to the accuracy of model parameters and potential
+improvements based upon more test data will be addressed in a subsequent publication.
+The method was originally designed as a fully transparent, open-source, emissions estimation method
+for use by the atmospheric science community to provide information for both individual aircraft and
+ﬂeets. However, it has now reached a stage where it can be also used by the aircraft performance com-
+munity and the wider aerospace academic community to obtain general, though approximate, analytic
+solutions to a range of problems that have previously required highly detailed airframe and engine
+information and the application of numerical methods. Some of these will be addressed in future
+work.
+Acknowledgements. The authors are grateful to Professor Marc Stettler and Dr. Roger Teoh of Imperial College, London for
+providing the Swiss Air ﬂight data recorder information.
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 32 ---
+32 Poll and Schumann
+References
+[1] Schumann, U. On conditions for contrail formation from aircraft exhausts, Meteorol. Z. , 1996, 5, pp 4–23.
+doi: 10.1127/metz/5/1996/4, https://elib.dlr.de/32128/
+[2] Poll, D.I.A. On the relationship between non-optimum operations and fuel requirement for large civil transport aircraft,
+with reference to environmental impact and contrail avoidance strategy, Aeronaut. J., 2018, 122, (1258), pp 1827–1870.
+https://doi.org/10.1017/aer.2018.121
+[3] Poll, D.I.A. and Schumann, U. An estimation method for the fuel burn and other performance characteristics of civil transport
+aircraft in the cruise. Part 1 Fundamental quantities and governing relations for a general atmosphere, Aeronaut. J., 2021,
+125, (1284), pp 257–295. https://doi.org/10.1017/aer.2020.62
+[4] Poll, D.I.A. and Schumann, U. An estimation method for the fuel burn and other performance characteristics of civil transport
+aircraft in the cruise. Part 2 Determining the aircraft’s characteristic parameters,Aeronaut. J., 2021,125, (1284), pp 296–340.
+https://doi.org/10.1017/aer.2020.124
+[5] Poll, D.I.A. and Schumann, U. On the conditions for absolute minimum fuel burn for turbofan powered, civil transport air-
+craft and a simple model for wave drag,Aeronaut. J., 2024, 128, (1324), pp 1071–1103.https://doi.org/10.1017/aer.2024.10
+[6] Poll, D.I.A. and Schumann, U. A simple model for the estimation of turbofan engine performance,Aeronaut. J., 2024, 128,
+(1330), pp 2725–2753. https://doi.org/10.1017/aer.2024.92
+[7] Bower A., Qi Y. and Bazilevs, Y. Introduction to Dynamics and Vibrations, Chapter 3, Section 3.1.4, School of Engineering,
+Brown University, 2022. https://www.brown.edu/Departments/Engineering/Courses/En4/Notes/particles_eom/particles_
+eom.htm
+[8] Menke, W. and Abbott, D. Geophysical Theory, Columbia University Press, 1990, New York, NY, pp 124–126. ISBN
+9780231067928.
+[9] ICAO. Manual of the ICAO Standard Atmosphere. Document No. 7488/3, ICAO, 3rd Ed, 1993. ISBN 978-92-9249-331-8.
+[10] Huang, L.T. and Cummings L.I. A mathematical analysis of the wind triangle problem and an inquiry of true airspeed
+calculations in supersonic ﬂight, Int. J. Aviat. Aeronaut. Aerospace, 2021, 8,( 4 ) .https://doi.org/10.15394/ijaaa.2021.1642
+[11] Shevell, R.S. Fundamentals of Flight, 2nd Ed, Prentice Hall, 1989, ISBN 0-13-339060-8
+[12] Young, T.M. Performance of the Jet Transport Airplane, Wiley, 2018, ISBN 9781118384862.
+[13] Obert, E. Aerodynamic Design of Transport Aircraft, Delft University Press, 2009, ISBN 978-1-58603-970-7.
+[14] Jenkinson, L.R., Simpkin, P. and Rhodes, D. Civil Jet Aircraft Design, Arnold, 1999, ISBN 0 340 74152 X.
+[15] ICAO. Aircraft Engine Emissions Databank EASA, 2018. ICAO Engine Emissions Databank.
+https://www.easa.europa.eu/easa-and-you/environment/icao-aircraft-engine-emissions-databank
+[16] Arrieta, M.de J.G., Botez, R.M. and Lasne, A. An engine deterioration model for predicting fuel consumption in regional
+aircraft, Aerospace, 2024, 11, (6), 426, pp 1–23.https://doi.org/10.3390/aerospace11060426
+[17] Randle, W.E., Hall, C.A. and Vera-Morales, M. Improved range equation based on aircraft ﬂight data,J. Aircraft, 2011, 48,
+(4), pp 1291–1298. https://doi.org/10.2514/1.C031262
+[18] Simone, N.W., Stettler, M.E.J. and Barrett, S.R.H. Rapid estimation of global civil aviation emissions with uncertainty
+quantiﬁcation, Transp. Res. Part D Transp. Environ., 2013, 25, pp 33–41. https://doi.org/10.1016/j.trd.2013.07.001
+[19] Hall, C.A., Burnell, S.R. and Deshpande, A.P. Aircraft descent performance based upon ﬂight data,Aeronaut. J., 2021, 125,
+(1293), pp 1897–1916. https://doi.org/10.1017/aer.2021.65
+[20] Vera-Moreles, M. and Hall, C.A. Modelling performance and emissions from aircraft for the Integrated Modelling Project,
+J. Aircraft, 2010, 47, (3), pp 812–819. https://doi.org/10.2514/1.44020
+Appendix A. The determination of climb rate and the relationship between ﬂight level and the
+geometric height above sea level
+The variation of static pressure, p∞, with geodetic height, h, in any atmosphere is determined by the
+hydrostatic equation, where
+dp∞ =− ρ∞gdh. (A1)
+Here, g is the local value of the acceleration in the vertical direction due to the combined eﬀects of
+gravity and centrifugal acceleration. It is a function of both latitude,φ, and h and may be expressed as
+g =
+( gSL
+(gSL)ISA
+)( g
+gSL
+)
+, (A2)
+where (gSL)ISA is equal to 9.80665m/s2 and gSL is the local vertical acceleration at sea level.
+According to Newton’s law of gravitation,
+g
+gSL
+= r2
+(r + h)2 ≈ 1 − 2
+(h
+r
+)
+, (A3)
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 33 ---
+The Aeronautical Journal 33
+where r is the local geocentric radius at sea level, i.e. the distance from the point h(0,φ) to the centre
+of the Earth14. Since the Earth is not a perfect sphere,rE depends upon the latitude and, if it is assumed
+that the Earth is an ellipsoid,
+r
+rE
+≈
+√
+(rP/rE)2
+1 −
+(
+1 − (rP/rE)2)
+cos2 (φ) , (A4)
+where rE, the equatorial radius, is 6,378.14km and rP, the polar radius, is 6,356.75km 15. In addition,
+the International Gravity Formula (the Somigliana-Pizzetti empirical relation) may be used to give an
+estimate of the acceleration due to gravity at sea level as a function of latitude, i.e.
+( gSL
+(gSL)ISA
+)
+≈ 0.997316
+( 1 + 0.00193185 sin2 (φ)√1 − 0.00669438 sin2 (φ)
+)
+. (A5)
+From Equation (A1), the rate of climb is related to the rate of change of static pressure such that
+1
+(aSL)ISA
+dh
+dt =−
+((gSL)ISA
+gSL
+)( gSL
+g
+)( RT∞
+(gSLaSL)ISAp∞
+dp∞
+dt
+)
+. (A6)
+All the quantities on the right side of this equation are available from the aircraft’s air data system.
+From Equation (A1), the geodetic height above local sea level in a general atmosphere is given by
+∫ h
+0
+dh = h =−
+∫ p∞
+pSL
+(RT∞
+gp∞
+)
+dp∞. (A7)
+Since the integrand is a function of h, this is an implicit integral. However, the implicitness may be
+removed by introducing the geopotential height, H, which is deﬁned in terms of the work required to
+raise a ﬁxed mass to a heighth, i.e.
+H =
+∫ h
+0
+g
+gSL
+dh =
+∫ h
+0
+r2
+(r + h)2 dh = rh
+(r + h) ≈
+(
+1 −
+(h
+r
+))
+h. (A8)
+Up to the maximum heights likely to be reached by civil transport aircraft,H diﬀers from h by less
+than 0.25%.
+Again, using Equation (A1),
+H =− R
+gSL
+∫ p∞
+pSL
+(T∞
+p∞
+)
+dp∞ (A9)
+and, in the special case of the International Standard Atmosphere [9],
+HISA =− R
+(gSL)ISA
+(∫ p∞
+pSL
+(T∞
+p∞
+)
+dp∞
+)
+ISA
+, (A10)
+where the variation ofT∞, with p∞ is speciﬁed andpSL is equal to 1.01325 bars. Using the results given
+in reference 9, if (p∞/pSL) is greater than 0.223363,
+HISA = 3.75422
+(γ RTSL
+gSL
+)
+ISA
+(
+1 −
+(p∞
+pSL
+)0.190263
+ISA
+)
+, (A11)
+otherwise
+HISA = 0.126533
+(γ RTSL
+gSL
+)
+ISA
+(
+1 − 4.24436 ln
+(p∞
+pSL
+)
+ISA
+)
+. (A12)
+In operations, Equations (A11) and (A12) are used to obtain HISA from the value of p∞ provided by
+the air-data system. This barometric equivalent, geopotential altitude is the value of the geopotential
+height that the aircraft would have if it was operating in the ISA.
+14Strictly speaking, the altitude used in Equation (A3) should be the geocentric height above local sea level and not the geodetic
+height. However, the diﬀerence between the two is very small and can be ignored.
+15These values are from World Geodetic System (WGS) 1984 Ellipsoidal Gravity Formula.
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 34 ---
+34 Poll and Schumann
+By deﬁnition, ﬂight level,FL, has no units and it is numerically equal toHISA when expressed in units
+of feet and divided by 100. Hence, if (p∞/(pSL)ISA) is greater than 0.223363,
+FL = 1454.43
+(
+1 −
+( p∞
+(pSL)ISA
+)0.190263
+)
+, (A13)
+otherwise
+FL = 49.0202
+(
+1 − 4.24436 ln
+( p∞
+(pSL)ISA
+))
+. (A14)
+It follows from Equation (A1) that the true rate of climb is given by
+1
+(aSL)ISA
+dh
+dt =−
+((gSL)ISA
+gSL
+)( gSL
+g
+)( RT∞
+aSLgSL
+)
+ISA
+( T∞
+(T∞)ISA
+)( 1
+p∞
+dp∞
+dFL
+) dFL
+dt , (A15)
+which, noting the properties of theISA,i f h is in metres and t is in seconds
+dh
+dt = 30.48
+((gSL)ISA
+gSL
+)( gSL
+g
+)( T∞
+(T∞)ISA
+) dFL
+dt (m/s) . (A16)
+Since g varies with h, Equations ( A15) and ( A16) are still implicit. However, a good estimate is
+obtained by either setting h equal to 30.48(FL) or by ignoring the vertical variation of g altogether.
+Greater accuracy can always be achieved by iteration.
+Appendix B. Pressure and speed information from the air data system
+In-ﬂight values of the freestream total pressure, p0, total temperature, T0, and the atmospheric static
+pressure, p∞, as a function of time are provided by the aircraft’s air data system. The diﬀerence between
+the total and static pressures is known as the impact pressure,pi, and, using the standard adiabatic and
+isentropic ﬂow relations, e.g. Shevell [11],
+pi = p0 − p∞ = p∞
+((
+1 + (γ − 1)
+2 M2
+∞
+) γ
+(γ−1)
+− 1
+)
+. (B1)
+Hence, the Mach number is
+M∞ =
+/radicaltp/radicalvertex/radicalvertex√ 2
+(γ − 1)
+(( pi
+p∞
++ 1
+)(γ−1)
+γ
+− 1
+)
+(B2)
+and, since the atmospheric static temperature,T∞,i sg i v e nb y
+T∞ = T0
+(
+1 + (γ−1)
+2 M2
+∞
+), (B3)
+the true airspeed, V∞,i s
+V∞ = M∞
+√
+γ RT∞. (B4)
+Another speed used in both aircraft performance and design is the calibrated airspeed,VCAS.T h i si s
+deﬁned as the speed at sea level in theISA that corresponds to a given impact pressure, i.e.
+pi = p0 − p∞ = (pSL)ISA
+⎛
+⎝
+(
+1 + (γ − 1)
+2
+( VCAS
+(aSL)ISA
+)2
+) γ
+(γ−1)
+− 1
+⎞
+⎠ , (B5)
+or
+VCAS = (aSL)ISA
+/radicaltp/radicalvertex/radicalvertex√ 2
+(γ − 1)
+(( pi
+(pSL)ISA
++ 1
+)(γ−1)
+γ
+− 1
+)
+. (B6)
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 35 ---
+The Aeronautical Journal 35
+The impact pressure is closely related to two other important quantities, namely the dynamic pressure,
+q∞, and the equivalent air speed,VEAS. Using the deﬁnition of equivalent air speed, series expansion and
+neglecting terms that are small compared to unity,
+q∞ = γ
+2 p∞M2
+∞ = γ
+2 (pSL)ISA
+( VEAS
+(aSL)ISA
+)2
+= pi
+f (M∞) ≈ pi
+(
+1 + M2∞
+4 + (2 − γ ) M4∞
+24
+). (B7)
+This equation may be rearranged to give an approximate relation for Mach number, i.e.
+M∞ ≈
+/radicaltp/radicalvertex/radicalvertex√ 2
+(( 2
+γ
+pi
+p∞
++ 1
+)1
+2
+− 1
+)
+(B8)
+and, using Equation (B5),
+(VCAS
+VEAS
+)2
+= f (M∞)
+⎛
+⎝1 − 1
+4
+(
+f (M∞)
+( VEAS
+(aSL)ISA
+)2
+)
++ 1
+10
+(
+f (M∞)
+( VEAS
+(aSL)ISA
+)2
+)2
++ ...
+⎞
+⎠ . (B9)
+Appendix C. Extension of the relation between normalised engine overall eﬃciency and
+normalised thrust to values below 0.3
+For values of the normalised thrust coeﬃcient ratio below 0.3, the variation is represented by a 4th order
+polynomial passing through zero when the thrust coeﬃcient ratio is zero and matching Equation ( 24)
+for value, ﬁrst derivative and second derivative when it is equal to 0.3. Therefore, let
+ηo
+(ηo)B
+= h0 = H1
+( Ct
+(Ct)ηB
+)
++ H2
+( Ct
+(Ct)ηB
+)2
++ H3
+( Ct
+(Ct)ηB
+)3
+. (C1)
+Then, for
+0 ≤ Ct
+(Ct)ηB
+≤ 0.3, (C2)
+H1 = 6.560 (1 + 0.8244/Sigma1) , (C3)
+H2 =− 19.43 (1 + 1.053/Sigma1) (C4)
+and
+H3 = 21.11 (1 + 1.063/Sigma1) . (C5)
+Appendix D. Approximate 1.3g manoeuvre boundary
+Using data taken from the FCOM of a typical jet transport aircraft, an estimate of the 1.3g manoeuvre
+boundary for the aircraft in the “clean” condition and having the centre of gravity at 35% of the mean
+aerodynamic chord is given by
+(CL)mu
+(CL)DO
+≈
+((CL)mu
+(CL)DO
+)
+LS
+(
+1.00 + 0.089
+( M∞
+MDO
+)
+− 0.603
+( M∞
+MDO
+)2
+)
+, (D1)
+for
+0 ≤ M∞
+MDO
+< 0.7, (D2)
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 36 ---
+36 Poll and Schumann
+and
+(CL)mu
+(CL)DO
+≈
+((CL)mu
+(CL)DO
+)
+LS
+(
+7.373 − 23.479
+( M∞
+MDO
+)
++ 27.713
+( M∞
+MDO
+)2
+− 10.935
+( M∞
+MDO
+)3
+)
+, (D3)
+for
+0.7 ≤ M∞
+MDO
+≤ MMO
+MDO
+, (D4)
+where, MMO is the maximum permitted operational Mach number and
+((CL)mu
+(CL)DO
+)
+LS
+= 1.8 ± 0.4. (D5)
+This boundary should only be applied when the aircraft is above 3,000 feet, since, below this altitude
+the aircraft is unlikely to be in the clean condition.
+Appendix E. Approximate estimate of the Service Ceiling
+From Equations (8) and (9), assuming small angles and neglecting small terms,
+dh
+dt ≈ V∞
+(n.Fn − D)
+mgn
+= M∞a∞
+(CT − Cd)
+CL
+. (E1)
+At the aircraft’s service ceiling, the engines are operating at their maximum continuous climb rating,
+(TET)MCC, and the rate of climb is equal to 300 feet/min. The corresponding lift coeﬃcient, ( CL)SC is
+obtained by using the aircraft drag polar given in Equation (39) and rearranging (E1)t og i v e
+K (CL)2
+SC + 0.00516
+M∞
+((TTP)ISA
+T∞
+)1/2
+(CL)SC − ((CT)MCC − (Cd0 + Cdw)) = 0. (E2)
+As shown in Ref. (6), net thrust is governed by the throttle parameter,TR, such that
+Ct
+(Ct)ηB
+= CT
+(CT)ηB
+= h4 ≈ f (TR) ≈ 1 + 2.50 (TR − 1) (E3)
+where
+TR = TET/(T0)∞
+(TET/(T0)∞)ηB
+≈
+( 1
+TREC
+) (TET/T∞)(
+1 − 0.53(M∞ − MEC)2)(
+1 + 0.2M2
+∞
+), (E4)
+and (T0
+T
+)
+∞
+= 1 +
+(γ − 1
+2
+)
+M2
+∞. (E5)
+Here, TREC and MEC are constants, whilst (CT )ηB is given by Equation (28). Hence, for any combina-
+tion of speed and altitude, (TET)MCC, ambient air temperature and Mach number determine the value of
+the maximum available thrust coeﬃcient, (CT )MCC. Using Equations (28), (E3) and (E4),
+(CT)MCC ≈ (CT)DO
+( 1 + 0.55M∞
+1 + 0.55MDO
+)( MDO
+M∞
+)2
+(( 2.5
+TREC
+) ((TET)MCC/(T0)∞)(
+1 − 0.53(M∞ − MEC)2)− 1.5
+)
+. (E6)
+Therefore, in a given atmosphere, the maximum available thrust coeﬃcient is a function of Mach
+number and FL only. Estimates forTREC, MEC and TETMCC are listed in Table1.
+Similarly, the drag coeﬃcient of an aircraft of given weight in straight and level ﬂight is a function of
+Mach number and FL only. Therefore, the corresponding values forCd0 and Cdw are obtained using the
+method given in Section 4. With all the parameters speciﬁed, the value (CL)SC follows from an iterative
+solution of Equation (E2) and examples of the full solution are given in Figs6 and 7. The results show
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press
+--- page 37 ---
+The Aeronautical Journal 37
+that the ﬂight level at the service ceiling is not particularly sensitive to the Mach number. Therefore, a
+reasonable estimate is obtained by assuming that the Mach number is equal to theMDO.
+Neglecting terms that are small compared to unity, the approximate solution to Equation (E2)i s
+(CL)SC ≈
+((CT)MCC − (Cd0 + Cdw)
+K
+)1/2
+− 0.00516
+2KMDO
+((TTP)ISA
+T∞
+)1/2
+. (E7)
+From Equation (E6), also neglecting quantities that are small compared to unity,
+(CT)MCC ≈ (CT)DO
+((
+2.5
+TREC
+(
+1 + 0.2M2
+DO
+)
+) ((TET)MCC
+T∞
+)
+− 1.5
+)
+. (E8)
+In addition, since Cd0 and Cdw are only weakly dependent uponCL and (Cd)DO is equal to (CT )DO,
+(Cd0 + Cdw)MDO ≈ (Cd0 + Cdw)DO = (CT)DO
+(
+1 −
+(K (CL)2
+DO
+(Cd)DO
+))
+. (E9)
+Hence,
+(CL)SC
+(CL)DO
+≈
+(
+c1
+((TET)MCC
+T∞
+)
++ c2
+)1/2
+− c3
+((TTP)ISA
+T∞
+)1/2
+(E10)
+where
+c1 = 2.5(CT)DO
+K.TREC
+(
+1 + 0.2M2
+DO
+), (E11)
+c2 =
+(K (CL)2
+DO
+(Cd)DO
+)
+− (CT)DO
+K , (E12)
+and
+c3 = 0.00258
+K(CL)DOMDO
+. (E13)
+All the parameters in Equation (E10), except T∞, are given in Tables1 and 2.
+Cite this article: Poll D.I.A. and Schumann U. An estimation method for the fuel burn and other performance charac-
+teristics of civil transport aircraft; part 3 full ﬂight proﬁle when the trajectory is speciﬁed. The Aeronautical Journal ,
+https://doi.org/10.1017/aer.2024.141
+https://doi.org/10.1017/aer.2024.141 Published online by Cambridge University Press

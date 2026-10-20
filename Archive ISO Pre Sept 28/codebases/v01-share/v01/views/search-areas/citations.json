@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "retrieved_on": "2026-08-31",
+  "method": "Primary-source claim ledger. FOUND requires a located passage or structured source record; NOT_FOUND and BLOCKED preserve unsuccessful searches without converting absence into evidence.",
+  "claims": [
+    {
+      "id": "ga-phase2-method",
+      "claim": "Phase 2 collected sidescan and multibeam data with towed or autonomous vehicles.",
+      "source": "Geoscience Australia, MH370 data release FAQs",
+      "url": "https://www.ga.gov.au/scientific-topics/marine-and-coastal/showcase/mh370-data-release/faqs",
+      "locator": "What is the difference between Phase 1 and Phase 2 data?",
+      "located_passage": "sidescan and multibeam sonar mounted on towed or autonomous vehicles",
+      "status": "FOUND"
+    },
+    {
+      "id": "ga-quality-gaps",
+      "claim": "Environmental and operational conditions can reduce sonar-data quality and create gaps.",
+      "source": "Geoscience Australia, MH370 data release FAQs",
+      "url": "https://www.ga.gov.au/scientific-topics/marine-and-coastal/showcase/mh370-data-release/faqs",
+      "locator": "What is the quality of the data?",
+      "located_passage": "weather, water depth and vessel movement can lower the quality",
+      "status": "FOUND"
+    },
+    {
+      "id": "ga-wfs-phase2-coverage",
+      "claim": "The 2026-08-27 WFS capability record exposes Deep Tow, Dong Hai Jiu, and GO Phoenix Phase 2 level-0 coverage features.",
+      "source": "Geoscience Australia/AusSeabed WFS 2.0.0 GetCapabilities",
+      "url": "https://warehouse.ausseabed.gov.au/geoserver/wfs?service=WFS&request=GetCapabilities&version=2.0.0",
+      "locator": "FeatureTypeList names containing MH370_Phase_2 and L0_Coverage",
+      "located_passage": "Three matching FeatureType Name elements are retained in the pinned capability document.",
+      "status": "FOUND"
+    },
+    {
+      "id": "ga-wfs-auv-l0",
+      "claim": "A machine-readable Phase 2 AUV level-0 coverage feature is publicly available in the pinned GA WFS capability record.",
+      "source": "Geoscience Australia/AusSeabed WFS 2.0.0 GetCapabilities",
+      "url": "https://warehouse.ausseabed.gov.au/geoserver/wfs?service=WFS&request=GetCapabilities&version=2.0.0",
+      "locator": "Full FeatureTypeList search for MH370, AUV, Autonomous_Underwater_Vehicle, and L0_Coverage",
+      "located_passage": null,
+      "status": "NOT_FOUND",
+      "scope_note": "The imagery service advertises an AUV raster layer; absence here is limited to an AUV level-0 vector coverage feature in this WFS snapshot."
+    },
+    {
+      "id": "bluefin-860",
+      "claim": "The Ocean Shield AUV effort completed 30 missions and ATSB reported 860 km2 searched.",
+      "source": "ATSB, MH370 – Definition of Underwater Search Areas, updated 30 July 2015",
+      "url": "https://www.atsb.gov.au/sites/default/files/media/5668327/ae2014054_mh370__search_areas_30jul2015.pdf",
+      "locator": "PDF pages 14–15, Ocean floor sonar survey; Figure 14",
+      "located_passage": "A total of 860 km² of ocean floor was searched.",
+      "status": "FOUND"
+    },
+    {
+      "id": "bluefin-official-display-polygons",
+      "claim": "The official Geoscience Australia application exposes a Bluefin-21 searched-area display layer whose query returns two polygons.",
+      "source": "Geoscience Australia ArcGIS WebMap and Bluefin-21 FeatureServer",
+      "url": "https://services1.arcgis.com/wfNKYeHsOyaFyPw3/arcgis/rest/services/Bluefin_21_AreaSearched2014/FeatureServer/0/query?where=1%3D1&outFields=%2A&returnGeometry=true&outSR=4326&f=geojson",
+      "locator": "FeatureCollection; layer Bluefin-21_AreaSearched2014; feature IDs 1 and 2",
+      "located_passage": "The query returns two Polygon features from the named Bluefin-21_AreaSearched2014 layer.",
+      "status": "FOUND",
+      "scope_note": "These are official display polygons, not individual mission swaths or a valid-data mask."
+    },
+    {
+      "id": "bluefin-exact-swaths",
+      "claim": "Exact public machine-readable Ocean Shield AUV mission swaths are available from the located official sources.",
+      "source": "ATSB reports and GA/AusSeabed service searches",
+      "url": "https://www.atsb.gov.au/investigations/ae-2014-054",
+      "locator": "ATSB tasking text and figure searches; GA WFS/WMS capability searches",
+      "located_passage": null,
+      "status": "BLOCKED",
+      "scope_note": "The primary report supplies tasking radii, a raster figure, and a total; those are insufficient to recreate swaths and the figure is credited to RAN."
+    },
+    {
+      "id": "ocean-shield-artemis-name",
+      "claim": "The ATSB final operational report identifies the Ocean Shield vehicle as the Phoenix International Artemis AUV.",
+      "source": "ATSB, The Operational Search for MH370, 3 October 2017",
+      "url": "https://www.atsb.gov.au/sites/default/files/media/5773565/operational-search-for-mh370_final_3oct2017.pdf",
+      "locator": "PDF page 42, Figure 24 and accompanying AUV coverage text",
+      "located_passage": "Phoenix International Artemis AUV on board Ocean Shield",
+      "status": "FOUND"
+    },
+    {
+      "id": "atsb-holidays",
+      "claim": "ATSB explicitly tracked data holidays such as equipment failure, off-track coverage, terrain avoidance, and acoustic shadowing.",
+      "source": "ATSB, The Operational Search for MH370, 3 October 2017",
+      "url": "https://www.atsb.gov.au/sites/default/files/media/5773565/operational-search-for-mh370_final_3oct2017.pdf",
+      "locator": "Underwater search quality assurance; data-holidays discussion",
+      "located_passage": "Data holidays were grouped as polygons into four categories.",
+      "status": "FOUND"
+    },
+    {
+      "id": "atsb-2022-holiday-totals",
+      "claim": "The 2022 review reports 72.79 km2 of combined original holidays/LPD and an added gap inside its review scope.",
+      "source": "ATSB/Geoscience Australia, MH370 Data Review Final Report V2",
+      "url": "https://www.atsb.gov.au/sites/default/files/2024-02/mh370-data-review-2022-final-report-v2.pdf",
+      "locator": "Data gaps and holidays section; category table",
+      "located_passage": "The total area is 72.79 km².",
+      "status": "FOUND"
+    },
+    {
+      "id": "oi-2018-area",
+      "claim": "Ocean Infinity reported collecting data from more than 112,000 km2 during the 2018 search.",
+      "source": "Ocean Infinity, Conclusion of current search for Malaysian Airlines Flight MH370",
+      "url": "https://oceaninfinity.com/news/conclusion-of-current-search-for-malaysian-airlines-flight-mh370/",
+      "locator": "29 May 2018 release, opening paragraph",
+      "located_passage": "high quality data from over 112,000 km2 of the seabed",
+      "status": "FOUND"
+    },
+    {
+      "id": "oi-exact-swaths-quality-pod",
+      "claim": "Exact OI AUV swaths, spatial quality/holiday masks, and calibrated PoD were obtained from a public primary source.",
+      "source": "Ocean Infinity, GA FAQs, Malaysian Ministry of Transport releases, and targeted official-site searches",
+      "url": "https://www.ga.gov.au/scientific-topics/marine-and-coastal/showcase/mh370-data-release/faqs",
+      "locator": "Official OI/GA/MOT campaign pages and downloadable-data searches",
+      "located_passage": null,
+      "status": "BLOCKED",
+      "scope_note": "GA says it was not involved in the OI search and directs data-access questions to OI or Malaysia; no public exact swath/QA/PoD dataset was located."
+    },
+    {
+      "id": "oi-2018-final-data-context",
+      "claim": "Ocean Infinity described its 2018 dataset as 120,000 km2 collected by eight AUVs.",
+      "source": "Ocean Infinity, 2018 data donation release",
+      "url": "https://oceaninfinity.com/news/ocean-infinity-donates-120000-square-kilometres-of-data-for-missing-malaysian-airliner-to-gebco-seabed-2030-project/",
+      "locator": "Release title and first paragraph",
+      "located_passage": "120,000 square kilometres; fleet of eight Autonomous Underwater Vehicles",
+      "status": "FOUND"
+    },
+    {
+      "id": "oi-2024-proposal-envelope-community",
+      "claim": "A community reconstruction describes the March-2024 proposal as extending along the seventh arc from about 33S to 36S and about 45 NM either side.",
+      "source": "Victor Iannello, Update on the Search for MH370",
+      "url": "https://mh370.radiantphysics.com/2025/03/31/update-on-the-search-for-mh370/",
+      "locator": "Opening paragraph, posted 31 March 2025",
+      "located_passage": "extended along the 7th arc from about 33°S to 36°S, and out to about 45 NM",
+      "status": "FOUND",
+      "scope_note": "This supports a source-grade-C context envelope, not the exact traced vertices or an official contract boundary."
+    },
+    {
+      "id": "ais-track-files-community",
+      "claim": "The community tracking page identifies the plotted path as the Armada ship track and offers downloadable track files.",
+      "source": "MH370-CAPTION Armada tracking",
+      "url": "https://www.mh370-caption.net/index.php/armada-tracking/",
+      "locator": "Armada-tracking text, lines describing map and downloads",
+      "located_passage": "The map above shows the current track; Downloadable track files",
+      "status": "FOUND",
+      "scope_note": "A surface-vessel track is not an AUV trajectory or sonar swath."
+    },
+    {
+      "id": "oi-cumulative-area-2026",
+      "claim": "Ocean Infinity reported more than 140,000 km2 mapped cumulatively since beginning its MH370 work in 2018.",
+      "source": "Ocean Infinity, Conclusion of the search for Malaysian Airlines flight MH370",
+      "url": "https://oceaninfinity.com/news/conclusion-of-the-search-for-malaysian-airlines-flight-mh370/",
+      "locator": "8 March 2026 release, opening paragraph",
+      "located_passage": "mapped more than 140,000 square kilometres of seafloor",
+      "status": "FOUND",
+      "scope_note": "This is a cumulative reported total, not a public exact unique-area footprint."
+    },
+    {
+      "id": "mot-2026-area-accounting",
+      "claim": "Malaysia reported an estimated 15,000 km2 search area and approximately 7,571 km2 surveyed in the 2025–2026 operation.",
+      "source": "Malaysia Ministry of Transport, MH370 Search Operation 2025–2026 – Update to Families",
+      "url": "https://www.mot.gov.my/en/Kenyataan%20Media/Year%202026/MH370%20Search%20Operation%202025-2026%20-%20Update%20to%20Families.pdf",
+      "locator": "PDF page 1, operation summary",
+      "located_passage": "approximately 7,571 square kilometres of seabed were surveyed",
+      "status": "FOUND"
+    },
+    {
+      "id": "mot-2026-exact-boundary",
+      "claim": "The update supplies an authoritative machine-readable 15,000 km2 boundary and surveyed-area difference polygon.",
+      "source": "Malaysia Ministry of Transport update and targeted official-site searches",
+      "url": "https://www.mot.gov.my/en/Kenyataan%20Media/Year%202026/MH370%20Search%20Operation%202025-2026%20-%20Update%20to%20Families.pdf",
+      "locator": "Full update and official downloadable-data searches",
+      "located_passage": null,
+      "status": "NOT_FOUND"
+    },
+    {
+      "id": "numeric-pod",
+      "claim": "A calibrated numeric probability-of-detection field suitable for negative-search likelihood is supplied by the located sources.",
+      "source": "ATSB, GA, Ocean Infinity, and Malaysian Ministry primary sources in this ledger",
+      "url": "https://www.atsb.gov.au/investigations/ae-2014-054",
+      "locator": "Search-method, QA, confidence, and data-access sections",
+      "located_passage": null,
+      "status": "NOT_FOUND",
+      "scope_note": "Narrative confidence and quality statements are not treated as a numeric PoD calibration."
+    }
+  ]
+}

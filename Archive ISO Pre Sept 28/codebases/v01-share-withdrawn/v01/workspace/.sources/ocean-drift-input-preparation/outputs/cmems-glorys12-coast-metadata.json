@@ -1,0 +1,29 @@
+{
+  "axis_order": [
+    "time",
+    "latitude",
+    "longitude"
+  ],
+  "binary_format": "MHGRID1 little-endian",
+  "binary_sha256": "fff1f2776117e98372f40811690c95110eac547a386e3b05f8d22d701b3981ae",
+  "component_units": {
+    "land_fraction": "binary fraction 0 ocean 1 land"
+  },
+  "converter_version": "ocean-input-preparation-v4",
+  "definition": "land_fraction=1 only where eastward surface current is missing at every retrieved daily analysis; intermittently missing ocean cells remain ocean and terminate as missing field coverage when encountered",
+  "family": "cmems_glorys12_reanalysis",
+  "field_role": "coastal_support",
+  "latitude_units": "degrees_north WGS84",
+  "limitations": [
+    "This model wet mask distinguishes persistent land from data gaps; it is not a shoreline-distance or beaching-probability model.",
+    "No beaching_rate component is present, so the transport code cannot invent coastal retention."
+  ],
+  "longitude_units": "degrees_east WGS84",
+  "name": "CMEMS GLORYS12V1 persistent wet-mask coastal support field",
+  "retrieval_manifest": {
+    "path": ".sources/ocean-drift-input-preparation/outputs/cmems-glorys12-retrieval-manifest.json",
+    "sha256": "0f031a8e850006341f4d88ce8c84e1ca4c3e55680003036cf7f5fc6747d8a766"
+  },
+  "schema": "mh370-gridded-field-input-v1",
+  "time_axis": "constant over the CMEMS retrieval interval"
+}

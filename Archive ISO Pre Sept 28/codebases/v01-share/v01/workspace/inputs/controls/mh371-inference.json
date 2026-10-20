@@ -1,0 +1,238 @@
+{
+  "schema_version": "mh371-known-flight-package-v2",
+  "source_id": "mh371-cruise-control",
+  "status": "truth_separated_cruise_bto_bfo_control",
+  "time_origin_utc": "2014-03-07T01:48:00.000Z",
+  "time_origin_unix_s": 1394156880,
+  "cruise_boundary": {
+    "start_utc": "2014-03-07T01:48:00.000Z",
+    "end_utc": "2014-03-07T07:04:00.000Z",
+    "start_definition": "first stable level-off",
+    "end_definition": "last ACARS cruise sample before descent"
+  },
+  "initial_state": {
+    "lat_deg": 39.911433333333335,
+    "lon_deg": 115.61092666666667,
+    "heading_true_deg": 232.536
+  },
+  "initial_position_prior": {
+    "north_sd_nm": 0.5,
+    "east_sd_nm": 0.5,
+    "heading_sd_deg": 1.0,
+    "source": "Davey et al. 2016, Chapter 4, pp. 34-35"
+  },
+  "observations": [
+    {
+      "epoch_id": "mh371_0200",
+      "target_time_utc": "2014-03-07T02:00:00.000Z",
+      "time_utc": "2014-03-07T01:56:47.921Z",
+      "seconds_from_t0": 527.9210003139451,
+      "bto_us": 28340.0,
+      "bto_sd_us": 29.0,
+      "bfo_hz": 200.0,
+      "satellite_oscillator_hz": -55.89294353909314,
+      "perth_ges_afc_hz": 18.83590757523105,
+      "combined_satellite_ges_hz": -37.05703596386209,
+      "left_knot_time_s": 5893.0,
+      "right_knot_time_s": 14649.0,
+      "interpolation_fraction": 0.12733222936431535,
+      "sat_position": [
+        18184.96085499006,
+        38040.01431063932,
+        -92.63790991650441
+      ],
+      "sat_velocity": [
+        0.00014,
+        -0.002132,
+        -0.087605
+      ],
+      "channel": "IOR-R1200-0-36F6",
+      "sita_source_row": 921,
+      "selection_candidate_count": 12,
+      "selection_sha256_rank": "0d756c840cd356428c9eca18ca823376bc5dfcc80181394a5f28f5cf13cb8f15",
+      "cno_db_hz": 39.18
+    },
+    {
+      "epoch_id": "mh371_0300",
+      "target_time_utc": "2014-03-07T03:00:00.000Z",
+      "time_utc": "2014-03-07T03:20:22.428Z",
+      "seconds_from_t0": 5542.427999717183,
+      "bto_us": 24800.0,
+      "bto_sd_us": 29.0,
+      "bfo_hz": 226.0,
+      "satellite_oscillator_hz": -49.74969355183511,
+      "perth_ges_afc_hz": 18.08671275445529,
+      "combined_satellite_ges_hz": -31.662980797379817,
+      "left_knot_time_s": 5893.0,
+      "right_knot_time_s": 14649.0,
+      "interpolation_fraction": 0.700026039255046,
+      "sat_position": [
+        18181.65341660044,
+        38029.20322688058,
+        -516.1296650295418
+      ],
+      "sat_velocity": [
+        -0.001607,
+        -0.0020065720002828166,
+        -0.07939771600084844
+      ],
+      "channel": "IOR-R1200-0-36E3",
+      "sita_source_row": 1457,
+      "selection_candidate_count": 11,
+      "selection_sha256_rank": "058ccf276c4420f15310a26ca48da9bcf00deff5741344348c3ba2210097291b",
+      "cno_db_hz": 41.25
+    },
+    {
+      "epoch_id": "mh371_0400",
+      "target_time_utc": "2014-03-07T04:00:00.000Z",
+      "time_utc": "2014-03-07T04:04:57.916Z",
+      "seconds_from_t0": 8217.915999800898,
+      "bto_us": 23500.0,
+      "bto_sd_us": 29.0,
+      "bfo_hz": 234.0,
+      "satellite_oscillator_hz": -46.38566657470327,
+      "perth_ges_afc_hz": 17.627849864431717,
+      "combined_satellite_ges_hz": -28.757816710271555,
+      "left_knot_time_s": 14649.0,
+      "right_knot_time_s": 22260.0,
+      "interpolation_fraction": 0.006427013506884527,
+      "sat_position": [
+        18176.249018320494,
+        38024.20223028033,
+        -717.4475411659424
+      ],
+      "sat_velocity": [
+        -0.002537,
+        -0.001639,
+        -0.0705883360007964
+      ],
+      "channel": "IOR-R1200-0-36ED",
+      "sita_source_row": 2020,
+      "selection_candidate_count": 19,
+      "selection_sha256_rank": "0922ee56706c7cea203ee7d75d1d916969193ba547c40cafb75a94ba6ba6b8a7",
+      "cno_db_hz": 41.61
+    },
+    {
+      "epoch_id": "mh371_0500",
+      "target_time_utc": "2014-03-07T05:00:00.000Z",
+      "time_utc": "2014-03-07T05:11:37.411Z",
+      "seconds_from_t0": 12217.411000030115,
+      "bto_us": 20460.0,
+      "bto_sd_us": 29.0,
+      "bfo_hz": 236.0,
+      "satellite_oscillator_hz": -34.42990859272355,
+      "perth_ges_afc_hz": 12.195659637542331,
+      "combined_satellite_ges_hz": -22.23424895518122,
+      "left_knot_time_s": 14649.0,
+      "right_knot_time_s": 22260.0,
+      "interpolation_fraction": 0.5319157797963625,
+      "sat_position": [
+        18163.904652179892,
+        38019.23127174998,
+        -965.5139819835829
+      ],
+      "sat_velocity": [
+        -0.003685,
+        -0.000724,
+        -0.05254494499984942
+      ],
+      "channel": "IOR-R1200-0-36E8",
+      "sita_source_row": 2437,
+      "selection_candidate_count": 11,
+      "selection_sha256_rank": "039623de1c7d91027e5b1cd7fba9c17ecbba9aaf68bd7fbaccb5ca809185780a",
+      "cno_db_hz": 43.7
+    },
+    {
+      "epoch_id": "mh371_0600",
+      "target_time_utc": "2014-03-07T06:00:00.000Z",
+      "time_utc": "2014-03-07T06:09:44.409Z",
+      "seconds_from_t0": 15704.409000095911,
+      "bto_us": 16980.0,
+      "bto_sd_us": 29.0,
+      "bfo_hz": 234.0,
+      "satellite_oscillator_hz": -24.00616655277984,
+      "perth_ges_afc_hz": 7.4595525900139155,
+      "combined_satellite_ges_hz": -16.546613962765925,
+      "left_knot_time_s": 14649.0,
+      "right_knot_time_s": 22260.0,
+      "interpolation_fraction": 0.9900681907891093,
+      "sat_position": [
+        18150.102298109596,
+        38018.38431861003,
+        -1115.743300627178
+      ],
+      "sat_velocity": [
+        -0.004271,
+        0.00032040900009591136,
+        -0.03311654599942453
+      ],
+      "channel": "IOR-R1200-0-36F6",
+      "sita_source_row": 2874,
+      "selection_candidate_count": 11,
+      "selection_sha256_rank": "03e8ec1284d88dad1d0f572e23150f8a8cd0673de23dcb0a9c5cb359fd7a825c",
+      "cno_db_hz": 43.25
+    },
+    {
+      "epoch_id": "mh371_0648",
+      "target_time_utc": "2014-03-07T06:48:00.000Z",
+      "time_utc": "2014-03-07T06:48:33.907Z",
+      "seconds_from_t0": 18033.90700021293,
+      "bto_us": 15020.0,
+      "bto_sd_us": 29.0,
+      "bfo_hz": 226.0,
+      "satellite_oscillator_hz": -15.56070728631797,
+      "perth_ges_afc_hz": 3.6923408468943335,
+      "combined_satellite_ges_hz": -11.868366439423635,
+      "left_knot_time_s": 24511.0,
+      "right_knot_time_s": 60113.0,
+      "interpolation_fraction": 8.165272212039051e-05,
+      "sat_position": [
+        18140.107282689078,
+        38019.92700421022,
+        -1176.4781996990212
+      ],
+      "sat_velocity": [
+        -0.004388,
+        0.001061,
+        -0.01886155799872242
+      ],
+      "channel": "IOR-R1200-0-36F6",
+      "sita_source_row": 3269,
+      "selection_candidate_count": 6,
+      "selection_sha256_rank": "0316128fe8da42db8fa74ac20794859c4f2359f817ce55e3a119e7e682f30a69",
+      "cno_db_hz": 43.68
+    }
+  ],
+  "channel_selection": {
+    "method": "minimum SHA-256 rank over predeclared eligible rows",
+    "seed": "mh371-cruise-hourly-v1",
+    "aircraft_id": 35200217,
+    "eligible_channel_prefix": "IOR-R1200-",
+    "minimum_cno_db_hz": 35.0,
+    "excluded_su_types": [
+      "log-on",
+      "log-off",
+      "log control"
+    ]
+  },
+  "bfo_correction": {
+    "sign_convention": "combined_satellite_ges_hz = perth_ges_afc_hz + satellite_oscillator_hz; satellite_oscillator_hz is negative of workbook FA",
+    "latent_aircraft_bias_excluded": true,
+    "workbook_columns": {
+      "FA": "satellite curve",
+      "FB": "Perth GES AFC"
+    }
+  },
+  "speed_unit_audit": {
+    "consumed_ground_speed_field": false,
+    "acars_field_present": "CAS",
+    "trajectory_velocity_source": "geodesic derivative of held-back ACARS positions",
+    "reason": "the input workbook has no labelled ground-speed field, so no knot versus km/h assumption enters inference"
+  },
+  "source_hashes": {
+    "sita_sha256": "bbc71937198e748e5695d607c4192e5c873d0aa81f5e786a378cc929ce3f95a7",
+    "acars_sha256": "444f1e75a3edd17ed3666263cc8d54ef35665f0f4f1984212cfcf11a759386d4",
+    "ephemeris_sha256": "a1a84be75ebdcf642a77dd110a755b01c6e4be1adb5dbef2cfb42fc5585989d0",
+    "correction_workbook_sha256": "c90df112f70e4ac75dd1361e51bc1e70cb3319dd5db6490a50eebb1a65626c60"
+  }
+}

@@ -1,0 +1,265 @@
+{
+  "schema_version": 1,
+  "name": "Terminal support and composition control",
+  "seed": 37091801,
+  "source_runs": [
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631"
+  ],
+  "draws_per_source": 32,
+  "powered_step_s": 1.0,
+  "final_contacts": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-final-contacts.json",
+  "kernel": {
+    "families": [
+      {
+        "name": "openap26-initial-trim",
+        "aerodynamics": "openap_v2_6_0_attached_flow",
+        "control": {
+          "kind": "fixed_initial_trim"
+        }
+      },
+      {
+        "name": "openap26-best-glide",
+        "aerodynamics": "openap_v2_6_0_attached_flow",
+        "control": {
+          "kind": "best_glide",
+          "maximum_lift_coefficient_rate_per_s": 0.05,
+          "maximum_roll_rate_deg_s": 3.0,
+          "step_s": 0.5
+        }
+      },
+      {
+        "name": "openap26-positive-lift-1-targets",
+        "aerodynamics": "openap_v2_6_0_attached_flow",
+        "control": {
+          "kind": "rate_limited_targets",
+          "segments": 1,
+          "lift_coefficient_bounds": [
+            0.05,
+            1.2
+          ],
+          "bank_angle_bounds_deg": [
+            -60,
+            60
+          ],
+          "change_time_bounds_s": [
+            10,
+            900
+          ],
+          "maximum_lift_coefficient_rate_per_s": 0.05,
+          "maximum_roll_rate_deg_s": 3.0,
+          "step_s": 0.5
+        }
+      },
+      {
+        "name": "openap26-positive-lift-3-targets",
+        "aerodynamics": "openap_v2_6_0_attached_flow",
+        "control": {
+          "kind": "rate_limited_targets",
+          "segments": 3,
+          "lift_coefficient_bounds": [
+            0.05,
+            1.2
+          ],
+          "bank_angle_bounds_deg": [
+            -60,
+            60
+          ],
+          "change_time_bounds_s": [
+            10,
+            900
+          ],
+          "maximum_lift_coefficient_rate_per_s": 0.05,
+          "maximum_roll_rate_deg_s": 3.0,
+          "step_s": 0.5
+        }
+      },
+      {
+        "name": "openap26-positive-lift-6-targets",
+        "aerodynamics": "openap_v2_6_0_attached_flow",
+        "control": {
+          "kind": "rate_limited_targets",
+          "segments": 6,
+          "lift_coefficient_bounds": [
+            0.05,
+            1.2
+          ],
+          "bank_angle_bounds_deg": [
+            -60,
+            60
+          ],
+          "change_time_bounds_s": [
+            10,
+            900
+          ],
+          "maximum_lift_coefficient_rate_per_s": 0.05,
+          "maximum_roll_rate_deg_s": 3.0,
+          "step_s": 0.5
+        }
+      },
+      {
+        "name": "openap26-signed-lift-6-targets",
+        "aerodynamics": "openap_v2_6_0_attached_flow",
+        "control": {
+          "kind": "rate_limited_targets",
+          "segments": 6,
+          "lift_coefficient_bounds": [
+            -0.3,
+            1.2
+          ],
+          "bank_angle_bounds_deg": [
+            -60,
+            60
+          ],
+          "change_time_bounds_s": [
+            10,
+            900
+          ],
+          "maximum_lift_coefficient_rate_per_s": 0.05,
+          "maximum_roll_rate_deg_s": 3.0,
+          "step_s": 0.5
+        }
+      },
+      {
+        "name": "openap2020-initial-trim",
+        "aerodynamics": "openap_published2020_attached_flow",
+        "control": {
+          "kind": "fixed_initial_trim"
+        }
+      },
+      {
+        "name": "openap2020-best-glide",
+        "aerodynamics": "openap_published2020_attached_flow",
+        "control": {
+          "kind": "best_glide",
+          "maximum_lift_coefficient_rate_per_s": 0.05,
+          "maximum_roll_rate_deg_s": 3.0,
+          "step_s": 0.5
+        }
+      },
+      {
+        "name": "openap2020-positive-lift-1-targets",
+        "aerodynamics": "openap_published2020_attached_flow",
+        "control": {
+          "kind": "rate_limited_targets",
+          "segments": 1,
+          "lift_coefficient_bounds": [
+            0.05,
+            1.2
+          ],
+          "bank_angle_bounds_deg": [
+            -60,
+            60
+          ],
+          "change_time_bounds_s": [
+            10,
+            900
+          ],
+          "maximum_lift_coefficient_rate_per_s": 0.05,
+          "maximum_roll_rate_deg_s": 3.0,
+          "step_s": 0.5
+        }
+      },
+      {
+        "name": "openap2020-positive-lift-3-targets",
+        "aerodynamics": "openap_published2020_attached_flow",
+        "control": {
+          "kind": "rate_limited_targets",
+          "segments": 3,
+          "lift_coefficient_bounds": [
+            0.05,
+            1.2
+          ],
+          "bank_angle_bounds_deg": [
+            -60,
+            60
+          ],
+          "change_time_bounds_s": [
+            10,
+            900
+          ],
+          "maximum_lift_coefficient_rate_per_s": 0.05,
+          "maximum_roll_rate_deg_s": 3.0,
+          "step_s": 0.5
+        }
+      },
+      {
+        "name": "openap2020-positive-lift-6-targets",
+        "aerodynamics": "openap_published2020_attached_flow",
+        "control": {
+          "kind": "rate_limited_targets",
+          "segments": 6,
+          "lift_coefficient_bounds": [
+            0.05,
+            1.2
+          ],
+          "bank_angle_bounds_deg": [
+            -60,
+            60
+          ],
+          "change_time_bounds_s": [
+            10,
+            900
+          ],
+          "maximum_lift_coefficient_rate_per_s": 0.05,
+          "maximum_roll_rate_deg_s": 3.0,
+          "step_s": 0.5
+        }
+      },
+      {
+        "name": "openap2020-signed-lift-6-targets",
+        "aerodynamics": "openap_published2020_attached_flow",
+        "control": {
+          "kind": "rate_limited_targets",
+          "segments": 6,
+          "lift_coefficient_bounds": [
+            -0.3,
+            1.2
+          ],
+          "bank_angle_bounds_deg": [
+            -60,
+            60
+          ],
+          "change_time_bounds_s": [
+            10,
+            900
+          ],
+          "maximum_lift_coefficient_rate_per_s": 0.05,
+          "maximum_roll_rate_deg_s": 3.0,
+          "step_s": 0.5
+        }
+      }
+    ],
+    "environment": {
+      "minimum_pressure_altitude_ft": 500.0,
+      "maximum_pressure_altitude_ft": 43000.0,
+      "below_minimum_policy": "clamp_to_grid",
+      "above_maximum_policy": "reject"
+    },
+    "fallback_atmosphere": {
+      "nodes": [
+        {
+          "altitude": 0.0,
+          "density": 1.225,
+          "wind_north": 0.0,
+          "wind_east": 0.0
+        },
+        {
+          "altitude": 43000.0,
+          "density": 0.25,
+          "wind_north": 0.0,
+          "wind_east": 0.0
+        }
+      ]
+    },
+    "integration": {
+      "time_step": 1.0,
+      "maximum_duration": 3600.0,
+      "sea_surface_altitude": 0.0,
+      "maximum_steps": 12000
+    },
+    "apu_start_policy": {
+      "mode": "disabled"
+    },
+    "apu_accessible_reserved_fuel_kg": 0.0
+  }
+}

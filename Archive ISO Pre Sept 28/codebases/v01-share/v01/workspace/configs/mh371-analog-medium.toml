@@ -1,0 +1,43 @@
+schema_version = 2
+name = "mh371-cruise-mh370_analog_prior_medium_bfo"
+model_family = "mh370_analog_prior_medium_bfo"
+expected_inference_sha256 = "e097dcfb303acb515a8b6bee90450574b88968d647b82d5b3d3eea5bf56c37ec"
+expected_weather_sha256 = "0419e87362969f9ac1bc948b7461a471e998fa52d369f59a3a66a5c4e1c52b40"
+expected_magnetic_sha256 = "16d31a7db48e0440a46b1a77ae7bf2d3fa6963d834a560be20377b68d5390bec"
+expected_package_schema = "mh371-known-flight-package-v2"
+particles = 12000
+seeds = [37102001, 37102002]
+algorithm = "bootstrap"
+ess_resample_fraction = 0.7
+
+[prior]
+mach_min = 0.73
+mach_max = 0.84
+altitude_min_ft = 25000.0
+altitude_max_ft = 43000.0
+
+[model]
+process_magnetic_heading_sd_deg_per_sqrt_hour = 35.0
+process_mach_sd_per_sqrt_hour = 0.02
+process_altitude_sd_ft_per_sqrt_hour = 3000.0
+propagation_step_s = 300.0
+guide_inflation = 8.0
+bfo_observation_sd_hz = 4.0
+ground_station_position_km = { x = -2368.8, y = 4881.1, z = -3342.0 }
+
+[model.satcom]
+bfo_bias_prior_mean_hz = 150.0
+bfo_bias_prior_sd_hz = 25.0
+
+[model.satcom.bto]
+speed_of_light_km_s = 299792.458
+nominal_delay_us = 499962.0
+channel_term_us = 4283.0
+
+[model.satcom.bfo]
+satellite_afc_hz = 0.0
+uplink_hz = 1646652500.0
+downlink_hz = 3615152500.0
+speed_of_light_km_s = 299792.458
+nominal_satellite_longitude_deg = 64.5
+nominal_satellite_altitude_km = 36210.12

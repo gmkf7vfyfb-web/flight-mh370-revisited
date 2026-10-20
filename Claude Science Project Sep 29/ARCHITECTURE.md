@@ -1,0 +1,413 @@
+# Architecture and coordination
+
+Read this first if you are a session joining this project. It says what the estimator is, who
+owns which part, how parallel sessions coordinate without a live channel, and which rules are
+binding rather than advisory.
+
+This document supersedes two earlier ones and merges them: the `ARCHITECTURE.md` written in this
+workspace on 29 September, and `ISO Sept 28 Status/decisions/thread-coordination.md`, which
+recorded the module structure built in the previous harness. Where the two disagreed, the older
+one usually won: it had eleven modules and a four-stage estimator worked out in detail, and the
+newer one had been written without knowledge of it.
+
+## What this project is
+
+A reproduction and extension of Davey, Gordon, Holland, Rutten and Williams, *Bayesian Methods
+in the Search for MH370* (Springer, 2016), aimed at a paper for the *Journal of Navigation*. The
+chain runs from the 18:01:49 radar prior through the Inmarsat handshakes to 00:19, then onward to
+ocean impact, sinking, seafloor drift, surface drift, hydroacoustics, searched-area disconfirming
+evidence and conditional hypotheses.
+
+Two things follow from "reproduction and extension", and every session must keep them apart:
+
+- **Reproduction.** `config/davey2016.toml` is Davey's model on Davey's priors. It must stay
+  byte-reproducible. Do not change its defaults. Everything the book specifies is audited in
+  `results/davey-2016-reference.md`, including two places where the book contradicts itself.
+- **Extension.** Fuel, vertical-rate BFO, tempering, branching, hypotheses. Every one of these is
+  config-gated and defaults **off**. A result that needs an extension names it in its config.
+
+**The governing principle (Pete, 17 Oct 2026).** No single evidence type can solve this case: satcom
+with flight dynamics, debris drift, hydroacoustics, searched areas and the conditional hypotheses are each
+sparse and under-determined. The aim is the posterior over seabed location given ALL the evidence, each
+weighted by its own uncertainty, with the true spread of that uncertainty shown, and without depending
+too much on any one evidence type. False precision is a defect; satcom peaks near 37°S, but valid
+solutions exist far up the arc and only one has to be true. Every module therefore reports what its
+evidence says alone (prior uniform along the arc), combined with the core, and the size of the
+disagreement. The composer brief, §0, makes this operational.
+
+Published work is input, not truth. Departures from it are recorded — in `README.md` for the
+core, in the `lib.rs` doc comment for a hypothesis — never left implicit.
+
+## The estimator: one filter, four stages
+
+1. **Core filter.** Runs from the 18:01 prior (or an 18:22 prior) through the SATCOM data. For
+   the integrated estimate it stops at 00:11, and the hand-off resamples its posterior, carrying
+   each trajectory's full state, as the starting distribution for stage 2.
+2. **End of flight.** Continues each trajectory: powered flight on the core dynamics until the
+   end-of-flight module takes over; the module simulates descents to impact; the runner scores
+   whichever 00:19 messages the config selects.
+3. **Impact-level modules.** Each returns a log-likelihood per impact sample.
+4. **Composer.** Combines any chosen set of modules into one posterior. Reports evidence,
+   effective sample size and replicate agreement, and writes `summary.json` for the report.
+   Results are shown per end-of-flight hypothesis first; any average across them appears only
+   beside a prior sensitivity.
+
+### Build status, measured 18 October 2026
+
+Measured on `claude-science-sep29` at a6360d4 and the module branches named below; the previous version of this
+table (29 Sep–6 Oct) said stages 2–3 were empty frames and stage 4 did not exist, and was two weeks out of date.
+Re-measure before quoting; do not publish a status claim from this table without checking the results note it cites.
+
+| stage | interface | model | latest evidence |
+|---|---|---|---|
+| 1 core filter | **built** | **built and validated**; run J (tag `run-j` 1244b7c, 74 seeds in four strata) accepted as a convergence PASS by project ruling 16 Oct | `results/run-j/README.md`; northern supplement (16 new waypoint seeds, tilted 00:11 hand-off) running on deskstar from 18 Oct 13:43Z, `results/run-j-supplement/DESIGN.md` |
+| 2 end of flight | **built** (`Terminal` trait, hand-off, `terminal.rs`, `impacts.rs`) | **built, physics PROVISIONAL** — `hypotheses/end-of-flight` on `hypothesis/end-of-flight`; families A1/A2/B, two-factor 00:19 model (D0–D5 × C1/C2), round-3 laws; uncontrolled arm not calibrated | `results/eof-run-j-oct17/`, `eof-run-j-joined-v2-oct17/`, `eof-a1-branch-oct18/` |
+| 3 impact modules | **built** (`ImpactView`, `impact_log_likelihood`, `predict`, `mh370 evaluate`) | **built per module, see the table below**; run J columns delivered by drift, settling, Pléiades, hydroacoustics; searched areas scored by a composer stand-in pending the module's run J columns | module rows below |
+| 4 composer | **crate built** — `crates/compose` (stage 4 bookkeeping: evidence sets, alternatives by name, per-(replicate, mode) increments). The runner still rejects a `[[compose]]` section (`main.rs:71`) | **views produced** — §0 views (evidence alone on an arc-uniform prior, core + E, leave-one-out, all; disagreement, influence, ρ sweep) on run J for six 00:19 treatments, computed by the composer's numpy scripts | `results/composer-views-run-j.md` (v2, 18 Oct, Ocean Infinity included), tables in `mh370-exchange/composer/run-j-views/` |
+
+Headline products exist for every stage; the open questions are now about the models inside them (end-of-flight physics,
+the searched-areas detection model, ocean-model dependence) and about sampling north of 33 S, not about missing frames.
+
+### The hook API
+
+In the filter: `adjust_prior` (and `adjust_stratum_prior`), `extra_epochs`,
+`epoch_log_likelihood`, `final_log_likelihood`, with `StateView`.
+
+After it: `impact_log_likelihood(impact, choice)` and `predict(impact, out)` per impact sample,
+with `ImpactView`; or the `Terminal` trait for the end-of-flight module.
+
+Declarations: `observations()` (the observation IDs consumed, each used once per run, e.g.
+`"m0019a.bfo"`), `alternatives()` (discrete choices with priors; an alternative shared across
+modules is declared by the same name and marginalised jointly), `absolute_scale()` and
+`prediction_columns()`.
+
+`ImpactView` currently carries: parent, time, latitude, longitude, ENU velocity, flight-path
+angle, mass, total and vertical kinetic energy, descent family, takeover time/place/altitude,
+mode, alternative, latents. **Three fields the downstream modules will need are missing** — see
+the open decisions below.
+
+## Composition rules every module follows
+
+These are carried forward unchanged from the previous harness. They are the reason modules can be
+built independently and still combine into something defensible.
+
+1. Return the likelihood of your data given the state, never a posterior. Remove any internal
+   reference prior yourself. Say whether your likelihood is on an absolute scale; only
+   absolute-scale likelihoods can be mixed across alternatives.
+2. Each observation is used once per run. List the observation IDs you consume.
+3. All impact modules use the same impact samples. Never smooth privately over impact location:
+   the product of separately smoothed likelihoods is not the smoothed product.
+4. Likelihoods must be smooth, with explicit model error. No floors. "Not computed" (NaN) is not
+   "impossible". Cover the prior's support or refuse.
+5. Be accurate across the whole arc span that the flight prior covers, not only where the flight
+   posterior has its mass (roughly 30–40°S) and not only near your own peak. Each evidence type is
+   also reported alone, on a prior uniform along the arc (`threads/master-prompts/composer.md` §0), so
+   a likelihood that is wrong far from 37°S will show. *(Revised 17 Oct 2026, Pete. This supersedes
+   rule 5 of `ISO Sept 28 Status/threads/master-prompts/common.txt` and the copies of it in the module
+   briefs.)*
+6. Measure Monte Carlo adequacy (ESS, split-half replicate agreement). Report unconverged results
+   as unconverged; the fix is the sampler, never the smoothing.
+7. Settle discrete model choices by evidence, or show them as labelled sensitivities. Never use
+   fixed-weight averages of normalised maps.
+8. Include one synthetic-recovery test (generate your data from a known state and check
+   coverage), plus hand-computed fixtures.
+
+## Modules and ownership
+
+One session per module. The directory is the unit of ownership; two sessions editing one file is
+the failure mode this document exists to prevent. The module set is the one established on
+28 September, mapped onto this workspace's layout.
+
+| module | owns | status (measured 18 Oct 2026) |
+|---|---|---|
+| **architecture** | this file, `RUNBOOK.md`, merge order, `ImpactView` and hook changes. Writes no module code. | the long-lived architecture thread is inactive; coordination is done by whichever session is active, through the inboxes |
+| **core estimation & sampler** | `engine/crates/{geo,satcom,flight}`, `crates/mh370/src/{filter,config}.rs`, `config/davey2016.toml`, sampler configs | run J accepted (PASS by ruling 16 Oct); northern supplement running; route turn model fly-by + leg tracking; Mach to 0.87 (ruling 12 Oct) |
+| **fuel & performance** | `crates/flight/src/fuel.rs`, `config/sensitivity/{stage2,stage3,endurance,reject,fuel-smoke}*` | complete; fuel-fixes s1–s8 in every run J job; the model costs about 2.2 nat against the fuel-free reproduction on corrected tables |
+| **core stages & composer** | `crates/mh370/src/{handoff,terminal,impacts,main}.rs`, `crates/hypothesis`, `crates/compose` | stages 1–3 built; `crates/compose` built; `[[compose]]` not wired into the runner; composer views v2 on run J delivered; views v3 (three-way split table, Davey eq. 11.2 blocks) requested by the searched-areas order of 18 Oct; end-to-end calibration protocol in design (composer thread, 18 Oct) |
+| **end of flight** | `hypotheses/end-of-flight` (branch `hypothesis/end-of-flight` 5d060f0) | built; run J products for all four strata; joined V2 at 24 seeds; A1-under-D3 coverage gap closed 18 Oct; physics PROVISIONAL (uncontrolled arm, breakup); pre-00:11 B under D2/D4 not estimable (parent-limited) |
+| **shared ocean transport** | `crates/ocean` (on the working branch; branch `core/ocean-transport` c54bf93) | built: GLORYS12 and GlobCurrent currents, WAVERYS Stokes drift, ERA5 wind, GSHHG coast, bathymetry; GDP replay error model (`results/ocean-transport-error-*.md`) |
+| **ocean drift** | `hypotheses/debris-drift` (branch `hypothesis/debris-drift` d51d80a, **not merged** into the working branch) | built; run J columns delivered (`results/drift-runj-2026-10-17/`, by family 18 Oct); two ocean models marginalised jointly; Western Australia non-recovery term carried as a labelled sensitivity; 2014 surface-search term (register A1) not built — rights ruled 18 Oct, needs a thread |
+| **impact to seafloor (settling)** | `hypotheses/settling` (branch `hypothesis/settling` 9330d4c, **not merged**) | built; run J settled outcome sets (`results/settling-run-j/`, five sets); PROVISIONAL physics; Kadri/Haixun settling leg 18 Oct |
+| **searched areas** | `hypotheses/seabed-search` (on the working branch; branch `hypothesis/seabed-search` c6501cd) | built for ATSB Phase 2 and Bluefin-21 with GA 5 m coverage; Ocean Infinity 2018 and 2025–26 layers at grade C (base by ruling 13 Oct); no run J columns from the module yet (composer stand-in used); **work order 18 Oct**: per-cell q(x) and ρ(x) from the GA bathymetry and ATSB Fig. 73 (`threads/work-orders/searched-areas-spatial-detection-2026-10-18.md`), in execution |
+| **hydroacoustics** | `hypotheses/hydroacoustics` (branch `hypothesis/hydroacoustics` 77b4b49, **not merged**) | built (KRAKEN/RAM TL, F-35A-calibrated coupling, IMS H01W/H08S/H08N and IMOS); contributes **no factor** to the composed posterior by ruling (no detection probability); Kadri preferred-signal conditional pre-registered and reported 18 Oct (disfavoured to indeterminate); coverage in `results/hydroacoustics-coverage.md` |
+| **Pleiades / COSMO-SkyMed** | `hypotheses/pleiades` (branch `hypothesis/pleiades` a1a54b5) | built; enters as a likelihood conditional on object identity H; no Bayes factor for H; open blockers in `coordination/PLEIADES.md` |
+| **antenna gain** | `hypotheses/antenna-gain` | **parked** deliberately, not integrated; registered as D2 in the 17 Oct evidence register |
+| **reporting & paper** | `engine/report/*.py`, `paper/` | citation ledger and JoN rules done; `paper/proposed-draft` v2 is built on composer pass 2 / run I and must be regenerated on run J; `nav.cls` not yet obtained |
+
+WSPR remains a low-priority option, worth doing mainly to establish whether it works at all.
+
+`filter.rs` and `config.rs` are touched by core, fuel, sampler and every hypothesis that adjusts
+a prior. They are the real conflict risk, and the reason the architecture session exists.
+
+## How sessions coordinate
+
+**There is no live channel between sessions.** A session can read another's transcript after the
+fact but cannot message it. Anything another session must act on goes in the repo, not in
+conversation. Coordination is asynchronous through exactly three shared stores:
+
+1. **The git repo** — the source of truth. Each session gets its own workspace and therefore its
+   own clone; the previous harness used git worktrees off one checkout, which does not apply
+   here. One branch per module, pushed to the shared remote. Commit and push before going quiet:
+   a session holding uncommitted work blocks everyone.
+2. **The artifact store** — project-scoped, so `host.artifacts()` from any session sees every
+   figure, table and note any other session has saved. Prefer this to re-deriving.
+3. **Project memory** — conventions, decisions, hard-won negatives. Good for "we tried X, it
+   failed, here is the measurement". Bad as a task queue.
+
+Merge policy: a module merges its own branch when its tests pass **and** it owns every file it
+touched. Anything touching `filter.rs`, `config.rs`, `main.rs` or `crates/hypothesis` goes to the
+architecture session for review first.
+
+## The binding constraint is compute, not context
+
+This machine has **18 cores and 64 GB**. A full-scale run is 7M particles × 8 replicates and
+saturates all of them; fuel plus tempering takes about six hours.
+
+**Rule: wrap any job expected to exceed ~10 minutes or ~4 GB in**
+
+```sh
+lockf -k /tmp/.mh370-heavy.lock <command>
+```
+
+so heavy jobs **queue** instead of competing. (BSD `lockf` replaces Linux `flock`, which macOS
+does not ship; `-k` keeps the lock file, and a second job waits indefinitely for the first —
+verified.) Smoke runs at 200k particles per mode are cheap, under a minute, and need no lock.
+Figure and report work is free; do it while someone else holds the machine.
+
+This rule is mechanical, and it replaces the advisory "claim the machine in `RUNBOOK.md`" that
+preceded it. The reason is a measured failure: on 4 October two 7M-particle runs of the same
+configuration ran concurrently for some hours, and load average reached 210 with zero free cores.
+The per-replicate times, from the `final.npy` mtimes, were 43 and 41 minutes for the two clean
+replicates, then 316 and 317 minutes — **7.5×** — for the two that followed. That window also
+contains a lid-close suspension, so the whole 7.5× is not attributable to contention alone. The
+cleanly attributable figure is the next replicate, which overlapped the second process for about
+half its length and took 74 minutes, **1.75×**. A lock would have made the second job wait.
+
+Worse, the sandbox has **no process table** (`ps -A` returns nothing,
+`pkill` reports "Cannot get process list") and the engine's only cancellation hook is an
+in-process flag used by `serve`, so a runaway job cannot be signalled; the only way to stop one
+is to make its output path unwritable and let its next write fail. Prevention is the only
+control available.
+
+**Never end a turn while a long run is in flight.** The session idles, the kernels are torn down,
+and child processes are suspended with it. Hold an active poll instead.
+
+## Conventions that are not obvious
+
+- **Negative results are kept**, reproducible behind a config flag, not deleted. Four of the five
+  sampler interventions failed and all four remain runnable; the pattern across them is a result
+  in its own right.
+- **Cite Davey by printed book page**, not PDF position — they differ by fourteen. See the
+  verified mapping in `results/davey-2016-reference.md`. All existing citations have been audited
+  against the book's anchor text; `shoulder-comparison.md` had cited PDF positions throughout and
+  has been corrected. New citations must be verified the same way, not inferred by offset.
+- **Report arc-miss distances in kilometres of slant range** and as ratios, never as a count of
+  sigma.
+- **Quote split-half as mean and range** over all balanced partitions, against a
+  replicate-count-dependent floor: 0.896 at 4, 0.914 at 6, 0.924 at 8
+  (`results/split-half-threshold.md`). The 0.90 in the code is ours; Davey published no
+  quantitative convergence criterion at all.
+- **Per-epoch ESS is not replicate agreement.** Raising the worst epoch's ESS 4.3× once changed no
+  convergence measure. Chase ESS only where the degeneracy is a caustic.
+- **Seed-stable estimates only; smoke runs are never evidence.**
+- **Results as figures, not just numbers**, and save a PNG beside every PDF page.
+- **Never commit** `data/fuel-tables.json` (Boeing-derived), the large `.bin` grids, or the Davey
+  PDF (CC BY-NC, so not redistributable from a public repo). See `LARGE_FILES.md`,
+  `results/PROVISIONING.md` and `.sources/davey-2016/README.md`.
+- **The build needs** `CARGO_HOME` and `XDG_CONFIG_HOME` pointed inside the workspace, and
+  `git config --local core.excludesFile ""`, or cargo fails on an unreadable `~/.config/git`.
+- **Keep `ISO Sept 28 Status/` frozen.** It is a snapshot, not a working directory.
+
+## Architecture decisions — ruled 6 October
+
+The four decisions this section used to pose have been ruled. Recorded here as settled, with the
+reasoning, because a module session needs to know what is decided and what is still moving.
+
+1. **Composer before end of flight: reshaped, not adopted as posed.** The composer does not gate
+   the end-of-flight *dynamics*, which is the long pole and depends on none of it. It must exist
+   before the first end-of-flight impact samples are composed with anything. So it runs as a small
+   parallel track rather than as a gate.
+
+   **Superseded 8 October on the ownership half of this ruling.** This decision originally said
+   the composer needed no master prompt of its own, because `core-stages.txt` §D6 already
+   specifies it and the work would sit with whoever owned core stages. That conflated two things
+   which have now been separated. **The composer is a thread of its own and gets its own brief.
+   The runner stage stays with the core estimator.** The dividing line is which files the work
+   edits: the composer reads `impacts.npy` and writes a new crate, touching no core file, so it
+   is safely owned elsewhere; the runner stage edits `main.rs` and `config.rs`, which the core
+   session owns and regression-gates. One consequence to hold: the composer thread owns its own
+   crate directory but the workspace `Cargo.toml` membership line is a shared file, raised as a
+   core request rather than edited.
+
+   The §D6 specification stands unchanged as the composer's starting content — evaluate
+   `impact_log_likelihood` on `impacts.npy` per enabled module
+   and alternative; evidence sets from config; per-(replicate, mode) evidence increments so
+   `summary.rs` pooling stays correct; ESS per factor and the posterior probability of each
+   alternative; shared alternatives aligned **by name** and marginalised jointly across modules;
+   composed PDFs on a 2-D equal-area grid extending `summary.rs` rather than a second summariser.
+2. **Settling: separate, non-optional, and a transform.** Ruled as posed. It returns no
+   log-likelihood of its own, because there is essentially no observed MH370 seabed debris to
+   score and the one scoreable fact — the search having found nothing — belongs to searched areas.
+   **Its output is carried as samples, not as summary columns**: each impact sample fans out into
+   wreckage samples with the parent's weight split across them, the seabed analogue of the
+   end-of-flight hand-off. The reason is that searched areas' detection probability depends on the
+   extent and piece sizes of the field, not only on its centre, and summary moments discard
+   exactly that. This needs a new runner stage — a core change owned by core stages & composer,
+   not by settling and not by end of flight. The draw count is set by measuring what searched
+   areas needs to resolve its coverage polygons; the column form stays as a cheap fallback.
+3. **Three additions to `ImpactView`: ruled in.** Attitude at impact beyond flight-path angle (at
+   least heading and bank); dissipation duration τ, without which the hydroacoustic source term
+   η(γ, ż, attitude, breakup, τ) cannot be evaluated; and debris class, because a wing panel and
+   an engine neither sink nor drift alike. Required by the end-of-flight module's own stated
+   purpose, which is the position *and attitude* of arrival, the energy, and the *duration* of the
+   surface-impact event. Granularity is settled: the impact sample carries a debris **class**, and
+   settling generates the object ensemble from class plus energy and attitude. The sample is not
+   variable-length.
+   What a module *emits* is not what a consumer *conditions on*. Settling's first pass conditions
+   breakup families on vertical and total kinetic energy plus flight-path angle only, carrying
+   attitude and τ unused, because sink rate spans two orders of magnitude of seabed displacement
+   while attitude at impact comes out of the least-constrained part of the dynamics. The fields are
+   emitted anyway: the sensitivity test they permit is cheap, retrofitting them is not.
+4. **`crates/ocean` goes to a third owner, not to drift.** A **shared ocean transport** module owns
+   `crates/ocean` on branch `core/ocean-transport`, delivering the transport API, its data
+   provisioning and its tests, with no hypothesis and no likelihood of its own. Drift, settling
+   **and Pleiades** all depend on it — Pleiades included, because connecting an imaged debris field
+   to an impact requires transport from impact time to sighting time. The cost accepted with this
+   ruling: three consumers now wait on one producer, so its API must be specified from all three
+   sets of requirements before it builds.
+
+### There are two kinds of full-scale run and they are not interchangeable
+
+**This corrects an earlier statement in this document, which was wrong.** It said that every
+full-scale run should carry a `[terminal]` block because the block "costs almost nothing during a
+run that is happening anyway". It does not. The core estimator session found why, by trying it:
+
+> `[terminal]: no bursts after the stop; list them in exclude_epochs`
+
+**A run that writes a hand-off must stop *before* the bursts the terminal stage will handle.** So it
+carries `exclude_epochs = ["m0019a", "m0019b"]` and its posterior is at **00:11**, not 00:19:37.
+The block is not an add-on; it changes what the run is.
+
+That is the four-stage design working as specified rather than a defect — stage 1 stops at 00:11
+for the integrated estimate, and the hand-off resamples its posterior. But it means the two kinds
+of run must be named and kept apart:
+
+| | **core-only run** | **integrated run** |
+|---|---|---|
+| purpose | the posterior at the last transmission | feeding stages 2–4 |
+| last epoch the filter scores | 00:19:37 | the stop epoch, e.g. 00:11 or 22:41 |
+| who scores 00:19:29 and 00:19:37 | the filter | the terminal stage |
+| writes a hand-off | **no, and cannot** | yes |
+| what to quote from it | latitude at 00:19:37 | latitude at the stop, then impacts |
+
+`no-exhaustion-prior` is a core-only run. It is the right thing to quote for the position at the
+last transmission and the **wrong** thing to hand to the end-of-flight module, because that module
+exists to model what happens after the filter stops and this filter did not stop early enough to
+leave it anything to do.
+
+**The convention, corrected.** Every full-scale run *intended to feed a downstream stage* carries a
+`[terminal]` block and stops accordingly, with `target = "none"` when nothing after the stop is to
+be scored — that holds the later bursts out so they become predictions rather than fits. A
+core-only reference run does not carry one and cannot. **Decide which kind a run is before
+launching it**, because converting one into the other afterwards costs a second full run.
+
+The cost this exposed: the descent question needs **two** full filter runs, not one. V1a needs its
+own 00:11-stop run to produce a hand-off; V1b needs the 22:41 branch. About 32 hours at 8 × 7M on
+the fixed fuel model, which is 1.65× the old cost per replicate. V2 and the later variants are
+terminal-stage sweeps off a stored hand-off and cost no filter time.
+
+### Two classes of core change, and only one of them invalidates a run
+
+Worth stating plainly, because "core change" has been read as "another 15-hour run" when most core
+changes are nothing of the kind.
+
+- **Changes that alter the filter's numerics** — the fuel-burn fix, a prior, a measurement model,
+  the step loop. These invalidate existing runs and a re-run is the cost of making them.
+- **Changes downstream of the filter** — `terminal.rs`, `impacts.rs`, `crates/hypothesis`,
+  `ImpactView`, and config keys that select a module. These do not change what the filter
+  computes. `make regress` proves it: base output stays byte-identical. Existing runs stay valid
+  and the development loop is `mh370 terminal <run-dir> <config> <out-dir>`, which re-runs stage 2
+  alone off a stored hand-off.
+
+All of the core requests raised by the end-of-flight module are in the second class.
+
+### Two further standing conventions that came out of the same pass
+
+- **A conditional is labelled on every figure.** Conditioning on a latent (exhaustion time) is
+  legitimate; selecting trajectories by whether they could reach a hypothesised outcome is not.
+  The Pleiades hypothesis enters as a log-likelihood on the shared impact samples, so its subset
+  emerges as a posterior reweighting. Pre-selection is admissible only as a compute saving, and
+  then the band must be a generous superset of the support with the boundary diagnostic attached.
+- **`.md` files: none inside `engine/`.** That tree allows exactly three — `README.md`,
+  `AGENTS.md`, `status.md`. Assumptions and sources go in the `lib.rs` doc comment; status goes in
+  `hypothesis.toml`; write-ups go to the project-level `results/`, a sibling of `engine/`.
+
+## Still open
+
+1. The wreckage-draw count per impact, pending agreement with searched areas.
+2. The freeze of the shared breakup field — the same object as the `ImpactView` debris class —
+   pending requirements from settling, drift and hydroacoustics.
+3. Provisioning of bathymetry and full-depth ocean reanalyses on this machine.
+4. Whether the end-of-flight entry point stays the fuel-exhaustion-window conditional once the
+   fuel burn defect is fixed and the dry fraction rises.
+5. **Whether drift and Pleiades are downstream of settling.** Both need the sink-versus-float
+   partition, and so does settling, from the same element-class physics. One partition owned by
+   settling is correct on rules 3 and 4 but makes two modules wait; independent partitions give
+   two incompatible answers to one physical question. A third arrangement — settling delivers the
+   float partition first, ahead of its sinking physics — would unblock drift without splitting the
+   physics. See `results/impact-interface-requirements.md` §6. This changes the merge order, so it
+   is Pete's ruling, not the architect's.
+6. Where seafloor-depth lookup lives in the shared layer: hydroacoustics and settling both need
+   it, from one bathymetry surface, never computed twice.
+
+
+## Coverage register (sampling of the feasible kinematic space) — opened 2026-10-10 15:45 -0600
+
+Standing rule: Pete, 10 Oct 2026 (see coordination/architecture.md). Status: open / closed / declared-conditional.
+
+| # | Stage | Gap | Kind | Effect | Status |
+|---|---|---|---|---|---|
+| G1 | End of flight | Commanded descent rates capped at 6,500 ft/min | reach | Holland-type and other rapid descents unreachable | open (EoF physics plan) |
+| G2 | End of flight | Free flight at fixed CL, cannot unload (no 6-DOF pitch dynamics) | reach | uncontrolled push-over / dive states unreachable | open (6-DOF fit gate) |
+| G3 | End of flight | Boeing system sequence (TAC, autopilot loss, RAT, APU) absent | reach | post-FE behaviour range narrowed | open |
+| G4 | End of flight | No g-bounded push-over in the controlled family | reach | controlled rapid descents missing | open |
+| G5 | Core | One-engine phase after takeover (core request 11) | reach | early asymmetric-thrust trajectories missing | open |
+| G6 | End of flight | Impact attitude: flight-path angle stands in for pitch | reach | impact nature partly modelled | declared for pass 1 |
+| G7 | End of flight | Holland H1/H2 not estimable (ESS 86–219 of 51.2M on core (b)) | coverage | two standard 00:19 options unestimable | open (aimed proposal after G1/G2) |
+| G8 | End of flight | Family B onset before 22:41 vs core strata | coverage | possible implicit bound on B | open (EoF to state) |
+| G9 | Core | Free stratum split-half not converged (run (b) 0.709 vs floor 0.896) | coverage | free-flight space under-resolved | run C pending |
+| G10 | Drift | 16–25 % of impact weight not computed (drift node coverage) | coverage | composed areas depend on carry vs exclude (Pléiades 90 %: 254k vs 62k km²) | open (node extension B, after run C chain) |
+| G11 | Core | Hand-off rows not linked to 18:01 route / early record | coverage (diagnostic) | trajectory trace-back before 00:11 approximate | open (core request 19) |
+| G12 | Settling | Seabed resample drawn from flight + EoF weights only; composed weights concentrate on a few hundred rows | coverage | seabed PDF under drift/Pléiades not estimable for R600 BTO Only (ESS 368–865) | open (settling resample from composed weights) |
+| G13 | End of flight | No structural limit, too little transonic drag rise: contact speeds near/above Mach 1 (A1 34 % >= 340 m/s on run C free) | reach (infeasible states produced) | impact energy/nature, hydro detectability, fragment fields | open (6-DOF drag calibration + breakup end state); pass 1 shows with/without rows > 1.25 VMO |
+| G14 | Composer / EoF | Under 00:19 R600 BTO + Raw BFO, composed G and H fall below the 1,000-effective-parent floor (506–971 per seed); A1 keeps 8 effective rows under G | coverage | Raw-BFO composed products not estimable on run C | open (aimed resampling / larger hand-off for that option) |
+| G15 | Core | Routes prior: only 14 of 48 routes distinct (core, per-route pilot) | prior defect | routes stratum (weight 0.024–0.027) and its convergence | RESOLVED 11 Oct: turn_backs overshoot rule, all 48 distinct (core); turn model now fly-by + leg tracking (runs H, hybrid) |
+| G16 | Hydroacoustics (audit C4) | Deep-SUS source spectrum below the bubble frequency unknown to better than 4–17 dB (G&S 1971 valid ≤ ~1,000 ft; SUS at 2,000/3,000 ft) | reach | C4 absolute level verdict depends on source route (A FAIL, B PARTIAL) | declared-conditional (results/hydroacoustics-audit-sus-absolute.md) |
+| G17 | Hydroacoustics | No band below 16 Hz calibrated by any deep source; none below 31.5 Hz at H01W | coverage | impact-marker bands (< 12.5 Hz) uncalibrated | open |
+| G18 | Hydroacoustics (audit) | SUS sites A1–A5 and station H08N not scored (no audit paths); A11 not scorable absolutely (charge not 1.8 lb) | coverage | 5 sites × 2 shots unused | open (module: paths.py) |
+| G19 | Hydroacoustics | No near-surface calibration source with known spectrum; SUS places the air9 tilt at the near-surface end but cannot split airgun directivity from coupling | reach | C6 condition (2) unmet | open |
+| G20 | Core | Initial-Mach prior capped at 0.84 (Davey Table 8.2, 0.73–0.84); 777-200ER MMO is 0.87. Run H route 43 (MEKAR–SAMAK–ISBIX) posterior presses the cap (95 % point 0.838) | bound narrower than feasible (sourced to Davey, but the feasible set reaches MMO) | route-family evidence and shares | Mach 0.86 arm: route 43 −120.70 vs −120.56 (< 0.5 nat). Pete ruling 12 Oct ~00:20Z: early phase keeps 0.45–0.87 within 210–330 KCAS to 18:40; cruise after the old reversion point 0.70–0.87 within 210–330 KCAS in all strata (engine 3c4ceeb3); smoke running. CLOSES on smoke pass + run I |
+| G21 | Hydroacoustics | H08N: Chagos Bank blocks every impact path in the model (K4) | reach | an H08N non-detection carries no information; labelled G-N1 | declared |
+| G22 | Hydroacoustics | Ridge cutting the sound-channel axis (air7 → H01W, about 29 S 98 E): module TL about 49–55 dB too lossy, not fixed by N×2D (K5) | reach | path-specific; checked not to reach run C → H01W predictions | declared (G-N2) |
+| G23 | Core | Route turn model: fly-over + direct-to (runs G and audit) against fly-by + leg tracking (run H, hybrid). The model change moves route ln Z by up to 7.6 nats and 00:19 latitude by about 0.7° | model reach | every route-family result before run H | RESOLVED: fly-by + leg tracking adopted (core 18:46Z); bank-angle and cap sensitivity pending |
+| G24 | End of flight | Piloted descents (A2, B) flew straight: no en-route turns, search orbits or ditching pattern (EoF found it, 12 Oct) | reach | A2/B impact spread and the run H southward shift | Pete ruled the full turn model, no cap on turns; built for run I |
+| G25 | End of flight | 00:19 two-factor cells below the 1,000 gate on run D-he: D3×C1 443, D3×C2-silent 233, D4×C2-silent 59; A1 under D4×C1 136 | coverage | Holland's Hypothesis 2 cell and the C2 cells | fix in run I: burst proposal aimed at every D×C cell + aimed pitch-down for A1 |
+| G26 | Ocean drift | Western Australia non-recovery not modelled: the beaching boxes cover S1–S6 only; 'coasts outside every box carry no identification' (run A configs, brief §13 defers the WA term) | reach | absence of finds in WA cannot down-weight impacts whose debris would beach there | open; Pete raised its priority 12 Oct; every drift result labelled 'Western Australia non-recovery not modelled' |
+
+
+## 00:19 log-on model (Pete, 12 Oct 2026; END_OF_FLIGHT.md 01:45Z, 02:05Z, 02:15Z)
+- **Data treatment D:**
+  - D0: held out.
+  - D1: R600 BTO only.
+  - D2: + R600 BFO as recorded.
+  - D3: + both BFOs as recorded.
+  - D4: + both BFOs with Holland's warm-up offset.
+  - D5: offset on R1200 only.
+  - No D uses the R1200 BTO, which stays only in the Davey reproduction arm.
+- **Cause C:**
+  - C1: fuel exhaustion + APU (Erlang lag).
+  - C2: other (rate q/W).
+  - Combined per row as competing causes, L = f_lag + q/W, with q = 1/3, W = 00:10:58–01:15:56. Sensitivity q = 1.
+- **Bayes factors** only within the same data: C1:C2 per D, and D3:D4 per C.
+- Holland's Hypotheses 1 and 2 are the named cells D4×C1 and D3×C2 (arXiv:1702.02432 p. 8; his footnote 13 supports the decoupling).
+- Hard selection by exhaustion window is not used: it charges nothing for an unexplained log-on.

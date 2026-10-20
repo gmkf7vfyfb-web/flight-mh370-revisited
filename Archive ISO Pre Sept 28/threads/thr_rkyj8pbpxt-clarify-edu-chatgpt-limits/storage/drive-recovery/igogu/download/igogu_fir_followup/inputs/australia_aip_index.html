@@ -1,0 +1,408 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>
+Aeronautical Information Package (AIP)
+- Airservices</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<link href="/themes/asa2023/css/app.css" rel="stylesheet">
+<link href="/themes/asa2023/css/asa_sub_menu.css" rel="stylesheet">
+<link rel="Shortcut Icon" href="https://www.airservicesaustralia.com/wp-content/themes/tm-beans/lib/favicon.ico" type="image/x-icon" data-markup-id="beans_favicon">
+
+<style>
+.background-pattern {
+    background: url("/aip/images/aip_banner.jpg");
+ }
+ .printtitle {
+ display:none;
+ }
+ /* override styles when printing */
+
+@media print {
+
+  .site-header, .site-footer, .pattern, .background-pattern {
+    display:none !important;
+  }
+ .site-breadcrumb {
+ margin-top:0px
+ }
+.printtitle {
+ display:inline;
+ margin-bottom:25px;
+ margin-top:-400px !important;
+ }
+}
+.background-pattern1 {    display:none !important;
+}
+.pattern1 {    display:none !important;
+}
+.site-footer1 {    display:none !important;
+}
+/*.site-header {    display:none !important;
+}*/
+
+/* .site-header {    display:none !important;
+} */
+</style>
+</head>
+<body>
+<div class="site-breadcrumb ">
+  <div class="container">
+    <div class="row">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a>
+            team<header id="masthead" class="site-header pt-3 pb-4 fixed-top">
+          <div class="container-fluid">
+              <nav class="navbar navbar-expand-md bg-body-tertiary">
+                  <a href="/" class="navbar-b"><img src="/themes/asa2023/assets/Airservices 1.png" alt="Airservices"></a>
+                  <button class="navbar-toggler border-0 rounded-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbartoggle" aria-controls="navbartoggle" aria-expanded="false" aria-label="Toggle navigation">
+                    <svg viewBox="0 0 100 80" width="40" height="40">
+                      <rect width="100" height="15" fill="#00A9E0"></rect>
+                      <rect y="30" width="100" height="15" fill="#00A9E0"></rect>
+                      <rect y="60" width="100" height="15" fill="#00A9E0"></rect>
+                    </svg>
+                  </button>
+                  <div class="collapse navbar-collapse " id="navbartoggle">
+                    <ul class="navbar-nav ms-auto align-items-md-center align-items-end">
+                      <li class="nav-item">
+                        <a href="https://www.airservicesaustralia.com/" class="d-block me-md-5">Return to Airservices</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="d-block d-md-none" href="/resources/">Resources</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="d-block d-md-none" href="/portals/">Portals</a>
+                      </li>
+                      <li class="nav-item">
+                         <div class="dropdown" style="margin-right: 25px;">
+                          <a class="btn btn-secondary dropdown-toggle d-none d-md-block" href="/resources/" aria-expanded="false">
+                            Resources
+                          </a>                       
+                         <!-- <ul class="dropdown-menu dropdown-menu-end rounded-0 shadow border-0">
+                            <li><a class="dropdown-item" href="/aip/aip.asp">Aeronautical Information Products (AIP)</a></li>
+                            <li><a class="dropdown-item" href="/corporate-publications/">Corporate Publications</a></li>
+                            <li><a class="dropdown-item" href="/safety-publications/">Safety Publications</a></li>
+                            <li><a class="dropdown-item" href="/aviation-reporting/">Aviation Reporting</a></li>
+                            <li><a class="dropdown-item" href="/industry-info/airports-and-aerodromes/automatic-fire-alarm-monitoring-service/">Automatic Fire Alarm Monitoring Service</a></li>
+                          </ul>-->
+                        </div>
+                      </li>
+                      <li class="nav-item">
+                        <div class="dropdown">
+                          <a class="btn btn-secondary dropdown-toggle d-none d-md-block" href="/portals/" aria-expanded="false">
+                            Portals
+                          </a>                        
+                          <!--<ul class="dropdown-menu dropdown-menu-end rounded-0 shadow border-0">
+                            <li><a class="dropdown-item" href="https://www.airservicesaustralia.com/naips/">NAIPS Internet Service</a></li>
+                            <li><a class="dropdown-item" href="/industry-info/flight-briefing/notam-originator/">NOTAM Originator Portal</a></li>
+                            <li><a class="dropdown-item" href="https://www.airservicesaustralia.com/trafficflowweb/">Harmony Web Client</a></li>
+                            <li><a class="dropdown-item" href="https://www.airservicesaustralia.com/noc/">Network Coordination Centre</a></li>
+                            <li><a class="dropdown-item" href="https://weathercams.airservicesaustralia.com/">Weather Cameras</a></li>
+                            <li><a class="dropdown-item" href="https://www.airservicesaustralia.com/community/environment/aircraft-noise/webtrak/">WebTrak Flight Tracker</a></li>
+                            <li><a class="dropdown-item" href="https://www.airservicesaustralia.com/charging/inet/login.jsp">Airport Owner Downloads</a></li>
+                            <li><a class="dropdown-item" href="https://www.aipshop.canprint.com.au/">Online Store</a></li>
+                            <li><a class="dropdown-item" href="https://data.airservicesaustralia.com/">Data.Airservices</a></li>
+                            <li><a class="dropdown-item" href="https://adoportal.airservicesaustralia.com/">ADO Portal</a></li>
+                          </ul>-->
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+              </nav>
+                  
+                  
+                  
+              </div>
+                
+      </header>   
+
+          </li>
+          <li class="breadcrumb-item"><a href="/industry-info/">Industry</a></li>
+			<li class="breadcrumb-item"><a href="/industry-info/pilot-tools/">Pilot Tools</a></li>
+ <li class="breadcrumb-item"><a href="/aip/aip.asp">Aeronautical Information Package (AIP)</a></li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<div class="background-pattern d-flex align-items-center">
+  <div class="pattern">
+    <svg width="80vw" height="400" viewBox="0 0 542 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="
+            M 205.219 -138.98 C 205.219 -138.98 519.945 -108.964 539.644 25.5033 C 559.601 161.669 177.057 344.378 33.7762 563.763 C -59.6694 706.804 -90.2565 875.266 -147.782 1281.95 L -1651 1294 L -1658 -134 L 204 -142" fill="#06255B" stroke="#A52DB4" stroke-width="2" stroke-miterlimit="10"></path>
+      <path d="
+            M205.219 -138.98C205.219 -138.98 519.945 -108.964 539.644 25.5033C559.601 161.669 177.057 344.378 33.7762 563.763C-59.6694 706.804 -90.2565 875.266 -147.782 1281.95M241.443 -165.747C241.443 -165.747 500.409 -119.18 516.012 26.3092C530.577 161.966 206.32 331.356 74.5178 551.491C-31.7511 728.989 -77.5173 877.725 -140.437 1258.23M277.696 -192.556C277.696 -192.556 481.219 -129.531 492.41 27.0729C502.045 162.103 237.599 319.69 115.361 539.164C-3.0301 751.739 -64.6341 880.16 -132.991 1234.47M313.962 -219.293C313.962 -219.293 462.432 -139.914 468.79 27.9509C473.868 162.363 270.031 308.899 156.187 526.951C26.5186 775.198 -51.8103 882.678 -125.604 1210.78M350.216 -246.103C350.216 -246.103 444.047 -150.331 445.188 28.7145C446.026 162.417 303.33 298.402 196.988 514.595C57.0908 798.999 -38.9991 885.125 -118.2 1186.98M386.47 -272.912C386.47 -272.912 425.993 -160.767 421.585 29.4782C418.454 162.535 337.267 288.166 237.832 502.268C88.7537 823.315 -26.1582 887.529 -110.754 1163.21M422.693 -299.679C422.693 -299.679 408.365 -171.092 397.953 30.2842C391.112 162.688 371.602 278.082 278.616 490.025C121.507 848.146 -13.3344 890.048 -103.367 1139.53M458.947 -326.489C458.947 -326.489 391.14 -181.45 374.309 31.0181C363.883 162.858 406.297 267.937 319.417 477.669C155.543 873.311 -0.565476 892.465 -95.9628 1115.73" stroke="#A52DB4" stroke-width="2" stroke-miterlimit="10"></path>
+    </svg>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="banner-title">
+        <h2>
+          Aeronautical Information Package (AIP)
+        </h2>
+      </div>
+    </div>
+  </div>
+</div>
+<header id="masthead" class="site-header pt-3 pb-4 fixed-top">
+          <div class="container-fluid">
+              <nav class="navbar navbar-expand-md bg-body-tertiary">
+                  <a href="/" class="navbar-b"><img src="/themes/asa2023/assets/Airservices 1.png" alt="Airservices"></a>
+                  <button class="navbar-toggler border-0 rounded-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbartoggle" aria-controls="navbartoggle" aria-expanded="false" aria-label="Toggle navigation">
+                    <svg viewBox="0 0 100 80" width="40" height="40">
+                      <rect width="100" height="15" fill="#00A9E0"></rect>
+                      <rect y="30" width="100" height="15" fill="#00A9E0"></rect>
+                      <rect y="60" width="100" height="15" fill="#00A9E0"></rect>
+                    </svg>
+                  </button>
+                  <div class="collapse navbar-collapse " id="navbartoggle">
+                    <ul class="navbar-nav ms-auto align-items-md-center align-items-end">
+                      <li class="nav-item">
+                        <a href="https://www.airservicesaustralia.com/" class="d-block me-md-5">Return to Airservices</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="d-block d-md-none" href="/resources/">Resources</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="d-block d-md-none" href="/portals/">Portals</a>
+                      </li>
+                      <li class="nav-item">
+                         <div class="dropdown" style="margin-right: 25px;">
+                          <a class="btn btn-secondary dropdown-toggle d-none d-md-block" href="/resources/" aria-expanded="false">
+                            Resources
+                          </a>                       
+                         <!-- <ul class="dropdown-menu dropdown-menu-end rounded-0 shadow border-0">
+                            <li><a class="dropdown-item" href="/aip/aip.asp">Aeronautical Information Products (AIP)</a></li>
+                            <li><a class="dropdown-item" href="/corporate-publications/">Corporate Publications</a></li>
+                            <li><a class="dropdown-item" href="/safety-publications/">Safety Publications</a></li>
+                            <li><a class="dropdown-item" href="/aviation-reporting/">Aviation Reporting</a></li>
+                            <li><a class="dropdown-item" href="/industry-info/airports-and-aerodromes/automatic-fire-alarm-monitoring-service/">Automatic Fire Alarm Monitoring Service</a></li>
+                          </ul>-->
+                        </div>
+                      </li>
+                      <li class="nav-item">
+                        <div class="dropdown">
+                          <a class="btn btn-secondary dropdown-toggle d-none d-md-block" href="/portals/" aria-expanded="false">
+                            Portals
+                          </a>                        
+                          <!--<ul class="dropdown-menu dropdown-menu-end rounded-0 shadow border-0">
+                            <li><a class="dropdown-item" href="https://www.airservicesaustralia.com/naips/">NAIPS Internet Service</a></li>
+                            <li><a class="dropdown-item" href="/industry-info/flight-briefing/notam-originator/">NOTAM Originator Portal</a></li>
+                            <li><a class="dropdown-item" href="https://www.airservicesaustralia.com/trafficflowweb/">Harmony Web Client</a></li>
+                            <li><a class="dropdown-item" href="https://www.airservicesaustralia.com/noc/">Network Coordination Centre</a></li>
+                            <li><a class="dropdown-item" href="https://weathercams.airservicesaustralia.com/">Weather Cameras</a></li>
+                            <li><a class="dropdown-item" href="https://www.airservicesaustralia.com/community/environment/aircraft-noise/webtrak/">WebTrak Flight Tracker</a></li>
+                            <li><a class="dropdown-item" href="https://www.airservicesaustralia.com/charging/inet/login.jsp">Airport Owner Downloads</a></li>
+                            <li><a class="dropdown-item" href="https://www.aipshop.canprint.com.au/">Online Store</a></li>
+                            <li><a class="dropdown-item" href="https://data.airservicesaustralia.com/">Data.Airservices</a></li>
+                            <li><a class="dropdown-item" href="https://adoportal.airservicesaustralia.com/">ADO Portal</a></li>
+                          </ul>-->
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+              </nav>
+                  
+                  
+                  
+              </div>
+                
+      </header>   
+
+<main class="content-wrapper my-5 py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <!--<h3 class="subheading">Striving for diversity and inclusitivity</h3>-->
+		  
+ 
+ <h2 class="printtitle">Aeronautical Information Package (AIP)</h2>
+        <h3>Copyright Notice</h3>
+        
+        <p> The following Airservices Australia Aeronautical Information Service (<strong>AIS</strong>) online material and   publications:</p>
+        <ul>
+          <li>Aeronautical Information Publication (<strong>AIP</strong>) Book <br/>
+          </li>
+          <li>AIP Supplements (<strong>SUP</strong>) and Aeronautical Information Circulars (<strong>AIC</strong>); <br/>
+          </li>
+          <li>Departure and Approach Procedures (<strong>DAP</strong>); <br/>
+          </li>
+          <li>Designated Airspace Handbook (<strong>DAH</strong>); and <br/>
+          </li>
+          <li>En Route Supplement Australia (<strong>ERSA</strong>);</li>
+          <li>Aeronautical Charts.<br/>
+<br/>          </li>
+        <blockquote>
+          <p>
+            (together, the <strong>AIS Publications</strong>) are the copyright of, or are licensed by, Airservices Australia.</p>
+        </blockquote>
+ </ul>
+        <h3>Conditions of use</h3>
+        <p>The AIS Publications may be displayed and viewed on screen in an unaltered form (which retains this notice) for personal, non-commercial purposes only.  For the avoidance of doubt, personal use does not include use for internal business purposes.<br/>
+        </p>
+     <p>For the avoidance of doubt, except as permitted under the <em>Copyright Act&nbsp;1968</em> (Cth), no part of the AIS Publications may be:</p>
+     <ul>
+       <li>reproduced, stored in a retrieval system, transmitted, redistributed, republished or commercially exploited; or edited, altered, modified, adapted or developed,<br/>
+         <br/>
+         by or on behalf of you in any way without the prior written permission of Airservices Australia.<br/>
+         <br/>
+       </li>
+     </ul>
+        
+     <p>You are not permitted to cache the AIS Publications on a local server, other than in the course of normal internet service and in accordance with the <em>Copyright Act&nbsp;1968</em> (Cth).</p>
+            
+     <p>Airservices Australia reserves all rights that are not expressly granted in this copyright notice, permitted under the <em>Copyright Act&nbsp;1968</em> (Cth) or granted in a separate agreement.<p/>
+        </ol>
+        <h3>Disclaimer</h3>
+        <ol type="a">
+     <li>The AIS   Publications are for general information purposes only and are uncontrolled if printed, copied or downloaded in a format that would  corrupt, damage or distort the information. While Airservices Australia has taken reasonable steps to ensure the accuracy and currency of the content of the AIS Publications, you are at all times solely responsible for: <br/>
+            <br/>
+            <ul>
+              <li> ensuring the suitability of the AIS Publications for your intended purpose; and <br/>
+              </li>
+              <li>complying with all requirements imposed by law.<br/>
+                <br/>
+                You acknowledge that your use of the AIS Publications is strictly at your own   risk.<br/>
+                <br/>
+              </li>
+            </ul>
+          </li>
+     <li> Airservices Australia gives no assurances, promises or warranties regarding the reliability, performance, suitability and / or availability of the AIS Publications, nor that the AIS Publications are stored, or are in a format that will be usable by you, or will otherwise be compatible with the systems and/or software used by you.<br />
+       <br/>
+          </li>
+     <li>To the   extent permitted by law, Airservices Australia disclaims all liability for any loss, damage, expense and costs incurred by any person arising out of displaying, viewing, using or relying on any of the AIS Publications. Where any law implies a warranty into the terms of this copyright notice which may not be lawfully excluded, then to the maximum extent permitted by law, Airservices Australia's liability for breach of the warranty will, at our option, be limited to the supply of the AIS Publications again, or the payment of the cost of having them supplied again.<br />
+       <br/>
+          </li>
+     <li> You agree to release, indemnify, defend and hold harmless, Airservices Australia and   its employees, contractors and officers from all loss, liabilities, damages, costs, claims and expenses (including legal costs on a full indemnity basis) that arise directly or indirectly from your breach of the terms of this copyright notice and your activities in connection with the use of the AIS Publications.</li>
+        </ol><br>
+        <h3> Statutory obligations</h3>
+       <p>You must comply  with all requirements imposed by law, including (where applicable) the Civil  Aviation Safety Regulations 1998 (CASR) Part 91. In particular:</p>
+       <ul>
+         <li>CASR r.91.110  (Carriage of documents for certain flights) requires that the pilot in command  must not commence a flight unless the authorised aeronautical information for  the flight—covering the route to be flown and any applicable alternate—is  carried on the aircraft and readily accessible to the flight crew (subject to  limited local VFR/training exceptions).<br />
+           <br />
+         </li>
+         <li>CASR r.91.100  (Electronic documents) permits required documents—including authorised  aeronautical information—to be carried in electronic form e.g. via an approved  Electronic Flight Bag (EFB). 
+         </li>
+       </ul>
+       <br />
+       <p>For clarity,  "authorised aeronautical information" includes information published in the  Aeronautical Information Publication (AIP) and associated AIS products produced  by Airservices Australia, as applicable to the intended operation. </p>
+       <p>If any part of the AIS Publications is proposed to be used in any way not permitted by this copyright notice, contact Airservices Australia about a   licence.<br/>
+       </p>
+       <p>The terms of this copyright notice are in addition to the obligations for use of the AIS Publications contained in the <a href="/terms-copyright-privacy/">Terms of Use, Copyright and Privacy Statement</a>. <br/>
+       </p>
+       <p> By clicking on the &quot;I Agree&quot; button at the end of this document and accessing the AIS Publications, you are agreeing to be bound by the terms of this copyright notice, as well as the Terms of Use, Copyright and Privacy Statement, and you warrant that you are authorised to do so.<br/>
+       </p>
+       <p>Airservices Australia may change the terms of this copyright notice at our discretion and without notice. By continuing to use the AIS Publications, you accept the terms of the copyright notice as they apply from time to time. A copy of the current terms of the copyright notice is displayed on the Airservices Australia website at all times. Your use of the AIS Publications and any dispute arising out of such use is subject to the laws of the Australian Capital Territory. </p>
+        </ol>
+	<br>
+        <form name="form1" method="post" action="aip.asp?pg=10">
+          <input type="submit" name="Submit" value="I Agree" class="gform_button button" />
+          <input name="check" type="hidden" value="1">
+        </form>
+	<br>
+        <p> <b>Note: </b>There are some text rendering problems using Adobe Reader 6.0 with the Departure and Approach Procedures (<strong>DAP</strong>). Older versions of Adobe Acrobat Reader will not function with this service.</p>
+        <br>
+         
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER --> 
+
+ <!-- FOOTER -->
+      <footer class="site-footer pt-5 mt-5">
+        <div class="container">
+          <div class="row d-flex flex-column">
+            <div class="footer-content d-flex flex-row justify-content-between">
+              <div class="footer-links d-flex flex-row justify-content-between">
+                   <ul>
+                  <li><a href="/careers/life-at-airservices/">Life at Airservices</a</li>
+                  <li><a href="/about-us/our-services/">Our services</a></li>
+                  <li><a href="/community">Community</a></li>
+                  <li><a href="/airservices-newsroom/">Newsroom</a></li>
+                </ul>
+                <ul>
+                  <li><a href="/about-us/innovation-and-technology/onesky/">OneSKY Australia</a></li>
+                  <li><a href="/community/environment/aircraft-noise/">Aircraft noise</a></li>
+                  <li><a href="/socialmedia/">Social media</a></li>
+                </ul>
+                <ul>
+                  <li><a href="/industry-info/">Industry</a></li>
+					<li><a href="/community/environment/sustainability/">Sustainability</a></li>
+                  <li><a href="/resources/">Resources</a></li>
+                  
+                </ul>
+				  <ul>
+                   <li><a href="/about-us/contact-us/">Contact Us</a></li>
+					  <li><a href="/community/environment/aircraft-noise/about-making-a-complaint/">Make a complaint</a></li>
+                </ul>      
+              </div>
+              <div class="footer-logo">
+                <a href="/"><img src="/themes/asa2023/assets/Airservices 2.svg" alt=""></a>
+                <ul class="social-menu mt-3 gap-4 d-flex justify-content-center">
+                  <li><a href="https://twitter.com/AirservicesNews"><i class="fa-brands fa-x-twitter"></i></a></li>
+                  <li><a href="https://www.linkedin.com/company/airservices-australia"><i class="fa-brands fa-linkedin"></i></a></li>
+                  <li><a href="https://www.youtube.com/user/airservicesTV"><i class="fa-brands fa-youtube"></i></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="footer-statement py-3 mt-5"><p>We acknowledge and embrace a culture that celebrates diversity, inclusion, and equality for all. In making this statement we acknowledge Aboriginal and Torres Strait Islander peoples as the Traditional Owners and Custodians of the country on which we operate, now called Australia.</p></div>
+            <div class="footer-menu py-3">
+              <ul class="d-flex flex-row gap-4 justify-content-center">
+                <li><a href="/sitemap/">Sitemap</a></li>
+                <li><a href="/privacy-policy/">Privacy Policy</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </footer>
+      <!-- END FOOTER -->
+		  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+(function(w,d,s,r,k,h,m){
+               if(w.performance && w.performance.timing && w.performance.navigation) {
+                              w[r] = w[r] || function(){(w[r].q = w[r].q || []).push(arguments)};
+                              h=d.createElement('script');h.async=true;h.setAttribute('src',s+k);
+                              d.getElementsByTagName('head')[0].appendChild(h);
+                              (m = window.onerror),(window.onerror = function (b, c, d, f, g) {
+                              m && m(b, c, d, f, g),g || (g = new Error(b)),(w[r].q = w[r].q || []).push(["captureException",g]);})
+               }
+})(window,document,'//static.site24x7rum.com.au/beacon/site24x7rum-min.js?appKey=','s247r','957300b47fc22d83d34cab5379e6b260');
+</script>
+
+<!-- Meta Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1352432985623988');
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1352432985623988&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code --> 
+
+<!-- END FOOTER -->
+
+</body>
+</html><script id="f5_cspm">(function(){var f5_cspm={f5_p:'PLOLMKKILLCKKOEJKIPABOCMFKGGMIJNBHILNGEJILHBNIICMILJBBIIJCIDEDCPHHABBFHDAAKCEAMNMCAABDNEAAGOMGLJEIAFOOBBIPCFHKPDAJOKAPPIOAKDEMHF',setCharAt:function(str,index,chr){if(index>str.length-1)return str;return str.substr(0,index)+chr+str.substr(index+1);},get_byte:function(str,i){var s=(i/16)|0;i=(i&15);s=s*32;return((str.charCodeAt(i+16+s)-65)<<4)|(str.charCodeAt(i+s)-65);},set_byte:function(str,i,b){var s=(i/16)|0;i=(i&15);s=s*32;str=f5_cspm.setCharAt(str,(i+16+s),String.fromCharCode((b>>4)+65));str=f5_cspm.setCharAt(str,(i+s),String.fromCharCode((b&15)+65));return str;},set_latency:function(str,latency){latency=latency&0xffff;str=f5_cspm.set_byte(str,40,(latency>>8));str=f5_cspm.set_byte(str,41,(latency&0xff));str=f5_cspm.set_byte(str,35,2);return str;},wait_perf_data:function(){try{var wp=window.performance.timing;if(wp.loadEventEnd>0){var res=wp.loadEventEnd-wp.navigationStart;if(res<60001){var cookie_val=f5_cspm.set_latency(f5_cspm.f5_p,res);window.document.cookie='f5avr0020320617aaaaaaaaaaaaaaaa_cspm_='+encodeURIComponent(cookie_val)+';path=/;'+'';}
+return;}}
+catch(err){return;}
+setTimeout(f5_cspm.wait_perf_data,100);return;},go:function(){var chunk=window.document.cookie.split(/\s*;\s*/);for(var i=0;i<chunk.length;++i){var pair=chunk[i].split(/\s*=\s*/);if(pair[0]=='f5_cspm'&&pair[1]=='1234')
+{var d=new Date();d.setTime(d.getTime()-1000);window.document.cookie='f5_cspm=;expires='+d.toUTCString()+';path=/;'+';';setTimeout(f5_cspm.wait_perf_data,100);}}}}
+f5_cspm.go();}());</script>

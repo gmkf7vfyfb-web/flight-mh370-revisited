@@ -1,0 +1,19 @@
+# Sensitivity: Inmarsat's published satellite states (Ashton et al. 2015, Table 4) instead of the
+# STK/SGP4 ephemeris in data/satellite-ephemeris.csv. The two differ by 2-4 km, which shifts the
+# late BTO arcs by up to 10 us. Davey et al. used Inmarsat's states; the BTO calibration constant
+# (-495,679 us, Ashton et al.) was also derived with them.
+# Build with: .venv/bin/python .sources/inmarsat-ephemeris/build.py data/satellite-ephemeris.csv data/satellite-ephemeris-inmarsat.csv
+name = "inmarsat-ephemeris"
+seeds = [1, 2, 3, 4]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[[cases]]
+id = "bto-only"
+use_bfo = false
+seeds = [1, 2]
+
+[inputs]
+ephemeris = "../../data/satellite-ephemeris-inmarsat.csv"

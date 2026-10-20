@@ -1,0 +1,263 @@
+diff --git a/Claude Science Project Sep 29/engine/Cargo.lock b/Claude Science Project Sep 29/engine/Cargo.lock
+index b6ca780..f2a88fd 100644
+--- a/Claude Science Project Sep 29/engine/Cargo.lock	
++++ b/Claude Science Project Sep 29/engine/Cargo.lock	
+@@ -107,6 +107,7 @@ name = "mh370"
+ version = "1.0.0"
+ dependencies = [
+  "libc",
++ "mh370-compose",
+  "mh370-flight",
+  "mh370-geo",
+  "mh370-hypotheses",
+diff --git a/Claude Science Project Sep 29/engine/Cargo.toml b/Claude Science Project Sep 29/engine/Cargo.toml
+index f46e228..6052d4e 100644
+--- a/Claude Science Project Sep 29/engine/Cargo.toml	
++++ b/Claude Science Project Sep 29/engine/Cargo.toml	
+@@ -12,6 +12,7 @@ geo = { path = "crates/geo", package = "mh370-geo" }
+ satcom = { path = "crates/satcom", package = "mh370-satcom" }
+ flight = { path = "crates/flight", package = "mh370-flight" }
+ hypothesis = { path = "crates/hypothesis", package = "mh370-hypothesis" }
++compose = { path = "crates/compose", package = "mh370-compose" }
+ hypotheses = { path = "hypotheses", package = "mh370-hypotheses" }
+ libc = "0.2"
+ rand = "0.8"
+diff --git a/Claude Science Project Sep 29/engine/crates/mh370/Cargo.toml b/Claude Science Project Sep 29/engine/crates/mh370/Cargo.toml
+index 463665c..7f71962 100644
+--- a/Claude Science Project Sep 29/engine/crates/mh370/Cargo.toml	
++++ b/Claude Science Project Sep 29/engine/crates/mh370/Cargo.toml	
+@@ -10,6 +10,7 @@ geo.workspace = true
+ satcom.workspace = true
+ flight.workspace = true
+ hypothesis.workspace = true
++compose.workspace = true
+ hypotheses.workspace = true
+ rand.workspace = true
+ rand_chacha.workspace = true
+diff --git a/Claude Science Project Sep 29/engine/crates/mh370/src/summary.rs b/Claude Science Project Sep 29/engine/crates/mh370/src/summary.rs
+index 962bce6..092a275 100644
+--- a/Claude Science Project Sep 29/engine/crates/mh370/src/summary.rs	
++++ b/Claude Science Project Sep 29/engine/crates/mh370/src/summary.rs	
+@@ -240,6 +240,125 @@ fn case_summary(out: &Path, case: &str, reps: &[&Replicate], reference: Option<&
+     }))
+ }
+ 
++/// Composed products (stage 4, crates/compose) on the 2-D equal-area grid: cells uniform in
++/// longitude and in the WGS-84 authalic function q(latitude), so every cell has exactly the
++/// same ellipsoidal area, a^2/2 * dlon * dq. dq is the q-span of [0, MAP_STEP] degrees of
++/// latitude, so cells match the MAP_STEP map's cells at the equator; extent as MAP_LAT/MAP_LON.
++fn authalic_q(latitude_deg: f64) -> f64 {
++    let e = geo::WGS84_E2.sqrt();
++    let s = latitude_deg.to_radians().sin();
++    (1.0 - geo::WGS84_E2) * (s / (1.0 - geo::WGS84_E2 * s * s) - ((1.0 - e * s) / (1.0 + e * s)).ln() / (2.0 * e))
++}
++
++fn equal_area_q_step() -> f64 {
++    authalic_q(MAP_STEP) - authalic_q(0.0)
++}
++
++/// Area of every equal-area cell, km^2.
++pub fn equal_area_cell_km2() -> f64 {
++    0.5 * geo::WGS84_A_KM * geo::WGS84_A_KM * MAP_STEP.to_radians() * equal_area_q_step()
++}
++
++fn equal_area_cell(lat: f64, lon: f64) -> Option<(i32, i32)> {
++    let inside = (MAP_LAT.0..MAP_LAT.1).contains(&lat) && (MAP_LON.0..MAP_LON.1).contains(&lon);
++    inside.then(|| {
++        let y = ((authalic_q(lat) - authalic_q(MAP_LAT.0)) / equal_area_q_step()).floor() as i32;
++        (y, ((lon - MAP_LON.0) / MAP_STEP).floor() as i32)
++    })
++}
++
++/// The PDFs of one composed product, pooled exactly as `case_summary` pools final.npy: the
++/// composer's per-(replicate, mode) evidence goes through `pooling()`, and its composed
++/// weights take the place of the stored weights. Per descent family first. An unconverged
++/// product is reported with its status and no densities.
++#[allow(dead_code)] // Called by the composer runner stage (core request to core stages).
++pub fn composed(reps: &[&Replicate], samples: &[compose::Replicate], product: &compose::Product) -> Result<Value, String> {
++    let report = serde_json::to_value(product).map_err(|e| e.to_string())?;
++    if product.status != compose::Status::Converged {
++        return Ok(json!({"product": report, "converged": false, "density": null, "map": null}));
++    }
++    if reps.len() != samples.len() || reps.len() != product.replicates.len() {
++        return Err(format!("{}: {} replicates, {} sample sets, {} composed", product.id, reps.len(), samples.len(), product.replicates.len()));
++    }
++    // The replicates as the composer left them: its evidence and posterior per mode.
++    let updated: Vec<Replicate> = reps
++        .iter()
++        .zip(&product.replicates)
++        .map(|(r, p)| {
++            let mut v = serde_json::to_value(r).map_err(|e| e.to_string())?;
++            for (m, mode) in p.modes.iter().enumerate() {
++                v["modes"][m]["log_evidence"] = json!(mode.log_evidence);
++                v["modes"][m]["posterior_probability"] = json!(mode.posterior_probability);
++            }
++            serde_json::from_value(v).map_err(|e| e.to_string())
++        })
++        .collect::<Result<_, String>>()?;
++    let refs: Vec<&Replicate> = updated.iter().collect();
++    let pool = pooling(&refs);
++    let half = refs.len() / 2;
++    let halves = (half > 0).then(|| (pooling(&refs[..half]), pooling(&refs[half..])));
++
++    let n = points();
++    let mut pooled = vec![0.0; n];
++    let mut halves_hist = [vec![0.0; n], vec![0.0; n]];
++    let mut families = std::collections::BTreeMap::<usize, (f64, Vec<f64>)>::new();
++    let mut map = std::collections::BTreeMap::<(i32, i32), f64>::new();
++    let mut mass = 0.0;
++    for (i, (s, p)) in samples.iter().zip(&product.replicates).enumerate() {
++        let column = |name: &str| s.column(name).ok_or_else(|| format!("{}: samples have no {name} column", product.id));
++        let (lat_c, lon_c, mode_c) = (column("latitude_deg")?, column("longitude_deg")?, column(compose::STRATUM)?);
++        let family_c = s.column(compose::FAMILY);
++        let width = s.columns.len();
++        for (r, w) in p.weights.iter().enumerate() {
++            let row = &s.values[r * width..(r + 1) * width];
++            let mode = row[mode_c] as usize;
++            let w = w * pool.factors[i][mode];
++            if w == 0.0 {
++                continue;
++            }
++            let (lat, lon) = (row[lat_c], row[lon_c]);
++            mass += w;
++            if let Some(bin) = grid_bin(lat) {
++                pooled[bin] += w;
++                if let Some((a, b)) = &halves {
++                    let f = if i < half { a.factors[i][mode] } else { b.factors[i - half][mode] };
++                    halves_hist[usize::from(i >= half)][bin] += p.weights[r] * f;
++                }
++            }
++            if let Some(fc) = family_c {
++                let entry = families.entry(row[fc] as usize).or_insert_with(|| (0.0, vec![0.0; n]));
++                entry.0 += w;
++                if let Some(bin) = grid_bin(lat) {
++                    entry.1[bin] += w;
++                }
++            }
++            if let Some(cell) = equal_area_cell(lat, lon) {
++                *map.entry(cell).or_default() += w;
++            }
++        }
++    }
++    let density = smooth_to_density(&pooled);
++    let area = equal_area_cell_km2();
++    Ok(json!({
++        "product": report,
++        "converged": true,
++        "families": families.iter().map(|(family, (m, hist))| {
++            let d = smooth_to_density(hist);
++            json!({"family": family, "probability": m / mass, "density": round_all(&d), "stats": stats(&d)})
++        }).collect::<Vec<_>>(),
++        "mode_probability": pool.mode_probability,
++        "pool_factors": pool.factors,
++        "density": round_all(&density),
++        "stats": stats(&density),
++        "split_half_overlap": halves.is_some().then(|| overlap(&smooth_to_density(&halves_hist[0]), &smooth_to_density(&halves_hist[1]))),
++        "equal_area_map": {
++            "lat": [MAP_LAT.0, MAP_LAT.1], "lon": [MAP_LON.0, MAP_LON.1], "lon_step": MAP_STEP,
++            "authalic_q_step": equal_area_q_step(), "cell_km2": area,
++            "cells": map.iter().filter(|(_, &v)| v > 0.0).map(|(&(y, x), &v)| json!([y, x, round(v / mass / area)])).collect::<Vec<_>>(),
++        },
++    }))
++}
++
+ /// Quantiles by interpolating the density's cdf, and the grid point of highest density.
+ ///
+ /// Each grid point is the centre of a bin one step wide, so the cumulative sum through
+@@ -424,4 +543,96 @@ mod tests {
+         };
+         assert!((overlap(&gaussian(0.0), &gaussian(1.0)) - 0.617_075).abs() < 2e-3);
+     }
++    /// Every equal-area cell has the same ellipsoidal area: integrate the WGS-84 area element
++    /// M(phi) N(phi) cos(phi) over two cells far apart in latitude, independently of q.
++    #[test]
++    fn equal_area_cells_have_equal_ellipsoidal_area() {
++        let e2 = geo::WGS84_E2;
++        let a = geo::WGS84_A_KM;
++        let element = |phi: f64| {
++            let w = 1.0 - e2 * phi.sin().powi(2);
++            (a * (1.0 - e2) / w.powf(1.5)) * (a / w.sqrt()) * phi.cos()
++        };
++        // Latitude of a q value, by bisection.
++        let latitude = |q: f64| {
++            let (mut lo, mut hi) = (-90.0, 90.0);
++            for _ in 0..200 {
++                let mid = 0.5 * (lo + hi);
++                if authalic_q(mid) < q { lo = mid } else { hi = mid }
++            }
++            0.5 * (lo + hi)
++        };
++        for y in [3, 150] {
++            let q0 = authalic_q(MAP_LAT.0) + y as f64 * equal_area_q_step();
++            let (p0, p1) = (latitude(q0).to_radians(), latitude(q0 + equal_area_q_step()).to_radians());
++            let steps = 2000;
++            let h = (p1 - p0) / steps as f64;
++            let integral: f64 = (0..steps).map(|k| element(p0 + (k as f64 + 0.5) * h) * h).sum::<f64>() * MAP_STEP.to_radians();
++            assert!((integral / equal_area_cell_km2() - 1.0).abs() < 1e-8, "cell {y}: {integral} vs {}", equal_area_cell_km2());
++        }
++        assert_eq!(equal_area_cell(MAP_LAT.0, MAP_LON.0), Some((0, 0)));
++    }
++
++    /// A composed product pooled by `composed()` (summary.rs pooling of the composer's
++    /// per-(replicate, mode) evidence) equals the pooled base sample reweighted directly.
++    #[test]
++    fn composed_products_pool_like_direct_reweighting() {
++        let prior = [0.5, 0.0, 0.0, 0.5, 0.0];
++        let log_z: [[f64; 2]; 3] = [[-40.0, -41.3], [-40.6, -39.9], [-41.0, -40.2]];
++        let mut reps = Vec::new();
++        let mut samples = Vec::new();
++        for (i, z) in log_z.iter().enumerate() {
++            let un = [prior[0] * z[0].exp(), prior[3] * z[1].exp()];
++            let p = [un[0] / (un[0] + un[1]), un[1] / (un[0] + un[1])];
++            let mode = |m: usize, k: usize| json!({"mode": hypothesis::MODES[m], "prior_weight": prior[m],
++                "log_evidence": if k < 2 { json!(z[k]) } else { json!(null) },
++                "posterior_probability": if k < 2 { p[k] } else { 0.0 }, "final_ess": 1.0, "distinct_origins": 1,
++                "epochs": [], "runtime_s": 0.0});
++            let modes = vec![mode(0, 0), mode(1, 9), mode(2, 9), mode(3, 1), mode(4, 9)];
++            reps.push(serde_json::from_value::<Replicate>(json!({"case": "c", "seed": i + 1, "particles_per_mode": [1, 0, 0, 1, 0],
++                "log_evidence": 0.0, "modes": modes, "runtime_s": 0.0})).unwrap());
++            let columns: Vec<String> = ["weight", "parent", "mode", "family", "latitude_deg", "longitude_deg", "probe:loglik"].iter().map(|c| c.to_string()).collect();
++            let mut values = Vec::new();
++            let k = 200 + 50 * i;
++            for (s, m) in [(0usize, 0usize), (1, 3)] {
++                for j in 0..k {
++                    let lat = -39.0 + 2.0 * s as f64 + 3.0 * (j as f64 + 0.5) / k as f64;
++                    values.extend([p[s] / k as f64, (s * k + j) as f64, m as f64, (j % 2) as f64, lat, 92.0 + lat / 10.0, -0.5 * ((lat + 36.5) / 0.8f64).powi(2)]);
++                }
++            }
++            let to_mode = |k: usize| compose::Mode { prior_weight: prior[[0, 3][k]], log_evidence: z[k], posterior_probability: p[k] };
++            let none = compose::Mode { prior_weight: 0.0, log_evidence: f64::NEG_INFINITY, posterior_probability: 0.0 };
++            samples.push(compose::Replicate { seed: i as u64 + 1, columns, values, modes: [to_mode(0), none, none, to_mode(1), none] });
++        }
++        let base = compose::Product::filter(&samples, vec![]).unwrap();
++        let probe = compose::Declaration { name: "probe".into(), prefix: "probe:loglik".into(), observations: vec![], alternatives: vec![], absolute_scale: true };
++        let set = compose::Set { ess_floor: 0.0, ..compose::Set::new("core+probe", &["probe"]) };
++        let product = compose::compose(&base, &samples, &[probe], &set, None).unwrap();
++        let refs: Vec<&Replicate> = reps.iter().collect();
++        let out = composed(&refs, &samples, &product).unwrap();
++
++        // Direct: pool the base sample with summary.rs, multiply by the likelihood, renormalise.
++        let base_pool = pooling(&refs);
++        let mut hist = vec![0.0; points()];
++        let mut by_mode = [0.0; 5];
++        for (i, s) in samples.iter().enumerate() {
++            for row in s.values.chunks_exact(s.columns.len()) {
++                let w = row[0] * base_pool.factors[i][row[2] as usize] * row[6].exp();
++                hist[grid_bin(row[4]).unwrap()] += w;
++                by_mode[row[2] as usize] += w;
++            }
++        }
++        let total: f64 = by_mode.iter().sum();
++        for m in [0, 3] {
++            let got = out["mode_probability"][m].as_f64().unwrap();
++            assert!((got - by_mode[m] / total).abs() < 1e-12, "mode {m}: {got} vs {}", by_mode[m] / total);
++        }
++        let direct = stats(&smooth_to_density(&hist));
++        for q in ["q025", "median", "q975"] {
++            let (a, b) = (out["stats"][q].as_f64().unwrap(), direct[q].as_f64().unwrap());
++            assert!((a - b).abs() < 1e-9, "{q}: {a} vs {b}");
++        }
++        assert!(out["equal_area_map"]["cells"].as_array().is_some_and(|c| !c.is_empty()));
++        assert_eq!(out["families"].as_array().unwrap().len(), 2);
++    }
+ }

@@ -1,0 +1,56 @@
+{
+  "schema_version": "mh371-igrf14-grid-manifest-v1",
+  "status": "derived_from_official_igrf14",
+  "model": "IGRF-14",
+  "reference_time_utc": "2014-03-07T04:00:00+00:00",
+  "decimal_year": 2014.1785388127853,
+  "coefficient_interpolation_epochs": [
+    2010.0,
+    2015.0
+  ],
+  "noaa_package_sha256": "82202de7057e9525509b4b288b1e52d2c272543b5dedf89f2bbbddb83b1352f2",
+  "igrf14_shc_sha256": "716f9fa7c531933e74447c345224721111061313dbeb9419f8f3fd7f0ba3e65b",
+  "flight_levels_ft": [
+    10000.0,
+    15000.0,
+    20000.0,
+    25000.0,
+    30000.0,
+    35000.0,
+    40000.0,
+    43000.0
+  ],
+  "latitude_bounds_deg": [
+    -15.0,
+    60.0
+  ],
+  "longitude_bounds_deg": [
+    75.0,
+    140.0
+  ],
+  "grid_step_deg": 0.5,
+  "east_positive_declination": true,
+  "binary_format": {
+    "magic": "MHIGRFV1",
+    "byte_order": "little_endian",
+    "axis_order": [
+      "flight_level",
+      "latitude",
+      "longitude"
+    ],
+    "axis_type": "float32",
+    "field_type": "float32_declination_degrees"
+  },
+  "radar_fixture_35000ft": {
+    "latitude_deg": 5.624829,
+    "longitude_deg": 99.048157,
+    "declination_deg": -0.40974692197640944
+  },
+  "output_path": "/jackbox/home/MH370/inputs/environment/mh371-igrf14-grid.bin",
+  "output_sha256": "16d31a7db48e0440a46b1a77ae7bf2d3fa6963d834a560be20377b68d5390bec",
+  "output_bytes": 634188,
+  "limitations": [
+    "IGRF represents the large-scale core field, not local crustal anomalies.",
+    "The six-hour control uses one reference epoch; secular variation is negligible."
+  ]
+}

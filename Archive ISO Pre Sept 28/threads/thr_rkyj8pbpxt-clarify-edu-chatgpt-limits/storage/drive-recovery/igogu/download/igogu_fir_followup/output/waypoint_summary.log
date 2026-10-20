@@ -1,0 +1,18 @@
+ name  original_within_5NM  R600_within_5NM  R600_within_10NM  R600_within_20NM  R600_distance_median_nm
+IGOGU             1.000000         1.000000          1.000000          1.000000             8.468899e-13
+ANOKO             0.000000         0.000000          0.000008          0.999878             1.363450e+01
+ISBIX             0.994537         0.994690          0.996696          0.999512             1.147320e+00
+BEDAX             0.000122         0.000145          0.000572          0.996628             1.583808e+01
+NOPEK             0.000023         0.000008          0.000900          0.994980             1.605094e+01
+BULVA             0.991364         0.990852          0.990906          0.991768             7.023709e-01
+MUTMI             0.000000         0.000000          0.000000          0.240021             2.177694e+01
+AKPUM             0.000359         0.000305          0.003189          0.007309             3.824989e+01
+POSOD             0.001358         0.001663          0.004128          0.005142             4.632980e+01
+BEBIM             0.000137         0.000137          0.000679          0.003410             5.702575e+01
+MEMAK             0.000000         0.000000          0.000000          0.001839             6.066590e+01
+NISOK             0.000008         0.000000          0.001648          0.001724             9.990000e+02
+URDAM             0.000725         0.000854          0.000885          0.000961             2.499099e+01
+AGEGA             0.000000         0.000000          0.000000          0.000916             8.006319e+01
+TENOM             0.000069         0.000031          0.000839          0.000900             3.188697e+01
+POVUS             0.000000         0.000000          0.000008          0.000877             3.368116e+01
+{"draws_per_measure": 131072, "unique_evaluated_paths": 77175, "raw_survivors_represented": 1710701, "catalog_points": 1276, "seeds": [20260919400, 20260919401], "conditional_MC_SE_worst_case": 0.0013810679320049755, "method": "IID weighted resampling separately for original and R600 finite measures; multiplicity retained; piecewise local WGS84 metric projection on exact frozen engine paths. Censored beyond100NM. Counts are not independent physical-trajectory ESS.", "scope": "IGOGU turn start through fuel exhaustion; inbound conditioned-on waypoints excluded. No terminal extension.", "uncertainties": "Distance bands are sensitivity radii, not inferred navigation-error distributions. Model calibration, catalog epoch and original importance convergence remain unresolved.", "above_one_percent_10NM": ["IGOGU", "ISBIX", "BULVA"], "summary_seconds": 20.978242946992395}

@@ -1,0 +1,23 @@
+[
+  {
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-m",
+      "unittest",
+      "-v",
+      "test_audit.py"
+    ],
+    "exit_code": 0,
+    "log": "tests.log"
+  },
+  {
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "audit.py",
+      "--source",
+      "audit-inputs"
+    ],
+    "exit_code": 0,
+    "log": "portable-audit.log"
+  }
+]

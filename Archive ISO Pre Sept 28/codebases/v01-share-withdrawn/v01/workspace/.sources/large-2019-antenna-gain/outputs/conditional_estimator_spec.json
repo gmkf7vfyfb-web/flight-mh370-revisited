@@ -1,0 +1,37 @@
+{
+  "call_channel": {
+    "candidate_likelihood_status": "NOT_IDENTIFIED",
+    "current_use": "command_response_and_noise_lag_control_only",
+    "known_flight_21000_reports": 0,
+    "reason": "No channel-21000 report occurs in the known-flight calibration sample. A free offset for each call absorbs nearly all location information because geometry barely changes within the call.",
+    "requirements_before_absolute_use": [
+      "resolve global-versus-regional beam metadata",
+      "calibrate the exact 21000 channel and receiver chain",
+      "aggregate serially dependent bursts into one call-level block"
+    ]
+  },
+  "constants": {
+    "conservative_hpa_ceiling_dbw": 16.020599913279625,
+    "conservative_hpa_ceiling_w": 40.0,
+    "feed_loss_positive_db": 2.68,
+    "reference_gain_dbic": 12.16,
+    "workbook_algebraic_cable_gain_db": -2.68
+  },
+  "core_observable_weight": 0.0,
+  "derivation": "D-0058",
+  "nuisance_model": "Fit exact-channel offsets and a time-correlated link-condition term inside each training fold; do not estimate them from the target trajectory.",
+  "parameter": {
+    "full_gain_precompensation": 0.0,
+    "name": "beta_gain_departure",
+    "no_gain_precompensation": 1.0,
+    "note": "No prior or model weight is identified by D-0058. Use only as an explicit estimator sensitivity branch unless independent calibration data become available.",
+    "recommended_core_prior": null
+  },
+  "physical_equations": {
+    "hpa_dbw": "min(P_max_dbw, E_req_dbw + feed_loss_db - ((1-beta)*G_dbic + beta*G_ref_dbic))",
+    "received_power_dbm": "K_link_db + transmitted_eirp_dbw",
+    "transmitted_eirp_dbw": "P_hpa_dbw - feed_loss_db + G_dbic",
+    "unclipped_equivalent": "E_req_dbw + beta*(G_dbic-G_ref_dbic)"
+  },
+  "status": "CONDITIONAL_SENSITIVITY_ONLY"
+}

@@ -1,0 +1,29 @@
+{
+  "purpose": "Saved through-00:11 trajectory integration refinement; not physical validation or sampler convergence",
+  "selection": "Coordinate extremes/quantiles plus initial/final mode representatives",
+  "integration_scales": [
+    1.0,
+    0.5,
+    0.25
+  ],
+  "cases": 22,
+  "passed": 18,
+  "tolerances": {
+    "endpoint_nm": 0.1,
+    "standardized_observation_change": 0.01,
+    "log_likelihood_change": 0.05
+  },
+  "elapsed_s": 5.176494326999091,
+  "input_and_code_sha256": {
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/forward-backward-analysis/four-direction-categorical/seed-37091141/run-manifest.json": "ab9c8a17d591076ace9ff6f9880bc36987e3b927857805c9aeba483c4e034161",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/forward-backward-analysis/four-direction-categorical/seed-37091141/particles.npz": "04db2e66a3dca53321f5ba512ef8244cfb3d0601ca7b50407c58e3210ee61ba6",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/forward-backward-analysis/four-direction-categorical/seed-37091141/requests.jsonl": "9d921f04f6a4961e4ed15e1243f00664a26ff1435196a3d650173bbed6ab8621",
+    "/tmp/mh370-flight-integrator/crates/controls/flight_evidence.py": "ab9899fb81e3c7ae31f1c1ef151d2b95381881d4e0a691955e5aeadbb8d109da",
+    "/tmp/mh370-flight-integrator/target/release/mh370": "a90229e990276cd3450ee7db2268942758211f82cfb70a0a8f1eff47cd0d001f",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/forward-backward-analysis/mh370-smooth-flight.toml": "a529e351ccae3264e620880d793f737dc550e792e6e145f5975009b677ab7c9e",
+    "/jackbox/home/MH370/inputs/accident/satcom-through-0011.csv": "0ed8bed1798861536aa659e7fdf5cd8f43ccbe160cdf3c61fb7479b7e0fbb799",
+    "/jackbox/home/MH370/inputs/accident/satellite-through-0011.csv": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+    "/jackbox/home/MH370/inputs/environment/mh370-era5-grid.bin": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4",
+    "/jackbox/home/MH370/inputs/environment/mh370-igrf14-grid.bin": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1"
+  }
+}

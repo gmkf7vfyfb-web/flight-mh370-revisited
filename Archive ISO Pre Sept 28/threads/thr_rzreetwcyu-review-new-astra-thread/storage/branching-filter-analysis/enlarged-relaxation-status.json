@@ -1,0 +1,157 @@
+{
+  "executable": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/traced-sampling-executable",
+  "executable_sha256": "7bd822edb46f3fff074126ab1b7b89f688245d20d7a1b2840a0a3574ee675e5f",
+  "threads": 4,
+  "status": "sampling_completed",
+  "runs": [
+    {
+      "family": "turns16-mach8-altitude8-vertical-bfo",
+      "counts": [
+        16,
+        8,
+        8
+      ],
+      "seed": 37091711,
+      "config": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091711.json",
+      "configuration_sha256": "1c89aa1f79773cc99d848749baafc3dc41bd8c669ce611cf73f408fe10f436bb",
+      "output": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091711",
+      "status": "completed",
+      "command": [
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/traced-sampling-executable",
+        "estimate-branching-flight",
+        "--config",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091711.json",
+        "--output",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091711",
+        "--threads",
+        "4"
+      ],
+      "started_utc": "2026-09-09T10:58:10.192297+00:00",
+      "pid": 226135,
+      "returncode": 0,
+      "process_elapsed_seconds": 732.9928289239906,
+      "finished_utc": "2026-09-09T11:10:23.469602+00:00",
+      "summary": {
+        "elapsed_seconds": 732.691092479,
+        "independent_tree_roots": null,
+        "initial_particles": 255000,
+        "log_evidence": -87.99046299278518,
+        "nodes_by_observation": [
+          255000,
+          255000,
+          255000,
+          255000,
+          255000,
+          255000,
+          255000,
+          255000,
+          255000,
+          255000
+        ],
+        "observation_ids": [
+          "m1825",
+          "m1828a",
+          "m1828b",
+          "m1839",
+          "m1941",
+          "m2041",
+          "m2141",
+          "m2241",
+          "m2315",
+          "m0011"
+        ],
+        "peak_memory": "VmHWM:\t 3637148 kB",
+        "posterior_available": true,
+        "posterior_csv_sha256": "88e207471236fbbf33df632e658be3919dd5cc94015e2301b8b92cbb18badf85",
+        "roulette_survivors_by_observation": [],
+        "sampling_method": "sequential_blocked",
+        "sampling_seconds": 729.018141951,
+        "seed": 37091711,
+        "status": "completed_unvalidated",
+        "threads": 4,
+        "weighted_leaves": 255000
+      },
+      "exact_replay_checks": 312
+    },
+    {
+      "family": "turns16-mach8-altitude8-vertical-bfo",
+      "counts": [
+        16,
+        8,
+        8
+      ],
+      "seed": 37091712,
+      "config": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091712.json",
+      "configuration_sha256": "d4b30bbc3895b17e449929ef5179194f552a0ff6e80acff186a274078d74ff14",
+      "output": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091712",
+      "status": "completed",
+      "command": [
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/traced-sampling-executable",
+        "estimate-branching-flight",
+        "--config",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091712.json",
+        "--output",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091712",
+        "--threads",
+        "4"
+      ],
+      "started_utc": "2026-09-09T11:10:23.698448+00:00",
+      "pid": 228498,
+      "returncode": 0,
+      "process_elapsed_seconds": 738.8616934050078,
+      "finished_utc": "2026-09-09T11:22:42.832747+00:00",
+      "summary": {
+        "elapsed_seconds": 738.580451736,
+        "independent_tree_roots": null,
+        "initial_particles": 255000,
+        "log_evidence": -87.96782224936932,
+        "nodes_by_observation": [
+          255000,
+          255000,
+          255000,
+          255000,
+          255000,
+          255000,
+          255000,
+          255000,
+          255000,
+          255000
+        ],
+        "observation_ids": [
+          "m1825",
+          "m1828a",
+          "m1828b",
+          "m1839",
+          "m1941",
+          "m2041",
+          "m2141",
+          "m2241",
+          "m2315",
+          "m0011"
+        ],
+        "peak_memory": "VmHWM:\t 3750252 kB",
+        "posterior_available": true,
+        "posterior_csv_sha256": "0296b1e00f9706f54ea9410b9007b58bdb876fa3c828a3a3fe76ab0808216522",
+        "roulette_survivors_by_observation": [],
+        "sampling_method": "sequential_blocked",
+        "sampling_seconds": 734.943177537,
+        "seed": 37091712,
+        "status": "completed_unvalidated",
+        "threads": 4,
+        "weighted_leaves": 255000
+      },
+      "exact_replay_checks": 296
+    }
+  ],
+  "created_utc": "2026-09-09T10:58:09.935689+00:00",
+  "purpose": "Larger interacting populations under the most relaxed tested 16/8/8 model; preserve this physical target, compare the larger independent pair with the completed 85,000 pair.",
+  "expected_seconds_per_run": [
+    700,
+    850
+  ],
+  "total_compute_cap": null,
+  "driver_pid": 226129,
+  "started_utc": "2026-09-09T10:58:09.961390+00:00",
+  "updated_utc": "2026-09-09T11:22:42.833210+00:00",
+  "finished_utc": "2026-09-09T11:22:42.833206+00:00"
+}

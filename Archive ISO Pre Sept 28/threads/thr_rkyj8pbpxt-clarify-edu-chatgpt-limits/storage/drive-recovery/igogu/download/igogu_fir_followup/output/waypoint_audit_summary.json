@@ -1,0 +1,20 @@
+{
+  "draws_per_measure": 131072,
+  "unique_evaluated_paths": 77175,
+  "raw_survivors_represented": 1710701,
+  "catalog_points": 1276,
+  "seeds": [
+    20260919400,
+    20260919401
+  ],
+  "conditional_MC_SE_worst_case": 0.0013810679320049755,
+  "method": "IID weighted resampling separately for original and R600 finite measures; multiplicity retained; piecewise local WGS84 metric projection on exact frozen engine paths. Censored beyond100NM. Counts are not independent physical-trajectory ESS.",
+  "scope": "IGOGU turn start through fuel exhaustion; inbound conditioned-on waypoints excluded. No terminal extension.",
+  "uncertainties": "Distance bands are sensitivity radii, not inferred navigation-error distributions. Model calibration, catalog epoch and original importance convergence remain unresolved.",
+  "above_one_percent_10NM": [
+    "IGOGU",
+    "ISBIX",
+    "BULVA"
+  ],
+  "summary_seconds": 20.978242946992395
+}

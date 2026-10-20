@@ -1,0 +1,7 @@
+# Arm B for the 22:41 A-vs-B test (Pete's families, 10 Oct; ruling 15:45 -0600: B = deliberate onset + approach to ditching,
+# control lost en route as a labelled sub-variant). Deliberate onsets only: anticipatory (from the checkpoint, up to 96 min
+# before exhaustion) and fuel cue; no flame-out-associated onset. Use with family-b-ditching.toml. Arm A is smoke/arm-v1.toml
+# (flame-out-associated onset only). Both arms score the same data, so ln Z(A) - ln Z(B) is a Bayes factor per option.
+[hypotheses.end-of-flight.onset]
+anticipatory_lead_s = [0.0, 5760.0]
+mechanism_weights = [1.0, 1.0, 0.0]

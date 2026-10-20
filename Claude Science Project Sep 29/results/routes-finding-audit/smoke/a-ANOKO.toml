@@ -1,0 +1,18 @@
+name = "audit-ANOKO-ISBIX"
+particles_per_mode = [7500, 3750, 17500, 3750, 17500]
+seeds = [1]
+
+[output]
+handoff_rows = 1000
+
+[sampler]
+temper_epochs = ["m1839", "m1941", "m2041", "m2141", "m2241", "m0011"]
+temper_stages = 16
+temper_target_ess = 0.5
+
+[dynamics.early.routes]
+waypoints_csv = "/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/294e1aee-8456-4248-aaa3-60034b3ececc/smoke/audit-waypoints.csv"
+first = [["VAMPI", "MEKAR", "NILAM", "ANOKO"]]
+then = [["ISBIX"]]
+only = [0]
+turn_backs = true

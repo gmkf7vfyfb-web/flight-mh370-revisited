@@ -1,0 +1,22 @@
+{
+  "schema": "mh370-current-trajectory-replay-v2",
+  "family": "gdp",
+  "field_sha256": "f25ff1192a47a69cd24e089c245f663c224f67f1550859489d260d960fcefc33",
+  "trajectory_source": "NOAA GDP six-hour interpolated positions, calendar year 2014",
+  "horizon_days": 30.0,
+  "requested_segments": 200,
+  "attempted_segments": 200,
+  "completed_segments": 193,
+  "field_terminated_segments": 7,
+  "termination_reasons": {
+    "field has a missing value at the interpolation point": 7
+  },
+  "survivor_median_current_error_km": 332.35316827846947,
+  "survivor_mean_current_error_km": 372.1471949613627,
+  "survivor_median_persistence_error_km": 375.29128676912785,
+  "survivor_mean_persistence_error_km": 416.0362430974949,
+  "survivor_current_better_fraction": 0.5699481865284974,
+  "optimized_wall_seconds": 0.154,
+  "interpretation": "Independent implementation replay for the GDP field. Errors are conditioned on the 193 complete field-supported trajectories; seven missing-value terminations are reported separately. The raw drifters may contribute to the GDP climatology, so this is not statistically held out."
+}
+

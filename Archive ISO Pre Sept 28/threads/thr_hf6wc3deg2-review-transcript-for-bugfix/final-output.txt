@@ -1,0 +1,19 @@
+Found it. This is primarily an iso timeline/watchdog bug, amplified by resource-heavy scientific runs—not an MH370 application failure.
+
+- The thread contains 15,890 events, 1,793 command executions, and a 24.2 MB raw log.
+- Opening it auto-paginates backward through multiple timeline pages.
+- Iso’s 1,500-event budget is bypassed for completed long turns. One page decoded 3,862 events / 4.19 MB because `resolveTimelineWindowBounds` only splits oversized unfinished turns. The failing path maps to `src/services/threads/timeline.ts:1095` ([installed bundle](/jackbox/npm-global/lib/node_modules/iso-app/server/dist/start-server.js:292082)).
+- A target-thread timeline query then blocked the Node event loop for 6.9 seconds ([server log](/jackbox/home/.iso/logs/server.190854.log:396)).
+- The Jackbox watchdog probes `/health` with a two-second timeout every five seconds and kills all of iso after three misses ([supervisor](/jackbox/bin/iso-supervisor:6)). That produced the daemon disconnects.
+
+There were exactly six visible system errors, all `host-daemon-restarted`. Five correspond to watchdog recycling after three health failures; one at 2026-08-26 04:30 appears to be a container-level restart outside the watchdog. Later watchdog failures were worsened by 12 GiB memory pressure, exhausted swap, heavy disk I/O, and other large thread timeline queries.
+
+The browser-side crash is strongly consistent with the same oversized history: the latest open immediately requested five older pages before activity stopped. There is no browser crash dump, but the final inline report is only 180 KB, has no base64 assets, and is not the main suspect.
+
+The transcript also has 137 nonzero shell exits. Most were development noise—missing `git`/`/usr/bin/time`, stale executable paths, no-match probes, expected diagnostic exits, and compile/fix cycles. The substantive failures were:
+
+- Two Python exit-139 crashes from thread-unsafe concurrent netCDF/HDF5 inspection; the thread added a serialization lock.
+- One full-domain run OOM at the 12 GiB cgroup limit; the loader was changed to file-backed storage.
+- WAVERYS conversion initially rejected time/component-varying masks; that conversion was corrected.
+
+The product fix should hard-cap completed turns too, paginate inside oversized completed turns, limit automatic backward pagination/virtualize timeline rows, and make the watchdog less eager to recycle the whole service during transient event-loop stalls. No MH370 files were changed during this diagnosis.

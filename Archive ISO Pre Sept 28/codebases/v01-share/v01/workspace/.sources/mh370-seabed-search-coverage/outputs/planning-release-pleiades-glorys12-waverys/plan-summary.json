@@ -1,0 +1,107 @@
+{
+  "branch_status": "numerically_unresolved_non_operational",
+  "declared_proxy_opportunity_multipliers": {
+    "approximate_march2024_inboard_outline": 1.05,
+    "approximate_march2024_outboard_outline": 0.88,
+    "approximate_oi2018_outline": 0.82,
+    "combined_clamp": [
+      0.5,
+      1.1
+    ],
+    "interpretation": "subjective planning sensitivity only; not PoD, a likelihood, or evidence of target absence",
+    "official_bluefin_display_footprint": 0.75,
+    "official_phase2_source_footprint": 0.72,
+    "within_25_km_of_ais_surface_vessel_track": 0.95
+  },
+  "input": {
+    "bytes": 695314,
+    "logical_path": "runs/mh370/release-v0.1/conditional/pleiades-glorys12-waverys/conditional-spatial-particles.csv",
+    "particle_count": 2560,
+    "role": "release_input",
+    "sha256": "09c22d7688fb4a74ceb724095989415460ae8df9e93a7b067b99850e182b43a1",
+    "weight_column": "conditional_weight",
+    "weight_mode": "linear",
+    "weights_normalized_by_planner": true
+  },
+  "label": "release-pleiades-glorys12-waverys",
+  "method": {
+    "budget_km2": 7500.0,
+    "centroid_latitude_deg": -37.49497133298791,
+    "centroid_longitude_deg": 90.04522883048428,
+    "kde": "isotropic Gaussian evaluated at tile centers",
+    "kde_bandwidth_km": 35.0,
+    "kde_grid_mass_renormalized": true,
+    "kde_truncation_sigma": 4.0,
+    "projection": "local equirectangular coordinates about weighted particle centroid",
+    "ranking_extension": "all rows after the first 12 in each ordered CSV are the deterministic extension order under that family's assumptions",
+    "selected_tile_count": 12,
+    "tile_area_km2": 625.0,
+    "tile_size_km": 25.0
+  },
+  "plans": {
+    "posterior_only": {
+      "ranking": "posterior KDE mass per square kilometre",
+      "selected_area_km2": 7500.0,
+      "selected_posterior_mass": 0.6289919756890193,
+      "selected_tile_ids": [
+        "tile-x018-y014",
+        "tile-x018-y015",
+        "tile-x017-y014",
+        "tile-x017-y015",
+        "tile-x019-y014",
+        "tile-x019-y015",
+        "tile-x018-y013",
+        "tile-x016-y015",
+        "tile-x018-y016",
+        "tile-x016-y014",
+        "tile-x017-y013",
+        "tile-x017-y016"
+      ]
+    },
+    "proxy_logistics_sensitivity": {
+      "operational_sequence": "greedy next-tile score divided by 1 + great-circle transit_km/100 within the selected set",
+      "operational_tile_ids": [
+        "tile-x018-y014",
+        "tile-x018-y015",
+        "tile-x017-y015",
+        "tile-x017-y014",
+        "tile-x016-y014",
+        "tile-x016-y015",
+        "tile-x017-y016",
+        "tile-x018-y016",
+        "tile-x019-y015",
+        "tile-x019-y014",
+        "tile-x018-y013",
+        "tile-x017-y013"
+      ],
+      "ranking": "posterior KDE mass per square kilometre times declared opportunity multiplier",
+      "selected_area_km2": 7500.0,
+      "selected_posterior_mass": 0.6289919756890193,
+      "selected_tile_ids": [
+        "tile-x018-y014",
+        "tile-x018-y015",
+        "tile-x017-y014",
+        "tile-x017-y015",
+        "tile-x019-y014",
+        "tile-x019-y015",
+        "tile-x018-y013",
+        "tile-x016-y015",
+        "tile-x018-y016",
+        "tile-x016-y014",
+        "tile-x017-y013",
+        "tile-x017-y016"
+      ]
+    },
+    "selected_tile_overlap_count": 12
+  },
+  "schema_version": 1,
+  "scientific_boundary": {
+    "ais_tracks_update_posterior": false,
+    "approximate_outlines_update_posterior": false,
+    "binary_exclusion_applied": false,
+    "calibrated_search_optimization_ready": false,
+    "negative_search_likelihood_applied": false
+  },
+  "snapshot_date": "2026-08-31",
+  "status_note": "Pléiades resolution audit: N=150,000; ESS BRAN 5.63, OSCAR 9.14, GLORYS 6.13, mixture 5.63; no centroid, HPD contour, or area is resolved. Reference: runs/mh370/release-v0.1/conditional/pleiades-resolution-audit.json. Display-only illustration; must not rank locations or guide operations."
+}

@@ -1,0 +1,159 @@
+{
+  "status": "Analytic nuisance-bias sensitivity on saved final-BFO predictions",
+  "conditions": {
+    "paper_url": "https://arxiv.org/pdf/1702.02432v3",
+    "paper_sha256": "c76dd9f1b6c341e99d95c68002202aad7ba6797eb1f1b343f00468235cd22821",
+    "version": "arXiv:1702.02432v3, 15 January 2018",
+    "observed_final_bfo_hz": [
+      182.0,
+      -2.0
+    ],
+    "observed_bfo_locator": "PDF page 9, Tables III and V",
+    "prediction_minus_observation_error_hz": [
+      -28.0,
+      18.0
+    ],
+    "error_locator": "PDF page 2, section III-A: extrema of 2,501 retained BFO errors from 20 preceding flights, used as assumed strict bounds in this paper",
+    "warmup_offset_hz": [
+      [
+        17.0,
+        136.0
+      ],
+      [
+        17.0,
+        130.0
+      ]
+    ],
+    "warmup_drop_hz": [
+      0.0,
+      6.0
+    ],
+    "warmup_locator": "PDF page 7, section V-A final paragraphs and V-B; seven preceding log-ons, with closed-loop compensation adjustment for six ground log-ons",
+    "no_warmup_alternative_hz": [
+      0.0,
+      0.0
+    ],
+    "no_warmup_locator": "PDF page 8, section VI-B; Tables V and VI",
+    "limitations": [
+      "Historical error extrema are not a calibrated probability distribution or a guaranteed physical bound on a new observation.",
+      "The previous sustained outages do not calibrate a one-minute power interruption; the paper explicitly notes this limitation.",
+      "The two warmup offsets share one event and are constrained by their drop; independent extreme combinations are not allowed.",
+      "Conditional calculations assume no additional unknown factor corrupts the two observations.",
+      "The comparison uses the stored R600 checkpoint at 00:19:29.416 and the logged R1200 checkpoint at 00:19:37.443. It does not infer a precise acceleration from those times."
+    ]
+  },
+  "comparison_counts": [
+    {
+      "family": "openap_v2_6_0_attached_flow",
+      "error_convention": "printed_table",
+      "startup_condition": "shared_warmup",
+      "pairs": 21758,
+      "any_shared_bias_possible": 65,
+      "within_three_conditional_bias_sd": 0,
+      "selected_pairs": 2,
+      "selected_any_bias_possible": 0,
+      "selected_within_three_conditional_bias_sd": 0,
+      "minimum_required_bias_sd": 22.07975659784428
+    },
+    {
+      "family": "openap_v2_6_0_attached_flow",
+      "error_convention": "printed_table",
+      "startup_condition": "no_warmup",
+      "pairs": 21758,
+      "any_shared_bias_possible": 53,
+      "within_three_conditional_bias_sd": 0,
+      "selected_pairs": 2,
+      "selected_any_bias_possible": 0,
+      "selected_within_three_conditional_bias_sd": 0,
+      "minimum_required_bias_sd": 14.762377787569307
+    },
+    {
+      "family": "openap_v2_6_0_attached_flow",
+      "error_convention": "literal_prose",
+      "startup_condition": "shared_warmup",
+      "pairs": 21758,
+      "any_shared_bias_possible": 65,
+      "within_three_conditional_bias_sd": 0,
+      "selected_pairs": 2,
+      "selected_any_bias_possible": 0,
+      "selected_within_three_conditional_bias_sd": 0,
+      "minimum_required_bias_sd": 26.38409707447662
+    },
+    {
+      "family": "openap_v2_6_0_attached_flow",
+      "error_convention": "literal_prose",
+      "startup_condition": "no_warmup",
+      "pairs": 21758,
+      "any_shared_bias_possible": 53,
+      "within_three_conditional_bias_sd": 0,
+      "selected_pairs": 2,
+      "selected_any_bias_possible": 0,
+      "selected_within_three_conditional_bias_sd": 0,
+      "minimum_required_bias_sd": 19.066718264201644
+    },
+    {
+      "family": "openap_published2020_attached_flow",
+      "error_convention": "printed_table",
+      "startup_condition": "shared_warmup",
+      "pairs": 22839,
+      "any_shared_bias_possible": 68,
+      "within_three_conditional_bias_sd": 0,
+      "selected_pairs": 11,
+      "selected_any_bias_possible": 0,
+      "selected_within_three_conditional_bias_sd": 0,
+      "minimum_required_bias_sd": 19.582647090753376
+    },
+    {
+      "family": "openap_published2020_attached_flow",
+      "error_convention": "printed_table",
+      "startup_condition": "no_warmup",
+      "pairs": 22839,
+      "any_shared_bias_possible": 54,
+      "within_three_conditional_bias_sd": 0,
+      "selected_pairs": 11,
+      "selected_any_bias_possible": 0,
+      "selected_within_three_conditional_bias_sd": 0,
+      "minimum_required_bias_sd": 12.2652682804784
+    },
+    {
+      "family": "openap_published2020_attached_flow",
+      "error_convention": "literal_prose",
+      "startup_condition": "shared_warmup",
+      "pairs": 22839,
+      "any_shared_bias_possible": 68,
+      "within_three_conditional_bias_sd": 0,
+      "selected_pairs": 11,
+      "selected_any_bias_possible": 0,
+      "selected_within_three_conditional_bias_sd": 0,
+      "minimum_required_bias_sd": 23.886987567385713
+    },
+    {
+      "family": "openap_published2020_attached_flow",
+      "error_convention": "literal_prose",
+      "startup_condition": "no_warmup",
+      "pairs": 22839,
+      "any_shared_bias_possible": 54,
+      "within_three_conditional_bias_sd": 0,
+      "selected_pairs": 11,
+      "selected_any_bias_possible": 0,
+      "selected_within_three_conditional_bias_sd": 0,
+      "minimum_required_bias_sd": 16.56960875711074
+    }
+  ],
+  "conditional_bias_sd_hz_span": [
+    2.323236290039926,
+    2.323236290039926
+  ],
+  "limitation": "Three conditional bias SD is a descriptive sensitivity, not a hard Gaussian exclusion. The conditional bias SD assumes the declared earlier observation model. Historical error bounds and startup envelopes are still not calibrated densities.",
+  "elapsed_s": 8.950209114991594,
+  "input_sha256": {
+    "/jackbox/home/MH370/.sources/holland-2018-bfo-descent/code/recreate.py": "f2afec9a004b9644a97dafd1378b619d1078baceed881f782e831bb52bb4c159",
+    "/jackbox/home/MH370/.sources/holland-2018-bfo-descent/data/observations-and-conditions.json": "d7b70a5368036e173df2c9cc87713ab5cea621a93c08384376931b217ee0f50e",
+    "/jackbox/home/MH370/configs/mh370-broad-powered-flight-diagnostic.toml": "1d404bceb70d70825a770e3c80aa3638a4bd103e287b0898022ce2cfd4766a2e",
+    "/jackbox/home/MH370/inputs/accident/satcom-observations.csv": "bd344ba05826f9176f394ac42e04b5f2ba4c5705c8a980b7655579024dc0d4e0",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/final-bfo-comparison/terminal-bfo-comparisons.jsonl": "4d8bb568a00940ec6c8baf4a16d0abfe7632dd3325e8036b1eb077574798f48f",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/final-bfo-comparison/summary.json": "8bfe491b830eb8c45585cc289b97ddd1a4b8c5a36625d1b6485f0287e5bbdc37",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/terminal-final-contact/terminal-examples.jsonl": "f1658874a62e1de47c6af6588de014b95ec61525e65bbbb330ff511dbe2f0959",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/kadri-preferred-event/selected-impact-examples.json": "de83df3f4042e7b8f52bc775fe9d5e792c34e101b56cf2a07d90405b1e08f3ec"
+  }
+}

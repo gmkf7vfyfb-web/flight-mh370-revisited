@@ -1,0 +1,5 @@
+# The 22:41 (m2241) snapshot of `reference-snapshots`, for arms V1b and V2 (brief section 1). Pass AFTER the
+# snapshot run's own configs, exactly as snapshot-m0011.toml. The snapshot is the unscored filtering
+# distribution at 22:41: every burst after it belongs to the terminal stage, including 23:15 and 00:11.
+# Where 00:11 is scored differs by arm: inside the filter for V1a, inside this stage for V1b and V2.
+exclude_epochs = ["m2315", "m0011", "m0019a", "m0019b"]

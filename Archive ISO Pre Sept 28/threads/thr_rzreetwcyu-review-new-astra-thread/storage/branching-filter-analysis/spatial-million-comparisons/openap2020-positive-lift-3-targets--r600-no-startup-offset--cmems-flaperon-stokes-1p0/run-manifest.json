@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "command": "apply-conditional-surface",
+  "producer_executable_sha256": "cc0c009fe89166e789da419f0d5739494d1897e92f5e294eb89eaa09bdde79bf",
+  "code_revision": "executable-and-source-manifest",
+  "config_sha256": "11bd792ac110c5caa771099312c09ebc757265063cdb602f8603c5bbcca3511f",
+  "input_sha256": {
+    "configuration": "11bd792ac110c5caa771099312c09ebc757265063cdb602f8603c5bbcca3511f",
+    "cruise_source_config_0": "219ab0678f6ab1d2b32df9d7f4d70d244efb9cb7ea79a459090fff55970d997c",
+    "cruise_source_config_1": "373b5677129fb04cb3cb55ffff39835ca94bed22c470c412acb97ece2444cbb8",
+    "cruise_source_config_2": "2096ae66aa1ed0418884a2d26a683cfbae8856ed6f05559438b7a5310988d268",
+    "cruise_source_config_3": "17864867ebca485ed9997a9263a5a536046f6cd64f714a2c8e351fad876f7b3a",
+    "cruise_source_config_4": "fabf45996e5a5162bf65fbeb86af474ebe1f32418f6818920d7a2c3ac5e69f3d",
+    "cruise_source_config_5": "9f758da36f044dc94aae88a3d86e02496668ec73ca0147c9218e3eb881fb7b05",
+    "ocean_drift_handoff": "2027b9120c391691e53f9a6c8af9dbe2ff85a73ea6e29ff56c25070949c57f53",
+    "terminal_case_weights": "b5dafc347990e6d78ea6fbcb439de7aee87209b21677e6f3b6be30e3ea95f51a",
+    "terminal_condition_summary": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77"
+  },
+  "output_sha256": {
+    "baseline.pdf": "c21250926b31e2037740e0e4c28857a854aab07be1a14d4fb4cb9ae8d59d04c3",
+    "baseline.png": "ab1b43a2f0edd4514770ed7e23858cea73d35da509fb47a5ea2b8e305efb934c",
+    "baseline.svg": "95586b7fe1d9a15fa3200c26a27445148ae542c8a30cbfe3a79fd65799a7e40f",
+    "conditional-spatial-particles.csv": "0a52c7f8b031a072ac58af722ec4ee02cc9a50cb422ee4f463170238d73f3f5e",
+    "conditional-spatial-sensitivity.json": "749f5f8b5435cf9d1d1eccfd21d34582bb1d4f1bf524e0ebf7be8216a031d085",
+    "conditional.pdf": "c5f4ff11206fbf319aa52ddc653541e9a426f2153790ff7bea79ab3634a24db9",
+    "conditional.png": "84f4dd13f53f191f13d28e93f87581693b8cfd6a9db432b91c47c384a97b6430",
+    "conditional.svg": "ced63347d4be1254e56de21e0e087ba4af0ef637e1d749ce6bd560f205f5d751"
+  },
+  "reproduction_command": "mh370 apply-conditional-surface --config /jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/spatial-million-comparisons/openap2020-positive-lift-3-targets--r600-no-startup-offset--cmems-flaperon-stokes-1p0.toml --output /jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/spatial-million-comparisons/openap2020-positive-lift-3-targets--r600-no-startup-offset--cmems-flaperon-stokes-1p0",
+  "scientific_scope": [
+    "This matched Stokes comparison uses the flaperon recovery and conditional isotope screen only, not the nine recovery episodes in the broader CMEMS surface.",
+    "Source observation bandwidth, probability floor, transport support and object response are explicit source-model sensitivities, not calibrated measurements.",
+    "Surface was released at 00:19; reusing it for later impacts neglects the difference in the first minutes of drift. Nearest-source distance remains a reported approximation.",
+    "This release exposes the source surface only as an explicitly enabled conditional sensitivity; it does not change the central posterior.",
+    "Parent terminal family openap2020-positive-lift-3-targets, contact case r600-no-startup-offset; parent source already includes the cruise, fuel and selected final-contact weights exactly once.",
+    "Spatial comparison conditions on computed impacts. Parent incoming mass with uncomputed contact likelihood: 0.036180883480435265; computed impact mass within scored support: 0.9511437893644203. These unresolved masses are not evidence against their locations.",
+    "One terminal Monte Carlo seed is used here; its four cruise source populations are already pooled with their recorded effort and normalizers. No new equal-weight pool or legacy handoff is fabricated.",
+    "Out-of-support parent mass 0.000000 is removed only by the explicit 'condition_on_native_support' sensitivity condition; it is not evidence against those particles.",
+    "No extra likelihood floor is added. Source numerical underflow is preserved and is not evidence of physical impossibility. Floors already present in source observation models remain source assumptions.",
+    "This branch is deliberately separate from the parent SATCOM/impact posterior and cannot be stacked with another family representing the same observations.",
+    "Conditional weight effective row count is 197.70; it measures concentration, not independent flight ancestry or calibrated uncertainty. Independent numerical repeats are required to assess sampling variation."
+  ]
+}

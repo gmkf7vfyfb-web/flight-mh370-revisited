@@ -1,0 +1,22 @@
+{
+  "schema": "mh370-current-trajectory-replay-v2",
+  "family": "hycom",
+  "field_sha256": "608e3153f8143d22c5a92656e579fe99d55c1656cde045f62aa1660329ef9a64",
+  "trajectory_source": "NOAA GDP six-hour interpolated positions within preserved HYCOM time support, from 2014-03-08",
+  "horizon_days": 30.0,
+  "requested_segments": 200,
+  "attempted_segments": 200,
+  "completed_segments": 184,
+  "field_terminated_segments": 16,
+  "termination_reasons": {
+    "field has a missing value at the interpolation point": 16
+  },
+  "survivor_median_current_error_km": 311.7108338319463,
+  "survivor_mean_current_error_km": 352.6804817437411,
+  "survivor_median_persistence_error_km": 388.5843170465473,
+  "survivor_mean_persistence_error_km": 443.23430779284337,
+  "survivor_current_better_fraction": 0.5815217391304348,
+  "optimized_wall_seconds": 0.420,
+  "interpretation": "Independent implementation replay for the preserved HYCOM field. Starts outside the field's declared time support are skipped before counting attempts. Errors are conditioned on 184 complete trajectories; 16 spatial missing-value terminations are reported separately. The survivor errors cannot be interpreted as unconditional 30-day forecast accuracy."
+}
+

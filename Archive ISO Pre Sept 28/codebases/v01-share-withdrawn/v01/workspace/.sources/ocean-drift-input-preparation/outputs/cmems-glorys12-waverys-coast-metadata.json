@@ -1,0 +1,46 @@
+{
+  "axis_order": [
+    "time",
+    "latitude",
+    "longitude"
+  ],
+  "binary_format": "MHGRID1 little-endian",
+  "binary_sha256": "1cb1a11df0a6c7b4d997e2ecec0aa4a13e86766787e910c58f8a2a9486b03cab",
+  "component_units": {
+    "land_fraction": "binary fraction 0 water 1 persistent model mask"
+  },
+  "converter_version": "ocean-input-preparation-v4",
+  "definition": "union of the GLORYS12 persistent current mask and nearest-node WAVERYS persistent Stokes mask on the native GLORYS12 grid",
+  "family": "cmems_glorys12_reanalysis",
+  "field_role": "coastal_support",
+  "latitude_units": "degrees_north WGS84",
+  "limitations": [
+    "This is a conservative union of two invariant model support masks, not a measured shoreline-distance, beaching-probability, retention, or refloating model.",
+    "The 0.2-degree WAVERYS mask is nearest-mapped onto the 1/12-degree GLORYS12 grid and can terminate a path before the geometric shoreline.",
+    "No beaching_rate component is present, so the transport code cannot invent coastal retention."
+  ],
+  "longitude_units": "degrees_east WGS84",
+  "mask_counts": {
+    "added_by_glorys12": 8801,
+    "added_by_waverys": 3179,
+    "glorys12_land_cells": 526262,
+    "grid_cells": 1615441,
+    "union_land_cells": 529441,
+    "waverys_land_cells_mapped_to_glorys12": 520640
+  },
+  "name": "CMEMS GLORYS12 and WAVERYS union coastal-support field",
+  "schema": "mh370-gridded-field-input-v1",
+  "source_support_fields": [
+    {
+      "metadata_sha256": "e7eb99fc4a126c189081e526359739b034dd20e17eaf23d679ceb1cb5bec12fe",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-cmems/cmems-glorys12-coast.mhgrid",
+      "sha256": "fff1f2776117e98372f40811690c95110eac547a386e3b05f8d22d701b3981ae"
+    },
+    {
+      "metadata_sha256": "e157d1455f0984474ac22950b9a4ba564b5e16a250ada6ff8c0cfa0bc8c82585",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-cmems/cmems-waverys-coast.mhgrid",
+      "sha256": "e9b97c21272bac674f9dba3dd28121e73775438e7eee8493c94770385c1ddec4"
+    }
+  ],
+  "time_axis": "constant over the common GLORYS12/WAVERYS retrieval interval"
+}

@@ -1,0 +1,325 @@
+{
+  "checks": [
+    {
+      "detail": "Only the canonical broad-flight runner is releasable.",
+      "expected": {
+        "command": "estimate-broad-flight",
+        "schema_version": 1,
+        "status": "conditional_broad_filter_complete"
+      },
+      "id": "manifest.broad_runner_schema",
+      "observed": {
+        "command": "estimate-broad-flight",
+        "schema_version": 1,
+        "status": "conditional_broad_filter_complete"
+      },
+      "status": "passed"
+    },
+    {
+      "detail": "A one-turn or fixed-track summary cannot stand in for the marked-jump model.",
+      "expected": {
+        "model_family": "broad-powered-marked-jump-v1",
+        "schema_version": 1,
+        "status": "conditional_broad_filter_complete"
+      },
+      "id": "summary.canonical_model_family",
+      "observed": {
+        "model_family": "broad-powered-marked-jump-v1",
+        "schema_version": 1,
+        "status": "conditional_broad_filter_complete"
+      },
+      "status": "passed"
+    },
+    {
+      "detail": "Manifest and suite summary must describe the same completed run.",
+      "expected": "conditional_broad_filter_complete",
+      "id": "manifest.summary_status_agreement",
+      "observed": "conditional_broad_filter_complete",
+      "status": "passed"
+    },
+    {
+      "detail": "A single numerical realization cannot establish repeatability.",
+      "expected": "at least two distinct integer seeds",
+      "id": "config.independent_seeds",
+      "observed": [
+        37102001,
+        37102002,
+        37102003,
+        37102004,
+        37102005,
+        37102006,
+        37102007,
+        37102008
+      ],
+      "status": "passed"
+    },
+    {
+      "detail": "Initial control mode is structural uncertainty, not a fixed trajectory assumption.",
+      "expected": "at least two distinct positive-probability modes summing to one",
+      "id": "config.multiple_initial_control_modes",
+      "observed": {
+        "errors": [],
+        "modes": [
+          "constant_magnetic_heading",
+          "constant_magnetic_track",
+          "constant_true_heading",
+          "constant_true_track",
+          "great_circle_track_continuation"
+        ]
+      },
+      "status": "passed"
+    },
+    {
+      "detail": "The release must permit repeated turns rather than a single sampled turn.",
+      "expected": "at least two positive-probability manoeuvre families, recurring lateral clocks, two event modes, and event budget >=2",
+      "id": "config.recurring_lateral_manoeuvres",
+      "observed": {
+        "errors": [],
+        "event_modes": [
+          "constant_magnetic_heading",
+          "constant_magnetic_track",
+          "constant_true_heading",
+          "constant_true_track",
+          "great_circle_track_continuation"
+        ],
+        "family_count": 4,
+        "lateral_clocks": [
+          {
+            "gamma_shape": 1.0,
+            "mean_interval_s": 640.0,
+            "minimum_interval_s": 60.0,
+            "name": "log-tau-bin-0p1-to-0p316h"
+          },
+          {
+            "gamma_shape": 1.0,
+            "mean_interval_s": 2024.0,
+            "minimum_interval_s": 60.0,
+            "name": "log-tau-bin-0p316-to-1h"
+          },
+          {
+            "gamma_shape": 1.0,
+            "mean_interval_s": 6402.0,
+            "minimum_interval_s": 60.0,
+            "name": "log-tau-bin-1-to-3p16h"
+          },
+          {
+            "gamma_shape": 1.0,
+            "mean_interval_s": 20243.0,
+            "minimum_interval_s": 60.0,
+            "name": "log-tau-bin-3p16-to-10h"
+          }
+        ],
+        "maximum_events_per_transition": 256
+      },
+      "status": "passed"
+    },
+    {
+      "detail": "Evidence alternatives are compared by explicit family, never silently pooled.",
+      "expected": "one or more unique evidence-family identifiers",
+      "id": "config.evidence_families",
+      "observed": [
+        "bto-only",
+        "bto-bfo-published-error"
+      ],
+      "status": "passed"
+    },
+    {
+      "detail": "Configuration and summary names must agree.",
+      "expected": "MH371 truth-separated broad repeated-manoeuvre control through 06:48",
+      "id": "summary.configuration_name",
+      "observed": "MH371 truth-separated broad repeated-manoeuvre control through 06:48",
+      "status": "passed"
+    },
+    {
+      "detail": "The supplied executable must be the producer recorded by the run.",
+      "expected": "d20eb4bf68133592b9324e7f056962e198623eec309fc054fbd1c6172d6a7e7c",
+      "id": "manifest.executable_hash",
+      "observed": "d20eb4bf68133592b9324e7f056962e198623eec309fc054fbd1c6172d6a7e7c",
+      "status": "passed"
+    },
+    {
+      "detail": "The supplied TOML bytes must be exactly those consumed by the runner.",
+      "expected": "9b8bd2d0d61890eb50abfc2a5ebd5688f831fae39e56bc4fd31892823a4df06f",
+      "id": "manifest.configuration_hash",
+      "observed": "9b8bd2d0d61890eb50abfc2a5ebd5688f831fae39e56bc4fd31892823a4df06f",
+      "status": "passed"
+    },
+    {
+      "detail": "Every input identity in the manifest is recomputed from its configured path.",
+      "expected": "all and only configured scientific inputs, byte-for-byte",
+      "id": "manifest.input_hash_closure",
+      "observed": [],
+      "status": "passed"
+    },
+    {
+      "detail": "No unverified output can be packaged as part of the run.",
+      "expected": "every declared output hashes correctly inside the run directory",
+      "id": "manifest.output_hash_closure",
+      "observed": [],
+      "status": "passed"
+    },
+    {
+      "detail": "The audited suite summary must be the run's own hashed summary output.",
+      "expected": "manifest output summary.json",
+      "id": "manifest.supplied_summary_is_output",
+      "observed": "summary.json",
+      "status": "passed"
+    },
+    {
+      "detail": "Artifact presence must follow the runner output switches; partial, cherry-picked, or cross-run sets are refused.",
+      "expected": "configured snapshot indices/populations plus seed checkpoints and summaries",
+      "id": "manifest.complete_family_seed_artifacts",
+      "observed": {
+        "errors": [],
+        "foreign": [],
+        "missing": [],
+        "unexpected_suppressed": []
+      },
+      "status": "passed"
+    },
+    {
+      "detail": "Every configured numerical replicate must occur once and agree byte-semantically with its seed summary.",
+      "expected": [
+        "bto-bfo-published-error/seed-37102001",
+        "bto-bfo-published-error/seed-37102002",
+        "bto-bfo-published-error/seed-37102003",
+        "bto-bfo-published-error/seed-37102004",
+        "bto-bfo-published-error/seed-37102005",
+        "bto-bfo-published-error/seed-37102006",
+        "bto-bfo-published-error/seed-37102007",
+        "bto-bfo-published-error/seed-37102008",
+        "bto-only/seed-37102001",
+        "bto-only/seed-37102002",
+        "bto-only/seed-37102003",
+        "bto-only/seed-37102004",
+        "bto-only/seed-37102005",
+        "bto-only/seed-37102006",
+        "bto-only/seed-37102007",
+        "bto-only/seed-37102008"
+      ],
+      "id": "summary.complete_family_seed_set",
+      "observed": [],
+      "status": "passed"
+    },
+    {
+      "detail": "Multi-seed pooling provenance must be recorded for every evidence family.",
+      "expected": [
+        "bto-bfo-published-error",
+        "bto-only"
+      ],
+      "id": "manifest.independent_seed_pooling",
+      "observed": [
+        "bto-bfo-published-error",
+        "bto-only"
+      ],
+      "status": "passed"
+    },
+    {
+      "detail": "A path name alone is not accepted as family/seed provenance, and a suppressed handoff cannot pass vacuously if present.",
+      "expected": "handoff output explicitly suppressed and absent",
+      "id": "outputs.handoff_run_identity",
+      "observed": {
+        "configured": false,
+        "errors": []
+      },
+      "status": "passed"
+    },
+    {
+      "detail": "Only the fail-closed broad spatial reporter audit is accepted.",
+      "expected": {
+        "schema_id": [
+          "mh370-broad-flight-spatial-report",
+          "mh370-broad-snapshot-diagnostic"
+        ],
+        "schema_version": 1
+      },
+      "id": "report.audit_schema",
+      "observed": {
+        "schema_id": "mh370-broad-snapshot-diagnostic",
+        "schema_version": 1
+      },
+      "status": "passed"
+    },
+    {
+      "detail": "A rendered diagnostic cannot turn a failed numerical assessment into a publication claim.",
+      "expected": "criteria-derived status; failures are diagnostic and never publication eligible",
+      "id": "report.numerical_gate",
+      "observed": {
+        "calculated_status": "failed",
+        "errors": []
+      },
+      "status": "passed"
+    },
+    {
+      "detail": "The all-epoch diagnostic must not present a declared conditional model as calibrated true probability.",
+      "expected": "conditional_on_declared_model_not_calibrated_true_probability",
+      "id": "report.conditional_probability_interpretation",
+      "observed": "conditional_on_declared_model_not_calibrated_true_probability",
+      "status": "passed"
+    },
+    {
+      "detail": "Numerical seeds may pool within a family; structural evidence families may not.",
+      "expected": "none",
+      "id": "report.no_structural_family_pooling",
+      "observed": "none",
+      "status": "passed"
+    },
+    {
+      "detail": "The report audit must close over the exact materials that produced it.",
+      "expected": "hashed specification, generator, and rendered outputs",
+      "id": "report.provenance_hash_closure",
+      "observed": [],
+      "status": "passed"
+    },
+    {
+      "detail": "Known-flight accuracy claims must remain bound to the exact truth bytes loaded only by the reporter.",
+      "expected": "truth absent with no accuracy claims, or a hash-bound held-back truth input matching the specification",
+      "id": "report.truth_provenance",
+      "observed": [],
+      "status": "passed"
+    },
+    {
+      "detail": "Every report source must be an exact run output or a terminal descendant cryptographically tied to its broad parent.",
+      "expected": [
+        "bto-bfo-published-error/seed-37102001",
+        "bto-bfo-published-error/seed-37102002",
+        "bto-bfo-published-error/seed-37102003",
+        "bto-bfo-published-error/seed-37102004",
+        "bto-bfo-published-error/seed-37102005",
+        "bto-bfo-published-error/seed-37102006",
+        "bto-bfo-published-error/seed-37102007",
+        "bto-bfo-published-error/seed-37102008",
+        "bto-only/seed-37102001",
+        "bto-only/seed-37102002",
+        "bto-only/seed-37102003",
+        "bto-only/seed-37102004",
+        "bto-only/seed-37102005",
+        "bto-only/seed-37102006",
+        "bto-only/seed-37102007",
+        "bto-only/seed-37102008"
+      ],
+      "id": "report.complete_same_run_family_seed_set",
+      "observed": [],
+      "status": "passed"
+    },
+    {
+      "detail": "Legacy fixed-trajectory products cannot be substituted into a broad-flight release.",
+      "expected": "no one-turn, single-turn, fixed-track, fixed-waypoint, or fixed-route identities",
+      "id": "release.no_legacy_fixed_trajectory_artifacts",
+      "observed": [],
+      "status": "passed"
+    }
+  ],
+  "identities": {
+    "binary_sha256": "d20eb4bf68133592b9324e7f056962e198623eec309fc054fbd1c6172d6a7e7c",
+    "config_sha256": "9b8bd2d0d61890eb50abfc2a5ebd5688f831fae39e56bc4fd31892823a4df06f",
+    "manifest_sha256": "53813e8912050aac31f73ae2bab0fbfda57f5f5411b7dd5874bd56c99a301c38",
+    "report_audit_sha256": "ac40e904cefea023a10b562c7abe0d376e0c77d408f5f400eebd319cf71abbde",
+    "summary_sha256": "2a27dcff32f3862281595a60c8359f4e640964c79b5aba354a9179536e6a6973"
+  },
+  "release_eligible": true,
+  "required_model_family": "broad-powered-marked-jump-v1",
+  "schema_id": "mh370-broad-release-validation",
+  "schema_version": 1,
+  "status": "passed"
+}

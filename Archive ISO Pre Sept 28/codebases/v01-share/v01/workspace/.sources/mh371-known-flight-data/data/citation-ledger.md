@@ -1,0 +1,13 @@
+# Citation ledger — MH371 control
+
+| Claim | Source | Located passage |
+| --- | --- | --- |
+| Davey radar-like initial uncertainty is 0.5 NM position and 1 degree direction. | Davey et al., Bayesian Methods in the Search for MH370, DOI 10.1007/978-981-10-0379-0, PDF p.34 / printed p.21. | The paragraph defining the 18:01 prior gives both position and direction standard deviations. |
+| Davey's defensible accident-flight Mach family is uniform 0.73-0.84. | Davey et al., same work, PDF p.35 / printed p.22; also Table 8.2 at PDF p.72. | The initialization paragraph specifies a uniform Mach prior; Table 8.2 repeats the range. |
+| Davey's loose BFO model uses a 25 Hz bias-prior SD and 7 Hz observation SD. | Davey et al., same work, PDF pp.43-44 / printed pp.30-31. | The BFO-bias paragraph gives the unknown-constant prior; the next page gives the conservative noise SD. |
+| BFO separates uplink, downlink, aircraft compensation, satellite variation, GES AFC, and fixed bias. | Ashton et al., The Search for MH370, DOI 10.1017/S037346331400068X, PDF pp.9-10. | Equation 2 lists six contributions and the following paragraph defines each. |
+| Perth AFC is pilot-frequency controlled and satellite thermal variation is material. | Ashton et al., same paper, PDF pp.13-14. | Sections 5.1-5.2 describe the pilot AFC behaviour and satellite-oscillator thermal response. |
+| Satellite and GES terms were interpolated from proprietary Ashton data in the dissertation implementation. | Peter O. Large, A Meta-Analysis of Geospatial Estimates in the Case of Malaysian Airlines Flight MH370, ProQuest 13857090, 2019, PDF p.131 / printed p.115. | The implementation paragraph states that the two correction values are interpolated from proprietary Ashton data. |
+| Workbook columns FA and FB encode the satellite curve and Perth AFC, with combined contribution FB-FA. | Correction workbook SHA-256 c90df112f70e4ac75dd1361e51bc1e70cb3319dd5db6490a50eebb1a65626c60; traced sheets and values in bfo-correction-knots.json. | Column labels identify FA and FB; cached FC formulas subtract FA from FB. |
+| ERA5 supplies hourly pressure-level temperature and U/V wind. | ECMWF ERA5 documentation, https://confluence.ecmwf.int/pages/viewpage.action?pageId=388500357, retrieved 2026-08-24. | The data description identifies hourly products and pressure-level atmospheric fields. |
+| IGRF-14 is an official main-field model with published coefficients/software. | NOAA/NCEI IGRF page, https://www.ncei.noaa.gov/products/international-geomagnetic-reference-field, retrieved 2026-08-24. | The release page describes IGRF as the standard main-field representation and provides IGRF-14 access methods. |

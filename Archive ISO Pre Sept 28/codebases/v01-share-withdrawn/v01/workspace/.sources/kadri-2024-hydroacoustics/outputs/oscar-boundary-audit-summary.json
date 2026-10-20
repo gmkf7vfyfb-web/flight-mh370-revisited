@@ -1,0 +1,98 @@
+{
+  "cadence": {
+    "displayed_peak_delay_after_fitted_predecessor_s": 0.5543643479306297,
+    "fitted_period_s": 9.974035098247661,
+    "fitted_predecessor_centre_s": -0.05436434793062972,
+    "probability_centre_within_half_second_of_boundary": 1.0,
+    "robust_fit_residual_rms_s": 0.2504260468653085,
+    "robust_predecessor_centre_s": -0.0778086368881361,
+    "robust_predecessor_q025_s": -0.21281203929662523,
+    "robust_predecessor_q50_s": -0.07836179098315199,
+    "robust_predecessor_q975_s": 0.05530885188505424,
+    "robust_retained_centre_count": 52
+  },
+  "conclusion": [
+    "The H01W feature is strong in the publication trace and merits raw-data follow-up.",
+    "The apparent H08S counterpart is a cropped, unfiltered boundary segment lying inside the extrapolated periodic-airgun mask.",
+    "A fully supported boundary-compatible ten-second test is not unusual relative to panel-e controls.",
+    "The observed central-celerity timing offset is expected under the 9.974-second periodic-pulse phase null.",
+    "If the H01W feature is Kadri Figure 9 rectangle 1, its reported 57-degree bearing is incompatible with the 263.55-degree OSCAR direction.",
+    "Raw three-channel H01W and H08S waveforms are required for coherent waveform, bearing and trials-corrected association tests."
+  ],
+  "energy_control": {
+    "boundary_forward_point_percentile": 0.9031800350555046,
+    "boundary_forward_score": 4.878266714512456,
+    "boundary_four_second_rms_pa": 0.41564846374009934,
+    "boundary_four_second_rms_percentile_among_pulses": 0.6271186440677966,
+    "boundary_to_median_pulse_tail_waveform_correlation": -0.08746330956941313,
+    "corrected_extended_airgun_mask_at_boundary_peak": true,
+    "cycle_window_control_count": 57,
+    "cycle_window_p": 0.631578947368421,
+    "expected_window_maximum_score": 5.32879019994803,
+    "expected_window_maximum_time_s": 9.65,
+    "five_second_tolerance_periodic_phase_probability": 1.0,
+    "forward_component_calibration": [
+      {
+        "robust_centre_rms_pa": 0.22567725867989946,
+        "robust_mad_sigma_pa": 0.0988640729062205,
+        "width_s": 1.0
+      },
+      {
+        "robust_centre_rms_pa": 0.2357076642949093,
+        "robust_mad_sigma_pa": 0.1052671145984605,
+        "width_s": 2.0
+      },
+      {
+        "robust_centre_rms_pa": 0.290274063793061,
+        "robust_mad_sigma_pa": 0.15288077961314553,
+        "width_s": 4.0
+      }
+    ],
+    "forward_score_definition": "maximum robust z-score of fully supported forward RMS over 1 s, 2 s, 4 s windows",
+    "matched_ten_second_control_count": 570,
+    "matched_ten_second_window_p": 0.631578947368421,
+    "original_symmetric_rank20_score_at_boundary_peak": 4.976552256178658,
+    "periodic_phase_probability": 0.9138891518300388,
+    "rank20_maximum_pressure_change_in_first_four_seconds_pa": 0.0
+  },
+  "h01w": {
+    "bearing_difference_deg": 153.45139500623816,
+    "iaaft_panel_max_p": 0.000999000999,
+    "identity_boundary": "The publication vector cannot prove that the 00:52:04.350 energy peak is the same event as Kadri Figure 9 rectangle 1.",
+    "local_energy_score": 11.8980253,
+    "nearest_source_reported_signal": {
+      "arrival_utc": "2014-03-08T00:52:00Z",
+      "bearing_deg": 57.0,
+      "source": "Kadri 2024 Figure 9 rectangle 1"
+    },
+    "oscar_expected_bearing_deg": 263.54860499376184,
+    "source_reported_bearing_deg": 57.0
+  },
+  "limits": [
+    "already-filtered and raster-independent PDF-vector traces rather than raw CTBTO channels",
+    "post-hoc inspection of the OSCAR alignment",
+    "one-sided forward-energy controls are descriptive and not calibrated receiver false-alarm probabilities",
+    "pulse-cadence null does not establish that the cropped boundary waveform is an airgun pulse",
+    "source-reported H01W bearing cannot be attached to the screened peak from the single plotted pressure trace alone"
+  ],
+  "status": "WORTHY_OF_RAW_DATA_FOLLOWUP_BUT_NOT_SIGNIFICANT_IN_BOUNDARY_MATCHED_PUBLICATION_TRACE_CONTROL",
+  "timing": {
+    "celerity_range_h08_panel_time_s": [
+      -43.12683321622944,
+      57.95935095375603
+    ],
+    "central_expected_h08_panel_time_s": 5.057581238130297,
+    "central_expected_window_s": [
+      0.0575812381302967,
+      10.057581238130297
+    ],
+    "h01w_arrival_utc": "2014-03-08T00:52:04.350Z",
+    "h08s_arrival_utc": "2014-03-08T01:10:00.500Z",
+    "observed_interstation_lag_s": 1076.1500000953674,
+    "oscar_distance_difference_km": 1621.0613720002466,
+    "oscar_predicted_interstation_lag_s": 1080.7075813334977,
+    "pair_implied_celerity_km_s": 1.5063526198546575,
+    "source_time_offset_s": -4.557581238130297,
+    "visible_periodic_centres_in_celerity_window": 5
+  }
+}

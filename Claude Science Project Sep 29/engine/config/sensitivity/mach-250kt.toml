@@ -1,0 +1,31 @@
+# Sensitivity: Mach drawn from 0.41-0.86, so that 250 kt true airspeed is reachable anywhere in
+# the 25,000-43,000 ft altitude prior. 250 kt TAS is Mach 0.415 at 25,000 ft and Mach 0.436 at
+# 43,000 ft on a standard atmosphere, so a floor of 0.41 covers the whole band (247 kt at
+# 25,000 ft, 235 kt at 43,000 ft); the existing `mach-wide` floor of 0.50 bottoms out at 287-301
+# kt and cannot reach it. The ceiling stays at 0.86, just under the 777's MMO of 0.87.
+#
+# Why: the 18:25-18:28 BTOs prefer 336-400 kt against 516 kt at the last radar point
+# (report/early_path_fit.py), and a 0.73 floor deweights anything slower a priori.
+#
+# What this run is and is not. It tests whether BTO and BFO alone prefer slower paths. It does
+# not make those paths flyable: 250 kt TAS is about 139 kt calibrated at 35,000 ft, far below a
+# 777-200ER's minimum clean speed at these weights, and neither fuel endurance nor an
+# aerodynamic envelope is modelled here, so slow flight carries no penalty of either kind. Read
+# the posterior weight of the slow component as an upper bound, not an estimate. The feasible
+# speed prior and the fuel model are the two pieces that would make it an estimate.
+#
+# Eight replicates, not the four used by `mach-wide` and `complex-manoeuvres`: at four the
+# split-half overlap was 0.887, just under the 0.90 floor in report/convergence.py, so the run
+# was not quotable. Widening the Mach prior spreads the particles further and costs convergence.
+name = "mach-250kt"
+seeds = [1, 2, 3, 4, 5, 6, 7, 8]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[dynamics]
+mach_range = [0.41, 0.86]
+
+[output]
+history_after_epoch = "m1839"

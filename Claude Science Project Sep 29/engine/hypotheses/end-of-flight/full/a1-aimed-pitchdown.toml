@@ -1,0 +1,8 @@
+# A1 coverage fix for H1/H2 (architecture 00:05Z 12 Oct; Pete: aimed pitch-down plus more parents). PROVISIONAL.
+# The interim pitch-down start is drawn from a three-part mixture relative to 00:19:29.416: 0.5 uniform in [-150, -40] s (the
+# A1 rows that reach the H1/H2 burst states in the full sweep pitched down 70-140 s before 00:19:29 and arrive through the phugoid),
+# 0.3 uniform in [-15, +6] s (a pulse during the bursts), 0.2 from the prior U[0, 900] s after the free phase begins. Exact
+# ln(prior/proposal) in the profile correction (unnormalised within-parent weights). The prior is unchanged.
+# Pass after holland-estimable.toml.
+[hypotheses.end-of-flight.envelope]
+pitchdown_target_components = [[-150.0, -40.0, 0.5], [-15.0, 6.0, 0.3]]

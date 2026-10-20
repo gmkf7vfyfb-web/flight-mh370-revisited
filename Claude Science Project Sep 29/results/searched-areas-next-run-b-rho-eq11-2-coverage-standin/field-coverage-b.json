@@ -1,0 +1,287 @@
+{
+ "source": "/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/770a0941-603a-4490-929c-9fdb91cd5434/field",
+ "tag": "nrb",
+ "constraint": "unpowered",
+ "runs": {
+  "00:19 Held Out | reweighted": {
+   "set": "A",
+   "step": 5,
+   "outcomes": 40000,
+   "settled_elements": 2129564,
+   "rho": 0.05,
+   "point": {
+    "Z": 0.6867463727556987,
+    "mass_removed": 0.3132536272443013,
+    "mean_phase2_coverage": 0.3489240369193617
+   },
+   "mean": {
+    "Z": 0.6868863669978391,
+    "mass_removed": 0.3131136330021609,
+    "mean_phase2_coverage": 0.34876757247586593
+   },
+   "any": {
+    "Z": 0.6651376313891244,
+    "mass_removed": 0.3348623686108756,
+    "mean_phase2_coverage": 0.37297799344012883
+   },
+   "mean_minus_point_phase2": {
+    "mean": -0.00015646444349577001,
+    "sd": 0.022446689237638436,
+    "share_abs_gt_0.05": 0.0214,
+    "share_abs_gt_0.25": 0.00195,
+    "share_point_zero_field_covered": 0.0224,
+    "share_point_covered_field_zero": 2.5e-05
+   },
+   "option": "00:19 Held Out",
+   "mixture": "reweighted",
+   "outcomes_in_mixture": 200000,
+   "p_family": {
+    "next-free": 0.6945986595061164,
+    "next-repro-radar": 0.15225710026168846,
+    "next-descent-climb": 0.13834247983036654,
+    "next-routes": 0.014801760401828613
+   },
+   "ess_mixture_kish": 20980512.26125495
+  },
+  "00:19 Held Out | fixed": {
+   "set": "A",
+   "step": 5,
+   "outcomes": 40001,
+   "settled_elements": 2129901,
+   "rho": 0.05,
+   "point": {
+    "Z": 0.6857027781294938,
+    "mass_removed": 0.31429722187050624,
+    "mean_phase2_coverage": 0.3500943713400235
+   },
+   "mean": {
+    "Z": 0.6857689481333005,
+    "mass_removed": 0.31423105186669953,
+    "mean_phase2_coverage": 0.35002066484734007
+   },
+   "any": {
+    "Z": 0.6637815769913225,
+    "mass_removed": 0.33621842300867755,
+    "mean_phase2_coverage": 0.3745123063310248
+   },
+   "mean_minus_point_phase2": {
+    "mean": -7.370649268347613e-05,
+    "sd": 0.022475011776410366,
+    "share_abs_gt_0.05": 0.021574460638484037,
+    "share_abs_gt_0.25": 0.0018749531261718457,
+    "share_point_zero_field_covered": 0.02304942376440589,
+    "share_point_covered_field_zero": 2.499937501562461e-05
+   },
+   "option": "00:19 Held Out",
+   "mixture": "fixed",
+   "outcomes_in_mixture": 200004,
+   "p_family": {
+    "next-free": 0.6947721530492059,
+    "next-repro-radar": 0.15271743570298557,
+    "next-descent-climb": 0.137594663061475,
+    "next-routes": 0.014915748186333568
+   },
+   "ess_mixture_kish": 20973322.340477057
+  },
+  "00:19 R600 BTO Only | reweighted": {
+   "set": "A",
+   "step": 1,
+   "outcomes": 40000,
+   "settled_elements": 2088749,
+   "rho": 0.05,
+   "point": {
+    "Z": 0.6731630722587987,
+    "mass_removed": 0.3268369277412013,
+    "mean_phase2_coverage": 0.36406229767886517
+   },
+   "mean": {
+    "Z": 0.6730541350014685,
+    "mass_removed": 0.3269458649985315,
+    "mean_phase2_coverage": 0.3641836424377962
+   },
+   "any": {
+    "Z": 0.651137414128685,
+    "mass_removed": 0.348862585871315,
+    "mean_phase2_coverage": 0.38859658687977167
+   },
+   "mean_minus_point_phase2": {
+    "mean": 0.00012134475893099872,
+    "sd": 0.021233792039064347,
+    "share_abs_gt_0.05": 0.01935,
+    "share_abs_gt_0.25": 0.001725,
+    "share_point_zero_field_covered": 0.022925,
+    "share_point_covered_field_zero": 0.0
+   },
+   "option": "00:19 R600 BTO Only",
+   "mixture": "reweighted",
+   "outcomes_in_mixture": 40000,
+   "p_family": {
+    "next-free": 0.6971502264579883,
+    "next-repro-radar": 0.13864934130396464,
+    "next-descent-climb": 0.1477982310516779,
+    "next-routes": 0.01640220118636912
+   },
+   "ess_mixture_kish": 13004630.055922618
+  },
+  "00:19 R600 BTO Only | fixed": {
+   "set": "A",
+   "step": 1,
+   "outcomes": 40000,
+   "settled_elements": 2088590,
+   "rho": 0.05,
+   "point": {
+    "Z": 0.67396437746753,
+    "mass_removed": 0.32603562253247,
+    "mean_phase2_coverage": 0.36316972713168477
+   },
+   "mean": {
+    "Z": 0.6738721484486154,
+    "mass_removed": 0.3261278515513846,
+    "mean_phase2_coverage": 0.36327246065317137
+   },
+   "any": {
+    "Z": 0.6520082748797735,
+    "mass_removed": 0.34799172512022647,
+    "mean_phase2_coverage": 0.38762653870256364
+   },
+   "mean_minus_point_phase2": {
+    "mean": 0.00010273352148656394,
+    "sd": 0.021353278903678864,
+    "share_abs_gt_0.05": 0.0194,
+    "share_abs_gt_0.25": 0.001775,
+    "share_point_zero_field_covered": 0.022925,
+    "share_point_covered_field_zero": 0.0
+   },
+   "option": "00:19 R600 BTO Only",
+   "mixture": "fixed",
+   "outcomes_in_mixture": 40000,
+   "p_family": {
+    "next-free": 0.6947721530492059,
+    "next-repro-radar": 0.15271743570298557,
+    "next-descent-climb": 0.137594663061475,
+    "next-routes": 0.014915748186333568
+   },
+   "ess_mixture_kish": 13045697.292628318
+  },
+  "00:19 R600 BTO + Raw BFO | reweighted": {
+   "set": "A",
+   "step": 1,
+   "outcomes": 40000,
+   "settled_elements": 2086610,
+   "rho": 0.05,
+   "point": {
+    "Z": 0.5084790956077182,
+    "mass_removed": 0.4915209043922818,
+    "mean_phase2_coverage": 0.5475030959535304
+   },
+   "mean": {
+    "Z": 0.5080974313143057,
+    "mass_removed": 0.49190256868569426,
+    "mean_phase2_coverage": 0.5479282302263373
+   },
+   "any": {
+    "Z": 0.47673220660899335,
+    "mass_removed": 0.5232677933910066,
+    "mean_phase2_coverage": 0.5828658238830483
+   },
+   "mean_minus_point_phase2": {
+    "mean": 0.0004251342728068973,
+    "sd": 0.02909943770627124,
+    "share_abs_gt_0.05": 0.029925,
+    "share_abs_gt_0.25": 0.0039,
+    "share_point_zero_field_covered": 0.032775,
+    "share_point_covered_field_zero": 0.0
+   },
+   "option": "00:19 R600 BTO + Raw BFO",
+   "mixture": "reweighted",
+   "outcomes_in_mixture": 40000,
+   "p_family": {
+    "next-free": 0.638817690139958,
+    "next-repro-radar": 0.13953015433381613,
+    "next-descent-climb": 0.20408754718364064,
+    "next-routes": 0.017564608342585237
+   },
+   "ess_mixture_kish": 509632.4515226682
+  },
+  "00:19 R600 BTO + Raw BFO | fixed": {
+   "set": "A",
+   "step": 1,
+   "outcomes": 40000,
+   "settled_elements": 2088805,
+   "rho": 0.05,
+   "point": {
+    "Z": 0.5078930483226315,
+    "mass_removed": 0.4921069516773685,
+    "mean_phase2_coverage": 0.5481558915927245
+   },
+   "mean": {
+    "Z": 0.5075692457043355,
+    "mass_removed": 0.4924307542956645,
+    "mean_phase2_coverage": 0.5485165739857026
+   },
+   "any": {
+    "Z": 0.47596298322059,
+    "mass_removed": 0.52403701677941,
+    "mean_phase2_coverage": 0.5837226586236814
+   },
+   "mean_minus_point_phase2": {
+    "mean": 0.0003606823929781938,
+    "sd": 0.02949412629046553,
+    "share_abs_gt_0.05": 0.030675,
+    "share_abs_gt_0.25": 0.003925,
+    "share_point_zero_field_covered": 0.033075,
+    "share_point_covered_field_zero": 0.0
+   },
+   "option": "00:19 R600 BTO + Raw BFO",
+   "mixture": "fixed",
+   "outcomes_in_mixture": 40000,
+   "p_family": {
+    "next-free": 0.6947721530492059,
+    "next-repro-radar": 0.15271743570298557,
+    "next-descent-climb": 0.137594663061475,
+    "next-routes": 0.014915748186333568
+   },
+   "ess_mixture_kish": 449245.36651528155
+  },
+  "00:19 Holland H1 | reweighted": {
+   "option": "00:19 Holland H1",
+   "mixture": "reweighted",
+   "not_run": true,
+   "reason": "module key row*1000+draw overflows",
+   "max_draws_per_impact": 1638,
+   "distinct_impacts": 832,
+   "outcomes_in_mixture": 40000,
+   "ess_mixture_kish": 85.6199567987251
+  },
+  "00:19 Holland H1 | fixed": {
+   "option": "00:19 Holland H1",
+   "mixture": "fixed",
+   "not_run": true,
+   "reason": "module key row*1000+draw overflows",
+   "max_draws_per_impact": 1638,
+   "distinct_impacts": 832,
+   "outcomes_in_mixture": 40000,
+   "ess_mixture_kish": 85.6199567987251
+  },
+  "00:19 Holland H2 | reweighted": {
+   "option": "00:19 Holland H2",
+   "mixture": "reweighted",
+   "not_run": true,
+   "reason": "module key row*1000+draw overflows",
+   "max_draws_per_impact": 1038,
+   "distinct_impacts": 1033,
+   "outcomes_in_mixture": 40000,
+   "ess_mixture_kish": 123.52805145721166
+  },
+  "00:19 Holland H2 | fixed": {
+   "option": "00:19 Holland H2",
+   "mixture": "fixed",
+   "not_run": true,
+   "reason": "module key row*1000+draw overflows",
+   "max_draws_per_impact": 1038,
+   "distinct_impacts": 1033,
+   "outcomes_in_mixture": 40000,
+   "ess_mixture_kish": 123.52805145721166
+  }
+ }
+}

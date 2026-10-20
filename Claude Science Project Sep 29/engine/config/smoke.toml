@@ -1,0 +1,8 @@
+# Override for quick iteration: `mh370 <config> config/smoke.toml <out>` (about one minute).
+# Smoke results are for checking code paths, never for conclusions.
+particles_per_mode = [20_000, 20_000, 20_000, 20_000, 20_000]
+seeds = [1, 2]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true

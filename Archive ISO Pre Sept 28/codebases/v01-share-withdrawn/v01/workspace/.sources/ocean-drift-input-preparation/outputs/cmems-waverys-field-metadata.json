@@ -1,0 +1,89 @@
+{
+  "axis_order": [
+    "time",
+    "latitude",
+    "longitude"
+  ],
+  "binary_format": "MHGRID schema 3 little-endian packed i16 with distinct persistent-land sentinel",
+  "binary_sha256": "ca98420ad3ee5d7a59d69c85d78e5ba8fc5216862c4c8e26357c1eeb7b9767fe",
+  "component_units": {
+    "u": "m s-1 east surface Stokes",
+    "v": "m s-1 north surface Stokes"
+  },
+  "converter_version": "ocean-input-preparation-v4",
+  "dataset_id": "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+  "dataset_part": "default",
+  "dataset_version": "202411",
+  "family": "cmems_waverys_reanalysis",
+  "field_role": "stokes",
+  "finite_component_fractions_including_land": {
+    "u": 0.6776354406423314,
+    "v": 0.6776354406423314
+  },
+  "first_time_unix_seconds": 1394150400.0,
+  "last_time_unix_seconds": 1438290000.0,
+  "latitude_spacing_degrees": [
+    0.19999695,
+    0.19999886,
+    0.19999981,
+    0.19999993,
+    0.19999999,
+    0.2,
+    0.20000002,
+    0.20000005,
+    0.20000029,
+    0.20000076
+  ],
+  "latitude_units": "degrees_north WGS84",
+  "limitations": [
+    "WAVERYS is assimilative through significant-wave-height observations and uses GLORYS12 currents in the wave calculation.",
+    "The field is surface Stokes velocity; a partially submerged flaperon response is represented only through an explicit scale sensitivity in transport configuration.",
+    "Land and any missing ocean value remain the packed missing sentinel; no missing value is converted to zero velocity.",
+    "Direct aerodynamic windage and object-specific residual leeway remain separate model terms."
+  ],
+  "longitude_spacing_degrees": [
+    0.19999695,
+    0.19999886,
+    0.19999981,
+    0.20000076,
+    0.20000458,
+    0.20001221
+  ],
+  "longitude_units": "degrees_east WGS84",
+  "maximum_time_gap_hours": 3.0,
+  "name": "CMEMS WAVERYS MFWAM three-hourly native-grid surface Stokes velocity",
+  "packing": {
+    "add_offset": 0.0,
+    "encoding": "signed i16",
+    "missing_value": -30000,
+    "persistent_land_mask_value": -29999,
+    "scale_factor": 0.001
+  },
+  "persistent_missing_mask_audit": {
+    "changed_cells": 0,
+    "intermittently_missing_cells": 0,
+    "interpretation": "The invariant upstream mask is preserved in the Stokes field and exported separately as explicit coastal support; finite-corner renormalization remains an explicit run choice.",
+    "missing_fraction": 0.3223645593576686,
+    "persistent_missing_cells": 90617,
+    "time_component_comparisons": 8175
+  },
+  "product_id": "GLOBAL_MULTIYEAR_WAV_001_032",
+  "retrieval_manifest": {
+    "path": ".sources/ocean-drift-input-preparation/outputs/cmems-waverys-retrieval-manifest.json",
+    "sha256": "4790a438a3938686e7b778e417ff6d9245f6d84be9f8a79e17c73aca07a59cd0"
+  },
+  "schema": "mh370-gridded-field-input-v2",
+  "source_file_bytes": 401562256,
+  "source_file_count": 17,
+  "spatial_bounds_degrees": {
+    "east": 150.0,
+    "north": 30.0,
+    "south": -50.0,
+    "west": 10.0
+  },
+  "time_axis": "UTC Unix seconds; upstream three-hourly instantaneous analyses",
+  "time_count": 4088,
+  "time_gap_counts_hours": {
+    "3": 4087
+  }
+}

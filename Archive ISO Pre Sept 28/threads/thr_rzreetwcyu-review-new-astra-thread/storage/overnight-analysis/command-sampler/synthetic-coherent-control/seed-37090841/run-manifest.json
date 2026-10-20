@@ -1,0 +1,40 @@
+{
+  "command": [
+    "/tmp/mh370-command-sampler/sampler.py",
+    "--counts",
+    "1",
+    "0",
+    "0",
+    "--particles",
+    "256",
+    "--moves",
+    "12",
+    "--workers",
+    "2",
+    "--seed",
+    "37090841",
+    "--seconds",
+    "225",
+    "--config",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/synthetic-command-control/mh370-synthetic-command.toml",
+    "--no-fuel-condition",
+    "--witnesses",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/synthetic-command-control/guides/guides.jsonl",
+    "--output",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/command-sampler/synthetic-coherent-control/seed-37090841"
+  ],
+  "seed": 37090841,
+  "particles": 256,
+  "status": "unvalidated conditional sampling experiment",
+  "input_sha256": {
+    "/tmp/mh370-command-sampler/sampler.py": "153824d6fe8fd02880514497aca15c7e131958d2e383fdffe61a15e45259ae26",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/synthetic-command-control/mh370-synthetic-command.toml": "84c4fb085e139c7b99a3971241af2daca881288c6a3ff30603161f3c56e27a52",
+    "/jackbox/home/MH370/target/release/mh370": "88bdba22947b50a88d4cd5d1608c98c617654412c220ce1cd05a1a07d0be73eb",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/synthetic-command-control/guides/guides.jsonl": "6651665cf196602c0e2e770e91e5f0dd067da1677b01cd20d3d34bdea5548ef6",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/synthetic-command-control/observations.csv": "d9bd1590a13c8bf1c856076e5481d3d6dceb80a25f85e278f8b9c3f70b0fe094",
+    "/jackbox/home/MH370/inputs/accident/satellite-through-0011.csv": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+    "/jackbox/home/MH370/inputs/environment/mh370-era5-grid.bin": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4",
+    "/jackbox/home/MH370/inputs/environment/mh370-igrf14-grid.bin": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1"
+  },
+  "numpy_version": "2.5.2"
+}

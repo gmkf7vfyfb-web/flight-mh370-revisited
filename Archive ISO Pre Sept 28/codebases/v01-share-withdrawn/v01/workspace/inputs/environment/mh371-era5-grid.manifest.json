@@ -1,0 +1,138 @@
+{
+  "schema_version": "mh371-era5-grid-manifest-v1",
+  "status": "extracted_from_arco_era5",
+  "source": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3",
+  "source_access_revision": "google-research/arco-era5@8fb5e9b982f489ba91af3ced9ce0b0a8ade8dd7d",
+  "source_attributes": {
+    "valid_time_start": "1940-01-01",
+    "valid_time_stop": "2026-04-30",
+    "last_updated": "2026-08-24 02:50:48.435893+00:00"
+  },
+  "times_utc": [
+    "2014-03-07T01:00:00",
+    "2014-03-07T02:00:00",
+    "2014-03-07T03:00:00",
+    "2014-03-07T04:00:00",
+    "2014-03-07T05:00:00",
+    "2014-03-07T06:00:00",
+    "2014-03-07T07:00:00",
+    "2014-03-07T08:00:00"
+  ],
+  "source_pressure_levels_hpa": [
+    150,
+    175,
+    200,
+    225,
+    250,
+    300,
+    350,
+    400,
+    450,
+    500,
+    550,
+    600,
+    650,
+    700
+  ],
+  "flight_levels_ft": [
+    10000,
+    15000,
+    20000,
+    25000,
+    30000,
+    35000,
+    40000,
+    43000
+  ],
+  "flight_level_pressure_interpolation": [
+    {
+      "target_pressure_hpa": 696.8164162360137,
+      "lower_source_hpa": 650.0,
+      "upper_source_hpa": 700.0,
+      "log_pressure_weight_to_upper": 0.9384904189926336
+    },
+    {
+      "target_pressure_hpa": 571.8194184101366,
+      "lower_source_hpa": 550.0,
+      "upper_source_hpa": 600.0,
+      "log_pressure_weight_to_upper": 0.44712499186566496
+    },
+    {
+      "target_pressure_hpa": 465.6323923628082,
+      "lower_source_hpa": 450.0,
+      "upper_source_hpa": 500.0,
+      "log_pressure_weight_to_upper": 0.32411461016158516
+    },
+    {
+      "target_pressure_hpa": 376.0089029857536,
+      "lower_source_hpa": 350.0,
+      "upper_source_hpa": 400.0,
+      "log_pressure_weight_to_upper": 0.5368001139722183
+    },
+    {
+      "target_pressure_hpa": 300.8956253743883,
+      "lower_source_hpa": 300.0,
+      "upper_source_hpa": 350.0,
+      "log_pressure_weight_to_upper": 0.019338029566215165
+    },
+    {
+      "target_pressure_hpa": 238.4227292089148,
+      "lower_source_hpa": 225.0,
+      "upper_source_hpa": 250.0,
+      "log_pressure_weight_to_upper": 0.5499675919558962
+    },
+    {
+      "target_pressure_hpa": 187.5390288603344,
+      "lower_source_hpa": 175.0,
+      "upper_source_hpa": 200.0,
+      "log_pressure_weight_to_upper": 0.5182377146496167
+    },
+    {
+      "target_pressure_hpa": 162.35683386635253,
+      "lower_source_hpa": 150.0,
+      "upper_source_hpa": 175.0,
+      "log_pressure_weight_to_upper": 0.5135319355907861
+    }
+  ],
+  "latitude_bounds_deg": [
+    -15.0,
+    60.0
+  ],
+  "longitude_bounds_deg": [
+    75.0,
+    140.0
+  ],
+  "grid_step_deg": 0.5,
+  "variables_in_binary_order": [
+    "temperature_k",
+    "wind_east_m_s",
+    "wind_north_m_s"
+  ],
+  "binary_format": {
+    "magic": "MHERA5V1",
+    "byte_order": "little_endian",
+    "axis_order": [
+      "time",
+      "flight_level",
+      "latitude",
+      "longitude"
+    ],
+    "axis_types": [
+      "int64_unix_seconds",
+      "float32",
+      "float32",
+      "float32"
+    ],
+    "field_type": "float32"
+  },
+  "array_shape_time_flight_level_lat_lon": [
+    8,
+    8,
+    151,
+    131
+  ],
+  "output_path": "mh371/2014-03-07/mh371-era5-grid.bin",
+  "output_sha256": "0419e87362969f9ac1bc948b7461a471e998fa52d369f59a3a66a5c4e1c52b40",
+  "output_bytes": 15193056,
+  "elapsed_seconds": 10.291491868
+}

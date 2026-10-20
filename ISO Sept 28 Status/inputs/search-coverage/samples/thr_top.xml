@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0" xmlns:xlink="http://www.w3.org/1999/xlink" name="THREDDS Master Catalog" version="1.2">
+  <service name="all" serviceType="compound" base="">
+    <service name="ncdods" serviceType="OPENDAP" base="/thredds/dodsC/" />
+    <service name="HTTPServer" serviceType="HTTPServer" base="/thredds/fileServer/" />
+    <service name="wms" serviceType="WMS" base="/thredds/wms/" />
+    <service name="wcs" serviceType="WCS" base="/thredds/wcs/" />
+    <service name="subsetServer" serviceType="NetcdfSubset" base="/thredds/ncss/" />
+    <service name="ncml" serviceType="NCML" base="/thredds/ncml/" />
+    <service name="uddc" serviceType="UDDC" base="/thredds/uddc/" />
+    <service name="iso" serviceType="ISO" base="/thredds/iso/" />
+  </service>
+  <service name="licenses" serviceType="Compound" base="">
+    <service name="HTTPServer" serviceType="HTTPServer" base="/thredds/fileServer/" />
+  </service>
+  <catalogRef xlink:href="/thredds/catalog/thredds-readme/catalog.xml" xlink:title="THREDDS README" ID="thredds-readme" name="THREDDS README">
+    <serviceName>licenses</serviceName>
+    <property name="DatasetScan" value="true" />
+  </catalogRef>
+  <catalogRef xlink:href="catalogs/ig45/catalog.xml" xlink:title="10 and 20km Regional Projections from the Queensland Future Climate Science Program (ig45)" name="10 and 20km Regional Projections from the Queensland Future Climate Science Program (ig45)" />
+  <catalogRef xlink:href="catalogs/de95/catalog.xml" xlink:title="1000 Genomes Project ONT Long Read Sequencing Consortium Collection (1KGP-ONT) (de95)" name="1000 Genomes Project ONT Long Read Sequencing Consortium Collection (1KGP-ONT) (de95)" />
+  <catalogRef xlink:href="catalogs/fj9/catalog.xml" xlink:title="3D Geological models of Australia (fj9)" name="3D Geological models of Australia (fj9)" />
+  <catalogRef xlink:href="catalogs/ia89/catalog.xml" xlink:title="400m resolution ACCESS limited-area simulation over Australia v1 (ia89)" name="400m resolution ACCESS limited-area simulation over Australia v1 (ia89)" />
+  <catalogRef xlink:href="catalogs/bs94/catalog.xml" xlink:title="ACCESS Regional Model Datasets (bs94)" name="ACCESS Regional Model Datasets (bs94)" />
+  <catalogRef xlink:href="catalogs/wb00/catalog.xml" xlink:title="AI/DL reference data collections (wb00)" name="AI/DL reference data collections (wb00)" />
+  <catalogRef xlink:href="catalogs/gh70/catalog.xml" xlink:title="ANUClimate 2.0 (gh70)" name="ANUClimate 2.0 (gh70)" />
+  <catalogRef xlink:href="catalogs/fx2/catalog.xml" xlink:title="ANU Computational Tomography imagery of paleo-mammals (fx2)" name="ANU Computational Tomography imagery of paleo-mammals (fx2)" />
+  <catalogRef xlink:href="catalogs/ub8/catalog.xml" xlink:title="ANU Water and Landscape Dynamics (ub8)" name="ANU Water and Landscape Dynamics (ub8)" />
+  <catalogRef xlink:href="catalogs/wr45/catalog.xml" xlink:title="APS3 ACCESS Numerical Weather Prediction (NWP) Models (wr45)" name="APS3 ACCESS Numerical Weather Prediction (NWP) Models (wr45)" />
+  <catalogRef xlink:href="catalogs/ks32/catalog.xml" xlink:title="ARC Centre of Excellence for Climate System Science Datasets Collection (ks32)" name="ARC Centre of Excellence for Climate System Science Datasets Collection (ks32)" />
+  <catalogRef xlink:href="catalogs/rq0/catalog.xml" xlink:title="AURA - Operational Radar Network Archive (rq0)" name="AURA - Operational Radar Network Archive (rq0)" />
+  <catalogRef xlink:href="catalogs/rs07/catalog.xml" xlink:title="AuScope Australian National Virtual Core Library (NVCL) Collection (rs07)" name="AuScope Australian National Virtual Core Library (NVCL) Collection (rs07)" />
+  <catalogRef xlink:href="catalogs/zw76/catalog.xml" xlink:title="AuScope Distributed Acoustic Sensing (DAS) Collection (zw76)" name="AuScope Distributed Acoustic Sensing (DAS) Collection (zw76)" />
+  <catalogRef xlink:href="catalogs/my80/catalog.xml" xlink:title="AuScope Magnetotellurics (MT) Collection (my80)" name="AuScope Magnetotellurics (MT) Collection (my80)" />
+  <catalogRef xlink:href="catalogs/sg71/catalog.xml" xlink:title="AuScope WA-Array (sg71)" name="AuScope WA-Array (sg71)" />
+  <catalogRef xlink:href="catalogs/qt52/catalog.xml" xlink:title="AusPass Passive Seismic Collection (qt52)" name="AusPass Passive Seismic Collection (qt52)" />
+  <catalogRef xlink:href="catalogs/yj45/catalog.xml" xlink:title="Australian Climate Observations Reference Network (yj45)" name="Australian Climate Observations Reference Network (yj45)" />
+  <catalogRef xlink:href="catalogs/zv2/catalog.xml" xlink:title="Australian Gridded Climate Data (AGCD) (zv2)" name="Australian Gridded Climate Data (AGCD) (zv2)" />
+  <catalogRef xlink:href="catalogs/u39/catalog.xml" xlink:title="Australian Moderate Resolution Satellite Products (u39)" name="Australian Moderate Resolution Satellite Products (u39)" />
+  <catalogRef xlink:href="catalogs/rr2/catalog.xml" xlink:title="Australian National Geophysical Data Collection (rr2)" name="Australian National Geophysical Data Collection (rr2)" />
+  <catalogRef xlink:href="catalogs/fj6/catalog.xml" xlink:title="Australian Natural Hazards Data Archive (fj6)" name="Australian Natural Hazards Data Archive (fj6)" />
+  <catalogRef xlink:href="catalogs/fj7/catalog.xml" xlink:title="Australian Regional Copernicus Data Hub (fj7)" name="Australian Regional Copernicus Data Hub (fj7)" />
+  <catalogRef xlink:href="catalogs/hj10/catalog.xml" xlink:title="Australian Research Radar Archive (hj10)" name="Australian Research Radar Archive (hj10)" />
+  <catalogRef xlink:href="catalogs/gb6/catalog.xml" xlink:title="Bluelink Ocean Reanalysis (BRAN) and OFAM (gb6)" name="Bluelink Ocean Reanalysis (BRAN) and OFAM (gb6)" />
+  <catalogRef xlink:href="catalogs/py18/catalog.xml" xlink:title="Bureau of Meteorology Atmospheric Regional Projections for Australia (BARPA) (py18)" name="Bureau of Meteorology Atmospheric Regional Projections for Australia (BARPA) (py18)" />
+  <catalogRef xlink:href="catalogs/iu04/catalog.xml" xlink:title="The Bureau of Meteorology Australian Water Outlook Service Data Collection (iu04)" name="The Bureau of Meteorology Australian Water Outlook Service Data Collection (iu04)" />
+  <catalogRef xlink:href="catalogs/cj37/catalog.xml" xlink:title="BARRA Product suite (Bureau of Meteorology Atmospheric high-resolution Regional Reanalysis for Australia) (cj37)" name="BARRA Product suite (Bureau of Meteorology Atmospheric high-resolution Regional Reanalysis for Australia) (cj37)" />
+  <catalogRef xlink:href="catalogs/ob53/catalog.xml" xlink:title="Bureau of Meteorology Atmospheric high-resolution Regional Reanalysis for Australia – Version 2 (BARRA2) (ob53)" name="Bureau of Meteorology Atmospheric high-resolution Regional Reanalysis for Australia – Version 2 (BARRA2) (ob53)" />
+  <catalogRef xlink:href="catalogs/fx31/catalog.xml" xlink:title="The Bureau of Meteorology Research Data Publications (fx31)" name="The Bureau of Meteorology Research Data Publications (fx31)" />
+  <catalogRef xlink:href="catalogs/rv74/catalog.xml" xlink:title="Bureau of Meteorology Satellite Derived Products (rv74)" name="Bureau of Meteorology Satellite Derived Products (rv74)" />
+  <catalogRef xlink:href="catalogs/gc63/catalog.xml" xlink:title="Bureau of Meteorology Satellite Low Level Data (gc63)" name="Bureau of Meteorology Satellite Low Level Data (gc63)" />
+  <catalogRef xlink:href="catalogs/ra22/catalog.xml" xlink:title="Bureau of Meteorology Satellite Observations (ra22)" name="Bureau of Meteorology Satellite Observations (ra22)" />
+  <catalogRef xlink:href="catalogs/qm43/catalog.xml" xlink:title="Bureau of Meteorology Satellite Sea Surface Temperature (SST) Collection (qm43)" name="Bureau of Meteorology Satellite Sea Surface Temperature (SST) Collection (qm43)" />
+  <catalogRef xlink:href="catalogs/fx3/catalog.xml" xlink:title="CSIRO Coastal Modelling Products (eReefs) (fx3)" name="CSIRO Coastal Modelling Products (eReefs) (fx3)" />
+  <catalogRef xlink:href="catalogs/hq89/catalog.xml" xlink:title="CMIP6-era Regional Climate Model data produced with CCAM for the Australian Climate Service (hq89)" name="CMIP6-era Regional Climate Model data produced with CCAM for the Australian Climate Service (hq89)" />
+  <catalogRef xlink:href="catalogs/cj50/catalog.xml" xlink:title="COSIMA Model Output Collection (cj50)" name="COSIMA Model Output Collection (cj50)" />
+  <catalogRef xlink:href="catalogs/kj66/catalog.xml" xlink:title="CORDEX-CMIP6-based regridded and calibrated data for Australia (kj66)" name="CORDEX-CMIP6-based regridded and calibrated data for Australia (kj66)" />
+  <catalogRef xlink:href="catalogs/rr9/catalog.xml" xlink:title="Data Repository of the Ecosystem Modelling and Scaling Infrastructure Facility (DR e-MAST) TERN collection (rr9)" name="Data Repository of the Ecosystem Modelling and Scaling Infrastructure Facility (DR e-MAST) TERN collection (rr9)" />
+  <catalogRef xlink:href="catalogs/tm64/catalog.xml" xlink:title="Data Store of 3D Geological Models (Noddyverse) (tm64)" name="Data Store of 3D Geological Models (Noddyverse) (tm64)" />
+  <catalogRef xlink:href="catalogs/pj6/catalog.xml" xlink:title="Decadal Forecast Project (pj6)" name="Decadal Forecast Project (pj6)" />
+  <catalogRef xlink:href="catalogs/rr3/catalog.xml" xlink:title="Earth System Grid Federation (ESGF) Australian CMIP5-era Datasets (rr3)" name="Earth System Grid Federation (ESGF) Australian CMIP5-era Datasets (rr3)" />
+  <catalogRef xlink:href="catalogs/fs38/catalog.xml" xlink:title="Earth System Grid Federation (ESGF) Australian CMIP6-era Datasets (fs38)" name="Earth System Grid Federation (ESGF) Australian CMIP6-era Datasets (fs38)" />
+  <catalogRef xlink:href="catalogs/rl1/catalog.xml" xlink:title="Geological Survey of Western Australia Geophysics Data Collection (rl1)" name="Geological Survey of Western Australia Geophysics Data Collection (rl1)" />
+  <catalogRef xlink:href="catalogs/iv65/catalog.xml" xlink:title="Geoscience Australia Geophysics Reference Data Collection (iv65)" name="Geoscience Australia Geophysics Reference Data Collection (iv65)" />
+  <catalogRef xlink:href="catalogs/xu18/catalog.xml" xlink:title="Geoscience Australia Landsat Analysis Ready Data Collection 3 (xu18)" name="Geoscience Australia Landsat Analysis Ready Data Collection 3 (xu18)" />
+  <catalogRef xlink:href="catalogs/jw04/catalog.xml" xlink:title="Geoscience Australia Landsat Derivatives Collection 3 (jw04)" name="Geoscience Australia Landsat Derivatives Collection 3 (jw04)" />
+  <catalogRef xlink:href="catalogs/ka08/catalog.xml" xlink:title="Geoscience Australia Sentinel-2 Analysis Ready Data Collection 3 (ka08)" name="Geoscience Australia Sentinel-2 Analysis Ready Data Collection 3 (ka08)" />
+  <catalogRef xlink:href="catalogs/rr1/catalog.xml" xlink:title="Geoscience Australia Elevation and Bathymetry Collection (rr1)" name="Geoscience Australia Elevation and Bathymetry Collection (rr1)" />
+  <catalogRef xlink:href="catalogs/fj5/catalog.xml" xlink:title="Global Navigation Satellite System (GNSS) Data Archive (fj5)" name="Global Navigation Satellite System (GNSS) Data Archive (fj5)" />
+  <catalogRef xlink:href="catalogs/gy85/catalog.xml" xlink:title="Himawari-8 GeoCat 1.0.3 Australian Domain (gy85)" name="Himawari-8 GeoCat 1.0.3 Australian Domain (gy85)" />
+  <catalogRef xlink:href="catalogs/sw36/catalog.xml" xlink:title="Humid-Heat Data Collection (sw36)" name="Humid-Heat Data Collection (sw36)" />
+  <catalogRef xlink:href="catalogs/je95/catalog.xml" xlink:title="Marine Virtual Laboratory Collection (je95)" name="Marine Virtual Laboratory Collection (je95)" />
+  <catalogRef xlink:href="catalogs/nm08/catalog.xml" xlink:title="Model Atlas of the Earth (M@TE) (nm08)" name="Model Atlas of the Earth (M@TE) (nm08)" />
+  <catalogRef xlink:href="catalogs/wx7/catalog.xml" xlink:title="National ASTER Map of Australia (wx7)" name="National ASTER Map of Australia (wx7)" />
+  <catalogRef xlink:href="catalogs/u83/catalog.xml" xlink:title="National Remote Sensing Processing Facility - metadata (u83)" name="National Remote Sensing Processing Facility - metadata (u83)" />
+  <catalogRef xlink:href="catalogs/nd20/catalog.xml" xlink:title="NESP Climate Systems Hub Data Collection (nd20)" name="NESP Climate Systems Hub Data Collection (nd20)" />
+  <catalogRef xlink:href="catalogs/zz63/catalog.xml" xlink:title="NSW and Australian Regional Climate Modelling Version 2.0 (NARCliM2.0) - Climate projections for Australasia and south-east Australia (zz63)" name="NSW and Australian Regional Climate Modelling Version 2.0 (NARCliM2.0) - Climate projections for Australasia and south-east Australia (zz63)" />
+  <catalogRef xlink:href="catalogs/rr6/catalog.xml" xlink:title="Ocean and Marine Modelling and Forecast Products (rr6)" name="Ocean and Marine Modelling and Forecast Products (rr6)" />
+  <catalogRef xlink:href="catalogs/tc43/catalog.xml" xlink:title="Rangeland and Pasture Productivity (RaPP) (tc43)" name="Rangeland and Pasture Productivity (RaPP) (tc43)" />
+  <catalogRef xlink:href="catalogs/ux62/catalog.xml" xlink:title="Seasonal Prediction ACCESS-S2 Hindcast and Supporting Data Assimilation and Initial Conditions (ux62)" name="Seasonal Prediction ACCESS-S2 Hindcast and Supporting Data Assimilation and Initial Conditions (ux62)" />
+  <catalogRef xlink:href="catalogs/kr82/catalog.xml" xlink:title="Western Australia Climate Science Initiative (CSI) downscaling collection (kr82)" name="Western Australia Climate Science Initiative (CSI) downscaling collection (kr82)" />
+  <catalogRef xlink:href="/thredds/catalog/licenses/catalog.xml" xlink:title="License and README files" ID="licenses" name="License and README files">
+    <serviceName>licenses</serviceName>
+    <property name="DatasetScan" value="true" />
+  </catalogRef>
+  <catalogRef xlink:href="catalogs/uc0/catalog.xml" xlink:title="NCI test" name="NCI test" />
+</catalog>

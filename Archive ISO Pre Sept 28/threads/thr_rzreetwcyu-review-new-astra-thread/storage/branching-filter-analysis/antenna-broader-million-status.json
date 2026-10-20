@@ -1,0 +1,35 @@
+{
+  "executable": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/antenna-conditioning-executable",
+  "executable_sha256": "44f5f4cb382dde55a57d82941a0b1ffa9c3c2093a54ff91da17c761e8bf1bc29",
+  "status": "completed",
+  "runs": [
+    {
+      "family": "turns16-mach8-altitude8-vertical-bfo",
+      "seed": 37091713,
+      "config": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/antenna-broader-170000-seed-37091713.json",
+      "output": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/antenna-runs/antenna-broader-170000-seed-37091713",
+      "source_output": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091713",
+      "status": "completed",
+      "configuration_sha256": "b40e654e0f44294f7b54db765c14eba405ce3c8e1448bee65d362df298694f79",
+      "pid": 255517,
+      "elapsed_seconds": 3.619600905,
+      "case_count": 14
+    },
+    {
+      "family": "turns16-mach8-altitude8-vertical-bfo",
+      "seed": 37091714,
+      "config": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/antenna-broader-170000-seed-37091714.json",
+      "output": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/antenna-runs/antenna-broader-170000-seed-37091714",
+      "source_output": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714",
+      "status": "completed",
+      "configuration_sha256": "62c583161c20e023d44942c8b3f96f8e348160421e17de8eccef30d53bb8f697",
+      "pid": 255531,
+      "elapsed_seconds": 3.816381662,
+      "case_count": 14
+    }
+  ],
+  "created_utc": "2026-09-09T13:07:45.288284+00:00",
+  "driver_pid": 255515,
+  "updated_utc": "2026-09-09T13:10:46.104918+00:00",
+  "correction": "Removed descriptive name field not accepted by the strict antenna input schema; prior attempt stopped during configuration parsing. Output-parent creation corrected separately."
+}

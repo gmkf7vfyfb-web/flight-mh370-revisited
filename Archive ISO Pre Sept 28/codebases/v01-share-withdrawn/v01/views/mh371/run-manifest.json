@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "engine_version": "0.1.0",
+  "executable_sha256": "de28b0adc6de796026e6075da614b5e11c78459d4beafbca42f6e30b10758b4b",
+  "command": "infer-known-flight",
+  "status": "complete_truth_separated_bto_bfo_control",
+  "experiment_name": "mh371-cruise-mh370_analog_prior_medium_bfo",
+  "config_path": "configs/mh371-analog-medium.toml",
+  "config_sha256": "3a53487b3ec48f1223490385d2a98a29f35aea17fbb27d6ebcd149bfb3cf0fbe",
+  "inference_path": "inputs/controls/mh371-inference.json",
+  "inference_sha256": "e097dcfb303acb515a8b6bee90450574b88968d647b82d5b3d3eea5bf56c37ec",
+  "weather_path": "inputs/environment/mh371-era5-grid.bin",
+  "weather_sha256": "0419e87362969f9ac1bc948b7461a471e998fa52d369f59a3a66a5c4e1c52b40",
+  "magnetic_path": "inputs/environment/mh371-igrf14-grid.bin",
+  "magnetic_sha256": "16d31a7db48e0440a46b1a77ae7bf2d3fa6963d834a560be20377b68d5390bec",
+  "antenna_observations_path": null,
+  "antenna_observations_sha256": null,
+  "antenna_surface_path": null,
+  "antenna_surface_sha256": null,
+  "algorithm": "bootstrap",
+  "particles_per_seed": 12000,
+  "seeds": [
+    37102001,
+    37102002
+  ],
+  "outputs": {
+    "inference-seed-37102001.json": "64bea4e11fbb36aa6db11bb60c0667dd52e4b01cad7263073f94bd01f83e8a54",
+    "inference-seed-37102002.json": "8e593973523ed8f7e6261ff6dcfa074ced988f7bdde7997bcdeb7fc93642d259",
+    "inference-summary.json": "4c6ac027afce0199e19c8506da892aee28a446ed044ebcf549f32e05fefb53d8"
+  },
+  "limitations": [
+    "known-flight control; not an MH370 accident-flight posterior",
+    "inference command has no scorer-truth argument",
+    "constant-magnetic-heading control uses ERA5 winds, ERA5 temperature, and IGRF14 declination"
+  ]
+}

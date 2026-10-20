@@ -1,0 +1,22 @@
+[package]
+name = "mh370-controls"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+mh370-antenna = { path = "../antenna" }
+mh370-domain = { path = "../domain" }
+mh370-dynamics = { path = "../dynamics" }
+mh370-particle-filter = { path = "../particle-filter" }
+mh370-satcom = { path = "../satcom" }
+rand.workspace = true
+rand_chacha.workspace = true
+rand_distr.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+approx.workspace = true

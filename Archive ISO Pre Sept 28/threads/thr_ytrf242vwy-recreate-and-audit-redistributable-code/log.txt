@@ -1,0 +1,13 @@
+── User ────────────────────────────────────────────────────
+Independently recreate and audit the usable public/redistributable portions of Bobby Ulich's 9M-MRO Fuel Model V5.6 as a source-only study for MH370 Core. Scope all edits to a new descriptive .sources/ulich-mh370-fuel-performance directory; do not edit product crates, runner, estimator, reporting, configs, or other source packages. Pin the preserved workbook at /jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/corpus/repositories/flight-mh370-revisited-e0115e817975d073bdf2b09a428fbce62aeda35c/downloads/MH370/9M-MRO Fuel Model V5.X.xlsm (expected SHA-256 a45373a2c1a66e920510145a45bfd576a316deced64dde472f8fbb86971f75a3). Extract only tables/relationships legally and scientifically supportable, with explicit provenance and units. Independently recreate deterministic interpolation for the B777-200ER Trent 892B cruise/holding/descent families, quantify where confidential Boeing FPPM inputs prevent independent verification, and never use or fit the workbook's assumed MEFE/exhaustion time, 18:22 calibrated 35.3419 t fuel, or 0.45 t SD. Validate limiting cases and the official Malaysian-report ACARS series from 16:41:43 to 17:06:43 (49.2,47.8,46.5,45.4,44.5,43.8 t) only as a coarse quantized burn check. Treat the official 17:06:43 anchor (ZFW 174369 kg, fuel 43800 kg, FL350, M0.821, SAT -43.8 C) as measured/reported, not fitted. Produce a lean versioned machine-readable performance-table handoff, reproducible code/tests, uncertainty/validity statement, runtime, and browser-viewable comparison plots. Explicitly separate ordinary altitude history from the unweighted Pulau Perak reported-height stress family. Report outcome, exact artifacts, whether any performance family is admissible as a conditional initializer, and blockers; stop without product integration.
+
+── Provisioning thread failed ──────────────────────────────
+  Preparing worktree
+  Generating title and branch name
+  Generated title and branch name (2s)
+  Workspace setup failed (8ms)
+  Provisioning thread failed (2s)
+
+── Error ───────────────────────────────────────────────────
+  Provisioning thread failed
+  Path is not a git repository: /jackbox/home/MH370

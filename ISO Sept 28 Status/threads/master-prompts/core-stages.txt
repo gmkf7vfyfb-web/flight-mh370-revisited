@@ -1,0 +1,87 @@
+YOUR JOB: "Core stages & composer" (core work, phase 1 of the modular architecture)
+You build the interface the module threads plug into. This is core work, so the scope is the whole repository except:
+- crates/flight: the core estimator thread's area. The one exception is adding serde derives on Aircraft and Weather for the hand-off; coordinate that with thr_mgewhqvb78.
+- The local app files, crates/mh370/src/describe.rs and crates/mh370/ui/. They belong to the app thread, thr_dkvnnfnn3b. Someone has uncommitted edits to README.md, describe.rs and index.html in the shared checkout, so coordinate through thr_4pbhvf3sxi before touching those files.
+- The runner holds no science. Keep the inference path small enough to read in an afternoon.
+- `make regress` (Davey base byte-identical) must pass at every step. cargo test must stay under a minute. Existing hypotheses keep working unchanged.
+
+DELIVERABLES, IN ORDER
+D1. API proposal first. Send thr_4pbhvf3sxi, before implementing:
+- exact Rust signatures and file layouts for observation ownership (ID scheme, e.g. "m0019a.bto", "m0019a.bfo", "logon-0019");
+- the alternatives type;
+- the impact hook and ImpactView;
+- named predictions;
+- the terminal hook;
+- the hand-off and impacts files;
+- the composer config (e.g. [[compose]] sets);
+- the summary.json additions.
+
+D2. Observation ownership and the 00:11 stop.
+- Reuse `exclude_epochs` for the stop, but hand the excluded epochs to the end-of-flight stage instead of dropping them.
+- Add the 00:19 BFO values and sub-second times to data/satcom-observations.csv, from .archive/.sources/davey-2016-bayesian-search/data/raw_measurement_extract.csv rows 7188 and 7194:
+  - 00:19:29.416, R600, BFO 182 Hz, raw BTO 23,000 µs, which the current table already corrects to 18,400 µs, s.d. 63;
+  - 00:19:37.443, R1200, BFO −2 Hz.
+  The cruise filter must keep ignoring those BFOs (an explicit use flag), so the base doesn't change.
+- The runner rejects a config that consumes any observation twice, and records the assignment in run.json.
+
+D3. Hand-off at the stop epoch.
+- Per replicate, write K trajectories resampled from the final weights, with the mode posterior included.
+- Each carries the full continuation state:
+  - Aircraft, serde-serialised, including the core thread's new guidance state (Weather needs a derive too);
+  - BFO-bias mean and variance;
+  - origin;
+  - weight;
+  - fuel, once the core adds it.
+- Row-align the file the way history.npy is.
+- Test: continuing from the hand-off reproduces a straight-through run for the same random streams, or document why not.
+
+D4. End-of-flight stage (runner orchestration only; the science is in the end-of-flight module). For each hand-off trajectory, N children:
+(a) The terminal module draws a hand-over time per child (e.g. flame-out) from its own model, using uniforms the runner supplies.
+(b) The runner advances the child with the core flight dynamics to that time.
+(c) The module integrates the descent to impact.
+   - The atmosphere comes from the runner, as a service over the core's ERA5 grid. The earlier work needed up to about 60,000 ft and later than 01:00 UTC, so extend the grid if the module asks.
+   - The module returns:
+     - states at the requested SATCOM epochs (position, altitude, velocity including vertical);
+     - the impact record;
+     - a descent-family label;
+     - a log proposal correction, so it can oversample descents near the measured values without biasing the result.
+(d) The runner scores the selected 00:19 observations with the core SATCOM model:
+   - BTO;
+   - BFO, with the parent's Kalman bias.
+   - Optionally, start-up-offset measurement alternatives. Port the quadrature idea from .archive/crates/satcom/src/final_bfo.rs into crates/satcom as an option. Pete questions the start-up-transient assumption, so it is one alternative among several: no offset, an offset model, inflated error.
+(e) Every data option (none, R600 BTO, each BFO, both, …) is written from the same children as separate weight columns, so they can be compared side by side.
+Output impacts.npy per replicate.
+
+D5. A default terminal module, hypotheses/arc-kernel.
+- Impact = the stop-epoch state plus a declared distance-from-arc draw. Tiny.
+- It lets impact modules be exercised before the end-of-flight module exists.
+
+D6. Impact hook, alternatives, composer.
+- Evaluate impact_log_likelihood on impacts.npy for each enabled impact module and alternative. This should take seconds.
+- Evidence sets come from config: e.g. "core", "core+drift", "all", or conditional on an alternative.
+- Compute per-(replicate, mode) evidence increments so summary.rs pooling stays correct.
+- Report ESS per factor and the posterior probability of each alternative.
+- Align shared alternatives by name, and marginalise them jointly across modules (e.g. Σ_m P(m)·L_drift,m·L_pleiades,m).
+- Trajectory-level alternatives run as separate strata, one filter per (mode, alternative), combined by prior × evidence. The core thread will add a per-particle guidance-plan hook on top of this after phase 1: plan(alternative, uniform) → Option<Plan>, where Plan is a plain serde struct the runner maps to flight::Guidance. Route families (N571, P627, LNAV to a destination, holding a track) become alternatives. particles_per_mode becomes per stratum: each alternative gets the per-mode allocation unless the config overrides it.
+- Composed PDFs go on a 2-D equal-area grid in summary.json. Extend summary.rs (use its stats()/upper_edge); don't add a second summariser.
+- Report pages are generic, driven by module metadata.
+
+D7. A small cached fixture run: smoke scale, 00:11 stop, arc-kernel impacts. Add a make target to rebuild it, so module threads can test against it in seconds.
+
+D8. Worktree plumbing.
+- Commit an .iso-env-setup.sh that links data/*.bin, .venv, data/external (→ /jackbox/home/MH370-inputs) and runs/davey2016 from the main checkout into new worktrees.
+- Add /data/external to .gitignore.
+
+TESTS
+- Composition against an analytic case: a Gaussian factor on a Gaussian prior.
+- Rejection of an ownership overlap.
+- Stratified alternatives against analytic evidence.
+- Hand-off round trip.
+
+LATER (keep slots, don't build now)
+- Fuel state in crates/flight, from the core thread after phase 1: fuel remaining, burn rate, exhaustion time and position. The end-of-flight module then takes flame-out time from the fuel state.
+- WSPR and antenna gain as possible trajectory-level modules. Low priority.
+
+MERGING
+- Merge in small steps, rebasing onto main (not merging main into your branch), after cargo test and make regress pass.
+- Announce each merge to thr_4pbhvf3sxi and thr_mgewhqvb78 before it lands.

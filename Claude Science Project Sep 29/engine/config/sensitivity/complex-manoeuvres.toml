@@ -1,0 +1,16 @@
+# Sensitivity: frequent manoeuvres. The manoeuvre time constant tau is restricted to 0.1-1 h
+# (Jeffreys on that range; the estimate uses 0.1-10 h), so paths turn and change speed and
+# altitude several times an hour. Tests how much of the southern concentration comes from
+# the data's preference for few manoeuvres. Records post-18:40 manoeuvre histories.
+name = "complex-manoeuvres"
+seeds = [1, 2, 3, 4]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[dynamics]
+tau_range_h = [0.1, 1.0]
+
+[output]
+history_after_epoch = "m1839"

@@ -1,0 +1,308 @@
+{
+  "schema_id": "pleiades-conditional-source-surface/1.0.0",
+  "handoff_status": "source_only_conditional_proxy_handoff",
+  "identity_conclusion": "unknown",
+  "scientific_claim_boundary": "No surface identifies any image object as MH370 debris or provides an unconditional crash-location posterior.",
+  "conditional_source_hypothesis": {
+    "hypothesis_id": "H_pleiades_rating5_exactly_one_equal_identity",
+    "source_time_utc": "2014-03-08T00:19:00Z",
+    "observation_time_utc": "2014-03-23T04:00:00Z",
+    "source_support": "Declared FL400 seventh-arc strip from 32 degrees S to 39 degrees S and -100 to +100 NM cross-arc.",
+    "identity_model": "Exactly one latent associated object, uniformly weighted across all twelve Geoscience Australia rating-5 locations; the twelve location kernels are averaged analytically.",
+    "implementation_detail": "No object identity is randomly drawn per particle, mask, or source cell.",
+    "equivalence_limit": "A uniform subset with any prior on one-to-twelve members gives the same marginal surface only when selected location likelihoods are arithmetically averaged. It is not equivalent to a joint/product likelihood for multiple debris items.",
+    "literature_scope": "Griffin and Oke's located premise was broader ('at least some'); this handoff uses the narrower explicit computational premise."
+  },
+  "grid": {
+    "grid_id": "seventh_arc_fl400_32s_39s_plusminus100nm_5nm",
+    "file": "grid.csv",
+    "cells": 5289,
+    "shape": {
+      "along": 129,
+      "cross": 41
+    },
+    "ordering": "surface_id major, then along_index ascending, then cross_index ascending",
+    "logical_coordinates": {
+      "along_nm": {
+        "minimum": 0,
+        "maximum": 640,
+        "spacing": 5,
+        "origin": "northern 32 degrees S arc endpoint"
+      },
+      "cross_nm": {
+        "minimum": -100,
+        "maximum": 100,
+        "spacing": 5,
+        "sign": "positive eastward"
+      }
+    },
+    "support_area_km2": 439027.71200001123,
+    "nominal_interior_quadrature_area_km2": 85.7476,
+    "quadrature": "Two-dimensional trapezoidal rule; edge nodes have half weight and corner nodes quarter weight.",
+    "normalized_grid_sha256": "3d0e0018c1b11a5203faf52def5b356018030df2a0a3aedd174ba777b1fcaeeb",
+    "support_rule": "Only nodes and logical rectangles between adjacent nodes are supported. The outer boundary is a truncation boundary, not evidence of zero likelihood beyond it.",
+    "interpolation_rule": "Preferred composition is discrete by exact cell_id with quadrature_area_km2. If transfer is unavoidable, linearly interpolate relative_likelihood in logical (along_nm, cross_nm) coordinates after mapping to the same arc system; do not interpolate mass, do not extrapolate, and return unsupported outside the strip.",
+    "zero_rule": "Exact zeros include IEEE-754 underflow and are not physical impossibility. Blank log_relative_likelihood means log(0) = negative infinity; any finite floor must be an explicitly reported sensitivity."
+  },
+  "value_semantics": {
+    "primary_composition_field": "log_relative_likelihood",
+    "relative_likelihood": "Dimensionless, maximum-one relative endpoint-compatibility score. For components it is proportional to the conditional evidence proxy with the uniform normalization prior removed.",
+    "log_relative_likelihood": "Natural logarithm of relative_likelihood, maximum zero; blank only where relative_likelihood is exactly zero.",
+    "normalized_density_per_km2": "Area-normalized compatibility density q_i = raw_score_i / sum_j(raw_score_j * area_j). It integrates to one on this support but is not a calibrated posterior density.",
+    "normalized_probability_mass": "Quadrature mass q_i * area_i for plotting and checks only. It must never be multiplied into another grid probability as a likelihood.",
+    "normalization_prior": {
+      "kind": "uniform density with respect to area over the declared support",
+      "density_per_km2": 0.0000022777605437352764,
+      "role": "normalization/display prior only; not a flight-path or crash-location prior",
+      "removal": "relative_likelihood is already prior-removed. If reconstructing from normalized density, divide by this prior density before composing. Because it is constant, division changes only global scale. Never use probability mass because boundary quadrature weights vary."
+    },
+    "discrete_composition": "For downstream prior mass P_i, posterior mass is proportional to P_i * relative_likelihood_i. For prior density pi_i, posterior mass is proportional to pi_i * relative_likelihood_i * quadrature_area_km2. Add log-relative values to other conditional log-likelihoods only when conditional independence is justified."
+  },
+  "surfaces": [
+    {
+      "surface_id": "bran2016",
+      "label": "BRAN2016 2.5 m layer",
+      "surface_class": "transport_family_component",
+      "primary_value_kind": "relative_conditional_endpoint_compatibility_likelihood_proxy",
+      "is_posterior_density": false,
+      "is_calibrated_evidence_likelihood": false,
+      "conditional_use_status": "Usable only as an explicitly enabled conditional proxy; calibrated-likelihood use is blocked.",
+      "prior_removal_status": "The relative and log-relative fields already have the constant uniform normalization prior removed up to an irrelevant positive scale.",
+      "current_input_sha256": "b050a6ceae216a53499e3a96969933cada7f5a6abc03a8a709d8fb7b4118e43f",
+      "stokes_input_sha256": null,
+      "velocity_terms": [
+        "ocean-current product",
+        "windage × 10 m wind"
+      ],
+      "raw_score_maximum": 0.07948537431711745,
+      "raw_score_area_integral_km2": 606.6577696323124,
+      "normalized_relative_likelihood_sha256": "d67bc805eff0b1db3452ddcd89ac811285b6e2b847403a50302bb1a3afa89716",
+      "normalized_density_sha256": "dfd830f3acb28fb68a21160fc7b01e6e9b5f8a7fb487b08c0764a10ef02cc847",
+      "normalized_probability_mass_sha256": "ddf7f7f632ddd9c3d242975b67f813e2add2e8b88fe9ab9ab6e7e499d20b76ce",
+      "exact_numeric_zero_nodes": 265,
+      "mode": {
+        "id": "a054_x+015",
+        "latitude": -35.41788707769665,
+        "longitude": 92.88584624728297,
+        "crossNm": 15
+      },
+      "hpd90_area_km2": 24309.444599999937
+    },
+    {
+      "surface_id": "oscar_v2_final",
+      "label": "OSCAR v2 Final upper-30-m control",
+      "surface_class": "transport_family_component",
+      "primary_value_kind": "relative_conditional_endpoint_compatibility_likelihood_proxy",
+      "is_posterior_density": false,
+      "is_calibrated_evidence_likelihood": false,
+      "conditional_use_status": "Usable only as an explicitly enabled conditional proxy; calibrated-likelihood use is blocked.",
+      "prior_removal_status": "The relative and log-relative fields already have the constant uniform normalization prior removed up to an irrelevant positive scale.",
+      "current_input_sha256": "e24554662c0dde3c6c60ec6c6d78a28c83a25889817f33776e6215dce3f5355a",
+      "stokes_input_sha256": null,
+      "velocity_terms": [
+        "ocean-current product",
+        "windage × 10 m wind"
+      ],
+      "raw_score_maximum": 0.06381416273241876,
+      "raw_score_area_integral_km2": 515.3938559111795,
+      "normalized_relative_likelihood_sha256": "e981893857d6a4887e33144371915eb16e8e8ce18a68ad6f5143f44f0a3bfdf8",
+      "normalized_density_sha256": "f4af8779e4054db22cabc124869fac14c55ce7bfef6fe0d837265f877c536104",
+      "normalized_probability_mass_sha256": "9c8249d8c1490186d359fe8a2204dad8c18d70fed5ff8e443866a85ba4821a9e",
+      "exact_numeric_zero_nodes": 403,
+      "mode": {
+        "id": "a056_x-035",
+        "latitude": -34.91671340761436,
+        "longitude": 92.04716381373476,
+        "crossNm": -35
+      },
+      "hpd90_area_km2": 18392.860200000014
+    },
+    {
+      "surface_id": "glorys12_waverys",
+      "label": "GLORYS12 0.494 m plus WAVERYS surface Stokes",
+      "surface_class": "transport_family_component",
+      "primary_value_kind": "relative_conditional_endpoint_compatibility_likelihood_proxy",
+      "is_posterior_density": false,
+      "is_calibrated_evidence_likelihood": false,
+      "conditional_use_status": "Usable only as an explicitly enabled conditional proxy; calibrated-likelihood use is blocked.",
+      "prior_removal_status": "The relative and log-relative fields already have the constant uniform normalization prior removed up to an irrelevant positive scale.",
+      "current_input_sha256": "c7e7ae0eeac1755d74c34fccf10495978e213b4b26ae5930f138635ca8a69500",
+      "stokes_input_sha256": "a73cff24004932ebd2d139968776b60ce8bf95c8b2d3d479d43a9e269868a907",
+      "velocity_terms": [
+        "Eulerian ocean current",
+        "surface Stokes drift",
+        "windage × 10 m wind"
+      ],
+      "raw_score_maximum": 0.07231487235651582,
+      "raw_score_area_integral_km2": 572.9196802524385,
+      "normalized_relative_likelihood_sha256": "ab63a54cc5cba80ce39bfb615fdebd34236d8bc8123c9516470865b9a1572971",
+      "normalized_density_sha256": "a2e550786ed965520db713c5db011d70a44d2b73ecb2731e15018648231fe60d",
+      "normalized_probability_mass_sha256": "be7c7de85a13af6969cae9f49e15b6b8a40db6a2161fc04c847967c71667ca84",
+      "exact_numeric_zero_nodes": 208,
+      "mode": {
+        "id": "a059_x-010",
+        "latitude": -35.391239712554196,
+        "longitude": 92.16266554849784,
+        "crossNm": -10
+      },
+      "hpd90_area_km2": 22122.880799999966
+    },
+    {
+      "surface_id": "equal_transport_family_model_average",
+      "label": "Equal-prior three-family sensitivity mixture (uncalibrated)",
+      "surface_class": "uncalibrated_equal_prior_sensitivity_mixture",
+      "primary_value_kind": "relative_sensitivity_density_shape_not_evidence_likelihood",
+      "is_posterior_density": false,
+      "is_calibrated_evidence_likelihood": false,
+      "conditional_use_status": "Sensitivity aggregate only; never use alongside its components or present as a calibrated family posterior.",
+      "prior_removal_status": "Division by the constant uniform normalization prior changes only scale but does not turn this density mixture into a calibrated evidence likelihood.",
+      "component_weights": [
+        {
+          "surface_id": "bran2016",
+          "weight": 0.3333333333333333
+        },
+        {
+          "surface_id": "oscar_v2_final",
+          "weight": 0.3333333333333333
+        },
+        {
+          "surface_id": "glorys12_waverys",
+          "weight": 0.3333333333333333
+        }
+      ],
+      "normalized_relative_likelihood_sha256": "777477ade4aec3574ed53175c9b4737b1a9f00983756e08e3b340e2d80795fc9",
+      "normalized_density_sha256": "4cf9788fd936a845440fdb7fca07b5678f2341e0f9be78b940f1b93343c6ad52",
+      "normalized_probability_mass_sha256": "823d4dcdc20e711c1bf0106ec4092773159fc9078b237ea342c4d74259c8ab66",
+      "exact_numeric_zero_nodes": 139,
+      "mode": {
+        "id": "a057_x-015",
+        "latitude": -35.2178490975009,
+        "longitude": 92.24698269400085,
+        "crossNm": -15
+      },
+      "hpd90_area_km2": 28768.319799999885
+    }
+  ],
+  "family_policy": {
+    "alternatives_not_independent_evidence": [
+      "bran2016",
+      "oscar_v2_final",
+      "glorys12_waverys"
+    ],
+    "permitted_choices": "Use one declared component family in a conditional run; retain the equal-prior mixture only as a separately reported sensitivity.",
+    "forbidden_choice": "Never multiply component surfaces together and never include the mixture alongside any component.",
+    "core_likelihood_rule": "Do not average transport families in a core likelihood. The equal-prior mixture is excluded from core composition.",
+    "mixture_calibration": "The equal-prior sensitivity mixture is not calibrated; one-third weights are declared sensitivity weights, not empirically estimated model probabilities."
+  },
+  "blockers_to_calibrated_conditional_likelihood": [
+    "The image objects have no calibrated MH370-identity prior, false-positive model, or image-detection/selection likelihood.",
+    "The 10 km endpoint kernel, equal twelve-object identity weights, equal windage weights, and diffusion are model choices rather than calibrated observation-error distributions.",
+    "Support is truncated to the declared seventh-arc strip; likelihood outside it is uncomputed, not zero.",
+    "Finite-particle and seed sensitivity remains material, and numeric zero includes floating-point underflow.",
+    "GLORYS12/WAVERYS changes the Eulerian current family and adds explicit Stokes drift while nonzero windage remains present; its difference cannot be assigned to one calibrated model dimension.",
+    "No absolute model evidence or calibrated family probabilities exist, so the equal-prior sensitivity mixture is not a model posterior."
+  ],
+  "provenance": {
+    "source_run_generated_utc": "2026-08-27T01:06:32.898Z",
+    "source_run_implementation_sha256": "7a3add2598e39f380c95fca196cea1e0987e11bec864b24b9fc48fd2cd1dce8f",
+    "builder_node_version": "v24.19.0",
+    "source_files": {
+      "components": {
+        "path": "outputs/conditional-impact-density.csv",
+        "sha256": "bdc2a1dbac5c76a029a70039880a26a64f3b52cd55f367863213065a2cb609cb"
+      },
+      "mixture": {
+        "path": "outputs/model-averaged-impact-density.csv",
+        "sha256": "0af895ba12d023a81cffbc0df4df30baba0de5d2a243861b86c0a7b9a2af222b"
+      },
+      "summary": {
+        "path": "outputs/summary.json",
+        "sha256": "77b6ec631faab57ea2333c8796a9e046be82ea0699fec893bb1a7f378207e51d"
+      },
+      "publication_png": {
+        "path": "outputs/pleiades-forward-impact-density.png",
+        "sha256": "99318d6bbc0f1bdf2d3b7bff39890826a09d5c2d9fa23c70b1a3bf049cbe881d"
+      },
+      "publication_svg": {
+        "path": "outputs/pleiades-forward-impact-density.svg",
+        "sha256": "d682553289750cf2d77d4ac759ce5bfc78e9f398b7006687627e647aef47ec91"
+      },
+      "configuration": {
+        "path": "data/config.json",
+        "sha256": "4d314703dfb310874c6580eb86f72a66a5263379df31e38285e2d1e5dc5654e3"
+      },
+      "objects": {
+        "path": "data/pleiades-rating5-objects.csv",
+        "sha256": "2b153542fbe2f24efaa84e63645c19553970fd32536bacb4a6b391c0085a2ea9"
+      },
+      "seventh_arc": {
+        "path": "data/seventh_arc_fl400.geojson",
+        "sha256": "8d95ae563560388d1ad7c2ef34a3154ff95c0b2dd09c59c842f374b80e1537ad"
+      },
+      "input_manifest": {
+        "path": "data/input-manifest.json",
+        "sha256": "5f23aa7d9d8b079578b240ca4d4c5f6be08f13b9bcb4393f1fe809b8d6dc5ede"
+      },
+      "contract": {
+        "path": "likelihood-handoff.md",
+        "sha256": "74a92d89f283ef3913a682832df36b72ce8c003aff1f780cb380cb0bd8d1ce23"
+      },
+      "builder": {
+        "path": "code/build_likelihood_handoff.mjs",
+        "sha256": "55ab49bdddea808a5f257b6b062572cd6da75645b4582736fa69cf4b29d9fa21"
+      },
+      "invariant_test": {
+        "path": "code/likelihood_handoff.test.mjs",
+        "sha256": "1ff5c89bf110e4ffb7c32b77788ddeeaaa92867c457d8d8f93f58cdf58928a8a"
+      }
+    }
+  },
+  "artifacts": [
+    {
+      "path": "README.md",
+      "bytes": 8071,
+      "sha256": "74a92d89f283ef3913a682832df36b72ce8c003aff1f780cb380cb0bd8d1ce23"
+    },
+    {
+      "path": "comparison.html",
+      "bytes": 145490,
+      "sha256": "b9b9cfdfed1973d237431458b92b6820a2bc2c0cf1d0fb148b24fa870580c0c1"
+    },
+    {
+      "path": "comparison.png",
+      "bytes": 746909,
+      "sha256": "99318d6bbc0f1bdf2d3b7bff39890826a09d5c2d9fa23c70b1a3bf049cbe881d"
+    },
+    {
+      "path": "comparison.svg",
+      "bytes": 142399,
+      "sha256": "d682553289750cf2d77d4ac759ce5bfc78e9f398b7006687627e647aef47ec91"
+    },
+    {
+      "path": "grid.csv",
+      "bytes": 837789,
+      "sha256": "8473b9179798b9edc1bf5825e9ec94b9c51565e760c527bb07b4e58770ac40e8"
+    },
+    {
+      "path": "likelihood-surface-schema-v1.json",
+      "bytes": 3492,
+      "sha256": "525ba150f273ebeba9b0e1a2752b6a5bc83a1c82393e5b5f90b9ee88c8527b6d"
+    },
+    {
+      "path": "surfaces.csv",
+      "bytes": 3293052,
+      "sha256": "a68773b196de790b6700346959ae72e9bcdae532686e86c23913443af8d6a748"
+    }
+  ],
+  "browser_comparison": {
+    "html": "comparison.html",
+    "png": "comparison.png",
+    "svg": "comparison.svg",
+    "note": "The HTML embeds the exact source-generated four-panel vector comparison; PNG and SVG are byte-identical packaged copies of the source publication artifacts."
+  },
+  "deterministic_regeneration": {
+    "write_command": "node code/build_likelihood_handoff.mjs",
+    "byte_check_command": "node code/build_likelihood_handoff.mjs --check",
+    "invariant_test_command": "node --test code/likelihood_handoff.test.mjs"
+  }
+}

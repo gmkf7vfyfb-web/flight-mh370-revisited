@@ -1,0 +1,15 @@
+{
+  "analysis": "00:11 fixed beta=1 no-power-precompensation conditional reconstruction",
+  "beta_definition": "beta=0 complete AES gain precompensation; beta=1 no precompensation",
+  "reference_beta_posterior_mean": 0.6766419224079634,
+  "primary_RF_contrast_scale": 1.4778865554787135,
+  "quadratic_sensitivity_RF_contrast_scale": 2.1841486708647366,
+  "empirical_RF_surface": "digitized ratio of matched BTO+BFO+power and BTO+BFO-only latitude PDFs from the first integrated run",
+  "checkpoint_limitation": "The refined-v3 particle checkpoint is unavailable; exact beta/location/gain/heading correlations cannot be restored. Primary and quadratic contrast scalings bracket the missing conditional decomposition.",
+  "pleiades_conditioning": "BRAN2015/2016 expanded FL400-glide origin likelihood evaluated at impact and backward-smoothed through marginalized controlled terminal flight",
+  "n_airborne_particles": 1000000,
+  "n_terminal_continuations": 1500000,
+  "seed": 3701001,
+  "uses_0019_bto_bfo_power_or_logon_likelihood": false,
+  "interpretation": "The Pleiades-conditioned result is conditional on at least some class-4/5 image objects being MH370 debris; it is not a probability that the objects are debris."
+}

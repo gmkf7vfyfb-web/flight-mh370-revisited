@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "release": "v0.1",
+  "identity": "corrected-broad-flight-20260907",
+  "model_family": "broad-powered-marked-jump-v1",
+  "command": "estimate-broad-flight",
+  "scientific_status": "failed_numerical_support_diagnostic_only",
+  "publication_eligible": false,
+  "producer_sha256": "d20eb4bf68133592b9324e7f056962e198623eec309fc054fbd1c6172d6a7e7c",
+  "runs": ["workspace/runs/mh371/broad-flight-truth-control", "workspace/runs/mh370/broad-flight-uncertainty-diagnostic"],
+  "seeds_per_flight": 8,
+  "evidence_families": ["bto-only", "bto-bfo-published-error"],
+  "particles_per_seed_family": 20000,
+  "threads": 6,
+  "ledger": "SHA256SUMS",
+  "verification": "python3 -B tools/verify_capsule.py",
+  "historical_source_outputs": "Reference annex only; excluded from current result views",
+  "git_revision": null,
+  "source_identity": "Exact packaged source bytes in SHA256SUMS; workspace has no Git metadata"
+}

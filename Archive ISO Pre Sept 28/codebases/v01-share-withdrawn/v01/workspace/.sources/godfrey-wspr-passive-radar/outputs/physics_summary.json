@@ -1,0 +1,36 @@
+{
+  "bistatic_link_budget": {
+    "direct_power_dbm": -109.79419775859533,
+    "direct_to_scatter_db": 100.2427865726212,
+    "maximum_coherent_carrier_perturbation_db": 8.446423767418157e-05,
+    "scattered_power_dbm": -210.03698433121653,
+    "scattered_snr_db": -81.03698433121653,
+    "threshold_deficit_db": 51.03698433121653,
+    "wavelength_m": 21.266401220117757
+  },
+  "fraction_is_independent_of_hop_count": true,
+  "hop_count": 5,
+  "limitations": [
+    "The triangular hop is an explanatory sensitivity, not ionospheric ray tracing.",
+    "A path fraction below an altitude is not a probability of intersecting an aircraft.",
+    "The link budget omits ionospheric, ground-reflection and polarization losses.",
+    "Ionospheric focusing is not included; the calculation is an optimistic benchmark, not a universal impossibility proof."
+  ],
+  "model": "straight triangular virtual-height hops",
+  "published_2024_example": {
+    "altitude_km": 2.756916,
+    "elevation_deg": 7.97,
+    "horizontal_offset_from_ground_endpoint_km": 19.691281976204092
+  },
+  "representative_route": {
+    "altitude_km": 10.0,
+    "apex_height_km": 250.0,
+    "ground_half_width_per_landing_km": 60.0,
+    "hop_count": 5,
+    "path_fraction_below_altitude": 0.04,
+    "route_distance_km": 15000.0,
+    "time_below_altitude_ms": 2.0289911797241476,
+    "total_geometric_path_km": 15206.90632574555,
+    "total_geometric_time_ms": 50.72477949310369
+  }
+}

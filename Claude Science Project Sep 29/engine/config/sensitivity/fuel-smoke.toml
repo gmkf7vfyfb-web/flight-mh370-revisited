@@ -1,0 +1,19 @@
+name = "fuel-smoke"
+seeds = [1]
+particles_per_mode = [20000, 20000, 20000, 20000, 20000]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[inputs]
+fuel_tables = "../../data/fuel-tables.json"
+
+[fuel]
+initial_kg = 36610.0
+zfw_kg = 174196.0
+factor_mean = 1.0085
+factor_sd = 0.0178
+require_power_until = "m0011"
+exhaustion_target_utc = "2014-03-08T00:17:30Z"
+exhaustion_sd_s = 300.0

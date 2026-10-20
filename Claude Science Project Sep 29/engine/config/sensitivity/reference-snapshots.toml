@@ -1,0 +1,30 @@
+# The reference run (no-exhaustion-prior: 7 Hz BFO, fuel model with the merge fix, no exhaustion-time
+# prior, eight seeds 1-8) REPRODUCED with full-state hand-offs at 22:41 and 00:11 (core request 10).
+#
+# Layered over the reference configuration, never copied, so the one-variable claim is checkable:
+#   mh370 config/davey2016.toml config/sensitivity/no-exhaustion-prior.toml \
+#         config/sensitivity/reference-snapshots.toml runs/reference-snapshots
+#
+# ACCEPTANCE (headline): every seed's final.npy and routes.npy byte-identical to
+# runs/no-exhaustion-prior. Snapshot draws use streams no filter step uses, so writing them must not
+# move the filter. If the bytes differ, that is a finding about the snapshot machinery at 7M
+# particles with six-stage tempering, and the snapshots are not to be used until it is explained.
+#
+# WHAT THE SNAPSHOTS ARE. The UNSCORED FILTERING DISTRIBUTION at each epoch: particles and weights
+# after that epoch's update, tempering and resampling, with mode probabilities from each mode's
+# evidence to that epoch alone. They have not seen the later bursts; the 00:19:37 posterior in
+# final.npy has. Different objects, not truncations of one another - any figure that shows them
+# together says so.
+#
+# Written to <seed dir>/handoff-m2241/ and <seed dir>/handoff-m0011/, 20,000 rows each, any mode
+# with posterior mass keeping at least 200. Rows are ~1.5 KB of TOML each: ~30 MB per seed per epoch.
+#
+# This run does NOT address convergence (split-half 0.9020 against the eight-replicate floor 0.924).
+# Same seeds by design: it is a reproduction, and pooling fresh seeds would make the result
+# attributable cleanly to neither purpose.
+name = "reference-snapshots"
+
+[output]
+handoff_epochs = ["m2241", "m0011"]
+handoff_rows = 20000
+handoff_floor = 200

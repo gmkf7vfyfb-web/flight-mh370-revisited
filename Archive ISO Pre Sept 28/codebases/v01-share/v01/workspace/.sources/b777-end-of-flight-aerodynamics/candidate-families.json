@@ -1,0 +1,250 @@
+{
+  "schema_version": "1.0.0",
+  "scope": {
+    "aircraft": "Boeing 777-200ER",
+    "reference_aircraft": "9M-MRO",
+    "engine": "Rolls-Royce RB211 Trent 892B-17",
+    "required_envelope": "clean cruise through sequential flameout, loss or degradation of automatic control, transonic acceleration, stall/post-stall high angle of attack, and impact-proximate descent",
+    "excluded_calibration_targets": [
+      "00:19 BFO values",
+      "assumed impact position",
+      "search-area fit"
+    ]
+  },
+  "admission": {
+    "status": "blocked",
+    "code": "NO_PUBLIC_REDISTRIBUTABLE_MODEL_SPANS_REQUIRED_ENVELOPE",
+    "admitted_candidate_family": null,
+    "implementation_ready_conditional_aerodynamic_parameters": null,
+    "plain_blocker": "No located public, legally redistributable candidate provides B777-200ER/Trent 892B lift, drag, moments, control effectiveness, running and windmilling-engine forces, and control-mode behavior across cruise through post-flameout transonic/high-AoA flight with traceable aircraft-specific validation.",
+    "release_condition": "Obtain a distributable B777-200ER/Trent 892B aerodynamic, propulsion, actuator, and flight-control dataset with stated axes, units, configurations, uncertainty, and validation over the required envelope; or obtain permission to publish a reduced model and independent fixtures derived from such a dataset.",
+    "allowed_now": [
+      "Use the Boeing/ATSB trajectory exports as external validation-only fixtures fetched by URL and hash.",
+      "Use the public point-mass polars only as explicitly named, non-admitted audit comparators.",
+      "Use certified Trent 892 identity and static LTO data as identity checks, not an in-flight or flameout thrust map."
+    ],
+    "forbidden_now": [
+      "Do not install any audited family in the product estimator.",
+      "Do not splice OpenAP cruise drag, NASA generic high-AoA data, and FlightGear controls into a synthetic B777 model.",
+      "Do not force OpenAP's unlisted Trent 892 engine option and call the result a B777-200ER/Trent 892 model.",
+      "Do not infer priors from the candidate spread or tune any parameter to the 00:19 BFO or assumed impact."
+    ]
+  },
+  "admission_requirements": [
+    {
+      "id": "identity",
+      "requirement": "B777-200ER geometry, mass/inertia conventions, and Trent 892B-17 propulsion identity are explicit."
+    },
+    {
+      "id": "aerodynamic_envelope",
+      "requirement": "Lift, drag, and six-axis force/moment behavior cover attached cruise, transonic acceleration, stall onset, and post-stall high AoA with uncertainty."
+    },
+    {
+      "id": "propulsion_envelope",
+      "requirement": "Running, spool-down, flameout, windmilling drag, asymmetric thrust, and installation effects cover relevant Mach and altitude."
+    },
+    {
+      "id": "control_behavior",
+      "requirement": "Surface authority/rates, hydraulic/electrical degradation, control-law transitions, TAC, autopilot and autothrottle disengagement are represented or explicitly conditioned."
+    },
+    {
+      "id": "validation",
+      "requirement": "Aircraft-specific fixtures exercise cruise trim, glide/energy behavior, transient loss of thrust, high-AoA motion, and time-step convergence."
+    },
+    {
+      "id": "legal_reproducibility",
+      "requirement": "Source/data redistribution and publication are permitted, with a pinned version, licence, source identity, and hashes."
+    }
+  ],
+  "candidate_families": [
+    {
+      "id": "openap_b772_point_mass",
+      "name": "OpenAP B772 point-mass drag and two-shaft thrust equations",
+      "source_pin_ids": [
+        "openap_release",
+        "openap_drag_polar_paper",
+        "openap_drag_polar_dataset",
+        "openap_b772_polar_change"
+      ],
+      "legal_status": "redistributable_under_LGPL_3_and_CC_BY_4",
+      "model_identity": "Generic ICAO B772 (777-200/200ER); current engine options omit Trent 892 and default to PW4090.",
+      "data_basis": "Parabolic clean drag polar estimated from March 2018 Schiphol climb trajectories; simplified maximum/idle thrust performance equations.",
+      "capabilities": {
+        "lift_drag_attached": "partial_point_mass",
+        "transonic": "partial_experimental_wave_drag_only",
+        "stall_post_stall": "absent",
+        "six_axis_moments": "absent",
+        "control_effectiveness": "absent",
+        "running_thrust": "partial_maximum_and_idle_performance",
+        "flameout_windmilling": "absent",
+        "control_mode_transitions": "absent",
+        "aircraft_specific_validation": "absent_for_B772"
+      },
+      "admission_status": "reference_only_not_admitted",
+      "blocking_findings": [
+        "The B772 engine option list does not contain Trent 892; upstream raises an aircraft/engine mismatch unless force_engine is used.",
+        "The drag equations omit angle of attack, sideslip, angular rates, moments, and stall.",
+        "Idle thrust is defined as seven percent of modeled available thrust, not flameout or windmilling drag.",
+        "The paper's B772 coefficients (cd0=0.034, k=0.051, e=0.723) changed in commit 2ca2a05cc4c11fc7bff22f40f4098d06f229e62e to current values (0.024, 0.047, 0.783) without a cited B772 validation artifact in that change.",
+        "The paper's external aerodynamic validation example is a B747 model, not B772."
+      ],
+      "audit_only_observations": {
+        "published_2020_clean_polar": {
+          "cd0": 0.034,
+          "k": 0.051,
+          "oswald_e": 0.723,
+          "mach_critical": 0.65,
+          "status": "not_implementation_ready"
+        },
+        "current_v2_6_0_clean_polar": {
+          "cd0": 0.024,
+          "k": 0.047,
+          "oswald_e": 0.783,
+          "status": "not_implementation_ready"
+        }
+      }
+    },
+    {
+      "id": "flightgear_yasim_community_b777",
+      "name": "Community FlightGear YASim 777-200ER definitions",
+      "source_pin_ids": [
+        "flightgear_777_modern_fdm",
+        "flightgear_777_historical_fdm"
+      ],
+      "legal_status": "mixed_modern_GPL_2_historical_unresolved",
+      "model_identity": "Community 777-labelled geometry; historical file declares 93,400-lbf engines described as Trent 895, while the modern GPL file actively declares GE90-115B engines at 115,540 lbf.",
+      "data_basis": "YASim geometry, solver targets, stall-shape knobs, engine scalars, and control mappings; no located aircraft-specific calibration report.",
+      "capabilities": {
+        "lift_drag_attached": "synthesized_by_generic_solver",
+        "transonic": "generic_mcrit_parameter",
+        "stall_post_stall": "generic_stall_shape_parameters",
+        "six_axis_moments": "synthesized_by_generic_solver",
+        "control_effectiveness": "generic_geometry_and_mappings",
+        "running_thrust": "generic_scalar_jet_model",
+        "flameout_windmilling": "no_B777_specific_data",
+        "control_mode_transitions": "not_an_aircraft_system_model",
+        "aircraft_specific_validation": "not_located"
+      },
+      "admission_status": "rejected_identity_and_validation",
+      "blocking_findings": [
+        "Neither pinned definition is a Trent 892B-17 model.",
+        "The modern redistributable definition activates a GE90-115B, an engine/airframe mismatch for this scope.",
+        "The historical definition lacks a located repository-root or file-level licence at the pinned commit.",
+        "No primary calibration, uncertainty, or B777 flight-validation artifact was located for the aerodynamic or control parameters."
+      ]
+    },
+    {
+      "id": "official_jsbsim_distribution",
+      "name": "Official JSBSim model inventory",
+      "source_pin_ids": [
+        "jsbsim_release"
+      ],
+      "legal_status": "redistributable_under_LGPL_2_1",
+      "model_identity": "No B777, B772, or Trent 892 model is present in the pinned official release.",
+      "data_basis": "General-purpose six-degree-of-freedom simulation framework and bundled example aircraft.",
+      "capabilities": {
+        "B777_model": "absent"
+      },
+      "admission_status": "not_a_candidate",
+      "blocking_findings": [
+        "A capable simulation framework is not an aerodynamic dataset.",
+        "The official v1.3.1 archive contains no B777/Trent 892 aircraft-engine family to audit."
+      ]
+    },
+    {
+      "id": "boeing_engineering_simulator_outputs",
+      "name": "ATSB/Boeing engineering-simulator end-of-flight cases",
+      "source_pin_ids": [
+        "iannello_boeing_eof_trajectories",
+        "atsb_search_debris_update"
+      ],
+      "legal_status": "public_trajectory_exports_link_only_model_proprietary",
+      "model_identity": "B777 engineering simulator; ATSB states the aerodynamic model was the same as a Level D simulator, while Boeing cautioned that some trajectories left the validated database.",
+      "data_basis": "Ten one-second X, Y, altitude exports; requested initial ranges and electrical scenarios are described only in aggregate.",
+      "capabilities": {
+        "trajectory_behavior": "strongest_public_B777_comparator",
+        "lift_drag_coefficients": "not_released",
+        "six_axis_state": "not_released",
+        "engine_state_and_forces": "not_released",
+        "surface_commands_and_control_laws": "not_released",
+        "uncertainty": "not_released",
+        "reproducible_initial_conditions": "partial_ranges_only"
+      },
+      "admission_status": "validation_only_not_implementable",
+      "blocking_findings": [
+        "The simulator model, equations, coefficients, complete initial conditions, control states, atmosphere, and uncertainty were not released.",
+        "Legal restrictions prevented ATSB from providing detailed per-case conditions.",
+        "ATSB permission covered sharing the exports on Iannello's blog; no general downstream licence was located.",
+        "The final CSV records remain above sea level and therefore are trajectory extracts, not complete impact solutions."
+      ]
+    },
+    {
+      "id": "nasa_generic_transport_tcm",
+      "name": "NASA Generic Transport / Transport Class Model",
+      "source_pin_ids": [
+        "nasa_transport_class_model_report"
+      ],
+      "legal_status": "public_use_report_open_source_software_by_request",
+      "model_identity": "Generic mid-weight twin-jet transport, not a B777.",
+      "data_basis": "Scaled wind-tunnel-derived nonlinear tables covering alpha -5 to 85 degrees and beta +/-45 degrees, representative hydraulic actuators, and generic 40,000-lbf engines.",
+      "capabilities": {
+        "lift_drag_attached": "generic_transport",
+        "stall_post_stall": "extended_generic_transport",
+        "six_axis_moments": "extended_generic_transport",
+        "control_effectiveness": "generic_transport",
+        "running_thrust": "generic_40000_lbf_first_order",
+        "flameout_windmilling": "not_established",
+        "B777_similarity_mapping": "absent"
+      },
+      "admission_status": "excluded_no_defensible_transfer",
+      "blocking_findings": [
+        "Geometry, inertia, engines, actuators, and aerodynamic tables are intentionally generic.",
+        "No public primary source provides a defensible transformation or uncertainty model from TCM to B777-200ER/Trent 892B.",
+        "Using the tables would require an invented cross-aircraft prior."
+      ]
+    },
+    {
+      "id": "trent892_certification_points",
+      "name": "ICAO certified Trent 892 static emissions-test points",
+      "source_pin_ids": [
+        "icao_engine_emissions_databank",
+        "malaysia_safety_investigation_report"
+      ],
+      "legal_status": "public_link_only",
+      "model_identity": "Trent 892 certification family; 9M-MRO identity is separately reported as Trent 892B-17.",
+      "data_basis": "Rated static thrust and four LTO fuel-flow points supplied by the manufacturer for emissions certification.",
+      "capabilities": {
+        "rated_static_thrust": "available",
+        "LTO_fuel_flow": "available",
+        "altitude_Mach_thrust_map": "absent",
+        "spool_down": "absent",
+        "windmilling_drag": "absent",
+        "installation_effects": "absent"
+      },
+      "admission_status": "identity_reference_only",
+      "blocking_findings": [
+        "Static certification points do not form an in-flight thrust model.",
+        "The generic Trent 892 row cannot establish all 892B-17 installation and post-flameout behavior."
+      ]
+    },
+    {
+      "id": "eurocontrol_bada",
+      "name": "EUROCONTROL BADA",
+      "source_pin_ids": [
+        "eurocontrol_bada_licence"
+      ],
+      "legal_status": "individual_restricted_nontransferable_licence_required",
+      "model_identity": "Potential B772 performance family, not acquired for this redistributable source audit.",
+      "data_basis": "Licensed aircraft performance algorithms and manufacturer/manual-derived data.",
+      "capabilities": {
+        "redistributable_public_source": "absent",
+        "post_stall_six_axis_behavior": "not_claimed"
+      },
+      "admission_status": "excluded_legal_and_scope",
+      "blocking_findings": [
+        "The official terms require a reviewed, non-transferable licence rather than permitting a public source package.",
+        "BADA is a performance model and is not evidence of post-stall six-degree-of-freedom B777 behavior."
+      ]
+    }
+  ]
+}

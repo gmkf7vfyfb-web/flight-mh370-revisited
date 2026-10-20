@@ -1,0 +1,12 @@
+# The reference fuel model alone (as in no-exhaustion-prior.toml).
+[inputs]
+fuel_tables = "../../../data/fuel-tables.json"
+[fuel]
+initial_kg = 36609.0
+zfw_kg = 174196.0
+factor_mean = 1.0085
+factor_sd = 0.0178
+require_power_until = "m0011"
+proposal = "endurance"
+proposal_prior_mix = 0.15
+proposal_cells = 16

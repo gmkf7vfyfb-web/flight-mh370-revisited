@@ -1,0 +1,28 @@
+{
+  "antenna": {
+    "airframe_heading_treatment": "trajectory true heading; equals the ground-track proxy only for environment-free constant-track runs",
+    "applied_to_posterior": false,
+    "directional_departure_scale": 1.0,
+    "endpoint": "no_gain_precompensation",
+    "epochs": [
+      "m0011",
+      "m1941",
+      "m2041",
+      "m2141",
+      "m2241"
+    ],
+    "excluded_power_data": [
+      "18:25-18:28 restart rows: source workbook identity failure",
+      "18:39 and 23:15 telephony: unresolved channel/beam calibration"
+    ],
+    "model_weight": null,
+    "observation_sd_db": 1.72,
+    "power_observations": 5,
+    "reference_gain_dbic": 12.16,
+    "source_result_sha256": "ebb04c26a803f020864c5398412f3dfd05e7e91d17df783f92a3fd188b0bc94d",
+    "status": "conditional_sensitivity_only",
+    "surface_basis": "unverified_first_pass_reconstruction"
+  },
+  "drift_application": null,
+  "hydroacoustics": []
+}

@@ -1,0 +1,13 @@
+Completed the canonical source-only ERA5 expansion.
+
+- Installed grid: 9×12×221×141 covering 17:00–01:00 UTC, 500–43,000 ft, 55–125°E and 60°S–50°N.
+- Binary SHA-256: `261f4e1442ffac69df0201371f7dbf42da0ac0fa30065fc04e0e6293677a2a53`.
+- Two uncached [public ARCO ERA5](https://github.com/google-research/arco-era5) retrievals were byte-identical. Source metadata and all 27 GCS chunk generations are pinned in the [manifest](/jackbox/home/MH370/inputs/environment/mh370-era5-grid.manifest.json).
+- Independent validation scanned every value and reproduced three raw-bracket spot checks bit-exactly. See the [validation record](/jackbox/home/MH370/.sources/ecmwf-era5-weather/outputs/mh370-era5-validation.json).
+- Exact 0 ft was not extrapolated: 500 ft is the lowest target bracketed by 975/1000 hPa. Density uses the documented dry-air `ρ=p/(R·T)` contract. No vertical wind was introduced.
+- MH371 and IGRF artifacts remain unchanged. Temporary environments, candidates, probes, caches, and the superseded NPZ builder were removed.
+- No Rust crates, runner, estimator, reporting, configs, or root README were edited.
+
+Browser-viewable report:
+
+::inline-vis{file=".sources/ecmwf-era5-weather/outputs/mh370-era5-validation.html" height="760"}

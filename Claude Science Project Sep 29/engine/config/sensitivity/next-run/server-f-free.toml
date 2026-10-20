@@ -1,0 +1,9 @@
+# Run F (architecture ruling 11 Oct 03:35 -0600, item 2): run C free (7M, seeds 1-8) with ad50 ONLY (EXTRA sampler-ad50.toml);
+# resampling between epochs stays at 0.5. Separates the two changes run E confounded.
+# Compare with run C free (same seeds, run C sampler): split-half 0.918.
+name = "next-f-free"
+particles_per_mode = [1_000_000, 500_000, 2_500_000, 500_000, 2_500_000]
+seeds = [1, 2, 3, 4, 5, 6, 7, 8]
+
+[output]
+handoff_rows = 100000

@@ -1,0 +1,13 @@
+# Merge this table into an accident-suite configuration to condition each
+# flight-model family on exactly one generated ocean-drift evidence artifact.
+# The runner checks both fields against the artifact and does not average HYCOM
+# and GDP families.
+
+[evidence.drift]
+maximum_cell_distance_nm = 90.0
+
+[evidence.drift.application]
+source_area = "demo-gdp-run/source-area.json"
+family = "gdp"
+isotope_enabled = true
+

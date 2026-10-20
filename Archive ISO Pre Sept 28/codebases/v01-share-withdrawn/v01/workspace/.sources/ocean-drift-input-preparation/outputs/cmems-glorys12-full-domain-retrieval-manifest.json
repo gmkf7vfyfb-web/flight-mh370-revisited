@@ -1,0 +1,3061 @@
+{
+  "component_units": {
+    "uo": "m s-1 east",
+    "vo": "m s-1 north"
+  },
+  "credential_environment_variables": [
+    "COPERNICUSMARINE_SERVICE_USERNAME",
+    "COPERNICUSMARINE_SERVICE_PASSWORD"
+  ],
+  "dataset_id": "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+  "file_format": "NetCDF4 with compression level 4",
+  "files": [
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 87201464,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2014-03-07T00:00:00+00:00",
+        "--end-datetime",
+        "2014-03-31T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2014-03.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.79881917089294,
+        "vo": 0.7988204254317016
+      },
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2014-03-31T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2014-03",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2014-03.nc",
+      "requested_end": "2014-03-31",
+      "requested_start": "2014-03-07",
+      "sha256": "c4fabfe4bbbddd2772d8cf6ca63527e308f993548160547096d5acd671f22697",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 25,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 104322151,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2014-04-01T00:00:00+00:00",
+        "--end-datetime",
+        "2014-04-30T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2014-04.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988197798211109,
+        "vo": 0.7988221825196163
+      },
+      "first_time_utc": "2014-04-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2014-04-30T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2014-04",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2014-04.nc",
+      "requested_end": "2014-04-30",
+      "requested_start": "2014-04-01",
+      "sha256": "f66a9d59e9c73486f7b0b19f01266cbc04911f66e30d33c833afadc291dbe929",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 30,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 107806475,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2014-05-01T00:00:00+00:00",
+        "--end-datetime",
+        "2014-05-31T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2014-05.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988224446214233,
+        "vo": 0.7988221783780528
+      },
+      "first_time_utc": "2014-05-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2014-05-31T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2014-05",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2014-05.nc",
+      "requested_end": "2014-05-31",
+      "requested_start": "2014-05-01",
+      "sha256": "03e31a5b3e34441e1dd3503c9d2f52048a61fadea551b645b02103c46fa38d94",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 31,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 104657225,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2014-06-01T00:00:00+00:00",
+        "--end-datetime",
+        "2014-06-30T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2014-06.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.798803566191501,
+        "vo": 0.798822384272926
+      },
+      "first_time_utc": "2014-06-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2014-06-30T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2014-06",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2014-06.nc",
+      "requested_end": "2014-06-30",
+      "requested_start": "2014-06-01",
+      "sha256": "a0d5f340135b75239df3fd47c16220f3edc7f8fd391ece2d147c1cfc8b393a6c",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 30,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 108655609,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2014-07-01T00:00:00+00:00",
+        "--end-datetime",
+        "2014-07-31T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2014-07.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7987357912791132,
+        "vo": 0.7988197821877185
+      },
+      "first_time_utc": "2014-07-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2014-07-31T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2014-07",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2014-07.nc",
+      "requested_end": "2014-07-31",
+      "requested_start": "2014-07-01",
+      "sha256": "951db8c24769c51d8d1f9595e7e604d3c6f48e135ca6ac7302f3e15278afdc83",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 31,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 109314115,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2014-08-01T00:00:00+00:00",
+        "--end-datetime",
+        "2014-08-31T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2014-08.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988006304146025,
+        "vo": 0.7988139958318002
+      },
+      "first_time_utc": "2014-08-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2014-08-31T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2014-08",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2014-08.nc",
+      "requested_end": "2014-08-31",
+      "requested_start": "2014-08-01",
+      "sha256": "1eaac4d16426419ff85d1ee1ccabc0d0b99b05f9e61bb8ab5e6945a3709d423f",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 31,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 106086198,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2014-09-01T00:00:00+00:00",
+        "--end-datetime",
+        "2014-09-30T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2014-09.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988205868343493,
+        "vo": 0.7988075095516436
+      },
+      "first_time_utc": "2014-09-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2014-09-30T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2014-09",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2014-09.nc",
+      "requested_end": "2014-09-30",
+      "requested_start": "2014-09-01",
+      "sha256": "b8f29c3d7a67b8ebba5f1f8e89ea41fd1f3c00973abb27377c3bd0e2418ab4f5",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 30,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 109674838,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2014-10-01T00:00:00+00:00",
+        "--end-datetime",
+        "2014-10-31T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2014-10.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988203501735756,
+        "vo": 0.798818876960259
+      },
+      "first_time_utc": "2014-10-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2014-10-31T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2014-10",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2014-10.nc",
+      "requested_end": "2014-10-31",
+      "requested_start": "2014-10-01",
+      "sha256": "cbae3ec90b902518ba2d0fb0a240feaff7f39083ffea1c51231f749702cc7615",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 31,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 105619250,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2014-11-01T00:00:00+00:00",
+        "--end-datetime",
+        "2014-11-30T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2014-11.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988177072643847,
+        "vo": 0.79882027503378
+      },
+      "first_time_utc": "2014-11-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2014-11-30T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2014-11",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2014-11.nc",
+      "requested_end": "2014-11-30",
+      "requested_start": "2014-11-01",
+      "sha256": "817c8974f4835123ad97cdf07d40683d6b3549b858bfeaf406429fa541ef0f39",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 30,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 108803683,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2014-12-01T00:00:00+00:00",
+        "--end-datetime",
+        "2014-12-31T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2014-12.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988101619272655,
+        "vo": 0.7988215571435218
+      },
+      "first_time_utc": "2014-12-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2014-12-31T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2014-12",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2014-12.nc",
+      "requested_end": "2014-12-31",
+      "requested_start": "2014-12-01",
+      "sha256": "c49778021e7ddc3b5f1e8eed2f206484a04e5471a43af89f3eb04f841589fd9d",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 31,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 108625040,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2015-01-01T00:00:00+00:00",
+        "--end-datetime",
+        "2015-01-31T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2015-01.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988210069072228,
+        "vo": 0.7988225333692135
+      },
+      "first_time_utc": "2015-01-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2015-01-31T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2015-01",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2015-01.nc",
+      "requested_end": "2015-01-31",
+      "requested_start": "2015-01-01",
+      "sha256": "31524037cc5367e34f1c0ff4bd3984955fa8792b6eb16814e5d29388f2e8b2fd",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 31,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 97881789,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2015-02-01T00:00:00+00:00",
+        "--end-datetime",
+        "2015-02-28T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2015-02.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988126411601748,
+        "vo": 0.7988221130850358
+      },
+      "first_time_utc": "2015-02-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2015-02-28T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2015-02",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2015-02.nc",
+      "requested_end": "2015-02-28",
+      "requested_start": "2015-02-01",
+      "sha256": "9727c7f97b4acc5b17376b6cfac76dc989cfa32682a0fea09dac39ec51192ed5",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 28,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 108113506,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2015-03-01T00:00:00+00:00",
+        "--end-datetime",
+        "2015-03-31T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2015-03.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988206341665041,
+        "vo": 0.7988220008824726
+      },
+      "first_time_utc": "2015-03-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2015-03-31T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2015-03",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2015-03.nc",
+      "requested_end": "2015-03-31",
+      "requested_start": "2015-03-01",
+      "sha256": "d60b5752de8f126e2f59374bb82259797be266148fedd3f6ec779f51bfb31135",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 31,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 104369452,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2015-04-01T00:00:00+00:00",
+        "--end-datetime",
+        "2015-04-30T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2015-04.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988179273589043,
+        "vo": 0.7988219624250968
+      },
+      "first_time_utc": "2015-04-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2015-04-30T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2015-04",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2015-04.nc",
+      "requested_end": "2015-04-30",
+      "requested_start": "2015-04-01",
+      "sha256": "6d1e6de5458b5d25ca8b678e5308a7988e8517a723d5e0cf543db1700ff7ff64",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 30,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 108028882,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2015-05-01T00:00:00+00:00",
+        "--end-datetime",
+        "2015-05-31T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2015-05.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988226043674456,
+        "vo": 0.7988224978700974
+      },
+      "first_time_utc": "2015-05-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2015-05-31T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2015-05",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2015-05.nc",
+      "requested_end": "2015-05-31",
+      "requested_start": "2015-05-01",
+      "sha256": "ed47910db55b06d0b8d786480684cc5aed6a3eb14b1743e7b9081ef8e7ad963f",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 31,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 104739438,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2015-06-01T00:00:00+00:00",
+        "--end-datetime",
+        "2015-06-30T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2015-06.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988100222974089,
+        "vo": 0.7988221091547765
+      },
+      "first_time_utc": "2015-06-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2015-06-30T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2015-06",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2015-06.nc",
+      "requested_end": "2015-06-30",
+      "requested_start": "2015-06-01",
+      "sha256": "d80cdef1f0545c33e284cec8b45982f36e868e6311b7a4a12b3edca06b7b1b47",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 30,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 108893538,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2015-07-01T00:00:00+00:00",
+        "--end-datetime",
+        "2015-07-31T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2015-07.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988090082059934,
+        "vo": 0.7988216458913119
+      },
+      "first_time_utc": "2015-07-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2015-07-31T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2015-07",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2015-07.nc",
+      "requested_end": "2015-07-31",
+      "requested_start": "2015-07-01",
+      "sha256": "ec1dea530d418a065724bbaf55bb810d45e41c79410ff4696ca34a3ca64ce1b3",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 31,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 109284929,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2015-08-01T00:00:00+00:00",
+        "--end-datetime",
+        "2015-08-31T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2015-08.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988024053704057,
+        "vo": 0.798819427196558
+      },
+      "first_time_utc": "2015-08-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2015-08-31T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2015-08",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2015-08.nc",
+      "requested_end": "2015-08-31",
+      "requested_start": "2015-08-01",
+      "sha256": "8dbbe8a5529c4fd4eb79d24a9049686eaae07c7cf9bc3456fa9c984586de5974",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 31,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 106023848,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2015-09-01T00:00:00+00:00",
+        "--end-datetime",
+        "2015-09-30T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2015-09.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988136721981922,
+        "vo": 0.7988200916216802
+      },
+      "first_time_utc": "2015-09-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2015-09-30T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2015-09",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2015-09.nc",
+      "requested_end": "2015-09-30",
+      "requested_start": "2015-09-01",
+      "sha256": "465304a25f2e0c589146817180efc6660f926e564a8a219fa2831072714d2fe4",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 30,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 109572917,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2015-10-01T00:00:00+00:00",
+        "--end-datetime",
+        "2015-10-31T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2015-10.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.798821131154129,
+        "vo": 0.7988214861452896
+      },
+      "first_time_utc": "2015-10-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2015-10-31T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2015-10",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2015-10.nc",
+      "requested_end": "2015-10-31",
+      "requested_start": "2015-10-01",
+      "sha256": "776e8b8afde445f9e57ee26c47a7f3d754ceb82ed5b6249e39acd963e8466358",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 31,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 105585304,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2015-11-01T00:00:00+00:00",
+        "--end-datetime",
+        "2015-11-30T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2015-11.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988201649865201,
+        "vo": 0.7988226043674456
+      },
+      "first_time_utc": "2015-11-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2015-11-30T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2015-11",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2015-11.nc",
+      "requested_end": "2015-11-30",
+      "requested_start": "2015-11-01",
+      "sha256": "48ca43c615da67874f9bf950c73bdf37dcc9b25a98642fb55fce5a873e43c943",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 30,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 108764697,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2015-12-01T00:00:00+00:00",
+        "--end-datetime",
+        "2015-12-31T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2015-12.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.79881048141931,
+        "vo": 0.798817811986777
+      },
+      "first_time_utc": "2015-12-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2015-12-31T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2015-12",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2015-12.nc",
+      "requested_end": "2015-12-31",
+      "requested_start": "2015-12-01",
+      "sha256": "462989b77da0f64b1c467ee2fe5e1cb7713f6137723cf33fd54c5ad0c7c3e572",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 31,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 108256940,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2016-01-01T00:00:00+00:00",
+        "--end-datetime",
+        "2016-01-31T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2016-01.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988125226184837,
+        "vo": 0.7988209714081067
+      },
+      "first_time_utc": "2016-01-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2016-01-31T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2016-01",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2016-01.nc",
+      "requested_end": "2016-01-31",
+      "requested_start": "2016-01-01",
+      "sha256": "ab94c3a74d577c5dfbedc7ae4e0695ce2d47e00dddf75ab14ff5246415006258",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 31,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 101067356,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2016-02-01T00:00:00+00:00",
+        "--end-datetime",
+        "2016-02-29T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2016-02.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988196065282994,
+        "vo": 0.7988225853937801
+      },
+      "first_time_utc": "2016-02-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2016-02-29T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2016-02",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2016-02.nc",
+      "requested_end": "2016-02-29",
+      "requested_start": "2016-02-01",
+      "sha256": "86a92b8cfbc725a4dde46afc0cdfa255698f6164dbe005f467ef6a382164ed3c",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 29,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 107840343,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2016-03-01T00:00:00+00:00",
+        "--end-datetime",
+        "2016-03-31T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2016-03.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988223558736331,
+        "vo": 0.7988224978700974
+      },
+      "first_time_utc": "2016-03-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2016-03-31T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2016-03",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2016-03.nc",
+      "requested_end": "2016-03-31",
+      "requested_start": "2016-03-01",
+      "sha256": "4adf6d392253abcf54ab797bce2aec1ca7207e61e7a37bf1cde5945b7c479d96",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 31,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 104218177,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2016-04-01T00:00:00+00:00",
+        "--end-datetime",
+        "2016-04-30T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2016-04.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988224943201858,
+        "vo": 0.7988226043674456
+      },
+      "first_time_utc": "2016-04-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2016-04-30T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2016-04",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2016-04.nc",
+      "requested_end": "2016-04-30",
+      "requested_start": "2016-04-01",
+      "sha256": "659dd1f3a3aa5f7b0e990eae03258c7b6a80d0aad2ac4420171636b4b63f81d3",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 30,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 107900332,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2016-05-01T00:00:00+00:00",
+        "--end-datetime",
+        "2016-05-31T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2016-05.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988210424063388,
+        "vo": 0.7988224801205394
+      },
+      "first_time_utc": "2016-05-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2016-05-31T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2016-05",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2016-05.nc",
+      "requested_end": "2016-05-31",
+      "requested_start": "2016-05-01",
+      "sha256": "0fa2151c78a087cb9f5d584788d154be93ad49cdcd13ed026f31d76bbf7ee370",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 31,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 104658654,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2016-06-01T00:00:00+00:00",
+        "--end-datetime",
+        "2016-06-30T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2016-06.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988020988947037,
+        "vo": 0.7988224943201858
+      },
+      "first_time_utc": "2016-06-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2016-06-30T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2016-06",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2016-06.nc",
+      "requested_end": "2016-06-30",
+      "requested_start": "2016-06-01",
+      "sha256": "4bfcb58c9ad8ca6e2ab8fb126325de2bb6ee58b2ad4e5e86f12f1b58f08fc870",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 30,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 108617647,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2016-07-01T00:00:00+00:00",
+        "--end-datetime",
+        "2016-07-31T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2016-07.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7987379567251931,
+        "vo": 0.7988209181594326
+      },
+      "first_time_utc": "2016-07-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2016-07-31T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2016-07",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2016-07.nc",
+      "requested_end": "2016-07-31",
+      "requested_start": "2016-07-01",
+      "sha256": "20d8cd33136126117fc8a886b860a836e3fe07aa37e3d151e7d6cad91ef9c90b",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 31,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 109036412,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2016-08-01T00:00:00+00:00",
+        "--end-datetime",
+        "2016-08-31T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2016-08.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988198709355088,
+        "vo": 0.7988207761629683
+      },
+      "first_time_utc": "2016-08-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2016-08-31T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2016-08",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2016-08.nc",
+      "requested_end": "2016-08-31",
+      "requested_start": "2016-08-01",
+      "sha256": "b8347ee03e766435618f21653f472a6725a4fcb3ad0e34a520fcef272a875ad7",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 31,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 105720966,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2016-09-01T00:00:00+00:00",
+        "--end-datetime",
+        "2016-09-30T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2016-09.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988039696981202,
+        "vo": 0.7988071427274444
+      },
+      "first_time_utc": "2016-09-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2016-09-30T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2016-09",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2016-09.nc",
+      "requested_end": "2016-09-30",
+      "requested_start": "2016-09-01",
+      "sha256": "9d75d0e733098d74957481a0bac1adafc883425ee9e962f3c0a0ace3d00566ed",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 30,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 109445652,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2016-10-01T00:00:00+00:00",
+        "--end-datetime",
+        "2016-10-31T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2016-10.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988212199019191,
+        "vo": 0.7988223736231912
+      },
+      "first_time_utc": "2016-10-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2016-10-31T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2016-10",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2016-10.nc",
+      "requested_end": "2016-10-31",
+      "requested_start": "2016-10-01",
+      "sha256": "6f17c14e8eebd6d7298fd46143f64c02f151b2dcfc019e47ce5e3cb694003df5",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 31,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 105513615,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2016-11-01T00:00:00+00:00",
+        "--end-datetime",
+        "2016-11-30T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2016-11.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988149927653098,
+        "vo": 0.7988226043674456
+      },
+      "first_time_utc": "2016-11-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2016-11-30T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2016-11",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2016-11.nc",
+      "requested_end": "2016-11-30",
+      "requested_start": "2016-11-01",
+      "sha256": "fd4a1958d03ec0809a39e5608343f7cc8f8f4c108dfdff01e8322a27b9ed8612",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 30,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 108719612,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2016-12-01T00:00:00+00:00",
+        "--end-datetime",
+        "2016-12-31T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2016-12.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988183444735181,
+        "vo": 0.798822249376285
+      },
+      "first_time_utc": "2016-12-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2016-12-31T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2016-12",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2016-12.nc",
+      "requested_end": "2016-12-31",
+      "requested_start": "2016-12-01",
+      "sha256": "e0f00543c3de2e217e2815106e550b0d6b83cb3632ab39a2433b61a8cc261323",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 31,
+      "time_units": "hours since 1950-01-01"
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 180.0,
+        "north": 15.0,
+        "south": -55.0,
+        "west": 0.0
+      },
+      "bytes": 108231169,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+        "--variable",
+        "uo",
+        "--variable",
+        "vo",
+        "--start-datetime",
+        "2017-01-01T00:00:00+00:00",
+        "--end-datetime",
+        "2017-01-31T00:00:00+00:00",
+        "--minimum-longitude",
+        "0.0",
+        "--maximum-longitude",
+        "180.0",
+        "--minimum-latitude",
+        "-55.0",
+        "--maximum-latitude",
+        "15.0",
+        "--minimum-depth",
+        "0.49402499198913574",
+        "--maximum-depth",
+        "0.49402499198913574",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw",
+        "--output-filename",
+        "cmems-glorys12-surface-2017-01.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR"
+      ],
+      "components": {
+        "uo": {
+          "long_name": "Eastward velocity",
+          "standard_name": "eastward_sea_water_velocity",
+          "units": "m s-1"
+        },
+        "vo": {
+          "long_name": "Northward velocity",
+          "standard_name": "northward_sea_water_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "uo": 0.7988208294116425,
+        "vo": 0.7988223381240751
+      },
+      "first_time_utc": "2017-01-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.4",
+        "institution": "MERCATOR OCEAN",
+        "source": "MERCATOR GLORYS12V1",
+        "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+      },
+      "last_time_utc": "2017-01-31T00:00:00Z",
+      "latitude_count": 841,
+      "longitude_count": 2161,
+      "month": "2017-01",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/glorys12/raw/cmems-glorys12-surface-2017-01.nc",
+      "requested_end": "2017-01-31",
+      "requested_start": "2017-01-01",
+      "sha256": "1014a58c4ac118141d45bc45b08dfe4fb400cdd2f270192df2eb45d157371d27",
+      "spacing_degrees": {
+        "latitude_median": 0.08333325386047363,
+        "longitude_median": 0.08333325386047363
+      },
+      "surface_depth_m": 0.49402499198913574,
+      "time_count": 31,
+      "time_units": "hours since 1950-01-01"
+    }
+  ],
+  "limitations": [
+    "GLORYS12V1 is assimilative; drifter validation is not guaranteed held out.",
+    "Only ocean current uo/vo are retrieved here. Stokes drift and direct windage remain distinct inputs.",
+    "Acceptance as the primary family requires the same all-path predictive and source-stability diagnostics as native HYCOM."
+  ],
+  "official_product": "https://data.marine.copernicus.eu/product/GLOBAL_MULTIYEAR_PHY_001_030/description",
+  "official_subset_method": "https://help.marine.copernicus.eu/en/articles/7972861-copernicus-marine-toolbox-cli-subset",
+  "official_user_manual": "https://documentation.marine.copernicus.eu/PUM/CMEMS-GLO-PUM-001-030.pdf",
+  "product_id": "GLOBAL_MULTIYEAR_PHY_001_030",
+  "requested_bounds_degrees": {
+    "east": 180.0,
+    "north": 15.0,
+    "south": -55.0,
+    "west": 0.0
+  },
+  "requested_depth_metres": [
+    0.49402499198913574,
+    0.49402499198913574
+  ],
+  "requested_period": {
+    "end": "2017-01-31",
+    "start": "2014-03-07"
+  },
+  "requested_variables": [
+    "uo",
+    "vo"
+  ],
+  "schema": "mh370-cmems-glorys12-retrieval-v1",
+  "selection_method": "outside",
+  "summary": {
+    "all_file_sha256": "9016b8b4bc9f532b37e4919b759017eb1453fcaf9e1db008ed7757647c0b502e",
+    "bytes": 3721251223,
+    "file_count": 35,
+    "time_count": 1062
+  },
+  "time_basis": "upstream daily field labelled at 00:00 UTC; averaging semantics preserved from source metadata",
+  "toolbox_version": "copernicusmarine, version 2.4.1"
+}

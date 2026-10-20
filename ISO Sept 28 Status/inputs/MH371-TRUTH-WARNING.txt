@@ -1,0 +1,5 @@
+inputs/acars/ holds the ACARS workbook, which contains the MH371 truth track.
+The MH371 known-flight control is blind: only its scorer (report/mh371_score.py) may read that
+file. No agent building, configuring or tuning the estimator may open it or any copy of it
+(this folder, mh371-acars.xlsx at the repository root, or the Hugging Face dissertation
+spreadsheets).

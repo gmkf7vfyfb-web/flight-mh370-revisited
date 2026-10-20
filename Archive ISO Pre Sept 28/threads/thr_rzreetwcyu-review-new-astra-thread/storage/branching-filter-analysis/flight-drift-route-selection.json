@@ -1,0 +1,335 @@
+{
+  "created_utc": "2026-09-09T20:34:52.460862+00:00",
+  "rule": "For each of four 2.5-degree impact bands and each of two aerodynamic alternatives, choose the largest joint weight among particles whose exact cruise histories are already retained. These illustrate the full-population regions; they are not a probability sample or necessarily the highest-weight route overall.",
+  "source_terminal_summary_sha256": "8a75983a7f17eb22bb546e24104698411fae385433f97232a0f5e19d4238c339",
+  "selections": [
+    {
+      "impact_latitude_bin_center_deg": -37.5,
+      "bin_width_deg": 2.5,
+      "full_population_bin_probability": 0.32360826046489843,
+      "retained_history_matches": 28,
+      "source_spatial_result": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/spatial-million-comparisons/openap26-positive-lift-3-targets--r600-no-startup-offset--cmems-nine-episodes/conditional-spatial-sensitivity.json",
+      "source_spatial_sha256": "fbead12260a553dec0326a4e95feea13f9e4dfcbfca759d56d9782a5efa8df50",
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-positive-lift-3-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 0,
+          "draw": 306,
+          "parent_slot": 39591,
+          "root_id": 39168
+        },
+        "latitude_deg": -36.266028258654096,
+        "longitude_deg": 90.95880661474138,
+        "impact_time_unix_s": 1394238466.5819888,
+        "baseline_weight": 0.00024504064776825784,
+        "conditional_weight": 0.0003853496115093425,
+        "relative_log_likelihood": -3.701253043320079,
+        "nearest_surface_distance_nm": 20.158009225515553,
+        "surface_cell_id": "arc-165",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "exact_history_source": {
+        "source_index": 0,
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631/trajectory-examples.json",
+        "sha256": "4e710339171ba05b6b82dd44259d56b84cec504d6d9e1b3848e6ed3559c3986f"
+      },
+      "cruise_initial_mode": "constant_true_track",
+      "cruise_counts": [
+        2,
+        4,
+        2
+      ]
+    },
+    {
+      "impact_latitude_bin_center_deg": -35.0,
+      "bin_width_deg": 2.5,
+      "full_population_bin_probability": 0.22968733416757398,
+      "retained_history_matches": 62,
+      "source_spatial_result": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/spatial-million-comparisons/openap26-positive-lift-3-targets--r600-no-startup-offset--cmems-nine-episodes/conditional-spatial-sensitivity.json",
+      "source_spatial_sha256": "fbead12260a553dec0326a4e95feea13f9e4dfcbfca759d56d9782a5efa8df50",
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-positive-lift-3-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 5,
+          "draw": 733,
+          "parent_slot": 130341,
+          "root_id": 129496
+        },
+        "latitude_deg": -35.89978738723985,
+        "longitude_deg": 91.83264773873151,
+        "impact_time_unix_s": 1394238447.5572894,
+        "baseline_weight": 0.001088847810966023,
+        "conditional_weight": 0.016330179584753433,
+        "relative_log_likelihood": -1.4460851202064615,
+        "nearest_surface_distance_nm": 11.239422460488225,
+        "surface_cell_id": "arc-163",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "exact_history_source": {
+        "source_index": 5,
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714/trajectory-examples.json",
+        "sha256": "078f69456b47b7f514ce7e82943e839da8e06468630aca8b6a7698f61cd1e01f"
+      },
+      "cruise_initial_mode": "constant_magnetic_track",
+      "cruise_counts": [
+        3,
+        1,
+        6
+      ]
+    },
+    {
+      "impact_latitude_bin_center_deg": -32.5,
+      "bin_width_deg": 2.5,
+      "full_population_bin_probability": 0.17129767006264526,
+      "retained_history_matches": 45,
+      "source_spatial_result": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/spatial-million-comparisons/openap26-positive-lift-3-targets--r600-no-startup-offset--cmems-nine-episodes/conditional-spatial-sensitivity.json",
+      "source_spatial_sha256": "fbead12260a553dec0326a4e95feea13f9e4dfcbfca759d56d9782a5efa8df50",
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-positive-lift-3-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 3,
+          "draw": 855,
+          "parent_slot": 41412,
+          "root_id": 40656
+        },
+        "latitude_deg": -33.23576112267526,
+        "longitude_deg": 94.4820458384412,
+        "impact_time_unix_s": 1394238728.25688,
+        "baseline_weight": 0.0009564635967951393,
+        "conditional_weight": 0.0274688646021302,
+        "relative_log_likelihood": -0.7964142247969335,
+        "nearest_surface_distance_nm": 23.6642958164959,
+        "surface_cell_id": "arc-158",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "exact_history_source": {
+        "source_index": 3,
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091712/trajectory-examples.json",
+        "sha256": "79e03a718fa0340c292a69786c049b16d02126f0c345603298eac1e7a2e069c3"
+      },
+      "cruise_initial_mode": "constant_true_heading",
+      "cruise_counts": [
+        3,
+        5,
+        0
+      ]
+    },
+    {
+      "impact_latitude_bin_center_deg": -30.0,
+      "bin_width_deg": 2.5,
+      "full_population_bin_probability": 0.2516588924283459,
+      "retained_history_matches": 44,
+      "source_spatial_result": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/spatial-million-comparisons/openap26-positive-lift-3-targets--r600-no-startup-offset--cmems-nine-episodes/conditional-spatial-sensitivity.json",
+      "source_spatial_sha256": "fbead12260a553dec0326a4e95feea13f9e4dfcbfca759d56d9782a5efa8df50",
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-positive-lift-3-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 0,
+          "draw": 952,
+          "parent_slot": 1723,
+          "root_id": 1581
+        },
+        "latitude_deg": -30.731783499750907,
+        "longitude_deg": 97.34057483702355,
+        "impact_time_unix_s": 1394238264.749872,
+        "baseline_weight": 0.00020310007682041798,
+        "conditional_weight": 0.012934827882310693,
+        "relative_log_likelihood": 0.0,
+        "nearest_surface_distance_nm": 17.64596609127602,
+        "surface_cell_id": "arc-152",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "exact_history_source": {
+        "source_index": 0,
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631/trajectory-examples.json",
+        "sha256": "4e710339171ba05b6b82dd44259d56b84cec504d6d9e1b3848e6ed3559c3986f"
+      },
+      "cruise_initial_mode": "constant_true_heading",
+      "cruise_counts": [
+        2,
+        2,
+        0
+      ]
+    },
+    {
+      "impact_latitude_bin_center_deg": -37.5,
+      "bin_width_deg": 2.5,
+      "full_population_bin_probability": 0.275286319579623,
+      "retained_history_matches": 30,
+      "source_spatial_result": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/spatial-million-comparisons/openap2020-positive-lift-3-targets--r600-no-startup-offset--cmems-nine-episodes/conditional-spatial-sensitivity.json",
+      "source_spatial_sha256": "50d7a3125ad6c7d61d96d35837d500cfee33f69c8dc174f0bfdc92c4272128e1",
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap2020-positive-lift-3-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 0,
+          "draw": 472,
+          "parent_slot": 41883,
+          "root_id": 41619
+        },
+        "latitude_deg": -37.39627364622145,
+        "longitude_deg": 89.05495389979149,
+        "impact_time_unix_s": 1394238810.224071,
+        "baseline_weight": 0.0006629362372836736,
+        "conditional_weight": 8.929519493395071e-05,
+        "relative_log_likelihood": -6.0580171123982325,
+        "nearest_surface_distance_nm": 21.41746125304443,
+        "surface_cell_id": "arc-168",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "exact_history_source": {
+        "source_index": 0,
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631/trajectory-examples.json",
+        "sha256": "4e710339171ba05b6b82dd44259d56b84cec504d6d9e1b3848e6ed3559c3986f"
+      },
+      "cruise_initial_mode": "constant_true_track",
+      "cruise_counts": [
+        1,
+        2,
+        0
+      ]
+    },
+    {
+      "impact_latitude_bin_center_deg": -35.0,
+      "bin_width_deg": 2.5,
+      "full_population_bin_probability": 0.3680501323241709,
+      "retained_history_matches": 67,
+      "source_spatial_result": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/spatial-million-comparisons/openap2020-positive-lift-3-targets--r600-no-startup-offset--cmems-nine-episodes/conditional-spatial-sensitivity.json",
+      "source_spatial_sha256": "50d7a3125ad6c7d61d96d35837d500cfee33f69c8dc174f0bfdc92c4272128e1",
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap2020-positive-lift-3-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 1,
+          "draw": 867,
+          "parent_slot": 51545,
+          "root_id": 51448
+        },
+        "latitude_deg": -33.91873312212241,
+        "longitude_deg": 94.15878042651656,
+        "impact_time_unix_s": 1394238486.5177991,
+        "baseline_weight": 0.002589105995695869,
+        "conditional_weight": 0.004394458246886306,
+        "relative_log_likelihood": -3.5242543611285413,
+        "nearest_surface_distance_nm": 6.49505400893284,
+        "surface_cell_id": "arc-159",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "exact_history_source": {
+        "source_index": 1,
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091640/trajectory-examples.json",
+        "sha256": "9632b98f198ca786d8b3197244b5e3a4e719651417cede2f43ec4e16eb8b21f4"
+      },
+      "cruise_initial_mode": "constant_magnetic_track",
+      "cruise_counts": [
+        3,
+        3,
+        3
+      ]
+    },
+    {
+      "impact_latitude_bin_center_deg": -32.5,
+      "bin_width_deg": 2.5,
+      "full_population_bin_probability": 0.14449424854194637,
+      "retained_history_matches": 50,
+      "source_spatial_result": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/spatial-million-comparisons/openap2020-positive-lift-3-targets--r600-no-startup-offset--cmems-nine-episodes/conditional-spatial-sensitivity.json",
+      "source_spatial_sha256": "50d7a3125ad6c7d61d96d35837d500cfee33f69c8dc174f0bfdc92c4272128e1",
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap2020-positive-lift-3-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 3,
+          "draw": 971,
+          "parent_slot": 164101,
+          "root_id": 166491
+        },
+        "latitude_deg": -31.545302827317165,
+        "longitude_deg": 96.69574800475579,
+        "impact_time_unix_s": 1394238462.719099,
+        "baseline_weight": 0.0007034123188243119,
+        "conditional_weight": 0.03130638088393352,
+        "relative_log_likelihood": -0.2576519934526118,
+        "nearest_surface_distance_nm": 8.682655827301648,
+        "surface_cell_id": "arc-154",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "exact_history_source": {
+        "source_index": 3,
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091712/trajectory-examples.json",
+        "sha256": "79e03a718fa0340c292a69786c049b16d02126f0c345603298eac1e7a2e069c3"
+      },
+      "cruise_initial_mode": "constant_magnetic_track",
+      "cruise_counts": [
+        3,
+        6,
+        2
+      ]
+    },
+    {
+      "impact_latitude_bin_center_deg": -30.0,
+      "bin_width_deg": 2.5,
+      "full_population_bin_probability": 0.1901743903713274,
+      "retained_history_matches": 43,
+      "source_spatial_result": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/spatial-million-comparisons/openap2020-positive-lift-3-targets--r600-no-startup-offset--cmems-nine-episodes/conditional-spatial-sensitivity.json",
+      "source_spatial_sha256": "50d7a3125ad6c7d61d96d35837d500cfee33f69c8dc174f0bfdc92c4272128e1",
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap2020-positive-lift-3-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 3,
+          "draw": 970,
+          "parent_slot": 164101,
+          "root_id": 166491
+        },
+        "latitude_deg": -31.15968632071144,
+        "longitude_deg": 96.9381729342548,
+        "impact_time_unix_s": 1394238470.1545208,
+        "baseline_weight": 0.0001423509953069762,
+        "conditional_weight": 0.006217437621192921,
+        "relative_log_likelihood": -0.2764686409900037,
+        "nearest_surface_distance_nm": 14.612424617589369,
+        "surface_cell_id": "arc-153",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "exact_history_source": {
+        "source_index": 3,
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091712/trajectory-examples.json",
+        "sha256": "79e03a718fa0340c292a69786c049b16d02126f0c345603298eac1e7a2e069c3"
+      },
+      "cruise_initial_mode": "constant_magnetic_track",
+      "cruise_counts": [
+        3,
+        6,
+        2
+      ]
+    }
+  ]
+}

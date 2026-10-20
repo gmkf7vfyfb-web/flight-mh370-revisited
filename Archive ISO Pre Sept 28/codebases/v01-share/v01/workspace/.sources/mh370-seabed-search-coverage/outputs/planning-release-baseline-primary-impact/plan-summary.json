@@ -1,0 +1,107 @@
+{
+  "branch_status": "sensitivity_not_operational",
+  "declared_proxy_opportunity_multipliers": {
+    "approximate_march2024_inboard_outline": 1.05,
+    "approximate_march2024_outboard_outline": 0.88,
+    "approximate_oi2018_outline": 0.82,
+    "combined_clamp": [
+      0.5,
+      1.1
+    ],
+    "interpretation": "subjective planning sensitivity only; not PoD, a likelihood, or evidence of target absence",
+    "official_bluefin_display_footprint": 0.75,
+    "official_phase2_source_footprint": 0.72,
+    "within_25_km_of_ais_surface_vessel_track": 0.95
+  },
+  "input": {
+    "bytes": 446640,
+    "logical_path": "runs/mh370/release-v0.1/conditional/baseline-primary-impact-particles.csv",
+    "particle_count": 2560,
+    "role": "release_input",
+    "sha256": "7ee909f6f20fd35552e2cd375e1edf6e277b1df992849e35191c194102cc13b8",
+    "weight_column": "baseline_weight",
+    "weight_mode": "linear",
+    "weights_normalized_by_planner": true
+  },
+  "label": "release-baseline-primary-impact",
+  "method": {
+    "budget_km2": 7500.0,
+    "centroid_latitude_deg": -38.159566569743056,
+    "centroid_longitude_deg": 89.40882087055581,
+    "kde": "isotropic Gaussian evaluated at tile centers",
+    "kde_bandwidth_km": 35.0,
+    "kde_grid_mass_renormalized": true,
+    "kde_truncation_sigma": 4.0,
+    "projection": "local equirectangular coordinates about weighted particle centroid",
+    "ranking_extension": "all rows after the first 12 in each ordered CSV are the deterministic extension order under that family's assumptions",
+    "selected_tile_count": 12,
+    "tile_area_km2": 625.0,
+    "tile_size_km": 25.0
+  },
+  "plans": {
+    "posterior_only": {
+      "ranking": "posterior KDE mass per square kilometre",
+      "selected_area_km2": 7500.0,
+      "selected_posterior_mass": 0.38512054651008654,
+      "selected_tile_ids": [
+        "tile-x016-y012",
+        "tile-x017-y012",
+        "tile-x016-y011",
+        "tile-x015-y011",
+        "tile-x017-y013",
+        "tile-x015-y012",
+        "tile-x016-y013",
+        "tile-x017-y011",
+        "tile-x018-y013",
+        "tile-x014-y011",
+        "tile-x018-y012",
+        "tile-x015-y010"
+      ]
+    },
+    "proxy_logistics_sensitivity": {
+      "operational_sequence": "greedy next-tile score divided by 1 + great-circle transit_km/100 within the selected set",
+      "operational_tile_ids": [
+        "tile-x016-y011",
+        "tile-x016-y012",
+        "tile-x017-y012",
+        "tile-x017-y011",
+        "tile-x018-y012",
+        "tile-x017-y013",
+        "tile-x016-y013",
+        "tile-x015-y012",
+        "tile-x015-y011",
+        "tile-x015-y010",
+        "tile-x016-y010",
+        "tile-x018-y013"
+      ],
+      "ranking": "posterior KDE mass per square kilometre times declared opportunity multiplier",
+      "selected_area_km2": 7500.0,
+      "selected_posterior_mass": 0.37944495380634213,
+      "selected_tile_ids": [
+        "tile-x016-y011",
+        "tile-x016-y012",
+        "tile-x017-y011",
+        "tile-x017-y012",
+        "tile-x018-y012",
+        "tile-x015-y010",
+        "tile-x015-y011",
+        "tile-x017-y013",
+        "tile-x015-y012",
+        "tile-x016-y013",
+        "tile-x016-y010",
+        "tile-x018-y013"
+      ]
+    },
+    "selected_tile_overlap_count": 11
+  },
+  "schema_version": 1,
+  "scientific_boundary": {
+    "ais_tracks_update_posterior": false,
+    "approximate_outlines_update_posterior": false,
+    "binary_exclusion_applied": false,
+    "calibrated_search_optimization_ready": false,
+    "negative_search_likelihood_applied": false
+  },
+  "snapshot_date": "2026-08-31",
+  "status_note": "Primary SATCOM plus primary end-of-flight impact posterior. Search-coverage PoD unresolved. Non-operational planning sensitivity."
+}

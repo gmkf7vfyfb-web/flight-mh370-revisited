@@ -1,0 +1,170 @@
+{
+  "binary_bytes": 40386248,
+  "binary_path": ".sources/ecmwf-era5-weather/outputs/mh370-era5-grid.candidate.bin",
+  "binary_sha256": "261f4e1442ffac69df0201371f7dbf42da0ac0fa30065fc04e0e6293677a2a53",
+  "checks": {
+    "all_field_values_finite_and_plausible": "passed",
+    "binary_header_axes_and_exact_size": "passed",
+    "dry_air_density_contract": "passed",
+    "manifest_and_source_object_identity": "passed",
+    "raw_bracket_spot_interpolation": "passed_bit_exact_float32",
+    "two_byte_identical_remote_regenerations": "passed",
+    "vertical_wind_absent": "passed"
+  },
+  "extractor_sha256": "5630165bd11d6a8d99a132dea6aad2a61c50017ecb690b5e30a8b8bd651677c2",
+  "field_statistics": {
+    "temperature_k": {
+      "maximum": 309.9218444824219,
+      "mean": 246.87291737471347,
+      "minimum": 202.2091522216797
+    },
+    "wind_east_m_s": {
+      "maximum": 77.42534637451172,
+      "mean": 12.610420123605028,
+      "minimum": -28.664499282836914
+    },
+    "wind_north_m_s": {
+      "maximum": 44.912540435791016,
+      "mean": 0.8094053967071766,
+      "minimum": -52.36455535888672
+    }
+  },
+  "independent_spot_checks": [
+    {
+      "derived_dry_air_density_kg_m3": 1.29285881578041,
+      "fields": {
+        "temperature_k": {
+          "absolute_error": 0.0,
+          "independent_output": 268.1285095214844,
+          "raw_lower": 267.5950012207031,
+          "raw_upper": 268.2577209472656,
+          "stored_output": 268.1285095214844
+        },
+        "wind_east_m_s": {
+          "absolute_error": 0.0,
+          "independent_output": -1.357930302619934,
+          "raw_lower": -3.3040614128112793,
+          "raw_upper": -0.8865313529968262,
+          "stored_output": -1.357930302619934
+        },
+        "wind_north_m_s": {
+          "absolute_error": 0.0,
+          "independent_output": -8.51380729675293,
+          "raw_lower": -10.451035499572754,
+          "raw_upper": -8.044565200805664,
+          "stored_output": -8.51380729675293
+        }
+      },
+      "latitude_deg": 50.0,
+      "longitude_deg": 55.0,
+      "lower_source_hpa": 975.0,
+      "pressure_altitude_ft": 500,
+      "target_pressure_hpa": 995.075397017007,
+      "time_utc": "2014-03-07T17:00:00",
+      "upper_source_hpa": 1000.0
+    },
+    {
+      "derived_dry_air_density_kg_m3": 0.6148276192515791,
+      "fields": {
+        "temperature_k": {
+          "absolute_error": 0.0,
+          "independent_output": 263.832275390625,
+          "raw_lower": 262.3061218261719,
+          "raw_upper": 267.01483154296875,
+          "stored_output": 263.832275390625
+        },
+        "wind_east_m_s": {
+          "absolute_error": 0.0,
+          "independent_output": -3.0862619876861572,
+          "raw_lower": -3.716691017150879,
+          "raw_upper": -1.7716102600097656,
+          "stored_output": -3.0862619876861572
+        },
+        "wind_north_m_s": {
+          "absolute_error": 0.0,
+          "independent_output": -1.527178406715393,
+          "raw_lower": -2.183966636657715,
+          "raw_upper": -0.15755939483642578,
+          "stored_output": -1.527178406715393
+        }
+      },
+      "latitude_deg": -5.0,
+      "longitude_deg": 90.0,
+      "lower_source_hpa": 450.0,
+      "pressure_altitude_ft": 20000,
+      "target_pressure_hpa": 465.6323923628082,
+      "time_utc": "2014-03-07T21:00:00",
+      "upper_source_hpa": 500.0
+    },
+    {
+      "derived_dry_air_density_kg_m3": 0.24778705634139422,
+      "fields": {
+        "temperature_k": {
+          "absolute_error": 0.0,
+          "independent_output": 228.2601318359375,
+          "raw_lower": 227.37484741210938,
+          "raw_upper": 229.0987548828125,
+          "stored_output": 228.2601318359375
+        },
+        "wind_east_m_s": {
+          "absolute_error": 0.0,
+          "independent_output": 17.669775009155273,
+          "raw_lower": 17.52690315246582,
+          "raw_upper": 17.805118560791016,
+          "stored_output": 17.669775009155273
+        },
+        "wind_north_m_s": {
+          "absolute_error": 0.0,
+          "independent_output": -17.433849334716797,
+          "raw_lower": -14.763054847717285,
+          "raw_upper": -19.963890075683594,
+          "stored_output": -17.433849334716797
+        }
+      },
+      "latitude_deg": -60.0,
+      "longitude_deg": 125.0,
+      "lower_source_hpa": 150.0,
+      "pressure_altitude_ft": 43000,
+      "target_pressure_hpa": 162.35683386635253,
+      "time_utc": "2014-03-08T01:00:00",
+      "upper_source_hpa": 175.0
+    }
+  ],
+  "installation": {
+    "directory": "inputs/environment",
+    "installed": true,
+    "installed_binary_sha256": "261f4e1442ffac69df0201371f7dbf42da0ac0fa30065fc04e0e6293677a2a53",
+    "installed_manifest_sha256": "3dc2ba3e19406bc2707b72e2428511da7f10abba0b6f76f270af5bc5895ff43e",
+    "previous_artifacts": {
+      "binary": {
+        "bytes": 20941756,
+        "sha256": "0377e1fd6467090c05b74d90f49327299ac16e33f44f36d6c37d95e713e2799b"
+      },
+      "manifest": {
+        "bytes": 1082,
+        "sha256": "0ab6bc98421f598c5bc827a7fa35e2290d04ea4ace721c974a0f41564ec5a94a"
+      }
+    }
+  },
+  "manifest_path": ".sources/ecmwf-era5-weather/outputs/mh370-era5-grid.candidate.manifest.json",
+  "manifest_sha256": "3dc2ba3e19406bc2707b72e2428511da7f10abba0b6f76f270af5bc5895ff43e",
+  "report_path": ".sources/ecmwf-era5-weather/outputs/mh370-era5-validation.html",
+  "report_sha256": "80e674fd3bbc37dec312ff13b7daf54b4c80d36d3891863286ca57616b2d2391",
+  "runtime": {
+    "elapsed_seconds": 1.5583319739962462,
+    "peak_process_rss_basis": "Linux getrusage(RUSAGE_SELF).ru_maxrss",
+    "peak_process_rss_bytes": 89341952
+  },
+  "schema_version": "mh370-era5-independent-validation-v1",
+  "shape_time_pressure_altitude_lat_lon": [
+    9,
+    12,
+    221,
+    141
+  ],
+  "source_chunk_count": 27,
+  "status": "passed",
+  "validated_utc": "2026-08-27T20:19:53.645819Z",
+  "validator_sha256": "77cdc98f0baf6db5cfc56aef076f0901587fff8a0a6348dbbab73eb8addabb67",
+  "values_scanned_per_field": 3365388
+}

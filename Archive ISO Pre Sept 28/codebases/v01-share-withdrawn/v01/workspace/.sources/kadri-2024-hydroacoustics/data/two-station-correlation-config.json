@@ -1,0 +1,93 @@
+{
+  "status": "EXPLORATORY_PUBLICATION_TRACE_TWO_STATION_CORRELATION_CONTROL",
+  "central_celerity_km_s": 1.50,
+  "celerity_sensitivity_km_s": [1.43, 1.50, 1.57],
+  "panel_edge_guard_s": 10.0,
+  "dilated_airgun_score_mask_half_width_s": 3.0,
+  "source_grid": {
+    "path": "../pleiades-bran2016-forward-inversion/outputs/model-averaged-impact-density.csv",
+    "sha256": "0af895ba12d023a81cffbc0df4df30baba0de5d2a243861b86c0a7b9a2af222b",
+    "support": "current equal-prior BRAN2016, OSCAR v2 Final and GLORYS12/WAVERYS Pléiades transport-family grid on the official FL400 seventh-arc reference; 5 NM along-arc and cross-arc grid to plus or minus 100 NM"
+  },
+  "correlation_variants": [
+    {"id": "no_airgun_suppression", "rank": null, "mask_airgun": false, "role": "publication-trace local energy with no additional periodic-airgun suppression or masking"},
+    {"id": "rank8_unmasked", "rank": 8, "mask_airgun": false, "role": "primary held-out-selected filter but airgun-contaminated"},
+    {"id": "rank8_masked", "rank": 8, "mask_airgun": true, "role": "primary filter with dilated observed-centre score exclusion"},
+    {"id": "rank20_unmasked", "rank": 20, "mask_airgun": false, "role": "stronger-filter sensitivity without score exclusion"},
+    {"id": "rank20_masked", "rank": 20, "mask_airgun": true, "role": "stronger-filter sensitivity with dilated observed-centre score exclusion"}
+  ],
+  "primary_variant": "rank8_unmasked",
+  "contribution_window_s": 4.0,
+  "contribution_minimum_separation_s": 8.0,
+  "contribution_limit": 10,
+  "unfiltered_acquisition": {
+    "variant": "no_airgun_suppression",
+    "fine_offset_min_s": -5.0,
+    "fine_offset_max_s": 5.0,
+    "fine_offset_step_s": 0.25,
+    "independent_response_separation_s": 5.0,
+    "top_response_count": 10,
+    "matched_display_half_width_s": 15.0,
+    "local_correlation_window_s": 20.0,
+    "local_product_window_s": 4.0,
+    "source_time_control_utc": ["2014-03-08T00:19:37Z", "2014-03-08T00:49:37Z"],
+    "oscar_audit_window_utc": ["2014-03-08T00:34:00Z", "2014-03-08T00:35:00Z"],
+    "edge_trailing_windows_s": [4, 8, 10, 12, 16, 20],
+    "iaaft_random_seed": 3700102,
+    "iaaft_replicates": 250,
+    "iaaft_iterations": 20,
+    "null": "independent panel-wise IAAFT surrogates of H08S publication pressure; maximum unfiltered energy correlation over the complete geometry-plus-offset search",
+    "generic_template_status": "secondary compatibility with the existing illustrative two-part pulse; never used for candidate selection"
+  },
+  "filtered_acquisition": {
+    "variant": "rank8_unmasked",
+    "fine_offset_min_s": -5.0,
+    "fine_offset_max_s": 5.0,
+    "fine_offset_step_s": 0.25,
+    "independent_response_separation_s": 5.0,
+    "top_response_count": 10,
+    "matched_display_half_width_s": 15.0,
+    "local_correlation_window_s": 20.0,
+    "local_product_window_s": 4.0,
+    "source_time_control_utc": ["2014-03-08T00:19:37Z", "2014-03-08T00:49:37Z"],
+    "iaaft_random_seed": 3700103,
+    "iaaft_replicates": 250,
+    "iaaft_iterations": 20,
+    "null": "independent panel-wise IAAFT surrogates of the held-out-selected rank-8 H08S residual local-energy score; maximum correlation over the complete geometry-plus-offset search",
+    "selection": "rank 8 is the pre-existing held-out control choice: it preserves substantially more synthetic coincident transient amplitude than rank 20 while still reducing periodic-cycle RMS",
+    "candidate_status": "HELD_OUT_SELECTED_AIRGUN_FILTER_PUBLICATION_TRACE_CANDIDATE_NOT_EVENT_ASSOCIATION"
+  },
+  "pulse_conditioned_acquisition": {
+    "cycle_core_half_width_s": 2.0,
+    "cycle_shoulder_inner_s": 2.0,
+    "cycle_shoulder_outer_s": 4.5,
+    "h08_tail_fraction": 0.10,
+    "h01_peak_half_width_s": 2.0,
+    "fine_offset_min_s": -5.0,
+    "fine_offset_max_s": 5.0,
+    "fine_offset_step_s": 0.25,
+    "independent_pair_separation_s": 5.0,
+    "top_pair_count": 10,
+    "matched_display_half_width_s": 15.0,
+    "source_time_control_utc": ["2014-03-08T00:19:37Z", "2014-03-08T00:49:37Z"],
+    "random_seed": 3700104,
+    "null_replicates": 250,
+    "nulls": [
+      "permute pulse-energy marks within each H08S panel while retaining pulse times, H01W data and the complete grid search",
+      "circularly time-slide the H01W feature series within each publication panel while retaining the H08S marks and the complete grid search"
+    ],
+    "statistic": "Fisher combination of conservative empirical upper-tail fractions for H08S core-minus-shoulder pressure-squared exposure and the predicted H01W four-second local-energy maximum; significance is determined only from complete-search empirical null maxima"
+  },
+  "bearing_time_match_tolerance_s": 0.75,
+  "source_reported_direction_events": [
+    {"id": "figure9_rectangle_1", "arrival_utc": "2014-03-08T00:52:00Z", "bearing_deg": 57.0, "source": "Kadri 2024 Figure 9 rectangle 1"},
+    {"id": "figure9_rectangle_2", "arrival_utc": "2014-03-08T00:54:30Z", "bearing_deg": 306.18, "source": "Kadri 2024 Figure 9 rectangle 2 and Table 1"}
+  ],
+  "kadri_preferred_distance_control": {
+    "event_id": "figure9_rectangle_2",
+    "bearing_deg": 306.18,
+    "distance_from_h01w_km": 1586.0,
+    "source": "Kadri 2024 p. 13: seventh-arc distance from H01W in the 306.18 degree direction"
+  },
+  "interpretation": "The correlation is Pearson correlation between panel-wise standardised local-energy scores after shifting by the point-source distance difference. It is a descriptive scan of already-filtered publication vectors. A source cell only selects an interstation lag, so maxima are range-difference contours rather than unique locations."
+}

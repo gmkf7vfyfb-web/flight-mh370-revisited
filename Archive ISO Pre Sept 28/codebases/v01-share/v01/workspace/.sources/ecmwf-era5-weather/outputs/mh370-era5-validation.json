@@ -1,0 +1,171 @@
+{
+  "binary_bytes": 337328648,
+  "binary_path": "/tmp/mh370-era5-global.candidate.bin",
+  "binary_sha256": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4",
+  "checks": {
+    "all_field_values_finite_and_plausible": "passed",
+    "binary_header_axes_and_exact_size": "passed",
+    "dry_air_density_contract": "passed",
+    "exact_duplicate_longitude_seam": "passed",
+    "manifest_and_source_object_identity": "passed",
+    "raw_bracket_spot_interpolation": "passed_bit_exact_float32",
+    "two_byte_identical_remote_regenerations": "passed",
+    "vertical_wind_absent": "passed"
+  },
+  "extractor_sha256": "59cb163416150b758361ede8c50028296d8ee0b5b2ec33393528e7cd38011cdd",
+  "field_statistics": {
+    "temperature_k": {
+      "maximum": 315.41436767578125,
+      "mean": 241.5876939887898,
+      "minimum": 196.96621704101562
+    },
+    "wind_east_m_s": {
+      "maximum": 97.63721466064453,
+      "mean": 9.514245371400165,
+      "minimum": -45.24833679199219
+    },
+    "wind_north_m_s": {
+      "maximum": 78.67399597167969,
+      "mean": 0.043144794798959996,
+      "minimum": -63.382118225097656
+    }
+  },
+  "independent_spot_checks": [
+    {
+      "derived_dry_air_density_kg_m3": 1.3295852461390387,
+      "fields": {
+        "temperature_k": {
+          "absolute_error": 0.0,
+          "independent_output": 260.7221374511719,
+          "raw_lower": 263.0187683105469,
+          "raw_upper": 260.16583251953125,
+          "stored_output": 260.7221374511719
+        },
+        "wind_east_m_s": {
+          "absolute_error": 0.0,
+          "independent_output": -0.0002650183450896293,
+          "raw_lower": 3.266334533691406e-05,
+          "raw_upper": -0.0003371238708496094,
+          "stored_output": -0.0002650183450896293
+        },
+        "wind_north_m_s": {
+          "absolute_error": 0.0,
+          "independent_output": 0.0004040604399051517,
+          "raw_lower": -0.0004410743713378906,
+          "raw_upper": 0.0006087720394134521,
+          "stored_output": 0.0004040604399051517
+        }
+      },
+      "latitude_deg": 90.0,
+      "longitude_deg": -180.0,
+      "lower_source_hpa": 975.0,
+      "pressure_altitude_ft": 500,
+      "target_pressure_hpa": 995.075397017007,
+      "time_utc": "2014-03-07T17:00:00",
+      "upper_source_hpa": 1000.0
+    },
+    {
+      "derived_dry_air_density_kg_m3": 0.6116025283966011,
+      "fields": {
+        "temperature_k": {
+          "absolute_error": 0.0,
+          "independent_output": 265.2235107421875,
+          "raw_lower": 263.61322021484375,
+          "raw_upper": 268.58148193359375,
+          "stored_output": 265.2235107421875
+        },
+        "wind_east_m_s": {
+          "absolute_error": 0.0,
+          "independent_output": -7.17733097076416,
+          "raw_lower": -6.587761878967285,
+          "raw_upper": -8.406776428222656,
+          "stored_output": -7.17733097076416
+        },
+        "wind_north_m_s": {
+          "absolute_error": 0.0,
+          "independent_output": -0.24799583852291107,
+          "raw_lower": 0.10889911651611328,
+          "raw_upper": -0.9922389984130859,
+          "stored_output": -0.24799583852291107
+        }
+      },
+      "latitude_deg": 0.0,
+      "longitude_deg": 0.0,
+      "lower_source_hpa": 450.0,
+      "pressure_altitude_ft": 20000,
+      "target_pressure_hpa": 465.6323923628082,
+      "time_utc": "2014-03-07T21:00:00",
+      "upper_source_hpa": 500.0
+    },
+    {
+      "derived_dry_air_density_kg_m3": 0.2490116018319699,
+      "fields": {
+        "temperature_k": {
+          "absolute_error": 0.0,
+          "independent_output": 227.13763427734375,
+          "raw_lower": 227.158203125,
+          "raw_upper": 227.11814880371094,
+          "stored_output": 227.13763427734375
+        },
+        "wind_east_m_s": {
+          "absolute_error": 0.0,
+          "independent_output": -0.0007680871640332043,
+          "raw_lower": -0.0009708404541015625,
+          "raw_upper": -0.000576019287109375,
+          "stored_output": -0.0007680871640332043
+        },
+        "wind_north_m_s": {
+          "absolute_error": 0.0,
+          "independent_output": 0.0002689347602427006,
+          "raw_lower": 0.0006670951843261719,
+          "raw_upper": -0.00010824203491210938,
+          "stored_output": 0.0002689347602427006
+        }
+      },
+      "latitude_deg": -90.0,
+      "longitude_deg": 180.0,
+      "lower_source_hpa": 150.0,
+      "pressure_altitude_ft": 43000,
+      "target_pressure_hpa": 162.35683386635253,
+      "time_utc": "2014-03-08T01:00:00",
+      "upper_source_hpa": 175.0
+    }
+  ],
+  "installation": {
+    "directory": "inputs/environment",
+    "installed": true,
+    "installed_binary_sha256": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4",
+    "installed_manifest_sha256": "4a312d7d733851fc03cf96fd5bcad65eeb4c42e1a5c1451aeb3a3654706adad0",
+    "previous_artifacts": {
+      "binary": {
+        "bytes": 40386248,
+        "sha256": "261f4e1442ffac69df0201371f7dbf42da0ac0fa30065fc04e0e6293677a2a53"
+      },
+      "manifest": {
+        "bytes": 33189,
+        "sha256": "3dc2ba3e19406bc2707b72e2428511da7f10abba0b6f76f270af5bc5895ff43e"
+      }
+    }
+  },
+  "manifest_path": "/tmp/mh370-era5-global.candidate.manifest.json",
+  "manifest_sha256": "4a312d7d733851fc03cf96fd5bcad65eeb4c42e1a5c1451aeb3a3654706adad0",
+  "report_path": ".sources/ecmwf-era5-weather/outputs/mh370-era5-validation.html",
+  "report_sha256": "2a4e3fd439b8e1213cc6851e7d3a2519276f313c0f13abd063a8c3b24d1ef601",
+  "runtime": {
+    "elapsed_seconds": 12.942899294022936,
+    "peak_process_rss_basis": "Linux getrusage(RUSAGE_SELF).ru_maxrss",
+    "peak_process_rss_bytes": 585125888
+  },
+  "schema_version": "mh370-era5-independent-validation-v1",
+  "shape_time_pressure_altitude_lat_lon": [
+    9,
+    12,
+    361,
+    721
+  ],
+  "source_chunk_count": 27,
+  "status": "passed",
+  "validated_utc": "2026-09-06T22:20:11.474686Z",
+  "validator_sha256": "0dda3cfbc67e1986fdcada80626dcc19890c3b53b60925debece1e11a640536e",
+  "values_scanned_per_field": 28110348
+}
