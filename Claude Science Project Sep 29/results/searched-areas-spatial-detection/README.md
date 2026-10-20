@@ -97,8 +97,8 @@ q = 0.95/0.70 by Figure 73 lower-confidence fraction; ρ = 0.05 × terrain weigh
 ## Correction, 20 Oct 2026 (two defects in the ρ terrain weight w; found while drawing the maps north of 33 S)
 1. **No-bathymetry fallback did not fire.** The code and this note said w = 1 where the GA Phase 1 bathymetry has no data. In fact the
    missing slope and roughness were filled with 0 before smoothing, so those cells got the flat-ground value w = 0.347 (ρ = 0.017, not 0.05).
-   Phase 2 is not affected (bathymetry everywhere). Affected: 27.9 % of Ocean Infinity 2018 ground (coverage-weighted; 26–82 % by 2° band
-   north of 33 S) and 20 % of Ocean Infinity 2025–26 ground. Fixed in `build_fields.py` (w = 1 where `have` is False).
+   Phase 2 is not affected (bathymetry everywhere). Affected: 27.9 % of Ocean Infinity 2018 ground (coverage-weighted; 7–82 % by latitude band
+   at 33–24.5 S) and 20 % of Ocean Infinity 2025–26 ground. Fixed in `build_fields.py` (w = 1 where `have` is False).
 2. **Off-grid w = 0.** The 0.005° grid ends at 24.5° S; the lookup returned w = 0 outside it, so Bluefin-21 ground (21° S) had ρ = 0 under the
    terrain-shaped variants. Fixed in `score_spatial_run_j.py` (w = 1 off the grid).
 
