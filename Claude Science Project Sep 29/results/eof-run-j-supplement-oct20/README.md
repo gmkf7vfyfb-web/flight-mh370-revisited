@@ -21,7 +21,7 @@ dynamics, not a physical prediction.
 5. Analysis ran beside the 12-thread job for about 1 h in total (single-threaded; the `nice` call was not permitted in the sandbox).
 6. New 'other cause only' cells D3s, D4s, D5s (log-on from another cause, silent, without the q = 1/3 mixture) are added because the
    Pléiades finding was stated for that cell; the headline cells stay the q = 1/3 totals.
-7. Repository: the work-order commit 15316c85 had deleted 10,952 files; this order was worked from f4fa6cf0 and is committed on top of
+7. Repository: the work-order commit 15316c85 had deleted 10,951 files (10,952 files changed, including the added work order); this order was worked from f4fa6cf0 and is committed on top of
    the restored tree (0915281), with no deletions.
 
 ## 1. What was run (20 Oct, 02:50-09:52Z)
