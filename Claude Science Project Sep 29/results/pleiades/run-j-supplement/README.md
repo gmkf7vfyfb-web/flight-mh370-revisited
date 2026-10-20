@@ -127,7 +127,7 @@ Treatments D0'-D5 are the competing-causes totals (q = 1/3, other cause silent);
 | D5s, other cause only | 0.075 (0.076) [0.058] | **2,947** [2,154; 1,483] | pass / pass | 2,934 | 0.003, 23 | 2,407 / 766 | 766 / 669 / 669 |
 
 The "end of flight's form" in brackets is Z_H(d, A1) / Z_H(d) with the main set's total; the primary share replaces the main set's own
-branch-1 and branch-2 A1 rows by the strata, as on 19 Oct. They differ by at most 0.012 (D4) under H. The main set has no A1 rows outside
+branch-1 and branch-2 A1 rows by the strata, as on 19 Oct. They differ by at most 0.013 (D4) under H. The main set has no A1 rows outside
 the two branches (residual 0 in every cell).
 
 ## 4. Checks
