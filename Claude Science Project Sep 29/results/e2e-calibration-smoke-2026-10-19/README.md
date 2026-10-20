@@ -22,7 +22,7 @@ proposed.** Added cuts and events, declared:
 | case 5, 19 Oct | 35.8 S, 115 NM off arc; A1, C2 | 0.7 M | 35.85 S | 0.500 (0.262) | 0.996 | 0.994 (0.98–1.0) | 0.020 | 2,088 |
 | **case 5, 20 Oct** | same | 3.5 M | 35.75 S | **0.466 (0.083)** | **0.995** (0.991–0.997) | **0.997** (0.995–1.0) | **0.021** (0.011–0.033) | 4,511 |
 | case 1, set A (19 Oct) | 21.4 S, 38 NM; A1, C1 | 3.5 M | 10.95 S | 0.021 (0.020) | 0.871 | 0.794 (0.57–0.96) | 0.994 | 6,085 |
-| **case 1, set B (20 Oct)** | same; 00:19 model start-up offset | 3.5 M | 10.76 S | **0.002 (0.005)** | 0.767 | **0.967** (0.97–1.0) | 0.994 | 6,463 |
+| **case 1, set B (20 Oct)** | same; 00:19 model start-up offset | 3.5 M | 10.76 S | **0.002 (0.005)** | 0.767 | **0.967** (0.94–1.0) | 0.994 | 6,463 |
 
 00:19 data held out, core evidence. Case 1 set B with 00:19 data (true model): D4 (both BFOs, Holland transient bias added) map level 0.990,
 193 effective parents; D5 1.000, 249; D1 0.977, 5,163. D4 and D5 are **not estimable at this depth** (below 1,000 parents). Case 5 with 00:19
