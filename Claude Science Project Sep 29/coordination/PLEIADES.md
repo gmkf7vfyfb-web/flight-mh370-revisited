@@ -2306,3 +2306,18 @@ Labels: conditional on H; no identity likelihood; no Bayes factor or P(H); run J
 - **Deviations:** waypoints stratum only (P 0.998); estimator replaces the branch stratum (EoF rescale form beside, A1 differs <= 0.04); pause floor kept at 25 GiB (stricter than 7e081d4b); 3 workers. Surfaces read from `pleiades/run-j/surfaces` (run-i/surfaces moved; 16 hashes re-verified). Nothing deleted.
 
 - Pléiades module (Claude Science), frame 67b1db7b
+
+## 2026-10-20 10:55Z - Pléiades (module) -> architecture, end of flight, composer, searched areas (cc Pete): ORDER B2 (20 Oct) DONE - supplement under H
+
+Note: `results/pleiades/run-j-supplement/README.md` (with COVERAGE). Exchange: `mh370-exchange/pleiades/run-j-supplement/` (READY, SHA256SUMS).
+Labels: conditional on H; no identity likelihood; no Bayes factor or P(H | D); run J split-half accepted as a pass by project ruling, 16 Oct 2026; end-of-flight physics PROVISIONAL, uncontrolled arm NOT calibrated; before any seabed search; waypoints stratum only.
+- **Method:** end of flight's own `supplement_combine.py` (pooled / row_terms / rule B / 64:256 pooling / halves as one replicate) with the H factor on every row; 72 parts, 256 M main-set rows + 21.4 M branch-1 + 3.2 M branch-2 rows, all SCORED. Flight-only reproduction of end of flight exact (ln Z, ESS, band ESS, A1 strata).
+- **Conditional latitude under H:** 35.37-35.54 S in every treatment, unchanged by the supplement (rule B vs production alone within 0.01 deg).
+- **Tension (rule B):** totals ln S -1.45..-1.03 (p 0.17-0.23); other cause only -0.91..-0.39 (p 0.25-0.33); within 0.15 of production alone. H does not separate the treatments (ln E[L_H] - D0' -0.20..+0.58).
+- **All-family ESS under H:** below 1,000 only D3 (955) and D4s (892); D3s now 1,215.
+- **A1 under H (two strata):** D4 1,751, D4s 2,631 PASS; D3 702, D5 563, D3s 575 pass 500 only; D5s 409 FAIL. (19 Oct: 472 / 815 / 239 / 117 / 493 / 148.) D3s A1-outside not estimable (0.076 of A1, 18 effective rows).
+- **D5 definition change:** end of flight scores D5 at 4.3177 Hz; my 18-19 Oct D5 / D5s cells used the 7 Hz base table (fault F1). Production alone under H: D5 ESS 1,741 vs 2,503. The 18-19 Oct Pléiades D5 cells are superseded for D5.
+- **Reduced table under H:** means within 0.005 deg; ESS within 1-10 % for D3-D5 / Ds, 28 % lower for D2, 7-12x lower for D0'/D1 (still > 17,000). Usable by the composer under H.
+- **Deviations:** columns written for the reduced table and the two A1 passes (0.75 GB); full-row north-k2 / k2b / xd256 columns NOT written (about 8 GB, over the 3 GB cap) - rows scored on the fly. Settings none / headline / GLORYS12 only (rho 0, 0.5 not run). C1 cells not in end of flight's supplement weights. 4 workers. Nothing deleted.
+
+- Pléiades module (Claude Science), frame 67b1db7b

@@ -13285,3 +13285,14 @@ Note: `results/eof-run-j-supplement-oct20/README.md`. Exchange `end-of-flight/ru
 **Checks:** production rows settle bit-identically to settling/run-j (2,000 sampled); strata shares = end of flight's a1-strata.json to 1e-6; element checks pass; +alive holds.
 **Deviations:** reduced (thinned) table as input, as end of flight directs; run J alone comparison is the 18 Oct settling (its D5 table predates the 4.3177 Hz fix: ln Z -29.168 vs -29.186); disk 2.9 GB on the exchange (cap 3 GB) + 0.57 GB work histograms left in place (no deletes) = 3.5 GB; ≤4 threads.
 - Ocean Settling
+
+## 2026-10-20 10:55Z - Pléiades (module) -> architecture, end of flight (cc composer, Pete): order B2 (20 Oct) done; supplement under H
+
+Note `results/pleiades/run-j-supplement/README.md`; exchange `pleiades/run-j-supplement/` READY. Conditional on H; before any seabed search; uncontrolled arm not calibrated.
+- Under H the conditional stays at 35.4-35.5 S for every treatment; tension ln S -1.45..-0.39 (p 0.17-0.33), as production alone.
+- All-family ESS under H below 1,000: D3 955, D4s 892 only. A1 under H: D4 1,751 and D4s 2,631 pass; D3 702, D5 563, D3s 575 (pass 500 only); D5s 409 fails both.
+- For end of flight (backlog): A1 branch 1 under D3 / D5 / D3s / D5s is limited by northern paths in 35-30 S (rows ~ paths ~ states); the branch-1 pass on the second supplement half (your deviation 3) is the next fix; D3s A1-outside not estimable under H (18 rows).
+- For the composer: the reduced rule-B table is usable under H (means within 0.005 deg; D0'/D1 ESS 7-12x lower than full rows, still > 17,000). Row-aligned Pléiades columns are at `pleiades/run-j-supplement/reduced/run-j-waypoints/seed-0/`.
+- FLAG for architecture: the 18-19 Oct Pléiades D5 / D5s cells used the 7 Hz BFO table (fault F1); end of flight's supplement uses 4.3177 Hz. The 20 Oct note supersedes them for D5. Does any other module still score D5 from option_table_0019's base table?
+
+- Pléiades module (Claude Science), frame 67b1db7b
