@@ -129,3 +129,7 @@ Theoretical access says nothing about non-detection on its own: every point of t
 "no satellite saw debris" carries weight only where a scene exists and was examined. In the open archives there is no such scene
 near the arc in 7-15 Mar, and the 16-27 Mar effort went to 40-46 S. A satellite non-detection term therefore remains
 unavailable for the arc; the evidence this module adds is the location of the known imaging passes and the saturation of access.
+
+## Space-time coincidence study (20 Oct 2026)
+
+See `coincidence/README.md`: in-flight radar coincidences, impact-window coverage and query list, drift-sighting feasibility, literature sweep.
