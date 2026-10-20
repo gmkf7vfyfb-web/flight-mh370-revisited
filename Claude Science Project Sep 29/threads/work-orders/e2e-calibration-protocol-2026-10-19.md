@@ -189,3 +189,13 @@ reliability diagrams; a README with a COVERAGE section (composer §0 sampling-co
   run):** fly the end-of-flight stage for all accepted candidate flights and draw (flight, descent) jointly ∝ fuel-only weight × Z(parent) × descent
   weight. A1–A5 remain PROPOSED, NOT ADOPTED; the order D evidence (case 1: two independent 3.5 M sets disagree, map level 0.79 vs 0.97)
   supports A3 at 7 M.
+- 20 Oct 2026 ~17:30Z, **PETE'S RULINGS on A1–A5** (given in chat; this entry records them, no run has started):
+  **ADOPTED:** A1 (tier 1a strictly from the prior for the core stack; tier 1a′ with the data-only acceptance event on the 00:11 and 22:41
+  BTO/BFO for every stack; 1a′ is reported as a conditional calibration, given the event); A2 (one shared compacted truth pool of ≥ 300,000
+  single-particle replicates, drawn with the S2 joint (flight, descent) rule, accepted ESS ≥ 100 per case; pool seed and hash in the README);
+  A4 (drift stacks scored only on truths inside the existing drift node scan, by a data-only rule written before the run, excluded share
+  reported — the node scan is NOT extended); A5 (00:19 position-prediction column from end of flight, statistic 1 scored at 00:19 as well as
+  at impact). **HELD, NOT DECIDED:** A3 (scale) — Pete reviews the smoke note and figures first; options on the table are 4 × 7 M throughout
+  (≈ 340 lane-h) or 4 × 3.5 M minimum with the first 10 cases at 7 M (≈ 150–190 lane-h). The full run (§7 tier 1a + 1b) waits for A3.
+  Before it starts: implement S2 in the truth generator (pick_truth.py still has the old draw; only parent_check.py exists) and re-run
+  smoke case 5 (seed 9005) at 4 × 3.5 M as the check that the fix clears the cross-arc miss.
