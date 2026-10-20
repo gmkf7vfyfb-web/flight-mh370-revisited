@@ -153,7 +153,7 @@ fig.subplots_adjust(left=0.08, right=0.98, top=0.92, bottom=0.36)
 footnotes(fig, STE_BASE + ' Left: each line is one type of evidence on its own, with the same probability everywhere along the arc before the evidence. '
           'Right: how much of the change from the satellite-only result each type of evidence causes.',
           TECH_BASE + " Left: view (a)(i), sampling-free surfaces on the 7th-arc span 40.6-11.8 S with one fixed end-of-flight displacement; searched areas as a "
-          "point target at the impact (no settling in this view); drift not computed north of 21.2 S (0.30 of the span, carried at the mean). Right: "
+          "point target at the impact (no settling in this view); " + globals().get('DRIFT_NOTE', 'drift not computed north of 21.2 S (0.30 of the span, carried at the mean)') + ". Right: "
           "KL(all || all without factor) / KL(all || core), seed-bootstrap SE; dotted line = the brief's 0.5 flag.")
 save(fig, 'fig4-evidence-alone-and-influence'); plt.close(fig)
 print('figures written')

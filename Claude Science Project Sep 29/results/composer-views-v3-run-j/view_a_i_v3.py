@@ -18,7 +18,8 @@ SB_MID = (np.arange(V.NSB) + 0.5) * V.SBIN_NM; kb = np.where(ARCR['span'])[0]; s
 PL = (alat[:, None] + dN[None] / 111.32).ravel(); PO = (alon[:, None] + dE[None] / (111.32 * np.cos(np.radians(alat[:, None] + dN[None] / 222.64)))).ravel()
 W2 = np.broadcast_to(dw[None], (len(sk), len(dw))).ravel() / len(sk)
 li01 = np.clip(np.searchsorted(V.L01_EDGES, PL, side='right') - 1, 0, len(V.L01_MID) - 1)
-D = C.Drift(); dl = D.lnL(PL, PO); P = C.Pleiades(); pj = P.lnJ(PL, PO)
+import os
+D = C.DriftExt() if os.environ.get('DEXT') == '1' else C.Drift(); dl = D.lnL(PL, PO); P = C.Pleiades(); pj = P.lnJ(PL, PO)
 Lk = SS.Lookup(X / 'searched-areas/spatial-fields/fields.npz'); A = Lk(PL, PO); S = {n: A[:, k] for k, n in enumerate(Lk.names)}
 surf = {}
 for o, nm in (('off', 'D'), ('B', 'AB'), ('C', 'AC'), ('pop', 'Apop')):

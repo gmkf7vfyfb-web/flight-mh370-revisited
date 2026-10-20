@@ -35,11 +35,35 @@ import os
 V31 = os.environ.get('V31') == '1'   # views v3.1 (19 Oct 2026): A1-branch stratified samples for waypoints totals and A1 under D3-D5
 A1D = ('D3', 'D4', 'D5')
 P0 = json.load(open(X / 'settling/run-j-a1branch/run-j-waypoints/rja1_pass0.json'))['cells'] if V31 else None
+V32 = os.environ.get('V32') == '1'   # views v3.2 (20 Oct 2026): run J northern supplement for waypoint routes, D0'-D5
+DEXT = os.environ.get('DEXT') == '1'  # drift arc-latitude profile extended to 20-40 S (181a5fa)
+if V32:
+    V31 = True
+EWC = json.load(open(X / 'settling/run-j-supplement/a1-stratified/eof-convention-weights.json')) if V32 else None
 T = {}
-for s in STRATA + ['run-j-both-burst-waypoints'] + (['run-j-a1branch-waypoints'] if V31 else []):
+for s in STRATA + ['run-j-both-burst-waypoints'] + (['run-j-a1branch-waypoints'] if V31 else []) + (['supp-ruleB', 'supp-a1strat'] if V32 else []):
     z = np.load(W / f'{s}.npz'); T[s] = {k: z[k] for k in z.files}; T[s]['products'] = json.loads(str(T[s]['products'])); T[s]['chk'] = json.loads(str(T[s]['chk']))
     print('loaded', s, flush=True)
 OPTION = {p['D']: p['option'] for p in T['run-j-waypoints']['products']}
+if DEXT:   # recompute the drift columns of every table on the 20-40 S profile (impact point, as before)
+    _DX = C.DriftExt()
+    for s_, t_ in T.items():
+        dl_ = _DX.lnL(t_['ilat'], t_['ilon'])
+        for (o_, m_), arr in ((k, v) for k, v in dl_.items() if k != 'inside_dedicated_span'):
+            t_[f'drift|{o_}|{m_}'] = arr
+        t_['drift_inside'] = dl_['inside_dedicated_span']
+    print('drift recomputed on the 20-40 S profile', flush=True)
+if V32:    # arc position from the IMPACT point for every table (the reduced supplement table has no 00:19:29 crossing)
+    for s_, t_ in T.items():
+        t_['sarc'] = V.arc_s(t_['ilat'], t_['ilon'])
+    RED = np.load(X / 'end-of-flight/run-j-supplement/reduced/impacts-ruleB.npz')
+    _rl, _rf = RED['latitude_deg'], RED['family4_code']
+    FRESTN = {}
+    for d_ in ('D3', 'D4', 'D5'):
+        lw = RED[f'lnw:comb/{d_}'].astype(np.float64); w_ = np.exp(lw - np.nanmax(lw)); w_ = np.where(np.isfinite(w_), w_, 0.0); nA = _rf != 1
+        FRESTN[d_] = float(w_[nA & (_rl > -33)].sum() / w_[nA].sum())
+    del RED, _rl, _rf
+    print('rest-north shares (non-A1, impact north of 33 S, reduced table):', FRESTN, flush=True)
 
 # ---------------- products: name -> (drift option or None, ocean 'J'|'G'|'C', Pleiades?, searched variant or None)
 SV = {'S': 'V1_central', 'S_V0': 'V0_scalar', 'S_V2': 'V2_pessimistic', 'S_V3': 'V3_optimistic', 'S_r0': 'V1_rho0',
@@ -96,11 +120,49 @@ def folder(s, d, variant, f='all'):
     return s
 
 
+def _prod(fs, d, f):
+    q = [p for p in T[fs]['products'] if p['D'] == d and p['subset'] == f and p['N'] > 0]
+    return q[0] if q else None
+
+
+def _blk(fs, o, wsum, pi, p, extra=''):
+    u, cnt = np.unique(o, return_counts=True)
+    return {'s': 'run-j-waypoints', 'fs': fs, 'idx': u, 'w0': pi * wsum * cnt / cnt.sum(), 'N': p['N'], 'row_ess': p['row_ess_kish'], 'share': p['share_of_option'], 'part': extra}
+
+
+def supp_blocks(d, f):
+    """Waypoint routes from the run J northern supplement (rule B). Totals stratified by impact latitude: the 'north of 33 S' product
+    (N 10,000) replaces the total product's northern outcomes, at its exact share. D3-D5: A1 by the two conditional strata at end of
+    flight's share (eof-convention-weights.json); the rest (non-A1) split at 33 S with the exact reduced-table share."""
+    pi = MIXW[f"{OPTION[d]} | total"]['run-j-waypoints']; R_, A_ = T['supp-ruleB'], T['supp-a1strat']
+    if f == 'all':
+        pn = _prod('supp-ruleB', d, 'north33'); on = R_[f"prod_{pn['j']}"]; sN = pn['share_of_option']
+        assert (R_['ilat'][on] > -33).all()
+        if d in ('D0', 'D1', 'D2'):
+            pt = _prod('supp-ruleB', d, 'all'); ot = R_[f"prod_{pt['j']}"]; ot = ot[R_['ilat'][ot] <= -33]
+            return [_blk('supp-ruleB', ot, 1 - sN, pi, pt, 'south'), _blk('supp-ruleB', on, sN, pi, pn, 'north33')]
+        a1 = EWC[d]['A1_share_eof_convention']; fr = FRESTN[d]
+        pt = _prod('supp-a1strat', d, 'all'); ot = A_[f"prod_{pt['j']}"]; st_ = A_['src'][ot]
+        os_ = ot[st_ != 0]; orr = ot[(st_ == 0) & (A_['ilat'][ot] <= -33)]; onn = on[R_['fam'][on] != 0]
+        return [_blk('supp-a1strat', os_, a1, pi, pt, 'A1 strata'), _blk('supp-a1strat', orr, (1 - a1) * (1 - fr), pi, pt, 'rest south'),
+                _blk('supp-ruleB', onn, (1 - a1) * fr, pi, pn, 'rest north33')]
+    if f == 'A1' and d in ('D3', 'D4', 'D5'):
+        p = _prod('supp-a1strat', d, 'A1'); return [_blk('supp-a1strat', A_[f"prod_{p['j']}"], EWC[d]['A1_share_eof_convention'], pi, p, 'A1')]
+    p = _prod('supp-ruleB', d, f); sh = p['share_of_option']
+    if d in ('D3', 'D4', 'D5'):
+        a1r = _prod('supp-ruleB', d, 'A1')['share_of_option']; sh = sh * (1 - EWC[d]['A1_share_eof_convention']) / (1 - a1r)
+    b = _blk('supp-ruleB', R_[f"prod_{p['j']}"], sh, pi, p, f); b['share'] = sh
+    return [b]
+
+
 def base_sample(d, f, ctx, variant='head'):
     """Concatenated outcome sample: list of per-folder blocks with aggregated base weight per used outcome."""
     blocks = []
     strata = STRATA if ctx == 'mix' else [ctx]
     for s in strata:
+        if V32 and variant == 'head' and s == 'run-j-waypoints':
+            blocks += supp_blocks(d, f)
+            continue
         fs = folder(s, d, variant, f); t = T[fs]
         pj = [p for p in t['products'] if p['D'] == d and p['subset'] == f]
         if not pj:
@@ -256,13 +318,20 @@ def boot(blocks, Wt, prods, d, f):
     for bi, b in enumerate(blocks):
         _maps(b); keys.append((bi, b['us'], b['si']))
     nseed = sum(len(us) for _, us, _ in keys); off = np.cumsum([0] + [len(us) for _, us, _ in keys])
+    # bootstrap units = (stratum, seed key); the same unit gets the same multiplicity in every block; resampled within its group
+    units = sorted({(blocks[bi]['s'], int(k)) for bi, us, _ in keys for k in us})
+    gdiv = 10000 if V32 else 100
+    groups = {}
+    for i, (s_, k) in enumerate(units):
+        groups.setdefault((s_, k // gdiv), []).append(i)
+    MU = np.zeros((NB, len(units)))
+    for k in range(NB):
+        for g, ix in groups.items():
+            MU[k, ix] = np.bincount(rng.integers(0, len(ix), len(ix)), minlength=len(ix))
+    uidx = {u: i for i, u in enumerate(units)}
     M = np.zeros((NB, nseed))
     for (bi, us, _), o0 in zip(keys, off[:-1]):
-        grp = us // 100   # resample seeds within each source (A1-branch folder: production 1-24, pass 101-108)
-        for k in range(NB):
-            for g in np.unique(grp):
-                ix = np.where(grp == g)[0]
-                M[k, o0 + ix] = np.bincount(rng.integers(0, len(ix), len(ix)), minlength=len(ix))
+        M[:, o0:o0 + len(us)] = MU[:, [uidx[(blocks[bi]['s'], int(k))] for k in us]]
     per = {}
     for p in set(prods) | {'core', 'S', 'D', 'DS', 'DSP', 'SP', 'DP', 'ABS', 'AB'}:
         H = np.zeros((nseed, len(V.L01_MID))); MP = np.zeros((nseed, V.NY * V.NX)); SFs = np.zeros(nseed); Z = np.zeros(nseed)

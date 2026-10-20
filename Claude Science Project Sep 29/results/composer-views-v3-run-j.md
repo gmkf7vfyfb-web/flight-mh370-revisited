@@ -1,3 +1,120 @@
+# Composer views v3.2 on run J — northern supplement in; drift arc-latitude profile 20–40 S (20 Oct 2026)
+
+Overnight order B (composer part), `threads/work-orders/overnight-2026-10-20.md`; Pete approved 20 Oct, away until morning — no questions
+asked. v3.2 = v3.1 with (1) the full run J northern supplement for waypoint routes (settling d0660ec2, searched areas a8e7e28,
+Pléiades e455705f / 0f5b22f8, end of flight `results/eof-run-j-supplement-oct20`) and (2) the drift profile extended to 20–40 S
+(181a5fa) in place of the run A + offset fallback north of 26 S. Other strata (free flight, descent-climb, Davey dynamics with radar) as
+v3.1. Scripts: same folder (`build_outcomes_v32.py`; `compose_v3.py` with `V32=1 DEXT=1`); tables and figures
+`results/composer-views-v3-run-j/v3.2/`; data `mh370-exchange/composer/run-j-views-v3.2/` (READY).
+
+**Labels.** As v3 (core run J pass by ruling 16 Oct; uncontrolled arm not calibrated; settled seabed; per-cell search model V1 central,
+Ocean Infinity coverage inferred (grade C), included as best estimate; drift finds only; Pléiades conditional on H; hydroacoustics zero
+weight by ruling; Australian non-recovery a labelled sensitivity; next OI area map layer only). **North of 33 S now includes the run J
+northern supplement** (waypoint routes). D5 waypoints at BFO error 4.3177 Hz (end of flight's supplement); the other strata's D5 rows still
+use the 7 Hz base table (fault F1; ≤ 0.002 of the D5 mixture).
+
+## Method changes (declared)
+
+1. **Waypoint routes, all six treatments:** settling's rule-B supplement samples. Totals are **stratified by impact latitude at 33 S**:
+   the "impacts north of 33 S" product (N 10,000) replaces the total product's northern outcomes, at its exact share in the reduced table.
+   D3–D5: A1 from end of flight's two conditional strata (`a1-stratified`) at **end of flight's A1 share** (`eof-convention-weights.json`,
+   so A1 shares match end of flight: D3 0.0841, D4 0.2755, D5 0.0530); the rest (non-A1; there are no A1 rows outside the strata) is split
+   at 33 S with the exact reduced-table share; its northern part comes from the north-of-33 S product with A1 rows removed. Families: A1
+   (D3–D5) from the strata; A2 / B from the rule-B family products, shares rescaled to 1 − A1 (end of flight's convention). D0'–D2 families
+   from the rule-B products. Family products are not latitude-stratified.
+2. **Drift:** 84-point profile 20–40 S, per-model absolute ln L from the merged profile (it reproduces the 66 old points exactly); h100
+   sensitivity from the node tables; run A + offset only outside the profile's arc span (north of about 19.9 S, south of 40.25 S).
+3. **Arc position** for every table is now the impact point projected on the 7th arc (the reduced supplement table carries no 00:19:29
+   crossing). Affects "median along the arc" and view (a)(ii) only.
+4. **Seed bootstrap:** units = (stratum, seed); production seeds 1–24 and supplement seeds 1001–1016 resampled within their own groups,
+   each A1 pass as its own group; one unit keeps the same multiplicity in every block.
+5. Not composed: D3s–D5s ("other log-on cause only"), as in v3 / v3.1 (headline cause model only).
+
+**Checks.** Searched-areas settled Z (base) reproduced exactly from my per-outcome recomputation for 30 rule-B and 15 A1-stratified products
+(end-of-flight-weighted totals included; max |Δ| 0.0). Pléiades cells equal the module's columns on all 385,741 + 192,810 outcomes.
+End-of-flight latitude equal on every source. Drift: the core is unchanged by the drift switch (Δ 0.000), as it must be.
+
+## Headline — all evidence (core × drift × searched areas), four-stratum mixture, settled seabed, 400 seed-bootstrap draws
+
+| 00:19 treatment | median (95 % seed interval) | 50 / 90 / 95 % HPD, k km² (90 % interval) | mass N of 33 S (interval) | effective sample N of 33 S: seed scatter / outcome Kish | on searched ground (± SE) | KL(all ‖ core), nat (± SE) | KL share: searched areas / drift; Pléiades given H |
+|---|---|---|---|---|---|---|---|
+| D0' 00:19 data held out | 35.79 S (35.59–35.98) | 88 / 435 (396–442) / 583 | 0.195 (0.169–0.219) | 178 / 6577 | 0.255 ± 0.004 | 0.855 ± 0.008 | 0.60 / 0.23; 0.56 |
+| D1 R600 BTO only | 36.52 S (36.34–36.72) | 56 / 315 (283–320) / 435 | 0.131 (0.110–0.155) | 92 / 5942 | 0.332 ± 0.004 | 0.801 ± 0.010 | 0.69 / 0.22; 0.57 |
+| D2 R600 BTO + raw BFO | 36.13 S (35.95–36.28) | 63 / 321 (288–324) / 432 | 0.177 (0.147–0.203) | 119 / 5898 | 0.422 ± 0.007 | 0.885 ± 0.011 | 0.62 / 0.21; 0.53 |
+| D3 both BFOs as recorded | 36.05 S (35.92–36.23) | 35 / 200 (172–195) / 267 | 0.182 (0.153–0.212) | 114 / 3216 | 0.593 ± 0.013 | 0.872 ± 0.022 | 0.54 / 0.23; 0.50 |
+| D4 both BFOs, Holland transient bias added | 35.97 S (35.71–36.33) | 33 / 198 (170–197) / 265 | 0.234 (0.199–0.270) | 124 / 803 | 0.656 ± 0.017 | 0.843 ± 0.030 | 0.50 / 0.26; 0.54 |
+| D5 R600 + R1200 BFOs, Holland transient bias added | 36.04 S (35.86–36.28) | 34 / 192 (168–192) / 257 | 0.179 (0.149–0.208) | 119 / 3742 | 0.626 ± 0.014 | 0.848 ± 0.023 | 0.53 / 0.24; 0.51 |
+
+The HPD-area percentile interval is biased low (duplicated seeds concentrate mass), so the point estimate can sit at its upper end; read
+the interval as a scale. **Searched areas carry half or more of the KL in every treatment** (D4 0.498, otherwise 0.53–0.69): flag.
+Model dominance: waypoint routes ≥ 0.998 of every product.
+
+## v3.1 → v3.2: the two effects (all evidence)
+
+| 00:19 treatment | v3.1 median / 90 % (k km²) / N of 33 S | drift extension alone: Δ median (deg, + = north) / Δ 90 % / Δ N of 33 S | supplement after drift: Δ median / Δ 90 % / Δ N of 33 S | v3.2 | supplement first (other order): Δ median |
+|---|---|---|---|---|---|
+| D0' 00:19 data held out | 35.85 S / 402 / 0.191 | +0.000 / -5.4 / +0.001 | +0.059 / +39.2 / +0.003 | 35.79 S / 435 / 0.195 | +0.065 |
+| D1 R600 BTO only | 36.59 S / 286 / 0.109 | +0.007 / -1.5 / +0.002 | +0.063 / +30.0 / +0.020 | 36.52 S / 315 / 0.131 | +0.067 |
+| D2 R600 BTO + raw BFO | 36.18 S / 285 / 0.154 | +0.011 / -1.5 / +0.004 | +0.036 / +36.9 / +0.019 | 36.13 S / 321 / 0.177 | +0.041 |
+| D3 both BFOs as recorded | 36.05 S / 160 / 0.175 | +0.012 / +0.0 / +0.006 | -0.011 / +40.0 / +0.001 | 36.05 S / 200 / 0.182 | -0.003 |
+| D4 both BFOs, Holland transient bias added | 36.11 S / 175 / 0.190 | +0.027 / +0.8 / +0.008 | +0.119 / +21.5 / +0.036 | 35.97 S / 198 / 0.234 | +0.114 |
+| D5 R600 + R1200 BFOs, Holland transient bias added | 36.08 S / 174 / 0.160 | +0.007 / -0.8 / +0.003 | +0.034 / +18.5 / +0.017 | 36.04 S / 192 / 0.179 | +0.030 |
+
+1. **The drift extension barely moves all evidence** (median ≤ 0.03°, north of 33 S ≤ +0.008, 90 % area within ±6k km²). The real
+   20–25 S drift values are lower than the 26 S plateau, which the old fallback roughly tracked.
+2. **The supplement widens the 90 % region in every treatment** (+18k to +40k km²) and adds northern mass under D1, D2, D4, D5 (north of
+   33 S +0.017 to +0.036; D0' +0.003, D3 +0.001). Medians move 0.03–0.12° north, except D3 (−0.01°).
+3. The order of the two steps does not matter (supplement first: Δ median within 0.008° of the other order).
+4. **Effective sample north of 33 S** (seed scatter): 178 / 92 / 119 / 114 / 124 / 119 for D0'–D5 (v3.1: 297 / 157 / 159 / 20 / 134 /
+   238). It now includes the supplement's seed-to-seed spread; D3 rises from 20 to 114. Outcome Kish ESS north of 33 S is 800–6,600
+   because of the 33 S stratification. Still under-sampled against the §0.4 target of 1,000; label kept.
+
+## Australian non-recovery, option B (labelled sensitivity; all evidence with the Australian term)
+
+| 00:19 treatment | v3.1 median / 90 % / N of 33 S | drift extension: Δ median / Δ N of 33 S | supplement: Δ median / Δ N of 33 S | v3.2 median / 90 % (k km²) / N of 33 S / on searched ground |
+|---|---|---|---|---|
+| D0' 00:19 data held out | 30.51 S / 385 / 0.659 | +0.55 / +0.032 | -0.38 / +0.001 | 30.33 S / 495 / 0.692 / 0.171 |
+| D1 R600 BTO only | 30.23 S / 286 / 0.620 | +1.40 / +0.056 | -0.86 / +0.040 | 29.69 S / 368 / 0.716 / 0.237 |
+| D2 R600 BTO + raw BFO | 29.60 S / 274 / 0.653 | +2.04 / +0.068 | -0.62 / +0.030 | 28.19 S / 331 / 0.751 / 0.245 |
+| D3 both BFOs as recorded | 30.83 S / 150 / 0.663 | +2.79 / +0.064 | -0.70 / +0.027 | 28.75 S / 212 / 0.753 / 0.324 |
+| D4 both BFOs, Holland transient bias added | 28.23 S / 168 / 0.719 | +1.26 / +0.062 | -0.12 / +0.040 | 27.09 S / 204 / 0.821 / 0.371 |
+| D5 R600 + R1200 BFOs, Holland transient bias added | 29.90 S / 174 / 0.653 | +2.30 / +0.069 | -0.98 / +0.029 | 28.57 S / 208 / 0.751 / 0.350 |
+
+Under option B **the drift extension moves the median 0.6–2.8° north**: v3.1 held the Australian increment north of 26 S at its 26 S value
+(−1.26 GLORYS12 / −0.49 GlobCurrent ln units at the track), and the measured 20–25 S points show a much smaller penalty there. The supplement then
+moves it back 0.1–1.0° south while adding northern mass. Options C and populated-coast-only: `v3.2/sensitivity-v3.csv`.
+
+## Cells still below the gate
+
+| 00:19 treatment | all evidence: outcome Kish ESS per band 35–30 / 30–25 / 25–20 S | core: same | A1 alone, all evidence: 35–30 / 30–25 / 25–20 S | A1 alone N of 33 S (Kish) |
+|---|---|---|---|---|
+| D0' 00:19 data held out | 3469 / 2528 / 688 | 4716 / 3656 / 872 | 295 / 61 / 15 | 161 |
+| D1 R600 BTO only | 1928 / 2716 / 1051 | 2858 / 4035 / 1264 | 337 / 34 / 14 | 85 |
+| D2 R600 BTO + raw BFO | 2127 / 2742 / 1195 | 3288 / 4209 / 1473 | 365 / 34 / 13 | 94 |
+| D3 both BFOs as recorded | 1039 / 1621 / 448 | 1472 / 1940 / 429 | 413 / 50 / 13 | 118 |
+| D4 both BFOs, Holland transient bias added | 1067 / 323 / 127 | 1466 / 506 / 139 | 461 / 149 / 42 | 273 |
+| D5 R600 + R1200 BFOs, Holland transient bias added | 1143 / 1794 / 467 | 1618 / 2921 / 568 | 416 / 46 / 18 | 134 |
+
+(Outcome Kish ESS of the composed product; the authoritative path / distinct-state ESS is the modules'.) Below 1,000:
+- **D3 and D4, 25–20 S** — searched areas give path ESS 423 (D3) and 559 (D4) after the searches; here 448 and 127 (core 429 / 139). D4 30–25 S
+  is also thin here (323; core 506).
+- **D3, 35–30 S after the searches: 804** (searched areas); here 1,039, which is outcome-level and does not close it.
+- **A1 north of 33 S**, every treatment: A1-alone Kish ESS 13–149 per band north of 30 S (strata north thin; end of flight's branch-2 note).
+- Under H (Pléiades B2, 20 Oct): all-family D3 955 and A1 D3 702 / D5 563 pass 500 only.
+- D0'–D2 25–20 S under all evidence 688 / 1,051 / 1,195 — D0' below 1,000.
+
+## Figures (v3.1 set redrawn)
+
+![v3.2 sea-floor regions](composer-views-v3-run-j/v3.2/fig1-seabed-hpd-by-0019-treatment-v3.2.png)
+
+![v3.2 search-model sensitivity](composer-views-v3-run-j/v3.2/fig3-search-model-sensitivity-v3.2.png)
+
+Figures 2 and 4, all tables (`note-tables-v3.md`, `products-v3.csv`, `decomposition-v3.1-v3.2.csv`, `sensitivity-v3.csv`, `influence-v3.csv`):
+`composer-views-v3-run-j/v3.2/`. Disk: 0.22 GB outcome tables + 0.07 GB results (cap 3 GB); ≤ 4 processes; Mac free 17 GiB throughout
+(floor 5 GB).
+
+---
+
 # Composer views v3.1 on run J — A1-branch stratum added for waypoint routes under D3–D5 (19 Oct 2026)
 
 **What changed from v3 (order C step 4, coordination follow-up).** Settling B1 (f04577fc, `settling/run-j-a1branch/`) and searched areas B3

@@ -13320,3 +13320,20 @@ distinct states are lower, by up to 17 %); bootstrap holds row weights and strat
 `settled-rows-a1-stratified.npz` with settling's products (a1-stratified totals weighted by eof-convention-weights.json). V1 central is column `lnL_settled_V1_central`.
 
 -- Searched Areas Module (sub-agent of coordination ac78e73d)
+
+## 2026-10-20 11:23Z — composer -> architecture, coordination (cc end of flight, settling, searched areas, Pléiades, ocean drift, paper, Pete): views v3.2 DONE (order 20 Oct B, composer)
+
+Note `results/composer-views-v3-run-j.md` (v3.2 section at the top); tables/figures `results/composer-views-v3-run-j/v3.2/`; data
+`mh370-exchange/composer/run-j-views-v3.2/` (READY). Waypoints: rule-B supplement (settling d0660ec2; A1 under D3–D5 from the two strata at end
+of flight's share), totals stratified at 33 S by impact latitude; drift profile 20–40 S (181a5fa). Checks: searched-areas settled Z reproduced
+exactly (45 products); Pléiades cells 0 mismatches.
+- All evidence (median / 90 % / N of 33 S, seed-bootstrap SE): D0' 35.79 S / 435k / 0.195 ± 0.013; D1 36.52 / 315k / 0.131; D2 36.13 / 321k / 0.177;
+  D3 36.05 / 200k / 0.182; D4 35.97 / 198k / 0.234; D5 36.04 / 192k / 0.179. Effective sample N of 33 S (seed scatter) 92–178 (D3 20 -> 114).
+- Split: the drift extension moves all evidence ≤ 0.03° (Australian option B: 0.6–2.8° north — v3.1's held 26 S increment overstated the northern
+  penalty); the supplement adds +18k to +40k km² to the 90 % area and +0.017 to +0.036 north of 33 S (D1, D2, D4, D5).
+- Searches carry 0.50–0.69 of KL in every treatment (D4 0.498): flag. Australian option B: 27.1–30.3 S, N of 33 S 0.69–0.82.
+- Below the gate: D3 / D4 25–20 S (modules' path ESS 423 / 559; composed outcome ESS 448 / 127); D3 35–30 S after searches 804; A1 north
+  (13–149 per band); D0' 25–20 S 688 (composed).
+
+-- Composer
+

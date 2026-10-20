@@ -120,3 +120,45 @@ class Pleiades:
         for mi, tag in ((0, 'G'), (1, 'C')):
             v = np.full(len(lat), np.nan); v[ok] = self.J[mi, pi[ok], pj[ok]]; out[tag] = v
         return out
+
+
+# ---- views v3.2: arc-latitude profile extended to 20-40 S (commit 181a5fa; 84 points; exchange debris-drift/arclat-north-2026-10-20)
+ARCLAT_EXT = X / 'debris-drift/arclat-north-2026-10-20'
+
+
+def arclat_nodes_ext():
+    """Per model: 84 points with absolute ln L per setting from the merged profile; h100 from the node tables (18 Oct zip for the
+    66 old points, 20 Oct extension zip for the 18 new ones): v_h100 = off + (ln_l_h100 - ln_l)."""
+    prof = pd.read_csv(ARCLAT_EXT / 'arclat-likelihood-profile-20-40S.csv')
+    old = zipfile.ZipFile(ARCLAT / 'arclat-node-tables.zip'); new = zipfile.ZipFile(ARCLAT_EXT / 'arclat-ext-node-tables.zip')
+    out = {}
+    for mod, tag in MODELS:
+        tabs = [pd.read_csv(io.BytesIO(old.read(n))) for n in old.namelist() if n.startswith(f'arclat-{mod}-') and n.endswith('nodes.csv')]
+        tn = pd.concat([pd.read_csv(io.BytesIO(new.read(n))) for n in new.namelist() if n.startswith(f'arclat-ext-{mod}-') and n.endswith('nodes.csv') and 'seedcheck' not in n])
+        tn = tn.assign(node=('x' + tn.node.astype(str)))
+        to = pd.concat(tabs).assign(node=lambda d: d.node.astype(str))
+        T_ = pd.concat([to, tn]).drop_duplicates('node', keep='first')[['node', 'ln_l', 'ln_l_h100']]
+        d = prof.assign(node=prof.node.astype(str)).merge(T_, on='node', how='left')
+        d = d.rename(columns={'node_lat': 'lat_deg', 'node_lon': 'lon_deg'})
+        d['v_off'] = d[f'finds only [{mod}, ln L]']; d['v_B'] = d[f'B (primary) [{mod}, ln L]']; d['v_C'] = d[f'C (low detection) [{mod}, ln L]']
+        d['v_pop'] = d[f'populated coast only [{mod}, ln L]']
+        d['v_h100'] = d['v_off'] + (d['ln_l_h100'] - d['ln_l'])
+        assert len(d) == 84 and d[['v_off', 'v_B', 'v_C', 'v_pop', 'v_h100']].notna().all().all(), (mod, len(d))
+        out[tag] = d
+    return out
+
+
+class DriftExt(Drift):
+    """As Drift, on the 84-point 20-40 S profile; outside its arc span: run A + per-model offset (fitted on the same 66 points as v3)."""
+    def __init__(self):
+        from scipy.interpolate import LinearNDInterpolator, NearestNDInterpolator
+        base = Drift(); self.N = base.N; self.offset = base.offset; self.nodes = arclat_nodes_ext(); self.lin = {}; self.near = {}; self.end_inc = {}
+        for mod, tag in MODELS:
+            d = self.nodes[tag]; s, r = arc_sr(d.lat_deg.values, d.lon_deg.values); P = np.column_stack([s, r])
+            Vals = np.column_stack([d[f'v_{o}'].values for o in OPTS])
+            self.lin[tag] = LinearNDInterpolator(P, Vals); self.near[tag] = NearestNDInterpolator(P, Vals)
+            self.s_lo, self.s_hi = float(s.min()), float(s.max())
+            g = d.assign(s=s)
+            for end, al in (('south', g.arc_lat.min()), ('north', g.arc_lat.max())):
+                tr = g[(g.arc_lat == al) & (g.position == 'track')].iloc[0]
+                self.end_inc[(tag, end)] = {o: float(tr[f'v_{o}'] - tr['v_off']) for o in OPTS}
