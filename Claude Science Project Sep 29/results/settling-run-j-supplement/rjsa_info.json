@@ -1,0 +1,348 @@
+{
+ "strata": [
+  "main",
+  "b1p",
+  "b1s",
+  "b2"
+ ],
+ "strata_weights": {
+  "main": 1.0,
+  "b1p": 1.0,
+  "b1s": 1.0,
+  "b2": 1.0
+ },
+ "extent_lon_lon_lat_lat": [
+  79.0,
+  115.0,
+  -46.0,
+  -9.0
+ ],
+ "summary": "-",
+ "lnZ_check_max_abs": null,
+ "per_seed_lnZ": {},
+ "route_dir": null,
+ "route_names": {},
+ "products": [
+  {
+   "option": "00:19 Held Out",
+   "D": "D0",
+   "cell": "total",
+   "ver": "primary",
+   "subset": "all",
+   "N": 0,
+   "row_ess_kish": 272989.236553481,
+   "share_of_option": 1.0,
+   "resampled": 0,
+   "distinct": 0,
+   "impact_area90_km2_all_rows": 168668.46416233917
+  },
+  {
+   "option": "00:19 Held Out",
+   "D": "D0",
+   "cell": "total",
+   "ver": "primary",
+   "subset": "A1",
+   "N": 10000,
+   "row_ess_kish": 410962.2209754939,
+   "share_of_option": 0.16964536451371134,
+   "resampled": 10000,
+   "distinct": 10000,
+   "impact_area90_km2_all_rows": 39464.44494153815,
+   "eof_A1_share_stratified": 0.16917059159270437
+  },
+  {
+   "option": "00:19 R600 BTO Only",
+   "D": "D1",
+   "cell": "total",
+   "ver": "primary",
+   "subset": "all",
+   "N": 0,
+   "row_ess_kish": 243277.2203845849,
+   "share_of_option": 1.0,
+   "resampled": 0,
+   "distinct": 0,
+   "impact_area90_km2_all_rows": 120686.61135850259
+  },
+  {
+   "option": "00:19 R600 BTO Only",
+   "D": "D1",
+   "cell": "total",
+   "ver": "primary",
+   "subset": "A1",
+   "N": 10000,
+   "row_ess_kish": 414136.6704266429,
+   "share_of_option": 0.19238043445784211,
+   "resampled": 10000,
+   "distinct": 10000,
+   "impact_area90_km2_all_rows": 22348.531309682963
+  },
+  {
+   "option": "00:19 R600 BTO + Raw BFO",
+   "D": "D2",
+   "cell": "total",
+   "ver": "primary",
+   "subset": "all",
+   "N": 0,
+   "row_ess_kish": 86682.59806283188,
+   "share_of_option": 1.0,
+   "resampled": 0,
+   "distinct": 0,
+   "impact_area90_km2_all_rows": 106478.54691491406
+  },
+  {
+   "option": "00:19 R600 BTO + Raw BFO",
+   "D": "D2",
+   "cell": "total",
+   "ver": "primary",
+   "subset": "A1",
+   "N": 10000,
+   "row_ess_kish": 43702.562751538106,
+   "share_of_option": 0.22843787500503188,
+   "resampled": 10000,
+   "distinct": 9878,
+   "impact_area90_km2_all_rows": 19394.178121375884,
+   "eof_A1_share_stratified": 0.2259249399725799
+  },
+  {
+   "option": "00:19 R600 BTO + both BFOs as recorded",
+   "D": "D3",
+   "cell": "total",
+   "ver": "primary",
+   "subset": "all",
+   "N": 20000,
+   "row_ess_kish": 5942.262555890635,
+   "share_of_option": 1.0,
+   "resampled": 20000,
+   "distinct": 15191,
+   "impact_area90_km2_all_rows": 64346.034418756375
+  },
+  {
+   "option": "00:19 R600 BTO + both BFOs as recorded",
+   "D": "D3",
+   "cell": "total",
+   "ver": "primary",
+   "subset": "A1",
+   "N": 10000,
+   "row_ess_kish": 6021.985239256701,
+   "share_of_option": 0.08503426973825051,
+   "resampled": 10000,
+   "distinct": 7227,
+   "impact_area90_km2_all_rows": 19307.10923608508,
+   "eof_A1_share_stratified": 0.08413154483354583
+  },
+  {
+   "option": "00:19 R600 BTO + both BFOs, Holland transient bias added",
+   "D": "D4",
+   "cell": "total",
+   "ver": "primary",
+   "subset": "all",
+   "N": 20000,
+   "row_ess_kish": 65811.37517870606,
+   "share_of_option": 1.0,
+   "resampled": 20000,
+   "distinct": 19671,
+   "impact_area90_km2_all_rows": 60255.70110174018
+  },
+  {
+   "option": "00:19 R600 BTO + both BFOs, Holland transient bias added",
+   "D": "D4",
+   "cell": "total",
+   "ver": "primary",
+   "subset": "A1",
+   "N": 10000,
+   "row_ess_kish": 39473.461772640425,
+   "share_of_option": 0.26753969622762924,
+   "resampled": 10000,
+   "distinct": 9807,
+   "impact_area90_km2_all_rows": 24231.78468252153,
+   "eof_A1_share_stratified": 0.27548681031013866
+  },
+  {
+   "option": "00:19 R600 BTO + R600 BFO + R1200 BFO, Holland transient bias added",
+   "D": "D5",
+   "cell": "total",
+   "ver": "primary",
+   "subset": "all",
+   "N": 20000,
+   "row_ess_kish": 19345.695986283703,
+   "share_of_option": 1.0,
+   "resampled": 20000,
+   "distinct": 17333,
+   "impact_area90_km2_all_rows": 61100.32722389606
+  },
+  {
+   "option": "00:19 R600 BTO + R600 BFO + R1200 BFO, Holland transient bias added",
+   "D": "D5",
+   "cell": "total",
+   "ver": "primary",
+   "subset": "A1",
+   "N": 10000,
+   "row_ess_kish": 4635.829376364653,
+   "share_of_option": 0.05331366305982138,
+   "resampled": 10000,
+   "distinct": 6868,
+   "impact_area90_km2_all_rows": 20366.3354318044,
+   "eof_A1_share_stratified": 0.05300804331796041
+  },
+  {
+   "option": "00:19 R600 BTO + both BFOs as recorded, other log-on cause only",
+   "D": "D3s",
+   "cell": "total",
+   "ver": "primary",
+   "subset": "all",
+   "N": 20000,
+   "row_ess_kish": 6686.320996932411,
+   "share_of_option": 1.0,
+   "resampled": 20000,
+   "distinct": 14526,
+   "impact_area90_km2_all_rows": 49091.50482688016
+  },
+  {
+   "option": "00:19 R600 BTO + both BFOs as recorded, other log-on cause only",
+   "D": "D3s",
+   "cell": "total",
+   "ver": "primary",
+   "subset": "A1",
+   "N": 10000,
+   "row_ess_kish": 2550.9088553545507,
+   "share_of_option": 0.11069906188482387,
+   "resampled": 10000,
+   "distinct": 6903,
+   "impact_area90_km2_all_rows": 31892.757425578868,
+   "eof_A1_share_stratified": 0.11358449152668122
+  },
+  {
+   "option": "00:19 R600 BTO + both BFOs, Holland transient bias added, other log-on cause only",
+   "D": "D4s",
+   "cell": "total",
+   "ver": "primary",
+   "subset": "all",
+   "N": 20000,
+   "row_ess_kish": 19661.754142427046,
+   "share_of_option": 1.0,
+   "resampled": 20000,
+   "distinct": 18608,
+   "impact_area90_km2_all_rows": 52291.5783522362
+  },
+  {
+   "option": "00:19 R600 BTO + both BFOs, Holland transient bias added, other log-on cause only",
+   "D": "D4s",
+   "cell": "total",
+   "ver": "primary",
+   "subset": "A1",
+   "N": 10000,
+   "row_ess_kish": 11538.757246932673,
+   "share_of_option": 0.4380949633297616,
+   "resampled": 10000,
+   "distinct": 9013,
+   "impact_area90_km2_all_rows": 36062.975203520415,
+   "eof_A1_share_stratified": 0.47597886813424095
+  },
+  {
+   "option": "00:19 R600 BTO + R600 BFO + R1200 BFO, Holland transient bias added, other log-on cause only",
+   "D": "D5s",
+   "cell": "total",
+   "ver": "primary",
+   "subset": "all",
+   "N": 20000,
+   "row_ess_kish": 14616.926476878072,
+   "share_of_option": 1.0,
+   "resampled": 20000,
+   "distinct": 16052,
+   "impact_area90_km2_all_rows": 45126.63422919161
+  },
+  {
+   "option": "00:19 R600 BTO + R600 BFO + R1200 BFO, Holland transient bias added, other log-on cause only",
+   "D": "D5s",
+   "cell": "total",
+   "ver": "primary",
+   "subset": "A1",
+   "N": 10000,
+   "row_ess_kish": 2946.615911720588,
+   "share_of_option": 0.07451983452542003,
+   "resampled": 10000,
+   "distinct": 6130,
+   "impact_area90_km2_all_rows": 30786.29126558204,
+   "eof_A1_share_stratified": 0.07584642651159813
+  }
+ ],
+ "pass0": {
+  "N1_branch1_production": 799999.0,
+  "sum": {},
+  "check": {
+   "D0": {
+    "branch1_share": 0.09276867142962754,
+    "outside_share": 0.07640192016307677,
+    "eof_branch1": 0.09276867142962755,
+    "eof_outside": 0.07640192016307681
+   },
+   "D1": {
+    "branch1_share": 0.1038383564896338,
+    "outside_share": 0.08706592284501223,
+    "eof_branch1": null,
+    "eof_outside": null
+   },
+   "D2": {
+    "branch1_share": 0.12434062693252768,
+    "outside_share": 0.1015843130400531,
+    "eof_branch1": 0.12434062693252697,
+    "eof_outside": 0.10158431304005293
+   },
+   "D3": {
+    "branch1_share": 0.08410417106397669,
+    "outside_share": 2.7373769569214293e-05,
+    "eof_branch1": 0.08410417106397662,
+    "eof_outside": 2.7373769569214256e-05
+   },
+   "D4": {
+    "branch1_share": 0.20045742421862586,
+    "outside_share": 0.07502938609151316,
+    "eof_branch1": 0.2004574242186257,
+    "eof_outside": 0.07502938609151295
+   },
+   "D5": {
+    "branch1_share": 0.053006224489768376,
+    "outside_share": 1.8188281920963752e-06,
+    "eof_branch1": 0.053006224489768314,
+    "eof_outside": 1.8188281920963725e-06
+   },
+   "D3s": {
+    "branch1_share": 0.1064772966544565,
+    "outside_share": 0.007107194872224784,
+    "eof_branch1": 0.10647729665445645,
+    "eof_outside": 0.007107194872224773
+   },
+   "D4s": {
+    "branch1_share": 0.2953298319266611,
+    "outside_share": 0.18064903620758033,
+    "eof_branch1": 0.29532983192666085,
+    "eof_outside": 0.1806490362075801
+   },
+   "D5s": {
+    "branch1_share": 0.07565312695728801,
+    "outside_share": 0.0001932995543101342,
+    "eof_branch1": 0.075653126957288,
+    "eof_outside": 0.000193299554310134
+   }
+  },
+  "S1_D0": 0.00035460690909078837,
+  "S2_D0": 0.00039529110565925867,
+  "P1": 0.09276867142962754,
+  "P2": 0.10083537873518265,
+  "lnZ": {
+   "D0": -7.533776883706702,
+   "D1": -12.946267158335557,
+   "D2": -19.13249804091413,
+   "D3": -28.596902703830622,
+   "D4": -28.527488147862897,
+   "D5": -29.198636821569533,
+   "D3s": -32.855267078783754,
+   "D4s": -32.40045473244044,
+   "D5s": -33.34678445368797
+  }
+ },
+ "source_reduced": "/Users/pete/Downloads/mh370-exchange/end-of-flight/run-j-supplement/reduced/impacts-ruleB.npz",
+ "eof_tools": "45ea4af0",
+ "check_vs_option_table_0019_max_abs": null,
+ "strata_note": "stratum 0 reduced rule-B table (rows outside branch 1 and outside branch 2 x A1); 1 run-j-a1branch; 2 north-k2-a1branch; 3 run-j-a1outside (A1 rows only)"
+}
