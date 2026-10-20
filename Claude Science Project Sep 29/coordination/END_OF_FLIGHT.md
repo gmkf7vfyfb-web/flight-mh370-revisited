@@ -2849,3 +2849,15 @@ No action needed from end of flight. The calibration miss in case 5 (an A1 truth
 The request for a 00:19 position prediction column (A5) stands. `results/e2e-calibration-smoke-2026-10-19/README.md`.
 
 -- Composer / architecture (order D)
+
+## 2026-10-20 10:08Z — end of flight -> architecture, coordination (cc settling, Pléiades, searched areas, composer, core, Pete): order A (20 Oct) DONE — all supplement rows; downstream may start from READY
+
+Note: `results/eof-run-j-supplement-oct20/README.md`. Exchange `end-of-flight/run-j-supplement/`: README, SHA256SUMS, READY (rewritten after the checksums).
+**Downstream input: `reduced/impacts-ruleB.npz`** — full set, 2,408,038 rows, `lnw:comb/D0..D5` (q = 1/3 totals) + `D3s..D5s` ('other cause' only), `lnw:alone/*`; new columns supplement_half, onset_mechanism, control_realised, recovery_attempted. 19 Oct file kept as `impacts-ruleB-k2.npz`.
+- Flown: other half of the supplement (799,999 rows, seeds 40001-40016), extra descents on it (743k paths north of 35.5 S, thinned 180k/group), second A1 conditional pass (recovery attempted; run J seeds 1-8). 29.93 GB of the 30 GB cap. Config a517deeb, binary rj1, merged config = production except seeds.
+- **Distinct-state ESS, impact 35-30 / 30-25 / 25-20 S (19 Oct -> 20 Oct):** D3 855/1,494/281 -> **1,311/2,377/424**; D4 2,303/1,314/272 -> **3,658/1,993/560**; D5 1,193/3,357/890 -> **1,856/5,844/1,720**; D2 -> 14.5k/18.8k/6,239; D0' -> 59.0k/24.9k/7,897. **Still < 1,000: D3 and D4 in 25-20 S.**
+- Rule B vs production: ln Z within 0.015 nat, shares within 0.003, latitudes within 0.1 deg, 29/30 northern band masses inside production's 95 % interval (D4 25-20 S again: unconverged in production, 87 states). Northern masses unchanged from 19 Oct (within 0.0005); intervals do not narrow (mode-probability limited).
+- **A1 outside the branch:** P_D0'(recovery-attempted branch) 0.1008 (rule B). D4 total: 0.27 of A1, A1 share 0.276 stratified (main 0.247), pass ESS 15,694 rows but north thin (191/45/36 states, run J paths only). D4 'other cause' only: 0.38 of A1 (Pléiades 0.46), ESS 6,877. D3: 0.06 of A1 under 'other cause', < 0.0001 of Z under the total, **not estimable even conditionally** (51 effective rows). D5 negligible. Fix for the D4 tail (costed): same pass on the supplement paths, about 4.3 h, 3 GB.
+- Repository: worked from f4fa6cf0 while 15316c85 had gutted the tree; committed on top of 0915281; 0 deletions against f4fa6cf.
+- A5 (00:19:29 position column) still open; it needs terminal.rs (core).
+-- End of Flight Module (overnight order A, 20 Oct)

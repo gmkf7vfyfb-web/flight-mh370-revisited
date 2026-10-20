@@ -21,8 +21,11 @@ FOOT_STE = ("Simple words: This chart uses the satellite data to 00:11 and our m
             "The rule does not change the answer; it only makes the north less noisy. The physics of the last part of the flight is not yet calibrated.")
 
 
+ROWS = "every 2nd row"
+
+
 def foot_tech(extra=""):
-    return ("Technical: source posterior = core run J, waypoints stratum (24 seeds) + run-J northern supplement (16 seeds, every 2nd row, "
+    return ("Technical: source posterior = core run J, waypoints stratum (24 seeds) + run-J northern supplement (16 seeds, " + ROWS + ", "
             "multiple importance sampling by the balance heuristic with r(00:11 latitude) from r_hat.csv); prior track = run J waypoint route "
             "sampler; 00:19 data option as labelled, log-on cause q = 1/3 with 'other cause' silent, survival factor applied; provisional "
             "physics: round-3 descent laws, bank limit U[52, 90] deg, interim pitch-down, uncontrolled arm uncalibrated (Boeing gate failed); "
@@ -128,3 +131,34 @@ def fig_mass(F, out):
 def make_all(final_json, pass1_json, davey, prefix):
     F = json.load(open(final_json)); P1 = json.load(open(pass1_json))
     fig_pdf(F, davey, prefix + "-latitude-pdf"); fig_ess(F, P1, prefix + "-band-ess"); fig_mass(F, prefix + "-band-mass")
+
+
+def fig_ess3(A, B, out, measure="states", name="imp"):
+    """20 Oct: production alone, 19 Oct (half the supplement rows), 20 Oct (all rows); extra descents included in both."""
+    style(); bands = ["35-30 S", "30-25 S", "25-20 S"]
+    fig, axs = plt.subplots(1, 3, figsize=(7.2, 4.6), sharey=True, gridspec_kw={"wspace": 0.06}); xs = np.arange(len(TREAT))
+    for ax, b in zip(axs, bands):
+        get = lambda S, w: np.array([next(r for r in S["cells"][d][w][name]["bands"] if r["band"] == b)["all"][measure] for d in TREAT])
+        ax.axhline(1000, color=REF, lw=0.7, ls=":", zorder=1)
+        ax.plot(xs - 0.18, get(A, "alone"), "o", color=GREY, ms=4, label="standard sample")
+        ax.plot(xs, get(B, "comb"), "s", color=FOCAL, ms=4, label="+ half of the north-weighted sample")
+        ax.plot(xs + 0.18, get(A, "comb"), "D", color=DARK, ms=4, label="+ all of the north-weighted sample")
+        ax.set_yscale("log"); ax.set_ylim(5, 3e5); ax.set_xticks(xs); ax.set_xticklabels([TLAB[d] for d in TREAT], fontsize=5.5, rotation=90)
+        ax.set_title(f"impact {b}", loc="left"); ax.margins(x=0.06)
+    axs[0].set_ylabel("effective distinct 00:11 states"); axs[0].text(-0.4, 1150, "1,000 target", fontsize=6, ha="left", va="bottom")
+    hh, ll = axs[0].get_legend_handles_labels(); fig.legend(hh, ll, frameon=False, loc="upper center", ncol=3, fontsize=6, bbox_to_anchor=(0.55, 1.0))
+    for ax, l in zip(axs, "abc"):
+        try: panel_letter(ax, l)   # noqa: F821
+        except NameError: pass
+    fb = footnotes(fig, "ESS = Kish effective sample size over distinct 00:11 states (identical resampled copies merged). Both supplement sets include "
+                        "256 extra descents per 00:11 path north of 35.5 S for the both-burst options. The last option is scored with a 4.3177 Hz frequency error, as run J.")
+    fig.subplots_adjust(bottom=fb + 0.25, top=0.88, left=0.09, right=0.99)
+    for e in ("png", "pdf"): fig.savefig(f"{out}.{e}", dpi=300)
+    plt.close(fig)
+
+
+def make_full(after_json, before_json, davey, prefix):
+    global ROWS
+    ROWS = "all rows"
+    A = json.load(open(after_json)); B = json.load(open(before_json))
+    fig_pdf(A, davey, prefix + "-latitude-pdf"); fig_ess3(A, B, prefix + "-band-ess"); fig_mass(A, prefix + "-band-mass")

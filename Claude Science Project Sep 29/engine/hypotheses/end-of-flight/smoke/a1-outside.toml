@@ -1,0 +1,10 @@
+# Second A1 conditional pass (overnight order A, 20 Oct 2026; results/eof-run-j-supplement-oct19 section 8). A1 outside the
+# flame-out / no-intervention branch is the undemonstrated-recovery part of family A1 (onset flame-out-associated, control
+# requested "upset then recovery", recovery attempted but not demonstrated: realised maintained-then-lost). This overlay conditions
+# the prior on that request; the realised A1 rows (recovery_attempted = 1, control_realised = 1) are then estimated by the stratified
+# estimator Z(d, A1 outside) = Z(D0') P_D0'(branch2) E_D0'[L_d 1_A1 | branch2], branch2 = onset flame-out-associated and recovery attempted.
+[hypotheses.end-of-flight]
+control_weights = [0.0, 0.0, 0.0, 1.0]
+
+[hypotheses.end-of-flight.onset]
+mechanism_weights = [0.0, 0.0, 1.0]

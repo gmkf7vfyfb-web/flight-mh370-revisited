@@ -12,7 +12,7 @@ which replace the supp parts for D2-D5 by the descent-count-weighted pool (see t
 import json, pathlib, sys
 import numpy as np
 
-CELLS = ("D0", "D1", "D2", "D3", "D4", "D5")
+CELLS = ("D0", "D1", "D2", "D3", "D4", "D5", "D3s", "D4s", "D5s")
 FINE = np.round(np.arange(-45.0, -14.95, 0.1), 2); BANDS = np.arange(-45.0, -14.0, 5.0); NB = len(BANDS) - 1
 FAMS = ("A1", "A2", "B", "other")
 BAND_NAMES = [f"{-BANDS[i]:.0f}-{-BANDS[i+1]:.0f} S" for i in range(NB)]

@@ -1,6 +1,8 @@
 """Reduced impact table for downstream modules: run J waypoints production + northern supplement, rule B (overnight order A).
 
-    python supplement_reduced.py SUMMARY_JSON OUT_DIR TARGET_C PROD_ROOT CORE_HANDOFF_ROOT SUPP_ROOT [XD_ROOT]
+    python supplement_reduced.py SUMMARY_JSON OUT_DIR TARGET_C PROD_ROOT CORE_HANDOFF_ROOT SUPP_ROOT[,XD_ROOT] [SUPP_ROOT2[,XD_ROOT2] ...]
+
+(20 Oct: several supplement row sets, e.g. the two halves north-k2 and north-k2b, each with its extra-descents root.)
 
 One unbiased Poisson (Horvitz-Thompson) thinning of every impact row of both techniques (and of the extra-descents pass, if
 given), with inclusion probability pi_i = min(1, C x max_d a_id), a_id = m_id / Z_{d,b} the row's rule-B mass under 00:19 treatment d
@@ -21,10 +23,10 @@ from supplement_combine import row_terms, r_hat, CELLS, XD_CELLS
 KEEP = ["latitude_deg", "longitude_deg", "t_impact_s", "velocity_east_mps", "velocity_north_mps", "velocity_up_mps",
         "flight_path_angle_deg", "mass_kg", "latent:impact_heading_deg", "latent:impact_bank_deg", "latent:impact_energy_transferred_j",
         "latent:breakup_p_intact", "latent:breakup_p_broken", "latent:breakup_p_fragmented", "latent:debris_class",
-        "latent:spiral_bank_cap_deg", "latent:pushover_drawn"]
+        "latent:spiral_bank_cap_deg", "latent:pushover_drawn", "latent:onset_mechanism", "latent:control_realised", "latent:recovery_attempted"]
 
 
-def main(summary, outd, C, prod_root, core_root, supp_root, xd_root=None):
+def main(summary, outd, C, prod_root, core_root, *supp_specs):
     S = json.load(open(summary)); C = float(C); outd = pathlib.Path(outd); outd.mkdir(parents=True, exist_ok=True)
     S1, S2, N1, N2, K = (float(os.environ[v]) for v in ("SUP_S1", "SUP_S2", "SUP_N1", "SUP_N2", "SUP_K"))
     lnZc = {d: S["cells"][d]["comb"]["imp"]["lnZ"] for d in CELLS}; lnZa = {d: S["cells"][d]["alone"]["imp"]["lnZ"] for d in CELLS}
@@ -32,12 +34,14 @@ def main(summary, outd, C, prod_root, core_root, supp_root, xd_root=None):
     lbm = {f"{v}/{d}": np.log(np.maximum([r["mass"] for r in S["cells"][d][v]["imp"]["bands"]], 1e-12)) for v in ("comb", "alone") for d in CELLS}
     jobs = [("prod", int(p.name.split("-")[1]), p, pathlib.Path(core_root) / p.name / "handoff-m0011" / "handoff.npy", None)
             for p in sorted(pathlib.Path(prod_root).glob("seed-*")) if p.is_dir()]
-    for p in sorted(pathlib.Path(supp_root).glob("seed-*")):
-        if not p.is_dir(): continue
-        s = int(p.name.split("-")[1]); jobs.append(("supp", s, p, p / "handoff-subset.npy", None))
-        if xd_root:
-            for gd in sorted((pathlib.Path(xd_root) / p.name).glob("g[0-9]*")):
-                if (gd / "SHA256SUMS").exists(): jobs.append(("xd", s, gd, gd / "handoff.npy", p))
+    for h, spec in enumerate(supp_specs):
+        supp_root, xd_root = (spec.split(",") + [None])[:2]
+        for p in sorted(pathlib.Path(supp_root).glob("seed-*")):
+            if not p.is_dir(): continue
+            s = int(p.name.split("-")[1]); jobs.append(("supp", (h, s), p, p / "handoff-subset.npy", None))
+            if xd_root and xd_root != "-":
+                for gd in sorted((pathlib.Path(xd_root) / p.name).glob("g[0-9]*")):
+                    if (gd / "SHA256SUMS").exists(): jobs.append(("xd", (h, s), gd, gd / "handoff.npy", p))
     xd_sel = {}
     for tech, s, sd, hf, base in jobs:
         if tech == "xd":
@@ -74,19 +78,21 @@ def main(summary, outd, C, prod_root, core_root, supp_root, xd_root=None):
             orig = np.asarray(json.load(open((base or sd) / "stride.json"))["kept_original_rows"])[par_sub]
         else:
             orig = par_sub
-        blk = {"technique": np.full(keep.sum(), {"prod": 0, "supp": 1, "xd": 2}[tech], np.float32), "seed": np.full(keep.sum(), s, np.float32),
+        half, seed = s if isinstance(s, tuple) else (-1, s)
+        blk = {"technique": np.full(keep.sum(), {"prod": 0, "supp": 1, "xd": 2}[tech], np.float32), "seed": np.full(keep.sum(), seed, np.float32),
+               "supplement_half": np.full(keep.sum(), half, np.float32),
                "handoff_row": orig[keep].astype(np.float32), "family4_code": R["f4"][keep].astype(np.float32),
                "lat_0011_deg": R["lat0011"][keep].astype(np.float32)}
         for c in KEEP: blk[c] = g(c)[keep].astype(np.float64 if c == "t_impact_s" else np.float32)
         for i, k in enumerate(tot): blk["lnw:" + k] = (A[i, keep] - lnpi).astype(np.float32)
         kept.append(blk); cols = list(blk)
-        print(f"{tech} seed {s} {sd.name}: kept {keep.sum()} of {n}", flush=True)
+        print(f"{tech} {s} {sd.name}: kept {keep.sum()} of {n}", flush=True)
     T = {c: np.concatenate([b[c] for b in kept]) for c in cols}
     np.savez(outd / "impacts-ruleB.npz", **T)
     json.dump({"rule": "core results/run-j-supplement README section 5 rule B; supplement K-strided (u2 x K); extra descents pooled 64:256 per selected parent (D2-D5)",
                "C": C, "inclusion": "pi = min(1, C max_d m_d / Z_{d, 5-deg impact band})", "rows": int(len(T["technique"])), "columns": cols, "technique_codes": {"0": "run J production", "1": "supplement first pass (64 descents per parent)", "2": "supplement extra descents (256 per parent, thinned; D2-D5 only)"},
-               "lnw_sum_check": tot, "S1": S1, "S2": S2, "N1": N1, "N2": N2, "K": K, "treatments": {"D0": "00:19 data not used (D0')", "D1": "R600 BTO", "D2": "R600 BTO + BFO", "D3": "both BFOs as recorded", "D4": "both BFOs, Holland transient bias added", "D5": "R600 BTO + BFO + R1200 BFO with start-up offset"},
-               "weights": "q = 1/3, C2 silent, survival factor; lnw:alone/* are production-alone weights (supplement rows -inf)"},
+               "lnw_sum_check": tot, "S1": S1, "S2": S2, "N1": N1, "N2": N2, "K": K, "treatments": {"D0": "00:19 data not used (D0')", "D1": "R600 BTO", "D2": "R600 BTO + BFO", "D3": "both BFOs as recorded", "D4": "both BFOs, Holland transient bias added", "D5": "R600 BTO + BFO + R1200 BFO with start-up offset", "D3s": "D3, log-on from another cause only (C2 silent, no q mixture)", "D4s": "D4, log-on from another cause only", "D5s": "D5, log-on from another cause only"},
+               "weights": "D0-D5: q = 1/3 total, C2 silent, survival factor; D3s-D5s: the C2-silent arm alone (cause-specific cell); lnw:alone/* are production-alone weights (supplement rows -inf)"},
               open(outd / "impacts-ruleB.json", "w"), indent=1)
     print("rows", len(T["technique"]), json.dumps(tot))
 
