@@ -184,3 +184,8 @@ reliability diagrams; a README with a COVERAGE section (composer §0 sampling-co
   A3 scale 4 × 3.5 M particles minimum, first 10 cases at 7 M; A4 drift node scan extended to the truths' span, or drift stacks restricted by a
   data-only rule; A5 a 00:19 position prediction column from end of flight for statistic 1. The smoke itself used a data event (BTO(00:11)
   17,540–18,540 µs, BFO(00:11) 202–302 Hz) and the reductions declared in its note; none of that changes this protocol.
+- 20 Oct 2026 ~05:15Z, overnight order D (cases 5 and 1 at 4 × 3.5 M). Implementation defect S2 found in the smoke truth generator: the 00:11
+  flight was drawn without its marginal 00:19 log-on likelihood Z(parent). **Implementation fix (allowed by §0, recorded here before any full
+  run):** fly the end-of-flight stage for all accepted candidate flights and draw (flight, descent) jointly ∝ fuel-only weight × Z(parent) × descent
+  weight. A1–A5 remain PROPOSED, NOT ADOPTED; the order D evidence (case 1: two independent 3.5 M sets disagree, map level 0.79 vs 0.97)
+  supports A3 at 7 M.

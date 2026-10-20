@@ -5,6 +5,55 @@ committed BEFORE any case ran: `threads/work-orders/e2e-calibration-protocol-202
 not started**; it waits for Pete's review of this smoke. **Five cases cannot test coverage. Every statistic below is a smoke value, not a
 calibration result, and every count is "not assessed at this depth".**
 
+## Update 20 Oct 2026 (overnight order D): test cases 5 and 1 at 4 × 3.5 M
+
+Order: `threads/work-orders/overnight-2026-10-20.md` §D. deskstar, `flock ~/.mh370-heavy.lock`, 40 threads; one core process per replicate,
+pruned at once; replicates of test case 1 scored as soon as each end-of-flight pass finished. **Full run not started; amendments A1–A5 stay
+proposed.** Added cuts and events, declared:
+- **Disk:** the 8 GB deskstar cap was exceeded by about 0.2 GB for about 5 min during test case 5. At that point the four end-of-flight impact
+  files (1.5 GB each, larger than I estimated) existed together with the 2.0 GB base. Test case 1 then ran with per-replicate scoring and peaked
+  at about 3.9 GB. Nothing outside my own smoke files was deleted; the earlier cases' row files (statistics already committed) were removed.
+- Test case 1 set B uses new replicate seeds. Its data before 00:19 are identical to set A; its 00:19 bursts come from the corrected
+  draw (start-up offset; valid options D0, D1, D4, D5). Its ocean-model draw changed to GlobCurrent; drift is not computed for this truth.
+- Same reduced drift and search terms, waypoints stratum only, no settling (as in the table below).
+
+| run | true impact | particles | median lat | latitude rank (SD over replicates) | distance-from-arc rank | map level at truth (replicates) | P(true cause) | effective parents |
+|---|---|---|---|---|---|---|---|---|
+| case 5, 19 Oct | 35.8 S, 115 NM off arc; A1, C2 | 0.7 M | 35.85 S | 0.500 (0.262) | 0.996 | 0.994 (0.98–1.0) | 0.020 | 2,088 |
+| **case 5, 20 Oct** | same | 3.5 M | 35.75 S | **0.466 (0.083)** | **0.995** (0.991–0.997) | **0.997** (0.995–1.0) | **0.021** (0.011–0.033) | 4,511 |
+| case 1, set A (19 Oct) | 21.4 S, 38 NM; A1, C1 | 3.5 M | 10.95 S | 0.021 (0.020) | 0.871 | 0.794 (0.57–0.96) | 0.994 | 6,085 |
+| **case 1, set B (20 Oct)** | same; 00:19 model start-up offset | 3.5 M | 10.76 S | **0.002 (0.005)** | 0.767 | **0.967** (0.97–1.0) | 0.994 | 6,463 |
+
+00:19 data held out, core evidence. Case 1 set B with 00:19 data (true model): D4 (both BFOs, Holland transient bias added) map level 0.990,
+193 effective parents; D5 1.000, 249; D1 0.977, 5,163. D4 and D5 are **not estimable at this depth** (below 1,000 parents). Case 5 with 00:19
+data (true model no offset, so D2/D3 valid): D3 map level 0.921, P(C2) 0.22, 1,282 parents; D2 0.965, 1,272.
+
+**Case 5 (fault F5) — not sample size, and not the estimator: a defect in my smoke truth generator (S2).**
+- The miss does not change with 5× particles (map level 0.994 → 0.997), and the replicates agree closely (0.995–1.0; distance-from-arc
+  rank 0.991–0.997; P(C2) 0.011–0.033). This is not Monte Carlo noise. The latitude rank improved as expected (replicate SD 0.26 → 0.08).
+- The truth's 00:11 flight explains the 00:19 log-on time poorly. Its marginal log-on likelihood is ln Z(parent) = −10.49 with P(C1 | parent) = 0.47
+  (`scripts/parent_check.py`). For comparison, a flight whose fuel runs out at the most likely lag gives about −5.1, and test case 1's truth
+  parent gives −6.30 with P(C1) = 1.00.
+- The smoke generator picked the 00:11 flight by its fuel-only weight and only then picked a descent by the log-on likelihood. That leaves out
+  the factor Z(parent), because the second stage normalises within the flight. So flights that explain the 00:19 log-on poorly are over-drawn,
+  here by roughly e^4–e^5. The inference correctly gives such flights about 2 %.
+- Fix for the full run (implementation, allowed by protocol §0): fly the end-of-flight stage for every accepted candidate flight and draw
+  (flight, descent) jointly ∝ fuel-only weight × Z(parent) × within-flight descent weight. This costs seconds per case. Every smoke truth was drawn
+  with the defect (case 1's parent is typical, case 5's is not), so the smoke ranks are not SBC draws in any case.
+
+**Case 1 — sample size.** The two independent 4-replicate sets on identical data before 00:19 give map levels 0.794 and 0.967 and medians
+10.95 S and 10.76 S. Both put almost no mass at the truth's latitude (rank 0.021 and 0.002). At 3.5 M the posterior for this truth is still
+Monte Carlo limited. Pooling the 8 replicates or using 7 M is needed; 3.5 M is not enough for every truth. This strengthens amendment A3.
+
+**Wall time (20 Oct, one core process per replicate):** core 725–997 s per replicate, end of flight 85–123 s per replicate, scoring about 160 s;
+case totals 4,017 s (case 5) and 3,710 s (case 1). This agrees with the 19 Oct figures (≈ 62–67 min per case at 3.5 M). The cost estimate below
+is unchanged, except that the case 1 evidence points to 7 M rather than 3.5 M (≈ 340 h on one lane, about 8 days at 88 threads).
+
+![Statistics per case and scale, 20 Oct](fig2-monte-carlo-noise.png)
+![Cases 1 and 5 at 3.5 M](fig3-cases-1-and-5-at-3.5M.png)
+
+---
+
 ## Declared reductions, substitutions and cuts (read first)
 
 | item | protocol | smoke | magnitude |
@@ -80,7 +129,7 @@ check detects a wrong 00:19 model, as designed. Drift and searches moved the D0 
 - **F4 (truth population).** Truths drawn from the prior, even after the 00:11 data event, land mostly away from the region that the paper
   is about (5 truths: 18.9 N to 35.8 S; 2 of 5 between 40 and 25 S). The event keeps 1.1–4.9 % of the weighted prior and leaves an accepted
   ESS of 3–9 from 2,400 candidates, so the SIR truth draw is coarse. Amendments A1–A2.
-- **F5 (case 5, not assessed at this depth).** An A1 truth with cause C2, 115 NM off the arc: latitude rank 0.50 but cross-arc rank 0.996, map
+- **F5 (case 5; resolved 20 Oct as smoke defect S2, see the update above).** An A1 truth with cause C2, 115 NM off the arc: latitude rank 0.50 but cross-arc rank 0.996, map
   level 0.994 and P(C2) = 0.02. One case cannot separate a tail event (p ≈ 0.01) from under-sampling of far-off-arc C2 descents. Watch item for
   the full run.
 - **S1 (my smoke script, fixed).** The 00:19 BFO model was drawn as the third draw of a per-case generator; for seeds 9001–9005 it returned
@@ -137,6 +186,6 @@ particles, end of flight production recipe (round-3 laws, bank limit U[52, 90] d
 cause mixture q = 1/3 and survival, drift segment-level (GLORYS12 and GlobCurrent, equal weight), searches V1 central at the impact point (no
 settling, Bluefin-21 omitted), hydroacoustics and Pléiades excluded; physics PROVISIONAL.
 
-Files: `smoke-cases-700k.csv`; `case-stats/case-*/` (truth, statistics per replicate and pooled, wall times; `case-19001`, `case-19002` = cases
+Files: `smoke-cases-700k.csv`; `fig3-cases-1-and-5-at-3.5M.*` (20 Oct); `case-stats/case-*/` (`case-19005` = case 5 at 3.5 M, `case-29001` = case 1 set B, 20 Oct); (truth, statistics per replicate and pooled, wall times; `case-19001`, `case-19002` = cases
 1–2 at 3.5 M); `scripts/` (deskstar pipeline); `deskstar-timeline.txt`; `BIN.sha256`. Deskstar: `~/mh370/e2e/` (3.3 GB; nothing deleted
 outside my own smoke files).

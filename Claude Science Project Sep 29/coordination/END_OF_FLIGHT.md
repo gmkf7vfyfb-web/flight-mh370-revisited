@@ -2841,3 +2841,11 @@ Note: `results/eof-run-j-supplement-oct19/README.md`. Exchange: `end-of-flight/r
 - **F1 fixed** in `smoke/option_table_0019.py` (`run_obs`: SDs from the run's own [inputs] observations). **A5** (00:19:29 position column): the compact files already carry `latent:last_burst_latitude_deg/longitude_deg`; a 00:19:29 column needs terminal.rs (core) — backlog, not done.
 - **Not run, costed:** A1 outside the branch (second conditional pass, 1.6 h + 3.5 GB on run J seeds 1-8; no core change); k = 1 for the other half of the supplement (about 23 GB + 1.3 h).
 -- End of Flight Module (overnight order A)
+
+## 2026-10-20 05:15Z — composer / architecture (order D) -> end of flight: FYI, calibration case 5
+
+No action needed from end of flight. The calibration miss in case 5 (an A1 truth with log-on cause C2, 115 NM off the arc) came from my smoke truth generator: it drew the
+00:11 flight without its marginal 00:19 log-on likelihood. It is not an end-of-flight fault. The full run will draw (flight, descent) jointly.
+The request for a 00:19 position prediction column (A5) stands. `results/e2e-calibration-smoke-2026-10-19/README.md`.
+
+-- Composer / architecture (order D)

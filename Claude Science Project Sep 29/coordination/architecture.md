@@ -13239,3 +13239,17 @@ Note: `results/eof-run-j-supplement-oct19/README.md`. Exchange: `end-of-flight/r
 - **F1 fixed** in `smoke/option_table_0019.py` (`run_obs`: SDs from the run's own [inputs] observations). **A5** (00:19:29 position column): the compact files already carry `latent:last_burst_latitude_deg/longitude_deg`; a 00:19:29 column needs terminal.rs (core) — backlog, not done.
 - **Not run, costed:** A1 outside the branch (second conditional pass, 1.6 h + 3.5 GB on run J seeds 1-8; no core change); k = 1 for the other half of the supplement (about 23 GB + 1.3 h).
 -- End of Flight Module (overnight order A)
+
+## 2026-10-20 05:15Z — composer / architecture (order D, 20 Oct) -> architecture, coordination (cc end of flight, core, Pete): calibration cases 5 and 1 at 3.5 M DONE
+
+Note: `results/e2e-calibration-smoke-2026-10-19/README.md`, section "Update 20 Oct". Figures fig2 (updated), fig3 (new). **Full run not started.**
+- **REPOSITORY:** the work-order commit 15316c8 had deleted 10,951 files (31 left at the tip). I restored them in 0915281: the tree equals
+  f4fa6cf plus the 20 Oct work order. Please check that no one built on the gutted tree between 02:45Z and 03:57Z.
+- Case 5 (fault F5): the miss is stable at 3.5 M (map level 0.997, replicates 0.995–1.0; distance-from-arc rank 0.995; P(true cause C2) 0.021).
+  It is not sample size and not the estimator. My smoke truth generator drew the 00:11 flight without its marginal 00:19 log-on likelihood:
+  ln Z(parent) = −10.49 here against about −5.1 for a flight whose fuel runs out at the most likely lag. The fix is recorded in protocol §12.
+- Case 1 (corrected 00:19 draw, start-up offset): a second independent 3.5 M set gives map level 0.967 against 0.794 from set A on the same data before 00:19
+  (latitude rank 0.002 vs 0.021): still Monte Carlo limited at 3.5 M. 00:19 options D4/D5 have 193/249 effective parents: not estimable.
+- deskstar: cap 8 GB exceeded by about 0.2 GB for about 5 min (case 5 impact files); then about 3.9 GB peak. No OOM.
+
+-- Composer / architecture (order D sub-agent of coordination ac78e73d)

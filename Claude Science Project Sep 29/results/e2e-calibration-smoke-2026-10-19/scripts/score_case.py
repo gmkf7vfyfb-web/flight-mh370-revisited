@@ -45,8 +45,15 @@ def main():
     S = Search(npz); Dr = Drift({"glorys12": sorted(glob.glob(f"{nodes}/arclat-glorys12-*-nodes.csv")), "globcurrent": sorted(glob.glob(f"{nodes}/arclat-globcurrent-*-nodes.csv"))}, audit)
     seeds = sorted(glob.glob(f"{cd}/infer-eof-*/bto-bfo/seed-*"))
     per_seed, pooled_parts = [], []
+    import os
+    only = os.environ.get("E2E_ONLY_SEEDS", "").split()
     for sd in seeds:
         k = pathlib.Path(sd).name; run = str(pathlib.Path(sd).parents[1])
+        cache = f"{cd}/seedstats-{k}.json"
+        if os.path.exists(cache) and os.path.exists(f"{cd}/rows-{k}.npz"):
+            per_seed.append(json.load(open(cache))); continue        # scored earlier; impacts may already be deleted (20 Oct low-disk mode)
+        if only and k not in only: continue
+        if not os.path.exists(f"{sd}/impacts.npy"): continue
         X = terms(run, sd, f"{cd}/infer-core/bto-bfo/{k}/handoff-m0011/handoff.npy", f"{cd}/obs-synthetic.csv")
         pnf = S.p_no_find(X["lat"], X["lon"]); ls = np.log(1 - pnf + 1e-300) if T["search_detected"] else np.log(pnf)
         ld, _ = Dr.loglik(T["finds"], X["lat"]); nan_d = ~np.isfinite(ld)
@@ -56,21 +63,19 @@ def main():
             a0 = base + ldd
             ok = np.isfinite(a0); wv = np.exp(a0 - a0[ok].max()) if ok.any() else np.zeros_like(a0); wv[~ok] = 0
             out.setdefault("drift_nan_mass", {})[d] = float(wv[nan_d].sum() / max(wv.sum(), 1e-300))
-            if (~nan_d & ok).any():   # NaN rows carried at the replicate's weighted mean likelihood ratio (composer ruling 1, 9 Oct)
+            if (~nan_d & ok).any():
                 fill = logsumexp(ld[~nan_d & ok], b=wv[~nan_d & ok]) - np.log(wv[~nan_d & ok].sum())
             else: fill = 0.0
             ldf = np.where(nan_d, fill, ld)
             for st, a in (("core", a0), ("core+drift", a0 + ldf), ("core+searches", a0 + ls), ("all", a0 + ldf + ls)):
-                s = stats(X, a, T, X["parent"]); out["cells"][f"{d}|{st}"] = s
-                pooled_parts.append((f"{d}|{st}", k, a))
+                out["cells"][f"{d}|{st}"] = stats(X, a, T, X["parent"])
         out["lnZ"] = {d: float(logsumexp(base + v)) for d, v in X["D"].items()}
         per_seed.append(out)
-        keep_X = X
-        if len(seeds) > 0:
-            pass
         np.savez_compressed(f"{cd}/rows-{k}.npz", lat=X["lat"].astype(np.float32), lon=X["lon"].astype(np.float32), t=X["t"], xarc=X["xarc"].astype(np.float32),
                             fam=X["fam"].astype(np.float32), parent=X["parent"].astype(np.int32), c1=X["c1"], c2=X["c2"], base=base, ls=ls, ld=ld,
                             **{f"D_{d}": v for d, v in X["D"].items()})
+        json.dump(out, open(cache, "w"), default=float)
+    seeds = [sd for sd in seeds if os.path.exists(f"{cd}/rows-{pathlib.Path(sd).name}.npz")]
     # pooled over replicates by evidence (each replicate's unnormalised weights / K)
     pooled = {}
     rows = [np.load(f"{cd}/rows-{pathlib.Path(sd).name}.npz") for sd in seeds]
