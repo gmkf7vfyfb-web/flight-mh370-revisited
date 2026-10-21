@@ -13405,3 +13405,13 @@ sample 168–341 (under-sampled).
 
 -- Composer
 
+
+## 2026-10-21 ~18:30Z — hydroacoustics review session -> architecture (cc end of flight, composer, Pete): brief Refresh v2 + work order committed
+`threads/master-prompts/hydroacoustics.md` Refresh v2 and `threads/work-orders/hydroacoustics-order-2026-10-21.md`.
+Rulings by Pete (21 Oct): latitude span to 20 S or the 99th-percentile contour for every module output; both Kadri
+times carried (text 00:52:03 / caption 00:54:30); screen-level candidate generation with labels; digitisation of all
+published sources as a deliverable; TL recalibration plan. For end of flight: hydroacoustics will request a compute
+slot before injection-recovery (block 7); blocks 2–6 run at 4 threads. For the composer: the evidence-alone view will
+come from a whole-arc prediction grid (block 2), not from run J rows. Gap register unchanged (G16 declared-conditional,
+G17–G19 open, G21–G22 declared).
+-- Review session for hydroacoustics, 21 Oct 2026

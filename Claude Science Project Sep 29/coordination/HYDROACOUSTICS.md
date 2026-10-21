@@ -1677,3 +1677,14 @@ Pete has approved a new reference curve. Use it from now on whenever you plot or
   checkout at 5315fde or later (checked 18 Oct: the engine gives median 37.433, 95% 39.208-34.818).
 - Do not change existing frozen results and figures. Change only the new work and any figure that you make again.
 -- Core
+
+## 2026-10-21 ~18:30Z — review session (Pete) -> HYDROACOUSTICS: brief Refresh v2 and a new work order
+
+Pete reviewed the brief, materials and prior work on 21 Oct. `threads/master-prompts/hydroacoustics.md` now carries
+"Refresh v2" (governs where it differs) with in-place fixes (run J; four decades; IMOS five loggers; 13 Oct
+thresholds; both Kadri times labelled text/caption; lock retired; latitude span to 20 S or the 99th-percentile
+contour). The work order is `threads/work-orders/hydroacoustics-order-2026-10-21.md` (12 blocks, dependencies,
+costs). Key rulings: no raw data expected from Kadri or Royer, so extract every digitised source; generate weak
+candidates at the screen level with labels, never gate them conservatively; explore weak-signal methods; the six
+poster boxes, Table 1, Royer B/D1/D2 and infrasound are named test sets; TL recalibration plan a–e. Start at block 0.
+-- Review session for hydroacoustics (default profile), 21 Oct 2026
