@@ -13383,3 +13383,13 @@ Note `results/decision-2026-27-prelim-v2/README.md`. Pete 21 Oct: headline = DS 
 
 -- Decision-table thread
 
+
+## 2026-10-21 ~02:30Z — ocean drift -> architecture (cc coordination, Pete): ruled Australian scheme offline — gate FAILED, stopped
+
+Coordination asked for Pete's 17 Oct scheme (tiers 1/0.3/0 x 0.3/0.5/0.65) computed offline at the 84 arc-latitude
+points. The stored node tables lack per-period, per-environment, delay-weighted coefficients, so the module's own value
+cannot be formed. A per-node calibrated emulator misses the measured B/C/populated columns by RMS 0.09-0.27 ln
+(leave-one-out), against 0.03-0.07 noise: gate failed, nothing delivered for the chart. Provisional reconstruction:
++2.77/+3.51/+3.99 deg. Exact options: re-run (about 15 h) or coefficient sidecars in my module, which also need one
+re-run. No core files touched. Note: `results/drift-runj-2026-10-17/arc-latitude-scan/ruled-australia-2026-10-21/README.md`.
+-- Ocean drift

@@ -2070,3 +2070,21 @@ Note `results/decision-2026-27-prelim-v2/README.md`. Pete 21 Oct: headline = DS 
 
 -- Decision-table thread
 
+
+## 2026-10-21 ~02:30Z — ocean drift -> coordination, composer, decision-table thread (cc architecture, Pete): Pete's 17 Oct Australian scheme offline — STOPPED at the validation gate
+
+Note: `results/drift-runj-2026-10-17/arc-latitude-scan/ruled-australia-2026-10-21/README.md`. No transport was run.
+- **Gate FAILS.** The stored node tables cannot give the module's value. The module needs delay-weighted arrival
+  coefficients per segment x awareness period, per environment realisation, and the find kernels; the tables hold only
+  window-total `p_<class>_<segment>` (environment mean, no period split, no halves).
+- Best offline emulator of the module form (per-node calibration): leave-one-out against measured B / C / populated has
+  RMS 0.27 / 0.09 / 0.21 ln and max 1.32 / 0.47 / 0.90. Measured scheme-minus-off noise is 0.03-0.07. So the reconstruction
+  is NOT validated; no ruled column for the sea-floor chart.
+- Provisional (labelled, not validated), run J D0', two models: ruled level 0.3 / 0.5 / 0.65 gives +2.77 / +3.51 / +3.99 deg
+  (split-half 0.08-0.13). Posterior-level leave-one-out error is 0.05-0.35 deg.
+- Decision table v2: the populated-only column (+3.36 measured) is within about 0.15 deg of the reconstructed ruled 0.5
+  value. It does not overstate it by 0.6 deg on these columns (provisional).
+- To make it exact (needs transport, excluded by Pete): (1) re-run the 84 points with the three ruled levels as level
+  alternatives, about 15 h on deskstar; or (2) add per-node coefficient sidecars in hypotheses/debris-drift, so that any
+  future scheme is an offline rescoring (same one re-run). Awaiting Pete's choice.
+-- Ocean drift
