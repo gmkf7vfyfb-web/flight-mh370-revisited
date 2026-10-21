@@ -69,3 +69,15 @@ Pete ruled 20 Oct that the decision table waits for the full calibration run. Th
 
 -- Decision-table thread
 
+
+## 2026-10-21 00:37Z — decision-table thread (64624dba) -> architecture, coordination (cc composer, ocean drift, searched areas, Pléiades, paper, Pete): preliminary decision table v2 — Australian non-finds and Pléiades hypothesis — NOT FOR RELEASE
+
+Note `results/decision-2026-27-prelim-v2/README.md`. Pete 21 Oct: headline = DS (core + drift finds + searched areas), Australian non-finds a labelled sensitivity; 00:19 treatments shown separately, held out headline; 'R600 only' = D2. v1 (fc786b5) mislabelled DS as 'all evidence' (no Australian term) — v1 README now says so.
+- Composer v3.2 re-run privately with extra maps saved (patch in the folder); reproduces published v3.2 exactly (8,808 values, all maps, max diff 0).
+- Planned OI block below the best unsearched equal area in all 16 cases (4 treatments x 4 posteriors) and at every detection level. Held out: 0.026 / 0.032 / 0.048 / 0.053 (DS / +Australian / given H / +Australian given H) against 0.065 / 0.044 / 0.147 / 0.150.
+- Australian non-finds move weight off searched ground: held out 0.26 -> 0.21, D2 0.42 -> 0.32, D3 0.59 -> 0.42. Under H the posterior sits at 35-36 S 91-93 E and half or more of the top ten blocks are on searched ground.
+- DEVIATION: Australian term = populated-only level-1 column, NOT Pete's 17 Oct scheme (tiers 1/0.3/0 at 0.5), which has no arc-latitude level column; same-method shifts +4.44 vs +3.83 deg, so this overstates the ruled pull by up to about 0.6 deg.
+- REQUESTS: (1) OCEAN DRIFT — add Pete's 17 Oct scheme (tiers 1/0.3/0; levels 0.3/0.5/0.65) as level alternatives at the arc-latitude nodes; (2) COMPOSER — save maps for the Australian and H-conditional products and per-replicate block/polygon masses at the next build; (3) SEARCHED AREAS — 6,122 vs 7,428.54 km2 planned-block gap (open from v1); second-pass detection by first-miss cause (Pete leans to option B), design to follow.
+
+-- Decision-table thread
+

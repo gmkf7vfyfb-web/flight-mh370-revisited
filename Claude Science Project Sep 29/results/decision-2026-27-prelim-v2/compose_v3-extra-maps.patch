@@ -1,0 +1,32 @@
+--- repo/Claude Science Project Sep 29/results/composer-views-v3-run-j/compose_v3.py	2026-10-20 13:31:05
++++ compose-pop/compose_v3.py	2026-10-20 18:33:53
+@@ -81,6 +81,11 @@
+ for a in ('B', 'C', 'pop'):
+     PR['A' + a] = (a, 'J', False, None); PR['A' + a + 'S'] = (a, 'J', False, 'V1_central')
+ PR['ABSP'] = ('B', 'J', True, 'V1_central'); PR['ABP'] = ('B', 'J', True, None)
++for _nm in ('S_r0', 'S_r10', 'S_V2', 'S_V0', 'S_nooi'):
++    PR['Apop' + _nm] = ('pop', 'J', False, SV[_nm])
++PR['ApopSP'] = ('pop', 'J', True, 'V1_central')
++for _nm in ('S_r0', 'S_r10', 'S_V2'):
++    PR['Apop' + _nm + 'P'] = ('pop', 'J', True, SV[_nm]); PR['D' + _nm + 'P'] = ('off', 'J', True, SV[_nm])
+ UPR = {'U': (None, None, None), 'UD': ('off', False, None), 'US': (None, False, 'V1_central'), 'UP': (None, True, None),
+        'UAB': ('B', False, None), 'US_V0': (None, False, 'V0_scalar'), 'US_r0': (None, False, 'V1_rho0'), 'US_r10': (None, False, 'V1_rho0.5'),
+        'US_V2': (None, False, 'V2_pessimistic'), 'US_V3': (None, False, 'V3_optimistic')}
+@@ -94,7 +99,7 @@
+     if nm != 'S':
+         LOO[(nm, 'D' + nm)] = 'D'; LOO[('D', 'D' + nm)] = nm
+ BOOTP = ['core', 'D', 'S', 'P', 'AB', 'DS', 'DSP', 'ABS', 'ABSP', 'DP', 'SP'] + ['D' + nm for nm in SV if nm != 'S'] + [nm for nm in SV if nm != 'S'] + \
+-        ['D100S', 'DGS', 'DCS', 'ACS', 'ApopS']
++        ['D100S', 'DGS', 'DCS', 'ACS', 'ApopS', 'ApopSP']
+ 
+ 
+ def next_area_mask(lat, lon):
+@@ -392,7 +397,7 @@
+         Cc[p] = s_
+         if ctx == 'mix' and variant == 'head':
+             PDF[f'{d}|{f}|{p}'] = l01(S1)
+-            if f == 'all' and p in ('core', 'D', 'S', 'P', 'DS', 'DSP', 'ABS', 'AB', 'DS_r0', 'DS_r10', 'DS_V2', 'DS_V3', 'DS_V0'):
++            if f == 'all' and p in ('core', 'D', 'S', 'P', 'DS', 'DSP', 'ABS', 'AB', 'DS_r0', 'DS_r10', 'DS_V2', 'DS_V3', 'DS_V0', 'Apop', 'ApopS', 'ACS', 'ApopS_r0', 'ApopS_r10', 'ApopS_V2', 'ApopS_V0', 'ApopS_nooi', 'DS_nooi', 'ApopSP', 'ApopS_r0P', 'ApopS_r10P', 'ApopS_V2P', 'DS_r0P', 'DS_r10P', 'DS_V2P'):
+                 MAPS[f'{d}|{p}'] = MAP.astype(np.float32)
+         if ctx in ('run-j-waypoints', 'run-j-free') and p in ('core', 'DS', 'DSP', 'S', 'D'):
+             PDF[f'{d}|{ctx}|{p}'] = l01(S1); MAPS[f'{d}|{ctx}|{p}'] = MAP.astype(np.float32)

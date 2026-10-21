@@ -49,3 +49,5 @@ Planned-block mass is the composer's exact outcome-level value (`p_in_next_oi_ar
 ---
 Footnote, STE100: this is a test of the method on the current result. The numbers can change when the calibration run is done. The planned search block has a low probability of success in every case we tried. The best blocks after the searches are mostly on ground that was already searched; that result depends on how good we think the earlier searches were.
 Technical: composer views v3.2 (run J, settled seabed, per-cell detection V1 central, OI 2018/2025–26 grade C coverage 0.889/0.7808, drift finds only, Pléiades conditional, hydroacoustics zero weight); Davey eq. 11.2 with P_D = 0.9; cells 769 km² equal-area (0.25° lon × authalic rows); blocks 2 × 2 cells; SD ≈ sqrt(deff · m(1−m)/ESS_Kish) with deff from the composer's north-of-33 S seed bootstrap; widening p^β renormalised; 'unsearched' = coverage < 0.1.
+
+> **Superseded for interpretation by `results/decision-2026-27-prelim-v2/` (21 Oct 2026).** This version used product DS only (no Australian non-recovery term); calling it "all evidence" was a labelling error.
