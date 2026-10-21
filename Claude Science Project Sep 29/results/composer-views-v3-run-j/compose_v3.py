@@ -46,7 +46,7 @@ for s in STRATA + ['run-j-both-burst-waypoints'] + (['run-j-a1branch-waypoints']
     print('loaded', s, flush=True)
 OPTION = {p['D']: p['option'] for p in T['run-j-waypoints']['products']}
 if DEXT:   # recompute the drift columns of every table on the 20-40 S profile (impact point, as before)
-    _DX = C.DriftExt()
+    _DX = C.DriftExt(ruled=os.environ.get('RULED') == '1'); C.OPTS_USED = _DX.opts
     for s_, t_ in T.items():
         dl_ = _DX.lnL(t_['ilat'], t_['ilon'])
         for (o_, m_), arr in ((k, v) for k, v in dl_.items() if k != 'inside_dedicated_span'):
@@ -81,6 +81,9 @@ PR['D100S'] = ('h100', 'J', False, 'V1_central'); PR['DGS'] = ('off', 'G', False
 for a in ('B', 'C', 'pop'):
     PR['A' + a] = (a, 'J', False, None); PR['A' + a + 'S'] = (a, 'J', False, 'V1_central')
 PR['ABSP'] = ('B', 'J', True, 'V1_central'); PR['ABP'] = ('B', 'J', True, None)
+if os.environ.get('RULED') == '1':   # Pete's 17 Oct Australian scheme, RECONSTRUCTED (gate failed), levels 0.3 / 0.5 / 0.65
+    for a in ('r03', 'r05', 'r065'):
+        PR['A' + a] = (a, 'J', False, None); PR['A' + a + 'S'] = (a, 'J', False, 'V1_central')
 UPR = {'U': (None, None, None), 'UD': ('off', False, None), 'US': (None, False, 'V1_central'), 'UP': (None, True, None),
        'UAB': ('B', False, None), 'US_V0': (None, False, 'V0_scalar'), 'US_r0': (None, False, 'V1_rho0'), 'US_r10': (None, False, 'V1_rho0.5'),
        'US_V2': (None, False, 'V2_pessimistic'), 'US_V3': (None, False, 'V3_optimistic')}
@@ -94,7 +97,7 @@ for nm in SV:
     if nm != 'S':
         LOO[(nm, 'D' + nm)] = 'D'; LOO[('D', 'D' + nm)] = nm
 BOOTP = ['core', 'D', 'S', 'P', 'AB', 'DS', 'DSP', 'ABS', 'ABSP', 'DP', 'SP'] + ['D' + nm for nm in SV if nm != 'S'] + [nm for nm in SV if nm != 'S'] + \
-        ['D100S', 'DGS', 'DCS', 'ACS', 'ApopS']
+        ['D100S', 'DGS', 'DCS', 'ACS', 'ApopS'] + (['Ar03S', 'Ar05S', 'Ar065S'] if os.environ.get('RULED') == '1' else [])
 
 
 def next_area_mask(lat, lon):
@@ -186,7 +189,7 @@ def factors(b, carry):
     def car(a):
         ok = np.isfinite(a); bar = (w0[ok] * a[ok]).sum() / w0[ok].sum() if ok.any() else 1.0
         carry.setdefault('_', []).append(float(w0[~ok].sum())); return np.where(ok, a, bar), float(w0[~ok].sum())
-    for o in C.OPTS:
+    for o in getattr(C, 'OPTS_USED', C.OPTS):
         for m in 'GC':
             F[f'd|{o}|{m}'], carry[f'drift|{o}|{m}|{b["s"]}'] = car(np.exp(t[f'drift|{o}|{m}'][i] - C.LREF))
     for m in 'GC':
@@ -392,7 +395,7 @@ for variant, d, f, ctx in jobs:
         Cc[p] = s_
         if ctx == 'mix' and variant == 'head':
             PDF[f'{d}|{f}|{p}'] = l01(S1)
-            if f == 'all' and p in ('core', 'D', 'S', 'P', 'DS', 'DSP', 'ABS', 'AB', 'DS_r0', 'DS_r10', 'DS_V2', 'DS_V3', 'DS_V0'):
+            if f == 'all' and p in ('core', 'D', 'S', 'P', 'DS', 'DSP', 'ABS', 'AB', 'DS_r0', 'DS_r10', 'DS_V2', 'DS_V3', 'DS_V0', 'ApopS', 'ACS', 'Ar03S', 'Ar05S', 'Ar065S'):
                 MAPS[f'{d}|{p}'] = MAP.astype(np.float32)
         if ctx in ('run-j-waypoints', 'run-j-free') and p in ('core', 'DS', 'DSP', 'S', 'D'):
             PDF[f'{d}|{ctx}|{p}'] = l01(S1); MAPS[f'{d}|{ctx}|{p}'] = MAP.astype(np.float32)

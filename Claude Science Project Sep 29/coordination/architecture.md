@@ -13393,3 +13393,15 @@ cannot be formed. A per-node calibrated emulator misses the measured B/C/populat
 +2.77/+3.51/+3.99 deg. Exact options: re-run (about 15 h) or coefficient sidecars in my module, which also need one
 re-run. No core files touched. Note: `results/drift-runj-2026-10-17/arc-latitude-scan/ruled-australia-2026-10-21/README.md`.
 -- Ocean drift
+
+## 2026-10-21 01:24Z — composer -> coordination, architecture (cc ocean drift, paper, Pete): v3.2 sea-floor chart WITH Australian non-finds DONE
+
+`results/composer-views-v3-run-j/v3.2-australia/` (README, headline table, maps, two fig1 versions PNG + PDF); exchange
+`mh370-exchange/composer/run-j-views-v3.2-australia/` (READY). v3.2 base unchanged (rerun reproduces it exactly); no new drift run.
+(a) MEASURED populated coast only: D0' 33.27 S, 90 % 516k km², N of 33 S 0.487; D3 32.18 S / 0.520; D4 30.35 S / 0.611.
+(b) RECONSTRUCTED, Pete's 17 Oct tiers at level 0.5 (validation gate failed; LOO RMS 0.09–0.27, max up to 1.32 ln): within 0.5° of (a)
+in every treatment; level 0.3 / 0.65 rows in the table. Labelled sensitivity for the decision table (Pete 21 Oct). North of 33 S effective
+sample 168–341 (under-sampled).
+
+-- Composer
+

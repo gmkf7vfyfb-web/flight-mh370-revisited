@@ -66,12 +66,13 @@ class Drift:
             Vals = np.column_stack([d[f'v_{o}'].values for o in OPTS])
             self.lin[tag] = LinearNDInterpolator(P, Vals); self.near[tag] = NearestNDInterpolator(P, Vals)
             self.s_lo, self.s_hi = float(s.min()), float(s.max())
+            self.opts = OPTS
             # Australian increment at the two ends (track point of the end latitudes) for use outside the span
             g = d.assign(s=s)
             self.end_inc = getattr(self, 'end_inc', {})
             for end, al in (('south', g.arc_lat.min()), ('north', g.arc_lat.max())):
                 tr = g[(g.arc_lat == al) & (g.position == 'track')].iloc[0]
-                self.end_inc[(tag, end)] = {o: float(tr[f'v_{o}'] - tr['v_off']) for o in OPTS}
+                self.end_inc[(tag, end)] = {o: float(tr[f'v_{o}'] - tr['v_off']) for o in self.opts}
 
     def lnL(self, lat, lon):
         """dict (option, model tag) -> ln L per point (NaN = not computed)."""
@@ -87,7 +88,7 @@ class Drift:
             ra_off = np.log(V.drift_lookup(ins, nid, W, np.exp(self.N[f'{mod}_h50'] - LREF))) + LREF + self.offset[tag]
             ra_100 = np.log(V.drift_lookup(ins, nid, W, np.exp(self.N[f'{mod}_h100'] - LREF))) + LREF + self.offset[tag]
             south = s < self.s_lo
-            for k, o in enumerate(OPTS):
+            for k, o in enumerate(self.opts):
                 v = np.full(n, np.nan); v[inside] = vi[:, k]
                 if o == 'off':
                     v[~inside] = ra_off[~inside]
@@ -148,17 +149,31 @@ def arclat_nodes_ext():
     return out
 
 
+RULED = (('r03', 'ruled level 0.3'), ('r05', 'ruled level 0.5'), ('r065', 'ruled level 0.65'))
+RULED_CSV = X / 'debris-drift/arclat-ruled-australia-2026-10-21/arclat-ruled-australia-RECONSTRUCTED-gate-failed.csv'
+
+
 class DriftExt(Drift):
-    """As Drift, on the 84-point 20-40 S profile; outside its arc span: run A + per-model offset (fitted on the same 66 points as v3)."""
-    def __init__(self):
+    """As Drift, on the 84-point 20-40 S profile; outside its arc span: run A + per-model offset (fitted on the same 66 points as v3).
+    ruled=True adds Pete's 17 Oct Australian scheme (ABS tiers city + inner regional 1, outer regional 0.3, remote 0; 2014 level 0.3 / 0.5 /
+    0.65 of the find-coast peak) from ocean drift's per-node RECONSTRUCTION (emulator k1; validation gate FAILED, 497677f)."""
+    def __init__(self, ruled=False):
         from scipy.interpolate import LinearNDInterpolator, NearestNDInterpolator
         base = Drift(); self.N = base.N; self.offset = base.offset; self.nodes = arclat_nodes_ext(); self.lin = {}; self.near = {}; self.end_inc = {}
+        self.opts = OPTS + (tuple(o for o, _ in RULED) if ruled else ())
+        if ruled:
+            Rr = pd.read_csv(RULED_CSV); Rr['_k'] = Rr.node_lat.round(4).astype(str) + '|' + Rr.node_lon.round(4).astype(str)
+            for mod, tag in MODELS:
+                d = self.nodes[tag]; key = d.lat_deg.round(4).astype(str) + '|' + d.lon_deg.round(4).astype(str)
+                for o, col in RULED:
+                    mp = dict(zip(Rr._k, Rr[f'{col} [{mod}, ln L, k1]'])); d[f'v_{o}'] = key.map(mp).values
+                    assert np.isfinite(d[f'v_{o}']).all(), (mod, o)
         for mod, tag in MODELS:
             d = self.nodes[tag]; s, r = arc_sr(d.lat_deg.values, d.lon_deg.values); P = np.column_stack([s, r])
-            Vals = np.column_stack([d[f'v_{o}'].values for o in OPTS])
+            Vals = np.column_stack([d[f'v_{o}'].values for o in self.opts])
             self.lin[tag] = LinearNDInterpolator(P, Vals); self.near[tag] = NearestNDInterpolator(P, Vals)
             self.s_lo, self.s_hi = float(s.min()), float(s.max())
             g = d.assign(s=s)
             for end, al in (('south', g.arc_lat.min()), ('north', g.arc_lat.max())):
                 tr = g[(g.arc_lat == al) & (g.position == 'track')].iloc[0]
-                self.end_inc[(tag, end)] = {o: float(tr[f'v_{o}'] - tr['v_off']) for o in OPTS}
+                self.end_inc[(tag, end)] = {o: float(tr[f'v_{o}'] - tr['v_off']) for o in self.opts}
