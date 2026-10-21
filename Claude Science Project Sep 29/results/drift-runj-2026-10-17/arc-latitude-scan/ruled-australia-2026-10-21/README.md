@@ -6,9 +6,10 @@ peak, constant in time. The inputs are the stored node tables of the dedicated r
 extension (181a5fa, 20-26 S), 84 points in each of the two ocean models.
 
 ## Verdict
-**The gate FAILS.** The stored columns cannot give the module's own value. The best offline emulator reproduces the measured
-option B, option C and populated columns to an RMS of 0.07-0.27 ln and a maximum of 0.36-1.32 ln (leave-one-out). This is
-larger than the Monte Carlo noise of the measured scheme-minus-off differences (median split-half SD 0.03-0.07). No
+**The gate FAILS.** The stored columns cannot give the module's own value. Leave-one-out against the measured option B, option C and populated
+columns, the better emulator (k1) has RMS 0.09-0.27 ln and max 0.47-1.32 ln. The two-parameter emulator (k2) is worse:
+RMS up to 0.98 and max up to 3.61 ln (populated coast only). Both are larger than the Monte Carlo noise of the measured
+scheme-minus-off differences (median split-half SD 0.03-0.07). No
 validated column for the ruled scheme is delivered, and nothing here should be used for the sea-floor chart without a decision.
 
 ## What is missing from the stored tables
