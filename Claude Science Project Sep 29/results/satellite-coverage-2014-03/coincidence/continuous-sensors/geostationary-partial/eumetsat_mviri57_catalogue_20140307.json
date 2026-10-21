@@ -1,0 +1,926 @@
+
+  { "id" : "https:\/\/api.eumetsat.int\/data\/search-products\/1.0.0\/os?pi=EO:EUM:DAT:0881&dtstart=2014-03-07T16%3A00%3A00Z&dtend=2014-03-08T01%3A00%3A00Z&c=40&",
+    "type" : "FeatureCollection",
+    "totalResults" : 14,
+    "itemsPerPage" : 40,
+    "startIndex" : 0,
+    "queries" : 
+    { "request" : 
+      [ 
+        { "count" : 40,
+          "eo:parentIdentifier" : "EO:EUM:DAT:0881",
+          "time:start" : "2014-03-07T16:00:00Z",
+          "time:end" : "2014-03-08T01:00:00Z" } ] },
+    "properties" : 
+    { "type" : "Properties",
+      "title" : "EUMETSAT EOP OpenSearch (EOPOS) results feed for EO:EUM:DAT:0881",
+      "subTitle" : "Search results for your query pi=EO:EUM:DAT:0881&dtstart=2014-03-07T16%3A00%3A00Z&dtend=2014-03-08T01%3A00%3A00Z&c=40&",
+      "rights" : "Copyright",
+      "updated" : "2026-10-21T00:23:16.769Z",
+      "subject" : "climatologyMeteorologyAtmosphere",
+      "creator" : "EUMETSAT",
+      "lang" : "en",
+      "parameters" : 
+      [ 
+        { "name" : "sat",
+          "value" : "platformShortName",
+          "title" : "Mission \/ Satellite",
+          "minimum" : 0,
+          "options" : 
+          [ 
+            { "value" : "METEOSAT7",
+              "results" : 14 } ] },
+        
+        { "name" : "type",
+          "value" : "productType",
+          "title" : "Product Type",
+          "minimum" : 0,
+          "options" : 
+          [ 
+            { "value" : "MTP15EASY0200",
+              "results" : 14 } ] },
+        
+        { "name" : "dtstart",
+          "value" : "start",
+          "title" : "Temporal Start",
+          "minimum" : 0,
+          "minInclusive" : "2014-03-07T16:00:00.000Z",
+          "maxInclusive" : "2014-03-08T01:00:00.000Z" },
+        
+        { "name" : "dtend",
+          "value" : "end",
+          "title" : "Temporal End",
+          "minimum" : 0,
+          "minInclusive" : "2014-03-07T16:24:59.000Z",
+          "maxInclusive" : "2014-03-08T01:24:59.000Z" },
+        
+        { "name" : "publication",
+          "value" : "publicationDate",
+          "title" : "publication date",
+          "minimum" : 0,
+          "minInclusive" : "2024-01-30T10:16:28.265Z",
+          "maxInclusive" : "2024-01-30T10:29:35.041Z" } ],
+      "links" : 
+      { "type" : "Links",
+        "search" : 
+        { "type" : "application\/opensearchdescription+xml",
+          "href" : "https:\/\/api.eumetsat.int\/data\/search-products\/1.0.0\/osdd?pi=EO:EUM:DAT:0881",
+          "title" : "OpenSearch Description Document" },
+        "self" : 
+        { "type" : "application\/json",
+          "href" : "https:\/\/api.eumetsat.int\/data\/search-products\/1.0.0\/os?pi=EO:EUM:DAT:0881&dtstart=2014-03-07T16%3A00%3A00Z&dtend=2014-03-08T01%3A00%3A00Z&c=40&format=json",
+          "title" : "this search" },
+        "first" : 
+        { "type" : "application\/json",
+          "href" : "https:\/\/api.eumetsat.int\/data\/search-products\/1.0.0\/os?pi=EO:EUM:DAT:0881&dtstart=2014-03-07T16%3A00%3A00Z&dtend=2014-03-08T01%3A00%3A00Z&c=40&format=json",
+          "title" : "first result page" },
+        "last" : 
+        { "type" : "application\/json",
+          "href" : "https:\/\/api.eumetsat.int\/data\/search-products\/1.0.0\/os?pi=EO:EUM:DAT:0881&dtstart=2014-03-07T16%3A00%3A00Z&dtend=2014-03-08T01%3A00%3A00Z&si=0&c=40&format=json",
+          "title" : "last result page" } },
+      "profiles" : 
+      [ 
+        { "href" : "http:\/\/www.opengis.net\/spec\/owc-geojson\/1.0\/req\/core" },
+        
+        { "href" : "http:\/\/www.opengis.net\/spec\/os-geojson\/1.0\/req\/core" } ] },
+    "features" : 
+    [ 
+      { "type" : "Feature",
+        "id" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403080100_201403080130_0200",
+        "geometry" : 
+        {  },
+        "properties" : 
+        { "type" : "Properties",
+          "identifier" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403080100_201403080130_0200",
+          "parentIdentifier" : "EO:EUM:DAT:0881",
+          "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403080100_201403080130_0200",
+          "date" : "2014-03-08T01:00:00Z\/2014-03-08T01:24:59Z",
+          "updated" : "2024-01-30T10:17:08.325Z",
+          "acquisitionInformation" : 
+          [ 
+            { "platform" : 
+              { "platformShortName" : "METEOSAT7" },
+              "instrument" : 
+              { "instrumentShortName" : "MVIRI" },
+              "acquisitionParameters" : 
+              {  } } ],
+          "productInformation" : 
+          { "productType" : "MTP15EASY0200",
+            "size" : 36609 },
+          "extraInformation" : 
+          { "md5" : "40353760d34188cd89d71f59273de47b" },
+          "links" : 
+          { "type" : "Links",
+            "data" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403080100_201403080130_0200",
+                "mediaType" : "application\/zip",
+                "title" : "Product download" } ],
+            "alternates" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403080100_201403080130_0200\/metadata",
+                "mediaType" : "application\/xml",
+                "title" : "Metadata" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403080100_201403080130_0200\/metadata?format=json",
+                "mediaType" : "application\/json",
+                "title" : "Metadata in JSON format" } ],
+            "sip-entries" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403080100_201403080130_0200\/entry?name=manifest.xml",
+                "mediaType" : "application\/xml",
+                "title" : "manifest.xml" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403080100_201403080130_0200\/entry?name=EOPMetadata.xml",
+                "mediaType" : "application\/xml",
+                "title" : "EOPMetadata.xml" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403080100_201403080130_0200\/entry?name=MVIRI_FCDR-EASY_L15_MET7-E5700_201403080100_201403080130_0200.nc",
+                "mediaType" : "application\/x-netcdf",
+                "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403080100_201403080130_0200.nc" } ] } } },
+      
+      { "type" : "Feature",
+        "id" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403080030_201403080100_0200",
+        "geometry" : 
+        {  },
+        "properties" : 
+        { "type" : "Properties",
+          "identifier" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403080030_201403080100_0200",
+          "parentIdentifier" : "EO:EUM:DAT:0881",
+          "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403080030_201403080100_0200",
+          "date" : "2014-03-08T00:30:00Z\/2014-03-08T00:54:59Z",
+          "updated" : "2024-01-30T10:16:47.792Z",
+          "acquisitionInformation" : 
+          [ 
+            { "platform" : 
+              { "platformShortName" : "METEOSAT7" },
+              "instrument" : 
+              { "instrumentShortName" : "MVIRI" },
+              "acquisitionParameters" : 
+              {  } } ],
+          "productInformation" : 
+          { "productType" : "MTP15EASY0200",
+            "size" : 32590 },
+          "extraInformation" : 
+          { "md5" : "9b8c20a61fd6cca61170193f7f18133d" },
+          "links" : 
+          { "type" : "Links",
+            "data" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403080030_201403080100_0200",
+                "mediaType" : "application\/zip",
+                "title" : "Product download" } ],
+            "alternates" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403080030_201403080100_0200\/metadata",
+                "mediaType" : "application\/xml",
+                "title" : "Metadata" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403080030_201403080100_0200\/metadata?format=json",
+                "mediaType" : "application\/json",
+                "title" : "Metadata in JSON format" } ],
+            "sip-entries" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403080030_201403080100_0200\/entry?name=manifest.xml",
+                "mediaType" : "application\/xml",
+                "title" : "manifest.xml" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403080030_201403080100_0200\/entry?name=MVIRI_FCDR-EASY_L15_MET7-E5700_201403080030_201403080100_0200.nc",
+                "mediaType" : "application\/x-netcdf",
+                "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403080030_201403080100_0200.nc" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403080030_201403080100_0200\/entry?name=EOPMetadata.xml",
+                "mediaType" : "application\/xml",
+                "title" : "EOPMetadata.xml" } ] } } },
+      
+      { "type" : "Feature",
+        "id" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403080000_201403080030_0200",
+        "geometry" : 
+        {  },
+        "properties" : 
+        { "type" : "Properties",
+          "identifier" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403080000_201403080030_0200",
+          "parentIdentifier" : "EO:EUM:DAT:0881",
+          "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403080000_201403080030_0200",
+          "date" : "2014-03-08T00:00:00Z\/2014-03-08T00:24:59Z",
+          "updated" : "2024-01-30T10:16:28.265Z",
+          "acquisitionInformation" : 
+          [ 
+            { "platform" : 
+              { "platformShortName" : "METEOSAT7" },
+              "instrument" : 
+              { "instrumentShortName" : "MVIRI" },
+              "acquisitionParameters" : 
+              {  } } ],
+          "productInformation" : 
+          { "productType" : "MTP15EASY0200",
+            "size" : 29224 },
+          "extraInformation" : 
+          { "md5" : "312435ef495890940301a3363fc81f6d" },
+          "links" : 
+          { "type" : "Links",
+            "data" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403080000_201403080030_0200",
+                "mediaType" : "application\/zip",
+                "title" : "Product download" } ],
+            "alternates" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403080000_201403080030_0200\/metadata",
+                "mediaType" : "application\/xml",
+                "title" : "Metadata" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403080000_201403080030_0200\/metadata?format=json",
+                "mediaType" : "application\/json",
+                "title" : "Metadata in JSON format" } ],
+            "sip-entries" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403080000_201403080030_0200\/entry?name=MVIRI_FCDR-EASY_L15_MET7-E5700_201403080000_201403080030_0200.nc",
+                "mediaType" : "application\/x-netcdf",
+                "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403080000_201403080030_0200.nc" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403080000_201403080030_0200\/entry?name=manifest.xml",
+                "mediaType" : "application\/xml",
+                "title" : "manifest.xml" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403080000_201403080030_0200\/entry?name=EOPMetadata.xml",
+                "mediaType" : "application\/xml",
+                "title" : "EOPMetadata.xml" } ] } } },
+      
+      { "type" : "Feature",
+        "id" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403062330_201403070000_0200",
+        "geometry" : 
+        {  },
+        "properties" : 
+        { "type" : "Properties",
+          "identifier" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403062330_201403070000_0200",
+          "parentIdentifier" : "EO:EUM:DAT:0881",
+          "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403062330_201403070000_0200",
+          "date" : "2014-03-07T23:30:00Z\/2014-03-07T23:54:59Z",
+          "updated" : "2024-01-30T10:29:35.041Z",
+          "acquisitionInformation" : 
+          [ 
+            { "platform" : 
+              { "platformShortName" : "METEOSAT7" },
+              "instrument" : 
+              { "instrumentShortName" : "MVIRI" },
+              "acquisitionParameters" : 
+              {  } } ],
+          "productInformation" : 
+          { "productType" : "MTP15EASY0200",
+            "size" : 22335 },
+          "extraInformation" : 
+          { "md5" : "ded42690e9974cea73eb9efa53a8c95e" },
+          "links" : 
+          { "type" : "Links",
+            "data" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403062330_201403070000_0200",
+                "mediaType" : "application\/zip",
+                "title" : "Product download" } ],
+            "alternates" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403062330_201403070000_0200\/metadata",
+                "mediaType" : "application\/xml",
+                "title" : "Metadata" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403062330_201403070000_0200\/metadata?format=json",
+                "mediaType" : "application\/json",
+                "title" : "Metadata in JSON format" } ],
+            "sip-entries" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403062330_201403070000_0200\/entry?name=EOPMetadata.xml",
+                "mediaType" : "application\/xml",
+                "title" : "EOPMetadata.xml" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403062330_201403070000_0200\/entry?name=manifest.xml",
+                "mediaType" : "application\/xml",
+                "title" : "manifest.xml" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403062330_201403070000_0200\/entry?name=MVIRI_FCDR-EASY_L15_MET7-E5700_201403062330_201403070000_0200.nc",
+                "mediaType" : "application\/x-netcdf",
+                "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403062330_201403070000_0200.nc" } ] } } },
+      
+      { "type" : "Feature",
+        "id" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403072300_201403072330_0200",
+        "geometry" : 
+        {  },
+        "properties" : 
+        { "type" : "Properties",
+          "identifier" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403072300_201403072330_0200",
+          "parentIdentifier" : "EO:EUM:DAT:0881",
+          "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403072300_201403072330_0200",
+          "date" : "2014-03-07T23:00:00Z\/2014-03-07T23:24:59Z",
+          "updated" : "2024-01-30T10:29:24.835Z",
+          "acquisitionInformation" : 
+          [ 
+            { "platform" : 
+              { "platformShortName" : "METEOSAT7" },
+              "instrument" : 
+              { "instrumentShortName" : "MVIRI" },
+              "acquisitionParameters" : 
+              {  } } ],
+          "productInformation" : 
+          { "productType" : "MTP15EASY0200",
+            "size" : 22034 },
+          "extraInformation" : 
+          { "md5" : "92c6559a39333d7274184ea89c8ed1dc" },
+          "links" : 
+          { "type" : "Links",
+            "data" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403072300_201403072330_0200",
+                "mediaType" : "application\/zip",
+                "title" : "Product download" } ],
+            "alternates" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403072300_201403072330_0200\/metadata",
+                "mediaType" : "application\/xml",
+                "title" : "Metadata" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403072300_201403072330_0200\/metadata?format=json",
+                "mediaType" : "application\/json",
+                "title" : "Metadata in JSON format" } ],
+            "sip-entries" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403072300_201403072330_0200\/entry?name=manifest.xml",
+                "mediaType" : "application\/xml",
+                "title" : "manifest.xml" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403072300_201403072330_0200\/entry?name=EOPMetadata.xml",
+                "mediaType" : "application\/xml",
+                "title" : "EOPMetadata.xml" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403072300_201403072330_0200\/entry?name=MVIRI_FCDR-EASY_L15_MET7-E5700_201403072300_201403072330_0200.nc",
+                "mediaType" : "application\/x-netcdf",
+                "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403072300_201403072330_0200.nc" } ] } } },
+      
+      { "type" : "Feature",
+        "id" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403072230_201403072300_0200",
+        "geometry" : 
+        {  },
+        "properties" : 
+        { "type" : "Properties",
+          "identifier" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403072230_201403072300_0200",
+          "parentIdentifier" : "EO:EUM:DAT:0881",
+          "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403072230_201403072300_0200",
+          "date" : "2014-03-07T22:30:00Z\/2014-03-07T22:54:59Z",
+          "updated" : "2024-01-30T10:29:07.161Z",
+          "acquisitionInformation" : 
+          [ 
+            { "platform" : 
+              { "platformShortName" : "METEOSAT7" },
+              "instrument" : 
+              { "instrumentShortName" : "MVIRI" },
+              "acquisitionParameters" : 
+              {  } } ],
+          "productInformation" : 
+          { "productType" : "MTP15EASY0200",
+            "size" : 16589 },
+          "extraInformation" : 
+          { "md5" : "baa29a2978f2a04c7b4a1b79bf9dc2fa" },
+          "links" : 
+          { "type" : "Links",
+            "data" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403072230_201403072300_0200",
+                "mediaType" : "application\/zip",
+                "title" : "Product download" } ],
+            "alternates" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403072230_201403072300_0200\/metadata",
+                "mediaType" : "application\/xml",
+                "title" : "Metadata" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403072230_201403072300_0200\/metadata?format=json",
+                "mediaType" : "application\/json",
+                "title" : "Metadata in JSON format" } ],
+            "sip-entries" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403072230_201403072300_0200\/entry?name=manifest.xml",
+                "mediaType" : "application\/xml",
+                "title" : "manifest.xml" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403072230_201403072300_0200\/entry?name=EOPMetadata.xml",
+                "mediaType" : "application\/xml",
+                "title" : "EOPMetadata.xml" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403072230_201403072300_0200\/entry?name=MVIRI_FCDR-EASY_L15_MET7-E5700_201403072230_201403072300_0200.nc",
+                "mediaType" : "application\/x-netcdf",
+                "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403072230_201403072300_0200.nc" } ] } } },
+      
+      { "type" : "Feature",
+        "id" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403072200_201403072230_0200",
+        "geometry" : 
+        {  },
+        "properties" : 
+        { "type" : "Properties",
+          "identifier" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403072200_201403072230_0200",
+          "parentIdentifier" : "EO:EUM:DAT:0881",
+          "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403072200_201403072230_0200",
+          "date" : "2014-03-07T22:00:00Z\/2014-03-07T22:24:59Z",
+          "updated" : "2024-01-30T10:28:49.385Z",
+          "acquisitionInformation" : 
+          [ 
+            { "platform" : 
+              { "platformShortName" : "METEOSAT7" },
+              "instrument" : 
+              { "instrumentShortName" : "MVIRI" },
+              "acquisitionParameters" : 
+              {  } } ],
+          "productInformation" : 
+          { "productType" : "MTP15EASY0200",
+            "size" : 12349 },
+          "extraInformation" : 
+          { "md5" : "0b7e67ccd2a1a5d39201e5ce0ec18ee9" },
+          "links" : 
+          { "type" : "Links",
+            "data" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403072200_201403072230_0200",
+                "mediaType" : "application\/zip",
+                "title" : "Product download" } ],
+            "alternates" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403072200_201403072230_0200\/metadata",
+                "mediaType" : "application\/xml",
+                "title" : "Metadata" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403072200_201403072230_0200\/metadata?format=json",
+                "mediaType" : "application\/json",
+                "title" : "Metadata in JSON format" } ],
+            "sip-entries" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403072200_201403072230_0200\/entry?name=manifest.xml",
+                "mediaType" : "application\/xml",
+                "title" : "manifest.xml" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403072200_201403072230_0200\/entry?name=EOPMetadata.xml",
+                "mediaType" : "application\/xml",
+                "title" : "EOPMetadata.xml" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403072200_201403072230_0200\/entry?name=MVIRI_FCDR-EASY_L15_MET7-E5700_201403072200_201403072230_0200.nc",
+                "mediaType" : "application\/x-netcdf",
+                "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403072200_201403072230_0200.nc" } ] } } },
+      
+      { "type" : "Feature",
+        "id" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403072130_201403072200_0200",
+        "geometry" : 
+        {  },
+        "properties" : 
+        { "type" : "Properties",
+          "identifier" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403072130_201403072200_0200",
+          "parentIdentifier" : "EO:EUM:DAT:0881",
+          "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403072130_201403072200_0200",
+          "date" : "2014-03-07T21:30:00Z\/2014-03-07T21:54:59Z",
+          "updated" : "2024-01-30T10:28:31.612Z",
+          "acquisitionInformation" : 
+          [ 
+            { "platform" : 
+              { "platformShortName" : "METEOSAT7" },
+              "instrument" : 
+              { "instrumentShortName" : "MVIRI" },
+              "acquisitionParameters" : 
+              {  } } ],
+          "productInformation" : 
+          { "productType" : "MTP15EASY0200",
+            "size" : 8813 },
+          "extraInformation" : 
+          { "md5" : "79031c9ae300904adf8534e971875a06" },
+          "links" : 
+          { "type" : "Links",
+            "data" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403072130_201403072200_0200",
+                "mediaType" : "application\/zip",
+                "title" : "Product download" } ],
+            "alternates" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403072130_201403072200_0200\/metadata",
+                "mediaType" : "application\/xml",
+                "title" : "Metadata" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403072130_201403072200_0200\/metadata?format=json",
+                "mediaType" : "application\/json",
+                "title" : "Metadata in JSON format" } ],
+            "sip-entries" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403072130_201403072200_0200\/entry?name=manifest.xml",
+                "mediaType" : "application\/xml",
+                "title" : "manifest.xml" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403072130_201403072200_0200\/entry?name=EOPMetadata.xml",
+                "mediaType" : "application\/xml",
+                "title" : "EOPMetadata.xml" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403072130_201403072200_0200\/entry?name=MVIRI_FCDR-EASY_L15_MET7-E5700_201403072130_201403072200_0200.nc",
+                "mediaType" : "application\/x-netcdf",
+                "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403072130_201403072200_0200.nc" } ] } } },
+      
+      { "type" : "Feature",
+        "id" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403071830_201403071900_0200",
+        "geometry" : 
+        {  },
+        "properties" : 
+        { "type" : "Properties",
+          "identifier" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403071830_201403071900_0200",
+          "parentIdentifier" : "EO:EUM:DAT:0881",
+          "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403071830_201403071900_0200",
+          "date" : "2014-03-07T18:30:00Z\/2014-03-07T18:54:59Z",
+          "updated" : "2024-01-30T10:28:14.828Z",
+          "acquisitionInformation" : 
+          [ 
+            { "platform" : 
+              { "platformShortName" : "METEOSAT7" },
+              "instrument" : 
+              { "instrumentShortName" : "MVIRI" },
+              "acquisitionParameters" : 
+              {  } } ],
+          "productInformation" : 
+          { "productType" : "MTP15EASY0200",
+            "size" : 19587 },
+          "extraInformation" : 
+          { "md5" : "f5cb92bcaa465293b8a1d839cc83cbfb" },
+          "links" : 
+          { "type" : "Links",
+            "data" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071830_201403071900_0200",
+                "mediaType" : "application\/zip",
+                "title" : "Product download" } ],
+            "alternates" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071830_201403071900_0200\/metadata",
+                "mediaType" : "application\/xml",
+                "title" : "Metadata" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071830_201403071900_0200\/metadata?format=json",
+                "mediaType" : "application\/json",
+                "title" : "Metadata in JSON format" } ],
+            "sip-entries" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071830_201403071900_0200\/entry?name=manifest.xml",
+                "mediaType" : "application\/xml",
+                "title" : "manifest.xml" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071830_201403071900_0200\/entry?name=MVIRI_FCDR-EASY_L15_MET7-E5700_201403071830_201403071900_0200.nc",
+                "mediaType" : "application\/x-netcdf",
+                "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403071830_201403071900_0200.nc" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071830_201403071900_0200\/entry?name=EOPMetadata.xml",
+                "mediaType" : "application\/xml",
+                "title" : "EOPMetadata.xml" } ] } } },
+      
+      { "type" : "Feature",
+        "id" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403071800_201403071830_0200",
+        "geometry" : 
+        {  },
+        "properties" : 
+        { "type" : "Properties",
+          "identifier" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403071800_201403071830_0200",
+          "parentIdentifier" : "EO:EUM:DAT:0881",
+          "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403071800_201403071830_0200",
+          "date" : "2014-03-07T18:00:00Z\/2014-03-07T18:24:59Z",
+          "updated" : "2024-01-30T10:27:57.744Z",
+          "acquisitionInformation" : 
+          [ 
+            { "platform" : 
+              { "platformShortName" : "METEOSAT7" },
+              "instrument" : 
+              { "instrumentShortName" : "MVIRI" },
+              "acquisitionParameters" : 
+              {  } } ],
+          "productInformation" : 
+          { "productType" : "MTP15EASY0200",
+            "size" : 19555 },
+          "extraInformation" : 
+          { "md5" : "cf8c09d7164bfdc445d4252faf84dbad" },
+          "links" : 
+          { "type" : "Links",
+            "data" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071800_201403071830_0200",
+                "mediaType" : "application\/zip",
+                "title" : "Product download" } ],
+            "alternates" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071800_201403071830_0200\/metadata",
+                "mediaType" : "application\/xml",
+                "title" : "Metadata" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071800_201403071830_0200\/metadata?format=json",
+                "mediaType" : "application\/json",
+                "title" : "Metadata in JSON format" } ],
+            "sip-entries" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071800_201403071830_0200\/entry?name=manifest.xml",
+                "mediaType" : "application\/xml",
+                "title" : "manifest.xml" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071800_201403071830_0200\/entry?name=MVIRI_FCDR-EASY_L15_MET7-E5700_201403071800_201403071830_0200.nc",
+                "mediaType" : "application\/x-netcdf",
+                "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403071800_201403071830_0200.nc" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071800_201403071830_0200\/entry?name=EOPMetadata.xml",
+                "mediaType" : "application\/xml",
+                "title" : "EOPMetadata.xml" } ] } } },
+      
+      { "type" : "Feature",
+        "id" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403071730_201403071800_0200",
+        "geometry" : 
+        {  },
+        "properties" : 
+        { "type" : "Properties",
+          "identifier" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403071730_201403071800_0200",
+          "parentIdentifier" : "EO:EUM:DAT:0881",
+          "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403071730_201403071800_0200",
+          "date" : "2014-03-07T17:30:00Z\/2014-03-07T17:54:59Z",
+          "updated" : "2024-01-30T10:27:39.914Z",
+          "acquisitionInformation" : 
+          [ 
+            { "platform" : 
+              { "platformShortName" : "METEOSAT7" },
+              "instrument" : 
+              { "instrumentShortName" : "MVIRI" },
+              "acquisitionParameters" : 
+              {  } } ],
+          "productInformation" : 
+          { "productType" : "MTP15EASY0200",
+            "size" : 24674 },
+          "extraInformation" : 
+          { "md5" : "84a41e388e9fa2f0f1801e8374531883" },
+          "links" : 
+          { "type" : "Links",
+            "data" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071730_201403071800_0200",
+                "mediaType" : "application\/zip",
+                "title" : "Product download" } ],
+            "alternates" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071730_201403071800_0200\/metadata",
+                "mediaType" : "application\/xml",
+                "title" : "Metadata" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071730_201403071800_0200\/metadata?format=json",
+                "mediaType" : "application\/json",
+                "title" : "Metadata in JSON format" } ],
+            "sip-entries" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071730_201403071800_0200\/entry?name=EOPMetadata.xml",
+                "mediaType" : "application\/xml",
+                "title" : "EOPMetadata.xml" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071730_201403071800_0200\/entry?name=manifest.xml",
+                "mediaType" : "application\/xml",
+                "title" : "manifest.xml" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071730_201403071800_0200\/entry?name=MVIRI_FCDR-EASY_L15_MET7-E5700_201403071730_201403071800_0200.nc",
+                "mediaType" : "application\/x-netcdf",
+                "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403071730_201403071800_0200.nc" } ] } } },
+      
+      { "type" : "Feature",
+        "id" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403071700_201403071730_0200",
+        "geometry" : 
+        {  },
+        "properties" : 
+        { "type" : "Properties",
+          "identifier" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403071700_201403071730_0200",
+          "parentIdentifier" : "EO:EUM:DAT:0881",
+          "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403071700_201403071730_0200",
+          "date" : "2014-03-07T17:00:00Z\/2014-03-07T17:24:59Z",
+          "updated" : "2024-01-30T10:27:22.263Z",
+          "acquisitionInformation" : 
+          [ 
+            { "platform" : 
+              { "platformShortName" : "METEOSAT7" },
+              "instrument" : 
+              { "instrumentShortName" : "MVIRI" },
+              "acquisitionParameters" : 
+              {  } } ],
+          "productInformation" : 
+          { "productType" : "MTP15EASY0200",
+            "size" : 27306 },
+          "extraInformation" : 
+          { "md5" : "892abffa31e417366fc6bbd6a1a0b21e" },
+          "links" : 
+          { "type" : "Links",
+            "data" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071700_201403071730_0200",
+                "mediaType" : "application\/zip",
+                "title" : "Product download" } ],
+            "alternates" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071700_201403071730_0200\/metadata",
+                "mediaType" : "application\/xml",
+                "title" : "Metadata" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071700_201403071730_0200\/metadata?format=json",
+                "mediaType" : "application\/json",
+                "title" : "Metadata in JSON format" } ],
+            "sip-entries" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071700_201403071730_0200\/entry?name=EOPMetadata.xml",
+                "mediaType" : "application\/xml",
+                "title" : "EOPMetadata.xml" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071700_201403071730_0200\/entry?name=manifest.xml",
+                "mediaType" : "application\/xml",
+                "title" : "manifest.xml" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071700_201403071730_0200\/entry?name=MVIRI_FCDR-EASY_L15_MET7-E5700_201403071700_201403071730_0200.nc",
+                "mediaType" : "application\/x-netcdf",
+                "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403071700_201403071730_0200.nc" } ] } } },
+      
+      { "type" : "Feature",
+        "id" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403071630_201403071700_0200",
+        "geometry" : 
+        {  },
+        "properties" : 
+        { "type" : "Properties",
+          "identifier" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403071630_201403071700_0200",
+          "parentIdentifier" : "EO:EUM:DAT:0881",
+          "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403071630_201403071700_0200",
+          "date" : "2014-03-07T16:30:00Z\/2014-03-07T16:54:59Z",
+          "updated" : "2024-01-30T10:27:03.827Z",
+          "acquisitionInformation" : 
+          [ 
+            { "platform" : 
+              { "platformShortName" : "METEOSAT7" },
+              "instrument" : 
+              { "instrumentShortName" : "MVIRI" },
+              "acquisitionParameters" : 
+              {  } } ],
+          "productInformation" : 
+          { "productType" : "MTP15EASY0200",
+            "size" : 29814 },
+          "extraInformation" : 
+          { "md5" : "fa0fd8c151ad2366abb792903b36b84d" },
+          "links" : 
+          { "type" : "Links",
+            "data" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071630_201403071700_0200",
+                "mediaType" : "application\/zip",
+                "title" : "Product download" } ],
+            "alternates" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071630_201403071700_0200\/metadata",
+                "mediaType" : "application\/xml",
+                "title" : "Metadata" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071630_201403071700_0200\/metadata?format=json",
+                "mediaType" : "application\/json",
+                "title" : "Metadata in JSON format" } ],
+            "sip-entries" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071630_201403071700_0200\/entry?name=manifest.xml",
+                "mediaType" : "application\/xml",
+                "title" : "manifest.xml" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071630_201403071700_0200\/entry?name=EOPMetadata.xml",
+                "mediaType" : "application\/xml",
+                "title" : "EOPMetadata.xml" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071630_201403071700_0200\/entry?name=MVIRI_FCDR-EASY_L15_MET7-E5700_201403071630_201403071700_0200.nc",
+                "mediaType" : "application\/x-netcdf",
+                "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403071630_201403071700_0200.nc" } ] } } },
+      
+      { "type" : "Feature",
+        "id" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403071600_201403071630_0200",
+        "geometry" : 
+        {  },
+        "properties" : 
+        { "type" : "Properties",
+          "identifier" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403071600_201403071630_0200",
+          "parentIdentifier" : "EO:EUM:DAT:0881",
+          "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403071600_201403071630_0200",
+          "date" : "2014-03-07T16:00:00Z\/2014-03-07T16:24:59Z",
+          "updated" : "2024-01-30T10:26:44.523Z",
+          "acquisitionInformation" : 
+          [ 
+            { "platform" : 
+              { "platformShortName" : "METEOSAT7" },
+              "instrument" : 
+              { "instrumentShortName" : "MVIRI" },
+              "acquisitionParameters" : 
+              {  } } ],
+          "productInformation" : 
+          { "productType" : "MTP15EASY0200",
+            "size" : 32546 },
+          "extraInformation" : 
+          { "md5" : "a51d6cb45746f838cc43191b6e40c3c8" },
+          "links" : 
+          { "type" : "Links",
+            "data" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071600_201403071630_0200",
+                "mediaType" : "application\/zip",
+                "title" : "Product download" } ],
+            "alternates" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071600_201403071630_0200\/metadata",
+                "mediaType" : "application\/xml",
+                "title" : "Metadata" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071600_201403071630_0200\/metadata?format=json",
+                "mediaType" : "application\/json",
+                "title" : "Metadata in JSON format" } ],
+            "sip-entries" : 
+            [ 
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071600_201403071630_0200\/entry?name=EOPMetadata.xml",
+                "mediaType" : "application\/xml",
+                "title" : "EOPMetadata.xml" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071600_201403071630_0200\/entry?name=MVIRI_FCDR-EASY_L15_MET7-E5700_201403071600_201403071630_0200.nc",
+                "mediaType" : "application\/x-netcdf",
+                "title" : "MVIRI_FCDR-EASY_L15_MET7-E5700_201403071600_201403071630_0200.nc" },
+              
+              { "type" : "Link",
+                "href" : "https:\/\/api.eumetsat.int\/data\/download\/1.0.0\/collections\/EO%3AEUM%3ADAT%3A0881\/products\/MVIRI_FCDR-EASY_L15_MET7-E5700_201403071600_201403071630_0200\/entry?name=manifest.xml",
+                "mediaType" : "application\/xml",
+                "title" : "manifest.xml" } ] } } } ] }
