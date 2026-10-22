@@ -1,0 +1,96 @@
+{
+ "script": "prepare/digitise_ground_truth_cases.py",
+ "method": "Extract the tabulated ground-truth material (event geometry, times, bearings, tables) and the embedded figure\nrasters from three open-access papers used as calibration cases:\n\n  Kadri (2017) Sci. Rep. 7:13949, doi 10.1038/s41598-017-14177-3 (unpaywall PDF, 12 pp):\n     EQ1/EQ2 validation earthquakes, the 7 Mar 2014 20:30 UTC \"impact\" at 6150 km, E1/E2 candidate events at HA01,\n     HA01 channel positions/depths, Table 1 (numerical validation). Figures 1, 3b, 7, 8 are embedded rasters\n     (1000 px wide) saved at native resolution; Fig. 3a (distance pdfs) is vector and traced from the PDF paths.\n  Nielsen et al. (2021) Pure Appl. Geophys. 178:2557-2577, doi 10.1007/s00024-020-02445-9 (CTBTO, ARA San Juan):\n     Table 1 (locations, error ellipses, origin times), arrival times from the text, figure rasters (1870 px).\n  Vergoz et al. (2021) Pure Appl. Geophys. 178:2527-2556, doi 10.1007/s00024-020-02625-7 (CEA, ARA San Juan):\n     Table 1 (reflectors), Table 2 (cepstral delays), origin times and path speeds from the text, figure rasters.\n\nEverything here is DIGITISED (text-layer tables) or a RASTER COPY of a published figure; nothing is a measurement.\nWaveform tracing of these rasters (Nielsen Figs 3-5, Vergoz Figs 2-3) is NOT done here: they are 1870-px screen\nrenders of PMCC/waveform panels with printed axes and can be traced later with the module's raster method if the\nweak-signal trials need them (recorded as a next step).\n\nOutputs (--out, default results-data/digitised/ground-truth-cases/): kadri2017_events.csv, kadri2017_table1.csv,\nkadri2017_ha01_channels.csv, kadri2017_fig3a_distance_pdfs_DIGITISED.csv, nielsen2021_table1_locations.csv,\nnielsen2021_text_times.csv, vergoz2021_table1_reflectors.csv, vergoz2021_table2_cepstral_delays.csv,\nvergoz2021_text_values.csv, figures/<paper>_p<page>_<w>x<h>.<ext>, METHOD.json.\n",
+ "summary": {
+  "kadri2017": {
+   "n_events": 5,
+   "n_table1": 6,
+   "n_channels": 3,
+   "fig3a_vertices": 124,
+   "fig3a_xticks": [
+    [
+     171.95,
+     1000.0
+    ],
+    [
+     190.55,
+     2000.0
+    ],
+    [
+     209.15,
+     3000.0
+    ],
+    [
+     227.76,
+     4000.0
+    ],
+    [
+     246.35,
+     5000.0
+    ],
+    [
+     264.95,
+     6000.0
+    ],
+    [
+     283.55,
+     7000.0
+    ],
+    [
+     302.15,
+     8000.0
+    ]
+   ],
+   "rasters": [
+    "kadri2017_p01_1100x90.png",
+    "kadri2017_p03_1000x1022.png",
+    "kadri2017_p04_785x582.jpeg",
+    "kadri2017_p05_1000x965.png",
+    "kadri2017_p06_1500x379.png",
+    "kadri2017_p06_1000x1313.jpeg",
+    "kadri2017_p07_1000x1618.jpeg",
+    "kadri2017_p10_1000x774.png"
+   ],
+   "sha256": "6d8adc009b907f75099ecf4a0bb6b8612e239df5948e8a09538cb3c27dc4fbf0"
+  },
+  "nielsen2021": {
+   "n_rows": 3,
+   "rasters": [
+    "nielsen2021_p02_1870x1272.jpeg",
+    "nielsen2021_p03_1870x1167.jpeg",
+    "nielsen2021_p06_1870x1491.png",
+    "nielsen2021_p07_1870x1328.png",
+    "nielsen2021_p08_1539x1251.png",
+    "nielsen2021_p10_1539x1260.png",
+    "nielsen2021_p12_1870x1071.png",
+    "nielsen2021_p13_1870x1838.jpeg",
+    "nielsen2021_p15_1870x1073.jpeg",
+    "nielsen2021_p16_1539x926.png",
+    "nielsen2021_p17_1864x1472.jpeg",
+    "nielsen2021_p18_1870x1399.png"
+   ],
+   "sha256": "73aa1d88f23a2dfbf72a1d6a50f9ddc931f6f2e6a459a44604b4d0039e91f66e"
+  },
+  "vergoz2021": {
+   "n_reflectors": 13,
+   "n_table2": 14,
+   "rasters": [
+    "vergoz2021_p04_1870x1808.jpeg",
+    "vergoz2021_p05_1598x1694.jpeg",
+    "vergoz2021_p07_1870x1434.jpeg",
+    "vergoz2021_p11_1870x637.png",
+    "vergoz2021_p12_1598x1415.jpeg",
+    "vergoz2021_p14_1869x1530.jpeg",
+    "vergoz2021_p15_1598x1880.jpeg",
+    "vergoz2021_p20_1870x1750.jpeg",
+    "vergoz2021_p22_1598x1075.jpeg",
+    "vergoz2021_p23_1598x1236.jpeg",
+    "vergoz2021_p24_1598x1409.jpeg",
+    "vergoz2021_p25_1870x1447.jpeg",
+    "vergoz2021_p26_1598x1147.jpeg",
+    "vergoz2021_p27_1870x1170.jpeg"
+   ],
+   "sha256": "48afc07daa8436b87d52fdeaaeb1a521a7dd18da42684610b3917e0ae850f8d9"
+  }
+ }
+}
