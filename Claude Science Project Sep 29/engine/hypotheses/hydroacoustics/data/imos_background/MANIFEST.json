@@ -28,5 +28,39 @@
    "unique_files_in_sums": 1344,
    "sha256_of_SHA256SUMS": "f9a7aeac354a2cd28280a5c9791a9fa885b090b944980d9218fe51b4847e6f67"
   }
+ },
+ "not_in_public_archive": {
+  "loggers": [
+   "3315",
+   "3275"
+  ],
+  "checked_utc": "2026-10-22T15:00Z",
+  "method": "S3 ListObjectsV2 with delimiter on IMOS/ANMN/Acoustic/ (sites PAKAI, PAKIM, PAPCA, PAPIL, PAPOR, PATUN; not truncated) and on each site prefix",
+  "found": {
+   "PAPCA": [
+    "2802",
+    "2823",
+    "2884",
+    "2962",
+    "3004",
+    "3154",
+    "3318",
+    "3376",
+    "3444",
+    "3445"
+   ],
+   "PAPOR": [
+    "2846",
+    "2926",
+    "3073",
+    "3102",
+    "3184",
+    "3274",
+    "3381",
+    "3446",
+    "3505"
+   ]
+  },
+  "note": "No deployment 3315 or 3275 exists in the public archive; the 8 March 2014 files held for them come from the MH370 release (IMOS_MH370_DataOverview.doc, IMOSFilesLocation3315.txt). 1-7 and 9-15 March 2014 for 3315/3275: not retrieved - ask Pete (CMST/Curtin may hold them). Nothing was fetched; the injection track's stand-in backgrounds (own 8 March recordings outside the request window) remain the only ones available."
  }
 }
