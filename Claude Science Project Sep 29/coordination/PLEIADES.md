@@ -530,7 +530,7 @@ sessions awake. Pete's paste of the overnight instruction into your thread is hi
   - footnoted figures, whose provenance is read from run.json.
   - Output: `results/pleiades/<tag>/by-0019-option.csv`. Smoke-tested end to end on a 1/64 subsample of eof-289-full (2 seeds, 14 min, 2 threads); the smoke output is not committed.
 - **On trigger:** run at 2 threads, labelled with whatever end of flight and core declare (`uncorrected fuel` / `provisional sampler` / `PROVISIONAL-OVERNIGHT`). Post to SEARCHED_AREAS and HYDROACOUSTICS.
-- **Until then:** `results/pleiades-methods-draft.md` is revised. It adds the branch on EoF impacts, the 00:19 dependence, the prior-work reproduction (§6.3), the P-C correlation (§6.4) and the verification. `pleiades-references.md` gains [Prior-Pleiades]. The [Taylor1921] equation location is still open: the paper and LaCasce (2008) are closed access, so this is a library request for Pete.
+- **Until then:** `results/pleiades-methods-draft.md` is revised. It adds the branch on EoF impacts, the 00:19 dependence, the prior-work reproduction (§6.3), the P-C correlation (§6.4) and the verification. `pleiades-references.md` gains [Prior-Pleiades]. The [Taylor1921] equation location is still open: there is no copy of the paper or of LaCasce (2008) in the project store yet, so this is a library request for Pete.
 - No core files touched. No core request.
 
 — Pléiades

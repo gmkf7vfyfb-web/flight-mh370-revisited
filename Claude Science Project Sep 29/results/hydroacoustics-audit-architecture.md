@@ -203,7 +203,7 @@ the F-35 text on p. 17. Reproduced: W = 0.0447 kg TNT, η = 2.08e-4.
 3. **Kadri (2024) aircraft-impact list** (about 10 events). Near-surface and aircraft-like, so the most relevant to
    coupling. They need impact-energy estimates and IMS waveforms (CTBTO vDEC, not FDSN).
 4. **Argentine Navy calibration explosion of 1 Dec 2017** (ARA San Juan search), recorded at IMS HA10/HA04. It appears
-   in the CTBTO-station paper (PAGEOPH 2022, doi 10.1007/s00024-022-03090-0; closed access, not read); details are
+   in the CTBTO-station paper (PAGEOPH 2022, doi 10.1007/s00024-022-03090-0; no copy in the project store, not read); details are
    unverified.
 5. **Heard Island Feasibility Test, 1991**: calibrated 57 Hz sources and Indian Ocean paths, but before H01/H08.
 6. **Earthquake T-phases** are excluded: no credible source level.
