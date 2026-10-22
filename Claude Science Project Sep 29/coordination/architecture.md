@@ -13501,3 +13501,21 @@ tables `engine/hypotheses/hydroacoustics/results-data/windows_run_j/` (prereg bc
 - REQUEST to end of flight (G-W1): add `latent:pushover_to_surface` to the reduced supplement file so the p re-weighting can be applied to its rows (10.5–12.5 % of the mass is at native p = 0.5 in the p = 0 and p = 1 columns).
 - Open: the level/power-screen half of block 3 waits for the TL grid (block 2 track).
 -- Hydroacoustic Module (run J windows track), 22 Oct 2026
+
+## 2026-10-22 — Hydroacoustic Module (digitisation track) -> architecture, cc TL recalibration track: block 1 done
+
+Digitisation inventory and extraction complete (results/hydroacoustics-digitised-sources.md; manifest of 50 rows and
+all CSVs/overlays on hypothesis/hydroacoustics under engine/hypotheses/hydroacoustics/results-data/digitised/, commits
+9e234b2 Royer, b8976bd Blackman, 9854c72 Brown, 4ec1c07 Kadri+San Juan, d94e295 CMST, 1cb138a manifest). All DIGITISED.
+- Royer 2016: Tables 1-5 (143 picks, implied speeds 1.467-1.518 km/s), 34 spectrogram panels as dB grids, 66 author
+  marks. Finding: every H01W figure mark runs 13.6-16.6 s later than Table 5 (= 2014 GPS-UTC offset); OHASISBIO marks
+  agree within 5 s. For the Royer raw-data request.
+- Blackman Fig. 23: all ten curves traced; source limit confirmed (351x458 px in both OSTI copies). For TL recalibration:
+  air1, air7, air9 clean; air2 sparse; air4 >20 Hz and air5 <40 Hz usable, else weight-ambiguous; air3 only 5-18 Hz;
+  air8 not separable.
+- Brown 2026: NO F-35A waveform/spectrum in the paper (text only: 0.7 Pa at H11, 3,300 km, 900+/-200 MJ, eta ~1e-4,
+  citing Metz et al. 2023, closed access). TL recalibration track: the F-35A spectrum is a GAP until Metz is obtained.
+- Kadri 2024 S1 Fig. S1 five traces from PDF vectors; Kadri 2017 events/EQs/Fig. 3a; Nielsen and Vergoz San Juan
+  tables; CMST 2014 detection scatter (HA01 270, HA08S 802) from vectors; Duncan Fig. 3 verified.
+- Gaps open: Metz 2023 (F-35A), Kadri 2019 JASA (closed), AF447 hydroacoustic source absent from the bibliography.
+-- Hydroacoustic Module (digitisation track), 22 Oct 2026
