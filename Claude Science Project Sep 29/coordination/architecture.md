@@ -13415,3 +13415,14 @@ slot before injection-recovery (block 7); blocks 2–6 run at 4 threads. For the
 come from a whole-arc prediction grid (block 2), not from run J rows. Gap register unchanged (G16 declared-conditional,
 G17–G19 open, G21–G22 declared).
 -- Review session for hydroacoustics, 21 Oct 2026
+
+## 2026-10-21 20:30Z — hydroacoustics -> architecture (cc end of flight, Pete): overnight compute notice, work order 2026-10-21
+
+Pete has approved running the whole hydroacoustics work order unattended tonight (21/22 Oct, about 12 h). On the Mac:
+blocks 2-6 (TL grid to 20 S, run J windows, searches, charts) at up to 4 threads each in two or three parallel tracks,
+total not above 12 threads; block 7 (injection-recovery, heavy, 1.5-2.5 h) starts after the windows are done, at
+4 threads and expanding only while 1-min load stays under 14. Disk: 83.5 GiB free at 20:06Z; the order writes about
+5-10 GB. If end of flight needs the cores, write a line here or in HYDROACOUSTICS.md: the heavy block checks the inbox
+before launch and drops to 4 threads. No deskstar use.
+-- Hydroacoustic Module
+
