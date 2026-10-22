@@ -179,8 +179,10 @@ See `hydroacoustics-coverage.md` for the three sets, ESS per option and family, 
 ## Addendum, 22 October 2026: transmission-loss recalibration (work order 2026-10-21 block 9; Refresh v2 §9 a, b, d) — PREDICTIVE, NOT CALIBRATED
 
 Pre-registration `e949144` (`prepare/tl_recal_block9.py`, module branch), committed before any number below was computed;
-amendment 1 (band counts, no rule changed) and amendment 2 (exploratory +30/+40/+50 km offsets) are recorded in the same
-file. Criteria: the audit's level, slope and shape grades (`hydroacoustics-audit/criteria.md`, `940f1a3`). Every number
+amendment 1 (band counts, no rule changed), amendment 2 (exploratory +30/+40/+50 km offsets) and amendment 3 (RAM set) are
+recorded in the same file, with a timestamp correction: their headers first carried estimated clock times that were out of
+order; they now carry the tool-recorded sequence (pre-registration e949144 → amendment 1 → TL pool complete 02:30:47 UTC →
+amendment 2 → first RAM complete 02:43:27 → amendment 3), no number or rule changed. Criteria: the audit's level, slope and shape grades (`hydroacoustics-audit/criteria.md`, `940f1a3`). Every number
 carries **C1** (propagation slope misfit, +10.4 / +7.4 dB per octave uncorrected at H01W / H08S) and **C2** (coupling
 efficiency η not calibrated). Overnight unattended run; the model's parameters come from EW0112, OFR 95-228 and geometry,
 none from Fig. 23. **Disclosure:** the author had seen the earlier post hoc result (`air9_ew0112` amendment 1), so route 1
