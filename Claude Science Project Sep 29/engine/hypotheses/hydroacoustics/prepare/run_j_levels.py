@@ -196,6 +196,10 @@ def do_supplement(supp, out, n_total=N_DRAWS):
     tech = z["technique"]; sel = tech >= 1
     rng = np.random.default_rng([20261022, 3, 9, 0]); arrays = {}; share = {}
     E = z["latent:impact_energy_transferred_j"].astype(np.float32)
+    # AMENDMENT 1 (plumbing, before any statistic): latent:impact_energy_transferred_j is NaN in every supplement row, so
+    # E = 1/2 m v^2 from mass_kg and the three velocity columns (identical to energy_transferred_j on the strata to 3e-7).
+    ke = 0.5 * z["mass_kg"].astype(np.float64) * (z["velocity_east_mps"].astype(np.float64) ** 2 + z["velocity_north_mps"].astype(np.float64) ** 2 + z["velocity_up_mps"].astype(np.float64) ** 2)
+    E = np.where(np.isfinite(E), E, ke).astype(np.float32)
     # tau90 is not in the reduced supplement file: declared gap G-L2; the supplement draws take tau90 from the pooled
     # strata tau90 distribution at pooling time (random, same rng stream) and are labelled.
     for opt in W.OPTIONS:
