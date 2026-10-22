@@ -127,6 +127,11 @@ A1 (22 Oct, before any seed was run): the impacts32 column latent:impact_energy_
    as the brief states (energy transferred = total kinetic energy, an upper anchor), so the E values are the same as the
    section 5 definition would have produced through its fallback; the source order changed, the numbers did not.
    CHUNK_ROWS 1 M -> 500 k (memory; no value change).
+A2 (22 Oct, after the run): another process held the disk below the 20 GiB floor for part of the run, so 14 seeds were written with the
+   marginalised IMOS column only (section 8 rule). B11_TOPUP=1 re-runs such a seed writing all five columns; 4 were topped up (waypoints
+   21-24), 10 free-stratum seeds (0.13 % of the mixture mass) remain short (gap G11-2). Values unchanged (deterministic re-run).
+A3 (22 Oct, after the run): reduce.py does not write the merged subsample to the exchange (1.1 GB duplicate of the per-seed files).
+   Deviation from the task text, declared before the run: alpha 0.05 primary (report level), screen level 0.3 as a sensitivity.
 """
 from __future__ import annotations
 import pathlib
