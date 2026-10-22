@@ -121,6 +121,12 @@ swept over four decades, F-35A upper anchor 2.1e-4). Both Kadri times are carrie
     No smoke run is quoted as a result.
 
 AMENDMENTS (disclosed below this line as they occur; none at commit).
+A1 (22 Oct, before any seed was run): the impacts32 column latent:impact_energy_transferred_j is NaN in every run J row, so E is
+   read from the tau90 sidecar's energy_transferred_j, then that column, then 0.5 m v^2 (counted). VALUE CHECK: on three seeds
+   (waypoints 1, free 1, descent-climb 1) the sidecar equals 0.5 m v^2 on every row to within 6e-8 relative (float32 rounding),
+   as the brief states (energy transferred = total kinetic energy, an upper anchor), so the E values are the same as the
+   section 5 definition would have produced through its fallback; the source order changed, the numbers did not.
+   CHUNK_ROWS 1 M -> 500 k (memory; no value change).
 """
 from __future__ import annotations
 import pathlib
@@ -160,7 +166,7 @@ PS = (0.0, 0.5, 1.0)
 LAT_BAND_EDGES_1DEG = np.arange(-41.0, -19.99, 1.0)      # 22 edges -> 21 bands; +2 overflow bins (south, north)
 LAT_BIN_EDGES_HALF = np.arange(-45.0, -14.99, 0.5)
 SUBSAMPLE_EVERY = 125
-CHUNK_ROWS = 1_000_000
+CHUNK_ROWS = 500_000
 N_PROC = 4
 DISK_FLOOR_GIB = 20.0
 RUN_J = pathlib.Path("/Users/pete/Downloads/mh370-exchange/end-of-flight/run-j")
