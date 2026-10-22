@@ -132,6 +132,10 @@ AMENDMENT 2 (22 Oct 2026 02:45 UTC, after the +/-20 km result was seen; EXPLORAT
   H01W slope itself). Offsets +30, +40, +50 km are added as an extension of the 3-D proxy. They are reported as an
   exploratory upper bound only; the step (d) verdict is taken from the registered +/-20 km set. The RAM (d3) runs are
   placed on the geodesic and on the +20 km path at 31.5 and 40 Hz.
+AMENDMENT 3 (22 Oct 2026 02:50 UTC, after the first RAM result; EXPLORATORY, labelled). RAM at 31.5 and 40 Hz on the
+  geodesic cut the air7 - air9 excess from about 43-53 dB (adiabatic) to about 20 dB, so the RAM set is extended to 50
+  and 63 Hz and to the +50 km path (the ridge-clearing corridor), with air9 -> H01W at the same bands as the reference.
+  Reported beside the registered result; the step (d) verdict stays on the registered adiabatic set.
 OUTPUTS. results-data/tl_recal_block9/: route1_tl_model.csv, route1_residuals.csv (per station, z_s, geometry,
   weights, sign, SL_B, band: RL_obs, RL_pred, r, r~), route1_grades.csv, route1_verdict.json; route2_*.csv/json;
   air8_recal.csv + air8_recal_verdict.json; air7_corridor.csv, air7_offsets.csv, air7_verdict.json; wall.json.
@@ -491,12 +495,17 @@ def ram_job(a):
     return dict(tag=tag, fc_hz=fc, src_depth_m=zs, tl_ram_db=float(-10 * np.log10(np.mean(I)) + 10 * np.log10(x / np.sin(x))), wall_s=time.time() - t0)
 
 
-def cmd_ram(sections, at, scratch, out, nproc=4):
+def cmd_ram(sections, at, scratch, out, nproc=4, ext=False):
     sec = Path(sections); out = Path(out); rd = STATIONS["H01W"][1]
-    paths = {"air7off+0_H01W": sec / "builder" / "bathy_air7off+0_H01W.csv", "air7off+20_H01W": sec / "builder" / "bathy_air7off+20_H01W.csv"}
-    jobs = [(tag, p, sec / "builder" / "ssp_air7_H01W.csv", fc, 10.0, rd) for tag, p in paths.items() for fc in (31.5, 40.0)]
-    jobs.append(("builder_air9_H01W", sec / "builder" / "bathy_air9_H01W.csv", sec / "builder" / "ssp_air9_H01W.csv", 31.5, 10.0, rd))
-    jobs.append(("builder_air9_H01W", sec / "builder" / "bathy_air9_H01W.csv", sec / "builder" / "ssp_air9_H01W.csv", 40.0, 10.0, rd))
+    if not ext:
+        paths = {"air7off+0_H01W": sec / "builder" / "bathy_air7off+0_H01W.csv", "air7off+20_H01W": sec / "builder" / "bathy_air7off+20_H01W.csv"}
+        jobs = [(tag, p, sec / "builder" / "ssp_air7_H01W.csv", fc, 10.0, rd) for tag, p in paths.items() for fc in (31.5, 40.0)]
+        jobs += [("builder_air9_H01W", sec / "builder" / "bathy_air9_H01W.csv", sec / "builder" / "ssp_air9_H01W.csv", fc, 10.0, rd) for fc in (31.5, 40.0)]
+    else:   # amendment 3
+        paths = {"air7off+0_H01W": sec / "builder" / "bathy_air7off+0_H01W.csv", "air7off+20_H01W": sec / "builder" / "bathy_air7off+20_H01W.csv", "air7off+50_H01W": sec / "builder" / "bathy_air7off+50_H01W.csv"}
+        jobs = [(tag, p, sec / "builder" / "ssp_air7_H01W.csv", fc, 10.0, rd) for tag, p in paths.items() for fc in (50.0, 63.0)]
+        jobs += [("air7off+50_H01W", paths["air7off+50_H01W"], sec / "builder" / "ssp_air7_H01W.csv", fc, 10.0, rd) for fc in (31.5, 40.0)]
+        jobs += [("builder_air9_H01W", sec / "builder" / "bathy_air9_H01W.csv", sec / "builder" / "ssp_air9_H01W.csv", fc, 10.0, rd) for fc in (50.0, 63.0)]
     # matched KRAKEN without absorption (same convention as ram_tl_check: no Francois-Garrison in either model)
     krows = []
     for tag, p, sspc, fc, zs, rdd in jobs:
@@ -509,7 +518,8 @@ def cmd_ram(sections, at, scratch, out, nproc=4):
             krows.append(dict(tag=tag, fc_hz=fc, tl_kraken_noabs_db=np.inf))
     with Pool(int(nproc)) as P:
         R = pd.DataFrame(list(P.imap_unordered(ram_job, jobs)))
-    R = R.merge(pd.DataFrame(krows), on=["tag", "fc_hz"]); R.to_csv(out / "air7_ram.csv", index=False); print(R.round(1).to_string(index=False))
+    R = R.merge(pd.DataFrame(krows), on=["tag", "fc_hz"])
+    f = out / ("air7_ram_ext.csv" if ext else "air7_ram.csv"); R.to_csv(f, index=False); print(R.round(1).to_string(index=False))
 
 
 if __name__ == "__main__":
@@ -528,3 +538,5 @@ if __name__ == "__main__":
         cmd_tl_ext(*sys.argv[2:6], *(sys.argv[6:7] or ["3"]))
     elif cmd == "ram":
         cmd_ram(*sys.argv[2:6], *(sys.argv[6:7] or ["4"]))
+    elif cmd == "ram_ext":
+        cmd_ram(*sys.argv[2:6], int(sys.argv[6]) if len(sys.argv) > 6 else 4, ext=True)

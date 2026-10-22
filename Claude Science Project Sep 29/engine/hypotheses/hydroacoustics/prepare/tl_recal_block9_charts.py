@@ -120,7 +120,7 @@ def chart2(D, out, audit_resid):
 def chart3(D, out):
     C = pd.read_csv(D / "air7_corridor.csv"); V = json.load(open(D / "air7_verdict.json"))
     E = pd.read_csv(D / "tl_runs_ext.csv") if (D / "tl_runs_ext.csv").exists() else None
-    ram = pd.read_csv(D / "air7_ram.csv") if (D / "air7_ram.csv").exists() else None
+    ram = pd.concat([pd.read_csv(D / f) for f in ("air7_ram.csv", "air7_ram_ext.csv") if (D / f).exists()], ignore_index=True) if (D / "air7_ram.csv").exists() else None
     sec = json.load(open(Path(str(D).replace("results-data/tl_recal_block9", "")) / "x")) if False else None
     fig, axes = plt.subplots(1, 2, figsize=(12.0, 5.8), gridspec_kw=dict(width_ratios=[1.45, 1]))
     ax = axes[0]
@@ -133,14 +133,15 @@ def chart3(D, out):
             e = E[E.tag == f"air7off{d:+.0f}_H01W"].set_index("fc_hz").tl_db.reindex(C.fc_hz).values
             ax.plot(C.fc_hz, e - C.tl_air9_H01W_db, ls, color=RED, lw=1.0, label="path moved +30, +40, +50 km (exploratory extension)" if d == 30 else None)
     if ram is not None:
-        for tag, mk in (("air7off+0_H01W", "^"), ("air7off+20_H01W", "v")):
-            r = ram[ram.tag == tag].merge(ram[ram.tag == "builder_air9_H01W"][["fc_hz", "tl_ram_db"]], on="fc_hz", suffixes=("", "_a9"))
-            ax.plot(r.fc_hz, r.tl_ram_db - r.tl_ram_db_a9, mk, color=GREEN, ms=8, mec="k", label=f"coupled-mode (parabolic equation) check, {'straight' if '+0' in tag else '+20 km'} path")
+        for tag, mk, lab, jit in (("air7off+0_H01W", "^", "straight", 0.955), ("air7off+20_H01W", "v", "+20 km", 1.0), ("air7off+50_H01W", "<", "+50 km", 1.047)):
+            r = ram[ram.tag == tag].merge(ram[ram.tag == "builder_air9_H01W"][["fc_hz", "tl_ram_db"]], on="fc_hz", suffixes=("", "_a9")).sort_values("fc_hz")
+            if len(r):
+                ax.plot(r.fc_hz * jit, r.tl_ram_db - r.tl_ram_db_a9, mk, color=GREEN, ms=7, mec="k", ls="none", label=f"coupled-mode (parabolic equation) check, {lab} path")
     m = C.dtl_obs_db.notna(); ax.plot(C.fc_hz[m], C.dtl_obs_db[m], "o", color=GREY, mec="k", ms=8, label="measured (chart-read): air7 ≈ air9")
     ax.axhspan(-10, 10, color=GREY, alpha=0.15, lw=0, label="±10 dB acceptance band")
     ax.set_xscale("log"); ax.set_xticks([16, 20, 25, 31.5, 40, 50, 63]); ax.set_xticklabels(["16", "20", "25", "31.5", "40", "50", "63"]); ax.minorticks_off()
     ax.set_xlabel("Frequency (Hz)"); ax.set_ylabel("Extra loss of the air7 path relative to air9 (dB)")
-    ax.set_title("a  Even the least-lossy path within ±20 km stays 33–41 dB above the measurement", fontsize=9, loc="left")
+    ax.set_title("a  Every mode-by-mode path stays 33 dB or more above the measurement;\n   the coupled-mode check brings the straight path down to about 20 dB", fontsize=9, loc="left")
     ax.legend(fontsize=6.5, frameon=False, loc="upper left", ncol=2); ax.grid(alpha=0.25); ax.margins(x=0.05, y=0.05)
     ax = axes[1]
     crest = {-20: 1114.5, -10: 1128.5, -5: 1161.0, 0: 1199.0, 5: 1250.5, 10: 1323.5, 20: 1420.5}
@@ -153,21 +154,23 @@ def chart3(D, out):
     ax2 = ax.twinx(); ax2.plot(offs, y31, "s--", color=ORANGE)
     if E is not None:
         ax2.plot([30, 40, 50], [float(E[(E.tag == f"air7off{d:+.0f}_H01W") & (E.fc_hz == 31.5)].tl_db.iloc[0] - ex.tl_air9_H01W_db) for d in (30, 40, 50)], "s:", color=ORANGE)
-    ax.set_xlabel("Sideways shift of the path at the ridge (km; + = right of the direction of travel)")
+    ax.set_xlabel("Sideways shift of the path at the ridge (km; + = right)")
     ax.set_ylabel("Shallowest water on the path (m)", color=BLUE); ax2.set_ylabel("Extra loss at 31.5 Hz relative to air9 (dB)", color=ORANGE)
     ax.invert_yaxis(); ax.set_title("b  Shifting the path right deepens the sill and lowers the loss,\n   but about 24 dB of excess remains once the ridge is cleared", fontsize=9, loc="left"); ax.grid(alpha=0.25)
     fig.suptitle("Airgun site air7 (October 2001) to Cape Leeuwin: can a path beside the ridge explain that air7 was heard as well as air9?", fontsize=10.5, x=0.01, ha="left")
     fig.subplots_adjust(top=0.87, bottom=0.34, left=0.06, right=0.94, wspace=0.32)
     plain = wrapt("What the chart shows: the shots at site air7 were heard at Cape Leeuwin about as well as the shots at site air9, yet our model says the air7 path "
                   "loses 43–74 dB more because it crosses a ridge 1,190 m deep. (a) Moving the path sideways by up to 20 km, or averaging over a corridor of paths, does not "
-                  f"close the gap; the best path is still 33–41 dB too lossy. (b) Moving 40–50 km to the right clears the ridge, but about 24 dB of extra loss remains. "
+                  f"close the gap; the best path is still 33–41 dB too lossy. A second model that lets sound pass over the ridge more realistically (green) brings the "
+                  "straight path to 17–22 dB too lossy. (b) Moving 40–50 km to the right clears the ridge, but about 24 dB of extra loss remains. "
                   f"Verdict under the rule fixed in advance: {V['verdict']}. The measurement itself may be biased: only shots heard above the noise were plotted. Caveats C1 and C2 apply.")
     tech = wrapt("Technical: KRAKEN adiabatic incoherent modes, hard bottom, Francois-Garrison, z_s 10 m, receiver 1,055 m; source = shot-weighted mean of the air7 segments "
                  "(22.913 S 87.018 E); sections GEBCO_2026 3×3 median at 0.5 km, WOA23 95A4 October (audit path builder). Offsets d(s) = d_max sin(πs/R). N×2D = nx2d.py Fresnel "
                  "corridor (17 members, exp(−u²) weights, all members open). Reference: air9 → H01W on the same builder. Measured: Fig. 23 CL panel air7 and air9 band means "
                  f"(DIGITISED, airgun_sites_confirm). Medians over 31.5–63 Hz of (model − observed) difference: straight {V['median_excess_db_31p5_to_63']['tl_geo_db']:.1f}, corridor "
                  f"{V['median_excess_db_31p5_to_63']['tl_nx2d_db']:.1f}, least-loss ±20 km {V['median_excess_db_31p5_to_63']['tl_least_loss_db']:.1f} dB. Pre-registration e949144 "
-                 "(amendment 2 adds +30/+40/+50 km, exploratory). Gap G22. No MH370 posterior enters; C1/C2 stay on every MH370 number.")
+                 "(amendment 2 adds +30/+40/+50 km; amendment 3 the RAM set; both exploratory). RAM = pyram split-step Padé, dr 2λ, dz λ/20, 9 frequencies per band, no "
+                 "absorption in either model for that comparison; RAM medians over 31.5–63 Hz: straight +19.1, +20 km +15.7, +50 km +18.1 dB. Gap G22. No MH370 posterior enters; C1/C2 stay on every MH370 number.")
     footnotes(fig, plain, tech)
     fig.savefig(out / "hydroacoustics-air7-corridor-sensitivity.png", dpi=200); fig.savefig(out / "hydroacoustics-air7-corridor-sensitivity.pdf")
     return fig
