@@ -69,7 +69,7 @@ def main():
            "becomes sound, before (grey) and after (purple) the new tables. Model predictions, not detections; the sound-loss model is not calibrated against a real event at these recorders.")
     fn2 = ("Technical note: source posterior = run J (D0′ 00:19 held out, p = 0.5, 2 M weighted draws, prereg c360db5); old = imos_tl_ramcorr_arc.csv (rule 2 constant Δ from imp500 paths); new = imos_tl_ram_arc.csv "
            "= raw adiabatic KRAKEN − Δ_noabs(lat, offset, f), Δ from pyram split-step Padé (dr 2λ, dz λ/20, 9 freqs per third octave, hard bottom cp 1650 / ρ 1.9 / 0.5 dB/λ, no absorption in either model) at 1.0° × "
-           "offset 0 nodes, 10/20/40 Hz, log-f interpolation clamped (5–8 Hz take the 10 Hz Δ), 10 m source, receiver on its own bathymetry at seabed − 2 m; rows marked × keep the old value. η ∈ {2.1e-4 (F-35A anchor), 1e-3}; "
+           "offset 0 nodes, 5/8/10/20/40 Hz (addendum of 22 Oct: 5 and 8 Hz added; 31.5 Hz interpolated in log f), 10 m source, receiver on its own bathymetry at seabed − 2 m; rows marked × keep the old value. η ∈ {2.1e-4 (F-35A anchor), 1e-3}; "
            f"thresholds from the weak-signal track. PREDICTIVE, NOT CALIBRATED; caveats C1 (propagation slope misfit, +10.4/+7.4 dB per octave at H01W/H08S) and C2 (coupling efficiency not calibrated). Module commit {a.commit}.")
     import textwrap
     fig.text(0.01, 0.118, textwrap.fill(fn1, 235), fontsize=6.2, va="top"); fig.text(0.01, 0.058, textwrap.fill(fn2, 235), fontsize=6.2, va="top")

@@ -84,6 +84,7 @@ LOGGERS = ["3315", "3376", "3274", "3275", "3250"]
 BANDS_ALL = [5.0, 6.3, 8.0, 10.0, 12.5, 16.0, 20.0, 25.0, 31.5, 40.0]
 SKIP_STATUS = {"land", "no_modes_shallow"}
 JUMP_DB = 20.0   # amendment 1, see build()
+CORE_BANDS = [10.0, 20.0, 40.0]   # follow-up 22 Oct: a node counts when the core bands are done; 5 and 8 Hz are used where present
 
 
 def fg_db_per_km(f_hz, T=4.0, S=34.7, pH=8.0, z_m=1000.0):
@@ -205,7 +206,7 @@ def build(a):
     cov = plan_.copy(); got = R.groupby(["logger", "lat", "offset_nm"]).fc_hz.apply(lambda s: " ".join(f"{f:g}" for f in sorted(s)))
     fail = rows[rows.status != "ok"]
     cov["bands_done"] = [got.get((r.logger, r.lat, r.offset_nm), "") for r in cov.itertuples()]
-    cov["coverage"] = np.where(~cov.run, "not run: " + cov.grid_status, np.where(cov.bands_done == " ".join(f"{b:g}" for b in bands), "complete",
+    cov["coverage"] = np.where(~cov.run, "not run: " + cov.grid_status, np.where([set(f"{b:g}" for b in CORE_BANDS) <= set(str(x).split()) for x in cov.bands_done], "complete",
                                                                               np.where(cov.bands_done == "", "not reached (deadline)" if len(fail) == 0 else "not reached or failed", "partial bands")))
     for r in fail.itertuples():
         m = cov.tag == r.tag; cov.loc[m, "coverage"] = cov.loc[m, "coverage"].where(cov.loc[m, "bands_done"] != "", "failed: " + str(getattr(r, "error", ""))[:60])
@@ -215,7 +216,7 @@ def build(a):
     new["ram_grid_covered"] = False; new["ram_grid_mode"] = "old"; new["band_extrapolated"] = False; new["lat_nodes_used"] = ""
     nodes = {}
     for (lg, lat, off), g in R.groupby(["logger", "lat", "offset_nm"]):
-        if set(g.fc_hz.round(3)) != set(np.round(bands, 3)): continue   # a node counts only with every band done (partial nodes = not covered)
+        if not set(np.round(CORE_BANDS, 3)) <= set(g.fc_hz.round(3)): continue   # a node counts with the core bands done (partial nodes = not covered); 5/8 Hz extend it where run
         g = g.set_index("fc_hz"); nodes[(lg, off)] = nodes.get((lg, off), {}); nodes[(lg, off)][lat] = g
     rawk = {(r.logger, r.offset_nm, r.lat, r.fc_hz): r.tl_db_raw_kraken for r in old[np.isclose(old.src_depth_m, 10.0)].itertuples()}
     new["delta_jump_db"] = np.nan
@@ -229,10 +230,11 @@ def build(a):
         lo = near[near <= r.lat + 1e-9]; hi = near[near >= r.lat - 1e-9]
         def band_vals(lat_node, col):
             g = nd[lat_node]; return _interp_logf(np.array(bands), g[col].reindex(bands).values, [r.fc_hz])[0]
+        def lo_band(*lat_nodes): return min(float(nd[k].index.min()) for k in lat_nodes)
         if len(lo) and len(hi):
             l0, l1 = lo.max(), hi.min()
             if abs(l1 - l0) < 1e-9:
-                dlt = -band_vals(l0, "ram_minus_kraken_db"); ram = band_vals(l0, "tl_ram_db"); mode = "node"; used = f"{l0:g}"
+                dlt = -band_vals(l0, "ram_minus_kraken_db"); ram = band_vals(l0, "tl_ram_db"); mode = "node"; used = f"{l0:g}"; lob = lo_band(l0)
             else:
                 w = (r.lat - l0) / (l1 - l0)
                 d0, d1 = -band_vals(l0, "ram_minus_kraken_db"), -band_vals(l1, "ram_minus_kraken_db"); r0, r1 = band_vals(l0, "tl_ram_db"), band_vals(l1, "tl_ram_db")
@@ -245,12 +247,12 @@ def build(a):
                     k0, k1 = rawk.get((r.logger, r.offset_nm, l0, r.fc_hz), np.nan), rawk.get((r.logger, r.offset_nm, l1, r.fc_hz), np.nan)
                     s0, s1 = abs(k0 - r.tl_db_raw_kraken) if np.isfinite(k0) else np.inf, abs(k1 - r.tl_db_raw_kraken) if np.isfinite(k1) else np.inf
                     k = l0 if (s0 <= s1 if np.isfinite(min(s0, s1)) else w <= 0.5) else l1
-                    dlt = -band_vals(k, "ram_minus_kraken_db"); ram = band_vals(k, "tl_ram_db"); mode = "jump_similar"; used = f"{k:g}"; jump = abs(d0 - d1)
-                elif np.isfinite(d0) and np.isfinite(d1): dlt = (1 - w) * d0 + w * d1; ram = (1 - w) * r0 + w * r1; mode = "interp"; used = f"{l0:g} {l1:g}"; jump = abs(d0 - d1)
+                    dlt = -band_vals(k, "ram_minus_kraken_db"); ram = band_vals(k, "tl_ram_db"); mode = "jump_similar"; used = f"{k:g}"; jump = abs(d0 - d1); lob = lo_band(k)
+                elif np.isfinite(d0) and np.isfinite(d1): dlt = (1 - w) * d0 + w * d1; ram = (1 - w) * r0 + w * r1; mode = "interp"; used = f"{l0:g} {l1:g}"; jump = abs(d0 - d1); lob = lo_band(l0, l1)
                 else:
-                    k = l0 if np.isfinite(d0) else l1; dlt = -band_vals(k, "ram_minus_kraken_db"); ram = band_vals(k, "tl_ram_db"); mode = "nearest"; used = f"{k:g}"
+                    k = l0 if np.isfinite(d0) else l1; dlt = -band_vals(k, "ram_minus_kraken_db"); ram = band_vals(k, "tl_ram_db"); mode = "nearest"; used = f"{k:g}"; lob = lo_band(k)
         else:
-            k = near[np.argmin(np.abs(near - r.lat))]; dlt = -band_vals(k, "ram_minus_kraken_db"); ram = band_vals(k, "tl_ram_db"); mode = "nearest"; used = f"{k:g}"
+            k = near[np.argmin(np.abs(near - r.lat))]; dlt = -band_vals(k, "ram_minus_kraken_db"); ram = band_vals(k, "tl_ram_db"); mode = "nearest"; used = f"{k:g}"; lob = lo_band(k)
         if r.status == "ok" and np.isfinite(dlt):
             new.at[i, "tl_db"] = r.tl_db_raw_kraken - dlt
         elif r.status in ("no_modes", "ok") and np.isfinite(ram):
@@ -259,7 +261,7 @@ def build(a):
             continue
         new.at[i, "ram_grid_covered"] = True; new.at[i, "ram_grid_mode"] = mode; new.at[i, "lat_nodes_used"] = used
         new.at[i, "ram_delta_applied"] = True; new.at[i, "ramcorr_extrapolated"] = False; new.at[i, "ramcorr_floored"] = False
-        new.at[i, "band_extrapolated"] = bool(r.fc_hz < min(bands) - 1e-9 or r.fc_hz > max(bands) + 1e-9); new.at[i, "delta_jump_db"] = jump
+        new.at[i, "band_extrapolated"] = bool(r.fc_hz < lob - 1e-9 or r.fc_hz > max(bands) + 1e-9); new.at[i, "delta_jump_db"] = jump
     new["below_physical_floor"] = new.ram_grid_covered & (new.tl_db < 60.0 + 10 * np.log10(new.range_km))   # spherical to 1 km + cylindrical: a sanity flag, reported
     new.to_csv(odir / "imos_tl_ram_arc.csv", index=False)
     print("rows below the physical floor:", int(new.below_physical_floor.sum()), "| jump_similar rows:", int((new.ram_grid_mode == "jump_similar").sum()))
