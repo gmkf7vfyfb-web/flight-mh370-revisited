@@ -609,7 +609,7 @@ def cmd_air1(out, dig_dir, confirm_dir, ew_dir):
         for f_, a_, b_, c_ in zip(fcs, rl_obs, rl_pred, r):
             rows.append(dict(zs=zs, fc_hz=f_, rl_obs_db=a_, rl_pred_db=b_, r_db=c_, frac_ambiguous=float(obs.frac_ambiguous[f_])))
         sc = ew_score(r, fcs); su = ols(fcs, r_unc)
-        grades.append(dict(zs=zs, n=len(fcs), heading=heading, phi_deg=phi, **sc, slope_se=ols(fcs, r)[1], slope_uncorrected=su[0], slope_uncorrected_se=su[1]))
+        grades.append(dict(zs=zs, heading=heading, phi_deg=phi, **sc, slope_se=ols(fcs, r)[1], slope_uncorrected=su[0], slope_uncorrected_se=su[1]))
     pd.DataFrame(rows).to_csv(out / "air1_h08n_check.csv", index=False); Gd = pd.DataFrame(grades); Gd.to_csv(out / "air1_h08n_grades.csv", index=False)
     json.dump(dict(bands=[float(f) for f in fcs], grades=Gd.to_dict("records")), open(out / "air1_h08n_check.json", "w"), indent=1, default=float)
     print(Gd.round(2).to_string(index=False))
