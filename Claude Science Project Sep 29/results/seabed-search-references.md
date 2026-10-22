@@ -123,8 +123,8 @@ from `www.atsb.gov.au` (allowlisted) have now failed **five times across two ses
 on 9 October (120 s and 300 s); on 10 October both published URLs returned `HTTP/2 stream reset by
 server (error 0x2 INTERNAL_ERROR)`; and a forced HTTP/1.1 retry timed out after 900 s with zero bytes
 received. The host accepts the connection and then delivers nothing, so this is not a protocol or
-allowlist problem to work around. **Treat this as blocked, not as untried** — the next useful move is a copy
-of the report obtained another way, not another fetch. Until then `q` for Phase 2 is reported as
+allowlist problem to work around. **Not retrieved — ask Pete:** the next useful move is a copy
+of the report saved from the Drive into ~/Downloads, not another fetch. Until then `q` for Phase 2 is reported as
 0.945 with the stated bound 0.940-0.945, and the limitation is carried in the methods draft.
 
 **A-8 is the one that matters and it cannot be verified from the text.** Those three percentages are

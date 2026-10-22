@@ -40,12 +40,12 @@ Ocean data and standards, under ocean transport's keys (`results/ocean-reference
 percentiles; it is to be added to the ocean ledger or here.
 
 **Open items:**
-1. Pages for every row marked "pages to be added", read in primary form. FSH604 and MOT 2018 closed 10 Oct (overnight). margo1990 closed 10 Oct (Wikisource, via the MediaWiki API). Still open: ntsc2008dki574 (knkt.go.id refuses scripted requests, 403), chu2006 (calhoun.nps.edu refuses scripted requests, 403; the journal copy is closed), anderson2018 (museum.wa.gov.au refuses scripted requests, 403), dnv2010 (standards.dnv.com needs a free account), mearns1994 (no open host found). Pete to upload the PDFs if he wants these pinned. andersen2005 is closed-access (JFM) with no open preprint found; it stays cited for form only, without pins.
+1. Pages for every row marked "pages to be added", read in primary form. FSH604 and MOT 2018 closed 10 Oct (overnight). margo1990 closed 10 Oct (Wikisource, via the MediaWiki API). Still open: ntsc2008dki574 (knkt.go.id refuses scripted requests, 403), chu2006 (calhoun.nps.edu refuses scripted requests, 403), anderson2018 (museum.wa.gov.au refuses scripted requests, 403), dnv2010 (standards.dnv.com needs a free account), mearns1994 (no open host found). Pete to upload the PDFs if he wants these pinned. andersen2005 (JFM): not retrieved — ask Pete (no open preprint found); it stays cited for form only, without pins.
 2. ~~A primary BEA source for AF447's 2011 seabed recovery figures and field size.~~ Closed 9 Oct: BEA final report pp. 20, 77.
 3. The body properties in the occupants class (density, frontal area, leeway) carry no source yet. They
    are declared assumptions. Candidates were found 10 Oct (~23:55 UTC) but none is pinned yet:
    - **Body density, float or sink:** Donoghue, E. R. & Minnigerode, S. C. (1977) "Human body buoyancy: a study of 98 men",
-     *J. Forensic Sci.* 22(3), doi:10.1520/JFS10628J. Closed access (Unpaywall and Semantic Scholar: no open copy; the publisher
+     *J. Forensic Sci.* 22(3), doi:10.1520/JFS10628J. Not retrieved — ask Pete (Unpaywall and Semantic Scholar: no open copy; the publisher
      returns 403). Pete to upload if wanted.
    - **Person-in-water leeway (floating bodies; drift's term more than settling's):** Allen, A. A. (2005) *Leeway Divergence*,
      USCG R&D Center CG-D-05-05 (DTIC ADA435435), and Allen & Plourde (1999) CG-D-08-99 (DTIC ADA376479). apps.dtic.mil was allowed

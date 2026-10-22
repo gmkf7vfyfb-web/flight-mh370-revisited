@@ -5912,7 +5912,7 @@ Read end of flight's 04:05 entry. I adopted `+alive` as my reference, as end of 
   - footnoted figures, whose provenance is read from run.json.
   - Output: `results/pleiades/<tag>/by-0019-option.csv`. Smoke-tested end to end on a 1/64 subsample of eof-289-full (2 seeds, 14 min, 2 threads); the smoke output is not committed.
 - **On trigger:** run at 2 threads, labelled with whatever end of flight and core declare (`uncorrected fuel` / `provisional sampler` / `PROVISIONAL-OVERNIGHT`). Post to SEARCHED_AREAS and HYDROACOUSTICS.
-- **Until then:** `results/pleiades-methods-draft.md` is revised. It adds the branch on EoF impacts, the 00:19 dependence, the prior-work reproduction (§6.3), the P-C correlation (§6.4) and the verification. `pleiades-references.md` gains [Prior-Pleiades]. The [Taylor1921] equation location is still open: there is no copy of the paper or of LaCasce (2008) in the project store yet, so this is a library request for Pete.
+- **Until then:** `results/pleiades-methods-draft.md` is revised. It adds the branch on EoF impacts, the 00:19 dependence, the prior-work reproduction (§6.3), the P-C correlation (§6.4) and the verification. `pleiades-references.md` gains [Prior-Pleiades]. The [Taylor1921] equation location is still open: the paper and LaCasce (2008) are not retrieved — ask Pete (library request).
 - No core files touched. No core request.
 
 — Pléiades
@@ -8871,7 +8871,7 @@ observation rows):
 - Source: Gaspin & Shuler (1971), NOLTR 71-160, DTIC AD0734381. It gives third-octave source energy levels for 1.8 lb
   TNT at 60, 300 and 800 ft.
 - DTIC refuses this sandbox's automated download (it returns an HTML bot page). I have not tried to get round that.
-- Chapman (1988), JASA 84:697: no copy in the project store yet.
+- Chapman (1988), JASA 84:697: not retrieved — ask Pete.
 - **Request to Pete:** save the DTIC PDF (https://apps.dtic.mil/sti/tr/pdf/AD0734381.pdf) to
   `~/Downloads/mh370-inputs/hydroacoustics/` if he wants the check run. If the audit already holds a SUS source
   spectrum, I will use the same one.
@@ -13517,7 +13517,7 @@ all CSVs/overlays on hypothesis/hydroacoustics under engine/hypotheses/hydroacou
   citing Metz et al. 2023, which Pete holds). TL recalibration track: the F-35A spectrum was an open item; Metz et al. 2023 is held (artifact 7e4d336f) and was digitised by track metz-f35a on 22 Oct 2026 (`results/hydroacoustics-metz-f35a-anchor.md`).
 - Kadri 2024 S1 Fig. S1 five traces from PDF vectors; Kadri 2017 events/EQs/Fig. 3a; Nielsen and Vergoz San Juan
   tables; CMST 2014 detection scatter (HA01 270, HA08S 802) from vectors; Duncan Fig. 3 verified.
-- Open items: Metz 2023 (F-35A; held and digitised on 22 Oct), Dall'Osto 2019 JASA (ARA San Juan; was mislabelled 'Kadri 2019'; no copy in the store yet; Kadri 2019 is Sci. Rep. 9:912 and is held), AF447 hydroacoustic source absent from the bibliography.
+- Open items: Metz 2023 (F-35A; held and digitised on 22 Oct), Dall'Osto 2019 JASA (ARA San Juan; was mislabelled 'Kadri 2019'; not retrieved — ask Pete; Kadri 2019 is Sci. Rep. 9:912 and is held), AF447 hydroacoustic source absent from the bibliography.
 -- Hydroacoustic Module (digitisation track), 22 Oct 2026
 
 ## 2026-10-22 ~03:45Z — hydroacoustics (TL recalibration track) -> architecture (cc Pete): block 9 follow-up after the Digitisation track — route 2 is gap G4; air7 verdict unchanged on the new Fig. 23 traces; air1 -> H08N supports the EW0112 source model (single pair)
@@ -13613,7 +13613,7 @@ Zip-ready copy: `/Users/pete/Downloads/mh370-exchange/hydroacoustics/kadri-packa
    the G23 units remark; the Royer time-base question in the Kadri list; the IMOS rows).
 
 Open: Pete's approval of (i) the Kadri package, (ii) the Royer request, (iii) the removals. Gaps declared in the note (G-K1 per-cell ESS not computed;
-G-K2/K3 supplement weights and arc distance; G-K4 IMS proxies = request B/C; G-K5 Metz 2023 held and digitised on 22 Oct / Dall'Osto 2019 no copy in store). Prose files inside engine/
+G-K2/K3 supplement weights and arc distance; G-K4 IMS proxies = request B/C; G-K5 Metz 2023 held and digitised on 22 Oct / Dall'Osto 2019 not retrieved — ask Pete). Prose files inside engine/
 are .txt by the no-.md-in-engine rule; the zip carries .md copies. No private material from the Kadri bundle is quoted or included.
 -- Hydroacoustic Module (Kadri-package track), 22 Oct 2026 ~05:00Z
 
@@ -13730,7 +13730,7 @@ IMOS-gated likelihood written as `mh370-exchange/hydroacoustics/run-j-gated-v2/`
 median latitude +0.05 deg under D0 p 0.5); composer default stays 0.0. RULINGS REQUESTED: (1) composer default for
 hydro-lnL-imos-margeta with the G11-1 label, IMS proxy as sensitivity; (2) RAM in place of adiabatic KRAKEN on sill-crossing IMS
 paths; (3) re-register the air9 level test with slope + shape only, or obtain unit-consistent levels (G23). APPROVALS FOR PETE:
-Kadri package v2 and the Royer letter (prepare/kadri_package/v2-2026-10-22/, cover note); Metz et al. 2023 (held; digitised by track metz-f35a) and Dall'Osto 2019 (JASA; no copy in the store yet). Disk: 83.5 -> 11.9 (min) -> ~28 GiB; nothing of Pete's deleted; the eleven track workspaces (~33 GB) and run-j-gated
+Kadri package v2 and the Royer letter (prepare/kadri_package/v2-2026-10-22/, cover note); Metz et al. 2023 (held; digitised by track metz-f35a) and Dall'Osto 2019 (JASA; not retrieved — ask Pete). Disk: 83.5 -> 11.9 (min) -> ~28 GiB; nothing of Pete's deleted; the eleven track workspaces (~33 GB) and run-j-gated
 (6.5 GB, superseded) can be swept, and Time Machine local snapshots thinned.
 -- Hydroacoustic Module
 
@@ -13822,7 +13822,7 @@ Four open-access papers were fetched and filed: Kadri 2019, Williams 2023, Nosov
 
 **Rule from now.** Before writing "not held" about any source, search the artifact store, the Drive, ~/Downloads and the repo (artifact
 filenames can be raw DOIs, such as `art%3A10.1007%2F...pdf`), and write the location in the ledger. Never write "closed access" as
-a reason for a gap. A source with no copy is "no copy in the project store yet"; say who has to supply it.
+a reason for a gap. A source with no copy is written "not retrieved — ask Pete" (see the standing rule on labels below).
 
 **Unchanged, because they are facts and not licence labels:** raw IMS waveforms (H01W, H08S, H08N) are data not held; commercial
 archive logins and API keys are credentials; public documents whose hosts refuse scripted downloads (Chu & Fan 2006, Anderson 2018,
@@ -13856,3 +13856,15 @@ within 0.2 dB. RAM and KRAKEN agree on this path (±3 dB), so the gap is source 
 check only; four timing rows are provisional (window centre). Requests: H04S path section (ocean transport, open since 11 Oct).
 Commits: module 5230679, b2f1849; work branch: this entry's commit.
 -- Hydroacoustic Module (correction track), 22 Oct 2026
+
+## 2026-10-22 — STANDING RULE ON LABELS (Pete, 22 Oct 2026): no label added without approval -> ALL MODULES, ALL TRACKS
+
+Pete's instruction, 22 Oct 2026, after the overnight hydroacoustics run left sources out because of "closed access / not held" labels that were wrong:
+
+1. **No label may be added without Pete's explicit approval.** This covers every label that stops, limits or discounts the use of a source, dataset or file ("closed access", "paywalled", "not held", "unobtainable", "restricted", "blocked", "unusable", "GAP" set because of access, and any new one of that kind).
+2. Pete holds the right to use everything stored in the repo, the Google Drive and the project source folders.
+3. A source that cannot be fetched is written as **"not retrieved — ask Pete"** after the artifact store (raw-DOI filenames included), the repo papers folders on both branches, ~/Downloads and the Drive have been searched. Record where you searched in `results/source-access-ledger-2026-10-22.csv`, tell Pete, and carry on. Nothing is left out of an analysis or a note because of it.
+4. To use any other label of this kind, ask Pete first and wait for his answer. Caveats Pete has already required (C1/C2, "PREDICTIVE, NOT CALIBRATED", "digitised", chart footnotes, provenance records) stay as written.
+
+The same text is at the top of `ARCHITECTURE.md`, `README.md`, `coordination/README.md`, `engine/AGENTS.md` and every file in `threads/master-prompts/`, and in the system prompt of every module profile and in the operating note given to sub-agents. Sessions that are idle will meet it the next time they read their brief or inbox; Pete can paste "read the STANDING RULE ON LABELS at the top of your brief and your inbox" to wake one.
+-- OPERON session (for Pete)

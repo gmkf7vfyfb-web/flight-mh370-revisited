@@ -6,7 +6,7 @@ Prepared at Pete's request (22 Oct 2026). Pete's ruling: the project has the rig
 
 | copy status | rows |
 |---|---|
-| NO COPY IN STORE | 65 |
+| not retrieved — ask Pete | 65 |
 | FETCHED (22 Oct 2026) | 4 |
 | HELD | 3 |
 | DATA NOT HELD | 2 |
@@ -22,7 +22,7 @@ Prepared at Pete's request (22 Oct 2026). Pete's ruling: the project has the rig
 | L01 | Metz, Obana & Fukao (2023) Remote hydroacoustic detection of an airplane crash, Pure Appl. Geop | HELD | artifact 7e4d336f-aeb4-4369-b709-570cf133c7a4 (since 9 Oct 2026); ~/Downloads/art%3A10.1007%2Fs00024-022-03117-6.pdf; ~/Downloads/mh370-exchange/hydro | closed; not held (GAP); unobtainable; secondary only |
 | L02 | Royer (2016) OHASISBIO report LDO-201608 (Search for the flight MH370 impact site in the Indian | HELD | artifact e6fa6f46 / 4a46c695 (royer-2016-LDO-201608.pdf); ~/Downloads/mh370-exchange/hydroacoustics/run-j-digitisation/sources/royer-2016-LDO-201608.p | not obtained; not public in a citable repository; secondary only (news, blogs) |
 | L03 | Kadri (2019) Effect of sea-bottom elasticity on the propagation of acoustic-gravity waves from  | FETCHED (22 Oct 2026) | artifact 133c4968-4c14-4416-ace2-e44f16670a84; ~/Downloads/mh370-exchange/hydroacoustics/sources/open-access-fetched-2026-10-22/ | 'Kadri 2019 JASA, closed access (G5)' - a misattribution: the JASA paper is Dall'Osto (2019); this Sci. Rep. p |
-| L04 | Dall'Osto (2019) Source triangulation utilizing three-dimensional arrivals: application to the  | NO COPY IN STORE | abstract only (fetch 22 Oct 2026: no open location) | filed as 'Kadri 2019 (ARA San Juan)', closed access, GAP G5 |
+| L04 | Dall'Osto (2019) Source triangulation utilizing three-dimensional arrivals: application to the  | not retrieved — ask Pete | abstract only (fetch 22 Oct 2026: no open location) | filed as 'Kadri 2019 (ARA San Juan)', closed access, GAP G5 |
 | L05 | Williams et al. (2023) On the propagation of acoustic-gravity waves due to a slender rupture in | FETCHED (22 Oct 2026) | artifact c4f35150-c9c5-4d7b-bd70-53d98df38c19; exchange open-access-fetched-2026-10-22/ | gold OA; read level snippet |
 | L06 | Nosov et al. (2007) Elastic oscillations of water column in the 2003 Tokachi-oki tsunami source | FETCHED (22 Oct 2026) | artifact 1ca81b26-0a34-4444-87de-b24b84ea2800; exchange open-access-fetched-2026-10-22/ | read level abstract/secondary |
 | L07 | Chu & Fan (2024) Global climatological dataset of undersea acoustic parameters from WOA 2023, S | FETCHED (22 Oct 2026) | artifact 95c75a93-ed7c-4dd4-a490-4940bfc46d2a; exchange open-access-fetched-2026-10-22/ | read level secondary (Brown2026) |
@@ -31,7 +31,7 @@ Prepared at Pete's request (22 Oct 2026). Pete's ruling: the project has the rig
 | L10 | Durgadoo et al. (2021) J. Oper. Oceanogr. 14(1):1-12 | OPEN; copy location not confirmed | drift thread read it from nora.nerc.ac.uk (memory record); no file in the artifact store under that name | not open access; not re-read |
 | L11 | Renzi & Dias (2014) Hydro-acoustic precursors of gravity waves, JFM 754:250-262 | LANDING PAGE ONLY | Drive 1nHzJ3h-IcsCkTzvTJwYK0V7-A20F-BHE (Cambridge abstract page printout, not the paper) | closed; metadata only |
 
-## Still without a copy in the project store (no licence block; a PDF has to be supplied)
+## Not retrieved — ask Pete (a PDF has to be supplied; this is not a licence block)
 
 Load-bearing for current notes (supply first): Duncan & Dall'Osto (2023, JASA abstract only; the lay-language paper is held), Prario (2023), Dall'Osto (2019, JASA, San Juan), Blackman et al. (2004, JASA; the companion UCRL report is held), Heaney (2017), Arons (1954), Chapman (1988), Taylor (1921), LaCasce (2008). Public documents that need a browser download because the host refuses scripted clients: Chu & Fan (2006), Anderson (2018), DKI574, DNV-RP-F107, MDPI papers (Hao 2024 and the 2025 sub-aperture paper). The three Journal of Navigation particle-filter papers are paywalled; they are listed in `paper/JON-MODEL-PAPERS.md` as metadata only. All other rows in the CSV are background references (`known reference`, `metadata only`) that no note relies on for a number.
 

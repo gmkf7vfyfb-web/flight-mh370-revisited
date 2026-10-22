@@ -1697,7 +1697,7 @@ IMOS-gated likelihood written as `mh370-exchange/hydroacoustics/run-j-gated-v2/`
 median latitude +0.05 deg under D0 p 0.5); composer default stays 0.0. RULINGS REQUESTED: (1) composer default for
 hydro-lnL-imos-margeta with the G11-1 label, IMS proxy as sensitivity; (2) RAM in place of adiabatic KRAKEN on sill-crossing IMS
 paths; (3) re-register the air9 level test with slope + shape only, or obtain unit-consistent levels (G23). APPROVALS FOR PETE:
-Kadri package v2 and the Royer letter (prepare/kadri_package/v2-2026-10-22/, cover note); Metz et al. 2023 (held; digitised by track metz-f35a) and Dall'Osto 2019 (JASA; no copy in the store yet). Disk: 83.5 -> 11.9 (min) -> ~28 GiB; nothing of Pete's deleted; the eleven track workspaces (~33 GB) and run-j-gated
+Kadri package v2 and the Royer letter (prepare/kadri_package/v2-2026-10-22/, cover note); Metz et al. 2023 (held; digitised by track metz-f35a) and Dall'Osto 2019 (JASA; not retrieved — ask Pete). Disk: 83.5 -> 11.9 (min) -> ~28 GiB; nothing of Pete's deleted; the eleven track workspaces (~33 GB) and run-j-gated
 (6.5 GB, superseded) can be swept, and Time Machine local snapshots thinned.
 -- Hydroacoustic Module
 
@@ -1721,5 +1721,17 @@ brief (San Juan 2019 is Dall'Osto's JASA paper, not Kadri's; the Metz paper is h
 On `hypothesis/hydroacoustics` the same stale lines in `digitise_brown_2026.py`, `tl_recal_block9.py`, `REQUESTS.txt` (and the exchange
 copy `kadri-package-v2/REQUESTS.md`), `data/blackman/extraction_method.txt` and `receiver_observations_diff_vs_drive.csv` were reworded.
 One point to reconcile: your 22:00Z entry calls G5 "Kadri 2019 (Sci. Rep.)"; the gap as first written meant the JASA San Juan paper
-(Dall'Osto 2019, no copy in the store). Both are now stated in the notes. `REQUESTS.txt` item 2 no longer calls the San Juan paper "his own".
+(Dall'Osto 2019, not retrieved — ask Pete). Both are now stated in the notes. `REQUESTS.txt` item 2 no longer calls the San Juan paper "his own".
 -- OPERON session
+
+## 2026-10-22 — STANDING RULE ON LABELS (Pete, 22 Oct 2026): no label added without approval -> ALL MODULES, ALL TRACKS
+
+Pete's instruction, 22 Oct 2026, after the overnight hydroacoustics run left sources out because of "closed access / not held" labels that were wrong:
+
+1. **No label may be added without Pete's explicit approval.** This covers every label that stops, limits or discounts the use of a source, dataset or file ("closed access", "paywalled", "not held", "unobtainable", "restricted", "blocked", "unusable", "GAP" set because of access, and any new one of that kind).
+2. Pete holds the right to use everything stored in the repo, the Google Drive and the project source folders.
+3. A source that cannot be fetched is written as **"not retrieved — ask Pete"** after the artifact store (raw-DOI filenames included), the repo papers folders on both branches, ~/Downloads and the Drive have been searched. Record where you searched in `results/source-access-ledger-2026-10-22.csv`, tell Pete, and carry on. Nothing is left out of an analysis or a note because of it.
+4. To use any other label of this kind, ask Pete first and wait for his answer. Caveats Pete has already required (C1/C2, "PREDICTIVE, NOT CALIBRATED", "digitised", chart footnotes, provenance records) stay as written.
+
+The same text is at the top of `ARCHITECTURE.md`, `README.md`, `coordination/README.md`, `engine/AGENTS.md` and every file in `threads/master-prompts/`, and in the system prompt of every module profile and in the operating note given to sub-agents. Sessions that are idle will meet it the next time they read their brief or inbox; Pete can paste "read the STANDING RULE ON LABELS at the top of your brief and your inbox" to wake one.
+-- OPERON session (for Pete)

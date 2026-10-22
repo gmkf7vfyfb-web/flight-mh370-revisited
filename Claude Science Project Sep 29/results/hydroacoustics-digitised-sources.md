@@ -142,11 +142,11 @@ data downstream. Both Kadri times are carried everywhere: text time 00:52:03 and
   Figs 5/7/10/13); text-layer tables exactly; rasters to pixel precision with the stated reading uncertainty
   (Royer spectrograms, Blackman Fig. 23, Brown envelopes); raster waveform panels in the San Juan papers, Kadri PMC
   figures and CMST Figs 1-2 are within reach but not traced in this block.
-- Proposal's coverage (what was done): 50 manifest rows; every named source touched except Kadri 2019 (Sci. Rep.; held since 22 Oct), Dall'Osto 2019 (no copy in the store) and AF447.
+- Proposal's coverage (what was done): 50 manifest rows; every named source touched except Kadri 2019 (Sci. Rep.; held since 22 Oct), Dall'Osto 2019 (not retrieved — ask Pete) and AF447.
 - Gaps and status: (G1) Royer Drive link blocked, artifact copy used — closed; (G2) Royer H01W 16-s figure/table
   offset — open, goes into the raw-data request; (G3) Blackman air8 not separable, air3 partial, air4/air5
   weight-ambiguous zones — closed as a source limit; (G4) F-35A spectrum absent from Brown — open; Metz et al.
-  2023 is held (artifact 7e4d336f) and was digitised on 22 Oct by track metz-f35a; (G5) 'Kadri 2019' was Dall'Osto 2019 (JASA, no copy in the store); Kadri 2019 (Sci. Rep.) is held — (G6) AF447 hydroacoustic source not in the
+  2023 is held (artifact 7e4d336f) and was digitised on 22 Oct by track metz-f35a; (G5) 'Kadri 2019' was Dall'Osto 2019 (JASA, not retrieved — ask Pete); Kadri 2019 (Sci. Rep.) is held — (G6) AF447 hydroacoustic source not in the
   bibliography — open; (G7) Kadri 2024 Figs 1-8 at full resolution not re-extracted (PMC 750-px copies held) — open,
   low priority; (G8) San Juan / CMST Fig 1-2 waveform rasters not traced — open, do when a weak-signal trial needs
   them; (G9) Brown fireball amplitudes are in counts — closed as a source limit.

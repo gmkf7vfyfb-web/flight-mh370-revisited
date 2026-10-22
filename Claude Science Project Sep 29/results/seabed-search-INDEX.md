@@ -44,7 +44,7 @@ distribution **wider, not narrower** — a non-detection is not a localisation.
    the 00:19 data. No terminal-stage proposal can lift it.
 3. **The residual view on `crates/compose`** — core's: the approved dev-dependency has not landed, so
    the views run on the `mh370 evaluate` path, which is a disclosed deviation.
-4. **ATSB Figure 73's three percentages behind q = 0.945** — blocked, not untried: five failed fetches.
+4. **ATSB Figure 73's three percentages behind q = 0.945** — not retrieved — ask Pete: five failed fetches, and the Drive copy (41.7 MB) is over the connector's 10 MB limit; saving it from the Drive into ~/Downloads would settle it.
    q is reported as 0.945 with the bound 0.940–0.945.
 5. **Which core run supplies the prior** — not yet propagated, and possibly the largest term in the
    budget: (a) and (b) differ by 0.26° in the source 00:19 median.

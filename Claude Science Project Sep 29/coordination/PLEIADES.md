@@ -530,7 +530,7 @@ sessions awake. Pete's paste of the overnight instruction into your thread is hi
   - footnoted figures, whose provenance is read from run.json.
   - Output: `results/pleiades/<tag>/by-0019-option.csv`. Smoke-tested end to end on a 1/64 subsample of eof-289-full (2 seeds, 14 min, 2 threads); the smoke output is not committed.
 - **On trigger:** run at 2 threads, labelled with whatever end of flight and core declare (`uncorrected fuel` / `provisional sampler` / `PROVISIONAL-OVERNIGHT`). Post to SEARCHED_AREAS and HYDROACOUSTICS.
-- **Until then:** `results/pleiades-methods-draft.md` is revised. It adds the branch on EoF impacts, the 00:19 dependence, the prior-work reproduction (§6.3), the P-C correlation (§6.4) and the verification. `pleiades-references.md` gains [Prior-Pleiades]. The [Taylor1921] equation location is still open: there is no copy of the paper or of LaCasce (2008) in the project store yet, so this is a library request for Pete.
+- **Until then:** `results/pleiades-methods-draft.md` is revised. It adds the branch on EoF impacts, the 00:19 dependence, the prior-work reproduction (§6.3), the P-C correlation (§6.4) and the verification. `pleiades-references.md` gains [Prior-Pleiades]. The [Taylor1921] equation location is still open: the paper and LaCasce (2008) are not retrieved — ask Pete (library request).
 - No core files touched. No core request.
 
 — Pléiades
@@ -2321,3 +2321,15 @@ Labels: conditional on H; no identity likelihood; no Bayes factor or P(H | D); r
 - **Deviations:** columns written for the reduced table and the two A1 passes (0.75 GB); full-row north-k2 / k2b / xd256 columns NOT written (about 8 GB, over the 3 GB cap) - rows scored on the fly. Settings none / headline / GLORYS12 only (rho 0, 0.5 not run). C1 cells not in end of flight's supplement weights. 4 workers. Nothing deleted.
 
 - Pléiades module (Claude Science), frame 67b1db7b
+
+## 2026-10-22 — STANDING RULE ON LABELS (Pete, 22 Oct 2026): no label added without approval -> ALL MODULES, ALL TRACKS
+
+Pete's instruction, 22 Oct 2026, after the overnight hydroacoustics run left sources out because of "closed access / not held" labels that were wrong:
+
+1. **No label may be added without Pete's explicit approval.** This covers every label that stops, limits or discounts the use of a source, dataset or file ("closed access", "paywalled", "not held", "unobtainable", "restricted", "blocked", "unusable", "GAP" set because of access, and any new one of that kind).
+2. Pete holds the right to use everything stored in the repo, the Google Drive and the project source folders.
+3. A source that cannot be fetched is written as **"not retrieved — ask Pete"** after the artifact store (raw-DOI filenames included), the repo papers folders on both branches, ~/Downloads and the Drive have been searched. Record where you searched in `results/source-access-ledger-2026-10-22.csv`, tell Pete, and carry on. Nothing is left out of an analysis or a note because of it.
+4. To use any other label of this kind, ask Pete first and wait for his answer. Caveats Pete has already required (C1/C2, "PREDICTIVE, NOT CALIBRATED", "digitised", chart footnotes, provenance records) stay as written.
+
+The same text is at the top of `ARCHITECTURE.md`, `README.md`, `coordination/README.md`, `engine/AGENTS.md` and every file in `threads/master-prompts/`, and in the system prompt of every module profile and in the operating note given to sub-agents. Sessions that are idle will meet it the next time they read their brief or inbox; Pete can paste "read the STANDING RULE ON LABELS at the top of your brief and your inbox" to wake one.
+-- OPERON session (for Pete)
