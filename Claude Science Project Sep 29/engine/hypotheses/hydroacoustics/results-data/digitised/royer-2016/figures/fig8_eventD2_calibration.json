@@ -1,0 +1,109 @@
+{
+ "source": "Royer 2016 LDO-201608",
+ "sha256": "2e7190b96c7bb77438625a62e8cdd987d7283ee8ad9e0e7ae8312b6297d955f5",
+ "page": 12,
+ "note": "Figure 8, p.12, event D2. Right-hand label of the MAD panel is printed '01:58' (typo for 01:48; tick spacing is 3 min). f axis 0-50-100; top = Nyquist.",
+ "image_size": [
+  803,
+  923
+ ],
+ "rotate_deg": 0,
+ "panels": [
+  {
+   "panel_id": "fig8_eventD2_h01w2_0129-0132",
+   "station": "H01W-2",
+   "t_start_utc": "01:29",
+   "t_end_utc": "01:32",
+   "t_start_s": 5340,
+   "t_end_s": 5520,
+   "axis": "frame = printed span (tick spacing verified)",
+   "f_top_hz": 125.0,
+   "f_bottom_hz": 0.0,
+   "frame_px": {
+    "row0": 9,
+    "row1": 198,
+    "col0": 61,
+    "col1": 710
+   },
+   "s_per_px": 0.2773,
+   "hz_per_px": 0.6614,
+   "reading_uncertainty": {
+    "time_s": 0.28,
+    "freq_hz": 0.66,
+    "db": 1.5
+   }
+  },
+  {
+   "panel_id": "fig8_eventD2_sseir_0130-0133",
+   "station": "SSEIR",
+   "t_start_utc": "01:30",
+   "t_end_utc": "01:33",
+   "t_start_s": 5400,
+   "t_end_s": 5580,
+   "axis": "frame = printed span (tick spacing verified)",
+   "f_top_hz": 120.0,
+   "f_bottom_hz": 0.0,
+   "frame_px": {
+    "row0": 234,
+    "row1": 422,
+    "col0": 61,
+    "col1": 710
+   },
+   "s_per_px": 0.2773,
+   "hz_per_px": 0.6383,
+   "reading_uncertainty": {
+    "time_s": 0.28,
+    "freq_hz": 0.64,
+    "db": 1.5
+   }
+  },
+  {
+   "panel_id": "fig8_eventD2_swams3_0132-0135",
+   "station": "SWAMS-3",
+   "t_start_utc": "01:32",
+   "t_end_utc": "01:35",
+   "t_start_s": 5520,
+   "t_end_s": 5700,
+   "axis": "frame = printed span (tick spacing verified)",
+   "f_top_hz": 120.0,
+   "f_bottom_hz": 0.0,
+   "frame_px": {
+    "row0": 458,
+    "row1": 648,
+    "col0": 60,
+    "col1": 710
+   },
+   "s_per_px": 0.2769,
+   "hz_per_px": 0.6316,
+   "reading_uncertainty": {
+    "time_s": 0.28,
+    "freq_hz": 0.63,
+    "db": 1.5
+   }
+  },
+  {
+   "panel_id": "fig8_eventD2_mad_0145-0148",
+   "station": "MAD",
+   "t_start_utc": "01:45",
+   "t_end_utc": "01:48",
+   "t_start_s": 6300,
+   "t_end_s": 6480,
+   "axis": "frame = printed span (tick spacing verified)",
+   "f_top_hz": 120.0,
+   "f_bottom_hz": 0.0,
+   "frame_px": {
+    "row0": 683,
+    "row1": 873,
+    "col0": 61,
+    "col1": 710
+   },
+   "s_per_px": 0.2773,
+   "hz_per_px": 0.6316,
+   "reading_uncertainty": {
+    "time_s": 0.28,
+    "freq_hz": 0.63,
+    "db": 1.5
+   }
+  }
+ ]
+}
