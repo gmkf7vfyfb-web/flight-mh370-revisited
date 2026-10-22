@@ -155,3 +155,86 @@ data downstream. Both Kadri times are carried everywhere: text time 00:52:03 and
 done: block 1 — six sources digitised, manifest of 50 rows, overlays and METHOD records committed.
 next: trace the San Juan / CMST waveform rasters when block 8 asks; Metz et al. 2023 and Kadri 2019 are held (extracted 22 Oct); ask Pete for Dall'Osto 2019 (JASA) if wanted; add the H01W 16-s question to the Royer raw-data request (block 12).
 blocker: none for this block; G4 is closed by the 22 Oct extraction (anchor ruling pending); G5 needs Dall'Osto 2019 only if the San Juan 3-D arrival is to be used.
+
+## Addendum, 22 October 2026 (correction track: items 3, 6, 7 and the AF447 search) — CORRECTION OF RECORD
+
+Hydroacoustic Module (correction track). Pete's rule of 22 Oct applies: a failed download is recorded as **"not retrieved
+— ask Pete"**, never as "closed access", and nothing is left out because of it. Everything below is DIGITISED publication
+data or a check against the module's own processing; no measurement is new. Caveats C1 and C2 apply to every use downstream.
+Module commits: `5230679` (pre-registration of stage 1b + waveform digitiser + overlay), and the follow-up results commit
+named in the coordination entry. Companion note: `results/hydroacoustics-calibration-events-stage1b.md`.
+
+**What was wrong in the record above.**
+- **"published-figures" folder.** No folder of that name exists in the archive on any branch (all 19 remote branches
+  searched by tree listing on 22 Oct; the only hits are the module's own `published-figures-pmc/`). The 2,008-px rasters
+  the text above refers to are the embedded images of the **publisher PDF of Kadri (2024)**, which Pete holds on the
+  project Drive (`Underwater_acoustic_analysis_reveals_unique_pressu-2.pdf`, Drive id 1ZxR_3Y6Ryn-OXyRJ0tjOPSjassZn8ioW,
+  16.2 MB). **Not retrieved — ask Pete:** the file exceeds the Drive connector's 10 MB download limit, and the PMC PDF route
+  returns a browser challenge page. Please drop it into `Downloads/mh370-inputs/hydroacoustics/papers/`.
+- **Kadri 2017** is held at full resolution (Unpaywall/Drive/`fetch_article_fulltext` copies are byte-identical, sha256
+  6d8adc00…); its native-resolution figures were already extracted (`ground-truth-cases/figures/kadri2017_p*.png|jpeg`,
+  1,000–1,618 px). The G7 wording "Kadri 2017 PMC JPEGs only" was wrong.
+- **G7 (Kadri 2024 Figs 1–8 at full resolution): OPEN, not retrieved — ask Pete** (publisher PDF above). The PMC rasters
+  (669–799 px; re-fetched 22 Oct from cdn.ncbi.nlm.nih.gov, identical to the held copies) were used for every trace below,
+  at a declared 1-px resolution.
+- **G8 (San Juan / CMST waveform rasters): CLOSED** — traced (`results-data/digitised/waveform-rasters/`, 33 summary rows,
+  overlays for every panel; `prepare/digitise_waveform_rasters.py`):
+  - Kadri 2024 Fig. 8 (calibration charge, pressure axes): peak 3.44 Pa = 130.7 dB re 1 µPa at H10N (Vergoz printed
+    130 dB: +0.7 dB), 1.06 Pa = 120.5 dB at H04S (Vergoz 122 dB: −1.5 dB), 15.0 Pa at H03S (via land).
+  - Kadri 2024 Fig. 7 (San Juan event): 8.57 Pa = 138.7 dB at H10N (Vergoz 139 dB), 5.43 Pa = 134.7 dB at H04S (Vergoz
+    134 dB), 0.92 Pa at H03S.
+  - Vergoz 2021 Fig. 2 and Nielsen 2021 Fig. 3 carry no pressure scale: times and normalised envelopes only. Peak times
+    agree across the three papers within 3 s (charge at H10N: 21:12:06 Kadri, 21:12:04 Vergoz, 21:12:03–06 Nielsen nodes
+    1–3; San Juan at H10N: 14:59:17.6, 14:59:16.0, 14:59:13.6–16.5). Nielsen's H10N/H10S Dec-1 panels also show the earlier
+    arrival at about 21:05:27 / 21:03:58 discussed in the paper.
+  - CMST 2014-30 Fig. 1 (Pa axis): peak 1.42 Pa at 01:33:44.3 UTC. **Overlay check against our own read of the same IMOS
+    recording** (3315, 531A728A.DAT, pre-registered clock correction −25.82 s; `prepare/cmst_fig1_imos_overlay.py`):
+    1–120 Hz peak −0.7 dB, noise −0.4 dB, time +2.4 s. The module's IMOS calibration chain and clock correction reproduce
+    CMST's published trace.
+  - CMST Fig. 2 (HA01 spectrograms, no time series in the held raster): colour scale inverted; 5–40 Hz peak at
+    01:34:50–52 on all three hydrophones (CMST text 01:34:50 ± 3 s), 5–8 dB above the panel median.
+- **G6 (AF447 hydroacoustic source): CORRECTED.** The bibliography lacked an AF447 entry, but the source is held: Kadri
+  (2024) Fig. 5a (H10S, 10-min window after 02:41 UTC, 1 Jun 2009), Fig. 3 (2,211 km, 306.46°), text p. 3 ("pressure values
+  reaching 75% of that observed for F-35a ... over a distance of 2200 km") and S1 (impact around 02:14 UTC, 3°03′57″N
+  30°33′42″W, about 282 km/h, belly first). Search of the literature (web, 22 Oct) found no other published hydroacoustic
+  analysis of AF447 with times, positions and levels. Secondary, not peer-reviewed: 370location.org (Sep 2017) reports
+  that CTBTO Ascension data were examined during the 2009 search with no signal, and that Atlantic island seismometers
+  show no T-phase match. AF447 search literature held on the Drive (`AF447/` folder: BEA final report, Stone et al. 2014,
+  Metron reports) contains no hydroacoustic impact analysis. Nothing is "not retrieved" for AF447.
+  - **New finding (EXPLORATORY, `prepare/kadri_crash_timing.py`):** the sound-channel arrival from the AF447 site at H10S
+    is 02:39:19 ± 6 s (BEA impact 02:14:28; 2,209.7 km; 1.482 ± 0.006 km/s). Kadri's Fig. 5a window starts at 02:41:00 and
+    his box is 02:44:58–02:46:27, 6.4 min after the predicted arrival. The panel therefore cannot show the AF447 impact by
+    the water path, and the AF447 coupling upper bound (stage 1b) is **not applicable**. The same check passes for the
+    F-35A (−2 / +3 s) and Lion Air 904 (−35 / +8 s), and fails for Yemenia 626 (+5.6 / +8.9 min), Transair 810 (+4.3 /
+    +5.8 min) and Sriwijaya 182 (−11.8 min; a shallow-water source, possibly a land-coupled path). Some S1 times are
+    given only to the minute. Added as question E6 for Kadri (REQUESTS.txt addendum).
+- **Kadri's processing chain (brief §5).** Confirmed from the texts, with two refinements: Kadri 2017 (Sci. Rep. 7:13949,
+  p. 7) high-passes below 5 Hz with a Butterworth IIR and detects by windowed entropy (window 4 s, step 0.5 s, threshold
+  2.3·10⁴, peaks within 2 s across the three channels); the **2–40 Hz band-pass is added in Kadri 2024** (p. 11: "in
+  addition to the CTBTO high pass filter"; filter order not stated; log-energy entropy, "a few seconds" window, same
+  threshold, TOA cross-correlation bearing ±0.4° at 99.5 %). The SnT 2025 poster (held as text) states the same chain.
+  Kadri 2019 (Sci. Rep. 9:912) is a theory paper with no processing chain. So "Kadri (2017, 2019, 2024) high-passes at
+  5 Hz and band-passes 2–40 Hz" should read "Kadri 2017 high-passes at 5 Hz; Kadri 2024 adds a 2–40 Hz band-pass"; the
+  effective passband of the 2024 chain is 5–40 Hz, as the module's comparison charts already use. Request to the
+  architecture session to amend §5 (not edited here).
+- **IMOS 3315 / 3275 backgrounds (stand-in note of the injection track): CORRECTED to a fact.** The public IMOS archive
+  (`imos-data.s3-ap-southeast-2.amazonaws.com/IMOS/ANMN/Acoustic/`, listed 22 Oct for all six sites, not truncated)
+  holds **no deployment 3315 or 3275**: PAPCA has 3376 (from 28 Nov 2013) and 3318 (from 28 Nov 2014); PAPOR has 3274 but no
+  3275. The 8 March 2014 files we hold for 3315/3275 come from the MH370 release (`IMOS_MH370_DataOverview.doc`,
+  `IMOSFilesLocation3315.txt`). So nothing was fetched, the stand-in (own 8 March recordings outside the request window,
+  with the co-located 14-day sets as cross-check) is the only background available from the public archive, and the
+  1–15 March 2014 data for 3315/3275 are **not retrieved — ask Pete** (CMST/Curtin may hold them). Recorded in
+  `data/imos_background/MANIFEST.json` (`not_in_public_archive`).
+
+**Coverage (this addendum).** (a) Feasible set: every rendered dataset in the named sources plus the AF447 literature.
+(b) Reach: vector and raster tracing at the held resolution (PMC 669–799 px for Kadri 2024; 1,539–1,870 px for the San
+Juan papers; 561 px for CMST). (c) Coverage: all Kadri 2024 waveform panels with pressure axes for the San Juan event and
+charge (Figs. 7–8) and AF447 (Fig. 5a); all six Nielsen Fig. 3 panels (18 node traces, two dead channels flagged); the
+four Vergoz Fig. 2 strips; CMST Figs. 1–2. Gaps: G7 open (publisher PDF not retrieved — ask Pete); Dall'Osto 2019 (JASA
+146:2104) not retrieved — ask Pete; 3315/3275 March backgrounds not retrieved — ask Pete; Kadri Fig. 4/6 panels were not
+re-traced (the module's 11 Oct peaks stand).
+
+done: G6 and G8 closed, G7 re-stated as not retrieved, Kadri chain confirmed with refinements, 3315/3275 archive status fixed.
+next: score Kadri Fig. 4/6 panels for timing with BEA/NTSB times to the second; trace Kadri 2024 Figs 4–8 again from the
+publisher PDF when Pete provides it.
+blocker: none in this module; the publisher PDF, Dall'Osto 2019 and the 3315/3275 March data need Pete.

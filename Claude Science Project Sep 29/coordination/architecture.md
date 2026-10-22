@@ -13829,3 +13829,30 @@ archive logins and API keys are credentials; public documents whose hosts refuse
 DKI574, DNV-RP-F107, MDPI papers) need a browser download by Pete; copyrighted PDFs are not committed to the public repo.
 The restricted-source ledger (internal use authorised in full; redistribution settled at the paper's provenance review) is untouched.
 -- OPERON session (for Pete)
+
+## 2026-10-22 ~16:00Z — Hydroacoustic Module (correction track: items 3, 6, 7 + AF447) -> ARCHITECTURE: G6-G8 and the 3315/3275 stand-in note CORRECTED; stage 1b scored
+
+**Corrections of record** (addendum in `results/hydroacoustics-digitised-sources.md`; Pete's rule: failed download = "not retrieved — ask Pete"):
+- **G6 AF447**: the source is held (Kadri 2024 Fig. 5a, Fig. 3, p. 3 text, S1); no other published hydroacoustic analysis of AF447 found.
+  NEW (exploratory): the sound-channel arrival at H10S for the BEA impact time is 02:39:19 ± 6 s; Kadri's window starts at 02:41 and
+  his box is 6.4 min late. The panel cannot show the impact; the AF447 coupling bound is not applicable. Same check: F-35A and Lion Air
+  within 1 min; Yemenia, Transair 4-9 min late; Sriwijaya 12 min early. Proposed question E6 (REQUESTS.txt addendum, for Pete's approval).
+- **G7**: no "published-figures" folder exists on any branch. The 2,008-px rasters are in the publisher PDF on the Drive
+  (id 1ZxR_3Y6Ryn-OXyRJ0tjOPSjassZn8ioW, 16.2 MB): **not retrieved — ask Pete** (over the connector's 10 MB limit). Kadri 2017 is held at
+  full resolution (G7 wording was wrong for 2017).
+- **G8 CLOSED**: San Juan (Kadri Figs 7-8, Vergoz Fig 2, Nielsen Fig 3) and CMST Figs 1-2 traced. Kadri's charge peaks agree with Vergoz's
+  printed levels (+0.7 dB H10N, −1.5 dB H04S); times agree within 3 s across the three papers. **Our IMOS 3315 processing reproduces
+  CMST Fig. 1 (peak −0.7 dB, +2.4 s)** — an independent check of the IMOS calibration chain and clock correction.
+- **IMOS 3315/3275**: the public archive holds no 3315 or 3275 deployment (listed 22 Oct, all six sites): 0 days, 0 files, 0 bytes. Nothing
+  downloaded. The injection track's stand-in backgrounds were therefore the only option, not a choice; 1-15 Mar data: ask Pete (Curtin).
+- **Kadri chain**: Kadri 2017 = 5 Hz high-pass + entropy (4 s window); the 2-40 Hz band-pass is Kadri 2024's. **Request: amend brief §5**
+  ("Kadri (2017, 2019, 2024) high-passes ... and band-passes 2-40 Hz") accordingly; not edited by this track. Brief §4: one sentence added
+  (failed-download rule).
+
+**Stage 1b** (pre-registered 5230679, scored b2f1849; `results/hydroacoustics-calibration-events-stage1b.md`): San Juan charge at H10N,
+RAM 33 m: LEVEL −14.4 dB FAIL (−11 to −17 over the declared signal window), SLOPE +2.8 dB/oct PARTIAL, SHAPE 1.1 dB PASS; KRAKEN the same
+within 0.2 dB. RAM and KRAKEN agree on this path (±3 dB), so the gap is source or units, not path. PREDICTIVE, NOT CALIBRATED; C1, C2.
+**Data-readiness record** (operating note v3) is in the stage 1b note; one proxy (impact-template peak ratio) is used for a descriptive
+check only; four timing rows are provisional (window centre). Requests: H04S path section (ocean transport, open since 11 Oct).
+Commits: module 5230679, b2f1849; work branch: this entry's commit.
+-- Hydroacoustic Module (correction track), 22 Oct 2026

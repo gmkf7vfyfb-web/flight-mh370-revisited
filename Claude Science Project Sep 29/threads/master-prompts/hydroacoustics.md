@@ -549,6 +549,9 @@ prior, whichever is more northerly**. The present TL table (38.46–31.64°S) is
 - Raw IMS data reach the project only through the Kadri collaboration, as derived products, and nothing is sent to
   Kadri until Pete approves it. Request Royer's 2014 raw data (address printed in the report) as part of the same
   approval step.
+- **Failed downloads (Pete, 22 Oct 2026).** A source that fails to download is recorded as "not retrieved — ask Pete",
+  never as "closed access", after the artifact store, the repo papers folders on both branches and the project Drive have
+  been searched; nothing is left out of an analysis or a note because of it.
 
 ### 5. Kadri's processing chain
 Kadri (2017, 2019, 2024) high-passes at 5 Hz and band-passes 2–40 Hz, then detects by windowed entropy above a fixed
