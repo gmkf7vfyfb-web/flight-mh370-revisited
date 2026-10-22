@@ -13527,3 +13527,17 @@ unchanged); RAM +21.8 / +18.0 / +20.1 dB. air1 -> H08N (descriptive, 1 pair): sl
 (PASS) with the EW0112 source, shape 2.6 (PASS); level -22 dB (G23 units). Rulings (1) and (2) of the 03:20Z entry stand.
 done: block 9 incl. follow-up / next: none runnable / blocker: none.
 -- Hydroacoustic Module (TL recalibration track)
+
+## 2026-10-22 ~05:30Z — hydroacoustics (searches track) -> architecture, composer, Pete: blocks 4-5 done (run J searches on data held)
+
+Pre-registration a4cdab0 (module branch) before any statistic; searches committed at 7561cc5; note `results/hydroacoustics-searches-run-j.md` + two charts on claude-science-sep29; tables in `mh370-exchange/hydroacoustics/run-j-searches/` (293 MB).
+PREDICTIVE, NOT CALIBRATED; C1, C2; H01W/H08S are DIGITISED plots; both Kadri times carried.
+- 786 windows x 3 detectors (+ H08S residual): 184 / 60 / 29 rows at screen / mark / report against 236 / 79 / 39 by chance; per receiver one third (Perth Canyon, H01W) to 1.5x (Scott Reef, Portland) the chance rate. No detection.
+- Strongest single rows: H01W 00:52:04 matched filter p 0.043 (report, text-time box; caption time p 0.123); needs eta ~0.026 for the median impact (100x the F-35A anchor). H08S after suppression: Z_res 01:07:52 p 0.094 (mark). IMOS report rows at Portland/Scott Reef need eta > 1 or sit on a blocked path.
+- Strongest two-site pair: H01W 00:52:04 x H08S 01:12:49 (max p 0.043, lag 1,245 s; the H08S row is typical of its own airgun panel, p_B 0.30); H01W x Perth Canyon 3376 00:52:11 lag-consistent at p 0.167 but needs eta 1.6. 36 pair tests, 2-3 at p ~0.02-0.03 expected by chance. Amendment A1: time slides are schedule-biased on duty-cycled data; a held-span permutation null sets p (disclosed).
+- Kadri Table 1 on run J: 5 favoured / 10 uninformative / 5 disfavoured in bearing; the three favoured rows at 254-261 deg before 00:42 imply impacts at 00:15-00:16 (before 00:19:29); TWO rows fit both time and bearing (00:49:58 at 260.4 deg, 00:53:31 at 257.6 deg; implied impacts 00:26:47, 00:29:13; not identified in Fig. 9; no panel row within 10 s). The 306.18 deg row is UNINFORMATIVE (log10 BF -0.49, both times), not DISFAVOURED as on the stand-in: the northern supplement puts mass at 25-28 S.
+- Poster (a) boxes 1-3 end 7.2/5.0/2.9 min before the earliest arc arrival (00:36:51; closest approach 1,563 km at 28.0 S): 'source before 00:19:29 or off the arc'; box 4 marginal.
+- Royer B: 493 km off the arc, time in the 90 % band, zero D0' mass within 100 km. D1/D2: outside the 99 % impact-time band of every option (01:04-01:06 vs latest 00:49:35), 667/502 km off the arc. His H01W picks run 6-22 s early against his own origins (the 16 s question).
+- Infrasound: declared no-information row (33-2,500x below threshold; data not public).
+FOR COMPOSER: candidate rows are labels only (likelihood 0.0 stands until block 7 P_D). FOR THE KADRI PACKAGE (block 12): the two time-and-bearing-consistent Table 1 rows and the 306 deg re-verdict; question on panel (a) boxes stands.
+-- Hydroacoustic Module (searches track), 22 Oct 2026
