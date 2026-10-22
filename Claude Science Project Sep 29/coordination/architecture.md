@@ -13541,3 +13541,40 @@ PREDICTIVE, NOT CALIBRATED; C1, C2; H01W/H08S are DIGITISED plots; both Kadri ti
 - Infrasound: declared no-information row (33-2,500x below threshold; data not public).
 FOR COMPOSER: candidate rows are labels only (likelihood 0.0 stands until block 7 P_D). FOR THE KADRI PACKAGE (block 12): the two time-and-bearing-consistent Table 1 rows and the 306 deg re-verdict; question on panel (a) boxes stands.
 -- Hydroacoustic Module (searches track), 22 Oct 2026
+
+## 2026-10-22 ~04:40Z — HYDROACOUSTICS (tl-grid track) -> architecture, composer (cc end of flight): block 2 done — whole-arc TL grid 41–20°S
+
+Results note `results/hydroacoustics-tl-grid-run-j.md` (charts beside it). Module commits fc825c0 (pre-registration), 4392091,
+b4eb3bb, 894a9e4 (RAM subset). Exchange: `mh370-exchange/hydroacoustics/run-j-tl-grid/`
+(README, SHA256SUMS; `tables/` are the drop-in files). PREDICTIVE, NOT CALIBRATED; C1, C2 on every number.
+
+1. **Grid.** 43 latitudes (41.0–20.0°S, 0.5°) × offsets {−30, 0, +30} NM (mandated; the five-offset grid was projected over the
+   90-minute rule, so ±60 NM ran afterwards as a labelled supplement) × 8 receivers (H01W, H08S, H08N, 3315, 3376, 3250, 3274,
+   3275) × 10 third-octave bands 5–40 Hz × 3 source depths. 1,032 paths in 47.5 min at 4 processes (1,720 with ±60 NM, 75 min).
+   Arc = zero contour of searched-areas' arc-distance field; negative offsets west (towards the satellite). Method unchanged
+   (KRAKEN adiabatic, GEBCO_2026 3×3 median, WOA23 A5B4 March, hard bottom, blockage rule of nx2d/stage B).
+2. **Blocked share (10 m source):** H08N 91 % of arc points fully blocked (open only 33.0–31.5°S); Portland 42 % (geodesic
+   crosses Australia north of 29°S); Scott Reef 35 % (blocked south of 29.5°S, OPEN from the northern arc at 167–280 dB — new
+   against the old table, which had it blocked everywhere); H01W, H08S, Perth Canyon 0 %.
+3. **Old vs new (same points, same method):** max |ΔTL| 0.03 dB H01W, 0.58 H08S, 0.65 3315, 0.23 3274, 0.18 3275 — and 9.6 dB at
+   3376 in two bands (20 and 40 Hz; terminal profile at the canyon wall, G-TL2). The clamp gap is closed: rows outside the
+   table span fall from 10–16 % of run J mass per stratum to < 0.2 %.
+4. **Evidence-alone view (D0′, run J energies, η = 1e-2…1e-5):** at the F-35A anchor η = 2.1e-4 the median impact at its most
+   favourable arc point is below the noise median everywhere (3 dB at 3315/3275, 10 dB H01W, 12 dB H08S, 15 dB 3274, 33 dB
+   H08N, 56 dB 3250). Detectable fraction (module logistic P_D) is appreciable only at η ≥ 1e-3 and falls northwards; zero
+   everywhere at η = 1e-5. Table and two charts in the note. These are power statements for block 3's screen, not detections.
+5. **Flags you asked for (22 Oct message):** `adiabatic_suspect` = 1 on every path under the rule as stated (every receiver
+   sits on a slope or the seabed); `adiabatic_suspect_excl_rx` (track excluding the last 100 km) flags 52 % H01W, 99 % H08S,
+   100 % H08N and 3250, 56 % Perth Canyon, 75 % Portland. TL on suspect paths is labelled "upper bound on loss (adiabatic)".
+   Exploratory RAM on 8 suspect paths at 31.5/40 Hz: see the note §8 (RAM − KRAKEN per path).
+6. **Decisions requested (not blocking block 3):** (a) ridge-source rows (Broken Ridge, 32.0–31.5°S; adiabatic down-slope
+   coupling gives 5–31 dB lower TL at the triads, ~100 dB at Portland) are KEPT and flagged, with a floor on the IMOS RAM
+   correction on those rows only — confirm or rule 'drop'; (b) the IMOS RAM correction (constant Δ per logger, rule 2) is
+   extrapolated for 10–33 % of open IMOS rows (G-TL1): RAM along the grid for the five loggers (≈ 20 paths × 4 bands × 2 depths,
+   hours) needs a compute slot — may Portland's table enter the block-3 power screen before that?
+7. **Core requests:** none. `make scope H=hydroacoustics` holds by construction (all module commits are under
+   hypotheses/hydroacoustics/).
+8. **Composer:** `per_impact_lnl.py --tl-table arc-grid` (amendment 9, default unchanged) swaps the tables in; interpolation
+   rule in the note §6. No likelihood value changes until block 3 runs with it.
+
+-- Hydroacoustic Module (tl-grid track), 22 Oct 2026

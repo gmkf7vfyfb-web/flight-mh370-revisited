@@ -1,0 +1,314 @@
+# Hydroacoustics — whole-arc transmission-loss grid for run J (work order 2026-10-21, block 2)
+
+Hydroacoustic Module (tl-grid track), 22 October 2026, overnight unattended run. Brief: `threads/master-prompts/hydroacoustics.md`
+(Refresh v2 §3 latitude span, §9(e) grid extension). Inbox read at start (`coordination/HYDROACOUSTICS.md`, last entry 21 Oct
+~18:30Z). **PREDICTIVE, NOT CALIBRATED.** Every number below carries caveats **C1** (propagation slope misfit, +10.4/+7.4 dB per
+octave at H01W/H08S) and **C2** (coupling efficiency not calibrated; η swept over four decades, F-35A upper anchor 2.1e-4).
+No recording was read; this note is a model statement, not a statistic on data. Nothing here is evidence of a detection.
+
+## 1. What was done
+
+1. **Source points.** 43 latitude rows from 41.0°S to 20.0°S every 0.5° on the 7th arc, with cross-arc offsets −30, 0, +30 NM
+   (the mandated grid, passes A and B) and −60, +60 NM (supplementary pass C, §8). The arc and its offsets are contours of the
+   project's arc-distance field (`searched-areas/run-j-supplement/arc-grid.npz`, end of flight's `arc_distance_nm` convention;
+   99.8 % sign agreement with run J impacts, p50 error 0.009 NM). The field is defined only in cells that hold impacts, so per
+   row longitude was fitted as linear in arc distance over the valid cells and evaluated at the offset (fit rms 0.003–0.070°,
+   median 0.010°; 11 of the 129 points are extrapolations beyond the fitted span: 41.0 and 40.5°S at every offset, 40.0 and
+   39.5°S at −30 and 0 NM, 39.0°S at −30 NM, where run J holds few impacts; recorded per point in `sources.csv`).
+   **Sign convention:** negative = west of the arc (towards the satellite), positive = east.
+2. **Receivers.** IMS triads H01W, H08S, H08N (2014 element centroids, `data/stations.csv`; receiver at the mean hydrophone
+   depth 1,055 / 1,376 / 1,224 m); IMOS loggers 3315, 3376 (Perth Canyon), 3250 (Scott Reef), 3274, 3275 (Portland) at the
+   brief §4 positions, receiver 2 m above the seabed as stage B. 8 receivers × 129 sources = 1,032 paths (A+B).
+3. **Paths and environment** (schema of `shared_paths.py`, read by `air9_tl_validation.build_profiles` unchanged): WGS84
+   geodesic every 250 m; GEBCO_2026 15″ depth as the median of the 3×3 cells (the shared ocean-transport section rule), TID
+   of the centre cell, corridor maximum elevation over ±2 km across track; WOA23 decade 2005–2014, **March**, bilinear at
+   25 km nodes, in-situ t and SP recovered with gsw, deep extension by held SA/CT as before. GEBCO orientation checked
+   (3376 site −409 m; the brief's "~450 m" is CMST's figure for 3315 at 447 m on the same grid).
+4. **TL method unchanged:** KRAKEN adiabatic incoherent modes (`kraken_tl.tl_path`), profiles every 5 km, hard bottom,
+   Francois–Garrison, spherical correction, third-octave centres 5–40 Hz, source depths 2/10/30 m (10 m reference). 50 and
+   63 Hz were not run (budget; §7).
+5. **Blockage rule reused, not invented:** land on the track → `land`; KRAKEN finds no propagating mode on a 5-km profile →
+   `no_modes` for that band (nx2d step 3 / stage B); a profile shallower than 15 m → `no_modes_shallow` without running
+   KRAKEN (validated equivalent: three sub-15 m paths gave `no_modes` in all ten bands with KRAKEN, a 104 m path was open
+   from 12.5 Hz); FIELD returning |p| = 0 at the receiver → `zero_field` (21 rows, Portland 3275 at 5 Hz). All four count
+   as blocked: zero received energy, nothing imputed. Diagnostics recorded beside the flag: minimum track and corridor
+   depth, km shallower than 1,000 m, shallowest point excluding the last 100 km.
+6. **Recorded per (source, receiver, band, source depth):** TL, number of modes (first profile, minimum), status, range,
+   azimuth at the source and back-azimuth at the receiver, receiver depth, source water depth, and the deep-sound-channel
+   travel time at c = 1.482 km/s with its 1-σ spread from c_sd = 0.006 km/s (lhyd / search_windows constants).
+
+Pre-registration of the method: module branch commit `fc825c0` (`prepare/tl_grid_run_j.py`), before the grid run. Two
+post-inspection additions, both committed before any table was used and both declared in `tl_grid_table.py`: the
+`ridge_source` flag and the Portland/Perth RAM-correction floor on ridge rows (§4). Timing run: 3 paths, 31 s at 3 processes.
+
+## 2. Run time and size
+
+| Pass | Offsets (NM) | Paths | Wall (4 processes) |
+|---|---|---|---|
+| A | 0, plus the five old quantile points for the method check | 384 | 22.0 min |
+| B | −30, +30 | 688 | 25.5 min |
+| A+B (mandated grid) | −30, 0, +30 | 1,032 (30,960 rows) | 47.5 min |
+| C (supplementary, §8) | −60, +60 | 688 | 27.8 min |
+| A+B+C | −60 … +60 | 1,720 (51,600 rows) | 75.4 min |
+
+The work-order rule ("if the full grid exceeds ~90 min at 4 processes, coarsen to {−30, 0, +30} and say so") was applied:
+the five-offset grid was projected at ~2 h, so the deliverable grid is the three-offset one; pass C was run afterwards as a
+supplement and is reported separately.
+
+## 3. Blockage (10 m source, mandated grid)
+
+Share of (path, band) rows that are blocked, by status; and share of paths blocked in all ten bands on the arc line:
+
+| Receiver | land | no_modes | no_modes_shallow | zero_field | open | paths fully blocked (offset 0) |
+|---|---|---|---|---|---|---|
+| H01W Cape Leeuwin | 0 | 0 | 0 | 0 | 1.000 | 0 % |
+| H08S Diego Garcia S | 0 | 0 | 0 | 0 | 1.000 | 0 % |
+| H08N Diego Garcia N | 0.643 | 0.153 | 0.116 | 0 | **0.087** | 91 % |
+| 3315 Perth Canyon | 0 | 0 | 0 | 0 | 1.000 | 0 % |
+| 3376 Perth Canyon | 0 | 0 | 0 | 0 | 1.000 | 0 % |
+| 3250 Scott Reef | 0.163 | 0.179 | 0.140 | 0 | 0.519 | 35 % |
+| 3274 Portland | 0.426 | 0.069 | 0 | 0 | 0.505 | 42 % |
+| 3275 Portland | 0.426 | 0.053 | 0 | 0.016 | 0.505 | 42 % |
+
+New against the old five-point table: **Scott Reef 3250 is open from 29.5°S northwards** (the geodesic from the northern
+arc runs over the North West Shelf at 220–225 m, never below the hard-bottom cutoff; TL 167–280 dB at 5 Hz, so it detects
+nothing — §5), whereas every old quantile path to it was blocked. **Portland is blocked from north of 29°S** (the geodesic
+crosses Australia). **H08N is open only from 33.0–31.5°S** (4 of 43 arc points; Chagos/Maldives banks and land elsewhere),
+consistent with the K4 finding that H08N is blocked for MH370 impacts.
+
+## 4. The grid against the old table (max |ΔTL|)
+
+Two checks (`comparison_old_vs_new.csv`, `comparison_summary.csv`):
+
+(a) **Same points, same method** — the grid builder rerun at the old five quantile points (imp025…imp975, identical
+coordinates), raw KRAKEN against the old raw KRAKEN tables (`near_limits/ims_tl_kraken.csv`, `stageB/imos_tl.csv`):
+
+| Receiver | n | mean Δ (dB) | max \|Δ\| (dB) | rms (dB) |
+|---|---|---|---|---|
+| H01W | 150 | −0.00 | **0.03** | 0.01 |
+| H08S | 150 | −0.01 | 0.58 | 0.14 |
+| 3315 | 150 | 0.01 | 0.65 | 0.12 |
+| 3274 | 135 | −0.03 | 0.23 | 0.10 |
+| 3275 | 135 | −0.09 | 0.18 | 0.11 |
+| 3376 | 150 | 0.21 | **9.58** | 2.77 |
+
+Max |ΔTL| is < 1 dB for every receiver except 3376, where two bands differ: 20 Hz (−9.6 dB) and 40 Hz (+9.4 dB) at
+imp250 and imp500 (all three source depths; other bands ≤ 2.9 dB, most ≤ 0.2 dB). The ranges agree to 0.1 m, so the
+geometry is identical; the difference is in the terminal environment at the canyon-wall receiver (the old paths came from the
+ocean-transport crate's export, this grid from the module's own builder with the same stated rules). The adiabatic
+up-slope TL to a seabed receiver 2 m above a 409 m canyon wall is sensitive at the 10 dB level to the last profile in two
+bands; the same sensitivity is why stage B carries C_rcv ~ N(0, 10 dB). Not resolved tonight; recorded as **G-TL2**.
+Blocked bands agree exactly for Portland (15 `no_modes` rows old and new at 3274; 3275 has 15 new against 9 old: six 5 Hz
+rows that the old export passed are `zero_field` here).
+
+(b) **New offset-0 line interpolated in latitude at the old points' latitudes** against the old tables (this includes the
+geometry difference: the old points sit 60–100 km off the arc line): mean −0.9 dB, max |Δ| 5.0 dB at H01W; −0.9 / 3.7 dB at
+H08S; Perth Canyon −1.5 / 18–21 dB; Portland −2.4 / 27 dB (the 27 dB rows are 31.5–40 Hz up-slope bands). The IMS
+disagreement is the cross-arc TL gradient, not a method change.
+
+**Features of the grid that the old table could not show.** (i) At 32.0°S the arc crosses **Broken Ridge** (1,035 m of
+water at the source): the adiabatic model couples the 10 m source far more strongly into the deep channel, giving 5–13 dB
+lower TL at H01W, 8–31 dB at H08S (growing with frequency) and ~100 dB lower raw TL at Portland than the neighbouring rows; the effect is graded (sources in
+2,200–2,500 m at 29.5–29.0°S and 22.0°S give 10–13 dB lower TL at H01W). Down-slope conversion is a real mechanism, but the
+adiabatic treatment of it is not validated (the source-end form of reach gap G-N2/K5). The rows are **kept and flagged**
+(`ridge_source`, water depth < 2,000 m: 32.0 and 31.5°S); the evidence-alone summaries are given with and without them.
+(ii) At the IMOS seabed receivers the module's RAM correction (ram_tl_check decision rule 2: one Δ per logger group and band,
+derived on the imp500 path, 23–132 dB at Portland, 3–47 dB at Perth Canyon) is applied unchanged, but it is **extrapolated**
+(raw KRAKEN more than 10 dB from the reference path's raw value) for 10–33 % of the open 10 m rows (3274 10 %, 3275 21 %,
+3376 26 %, 3315 33 %; mainly ≥ 20 Hz and north of 29°S), flagged `ramcorr_extrapolated` → **G-TL1**. On the ridge rows the
+constant Δ gave a physically impossible 35 dB "loss" over 4,100 km at Portland, so on `ridge_source` rows only the corrected
+value is floored at the reference RAM value scaled cylindrically in range, −10 dB (`ramcorr_floored`; 3–5 % of open rows,
+all at 32.0–31.5°S). Everywhere else rule 2 stands exactly as before.
+
+## 5. Evidence-alone view (predictive; §5 of the work order)
+
+For each arc point (00:19-independent: the impact-energy sample is pooled over run J, one seed per stratum, equal stratum
+weights, rows drawn by the prior weight, i.e. D0′ held out; n = 20,000 draws of E = `energy_transferred_j` (contact kinetic
+energy, an upper anchor; q05/50/95 = 0.35 / 1.9 / 11.9 GJ) and τ90 (median 2.9 s, clamped 0.05–10 s, k = 1), the received
+5–40 Hz peak 1 s SPL was computed with the module's chain (second implementation of lhyd._se/_snr0: SE = Σ_b η E ρc/(2π)
+S_b(f_c, 1/τ) 10^(−TL_b/10), f^−2 spectrum, T_eff = 2.68 s) at η ∈ {1e-2, 1e-3, 1e-4, 1e-5} and compared with the module's
+noise: IMOS medians from imos2b (3315 97.2, 3376 96.2, 3250 107.8, 3274 102.9, 3275 94.5 dB re 1 µPa), spread from the imos1d
+1 s percentiles; IMS = 3376 proxy + Blackman App. B offset (H01W 101.7, H08S 95.6, H08N 90.2 dB; digitised 2003 panels, spread
+from their q10/q90), +4.8 dB triad gain. Detectable fraction = mean stage-A logistic P_D(SNR) (3376 fit for Perth Canyon,
+3274 for Portland, 3250 for Scott Reef; IMS **borrowed** 3274 fit, as per_impact_lnl). Ridge-source rows excluded (included
+version in `detectable_by_band.csv`).
+
+**Received level at the median impact energy, η = 1e-4, on the arc line (10 m source):** H01W 70–88 dB against noise 101.7;
+H08S 64–80 against 95.6; 3315 75–91 against 97.2; 3376 75–85 against 96.2; Portland (open rows) up to 85–88 against 102.9/94.5;
+Scott Reef ≤ 48 against 107.8; H08N ≤ 54 against 90.2. **At the F-35A upper anchor (η = 2.1e-4) the median impact at its most
+favourable arc point is still below the noise median at every receiver: by 3 dB at Perth Canyon 3315 and Portland 3275, 8 dB at
+3376, 10 dB at H01W, 12 dB at H08S, 15 dB at 3274, 33 dB at H08N and 56 dB at Scott Reef.**
+
+Detectable fraction (P_D-weighted) by latitude band, arc line, ridge rows excluded:
+
+| Receiver | η | 41–35°S | 35–30°S | 30–25°S | 25–20°S |
+|---|---|---|---|---|---|
+| H01W | 1e-2 | 0.65 | 0.42 | 0.31 | 0.21 |
+| H01W | 1e-3 | 0.29 | 0.14 | 0.06 | 0.02 |
+| H01W | 1e-4 | 0.04 | 0.01 | 0.00 | 0.00 |
+| H01W | 1e-5 | 0.00 | 0.00 | 0.00 | 0.00 |
+| H08S | 1e-2 | 0.52 | 0.33 | 0.30 | 0.27 |
+| H08S | 1e-3 | 0.20 | 0.07 | 0.04 | 0.02 |
+| H08S | 1e-4 | 0.02 | 0.00 | 0.00 | 0.00 |
+| 3315 | 1e-2 | 0.44 | 0.33 | 0.13 | 0.08 |
+| 3315 | 1e-3 | 0.16 | 0.09 | 0.01 | 0.00 |
+| 3315 | 1e-4 | 0.02 | 0.01 | 0.00 | 0.00 |
+| 3376 | 1e-2 | 0.31 | 0.26 | 0.12 | 0.08 |
+| 3376 | 1e-3 | 0.07 | 0.05 | 0.01 | 0.00 |
+| 3274 | 1e-2 | 0.33 | 0.25 | 0.01 | 0 (blocked) |
+| 3274 | 1e-3 | 0.05 | 0.02 | 0.00 | 0 |
+| 3275 | 1e-2 | 0.80 | 0.65 | 0.06 | 0 |
+| 3275 | 1e-3 | 0.38 | 0.29 | 0.01 | 0 |
+| 3275 | 1e-4 | 0.09 | 0.03 | 0.00 | 0 |
+| 3250, H08N | all | 0.00 | 0.00 | 0.00 | 0.00 |
+
+Reading: appreciable detectability needs η ≥ 1e-3 — five times the F-35A upper anchor — and falls northwards at every
+receiver; at η = 1e-4 it is ≤ 4 % (H01W) and ≤ 9 % (Portland 3275, whose table rests on the extrapolated RAM correction,
+G-TL1) in the southern band and ~0 north of 30°S; at η = 1e-5 it is zero everywhere. The share of draws merely above the
+noise median is larger (H01W 19 % at η = 1e-4, 41–35°S) and is tabulated beside P_D. Portland 3275's high values at η ≥ 1e-3
+come from its low noise median (94.5 dB) and the 3274 stage-A fit (snr50 6.1 dB), on a RAM-corrected table; they are the
+least trustworthy numbers in the table and are labelled so. **These are power statements for block 3's receiver screen, not
+detections; the module's likelihood remains 0.0 until injection-recovery gives P_D.**
+
+Charts (PNG + PDF beside this note; footnotes (i) plain, (ii) technical on each):
+- `hydroacoustics-tl-grid-run-j-tl-vs-latitude.*` — TL against source latitude per receiver, 5/10/20/40 Hz, blocked bands
+  marked, ±30 NM (and ±60 NM where pass C exists) as thin lines, Broken Ridge rows shaded.
+- `hydroacoustics-tl-grid-run-j-detectable-fraction.*` — detectable fraction against latitude per receiver and η, with the
+  above-noise-p90/p95 reading dashed.
+
+## 6. Drop-in replacement for the TL latitude table, and the interpolation rule
+
+Files (module `results-data/tl_grid_run_j/`, exchange copy under `run-j-tl-grid/tables/`):
+- `ims_tl_kraken_arc.csv` — schema of `near_limits/ims_tl_kraken.csv` (+ lat, lon, offset_nm, status, flags). **Raw KRAKEN**,
+  as the old file: `lhyd.Model` subtracts the RAM delta itself. H08N added (no RAM delta exists; flagged).
+- `imos_tl_ramcorr_arc.csv` — schema of `ram_check/imos_tl_ramcorr.csv` (+ lat, lon, offset_nm, `tl_db_raw_kraken`, flags).
+  RAM-corrected with the module's rule 2 unchanged (§4). 3250 added, uncorrected (flagged).
+- `table_points.json` — point label → (lat, lon, offset); the "quantile" column carries the point label (e.g. `arc035.0S_+0`).
+- The old tables are kept untouched; `per_impact_lnl.py --tl-table arc-grid` (AMENDMENT 9, default unchanged `quantile5`)
+  swaps them in via `tl_grid_table.apply_to_model`.
+
+**Interpolation rule (stated and implemented in `tl_grid_table.load_table` / `tl_at` / `apply_to_model`):** TL(lat) is linear in
+latitude along the offset-0 arc line, clamped at 41.0°S and 20.0°S (the old `np.interp` rule with the span 38.46–31.64°S
+replaced by 41–20°S); a blocked band (NaN) at either neighbour gives NaN → zero received energy (the conservative reading, no
+interpolation across the blocked/open boundary); ridge-source rows are kept (`ridge_policy='keep'`; `'neighbours'` drops them).
+An offset-aware variant (bilinear in latitude and arc distance, offset clamped to the grid's span) is provided for callers that
+carry `arc_distance_nm`; `per_impact_lnl` uses latitude only.
+
+**Clamp-gap closure statement.** With the old table, rows outside 38.46–31.64°S had TL clamped at the table edge (amendment 8(d)
+label "TL clamped at the table edge (reach gap)"): 9.6–16.7 % of run J rows (10.0–15.7 % of prior mass; waypoints 10.0 %, free
+15.7 %, descent-climb 15.5 %, repro-radar 13.1 %; northern supplement 6.9 % under D0). With the grid, rows outside 41–20°S are
+0.02–0.12 % (mass 0.02–0.15 %; supplement 0.009 % of mass). **The clamp gap is closed to < 0.2 % of mass per stratum**; the
+remaining rows (south of 41°S) stay clamped and labelled.
+
+## 7. COVERAGE
+
+- **Feasible set.** Impact positions of the kinematically feasible 777-200ER end-of-flight set as sampled by run J: latitude
+  44.5–10.4°S over all strata and the supplement (99 % two-sided band 40.4–25.2°S; 99.5 % northern quantile 25.7–24.2°S for
+  every 00:19 option), arc distance −390 to +600 NM (99 % band about −135 to +215 NM), sources: run J impacts32 and
+  impacts-ruleB (one seed per stratum, 22 Oct).
+- **Model reach.** KRAKEN adiabatic incoherent modes on a single 2-D geodesic section; hard bottom; 5–40 Hz; sources 2/10/30 m;
+  receivers at the triad depth or 2 m above the seabed. Not reached: 3-D/horizontal refraction and diffraction beyond the
+  section (nx2d exists for named paths only), coupled-mode or PE physics (RAM only on five reference paths), the AGW branch
+  (not a TL quantity; unchanged), 50–63 Hz, ridge-top and up-slope coupling (G-N2/K5; §4), the IMOS seabed receivers beyond
+  the RAM reference (G-TL1), the 3376 terminal-profile sensitivity (G-TL2).
+- **Proposal coverage.** 43 × 3 = 129 source points on 41–20°S × {−30, 0, +30} NM (mandated; pass C adds ±60 NM → 215 points,
+  51,600 rows, §8) × 8 receivers × 10 bands × 3 source depths; 30,960 rows in the mandated grid. Latitude: covers 99.9 % of run J mass per stratum (§6). Cross-arc: |arc distance| ≤ 30 NM
+  holds 48–59 % of prior mass per stratum, ≤ 60 NM 74–84 %; **13–22 % of mass lies east of +60 NM and 3–5 % west of −60 NM**
+  (one seed per stratum, D0′ weights). The work order's parenthetical "inside the arc dominates" is not what run J shows:
+  arc-distance medians are +8 to +17 NM (east), 21–30 % of mass beyond +45 NM against 5–8 % beyond −45 NM.
+- **Gaps and status.**
+  - G-TL0 (closed): TL table span 38.46–31.64°S → 41–20°S; clamp gap < 0.2 % of mass.
+  - G-TL-X (open, declared, narrowed by pass C): cross-arc offsets beyond ±60 NM (16–26 % of prior mass): nearest-offset extrapolation; TL varies
+    slowly with offset away from blockage edges (the ±30 NM lines in the chart), so the latitude-only chain is little affected,
+    but the Portland/Scott Reef blockage boundaries (29–29.5°S) do move by ~0.5° between offsets.
+  - G-TL1 (open): RAM correction extrapolated for 10–33 % of open IMOS rows; fix = RAM (pyram) along the grid for the five
+    IMOS receivers at 5/10/20/40 Hz (about 20 paths × 4 bands × 2 depths; hours, not minutes — a compute slot).
+  - G-TL2 (open): 3376 terminal-profile sensitivity (±9.6 dB at 20/40 Hz) between the module builder and the shared export.
+  - G-N2/K5 (open, now also at the source end): ridge coupling; flagged rows at 32.0–31.5°S; N×2D or PE on those paths. The RAM
+    subset (§8) shows the sill-crossing penalty to the triads is only 2–4 dB, so this gap is about the source end, not the sills.
+  - K4 (H08N blocked) to be re-read: RAM over the 24 m bank gives 156 dB at 3,866 km (§8), heavily attenuated rather than absent.
+  - Latitude south of 41°S: 0.02–0.12 % of rows remain clamped (labelled).
+  - 50 and 63 Hz bands not computed (not used by the chain; budget).
+- **ESS.** Not applicable to a deterministic grid; the energy sample behind §5 is n = 20,000 draws from four seeds (one per
+  stratum) with 3.2–6.4 M rows each; the detectable fractions are means over that sample (Monte Carlo s.e. ≤ 0.004).
+
+## 8. Supplementary pass C (±60 NM), the adiabatic-suspect flag and the RAM subset
+
+**Pass C** ran after the mandated grid (688 paths, 27.8 min) and is merged into the tables (`offset_nm` = ±60). Nothing in §3–§6
+changes; the ±60 NM lines appear as thin lines in the TL chart. Cross-arc sensitivity on the arc-line values (10 m source, all
+bands): mean |TL(offset) − TL(0)| 2.0–3.0 dB at H01W and 3.0–5.4 dB at H08S (largest at −60 NM), with maxima of 20–44 dB where a
+blockage edge or Broken Ridge moves between offsets. Paths fully blocked by offset: Scott Reef 28 / 33 / 35 / 42 / 47 % at
+−60 / −30 / 0 / +30 / +60 NM (the North West Shelf edge moves ~0.5° per offset), Portland 40–44 %, H08N 88–91 %. Detectable
+fraction (η = 1e-3, mean over the arc, ridge rows excluded) by offset: H01W 0.125 / 0.126 / 0.138 / 0.137 / 0.146, H08S 0.085 /
+0.089 / 0.092 / 0.088 / 0.078, Perth Canyon 3315 0.041 → 0.106 rising eastwards (shorter paths), Portland 3275 0.167 → 0.205.
+With pass C the cross-arc gap G-TL-X narrows: |arc distance| ≤ 60 NM holds 74–84 % of run J prior mass per stratum; the 13–22 %
+east of +60 NM and 3–5 % west of −60 NM remain nearest-offset extrapolations.
+
+**Adiabatic-suspect flag (architecture message, 22 Oct, from the TL-recalibration track).** That track found the air7 → H01W
+adiabatic KRAKEN excess over the observed level (+55 dB) to be largely an adiabatic artefact on a sill-crossing path (RAM,
+coupled modes: +16 to +22 dB), and with the EW0112 source spectrum the air9 slope misfit largely disappears (common-mode
+−1.2 ± 1.8 dB/oct), so **C1 stays but is now a source-term caveat rather than a path one**. As asked, every grid row carries
+`axis_depth_m` (WOA23 March axis at the path midpoint, 850–1,250 m) and `adiabatic_suspect` = 1 where the minimum corridor depth
+anywhere on the path is shallower than axis + 1,500 m or any feature is shallower than 2,000 m. Because every receiver sits on a
+slope or the seabed (seafloor 1,570–1,590 m under H01W/H08S; 150–450 m at the loggers), **the rule as stated flags all 1,720
+paths**; `adiabatic_suspect_excl_rx` applies the same rule to the on-track depth excluding the last 100 km (the receiver
+approach) and flags 52 % of H01W paths, 99 % of H08S, 100 % of H08N, 56–57 % of Perth Canyon, 75 % of Portland and 100 % of Scott
+Reef paths. **TL on a suspect path is an upper bound on loss (adiabatic);** the chain's received levels on those paths are
+therefore lower bounds, and the detectable fractions of §5 are lower bounds in the same sense (before C2).
+
+**RAM subset (exploratory, labelled).** `tl_grid_ram_subset.py` (committed before its run) reruns eight suspect paths — one per
+receiver, offset 0, open in both bands — with pyram at 31.5 and 40 Hz (ram_tl_check / tl_recal_block9 settings: dr 2λ, dz λ/20,
+nine frequencies per third octave, no absorption in either model, matched KRAKEN rerun without Francois–Garrison): H01W 33.0°S
+(corridor minimum 1,499 m), H08S 35.0°S (1,191 m, Broken Ridge / Ninetyeast crossing), H08N 32.5°S (24 m bank), 3315 36.0°S,
+3376 38.5°S, 3274 38.0°S, 3275 40.0°S, 3250 24.0°S (North West Shelf). 50–63 Hz were not run (3–5× the cost). Results:
+
+| Path (offset 0) | Corridor min (m) | Range (km) | Band (Hz) | KRAKEN adiabatic, no absorption (dB) | RAM (dB) | RAM − KRAKEN (dB) | Rule-2 Δ at this band (dB) |
+|---|---|---|---|---|---|---|---|
+| 33.0°S → H01W | 1,499 | 1,765 | 31.5 / 40 | 126.9 / 126.7 | 124.7 / 123.3 | **−2.3 / −3.4** | — |
+| 35.0°S → H08S | 1,191 | 3,669 | 31.5 / 40 | 136.3 / 136.7 | 133.3 / 132.7 | **−3.0 / −4.0** | — |
+| 32.5°S → H08N | 24 (bank) | 3,866 | 31.5 / 40 | 196.3 / 205.9 | 156.3 / 156.9 | **−40.0 / −48.9** | — |
+| 36.0°S → 3315 | 445 | 2,230 | 31.5 / 40 | 155.3 / 162.9 | 126.3 / 124.8 | −29.0 / −38.1 | −40.7 / −47.2 |
+| 38.5°S → 3376 | 393 | 2,621 | 31.5 / 40 | 173.7 / 190.8 | 128.7 / 125.8 | −45.0 / −65.0 | −40.7 / −47.2 |
+| 38.0°S → 3274 | 145 | 4,579 | 31.5 / 40 | 229.5 / 264.7 | 137.2 / 136.1 | −92.2 / −128.6 | −106.5 / −132.2 |
+| 40.0°S → 3275 | 156 | 4,827 | 31.5 / 40 | 224.8 / 249.7 | 137.4 / 137.3 | −87.4 / −112.5 | −106.5 / −132.2 |
+| 24.0°S → 3250 | 208 | 2,182 | 31.5 / 40 | 261.2 / 293.5 | 188.5 / 187.0 | −72.8 / −106.5 | none exists |
+
+(16 RAM runs, 978 s wall at 4 processes; 112–385 s each. Rule-2 Δ = the module's existing constant correction for that logger
+group, interpolated in log f; RAM − KRAKEN here is the same quantity measured on the grid path.)
+
+Reading, exploratory: (i) on the **deep sill crossings to the SOFAR triads** (H01W 1,499 m, H08S 1,191 m — the Broken
+Ridge/Ninetyeast crossing that most of the arc's H08S paths share) the adiabatic penalty is only **2–4 dB**: the grid's TL at
+H01W and H08S is a tight upper bound on loss, and the ±30 NM / ridge-row structure in §4 is not an adiabatic artefact of the
+sill kind. (ii) Over the **24 m Chagos bank to H08N** coupled modes carry 40–49 dB more than the adiabatic model: RAM gives
+156 dB at 3,866 km, about 23 dB above H08S from the same latitude band — H08N is heavily attenuated, not absent, which bears on
+the K4 "blocked" finding and on the air1 → H08N check of the recalibration track. (iii) At the **IMOS seabed receivers** the
+RAM − KRAKEN difference is of the size of rule 2's constant Δ but **varies by path by ±10–20 dB** (3315 −29/−38 against Δ
+−41/−47; 3376 −45/−65 against the same Δ; Portland −87 to −129 against −107/−132): G-TL1 is confirmed, and the Portland and
+Perth Canyon tables should be read as ±15 dB until RAM runs along the grid. (iv) Scott Reef stays at 187–189 dB even in RAM
+from 24°S: no detection there under any η in the sweep. The subset is 8 paths at two bands: a bias estimate, not a calibration.
+
+
+## 9. Provenance and files
+
+- Module branch `hypothesis/hydroacoustics`: `prepare/tl_grid_run_j.py` (grid; pre-registered `fc825c0`), `prepare/tl_grid_table.py`
+  (tables, flags, loader), `prepare/tl_grid_evidence.py` (evidence view), `prepare/tl_grid_charts.py`, `prepare/tl_grid_ram_subset.py`,
+  `per_impact_lnl.py` amendment 9 (commit `4392091`); `results-data/tl_grid_run_j/` (compact copy, 11 MB: tables, grid csv.gz + npz,
+  evidence CSVs, comparison, noise_levels, ram_subset; commits `b4eb3bb` and `894a9e4`).
+- Exchange: `/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-tl-grid/` (43 MB) — `raw/pass{A,B,C}/` (tl_grid.csv, sources.csv,
+  wall.json, logs), `tables/`, `evidence/`, `ram-subset/`, `README.md`, `SHA256SUMS`.
+- Inputs: run J `end-of-flight/run-j/<stratum>/seed-1/{impacts32.npy, tau90_v1.npz}` (code_revision 16f2eb1, prior track 289.7° ±
+  1.0°, config `sensitivity/run-j`), `run-j-supplement/reduced/impacts-ruleB.npz`, `searched-areas/run-j-supplement/arc-grid.npz`,
+  GEBCO_2026 (`gebco_2026.json`, DOI 10.5285/4f68d5c7-45eb-f999-e063-7086abc036fa), WOA23 A5B4 m03, module noise summaries
+  (imos1d, imos2b, blackman_noise [digitised], stageA fits), `ram_check/ram_vs_kraken.csv`, `near_limits/ims_ram_delta.csv`.
+- Acoustics Toolbox arm64 build (KRAKEN + FIELD), artifact `acoustics-toolbox-build-arm64.tar.gz`.
+
+## 10. Done / next / blocker
+
+- **Done:** 41–20°S TL grid at {−30, 0, +30} NM for 8 receivers (1,032 paths, 47.5 min at 4 processes; ±60 NM supplement, 688
+  paths, 27.8 min); `adiabatic_suspect` flags and the exploratory RAM subset (§8); drop-in tables and
+  loader with the interpolation rule stated; max |ΔTL| vs the old table 0.03–0.65 dB (3376: 9.6 dB in two bands, G-TL2);
+  blockage per receiver; evidence-alone detectable fractions; two charts; clamp gap closed to < 0.2 % of mass.
+- **Next:** block 3 (run J windows and levels) consumes `--tl-table arc-grid`; RAM along the grid for the IMOS receivers (G-TL1)
+  when a compute slot exists; architecture to confirm the ridge-row policy (`keep`, flagged) and the ridge-row floor.
+- **Blocker:** none for block 3. Decisions requested from architecture, not blocking: ridge-row policy; whether Portland's
+  RAM-corrected table may enter the power screen before G-TL1 is closed.
