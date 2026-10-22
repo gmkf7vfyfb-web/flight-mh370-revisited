@@ -60,7 +60,7 @@ def timeline(sd, rd):
     ax.set_yticks(range(len(RX))); ax.set_yticklabels([NAME[r] for r in RX[::-1]])
     ax.xaxis.set_major_locator(matplotlib.ticker.MultipleLocator(300)); ax.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(hm))
     ax.set_xlabel("Time at the receiver, UTC, 8 March 2014")
-    ax.set_title("Candidate rows at every receiver, at one third to 1.5 times the rate chance gives on other days; none is a detection", loc="left", y=1.19)
+    ax.set_title("Candidate rows at every receiver, at 0.1 to 1.5 times the rate chance gives on other days; none is a detection", loc="left", y=1.19)
     h = [Patch(color="#fff3cd", label="search window (99 % arrival window, union over options)"), Line2D([], [], color="#b8860b", lw=2.2, label="99 % window, 00:19 data held out (thin: other 00:19 options)"),
          Line2D([], [], color="0.45", lw=3, label="recording searched"), Line2D([], [], marker="o", ls="", color=LEVEL_COL["screen"], label="candidate row, p < 0.3 (screen)"),
          Line2D([], [], marker="o", ls="", color=LEVEL_COL["mark"], label="p < 0.1 (mark)"), Line2D([], [], marker="o", ls="", color=LEVEL_COL["report"], markeredgecolor="k", label="p < 0.05 (report)"),
@@ -69,7 +69,7 @@ def timeline(sd, rd):
     ax.legend(handles=h, loc="lower center", bbox_to_anchor=(0.5, 1.02), ncol=3, frameon=False, fontsize=6.5)
     foot(fig, "(i) What the chart shows: for each receiver, the time span in which the sound of an impact on the 7th arc would arrive (yellow), the recordings we hold (grey bars), and every time at which a detector "
               "statistic was in the top 30 % of its background (dots; darker = rarer). The red and orange lines are the two times Kadri gives for his main signal. The hatched boxes are the weak signals marked on his poster. "
-              "Within each receiver's row the upper dots are the matched filter, the middle the energy ratio, the lower the band energy. The counts of dots are within a factor of about 1.5 of what chance gives on other days (fewer at Perth Canyon and Cape Leeuwin, more at Scott Reef and Portland); no dot is a detection.",
+              "Within each receiver's row the upper dots are the matched filter, the middle the energy ratio, the lower the band energy. The counts of dots run from one tenth of what chance gives on other days (Cape Leeuwin) and one fifth to one third (Perth Canyon) up to 1.5 times (Scott Reef; Portland 0.8-0.9); no dot is a detection.",
          "(ii) Source posterior run J (74 seeds + northern supplement), 00:19 options D0' (held out, thick), D2, D3, D4, p = 0.5; windows = [q0.5, q99.5] of impact time + geodesic/c, c ~ N(1.482, 0.006) km/s (SOFAR; union over p in {0, 0.5, 1}). "
               "Detectors: envelope matched filter (KRAKEN templates), STA/LTA 2/30 s, band energy 2-5/5-10/10-20/20-40/5-40 Hz; 55 s windows; p = (k+1)/(n+1) against ~6,500 background windows of the same logger on 1-7, 9-15 March "
               "(3315 <- 3376, 3275 <- 3274; panels: emulated 3376 plot). H01W/H08S = DIGITISED Kadri (2024) Fig. 9 panels, not recordings. H08S raw-panel rows are airgun-dominated. Caveats C1 (propagation slope misfit) and C2 (coupling not calibrated). "
