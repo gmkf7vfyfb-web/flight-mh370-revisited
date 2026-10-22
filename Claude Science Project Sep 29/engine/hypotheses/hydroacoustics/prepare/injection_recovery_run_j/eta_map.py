@@ -1,9 +1,11 @@
 """Block 7 eta mapping (prereg.py 'ETA MAPPING'): received level -> P_D per receiver -> P_D(any unblocked receiver) per
 run J row -> eta_50 per 00:19 option and p, P_D(any) at the F-35A anchor and per eta decade, eta_50 per latitude band.
-TL: block 2 grid pass A (on-arc sources, source depth 10 m; PROVISIONAL) for every receiver, plus the module's RAM
-minus KRAKEN band-wise correction for the IMOS loggers (ram_check/imos_tl_ramcorr.csv minus stageB/imos_tl.csv at the
-five quantile paths, 38.46-31.64 S, linear in latitude, clamped beyond). Rows north of the grid's last 'ok' source for a
-receiver carry no energy at that receiver ('land'/'no_modes' = blocked); rows north of 20 S are 'TL pending (grid)'.
+TL: as pre-registered -- (i) IMOS loggers: the module's RAM-corrected table (ram_check/imos_tl_ramcorr.csv, five quantile
+paths 38.46-31.64 S, source depth 10 m, per band, linear in impact latitude, CLAMPED beyond the span: rows north of 31.64 S
+are 'TL extrapolated (clamped)' and their share is reported); (ii) H01W/H08S: block 2 grid pass A (on-arc sources 41-20 S,
+source depth 10 m; PROVISIONAL until that track's note is published). A band with no modes / land carries no energy.
+Rows north of 20 S are 'TL pending (grid)'.
+Rows: 1-in-8 systematic thin of subsample.npz (declared; ESS per option reported).
 Usage: python eta_map.py <inputs_dir> <run_out_dir> <out_dir>
 """
 from __future__ import annotations
@@ -33,43 +35,45 @@ def tl_tables():
                 if len(r):
                     T[i, j] = float(r.tl_db.median())
         tab[rx] = T
-    # RAM - KRAKEN delta for IMOS, per band, by quantile latitude
+    # IMOS: the module's RAM-corrected TL at the five quantile paths (per band), by quantile-path latitude
     rc = pd.read_csv(MODULE / "results-data" / "ram_check" / "imos_tl_ramcorr.csv", dtype={"quantile": str, "logger": str})
-    kr = pd.read_csv(MODULE / "results-data" / "stageB" / "imos_tl.csv", dtype={"quantile": str, "logger": str})
-    m = rc.merge(kr, on=["quantile", "logger", "fc_hz", "src_depth_m"], suffixes=("_ram", "_kr"))
-    m = m[np.isclose(m.src_depth_m, R.TL_SRC_DEPTH_M)]
+    rc = rc[np.isclose(rc.src_depth_m, R.TL_SRC_DEPTH_M)]
     delta = {}
     for lg in ("3376", "3274", "3315", "3275"):
-        ql = np.array([QLAT[q] for q in sorted(QLAT)]); D = np.zeros((len(ql), len(R.BANDS_HZ)))
+        ql = np.array([QLAT[q] for q in sorted(QLAT)]); D = np.full((len(ql), len(R.BANDS_HZ)), np.nan)
         for i, q in enumerate(sorted(QLAT)):
             for j, fc in enumerate(R.BANDS_HZ):
-                r = m[(m.logger == lg) & (m["quantile"] == q) & np.isclose(m.fc_hz, fc)]
-                D[i, j] = float((r.tl_db_ram - r.tl_db_kr).median()) if len(r) and np.isfinite(r.tl_db_ram).any() else 0.0
+                r = rc[(rc.logger == lg) & (rc["quantile"] == q) & np.isclose(rc.fc_hz, fc)]
+                if len(r) and np.isfinite(r.tl_db).any():
+                    D[i, j] = float(r.tl_db.median())
         delta[lg] = (ql, D)
     return lats, tab, delta
 
 
 def tl_for_rows(lat, rx, lats, tab, delta):
-    """TL per band for impact latitudes (linear in latitude on the grid; NaN where the nearest grid node is blocked)."""
+    """TL per band for impact latitudes. IMOS: RAM-corrected quantile-path table, linear in latitude, clamped (NaN band = no
+    energy). IMS: grid pass A, linear in latitude on the grid; NaN where the nearest grid node is blocked."""
+    if rx in delta:
+        ql, D = delta[rx]; la = np.clip(lat, ql.min(), ql.max()); out = np.empty((len(lat), D.shape[1]))
+        for j in range(D.shape[1]):
+            col = D[:, j]; ok = np.isfinite(col)
+            out[:, j] = np.interp(la, ql[ok], col[ok]) if ok.sum() >= 2 else np.nan
+        return out
     T = tab[rx]; out = np.empty((len(lat), T.shape[1]))
     la = np.clip(lat, lats.min(), lats.max())
     for j in range(T.shape[1]):
         col = T[:, j]; ok = np.isfinite(col)
         v = np.interp(la, lats[ok], col[ok]) if ok.sum() >= 2 else np.full(len(la), np.nan)
-        # blocked where the nearest grid latitude is not ok
         near = np.abs(la[:, None] - lats[None, :]).argmin(1)
-        v = np.where(ok[near], v, np.nan)
-        out[:, j] = v
-    if rx in delta:
-        ql, D = delta[rx]
-        for j in range(T.shape[1]):
-            out[:, j] += np.interp(np.clip(lat, ql.min(), ql.max()), ql, D[:, j])
+        out[:, j] = np.where(ok[near], v, np.nan)
     return out
 
 
 def main(inputs_dir, run_dir, out_dir):
     inputs_dir, run_dir, out = Path(inputs_dir), Path(run_dir), Path(out_dir); out.mkdir(parents=True, exist_ok=True)
-    S = np.load(inputs_dir / "subsample.npz"); inp = json.load(open(inputs_dir / "inputs.json"))
+    S0 = np.load(inputs_dir / "subsample.npz"); inp = json.load(open(inputs_dir / "inputs.json"))
+    THIN = 8   # declared: a further 1-in-8 systematic thin of the saved subsample for the bisection (run time); ESS reported per option
+    S = {k: S0[k][::THIN] for k in S0.files}
     summ = json.load(open(run_dir / "summary.json")); fits = json.load(open(run_dir / "fits.json"))
     taus = [float(v) for v in summ["taus"]]
     lat = S["lat"].astype(float); E = S["E_j"].astype(float); tau = S["tau90_s"].astype(float)
@@ -107,7 +111,7 @@ def main(inputs_dir, run_dir, out_dir):
             p[m] = 1 / (1 + np.exp(-(lev[m] - l50) / s))
         return p
     ti = np.abs(np.log(tau_c)[:, None] - np.log(np.array(taus))[None, :]).argmin(1)
-    bmed = {rx: summ["bg_median_level_db"][rx] for rx in R.RECEIVERS}
+    bmed = {rx: summ["bg_median_level_db"][rx] + summ["abs_offset_db"][rx] for rx in R.RECEIVERS}   # absolute: dB re 1 uPa, 5-40 Hz, 1 s
     def pd_any(eta, alpha, with_cal, receivers=R.RECEIVERS):
         q = np.ones(n)
         for rx in receivers:
@@ -132,23 +136,24 @@ def main(inputs_dir, run_dir, out_dir):
             return None, float(f_hi + 0.5)
         if f_lo > 0:
             return float(10 ** lo), float(f_lo + 0.5)
-        for _ in range(40):
+        for _ in range(28):
             mid = 0.5 * (lo + hi); fm = np.sum(w * pd_any(10 ** mid, alpha, with_cal, receivers)) - 0.5
             if fm > 0: hi = mid
             else: lo = mid
         return float(10 ** (0.5 * (lo + hi))), None
-    res = {"method": R.PRIMARY_METHOD, "taus": taus, "n_rows": int(n), "share_north_of_20S_pending": float(north_pending.mean()),
-           "blocked_share": {rx: float(blocked[rx].mean()) for rx in R.RECEIVERS}, "t_eff_s": teff, "tl_source": "block 2 grid pass A (provisional) + RAM-KRAKEN delta for IMOS",
-           "eta50": {}, "pd_any_at_anchor": {}, "pd_any_by_decade": {}, "eta50_by_lat_band": {}, "eta50_by_receiver": {}}
+    res = {"method": R.PRIMARY_METHOD, "taus": taus, "n_rows": int(n), "thin": THIN, "ess": {}, "share_north_of_20S_pending": float(north_pending.mean()),
+           "blocked_share": {rx: float(blocked[rx].mean()) for rx in R.RECEIVERS}, "t_eff_s": teff, "tl_source": "IMOS: module RAM-corrected quantile-path table (clamped beyond 38.46-31.64 S); H01W/H08S: block 2 grid pass A (provisional)", "share_tl_extrapolated_imos": float((lat > -31.63642).mean()),
+           "bg_median_abs_db_re_uPa": None, "eta50": {}, "pd_any_at_anchor": {}, "pd_any_by_decade": {}, "eta50_by_lat_band": {}, "eta50_by_receiver": {}}
+    res["bg_median_abs_db_re_uPa"] = bmed
     decades = [1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2]
     for o in R.OPTIONS:
         for p in R.PS:
-            key = f"{o}/p{p:g}"; w = weights(o, p)
+            key = f"{o}/p{p:g}"; w = weights(o, p); res["ess"][key] = float(1.0 / np.sum(w ** 2))
             for alpha in (R.ALPHA_PRIMARY, 0.05, 0.001):
                 for wc in (False, True):
                     tag = f"{key}|alpha{alpha}|{'cal' if wc else 'nocal'}"
                     e50, pdmax = eta50(w, alpha, wc)
-                    res["eta50"][tag] = dict(eta50=e50, pd_any_max_at_1e-2=pdmax)
+                    res["eta50"][tag] = dict(eta50=e50, pd_any_max_at_1e_2=pdmax)
                     res["pd_any_at_anchor"][tag] = float(np.sum(w * pd_any(R.ETA_ANCHOR, alpha, wc)))
                     res["pd_any_by_decade"][tag] = {f"{d:.0e}": float(np.sum(w * pd_any(d, alpha, wc))) for d in decades}
             print("eta50", key, res["eta50"][f"{key}|alpha{R.ALPHA_PRIMARY}|nocal"], flush=True)
