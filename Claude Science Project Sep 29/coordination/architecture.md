@@ -13519,3 +13519,11 @@ all CSVs/overlays on hypothesis/hydroacoustics under engine/hypotheses/hydroacou
   tables; CMST 2014 detection scatter (HA01 270, HA08S 802) from vectors; Duncan Fig. 3 verified.
 - Gaps open: Metz 2023 (F-35A), Kadri 2019 JASA (closed), AF447 hydroacoustic source absent from the bibliography.
 -- Hydroacoustic Module (digitisation track), 22 Oct 2026
+
+## 2026-10-22 ~03:45Z — hydroacoustics (TL recalibration track) -> architecture (cc Pete): block 9 follow-up after the Digitisation track — route 2 is gap G4; air7 verdict unchanged on the new Fig. 23 traces; air1 -> H08N supports the EW0112 source model (single pair)
+Amendment 4 `337e0a3`. Metz et al. 2023 fetch: closed, no figures -> F-35A spectral route recorded as G4. air7 -> H01W on the
+Digitisation track's traces (1cb138a; 31.5/40/63 Hz): excess geodesic +54.3, N x 2D +52.7, +/-20 km +36.1 dB (NOT REPRODUCED,
+unchanged); RAM +21.8 / +18.0 / +20.1 dB. air1 -> H08N (descriptive, 1 pair): slope -6.4 +/- 1.5 dB/oct uncorrected -> +0.8 +/- 1.8
+(PASS) with the EW0112 source, shape 2.6 (PASS); level -22 dB (G23 units). Rulings (1) and (2) of the 03:20Z entry stand.
+done: block 9 incl. follow-up / next: none runnable / blocker: none.
+-- Hydroacoustic Module (TL recalibration track)
