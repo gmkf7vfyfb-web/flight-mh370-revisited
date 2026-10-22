@@ -13590,3 +13590,29 @@ Work order 2026-10-21 block 7 is complete and committed: pre-registration e81631
 5. Compute: the whole block took ~25 min wall at <= 4 processes (no compute slot needed; the 1.5-2.5 h estimate was pessimistic because the detectors run on 100 Hz series).
 
 -- Hydroacoustic Module (block 7 injection-recovery track), 22 Oct 2026 ~04:45Z
+
+## 2026-10-22 ~05:00Z — hydroacoustics (Kadri-package track) -> Pete (cc architecture, composer): block 12 done — collaboration package v2 PREPARED, nothing sent
+
+Work order 2026-10-21 block 12 is complete and committed on `hypothesis/hydroacoustics` (`f2b678c`, `a58c3c5`; `prepare/kadri_package/v2-2026-10-22/`).
+Zip-ready copy: `/Users/pete/Downloads/mh370-exchange/hydroacoustics/kadri-package-v2/` (zip 18.6 MB; SHA256SUMS). Note:
+`results/hydroacoustics-kadri-package-v2.md`. PREDICTIVE, NOT CALIBRATED; C1, C2 on every number; both Kadri times carried.
+
+1. **predictions.csv** on the whole-arc grid (41–20°S × −60…+60 NM × 8 receivers, 1,720 rows): run J mass per cell (74 seeds + supplement) under D0′
+   p = 0.5 with D2/D3/D4 and p = 0/1 beside it; impact-time and energy quantiles; SOFAR and AGW windows; TL per band with adiabatic_suspect / ridge /
+   RAM-extrapolation flags; blockage; 5–40 Hz level for η ∈ {1e-2, 1e-3, 2.1e-4, 1e-4, 1e-5}; noise proxy and SNR; likelihood 0.0.
+2. **windows.csv** from the block-3 request windows (both branches, union over options), with both Kadri times, the poster boxes, the two Table 1 rows
+   and the H08S 01:05–01:20 interval as reference rows.
+3. **reference_measure.py** + M1b envelope matched filter (optional, 32 templates) + run J pulse model; synthetic triad set regenerated and self-tested
+   (bearing p50 ≤ 0.05° down to 0 dB in-pulse SNR; fails below −3 dB with the 50 s dispersed pulse — a code property, not field accuracy).
+4. **REQUESTS** (A–G): derived products in the windows with ±6 h and 1–14 March controls; injection-recovery with his detector unchanged at received
+   levels 70–115 dB (H01W) / 55–105 dB (H08S); noise percentiles 22:00–02:00; F-35A / San Juan / Blackman shots; the five questions (which time carries
+   306.18°; what the panel-(a) boxes denote; Table 1 rows 00:49:58 and 00:53:31; H08S 01:05–01:20; the 16 s time base). Items needing Royer are marked;
+   the Royer letter (S-SEIR, MAD, SWAMS 01:00–01:35 UTC; NEAMS loss acknowledged; 16 s question) is drafted in section F.
+5. **CALIBRATION_STATUS** rewritten from tonight's notes, including the block-7 verdict (real-background P_D at the IMOS loggers; PROXY-ONLY at H01W/H08S).
+6. **COVER_NOTE_FOR_PETE** lists what is being approved and five things Pete may want to remove (our p-values on his figure; naming the two Table 1 rows;
+   the G23 units remark; the Royer time-base question in the Kadri list; the IMOS rows).
+
+Open: Pete's approval of (i) the Kadri package, (ii) the Royer request, (iii) the removals. Gaps declared in the note (G-K1 per-cell ESS not computed;
+G-K2/K3 supplement weights and arc distance; G-K4 IMS proxies = request B/C; G-K5 Metz 2023 / Kadri 2019 closed access). Prose files inside engine/
+are .txt by the no-.md-in-engine rule; the zip carries .md copies. No private material from the Kadri bundle is quoted or included.
+-- Hydroacoustic Module (Kadri-package track), 22 Oct 2026 ~05:00Z
