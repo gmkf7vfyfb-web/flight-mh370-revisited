@@ -238,9 +238,9 @@ as the C1 criterion.
 spectrum figure: the F-35A appears only in the text (p. 17–18: 0.7 Pa peak at H11, 3,300 km, 900 ± 200 MJ; "one order of
 magnitude in pressure amplitude above the local background", citing Metz et al.), and its figures are the bolide cases
 (Figs. 5–8, C.9–C.16). The Digitisation track reached the same finding independently (`prepare/digitise_brown_2026.py`, commit
-`9854c72`: "the paper contains NO F-35A waveform or spectrum ... has to come from Metz et al., which is NOT held (GAP)"),
+`9854c72`: "the paper contains NO F-35A waveform or spectrum ..."; that message also recorded Metz et al. as unavailable, which was wrong: Pete has held it since 9 Oct, artifact 7e4d336f),
 so polling stopped at 03:10 UTC (polls 02:30, 02:45, 03:10) rather than at hour 3: nothing could arrive from this source. Route 2 therefore cannot confirm or lift C1; the
-remaining sources for an F-35A spectrum are Metz, Obana & Fukao (2023; closed access, waveform request pending) and the
+remaining sources for an F-35A spectrum are Metz, Obana & Fukao (2023; held, artifact 7e4d336f; waveform request pending) and the
 Kadri (2024) S1 traces.
 
 ### (b) air8 negative control under the same source model — DESCRIPTIVE (outside the pre-registered condition)
@@ -307,7 +307,7 @@ Next: Kadri's archive for the 2001 shots (air7 SNR), and RAM in place of adiabat
 
 ### Follow-up (amendment 4, `337e0a3`; after the Digitisation track finished)
 - **Route 2 → gap G4.** One `fetch_article_fulltext` of Metz, Obana & Fukao (2023, doi 10.1007/s00024-022-03117-6) returned
-  no full text or figures (closed access). The F-35A spectral route is recorded as **G4** and the block rests on route 1.
+  no full text or figures (the fetch tool cannot reach a purchased copy; the paper itself has been held since 9 Oct, artifact 7e4d336f). The F-35A spectral route is recorded as **G4**; track metz-f35a ran it on the held copy later on 22 Oct. The block rests on route 1.
 - **air7 re-scored on the Digitisation track's Fig. 23 traces** (`results-data/digitised/blackman-2004`, `1cb138a`; bands with
   ≥ 3 columns: 31.5, 40, 63 Hz; no ambiguous columns): observed air7 − air9 = −0.4, −2.0, +0.1 dB (earlier digitisation
   −0.2, −0.7, −0.4). Median excess, model − observed: geodesic **+54.3**, N×2D **+52.7**, least-loss ±20 km **+36.1** dB

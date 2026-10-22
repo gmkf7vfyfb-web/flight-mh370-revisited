@@ -2188,7 +2188,7 @@ environment and the parametric 7th-arc stand-in until end of flight's impacts ex
 - **F-35A at H11: BLOCKED.**
   - The Arons inversion gives η = 2.1×10⁻⁴. The range is 1.7–2.7×10⁻⁴ for ±200 MJ and 0.85–5.4×10⁻⁴
     for ±3 dB of peak pressure (Brown 2026, manuscript p. 17).
-  - The crash position and waveform are only in Metz et al. 2023, which is closed and not held.
+  - The crash position and waveform are only in Metz et al. 2023 (held: Pete bought it on 9 Oct 2026, artifact 7e4d336f; corrected 22 Oct 2026).
 - **Item 1d, noise from the IMOS raw data.** Note `results/hydroacoustics-imos-noise.md` (`dd9c99e`;
   pre-registration `0ffa244`).
   - **Source:** the primary public copy, `imos-data` S3, not the Drive copy; sha256 recorded.
@@ -2595,9 +2595,9 @@ the transport-error size and a second ocean-model option.
 
 ## 2026-10-09 ~05:00 UTC — hydroacoustics: H4–H6 acted on; the stub is retired; the air9 label changes; Scott Reef blocked
 
-- **H4: Metz et al. 2023 is still unobtainable.** The article-fulltext tool tried Unpaywall, Semantic
-  Scholar, PMC, Crossref TDM and the DOI landing page; all failed. F-35A stays blocked. If Pete holds the
-  PDF, an upload would unblock it. Contacting the authors is his decision, as ruled.
+- **H4: Metz et al. 2023.** The article-fulltext tool tried Unpaywall, Semantic
+  Scholar, PMC, Crossref TDM and the DOI landing page and returned nothing; that tool cannot reach a purchased copy.
+  Pete bought the paper on 9 Oct (artifact 7e4d336f). Contacting the authors for the waveforms is his decision, as ruled. [corrected 22 Oct 2026]
 - **H5: done** (`212e76d`). 29 paths built with `examples/ocean_paths.rs`: the stand-in's five latitude
   quantiles to the five IMOS loggers, plus air8 and air9. Adapter: `prepare/shared_paths.py`. The stub is
   **retired**.
@@ -3009,9 +3009,9 @@ loads the fields again, until my pilot process has exited.
 
 ## 2026-10-09 ~06:50 UTC — hydroacoustics: F-35A (H4) sources found; Pete is buying Metz et al.; one request to ocean transport
 
-**Correction to my ~05:00 entry.** "Metz et al. 2023 is still unobtainable" understated what is
+**Correction to my ~05:00 entry.** The ~05:00 statement on Metz et al. 2023 understated what is
 available, and I had not searched widely enough. The status now:
-- **Metz et al.:** the paper is identified. The full text is paywalled, and Pete is purchasing it. The
+- **Metz et al.:** the paper is identified. Pete is purchasing it. The
   ResearchGate preview's captions give 10:26:32 UTC, 3,341 km to H11S, and an 844 km² 90% ellipse.
 - **JASDF reports** (10 Jun and 9 Aug 2019): removed from mod.go.jp, retrieved from the Internet
   Archive, sha256 in the ledger.
@@ -5912,7 +5912,7 @@ Read end of flight's 04:05 entry. I adopted `+alive` as my reference, as end of 
   - footnoted figures, whose provenance is read from run.json.
   - Output: `results/pleiades/<tag>/by-0019-option.csv`. Smoke-tested end to end on a 1/64 subsample of eof-289-full (2 seeds, 14 min, 2 threads); the smoke output is not committed.
 - **On trigger:** run at 2 threads, labelled with whatever end of flight and core declare (`uncorrected fuel` / `provisional sampler` / `PROVISIONAL-OVERNIGHT`). Post to SEARCHED_AREAS and HYDROACOUSTICS.
-- **Until then:** `results/pleiades-methods-draft.md` is revised. It adds the branch on EoF impacts, the 00:19 dependence, the prior-work reproduction (§6.3), the P-C correlation (§6.4) and the verification. `pleiades-references.md` gains [Prior-Pleiades]. The [Taylor1921] equation location is still open: the paper and LaCasce (2008) are closed access, so this is a library request for Pete.
+- **Until then:** `results/pleiades-methods-draft.md` is revised. It adds the branch on EoF impacts, the 00:19 dependence, the prior-work reproduction (§6.3), the P-C correlation (§6.4) and the verification. `pleiades-references.md` gains [Prior-Pleiades]. The [Taylor1921] equation location is still open: there is no copy of the paper or of LaCasce (2008) in the project store yet, so this is a library request for Pete.
 - No core files touched. No core request.
 
 — Pléiades
@@ -8871,7 +8871,7 @@ observation rows):
 - Source: Gaspin & Shuler (1971), NOLTR 71-160, DTIC AD0734381. It gives third-octave source energy levels for 1.8 lb
   TNT at 60, 300 and 800 ft.
 - DTIC refuses this sandbox's automated download (it returns an HTML bot page). I have not tried to get round that.
-- Chapman (1988), JASA 84:697, is behind a paywall.
+- Chapman (1988), JASA 84:697: no copy in the project store yet.
 - **Request to Pete:** save the DTIC PDF (https://apps.dtic.mil/sti/tr/pdf/AD0734381.pdf) to
   `~/Downloads/mh370-inputs/hydroacoustics/` if he wants the check run. If the audit already holds a SUS source
   spectrum, I will use the same one.
@@ -13465,7 +13465,7 @@ Pre-registration `e949144`; implementation and data `150da8d` + this commit (mod
   RULING REQUESTED (1): may route 1 be re-registered with slope + shape only (level test dropped as uninterpretable), with the
   verdict then "PARTLY CALIBRATED in slope, conditional on the EW0112 source model, training case"? Not applied here.
 (a) Route 2, F-35A: NOT AVAILABLE — Brown et al. 2026 (arXiv:2604.12723) has no F-35A waveform/spectrum (text only: 0.7 Pa at
-  H11); the Digitisation track found the same (9854c72). Source spectrum would need Metz et al. 2023 (closed) — GAP.
+  H11); the Digitisation track found the same (9854c72). Source spectrum would come from Metz et al. 2023 (held, artifact 7e4d336f; digitised by track metz-f35a on 22 Oct 2026 (`results/hydroacoustics-metz-f35a-anchor.md`)).
 (b) air8 under the same source model (descriptive; registered condition not met): H01W −39.0 dB FOLLOWS, H08S −1.2 dB
   CONSISTENT → still holds (array factor differs by ≤ 0.65 dB at H01W).
 (d) air7 → H01W: adiabatic KRAKEN excess over the observed air7 ≈ air9 level, median 31.5–63 Hz: geodesic +56.8, N×2D
@@ -13514,14 +13514,14 @@ all CSVs/overlays on hypothesis/hydroacoustics under engine/hypotheses/hydroacou
   air1, air7, air9 clean; air2 sparse; air4 >20 Hz and air5 <40 Hz usable, else weight-ambiguous; air3 only 5-18 Hz;
   air8 not separable.
 - Brown 2026: NO F-35A waveform/spectrum in the paper (text only: 0.7 Pa at H11, 3,300 km, 900+/-200 MJ, eta ~1e-4,
-  citing Metz et al. 2023, closed access). TL recalibration track: the F-35A spectrum is a GAP until Metz is obtained.
+  citing Metz et al. 2023, which Pete holds). TL recalibration track: the F-35A spectrum was an open item; Metz et al. 2023 is held (artifact 7e4d336f) and was digitised by track metz-f35a on 22 Oct 2026 (`results/hydroacoustics-metz-f35a-anchor.md`).
 - Kadri 2024 S1 Fig. S1 five traces from PDF vectors; Kadri 2017 events/EQs/Fig. 3a; Nielsen and Vergoz San Juan
   tables; CMST 2014 detection scatter (HA01 270, HA08S 802) from vectors; Duncan Fig. 3 verified.
-- Gaps open: Metz 2023 (F-35A), Kadri 2019 JASA (closed), AF447 hydroacoustic source absent from the bibliography.
+- Open items: Metz 2023 (F-35A; held and digitised on 22 Oct), Dall'Osto 2019 JASA (ARA San Juan; was mislabelled 'Kadri 2019'; no copy in the store yet; Kadri 2019 is Sci. Rep. 9:912 and is held), AF447 hydroacoustic source absent from the bibliography.
 -- Hydroacoustic Module (digitisation track), 22 Oct 2026
 
 ## 2026-10-22 ~03:45Z — hydroacoustics (TL recalibration track) -> architecture (cc Pete): block 9 follow-up after the Digitisation track — route 2 is gap G4; air7 verdict unchanged on the new Fig. 23 traces; air1 -> H08N supports the EW0112 source model (single pair)
-Amendment 4 `337e0a3`. Metz et al. 2023 fetch: closed, no figures -> F-35A spectral route recorded as G4. air7 -> H01W on the
+Amendment 4 `337e0a3`. Metz et al. 2023 (held, artifact 7e4d336f; the automated fetch returned nothing) -> F-35A spectral route recorded as G4; run on the held copy later on 22 Oct by track metz-f35a. air7 -> H01W on the
 Digitisation track's traces (1cb138a; 31.5/40/63 Hz): excess geodesic +54.3, N x 2D +52.7, +/-20 km +36.1 dB (NOT REPRODUCED,
 unchanged); RAM +21.8 / +18.0 / +20.1 dB. air1 -> H08N (descriptive, 1 pair): slope -6.4 +/- 1.5 dB/oct uncorrected -> +0.8 +/- 1.8
 (PASS) with the EW0112 source, shape 2.6 (PASS); level -22 dB (G23 units). Rulings (1) and (2) of the 03:20Z entry stand.
@@ -13613,7 +13613,7 @@ Zip-ready copy: `/Users/pete/Downloads/mh370-exchange/hydroacoustics/kadri-packa
    the G23 units remark; the Royer time-base question in the Kadri list; the IMOS rows).
 
 Open: Pete's approval of (i) the Kadri package, (ii) the Royer request, (iii) the removals. Gaps declared in the note (G-K1 per-cell ESS not computed;
-G-K2/K3 supplement weights and arc distance; G-K4 IMS proxies = request B/C; G-K5 Metz 2023 / Kadri 2019 closed access). Prose files inside engine/
+G-K2/K3 supplement weights and arc distance; G-K4 IMS proxies = request B/C; G-K5 Metz 2023 held and digitised on 22 Oct / Dall'Osto 2019 no copy in store). Prose files inside engine/
 are .txt by the no-.md-in-engine rule; the zip carries .md copies. No private material from the Kadri bundle is quoted or included.
 -- Hydroacoustic Module (Kadri-package track), 22 Oct 2026 ~05:00Z
 
@@ -13730,8 +13730,7 @@ IMOS-gated likelihood written as `mh370-exchange/hydroacoustics/run-j-gated-v2/`
 median latitude +0.05 deg under D0 p 0.5); composer default stays 0.0. RULINGS REQUESTED: (1) composer default for
 hydro-lnL-imos-margeta with the G11-1 label, IMS proxy as sensitivity; (2) RAM in place of adiabatic KRAKEN on sill-crossing IMS
 paths; (3) re-register the air9 level test with slope + shape only, or obtain unit-consistent levels (G23). APPROVALS FOR PETE:
-Kadri package v2 and the Royer letter (prepare/kadri_package/v2-2026-10-22/, cover note); Metz et al. 2023 and Kadri 2019 (closed
-access). Disk: 83.5 -> 11.9 (min) -> ~28 GiB; nothing of Pete's deleted; the eleven track workspaces (~33 GB) and run-j-gated
+Kadri package v2 and the Royer letter (prepare/kadri_package/v2-2026-10-22/, cover note); Metz et al. 2023 (held; digitised by track metz-f35a) and Dall'Osto 2019 (JASA; no copy in the store yet). Disk: 83.5 -> 11.9 (min) -> ~28 GiB; nothing of Pete's deleted; the eleven track workspaces (~33 GB) and run-j-gated
 (6.5 GB, superseded) can be swept, and Time Machine local snapshots thinned.
 -- Hydroacoustic Module
 
@@ -13800,3 +13799,33 @@ Kadri package v2 predictions and cover note, TL-grid detectable-share chart and 
 track's corrected eta50 (4.0e-3, entry ~15:30Z) the new anchor is 2.5 dB lower, before the real-arrival penalty.
 (Amended: the first push of this entry, 4a61dd9, overwrote three other 22 Oct entries; they are restored unchanged in the next commit.)
 -- Hydroacoustic Module (track metz-f35a), 22 Oct 2026
+
+## 2026-10-22 — Pete's ruling on source access: blocking labels removed (OPERON session, at Pete's request) -> ALL MODULES
+
+**Ruling (Pete, 22 Oct 2026):** the project has the right to use every source stored in the repo, the Google Drive and the project
+source folders. A publisher's access status ("closed access", "paywalled") is not a reason to avoid, discount or mark a source as a gap.
+
+**What went wrong.** A false "closed access / not held (GAP)" label on Metz, Obana & Fukao (2023) blocked the F-35A route for a
+fortnight. Pete bought the paper on 9 Oct (artifact 7e4d336f; the 9 Oct 07:40 entry says so), but `hydroacoustics-bibliography.csv`
+(7 Oct) kept the old label, the overnight tracks of 21-22 Oct copied it, and their operating note told them to record gaps and not to ask, so
+the label passed through unchallenged. Also, "Kadri 2019 closed access (G5)" mixed two papers: the JASA 2019 ARA San Juan paper is Dall'Osto's, and
+Kadri (2019) is Sci. Rep. 9:912, gold open access. A draft line in the Kadri package ("his own 2019 paper") carried the same mistake.
+The module's own 22:00Z entry (track metz-f35a) corrected G4 and G5 and extracted both papers; this entry removes the same labels
+from the older notes.
+
+**What changed.** `results/source-access-ledger-2026-10-22.csv` lists every flagged source with its copy status and location (78 rows).
+`hydroacoustics-bibliography.csv` no longer has an `open_access` column; it has `copy_status` and `copy_location`. Stale labels were
+replaced in this file and in the hydroacoustics notes, the references notes, the JON model-paper list, the satellite register (O10,
+O13), the evidence-sweep note on OHASISBIO, the drift note on Durgadoo (open access, CC BY 4.0) and the hydroacoustics brief.
+Royer (2016) is held (artifact e6fa6f46), not "not obtained". ATSB First Principles Review is held (artifact 5b08ea64).
+Four open-access papers were fetched and filed: Kadri 2019, Williams 2023, Nosov 2007, Chu & Fan 2024.
+
+**Rule from now.** Before writing "not held" about any source, search the artifact store, the Drive, ~/Downloads and the repo (artifact
+filenames can be raw DOIs, such as `art%3A10.1007%2F...pdf`), and write the location in the ledger. Never write "closed access" as
+a reason for a gap. A source with no copy is "no copy in the project store yet"; say who has to supply it.
+
+**Unchanged, because they are facts and not licence labels:** raw IMS waveforms (H01W, H08S, H08N) are data not held; commercial
+archive logins and API keys are credentials; public documents whose hosts refuse scripted downloads (Chu & Fan 2006, Anderson 2018,
+DKI574, DNV-RP-F107, MDPI papers) need a browser download by Pete; copyrighted PDFs are not committed to the public repo.
+The restricted-source ledger (internal use authorised in full; redistribution settled at the paper's provenance review) is untouched.
+-- OPERON session (for Pete)

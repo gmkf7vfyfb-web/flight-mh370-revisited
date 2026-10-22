@@ -74,7 +74,7 @@ data downstream. Both Kadri times are carried everywhere: text time 00:52:03 and
   above background per Metz, Obana & Fukao (2022/2023, Pure Appl. Geophys. 180:1343-1351, doi
   10.1007/s00024-022-03117-6). Regenerating Eq. 2 with the text values gives a SOFAR yield of 0.045 kg TNT and
   η = 2.1 × 10⁻⁴ for 900 MJ. **The F-35A source spectrum needed by the TL-recalibration track therefore has to
-  come from Metz et al., which is closed access and not held (GAP).**
+  come from Metz et al. (2023), which Pete holds (artifact 7e4d336f); it was digitised by track metz-f35a on 22 Oct 2026 (`results/hydroacoustics-metz-f35a-anchor.md`).** [corrected 22 Oct 2026]
 - What the paper does render was extracted: the Arons relation (Fig. 3, analytic), the 2 Sep 2003 fireball at H03N
   (Fig. 7: waveform envelope, 4-9 Hz; wavelet scalogram 2-15 Hz relative; bar spectrum) and the 7 Oct 2004 fireball
   at H08S (Fig. C.10 one-hour pixel envelopes; Fig. C.12 stacked waveform envelope and 0-40 Hz spectrogram). The
@@ -95,9 +95,11 @@ data downstream. Both Kadri times are carried everywhere: text time 00:52:03 and
   candidates (301.4° ± 0.4°, 1,900 ± 200 km, arrival 01:34:40; 234.6° ± 0.4°, 1,940 ± 200 km, arrival 00:50:00), HA01
   channel coordinates and depths, Table 1, and Fig. 3a distance pdfs from the vector outlines (peaks 2,504 / 5,504 /
   6,254 km against the text's 2,500 / 5,500 / 6,250).
-- Kadri 2019 (ARA San Juan): the paper is Kadri, Wang et al., JASA 146 (2019), doi 10.1121/1.5125251, "Source
-  triangulation utilizing three-dimensional arrivals" — closed access; `fetch_article_fulltext` was not attempted
-  because Europe PMC lists it as not open access. **GAP.**
+- "Kadri 2019 (ARA San Juan)" was a misattribution [corrected 22 Oct 2026]: JASA 146(4):2104 (doi 10.1121/1.5125251, "Source
+  triangulation utilizing three-dimensional arrivals") is by Dall'Osto (2019). Kadri (2019) is Sci. Rep. 9:912 (doi
+  10.1038/s41598-018-37626-z, sea-bottom elasticity, gold open access); it is held (artifact 133c4968;
+  exchange `sources/open-access-fetched-2026-10-22/`) and was extracted by track metz-f35a. The Dall'Osto paper has no
+  copy in the project store yet (abstract only); nothing from it has been digitised.
 
 ### 5. ARA San Juan and AF447
 - Nielsen et al. (2021), PAAG 178:2557 (CTBTO): Table 1 (ground truth vs CTBTO estimates, error ellipses, origin
@@ -129,28 +131,27 @@ data downstream. Both Kadri times are carried everywhere: text time 00:52:03 and
   each header; usable without qualification: air1 (DGN), air7 (DGS, CL), air9 (DGS, CL); with qualification: air2
   (sparse), air4 above 20 Hz, air5 below 40 Hz, air3 at 5-18 Hz; not usable: air8.
 - F-35A source spectrum: not in Brown et al. (2026). The only F-35A numbers are the text values above
-  (0.7 Pa peak at 3,300 km, 900 ± 200 MJ, η ~10⁻⁴). Metz et al. (2023) is the source to obtain.
+  (0.7 Pa peak at 3,300 km, 900 ± 200 MJ, η ~10⁻⁴). Metz et al. (2023) is the source (held, artifact 7e4d336f).
 
 ## COVERAGE
 - Feasible set (what the publications render): Royer 9 figures + 5 tables; Blackman Fig. 23 (10 curves) + Table I
   (+ Figs 2, 22 and others not rendered as data here); Brown 16 figures (F-35A: none); Kadri 2024 17 figures + Table 1
-  + S1 (2 figures); Kadri 2017 10 figures + Table 1; Kadri 2019 (closed); Nielsen 12 figures + Table 1; Vergoz 14
+  + S1 (2 figures); Kadri 2017 10 figures + Table 1; Kadri 2019 (Sci. Rep.; held, extracted 22 Oct); Nielsen 12 figures + Table 1; Vergoz 14
   figures + 2 tables; CMST 14 figures + Table 4; Duncan Fig. 3 (+ Fig. 5 held as PNG, not digitised).
 - Model's reach (what the methods here can extract): vector drawings exactly (Kadri S1, Kadri 2017 Fig. 3a, CMST
   Figs 5/7/10/13); text-layer tables exactly; rasters to pixel precision with the stated reading uncertainty
   (Royer spectrograms, Blackman Fig. 23, Brown envelopes); raster waveform panels in the San Juan papers, Kadri PMC
   figures and CMST Figs 1-2 are within reach but not traced in this block.
-- Proposal's coverage (what was done): 50 manifest rows; every named source touched except Kadri 2019 and AF447.
+- Proposal's coverage (what was done): 50 manifest rows; every named source touched except Kadri 2019 (Sci. Rep.; held since 22 Oct), Dall'Osto 2019 (no copy in the store) and AF447.
 - Gaps and status: (G1) Royer Drive link blocked, artifact copy used — closed; (G2) Royer H01W 16-s figure/table
   offset — open, goes into the raw-data request; (G3) Blackman air8 not separable, air3 partial, air4/air5
-  weight-ambiguous zones — closed as a source limit; (G4) F-35A spectrum absent from Brown — open, needs Metz et al.
-  2023 (closed access); (G5) Kadri 2019 closed access — open; (G6) AF447 hydroacoustic source not in the
+  weight-ambiguous zones — closed as a source limit; (G4) F-35A spectrum absent from Brown — open; Metz et al.
+  2023 is held (artifact 7e4d336f) and was digitised on 22 Oct by track metz-f35a; (G5) 'Kadri 2019' was Dall'Osto 2019 (JASA, no copy in the store); Kadri 2019 (Sci. Rep.) is held — (G6) AF447 hydroacoustic source not in the
   bibliography — open; (G7) Kadri 2024 Figs 1-8 at full resolution not re-extracted (PMC 750-px copies held) — open,
   low priority; (G8) San Juan / CMST Fig 1-2 waveform rasters not traced — open, do when a weak-signal trial needs
   them; (G9) Brown fireball amplitudes are in counts — closed as a source limit.
 - ESS: not applicable (no sampling in this block).
 
 done: block 1 — six sources digitised, manifest of 50 rows, overlays and METHOD records committed.
-next: trace the San Juan / CMST waveform rasters when block 8 asks; obtain Metz et al. 2023 and Kadri 2019 through
-Pete or the Kadri collaboration; add the H01W 16-s question to the Royer raw-data request (block 12).
-blocker: none for this block; G4/G5 need closed-access papers that only Pete or a collaborator can supply.
+next: trace the San Juan / CMST waveform rasters when block 8 asks; Metz et al. 2023 and Kadri 2019 are held (extracted 22 Oct); ask Pete for Dall'Osto 2019 (JASA) if wanted; add the H01W 16-s question to the Royer raw-data request (block 12).
+blocker: none for this block; G4 is closed by the 22 Oct extraction (anchor ruling pending); G5 needs Dall'Osto 2019 only if the San Juan 3-D arrival is to be used.

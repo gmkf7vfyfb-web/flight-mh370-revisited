@@ -37,7 +37,7 @@ From `engine/hypotheses/debris-drift/data/debris-evidence-audit.csv` on `hypothe
 
 **The Mossel Bay date, both ways.** The table's 2015-12-23 follows the date the prior archive
 attributes to Durgadoo et al.'s nine-item table (DEBRIS-EVIDENCE.md, "Dates and coordinates");
-Durgadoo's full text is not open access and was not re-read tonight. The Malaysian *Summary of
+Durgadoo's full text is open access (CC BY 4.0, NORA eprint 523313) and was not re-read tonight. The Malaysian *Summary of
 Possible MH370 Debris Recovered* (updated 30 December 2018) lists Item 4, "Engine Nose Cowl, Mossel
 Bay, South Africa", against **22 March 2016**. Contemporaneous wire reporting places the find on
 Monday 21 March 2016, by an archaeologist walking a lagoon near Mossel Bay, and Malaysia's transport

@@ -6,7 +6,7 @@ Prepared 17 October 2026. All times are UTC unless stated. Local time in Aceh (W
 - Malaysian Safety Investigation Report (SIR, 2 July 2018): I searched the full text of the main volume (court-filed copy, 495 pages, which has the same printed page numbers as the official PDF; the official file at mot.gov.my is byte-length identical, 8,399,521 bytes, to the copy on Pete's Drive). I did **not** search the separate SIR appendices volume.
 - ATSB "MH370 – Definition of Underwater Search Areas": I read the 26 June 2014 report **as updated 30 July 2015** (the copy on Pete's Drive). I did not have the original June 2014 issue. I did not search the ATSB Operational Search report (2017; 41 MB) for radar or infrasound text.
 - The LLNL/CASIS 2014 poster could not be read. Its URL returns HTTP 502 and the Internet Archive has no capture. Its content is reported here **only as described by 370location.org** (independent analyst, secondary source).
-- Blackman et al. (2004, JASA) is paywalled. I used the abstract, pages 1–4 of the companion report UCRL-TR-207323 (scanned, no text layer), and the project's earlier extraction of that report.
+- Blackman et al. (2004, JASA): no copy in the project store. I used the abstract, pages 1–4 of the companion report UCRL-TR-207323 (scanned, no text layer), and the project's earlier extraction of that report.
 - I read the Jeff Wise / Popular Mechanics text through Wise's own repost and his Substack post. I did not read the popularmechanics.com page directly.
 - Q1b (Indian radar sites): no official site list exists publicly. Positions given are airfield reference points used as proxies for radar sites.
 - Q5: Royer figures were read from 150 dpi renders. The H01W timing inconsistency between the figure maps and Table 5 is my observation and is unresolved. The sound-speed model is not stated in the report.
@@ -145,7 +145,7 @@ Literature for the paper:
 - Stead (2014), LANL LA-UR-14-24972: used H01, H08 and AIS only, and did not consider infrasound.
 
 **Obtainable and how.**
-- All papers listed: **public** (most open access; JASA 2004 is paywalled).
+- All papers listed: **public** (most open access; no copy of the JASA 2004 paper in the project store).
 - An MH370-specific infrasound TL calculation: **not available**. It would need March 2014 ECMWF/G2S atmospheric profiles (public) and the IS06 noise for 8 March 2014, which is restricted (CTBTO).
 - Proxy noise from IS06 after 3 April 2014: **public download**.
 
@@ -425,7 +425,7 @@ Data services checked (17 Oct 2026)
 - **IMS infrasound waveforms from 3 Apr 2014:** public download (EarthScope FDSN, network IM).
 - **LLNL CASIS 2014 poster:** not available online. Request from LLNL CASIS or the authors (Kane, Lehman, Candy).
 - **II.COCO and G.AIS seismic data, 8 Mar 2014:** public download (EarthScope FDSN).
-- **Blackman et al. 2004 JASA:** paywalled (publisher). The companion UCRL-TR-207323 is a public download (OSTI).
+- **Blackman et al. 2004 JASA:** no copy in the project store. The companion UCRL-TR-207323 is a public download (OSTI).
 - **Royer 2016 OHASISBIO report:** public download (Google Drive link in Wise's Substack); read for this review.
 - **OHASISBIO raw 240 Hz data, 7–8 Mar 2014:** request from the author (J.-Y. Royer, Geo-Ocean / Univ. Brest). No DOI found.
 - **OHASISBIO mission reports 2014, 2015 and synthesis 2010–2023:** public download (Archimer DOIs above).

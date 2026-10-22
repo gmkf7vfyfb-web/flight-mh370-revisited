@@ -59,7 +59,7 @@ F-35A upper anchor 2.1e-4). Both Kadri times carried everywhere: text time 00:52
   their energy and time quantiles; fix = per-seed accumulation (74 × 215 cells) in a second pass. (G-K2, declared) supplement rows keep native weights at
   p ≠ 0.5 (windows note G-W1) and have no τ (the τ median is strata-only). (G-K3, declared) supplement arc distance from the arc-grid field, nearest
   longitude where the field has no cell (`arc_fallback_rows` in the meta). (G-K4, open) IMS noise and P_D are proxies (block 7 verdict proxy-only at
-  H01W/H08S) — this is exactly request B/C. (G-K5, open) G4 Metz 2023 and G5 Kadri 2019 closed access — request D. (G-K6, declared) the request-level
+  H01W/H08S) — this is exactly request B/C. (G-K5, open) G4 Metz 2023 (held; digitised 22 Oct) and G5 Dall'Osto 2019 (no copy in store) — request D. (G-K6, declared) the request-level
   table quotes cell-median E and τ, not the full per-cell distribution; the full distribution is in `run-j-tl-grid/evidence/`.
 - **Parameter bounds with sources:** c 1.482 ± 0.006 km/s (module standard, 55eb191); AGW 1.40–1.50 km/s (assumed); η grid {1e-2 … 1e-5} with anchor 2.1e-4
   (F-35A, RAM-corrected median; `f35a_cal`); T_eff 2.683 s (stage B, T_C2); triad gain 4.8 dB (module rule); TL sd 7.9 dB (air9 RMS); 0.5° × 30 NM cells
@@ -77,4 +77,4 @@ F-35A upper anchor 2.1e-4). Both Kadri times carried everywhere: text time 00:52
 - done: block 12 — package v2 built, self-tested, committed (`f2b678c`, `a58c3c5`), zip-ready copy in the exchange, this note, coordination entry to Pete.
 - next: on Pete's approval, apply his removals and hand him the zip; per-cell ESS pass (G-K1) if the table is to be quoted per cell; when Kadri's derived
   products arrive, run `reference_measure.py` unchanged and the pre-registered searches on them.
-- blocker: Pete's approval (nothing is sent without it); G4/G5 closed-access papers.
+- blocker: Pete's approval (nothing is sent without it).

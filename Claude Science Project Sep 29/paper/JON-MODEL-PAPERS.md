@@ -17,7 +17,7 @@ source; estimates are labelled as such.
 | Papers found in scope | 9 retrieved in full text, from a CrossRef pool of 161 distinct *Journal of Navigation* records gathered across 26 subject queries |
 | Papers read in full | 9 of 9 — all analysed below were downloaded as publisher PDFs from Cambridge Core and the text extracted |
 | Anchor reference included | Yes — Ashton et al., 68(1), 1–22 |
-| Particle-filter papers in the journal | 3 identified, **all closed access**. Metadata and publisher abstract only; listed in §3, excluded from the detailed table |
+| Particle-filter papers in the journal | 3 identified; no copy in the project store (metadata and publisher abstract only); listed in §3, excluded from the detailed table until a copy is supplied |
 | Date window | Requested "last ~8 years"; 5 of the 9 are 2019 or later. Four older ones (2015, 2015, 2016, 2016) were kept because they are the only close subject or method matches in the journal — the three MH370 papers and the two Bayesian-inference papers. This is a declared departure from the date preference, made for subject fit |
 | Word counts | **Approximate.** Counted from extracted PDF text between the "Introduction" heading and the reference list, so they include figure captions, table cell text and equation tokens, and exclude the abstract, keywords, end-matter declarations, references and appendices. Treat as ±10 % |
 | Equation counts | Counted by recovering numbered equation tags from extracted text. Where extraction dropped a tag this is stated per paper |
@@ -563,8 +563,8 @@ printed page range.
 
 ## 3. Particle-filter papers in the journal — metadata only
 
-A title search of the journal for "particle filter" returned the following recent papers. All
-three are closed access; the Cambridge Core landing pages carry no free PDF link and
+A title search of the journal for "particle filter" returned the following recent papers. No copy of the
+three is in the project store; the Cambridge Core landing pages carry no free PDF link and
 `fetch_article_fulltext` found no open-access location. **Only the metadata and publisher
 abstract were read; nothing about their internal structure is reported here.**
 

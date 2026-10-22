@@ -4,7 +4,7 @@ Brief: `Claude Science Project Sep 29/threads/master-prompts/hydroacoustics.md` 
 
 **Status: literature synthesis, not analysis.** No hydroacoustic data were processed for this document. Two items are my own arithmetic on published numbers (timing checks of Kadri's historical cases in §1.3; the look-elsewhere numbers in §5), and they are labelled as such. Values that the previous session read off published figures are labelled DIGITISED and are never treated as measurements.
 
-**Reading depth.** Full texts read: Kadri2024 + S1, KadriPoster2025, Kadri2017, Kadri2019, CMST2014, Brown2026, Blackman2004UCRL (key sections), Vergoz2021, Nielsen2021 (key passages), Stone2014 (key passages), DuncanDallOsto2023lay. Read through abstracts, snippets or secondary sources only (marked in the CSV `read_level`): Metz2023, Prario2023, Heaney2017, Prior2011, Koper2001, the Scorpion and Titan sources, and most of the theory papers in §4. **No load-bearing claim below rests on an abstract alone unless it says so.**
+**Reading depth.** Full texts read: Kadri2024 + S1, KadriPoster2025, Kadri2017, Kadri2019, CMST2014, Brown2026, Blackman2004UCRL (key sections), Vergoz2021, Nielsen2021 (key passages), Stone2014 (key passages), DuncanDallOsto2023lay. Read through abstracts, snippets or secondary sources only (marked in the CSV `read_level`): Prario2023, Heaney2017, Prior2011, Koper2001, the Scorpion and Titan sources, and most of the theory papers in §4. Metz2023 was bought by Pete on 9 Oct 2026 and read in full after this review (artifact 7e4d336f). **No load-bearing claim below rests on an abstract alone unless it says so.**
 
 ---
 

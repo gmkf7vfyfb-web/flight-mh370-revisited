@@ -302,7 +302,7 @@ if his archive reaches back to 2001 and 2003; same-night controls; noise percent
 injection-recovery with his detector unchanged; and every detection in the pre-registered windows.
 Draft it for Pete's review before anything is sent.
 
-Separately: ask Metz's group for the F-35 paper and waveforms, and Royer (OHASISBIO) for his 2014
+Separately: ask Metz's group for the H11 waveforms (the paper is held, artifact 7e4d336f), and Royer (OHASISBIO) for his 2014
 data.
 
 ---
@@ -543,7 +543,7 @@ prior, whichever is more northerly**. The present TL table (38.46–31.64°S) is
 - **Digitisation deliverable.** Extract every usable dataset rendered in the PDFs of Kadri (2017, 2019, 2024 with S1,
   and the SnT 2025 poster), Royer (OHASISBIO LDO-201608), Blackman et al. (2004; obtain a higher-resolution scan of
   Fig. 23 so air1–air8 become traceable), Brown et al. (2026; F-35A waveform and spectrum figures), Duncan &
-  Dall'Osto (2023), CMST (2014), and the ground-truth cases (ARA San Juan: Nielsen 2021, Vergoz 2021, Kadri 2019;
+  Dall'Osto (2023), CMST (2014), and the ground-truth cases (ARA San Juan: Nielsen 2021, Vergoz 2021, Dall'Osto 2019;
   AF447; the earthquake calibration events). Keep a manifest with source, page, method, resolution and a
   verification note per row. Label every such dataset as digitised (§2 rule 10).
 - Raw IMS data reach the project only through the Kadri collaboration, as derived products, and nothing is sent to

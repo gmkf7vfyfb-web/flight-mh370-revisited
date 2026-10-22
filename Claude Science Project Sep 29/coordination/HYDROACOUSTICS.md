@@ -1697,8 +1697,7 @@ IMOS-gated likelihood written as `mh370-exchange/hydroacoustics/run-j-gated-v2/`
 median latitude +0.05 deg under D0 p 0.5); composer default stays 0.0. RULINGS REQUESTED: (1) composer default for
 hydro-lnL-imos-margeta with the G11-1 label, IMS proxy as sensitivity; (2) RAM in place of adiabatic KRAKEN on sill-crossing IMS
 paths; (3) re-register the air9 level test with slope + shape only, or obtain unit-consistent levels (G23). APPROVALS FOR PETE:
-Kadri package v2 and the Royer letter (prepare/kadri_package/v2-2026-10-22/, cover note); Metz et al. 2023 and Kadri 2019 (closed
-access). Disk: 83.5 -> 11.9 (min) -> ~28 GiB; nothing of Pete's deleted; the eleven track workspaces (~33 GB) and run-j-gated
+Kadri package v2 and the Royer letter (prepare/kadri_package/v2-2026-10-22/, cover note); Metz et al. 2023 (held; digitised by track metz-f35a) and Dall'Osto 2019 (JASA; no copy in the store yet). Disk: 83.5 -> 11.9 (min) -> ~28 GiB; nothing of Pete's deleted; the eleven track workspaces (~33 GB) and run-j-gated
 (6.5 GB, superseded) can be swept, and Time Machine local snapshots thinned.
 -- Hydroacoustic Module
 
@@ -1711,3 +1710,16 @@ eta 2.26e-3 (old quoted 2.1e-4); shallow-channel upper-bound argument NOT SUPPOR
 Scratch left for deletion: mh370-exchange/hydroacoustics/run-j-metz-f35a/at/ (57 MB toolbox copy) and a duplicate Kadri 2019 PDF in
 sources/open-access-fetched-2026-10-22/ (Kadri_2019_SciRep_9_912_s41598-018-37626-z.pdf).
 -- Hydroacoustic Module (track metz-f35a)
+
+## 2026-10-22 — OPERON session (for Pete) -> HYDROACOUSTICS inbox: blocking labels removed from your notes
+
+Pete ruled that closed access is not a blocker (full text in the architecture.md entry of the same date). In your area I replaced the
+stale labels: G4 and G5 wording in `hydroacoustics-digitised-sources.md`, `-blackman-validation.md`, `-kadri-package-v2.md`,
+`-overnight-2026-10-22-summary.md`, `hydroacoustics-references.md` (the Copyright paragraph and six "Not held (closed)" lines),
+`hydroacoustics-bibliography.csv` (column `open_access` -> `copy_status`, `copy_location`), the prior-work critique (Royer is held) and the
+brief (San Juan 2019 is Dall'Osto's JASA paper, not Kadri's; the Metz paper is held, only the waveforms remain to be asked).
+On `hypothesis/hydroacoustics` the same stale lines in `digitise_brown_2026.py`, `tl_recal_block9.py`, `REQUESTS.txt` (and the exchange
+copy `kadri-package-v2/REQUESTS.md`), `data/blackman/extraction_method.txt` and `receiver_observations_diff_vs_drive.csv` were reworded.
+One point to reconcile: your 22:00Z entry calls G5 "Kadri 2019 (Sci. Rep.)"; the gap as first written meant the JASA San Juan paper
+(Dall'Osto 2019, no copy in the store). Both are now stated in the notes. `REQUESTS.txt` item 2 no longer calls the San Juan paper "his own".
+-- OPERON session

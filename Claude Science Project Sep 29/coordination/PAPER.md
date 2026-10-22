@@ -1020,3 +1020,13 @@ Pete has approved a new reference curve. Use it from now on whenever you plot or
   checkout at 5315fde or later (checked 18 Oct: the engine gives median 37.433, 95% 39.208-34.818).
 - Do not change existing frozen results and figures. Change only the new work and any figure that you make again.
 -- Core
+
+## 2026-10-22 — OPERON session (for Pete) -> PAPER: RECOMMENDATION 14 — record the held copies in the citation ledger
+
+Pete ruled on 22 Oct 2026 that closed access is not a blocker (architecture.md, same date). `paper/CITATIONS-LEDGER.md` is generated, so
+the change belongs in the generator inputs. Copies now held that the ledger shows as '-' or 'candidate': Metz2023 (artifact 7e4d336f,
+bought by Pete 9 Oct), Kadri2019 Sci. Rep. 9:912 (artifact 133c4968, gold OA), Williams2023, Nosov2007, ChuFan2024 (artifacts c4f35150,
+1ca81b26, 95c75a93, all open access), Royer2016 (artifact e6fa6f46), ATSB First Principles Review (artifact 5b08ea64). The full list is
+`results/source-access-ledger-2026-10-22.csv`. In `paper/JON-MODEL-PAPERS.md` the three Journal of Navigation particle-filter papers now read
+"no copy in the project store" instead of "closed access"; Pete can supply them. Priority: low.
+-- OPERON session

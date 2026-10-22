@@ -12,8 +12,7 @@
 
 **Repo copies:** `ISO Sept 28 Status/inputs/papers/hydroacoustics/` is abbreviated to `papers/`.
 
-**Copyright:** nothing cited here is an unauthorised copy. Closed works are cited only through what open
-sources report about them, and are marked "not held".
+**Copyright:** nothing cited here is an unauthorised copy. Pete confirmed on 22 Oct 2026 that the project has the right to use every source stored in the repo, the Drive and the project source folders; a publisher's access status is not a reason to avoid a source. Each source's copy status (held, with its location, or no copy in the project store yet) is in `results/source-access-ledger-2026-10-22.csv`.
 
 ## Literature
 
@@ -41,7 +40,7 @@ Laboratory, UCRL-TR-207323. doi:10.2172/15011808.
 **[Blackman2004JASA]** Blackman, D.K., de Groot-Hedlin, C., Harben, P., Sauter, A., Orcutt, J.A. (2004).
 Testing low/very low frequency acoustic sources for basin-wide propagation in the Indian Ocean.
 *J. Acoust. Soc. Am.* 116, 2057–2066. doi:10.1121/1.1786711.
-- **Not held** (closed). Cited for context only; no values are taken from it.
+- **No copy in the project store yet** (the companion report UCRL-TR-207323 is held). Cited for context only; no values are taken from the JASA paper.
 
 **[Kadri2024]** Kadri, U. (2024). Underwater acoustic analysis reveals unique pressure signals associated with
 aircraft crashes in the sea: revisiting MH370. *Scientific Reports* 14, 10102.
@@ -70,7 +69,7 @@ and Technology, Curtin University, Project CMST 1308, Report 2014-30, prepared f
 **[DuncanDallOsto2023]** Duncan, A.J., Dall'Osto, D.R. (2023). Long-range underwater acoustic detection of
 aircraft surface impacts — the influence of acoustic propagation conditions and impact parameters.
 *J. Acoust. Soc. Am.* 154, A49 (abstract). doi:10.1121/10.0022761.
-- **Not held** beyond the abstract.
+- **Abstract only in the project store** (the lay-language paper is held).
 
 **[DuncanDallOsto2023lay]** Duncan, A.J., Dall'Osto, D.R. (2023). The loss of an F35 fighter aircraft and the
 search for Malaysian Airlines flight MH370. Acoustical Society of America lay-language paper, 185th meeting.
@@ -94,8 +93,8 @@ signals from bolides. *Icarus* (accepted 14 Apr 2026). arXiv:2604.12723, doi:10.
 
 **[Metz2023]** Metz, D., Obana, K., Fukao, Y. (2023; published online 13 Sep 2022). Remote hydroacoustic
 detection of an airplane crash. *Pure Appl. Geophys.* 180, 1343–1351. doi:10.1007/s00024-022-03117-6.
-- **Obtained:** publisher PDF purchased by Pete, 9 Oct 2026 (artifact 7e4d336f). Not committed: copyrighted,
-  not open access.
+- **Obtained:** publisher PDF purchased by Pete, 9 Oct 2026 (artifact 7e4d336f). Not committed to the public repo
+  (copyrighted).
 - **Values used (printed pages):**
   - p. 1346: H11 onsets 11:03:00 (H11N) and 11:04:05 UTC (H11S); 4–64 Hz processing band.
   - p. 1348: origin time 10:26:32 ± 9 s UTC; the epicentre is within 8 km of the 135 km range circle from
@@ -115,7 +114,7 @@ detection of an airplane crash. *Pure Appl. Geophys.* 180, 1343–1351. doi:10.1
 
 **[Arons1954]** Arons, A.B. (1954). Underwater explosion shock wave parameters at large distances from the
 charge. *J. Acoust. Soc. Am.* 26, 343–346. doi:10.1121/1.1907339.
-- **Not held** (closed). The equation is used as given in Brown2026 Eq. 2.
+- **No copy in the project store yet.** The equation is used as given in Brown2026 Eq. 2.
 
 **[Davey2016]** Davey, S., Gordon, N., Holland, I., Rutten, M., Williams, J. (2016). *Bayesian Methods in the
 Search for MH370.* SpringerBriefs in Electrical and Computer Engineering. doi:10.1007/978-981-10-0379-0.
@@ -234,13 +233,13 @@ doi:10.1007/s00190-012-0578-z.
 
 **[Jeffreys1961]** Jeffreys, H. (1961). *Theory of Probability*, 3rd ed. Oxford University Press (Appendix
 B, the grades of evidence for a Bayes factor). No DOI.
-- **Not held** (closed). Cited for the conventional "strong" boundary, a Bayes factor of 10, used as the
+- **No copy in the project store yet.** Cited for the conventional "strong" boundary, a Bayes factor of 10, used as the
   pre-registered per-pair threshold in `h08s_shot_outliers.py`, `h08s_pulse_energy.py` and
   `h08s_shot_template.py`. The threshold is swept in `results-data/h08s_pulse/bf_threshold_sweep_table.csv`.
 
 **[KassRaftery1995]** Kass, R.E., Raftery, A.E. (1995). Bayes factors. *J. Am. Stat. Assoc.* 90(430),
 773–795. doi:10.1080/01621459.1995.10476572.
-- **Not held** (closed). Cited for the alternative evidence scale (3, 20 and 150) considered for the same
+- **No copy in the project store yet.** Cited for the alternative evidence scale (3, 20 and 150) considered for the same
   threshold.
 
 ## Additional pages cited (10 Oct)
