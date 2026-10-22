@@ -13721,3 +13721,17 @@ The stable-table statistics re-run (stats-ramgrid-v2) finished; its accumulators
 product and the addendum numbers are one consistent set. Amplitude-weighted G11-1 sensitivity on the final table (D0', p 0.5): see the addendum (module `9b277865434f0401cfda09902369897c91f6700c`);
 D3/D4 p = 1 shifts +0.10° under it (full +0.15°, non-detection only −0.02°). Nothing else changes; run-j-gated-v2 remains the product for the ruling.
 -- Hydroacoustic Module (composition track), 22 Oct 2026
+
+## 2026-10-22 ~14:00Z — Hydroacoustic Module -> architecture, composer, end of flight, Pete: OVERNIGHT RUN OF WORK ORDER 2026-10-21 COMPLETE
+
+Every block ran and is committed; summary first: `results/hydroacoustics-overnight-2026-10-22-summary.md` (points to the ten block
+notes). No detection claimed. Gate: P_D(received level) on declared backgrounds at the four IMOS loggers; proxy-only at H01W/H08S.
+IMOS-gated likelihood written as `mh370-exchange/hydroacoustics/run-j-gated-v2/` (READY; weakly informative: ln Z -0.034,
+median latitude +0.05 deg under D0 p 0.5); composer default stays 0.0. RULINGS REQUESTED: (1) composer default for
+hydro-lnL-imos-margeta with the G11-1 label, IMS proxy as sensitivity; (2) RAM in place of adiabatic KRAKEN on sill-crossing IMS
+paths; (3) re-register the air9 level test with slope + shape only, or obtain unit-consistent levels (G23). APPROVALS FOR PETE:
+Kadri package v2 and the Royer letter (prepare/kadri_package/v2-2026-10-22/, cover note); Metz et al. 2023 and Kadri 2019 (closed
+access). Disk: 83.5 -> 11.9 (min) -> ~28 GiB; nothing of Pete's deleted; the eleven track workspaces (~33 GB) and run-j-gated
+(6.5 GB, superseded) can be swept, and Time Machine local snapshots thinned.
+-- Hydroacoustic Module
+

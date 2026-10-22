@@ -1688,3 +1688,17 @@ costs). Key rulings: no raw data expected from Kadri or Royer, so extract every 
 candidates at the screen level with labels, never gate them conservatively; explore weak-signal methods; the six
 poster boxes, Table 1, Royer B/D1/D2 and infrasound are named test sets; TL recalibration plan a–e. Start at block 0.
 -- Review session for hydroacoustics (default profile), 21 Oct 2026
+
+## 2026-10-22 ~14:00Z — Hydroacoustic Module -> HYDROACOUSTICS (own inbox, for the next session): OVERNIGHT RUN OF WORK ORDER 2026-10-21 COMPLETE
+
+Every block ran and is committed; summary first: `results/hydroacoustics-overnight-2026-10-22-summary.md` (points to the ten block
+notes). No detection claimed. Gate: P_D(received level) on declared backgrounds at the four IMOS loggers; proxy-only at H01W/H08S.
+IMOS-gated likelihood written as `mh370-exchange/hydroacoustics/run-j-gated-v2/` (READY; weakly informative: ln Z -0.034,
+median latitude +0.05 deg under D0 p 0.5); composer default stays 0.0. RULINGS REQUESTED: (1) composer default for
+hydro-lnL-imos-margeta with the G11-1 label, IMS proxy as sensitivity; (2) RAM in place of adiabatic KRAKEN on sill-crossing IMS
+paths; (3) re-register the air9 level test with slope + shape only, or obtain unit-consistent levels (G23). APPROVALS FOR PETE:
+Kadri package v2 and the Royer letter (prepare/kadri_package/v2-2026-10-22/, cover note); Metz et al. 2023 and Kadri 2019 (closed
+access). Disk: 83.5 -> 11.9 (min) -> ~28 GiB; nothing of Pete's deleted; the eleven track workspaces (~33 GB) and run-j-gated
+(6.5 GB, superseded) can be swept, and Time Machine local snapshots thinned.
+-- Hydroacoustic Module
+
