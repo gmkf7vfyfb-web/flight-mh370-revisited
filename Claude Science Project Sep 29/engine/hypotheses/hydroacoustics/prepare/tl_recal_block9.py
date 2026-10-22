@@ -39,7 +39,8 @@ ROUTE 1 - EW0112 near-source calibrated recordings (step a, first route).
   Prediction and residual. RL_pred,b = S0,b + AF_b - TL_model,b.  r_b = RL_obs,b - RL_pred,b  (dB; r > 0 means the
     model under-predicts the signal). Over the bands in both the Fig. 23 span at the station and the readable Fig. 2
     set: H01W 12.5-63 Hz without 40 (8 bands), H08S 5-63 Hz without 40 (11 bands).
-  AMENDMENT 1 (22 Oct 2026 02:50 UTC, before any residual was computed; raised by the reviewer): the band COUNTS
+  AMENDMENT 1 (22 Oct 2026, between the pre-registration commit e949144 at about 02:22 UTC and the first TL run, i.e. before any
+    residual was computed; raised by the reviewer; committed in 150da8d): the band COUNTS
     above were mis-stated. 12.5-63 Hz without 40 Hz is 7 bands, and the audit's H08S rows run 6.3-63 Hz, so H08S
     without 40 Hz is 10 bands. The RULE (Fig. 23 span at the station, intersected with the Fig. 2 readable set) is
     unchanged and is what the code applies; no threshold or definition changed.
@@ -126,13 +127,15 @@ STEP (d) - air7 -> H01W, the ridge path (gap G22).
     "explained only as an upper bound (3-D proxy); 3-D model needed"; NOT -> "still open: single-section, corridor and
     +/-20 km proxy all exceed the observation by > 10 dB; mode-coupling (PE/3-D) is the next test".
 
-AMENDMENT 2 (22 Oct 2026 02:45 UTC, after the +/-20 km result was seen; EXPLORATORY, labelled, outside the
+AMENDMENT 2 (22 Oct 2026, written after the TL pool finished at 02:30:47 UTC and the +/-20 km result was seen, before 02:35 UTC;
+  committed in 150da8d; EXPLORATORY, labelled, outside the
   pre-registered rule). The least-loss TL falls steadily with offset to the right of the geodesic (crest 1,199 m at
   0 km, 1,420 m at +20 km), and a bathymetry scan shows the feature cleared at +40 to +50 km (crest >= 1,572 m, the
   H01W slope itself). Offsets +30, +40, +50 km are added as an extension of the 3-D proxy. They are reported as an
   exploratory upper bound only; the step (d) verdict is taken from the registered +/-20 km set. The RAM (d3) runs are
   placed on the geodesic and on the +20 km path at 31.5 and 40 Hz.
-AMENDMENT 3 (22 Oct 2026 02:50 UTC, after the first RAM result; EXPLORATORY, labelled). RAM at 31.5 and 40 Hz on the
+AMENDMENT 3 (22 Oct 2026, written after the first RAM result arrived at 02:43:27 UTC, before the extended RAM launch at about
+  02:46 UTC; committed in 48d28b7; EXPLORATORY, labelled). RAM at 31.5 and 40 Hz on the
   geodesic cut the air7 - air9 excess from about 43-53 dB (adiabatic) to about 20 dB, so the RAM set is extended to 50
   and 63 Hz and to the +50 km path (the ridge-clearing corridor), with air9 -> H01W at the same bands as the reference.
   Reported beside the registered result; the step (d) verdict stays on the registered adiabatic set.
@@ -142,6 +145,12 @@ OUTPUTS. results-data/tl_recal_block9/: route1_tl_model.csv, route1_residuals.cs
   Charts (PNG + PDF, two footnotes) and the addendum go to results/ on claude-science-sep29. Caveats C1 and C2 on
   every number. KRAKEN scratch under /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-tlrecal/ (deleted
   after use). Thread budget 4 processes (one KRAKEN/FIELD run per process).
+TIMESTAMP CORRECTION (22 Oct 2026, after the reviewer's finding; no number or rule changed): the three amendment headers first
+  carried estimated clock times (02:50, 02:45, 02:50 UTC) that were not read from a clock and were out of order. They are
+  replaced above by the tool-recorded sequence: pre-registration commit e949144 (about 02:22 UTC) -> amendment 1 -> TL pool
+  complete 02:30:47 -> amendment 2 -> N x 2D complete 02:36:50 -> first RAM complete 02:43:27 -> amendment 3 -> extended RAM
+  complete 03:09:36 -> addendum and coordination entry (03:20 UTC header). The order of decisions relative to results is what
+  the record supports; the earlier numeric stamps should not be relied on.
 """
 # IMPLEMENTATION is appended after the pre-registration commit (method exactly as registered; any change is an
 # amendment with its own commit and reason).
