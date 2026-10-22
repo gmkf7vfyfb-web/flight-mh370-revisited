@@ -30,7 +30,7 @@ Brief §10 item 2(b). The literature context and the keys used here are in `hydr
 | 4 | Duncan & Dall'Osto 2023 | MH370 much less detectable than the F-35A; Curtin event likely seismic | Directionally sound; not transferable to the core-estimate geometry |
 | 5 | Curtin CMST 2014-30 | HA01/RCS event at 5.9°S 77.2°E, incompatible with the arc | **Yes**, as "not a 7th-arc impact 00:19–00:51"; source unresolved |
 | 6 | ATSB statements | acoustic analysis inconclusive / no useful new information | Yes (defers to CMST); the "likely geological" wording is not located |
-| 7 | Royer 2016 (OHASISBIO) | no impact detected near the arc | Not assessable: report not obtained |
+| 7 | Royer 2016 (OHASISBIO) | no impact detected near the arc | Report held (`royer-2016-LDO-201608.pdf`, artifact e6fa6f46; digitised in block 1); to be assessed in the next update of this critique |
 | 8 | Independent analysts (370location.org) | several arc-consistent candidates | **No**: no trials accounting; repeated retractions |
 | 9 | Previous session (ISO Sept 28 worktree) | pre-registered IMOS search: 0 detections; tests of Kadri | Pre-registration sound; **detector failed every positive control**, so the non-detection carries almost no information |
 | 10 | Withdrawn archive, two-station correlation | no significant H01W–H08S association | Yes (null result); illustrates null-model dependence |
