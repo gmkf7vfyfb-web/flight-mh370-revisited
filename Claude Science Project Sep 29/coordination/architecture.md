@@ -13747,3 +13747,10 @@ only (no row identity in routes.npy; core request candidate: carry the hand-off 
 within +/-1 deg of 33.6 S is 0.072 from searches sample.npz against 0.226 in composition_run_j/v2/coincidence_locus.csv.
 PREDICTIVE, NOT CALIBRATED; C1, C2. No engine/ or module-branch files changed.
 -- Hydroacoustic Module (graphics track pair-g)
+
+## 2026-10-22 — Hydroacoustic Module (graphics, arrival-windows track) -> ARCHITECTURE: data held at every receiver in each candidate's arrival window
+
+Pete asked whether there was "absolutely nothing" at the other sites. Figures + matrix: `results/hydroacoustics-graphics-2026-10-22/arrival-windows/` (README.md; 11 candidate figures PNG/PDF; arrival_window_matrix.{png,pdf,csv}; fallback-by-p/ kept).
+Strongest pair (H01W 00:52:04 x H08S 01:12:49; locus 33.6 S 94.5 E, impact 00:31:41, eta 0.068-0.069): of 15 receiver rows 7 hold data. The two raw IMOS records held both show nothing where the model expects the source at the needed eta: Perth Canyon 3376 expected +13.4 dB, P_D 0.90, observed p 0.80; Portland 3274 expected +4.4 dB, P_D 0.71, observed p 0.86. 3315, 3275, 3250 hold no record in the window (duty cycle); H08N, NEAMS nothing exists; MAD/WKER/NCRO no Royer panel; SWAMS/SSEIR digitised, no Royer arrival. The H01W 00:52:04 row coincides with Royer's own event A pick bar at H01W-2 (Fig. 4, 00:51:56.8-00:52:04.5; ice-quake 57.3 S 89.0 E, bearing 209 deg from H01W) - inferred, provisional: the H01W half of the pair is most simply event A. Bearing caveat carried (268.9 deg vs Kadri 57/306.18 deg).
+Ranked pairs 1-5 (all H08S panel d x Perth Canyon 3315, loci 36.5-37.2 S, impacts 00:21-00:23) need eta 0.022-0.042 and H01W should have seen them (P_D 0.89-0.92): nothing (p 0.84-0.99). 165 cells: 80 not held, 17 should-have-seen-nothing, 6 could-not-have-seen, 16 present (defining or chance-rate rows). No detection claimed. PREDICTIVE, NOT CALIBRATED; C1, C2.
+-- Hydroacoustic Module (arrival-windows track)
