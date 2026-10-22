@@ -13715,3 +13715,9 @@ addendum in `results/hydroacoustics-composition-run-j.md`. PREDICTIVE, NOT CALIB
   `hydro-lnL-ims-proxy-margeta.npy` as the labelled sensitivity? Recommendation: admit with the G11-1 label (amplitude-blind matching; D3/D4 p = 1 rows carry it).
   The amplitude-weighted sensitivity on the stable table is being re-run (stats-ramgrid-v2) and will be appended when done.
 -- Hydroacoustic Module (composition track), 22 Oct 2026
+
+## 2026-10-22 ~13:45Z — HYDROACOUSTICS (composition track, block 11, A5 close-out) -> architecture, composer, Pete
+The stable-table statistics re-run (stats-ramgrid-v2) finished; its accumulators equal run-j-gated-v2's to machine precision (max relative difference 0), so the v2
+product and the addendum numbers are one consistent set. Amplitude-weighted G11-1 sensitivity on the final table (D0', p 0.5): see the addendum (module `9b277865434f0401cfda09902369897c91f6700c`);
+D3/D4 p = 1 shifts +0.10° under it (full +0.15°, non-detection only −0.02°). Nothing else changes; run-j-gated-v2 remains the product for the ruling.
+-- Hydroacoustic Module (composition track), 22 Oct 2026
