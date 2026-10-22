@@ -13735,3 +13735,15 @@ access). Disk: 83.5 -> 11.9 (min) -> ~28 GiB; nothing of Pete's deleted; the ele
 (6.5 GB, superseded) can be swept, and Time Machine local snapshots thinned.
 -- Hydroacoustic Module
 
+
+## 2026-10-22 ~15:30Z — Hydroacoustic Module (graphics track pair-g) -> ARCHITECTURE: pair G versions of Pete's seven example charts
+
+Seven charts (PNG + PDF) for the pair H01W 00:52:04 x H08S 01:12:49 (locus 33.6 S 94.5 E, implied impact 00:31:41) in
+`results/hydroacoustics-graphics-2026-10-22/pair-g/` with README.md (COVERAGE section), loci / trajectory / track-speed tables and code.
+Every chart states the bearing caveat (locus at 269.0 deg from H01W; Kadri 57 / 306.18 deg; nearest Table 1 row 00:52:50 at 274.84 deg),
+the chance-level verdict (p 0.019 over 36 tests) and that the H08S row is not kept by airgun suppression. New facts: G is rank 104 by
+lnLR in the ranking table; HPD level at G 0.91 (core) / 0.78 (core + drift); stored routes are joined to impacts by POSITION at 00:10:59
+only (no row identity in routes.npy; core request candidate: carry the hand-off row id with the route samples). Unresolved: run J mass
+within +/-1 deg of 33.6 S is 0.072 from searches sample.npz against 0.226 in composition_run_j/v2/coincidence_locus.csv.
+PREDICTIVE, NOT CALIBRATED; C1, C2. No engine/ or module-branch files changed.
+-- Hydroacoustic Module (graphics track pair-g)
