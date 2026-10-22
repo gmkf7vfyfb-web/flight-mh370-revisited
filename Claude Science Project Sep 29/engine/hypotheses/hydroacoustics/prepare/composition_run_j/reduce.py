@@ -248,6 +248,26 @@ def main(cols_dir, out_dir):
     ul = upper_limits(mx, norm); ul.to_csv(out / "upper_limits.csv", index=False)
     ev, dists = evidence_three_ways(mx); ev.to_csv(out / "evidence_three_ways.csv", index=False)
     np.savez_compressed(out / "latitude_distributions.npz", **{f"{k[0]}|a{k[1]:g}|{'ims' if k[2] else 'imos'}|{n}": v for k, d in dists.items() for n, v in d.items()})
+    nd = {"band_mid": (R.LAT_BAND_EDGES_1DEG[:-1] + 0.5).tolist()}
+    for j, key in enumerate(KEYS):
+        P = mx[f"wPnd_{ALPHA_TAGS[R.ALPHA_PRIMARY]}"][j][1:22, :NG].mean(1); w = mx["sum_w"][j][1:22]
+        with np.errstate(invalid="ignore", divide="ignore"):
+            v = np.where(w > 1e-9 * w.sum(), P / w, 0.0)
+        nd[key] = (v / v.sum()).tolist() if v.sum() > 0 else v.tolist()
+    json.dump(nd, open(out / "nd_alone_1deg.json", "w"), indent=0)
+    # non-detection-only combined distribution at 1-degree resolution (removes the amplitude-blind matches, gap G11-1)
+    e1 = R.LAT_BAND_EDGES_1DEG; rows_nd = []
+    for j, key in enumerate(KEYS):
+        for ims in (False, True):
+            wP = mx[f"wPnd{'_ims' if ims else ''}_{ALPHA_TAGS[R.ALPHA_PRIMARY]}"][j][1:22, :NG].mean(1); w = mx["sum_w"][j][1:22]
+            core = w / w.sum(); comb = wP / wP.sum()
+            med = lambda d: float(np.interp(0.5, np.cumsum(d), e1[1:])); n33 = lambda d: float(d[e1[:-1] >= -33].sum())
+            with np.errstate(divide="ignore", invalid="ignore"):
+                kl = float(np.nansum(np.where(core > 0, core * np.log(core / np.where(comb > 0, comb, np.nan)), 0.0)))
+            rows_nd.append(dict(option=key.split("/")[0], p=float(key.split("/p")[1]), receivers="IMS proxy + IMOS" if ims else "IMOS gated", lnZ_nd=float(np.log(wP.sum() / w.sum())),
+                                median_lat_core_1deg=med(core), median_lat_combined_nd=med(comb), shift_median_deg=med(comb) - med(core),
+                                mass_north_33S_core=n33(core), mass_north_33S_combined_nd=n33(comb), KL_nats=kl))
+    pd.DataFrame(rows_nd).to_csv(out / "evidence_nd_only_1deg.csv", index=False)
     fam, hol = families_and_holland(mx, norm); fam.to_csv(out / "families.csv", index=False); hol.to_csv(out / "holland_p1_vs_p0.csv", index=False)
     S = concat_sub(sub, supp_sub); M = Machinery()
     j = KEYS.index("D0/p0.5"); Z = mx["sum_w"][j].sum()
@@ -263,7 +283,7 @@ def main(cols_dir, out_dir):
                    candidates={f"{rx}|{a}": M.cands[(rx, a)].to_dict("records") for rx in R.RECEIVERS for a in R.ALPHAS},
                    scored_windows={rx: int(len(v)) for rx, v in M.windows.items()})
     json.dump(summary, open(out / "summary.json", "w"), indent=1, default=float)
-    np.savez_compressed(out / "subsample_merged.npz", **S)
+    # merged subsample not saved (1.1 GB duplicate of the per-seed files; disk cap)
     print(json.dumps(dict(ess=ess_stream, Z=Zrun[R.ALPHA_PRIMARY]), indent=1, default=float))
 
 

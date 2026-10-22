@@ -62,8 +62,10 @@ say(f"checks: {len(bad)} failing {bad[:5]}; short-written seeds {len(short)}")
 if bad: sys.exit(2)
 hdr = f"""Hydroacoustics block 11 (composition) on end of flight run J, all four strata (74 seeds). Written {time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}.
 Pre-registration prepare/composition_run_j/prereg.py (module branch, commit 90d7181); worker.py / driver.py; {NPROC} single-thread workers.
-Rows {rows:,}; not_computed (NaN) {nc}; per-seed checks (rows equal end of flight's, float32, NaN only where inputs non-finite and identical
-across columns, finite elsewhere, quantiles in _parts/*.json): all pass. Seeds with fewer than five columns (disk floor): {len(short)} {short}
+Rows {rows:,}; not_computed (NaN) {nc}; the marginalised IMOS column (proposed default) is present for every seed; per-seed checks (rows equal end of flight's, float32, NaN only where inputs non-finite and identical
+across columns, finite elsewhere, quantiles in _parts/*.json): all pass. Seeds with fewer than five columns (another process held the disk below the 20 GiB floor during the run; the marginalised IMOS
+column was written, the other four were not): {len(short)} {short}
+TOP-UP RECIPE (when >= 22 GiB free): B11_TOPUP=1 python worker.py <stratum> <seed> <this dir>  then  python driver.py  (finaliser only).
 
 COLUMNS (float32, row i = row i of end-of-flight/run-j/<stratum>/seed-N/impacts32.npy):
   hydro-lnL-imos-eta1e-3.npy      ln L of the IMOS-gated term at coupling efficiency eta = 1e-3

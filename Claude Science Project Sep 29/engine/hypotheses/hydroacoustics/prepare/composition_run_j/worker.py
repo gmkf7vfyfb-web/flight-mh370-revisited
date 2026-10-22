@@ -139,7 +139,8 @@ def run_seed(stratum, k, stg):
     for c in R.COLUMNS:
         assert len(cols[c]) == n and np.all(np.isfinite(cols[c][ok])) and np.all(np.isnan(cols[c][~ok]))
     od = Path(stg) / stratum / f"seed-{k}"; od.mkdir(parents=True, exist_ok=True)
-    gib = free_gib(stg); write = list(R.COLUMNS) if gib >= R.DISK_FLOOR_GIB else ["hydro-lnL-imos-margeta"]
+    gib = free_gib(stg); write = list(R.COLUMNS) if (gib >= R.DISK_FLOOR_GIB or os.environ.get("B11_TOPUP") == "1") else ["hydro-lnL-imos-margeta"]
+    # B11_TOPUP=1: re-run of a seed that was short-written while another process held the disk below the floor (amendment A2)
     shas = []
     for c in write:
         f = od / f"{c}.npy"; np.save(f, cols[c]); shas.append(f"{hashlib.sha256(f.read_bytes()).hexdigest()}  {c}.npy")
