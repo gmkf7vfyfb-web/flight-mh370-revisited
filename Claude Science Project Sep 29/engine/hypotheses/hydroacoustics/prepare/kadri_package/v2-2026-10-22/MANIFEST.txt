@@ -1,8 +1,8 @@
 # Kadri package v2 manifest, written 2026-10-22T04:46:27Z. sha256  size  file  provenance
 d1c227d6a0ec0ac1b3658adcf9e6f058157648dffd3733ae8589dd54bcac0c0a       8077  CALIBRATION_STATUS.txt  --  rewritten from the 22 Oct results notes
-fb781a711c48b4aab04ea8f93a56903dd880daa13130a0e5493beb33f03ef6b0       3890  COVER_NOTE_FOR_PETE.md  --  approval items and removal suggestions (internal; not for the recipient)
-be8ab8b449fd3fac60957bf31fbb6388e79e329679d30d6f7225606ba625c530       4799  README.md  --  package contents and how to run on IMS triad data
-b5712a95fc2f29b81ea176b5ef7d7aa87191544a2588a483951c718c1c678e9c      11446  REQUESTS.md  --  ask list (brief section 9, Refresh v2 sections 4-6, work order block 12; searches/windows/digitisation/TL-recalibration notes of 22 Oct)
+e6fbcad9af3253d1d94145301632c8fe3194311ab1987ba3e3cdb520194495f4       3943  COVER_NOTE_FOR_PETE.txt  --  approval items and removal suggestions (internal; not for the recipient)
+c1a616b3ee26564d7260e08b44335dc306f4ee72d741b130a0cc772e0ce7eb69       4825  README.txt  --  package contents and how to run on IMS triad data
+b5712a95fc2f29b81ea176b5ef7d7aa87191544a2588a483951c718c1c678e9c      11446  REQUESTS.txt  --  ask list (brief section 9, Refresh v2 sections 4-6, work order block 12; searches/windows/digitisation/TL-recalibration notes of 22 Oct)
 a22c95cb07bac024d75ae238b732b994df6062ae275944c80ff677a5d4c532af      20221  build_predictions_v2.py  --  builder (module code)
 642e28d484f5ad589a9270ddf82eff1e8c316b022b9107391ecb6d2b886f3269       5142  build_windows_v2.py  --  builder (module code)
 ae178ddeb01c3e8433032d111e48aee9a118ea73c286310e7ce813ac92c048c7       4847  make_templates.py  --  builder (module code)
@@ -55,3 +55,4 @@ e43e79e99aad4f224746fdb04d175e95a4ea7c8cd121d981ae92f957d3ea9e64     542404  syn
 225f31a9a29a3da4581710ef93a2f8cb2d5fc2d29c3a230462d3dc3721588c24     542404  synthetic_triad/synth_H01W_baz306.18_snr-6_seed1.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
 56ff93d239bdf3ae8f17d9d25e874ae34780aa1386719522cb3dc3224b529a0a     542404  synthetic_triad/synth_H01W_baz306.18_snr-6_seed2.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
 bb06d317b25f8a617f568a77fc7932c6357c31ad83e2e3c1c17cff83163ae4d4     542404  synthetic_triad/synth_H01W_baz306.18_snr-6_seed3.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+# In the zip-ready exchange copy README/REQUESTS/COVER_NOTE are .md (same content); inside engine/ they are .txt by project rule.

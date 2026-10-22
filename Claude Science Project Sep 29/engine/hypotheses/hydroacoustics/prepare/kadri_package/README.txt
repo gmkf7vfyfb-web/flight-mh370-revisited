@@ -17,6 +17,8 @@ requests list, and Pete's review.
   pending); bearings and ranges still from core (b)'s impact bins (declared). windows_core_b.csv regenerates unchanged.
 - 22 Oct 2026 (work order 2026-10-21 block 12): v2-2026-10-22/ is the CURRENT package (run J, whole-arc grid 41-20 S x
   -60..+60 NM x 8 receivers, D0'/D2/D3/D4 weights, both branches, M1b optional detector with templates, run J pulse model
-  for the synthetic triad set, REQUESTS.md incl. the Royer draft, CALIBRATION_STATUS.txt rewritten, COVER_NOTE_FOR_PETE.md).
+  for the synthetic triad set, REQUESTS.md incl. the Royer draft, CALIBRATION_STATUS.txt rewritten, COVER_NOTE_FOR_PETE.txt).
   Zip-ready copy: /Users/pete/Downloads/mh370-exchange/hydroacoustics/kadri-package-v2/ (synthetic waveforms only there).
   Everything above this line is superseded and kept for the record. NOTHING IS SENT before Pete approves.
+
+  Note: inside engine/ the three prose files are .txt (project rule: no .md inside engine/); the zip-ready exchange copy carries them as .md.

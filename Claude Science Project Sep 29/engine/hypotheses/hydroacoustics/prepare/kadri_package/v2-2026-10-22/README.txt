@@ -14,7 +14,7 @@ Every number carries caveats C1 (propagation slope misfit) and C2 (coupling effi
 | `reference_measure.py` | ~150 lines, numpy + scipy: Butterworth bands; peak, RMS, exposure; pre-event noise; SNR; plane-wave bearing fit; optional envelope matched filter (M1b). |
 | `templates_envelope.npz` / `.csv`, `templates_meta.json`, `pulse_runj.npz` | M1b templates (32: 8 ranges × 4 source durations) and the run J pulse model used for the synthetic test set. |
 | `synth_triad.py`, `selftest.py`, `selftest_results.csv`, `selftest_summary.json` | Synthetic H01W triad test set (run J pulse model in coloured Gaussian noise) and the self-test results. The waveform files themselves are in `synthetic_triad/` of the zip (not in git). |
-| `REQUESTS.md` | The ask list with reasons and windows; the questions; the parallel request to J.-Y. Royer. |
+| `REQUESTS.txt` (REQUESTS.md in the zip) | The ask list with reasons and windows; the questions; the parallel request to J.-Y. Royer. |
 | `CALIBRATION_STATUS.txt` | What is calibrated, what is a proxy, the gate status. |
 | `MANIFEST.txt` | SHA-256 of every file and its provenance. |
 
