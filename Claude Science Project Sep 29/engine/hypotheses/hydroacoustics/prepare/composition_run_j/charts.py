@@ -52,11 +52,12 @@ def chart_evidence(out, res, tag):
         ax.set_xlabel("Latitude of the impact on the 7th arc (°S)")
     axes[0].set_ylabel("Probability per 0.5° bin")
     h, l = axes[0].get_legend_handles_labels(); fig.legend(h, l, loc="upper left", bbox_to_anchor=(0.06, 0.945), ncol=3, fontsize=6.5)
-    fig.suptitle("At dive probability 0.5, adding the hydroacoustic result moves the end-of-flight latitude distribution by 0.1–0.3°;\nthe bumps near 33–36°S come from two time-matched Portland candidates that are too loud to be the aircraft (amplitude-blind matching)", x=0.01, ha="left", y=0.998, fontsize=8.5)
+    sh = [abs(ev[(ev.option == o) & (ev.p == 0.5) & (ev.alpha == 0.05) & (ev.receivers == "IMOS gated")].iloc[0].shift_median_deg) for o in R.OPTIONS]
+    fig.suptitle(f"At dive probability 0.5, adding the hydroacoustic result moves the end-of-flight latitude distribution by {min(sh):.2f}–{max(sh):.2f}°;\nthe bumps near 33–36°S come from two time-matched Portland candidates that are too loud to be the aircraft (amplitude-blind matching)", x=0.01, ha="left", y=0.998, fontsize=8.5)
     e0 = ev[(ev.option == "D0") & (ev.p == 0.5) & (ev.alpha == 0.05) & (ev.receivers == "IMOS gated")].iloc[0]
     footnotes(fig,
               f"Grey: where the flight simulation (run J) puts the impact, by latitude. Blue: the same after multiplying by the chance that the four Australian sea-floor recorders would have heard, or not heard, each simulated impact at the times their recordings were running; the sound-coupling share is unknown and is averaged over 1e-6 to 1e-2. Orange: what the recorders say on their own if every latitude were equally likely beforehand. Dotted: adds the two deep-ocean stations with stand-in noise. The recorders were running about a third of the time, so most impacts could not have been heard at all. Dive probability 0.5. These are model predictions; no detection is claimed.",
-              f"Source posterior run J (74 seeds + northern supplement, p_core strata mix, seeds pooled by evidence), p = 0.5, per 00:19 option; module likelihood per row L = prod_r [(1 - P_D,r) + P_D,r m_r/beta_r], M1b, alpha = 0.05 per 55 s window, P_D from block 7 injection-recovery fits on own IMOS backgrounds (3376, 3315, 3274, 3275), TL block 2 arc grid (41-20 S), E = contact KE, tau = tau90 (EoF method 1), calibration error N(0, 10 dB), eta marginalised log-uniform [1e-6, 1e-2]; 'alone' = bin mean of exp(lnL) over bins with mass; KL(core||combined) D0' = {e0.KL_core_vs_combined_nats:.4f} nats. IMS stand-in = IMOS 3376 shaped to Blackman 2003 (digitised), +4.8 dB triad gain. PREDICTIVE, NOT CALIBRATED; caveats C1 (propagation slope misfit +10.4/+7.4 dB/oct at H01W/H08S) and C2 (coupling efficiency not calibrated, F-35A upper anchor 2.1e-4). Block 11 prereg 90d7181; {tag}.")
+              f"Source posterior run J (74 seeds + northern supplement, p_core strata mix, seeds pooled by evidence), p = 0.5, per 00:19 option; module likelihood per row L = prod_r [(1 - P_D,r) + P_D,r m_r/beta_r], M1b, alpha = 0.05 per 55 s window, P_D from block 7 injection-recovery fits on own IMOS backgrounds (3376, 3315, 3274, 3275), TL block 2 arc grid (41-20 S; IMOS: RAM along the grid, imos_tl_ram_arc.csv, amendment A4), E = contact KE, tau = tau90 (EoF method 1), calibration error N(0, 10 dB), eta marginalised log-uniform [1e-6, 1e-2]; 'alone' = bin mean of exp(lnL) over bins with mass; KL(core||combined) D0' = {e0.KL_core_vs_combined_nats:.4f} nats. IMS stand-in = IMOS 3376 shaped to Blackman 2003 (digitised), +4.8 dB triad gain. PREDICTIVE, NOT CALIBRATED; caveats C1 (propagation slope misfit +10.4/+7.4 dB/oct at H01W/H08S) and C2 (coupling efficiency not calibrated, F-35A upper anchor 2.1e-4). Block 11 prereg 90d7181 + A4 e13a32e; {tag}.")
     bad = check_overlaps(fig)
     for ext in ("png", "pdf"): fig.savefig(res / f"hydroacoustics-composition-run-j-evidence.{ext}")
     plt.close(fig); return bad
@@ -64,15 +65,10 @@ def chart_evidence(out, res, tag):
 
 def chart_limits(out, res, tag):
     ul = pd.read_csv(out / "upper_limits.csv"); summ = json.load(open(out / "summary.json"))
-    sub = np.load(out / "subsample_merged.npz"); W = sub["W"][4]; lat = sub["lat"]; lg = sub["lnL_grid"][:, :len(R.ETA_GRID)].astype(float)
     fig, axes = plt.subplots(1, 2, figsize=(11.5, 5.0), gridspec_kw=dict(width_ratios=[1.25, 1])); fig.subplots_adjust(left=0.06, right=0.99, top=0.86, bottom=0.40, wspace=0.30)
     ax = axes[0]; cols = plt.cm.viridis(np.linspace(0.1, 0.9, 5)); bands = [(-41, -36), (-36, -31), (-31, -26), (-26, -21)]
     # P(no detection | eta) per band from the streamed sums is not stored per eta in the csv: recompute from the merged subsample (declared: 1-in-125)
     for (lo, hi), c in zip(bands, cols):
-        m = (lat >= lo) & (lat < hi) & (W > 0)
-        if m.sum() < 50: continue
-        w = W[m] / W[m].sum()
-        # non-detection probability per eta needs lnPnd; the subsample carries lnL (with matches) -- use the table's band values at the three tabulated eta instead
         row = ul[(ul.option == "D0") & (ul.p == 0.5) & (ul.alpha == 0.05) & (ul.receivers == "IMOS gated") & (ul.lat_lo == lo) & (ul.lat_hi == hi)].iloc[0]
         xs = [1e-4, R.ETA_ANCHOR, 1e-3, 1e-2]; ys = [row["pnd_at_1e-4"], row["pnd_at_anchor"], row["pnd_at_1e-3"], row["pnd_at_1e-2"]]
         ax.plot(xs, ys, "-o", color=c, lw=1.3, ms=3.5, label=f"{-lo}–{-hi}°S (share {row['share']:.3f}, n_eff {row['ess']:.0f})")
@@ -82,7 +78,7 @@ def chart_limits(out, res, tag):
     ax.axvline(R.ETA_ANCHOR, color="#777777", lw=0.8, ls=":"); ax.text(R.ETA_ANCHOR * 1.08, 0.98, "F-35A upper anchor", fontsize=6, color="#555555", va="top")
     ax.set_xscale("log"); ax.set_xlim(7e-5, 1.4e-2); ax.set_ylim(0, 1.02); ax.set_xlabel("Share of impact energy that becomes sound (coupling efficiency)")
     ax.set_ylabel("Probability that no recorder detects the impact")
-    ax.set_title("a  Even at a coupling efficiency of 0.01 the recordings held\n    miss the impact about 40 % of the time", loc="left", fontsize=7.5)
+    ax.set_title(f"a  Even at a coupling efficiency of 0.01 the recordings held\n    miss the impact about {100 * row['pnd_at_1e-2']:.0f} % of the time", loc="left", fontsize=7.5)
     ax.legend(loc="lower left", fontsize=6, bbox_to_anchor=(0.0, 0.08))
     ax = axes[1]
     sel = ul[(ul.p == 0.5) & (ul.alpha == 0.05) & (ul.receivers == "IMOS gated") & (ul.lat_lo == -41) & (ul.lat_hi == -20)]
@@ -98,8 +94,8 @@ def chart_limits(out, res, tag):
     ax.plot([], [], "o", color=C_COMB, label="from the non-detections only"); ax.plot([], [], "s", color=C_ALONE, mfc="none", label="full likelihood incl. time-matched candidates"); ax.legend(loc="lower left", fontsize=6)
     fig.suptitle("The Australian sea-floor recordings held cannot exclude any coupling efficiency in the swept range at 95 %", x=0.01, ha="left", y=0.995, fontsize=9)
     footnotes(fig,
-              "(a) For impacts in each latitude band of the flight simulation, the chance that all four recorders would have missed the sound, against the share of impact energy that becomes sound. The recorders ran for 5 minutes in every 15 and only two of them cover each arrival, so even a loud impact is missed about 40 % of the time. (b) The upper limit on the coupling efficiency that the absence of a detection allows, with 95 % probability, for each treatment of the 00:19 satellite data; it is almost the same as the limit implied by the assumed range alone. Dive probability 0.5. No detection is claimed.",
-              f"Run J, p = 0.5, alpha = 0.05 (M1b), P_D from block 7 injection-recovery on own backgrounds; P(no detection | eta) = weighted mean over impacts of prod_r (1 - P_D,r) with P_D,r = 0 outside the scored IMOS windows; (b) posterior 95 % quantile under the log-uniform prior on [1e-6, 1e-2] with the non-detection likelihood (filled) and the full likelihood including the amplitude-blind time matches at Portland 3275 (open; gap G11-1); classical 95 % exclusion not reached below 1e-2 in any band. Bands: 1-degree streamed sums over all 313.6 M rows + supplement. PREDICTIVE, NOT CALIBRATED; C1, C2; TL arc grid (IMOS RAM-corrected, G-TL1). Block 11 prereg 90d7181; {tag}.")
+              f"(a) For impacts in each latitude band of the flight simulation, the chance that all four recorders would have missed the sound, against the share of impact energy that becomes sound. The recorders ran for 5 minutes in every 15 and only two of them cover each arrival, so even a loud impact is missed about {100 * row['pnd_at_1e-2']:.0f} % of the time. (b) The upper limit on the coupling efficiency that the absence of a detection allows, with 95 % probability, for each treatment of the 00:19 satellite data; it is almost the same as the limit implied by the assumed range alone. Dive probability 0.5. No detection is claimed.",
+              f"Run J, p = 0.5, alpha = 0.05 (M1b), P_D from block 7 injection-recovery on own backgrounds; P(no detection | eta) = weighted mean over impacts of prod_r (1 - P_D,r) with P_D,r = 0 outside the scored IMOS windows; (b) posterior 95 % quantile under the log-uniform prior on [1e-6, 1e-2] with the non-detection likelihood (filled) and the full likelihood including the amplitude-blind time matches at Portland 3275 (open; gap G11-1); classical 95 % exclusion not reached below 1e-2 in any band. Bands: 1-degree streamed sums over all 313.6 M rows + supplement. PREDICTIVE, NOT CALIBRATED; C1, C2; TL arc grid (IMOS: RAM along the grid, imos_tl_ram_arc.csv, amendment A4). Block 11 prereg 90d7181 + A4 e13a32e; {tag}.")
     bad = check_overlaps(fig)
     for ext in ("png", "pdf"): fig.savefig(res / f"hydroacoustics-composition-run-j-limits.{ext}")
     plt.close(fig); return bad

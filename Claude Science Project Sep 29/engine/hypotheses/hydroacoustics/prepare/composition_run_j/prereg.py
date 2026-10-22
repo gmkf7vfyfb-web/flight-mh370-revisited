@@ -214,4 +214,4 @@ N_DRAWS_BF = 20_000
 TL_TABLE_DIR_RAMGRID = pathlib.Path("/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-tl-grid/tables")
 IMOS_TL_FILE_RAMGRID = "imos_tl_ram_arc.csv"
 SIGMA_A_DECADES = 1.0
-STATS_DIR_RAMGRID = EXCHANGE_OUT / "stats-ramgrid"
+STATS_DIR_RAMGRID = EXCHANGE_OUT / "stats-ramgrid-v2"   # A5: re-run on the stable table (the first stats run straddled a table rewrite)

@@ -29,8 +29,8 @@ def main(old, new):
     L.append("|---|---|---|---|---|---|---|---|")
     for o in R.OPTIONS:
         for p in R.PS:
-            a, b = sel(uo, o, p, "IMOS gated"), sel(un, o, p, "IMOS gated"); c = sel(un, o, p, "IMOS gated (amplitude-weighted)")
-            L.append(f"| {OPT[o]} | {p:g} | {e(a['eta95_bayes_nondetection_logu_1e-6_1e-2'])} → {e(b['eta95_bayes_nondetection_logu_1e-6_1e-2'])} | {e(a.eta95_bayes_full_likelihood)} → {e(b.eta95_bayes_full_likelihood)} | {e(c.eta95_bayes_full_likelihood)} | {a['pnd_at_1e-2']:.2f} → {b['pnd_at_1e-2']:.2f} | {a['pnd_at_1e-3']:.2f} → {b['pnd_at_1e-3']:.2f} | {a.pnd_at_anchor:.2f} → {b.pnd_at_anchor:.2f} |")
+            a, b = sel(uo, o, p, "IMOS gated"), sel(un, o, p, "IMOS gated"); c = sel(un, o, p, "IMOS gated (amplitude-weighted)") if (un.receivers == "IMOS gated (amplitude-weighted)").any() else None
+            L.append(f"| {OPT[o]} | {p:g} | {e(a['eta95_bayes_nondetection_logu_1e-6_1e-2'])} → {e(b['eta95_bayes_nondetection_logu_1e-6_1e-2'])} | {e(a.eta95_bayes_full_likelihood)} → {e(b.eta95_bayes_full_likelihood)} | {e(c.eta95_bayes_full_likelihood) if c is not None else 'n/a'} | {a['pnd_at_1e-2']:.2f} → {b['pnd_at_1e-2']:.2f} | {a['pnd_at_1e-3']:.2f} → {b['pnd_at_1e-3']:.2f} | {a.pnd_at_anchor:.2f} → {b.pnd_at_anchor:.2f} |")
     L.append("\n**Table A2. Per 5° band, p = 0.5, α = 0.05, IMOS gated: Bayes ND limit and P(no detection) at η = 1e-2, old → new.**\n")
     L.append("| Option | Band | share | ESS | Bayes ND old → new | P(nd) 1e-2 old → new | P(nd) anchor old → new | classical (new) |"); L.append("|---|---|---|---|---|---|---|---|")
     for o in R.OPTIONS:
@@ -43,18 +43,18 @@ def main(old, new):
     for o in R.OPTIONS:
         for p in R.PS:
             a = eo[(eo.option == o) & (eo.p == p) & (eo.alpha == 0.05) & (eo.receivers == "IMOS gated")].iloc[0]; b = en[(en.option == o) & (en.p == p) & (en.alpha == 0.05) & (en.receivers == "IMOS gated")].iloc[0]
-            c = en[(en.option == o) & (en.p == p) & (en.alpha == 0.05) & (en.receivers == "IMOS gated (amplitude-weighted)")].iloc[0]; d = nn[(nn.option == o) & (nn.p == p) & (nn.receivers == "IMOS gated")].iloc[0]
-            L.append(f"| {OPT[o]} | {p:g} | {a.lnZ_hydro:+.3f} → {b.lnZ_hydro:+.3f} | {a.shift_median_deg:+.2f} → {b.shift_median_deg:+.2f} | {a.mass_north_33S_combined:.3f} → {b.mass_north_33S_combined:.3f} ({b.mass_north_33S_core:.3f}) | {a.KL_core_vs_combined_nats:.3f} → {b.KL_core_vs_combined_nats:.3f} | {c.lnZ_hydro:+.3f} / {c.shift_median_deg:+.2f} / {c.KL_core_vs_combined_nats:.3f} | {d.lnZ_nd:+.3f} / {d.shift_median_deg:+.2f} / {d.KL_nats:.3f} |")
+            ca = en[(en.option == o) & (en.p == p) & (en.alpha == 0.05) & (en.receivers == "IMOS gated (amplitude-weighted)")]; c = ca.iloc[0] if len(ca) else None; d = nn[(nn.option == o) & (nn.p == p) & (nn.receivers == "IMOS gated")].iloc[0]
+            L.append(f"| {OPT[o]} | {p:g} | {a.lnZ_hydro:+.3f} → {b.lnZ_hydro:+.3f} | {a.shift_median_deg:+.2f} → {b.shift_median_deg:+.2f} | {a.mass_north_33S_combined:.3f} → {b.mass_north_33S_combined:.3f} ({b.mass_north_33S_core:.3f}) | {a.KL_core_vs_combined_nats:.3f} → {b.KL_core_vs_combined_nats:.3f} | {(f"{c.lnZ_hydro:+.3f} / {c.shift_median_deg:+.2f} / {c.KL_core_vs_combined_nats:.3f}") if c is not None else 'n/a'} | {d.lnZ_nd:+.3f} / {d.shift_median_deg:+.2f} / {d.KL_nats:.3f} |")
     L.append("\n**Table A4. Holland-type descent ln BF (p = 1 : p = 0), α = 0.05, old → new; amplitude-weighted and ND-only on the new table.**\n")
     L.append("| Option | IMOS gated old → new | amp-weighted (new) | ND only old → new | IMS proxy old → new |"); L.append("|---|---|---|---|---|")
     for o in R.OPTIONS:
         a = ho[(ho.option == o) & (ho.alpha == 0.05)].iloc[0]; b = hn[(hn.option == o) & (hn.alpha == 0.05)].iloc[0]
-        L.append(f"| {OPT[o]} | {a.lnBF_p1_vs_p0_imos:+.3f} → {b.lnBF_p1_vs_p0_imos:+.3f} | {b.lnBF_p1_vs_p0_ampweighted:+.3f} | {a.lnBF_p1_vs_p0_nondetection_only:+.3f} → {b.lnBF_p1_vs_p0_nondetection_only:+.3f} | {a.lnBF_p1_vs_p0_ims_proxy:+.3f} → {b.lnBF_p1_vs_p0_ims_proxy:+.3f} |")
+        L.append(f"| {OPT[o]} | {a.lnBF_p1_vs_p0_imos:+.3f} → {b.lnBF_p1_vs_p0_imos:+.3f} | {(f"{b.lnBF_p1_vs_p0_ampweighted:+.3f}") if pd.notna(b.get('lnBF_p1_vs_p0_ampweighted', np.nan)) else 'n/a'} | {a.lnBF_p1_vs_p0_nondetection_only:+.3f} → {b.lnBF_p1_vs_p0_nondetection_only:+.3f} | {a.lnBF_p1_vs_p0_ims_proxy:+.3f} → {b.lnBF_p1_vs_p0_ims_proxy:+.3f} |")
     L.append("\n**Table A5. Conditional hypotheses, ln BF on the gated IMOS term (α = 0.05), old → new, with the amplitude-weighted variant (new) and the IMS-proxy sensitivity (new; Kadri rows circular).**\n")
     L.append("| Hypothesis | P(nd) IMOS old → new | ln BF IMOS old → new | amp-weighted (new) | ln BF IMS proxy (new) |"); L.append("|---|---|---|---|---|")
     for (_, a), (_, b) in zip(bo.iterrows(), bn.iterrows()):
         assert a.hypothesis == b.hypothesis
-        L.append(f"| {b.hypothesis} | {a['Pnd_imos_marg_a0.05']:.3f} → {b['Pnd_imos_marg_a0.05']:.3f} | {a['lnBF_imos_a0.05']:+.3f} → {b['lnBF_imos_a0.05']:+.3f} | {b['lnBF_imos_amp_a0.05']:+.3f} | {b['lnBF_ims_proxy_a0.05']:+.3f} |")
+        L.append(f"| {b.hypothesis} | {a['Pnd_imos_marg_a0.05']:.3f} → {b['Pnd_imos_marg_a0.05']:.3f} | {a['lnBF_imos_a0.05']:+.3f} → {b['lnBF_imos_a0.05']:+.3f} | {(f"{b['lnBF_imos_amp_a0.05']:+.3f}") if 'lnBF_imos_amp_a0.05' in b and pd.notna(b['lnBF_imos_amp_a0.05']) else 'n/a'} | {b['lnBF_ims_proxy_a0.05']:+.3f} |")
     L.append("\n**Table A6. Two-site coincidence locus (unchanged geometry; the η requirement uses the IMS proxy fits and IMS TL, which A4 does not touch).**\n")
     for lc_o, lc_n in zip(co["loci"], cn["loci"]):
         L.append(f"- Locus {-lc_n['locus_lat']:.2f}°S {lc_n['locus_lon']:.2f}°E, implied impact {lc_n['implied_impact_utc'][:8]}: η for P_D(both) = 0.5 / 0.05 at α 0.05: old {lc_o['eta_both_pd_0.5_a0.05']:.3g} / {lc_o['eta_both_pd_0.05_a0.05']:.3g} → new {lc_n['eta_both_pd_0.5_a0.05']:.3g} / {lc_n['eta_both_pd_0.05_a0.05']:.3g}; run J mass within ±1° {lc_n['prior_D0_mass_within_1deg']:.3f}.")

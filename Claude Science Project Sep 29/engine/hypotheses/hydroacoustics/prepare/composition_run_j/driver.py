@@ -11,7 +11,9 @@ import prereg as R
 
 NPROC = int(sys.argv[1]) if len(sys.argv) > 1 else R.N_PROC
 STATS_ONLY = os.environ.get("B11_STATS_ONLY") == "1"      # amendment A4: statistics-only re-run into stats-ramgrid/, no columns, no finaliser
-out = R.STATS_DIR_RAMGRID if STATS_ONLY else R.EXCHANGE_OUT; stg = out if STATS_ONLY else pathlib.Path(str(out) + ".staging"); stg.mkdir(parents=True, exist_ok=True)
+out = R.STATS_DIR_RAMGRID if STATS_ONLY else pathlib.Path(os.environ.get("B11_OUT", str(R.EXCHANGE_OUT)))   # B11_OUT: product folder (A4 rewrite -> run-j-gated-v2)
+stg = out if STATS_ONLY else pathlib.Path(str(out) + ".staging"); stg.mkdir(parents=True, exist_ok=True)
+RAMGRID = os.environ.get("B11_IMOS_RAMGRID") == "1"
 log = open(stg / "driver.log", "a")
 def say(m): log.write(time.strftime("%Y-%m-%dT%H:%M:%SZ ", time.gmtime()) + m + "\n"); log.flush()
 tasks = []
@@ -64,7 +66,8 @@ for s in R.STRATA:
 say(f"checks: {len(bad)} failing {bad[:5]}; short-written seeds {len(short)}")
 if bad: sys.exit(2)
 hdr = f"""Hydroacoustics block 11 (composition) on end of flight run J, all four strata (74 seeds). Written {time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}.
-Pre-registration prepare/composition_run_j/prereg.py (module branch, commit 90d7181); worker.py / driver.py; {NPROC} single-thread workers.
+{'PRODUCT v2 (amendment A4, prereg e13a32e): IMOS TL from the RAM-along-grid drop-in imos_tl_ram_arc.csv (G-TL1 closed on the offset-0 line); supersedes run-j-gated (old IMOS table).' if RAMGRID else 'IMOS TL: imos_tl_ramcorr_arc.csv (constant rule-2 correction, gap G-TL1).'}
+Pre-registration prepare/composition_run_j/prereg.py (module branch, commit 90d7181{' + A4 e13a32e' if RAMGRID else ''}); worker.py / driver.py; {NPROC} single-thread workers.
 Rows {rows:,}; not_computed (NaN) {nc}; the marginalised IMOS column (proposed default) is present for every seed; per-seed checks (rows equal end of flight's, float32, NaN only where inputs non-finite and identical
 across columns, finite elsewhere, quantiles in _parts/*.json): all pass. Seeds with fewer than five columns (another process held the disk below the 20 GiB floor during the run; the marginalised IMOS
 column was written, the other four were not): {len(short)} {short}
@@ -86,7 +89,7 @@ four decades, F-35A upper anchor). Both Kadri times carried: text time 00:52:03,
 level alpha = 0.05 per 55 s window (report level), beta = alpha / 55 s; matched candidates from the block 5 pre-registered tables
 (IMOS M1b p <= 0.05: 3275 01:20:35 and 01:07:47, both louder than any impact could be at Portland, eta_needed 30 / 19 -- matching is
 amplitude-blind, gap G11-1; H01W M1b p <= 0.05: 00:52:04 text time; H08S residual: none). TL = block 2 arc grid (41-20 S, offset 0,
-10 m source; IMOS RAM-corrected, G-TL1; IMS raw KRAKEN minus imp500 RAM delta). tau = end of flight tau90 (method 1). E = contact
+10 m source; IMOS {'RAM along the grid, imos_tl_ram_arc.csv' if RAMGRID else 'RAM-corrected, G-TL1'}; IMS raw KRAKEN minus imp500 RAM delta). tau = end of flight tau90 (method 1). E = contact
 kinetic energy (sidecar energy_transferred_j, an upper anchor). Calibration error N(0, 10 dB) per row shared by receivers.
 
 RULING REQUEST (architecture, composer, Pete): may hydro-lnL-imos-margeta enter the composer as the module's likelihood (default), with

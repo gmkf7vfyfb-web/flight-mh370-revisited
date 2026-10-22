@@ -1,3 +1,5 @@
+SUPERSEDED by run-j-gated-v2 (IMOS TL table): the columns here are on the OLD imos_tl_ramcorr_arc.csv table; use run-j-gated-v2 (imos_tl_ram_arc.csv).
+
 *** WARNING (23 Oct 2026, amendment A4): THE COLUMNS IN THIS DIRECTORY ARE ON THE OLD IMOS TL TABLE (imos_tl_ramcorr_arc.csv, constant
 *** rule-2 RAM correction, gap G-TL1). The RAM-along-grid track has since issued the corrected table imos_tl_ram_arc.csv (run-j-tl-grid/tables/).
 *** The per-row columns here MUST BE REWRITTEN with the corrected table before any composer use. They are internally consistent with this

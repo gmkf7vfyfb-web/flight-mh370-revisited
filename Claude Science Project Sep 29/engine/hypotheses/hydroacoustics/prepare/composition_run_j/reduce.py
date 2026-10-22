@@ -13,7 +13,8 @@ import prereg as R
 from common import Machinery
 from worker import KEYS, NB1, NBH, FAM_CODES
 import os
-STATS_ONLY = os.environ.get("B11_STATS_ONLY") == "1"     # amendment A4: RAM-grid IMOS TL + amplitude-weighted variant present in the accumulators
+STATS_ONLY = os.environ.get("B11_STATS_ONLY") == "1"     # amendment A4: amplitude-weighted variant present in the accumulators (stats-only run)
+RAMGRID = STATS_ONLY or os.environ.get("B11_IMOS_RAMGRID") == "1"   # A4: RAM-grid IMOS TL (stats-only run or the v2 column product)
 
 FAM_NAMES = {1: "A1", 2: "A2", 3: "B", 6: "outside B"}
 OPTION_NAMES = {"D0": "00:19 Held Out (D0')", "D2": "R600 BTO + BFO (D2)", "D3": "both BFOs as recorded (D3)", "D4": "both BFOs, shared start-up offset (D4)"}
@@ -276,7 +277,7 @@ def main(cols_dir, out_dir):
                                 mass_north_33S_core=n33(core), mass_north_33S_combined_nd=n33(comb), KL_nats=kl))
     pd.DataFrame(rows_nd).to_csv(out / "evidence_nd_only_1deg.csv", index=False)
     fam, hol = families_and_holland(mx, norm); fam.to_csv(out / "families.csv", index=False); hol.to_csv(out / "holland_p1_vs_p0.csv", index=False)
-    S = concat_sub(sub, supp_sub); M = Machinery(imos_ramgrid=STATS_ONLY)
+    S = concat_sub(sub, supp_sub); M = Machinery(imos_ramgrid=RAMGRID)
     j = KEYS.index("D0/p0.5"); Z = mx["sum_w"][j].sum()
     Zrun = {a: dict(imos=mx[f"wLmarg_{ALPHA_TAGS[a]}"][j] / Z, ims=mx[f"wLmarg_ims_{ALPHA_TAGS[a]}"][j] / Z, **({"amp": mx[f"wLmarg_A_{ALPHA_TAGS[a]}"][j] / Z} if STATS_ONLY else {})) for a in R.ALPHAS}
     bf = conditionals(M, S, Zrun, out); co = coincidence(M, S, out)
@@ -284,7 +285,7 @@ def main(cols_dir, out_dir):
     ess_stream = {k: float(mx["sum_w"][i].sum() ** 2 / mx["sum_w2"][i].sum()) for i, k in enumerate(KEYS)}
     ess_sub = {k: float(S["W"][i].sum() ** 2 / (S["W"][i] ** 2).sum()) for i, k in enumerate(KEYS)}
     hist = {k: mx["lnL_hist"][i].tolist() for i, k in enumerate(KEYS)}
-    summary = dict(prereg="90d7181" + (" + A4 e13a32e (RAM-grid IMOS TL, statistics only)" if STATS_ONLY else ""), imos_tl="imos_tl_ram_arc.csv" if STATS_ONLY else "imos_tl_ramcorr_arc.csv", ramgrid_covered_share=M.ramgrid_covered_share, seeds=meta, supplement_share={o: share[o]["supplement"] / share[o]["total"] for o in R.OPTIONS} if share else None,
+    summary = dict(prereg="90d7181" + (" + A4 e13a32e (RAM-grid IMOS TL)" if RAMGRID else ""), imos_tl="imos_tl_ram_arc.csv" if RAMGRID else "imos_tl_ramcorr_arc.csv", imos_tl_built=json.load(open(R.TL_TABLE_DIR_RAMGRID / "imos_tl_ram_build.json")).get("built") if RAMGRID else None, ramgrid_covered_share=M.ramgrid_covered_share, seeds=meta, supplement_share={o: share[o]["supplement"] / share[o]["total"] for o in R.OPTIONS} if share else None,
                    ess_streamed=ess_stream, ess_subsample=ess_sub, n_subsample=int(len(S["lat"])), Zrun_D0_p05={f"a{a:g}": v for a, v in Zrun.items()},
                    lnL_hist_edges=mx["lnL_hist_edges"].tolist(), lnL_hist_D0_p05=hist["D0/p0.5"], norm=norm, pd_missing=M.pd_missing,
                    candidates={f"{rx}|{a}": M.cands[(rx, a)].to_dict("records") for rx in R.RECEIVERS for a in R.ALPHAS},
