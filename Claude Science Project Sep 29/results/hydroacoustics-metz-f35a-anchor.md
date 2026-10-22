@@ -182,7 +182,7 @@ the detection threshold up by 4–10 dB. Neither is applied downstream here.
 
 1. **Levels and power screen** (`run-j-levels`): re-state "at the anchor" with 2.26 × 10⁻³; add the real-arrival M1b penalty.
 2. **Injection P_D** (`run-j-injection`): add the real-arrival variant (R1/R2) to the template set or re-build the bank with a
-   path-dependent dispersion; re-state η₅₀ against the new anchor (η₅₀ ≈ 6 × 10⁻⁴ is now below the anchor).
+   path-dependent dispersion; re-state η₅₀ against the new anchor. η₅₀ for P_D(any) = 0.5 was 6 × 10⁻⁴ on the old IMOS table and 4.0 × 10⁻³ on the corrected table (ranking track, architecture.md 22 Oct ~15:30Z): the new anchor sits 2.5 dB below the corrected η₅₀, before the 4–10 dB real-arrival penalty is added.
 3. **Composition** (`run-j-gated-v2`, A4/A5): the η prior is log-uniform 10⁻⁶–10⁻² and is unchanged, but P(no detection | anchor)
    and the 95 % upper limit text must be re-read at 2.26 × 10⁻³, and the IMOS P_D curves carry the M1b penalty.
 4. **Energy/coupling chart** and every C2 footnote: anchor 2.1 × 10⁻⁴ → 2.26 × 10⁻³ with its source-depth/τ spread.

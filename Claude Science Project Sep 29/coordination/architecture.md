@@ -13736,6 +13736,39 @@ access). Disk: 83.5 -> 11.9 (min) -> ~28 GiB; nothing of Pete's deleted; the ele
 -- Hydroacoustic Module
 
 
+## 2026-10-22 ~15:30Z — Hydroacoustic Module (graphics track pair-g) -> ARCHITECTURE: pair G versions of Pete's seven example charts
+
+Seven charts (PNG + PDF) for the pair H01W 00:52:04 x H08S 01:12:49 (locus 33.6 S 94.5 E, implied impact 00:31:41) in
+`results/hydroacoustics-graphics-2026-10-22/pair-g/` with README.md (COVERAGE section), loci / trajectory / track-speed tables and code.
+Every chart states the bearing caveat (locus at 269.0 deg from H01W; Kadri 57 / 306.18 deg; nearest Table 1 row 00:52:50 at 274.84 deg),
+the chance-level verdict (p 0.019 over 36 tests) and that the H08S row is not kept by airgun suppression. New facts: G is rank 104 by
+lnLR in the ranking table; HPD level at G 0.91 (core) / 0.78 (core + drift); stored routes are joined to impacts by POSITION at 00:10:59
+only (no row identity in routes.npy; core request candidate: carry the hand-off row id with the route samples). Unresolved: run J mass
+within +/-1 deg of 33.6 S is 0.072 from searches sample.npz against 0.226 in composition_run_j/v2/coincidence_locus.csv.
+PREDICTIVE, NOT CALIBRATED; C1, C2. No engine/ or module-branch files changed.
+-- Hydroacoustic Module (graphics track pair-g)
+
+## 2026-10-22 — Hydroacoustic Module (graphics, arrival-windows track) -> ARCHITECTURE: data held at every receiver in each candidate's arrival window
+
+Pete asked whether there was "absolutely nothing" at the other sites. Figures + matrix: `results/hydroacoustics-graphics-2026-10-22/arrival-windows/` (README.md; 11 candidate figures PNG/PDF; arrival_window_matrix.{png,pdf,csv}; fallback-by-p/ kept).
+Strongest pair (H01W 00:52:04 x H08S 01:12:49; locus 33.6 S 94.5 E, impact 00:31:41, eta 0.068-0.069): of 15 receiver rows 7 hold data. The two raw IMOS records held both show nothing where the model expects the source at the needed eta: Perth Canyon 3376 expected +13.4 dB, P_D 0.90, observed p 0.80; Portland 3274 expected +4.4 dB, P_D 0.71, observed p 0.86. 3315, 3275, 3250 hold no record in the window (duty cycle); H08N, NEAMS nothing exists; MAD/WKER/NCRO no Royer panel; SWAMS/SSEIR digitised, no Royer arrival. The H01W 00:52:04 row coincides with Royer's own event A pick bar at H01W-2 (Fig. 4, 00:51:56.8-00:52:04.5; ice-quake 57.3 S 89.0 E, bearing 209 deg from H01W) - inferred, provisional: the H01W half of the pair is most simply event A. Bearing caveat carried (268.9 deg vs Kadri 57/306.18 deg).
+Ranked pairs 1-5 (all H08S panel d x Perth Canyon 3315, loci 36.5-37.2 S, impacts 00:21-00:23) need eta 0.022-0.042 and H01W should have seen them (P_D 0.89-0.92): nothing (p 0.84-0.99). 165 cells: 80 not held, 17 should-have-seen-nothing, 6 could-not-have-seen, 16 present (defining or chance-rate rows). No detection claimed. PREDICTIVE, NOT CALIBRATED; C1, C2.
+-- Hydroacoustic Module (arrival-windows track)
+
+## 2026-10-22 ~15:30Z — Hydroacoustic Module (graphics track: ranking + energy/coupling) -> architecture
+
+EXPLORATORY candidate ranking, pre-registered on the module branch (`9f47cf7`) before scoring; tables and script `844786e`
+(`prepare/ranked_candidates/`, `results-data/ranked_candidates/`); figures + note `results/hydroacoustics-graphics-2026-10-22/ranking-energy/`.
+Approximate ln LR (signal from the run J posterior vs background rate p/55 s; D0', p 0.5; eta log-uniform 1e-6..1e-2; block 7 P_D,
+block 11 machinery on the corrected IMOS RAM-grid TL; Kadri Table 1 bearing term). Result: ln LR < 0 for all 184 singles, 3,321 pairs and
+1,201 scorable triples (best pair -0.64, H08S 01:02:53 x 3315 00:47:52; best single -1.63) - no candidate is favoured over noise. The pair the
+searches named strongest (H01W 00:52:04 x H08S 01:12:49) ranks 104 of 3,321 (ln LR -6.23; -4.84 without bearing); eta for P_D(both) 0.5 =
+0.069 = 329x the F-35A anchor (radiated energy 391x); its locus bearing 268.9 deg is inconsistent with Kadri's 57/306.18 deg. eta50 for
+P_D(any) recomputed on the corrected table: 4.0e-3 at alpha 0.01 (was 6e-4). The searches' IMOS eta_needed used pass-A TL (~20 dB too much
+loss): corrected values are ~100x lower (still 65x..7,900x the anchor). F-35A anchor labelled provisional pending the Metz 2023 re-derivation.
+No ruling needed. PREDICTIVE, NOT CALIBRATED; C1, C2. Exchange: mh370-exchange/hydroacoustics/graphics-2026-10-22/ranked/.
+-- Hydroacoustic Module (graphics track)
+
 ## 2026-10-22 ~22:00Z — Hydroacoustic Module (track metz-f35a) -> ARCHITECTURE: G4 and G5 CORRECTED; F-35A anchor re-derived; G-W1 measured
 
 **Correction of record.** The overnight note recorded Metz, Obana & Fukao (2023, PAGEOPH 180:1343, doi 10.1007/s00024-022-03117-6)
@@ -13763,5 +13796,7 @@ Results note: `results/hydroacoustics-metz-f35a-anchor.md` (COVERAGE; pre-regist
 source-term paragraph, replacing 2.1e-4 and the "upper bound because of the shallow channel" wording. Until ruled, downstream products
 keep 2.1e-4 and carry this note as a pending correction. Re-runs needed (not done by this track): levels/power screen, injection P_D
 (real-arrival variant or path-dependent templates), composition text at the new anchor, energy/coupling chart and C2 footnotes,
-Kadri package v2 predictions and cover note, TL-grid detectable-share chart and searches eta_needed comparisons.
+Kadri package v2 predictions and cover note, TL-grid detectable-share chart and searches eta_needed comparisons. Against the ranking
+track's corrected eta50 (4.0e-3, entry ~15:30Z) the new anchor is 2.5 dB lower, before the real-arrival penalty.
+(Amended: the first push of this entry, 4a61dd9, overwrote three other 22 Oct entries; they are restored unchanged in the next commit.)
 -- Hydroacoustic Module (track metz-f35a), 22 Oct 2026
