@@ -29,7 +29,8 @@ KRAKEN (matched): adiabatic incoherent modes at the band centre, same profiles a
 OUTPUT PER PATH x BAND: tl_ram_db, tl_kraken_noabs_db, ram_minus_kraken_db (= -DELTA), wall_s, rcv_depth_m, range_km.
 DROP-IN TABLE `imos_tl_ram_arc.csv` (same schema as imos_tl_ramcorr_arc.csv, one row per 0.5 deg lat x offset x
   logger x band x source depth; new columns ram_grid_covered, ram_grid_mode, band_extrapolated, lat_nodes_used):
-  (a) DELTA(lat, offset, f): linear in log f across the computed bands, clamped at the ends (5-8 Hz take the 10 Hz
+  (a) DELTA(lat, offset, f): a node is used only when every band is done (a partial node at the deadline is 'not covered');
+      linear in log f across the computed bands, clamped at the ends (5-8 Hz take the 10 Hz
       value; band_extrapolated = True there; 25 and 31.5 Hz interpolate between 20 and 40); linear in latitude between
       the two nearest 1.0 deg nodes of the SAME offset that carry a finite RAM value (ram_grid_mode = 'interp'); if
       only one node within 1.0 deg carries one, that node (ram_grid_mode = 'nearest'); if none, the row keeps the OLD
@@ -82,6 +83,7 @@ import tl_grid_run_j as TG  # noqa: E402
 LOGGERS = ["3315", "3376", "3274", "3275", "3250"]
 BANDS_ALL = [5.0, 6.3, 8.0, 10.0, 12.5, 16.0, 20.0, 25.0, 31.5, 40.0]
 SKIP_STATUS = {"land", "no_modes_shallow"}
+JUMP_DB = 20.0   # amendment 1, see build()
 
 
 def fg_db_per_km(f_hz, T=4.0, S=34.7, pH=8.0, z_m=1000.0):
@@ -143,7 +145,9 @@ def run(a):
     for _, p in P_[P_.run].iterrows():
         bcsv, scsv = pdir / f"bathy_{p.tag}.csv", pdir / f"ssp_{p.tag}.csv"
         if not (bcsv.exists() and scsv.exists()):
-            bathy, ssp, info = TG.build_path(dict(lat=p.lat, lon=p.lon), rx[p.logger]); bathy.to_csv(bcsv, index=False); ssp.to_csv(scsv, index=False)
+            bathy, ssp, info = TG.build_path(dict(lat=p.lat, lon=p.lon), rx[p.logger])
+            for df, f in ((bathy, bcsv), (ssp, scsv)):
+                df.to_csv(f.with_suffix(".tmp"), index=False); os.replace(f.with_suffix(".tmp"), f)
             json.dump(info, open(pdir / f"info_{p.tag}.json", "w"))
         info = json.load(open(pdir / f"info_{p.tag}.json"))
         b = pd.read_csv(bcsv); s = pd.read_csv(scsv); rprof, prof = A.build_profiles(b, s)
@@ -211,8 +215,12 @@ def build(a):
     new["ram_grid_covered"] = False; new["ram_grid_mode"] = "old"; new["band_extrapolated"] = False; new["lat_nodes_used"] = ""
     nodes = {}
     for (lg, lat, off), g in R.groupby(["logger", "lat", "offset_nm"]):
+        if set(g.fc_hz.round(3)) != set(np.round(bands, 3)): continue   # a node counts only with every band done (partial nodes = not covered)
         g = g.set_index("fc_hz"); nodes[(lg, off)] = nodes.get((lg, off), {}); nodes[(lg, off)][lat] = g
+    rawk = {(r.logger, r.offset_nm, r.lat, r.fc_hz): r.tl_db_raw_kraken for r in old[np.isclose(old.src_depth_m, 10.0)].itertuples()}
+    new["delta_jump_db"] = np.nan
     for i, r in old.iterrows():
+        jump = np.nan
         if r.status in SKIP_STATUS or r.status == "zero_field": continue
         nd = nodes.get((r.logger, r.offset_nm), {})
         if not nd: continue
@@ -220,7 +228,7 @@ def build(a):
         if len(near) == 0: continue
         lo = near[near <= r.lat + 1e-9]; hi = near[near >= r.lat - 1e-9]
         def band_vals(lat_node, col):
-            g = nd[lat_node]; return _interp_logf(g.index.values, g[col].reindex(bands).values, [r.fc_hz])[0]
+            g = nd[lat_node]; return _interp_logf(np.array(bands), g[col].reindex(bands).values, [r.fc_hz])[0]
         if len(lo) and len(hi):
             l0, l1 = lo.max(), hi.min()
             if abs(l1 - l0) < 1e-9:
@@ -228,7 +236,17 @@ def build(a):
             else:
                 w = (r.lat - l0) / (l1 - l0)
                 d0, d1 = -band_vals(l0, "ram_minus_kraken_db"), -band_vals(l1, "ram_minus_kraken_db"); r0, r1 = band_vals(l0, "tl_ram_db"), band_vals(l1, "tl_ram_db")
-                if np.isfinite(d0) and np.isfinite(d1): dlt = (1 - w) * d0 + w * d1; ram = (1 - w) * r0 + w * r1; mode = "interp"; used = f"{l0:g} {l1:g}"
+                if np.isfinite(d0) and np.isfinite(d1) and abs(d0 - d1) > JUMP_DB:
+                    # AMENDMENT 1 (after the interim build, 22 Oct 01:50 local; disclosed in the note): across an open/blocked node pair the
+                    # linear Delta gave physically impossible values (3275 at 29.5 S, 10 Hz: 83 dB over 4,000 km). Where the two node
+                    # Deltas differ by more than JUMP_DB, take the Delta of the node whose RAW adiabatic KRAKEN value (same band) is the
+                    # closer to this row's own raw value: Delta estimates the adiabatic error, so the node whose adiabatic solution
+                    # resembles this row's is the better donor. A node with no raw value (no_modes) cannot be the donor unless both lack one.
+                    k0, k1 = rawk.get((r.logger, r.offset_nm, l0, r.fc_hz), np.nan), rawk.get((r.logger, r.offset_nm, l1, r.fc_hz), np.nan)
+                    s0, s1 = abs(k0 - r.tl_db_raw_kraken) if np.isfinite(k0) else np.inf, abs(k1 - r.tl_db_raw_kraken) if np.isfinite(k1) else np.inf
+                    k = l0 if (s0 <= s1 if np.isfinite(min(s0, s1)) else w <= 0.5) else l1
+                    dlt = -band_vals(k, "ram_minus_kraken_db"); ram = band_vals(k, "tl_ram_db"); mode = "jump_similar"; used = f"{k:g}"; jump = abs(d0 - d1)
+                elif np.isfinite(d0) and np.isfinite(d1): dlt = (1 - w) * d0 + w * d1; ram = (1 - w) * r0 + w * r1; mode = "interp"; used = f"{l0:g} {l1:g}"; jump = abs(d0 - d1)
                 else:
                     k = l0 if np.isfinite(d0) else l1; dlt = -band_vals(k, "ram_minus_kraken_db"); ram = band_vals(k, "tl_ram_db"); mode = "nearest"; used = f"{k:g}"
         else:
@@ -241,8 +259,10 @@ def build(a):
             continue
         new.at[i, "ram_grid_covered"] = True; new.at[i, "ram_grid_mode"] = mode; new.at[i, "lat_nodes_used"] = used
         new.at[i, "ram_delta_applied"] = True; new.at[i, "ramcorr_extrapolated"] = False; new.at[i, "ramcorr_floored"] = False
-        new.at[i, "band_extrapolated"] = bool(r.fc_hz < min(bands) - 1e-9 or r.fc_hz > max(bands) + 1e-9)
+        new.at[i, "band_extrapolated"] = bool(r.fc_hz < min(bands) - 1e-9 or r.fc_hz > max(bands) + 1e-9); new.at[i, "delta_jump_db"] = jump
+    new["below_physical_floor"] = new.ram_grid_covered & (new.tl_db < 60.0 + 10 * np.log10(new.range_km))   # spherical to 1 km + cylindrical: a sanity flag, reported
     new.to_csv(odir / "imos_tl_ram_arc.csv", index=False)
+    print("rows below the physical floor:", int(new.below_physical_floor.sum()), "| jump_similar rows:", int((new.ram_grid_mode == "jump_similar").sum()))
     summ = new.groupby("logger").agg(rows=("tl_db", "size"), covered=("ram_grid_covered", "sum"))
     summ["covered_share"] = summ.covered / summ.rows
     print(summ.to_string()); print(cov.groupby(["logger", "offset_nm"]).coverage.value_counts().unstack(fill_value=0).to_string())
