@@ -13508,8 +13508,8 @@ Digitisation inventory and extraction complete (results/hydroacoustics-digitised
 all CSVs/overlays on hypothesis/hydroacoustics under engine/hypotheses/hydroacoustics/results-data/digitised/, commits
 9e234b2 Royer, b8976bd Blackman, 9854c72 Brown, 4ec1c07 Kadri+San Juan, d94e295 CMST, 1cb138a manifest). All DIGITISED.
 - Royer 2016: Tables 1-5 (143 picks, implied speeds 1.467-1.518 km/s), 34 spectrogram panels as dB grids, 66 author
-  marks. Finding: every H01W figure mark runs 13.6-16.6 s later than Table 5 (= 2014 GPS-UTC offset); OHASISBIO marks
-  agree within 5 s. For the Royer raw-data request.
+  marks. Finding: every H01W figure mark runs later than Table 5 (map labels 13.6-16.0 s, pick bars 7.7-16.6 s; the
+  2014 GPS-UTC offset is 16 s); OHASISBIO marks agree within 5 s. For the Royer raw-data request.
 - Blackman Fig. 23: all ten curves traced; source limit confirmed (351x458 px in both OSTI copies). For TL recalibration:
   air1, air7, air9 clean; air2 sparse; air4 >20 Hz and air5 <40 Hz usable, else weight-ambiguous; air3 only 5-18 Hz;
   air8 not separable.

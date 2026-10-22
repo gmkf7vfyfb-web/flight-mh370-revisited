@@ -45,8 +45,8 @@ data downstream. Both Kadri times are carried everywhere: text time 00:52:03 and
   the time axis is tick-calibrated (8 strips) or uses that fixed geometry (4 SWAMS-3 strips crossed by shot lines).
   The MAD panel of Fig. 8 is labelled 01:58 on the right; by tick spacing it is 01:48 (typo).
 - Author marks: 19 arrival labels on the maps and 47 pick bars/arrows on the panels converted to UTC and compared
-  with Table 5. OHASISBIO marks agree with Table 5 to within 5 s. **All H01W marks (map labels and pick bars for A,
-  B, C1, C2, D2) run 13.6-16.6 s later than the Table 5 H01W picks.** The evidence-sweep note of 17 Oct recorded
+  with Table 5. OHASISBIO marks agree with Table 5 to within 5 s. **All H01W marks run later than the Table 5 H01W
+  picks: the five map labels by 13.6-16.0 s, the pick bars (Figs 4-8) by 7.7-16.6 s, i.e. 7.7-16.6 s overall.** The evidence-sweep note of 17 Oct recorded
   this inconsistency; it is now quantified. The offset equals the 2014 GPS-UTC leap-second count (16 s) that the
   report says was applied to the OHASISBIO clocks, which suggests one of the two H01W time bases was not corrected.
   Which is right is not decidable from the report (GAP, listed for the Royer raw-data request; it does not change
@@ -58,7 +58,8 @@ data downstream. Both Kadri times are carried everywhere: text time 00:52:03 and
   holds Fig. 23 as a 351×458 px raster (153 dpi); purl 850576 is a bilevel 200-dpi page scan in which Fig. 23 is
   about 190×270 px. Rendering at 600 dpi only upsamples the 351×458 raster. **The limit is the source.**
 - All ten curves traced with a grey-window + line-weight + dotted-duty tracer (overlay PNG per curve). Separability:
-  air1, air9 (both panels), air7 (both panels) and the thick air2 trace cleanly; air3 (dotted) is separable only at
+  air1, air9 (both panels) and air7 (both panels) trace cleanly; air2 (thick dark grey) is sparse, separable only
+  where it leaves air1 (about 20 columns); air3 (dotted) is separable only at
   5-18 Hz where it peaks at 140 dB; air8 (dotted) lies on the thick air7 curve and is NOT separable; air4 and air5
   differ by one grey step and are separated only by line weight, so air4 below 20 Hz and air5 above 40 Hz are flagged
   weight-ambiguous (the report text puts air4 with air1-air3 at 130-135 dB in the 5-8 Hz band, so the 120-130 dB
