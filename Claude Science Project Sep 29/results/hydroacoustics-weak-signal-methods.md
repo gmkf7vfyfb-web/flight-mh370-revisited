@@ -330,7 +330,7 @@ shot's peak, subtracted. (c2) Cadence = median 9–11 s interval, phase = circul
 | d | 01:04:07 | 3.1 | yes | none |
 
 The surviving rows are what a shot-suppressed H08S scan would hand to the coincidence test. Nine lie in the lag
-windows of the Kadri times (01:07:03–01:09:57 for the text time, 01:08:54–01:16:41 for the caption time); 5 of those 9
+windows of the Kadri times (01:07:03–01:09:57 for the text time, 01:08:54–01:16:41 for the caption time); 4 of those 9
 are off-cadence. None is a claim: on a decimated plot the residual misfit of the template itself produces peaks, and the
 null for this residual is unknown (gap G-W3). With raw H08S triad data the same procedure applies to full waveforms
 and three elements, and the residual null can be measured on adjacent survey hours.
