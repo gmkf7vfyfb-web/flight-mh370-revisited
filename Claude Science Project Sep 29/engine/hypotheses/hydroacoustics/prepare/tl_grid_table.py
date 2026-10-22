@@ -26,8 +26,8 @@ OUTPUT (<out>/, the module's results-data/tl_grid_run_j/ and the exchange copy):
 FLAGS (added after the pass-A inspection, before any table was used; raw values are never altered):
   source_water_depth_m, ridge_source   GEBCO depth at the source point; ridge_source = depth < 2000 m. At 32.0 S the arc
                                        crosses Broken Ridge (1,035 m): the adiabatic model then couples the 10 m source far
-                                       more strongly into the deep channel (5-13 dB lower TL at the IMS triads, about 100 dB
-                                       lower at Portland than the neighbouring rows). This is the source-end form of the
+                                       more strongly into the deep channel (5-13 dB lower TL at H01W and 8-31 dB at H08S, growing
+                                       with frequency; about 100 dB lower at Portland than the neighbouring rows). This is the source-end form of the
                                        declared reach gap G-N2/K5 (ridge paths; adiabatic assumption). The effect is graded
                                        (2,200-2,500 m sources at 29.5-29.0 S and 22.0 S give 10-13 dB lower TL than their
                                        neighbours), and down-slope conversion of near-surface sound into the channel is a
