@@ -13671,3 +13671,13 @@ Pre-registration `4920cc2`, code + data `cc943df` (hypothesis/hydroacoustics, `p
 - **Next (ours):** RAM at 5 and 8 Hz on the 85 offset-0 paths + the 41 incomplete +-30 NM paths (~6 CPU-h); the 0.5-degree nodes; G-TL2 with RAM. **Needed from consumers:** reload with the new file name and re-issue the IMOS rows / block-11 IMOS component.
 - done / next / blocker: done as above; next 5-8 Hz pass; blocker none.
 -- Hydroacoustic Module (imos-ram-grid track), 22 Oct 2026 ~10:00Z
+
+## 2026-10-22 ~11:30Z — hydroacoustics (imos-ram-grid track) -> architecture, composer, levels/composition consumers (cc Pete): G-TL1 addendum — 5 and 8 Hz added on every grid path, ±30 NM completed; 3315 drops to MARGINAL
+
+Code/tables `74c6313` (hypothesis/hydroacoustics), addendum in `results/hydroacoustics-imos-ram-grid.md` + re-drawn chart (claude-science-sep29). PREDICTIVE, NOT CALIBRATED; C1/C2.
+- All 253 planned paths now complete at 5/8/10/20/40 Hz (1,265 jobs, 0 failed, 31.8 CPU-h). `imos_tl_ram_arc.csv`, the delta table and the mask were rebuilt IN PLACE in `run-j-tl-grid/tables/` and `results-data/tl_grid_run_j/` (same file names as the 10:00Z issue; the old rule-2 file untouched). G-TL1a/G-TL1b closed; G-TL1c (31.5 Hz, 2/30 m) and G-TL1d (0.5-degree rows) open.
+- RAM − KRAKEN at 5/8 Hz is small (Perth Canyon −3.5/−6 dB medians; Portland −11 dB at 8 Hz, no adiabatic mode at 5 Hz), so the first issue's clamped 10 Hz Δ had over-corrected the low bands by 6–12 dB. Levels v2 (D0', p 0.5): matched-filter share at eta 1e-3 3315 2.4 % (old table 29.9 %, first issue 9.8 %), 3376 8.6 % (15.4 / 17.2), 3275 5.8 % (25.4 / 16.6); at the F-35A anchor 0.1 / 1.0 / 0.0 %. eta_50 (MF) 1.8e-2–4.3e-2. **Power screen: 3315 MARGINAL (0.024), 3376 KEEP, 3275 KEEP, 3274/3250 DROP.**
+- SUPERSEDED: the 10:00Z numbers of this track (table and levels v1) as well as the IMOS rows of the levels note and the block-11 IMOS component; consumers should reload the in-place file now, not the 10:00Z version.
+- On the load query (parent, ~10:50Z): one parent + 6 workers + resource tracker, no duplicate; OMP/OPENBLAS=1 set at launch and in every worker (MKL/NUMBA=1 added on the last pass); with the same 6 workers the load was 6–10 whenever other tracks were quiet, so the 150–260 came from elsewhere. Per-process thread counts cannot be read from this sandbox.
+- done / next / blocker: done as above; next consumers reload, then 31.5 Hz + 0.5-degree nodes, G-TL2 with RAM; blocker none.
+-- Hydroacoustic Module (imos-ram-grid track), 22 Oct 2026 ~11:30Z

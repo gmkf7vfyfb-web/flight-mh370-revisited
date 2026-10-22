@@ -233,3 +233,54 @@ CPU-hours at the rates seen tonight.
   `imos_tl_ram_arc.csv` — levels note IMOS rows, block 11 IMOS component, Kadri package `predictions.csv`; (iii) the 0.5° nodes
   (G-TL1d); (iv) G-TL2 terminal-profile check at 3376 with RAM.
 - **blocker:** none for this block; the consumers' reload is theirs to run.
+
+---
+
+## Addendum (22 Oct 2026, 03:52–05:30 local / ~11:30Z; parent's follow-up): 5 and 8 Hz added on every path, ±30 NM completed — G-TL1a and G-TL1b closed
+
+Code and tables `74c6313` (hypothesis/hydroacoustics; `imos_ram_grid.py` build rule: a node counts on the core bands 10/20/40 Hz and
+uses 5 and 8 Hz where present — all nodes now have them). Three further passes, same settings, 6 processes (1-minute load 1.1 at the
+first launch; other tracks raised the machine load to 150–260 during the second pass, see the parent's query and the reply in
+the coordination entry): (i) 5 and 8 Hz on the 85 offset-0 paths (170 jobs, 5 min); (ii) 10/20/40 Hz on the 41 incomplete ±30 NM paths
+(112 jobs, 77 min); (iii) 5 and 8 Hz on the 168 ±30 NM paths (336 jobs, 15 min). **All 253 planned paths are complete at
+5/8/10/20/40 Hz** (1,265 path × band jobs, 0 failed, 31.8 CPU-hours in total). Tables rebuilt in place (`imos_tl_ram_arc.csv`,
+`imos_ram_minus_kraken_arc.csv`, `imos_tl_ram_coverage.csv`; the old rule-2 file still untouched). Row coverage: 3315/3376 60 %,
+3250 42 %, 3274 34 %, 3275 33 % of all rows (every uncovered row is land, a < 15 m sill or a ±60 NM line); 100 % of the open rows on
+every line that was run. `band_extrapolated` is now False everywhere (no band below 5 Hz in the table); `jump_similar` 630 rows;
+the 12 `below_physical_floor` rows at −30 NM / 28.5°S remain flagged.
+
+**RAM − KRAKEN at 5 and 8 Hz is small** (offset 0, q10 / median / q90): Perth Canyon −7/−3.5/−0.3 dB at 5 Hz and −12/−6/−1 dB at 8 Hz
+(both loggers alike); Portland −19/−11/−6 dB at 8 Hz (at 5 Hz adiabatic KRAKEN has no trapped mode on any Portland path: those rows are
+`ram_fill` = RAM + Francois–Garrison); Scott Reef −2/−1/+2 and −2/−1/+1 dB. The clamped 10 Hz Δ (−12 to −19 dB) used in the first
+issue therefore over-corrected the low bands by 6–12 dB, exactly as the low-band sensitivity of §5 suggested, and the loudest predicted
+band at Perth Canyon falls back by 7–9 dB (5 Hz median received level at η = 1: 3315 116.2 → 106.9 dB, 3376 116.6 → 107.5 dB;
+Portland −10 to −12 dB).
+
+**Levels rerun v2** (D0′, p = 0.5; `results-data/imos_ram_grid/levels_rerun_v2_*.csv`; the §5 table of the first issue is superseded
+by this one):
+
+| Logger | SNR q10/q50/q90 at η = 2.1e-4, old → v2 | share MF / base at 2.1e-4, old → v2 | share MF / base at 1e-3, old → v2 | η₅₀ MF old → v2 | η₅₀ base old → v2 |
+|---|---|---|---|---|---|
+| Perth Canyon 3315 | −11.0/−5.8/+9.7 → −21.9/−15.1/−2.8 | 13.6 % / 0.0 % → **0.1 %** / 0.0 % | 29.9 % / 12.4 % → **2.4 %** / 0.1 % | 4.0e-3 → 3.4e-2 | 2.5e-2 → 2.2e-1 |
+| Perth Canyon 3376 | −16.0/−10.9/+4.6 → −20.1/−12.3/−0.1 | 0.2 % / 0.0 % → **1.0 %** / 0.0 % | 15.4 % / 0.0 % → **8.6 %** / 0.5 % | 1.3e-2 → 1.8e-2 | 8.1e-2 → 1.1e-1 |
+| Portland 3274 | −24.1/−19.0/−4.2 → −29.1/−22.9/−7.9 | 0 → 0 | 0 → 0 | 8.4e-2 → 2.1e-1 | 0.53 → > 1 |
+| Portland 3275 | −12.6/−7.5/+7.3 → −23.5/−16.1/−1.3 | 11.3 % / 0.0 % → **0.0 %** / 0.0 % | 25.4 % / 2.2 % → **5.8 %** / 0.0 % | 6.0e-3 → 4.3e-2 | 3.8e-2 → 2.7e-1 |
+| Scott Reef 3250 | blocked (0.88 of mass) | 0 → 0 | 0 → 0 | > 1 → > 1 | > 1 → > 1 |
+
+Against the first issue (v1, 10 Hz Δ clamped to 5–8 Hz): 3315 at η = 1e-3 9.8 → 2.4 %, 3376 17.2 → 8.6 %, 3275 16.6 → 5.8 %; at the
+anchor 0.5 → 0.1, 1.9 → 1.0, 0.8 → 0.0 %. The v1 sensitivity bracket (3–10 / 13–17 / 15–17 %) contained v2 only for 3315; the old
+rule-2 low-band Δ was itself too generous at Portland and 3376. **Power screen (rule: 1e-3 matched-filter share ≥ 0.05 KEEP, 0.01–0.05
+MARGINAL):** 3315 **MARGINAL** (0.024; was KEEP), 3376 KEEP (0.086), 3275 KEEP (0.058), 3274 and 3250 DROP — the first verdict change
+of the night, and it goes against the logger the old table made the loudest. Median SNR at the anchor is now −12 to −16 dB at the
+three open loggers; η₅₀ (matched filter) 1.8e-2 to 4.3e-2, i.e. 85–200 times the F-35A anchor (C2). The chart has been re-drawn with v2.
+
+**What remains of G-TL1:** G-TL1a and G-TL1b are closed. G-TL1c (31.5 Hz, the 2 m and 30 m source rows — the latter take the 10 m Δ)
+and G-TL1d (0.5° in-between rows on interpolated Δ, 630 `jump_similar` rows) stay open; G-TL2, G-TL-X and G-N2/K5 unchanged. Also
+disclosed: the 5 Hz Portland rows have no adiabatic reference at all (RAM alone), and 3250 at 5–8 Hz south of 30°S remains blocked in
+both models. Coverage, ESS and labels otherwise as §7. Deviations of this addendum: none beyond those of §8 (the node rule for the
+added bands is a clarification, recorded in the docstring); hard stop 13:30Z respected (finished ~11:30Z).
+
+- **done:** 5/8 Hz on all 253 paths; ±30 NM completed at 10/20/40 Hz; tables, mask, levels v2, chart, this addendum, coordination entry.
+- **next:** consumers reload (`imos_file="imos_tl_ram_arc.csv"`) — levels note IMOS rows, block 11 IMOS component, Kadri package
+  `predictions.csv`; then 31.5 Hz and the 0.5° nodes (G-TL1c/d), G-TL2 with RAM.
+- **blocker:** none.
