@@ -269,3 +269,114 @@ May the IMOS-gated, η-marginalised term `hydro-lnL-imos-margeta` enter the comp
 - done: pre-registered (90d7181) and computed the IMOS-gated likelihood on all 313.6 M run J rows (five columns, four strata, 74 seeds; READY), the streamed statistics with the supplement, 95 % upper limits two ways per option / p / 5° band, the evidence three ways with the non-detection-only control, Bayes factors for the Kadri row (both times), Royer B/D1/D2, the poster boxes and the Holland-type descent, the two-site coincidence summary, two charts, this note, the coordination entry with the ruling request.
 - next: (i) ruling on §8; (ii) pre-register and run the amplitude-aware match (or the non-detection-only column) to close G11-1; (iii) top up the 10 free-stratum seeds when ≥ 22 GiB are free (README recipe); (iv) consume `run-j-imos-ram-grid` for G-TL1 and re-run; (v) carry the 33.6°S / 00:31:41 coincidence locus into the Kadri package (block 12) as a labelled candidate row with its η requirement.
 - blocker: none for this block; the composer change waits on the ruling.
+
+
+---
+
+## Addendum A4 (23 Oct 2026): statistics re-run on the corrected IMOS transmission-loss table (RAM along the arc grid); the exchange columns are on the OLD table
+
+*Hydroacoustic Module (composition track), 23 Oct 2026. Pre-registered as amendment A4 in `prepare/composition_run_j/prereg.py` (commit `e13a32e`) before the re-run; code and data in the follow-up commits. Trigger: the RAM-along-grid track closed G-TL1 on the offset-0 arc line (`results/hydroacoustics-imos-ram-grid.md`; table `run-j-tl-grid/tables/imos_tl_ram_arc.csv`). PREDICTIVE, NOT CALIBRATED; C1, C2; both Kadri times; no detection claimed.*
+
+**Plain words.** The corrected sound-loss table makes the Australian recorders a little less sensitive to impacts in the most likely region (south of 36°S) and a little more sensitive further north. Everything stated above stays true, and the small shifts get smaller: adding the recorders now moves the latitude estimate north by about 0.06° instead of 0.10°, and the result that the recorders cannot rule out any sound-coupling share in the assumed range stands. **The per-row likelihood columns in the exchange folder were computed with the OLD table and must be rewritten before anyone uses them in the composer**; the statistics in this addendum are the ones to quote.
+
+**What changed and what did not.** Only the IMOS TL for the four gated loggers was switched (offset-0 line, 10 m source; rows the RAM grid does not cover keep the old value inside the drop-in file — on the offset-0 line that is only land/shallow rows: covered share of open rows 3376 1.00, 3315 1.00, 3274 1.00, 3275 1.00). IMS TL, P_D fits, candidates, windows, weights and the η prior are unchanged. The per-row columns in `run-j-gated/` were **not** rewritten (disk: ~13 GiB free when this was asked; a rewrite needs ≥ 28 GiB); the README there now carries the warning and the rewrite recipe (`B11_IMOS_RAMGRID=1 python driver.py`); READY stays because the columns are consistent with their own README. New statistics (per-seed accumulators and 1-in-125 subsamples, 1.2 GB, no file over 200 MB) are in `run-j-gated/stats-ramgrid/`; compact tables in `results-data/composition_run_j/ramgrid/` beside the old ones. Kish ESS is identical to the main run (D0′/D2/D3/D4 at p 0.5: 1,334,115 / 107,236 / 5,672 / 25,411); the weights did not change.
+
+**Amplitude-consistency-weighted match (G11-1 sensitivity, A4c).** For the IMOS receivers the time-matched candidate density is multiplied by exp(−½((log₁₀ E_c − log₁₀ SE_r(i, η))/1.0)²), E_c = the candidate's observed excess 5–40 Hz band energy, SE_r the row's predicted received band energy at η (σ = 10 dB, generous). It only down-weights, so it lies between the full and the non-detection-only likelihoods and is labelled, not a calibrated likelihood ratio. With a 10 dB kernel the two Portland 3275 candidates (η needed 19–30 for the median impact) still match the loudest rows at η near 10⁻² (E up to 12 GJ and +2σ calibration), so the variant removes about half of their effect, not all of it; the non-detection-only control removes it entirely.
+
+**Headline, corrected table (D0′, p 0.5, α 0.05, η marginal):** ln Z = **−0.037** (was −0.066); median latitude shift **+0.06°** (was +0.10°); mass north of 33°S 0.058 → **0.064** (was 0.072); KL **0.011 nats** (was 0.019). Amplitude-weighted: −0.084 / +0.04° / 0.006; non-detection only: −0.185 / −0.03° / 0.001. 95 % upper limit on η from the non-detection **5.2 × 10⁻³** (was 4.6 × 10⁻³; prior alone 6.3 × 10⁻³); per 5° band under D0′: 5.2 / 4.8 / 5.7 / 6.3 / 6.6 × 10⁻³ (41–36 … 21–20°S). P(no detection | η) **0.48 at 10⁻², 0.72 at 10⁻³, 0.85 at the anchor** (were 0.37 / 0.61 / 0.75): the corrected table lowers the predicted levels at the loggers for the southern impacts (median over a 20,000-row sample of waypoints seed 1: 3315 −6.4 dB, 3275 −4.8 dB, 3274 −1.9 dB, 3376 −0.6 dB) and the band table shows slightly higher detectability north of 31°S. Classical exclusion still not reached below 10⁻² anywhere. **The D3/D4 p = 1 shifts fall from +1.4–1.5° to +0.3° (KL 0.31 → 0.22)**, amplitude-weighted +0.13°, non-detection only −0.02 to −0.03°: G11-1 remains the reason those rows are not yet trustworthy, but the corrected table has removed most of the effect. Bayes factors: Kadri 306.18° row −0.034 at both times (was −0.004; IMS proxy, circular: +1.35 text / +0.08 caption); Royer B −0.18; Holland p = 1 : p = 0 −0.04 (D0′), −0.03 (D2), −0.01 (D3), −0.03 (D4) on the gated term (non-detection only −0.04 / −0.03 / −0.20 / −0.17). The coincidence locus and its η requirement are unchanged (IMS proxy chain untouched).
+
+**Table A1. Upper limits and P(no detection | η), OLD IMOS TL (constant rule-2 correction) against NEW (RAM along the grid), all latitudes, α = 0.05, IMOS gated; 'amp' = the amplitude-consistency-weighted match variant (new table).**
+
+| Option | p | Bayes ND old → new | Bayes full old → new | full, amp-weighted (new) | P(nd) 1e-2 old → new | P(nd) 1e-3 old → new | P(nd) anchor old → new |
+|---|---|---|---|---|---|---|---|
+| 00:19 Held Out (D0') | 0 | 4.8e-03 → 5.3e-03 | 6.9e-03 → 6.8e-03 | 6.5e-03 | 0.39 → 0.50 | 0.64 → 0.75 | 0.78 → 0.87 |
+| 00:19 Held Out (D0') | 0.5 | 4.6e-03 → 5.2e-03 | 6.7e-03 → 6.7e-03 | 6.3e-03 | 0.37 → 0.48 | 0.61 → 0.72 | 0.75 → 0.85 |
+| 00:19 Held Out (D0') | 1 | 4.5e-03 → 5.0e-03 | 6.5e-03 → 6.5e-03 | 6.2e-03 | 0.35 → 0.45 | 0.57 → 0.69 | 0.72 → 0.83 |
+| R600 BTO + BFO (D2) | 0 | 4.4e-03 → 5.1e-03 | 6.8e-03 → 6.8e-03 | 6.4e-03 | 0.34 → 0.47 | 0.59 → 0.72 | 0.74 → 0.85 |
+| R600 BTO + BFO (D2) | 0.5 | 4.3e-03 → 5.0e-03 | 6.7e-03 → 6.6e-03 | 6.3e-03 | 0.32 → 0.45 | 0.57 → 0.70 | 0.72 → 0.84 |
+| R600 BTO + BFO (D2) | 1 | 4.2e-03 → 4.9e-03 | 6.5e-03 → 6.5e-03 | 6.1e-03 | 0.31 → 0.43 | 0.54 → 0.68 | 0.70 → 0.82 |
+| both BFOs as recorded (D3) | 0 | 4.6e-03 → 5.3e-03 | 7.2e-03 → 7.0e-03 | 6.7e-03 | 0.38 → 0.51 | 0.64 → 0.76 | 0.79 → 0.88 |
+| both BFOs as recorded (D3) | 0.5 | 3.7e-03 → 4.6e-03 | 6.9e-03 → 6.7e-03 | 6.2e-03 | 0.25 → 0.38 | 0.47 → 0.63 | 0.63 → 0.78 |
+| both BFOs as recorded (D3) | 1 | 2.1e-03 → 3.5e-03 | 6.4e-03 → 6.4e-03 | 5.5e-03 | 0.11 → 0.24 | 0.29 → 0.50 | 0.47 → 0.68 |
+| both BFOs, shared start-up offset (D4) | 0 | 4.2e-03 → 5.0e-03 | 7.1e-03 → 6.9e-03 | 6.5e-03 | 0.31 → 0.43 | 0.54 → 0.68 | 0.69 → 0.82 |
+| both BFOs, shared start-up offset (D4) | 0.5 | 3.3e-03 → 4.2e-03 | 6.8e-03 → 6.7e-03 | 6.1e-03 | 0.20 → 0.32 | 0.40 → 0.58 | 0.57 → 0.74 |
+| both BFOs, shared start-up offset (D4) | 1 | 1.9e-03 → 3.3e-03 | 6.5e-03 → 6.4e-03 | 5.6e-03 | 0.10 → 0.21 | 0.27 → 0.47 | 0.44 → 0.66 |
+
+**Table A2. Per 5° band, p = 0.5, α = 0.05, IMOS gated: Bayes ND limit and P(no detection) at η = 1e-2, old → new.**
+
+| Option | Band | share | ESS | Bayes ND old → new | P(nd) 1e-2 old → new | P(nd) anchor old → new | classical (new) |
+|---|---|---|---|---|---|---|---|
+| 00:19 Held Out (D0') | 41–36°S | 0.7522 | 1,127,839 | 4.5e-03 → 5.2e-03 | 0.35 → 0.49 | 0.74 → 0.86 | not reached below 1e-2 |
+| 00:19 Held Out (D0') | 36–31°S | 0.2128 | 194,742 | 4.7e-03 → 4.8e-03 | 0.39 → 0.41 | 0.78 → 0.81 | not reached below 1e-2 |
+| 00:19 Held Out (D0') | 31–26°S | 0.0255 | 49,770 | 6.0e-03 → 5.7e-03 | 0.66 → 0.59 | 0.91 → 0.88 | not reached below 1e-2 |
+| 00:19 Held Out (D0') | 26–21°S | 0.0093 | 39,605 | 6.4e-03 → 6.3e-03 | 0.79 → 0.75 | 0.96 → 0.95 | not reached below 1e-2 |
+| 00:19 Held Out (D0') | 21–20°S | 0.0001 | 491 | 6.5e-03 → 6.6e-03 | 0.83 → 0.85 | 0.98 → 0.98 | not reached below 1e-2 |
+| R600 BTO + BFO (D2) | 41–36°S | 0.7994 | 81,573 | 4.2e-03 → 5.1e-03 | 0.30 → 0.46 | 0.71 → 0.84 | not reached below 1e-2 |
+| R600 BTO + BFO (D2) | 36–31°S | 0.1704 | 21,699 | 4.5e-03 → 4.7e-03 | 0.35 → 0.38 | 0.76 → 0.79 | not reached below 1e-2 |
+| R600 BTO + BFO (D2) | 31–26°S | 0.0189 | 3,873 | 6.1e-03 → 5.8e-03 | 0.68 → 0.60 | 0.92 → 0.89 | not reached below 1e-2 |
+| R600 BTO + BFO (D2) | 26–21°S | 0.0110 | 2,126 | 6.5e-03 → 6.4e-03 | 0.81 → 0.77 | 0.97 → 0.96 | not reached below 1e-2 |
+| R600 BTO + BFO (D2) | 21–20°S | 0.0001 | 7 | 6.3e-03 → 6.0e-03 | 0.76 → 0.69 | 0.98 → 0.97 | not reached below 1e-2 |
+| both BFOs as recorded (D3) | 41–36°S | 0.8104 | 4,222 | 3.7e-03 → 4.7e-03 | 0.25 → 0.40 | 0.63 → 0.80 | not reached below 1e-2 |
+| both BFOs as recorded (D3) | 36–31°S | 0.1644 | 1,383 | 3.3e-03 → 3.6e-03 | 0.21 → 0.25 | 0.61 → 0.66 | not reached below 1e-2 |
+| both BFOs as recorded (D3) | 31–26°S | 0.0167 | 322 | 5.3e-03 → 4.9e-03 | 0.51 → 0.42 | 0.86 → 0.80 | not reached below 1e-2 |
+| both BFOs as recorded (D3) | 26–21°S | 0.0083 | 226 | 6.1e-03 → 6.0e-03 | 0.70 → 0.66 | 0.94 → 0.92 | not reached below 1e-2 |
+| both BFOs as recorded (D3) | 21–20°S | 0.0000 | 63 | 6.6e-03 → 6.6e-03 | 0.83 → 0.86 | 0.96 → 0.97 | not reached below 1e-2 |
+| both BFOs, shared start-up offset (D4) | 41–36°S | 0.8118 | 23,389 | 3.2e-03 → 4.3e-03 | 0.19 → 0.34 | 0.56 → 0.76 | not reached below 1e-2 |
+| both BFOs, shared start-up offset (D4) | 36–31°S | 0.1524 | 6,768 | 3.1e-03 → 3.4e-03 | 0.19 → 0.22 | 0.57 → 0.63 | not reached below 1e-2 |
+| both BFOs, shared start-up offset (D4) | 31–26°S | 0.0254 | 86 | 4.6e-03 → 4.1e-03 | 0.37 → 0.30 | 0.76 → 0.68 | not reached below 1e-2 |
+| both BFOs, shared start-up offset (D4) | 26–21°S | 0.0103 | 436 | 5.6e-03 → 5.5e-03 | 0.56 → 0.53 | 0.90 → 0.86 | not reached below 1e-2 |
+| both BFOs, shared start-up offset (D4) | 21–20°S | 0.0001 | 66 | 5.5e-03 → 5.8e-03 | 0.55 → 0.61 | 0.86 → 0.90 | not reached below 1e-2 |
+
+**Table A3. Evidence three ways, old → new (α = 0.05, η marginal): ln Z, median-latitude shift, mass north of 33°S (core → combined), KL; the amplitude-weighted variant and the non-detection-only control on the new table.**
+
+| Option | p | ln Z old → new | shift (°) old → new | north of 33°S combined old → new (core) | KL old → new | amp-weighted: ln Z / shift / KL | ND-only (new): ln Z / shift / KL |
+|---|---|---|---|---|---|---|---|
+| 00:19 Held Out (D0') | 0 | -0.027 → -0.016 | +0.06 → +0.05 | 0.067 → 0.060 (0.058) | 0.013 → 0.007 | -0.065 / +0.03 / 0.004 | -0.166 / -0.03 / 0.001 |
+| 00:19 Held Out (D0') | 0.5 | -0.066 → -0.037 | +0.10 → +0.06 | 0.072 → 0.064 (0.058) | 0.019 → 0.011 | -0.084 / +0.04 / 0.006 | -0.185 / -0.03 / 0.001 |
+| 00:19 Held Out (D0') | 1 | -0.106 → -0.058 | +0.15 → +0.07 | 0.078 → 0.068 (0.058) | 0.027 → 0.015 | -0.104 / +0.05 / 0.009 | -0.204 / -0.02 / 0.001 |
+| R600 BTO + BFO (D2) | 0 | -0.073 → -0.035 | +0.06 → +0.04 | 0.053 → 0.046 (0.043) | 0.021 → 0.012 | -0.084 / +0.02 / 0.007 | -0.182 / -0.02 / 0.001 |
+| R600 BTO + BFO (D2) | 0.5 | -0.104 → -0.052 | +0.08 → +0.05 | 0.060 → 0.051 (0.044) | 0.026 → 0.015 | -0.099 / +0.03 / 0.009 | -0.196 / -0.02 / 0.001 |
+| R600 BTO + BFO (D2) | 1 | -0.136 → -0.069 | +0.09 → +0.06 | 0.066 → 0.056 (0.045) | 0.032 → 0.019 | -0.115 / +0.03 / 0.011 | -0.211 / -0.02 / 0.001 |
+| both BFOs as recorded (D3) | 0 | +0.017 → +0.018 | +0.05 → +0.07 | 0.040 → 0.036 (0.037) | 0.036 → 0.026 | -0.036 / +0.04 / 0.016 | -0.155 / -0.03 / 0.001 |
+| both BFOs as recorded (D3) | 0.5 | -0.053 → +0.015 | +0.17 → +0.13 | 0.052 → 0.044 (0.038) | 0.146 → 0.111 | -0.061 / +0.09 / 0.072 | -0.250 / -0.03 / 0.002 |
+| both BFOs as recorded (D3) | 1 | -0.130 → +0.012 | +1.37 → +0.29 | 0.066 → 0.052 (0.040) | 0.313 → 0.226 | -0.087 / +0.13 / 0.149 | -0.358 / -0.02 / 0.003 |
+| both BFOs, shared start-up offset (D4) | 0 | -0.007 → +0.025 | +0.12 → +0.11 | 0.043 → 0.038 (0.047) | 0.104 → 0.078 | -0.044 / +0.07 / 0.050 | -0.211 / -0.04 / 0.002 |
+| both BFOs, shared start-up offset (D4) | 0.5 | -0.079 → +0.009 | +0.29 → +0.15 | 0.051 → 0.043 (0.048) | 0.194 → 0.140 | -0.074 / +0.10 / 0.093 | -0.292 / -0.03 / 0.003 |
+| both BFOs, shared start-up offset (D4) | 1 | -0.155 → -0.007 | +1.49 → +0.34 | 0.061 → 0.049 (0.049) | 0.311 → 0.216 | -0.104 / +0.13 / 0.145 | -0.378 / -0.03 / 0.002 |
+
+**Table A4. Holland-type descent ln BF (p = 1 : p = 0), α = 0.05, old → new; amplitude-weighted and ND-only on the new table.**
+
+| Option | IMOS gated old → new | amp-weighted (new) | ND only old → new | IMS proxy old → new |
+|---|---|---|---|---|
+| 00:19 Held Out (D0') | -0.078 → -0.042 | -0.039 | -0.059 → -0.039 | -0.104 → -0.089 |
+| R600 BTO + BFO (D2) | -0.063 → -0.034 | -0.031 | -0.045 → -0.029 | -0.078 → -0.066 |
+| both BFOs as recorded (D3) | -0.146 → -0.006 | -0.051 | -0.346 → -0.203 | -0.384 → -0.316 |
+| both BFOs, shared start-up offset (D4) | -0.149 → -0.032 | -0.059 | -0.295 → -0.167 | -0.353 → -0.296 |
+
+**Table A5. Conditional hypotheses, ln BF on the gated IMOS term (α = 0.05), old → new, with the amplitude-weighted variant (new) and the IMS-proxy sensitivity (new; Kadri rows circular).**
+
+| Hypothesis | P(nd) IMOS old → new | ln BF IMOS old → new | amp-weighted (new) | ln BF IMS proxy (new) |
+|---|---|---|---|---|
+| Kadri 306.18 deg row, text time 00:52:03, locus 25.8 S 101.4 E | 0.932 → 0.932 | -0.004 → -0.034 | +0.013 | +1.352 |
+| Kadri 306.18 deg row, caption time 00:54:30, locus 25.8 S 101.4 E | 0.932 → 0.932 | -0.004 → -0.034 | +0.014 | +0.075 |
+| Royer OHASISBIO event B as source | 0.813 → 0.805 | -0.142 → -0.180 | -0.133 | -0.112 |
+| Royer OHASISBIO event D1 as source | 1.000 → 1.000 | +0.066 → +0.037 | +0.084 | +0.230 |
+| Royer OHASISBIO event D2 as source | 1.000 → 1.000 | +0.066 → +0.037 | +0.084 | +0.230 |
+| poster (a) box 1: 'source before 00:19:29 or off the arc' row, nearest arc locus 28.0 S | 1.000 → 1.000 | +0.066 → +0.037 | +0.084 | +0.149 |
+| poster (a) box 2: 'source before 00:19:29 or off the arc' row, nearest arc locus 28.0 S | 1.000 → 1.000 | +0.066 → +0.037 | +0.084 | +0.150 |
+| poster (a) box 3: 'source before 00:19:29 or off the arc' row, nearest arc locus 28.0 S | 1.000 → 1.000 | +0.066 → +0.037 | +0.084 | +0.150 |
+| poster (a) box 4: 'source before 00:19:29 or off the arc' row, nearest arc locus 28.0 S | 0.919 → 0.860 | -0.019 → -0.115 | -0.067 | +0.051 |
+
+**Table A6. Two-site coincidence locus (unchanged geometry; the η requirement uses the IMS proxy fits and IMS TL, which A4 does not touch).**
+
+- Locus 33.56°S 94.51°E, implied impact 00:31:41: η for P_D(both) = 0.5 / 0.05 at α 0.05: old 0.0692 / 0.00676 → new 0.0692 / 0.00676; run J mass within ±1° 0.226.
+- Locus 20.50°S 104.26°E, implied impact 00:31:04: η for P_D(both) = 0.5 / 0.05 at α 0.05: old 0.24 / 0.024 → new 0.24 / 0.024; run J mass within ±1° 0.001.
+
+
+**Coverage changes.** G-TL1 closed on the offset-0 line for the statistics (not for the columns: **G11-6, new** — the exchange columns are on the old table until rewritten); G-TL1a/b (±30 NM paths, 5/8 Hz bands interpolated from 10 Hz, `band_extrapolated` 30 % of 3315/3376 rows) carried in from the RAM-grid note; G-TL-X unchanged (latitude-only chain); G11-1 narrowed by the amplitude-weighted sensitivity, not closed (a calibrated amplitude likelihood ratio needs the background level density of screen-level candidates). All other gaps as in §7.
+
+**Ruling request, updated.** As §8, with the corrected statistics: the module recommends that the composer wait for the column rewrite on `imos_tl_ram_arc.csv` (one driver run, ≥ 28 GiB free) and then admit `hydro-lnL-imos-margeta` with the G11-1 label, or the amplitude-weighted variant as the default if architecture prefers a conservative match term; in either case the IMS proxy stays a sensitivity.
+
+- done (A4): pre-registered amendment, statistics re-run on all 313.6 M rows + supplement with the corrected IMOS table and the amplitude-weighted variant (100 min at 4 processes under external load 130–185), old-vs-new tables, README warning, this addendum, coordination entry.
+- next: column rewrite when disk allows; ruling; RAM at 5/8 Hz on the offset-0 paths (G-TL1b) would remove the band extrapolation.
+- blocker: disk for the column rewrite (needs ≥ 28 GiB free); the ruling.

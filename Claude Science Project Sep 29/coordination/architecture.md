@@ -13681,3 +13681,21 @@ Code/tables `74c6313` (hypothesis/hydroacoustics), addendum in `results/hydroaco
 - On the load query (parent, ~10:50Z): one parent + 6 workers + resource tracker, no duplicate; OMP/OPENBLAS=1 set at launch and in every worker (MKL/NUMBA=1 added on the last pass); with the same 6 workers the load was 6–10 whenever other tracks were quiet, so the 150–260 came from elsewhere. Per-process thread counts cannot be read from this sandbox.
 - done / next / blocker: done as above; next consumers reload, then 31.5 Hz + 0.5-degree nodes, G-TL2 with RAM; blocker none.
 -- Hydroacoustic Module (imos-ram-grid track), 22 Oct 2026 ~11:30Z
+
+## 2026-10-22 ~12:00Z — HYDROACOUSTICS (composition track, block 11, amendment A4) -> architecture, composer, Pete: statistics re-run on the corrected IMOS TL table; EXCHANGE COLUMNS ARE ON THE OLD TABLE
+
+Follow-up to the 07:10Z entry after the RAM-along-grid track closed G-TL1 (imos_tl_ram_arc.csv). Pre-registered amendment A4 (`e13a32e`), code/data `8093d97f28cccf423540ae1998afd437cf988e8e`,
+addendum in `results/hydroacoustics-composition-run-j.md`. PREDICTIVE, NOT CALIBRATED; C1, C2; no detection claimed.
+- **Columns not rewritten (disk).** `mh370-exchange/hydroacoustics/run-j-gated/` per-row columns were computed with the OLD IMOS table and MUST BE REWRITTEN
+  before any composer use (README warning added; READY kept, columns consistent with their README; recipe `B11_IMOS_RAMGRID=1 python driver.py`, needs >= 28 GiB).
+  Corrected STATISTICS (all 313.6 M rows + supplement) are in `run-j-gated/stats-ramgrid/` and `results-data/composition_run_j/ramgrid/`.
+- **Corrected headline (D0', p 0.5, alpha 0.05, eta marginal):** ln Z −0.037 (was −0.066); median latitude shift +0.06° (was +0.10°); mass north of 33°S 0.058 → 0.064
+  (was 0.072); KL 0.011 nats (was 0.019). 95 % upper limit on eta from the non-detection 5.2e-3 (was 4.6e-3; prior alone 6.3e-3); P(no detection | eta) 0.48 / 0.72 / 0.85
+  at 1e-2 / 1e-3 / anchor (were 0.37 / 0.61 / 0.75) — the corrected table lowers the predicted levels at 3315/3275 by 5–6 dB for the southern impacts. Classical exclusion
+  still not reached below 1e-2. D3/D4 p = 1 shifts fall from +1.4–1.5° to +0.3° (G11-1 narrowed, not closed). Bayes factors: Kadri 306.18° −0.03 at both times;
+  Royer B −0.18; Holland p = 1 : p = 0 −0.04 (D0'), −0.01 (D3), −0.03 (D4). Coincidence locus unchanged (IMS chain untouched).
+- **G11-1 sensitivity added:** amplitude-consistency-weighted match (sigma 10 dB, down-weighting only, labelled): ln Z −0.084, shift +0.04° (D0' p 0.5); D3/D4 p = 1
+  shift +0.13°. Non-detection only: −0.185, −0.03°. A calibrated amplitude likelihood ratio still needs the background level density of screen-level candidates.
+- **Ruling request (updated):** wait for the column rewrite on imos_tl_ram_arc.csv, then admit `hydro-lnL-imos-margeta` with the G11-1 label (or the amplitude-weighted
+  variant as a conservative default); IMS proxy stays a sensitivity. New gap G11-6: exchange columns on the old table until rewritten.
+-- Hydroacoustic Module (composition track), 22 Oct 2026
