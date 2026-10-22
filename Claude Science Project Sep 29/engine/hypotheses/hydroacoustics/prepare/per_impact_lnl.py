@@ -74,6 +74,15 @@ AMENDMENT 8 (17 Oct 2026, PRE-REGISTERED and committed before any run J row is s
   (c) Run C stratum directories are named next-c-<family>; they map to core's order (free, repro-radar,
       descent-climb, routes) for the rng stratum index. --strata is now honoured (it was parsed but ignored).
 
+AMENDMENT 9 (22 Oct 2026, work order 2026-10-21 block 2; committed before any run J row is scored with it). --tl-table
+  arc-grid replaces the five-quantile TL latitude tables (38.46-31.64 S, clamped outside) by the whole-arc grid tables
+  results-data/tl_grid_run_j/{ims_tl_kraken_arc.csv, imos_tl_ramcorr_arc.csv} (41-20 S, offset-0 arc line; tl_grid_table.py
+  states the interpolation rule: linear in latitude, clamped at 41 S and 20 S, blocked bands NaN -> zero energy). The RAM
+  deltas are applied exactly as before (IMS: lhyd rule from ims_ram_delta.csv; IMOS: inside the table). Default stays
+  --tl-table quantile5 (no value changes to anything already written); the arc-grid tables are the drop-in for block 3,
+  which closes the reach gap "TL clamped at the table edge" for rows between 41 S and 20 S. Receivers without a RAM
+  delta (H08N, 3250) are in the grid tables but are not scored by this chain (unchanged).
+
 Usage (from prepare/, PYTHONPATH=.:exploratory/pleiades_test):
   python per_impact_lnl.py <module_dir> <eof_run_dir> <out_dir> <kadri_table1.csv> [--compact-reader <compact_impacts.py>]
 """
@@ -177,13 +186,18 @@ def main():
     ap.add_argument("--seeds", nargs="+", type=int)
     ap.add_argument("--noise-sd", type=float, default=3.0)   # amendment 4
     ap.add_argument("--part")   # amendment 8(e): parallel worker tag; no README/READY
+    ap.add_argument("--tl-table", choices=["quantile5", "arc-grid"], default="quantile5")   # amendment 9
+    ap.add_argument("--tl-table-dir", default=str(HERE.parent / "results-data/tl_grid_run_j"))
     a = ap.parse_args(); out = pathlib.Path(a.out); out.mkdir(parents=True, exist_ok=True)
     compact = None
     if a.compact_reader:
         spec = importlib.util.spec_from_file_location("compact_impacts", a.compact_reader); compact = importlib.util.module_from_spec(spec)
         sys.path.insert(0, str(pathlib.Path(a.compact_reader).parent)); spec.loader.exec_module(compact)
     Terms.calerr, Terms.noise, Terms.noise_sd = a.calerr, a.noise, a.noise_sd
-    m = Terms(a.module_dir, a.imos_events, a.kadri_csv); summ = {"options": dict(calerr=a.calerr, noise=a.noise, tau=a.tau, tau_k=a.tau_k, noise_sd=a.noise_sd)}
+    m = Terms(a.module_dir, a.imos_events, a.kadri_csv); summ = {"options": dict(calerr=a.calerr, noise=a.noise, tau=a.tau, tau_k=a.tau_k, noise_sd=a.noise_sd, tl_table=a.tl_table)}
+    if a.tl_table == "arc-grid":   # amendment 9
+        import tl_grid_table as TT
+        summ["options"]["tl_table_dir"] = a.tl_table_dir; summ["options"]["tl_span_deg"] = TT.apply_to_model(m, a.tl_table_dir)
     for stratum in a.strata:
         si = stratum_index(stratum)
         for sd in sorted(d for d in (pathlib.Path(a.eof_run) / stratum).glob("seed-*") if d.is_dir()

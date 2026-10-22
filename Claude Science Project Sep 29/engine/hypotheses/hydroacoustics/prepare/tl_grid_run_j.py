@@ -106,7 +106,8 @@ def arc_sources(lat_south, lat_north, step, offsets_nm):
     """The arc-distance field is defined only in cells that hold impacts (n > 0; elsewhere a fill value). Per
     latitude row, longitude is fitted as linear in arc distance over the valid cells (within 150 NM of the wanted
     offset when >= 20 such cells exist, else all valid cells) and evaluated at the offset. Fit rms and whether the
-    offset lies outside the fitted span (extrapolated: 41.0 and 40.5 S only) are recorded in sources.csv."""
+    offset lies outside the fitted span (arc_fit_extrapolated) are recorded per source point in sources.csv; the
+    results note reports which rows are extrapolated (the southern rows, where run J holds few impacts) and their rms."""
     z = np.load(ARC_GRID)
     arc = z["arc"].astype(float); n = z["n"]; s0, w0, st = float(z["south"]), float(z["west"]), float(z["step"])
     lons = w0 + st * np.arange(arc.shape[1])
