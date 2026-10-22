@@ -232,12 +232,13 @@ def comparison(out, d, arc):
 
 
 # ----------------------------------------------------------------------------- loader for consumers
-def load_table(table_dir, bands, src_depths, offset_nm=None, ridge_policy="keep"):
+def load_table(table_dir, bands, src_depths, offset_nm=None, ridge_policy="keep", imos_file="imos_tl_ramcorr_arc.csv"):
     """Returns (xs, tabs) like lhyd.Model: xs sorted latitudes of the offset line (default 0), tabs[receiver][(fc, z)] =
     tl_db array over xs (NaN where blocked). IMS tables are raw KRAKEN (the caller subtracts the RAM delta as lhyd does);
-    IMOS tables are RAM-corrected as the old file. offset_nm selects the arc line (nearest available offset)."""
+    IMOS tables are RAM-corrected as the old file. offset_nm selects the arc line (nearest available offset).
+    imos_file (amendment, imos_ram_grid 23 Oct 2026): the IMOS table file name; `imos_tl_ram_arc.csv` = RAM along the grid (G-TL1)."""
     td = pathlib.Path(table_dir)
-    ims = pd.read_csv(td / "ims_tl_kraken_arc.csv"); imo = pd.read_csv(td / "imos_tl_ramcorr_arc.csv", dtype={"logger": str})
+    ims = pd.read_csv(td / "ims_tl_kraken_arc.csv"); imo = pd.read_csv(td / imos_file, dtype={"logger": str})
     off = 0.0 if offset_nm is None else float(min(np.unique(ims.offset_nm), key=lambda o: abs(o - offset_nm)))
     ims, imo = ims[ims.offset_nm == off], imo[imo.offset_nm == off]
     if ridge_policy == "neighbours":      # drop ridge-source points; np.interp over the remaining latitudes spans them

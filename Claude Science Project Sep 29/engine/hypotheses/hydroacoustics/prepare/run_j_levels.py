@@ -84,6 +84,11 @@ OUTPUTS: exchange /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-leve
   draws/supplement.npz, levels/<key>.npz, tables/*.csv, noise/*.csv, run.json, SHA256SUMS); compact copy of the tables in
   results-data/levels_run_j/. Charts to results/ on claude-science-sep29 by run_j_levels_charts.py.
 
+AMENDMENT 2 (23 Oct 2026, imos_ram_grid.py, G-TL1 closure; committed before the rerun): `--imos-tl-file` names the IMOS TL
+  table inside results-data/tl_grid_run_j (default unchanged: imos_tl_ramcorr_arc.csv; the G-TL1 rerun uses
+  imos_tl_ram_arc.csv), `--keys` and `--receivers` restrict the run (the G-TL1 rerun: D0/p0.5, the five IMOS loggers; its
+  best-receiver table covers those five only and is not a replacement of the full one). No other rule changed.
+
 Usage (from prepare/, PYTHONPATH=.):
   python run_j_levels.py draw --eof <run-j root> --out <exchange> --seeds run-j-waypoints/seed-1 ...
   python run_j_levels.py supplement --supp <impacts-ruleB.npz> --out <exchange>
@@ -233,9 +238,12 @@ def chain_tables():
     return tau_grid, Sb
 
 
+IMOS_TL_FILE = "imos_tl_ramcorr_arc.csv"   # amendment 2 (imos_ram_grid.py, 23 Oct 2026): --imos-tl-file swaps the IMOS table
+
+
 def tl_tables():
     import pandas as pd, tl_grid_table as TT
-    xs, tabs = TT.load_table(RD / "tl_grid_run_j", BANDS, [Z_REF])
+    xs, tabs = TT.load_table(RD / "tl_grid_run_j", BANDS, [Z_REF], imos_file=IMOS_TL_FILE)
     rd = pd.read_csv(RD / "near_limits/ims_ram_delta.csv")
     out = {}
     for rec in RECEIVERS:
@@ -513,11 +521,18 @@ def do_check(out, eof):
 
 
 def main():
+    global IMOS_TL_FILE, KEYS, RECEIVERS
     ap = argparse.ArgumentParser(); ap.add_argument("cmd", choices=["draw", "supplement", "noise", "levels", "check"])
     ap.add_argument("--eof", default="/Users/pete/Downloads/mh370-exchange/end-of-flight/run-j"); ap.add_argument("--out", required=True)
     ap.add_argument("--supp", default="/Users/pete/Downloads/mh370-exchange/end-of-flight/run-j-supplement/reduced/impacts-ruleB.npz")
     ap.add_argument("--seeds", nargs="*"); ap.add_argument("--repo-out", default=str(RD / "levels_run_j"))
+    ap.add_argument("--imos-tl-file", default=IMOS_TL_FILE, help="amendment 2: IMOS TL table file in results-data/tl_grid_run_j")
+    ap.add_argument("--keys", nargs="*", help="amendment 2: restrict the levels run to these keys (e.g. D0/p0.5)")
+    ap.add_argument("--receivers", nargs="*", help="amendment 2: restrict to these receivers (best-receiver table then covers them only)")
     a = ap.parse_args()
+    IMOS_TL_FILE = a.imos_tl_file
+    if a.keys: KEYS = [k for k in KEYS if k in a.keys]
+    if a.receivers: RECEIVERS = [r for r in RECEIVERS if r in a.receivers]
     if a.cmd == "supplement": do_supplement(a.supp, a.out)
     elif a.cmd == "draw":
         sup = np.load(pathlib.Path(a.out) / "draws" / "supplement.npz"); share = json.loads(str(sup["meta"]))["share"]
