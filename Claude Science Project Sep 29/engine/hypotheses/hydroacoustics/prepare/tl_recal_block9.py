@@ -148,7 +148,7 @@ OUTPUTS. results-data/tl_recal_block9/: route1_tl_model.csv, route1_residuals.cs
 AMENDMENT 4 (22 Oct 2026, after the parent's message that the Digitisation track has traced all Fig. 23 curves at the
   source limit, results-data/digitised/blackman-2004/, commit 1cb138a; written BEFORE any band mean of those traces is
   computed here). (i) Route 2 (F-35A): fetch_article_fulltext('10.1007/s00024-022-03117-6') was tried once and returned
-  no full text or figures (closed access); route 2 is recorded as gap G4 and the block proceeds on route 1 alone.
+  no full text or figures (the fetch tool cannot reach the purchased copy, held as artifact 7e4d336f); route 2 is recorded as gap G4 and the block proceeds on route 1 alone.
   (ii) Step (d) observation is re-scored on the new CL air7 and air9 traces: third-octave dB means inside f_b 2^(+/-1/6)
   over all columns (ambiguous=1 columns included, their share reported), bands with >= 3 columns; the same step (d)
   statistic and 10 dB rule applied to the adiabatic set (registered) and to the RAM set (exploratory); the earlier

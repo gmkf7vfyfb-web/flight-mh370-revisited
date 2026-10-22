@@ -13,7 +13,7 @@ SOURCES
     13597 is the only single-character insertion that makes every zip CRC pass. After that, all 9 entries match
     the bundle's own SHA256SUMS.json. Only the receiver-observations entry was damaged. That entry is
     byte-identical to the Drive copy.
-  The JASA 2004 paper (doi 10.1121/1.1786711) is closed access and could not be fetched. Nothing here is taken from it.
+  There is no copy of the JASA 2004 paper (doi 10.1121/1.1786711) in the project store; the companion report UCRL-TR-207323 is the source here. Nothing here is taken from the JASA paper.
 
 TOOLS
   Python 3.11.16; pypdfium2 5.9.0 (page render at 300 dpi, Fig 23 at 600 dpi, embedded-image extraction);

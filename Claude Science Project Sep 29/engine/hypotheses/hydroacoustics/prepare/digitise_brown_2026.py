@@ -7,8 +7,8 @@ FINDING (22 Oct 2026): the paper contains NO F-35A waveform or spectrum. The F-3
 only as text on pp. 18-19: impact energy 900 +/- 200 MJ, observed peak pressure 0.7 Pa at H11 (Wake Island),
 range 3,300 km, Arons/Soloway-Dahl relation (Eq. 2) => coupling efficiency to the SOFAR channel of order 1e-4,
 "an upper bound"; signal one order of magnitude in pressure above local background (citing Metz, Obana & Fukao,
-2022/2023, Pure Appl. Geophys. 180:1343-1351, doi 10.1007/s00024-022-03117-6, closed access). The F-35A source
-spectrum therefore has to come from Metz et al., which is NOT held (GAP). What this paper does render, and what is
+2022/2023, Pure Appl. Geophys. 180:1343-1351, doi 10.1007/s00024-022-03117-6; Pete holds a copy, artifact 7e4d336f). The F-35A source
+spectrum therefore has to come from Metz et al. (held; digitised later on 22 Oct by track metz-f35a). What this paper does render, and what is
 digitised here, are the two fireball cases and the analytic relation:
 
   Fig. 3  (p. 11, raster 3551x2354): Arons peak-pressure relation, Eq. 2: P_peak[Pa] = 52.4e6 (R / W^(1/3))^-1.13,
