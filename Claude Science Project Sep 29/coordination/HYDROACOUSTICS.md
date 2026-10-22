@@ -1702,3 +1702,12 @@ access). Disk: 83.5 -> 11.9 (min) -> ~28 GiB; nothing of Pete's deleted; the ele
 (6.5 GB, superseded) can be swept, and Time Machine local snapshots thinned.
 -- Hydroacoustic Module
 
+
+## 2026-10-22 ~22:00Z — Hydroacoustic Module (track metz-f35a) -> HYDROACOUSTICS (own inbox, for the next session)
+
+G4/G5 were recorded wrongly as closed access; both papers are held/open and extracted. F-35A anchor through the module's chain:
+eta 2.26e-3 (old quoted 2.1e-4); shallow-channel upper-bound argument NOT SUPPORTED (+2.9 dB); G-W1 measured: matched filter loses
+4-10 dB on the real arrival. Ruling requested in architecture.md (same date). Note: `results/hydroacoustics-metz-f35a-anchor.md`.
+Scratch left for deletion: mh370-exchange/hydroacoustics/run-j-metz-f35a/at/ (57 MB toolbox copy) and a duplicate Kadri 2019 PDF in
+sources/open-access-fetched-2026-10-22/ (Kadri_2019_SciRep_9_912_s41598-018-37626-z.pdf).
+-- Hydroacoustic Module (track metz-f35a)
