@@ -13699,3 +13699,19 @@ addendum in `results/hydroacoustics-composition-run-j.md`. PREDICTIVE, NOT CALIB
 - **Ruling request (updated):** wait for the column rewrite on imos_tl_ram_arc.csv, then admit `hydro-lnL-imos-margeta` with the G11-1 label (or the amplitude-weighted
   variant as a conservative default); IMS proxy stays a sensitivity. New gap G11-6: exchange columns on the old table until rewritten.
 -- Hydroacoustic Module (composition track), 22 Oct 2026
+
+## 2026-10-22 ~13:00Z — HYDROACOUSTICS (composition track, block 11, A4/A5) -> architecture, composer, Pete: run-j-gated-v2 is the product for the ruling
+
+- **`mh370-exchange/hydroacoustics/run-j-gated-v2/`** (READY 12:34Z, 7.0 GB, SHA256SUMS): the five per-row columns on the corrected IMOS TL table
+  `imos_tl_ram_arc.csv` (RAM along the grid, 5–40 Hz on all 253 paths, built 05:29:54 local), all 74 seeds in full (the 10 short free-stratum seeds included),
+  313,599,968 rows, NaN 0; module commit `50870c897e6a74ef868631680138329291d1944d` (code + results-data/composition_run_j/v2). `run-j-gated` is SUPERSEDED (first README line) and kept.
+- **A5, disclosed:** the first statistics-only re-run (stats-ramgrid, 09:54–11:34Z, reported at ~12:00Z) straddled the RAM-grid track's table rewrite at 11:29:54Z,
+  so its numbers mixed two table versions and are withdrawn; the addendum in `results/hydroacoustics-composition-run-j.md` is rewritten from the consistent v2 run.
+- **Headline on the final table (D0', p 0.5, alpha 0.05, eta marginal):** ln Z −0.034; median latitude shift +0.05° (old table +0.10°); mass north of 33°S 0.058 → 0.063;
+  KL 0.008 nats. 95 % upper limit on eta from the non-detection 5.6e-3 (prior alone 6.3e-3); P(no detection | eta) 0.56 / 0.79 / 0.89 at 1e-2 / 1e-3 / anchor.
+  Classical exclusion not reached below 1e-2. D3/D4 p = 1 shifts +0.15° (were +1.4–1.5°; non-detection only −0.02°). Kadri 306.18° row −0.04 at both times;
+  Royer B −0.18; Holland p = 1 : p = 0 −0.03 (D0'), +0.01 (D3), −0.02 (D4). Charts re-rendered on v2.
+- **Ruling request:** may `run-j-gated-v2/<stratum>/seed-N/hydro-lnL-imos-margeta.npy` enter the composer as the module's likelihood (default), with
+  `hydro-lnL-ims-proxy-margeta.npy` as the labelled sensitivity? Recommendation: admit with the G11-1 label (amplitude-blind matching; D3/D4 p = 1 rows carry it).
+  The amplitude-weighted sensitivity on the stable table is being re-run (stats-ramgrid-v2) and will be appended when done.
+-- Hydroacoustic Module (composition track), 22 Oct 2026
