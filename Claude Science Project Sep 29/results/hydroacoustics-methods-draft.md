@@ -26,7 +26,7 @@ current status (§9).
 ## 2. Data
 
 1. **IMS stations H01W (Cape Leeuwin), H08S and H08N (Diego Garcia), and H11N/H11S (Wake).** We use
-   positions and instrument responses only [FDSN-IM]. Waveforms are not held: the public FDSN service
+   positions and instrument responses only [FDSN-IM]. Waveforms are not retrieved — ask Pete: the public FDSN service
    returns no data for 2014.
 2. **IMOS passive-acoustic loggers** [IMOS-ANMN-PA]. These are 3315 and 3376 (Perth Canyon), 3274 and
    3275 (Portland) and 3250 (Scott Reef), recorded at 6 kHz with a 34 % duty cycle and an 8 Hz analogue
@@ -156,7 +156,7 @@ classed by the ratio of its source duration τ to T_c as impulsive, transitional
 8.8–11.6 s. 87 % of draws are impulsive and 13 % transitional.
 
 AGW arrivals at H01W and H08S would lie below the 5 Hz high-pass applied to the published traces. They can
-only be tested on raw IMS data, which are not held. The IMOS loggers' 8 Hz analogue high-pass likewise
+only be tested on raw IMS data, which are not retrieved — ask Pete. The IMOS loggers' 8 Hz analogue high-pass likewise
 excludes them.
 
 **Amplitude estimate (exploratory, prereg `55ebdcc`; `hydroacoustics-agw-scenarios.md`).**
@@ -187,7 +187,7 @@ excludes them.
 ## 9. What stands, what is open
 
 - **The module returns 0.0 to the composer** under both priors. The non-detection at IMOS carries less
-  than 10⁻³ bit, and the IMS data that could carry more are not held.
+  than 10⁻³ bit, and the IMS data that could carry more are not retrieved — ask Pete.
 - **Value of raw IMS data (exploratory planning only, not a result).** A weak H01W + H08S pair could add
   about 1–2.7 bits, depending on pick error (`hydroacoustics-near-limits-planning.md`).
 - **Window for a raw-data request.** Windows come from end of flight's option × cause posteriors, with impacts

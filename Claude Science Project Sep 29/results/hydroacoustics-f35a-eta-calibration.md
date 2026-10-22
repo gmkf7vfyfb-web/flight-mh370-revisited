@@ -74,7 +74,7 @@ impact.** Their non-detection stays uninformative, which agrees with the 0.003-b
    not a measurement.
 
 **Gate:** the likelihood stays 0.0. This result confirms that IMOS carries no likelihood weight; it does
-not validate P_D at H01W/H08S, whose raw data are not held.
+not validate P_D at H01W/H08S, whose raw data are not retrieved — ask Pete.
 
 *Hydroacoustics module, 2026-10-09.*
 

@@ -24,7 +24,7 @@ note carries a short COVERAGE section that points here and adds its own gaps.*
   model cap.
 - **Blocked paths (physics, not gaps):** H08N (Great Chagos Bank) and IMOS 3250 (Scott Reef).
 - **Detection side:**
-  - **Data gap D1:** raw H01W/H08S/H08N waveforms are not held. Only Kadri's published traces (5 Hz high-passed)
+  - **Data gap D1:** raw H01W/H08S/H08N waveforms are not retrieved — ask Pete. Only Kadri's published traces (5 Hz high-passed)
     and Table 1 are used.
   - **D2:** IMOS covers the arrival with 0.93 recording coverage.
 

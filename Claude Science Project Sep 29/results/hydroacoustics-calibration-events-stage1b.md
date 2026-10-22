@@ -91,7 +91,7 @@ is "5 Hz high-pass, entropy detector". Effective 2024 passband 5–40 Hz. Brief 
 | F-35A TL | `f35a_cal/f35a_tl.csv`, `ram_check/h11_tl_ramcorr.csv` | module results-data | H11N/H11S, z 10 m | held |
 | crash timing | S1 times/positions; Kadri box times | repo `kadri-S1.txt`; `kadri_peaks.csv` | S1 times to the minute; 4 panels (Transair ×2, Lion Air ×2) have no digitised box: **window + 5 min used — provisional rows** | partly held |
 | CMST overlay | IMOS 3315 `531A728A.DAT`, Curtin gain file, sens −197.8 dB, clock −25.82 s | `mh370-inputs/hydroacoustics/imos/MH370/3315_PerthCanyon/` (sha in `data/imos/recordings.csv`); `results-data/imos1d/clock_test.json` | the logger CMST shows (time and level match) | held, correct |
-| IMOS 3315/3275 1–15 Mar | archive listing | `imos-data.s3-ap-southeast-2.amazonaws.com/IMOS/ANMN/Acoustic/` listed 22 Oct | **no 3315 or 3275 deployment exists in the archive: 0 days, 0 files, 0 bytes** | not held; nothing downloaded; ask Pete |
+| IMOS 3315/3275 1–15 Mar | archive listing | `imos-data.s3-ap-southeast-2.amazonaws.com/IMOS/ANMN/Acoustic/` listed 22 Oct | **no 3315 or 3275 deployment exists in the archive: 0 days, 0 files, 0 bytes** | not retrieved — ask Pete; nothing downloaded |
 | San Juan real-arrival test (not built here) | traceable traces | Kadri 2024 Figs. 7–8 (PMC 669–749 px; pressure axes; 0.51 s and 0.04–0.8 Pa per px): usable for peak and timing; Vergoz Fig. 2 (1,598 px, 0.29 s per px, no pressure scale): usable for envelope shape and timing; Nielsen Fig. 3 (1,870 px over 24 min, 2.9 s per px): timing only, **not usable as a waveform** | no calibrated waveform at better than 0.29 s exists in the held sources | report only |
 
 ## COVERAGE

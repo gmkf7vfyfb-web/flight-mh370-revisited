@@ -75,6 +75,6 @@ also explains the Curtin event being recorded at the RCS canyon floor.
 - **Stage B and C P_D are no longer reported as lower bounds** for the RAM-corrected loggers. They now
   carry RAM's own uncertainty: one path per site, interpolated in log f, with a fluid half-space bottom.
 - **The likelihood stays 0.0.** For IMOS the non-detection is worth well under 10⁻³ bit, so the gate
-  question is moot in practice. For H01W/H08S the raw data needed to measure P_D are not held (§9).
+  question is moot in practice. For H01W/H08S the raw data needed to measure P_D are not retrieved — ask Pete (§9).
 
 *Hydroacoustics module, 2026-10-09.*

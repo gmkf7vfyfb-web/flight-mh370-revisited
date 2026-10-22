@@ -108,7 +108,7 @@ transient rates are unmeasured: Kadri's Table 1 implies about 67 /h at his own t
 | data | status | next test |
 |---|---|---|
 | IMOS raw (5 loggers, plus 14 days of background) | held; single-site searches done (no detection) | the pre-registered loose-threshold **Perth Canyon + Portland coincidence** search, with chance pairs measured by time slides on the 14-day background and its P_D by injection. Worth ≤ 0.1 bit expected, but it is the full protocol rehearsed on real data. Minutes of CPU, so it can run now. |
-| H01W / H08S raw | **not held.** EarthScope serves the IM metadata only and returns "no data" for the 2014 waveforms (checked 9 Oct). Access is through the CTBTO vDEC or a national data centre. | the same protocol plus triad bearings, the 0.4–0.7-bit case. It needs the data, which is a decision for Pete. |
+| H01W / H08S raw | **not retrieved — ask Pete.** EarthScope serves the IM metadata only and returns "no data" for the 2014 waveforms (checked 9 Oct). Access is through the CTBTO vDEC or a national data centre. | the same protocol plus triad bearings, the 0.4–0.7-bit case. It needs the data, which is a decision for Pete. |
 | Kadri's published H01W traces (digitised) | used (2a) | none further |
 | reference-289 impacts | in `mh370-exchange/end-of-flight/` | rerun this analysis and the AGW regime on them |
 

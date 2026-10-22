@@ -960,7 +960,7 @@ module's `impact_log_likelihood` still returns 0.0).
   bands: |ln R| < 0.5 within noise, 0.5-1 weak, 1-2.3 moderate, > 2.3 strong.
 - **Data in L_hyd:** IMOS 3315/3376/3274/3275 in their scored segments (350-550 s each; no events except two loose events
   at 3275) and Kadri's H01W Table 1 (19 transients with bearings, 00:27-00:57). Not used: H08S (shot train), H08N and
-  3250 (blocked), raw H01W/H08S (not held).
+  3250 (North West Shelf in the path), raw H01W/H08S (not retrieved — ask Pete).
 - **Power check: informative by the stop rule, but weakly.** 00:19 R600 BTO Only: E[ln R] +0.16 if H is true, −0.12 if
   not; P(|ln R| ≥ 1) 0.13 / 0.05. Arrival windows overlap 0.72-0.75 at every station; H predicts arrivals 8-10 min
   earlier (median). IMOS alone gives +0.03 / −0.02; Kadri's list carries most of the power.

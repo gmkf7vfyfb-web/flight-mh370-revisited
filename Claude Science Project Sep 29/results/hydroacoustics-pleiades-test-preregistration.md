@@ -44,10 +44,10 @@ alone, never as P(H | data). The Pléiades factor itself stays uninterpretable (
 | IMOS 3315, 3376 (Perth Canyon) | raw, 5 loggers + 14 background days (`mh370-inputs/hydroacoustics/imos`) | **yes** | stage A "or" detector at α = 0.05 per 50 s, inside 2b's pre-registered MH370 windows (00:37:14-01:01:45 UTC). Scored coverage 372.5 s (3315) and 450.5 s (3376). **No events.** |
 | IMOS 3274, 3275 (Portland) | raw | **yes** | same detector (3275 borrows 3274's thresholds), window 01:03:51-01:24:58 UTC. Scored coverage 350.5 s / 550.1 s. **3274: no events. 3275: two loose events, 01:07:46.6 and 01:20:34.5 UTC** (r = 1.83, 1.20); none at α = 0.005. |
 | IMOS 3250 (Scott Reef) | raw | no | path blocked (module ruling); not in the module's logger set |
-| H01W (IMS triad) | **raw NOT held** (EarthScope returns no 2014 waveforms; CTBTO vDEC / national data centre request outstanding). Held: Kadri (2024) Table 1, 19 transients with time and bearing (extracted), and Fig. 9 traces 00:27-00:57 (digitised, single channel, pre-filtered) | **yes, soft** | Kadri Table 1 as the event list over Kadri's analysed record, 00:27:00-00:57:00 UTC; background density from the module's own 2a test: 18 events per (998 s × 108.5°) |
-| H08S (IMS triad) | raw NOT held; Kadri Fig. 9d-e trace 01:00-01:20 (digitised) | no (excluded) | the trace is dominated by a 9.98 s airgun-like shot train; triggers are shots, and no P_D exists after shot removal in absolute units. Its trigger times were not saved by the module. |
+| H01W (IMS triad) | **raw not retrieved — ask Pete** (EarthScope returns no 2014 waveforms; CTBTO vDEC / national data centre request outstanding). Held: Kadri (2024) Table 1, 19 transients with time and bearing (extracted), and Fig. 9 traces 00:27-00:57 (digitised, single channel, pre-filtered) | **yes, soft** | Kadri Table 1 as the event list over Kadri's analysed record, 00:27:00-00:57:00 UTC; background density from the module's own 2a test: 18 events per (998 s × 108.5°) |
+| H08S (IMS triad) | raw not retrieved — ask Pete; Kadri Fig. 9d-e trace 01:00-01:20 (digitised) | no (excluded) | the trace is dominated by a 9.98 s airgun-like shot train; triggers are shots, and no P_D exists after shot removal in absolute units. Its trigger times were not saved by the module. |
 | H08N | none | no | path blocked by the Great Chagos Bank (module, 9 Oct) |
-| H11, other IMS | not relevant / not held | no | |
+| H11, other IMS | not relevant / not retrieved — ask Pete | no | |
 | AGW branch | | no | not assessable: Kadri's 5 Hz high-pass and IMOS's 8 Hz analogue high-pass remove it |
 
 Event lists and coverage were produced by `standin-scripts/extract_imos_events.py`, which runs the module's

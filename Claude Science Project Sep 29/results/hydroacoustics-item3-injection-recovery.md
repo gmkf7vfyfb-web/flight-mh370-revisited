@@ -81,7 +81,7 @@ The likelihood the module returns stays **0.0**, for three reasons:
    Metz's position and Brown's 0.7 Pa, calibrates η in the module's own definition. It waits only on
    GEBCO coverage north of 30°N.
 3. **The informative receivers are not covered.** H01W+H08S, the two-site case that carries 1.7–3.2 bit,
-   are IMS stations. Their raw data are not held, so their P_D cannot be measured by injection. That is
+   are IMS stations. Their raw data are not retrieved — ask Pete, so their P_D cannot be measured by injection. That is
    the §9 request.
 
 *Hydroacoustics module, 2026-10-09.*

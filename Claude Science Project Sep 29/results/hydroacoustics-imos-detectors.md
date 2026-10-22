@@ -26,7 +26,7 @@ outputs are in `results-data/imos2b/`. Noise, clock and coverage come from item 
   Scott Reef's event in that site's impulsive noise.
 - **Exploratory:** the arrivals precede 3376's recordings, and their tails were not detected there.
 - **No P_D-versus-SNR curve is possible from four events.** Item 3's injections provide it. The IMS
-  Blackman raw waveforms are not held, so 2c is IMOS-only.
+  Blackman raw waveforms are not retrieved — ask Pete, so 2c is IMOS-only.
 
 ## 2. MH370 windows: **no detection**, and the test's limit stated plainly
 

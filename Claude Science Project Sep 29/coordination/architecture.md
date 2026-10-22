@@ -366,7 +366,7 @@ The brief's §7 sequence stands. I propose one change of scheduling, not of subs
    sessions, or something else.
 5. **Branch name** `hypothesis/hydroacoustics`, cut from `claude-science-sep29`. Confirm.
 
-No download over a few MB is planned before question 4 is answered. The IMS data are not held
+No download over a few MB is planned before question 4 is answered. The IMS data are not retrieved — ask Pete
 publicly, and the IMOS set is on the Drive, so nothing here needs disk.
 
 — hydroacoustics
@@ -2233,7 +2233,7 @@ Portland paths, or have those paths served by the shared ocean transport when it
 1. **2b:** pre-register the detectors (energy ratio, matched correlation, and time-difference bearing on
    the two-logger pairs). The positive controls: the Curtin event at RCS and at Scott Reef, and the
    **untested prediction at 3376**.
-2. **2c:** P_D against SNR on those controls. The IMS Blackman raw waveforms are not held, so 2c is
+2. **2c:** P_D against SNR on those controls. The IMS Blackman raw waveforms are not retrieved — ask Pete, so 2c is
    IMOS-only until they are.
 3. **Item 3:** injection-recovery into the real noise.
 
@@ -7502,7 +7502,7 @@ windows.
 **2. The Pléiades hydroacoustic test.** Noted: the stand-in runs the pre-registration, the power check and R_hyd, and I
 will not start them. Here are facts it needs. They are all in committed notes, so the pre-registration can cite them.
 - **Data held:**
-  - **IMS raw (H01W, H08S, H08N): NOT held.** EarthScope returns no data for 2014; raw data need CTBTO vDEC or a
+  - **IMS raw (H01W, H08S, H08N): not retrieved — ask Pete.** EarthScope returns no data for 2014; raw data need CTBTO vDEC or a
     national data centre, which is Pete's decision.
   - **Held for IMS:** only Kadri 2024's digitised Fig. 9 traces. They are high-passed at 5 Hz and band-passed at
     2–40 Hz, so they contain no AGW content. They cover H01W 00:27–00:57 and H08S 01:00–01:20.
@@ -7811,7 +7811,7 @@ module's `impact_log_likelihood` still returns 0.0).
   bands: |ln R| < 0.5 within noise, 0.5-1 weak, 1-2.3 moderate, > 2.3 strong.
 - **Data in L_hyd:** IMOS 3315/3376/3274/3275 in their scored segments (350-550 s each; no events except two loose events
   at 3275) and Kadri's H01W Table 1 (19 transients with bearings, 00:27-00:57). Not used: H08S (shot train), H08N and
-  3250 (blocked), raw H01W/H08S (not held).
+  3250 (North West Shelf in the path), raw H01W/H08S (not retrieved — ask Pete).
 - **Power check: informative by the stop rule, but weakly.** 00:19 R600 BTO Only: E[ln R] +0.16 if H is true, −0.12 if
   not; P(|ln R| ≥ 1) 0.13 / 0.05. Arrival windows overlap 0.72-0.75 at every station; H predicts arrivals 8-10 min
   earlier (median). IMOS alone gives +0.03 / −0.02; Kadri's list carries most of the power.
@@ -8305,7 +8305,7 @@ Pete: the run C chain has priority on the Mac heavy lock tonight, ahead of drift
    - **What it writes:** row-aligned `<stratum>/seed-<k>/hydro-lnL.npy` (full or compact input, via EoF's reader), plus
      COLUMNS.txt, SHA256SUMS, README and, last, READY.
    - **`lnL_gated` = 0.0 on every row.** This is the module's likelihood: the P_D gate is not passed, because raw IMS
-     triads are not held.
+     triads are not retrieved — ask Pete.
    - **`lnL_soft`** (with its IMOS and H01W parts) is the exploratory near-limit likelihood: amended H01W box, P_D
      capped. **The composer should use `lnL_gated`. `lnL_soft` is only a labelled sensitivity** ("hydroacoustics
      low-power").
@@ -13824,8 +13824,10 @@ Four open-access papers were fetched and filed: Kadri 2019, Williams 2023, Nosov
 filenames can be raw DOIs, such as `art%3A10.1007%2F...pdf`), and write the location in the ledger. Never write "closed access" as
 a reason for a gap. A source with no copy is written "not retrieved — ask Pete" (see the standing rule on labels below).
 
-**Unchanged, because they are facts and not licence labels:** raw IMS waveforms (H01W, H08S, H08N) are data not held; commercial
-archive logins and API keys are credentials; public documents whose hosts refuse scripted downloads (Chu & Fan 2006, Anderson 2018,
+**Reworded on Pete's instruction, 22 Oct 2026:** raw IMS waveforms (H01W, H08S, H08N) and the commercial archive logins and API keys now read
+"not retrieved — ask Pete" (the "not held" and "blocked" wording is gone from the notes; Scott Reef 3250 reads "North West Shelf in the path").
+**Kept on Pete's instruction:** the "DO NOT USE: fig10-3-bfo-latitude-pdf.csv (superseded)" lines and the "Do not use these maps for a search" captions.
+**Still true as notes:** public documents whose hosts refuse scripted downloads (Chu & Fan 2006, Anderson 2018,
 DKI574, DNV-RP-F107, MDPI papers) need a browser download by Pete; copyrighted PDFs are not committed to the public repo.
 The restricted-source ledger (internal use authorised in full; redistribution settled at the paper's provenance review) is untouched.
 -- OPERON session (for Pete)

@@ -6,14 +6,12 @@ Prepared at Pete's request (22 Oct 2026). Pete's ruling: the project has the rig
 
 | copy status | rows |
 |---|---|
-| not retrieved — ask Pete | 65 |
+| not retrieved — ask Pete | 68 |
 | FETCHED (22 Oct 2026) | 4 |
 | HELD | 3 |
-| DATA NOT HELD | 2 |
 | HELD (later revisions only) | 1 |
 | OPEN; copy location not confirmed | 1 |
 | LANDING PAGE ONLY | 1 |
-| CREDENTIAL NEEDED | 1 |
 
 ## Labels that were wrong (copy held, or open access)
 
@@ -35,10 +33,11 @@ Prepared at Pete's request (22 Oct 2026). Pete's ruling: the project has the rig
 
 Load-bearing for current notes (supply first): Duncan & Dall'Osto (2023, JASA abstract only; the lay-language paper is held), Prario (2023), Dall'Osto (2019, JASA, San Juan), Blackman et al. (2004, JASA; the companion UCRL report is held), Heaney (2017), Arons (1954), Chapman (1988), Taylor (1921), LaCasce (2008). Public documents that need a browser download because the host refuses scripted clients: Chu & Fan (2006), Anderson (2018), DKI574, DNV-RP-F107, MDPI papers (Hao 2024 and the 2025 sub-aperture paper). The three Journal of Navigation particle-filter papers are paywalled; they are listed in `paper/JON-MODEL-PAPERS.md` as metadata only. All other rows in the CSV are background references (`known reference`, `metadata only`) that no note relies on for a number.
 
-## Not labels (unchanged)
+## Reworded on Pete's instruction (22 Oct 2026)
 
-- Raw IMS waveforms at H01W, H08S and H08N: data not held; access is through the CTBTO vDEC or a national data centre.
-- Commercial archive logins and API keys (Space-Track, USGS M2M, DLR, Maxar, Planet, SI Imaging, Bhoonidhi, CNES): credentials, to be added in Customize > Credentials where wanted.
+- Raw IMS waveforms at H01W, H08S and H08N, and the commercial archive logins and API keys (Space-Track, USGS M2M, DLR, Maxar, Planet, SI Imaging, Bhoonidhi, CNES): now "not retrieved — ask Pete". IMS access is through the CTBTO vDEC or a national data centre; archive access needs an account or key (Customize > Credentials).
+- Kept on Pete's instruction: the "DO NOT USE: fig10-3-bfo-latitude-pdf.csv (superseded)" lines in the coordination inboxes and the "Do not use these maps for a search" captions in the composer figure scripts.
+- Not touched: generated products that carry "not held" as a category (arrival-window matrix and its README, run J levels table) and the module's own acoustic-path terms ("blocked path", "blockage"), because changing them means regenerating charts or changing a computed result.
 - Copyrighted PDFs are used internally but not committed to the public repo; the restricted-source ledger (`results/restricted-sources-ledger.md`) is untouched.
 
 ## How the Metz label arose

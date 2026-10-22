@@ -37,7 +37,7 @@ rows each, 51.2 M rows), as pre-registered (§1, §3, §4).
   3275, 01:07:46.6 and 01:20:34.5 UTC); Kadri's Table 1 at H01W (19 transients with bearings) over 00:27-00:57;
   F-35A-calibrated η with RAM-corrected TL; total kinetic energy; one nuisance draw per row shared by all stations.
 - **Not used:** H08S (Kadri's trace is an airgun shot train, no absolute P_D), H08N (blocked by the Great Chagos Bank),
-  Scott Reef 3250 (blocked), raw H01W/H08S (not held), the AGW branch (filtered out of every record held).
+  Scott Reef 3250 (North West Shelf in the path), raw H01W/H08S (not retrieved — ask Pete), the AGW branch (filtered out of every record held).
 
 ## 2. Power check (before the result)
 
@@ -64,15 +64,15 @@ the mean). Scenarios B and C are planning cases, not tests.
 | 00:19 R600 BTO Only | A: held, as pre-registered | +0.159 ± 0.014 | -0.119 ± 0.010 | 0.22 / 0.13 | 0.13 / 0.05 | 0.001 / 0.003 |
 | 00:19 R600 BTO Only | A, IMOS only | +0.030 ± 0.005 | -0.024 ± 0.005 | 0.04 / 0.04 | 0.00 / 0.00 | 0.000 / 0.000 |
 | 00:19 R600 BTO Only | B: held, all IMOS recordings scored | +0.168 ± 0.014 | -0.110 ± 0.010 | 0.24 / 0.17 | 0.12 / 0.06 | 0.001 / 0.002 |
-| 00:19 R600 BTO Only | C: + raw H01W/H08S (not held) | +0.953 ± 0.030 | -1.391 ± 0.053 | 0.61 / 0.59 | 0.52 / 0.49 | 0.215 / 0.264 |
+| 00:19 R600 BTO Only | C: + raw H01W/H08S (not retrieved — ask Pete) | +0.953 ± 0.030 | -1.391 ± 0.053 | 0.61 / 0.59 | 0.52 / 0.49 | 0.215 / 0.264 |
 | 00:19 Held Out | A: held, as pre-registered | +0.069 ± 0.010 | -0.076 ± 0.008 | 0.16 / 0.10 | 0.06 / 0.04 | 0.000 / 0.002 |
 | 00:19 Held Out | A, IMOS only | +0.006 ± 0.004 | -0.015 ± 0.004 | 0.02 / 0.03 | 0.00 / 0.00 | 0.000 / 0.000 |
 | 00:19 Held Out | B: held, all IMOS recordings scored | +0.085 ± 0.010 | -0.096 ± 0.008 | 0.17 / 0.13 | 0.06 / 0.04 | 0.000 / 0.002 |
-| 00:19 Held Out | C: + raw H01W/H08S (not held) | +0.677 ± 0.024 | -0.836 ± 0.043 | 0.58 / 0.51 | 0.44 / 0.40 | 0.079 / 0.147 |
+| 00:19 Held Out | C: + raw H01W/H08S (not retrieved — ask Pete) | +0.677 ± 0.024 | -0.836 ± 0.043 | 0.58 / 0.51 | 0.44 / 0.40 | 0.079 / 0.147 |
 | 00:19 R600 BTO + Raw BFO | A: held, as pre-registered | +0.175 ± 0.015 | -0.155 ± 0.012 | 0.26 / 0.20 | 0.14 / 0.08 | 0.003 / 0.006 |
 | 00:19 R600 BTO + Raw BFO | A, IMOS only | +0.040 ± 0.007 | -0.046 ± 0.006 | 0.13 / 0.09 | 0.01 / 0.01 | 0.000 / 0.000 |
 | 00:19 R600 BTO + Raw BFO | B: held, all IMOS recordings scored | +0.250 ± 0.016 | -0.166 ± 0.013 | 0.31 / 0.24 | 0.17 / 0.10 | 0.001 / 0.005 |
-| 00:19 R600 BTO + Raw BFO | C: + raw H01W/H08S (not held) | +0.900 ± 0.029 | -1.272 ± 0.050 | 0.61 / 0.54 | 0.52 / 0.46 | 0.207 / 0.244 |
+| 00:19 R600 BTO + Raw BFO | C: + raw H01W/H08S (not retrieved — ask Pete) | +0.900 ± 0.029 | -1.272 ± 0.050 | 0.61 / 0.54 | 0.52 / 0.46 | 0.207 / 0.244 |
 
 **Stop rule (pre-registration §6.4):** the overlaps are all ≥ 0.5, but P(|ln R| ≥ 0.5) exceeds 0.05 under both
 hypotheses for every option in scenario A, so the test was **not** stopped. Read plainly: the data held can move ln R

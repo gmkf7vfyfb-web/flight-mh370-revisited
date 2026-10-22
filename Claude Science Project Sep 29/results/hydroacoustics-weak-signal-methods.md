@@ -361,7 +361,7 @@ below that absent. About a quarter of injected peaks fall inside the gate and ar
 - **Feasible set.** Impact source: the module's source model (one-pole ESD, τ 0.05–10 s; brief §"impact source
   interface"), coupling η over four decades (C2). Propagation: deep-sound-channel arrivals over 1,500–3,700 km with
   modal dispersion of 20–40 s; AGW branch (not touched here). Receivers: IMOS 3315/3376/3250/3274/3275 (single
-  hydrophones, 307 s records every 15 min), IMS H01W/H08S/H08N triads (raw data not held).
+  hydrophones, 307 s records every 15 min), IMS H01W/H08S/H08N triads (raw data not retrieved — ask Pete).
 - **Model's reach.** Templates: one range-independent KRAKEN profile (WOA23 March midpoint, flat 4,610 m), receiver at
   the channel axis (1,200 m) while the IMOS loggers sit at 400–500 m; τ ∈ {0.1, 1, 10}; ranges 1,800–3,000 km. Not
   reached: bathymetry-following paths, the H08S path's 3,704 km other than as one envelope, receiver depth of the
