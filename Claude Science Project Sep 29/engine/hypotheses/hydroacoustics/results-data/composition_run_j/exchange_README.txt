@@ -1,3 +1,9 @@
+*** WARNING (23 Oct 2026, amendment A4): THE COLUMNS IN THIS DIRECTORY ARE ON THE OLD IMOS TL TABLE (imos_tl_ramcorr_arc.csv, constant
+*** rule-2 RAM correction, gap G-TL1). The RAM-along-grid track has since issued the corrected table imos_tl_ram_arc.csv (run-j-tl-grid/tables/).
+*** The per-row columns here MUST BE REWRITTEN with the corrected table before any composer use. They are internally consistent with this
+*** README and READY stays. The corrected STATISTICS (upper limits, evidence, Bayes factors; not columns) are in stats-ramgrid/ and in the
+*** addendum of results/hydroacoustics-composition-run-j.md. Rewrite recipe: B11_IMOS_RAMGRID=1 python driver.py (writes to run-j-gated.staging, ~6.3 GB, needs >= 28 GiB free).
+
 Hydroacoustics block 11 (composition) on end of flight run J, all four strata (74 seeds). Written 2026-10-22T06:43:25Z.
 Pre-registration prepare/composition_run_j/prereg.py (module branch, commit 90d7181); worker.py / driver.py; 4 single-thread workers.
 Rows 313,599,968; not_computed (NaN) 0; the marginalised IMOS column (proposed default) is present for every seed; per-seed checks (rows equal end of flight's, float32, NaN only where inputs non-finite and identical

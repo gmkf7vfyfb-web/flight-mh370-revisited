@@ -12,6 +12,8 @@ sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parent))
 import prereg as R
 from common import Machinery
 from worker import KEYS, NB1, NBH, FAM_CODES
+import os
+STATS_ONLY = os.environ.get("B11_STATS_ONLY") == "1"     # amendment A4: RAM-grid IMOS TL + amplitude-weighted variant present in the accumulators
 
 FAM_NAMES = {1: "A1", 2: "A2", 3: "B", 6: "outside B"}
 OPTION_NAMES = {"D0": "00:19 Held Out (D0')", "D2": "R600 BTO + BFO (D2)", "D3": "both BFOs as recorded (D3)", "D4": "both BFOs, shared start-up offset (D4)"}
@@ -76,11 +78,12 @@ def upper_limits(mx, norm):
     for j, key in enumerate(KEYS):
         for a in R.ALPHAS:
             t = ALPHA_TAGS[a]
-            for ims in (False, True):
-                wP = mx[f"wPnd{'_ims' if ims else ''}_{t}"][j]; wL = mx[f"wL{'_ims' if ims else ''}_{t}"][j]; sw = mx["sum_w"][j]; sw2 = mx["sum_w2"][j]
+            variants = [(False, "IMOS gated"), (True, "IMS proxy + IMOS")] + ([("A", "IMOS gated (amplitude-weighted)")] if STATS_ONLY else [])
+            for ims, label in variants:
+                wP = mx[f"wPnd{'_ims' if ims is True else ''}_{t}"][j]; wL = mx[f"wL_A_{t}" if ims == "A" else f"wL{'_ims' if ims else ''}_{t}"][j]; sw = mx["sum_w"][j]; sw2 = mx["sum_w2"][j]
                 for lo, hi in BANDS5:
                     W = band_sum(sw, lo, hi); W2 = band_sum(sw2, lo, hi)
-                    if W <= 0: rows.append(dict(option=key.split("/")[0], p=float(key.split("/p")[1]), alpha=a, receivers="IMS proxy + IMOS" if ims else "IMOS gated", lat_lo=lo, lat_hi=hi, share=0.0, ess=0.0)); continue
+                    if W <= 0: rows.append(dict(option=key.split("/")[0], p=float(key.split("/p")[1]), alpha=a, receivers=label, lat_lo=lo, lat_hi=hi, share=0.0, ess=0.0)); continue
                     P = band_sum(wP, lo, hi)[:NG] / W; L = band_sum(wL, lo, hi)[:NG] / W
                     # Bayesian 95 % upper limit under the log-uniform prior: posterior on the grid proportional to L (equal prior weights)
                     post = L / L.sum(); cdf = np.cumsum(post)
@@ -91,7 +94,7 @@ def upper_limits(mx, norm):
                     if P[-1] > 0.05: excl = None
                     else:
                         k = int(np.argmax(P <= 0.05)); excl = float(10 ** np.interp(0.05, [P[k], P[k - 1]], [LETA[k], LETA[k - 1]])) if k > 0 else float(ETA[0])
-                    rows.append({"option": key.split("/")[0], "p": float(key.split("/p")[1]), "alpha": a, "receivers": "IMS proxy + IMOS" if ims else "IMOS gated", "lat_lo": lo, "lat_hi": hi,
+                    rows.append({"option": key.split("/")[0], "p": float(key.split("/p")[1]), "alpha": a, "receivers": label, "lat_lo": lo, "lat_hi": hi,
                                  "share": float(W), "ess": float(W * W / W2) if W2 > 0 else 0.0, "eta95_bayes_nondetection_logu_1e-6_1e-2": float(eta95_nd), "eta95_bayes_full_likelihood": float(eta95), "eta95_prior_alone": float(10 ** (-6 + 0.95 * 4)),
                                  "eta_excl95_classical": excl, "pnd_at_1e-2": float(P[-1]), "pnd_at_1e-3": float(P[np.argmin(abs(LETA + 3))]),
                                  "pnd_at_anchor": float(np.interp(np.log10(R.ETA_ANCHOR), LETA, P)), "pnd_at_1e-4": float(P[np.argmin(abs(LETA + 4))]),
@@ -105,8 +108,8 @@ def evidence_three_ways(mx):
     for j, key in enumerate(KEYS):
         core = mx["half_w"][j]; Zc = core.sum()
         for a in R.ALPHAS:
-            for ims in (False, True):
-                wL = mx[f"half_wL{'ims' if ims else ''}_{ALPHA_TAGS[a]}"][j]
+            for ims, label in [(False, "IMOS gated"), (True, "IMS proxy + IMOS")] + ([("A", "IMOS gated (amplitude-weighted)")] if STATS_ONLY else []):
+                wL = mx[f"half_wLA_{ALPHA_TAGS[a]}" if ims == "A" else f"half_wL{'ims' if ims else ''}_{ALPHA_TAGS[a]}"][j]
                 comb = wL / wL.sum() if wL.sum() > 0 else wL
                 corep = core / Zc
                 # hydroacoustics alone on a prior uniform along the arc: bin mean of exp(lnL_marg), over bins 41-20 S with mass
@@ -117,7 +120,7 @@ def evidence_three_ways(mx):
                 med = lambda d: float(np.interp(0.5, np.cumsum(d), e[1:]))
                 n33 = lambda d: float(d[mid > -33].sum())
                 dists[(key, a, ims)] = dict(mid=mid, core=corep, combined=comb, alone=alone)
-                rows.append(dict(option=key.split("/")[0], p=float(key.split("/p")[1]), alpha=a, receivers="IMS proxy + IMOS" if ims else "IMOS gated",
+                rows.append(dict(option=key.split("/")[0], p=float(key.split("/p")[1]), alpha=a, receivers=label,
                                  lnZ_hydro=float(np.log(wL.sum() / Zc)), median_lat_core=med(corep), median_lat_combined=med(comb), median_lat_alone=med(alone),
                                  shift_median_deg=med(comb) - med(corep), mass_north_33S_core=n33(corep), mass_north_33S_combined=n33(comb), mass_north_33S_alone=n33(alone),
                                  shift_mass_north_33S=n33(comb) - n33(corep), KL_core_vs_combined_nats=kl, bins_alone=int(sel.sum())))
@@ -130,17 +133,20 @@ def families_and_holland(mx, norm):
         o, p = key.split("/")[0], float(key.split("/p")[1]); Z = mx["sum_w"][j].sum()
         for k, c in enumerate(FAM_CODES):
             w, w2, wL, wLi = mx["fam_w"][j, k], mx["fam_w2"][j, k], mx["fam_wL"][j, k], mx["fam_wLims"][j, k]
+            wLA = mx["fam_wLA"][j, k] if STATS_ONLY else np.nan
             rows.append(dict(option=o, p=p, family=FAM_NAMES[c], share=float(w / Z) if Z > 0 else 0.0, ess=float(w * w / w2) if w2 > 0 else 0.0,
-                             lnZ_hydro_imos=float(np.log(wL / w)) if w > 0 and wL > 0 else None, lnZ_hydro_ims_proxy=float(np.log(wLi / w)) if w > 0 and wLi > 0 else None))
+                             lnZ_hydro_imos=float(np.log(wL / w)) if w > 0 and wL > 0 else None, lnZ_hydro_ims_proxy=float(np.log(wLi / w)) if w > 0 and wLi > 0 else None,
+                             lnZ_hydro_imos_ampweighted=float(np.log(wLA / w)) if (STATS_ONLY and w > 0 and wLA > 0) else None))
     for o in R.OPTIONS:
         z = {}
         for p in R.PS:
             j = KEYS.index(f"{o}/p{p:g}"); Z = mx["sum_w"][j].sum()
-            z[p] = {a: dict(imos=mx[f"wLmarg_{ALPHA_TAGS[a]}"][j] / Z, ims=mx[f"wLmarg_ims_{ALPHA_TAGS[a]}"][j] / Z,
+            z[p] = {a: dict(imos=mx[f"wLmarg_{ALPHA_TAGS[a]}"][j] / Z, ims=mx[f"wLmarg_ims_{ALPHA_TAGS[a]}"][j] / Z, amp=(mx[f"wLmarg_A_{ALPHA_TAGS[a]}"][j] / Z) if STATS_ONLY else np.nan,
                             nd_imos=mx[f"wPnd_{ALPHA_TAGS[a]}"][j].sum(0)[:NG].mean() / Z) for a in R.ALPHAS}
         for a in R.ALPHAS:
             hol.append(dict(option=o, alpha=a, lnBF_p1_vs_p0_imos=float(np.log(z[1.0][a]["imos"] / z[0.0][a]["imos"])), lnBF_p1_vs_p0_ims_proxy=float(np.log(z[1.0][a]["ims"] / z[0.0][a]["ims"])),
                             lnBF_p1_vs_p0_nondetection_only=float(np.log(z[1.0][a]["nd_imos"] / z[0.0][a]["nd_imos"])),
+                            lnBF_p1_vs_p0_ampweighted=float(np.log(z[1.0][a]["amp"] / z[0.0][a]["amp"])) if STATS_ONLY else None,
                             lnBF_p05_vs_p0_imos=float(np.log(z[0.5][a]["imos"] / z[0.0][a]["imos"])), lnZ_p0=float(np.log(z[0.0][a]["imos"])), lnZ_p1=float(np.log(z[1.0][a]["imos"]))))
     return pd.DataFrame(rows), pd.DataFrame(hol)
 
@@ -161,8 +167,8 @@ def source_hypothesis(M, S, lat, lon, t_imp, rng, label):
     n = R.N_DRAWS_BF; PP = M.prep(np.full(n, t_imp), np.full(n, lat), np.full(n, lon), E, tau)
     out = dict(hypothesis=label, lat=lat, lon=lon, t_impact_utc=hms(t_imp), n_rows_for_E_tau=int(m.sum()))
     for a in R.ALPHAS:
-        lg, pg, nsc = M.lnL_grid(PP, Lcal, a, R.RECEIVERS_GATED); li, pi, nsci = M.lnL_grid(PP, Lcal, a, R.RECEIVERS_PROXY)
-        out[f"L_imos_a{a:g}"] = float(np.exp(M.marg(lg)).mean()); out[f"L_ims_a{a:g}"] = float(np.exp(M.marg(lg + li)).mean())
+        lg, pg, nsc, la_ = M.lnL_grid(PP, Lcal, a, R.RECEIVERS_GATED, amp=True); li, pi, nsci = M.lnL_grid(PP, Lcal, a, R.RECEIVERS_PROXY)
+        out[f"L_imos_a{a:g}"] = float(np.exp(M.marg(lg)).mean()); out[f"L_ims_a{a:g}"] = float(np.exp(M.marg(lg + li)).mean()); out[f"L_imos_amp_a{a:g}"] = float(np.exp(M.marg(la_)).mean())
         out[f"Pnd_imos_marg_a{a:g}"] = float(np.exp(pg[:, :NG]).mean())
         if a == R.ALPHA_PRIMARY:
             out["scored_receivers"] = ",".join(rx for rx in R.RECEIVERS if PP["sc"][rx].any())
@@ -200,6 +206,7 @@ def conditionals(M, S, Zrun, out_dir):
     df = pd.DataFrame(rows)
     for a in R.ALPHAS:
         df[f"lnBF_imos_a{a:g}"] = np.log(df[f"L_imos_a{a:g}"] / Zrun[a]["imos"]); df[f"lnBF_ims_proxy_a{a:g}"] = np.log(df[f"L_ims_a{a:g}"] / Zrun[a]["ims"])
+        if "amp" in Zrun[a]: df[f"lnBF_imos_amp_a{a:g}"] = np.log(df[f"L_imos_amp_a{a:g}"] / Zrun[a]["amp"])
     df["lnZ_runJ_imos_a0.05"] = np.log(Zrun[R.ALPHA_PRIMARY]["imos"]); df["lnZ_runJ_ims_a0.05"] = np.log(Zrun[R.ALPHA_PRIMARY]["ims"])
     df.to_csv(Path(out_dir) / "bayes_factors_conditionals.csv", index=False)
     return df
@@ -247,7 +254,7 @@ def main(cols_dir, out_dir):
     mx, norm = mix(acc, supp, share)
     ul = upper_limits(mx, norm); ul.to_csv(out / "upper_limits.csv", index=False)
     ev, dists = evidence_three_ways(mx); ev.to_csv(out / "evidence_three_ways.csv", index=False)
-    np.savez_compressed(out / "latitude_distributions.npz", **{f"{k[0]}|a{k[1]:g}|{'ims' if k[2] else 'imos'}|{n}": v for k, d in dists.items() for n, v in d.items()})
+    np.savez_compressed(out / "latitude_distributions.npz", **{f"{k[0]}|a{k[1]:g}|{'amp' if k[2] == 'A' else ('ims' if k[2] else 'imos')}|{n}": v for k, d in dists.items() for n, v in d.items()})
     nd = {"band_mid": (R.LAT_BAND_EDGES_1DEG[:-1] + 0.5).tolist()}
     for j, key in enumerate(KEYS):
         P = mx[f"wPnd_{ALPHA_TAGS[R.ALPHA_PRIMARY]}"][j][1:22, :NG].mean(1); w = mx["sum_w"][j][1:22]
@@ -269,15 +276,15 @@ def main(cols_dir, out_dir):
                                 mass_north_33S_core=n33(core), mass_north_33S_combined_nd=n33(comb), KL_nats=kl))
     pd.DataFrame(rows_nd).to_csv(out / "evidence_nd_only_1deg.csv", index=False)
     fam, hol = families_and_holland(mx, norm); fam.to_csv(out / "families.csv", index=False); hol.to_csv(out / "holland_p1_vs_p0.csv", index=False)
-    S = concat_sub(sub, supp_sub); M = Machinery()
+    S = concat_sub(sub, supp_sub); M = Machinery(imos_ramgrid=STATS_ONLY)
     j = KEYS.index("D0/p0.5"); Z = mx["sum_w"][j].sum()
-    Zrun = {a: dict(imos=mx[f"wLmarg_{ALPHA_TAGS[a]}"][j] / Z, ims=mx[f"wLmarg_ims_{ALPHA_TAGS[a]}"][j] / Z) for a in R.ALPHAS}
+    Zrun = {a: dict(imos=mx[f"wLmarg_{ALPHA_TAGS[a]}"][j] / Z, ims=mx[f"wLmarg_ims_{ALPHA_TAGS[a]}"][j] / Z, **({"amp": mx[f"wLmarg_A_{ALPHA_TAGS[a]}"][j] / Z} if STATS_ONLY else {})) for a in R.ALPHAS}
     bf = conditionals(M, S, Zrun, out); co = coincidence(M, S, out)
     # ESS check: streamed vs subsample (D0' p 0.5), and the eta-grid posterior for the headline
     ess_stream = {k: float(mx["sum_w"][i].sum() ** 2 / mx["sum_w2"][i].sum()) for i, k in enumerate(KEYS)}
     ess_sub = {k: float(S["W"][i].sum() ** 2 / (S["W"][i] ** 2).sum()) for i, k in enumerate(KEYS)}
     hist = {k: mx["lnL_hist"][i].tolist() for i, k in enumerate(KEYS)}
-    summary = dict(prereg="90d7181", seeds=meta, supplement_share={o: share[o]["supplement"] / share[o]["total"] for o in R.OPTIONS} if share else None,
+    summary = dict(prereg="90d7181" + (" + A4 e13a32e (RAM-grid IMOS TL, statistics only)" if STATS_ONLY else ""), imos_tl="imos_tl_ram_arc.csv" if STATS_ONLY else "imos_tl_ramcorr_arc.csv", ramgrid_covered_share=M.ramgrid_covered_share, seeds=meta, supplement_share={o: share[o]["supplement"] / share[o]["total"] for o in R.OPTIONS} if share else None,
                    ess_streamed=ess_stream, ess_subsample=ess_sub, n_subsample=int(len(S["lat"])), Zrun_D0_p05={f"a{a:g}": v for a, v in Zrun.items()},
                    lnL_hist_edges=mx["lnL_hist_edges"].tolist(), lnL_hist_D0_p05=hist["D0/p0.5"], norm=norm, pd_missing=M.pd_missing,
                    candidates={f"{rx}|{a}": M.cands[(rx, a)].to_dict("records") for rx in R.RECEIVERS for a in R.ALPHAS},

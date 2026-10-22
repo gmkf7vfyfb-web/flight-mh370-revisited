@@ -10,7 +10,8 @@ sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parent))
 import prereg as R
 
 NPROC = int(sys.argv[1]) if len(sys.argv) > 1 else R.N_PROC
-out = R.EXCHANGE_OUT; stg = pathlib.Path(str(out) + ".staging"); stg.mkdir(parents=True, exist_ok=True)
+STATS_ONLY = os.environ.get("B11_STATS_ONLY") == "1"      # amendment A4: statistics-only re-run into stats-ramgrid/, no columns, no finaliser
+out = R.STATS_DIR_RAMGRID if STATS_ONLY else R.EXCHANGE_OUT; stg = out if STATS_ONLY else pathlib.Path(str(out) + ".staging"); stg.mkdir(parents=True, exist_ok=True)
 log = open(stg / "driver.log", "a")
 def say(m): log.write(time.strftime("%Y-%m-%dT%H:%M:%SZ ", time.gmtime()) + m + "\n"); log.flush()
 tasks = []
@@ -38,6 +39,8 @@ while tasks or running:
     time.sleep(5)
 say(f"all tasks ended in {time.time() - t0:.0f}s failed={failed}")
 if failed: sys.exit(1)
+if STATS_ONLY:
+    (stg / "DONE").write_text(f"statistics-only re-run (amendment A4, RAM-grid IMOS TL) finished {time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}\n"); say("DONE (stats only)"); sys.exit(0)
 # ---------------------------------------------------------------- finaliser
 summ = {}; bad = []; rows = 0; nc = 0; short = []
 for pj in sorted((stg / "_parts").glob("*.json")):

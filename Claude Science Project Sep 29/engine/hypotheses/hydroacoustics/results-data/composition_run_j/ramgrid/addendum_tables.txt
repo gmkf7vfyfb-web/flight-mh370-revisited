@@ -1,0 +1,86 @@
+**Table A1. Upper limits and P(no detection | η), OLD IMOS TL (constant rule-2 correction) against NEW (RAM along the grid), all latitudes, α = 0.05, IMOS gated; 'amp' = the amplitude-consistency-weighted match variant (new table).**
+
+| Option | p | Bayes ND old → new | Bayes full old → new | full, amp-weighted (new) | P(nd) 1e-2 old → new | P(nd) 1e-3 old → new | P(nd) anchor old → new |
+|---|---|---|---|---|---|---|---|
+| 00:19 Held Out (D0') | 0 | 4.8e-03 → 5.3e-03 | 6.9e-03 → 6.8e-03 | 6.5e-03 | 0.39 → 0.50 | 0.64 → 0.75 | 0.78 → 0.87 |
+| 00:19 Held Out (D0') | 0.5 | 4.6e-03 → 5.2e-03 | 6.7e-03 → 6.7e-03 | 6.3e-03 | 0.37 → 0.48 | 0.61 → 0.72 | 0.75 → 0.85 |
+| 00:19 Held Out (D0') | 1 | 4.5e-03 → 5.0e-03 | 6.5e-03 → 6.5e-03 | 6.2e-03 | 0.35 → 0.45 | 0.57 → 0.69 | 0.72 → 0.83 |
+| R600 BTO + BFO (D2) | 0 | 4.4e-03 → 5.1e-03 | 6.8e-03 → 6.8e-03 | 6.4e-03 | 0.34 → 0.47 | 0.59 → 0.72 | 0.74 → 0.85 |
+| R600 BTO + BFO (D2) | 0.5 | 4.3e-03 → 5.0e-03 | 6.7e-03 → 6.6e-03 | 6.3e-03 | 0.32 → 0.45 | 0.57 → 0.70 | 0.72 → 0.84 |
+| R600 BTO + BFO (D2) | 1 | 4.2e-03 → 4.9e-03 | 6.5e-03 → 6.5e-03 | 6.1e-03 | 0.31 → 0.43 | 0.54 → 0.68 | 0.70 → 0.82 |
+| both BFOs as recorded (D3) | 0 | 4.6e-03 → 5.3e-03 | 7.2e-03 → 7.0e-03 | 6.7e-03 | 0.38 → 0.51 | 0.64 → 0.76 | 0.79 → 0.88 |
+| both BFOs as recorded (D3) | 0.5 | 3.7e-03 → 4.6e-03 | 6.9e-03 → 6.7e-03 | 6.2e-03 | 0.25 → 0.38 | 0.47 → 0.63 | 0.63 → 0.78 |
+| both BFOs as recorded (D3) | 1 | 2.1e-03 → 3.5e-03 | 6.4e-03 → 6.4e-03 | 5.5e-03 | 0.11 → 0.24 | 0.29 → 0.50 | 0.47 → 0.68 |
+| both BFOs, shared start-up offset (D4) | 0 | 4.2e-03 → 5.0e-03 | 7.1e-03 → 6.9e-03 | 6.5e-03 | 0.31 → 0.43 | 0.54 → 0.68 | 0.69 → 0.82 |
+| both BFOs, shared start-up offset (D4) | 0.5 | 3.3e-03 → 4.2e-03 | 6.8e-03 → 6.7e-03 | 6.1e-03 | 0.20 → 0.32 | 0.40 → 0.58 | 0.57 → 0.74 |
+| both BFOs, shared start-up offset (D4) | 1 | 1.9e-03 → 3.3e-03 | 6.5e-03 → 6.4e-03 | 5.6e-03 | 0.10 → 0.21 | 0.27 → 0.47 | 0.44 → 0.66 |
+
+**Table A2. Per 5° band, p = 0.5, α = 0.05, IMOS gated: Bayes ND limit and P(no detection) at η = 1e-2, old → new.**
+
+| Option | Band | share | ESS | Bayes ND old → new | P(nd) 1e-2 old → new | P(nd) anchor old → new | classical (new) |
+|---|---|---|---|---|---|---|---|
+| 00:19 Held Out (D0') | 41–36°S | 0.7522 | 1,127,839 | 4.5e-03 → 5.2e-03 | 0.35 → 0.49 | 0.74 → 0.86 | not reached below 1e-2 |
+| 00:19 Held Out (D0') | 36–31°S | 0.2128 | 194,742 | 4.7e-03 → 4.8e-03 | 0.39 → 0.41 | 0.78 → 0.81 | not reached below 1e-2 |
+| 00:19 Held Out (D0') | 31–26°S | 0.0255 | 49,770 | 6.0e-03 → 5.7e-03 | 0.66 → 0.59 | 0.91 → 0.88 | not reached below 1e-2 |
+| 00:19 Held Out (D0') | 26–21°S | 0.0093 | 39,605 | 6.4e-03 → 6.3e-03 | 0.79 → 0.75 | 0.96 → 0.95 | not reached below 1e-2 |
+| 00:19 Held Out (D0') | 21–20°S | 0.0001 | 491 | 6.5e-03 → 6.6e-03 | 0.83 → 0.85 | 0.98 → 0.98 | not reached below 1e-2 |
+| R600 BTO + BFO (D2) | 41–36°S | 0.7994 | 81,573 | 4.2e-03 → 5.1e-03 | 0.30 → 0.46 | 0.71 → 0.84 | not reached below 1e-2 |
+| R600 BTO + BFO (D2) | 36–31°S | 0.1704 | 21,699 | 4.5e-03 → 4.7e-03 | 0.35 → 0.38 | 0.76 → 0.79 | not reached below 1e-2 |
+| R600 BTO + BFO (D2) | 31–26°S | 0.0189 | 3,873 | 6.1e-03 → 5.8e-03 | 0.68 → 0.60 | 0.92 → 0.89 | not reached below 1e-2 |
+| R600 BTO + BFO (D2) | 26–21°S | 0.0110 | 2,126 | 6.5e-03 → 6.4e-03 | 0.81 → 0.77 | 0.97 → 0.96 | not reached below 1e-2 |
+| R600 BTO + BFO (D2) | 21–20°S | 0.0001 | 7 | 6.3e-03 → 6.0e-03 | 0.76 → 0.69 | 0.98 → 0.97 | not reached below 1e-2 |
+| both BFOs as recorded (D3) | 41–36°S | 0.8104 | 4,222 | 3.7e-03 → 4.7e-03 | 0.25 → 0.40 | 0.63 → 0.80 | not reached below 1e-2 |
+| both BFOs as recorded (D3) | 36–31°S | 0.1644 | 1,383 | 3.3e-03 → 3.6e-03 | 0.21 → 0.25 | 0.61 → 0.66 | not reached below 1e-2 |
+| both BFOs as recorded (D3) | 31–26°S | 0.0167 | 322 | 5.3e-03 → 4.9e-03 | 0.51 → 0.42 | 0.86 → 0.80 | not reached below 1e-2 |
+| both BFOs as recorded (D3) | 26–21°S | 0.0083 | 226 | 6.1e-03 → 6.0e-03 | 0.70 → 0.66 | 0.94 → 0.92 | not reached below 1e-2 |
+| both BFOs as recorded (D3) | 21–20°S | 0.0000 | 63 | 6.6e-03 → 6.6e-03 | 0.83 → 0.86 | 0.96 → 0.97 | not reached below 1e-2 |
+| both BFOs, shared start-up offset (D4) | 41–36°S | 0.8118 | 23,389 | 3.2e-03 → 4.3e-03 | 0.19 → 0.34 | 0.56 → 0.76 | not reached below 1e-2 |
+| both BFOs, shared start-up offset (D4) | 36–31°S | 0.1524 | 6,768 | 3.1e-03 → 3.4e-03 | 0.19 → 0.22 | 0.57 → 0.63 | not reached below 1e-2 |
+| both BFOs, shared start-up offset (D4) | 31–26°S | 0.0254 | 86 | 4.6e-03 → 4.1e-03 | 0.37 → 0.30 | 0.76 → 0.68 | not reached below 1e-2 |
+| both BFOs, shared start-up offset (D4) | 26–21°S | 0.0103 | 436 | 5.6e-03 → 5.5e-03 | 0.56 → 0.53 | 0.90 → 0.86 | not reached below 1e-2 |
+| both BFOs, shared start-up offset (D4) | 21–20°S | 0.0001 | 66 | 5.5e-03 → 5.8e-03 | 0.55 → 0.61 | 0.86 → 0.90 | not reached below 1e-2 |
+
+**Table A3. Evidence three ways, old → new (α = 0.05, η marginal): ln Z, median-latitude shift, mass north of 33°S (core → combined), KL; the amplitude-weighted variant and the non-detection-only control on the new table.**
+
+| Option | p | ln Z old → new | shift (°) old → new | north of 33°S combined old → new (core) | KL old → new | amp-weighted: ln Z / shift / KL | ND-only (new): ln Z / shift / KL |
+|---|---|---|---|---|---|---|---|
+| 00:19 Held Out (D0') | 0 | -0.027 → -0.016 | +0.06 → +0.05 | 0.067 → 0.060 (0.058) | 0.013 → 0.007 | -0.065 / +0.03 / 0.004 | -0.166 / -0.03 / 0.001 |
+| 00:19 Held Out (D0') | 0.5 | -0.066 → -0.037 | +0.10 → +0.06 | 0.072 → 0.064 (0.058) | 0.019 → 0.011 | -0.084 / +0.04 / 0.006 | -0.185 / -0.03 / 0.001 |
+| 00:19 Held Out (D0') | 1 | -0.106 → -0.058 | +0.15 → +0.07 | 0.078 → 0.068 (0.058) | 0.027 → 0.015 | -0.104 / +0.05 / 0.009 | -0.204 / -0.02 / 0.001 |
+| R600 BTO + BFO (D2) | 0 | -0.073 → -0.035 | +0.06 → +0.04 | 0.053 → 0.046 (0.043) | 0.021 → 0.012 | -0.084 / +0.02 / 0.007 | -0.182 / -0.02 / 0.001 |
+| R600 BTO + BFO (D2) | 0.5 | -0.104 → -0.052 | +0.08 → +0.05 | 0.060 → 0.051 (0.044) | 0.026 → 0.015 | -0.099 / +0.03 / 0.009 | -0.196 / -0.02 / 0.001 |
+| R600 BTO + BFO (D2) | 1 | -0.136 → -0.069 | +0.09 → +0.06 | 0.066 → 0.056 (0.045) | 0.032 → 0.019 | -0.115 / +0.03 / 0.011 | -0.211 / -0.02 / 0.001 |
+| both BFOs as recorded (D3) | 0 | +0.017 → +0.018 | +0.05 → +0.07 | 0.040 → 0.036 (0.037) | 0.036 → 0.026 | -0.036 / +0.04 / 0.016 | -0.155 / -0.03 / 0.001 |
+| both BFOs as recorded (D3) | 0.5 | -0.053 → +0.015 | +0.17 → +0.13 | 0.052 → 0.044 (0.038) | 0.146 → 0.111 | -0.061 / +0.09 / 0.072 | -0.250 / -0.03 / 0.002 |
+| both BFOs as recorded (D3) | 1 | -0.130 → +0.012 | +1.37 → +0.29 | 0.066 → 0.052 (0.040) | 0.313 → 0.226 | -0.087 / +0.13 / 0.149 | -0.358 / -0.02 / 0.003 |
+| both BFOs, shared start-up offset (D4) | 0 | -0.007 → +0.025 | +0.12 → +0.11 | 0.043 → 0.038 (0.047) | 0.104 → 0.078 | -0.044 / +0.07 / 0.050 | -0.211 / -0.04 / 0.002 |
+| both BFOs, shared start-up offset (D4) | 0.5 | -0.079 → +0.009 | +0.29 → +0.15 | 0.051 → 0.043 (0.048) | 0.194 → 0.140 | -0.074 / +0.10 / 0.093 | -0.292 / -0.03 / 0.003 |
+| both BFOs, shared start-up offset (D4) | 1 | -0.155 → -0.007 | +1.49 → +0.34 | 0.061 → 0.049 (0.049) | 0.311 → 0.216 | -0.104 / +0.13 / 0.145 | -0.378 / -0.03 / 0.002 |
+
+**Table A4. Holland-type descent ln BF (p = 1 : p = 0), α = 0.05, old → new; amplitude-weighted and ND-only on the new table.**
+
+| Option | IMOS gated old → new | amp-weighted (new) | ND only old → new | IMS proxy old → new |
+|---|---|---|---|---|
+| 00:19 Held Out (D0') | -0.078 → -0.042 | -0.039 | -0.059 → -0.039 | -0.104 → -0.089 |
+| R600 BTO + BFO (D2) | -0.063 → -0.034 | -0.031 | -0.045 → -0.029 | -0.078 → -0.066 |
+| both BFOs as recorded (D3) | -0.146 → -0.006 | -0.051 | -0.346 → -0.203 | -0.384 → -0.316 |
+| both BFOs, shared start-up offset (D4) | -0.149 → -0.032 | -0.059 | -0.295 → -0.167 | -0.353 → -0.296 |
+
+**Table A5. Conditional hypotheses, ln BF on the gated IMOS term (α = 0.05), old → new, with the amplitude-weighted variant (new) and the IMS-proxy sensitivity (new; Kadri rows circular).**
+
+| Hypothesis | P(nd) IMOS old → new | ln BF IMOS old → new | amp-weighted (new) | ln BF IMS proxy (new) |
+|---|---|---|---|---|
+| Kadri 306.18 deg row, text time 00:52:03, locus 25.8 S 101.4 E | 0.932 → 0.932 | -0.004 → -0.034 | +0.013 | +1.352 |
+| Kadri 306.18 deg row, caption time 00:54:30, locus 25.8 S 101.4 E | 0.932 → 0.932 | -0.004 → -0.034 | +0.014 | +0.075 |
+| Royer OHASISBIO event B as source | 0.813 → 0.805 | -0.142 → -0.180 | -0.133 | -0.112 |
+| Royer OHASISBIO event D1 as source | 1.000 → 1.000 | +0.066 → +0.037 | +0.084 | +0.230 |
+| Royer OHASISBIO event D2 as source | 1.000 → 1.000 | +0.066 → +0.037 | +0.084 | +0.230 |
+| poster (a) box 1: 'source before 00:19:29 or off the arc' row, nearest arc locus 28.0 S | 1.000 → 1.000 | +0.066 → +0.037 | +0.084 | +0.149 |
+| poster (a) box 2: 'source before 00:19:29 or off the arc' row, nearest arc locus 28.0 S | 1.000 → 1.000 | +0.066 → +0.037 | +0.084 | +0.150 |
+| poster (a) box 3: 'source before 00:19:29 or off the arc' row, nearest arc locus 28.0 S | 1.000 → 1.000 | +0.066 → +0.037 | +0.084 | +0.150 |
+| poster (a) box 4: 'source before 00:19:29 or off the arc' row, nearest arc locus 28.0 S | 0.919 → 0.860 | -0.019 → -0.115 | -0.067 | +0.051 |
+
+**Table A6. Two-site coincidence locus (unchanged geometry; the η requirement uses the IMS proxy fits and IMS TL, which A4 does not touch).**
+
+- Locus 33.56°S 94.51°E, implied impact 00:31:41: η for P_D(both) = 0.5 / 0.05 at α 0.05: old 0.0692 / 0.00676 → new 0.0692 / 0.00676; run J mass within ±1° 0.226.
+- Locus 20.50°S 104.26°E, implied impact 00:31:04: η for P_D(both) = 0.5 / 0.05 at α 0.05: old 0.24 / 0.024 → new 0.24 / 0.024; run J mass within ±1° 0.001.

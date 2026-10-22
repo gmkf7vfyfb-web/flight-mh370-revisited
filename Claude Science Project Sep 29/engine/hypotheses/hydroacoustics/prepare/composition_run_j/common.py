@@ -23,9 +23,17 @@ def hms_to_unix(s):
 
 
 class Machinery:
-    def __init__(self):
+    def __init__(self, imos_ramgrid=False):
         # --- TL tables (arc grid, offset 0, 10 m, ridge rows kept); IMS raw KRAKEN minus imp500 RAM delta (as apply_to_model)
         xs, tabs = TT.load_table(R.RD / "tl_grid_run_j", list(R.BANDS_HZ), [R.TL_SRC_DEPTH_M])
+        self.imos_ramgrid = imos_ramgrid; self.ramgrid_covered_share = None
+        if imos_ramgrid:   # amendment A4: IMOS tables from the RAM-along-grid drop-in (uncovered rows keep the old value inside the file)
+            xs2, tabs2 = TT.load_table(R.TL_TABLE_DIR_RAMGRID, list(R.BANDS_HZ), [R.TL_SRC_DEPTH_M], imos_file=R.IMOS_TL_FILE_RAMGRID)
+            assert np.allclose(xs2, xs), "RAM-grid table latitude nodes differ from the arc grid"
+            for rx in R.RECEIVERS_GATED: tabs[rx] = tabs2[rx]
+            g = pd.read_csv(R.TL_TABLE_DIR_RAMGRID / R.IMOS_TL_FILE_RAMGRID, dtype={"logger": str})
+            g = g[(g.offset_nm == 0) & np.isclose(g.src_depth_m, R.TL_SRC_DEPTH_M) & g.logger.isin(R.RECEIVERS_GATED) & g.tl_db.notna()]
+            self.ramgrid_covered_share = {rx: float(g[g.logger == rx].ram_grid_covered.mean()) for rx in R.RECEIVERS_GATED}
         rd = pd.read_csv(R.RD / "near_limits/ims_ram_delta.csv")
         self.xs = xs; self.tl = {}
         for rx in R.RECEIVERS:
@@ -72,7 +80,7 @@ class Machinery:
         for a in R.ALPHAS:
             for rx in R.RECEIVERS_GATED:
                 c = ic[(ic.receiver == rx) & (ic.detector == "M1b") & (ic.p <= a)]
-                self.cands[(rx, a)] = c[["t_unix", "p", "time_utc", "eta_needed"]].reset_index(drop=True)
+                self.cands[(rx, a)] = c[["t_unix", "p", "time_utc", "eta_needed", "excess_5_40_pa2s"]].reset_index(drop=True)
             c = pc[(pc.receiver == "H01W") & (pc.detector == "M1b") & (pc.p <= a)]
             self.cands[("H01W", a)] = c[["t_unix", "p", "time_utc", "eta_needed"]].reset_index(drop=True)
             c = pc[(pc.receiver == "H08S") & (pc.detector == "M1b_res") & (pc.p_B <= a)]       # residual rows only (G-S9)
@@ -138,6 +146,20 @@ class Machinery:
             m += np.where(np.abs(z) <= R.KERNEL_TRUNC_SIGMA, np.exp(-0.5 * z * z) / (np.sqrt(2 * np.pi) * sig), 0.0)
         return m / beta
 
+    def match_amp(self, rx, alpha, t_pred, d_km, log_se):
+        """Amendment A4(c): m_r^A / beta_r [n, K] = timing kernel x amplitude-consistency weight exp(-0.5 ((log10 E_c - log10 SE)/sigma)^2);
+        log_se [n, K] = log10 of the predicted received 5-40 Hz band energy (Pa^2 s) per row and eta. Down-weighting only."""
+        c = self.cands[(rx, alpha)]; beta = alpha / R.WINDOW_S
+        sig = np.sqrt((d_km * R.C_SOFAR_SD / R.C_SOFAR ** 2) ** 2 + R.SIGMA_INJ_S ** 2 + R.SIGMA_CLOCK_S ** 2)
+        m = np.zeros(log_se.shape)
+        for tc, ec in zip(c.t_unix.values, c.excess_5_40_pa2s.values):
+            z = (t_pred - tc) / sig
+            kt = np.where(np.abs(z) <= R.KERNEL_TRUNC_SIGMA, np.exp(-0.5 * z * z) / (np.sqrt(2 * np.pi) * sig), 0.0)
+            if not np.isfinite(ec) or ec <= 0: continue
+            ka = np.exp(-0.5 * ((np.log10(ec) - log_se) / R.SIGMA_A_DECADES) ** 2)
+            m += kt[:, None] * ka
+        return m / beta
+
     # ---------------------------------------------------------------- per-row likelihood on the eta grid
     def prep(self, t, lat, lon, E, tau):
         """Geometry and level base shared by every alpha and receiver set."""
@@ -146,11 +168,12 @@ class Machinery:
         sc = {rx: self.in_scored(rx, tp[rx]) & np.isfinite(base[rx]) for rx in R.RECEIVERS}
         return dict(d=d, base=base, ti=ti, tp=tp, sc=sc, n=len(t))
 
-    def lnL_grid(self, P_, Lcal, alpha, receivers):
+    def lnL_grid(self, P_, Lcal, alpha, receivers, amp=False):
         """Returns lnL[n, K] = sum_r ln L_r and lnPnd[n, K] = sum_r ln(1 - P_D,r) over the receivers whose predicted arrival
-        lies in a scored window (others contribute 0 = no information), and the count of scored receivers per row."""
+        lies in a scored window (others contribute 0 = no information), and the count of scored receivers per row.
+        amp=True (amendment A4c) also returns lnL_A with the amplitude-consistency-weighted match (IMOS receivers only)."""
         n = P_["n"]; K = len(self.eta_eval)
-        lnL = np.zeros((n, K)); lnPnd = np.zeros((n, K)); nsc = np.zeros(n, np.int8)
+        lnL = np.zeros((n, K)); lnPnd = np.zeros((n, K)); nsc = np.zeros(n, np.int8); lnLA = np.zeros((n, K)) if amp else None
         for rx in receivers:
             sc = P_["sc"][rx]
             if not sc.any(): continue
@@ -159,7 +182,13 @@ class Machinery:
             P = self.pd(rx, alpha, snr, P_["ti"][sc]); mr = self.match(rx, alpha, P_["tp"][rx][sc], P_["d"][rx][sc])
             Lr = (1 - P) + P * mr[:, None]
             lnL[sc] += np.log(np.maximum(Lr, 1e-300)); lnPnd[sc] += np.log(np.maximum(1 - P, 1e-300))
-        return lnL, lnPnd, nsc
+            if amp and rx in R.RECEIVERS_GATED:
+                log_se = (snr + self.bmed[rx]) / 10.0 - 12.0 + np.log10(self.teff[rx][P_["ti"][sc]])[:, None]
+                mA = self.match_amp(rx, alpha, P_["tp"][rx][sc], P_["d"][rx][sc], log_se)
+                lnLA[sc] += np.log(np.maximum((1 - P) + P * mA, 1e-300))
+            elif amp:
+                lnLA[sc] += np.log(np.maximum(Lr, 1e-300))
+        return (lnL, lnPnd, nsc, lnLA) if amp else (lnL, lnPnd, nsc)
 
     def marg(self, lnL):
         """ln sum_k omega_k exp(lnL_k) over the 41 prior grid points with equal omega (log-uniform prior)."""
