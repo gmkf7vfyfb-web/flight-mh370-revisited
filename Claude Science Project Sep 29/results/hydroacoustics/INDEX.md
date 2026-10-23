@@ -4,7 +4,7 @@
 
 **How to use.** Find the item below. Read its status and defects. Read its definition (quoted in REGISTRY.json from the cited lines). Use only CURRENT or CURRENT_WITH_CAVEATS items for results, and state the listed defects beside every number. Pete's rulings: `decisions.md`. Proposals that are not yet rules: `proposals.md`.
 
-**Status counts:** CURRENT 42, CURRENT_WITH_CAVEATS 29, KNOWN_DEFECT 5, PENDING_RULING 2, SUPERSEDED 6, UNCHECKED 3, WITHDRAWN 2
+**Status counts:** CURRENT 44, CURRENT_WITH_CAVEATS 30, KNOWN_DEFECT 5, PENDING_RULING 2, SUPERSEDED 6, UNCHECKED 3, WITHDRAWN 2
 
 ## Status values
 
@@ -32,6 +32,7 @@
 | in.h08s_shots_v1 | SUPERSEDED -> in.h08s_shots |  | `MOD:results-data/h08s_template/v1_defective` | 4 | 0.000 | NO DEFINITION LOCATED |
 | in.geometry_sample | CURRENT_WITH_CAVEATS |  | `EX:run-j-searches/geometry` | 6 | 0.302 | EX:run-j-searches/geometry/run.json L[1, 1] |
 | in.sources_pdfs | CURRENT |  | `EX:sources` | 25 | 0.037 | NO DEFINITION LOCATED |
+| in.hydro_data_db | CURRENT |  | `MOD:registry/data_db/hydro_data.sqlite` | 1 | 0.018 | MOD:registry/data_db/README.md L[1, 5] |
 
 ## Products
 
@@ -72,6 +73,7 @@
 | ex.potential_signals_graphics | CURRENT_WITH_CAVEATS | D05, D06, D26 | `EX:potential-signals-graphics-2026-10-23/FINAL-v3` | 109 | 0.045 | EX:potential-signals-graphics-2026-10-23/FINAL-v3/README.md L[1, 10] |
 | mod.tolerances_x04_x05 | CURRENT_WITH_CAVEATS |  | `MOD:results-data/tolerances_x04_x05` | 4 | 0.000 | MOD:prepare/gates/estimate_tolerances.py L[1, 5] |
 | mod.real_arrival_test_x06 | CURRENT_WITH_CAVEATS | D05 | `MOD:results-data/real_arrival_test_x06` | 4 | 0.000 | MOD:prepare/real_arrival_test_x06.py L[1, 4] |
+| ex.arc_line_of_sight | CURRENT_WITH_CAVEATS |  | `MOD:registry/data_db/arc_los_station_count.csv` | 1 | 0.000 | MOD:registry/data_db/arc_line_of_sight.py L[8, 16] |
 
 ## Results notes (claude-science-sep29)
 
@@ -126,6 +128,7 @@
 |---|---|---|---|---|---|---|
 | code.module_prepare | CURRENT |  | `MOD:prepare` | 168 | 0.004 | NO DEFINITION LOCATED |
 | code.module_engine | CURRENT |  | `MOD:lib.rs` | 1 | 0.000 | MOD:lib.rs L[1, 12] |
+| code.hydro_data_db | CURRENT |  | `MOD:registry/data_db` | 16 | 0.029 | MOD:registry/data_db/README.md L[43, 43] |
 
 ## Defects
 
@@ -166,6 +169,8 @@
 | imos_duty_cycle | [307, 900] | s recorded per s (about 34 %) | CURRENT |  | WORK:results/hydroacoustics-imos-noise.md L[18, 18] |
 | gps_utc_2014 | 16 | s (GPS minus UTC, July 2012 to June 2015) | EXTERNAL_STANDARD | IERS Bulletin C; not in the repo. IMOS hex filenames are 16 s earlier than Portland rec_times.txt (session record). |  LNone |
 | shot_window | 1.5 | s (H08S airgun coincidence label) | AGENT_CHOICE_NOT_RULED | Used by the Take 2 review; chance rate taken as 3/10 for a 10 s shot cadence. | ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md L[159, 159] |
+| los_block_depth_m | 200 | m (blocked if water shallower than min(receiver depth, this) > 20 km from receiver) | AGENT_CHOICE_NOT_RULED | Line-of-sight screen threshold, 23 Oct 2026. Not ruled by Pete. | MOD:registry/data_db/arc_line_of_sight.py L[12, 12] |
+| los_large_attenuation | 10 km shallower than 1,000 m | km, m (> 100 km from receiver) | AGENT_CHOICE_NOT_RULED | Line-of-sight screen threshold for 'large attenuation', 23 Oct 2026. Not ruled by Pete. | MOD:registry/data_db/arc_line_of_sight.py L[13, 13] |
 
 ## Lines in the notes that still use a retired value or ruled-out wording
 

@@ -1755,3 +1755,16 @@ Plan: proposal v6 (artifact 01c40549). Scope ruled by Pete: the disasters are in
 
 **Not changed:** run-j-gated-v2 (its default column does not use the anchor); the 7-20 Oct products except where a registry defect applies; nothing deleted.
 -- OPERON session a6559afa (hydro clean-up run, for Pete)
+
+
+---
+
+## 2026-10-23 21:42 UTC — Hydroacoustic data database is the data source of record (Pete: "Yes on wiring into the module and brief")
+
+`engine/hypotheses/hydroacoustics/registry/data_db/hydro_data.sqlite` on `hypothesis/hydroacoustics` (commits 16a9532, d88d48e)
+holds every raw and digitised hydroacoustic data item, with site, period, band, sampling, continuity, file path and SHA-256;
+registered as `in.hydro_data_db`. The brief carries rule 8 in its top block and a new section "Data source of record — 23 October
+2026". Also new: a 7th-arc line-of-sight screen for every station recording on 8 Mar 2014 (`arc_path`, `ex.arc_line_of_sight`,
+thresholds AGENT_CHOICE_NOT_RULED) and the data-holdings map. Read `registry/data_db/README.md` before using it. One writer at a
+time; rebuild, never hand-edit. Coupling stays with the "Aircraft Impact Acoustic Source Survey" thread.
+-- data-consolidation session 9e0bf4fe (for Pete)

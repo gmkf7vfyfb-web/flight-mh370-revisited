@@ -21,6 +21,11 @@
 >    inputs supports it. Default wording: "our check does not agree; the cause is not known; the error can be ours."
 > 6. No statement of absence or certainty without its uncertainty: give power, the 95 % upper limit, and the conditions.
 > 7. Every result goes through the independent verifier before it is sent to Pete.
+> 8. **Data source of record (Pete, 23 Oct 2026): `registry/data_db/hydro_data.sqlite`** (registry entry `in.hydro_data_db`).
+>    Every raw recording and every digitised published item the module holds is listed there with its site, period (UTC),
+>    sampling, frequency band and its basis, continuity, file path and SHA-256. Find data there first; read its files through
+>    the registry. Change it only by changing the scripts in `registry/data_db/` and rebuilding; never edit it by hand.
+>    See "Data source of record — 23 October 2026" at the end of this file.
 
 
 **Refresh v2, 21 October 2026 (Pete's rulings of 21 Oct).** The section "Refresh v2" at the end of this file
@@ -652,3 +657,38 @@ start at 4 threads and expand as cores free. Keep the 14 GB IMOS background on t
 §7 steps 3–4 where they name run I or stand-ins; §8 Kadri's single time; §9 insofar as raw IMS data were assumed
 reachable; §12 lock rule; §13 "IMOS analysis not first pass" (it is now in the main sequence); amendment 1 stands
 (Duncan & Dall'Osto's 20–30 dB is not a prior).
+
+
+## Data source of record — 23 October 2026 (Pete: "Yes on wiring into the module and brief")
+
+Pete asked for one consolidated database of the hydroacoustic data, with attributes that can be extended, so that scattered
+files stop causing errors and omissions. It is on `hypothesis/hydroacoustics` at
+`engine/hypotheses/hydroacoustics/registry/data_db/` (commits 16a9532, d88d48e), registered as `in.hydro_data_db` (CURRENT),
+`code.hydro_data_db` (CURRENT) and `ex.arc_line_of_sight` (CURRENT_WITH_CAVEATS). Read `registry/data_db/README.md` first.
+
+1. **What it holds.** Data only: the raw IMOS records (event day, 14-day backgrounds, calibration records; 4,572 files
+   SHA-256 verified against the retrieval checksums), and every digitised item from Kadri, Royer, CMST, Blackman, Metz,
+   Brown, Nielsen, Vergoz and Duncan & Dall'Osto, as tables `site`, `sensor`, `dataset`, `segment`, `pick`, `event`,
+   `attribute` (open-ended; declare new keys in `attribute_key`), `arc_path`, plus every digitised CSV imported verbatim
+   (`dg_*`, listed in `imported_table`) and every other file in `file_ref`. Results (noise summaries, detections,
+   likelihoods) stay in the registry; each dataset row carries its registry entry id.
+2. **Use.** Take site positions, periods, bands, sampling, continuity, clock corrections and file paths from the database,
+   not from notes, memory or earlier tables. Times are UTC (ISO 8601). IMOS UTC = logger time − e(t), convention A.
+3. **One writer.** The database is a binary file: git cannot merge two edits. Only one thread changes it at a time, and
+   only by changing `build_hydro_data_db.py` (or the follow-on scripts) and rebuilding. Run order: `build_hydro_data_db.py`
+   → `arc_line_of_sight.py` → `arc_station_count.py` → `make_sites_map.py`. Commit the rebuilt file with the scripts, then
+   add or refresh its registry entry.
+4. **Checks.** Every build writes `check_log` (36 of 36 pass at d88d48e). A build with a FAIL row is not committed.
+   Before relying on a file, check its SHA-256 against `segment.sha256` / `file_ref.sha256` or use
+   `Registry().file(..., verify=True)`.
+5. **Status authority.** The registry keeps status and defects. If an entry the database links to is SUPERSEDED,
+   KNOWN_DEFECT or WITHDRAWN, the registry governs.
+6. **Line of sight to the 7th arc** (`arc_path`, `arc_los_station_count.csv`): a bathymetric screen, not transmission loss.
+   Its thresholds are agent choices, registered as constants `los_block_depth_m` and `los_large_attenuation` with status
+   AGENT_CHOICE_NOT_RULED. It covers every station recording on 8 March 2014, whether or not the project holds its data.
+7. **Coupling efficiency** is not in the database. A literature-based feasible range is being built by the thread
+   "Aircraft Impact Acoustic Source Survey"; per-degree detectability (step 2) waits for it.
+
+Superseded by this section: §4 "Data held" and Refresh v2 §4 as inventories (the database is the inventory; their
+descriptions stay as background). Refresh v2 §4's "Scott Reef's path to the arc crosses land" is refined by the
+line-of-sight screen: large attenuation 20.0–29.5° S (Exmouth Plateau / North West Shelf edge), blocked 29.6–43.9° S.
