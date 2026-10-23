@@ -1,3 +1,5 @@
+> **Registry status (23 Oct 2026): CURRENT_WITH_CAVEATS; defects D13.** Read `results/hydroacoustics/INDEX.md` (generated from the registry) before you use any number here.
+
 # Hydroacoustics: calibration events on known South Atlantic sources (stage 1b) and the published-record checks
 
 Hydroacoustic Module (correction track), 22 October 2026. **PREDICTIVE, NOT CALIBRATED; caveats C1 (propagation slope

@@ -1,3 +1,5 @@
+> **Registry status (23 Oct 2026): KNOWN_DEFECT; defects D01, D22, D07.** η = 2.1 × 10⁻⁴ in this note is Brown (2026)'s Arons-equivalent value, not the F-35A value under the module definition (Metz 2.26 × 10⁻³, pending Pete's ruling); η values themselves are unchanged, "× F-35A" multiples on 2.1e-4 are 10.8 times too high. Uses the old IMOS TL table (imos_tl_ramcorr), superseded by imos_tl_ram_arc.csv. Read `results/hydroacoustics/INDEX.md` (generated from the registry) before you use any number here.
+
 # Hydroacoustics: Kadri collaboration package v2 (work order 2026-10-21, block 12) — PREPARE ONLY
 
 *Hydroacoustic Module (Kadri-package track), 22 Oct 2026 ~05:00 UTC. Unattended overnight run. Module commits `f2b678c`, `a58c3c5`

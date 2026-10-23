@@ -1,3 +1,5 @@
+> **Registry status (23 Oct 2026): CURRENT_WITH_CAVEATS; defects D06, D24, D26.** Read `results/hydroacoustics/INDEX.md` (generated from the registry) before you use any number here.
+
 # Hydroacoustics: pre-registered searches on the data held, run J (work order 2026-10-21, blocks 4 and 5)
 
 *Hydroacoustic Module (searches track), 22 Oct 2026. Unattended overnight run. Pre-registration committed to the module branch at `a4cdab0` (`prepare/searches_run_j/preregistration.py`, with `prereg_windows.csv`, `prereg_lag_intervals.csv`, `prereg_impact_time_bands.csv`) BEFORE any statistic was computed on hydrophone data. Code: `engine/hypotheses/hydroacoustics/prepare/searches_run_j/` (module branch). Tables: `results-data/searches_run_j/` (module branch) and `/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-searches/` (293 MB, SHA256SUMS). Charts: `results/hydroacoustics-searches-run-j-timeline.{png,pdf}`, `results/hydroacoustics-searches-run-j-table1.{png,pdf}`.*

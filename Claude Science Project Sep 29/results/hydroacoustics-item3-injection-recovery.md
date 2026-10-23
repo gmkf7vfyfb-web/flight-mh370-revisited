@@ -1,3 +1,5 @@
+> **Registry status (23 Oct 2026): CURRENT_WITH_CAVEATS; defects D01.** η = 2.1 × 10⁻⁴ in this note is Brown (2026)'s Arons-equivalent value, not the F-35A value under the module definition (Metz 2.26 × 10⁻³, pending Pete's ruling); η values themselves are unchanged, "× F-35A" multiples on 2.1e-4 are 10.8 times too high. Read `results/hydroacoustics/INDEX.md` (generated from the registry) before you use any number here.
+
 # Hydroacoustics item 3: injection-recovery and the P_D gate at the IMOS recorders - PROVISIONAL
 
 **Pre-registrations:**

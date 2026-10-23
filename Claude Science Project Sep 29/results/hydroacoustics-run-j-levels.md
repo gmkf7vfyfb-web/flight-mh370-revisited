@@ -1,3 +1,5 @@
+> **Registry status (23 Oct 2026): CURRENT_WITH_CAVEATS; defects D01, D05, D25.** η = 2.1 × 10⁻⁴ in this note is Brown (2026)'s Arons-equivalent value, not the F-35A value under the module definition (Metz 2.26 × 10⁻³, pending Pete's ruling); η values themselves are unchanged, "× F-35A" multiples on 2.1e-4 are 10.8 times too high. Read `results/hydroacoustics/INDEX.md` (generated from the registry) before you use any number here.
+
 # Hydroacoustics: received levels, detectability and the power screen on run J (block 3, level half; block 6 noise-versus-levels charts, loudness maps, illustrative traces)
 
 *Hydroacoustic Module (levels track), 22 Oct 2026, unattended overnight run of work order 2026-10-21. Pre-registration `prepare/run_j_levels.py` committed at `4277320` on `hypothesis/hydroacoustics` before any draw or any recording was read. One amendment (plumbing, disclosed in §8). Data: `results-data/levels_run_j/` (tables, 0.5 MB); full products in `/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-levels/` (491 MB: draws, per-key SNR histograms, noise percentiles, SHA256SUMS).*

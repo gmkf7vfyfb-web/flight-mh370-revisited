@@ -1,3 +1,5 @@
+> **Registry status (23 Oct 2026): CURRENT_WITH_CAVEATS; defects D01.** η = 2.1 × 10⁻⁴ in this note is Brown (2026)'s Arons-equivalent value, not the F-35A value under the module definition (Metz 2.26 × 10⁻³, pending Pete's ruling); η values themselves are unchanged, "× F-35A" multiples on 2.1e-4 are 10.8 times too high. Read `results/hydroacoustics/INDEX.md` (generated from the registry) before you use any number here.
+
 # Hydroacoustics — whole-arc transmission-loss grid for run J (work order 2026-10-21, block 2)
 
 Hydroacoustic Module (tl-grid track), 22 October 2026, overnight unattended run. Brief: `threads/master-prompts/hydroacoustics.md`

@@ -1,3 +1,5 @@
+> **Registry status (23 Oct 2026): CURRENT_WITH_CAVEATS; defects D05.** Read `results/hydroacoustics/INDEX.md` (generated from the registry) before you use any number here.
+
 # Hydroacoustics — weak-signal method trials (work order 2026-10-21, block 8; brief Refresh v2 §7)
 
 **Status: DONE as a method trial; PREDICTIVE, NOT CALIBRATED. No detection is claimed.** Every number below carries

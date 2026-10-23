@@ -1,3 +1,5 @@
+> **Registry status (23 Oct 2026): SUPERSEDED; defects D01.** η = 2.1 × 10⁻⁴ in this note is Brown (2026)'s Arons-equivalent value, not the F-35A value under the module definition (Metz 2.26 × 10⁻³, pending Pete's ruling); η values themselves are unchanged, "× F-35A" multiples on 2.1e-4 are 10.8 times too high. Superseded by registry entry ex.metz_f35a. Read `results/hydroacoustics/INDEX.md` (generated from the registry) before you use any number here.
+
 # Hydroacoustics: coupling efficiency η calibrated on the F-35A → H11 path, and stage C - PROVISIONAL
 
 **Pre-registration:** `prepare/f35a_eta_calibration.py`, committed `3ca9564` before any transmission loss

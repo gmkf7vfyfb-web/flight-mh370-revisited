@@ -1,3 +1,5 @@
+> **Registry status (23 Oct 2026): PENDING_RULING.** Its result waits for Pete's ruling. Read `results/hydroacoustics/INDEX.md` (generated from the registry) before you use any number here.
+
 # Hydroacoustics: the F-35A coupling anchor re-derived from Metz et al. (2023) through the module's own chain; real-arrival test of the matched filter; TL route 2; source-pulse check — PREDICTIVE, NOT CALIBRATED
 
 *Hydroacoustic Module, track "metz-f35a", 22 October 2026 (Pete's correction list items 1, 2 F-35A part, 4, 5). Every number

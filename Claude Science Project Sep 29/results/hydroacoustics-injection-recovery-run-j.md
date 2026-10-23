@@ -1,3 +1,5 @@
+> **Registry status (23 Oct 2026): CURRENT_WITH_CAVEATS; defects D05, D06, D22.** Uses the old IMOS TL table (imos_tl_ramcorr), superseded by imos_tl_ram_arc.csv. Read `results/hydroacoustics/INDEX.md` (generated from the registry) before you use any number here.
+
 # Hydroacoustics: injection-recovery on run J — P_D against received level, the gate of contract rule 2 (block 7)
 
 *Hydroacoustic Module (block 7 track), 22 Oct 2026 ~04:40 UTC. Unattended overnight run of work order 2026-10-21. Pre-registration `prepare/injection_recovery_run_j/prereg.py` committed at e816313 before any statistic on hydrophone data; code at 0106f51 (+ this note's commit). Data: `results-data/injection_run_j/` on `hypothesis/hydroacoustics` (tables, fits, thresholds, summaries); full outputs including the 26,460-row injection table, null maxima, templates and the run J subsample in `mh370-exchange/hydroacoustics/run-j-injection/` (214 MB, SHA256SUMS).*

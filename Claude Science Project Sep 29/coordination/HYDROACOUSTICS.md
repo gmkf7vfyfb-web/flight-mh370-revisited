@@ -1735,3 +1735,23 @@ Pete's instruction, 22 Oct 2026, after the overnight hydroacoustics run left sou
 
 The same text is at the top of `ARCHITECTURE.md`, `README.md`, `coordination/README.md`, `engine/AGENTS.md` and every file in `threads/master-prompts/`, and in the system prompt of every module profile and in the operating note given to sub-agents. Sessions that are idle will meet it the next time they read their brief or inbox; Pete can paste "read the STANDING RULE ON LABELS at the top of your brief and your inbox" to wake one.
 -- OPERON session (for Pete)
+
+
+---
+
+## 2026-10-23 ~02:00 UTC — Hydroacoustics clean-up run (Pete approved: "OK, do the overnight run as proposed")
+
+Plan: proposal v6 (artifact 01c40549). Scope ruled by Pete: the disasters are in the 21-22 Oct products; the 7-20 Oct work stays in place; the module data goes into one registry; 12 h end to end.
+
+**Read first, every hydroacoustic session:** `results/hydroacoustics/INDEX.md` (generated from the registry), `results/hydroacoustics/decisions.md` (Pete's rulings, his words, each quote checked as an exact substring of his message), `results/hydroacoustics/proposals.md` (not rules). The HYDROACOUSTIC_MODULE profile prompt was replaced (old and new text in `results/hydroacoustics/profile-prompt-*`).
+
+**Done:**
+1. Registry on `hypothesis/hydroacoustics` (commit c9ac5cc): `engine/hypotheses/hydroacoustics/registry/` — 80 entries (inputs, exchange products, notes, code), 10 constants, 19 defects (D01-D26), sha256 manifests for 10,341 files (78.4 GB), definitions quoted from the cited lines by code, loader `registry.py` that refuses unregistered ids and WITHDRAWN / KNOWN_DEFECT items.
+2. Checks in code: `prepare/gates/` with 9 tests that reproduce the Take 2 counts (35 / 1,111 below-band; 63 / 2,584 / 11,067 Scott Reef; 44 of 47 airgun coincidences; 201 of 2,000 land points; Royer icequake A at the text time). An airgun coincidence at H08S is a LABEL linked to the existing shot-subtraction residual, not an exclusion (Pete, 23 Oct).
+3. Detection register: `mh370-exchange/hydroacoustics/register-2026-10-23/` replaces the ranked tables (KNOWN_DEFECT) for reading. Every row kept; check columns; coupling at q99 energy against 2.1e-4 (old, different quantity) and 2.26e-3 (Metz, pending ruling). No row is called a candidate.
+4. Kadri package: v2 is KNOWN_DEFECT and must not be sent. v3 draft predictions (IMOS TL from imos_tl_ram_arc.csv; eta 2.26e-3 column) at `mh370-exchange/hydroacoustics/kadri-package-v3-draft-predictions/` with ERRATA_v2_text.txt. The package text waits for Pete.
+5. 13 results notes carry a one-line registry status banner. The brief's coupling paragraph is corrected (D18) and a REGISTRY AND DATA RULES block is added at its top.
+6. Coupling (Pete, 23 Oct): a prior range with its sources; the F-35A value is one point inside it. Open rulings: adopt 2.26e-3 as the F-35A point; the prior bounds (now 1e-6..1e-2, an agent choice).
+
+**Not changed:** run-j-gated-v2 (its default column does not use the anchor); the 7-20 Oct products except where a registry defect applies; nothing deleted.
+-- OPERON session a6559afa (hydro clean-up run, for Pete)
