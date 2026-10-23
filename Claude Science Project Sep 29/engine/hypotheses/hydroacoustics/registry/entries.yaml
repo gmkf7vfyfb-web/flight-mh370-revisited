@@ -1064,6 +1064,46 @@ entries:
     - 1
     - 4
   note: M1b detected 6 of 37 real arrivals vs 19.8 predicted. Amendment 2 post-hoc; one duplicate window (Royer-7 = CMST-C1); one land-path detection (Royer-3 at 3250); pre-registered timing not independently verifiable.
+- id: in.hydro_data_db
+  kind: input
+  path: MOD:registry/data_db/hydro_data.sqlite
+  status: CURRENT
+  defects: []
+  verified_this_run: true
+  definition:
+    file: MOD:registry/data_db/README.md
+    lines:
+    - 1
+    - 5
+  note: 'DATA SOURCE OF RECORD for hydroacoustic data (raw IMOS records and digitised published data) from 23 Oct 2026: site, sensor, dataset,
+    segment, pick, event, attribute, arc_path tables; 4,572 raw files SHA-256 verified; 36/36 build checks. Rebuild with the data_db scripts;
+    never edit by hand. Results stay in this registry.'
+- id: code.hydro_data_db
+  kind: code
+  path: MOD:registry/data_db
+  status: CURRENT
+  defects: []
+  verified_this_run: true
+  definition:
+    file: MOD:registry/data_db/README.md
+    lines:
+    - 43
+    - 43
+  note: Builder and derived scripts for hydro_data.sqlite (build_hydro_data_db.py, arc_line_of_sight.py, arc_station_count.py, make_sites_map.py)
+    with their outputs.
+- id: ex.arc_line_of_sight
+  kind: product
+  path: MOD:registry/data_db/arc_los_station_count.csv
+  status: CURRENT_WITH_CAVEATS
+  defects: []
+  verified_this_run: true
+  definition:
+    file: MOD:registry/data_db/arc_line_of_sight.py
+    lines:
+    - 8
+    - 16
+  note: 'Per-degree count of station locations recording on 8 Mar 2014 with bathymetric line of sight to the 7th arc; per-path classes in hydro_data.sqlite
+    table arc_path. Caveats: geometric screen, not transmission loss; thresholds are agent choices (constants los_*), not ruled.'
 constants:
 - id: eta_F35A_metz
   value: 0.00226
@@ -1190,6 +1230,31 @@ constants:
     - 159
     must_contain:
     - 1.5 s
+- id: los_block_depth_m
+  value: 200
+  units: m (blocked if water shallower than min(receiver depth, this) > 20 km from receiver)
+  status: AGENT_CHOICE_NOT_RULED
+  note: Line-of-sight screen threshold, 23 Oct 2026. Not ruled by Pete.
+  source:
+    file: MOD:registry/data_db/arc_line_of_sight.py
+    lines:
+    - 12
+    - 12
+    must_contain:
+    - 200 m
+- id: los_large_attenuation
+  value: 10 km shallower than 1,000 m
+  units: km, m (> 100 km from receiver)
+  status: AGENT_CHOICE_NOT_RULED
+  note: Line-of-sight screen threshold for 'large attenuation', 23 Oct 2026. Not ruled by Pete.
+  source:
+    file: MOD:registry/data_db/arc_line_of_sight.py
+    lines:
+    - 13
+    - 13
+    must_contain:
+    - 10 km
+    - 1,000 m
 defects:
 - id: D01
   title: Old coupling value 2.1e-4 used as the F-35A "upper anchor"

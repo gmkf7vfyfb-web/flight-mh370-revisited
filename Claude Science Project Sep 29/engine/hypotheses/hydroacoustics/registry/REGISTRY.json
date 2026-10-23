@@ -1957,6 +1957,69 @@
    "bytes": 67562,
    "manifest": "manifests/mod.real_arrival_test_x06.tsv.gz",
    "manifest_sha256": "e94e319c19c9f20a8bfbe67228fb6ff57f2611e7796718874867b123bdde3aa8"
+  },
+  {
+   "id": "in.hydro_data_db",
+   "kind": "input",
+   "path": "MOD:registry/data_db/hydro_data.sqlite",
+   "status": "CURRENT",
+   "defects": [],
+   "verified_this_run": true,
+   "definition": {
+    "file": "MOD:registry/data_db/README.md",
+    "lines": [
+     1,
+     5
+    ],
+    "quote": "# hydro_data.sqlite — hydroacoustic data held by the project (raw and digitised)\n\nOne SQLite file that lists every hydroacoustic **data** item the project holds: raw IMOS seabed-logger records and the values digitised from publications (Kadri, Royer, CMST, Blackman, Metz, Brown, Nielsen, Vergoz, Duncan & Dall'Osto). Derived **results** (noise summaries, detections, likelihoods) are not in this file. They stay in the module registry `registry/REGISTRY.json`, and every dataset row here carries the registry entry id that covers its files (`registry_entry_id`).\n\nBuilt 2026-10-23T21:00:42Z from module branch `hypothesis/hydroacoustics` at 131e520 and `~/Downloads/mh370-inputs/hydroacoustics/imos`. Schema `hydro-data-db v1`."
+   },
+   "note": "DATA SOURCE OF RECORD for hydroacoustic data (raw IMOS records and digitised published data) from 23 Oct 2026: site, sensor, dataset, segment, pick, event, attribute, arc_path tables; 4,572 raw files SHA-256 verified; 36/36 build checks. Rebuild with the data_db scripts; never edit by hand. Results stay in this registry.",
+   "n_files": 1,
+   "bytes": 17526784,
+   "manifest": "manifests/in.hydro_data_db.tsv.gz",
+   "manifest_sha256": "58d19a5ae79c35ded31606cfed85f3de08d4fbad97b391caf7e2c2cc830d7d41"
+  },
+  {
+   "id": "code.hydro_data_db",
+   "kind": "code",
+   "path": "MOD:registry/data_db",
+   "status": "CURRENT",
+   "defects": [],
+   "verified_this_run": true,
+   "definition": {
+    "file": "MOD:registry/data_db/README.md",
+    "lines": [
+     43,
+     43
+    ],
+    "quote": "Run order: `build_hydro_data_db.py` → `arc_line_of_sight.py --db hydro_data.sqlite --gebco <gebco grid dir>` → `arc_station_count.py --db hydro_data.sqlite --out arc_los_station_count` → `make_sites_map.py`."
+   },
+   "note": "Builder and derived scripts for hydro_data.sqlite (build_hydro_data_db.py, arc_line_of_sight.py, arc_station_count.py, make_sites_map.py) with their outputs.",
+   "n_files": 16,
+   "bytes": 28796499,
+   "manifest": "manifests/code.hydro_data_db.tsv.gz",
+   "manifest_sha256": "5c90b35d906c06534c3db4cd58eac4d61c134819fcb0a10b436dbcc5a53f6306"
+  },
+  {
+   "id": "ex.arc_line_of_sight",
+   "kind": "product",
+   "path": "MOD:registry/data_db/arc_los_station_count.csv",
+   "status": "CURRENT_WITH_CAVEATS",
+   "defects": [],
+   "verified_this_run": true,
+   "definition": {
+    "file": "MOD:registry/data_db/arc_line_of_sight.py",
+    "lines": [
+     8,
+     16
+    ],
+    "quote": "Geometry: 7th arc = spherical small circle, centre 0.570 N 64.252 E, radius 44.501 deg (fitted to 00:19:29\npositions; southern end 43.93 S 64.25 E); eastern branch sampled every 0.1 deg latitude from 20.0 S.\nPaths: WGS84 geodesics (pyproj), sampled every ~1 km, GEBCO_2026 15\" elevation (nearest cell).\nClasses (outside the receiver's own approach):\n  blocked            land, or water shallower than min(receiver depth, 200 m), more than 20 km from the receiver\n  large attenuation  >= 10 km of water shallower than 1,000 m (above the deep sound-channel axis), more than 100 km from the receiver\n  ridge (partial)    deep receivers (>= 900 m) only: >= 10 km of water shallower than the hydrophone, more than 100 km from the receiver\n  clear              none of the above\nThis is a geometric screen, not a transmission-loss result."
+   },
+   "note": "Per-degree count of station locations recording on 8 Mar 2014 with bathymetric line of sight to the 7th arc; per-path classes in hydro_data.sqlite table arc_path. Caveats: geometric screen, not transmission loss; thresholds are agent choices (constants los_*), not ruled.",
+   "n_files": 1,
+   "bytes": 8095,
+   "manifest": "manifests/ex.arc_line_of_sight.tsv.gz",
+   "manifest_sha256": "67d1cf68904e7f70305bcda2b5253f21e6d1275a5f0311d35a3f33c7c934201a"
   }
  ],
  "constants": [
@@ -2143,6 +2206,43 @@
      "1.5 s"
     ],
     "quote": "1. **Airgun shots were ranked as candidates.** The module holds the times of 110 airgun shots in the Diego Garcia panels (`h08s_template_shots.csv`). 44 of 47 Diego Garcia candidates lie within 1.5 s of a shot; chance gives 30 %. Every top-5 pair and the \"strongest pair\" use one of them. The 01:12:49 candidate is 0.14 s from a shot. The shot suppression (−5 to −8 dB) was measured, but the candidates were not gated."
+   }
+  },
+  {
+   "id": "los_block_depth_m",
+   "value": 200,
+   "units": "m (blocked if water shallower than min(receiver depth, this) > 20 km from receiver)",
+   "status": "AGENT_CHOICE_NOT_RULED",
+   "note": "Line-of-sight screen threshold, 23 Oct 2026. Not ruled by Pete.",
+   "source": {
+    "file": "MOD:registry/data_db/arc_line_of_sight.py",
+    "lines": [
+     12,
+     12
+    ],
+    "must_contain": [
+     "200 m"
+    ],
+    "quote": "  blocked            land, or water shallower than min(receiver depth, 200 m), more than 20 km from the receiver"
+   }
+  },
+  {
+   "id": "los_large_attenuation",
+   "value": "10 km shallower than 1,000 m",
+   "units": "km, m (> 100 km from receiver)",
+   "status": "AGENT_CHOICE_NOT_RULED",
+   "note": "Line-of-sight screen threshold for 'large attenuation', 23 Oct 2026. Not ruled by Pete.",
+   "source": {
+    "file": "MOD:registry/data_db/arc_line_of_sight.py",
+    "lines": [
+     13,
+     13
+    ],
+    "must_contain": [
+     "10 km",
+     "1,000 m"
+    ],
+    "quote": "  large attenuation  >= 10 km of water shallower than 1,000 m (above the deep sound-channel axis), more than 100 km from the receiver"
    }
   }
  ],
@@ -2676,5 +2776,21 @@
    ]
   }
  ],
- "build_errors": []
+ "build_errors": [],
+ "partial_updates": [
+  {
+   "utc": "2026-10-23T21:41:21Z",
+   "added_entries": [
+    "in.hydro_data_db",
+    "code.hydro_data_db",
+    "ex.arc_line_of_sight"
+   ],
+   "added_constants": [
+    "los_block_depth_m",
+    "los_large_attenuation"
+   ],
+   "method": "build_registry.py functions (manifest, quote, resolve) applied to the new entries only; all other entries, manifests and built_utc unchanged. A full rebuild needs the ART root (workspace a6559afa, no longer on disk) and a full claude-science-sep29 checkout.",
+   "module_head_before": "16a9532"
+  }
+ ]
 }
