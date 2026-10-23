@@ -11,15 +11,18 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parent))
 import prereg as R
 from common import Machinery
-from worker import KEYS, NB1, NBH, FAM_CODES
+from worker import KEYS, NB1, NBH, FAM_CODES, acc_name
 import os
 STATS_ONLY = os.environ.get("B11_STATS_ONLY") == "1"     # amendment A4: amplitude-weighted variant present in the accumulators (stats-only run)
 RAMGRID = STATS_ONLY or os.environ.get("B11_IMOS_RAMGRID") == "1"   # A4: RAM-grid IMOS TL (stats-only run or the v2 column product)
+AMP = STATS_ONLY or R.V3                                 # A6: amplitude-weighted accumulators also present in the v3 column run
+ACC = acc_name(R.ETA_UB)                                 # A6: accumulator set of the prior upper bound B11_ETA_UB (default: the prereg bound)
 
 FAM_NAMES = {1: "A1", 2: "A2", 3: "B", 6: "outside B"}
 OPTION_NAMES = {"D0": "00:19 Held Out (D0')", "D2": "R600 BTO + BFO (D2)", "D3": "both BFOs as recorded (D3)", "D4": "both BFOs, shared start-up offset (D4)"}
 BANDS5 = [(-41, -36), (-36, -31), (-31, -26), (-26, -21), (-21, -20), (-41, -20)]
-ETA = R.ETA_GRID; LETA = np.log10(ETA); NG = len(ETA)
+ETA = np.asarray(R.ETA_GRID)[np.asarray(R.ETA_GRID) <= R.ETA_UB * (1 + 1e-9)]; LETA = np.log10(ETA); NG = len(ETA)   # A6: grid up to the prior bound
+I_1E2 = int(np.argmin(abs(LETA + 2)))
 ALPHA_TAGS = {a: f"a{a:g}" for a in R.ALPHAS}
 
 
@@ -32,18 +35,18 @@ def load_parts(cols_dir):
             if k == "meta": continue
             A[k] = A.get(k, 0) + z[k] * c
     for s in R.STRATA:
-        seeds = sorted([p for p in (cols_dir / s).glob("seed-*") if (p / "acc.npz").exists()], key=lambda p: int(p.name.split("-")[1]))
+        seeds = sorted([p for p in (cols_dir / s).glob("seed-*") if (p / ACC).exists()], key=lambda p: int(p.name.split("-")[1]))
         K = len(seeds); meta[s] = K
         for sd in seeds:
-            z = np.load(sd / "acc.npz"); c = pc[s] / K
+            z = np.load(sd / ACC); c = pc[s] / K
             addto(acc, z, c)
             # sum_w2 and fam_w2 scale with c^2: correct them (they were added with c)
             acc["sum_w2"] += z["sum_w2"] * (c * c - c); acc["fam_w2"] += z["fam_w2"] * (c * c - c)
             ss = np.load(sd / "subsample.npz"); d = {k: ss[k] for k in ss.files if k not in ("stratum", "seed")}
             d["W"] = d["W"] * c * R.SUBSAMPLE_EVERY; d["src"] = np.full(len(d["lat"]), s); sub.append(d)
     supp = None; supp_sub = None; share = None
-    if (cols_dir / "supplement" / "acc.npz").exists():
-        z = np.load(cols_dir / "supplement" / "acc.npz"); supp = {k: z[k] for k in z.files if k != "meta"}
+    if (cols_dir / "supplement" / ACC).exists():
+        z = np.load(cols_dir / "supplement" / ACC); supp = {k: z[k] for k in z.files if k != "meta"}
         ss = np.load(cols_dir / "supplement" / "subsample.npz"); supp_sub = {k: ss[k] for k in ss.files if k not in ("stratum", "seed")}
         supp_sub["W"] = supp_sub["W"] * 2.0; supp_sub["src"] = np.full(len(supp_sub["lat"]), "supplement")
         share = json.load(open(cols_dir / "_parts" / "supplement.json"))["share"]
@@ -79,7 +82,7 @@ def upper_limits(mx, norm):
     for j, key in enumerate(KEYS):
         for a in R.ALPHAS:
             t = ALPHA_TAGS[a]
-            variants = [(False, "IMOS gated"), (True, "IMS proxy + IMOS")] + ([("A", "IMOS gated (amplitude-weighted)")] if STATS_ONLY else [])
+            variants = [(False, "IMOS gated"), (True, "IMS proxy + IMOS")] + ([("A", "IMOS gated (amplitude-weighted)")] if AMP else [])
             for ims, label in variants:
                 wP = mx[f"wPnd{'_ims' if ims is True else ''}_{t}"][j]; wL = mx[f"wL_A_{t}" if ims == "A" else f"wL{'_ims' if ims else ''}_{t}"][j]; sw = mx["sum_w"][j]; sw2 = mx["sum_w2"][j]
                 for lo, hi in BANDS5:
@@ -96,10 +99,10 @@ def upper_limits(mx, norm):
                     else:
                         k = int(np.argmax(P <= 0.05)); excl = float(10 ** np.interp(0.05, [P[k], P[k - 1]], [LETA[k], LETA[k - 1]])) if k > 0 else float(ETA[0])
                     rows.append({"option": key.split("/")[0], "p": float(key.split("/p")[1]), "alpha": a, "receivers": label, "lat_lo": lo, "lat_hi": hi,
-                                 "share": float(W), "ess": float(W * W / W2) if W2 > 0 else 0.0, "eta95_bayes_nondetection_logu_1e-6_1e-2": float(eta95_nd), "eta95_bayes_full_likelihood": float(eta95), "eta95_prior_alone": float(10 ** (-6 + 0.95 * 4)),
-                                 "eta_excl95_classical": excl, "pnd_at_1e-2": float(P[-1]), "pnd_at_1e-3": float(P[np.argmin(abs(LETA + 3))]),
+                                 "share": float(W), "ess": float(W * W / W2) if W2 > 0 else 0.0, "eta95_bayes_nondetection_logu_1e-6_1e-2": float(eta95_nd), "eta95_bayes_full_likelihood": float(eta95), "eta95_prior_alone": float(10 ** (LETA[0] + 0.95 * (LETA[-1] - LETA[0]))), "eta_prior_ub": float(ETA[-1]),
+                                 "eta_excl95_classical": excl, "pnd_at_1e-2": float(P[I_1E2]), "pnd_at_ub": float(P[-1]), "pnd_at_1e-3": float(P[np.argmin(abs(LETA + 3))]),
                                  "pnd_at_anchor": float(np.interp(np.log10(R.ETA_ANCHOR), LETA, P)), "pnd_at_1e-4": float(P[np.argmin(abs(LETA + 4))]),
-                                 "L_at_1e-2": float(L[-1]), "L_at_anchor": float(np.interp(np.log10(R.ETA_ANCHOR), LETA, L)), "L_marg": float(L.mean()),
+                                 "L_at_1e-2": float(L[I_1E2]), "L_at_anchor": float(np.interp(np.log10(R.ETA_ANCHOR), LETA, L)), "L_marg": float(L.mean()),
                                  "posterior_median_eta": float(10 ** np.interp(0.5, cdf, LETA))})
     return pd.DataFrame(rows)
 
@@ -109,7 +112,7 @@ def evidence_three_ways(mx):
     for j, key in enumerate(KEYS):
         core = mx["half_w"][j]; Zc = core.sum()
         for a in R.ALPHAS:
-            for ims, label in [(False, "IMOS gated"), (True, "IMS proxy + IMOS")] + ([("A", "IMOS gated (amplitude-weighted)")] if STATS_ONLY else []):
+            for ims, label in [(False, "IMOS gated"), (True, "IMS proxy + IMOS")] + ([("A", "IMOS gated (amplitude-weighted)")] if AMP else []):
                 wL = mx[f"half_wLA_{ALPHA_TAGS[a]}" if ims == "A" else f"half_wL{'ims' if ims else ''}_{ALPHA_TAGS[a]}"][j]
                 comb = wL / wL.sum() if wL.sum() > 0 else wL
                 corep = core / Zc
@@ -134,20 +137,20 @@ def families_and_holland(mx, norm):
         o, p = key.split("/")[0], float(key.split("/p")[1]); Z = mx["sum_w"][j].sum()
         for k, c in enumerate(FAM_CODES):
             w, w2, wL, wLi = mx["fam_w"][j, k], mx["fam_w2"][j, k], mx["fam_wL"][j, k], mx["fam_wLims"][j, k]
-            wLA = mx["fam_wLA"][j, k] if STATS_ONLY else np.nan
+            wLA = mx["fam_wLA"][j, k] if AMP else np.nan
             rows.append(dict(option=o, p=p, family=FAM_NAMES[c], share=float(w / Z) if Z > 0 else 0.0, ess=float(w * w / w2) if w2 > 0 else 0.0,
                              lnZ_hydro_imos=float(np.log(wL / w)) if w > 0 and wL > 0 else None, lnZ_hydro_ims_proxy=float(np.log(wLi / w)) if w > 0 and wLi > 0 else None,
-                             lnZ_hydro_imos_ampweighted=float(np.log(wLA / w)) if (STATS_ONLY and w > 0 and wLA > 0) else None))
+                             lnZ_hydro_imos_ampweighted=float(np.log(wLA / w)) if (AMP and w > 0 and wLA > 0) else None))
     for o in R.OPTIONS:
         z = {}
         for p in R.PS:
             j = KEYS.index(f"{o}/p{p:g}"); Z = mx["sum_w"][j].sum()
-            z[p] = {a: dict(imos=mx[f"wLmarg_{ALPHA_TAGS[a]}"][j] / Z, ims=mx[f"wLmarg_ims_{ALPHA_TAGS[a]}"][j] / Z, amp=(mx[f"wLmarg_A_{ALPHA_TAGS[a]}"][j] / Z) if STATS_ONLY else np.nan,
+            z[p] = {a: dict(imos=mx[f"wLmarg_{ALPHA_TAGS[a]}"][j] / Z, ims=mx[f"wLmarg_ims_{ALPHA_TAGS[a]}"][j] / Z, amp=(mx[f"wLmarg_A_{ALPHA_TAGS[a]}"][j] / Z) if AMP else np.nan,
                             nd_imos=mx[f"wPnd_{ALPHA_TAGS[a]}"][j].sum(0)[:NG].mean() / Z) for a in R.ALPHAS}
         for a in R.ALPHAS:
             hol.append(dict(option=o, alpha=a, lnBF_p1_vs_p0_imos=float(np.log(z[1.0][a]["imos"] / z[0.0][a]["imos"])), lnBF_p1_vs_p0_ims_proxy=float(np.log(z[1.0][a]["ims"] / z[0.0][a]["ims"])),
                             lnBF_p1_vs_p0_nondetection_only=float(np.log(z[1.0][a]["nd_imos"] / z[0.0][a]["nd_imos"])),
-                            lnBF_p1_vs_p0_ampweighted=float(np.log(z[1.0][a]["amp"] / z[0.0][a]["amp"])) if STATS_ONLY else None,
+                            lnBF_p1_vs_p0_ampweighted=float(np.log(z[1.0][a]["amp"] / z[0.0][a]["amp"])) if AMP else None,
                             lnBF_p05_vs_p0_imos=float(np.log(z[0.5][a]["imos"] / z[0.0][a]["imos"])), lnZ_p0=float(np.log(z[0.0][a]["imos"])), lnZ_p1=float(np.log(z[1.0][a]["imos"]))))
     return pd.DataFrame(rows), pd.DataFrame(hol)
 
@@ -279,13 +282,13 @@ def main(cols_dir, out_dir):
     fam, hol = families_and_holland(mx, norm); fam.to_csv(out / "families.csv", index=False); hol.to_csv(out / "holland_p1_vs_p0.csv", index=False)
     S = concat_sub(sub, supp_sub); M = Machinery(imos_ramgrid=RAMGRID)
     j = KEYS.index("D0/p0.5"); Z = mx["sum_w"][j].sum()
-    Zrun = {a: dict(imos=mx[f"wLmarg_{ALPHA_TAGS[a]}"][j] / Z, ims=mx[f"wLmarg_ims_{ALPHA_TAGS[a]}"][j] / Z, **({"amp": mx[f"wLmarg_A_{ALPHA_TAGS[a]}"][j] / Z} if STATS_ONLY else {})) for a in R.ALPHAS}
+    Zrun = {a: dict(imos=mx[f"wLmarg_{ALPHA_TAGS[a]}"][j] / Z, ims=mx[f"wLmarg_ims_{ALPHA_TAGS[a]}"][j] / Z, **({"amp": mx[f"wLmarg_A_{ALPHA_TAGS[a]}"][j] / Z} if AMP else {})) for a in R.ALPHAS}
     bf = conditionals(M, S, Zrun, out); co = coincidence(M, S, out)
     # ESS check: streamed vs subsample (D0' p 0.5), and the eta-grid posterior for the headline
     ess_stream = {k: float(mx["sum_w"][i].sum() ** 2 / mx["sum_w2"][i].sum()) for i, k in enumerate(KEYS)}
     ess_sub = {k: float(S["W"][i].sum() ** 2 / (S["W"][i] ** 2).sum()) for i, k in enumerate(KEYS)}
     hist = {k: mx["lnL_hist"][i].tolist() for i, k in enumerate(KEYS)}
-    summary = dict(prereg="90d7181" + (" + A4 e13a32e (RAM-grid IMOS TL)" if RAMGRID else ""), imos_tl="imos_tl_ram_arc.csv" if RAMGRID else "imos_tl_ramcorr_arc.csv", imos_tl_built=json.load(open(R.TL_TABLE_DIR_RAMGRID / "imos_tl_ram_build.json")).get("built") if RAMGRID else None, ramgrid_covered_share=M.ramgrid_covered_share, seeds=meta, supplement_share={o: share[o]["supplement"] / share[o]["total"] for o in R.OPTIONS} if share else None,
+    summary = dict(prereg="90d7181" + (" + A4 e13a32e (RAM-grid IMOS TL)" if RAMGRID else "") + (" + A6 (v3: eta prior [1e-6, 1], bound variants)" if R.V3 else ""), eta_prior_ub=float(ETA[-1]), eta_grid_points=int(NG), acc_file=ACC, imos_tl="imos_tl_ram_arc.csv" if RAMGRID else "imos_tl_ramcorr_arc.csv", imos_tl_built=json.load(open(R.TL_TABLE_DIR_RAMGRID / "imos_tl_ram_build.json")).get("built") if RAMGRID else None, ramgrid_covered_share=M.ramgrid_covered_share, seeds=meta, supplement_share={o: share[o]["supplement"] / share[o]["total"] for o in R.OPTIONS} if share else None,
                    ess_streamed=ess_stream, ess_subsample=ess_sub, n_subsample=int(len(S["lat"])), Zrun_D0_p05={f"a{a:g}": v for a, v in Zrun.items()},
                    lnL_hist_edges=mx["lnL_hist_edges"].tolist(), lnL_hist_D0_p05=hist["D0/p0.5"], norm=norm, pd_missing=M.pd_missing,
                    candidates={f"{rx}|{a}": M.cands[(rx, a)].to_dict("records") for rx in R.RECEIVERS for a in R.ALPHAS},

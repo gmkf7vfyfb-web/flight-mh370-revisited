@@ -190,9 +190,12 @@ class Machinery:
                 lnLA[sc] += np.log(np.maximum(Lr, 1e-300))
         return (lnL, lnPnd, nsc, lnLA) if amp else (lnL, lnPnd, nsc)
 
-    def marg(self, lnL):
-        """ln sum_k omega_k exp(lnL_k) over the 41 prior grid points with equal omega (log-uniform prior)."""
-        g = lnL[:, :self.n_grid]; m = g.max(1, keepdims=True)
+    def marg(self, lnL, ub=None):
+        """ln sum_k omega_k exp(lnL_k) over the prior grid points <= ub (default prereg ETA_UB) with equal omega (log-uniform prior).
+        v2: 41 points, ub 1e-2. A6 (v3): 61 points to 1; ub selects the 1e-2 / 1e-1 / 1 variant."""
+        ub = R.ETA_UB if ub is None else ub
+        n = int(np.sum(np.asarray(R.ETA_GRID) <= ub * (1 + 1e-9))); assert 0 < n <= self.n_grid
+        g = lnL[:, :n]; m = g.max(1, keepdims=True)
         return (m + np.log(np.mean(np.exp(g - m), axis=1, keepdims=True)))[:, 0]
 
     def fixed(self, lnL, name):

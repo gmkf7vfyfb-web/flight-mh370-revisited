@@ -43,7 +43,7 @@ class Acc:
         self.half_w = z(12, NBH); self.half_wL = {a: z(12, NBH) for a in R.ALPHAS}; self.half_wLims = {a: z(12, NBH) for a in R.ALPHAS}
         self.half_wlon = z(12, NBH)
         self.wLmarg = {a: z(12) for a in R.ALPHAS}; self.wLmarg_ims = {a: z(12) for a in R.ALPHAS}
-        self.wLfixed = z(12, 3); self.wLfixed_ims = z(12, 3)
+        self.wLfixed = z(12, len(R.ETA_FIXED)); self.wLfixed_ims = z(12, len(R.ETA_FIXED))
         self.wL_A = {a: z(12, NB1, K) for a in R.ALPHAS}; self.half_wLA = {a: z(12, NBH) for a in R.ALPHAS}; self.wLmarg_A = {a: z(12) for a in R.ALPHAS}; self.fam_wLA = z(12, 4)
         self.lnL_hist_edges = np.arange(-20.0, 20.01, 0.25); self.lnL_hist = z(12, len(self.lnL_hist_edges) - 1)
 
@@ -101,6 +101,19 @@ class Acc:
 
 STATS_ONLY = os.environ.get("B11_STATS_ONLY") == "1"      # amendment A4: RAM-grid IMOS TL, amplitude variant, statistics only
 RAMGRID = STATS_ONLY or os.environ.get("B11_IMOS_RAMGRID") == "1"   # A4: column rewrite with the corrected IMOS table = B11_IMOS_RAMGRID=1 python driver.py
+AMP = STATS_ONLY or R.V3                                   # A6: amplitude-weighted variant computed in the column run too
+UBS = R.ETA_UBS if R.V3 else (R.ETA_UB,)                    # A6: one accumulator set per prior upper bound
+
+
+class UB:
+    """Machinery view whose marg() uses a fixed prior upper bound (A6); everything else is delegated."""
+    def __init__(self, M, ub): self._M = M; self.ub = ub
+    def marg(self, lnL, ub=None): return self._M.marg(lnL, ub=self.ub if ub is None else ub)
+    def __getattr__(self, k): return getattr(self._M, k)
+
+
+def acc_name(ub):
+    return "acc.npz" if ub == R.ETA_PRIOR[1] else f"acc_ub{ub:g}.npz"
 
 
 def run_seed(stratum, k, stg):
@@ -123,30 +136,37 @@ def run_seed(stratum, k, stg):
         lnw = W.ln_weights(g, logon, o); base = np.exp(np.where(np.isfinite(lnw), lnw, -np.inf)); base[~np.isfinite(base)] = 0.0
         for j, p in enumerate(R.PS):
             Wt[3 * i + j] = base * W.p_factor(g, p) * ok
-    A = Acc(len(M.eta_eval)); A.n_rows = n; A.n_ok = int(ok.sum()); A.n_E_fallback = int((fb & ok).sum())
+    As = {ub: Acc(len(M.eta_eval)) for ub in UBS}
+    for A in As.values(): A.n_rows = n; A.n_ok = int(ok.sum()); A.n_E_fallback = int((fb & ok).sum())
     cols = {c: np.full(n, np.nan, np.float32) for c in R.COLUMNS}
     sub = {k_: [] for k_ in ("row", "lat", "lon", "t", "E", "tau", "fam", "Lcal", "lnL_grid", "lnL_grid_ims", "lnL_marg_imos", "lnL_marg_ims")}
     for s in range(0, n, R.CHUNK_ROWS):
         e = min(n, s + R.CHUNK_ROWS); sl = slice(s, e); m = ok[sl]; idx = np.arange(s, e)[m]
         if not m.any(): continue
         lnL = {}; lnPnd = {}; lnL_ims = {}; lnPnd_ims = {}
-        PP = M.prep(t[idx], lat[idx], lon[idx], E[idx], tau90[idx]); lnL_A = {} if STATS_ONLY else None
+        PP = M.prep(t[idx], lat[idx], lon[idx], E[idx], tau90[idx]); lnL_A = {} if AMP else None
         for a in R.ALPHAS:
-            if STATS_ONLY:
+            if AMP:
                 l_g, p_g, nsc, l_a = M.lnL_grid(PP, Lcal[idx], a, R.RECEIVERS_GATED, amp=True); lnL_A[a] = l_a
             else:
                 l_g, p_g, nsc = M.lnL_grid(PP, Lcal[idx], a, R.RECEIVERS_GATED)
             l_i, p_i, nsc_i = M.lnL_grid(PP, Lcal[idx], a, R.RECEIVERS_PROXY)
             lnL[a] = l_g; lnPnd[a] = p_g; lnL_ims[a] = l_g + l_i; lnPnd_ims[a] = p_g + p_i
             if a == R.ALPHA_PRIMARY:
-                A.n_scored_any += int((nsc + nsc_i > 0).sum())
-                for rx in R.RECEIVERS: A.n_scored_rx[rx] += int(PP["sc"][rx].sum())
+                for A in As.values():
+                    A.n_scored_any += int((nsc + nsc_i > 0).sum())
+                    for rx in R.RECEIVERS: A.n_scored_rx[rx] += int(PP["sc"][rx].sum())
         ap = R.ALPHA_PRIMARY
         for name in R.ETA_FIXED:
-            cols[f"hydro-lnL-imos-{name}"][idx] = M.fixed(lnL[ap], name).astype(np.float32)
+            if f"hydro-lnL-imos-{name}" in cols: cols[f"hydro-lnL-imos-{name}"][idx] = M.fixed(lnL[ap], name).astype(np.float32)
         lm = M.marg(lnL[ap]); lmi = M.marg(lnL_ims[ap])
         cols["hydro-lnL-imos-margeta"][idx] = lm.astype(np.float32); cols["hydro-lnL-ims-proxy-margeta"][idx] = lmi.astype(np.float32)
-        A.add(Wt[:, idx], lat[idx], lon[idx], fam[idx], lnL, lnPnd, lnL_ims, lnPnd_ims, M, np.ones(len(idx)), lnL_A)
+        if R.V3:
+            cols["hydro-lnL-imos-margeta-ub1e-1"][idx] = M.marg(lnL[ap], ub=1e-1).astype(np.float32)
+            cols["hydro-lnL-imos-margeta-ub1e-2"][idx] = M.marg(lnL[ap], ub=1e-2).astype(np.float32)
+            cols["hydro-lnL-imos-amp-margeta"][idx] = M.marg(lnL_A[ap]).astype(np.float32)
+        for ub, A in As.items():
+            A.add(Wt[:, idx], lat[idx], lon[idx], fam[idx], lnL, lnPnd, lnL_ims, lnPnd_ims, UB(M, ub), np.ones(len(idx)), lnL_A)
         # subsample (1 in 125 of the seed's rows, by row index)
         ss = idx[(idx % R.SUBSAMPLE_EVERY) == 0]; pos = np.searchsorted(idx, ss)
         sub["row"].append(ss); sub["lat"].append(lat[ss]); sub["lon"].append(lon[ss]); sub["t"].append(t[ss]); sub["E"].append(E[ss]); sub["tau"].append(tau90[ss])
@@ -171,7 +191,7 @@ def run_seed(stratum, k, stg):
                 run_json=dict(code_revision=meta.get("code_revision"), config_paths=meta.get("config_paths")), logon=logon)
     Wsub = Wt[:, np.concatenate(sub["row"])] if sub["row"] else np.zeros((12, 0))
     np.savez_compressed(od / "subsample.npz", **{k_: np.concatenate(v) for k_, v in sub.items()}, W=Wsub.astype(np.float64), stratum=stratum, seed=k)
-    A.dump(od / "acc.npz", dict(stratum=stratum, seed=k, eta_eval=M.eta_eval, imos_tl="imos_tl_ram_arc.csv (A4)" if RAMGRID else "imos_tl_ramcorr_arc.csv", ramgrid_covered_share=M.ramgrid_covered_share))
+    for ub, A in As.items(): A.dump(od / acc_name(ub), dict(stratum=stratum, seed=k, eta_eval=M.eta_eval, eta_prior_ub=ub, imos_tl="imos_tl_ram_arc.csv (A4)" if RAMGRID else "imos_tl_ramcorr_arc.csv", ramgrid_covered_share=M.ramgrid_covered_share))
     summ["imos_tl"] = "imos_tl_ram_arc.csv (A4)" if RAMGRID else "imos_tl_ramcorr_arc.csv"; summ["ramgrid_covered_share"] = M.ramgrid_covered_share
     (Path(stg) / "_parts").mkdir(exist_ok=True); (Path(stg) / "_parts" / f"{stratum}_{k}.json").write_text(json.dumps(summ, indent=1) + "\n")
     print(f"done {stratum}/seed-{k} in {time.time() - t0:.0f} s; wrote {write}", flush=True)
@@ -195,22 +215,25 @@ def run_supplement(stg):
     for i, o in enumerate(R.OPTIONS):
         w = np.exp(z[f"lnw:comb/{o}"][sel].astype(float)); w[~np.isfinite(w)] = 0.0
         for j, p in enumerate(R.PS): Wt[3 * i + j] = w * ok
-    A = Acc(len(M.eta_eval)); A.n_rows = n; A.n_ok = int(ok.sum()); A.n_E_fallback = int((fb & ok).sum())
+    As = {ub: Acc(len(M.eta_eval)) for ub in UBS}
+    for A in As.values(): A.n_rows = n; A.n_ok = int(ok.sum()); A.n_E_fallback = int((fb & ok).sum())
     sub = {k_: [] for k_ in ("row", "lat", "lon", "t", "E", "tau", "fam", "Lcal", "lnL_grid", "lnL_grid_ims", "lnL_marg_imos", "lnL_marg_ims")}
     for s in range(0, n, R.CHUNK_ROWS):
         e = min(n, s + R.CHUNK_ROWS); m = ok[s:e]; idx = np.arange(s, e)[m]
         lnL = {}; lnPnd = {}; lnL_ims = {}; lnPnd_ims = {}
-        PP = M.prep(t[idx], lat[idx], lon[idx], E[idx], tau[idx]); lnL_A = {} if STATS_ONLY else None
+        PP = M.prep(t[idx], lat[idx], lon[idx], E[idx], tau[idx]); lnL_A = {} if AMP else None
         for a in R.ALPHAS:
-            if STATS_ONLY:
+            if AMP:
                 l_g, p_g, nsc, l_a = M.lnL_grid(PP, Lcal[idx], a, R.RECEIVERS_GATED, amp=True); lnL_A[a] = l_a
             else:
                 l_g, p_g, nsc = M.lnL_grid(PP, Lcal[idx], a, R.RECEIVERS_GATED)
             l_i, p_i, nsc_i = M.lnL_grid(PP, Lcal[idx], a, R.RECEIVERS_PROXY)
             lnL[a] = l_g; lnPnd[a] = p_g; lnL_ims[a] = l_g + l_i; lnPnd_ims[a] = p_g + p_i
-            if a == R.ALPHA_PRIMARY: A.n_scored_any += int((nsc + nsc_i > 0).sum())
+            if a == R.ALPHA_PRIMARY:
+                for A in As.values(): A.n_scored_any += int((nsc + nsc_i > 0).sum())
         ap = R.ALPHA_PRIMARY; lm = M.marg(lnL[ap]); lmi = M.marg(lnL_ims[ap])
-        A.add(Wt[:, idx], lat[idx], lon[idx], fam[idx], lnL, lnPnd, lnL_ims, lnPnd_ims, M, np.ones(len(idx)), lnL_A)
+        for ub, A in As.items():
+            A.add(Wt[:, idx], lat[idx], lon[idx], fam[idx], lnL, lnPnd, lnL_ims, lnPnd_ims, UB(M, ub), np.ones(len(idx)), lnL_A)
         ss = idx[(idx % 2) == 0]; pos = np.searchsorted(idx, ss)   # 1 in 2 of the supplement rows
         sub["row"].append(ss); sub["lat"].append(lat[ss]); sub["lon"].append(lon[ss]); sub["t"].append(t[ss]); sub["E"].append(E[ss]); sub["tau"].append(tau[ss])
         sub["fam"].append(fam[ss]); sub["Lcal"].append(Lcal[ss]); sub["lnL_grid"].append(lnL[ap][pos].astype(np.float32)); sub["lnL_grid_ims"].append(lnL_ims[ap][pos].astype(np.float32))
@@ -218,7 +241,7 @@ def run_supplement(stg):
         print(f"supplement: rows {e}/{n} {time.time() - t0:.0f} s", flush=True)
     od = Path(stg) / "supplement"; od.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(od / "subsample.npz", **{k_: np.concatenate(v) for k_, v in sub.items()}, W=Wt[:, np.concatenate(sub["row"])], stratum="supplement", seed=0)
-    A.dump(od / "acc.npz", dict(stratum="supplement", seed=0, eta_eval=M.eta_eval, tau_standin="log-normal through tau90 q05/50/95 = 0.11/3.30/10.59 s"))
+    for ub, A in As.items(): A.dump(od / acc_name(ub), dict(stratum="supplement", seed=0, eta_eval=M.eta_eval, eta_prior_ub=ub, tau_standin="log-normal through tau90 q05/50/95 = 0.11/3.30/10.59 s"))
     share = {o: dict(supplement=float(np.exp(z[f"lnw:comb/{o}"][sel].astype(float))[np.isfinite(z[f"lnw:comb/{o}"][sel])].sum()),
                      total=float(np.nansum(np.exp(z[f"lnw:comb/{o}"].astype(float))))) for o in R.OPTIONS}
     (Path(stg) / "_parts").mkdir(exist_ok=True)

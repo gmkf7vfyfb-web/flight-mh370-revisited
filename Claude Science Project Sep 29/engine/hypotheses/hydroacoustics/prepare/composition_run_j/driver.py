@@ -98,6 +98,30 @@ mh370-exchange/hydroacoustics/run-j/primary-tau-eof (unchanged by this block).
 
 Per-seed summary (rows, not_computed, columns written, free GiB at write, quantiles 0.1/1/50/99/99.9 %, share non-zero, scored share, seconds):
 """
+if R.V3:   # A6: README for the v3 product
+    hdr = f"""Hydroacoustics block 11 (composition), PRODUCT v3 (amendment A6), end of flight run J, all four strata (74 seeds). Written {time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}.
+Same inputs, code path and random calibration draws as run-j-gated-v2 (IMOS TL imos_tl_ram_arc.csv, A4); changes (A6, Pete ruling X03 23 Oct 2026):
+the coupling prior is log-uniform on [1e-6, 1] (1 = physical limit), 61 grid points at 0.1 decade; the first 41 points equal the v2 grid.
+Rows {rows:,}; not_computed (NaN) {nc}; per-seed checks (rows, float32, NaN pattern identical across columns, finite elsewhere): all pass. {NPROC} workers.
+Columns not repeated from v2 (identical there): hydro-lnL-imos-eta1e-3, -eta2.1e-4, -eta1e-4.
+
+COLUMNS (float32, row i = row i of end-of-flight/run-j/<stratum>/seed-N/impacts32.npy):
+  hydro-lnL-imos-eta2.26e-3.npy     ln L of the IMOS-gated term at eta = 2.26e-3 (F-35A value under the module definition, Metz 2023 arrival)
+  hydro-lnL-imos-margeta.npy        ... marginalised over log-uniform eta on [1e-6, 1] (61 points)  <- v3 default candidate (not ruled for the composer)
+  hydro-lnL-imos-margeta-ub1e-1.npy ... on [1e-6, 1e-1] (51 points)       SENSITIVITY (prior upper bound)
+  hydro-lnL-imos-margeta-ub1e-2.npy ... on [1e-6, 1e-2] (41 points) = the v2 default column (regression check)
+  hydro-lnL-ims-proxy-margeta.npy   SENSITIVITY: IMOS-gated x H01W/H08S PROXY-background terms, eta on [1e-6, 1]. PREDICTIVE for IMS.
+  hydro-lnL-imos-amp-margeta.npy    SENSITIVITY (G11-1): amplitude-consistency-weighted match (sigma 1 decade), eta on [1e-6, 1]
+NaN = not computed; 0.0 = computed, no information. Accumulators: acc.npz (bound 1), acc_ub0.1.npz, acc_ub0.01.npz per seed.
+
+KNOWN LIMITS (registry defects): D05 detector not validated on real long-range arrivals; D06 IMS stand-in noise (proxy column only);
+G11-1 matching is amplitude-blind in every column except -amp-: the Portland 3275 matches 01:20:35 and 01:07:47 need eta 30 / 19 (above 1,
+physically impossible) but still count as matches; a higher prior bound gives them more weight, so the 1e-2 / 1e-1 / 1 differences partly
+measure G11-1, not physics. D25 source depth fixed at 10 m. H01W match 00:52:04 is time-consistent with Royer icequake A (D07).
+PREDICTIVE, NOT CALIBRATED.
+
+Per-seed summary:
+"""
 (stg / "README.txt").write_text(hdr + json.dumps(summ, indent=1) + "\n")
 if out.exists(): out.rename(str(out) + f".old-{int(time.time())}")
 stg.rename(out)

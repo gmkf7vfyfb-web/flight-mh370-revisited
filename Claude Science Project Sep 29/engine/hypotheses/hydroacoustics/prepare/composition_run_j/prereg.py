@@ -215,3 +215,23 @@ TL_TABLE_DIR_RAMGRID = pathlib.Path("/Users/pete/Downloads/mh370-exchange/hydroa
 IMOS_TL_FILE_RAMGRID = "imos_tl_ram_arc.csv"
 SIGMA_A_DECADES = 1.0
 STATS_DIR_RAMGRID = EXCHANGE_OUT / "stats-ramgrid-v2"   # A5: re-run on the stable table (the first stats run straddled a table rewrite)
+
+# amendment A6 (23 Oct 2026; Pete, ruling X03 "yes, rebuild"): coupling prior log-uniform on [1e-6, 1] (1 = physical limit:
+# radiated sound energy cannot exceed kinetic energy), 0.1-decade grid (61 points; the first 41 equal the v2 grid exactly),
+# upper-bound variants 1e-2 / 1e-1 / 1 from the same pass (one accumulator set per bound), fixed column at the Metz-derived
+# F-35A value 2.26e-3 (X02, module definition), amplitude-consistency-weighted marginal as a labelled G11-1 sensitivity,
+# disk floor 2 GB (Pete, 23 Oct). Switched on by B11_V3=1; without it every value above is unchanged (v2).
+import os as _os
+V3 = _os.environ.get("B11_V3") == "1"
+ETA_UBS = (1e-2, 1e-1, 1.0)
+if V3:
+    ETA_GRID = 10 ** np.arange(-6.0, 0.0 + 1e-9, 0.1)
+    ETA_PRIOR = (1e-6, 1.0)
+    ETA_FIXED = {"eta1e-3": 1e-3, "eta2.1e-4": 2.1e-4, "eta1e-4": 1e-4, "eta2.26e-3": 2.26e-3}
+    ETA_ANCHOR = 2.26e-3
+    COLUMNS = ["hydro-lnL-imos-eta2.26e-3", "hydro-lnL-imos-margeta", "hydro-lnL-imos-margeta-ub1e-1", "hydro-lnL-imos-margeta-ub1e-2",
+               "hydro-lnL-ims-proxy-margeta", "hydro-lnL-imos-amp-margeta"]
+    DISK_FLOOR_GIB = 2.0
+    CHUNK_ROWS = 250_000
+    N_PROC = 6
+ETA_UB = float(_os.environ.get("B11_ETA_UB", ETA_PRIOR[1]))   # reduce-time upper bound of the eta prior (v3: one of ETA_UBS)
