@@ -1,4 +1,4 @@
-> **Registry status (23 Oct 2026): CURRENT_WITH_CAVEATS; defects D05, D06, D22.** Uses the old IMOS TL table (imos_tl_ramcorr), superseded by imos_tl_ram_arc.csv. Read `results/hydroacoustics/INDEX.md` (generated from the registry) before you use any number here.
+> **Registry status (23 Oct 2026): CURRENT_WITH_CAVEATS; defects D01, D05, D06, D22.** η = 2.1 × 10⁻⁴ in this note is Brown (2026)'s Arons-equivalent value, not the F-35A value under the module definition (Metz 2.26 × 10⁻³, pending Pete's ruling); η values themselves are unchanged, "× F-35A" multiples on 2.1e-4 are 10.8 times too high. Uses the old IMOS TL table (imos_tl_ramcorr), superseded by imos_tl_ram_arc.csv. Read `results/hydroacoustics/INDEX.md` (generated from the registry) before you use any number here.
 
 # Hydroacoustics: injection-recovery on run J — P_D against received level, the gate of contract rule 2 (block 7)
 

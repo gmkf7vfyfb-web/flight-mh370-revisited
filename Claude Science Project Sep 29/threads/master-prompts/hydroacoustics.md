@@ -8,11 +8,13 @@
 > **REGISTRY AND DATA RULES (Pete approved the clean-up plan, 23 Oct 2026). Applies to every hydroacoustic agent and thread.**
 > 1. Read data only through the registry: `engine/hypotheses/hydroacoustics/registry/registry.py` (`REGISTRY.json`) on
 >    `hypothesis/hydroacoustics`. Read the status, defects and definition of each entry before you use it. Do not use a
->    file, column or layer whose definition you have not read. Entries with status WITHDRAWN or KNOWN_DEFECT are not used
->    for results.
+>    file, column or layer whose definition you have not read. Use only CURRENT or CURRENT_WITH_CAVEATS entries for results,
+>    and state their listed defects beside each number. SUPERSEDED, UNCHECKED and PENDING_RULING entries are used only with
+>    their status stated; WITHDRAWN and KNOWN_DEFECT entries are not used for results.
 > 2. If an input is missing, stop that item. Tell Pete what is missing and where you searched. Do not use a stand-in
 >    without Pete's approval.
-> 3. Before any run, give Pete the compute time, where it runs and the development time, and wait for his approval.
+> 3. Before any run, give Pete the estimated compute time (his rule: decisions.md P39, P40), with where it runs and the
+>    development time, and wait for his approval.
 > 4. Pete's rulings are in `results/hydroacoustics/decisions.md` (his words, quoted). Agent proposals are in
 >    `results/hydroacoustics/proposals.md`. A proposal is not a rule until Pete approves it.
 > 5. Do not state or imply that another researcher's published work is wrong unless a pre-registered test with checked
@@ -140,11 +142,11 @@ it. The SUS charge site A11 and the 2003 A1–A11 events extend the set.
 **The source term is not calibrated (corrected 23 Oct 2026, registry defect D18).** Coupling efficiency η is a
 **prior range with its sources**, and the F-35A value is **one point inside it** (Pete, 23 Oct 2026). Under the module's
 definition the F-35A crash recorded at H11 (Metz, Obana & Fukao 2023; 900 ± 200 MJ) gives η = 2.26 × 10⁻³ (z_s 10 m;
-one-factor spread 2.8 × 10⁻⁴ to 5.4 × 10⁻²; `results/hydroacoustics-metz-f35a-anchor.md`). **Its adoption waits for
+one-factor values 2.8 × 10⁻⁴ (τ 0.05 s) to 1.3 × 10⁻¹ (f⁻⁴ roll-off), 5.4 × 10⁻² at a 2 m source; `results/hydroacoustics-metz-f35a-anchor.md`). **Its adoption waits for
 Pete's ruling.** Brown et al. (2026)'s 2.1 × 10⁻⁴ is an Arons-equivalent coupling, a different quantity; do not call it
 the F-35A value. The earlier reason "upper bound, because that crash site had a shallow sound channel" was tested and is
 NOT SUPPORTED (+2.9 dB). The prior bounds used so far (log-uniform 10⁻⁶–10⁻², 41 points) were an agent choice and also
-wait for Pete's ruling. η is reported as a sweep, not as one value. (Text before this correction: commit fe5cdfd.)
+wait for Pete's ruling; the upper bound 10⁻² lies below some F-35A one-factor values above. η is reported as a sweep, not as one value. (Text before this correction: commit fe5cdfd.)
 
 **The honest expectation, stated up front.** Duncan and Dall'Osto's 2023 modelling puts MH370's path
 to HA01 20–30 dB worse than the F-35 path, which would place predicted levels at or below the noise

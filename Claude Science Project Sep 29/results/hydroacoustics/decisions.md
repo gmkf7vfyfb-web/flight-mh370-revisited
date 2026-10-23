@@ -1,6 +1,6 @@
 # Hydroacoustics: Pete's rulings and standards, in his own words
 
-*Built 23 Oct 2026 in the hydro clean-up run. Each quote is an exact substring of the cited message; code checked this. Spelling is as Pete wrote it. Source: the transcripts of the 46 hydroacoustic sessions, plus Pete's 23 Oct approval in this session. Rulings made only in other threads (for example the architecture thread) are not in this list. Machine-readable copy: `decisions.json`.*
+*Built 23 Oct 2026 in the hydro clean-up run. Each quote is an exact substring of the cited message; code checked this. Spelling is as Pete wrote it. Source: Pete's messages in the transcripts of the 11 root sessions among the 46 hydroacoustic sessions (sub-agent sessions contain no messages from Pete), plus his 23 Oct approval in session a6559afa. Rulings made only in other threads (for example the architecture thread) are not in this list. Machine-readable copy: `decisions.json`.*
 
 **Rule:** this file holds Pete's words only. Agent proposals are in `proposals.md` and are not rules until Pete approves them.
 
@@ -30,7 +30,7 @@
 | P22 | Airgun shots (H08S) | “only look at energy from the airguns not timing, as the timing is driven by source vessel distance and so will vary” | Hydroacoustic Module Initialization (d74bf70e, msg 1393) |
 | P23 | Airgun shots (H08S) | “for the airgun shots, keep in mind that there can be constructive interference so there's still potential detection.” | Hydroacoustic Module Recovery Redesign (a6559afa, msg 115) |
 | P24 | Airgun shots (H08S) | “the waveform of the source is imprtant and might be idnetifable even if there's a shot present” | Hydroacoustic Module Recovery Redesign (a6559afa, msg 115) |
-| P25 | Coupling | “"Coupling should be a prior range with its sources, and the F-35A is one point inside it. " I agree.” | Hydroacoustic Module Recovery Redesign (a6559afa, msg 156) |
+| P25 | Coupling (Pete quotes the agent's sentence and agrees) | “"Coupling should be a prior range with its sources, and the F-35A is one point inside it. " I agree.” | Hydroacoustic Module Recovery Redesign (a6559afa, msg 156) |
 | P26 | Coupling and energy | “We should have a feasible range of impact energy and a feasible acoustic coupling range informed by theory and by prior examples. If prior example haven't been used say so, say whay, and what needs to be done to use them.” | Hydroacoustic Run Critical Review (a35831fe, msg 2) |
 | P27 | Known events | “If Royer has known events like ice events and those same events show up ar CL, DG or other locations, identify that and mark them as likely known other events therefore not MH370.” | Hydroacoustic Run Critical Review (a35831fe, msg 2) |
 | P28 | Kadri times | “use both and label as 'caption time' and 'text time'” | Hydroacoustic Module Brief Review (676a6e64, msg 48) |

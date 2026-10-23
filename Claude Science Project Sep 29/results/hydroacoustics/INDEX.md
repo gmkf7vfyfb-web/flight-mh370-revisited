@@ -1,6 +1,6 @@
 # Hydroacoustics: index of data, products, notes and defects (generated from the registry)
 
-*Generated from `engine/hypotheses/hydroacoustics/registry/REGISTRY.json` on `hypothesis/hydroacoustics` (hydro-registry v1 (2026-10-23); built 2026-10-23T01:37:44Z; module 590c80f57e9e; work branch fe5cdfd4bbf7; sha256 manifests: yes). Do not edit by hand: change `entries.yaml`, rebuild, regenerate.*
+*Generated from `engine/hypotheses/hydroacoustics/registry/REGISTRY.json` on `hypothesis/hydroacoustics` (hydro-registry v1 (2026-10-23); built 2026-10-23T02:24:47Z; module c9ac5ccddc4d; work branch 81e552601e9b; sha256 manifests: yes). Do not edit by hand: change `entries.yaml`, rebuild, regenerate.*
 
 **How to use.** Find the item below. Read its status and defects. Read its definition (quoted in REGISTRY.json from the cited lines). Use only CURRENT or CURRENT_WITH_CAVEATS items for results, and state the listed defects beside every number. Pete's rulings: `decisions.md`. Proposals that are not yet rules: `proposals.md`.
 
@@ -41,7 +41,7 @@
 | ex.arrival_windows | KNOWN_DEFECT | D01, D02, D07 | `EX:graphics-2026-10-22/arrival-windows` | 70 | 0.082 | EX:graphics-2026-10-22/arrival-windows/README.md L[1, 5] |
 | ex.kadri_package_v2 | KNOWN_DEFECT -> ex.kadri_predictions_v3 | D01, D22, D07 | `EX:kadri-package-v2` | 59 | 0.040 | EX:kadri-package-v2/README.md L[1, 6] |
 | ex.run_j_gated | SUPERSEDED -> ex.run_j_gated_v2 | D22, D01 | `EX:run-j-gated` | 1725 | 9.432 | EX:run-j-gated/README.txt L[1, 7] |
-| ex.run_j_gated_v2 | CURRENT_WITH_CAVEATS | D05, D06, D20, D25 | `EX:run-j-gated-v2` | 835 | 7.484 | EX:run-j-gated-v2/README.txt L[1, 14] |
+| ex.run_j_gated_v2 | CURRENT_WITH_CAVEATS | D01, D05, D06, D20, D25 | `EX:run-j-gated-v2` | 835 | 7.484 | EX:run-j-gated-v2/README.txt L[1, 14] |
 | ex.imos_ram_grid | CURRENT_WITH_CAVEATS |  | `EX:run-j-imos-ram-grid` | 826 | 0.578 | WORK:results/hydroacoustics-imos-ram-grid.md L[3, 9] |
 | ex.injection | CURRENT_WITH_CAVEATS | D05, D06, D22 | `EX:run-j-injection` | 28 | 0.209 | EX:run-j-injection/README.txt L[1, 9] |
 | ex.levels | CURRENT_WITH_CAVEATS | D01, D05, D25 | `EX:run-j-levels` | 107 | 0.510 | EX:run-j-levels/README.md L[1, 10] |
@@ -55,7 +55,7 @@
 | ex.digitisation | CURRENT |  | `EX:run-j-digitisation` | 177 | 0.079 | WORK:results/hydroacoustics-digitised-sources.md L[1, 5] |
 | ex.run_j_tau_eof | CURRENT_WITH_CAVEATS | D23 | `EX:run-j/primary-tau-eof` | 373 | 15.367 | EX:run-j/primary-tau-eof/README.txt L[1, 6] |
 | ex.run_j_tau_scenario | CURRENT_WITH_CAVEATS | D23 | `EX:run-j/sensitivity-tau-scenario` | 373 | 15.367 | EX:run-j/sensitivity-tau-scenario/README.txt L[1, 6] |
-| ex.session_staging_1012 | UNCHECKED |  | `EX:session-staging-2026-10-12` | 41 | 0.000 | NO DEFINITION LOCATED |
+| ex.session_staging_1012 | UNCHECKED |  | `EX:session-staging-2026-10-12` | 32 | 0.000 | NO DEFINITION LOCATED |
 | art.take2_review | CURRENT_WITH_CAVEATS | D10 | `ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md` | 1 | 0.000 | ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md L[1, 24] |
 | art.candidates_withdrawal | CURRENT |  | `ART:a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md` | 1 | 0.000 | ART:a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md L[1, 3] |
 | art.candidates_A_F | WITHDRAWN | D10, D04, D09 | `ART:a35831fe/b5497699_candidates-A-F-summary.csv` | 1 | 0.000 | NO DEFINITION LOCATED |
@@ -84,7 +84,7 @@
 | note.imos_noise | CURRENT |  | `WORK:results/hydroacoustics-imos-noise.md` | 1 | 0.000 | WORK:results/hydroacoustics-imos-noise.md L[1, 4] |
 | note.imos_ram_grid | CURRENT_WITH_CAVEATS | D01 | `WORK:results/hydroacoustics-imos-ram-grid.md` | 1 | 0.000 | WORK:results/hydroacoustics-imos-ram-grid.md L[1, 9] |
 | note.ims_noise_blackman | CURRENT |  | `WORK:results/hydroacoustics-ims-noise-blackman.md` | 1 | 0.000 | WORK:results/hydroacoustics-ims-noise-blackman.md L[1, 8] |
-| note.injection_recovery_run_j | CURRENT_WITH_CAVEATS | D05, D06, D22 | `WORK:results/hydroacoustics-injection-recovery-run-j.md` | 1 | 0.000 | WORK:results/hydroacoustics-injection-recovery-run-j.md L[1, 5] |
+| note.injection_recovery_run_j | CURRENT_WITH_CAVEATS | D01, D05, D06, D22 | `WORK:results/hydroacoustics-injection-recovery-run-j.md` | 1 | 0.000 | WORK:results/hydroacoustics-injection-recovery-run-j.md L[1, 5] |
 | note.item3_injection_recovery | CURRENT_WITH_CAVEATS | D01 | `WORK:results/hydroacoustics-item3-injection-recovery.md` | 1 | 0.000 | WORK:results/hydroacoustics-item3-injection-recovery.md L[1, 7] |
 | note.kadri_package_v2 | KNOWN_DEFECT | D01, D22, D07 | `WORK:results/hydroacoustics-kadri-package-v2.md` | 1 | 0.000 | WORK:results/hydroacoustics-kadri-package-v2.md L[1, 10] |
 | note.kadri_table1_test | CURRENT |  | `WORK:results/hydroacoustics-kadri-table1-test.md` | 1 | 0.000 | WORK:results/hydroacoustics-kadri-table1-test.md L[1, 4] |
@@ -115,27 +115,27 @@
 
 | id | status | defects | path | files | GB | definition source |
 |---|---|---|---|---|---|---|
-| code.module_prepare | CURRENT |  | `MOD:prepare` | 180 | 0.004 | NO DEFINITION LOCATED |
+| code.module_prepare | CURRENT |  | `MOD:prepare` | 162 | 0.004 | NO DEFINITION LOCATED |
 | code.module_engine | CURRENT |  | `MOD:lib.rs` | 1 | 0.000 | MOD:lib.rs L[1, 12] |
 
 ## Defects
 
 | id | defect | what | fixed in this run | affects |
 |---|---|---|---|---|
-| D01 | Old coupling value 2.1e-4 used as the F-35A "upper anchor" | 2.1e-4 is Brown 2026's Arons-equivalent coupling, a different quantity. Under the module definition the F-35A value from Metz 2023 is 2.26e-3 (pending ruling). Every "x F-35A" multiple on 2.1e-4 is 10.8 times too high. | partly: new register gives both multiples; old products keep the label | ex.arrival_windows, ex.kadri_package_v2, ex.levels, ex.ranked, ex.run_j_gated, note.composition_run_j, note.f35a_eta_calibration, note.imos_ram_grid, note.item3_injection_recovery, note.kadri_package_v2, note.overnight_2026_10_22_summary, note.run_j_levels, note.tl_grid_run_j |
+| D01 | Old coupling value 2.1e-4 used as the F-35A "upper anchor" | 2.1e-4 is Brown 2026's Arons-equivalent coupling, a different quantity. Under the module definition the F-35A value from Metz 2023 is 2.26e-3 (pending ruling). Every "x F-35A" multiple on 2.1e-4 is 10.8 times too high. | partly: new register gives both multiples; old products keep the label | ex.arrival_windows, ex.kadri_package_v2, ex.levels, ex.ranked, ex.run_j_gated, ex.run_j_gated_v2, note.composition_run_j, note.f35a_eta_calibration, note.imos_ram_grid, note.injection_recovery_run_j, note.item3_injection_recovery, note.kadri_package_v2, note.overnight_2026_10_22_summary, note.run_j_levels, note.tl_grid_run_j |
 | D02 | Diego Garcia (H08S) detections that coincide with airgun shots were ranked as candidates | 44 of 47 H08S single candidates lie within 1.5 s of a shot in h08s_template_shots.csv (chance about 30 %). The searches note itself said only residual rows are candidates (G-S9). Pete (23 Oct): a shot coincidence is not an exclusion; constructive interference and waveform distortion can still carry a detection. | label + envelope interference test in the new register | ex.arrival_windows, ex.ranked, note.overnight_2026_10_22_summary |
 | D03 | Scott Reef 3250 used in pairs and triples although its path is blocked | 3250 carries no information (blocked path), but it is in most pairs and triples. | check column in new register | ex.ranked |
-| D04 | Detections in bands below the receiver pass band | 2-5 Hz members at IMOS (hardware corner 8 Hz) and on Kadri panels (5 Hz high-pass) cannot be impact sound in that band. Labelled G-S8 in the searches note but kept in the ranking. | check column in new register | art.candidates_A_F, ex.ranked |
+| D04 | Detections in bands below the receiver pass band | 2-5 Hz members at IMOS (hardware corner 8 Hz) and on Kadri panels (5 Hz high-pass) lie where the recording chain strongly attenuates; a detection there is unlikely to be impact sound in that band (a corner attenuates, it does not remove all energy). Labelled G-S8 in the searches note but kept in the ranking. | check column in new register | art.candidates_A_F, ex.ranked |
 | D05 | Detection power measured only on model-matched templates | On the real F-35A arrival the M1b matched filter keeps only 0-3.4 dB of its model-matched gain; every P_D, eta50 and upper limit built on it is optimistic by about 4-10 dB. | no (next work card: real-arrival validation) | ex.injection, ex.kadri_predictions_v3, ex.levels, ex.register_2026_10_23, ex.run_j_gated_v2, ex.weak_signal, note.composition_run_j, note.injection_recovery_run_j, note.overnight_2026_10_22_summary, note.run_j_levels, note.weak_signal_methods |
 | D06 | Stand-in noise backgrounds used without approval | H01W/H08S use IMOS 3376 noise shaped to Blackman medians (proxy); 3315 and 3275 nulls come from the paired logger. Declared, but Pete requires approval for stand-ins. | no (labelled) | ex.injection, ex.register_2026_10_23, ex.run_j_gated_v2, ex.searches, note.composition_run_j, note.injection_recovery_run_j, note.searches_run_j |
-| D07 | Known events (Royer 2016) not removed from candidates | Kadri text time 00:52:03 lies inside Royer's pick bar for icequake A; caption time 00:54:30 is 6 s from Royer event 5; Royer events 6 and 9 predict IMOS 3315 candidates. | known-event check column in new register | ex.arrival_windows, ex.kadri_package_v2, ex.ranked, note.kadri_package_v2, note.overnight_2026_10_22_summary |
+| D07 | Known events (Royer 2016) not removed from candidates | By the DIGITISED Royer marks, Kadri text time 00:52:03 lies inside the H01W-2 pick bar of icequake A (00:51:56.77-00:52:04.52) and caption time 00:54:30 is 5.9 s from the arrow for event 5 (00:54:24.06); Royer events 6 and 9 predict IMOS 3315 rows. Sensitivity: every digitised H01W-2 mark sits +7.7 to +16.6 s after Royer's Table 5 time for that event (other stations within about +/-5 s); against Table 5 the text time is +20 s from icequake A (00:51:42.99) and the caption time +17.6 s from event 5 (00:54:12.44). The figure-versus-table offset is an open question for Royer. "Time-consistent" is not identification. | known-event check column in new register | ex.arrival_windows, ex.kadri_package_v2, ex.ranked, note.kadri_package_v2, note.overnight_2026_10_22_summary |
 | D08 | Coincidences whose direct path to the receiver crosses land | Example: Kadri 00:40:34 row x Portland 3275; 201 of 2,000 path points above sea level in GEBCO 2026. | land-path check column in new register | ex.ranked |
 | D09 | Flight-only Pleiades layer used as if conditional on the Pleiades objects | Early candidate maps used the "post" layer, which is flight-only. | n/a (products withdrawn) | art.candidates_A_F |
 | D10 | Candidates A-F withdrawn | Withdrawn at Pete's instruction, 23 Oct 2026, for six stated reasons. | n/a | art.candidates_A_F, art.feasibility_tables, art.take2_review |
 | D12 | False "closed access / not held" labels on held sources (Metz 2023, Kadri 2019) | Corrected on 22 Oct; the source-access ledger keeps the old label as an audit trail. | already fixed 22 Oct |  |
 | D13 | Kadri crash-panel timing check is exploratory with an incomplete model | Straight geodesic, one speed, no seismic (T-phase) path, inputs not from primary reports, H10S position not from the IMS station file, two events with assumed times. It is NOT evidence that Kadri's panel times are wrong. | relabelled | note.calibration_events_stage1b |
 | D18 | Brief says the F-35A coupling is an "upper bound" because of a shallow channel | The Metz work found the shallow-channel effect +2.9 dB, NOT SUPPORTED at the 3 dB rule. | yes: brief paragraph replaced |  |
-| D20 | Coupling prior bounds 1e-6..1e-2 were an agent choice, not a ruling | Pete ruled 23 Oct that coupling is a prior range with its sources and the F-35A value is one point in it; the bounds are open. | no (ruling needed) | ex.run_j_gated_v2, note.composition_run_j |
+| D20 | Coupling prior bounds 1e-6..1e-2 were an agent choice, not a ruling | Pete ruled 23 Oct that coupling is a prior range with its sources and the F-35A value is one point in it; the bounds are open. The agent-chosen upper bound 1e-2 lies below some F-35A one-factor values in the Metz note (2 m source 5.4e-2; f^-4 roll-off 1.3e-1), so the current prior truncates part of that range. | no (ruling needed) | ex.run_j_gated_v2, note.composition_run_j |
 | D22 | Old IMOS transmission-loss table (constant RAM correction, gap G-TL1) still used | Superseded by imos_tl_ram_arc.csv (RAM along the grid). | no re-run; labelled | ex.injection, ex.kadri_package_v2, ex.run_j_gated, note.injection_recovery_run_j, note.kadri_package_v2 |
 | D23 | TL clamped at the table edge for rows outside the TL latitude span | 11-16 % of run J rows by stratum (17 Oct columns). | already fixed in run-j-gated(-v2) by the whole-arc TL grid | ex.run_j_tau_eof, ex.run_j_tau_scenario |
 | D24 | Searches covered only the pre-registered windows | Held IMOS records outside the windows (for example the CMST 01:34 event) were not searched; free known-event checks were lost. | no (next work card) | ex.register_2026_10_23, ex.searches, note.searches_run_j |
@@ -146,7 +146,7 @@
 
 | id | value | units | status | note | source |
 |---|---|---|---|---|---|
-| eta_F35A_metz | 0.00226 | fraction of impact kinetic energy radiated as sound (module definition) | PENDING_RULING | One point inside the coupling prior (Pete ruling 23 Oct). Single-factor spread 2.8e-4 (tau 0.05 s) to 5.4e-2 (2 m source). | WORK:results/hydroacoustics-metz-f35a-anchor.md L[64, 73] |
+| eta_F35A_metz | 0.00226 | fraction of impact kinetic energy radiated as sound (module definition) | PENDING_RULING | One point inside the coupling prior (Pete ruling 23 Oct). One-factor values in the Metz note table: 2.8e-4 (tau 0.05 s) to 1.3e-1 (f^-4 roll-off); 5.4e-2 at a 2 m source; 3.4e-4 at 30 m; full range over all cases 1.1e-5 to 6.3. | WORK:results/hydroacoustics-metz-f35a-anchor.md L[64, 73] |
 | eta_brown_arons | 0.00021 | Arons-equivalent coupling (different quantity) | RETIRED_AS_ANCHOR | Do not use as the F-35A point for the module definition (10.3 dB low). | WORK:results/hydroacoustics-metz-f35a-anchor.md L[171, 171] |
 | eta_prior_bounds | [1e-06, 0.01] | log-uniform, 41 points | AGENT_CHOICE_NOT_RULED | Pete: coupling is a prior range with its sources; bounds open. | EX:run-j-gated-v2/README.txt L[13, 13] |
 | c_sofar | [1.482, 0.006] | km/s, mean and sd | CURRENT |  | WORK:results/hydroacoustics-searches-run-j.md L[91, 91] |
