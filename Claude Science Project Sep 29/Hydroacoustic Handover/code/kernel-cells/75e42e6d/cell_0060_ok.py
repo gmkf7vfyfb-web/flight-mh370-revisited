@@ -1,2 +1,0 @@
-r = host.mcp(S,"download_file_content",fileId='1_FpHT5nsRBMo9L2808j281wvBRKzQH9l')
-open('src/metron_af447.pdf','wb').write(base64.b64decode(r['content'])); print(os.path.getsize('src/metron_af447.pdf'))

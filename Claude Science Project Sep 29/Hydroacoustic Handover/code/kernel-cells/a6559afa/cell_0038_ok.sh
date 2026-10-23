@@ -1,1 +1,0 @@
-mkdir -p v5 && cp v4/hydro-fix-proposal.md v5/hydro-fix-proposal.md && sed -i '' 's/(proposal v4)/(proposal v5)/' v5/hydro-fix-proposal.md && grep -n "proposal v5" v5/hydro-fix-proposal.md

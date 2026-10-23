@@ -1,1 +1,0 @@
-ls ~/Downloads 2>/dev/null | head -50; echo "---WS---"; ls -la . | head -40

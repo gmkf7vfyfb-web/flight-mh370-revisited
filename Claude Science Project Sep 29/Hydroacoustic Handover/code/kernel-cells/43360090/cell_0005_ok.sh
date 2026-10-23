@@ -1,1 +1,0 @@
-cd "./.tmp/repo/ISO Sept 28 Status/inputs/papers/hydroacoustics"; head -c 4000 brown2026.txt; echo; echo =====; grep -n -i "MJ\|efficien\|Pa \|Pa,\|10−4\|10-4\|×10\|doi.org\|Metz\|MH370\|upper bound\|sound channel\|SOFAR" brown2026.txt | head -80

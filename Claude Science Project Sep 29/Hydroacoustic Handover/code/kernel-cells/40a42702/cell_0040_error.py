@@ -1,2 +1,0 @@
-r = host.exec_peek("50edbad3-6190-4b72-8691-ee5b60e8bdf7"); print(r.get("status")); print((r.get("stdout") or "")[-300:])
-import subprocess; print(open("/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-injection/inputs/inputs.log").read()[-200:])

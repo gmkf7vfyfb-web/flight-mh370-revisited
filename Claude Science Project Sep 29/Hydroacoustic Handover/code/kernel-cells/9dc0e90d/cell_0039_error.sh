@@ -1,1 +1,0 @@
-cd "repo/r/Claude Science Project Sep 29/coordination" && for f in OCEAN_DRIFT PLEIADES OCEAN_TRANSPORT OCEAN_SETTLING SEARCHED_AREAS HYDROACOUSTICS END_OF_FLIGHT CORE_STAGES architecture; do printf "%s: " $f; grep -c "2026-10-17 22:50Z — evidence sweep" $f.md; done; grep -c "<<<<<<<\|>>>>>>>" architecture.md

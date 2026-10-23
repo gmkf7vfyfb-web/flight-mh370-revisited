@@ -1,1 +1,0 @@
-curl -s -m 120 -o hycom/dds.txt -w "%{http_code} %{size_download} %{time_total}\n" "https://tds.hycom.org/thredds/dodsC/GLBv0.08/expt_53.X/data/2014.dds"; head -30 hycom/dds.txt

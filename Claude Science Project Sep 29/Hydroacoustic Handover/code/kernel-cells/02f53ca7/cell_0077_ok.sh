@@ -1,2 +1,0 @@
-cd hydro; export GIT_CONFIG_GLOBAL=/dev/null; git fetch -q origin hypothesis/hydroacoustics 2>/dev/null; git checkout -q origin/hypothesis/hydroacoustics -- "Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data/digitised" 2>&1 | grep -v "failed to store\|config/git" || true
-D="Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data/digitised/blackman2004"; ls "$D"; echo; cat "$D"/README* "$D"/METHOD* 2>/dev/null | head -60; for f in "$D"/*.csv; do echo "== $f"; head -3 "$f"; done 2>/dev/null | head -60

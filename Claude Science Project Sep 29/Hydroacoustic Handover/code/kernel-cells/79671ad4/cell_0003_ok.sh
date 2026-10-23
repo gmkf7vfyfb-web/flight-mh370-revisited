@@ -1,1 +1,0 @@
-cd "repo/Claude Science Project Sep 29"; wc -c results/evidence-sweep-2026-10-17/research-beacons-tpl-simulator-barnacles.md; sed -n 1,200p results/evidence-sweep-2026-10-17/research-beacons-tpl-simulator-barnacles.md | head -c 20000

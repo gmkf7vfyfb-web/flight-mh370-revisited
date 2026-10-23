@@ -1,1 +1,0 @@
-cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"; awk 'NR>=60' prepare/calibration_events.py | grep -n "" | sed -n '1,200p' | grep -v '^[0-9]*:  [A-Z ]' | head -120; head -5 results-data/f35a_cal/f35a_tl.csv; cat results-data/f35a_cal/eta_cal_summary.json | head -40

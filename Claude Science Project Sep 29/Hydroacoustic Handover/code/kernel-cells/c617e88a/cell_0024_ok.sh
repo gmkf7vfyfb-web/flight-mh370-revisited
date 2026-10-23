@@ -1,1 +1,0 @@
-cd repo/"Claude Science Project Sep 29"; ls -R results/hydroacoustics-next-run-b-standin | head -30; cd ../../eof/"Claude Science Project Sep 29"; git log -1 --format="%h %cd"; find . -name "option_posteriors*" -o -name "sweep_summary.py" | head

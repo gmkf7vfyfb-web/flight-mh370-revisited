@@ -1,1 +1,0 @@
-cd v5 && sed -i '' 's/If Pete changes the prior range (section 5), this column/If Pete changes the prior range (section 5a), this column/' hydro-fix-proposal.md && grep -c "section 5a" hydro-fix-proposal.md

@@ -1,1 +1,0 @@
-cd rr/drive; grep -n -i -E "radar" atsb_search_areas.txt | head -40; echo; awk 'NR>=300 && NR<=330' atsb_search_areas.txt; awk 'NR>=1270 && NR<=1300' atsb_search_areas.txt

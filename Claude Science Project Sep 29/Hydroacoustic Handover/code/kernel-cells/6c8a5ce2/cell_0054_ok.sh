@@ -1,1 +1,0 @@
-cd .tmp/standin; sed -i '' 's/textwrap.fill(ste, 250)/textwrap.fill(ste, 228)/; s/textwrap.fill(tech, 262)/textwrap.fill(tech, 240)/; s/fig.text(0.015, 0.215,/fig.text(0.015, 0.225,/; s/fig.text(0.015, 0.14,/fig.text(0.015, 0.135,/' chart_calibration.py; python chart_calibration.py && echo ok

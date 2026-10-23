@@ -1,1 +1,0 @@
-cd gfx && sed -i '' 's/{gH.shape:.1f}/{gH["shape"]:.1f}/; s/{gD.shape:.1f}/{gD["shape"]:.1f}/' charts_air9.py && grep -c 'gH\["shape"\]' charts_air9.py

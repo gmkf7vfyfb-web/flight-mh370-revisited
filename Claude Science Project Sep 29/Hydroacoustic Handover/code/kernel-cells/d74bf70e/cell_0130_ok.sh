@@ -1,1 +1,0 @@
-for d in ice_surface_elevation type_identifier_grid; do curl -s -m 60 "https://dap.ceda.ac.uk/thredds/catalog/bodc/gebco/global/gebco_2026/$d/netcdf/catalog.html" | grep -o -E "dataset=[^'\"]*\.nc" | head -3; done

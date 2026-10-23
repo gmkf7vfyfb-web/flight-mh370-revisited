@@ -1,1 +1,0 @@
-cd repo && P="ISO Sept 28 Status/inputs/papers/hydroacoustics/ucrl-tr-207323.txt"; echo "/$P" >> .git/info/sparse-checkout; timeout 120 git sparse-checkout reapply; grep -n -i -E '4825|4,825|1665|1,665' "$P" | head; 

@@ -1,2 +1,0 @@
-cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"
-cat weak_signal/run_injection.py; echo ====; grep -n "^def \|^FS\|^SENS\|^[A-Z_]* = " imos_noise.py | head -40; echo ====; grep -n "^def \|^[A-Z_]* = " imos_preregistration.py | head -40; echo ===; ls ../results-data/weak_signal/ ; ls /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-weak-signal/

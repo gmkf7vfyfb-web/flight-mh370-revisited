@@ -1,1 +1,0 @@
-cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/searches_run_j"; grep -n -E "w_D|p_factor|0\.5|stride|sample" geometry.py | head -25; grep -n -E "p_core|def ln_w|supp" common_rows.py | head

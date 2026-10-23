@@ -1,2 +1,0 @@
-cd "repo/Claude Science Project Sep 29/results"; ls | grep -i hydroacoustics | head -50; wc -c hydroacoustics-searches-run-j.md hydroacoustics-composition-run-j.md
-grep -n -i -E "eta_needed|η needed|screen|mark |report|label|lag-consistent|locus|33.6|P_D|fits.json" hydroacoustics-searches-run-j.md | head -60

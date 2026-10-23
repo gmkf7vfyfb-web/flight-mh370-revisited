@@ -1,1 +1,0 @@
-D=/Users/pete/Downloads/mh370-ocean-data; ls $D; ls $D/gebco $D/gebco/grid | head; head -c 800 $D/gebco/grid/gebco_2026.json; echo; ls $D/woa23 $D/woa23/soundspeed | head -20; du -sh $D/gebco $D/woa23 2>/dev/null

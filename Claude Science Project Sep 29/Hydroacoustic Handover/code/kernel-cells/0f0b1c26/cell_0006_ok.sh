@@ -1,1 +1,0 @@
-cd "repo/Claude Science Project Sep 29"; R=results/hydroacoustics-digitised-sources.md; wc -l $R; grep -n -i "G6\|G7\b\|G8\|kadri 2017\|AF447\|san juan\|CMST\|published-figures\|closed" $R | head -60

@@ -1,3 +1,0 @@
-curl -s -m 90 "https://wms.gebco.net/mapserv?service=WMS&version=1.3.0&request=GetMap&layers=GEBCO_LATEST_TID&styles=&crs=EPSG:4326&bbox=-37,90,-24,103&width=1000&height=1000&format=image/png" -o dl/gebco_tid_corridor.png -w "%{http_code} %{size_download}\n"
-curl -s -m 90 "https://wms.gebco.net/mapserv?service=WMS&version=1.3.0&request=GetMap&layers=GEBCO_LATEST_TID_2&styles=&crs=EPSG:4326&bbox=-37,90,-24,103&width=1000&height=1000&format=image/png" -o dl/gebco_tid2_corridor.png -w "%{http_code} %{size_download}\n"
-grep -B2 -A12 "GEBCO_LATEST_TID" dl/gebco_caps.xml | grep -iE "Title|Abstract|Name" | head

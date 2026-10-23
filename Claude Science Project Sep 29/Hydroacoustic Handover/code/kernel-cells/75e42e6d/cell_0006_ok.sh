@@ -1,1 +1,0 @@
-cd src; sed -n 4480,4700p sir.txt | grep -v "^ *$" ; echo =========; sed -n 17830,17900p sir.txt | grep -v "^ *$"; echo ====; sed -n 21040,21060p sir.txt | grep -v "^ *$"

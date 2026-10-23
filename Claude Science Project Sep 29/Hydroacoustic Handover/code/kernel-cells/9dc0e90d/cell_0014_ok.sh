@@ -1,1 +1,0 @@
-cd /Users/pete/Downloads/resolution; head -c 2500 agents/alternative_redteam/wspr_validation_protocol.md; echo; echo ====; grep -n -i -A3 "wspr" START-HERE.md | cut -c1-300 | head -20

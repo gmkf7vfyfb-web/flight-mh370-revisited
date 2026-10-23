@@ -1,1 +1,0 @@
-cd hydro/"Claude Science Project Sep 29"/engine/hypotheses/hydroacoustics; cat data/stations.csv; wc -l prepare/*.py prepare/exploratory/*.py | sort -n | tail -45; sed -n 1,60p prepare/exploratory/near_limits_eof289.py

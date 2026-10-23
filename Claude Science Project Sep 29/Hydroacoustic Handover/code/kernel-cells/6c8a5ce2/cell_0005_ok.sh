@@ -1,1 +1,0 @@
-cd .tmp/repo; git ls-tree -r --name-only HEAD | grep -i hydro | grep -v "ISO Sept" | grep -E "\.py$|prereg|calib" | head -60; git log --oneline -1 23add102 2>&1 | head -2

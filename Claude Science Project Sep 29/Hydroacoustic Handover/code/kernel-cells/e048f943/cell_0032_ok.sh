@@ -1,1 +1,0 @@
-ps aux 2>/dev/null | grep "run_j_levels.py draw" | grep -v grep | awk '{print $2, $10, $11, $12, $13, $14, $15, $16, $17}' | cut -c1-200; echo; ls /proc 2>/dev/null | head -2; OUT=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-levels; tail -qn 1 $OUT/logs/draw-*.log; ls $OUT/draws/*/ | wc -l

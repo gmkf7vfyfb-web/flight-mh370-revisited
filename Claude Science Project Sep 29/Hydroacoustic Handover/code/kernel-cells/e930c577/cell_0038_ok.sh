@@ -1,1 +1,0 @@
-cd ~/Downloads/mh370-exchange/end-of-flight/run-j-joined-v2; ls; ls J0011 | head; ls J0011/* | head -20; cat */README* 2>/dev/null | head -40; ls ../../core/ | head; 

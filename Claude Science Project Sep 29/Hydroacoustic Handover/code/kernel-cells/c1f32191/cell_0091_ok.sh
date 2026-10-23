@@ -1,2 +1,0 @@
-cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/composition_run_j" && mkdir -p /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated/stats-ramgrid && B11_STATS_ONLY=1 nohup python driver.py 4 > /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated/stats-ramgrid/driver.out 2>&1 &
-sleep 100; S=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated/stats-ramgrid; tail -3 $S/driver.log; tail -2 $S/_w_run-j-waypoints_1.log; cat $S/driver.out | tail -2

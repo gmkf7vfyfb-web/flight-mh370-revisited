@@ -1,1 +1,0 @@
-cd hycom; curl -s -m 280 -o test.ascii -w "%{http_code} %{size_download} %{time_total}\n" "https://tds.hycom.org/thredds/dodsC/GLBv0.08/expt_53.X/data/2014.ascii?water_u[519:519][0:39][1174:1176][3517:3519]"; head -c 600 test.ascii

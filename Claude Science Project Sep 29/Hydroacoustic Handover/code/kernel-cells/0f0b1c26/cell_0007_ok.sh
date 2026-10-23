@@ -1,1 +1,0 @@
-cd "repo/Claude Science Project Sep 29"; sed -n 1,30p results/hydroacoustics-digitised-sources.md; sed -n 85,125p results/hydroacoustics-digitised-sources.md

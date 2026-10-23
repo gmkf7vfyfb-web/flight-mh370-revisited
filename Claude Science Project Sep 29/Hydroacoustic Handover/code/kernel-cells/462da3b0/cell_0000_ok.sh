@@ -1,1 +1,0 @@
-pwd; ls /Users/pete/Downloads/mh370-exchange/end-of-flight/next-run/ | head -50; cat /Users/pete/Downloads/mh370-exchange/end-of-flight/next-run/README* 2>/dev/null | head -80

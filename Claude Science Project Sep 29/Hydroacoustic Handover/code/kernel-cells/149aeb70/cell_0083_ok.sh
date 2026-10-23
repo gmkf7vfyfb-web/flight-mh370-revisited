@@ -1,1 +1,0 @@
-cd /Users/pete/Downloads/mh370-exchange/end-of-flight && sed 's|/run-i"|/run-i-dive"|; s|run-i-subsample.npz|run-i-dive-subsample.npz|' run-i/subsample.py > run-i-dive/subsample.py && cd run-i-dive && nohup python3 subsample.py > subsample.log 2>&1 & echo launched

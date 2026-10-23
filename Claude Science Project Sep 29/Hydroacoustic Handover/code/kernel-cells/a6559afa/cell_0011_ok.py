@@ -1,2 +1,0 @@
-print(host.query("SELECT sql FROM sqlite_master WHERE name='compaction_archives'")['rows'][0][0])
-print(host.query("SELECT frame_id, count(*) FROM compaction_archives WHERE frame_id IN ('676a6e64-2eac-490f-b67d-6c3f5c82f047','a35831fe-107a-4961-bc9f-e6fd6d255601','d74bf70e-a424-46a9-8149-902d027e782a','0bb05edc-67da-48f0-9322-bf94577b110d') GROUP BY frame_id"))

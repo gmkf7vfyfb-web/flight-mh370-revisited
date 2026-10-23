@@ -1,1 +1,0 @@
-wc -c hydro-fix-proposal.md; grep -c "frames table, model column" hydro-fix-proposal.md; shasum -a 256 hydro-fix-proposal.md | cut -c1-16

@@ -1,1 +1,0 @@
-cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"; sed -n '/^import/,$p' prepare/fetch_imos_background.py | head -60; for p in "IMOS/ANMN/Acoustic/PAPCA/" "IMOS/ANMN/Acoustic/PAPOR/"; do curl -sS -m 60 "https://imos-data.s3-ap-southeast-2.amazonaws.com/?list-type=2&delimiter=/&prefix=$p" | grep -o "<Prefix>[^<]*</Prefix>" | head -30; done

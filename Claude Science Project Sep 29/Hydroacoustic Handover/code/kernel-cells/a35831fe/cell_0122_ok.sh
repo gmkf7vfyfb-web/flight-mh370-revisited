@@ -1,1 +1,0 @@
-cd main; git show "HEAD:Claude Science Project Sep 29/results/pleiades/run-j/README.md" 2>/dev/null | grep -n -i -E "map-D|pre|post|cell mass|flight-only|maps/" | head -30; cat /Users/pete/Downloads/mh370-exchange/pleiades/run-j/reader.py | head -60

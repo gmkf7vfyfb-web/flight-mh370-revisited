@@ -1,1 +1,0 @@
-curl -s -m 30 -I "https://service.iris.edu/fdsnws/station/1/query?net=IM&level=station&format=text" | grep -i -E '^location|^HTTP'

@@ -1,1 +1,0 @@
-cd "main/Claude Science Project Sep 29/results"; grep -n -i -E "energy|GJ|MJ" hydroacoustics-run-j-levels.md | head -40; echo ----; grep -n -i -E "coupling|efficien|Arons|theory|Gaspin|water.entry|bolide|meteor|rocket|booster|example|precedent" hydroacoustics-literature-review.md | head -60

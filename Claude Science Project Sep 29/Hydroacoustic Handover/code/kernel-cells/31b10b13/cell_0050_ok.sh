@@ -1,4 +1,0 @@
-rm -f "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data/ranked_candidates/ranked_multisite.csv"
-cd repo; export GIT_CONFIG_GLOBAL=/dev/null; git fetch -q --depth 1 origin claude-science-sep29 2>/dev/null; git log --oneline -1 origin/claude-science-sep29
-git show "origin/claude-science-sep29:Claude Science Project Sep 29/coordination/HYDROACOUSTICS.md" | tail -40 | cut -c1-400
-ls "Claude Science Project Sep 29/results/" | grep graphics; git ls-tree --name-only -r origin/claude-science-sep29 -- "Claude Science Project Sep 29/results/hydroacoustics-graphics-2026-10-22" | head

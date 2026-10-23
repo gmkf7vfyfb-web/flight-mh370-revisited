@@ -1,1 +1,0 @@
-cd handoff && rm -rf ck18 && mkdir ck18 && cd ck18 && unzip -q ../ckpt18.zip && grep -ril "contrail" . | head -20; echo ---; grep -rih -o ".\{250\}contrail.\{350\}" . | head -30

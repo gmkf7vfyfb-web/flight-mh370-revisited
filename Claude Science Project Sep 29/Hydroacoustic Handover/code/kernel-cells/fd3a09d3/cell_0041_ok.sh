@@ -1,3 +1,0 @@
-OUT=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-tl-grid; tail -2 $OUT/raw/passA.log; date -u; ls $OUT/raw/passA/; du -sh /tmp/tlg_work 2>/dev/null
-python -c "
-import pandas as pd, numpy as np; d=pd.read_csv('$OUT/raw/passA/tl_grid_partial.csv'); print(len(d), d.source_id.nunique(), 'paths'); print(d.groupby(['receiver','status']).size().unstack(fill_value=0)); print('inf tl:', np.isinf(d.tl_db).sum(), d[np.isinf(d.tl_db)][['source_id','receiver','fc_hz','src_depth_m']].head(3).to_string())"

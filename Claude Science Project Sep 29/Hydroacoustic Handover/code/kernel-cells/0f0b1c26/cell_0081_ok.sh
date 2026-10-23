@@ -1,1 +1,0 @@
-cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"; sed -n 85,100p imos_ram_grid.py; ls ../results-data/imos_ram_grid/ | head -3; ls /Users/pete/Downloads/mh370-exchange/hydroacoustics/ | head -40

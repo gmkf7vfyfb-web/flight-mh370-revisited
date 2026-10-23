@@ -1,1 +1,0 @@
-cd repo; grep -n -i "UTC and the impact coordinates\|crash occurred\|occurred around\|UTC" "ISO Sept 28 Status/inputs/papers/hydroacoustics/kadri-S1.txt" | head -30; cat "../hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data/calibration_events/kadri_peaks.csv" | cut -d, -f1-3

@@ -1,2 +1,0 @@
-cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data/digitised/blackman-2004"; sed -n 1,12p fig23_CL_air7_DIGITISED.csv; python -c "
-import json; m=json.load(open('METHOD.json')); print(json.dumps(m,indent=0)[:2500])"; grep -i "air1\|air7" table1_shot_lines.csv

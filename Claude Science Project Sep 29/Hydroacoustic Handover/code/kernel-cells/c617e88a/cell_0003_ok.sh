@@ -1,1 +1,0 @@
-cd repo/"Claude Science Project Sep 29"/coordination; wc -l architecture.md; grep -nE "^#+ .*(~16:30|~19:10|~19:25|~20:00|~20:10|~20:[0-9]{2})" architecture.md | tail -30

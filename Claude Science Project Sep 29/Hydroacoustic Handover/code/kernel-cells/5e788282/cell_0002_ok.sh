@@ -1,1 +1,0 @@
-sed -n 1,400p "/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/artifacts/proj_9cc1a5a85f63/66ee91c0-6262-4642-9158-ce036e97f968/v2f7cb242_hydroacoustics-overnight-2026-10-22-summary.md" | tail -c +6000 | head -c 9000; pwd; df -k /System/Volumes/Data | tail -1

@@ -1,1 +1,0 @@
-cd hycom; while read v u; do curl -s -m 1500 -o $v.sub.ascii -w "$v %{http_code} %{size_download} %{time_total}\n" "$u"; done < urls.txt

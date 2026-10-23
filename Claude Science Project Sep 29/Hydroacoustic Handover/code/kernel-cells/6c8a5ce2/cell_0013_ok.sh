@@ -1,1 +1,0 @@
-cd .tmp/repo/"Claude Science Project Sep 29"/results/hydroacoustics-audit; cat criteria.md; echo ====; cat scripts/sus_tl.py; echo ====; sed -n 1,60p scripts/paths.py

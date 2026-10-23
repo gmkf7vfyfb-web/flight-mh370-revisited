@@ -1,1 +1,0 @@
-cd rr/drive; head -15 bharat_rakshak.txt; grep -n -i -E "radar|car nicobar|port blair|campbell|diglipur|MSSR|PSR|nm|km range|°|N 9|9\.[0-9]+" bharat_rakshak.txt | head -70

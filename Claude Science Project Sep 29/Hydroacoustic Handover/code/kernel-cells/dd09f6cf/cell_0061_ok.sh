@@ -1,5 +1,0 @@
-B="-27.5,99,-24,103.5"
-curl -s -m 90 "https://wms.gebco.net/mapserv?service=WMS&version=1.3.0&request=GetMap&layers=GEBCO_LATEST_TID&styles=&crs=EPSG:4326&bbox=$B&width=900&height=700&format=image/png" -o dl/gebco_tid.png -w "%{http_code} %{content_type} %{size_download}\n"
-curl -s -m 60 "https://wms.gebco.net/mapserv?service=WMS&version=1.3.0&request=GetLegendGraphic&layer=GEBCO_LATEST_TID&format=image/png&sld_version=1.1.0" -o dl/gebco_tid_legend.png -w "%{http_code} %{content_type} %{size_download}\n"
-for p in "-25.732 101.369" "-25.975 101.461" "-26.6 101.0" "-25.3 101.0"; do set -- $p; la=$1; lo=$2; 
-curl -s -m 60 "https://wms.gebco.net/mapserv?service=WMS&version=1.3.0&request=GetFeatureInfo&layers=GEBCO_LATEST_TID&query_layers=GEBCO_LATEST_TID&styles=&crs=EPSG:4326&bbox=$(echo "$la-0.05" | bc),$(echo "$lo-0.05"|bc),$(echo "$la+0.05"|bc),$(echo "$lo+0.05"|bc)&width=101&height=101&i=50&j=50&info_format=text/plain&format=image/png"| head -c 600; echo " <- $la $lo"; done

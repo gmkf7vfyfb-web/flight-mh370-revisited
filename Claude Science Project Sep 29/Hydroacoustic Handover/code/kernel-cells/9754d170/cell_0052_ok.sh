@@ -1,1 +1,0 @@
-cd "audit/hb/ISO Sept 28 Status/inputs/papers/hydroacoustics/"; sed -n 280,300p brown2026.txt; echo ...; sed -n 550,600p brown2026.txt; grep -n "===== PAGE" brown2026.txt | awk -F: '$1<600' | tail -3

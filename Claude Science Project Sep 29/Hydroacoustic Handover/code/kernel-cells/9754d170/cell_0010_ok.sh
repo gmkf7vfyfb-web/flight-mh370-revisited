@@ -1,1 +1,0 @@
-cd "audit/hb/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"; head -3 results-data/shared_env/air9_tl_model.csv; wc -l results-data/shared_env/air9_tl_model.csv; cat results-data/shared_env/air9_tl_summary.json | head -60; head -3 results-data/shared_env/air9_tl_verdicts.csv; sed -n 1,60p prepare/air9_tl_validation.py

@@ -1,1 +1,0 @@
-H="hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"; ls "$H/prepare/injection_recovery_run_j" "$H/prepare/searches_run_j"; wc -c "$H/prepare/injection_recovery_run_j/"*.py; echo; cat "$H/prepare/run_j_driver.py"

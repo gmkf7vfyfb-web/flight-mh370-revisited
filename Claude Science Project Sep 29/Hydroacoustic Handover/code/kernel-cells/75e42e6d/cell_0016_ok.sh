@@ -1,1 +1,0 @@
-cd src; sed -n 3780,3795p ATSB_OpSearch_2017.txt; sed -n 3925,3936p ATSB_OpSearch_2017.txt; echo ====; sed -n 9020,9140p ATSB_OpSearch_2017.txt | grep -v "^ *$"

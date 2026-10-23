@@ -1,1 +1,0 @@
-cd main; git ls-tree -r --name-only HEAD | grep -i -E "views.*v3|compose_v3|australia_v32" | head; timeout 120 git grep -n -E "NY|NX|LAT0|LON0|STEP|lat_edges|lon_edges" HEAD -- "*compose_v3.py" "*views_v3*.py" 2>/dev/null | head -20

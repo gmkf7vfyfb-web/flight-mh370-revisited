@@ -1,1 +1,0 @@
-cd repo; ls "Claude Science Project Sep 29/results/" | grep -i composer-views; ls "Claude Science Project Sep 29/results/composer-views-run-j" 2>/dev/null | head -40

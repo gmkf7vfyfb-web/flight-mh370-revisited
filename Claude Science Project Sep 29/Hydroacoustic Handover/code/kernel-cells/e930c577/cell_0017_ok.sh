@@ -1,1 +1,0 @@
-cd ~/Downloads/mh370-exchange; cat hydroacoustics/run-j/primary-tau-eof/run-j-waypoints/seed-1/COLUMNS.txt; ls -la hydroacoustics/run-j/primary-tau-eof/run-j-waypoints/seed-1/; ls end-of-flight/run-j/run-j-waypoints/seed-1/; cat end-of-flight/run-j/run-j-waypoints/seed-1/COLUMNS.txt | head -150

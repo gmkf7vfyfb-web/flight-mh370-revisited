@@ -1,1 +1,0 @@
-sleep 540; OUT=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-imos-ram-grid; grep -c "ok ram" $OUT/run4_offsets.log; grep "ok ram" $OUT/run4_offsets.log | tail -1; date; df -k /System/Volumes/Data | tail -1 | awk '{print $4/1048576 " GiB free"}'; uptime

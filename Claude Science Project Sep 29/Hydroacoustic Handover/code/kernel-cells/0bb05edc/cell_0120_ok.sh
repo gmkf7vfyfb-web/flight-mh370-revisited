@@ -1,4 +1,0 @@
-cd fix-metz && export GIT_CONFIG_GLOBAL=/dev/null
-P='Claude Science Project Sep 29'
-git grep -n -i -o -E ".{80}(closed[ -]access|paywall[^.]{0,3}|unobtainable|\(closed\)|not open access).{80}" origin/claude-science-sep29 -- "$P/results/hydroacoustics-ground-truth-cases.csv" | cut -c1-330
-git grep -n -i -o -E ".{80}(closed[ -]access|[^n]paywall|unobtainable|\(closed\)|not open access).{80}" origin/hypothesis/hydroacoustics -- "$P/engine/hypotheses/hydroacoustics/results-data/digitised/MANIFEST.csv" "$P/engine/hypotheses/hydroacoustics/results-data/digitised/ground-truth-cases/METHOD.json" | sed "s|^origin/hypothesis/hydroacoustics:$P/engine/hypotheses/hydroacoustics/||" | cut -c1-330

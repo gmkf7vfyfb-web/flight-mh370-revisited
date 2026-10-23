@@ -1,2 +1,0 @@
-cd /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/5e788282-a899-406d-be81-a794b69469f6
-ls /Users/pete/Downloads/mh370-exchange/hydroacoustics/sources/open-access-fetched-2026-10-22/ | head; cp -n articles/10.1038_s41598-018-37626-z.pdf /Users/pete/Downloads/mh370-exchange/hydroacoustics/sources/open-access-fetched-2026-10-22/Kadri_2019_SciRep_9_912_s41598-018-37626-z.pdf; shasum -a 256 articles/10.1038_s41598-018-37626-z.pdf

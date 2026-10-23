@@ -1,2 +1,0 @@
-cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/kadri_package/v2-2026-10-22" && sed -i '' 's/m1b_detected_frac_alpha0.01=float/m1b_detected_frac_alpha0_01=float/' selftest.py && export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 && time python selftest.py /Users/pete/Downloads/mh370-exchange/hydroacoustics/kadri-package-v2/synthetic_triad . 2>&1 | tail -45
-du -sh /Users/pete/Downloads/mh370-exchange/hydroacoustics/kadri-package-v2/synthetic_triad

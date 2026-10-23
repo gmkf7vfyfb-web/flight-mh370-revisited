@@ -1,1 +1,0 @@
-A="audit/repo/Claude Science Project Sep 29/results/hydroacoustics-audit"; cp audit/work/sus/sus_tl.csv "$A/data/sus_tl.csv"; python "$A/scripts/sus_score.py" "$A/data/sus_tl.csv" audit/work/sus/sus_spectra.npz "$A/data"

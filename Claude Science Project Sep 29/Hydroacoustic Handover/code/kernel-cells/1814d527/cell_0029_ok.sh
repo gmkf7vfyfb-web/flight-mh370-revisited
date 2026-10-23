@@ -1,3 +1,0 @@
-cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/kadri_package/v2-2026-10-22" && python build_windows_v2.py /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-windows . && python -c "
-import pandas as pd; d=pd.read_csv('windows.csv'); print(d[d.row_type=='request'][['receiver','branch','p','start_utc','end_utc','d0_q0_5','d0_q99_5','unconverged']].head(12).to_string()); print(d.receiver.value_counts().to_dict())"
-head -5 ../../../data/stations.csv; grep -c . ../../../data/stations.csv

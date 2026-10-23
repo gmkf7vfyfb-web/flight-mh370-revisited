@@ -1,3 +1,0 @@
-cd ~ 2>/dev/null; cd "$OLDPWD"; mkdir -p repo && cd repo
-git ls-remote https://x-access-token:${GITHUB_TOKEN}@github.com/$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" "https://api.github.com/user/repos?per_page=100" | python -c "import sys,json;print([r['full_name'] for r in json.load(sys.stdin) if 'mh370' in r['full_name'].lower()])" | tr -d "[]'" | cut -d, -f1) 2>&1 | head -3
-curl -s -H "Authorization: Bearer $GITHUB_TOKEN" "https://api.github.com/user/repos?per_page=100" | python -c "import sys,json;print([r['full_name'] for r in json.load(sys.stdin) if 'mh370' in r['full_name'].lower()])"

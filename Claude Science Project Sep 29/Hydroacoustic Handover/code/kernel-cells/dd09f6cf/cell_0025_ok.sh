@@ -1,1 +1,0 @@
-cd ~/Downloads/mh370-exchange; for d in debris-drift ocean-transport searched-areas settling; do echo "== $d"; ls $d | head -40; done; du -sh debris-drift ocean-transport 2>/dev/null

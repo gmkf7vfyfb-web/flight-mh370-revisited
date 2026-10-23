@@ -1,1 +1,0 @@
-f=host.findings(); print(f if not isinstance(f,list) else [ (x.get('id'),x.get('status'),str(x.get('summary') or x.get('text'))[:300]) for x in f])

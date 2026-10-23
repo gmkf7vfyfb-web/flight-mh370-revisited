@@ -1,1 +1,0 @@
-OUT=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-tl-grid; grep paths $OUT/raw/passA.log | tail -1; date -u

@@ -1,1 +1,0 @@
-cd ~/Downloads/mh370-exchange/hydroacoustics; cat run-j/primary-tau-eof/README.txt 2>/dev/null | head -40; ls run-j/primary-tau-eof/run-j-waypoints | head; ls run-j/primary-tau-eof/run-j-waypoints/* | head -20; ls sources; ls sources/* | head -60; du -sh sources/* run-i run-j next-run-d-he

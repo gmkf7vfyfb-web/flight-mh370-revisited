@@ -1,1 +1,0 @@
-cd cand && grep -n "Chart 1\|chart 1\|raw\|trace\|band" candidates-A-F-charts-note-2026-10-22.md | head -30; sed -n 1,20p candidates-A-F-charts-note-2026-10-22.md

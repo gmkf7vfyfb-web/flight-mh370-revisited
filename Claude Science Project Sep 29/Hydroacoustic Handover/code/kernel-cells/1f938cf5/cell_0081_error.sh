@@ -1,1 +1,0 @@
-cd hycom; while read v u; do (curl -g -s -m 2400 -o $v.sub.ascii -w "$v %{http_code} %{size_download} %{time_total}\n" "$u" > $v.log) & done < urls.txt; wait; cat *.log

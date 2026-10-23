@@ -1,1 +1,0 @@
-uptime; date; df -k /System/Volumes/Data | tail -1 | awk '{print $4/1048576 " GiB free"}'; ls hydro repo tools | head -5; ls /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-imos-ram-grid/ | tr '\n' ' '

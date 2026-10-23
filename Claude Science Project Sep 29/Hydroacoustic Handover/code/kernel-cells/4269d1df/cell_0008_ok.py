@@ -1,2 +1,0 @@
-r = c.call_command(r'''date -u; uptime; cd ~/mh370/drift; cat runs/arclat-globcurrent-south-1.log; tail -3 runs/arclat-globcurrent-south-1.rss; ls -la runs/arclat-globcurrent-south-1 2>/dev/null; cat arclat/legs.txt; ps -o pid,etime,pcpu,rss,cmd -p 95; cat /sys/fs/cgroup/memory.events''', intent='Check arc-latitude chunk progress on deskstar')
-print(r.stdout[-4000:])

@@ -1,1 +1,0 @@
-cd build/at_src/at/tests; ls; cd Munk && ../../Kraken/kraken.exe MunkK > /dev/null 2>&1; echo rc=$?; grep -n -i -E 'Number of modes|^ *1 +[0-9]' MunkK.prt | head -5; sed -n '/Mode/,+8p' MunkK.prt | head -15

@@ -1,1 +1,0 @@
-find /Users/pete/Downloads -maxdepth 7 -iname "*ucrl*" 2>/dev/null | head; find /Users/pete/Downloads -maxdepth 7 -iname "*blackman*" 2>/dev/null | head

@@ -1,1 +1,0 @@
-p=host.exec_peek("c1bc2f88-4ef1-4f2a-80b7-83322f59ba11"); print(p.get('status')); print(p.get('stdout','')[-800:])

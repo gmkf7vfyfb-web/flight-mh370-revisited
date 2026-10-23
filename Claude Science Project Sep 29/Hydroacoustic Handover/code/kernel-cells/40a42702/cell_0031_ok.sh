@@ -1,2 +1,0 @@
-cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"
-sed -n 60,75p run_j_windows.py | cut -c1-160; sed -n 202,240p run_j_windows.py | cut -c1-200; grep -n "p_core\|P_CORE\|Z_D\|zhat\|ln_Z" run_j_windows.py | head

@@ -1,1 +1,0 @@
-cd "repo/Claude Science Project Sep 29/results/hydroacoustics-audit/"; wc -c *.md; cat criteria.md | head -120; ls gaspin-shuler scripts data | head -60

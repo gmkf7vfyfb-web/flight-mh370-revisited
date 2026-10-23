@@ -1,1 +1,0 @@
-cd repo; git ls-tree -r --name-only HEAD | grep -iE 'kadri|haixun|evidence-sweep|beacon' | grep -v 'v01-share-withdrawn' | head -60

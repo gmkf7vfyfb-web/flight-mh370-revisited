@@ -1,1 +1,0 @@
-ls -la hycom/*.sub.ascii 2>/dev/null; cat hycom/*.log 2>/dev/null

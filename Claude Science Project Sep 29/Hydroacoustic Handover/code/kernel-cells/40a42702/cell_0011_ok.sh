@@ -1,2 +1,0 @@
-cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/weak_signal"
-cat template.py; echo ======; cat bank.py; echo ======; cat template_geometry.json; echo; echo ====== METHODS; sed -n 1,140p methods.py

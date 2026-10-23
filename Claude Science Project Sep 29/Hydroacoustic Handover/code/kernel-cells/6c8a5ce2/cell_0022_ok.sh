@@ -1,1 +1,0 @@
-curl -s -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/repos/gmkf7vfyfb-web/flight-mh370-revisited/commits/8dbefed2 | python -c "import json,sys; d=json.load(sys.stdin); print(d.get('sha','')[:10], d.get('commit',{}).get('message','')[:300]); print([f['filename'][-60:] for f in d.get('files',[])][:5])"

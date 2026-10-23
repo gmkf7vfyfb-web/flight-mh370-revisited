@@ -1,2 +1,0 @@
-ls -la /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-digitisation/ /Users/pete/Downloads/mh370-exchange/hydroacoustics/sources/ 2>/dev/null | head -40
-cd "repo/Claude Science Project Sep 29/results"; grep -i "brown" hydroacoustics-bibliography.csv hydroacoustics-references.md | head -8

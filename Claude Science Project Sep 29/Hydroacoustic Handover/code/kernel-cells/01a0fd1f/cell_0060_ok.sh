@@ -1,1 +1,0 @@
-ls -la rr/royer2016.pdf rr/royer2016.txt rr/mis2014.txt rr/mis2015.txt research-radar-infrasound-ohasisbio.md 2>&1; python -c "import fitz;print(fitz.__doc__)" 2>&1 | head -2

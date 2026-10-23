@@ -1,1 +1,0 @@
-curl -sIL -m 40 "https://www.mot.gov.my/en/MH370%20Investigation%20Report/01-Report/MH370SafetyInvestigationReport.pdf" | grep -iE "^HTTP|content-length|content-type" | head

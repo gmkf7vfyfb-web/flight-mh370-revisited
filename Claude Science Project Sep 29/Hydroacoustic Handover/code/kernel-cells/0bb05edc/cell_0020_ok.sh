@@ -1,1 +1,0 @@
-grep "^Claude Science Project Sep 29" /tmp/metz_all.txt | grep -i -E "closed|not held|unobtain|paywall|obtain|access|GAP|request|secondary|in hand|bought|purchas" | sort -u | cut -c1-260

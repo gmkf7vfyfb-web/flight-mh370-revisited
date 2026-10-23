@@ -1,1 +1,0 @@
-cd repo; git ls-tree -r --name-only HEAD | grep -i -E "coordination|hydroacou" | head -30

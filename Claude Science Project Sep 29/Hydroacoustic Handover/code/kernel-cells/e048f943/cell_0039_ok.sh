@@ -1,1 +1,0 @@
-OUT=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-levels; tail -n 4 $OUT/logs/levels.log; ls $OUT/levels/ | wc -l

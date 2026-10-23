@@ -1,2 +1,0 @@
-a1.set_title('Debris from an impact near the crossing had about a 40 % chance of being missed',loc='left')
-fig.savefig('fig2-surface-search-locality.png',dpi=200); fig.savefig('fig2-surface-search-locality.pdf'); print('ok')

@@ -1,1 +1,0 @@
-cat /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-searches/geometry/run.json | head -c 1500; echo; ls /Users/pete/Downloads/mh370-exchange/hydroacoustics/graphics-2026-10-22 2>&1

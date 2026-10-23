@@ -1,2 +1,0 @@
-H="hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"
-sed -n 1,200p "$H/searches_run_j/detectors.py"; grep -n "TEMPLATES\|IMOS_BANK_RANGES\|FS_D\|IMOS_ROOT\|NULL_STANDIN\|^IMOS\b\|^IMOS =" "$H/searches_run_j/preregistration.py" | head

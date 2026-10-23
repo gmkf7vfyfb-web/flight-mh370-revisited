@@ -1,1 +1,0 @@
-sleep 590; S=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated/stats-ramgrid; tail -1 $S/driver.log; ls $S/_parts | wc -l; grep -c FAILED $S/driver.log; uptime; df -k /System/Volumes/Data | tail -1

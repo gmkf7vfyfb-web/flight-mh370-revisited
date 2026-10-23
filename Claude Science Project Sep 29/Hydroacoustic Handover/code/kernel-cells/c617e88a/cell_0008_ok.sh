@@ -1,1 +1,0 @@
-cd repo; git ls-tree -r --name-only origin/hypothesis/hydroacoustics | grep -iE "hydro|kraken|prepare" | grep -v "\.png$\|\.pdf$" | head -80

@@ -1,3 +1,0 @@
-kill -TERM 80982; sleep 3; for p in 81269 81270 81271 81272 81273 81274 81275; do kill -0 $p 2>/dev/null && kill -TERM $p; done; sleep 2
-for p in 80982 81230 81269 81270 81271 81272 81273 81274 81275 81505 81506 81508 81509 81511 81514 81515; do kill -0 $p 2>/dev/null && echo "$p alive" || echo "$p dead"; done | tr '\n' ' '; echo
-sleep 60; OUT=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-imos-ram-grid; tail -2 $OUT/run.log; uptime

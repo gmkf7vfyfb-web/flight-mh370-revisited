@@ -1,4 +1,0 @@
-ls hydro repo 2>/dev/null | head -3; df -k /System/Volumes/Data | tail -1
-T=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-tl-grid/tables/imos_tl_ram_arc.csv; ls -la $T; head -3 $T; wc -l $T
-export GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null
-cd repo && git -c credential.helper= fetch -q origin claude-science-sep29 2>/dev/null; git log --oneline -3 origin/claude-science-sep29 | cut -c1-150; git diff --stat HEAD origin/claude-science-sep29 -- "Claude Science Project Sep 29/coordination/HYDROACOUSTICS.md" | tail -1; git show origin/claude-science-sep29:"Claude Science Project Sep 29/results/hydroacoustics-imos-ram-grid.md" > /tmp/ramgrid.md 2>/dev/null; wc -c /tmp/ramgrid.md

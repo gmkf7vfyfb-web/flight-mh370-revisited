@@ -1,1 +1,0 @@
-W=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-tlrecal; tail -3 $W/tl.log; echo ---; tail -3 $W/nx2d.log; uptime

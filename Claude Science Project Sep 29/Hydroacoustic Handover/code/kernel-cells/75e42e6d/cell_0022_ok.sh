@@ -1,1 +1,0 @@
-cd src; for f in AMSA_reports ICAO_WP30_Australia Ulich_2018_north25S Fluid_ontologies; do echo "=== $f"; grep -n -i "TPL\|pinger\|sonobuoy\|Tireless\|submarine\|acoustic\|Haixun\|Echo" $f.txt | head -20; done

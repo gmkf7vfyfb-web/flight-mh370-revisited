@@ -1,2 +1,0 @@
-ls /Users/pete/Downloads/mh370-ocean-data/products/ | head -40; ls /Users/pete/Downloads/mh370-ocean-data/products/*air* 2>/dev/null | head; ls /Users/pete/Downloads/mh370-exchange/ocean-transport/ 2>/dev/null; ls /Users/pete/Downloads/mh370-exchange/ocean-transport/paths-calibration/ 2>/dev/null | head -40
-cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"; sed -n '/^def _grid/,$p' nx2d.py | head -120

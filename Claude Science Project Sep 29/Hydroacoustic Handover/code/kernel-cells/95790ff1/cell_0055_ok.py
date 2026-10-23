@@ -1,5 +1,0 @@
-s=open("out/extraction_method.txt").read()
-s=s.replace("In short, about 12 Drive rows assert stations, ranges or\n  explanations that UCRL-TR-207323 does not contain","In short, 9 Drive rows (7, 15, 19, 24-29) give a status, station or range\n  that UCRL-TR-207323 does not support, and row 23 is less specific than the report. A further 8 rows agree on\n  status but cite features not named in UCRL")
-open("out/extraction_method.txt","w").write(s)
-import shutil; shutil.copy("prior/b.zip","out/Blackman_2004_extracted_data_2026-09-27_repaired.zip")
-e=pd.read_csv("out/blackman_2003_events.csv"); print(e[["jd","time_utc_as_printed","appendixB_event_id"]].tail(4).to_string()); print("CROSS-CHECK" in s, "9 Drive rows" in s)

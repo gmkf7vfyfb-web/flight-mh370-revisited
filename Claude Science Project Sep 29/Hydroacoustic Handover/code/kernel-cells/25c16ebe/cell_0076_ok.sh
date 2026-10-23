@@ -1,1 +1,0 @@
-find /Users/pete/Downloads -maxdepth 3 \( -iname "*eof-sims*" -o -iname "*ISO*Status*" -o -iname "*2018-08-19*" \) 2>/dev/null | head; echo "=== large-files ==="; ls /Users/pete/Downloads/mh370-large-files 2>/dev/null | head -20; echo "=== iso readme ==="; head -30 /Users/pete/Downloads/MH370_ISO_UPLOAD_README.md 2>/dev/null

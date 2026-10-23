@@ -1,1 +1,0 @@
-cd src; curl -sS -L -m 120 -o kd.bin -w "%{http_code} %{size_download} %{content_type}\n" "https://drive.google.com/uc?export=download&id=1ZxR_3Y6Ryn-OXyRJ0tjOPSjassZn8ioW"; file kd.bin | head -2; head -c 200 kd.bin | strings | head -3

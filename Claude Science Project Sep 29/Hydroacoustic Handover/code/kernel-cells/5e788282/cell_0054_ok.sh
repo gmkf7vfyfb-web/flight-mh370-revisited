@@ -1,2 +1,0 @@
-python -c "
-import json; m=json.load(open('/Users/pete/Downloads/mh370-ocean-data/woa23/soundspeed_nwpac/woa23_B5C2_m04.json')); print({k:v for k,v in m.items() if k!='depth_m'}, len(m['depth_m']))"; cat /Users/pete/Downloads/mh370-ocean-data/products/hydro-paths-f35a-2019-04/request.json

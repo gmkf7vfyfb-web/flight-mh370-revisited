@@ -1,1 +1,0 @@
-cd /Users/pete/Downloads 2>/dev/null && ls -la | head -50; echo "=== find mh370 dirs ==="; find /Users/pete/Downloads -maxdepth 2 -iname "*mh370*" -o -maxdepth 2 -iname "*Claude Science*" 2>/dev/null | head -40

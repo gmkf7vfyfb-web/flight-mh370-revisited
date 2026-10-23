@@ -1,1 +1,0 @@
-cd "repo/Claude Science Project Sep 29/results/drift-runj-2026-10-17"; wc -l *.py; head -60 compose_drift_runj.py; echo ...; grep -n "def \|np.load\|open(\|json.load" compose_drift_runj.py apply_australia.py | head -60

@@ -1,1 +1,0 @@
-cd src; cat App1.6D_ELT.txt | grep -v "^ *$"; echo =====; grep -n -i "summary\|found that\|per cent\|%\|water\|large\|transport\|airline\|AF447" ATSB_ELT_AR-2012-128.txt | head -60

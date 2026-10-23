@@ -1,3 +1,0 @@
-print(host.query("SELECT sql FROM sqlite_master WHERE name='cell_source_log'")['rows'][0][0][:500])
-q=host.query("SELECT count(*), sum(case when source LIKE '%airgun%' or source LIKE '%shot%' then 1 else 0 end), sum(case when source LIKE '%gebco%' then 1 else 0 end), sum(case when source LIKE '%royer%' then 1 else 0 end) FROM cell_source_log WHERE frame_id='a35831fe-107a-4961-bc9f-e6fd6d255601'")
-print(q['rows'])

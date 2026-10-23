@@ -1,1 +1,0 @@
-cd ~/Downloads/mh370-exchange/end-of-flight/run-j-joined-v2; ls J2241/seed-1; cat summary/joined-s1.txt | head -60; echo; head -c 3000 summary/joined-v2-summary.json; echo; head -c 1500 summary/gate4-s1.json; ls summary/onset-uniform; ps aux | grep -v grep | grep -c mh370

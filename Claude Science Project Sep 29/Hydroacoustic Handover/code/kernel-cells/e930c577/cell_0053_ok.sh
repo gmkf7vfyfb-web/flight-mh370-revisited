@@ -1,1 +1,0 @@
-cat leg/scan.log; ls leg/scan | wc -l

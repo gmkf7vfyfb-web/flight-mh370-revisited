@@ -1,1 +1,0 @@
-cd rr/drive; cat royer.txt; echo; echo ====; grep -n -i -E "indonesia|lhokseumawe|sabang|EK343|emirates|indigo|other traffic|other aircraft|thai|andaman|india|port blair|car nicobar" sir.txt | head -80; head -c 400 sir.txt

@@ -1,1 +1,0 @@
-mkdir -p pod && cd pod && curl -sSL -o natsar2026.pdf "https://www.amsa.gov.au/sites/default/files/2026-03/natsar-manual-2026.pdf" -w "%{http_code} %{size_download}\n"; file natsar2026.pdf; python -c "import fitz" 2>&1 | head -1; which pdftotext

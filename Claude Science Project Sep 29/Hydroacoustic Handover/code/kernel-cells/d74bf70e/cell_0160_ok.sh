@@ -1,1 +1,0 @@
-cd atsrc/at/Kraken; grep -n -i -E 'Profile|EOF|IOStat|DO WHILE|iProf|ReadEnvironment' kraken.f90 | head -20; grep -n -i -E "CASE *\( *'A'|CASE *\( *'F'|CASE *\( *'T'|Thorp|Francois" ../misc/ReadEnvironmentMod.f90 ../misc/AttenMod.f90 | head

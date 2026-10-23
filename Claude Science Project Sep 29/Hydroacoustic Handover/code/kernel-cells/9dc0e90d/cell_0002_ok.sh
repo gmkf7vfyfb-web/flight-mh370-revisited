@@ -1,1 +1,0 @@
-cd repo/r/"Claude Science Project Sep 29"; cat ../../heads.txt; echo ----; grep -n -i -E "evidence|module" ARCHITECTURE.md | head -60 | cut -c1-220

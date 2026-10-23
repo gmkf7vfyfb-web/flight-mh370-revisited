@@ -1,2 +1,0 @@
-python -c "
-import json; s=json.load(open('/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-injection/run/summary.json')); print(s['seconds'], s['loaded'])"; cat /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-injection/run.log; uptime; df -k /System/Volumes/Data | tail -1

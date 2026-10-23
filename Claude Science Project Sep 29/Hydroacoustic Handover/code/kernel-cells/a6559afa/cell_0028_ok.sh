@@ -1,1 +1,0 @@
-W=/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/a35831fe-107a-4961-bc9f-e6fd6d255601; ls $W/review $W/cand | head -60; echo; cd $W/hyd && git log --oneline -3 2>/dev/null; git branch --show-current 2>/dev/null; ls engine/hypotheses/hydroacoustics 2>/dev/null | head -30

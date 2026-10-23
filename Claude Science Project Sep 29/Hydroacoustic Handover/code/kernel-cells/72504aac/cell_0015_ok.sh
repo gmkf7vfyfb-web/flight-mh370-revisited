@@ -1,1 +1,0 @@
-cd repo; export GIT_CONFIG_GLOBAL=/dev/null; git show "HEAD:Claude Science Project Sep 29/engine/crates/mh370/src/output.rs" > /tmp/output.rs 2>/dev/null; grep -n -i -E "routes|trace|final\b|early|columns|route_plans|\"[a-z_]+\"," /tmp/output.rs | head -80

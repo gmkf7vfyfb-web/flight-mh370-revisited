@@ -1,1 +1,0 @@
-for u in "jacc.gov.au/media/releases/2014/april/mr032.aspx" "www.amsa.gov.au/media/documents/25032014_MediaRelease_Update16_MH370.pdf" "www.marine.csiro.au/~griffin/MH370/"; do curl -s -m 30 "https://archive.org/wayback/available?url=$u"; echo; done

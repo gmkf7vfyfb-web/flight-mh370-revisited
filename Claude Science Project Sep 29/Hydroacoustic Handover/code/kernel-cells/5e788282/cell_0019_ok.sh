@@ -1,1 +1,0 @@
-D=/Users/pete/Downloads/mh370-ocean-data/products/hydro-paths-f35a-2019-04; ls -la $D; cat $D/f35a-H11S_meta.json | head -c 2500; echo; head -3 $D/f35a-H11S_bathymetry.csv; head -3 $D/f35a-H11S_soundspeed.csv; ls /Users/pete/Downloads/mh370-ocean-data/woa23/soundspeed_nwpac | head

@@ -1,1 +1,0 @@
-cd "repo/Claude Science Project Sep 29/results/composer-views-run-j"; wc -l *.py; grep -n "def \|seed_terms\|option_table\|q=0.333\|C2 silent\|STRATA\|P_FAMILY\|family_share" views_common.py | head -60

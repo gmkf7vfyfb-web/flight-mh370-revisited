@@ -1,1 +1,0 @@
-cd "eof/Claude Science Project Sep 29/engine/hypotheses/end-of-flight/smoke"; wc -l joined_v2.py slim_impacts.py compact_impacts.py; cat joined_v2.py

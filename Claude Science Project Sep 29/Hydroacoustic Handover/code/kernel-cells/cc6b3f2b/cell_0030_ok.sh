@@ -1,1 +1,0 @@
-ls -la tools/ | head; find tools -name "kraken.exe" -o -name "field.exe" | head; file tools/Kraken/kraken.exe 2>/dev/null || ls tools/Kraken 2>&1 | head -3

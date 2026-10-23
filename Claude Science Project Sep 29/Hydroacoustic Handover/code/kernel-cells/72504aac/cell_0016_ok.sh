@@ -1,2 +1,0 @@
-cd repo; export GIT_CONFIG_GLOBAL=/dev/null; git ls-tree -r --name-only HEAD | grep -E "^Claude Science Project Sep 29/engine/crates/.*\.rs$" > /tmp/rs.txt; wc -l /tmp/rs.txt
-git show "HEAD:Claude Science Project Sep 29/engine/README.md" | grep -n -i -E "routes\.npy|trace\.npy|final\.npy|early\.npy|route sample|trace" | head -30

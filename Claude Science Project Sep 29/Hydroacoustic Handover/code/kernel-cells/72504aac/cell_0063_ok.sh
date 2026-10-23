@@ -1,1 +1,0 @@
-F=/Users/pete/Downloads/mh370-exchange/hydroacoustics/graphics-2026-10-22/ranked/ranked_pairs.csv; ls -la $(dirname $F); wc -l $F; head -1 $F; head -8 $F | cut -c1-600; ls $(dirname $F)/.. 

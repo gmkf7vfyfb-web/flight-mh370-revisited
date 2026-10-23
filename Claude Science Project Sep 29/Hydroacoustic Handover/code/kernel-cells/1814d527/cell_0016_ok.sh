@@ -1,3 +1,0 @@
-P="hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"
-sed -n '1,60p' "$P/weak_signal/template.py"; echo ===== BANK; sed -n '1,80p' "$P/weak_signal/bank.py"; echo ==== METHODS M1b; grep -n "def \|M1b\|envelope" "$P/weak_signal/methods.py" | head -40
-ls -la /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-weak-signal/templates/ | head; cat /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-weak-signal/README.txt | head -40

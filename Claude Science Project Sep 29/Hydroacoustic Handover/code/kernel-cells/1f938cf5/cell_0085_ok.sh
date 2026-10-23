@@ -1,1 +1,0 @@
-cd "repo/Claude Science Project Sep 29/results/kadri-haixun-conditional-2026-10-18"; ls haixun-beacon-physics flight; grep -n -i -E "depth|settl|seabed" SYNTHESIS.md | head -15; grep -rn -i -E "seabed depth|4,5[0-9][0-9] m|4,6[0-9][0-9] m|GEBCO" haixun-beacon-physics/*.md | head -8

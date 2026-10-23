@@ -1,1 +1,0 @@
-cd "repo/ISO Sept 28 Status/inputs/papers/hydroacoustics"; wc -c 3315_3250_3376__MetaData.txt CalibrationNotes.txt; cat 3315_3250_3376__MetaData.txt | head -60

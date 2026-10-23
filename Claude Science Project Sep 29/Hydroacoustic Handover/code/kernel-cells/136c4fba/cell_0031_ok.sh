@@ -1,1 +1,0 @@
-cat /Users/pete/Downloads/mh370-exchange/end-of-flight/run-i-dive/next-i-free/seed-1/COLUMNS.txt | tr ',' '\n' | nl | sed -n 80,115p

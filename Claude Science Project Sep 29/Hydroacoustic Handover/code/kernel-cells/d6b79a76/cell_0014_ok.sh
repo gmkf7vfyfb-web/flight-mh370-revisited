@@ -1,1 +1,0 @@
-cd ~/Downloads/mh370-exchange/end-of-flight; ls bin; head -5 run-j-joined-v2/LOG; grep -rl "joined_v2.py" bin 2>/dev/null; for f in $(grep -rl "joined_v2" bin 2>/dev/null); do echo "== $f"; grep -n "joined_v2\|handoff\|J0011\|J2241" $f | head -20; done; ls ../core/run-j/ ; ls ../core/run-j/run-j-waypoints/bto-bfo/seed-1/ | head

@@ -1,1 +1,0 @@
-cd /Users/pete/Downloads/mh370-exchange/end-of-flight/run-i-dive; echo "=== summary ==="; ls summary; echo; echo "=== stratum seed ==="; ls -la next-i-waypoints | head; echo; ls -la next-i-waypoints/seed-1 2>/dev/null | head -20; echo "=== COLUMNS ==="; find . -name "COLUMNS*" | head -3 | xargs -I{} sh -c 'echo "--- {}"; cat {}'

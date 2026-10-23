@@ -1,1 +1,0 @@
-ls /Users/pete/Downloads | head -30; echo ---; find /Users/pete/Downloads -maxdepth 3 -name "HYDRO*.md" 2>/dev/null | head

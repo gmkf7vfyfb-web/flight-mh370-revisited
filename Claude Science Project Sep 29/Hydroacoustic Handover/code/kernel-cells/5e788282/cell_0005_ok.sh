@@ -1,5 +1,0 @@
-cd /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/5e788282-a899-406d-be81-a794b69469f6
-export GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_NOSYSTEM=1
-cd hydro && git sparse-checkout set "Claude Science Project Sep 29/engine/hypotheses/hydroacoustics" "Claude Science Project Sep 29/coordination" "Claude Science Project Sep 29/threads" ; echo rc=$?; cd ..
-cd repo && git sparse-checkout set --skip-checks "Claude Science Project Sep 29/coordination" "Claude Science Project Sep 29/results" "Claude Science Project Sep 29/threads" "Claude Science Project Sep 29/ARCHITECTURE.md"; echo rc=$?; cd ..
-du -sh hydro repo; ls "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/"; ls "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare" | tr '\n' ' '

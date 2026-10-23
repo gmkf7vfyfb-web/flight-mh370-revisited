@@ -1,1 +1,0 @@
-cd src; curl -v --http1.1 -o /dev/null "https://www.atsb.gov.au/media/5773565/operational-search-for-mh370_final_3oct2017.pdf" --max-time 40 2>&1 | grep -E "^(<|\*) " | head -20

@@ -1,1 +1,0 @@
-cat stage1b/ram.log; uptime

@@ -1,2 +1,0 @@
-cd hydro/"Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"; grep -n "def \|pooled\|np.load\|metadata\|span" run_j_windows_charts.py | head -40; python -c "
-import numpy as np;z=np.load('/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-windows/pooled.npz');print({k:z[k].shape for k in z.files})"

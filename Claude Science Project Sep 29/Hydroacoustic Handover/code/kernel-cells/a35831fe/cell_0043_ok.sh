@@ -1,2 +1,0 @@
-ls -la /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-searches/geometry/ 2>&1 | head; python -c "
-import numpy as np; d=np.load('/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-searches/geometry/sample.npz'); print({k:d[k].shape for k in d.files})"

@@ -1,1 +1,0 @@
-cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data"; ls; echo; head -20 pair_tests/pair_sources.csv | cut -c1-500; ls pair_tests searches_run_j composition_run_j composition_run_j/v2 2>/dev/null | head -60

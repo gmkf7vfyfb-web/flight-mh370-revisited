@@ -1,1 +1,0 @@
-cd "repo/Claude Science Project Sep 29"; wc -l coordination/OCEAN_SETTLING.md threads/master-prompts/settling.md ARCHITECTURE.md; tail -c 9000 coordination/OCEAN_SETTLING.md

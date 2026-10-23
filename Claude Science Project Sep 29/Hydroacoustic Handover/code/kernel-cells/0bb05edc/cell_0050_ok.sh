@@ -1,1 +1,0 @@
-sed -n '71,137p' /tmp/hits_sep29.txt | cut -c1-300

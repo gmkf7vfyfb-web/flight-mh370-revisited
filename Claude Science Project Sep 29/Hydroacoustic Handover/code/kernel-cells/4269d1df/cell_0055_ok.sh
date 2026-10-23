@@ -1,1 +1,0 @@
-cd "repo/Claude Science Project Sep 29/results/kadri-haixun-conditional-2026-10-18/sources-sightings"; sed -n 20,60p sources-sightings-dossier.md; sed -n 108,140p sources-sightings-dossier.md; cat contact_geometry.json | head -c 1500

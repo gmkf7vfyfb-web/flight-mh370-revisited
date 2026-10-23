@@ -1,1 +1,0 @@
-cd repo; git sparse-checkout list; ls "Claude Science Project Sep 29/coordination/" | grep kadri; f=/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/artifacts/proj_9cc1a5a85f63/9edc3c46-2821-4762-835a-0214ee65b30a/v7cc6bf71_kadri_geom.py; grep -n -i -E "geod|pyproj|def |^import|^from|6371|6378" $f | head -30

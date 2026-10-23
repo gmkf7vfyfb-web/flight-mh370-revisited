@@ -1,1 +1,0 @@
-ls -la /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-digitisation/sources/ 2>&1 | head -30; cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data/digitised"; ls; ls ground-truth-cases | head -50; ls ground-truth-cases/* | head -80

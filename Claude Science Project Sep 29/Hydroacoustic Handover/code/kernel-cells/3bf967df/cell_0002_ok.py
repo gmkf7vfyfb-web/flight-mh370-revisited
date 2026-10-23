@@ -1,1 +1,0 @@
-print(host.query("SELECT sql FROM sqlite_master WHERE name='memories'"))

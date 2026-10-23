@@ -1,2 +1,0 @@
-H="hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"
-sed -n 1,60p "$H/prepare/searches_run_j/panel_search.py"; ls "$H/data/kadri_fig9_digitised"; ls /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-searches/null

@@ -1,1 +1,0 @@
-cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/kadri_package/v2-2026-10-22" && OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 python build_predictions_v2.py . > /tmp/kp_build.log 2>&1; tail -5 /tmp/kp_build.log; ls -la predictions.csv

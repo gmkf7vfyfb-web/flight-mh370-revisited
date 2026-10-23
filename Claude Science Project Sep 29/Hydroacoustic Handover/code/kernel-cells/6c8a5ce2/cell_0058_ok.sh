@@ -1,1 +1,0 @@
-cd .tmp/repo/"Claude Science Project Sep 29"/results; grep -n -i -B1 -A6 "F7" hydroacoustics-audit-architecture.md | head -40; grep -rn -i "band_fraction\|F7" ../coordination/architecture.md | grep -i hydro | cut -c1-250 | tail -5

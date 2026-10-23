@@ -1,1 +1,0 @@
-cd repo; git log --oneline -5 origin/hypothesis/hydroacoustics; git diff --stat origin/claude-science-sep29...origin/hypothesis/hydroacoustics | tail -60

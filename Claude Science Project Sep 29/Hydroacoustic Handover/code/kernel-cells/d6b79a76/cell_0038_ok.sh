@@ -1,1 +1,0 @@
-cat kh/run.log; lockf -t 0 /tmp/.mh370-heavy.lock echo FREE || echo HELD; uptime

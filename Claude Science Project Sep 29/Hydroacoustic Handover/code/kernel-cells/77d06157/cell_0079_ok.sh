@@ -1,1 +1,0 @@
-ls gfx/charts_traces.py && grep -c "14-day background median" gfx/charts_traces.py

@@ -1,2 +1,0 @@
-cd hyd 2>/dev/null || cd main; pwd; git log -1 --oneline
-grep -rniE "bearing.{0,40}(sigma|sd|std|uncert|±|\+/-)|(sigma|sd|std|uncert).{0,30}bearing|azimuth.{0,30}(sigma|uncert|std)" --include=*.py --include=*.md --include=*.toml --include=*.csv . 2>/dev/null | grep -v "^Binary" | cut -c1-260 | head -40

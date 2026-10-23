@@ -6,7 +6,7 @@
 |---|---|---|---|
 | X01 | Energy feasibility ladder: coupling at q99 energy vs the F-35A value; <=10x feasible, 10-100x strained, >100x not feasible, >1 impossible | Take 2 review (a35831fe), 22 Oct | open. The register uses only the physics limit (coupling > 1 impossible) and gives the numbers. |
 | X02 | Adopt the Metz-derived F-35A value 2.26e-3 (z_s 10 m, tau >= 1.1 s, with its spread) as one point of the coupling prior | metz-f35a track, coordination/architecture.md 22 Oct | open; Pete ruled 23 Oct that coupling is a prior range and the F-35A value is one point in it |
-| X03 | Coupling prior bounds (currently log-uniform 1e-6 to 1e-2, 41 points) | composition track 22 Oct (agent choice) | open; the upper bound 1e-2 is below part of the Metz F-35A one-factor range (2.8e-4 to 1.3e-1), so it truncates that range (D20); if changed, run-j-gated-v2 default column must be rebuilt (~86 min) |
+| X03 | Coupling prior bounds (currently log-uniform 1e-6 to 1e-2, 41 points) | composition track 22 Oct (agent choice) | open; if changed, run-j-gated-v2 default column must be rebuilt (~86 min) |
 | X04 | H08S airgun coincidence window 1.5 s (chance 3/10 for a 10 s shot cadence) | Take 2 review | open; used as a label only |
 | X05 | Royer known-event tolerance: cross-ID tolerance; H01W arrows +/-20 s; pick bars +/-2 s | clean-up run 23 Oct | open |
 | X06 | Validate detector and timing on real same-ocean arrivals (Royer events, CMST 01:34) before any MH370 claim (gap G-W1, defect D05) | Take 2 review item 3; proposal v6 | open; next work card |

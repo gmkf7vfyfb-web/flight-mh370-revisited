@@ -1,3 +1,0 @@
-cd repo/"Claude Science Project Sep 29"; ls results/hydroacoustics-run-c-windows.md results/hydroacoustics-core-set-windows.md; sed -n 1,50p results/hydroacoustics-run-c-windows.md | cut -c1-400
-grep -rn -i "versus end of flight\|coverage versus" results/*.md coordination/*.md 2>/dev/null | head -5
-grep -rn -i "Fig. 9 windows converted\|arc points" coordination/HYDROACOUSTICS.md coordination/architecture.md | head -5

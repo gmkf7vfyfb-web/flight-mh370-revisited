@@ -1,1 +1,0 @@
-mkdir -p "repo/Claude Science Project Sep 29/results/kadri-haixun-conditional-2026-10-18/haixun-beacon-physics"; python -c "import scipy,numpy,matplotlib;print(scipy.__version__,numpy.__version__,matplotlib.__version__)"; nproc 2>/dev/null || sysctl -n hw.ncpu; df -h ~ | tail -1

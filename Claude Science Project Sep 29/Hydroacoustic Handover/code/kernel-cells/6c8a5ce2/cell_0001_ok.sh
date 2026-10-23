@@ -1,1 +1,0 @@
-cd .tmp/repo; git sparse-checkout set --no-cone "/Claude Science Project Sep 29/coordination/" "/Claude Science Project Sep 29/results/" "/Claude Science Project Sep 29/*.md" 2>&1|grep -v config|tail -2; S="Claude Science Project Sep 29"; ls "$S"; ls "$S/coordination"; ls "$S/results" | grep -i hydro

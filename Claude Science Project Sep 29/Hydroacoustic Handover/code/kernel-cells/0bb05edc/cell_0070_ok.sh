@@ -1,5 +1,0 @@
-cd /Users/pete/Downloads/flight-mh370-revisited
-H=origin/hypothesis/hydroacoustics; P='Claude Science Project Sep 29'
-git grep -n -i -E "closed[ -]access|paywall|not held|NOT held|unobtainable|\(closed\)|closed\)|, closed" $H -- "$P/engine/hypotheses/hydroacoustics" "$P/engine/README.md" "$P/engine/AGENTS.md" | sed "s|^$H:$P/||" | grep -v -i "raw\|waveforms are not held\|IMS data" | cut -c1-380
-echo "--- identical blobs sep29 vs module branch?"
-for f in results/hydroacoustics-bibliography.csv results/hydroacoustics-references.md results/hydroacoustics-literature-review.md results/hydroacoustics-prior-work-critique.md threads/master-prompts/hydroacoustics.md coordination/HYDROACOUSTICS.md coordination/architecture.md; do a=$(git rev-parse origin/claude-science-sep29:"$P/$f" 2>/dev/null|cut -c1-8); b=$(git rev-parse $H:"$P/$f" 2>/dev/null|cut -c1-8); echo "$f sep29=$a hydro=$b"; done

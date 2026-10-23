@@ -1,3 +1,0 @@
-cd src
-for u in "https://www.atsb.gov.au/media/5773565/operational-search-for-mh370_final_3oct2017.pdf" "https://apo.org.au/sites/default/files/resource-files/2017-10/apo-nid112656.pdf" "https://www.atsb.gov.au/media/5243942/ae-2014-054_mh370_-_definition_of_underwater_search_areas_18aug2014.pdf" "https://www.atsb.gov.au/media/5164309/AE-2014-054_MH370_-_Definition_of_Underwater_Search_Areas_26Jun2014.pdf"; do
- f=$(basename "$u"); curl -sS -L --http1.1 -o "$f" -w "%{http_code} %{size_download} $f\n" "$u" --max-time 180 2>&1 | tail -1; done; file *.pdf | cut -c1-150

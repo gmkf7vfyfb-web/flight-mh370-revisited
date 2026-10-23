@@ -1,1 +1,0 @@
-W=/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/d74bf70e-a424-46a9-8149-902d027e782a; ls -la $W | head -60; ls /Users/pete/Downloads/mh370-exchange/; ls /Users/pete/Downloads/mh370-exchange/end-of-flight/next-run/next-free/seed-1 /Users/pete/Downloads/mh370-exchange/end-of-flight/next-run/summary

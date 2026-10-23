@@ -1,1 +1,0 @@
-cd /Users/pete/Downloads; find . -maxdepth 4 -iname "*.pdf" 2>/dev/null | grep -iE "sir|safety|atsb|definition|search|ae-2014|9m-mro|mh370|report|ohasis|royer|csiro|blackman|ucrl|infrasound" | head -60

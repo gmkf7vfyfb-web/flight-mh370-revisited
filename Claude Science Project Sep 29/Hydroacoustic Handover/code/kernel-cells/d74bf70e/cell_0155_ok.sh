@@ -1,1 +1,0 @@
-mkdir -p atsrc && cd atsrc && curl -s -m 600 -o at.zip http://oalib.hlsresearch.com/AcousticsToolbox/at_2026_8_29.zip && shasum -a 256 at.zip | cut -c1-64 && unzip -q -o at.zip 'at/KrakenField/*' 'at/misc/*' 'at/Kraken/*.f90' 'at/tests/Munk/*' 'at/tests/MunkLeaky/*' 2>/dev/null; ls at/KrakenField at/misc | head -40

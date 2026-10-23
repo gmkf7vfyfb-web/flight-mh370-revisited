@@ -1,1 +1,0 @@
-cd "repo/Claude Science Project Sep 29"; grep -n "^## " coordination/OCEAN_DRIFT.md | tail -4; git log --oneline -3 -- coordination/OCEAN_DRIFT.md threads/master-prompts/ocean-drift.md; tail -c 2500 coordination/OCEAN_DRIFT.md

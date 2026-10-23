@@ -1,1 +1,0 @@
-export HOME=$PWD/h XDG_CONFIG_HOME=$PWD/h/.config; cd repo; git sparse-checkout add "/Claude Science Project Sep 29/engine/.sources/inmarsat-ephemeris/" 2>&1|tail -1; ls "Claude Science Project Sep 29/engine/.sources/inmarsat-ephemeris/"; sed -n 30,200p "Claude Science Project Sep 29/engine/report/satcom_model.py" | grep -n "^def \|ERA5\|era5" | head -20

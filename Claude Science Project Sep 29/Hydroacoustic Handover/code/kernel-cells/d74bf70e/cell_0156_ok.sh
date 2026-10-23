@@ -1,1 +1,0 @@
-cd atsrc/at; sed -n 1,140p KrakenField/field.f90 | grep -v '^ *!' | head -120; echo =====RWSHD; grep -n -A40 'SUBROUTINE WriteHeader' misc/RWSHDFile.f90 | head -60; grep -n -A12 'SUBROUTINE WriteField' misc/RWSHDFile.f90

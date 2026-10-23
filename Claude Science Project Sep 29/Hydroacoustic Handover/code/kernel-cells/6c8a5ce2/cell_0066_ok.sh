@@ -1,1 +1,0 @@
-cd .tmp/standin; sed -i '' 's/"next-c-descent-climb": "descent-climb",/"next-c-descent-climb": "descent-\\nclimb",/' chart_tau.py; sed -i '' "s/names\[st\].replace(chr(10), ' ')/names[st].replace(chr(10), ' ').replace('- ', '-')/" chart_tau.py; python chart_tau.py full_tau/summary.json "32 seeds; open: prior, filled: model" && echo ok; grep -n "replace(chr" chart_tau.py | head -2

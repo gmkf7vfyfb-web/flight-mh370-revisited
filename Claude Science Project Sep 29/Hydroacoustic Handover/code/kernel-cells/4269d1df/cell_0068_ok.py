@@ -1,2 +1,0 @@
-r=c.call_command('''rm -f "$HOME/mh370/drift/repo/Claude Science Project Sep 29/engine/hypotheses/debris-drift/kadri-"*.toml; ls "$HOME/mh370/drift/repo/Claude Science Project Sep 29/engine/hypotheses/debris-drift/" | grep -c kadri; pgrep -af mh370_hypotheses | cut -c1-150''', intent='Remove leftover Kadri parse-check config from deskstar drift tree')
-print(r.stdout)

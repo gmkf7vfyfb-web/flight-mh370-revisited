@@ -1,1 +1,0 @@
-export XDG_CONFIG_HOME=$PWD/.xdg; cd repo; git -c credential.helper= fetch -q https://x-access-token:${GITHUB_TOKEN}@github.com/gmkf7vfyfb-web/flight-mh370-revisited.git claude-science-sep29 2>&1|tail -1; git log -1 --format="%H %s" FETCH_HEAD | cut -c1-120; git remote -v | head -1 | sed 's/x-access-token:[^@]*@/***@/'

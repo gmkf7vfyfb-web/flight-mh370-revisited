@@ -1,1 +1,0 @@
-find /Users/pete/Downloads -maxdepth 4 -iname "*Archive ISO*" 2>/dev/null | head; find /Users/pete/Downloads -maxdepth 9 -ipath "*figure-extraction*" 2>/dev/null | head; find /Users/pete/Downloads -maxdepth 9 -iname "*figure9*" -o -maxdepth 9 -iname "*fig9*" 2>/dev/null | head

@@ -1,1 +1,0 @@
-ls -la drafts 2>&1 | head -3; rm -f drafts; mkdir -p drafts2 && cp /tmp/tlg_charts_A/*.png drafts2/ && ls drafts2

@@ -1,1 +1,0 @@
-cd rr; grep -o -m3 -E "https?://mh370\.radiantphysics\.com/[^ ]*" drive/ig_malacca.txt | head; curl -s -o /dev/null -m 30 -w "%{http_code}\n" "https://mh370.radiantphysics.com/2017/02/21/possible-paths-of-mh370-in-the-malacca-strait/"

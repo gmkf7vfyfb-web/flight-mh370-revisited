@@ -1,1 +1,0 @@
-export HOME=$PWD/home XDG_CONFIG_HOME=$PWD/home/.config; cd repo; git pull -q --rebase 2>&1 | grep -v "failed to store"; git log --oneline -3; cd "Claude Science Project Sep 29"; tail -c 1500 coordination/OCEAN_SETTLING.md; echo; ls results/kadri-haixun-conditional-2026-10-18/ 2>/dev/null; grep -n -i "settl" coordination/architecture.md | tail -5

@@ -1,1 +1,0 @@
-cd "./.tmp/repo/ISO Sept 28 Status/inputs/papers/hydroacoustics"; head -c 3500 ucrl-tr-207323.txt; echo; echo ====; grep -n -i "air8\|air9\|air 8\|air 9\|not detected\|transmission loss\|blockage\|blocked\|H01\|Cape Leeuwin\|SUS\|source level\|model\|travel time\|error" ucrl-tr-207323.txt | cut -c1-220 | head -90

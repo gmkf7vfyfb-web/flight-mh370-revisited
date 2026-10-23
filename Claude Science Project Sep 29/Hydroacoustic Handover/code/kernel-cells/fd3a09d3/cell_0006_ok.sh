@@ -1,3 +1,0 @@
-cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"
-ls prepare | tr '\n' ' '; echo; echo ---; ls data data/imos results-data | head -60; echo ---
-wc -l prepare/shared_paths.py prepare/kraken_tl.py prepare/nx2d.py prepare/air9_tl_validation.py prepare/per_impact_lnl.py prepare/kadri_predictions.py prepare/imos_noise.py prepare/blackman_noise.py prepare/imos_stageB_tl.py prepare/air8_negative_control.py prepare/search_windows.py

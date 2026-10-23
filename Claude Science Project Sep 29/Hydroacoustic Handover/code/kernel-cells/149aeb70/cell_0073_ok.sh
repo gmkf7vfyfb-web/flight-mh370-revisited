@@ -1,1 +1,0 @@
-sed -n '1,80p' /Users/pete/Downloads/mh370-exchange/end-of-flight/run-i/next-i-free/seed-1/COLUMNS.txt

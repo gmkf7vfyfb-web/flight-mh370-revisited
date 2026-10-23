@@ -1,1 +1,0 @@
-ls -la hycom/ | grep -E "sub|log"; cat hycom/*.log 2>/dev/null

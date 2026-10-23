@@ -1,1 +1,0 @@
-cd /Users/pete/Downloads/mh370-ocean-data; ls globcurrent globcurrent/* | head -20; ls glorys12 | head; ls era5 | head; ls gshhg; ls -la /tmp/.mh370-heavy.lock 2>&1; ps aux | grep -E "lockf|mh370|cargo" | grep -v grep | head; sysctl -n hw.ncpu; uptime

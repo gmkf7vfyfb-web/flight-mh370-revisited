@@ -1,1 +1,0 @@
-cd "settl/Claude Science Project Sep 29/engine/hypotheses/settling/"; grep -n -i -E "diffusiv|uniform-offset|kappa|K_m2|m2/s|m2_s" *.rs *.toml | head -20; ls -la ~/Downloads/mh370-settling-work/hycom* 2>/dev/null; ls -la $OLDPWD/hycom 2>/dev/null; python -c "import gsw" 2>&1 | tail -1

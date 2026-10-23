@@ -1,1 +1,0 @@
-cd .tmp/repo; git sparse-checkout add "/Claude Science Project Sep 29/results/eof-impact-tau*" 2>&1 | grep -v config; ls "Claude Science Project Sep 29/results/" | grep -i tau; f="Claude Science Project Sep 29/results/eof-impact-tau-method-oct11.md"; wc -l "$f"; cat "$f" | head -150; git log --oneline -3 -- "$f" 2>/dev/null; git show 8dbefed2 --stat 2>&1 | head -5

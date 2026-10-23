@@ -1,1 +1,0 @@
-grep -n -i -E "geod|pyproj|def |import|haversine|6371" "repo/Claude Science Project Sep 29/coordination/kadri_geom.py" | head -30; python -c "import pyproj;print(pyproj.__version__)"

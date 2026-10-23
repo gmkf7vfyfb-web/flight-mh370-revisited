@@ -1,1 +1,0 @@
-cd /Users/pete/Downloads/mh370-inputs/hydroacoustics/imos/MH370; head -c 1500 IMOSFilesLocation3315.txt; echo; head -c 600 IMOSFilesLocation3376.txt; echo; B="https://imos-data.s3-ap-southeast-2.amazonaws.com/"; curl -sS -m 60 "${B}IMOS/ANMN/Acoustic/metadata/update.20191119-110328.csv" | grep -E "3315|3275|3318|3376" | head -8

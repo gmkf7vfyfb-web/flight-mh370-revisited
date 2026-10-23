@@ -1,1 +1,0 @@
-print(r if isinstance(r,str) else r)

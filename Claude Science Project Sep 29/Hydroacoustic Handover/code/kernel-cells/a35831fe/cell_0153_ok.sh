@@ -1,1 +1,0 @@
-cd "hyd/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/searches_run_j"; sed -n 1,40p geometry.py | cut -c1-220; grep -n "w_D\|weight\|w_" geometry.py | head -20 | cut -c1-220

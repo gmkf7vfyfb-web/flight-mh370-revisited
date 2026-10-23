@@ -1,2 +1,0 @@
-exec(open("gfx/charts_table.py").read()); style()
-r,df=chart7("chart07-hypothesis-table","chart07-hypothesis-table.csv"); print(df.loc[df.row=="G",["implied_position","implied_impact_utc","az_H01W_recomputed","az_H08S_recomputed","lag_s"]].to_string())

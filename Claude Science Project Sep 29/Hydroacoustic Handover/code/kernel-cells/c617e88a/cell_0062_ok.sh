@@ -1,1 +1,0 @@
-cd work/standin-scripts; sed -i '' 's/    want = \["weight", "family",/    want = ["weight", "parent", "family",/' rhyd_result.py; grep -n 'want = ' rhyd_result.py; python -c "import ast;ast.parse(open('rhyd_result.py').read())"

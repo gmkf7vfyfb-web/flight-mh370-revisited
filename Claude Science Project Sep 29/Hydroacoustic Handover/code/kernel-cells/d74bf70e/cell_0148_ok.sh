@@ -1,1 +1,0 @@
-cd repo && git show c2a0931 -- "Claude Science Project Sep 29/coordination/architecture.md" | sed -n '/^+/p' | cut -c2- | grep -v '^++' | sed -n '1,101p' | grep -n -i -E 'initiative|disk|budget|floor|hold|H1|H2|H3|lock|RAYON|thread|hydro|three lines|done|blocker|prior' | cut -c1-260 | head -40; df -g . | tail -1

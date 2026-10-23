@@ -1,10 +1,10 @@
 # Hydroacoustics: index of data, products, notes and defects (generated from the registry)
 
-*Generated from `engine/hypotheses/hydroacoustics/registry/REGISTRY.json` on `hypothesis/hydroacoustics` (hydro-registry v1 (2026-10-23); built 2026-10-23T02:53:11Z; module 394707d5e25a; work branch 2a6f73e24a7e; sha256 manifests: yes). Do not edit by hand: change `entries.yaml`, rebuild, regenerate.*
+*Generated from `engine/hypotheses/hydroacoustics/registry/REGISTRY.json` on `hypothesis/hydroacoustics` (hydro-registry v1 (2026-10-23); built 2026-10-23T05:47:35Z; module 441feb2e30dd; work branch 74c87111e183; sha256 manifests: yes). Do not edit by hand: change `entries.yaml`, rebuild, regenerate.*
 
 **How to use.** Find the item below. Read its status and defects. Read its definition (quoted in REGISTRY.json from the cited lines). Use only CURRENT or CURRENT_WITH_CAVEATS items for results, and state the listed defects beside every number. Pete's rulings: `decisions.md`. Proposals that are not yet rules: `proposals.md`.
 
-**Status counts:** CURRENT 42, CURRENT_WITH_CAVEATS 23, KNOWN_DEFECT 5, PENDING_RULING 2, SUPERSEDED 3, UNCHECKED 3, WITHDRAWN 2
+**Status counts:** CURRENT 42, CURRENT_WITH_CAVEATS 29, KNOWN_DEFECT 5, PENDING_RULING 2, SUPERSEDED 6, UNCHECKED 3, WITHDRAWN 2
 
 ## Status values
 
@@ -41,7 +41,7 @@
 | ex.arrival_windows | KNOWN_DEFECT | D01, D02, D07 | `EX:graphics-2026-10-22/arrival-windows` | 70 | 0.082 | EX:graphics-2026-10-22/arrival-windows/README.md L[1, 5] |
 | ex.kadri_package_v2 | KNOWN_DEFECT -> ex.kadri_predictions_v3 | D01, D22, D07 | `EX:kadri-package-v2` | 59 | 0.040 | EX:kadri-package-v2/README.md L[1, 6] |
 | ex.run_j_gated | SUPERSEDED -> ex.run_j_gated_v2 | D22, D01 | `EX:run-j-gated` | 1725 | 9.432 | EX:run-j-gated/README.txt L[1, 7] |
-| ex.run_j_gated_v2 | CURRENT_WITH_CAVEATS | D01, D05, D06, D20, D25 | `EX:run-j-gated-v2` | 835 | 7.484 | EX:run-j-gated-v2/README.txt L[1, 14] |
+| ex.run_j_gated_v2 | SUPERSEDED -> ex.run_j_gated_v3 | D01, D05, D06, D20, D25, D27 | `EX:run-j-gated-v2` | 836 | 7.484 | EX:run-j-gated-v2/README.txt L[1, 14] |
 | ex.imos_ram_grid | CURRENT_WITH_CAVEATS |  | `EX:run-j-imos-ram-grid` | 826 | 0.578 | WORK:results/hydroacoustics-imos-ram-grid.md L[3, 9] |
 | ex.injection | CURRENT_WITH_CAVEATS | D05, D06, D22 | `EX:run-j-injection` | 28 | 0.209 | EX:run-j-injection/README.txt L[1, 9] |
 | ex.levels | CURRENT_WITH_CAVEATS | D01, D05, D25 | `EX:run-j-levels` | 107 | 0.510 | EX:run-j-levels/README.md L[1, 10] |
@@ -61,8 +61,17 @@
 | art.candidates_A_F | WITHDRAWN | D10, D04, D09 | `ART:a35831fe/b5497699_candidates-A-F-summary.csv` | 1 | 0.000 | NO DEFINITION LOCATED |
 | art.feasibility_tables | WITHDRAWN | D10 | `ART:a35831fe` | 10 | 0.005 | NO DEFINITION LOCATED |
 | art.royer_crossid | CURRENT_WITH_CAVEATS |  | `ART:a35831fe/239646ad_royer-events-crossid-all-sites.csv` | 1 | 0.000 | NO DEFINITION LOCATED |
-| ex.register_2026_10_23 | CURRENT_WITH_CAVEATS | D05, D06, D24, D25, D26 | `EX:register-2026-10-23` | 6 | 0.011 | EX:register-2026-10-23/README.txt L[1, 4] |
+| ex.register_2026_10_23 | SUPERSEDED -> ex.register_2026_10_23_v2 | D05, D06, D24, D25, D26 | `EX:register-2026-10-23` | 6 | 0.011 | EX:register-2026-10-23/README.txt L[1, 4] |
 | ex.kadri_predictions_v3 | CURRENT_WITH_CAVEATS | D05, D25 | `EX:kadri-package-v3-draft-predictions` | 5 | 0.002 | EX:kadri-package-v3-draft-predictions/README.txt L[1, 6] |
+| ex.run_j_gated_v3 | CURRENT_WITH_CAVEATS | D05, D06, D25 | `EX:run-j-gated-v3` | 1045 | 9.541 | EX:run-j-gated-v3/README.txt L[1, 3] |
+| mod.composition_run_j_v3 | CURRENT_WITH_CAVEATS | D05, D06, D25 | `MOD:results-data/composition_run_j/v3` | 39 | 0.002 | MOD:results-data/composition_run_j/v3/README.md L[1, 8] |
+| ex.ranked_2026_10_23_prior | CURRENT_WITH_CAVEATS | D05, D06, D25, D26 | `EX:ranked-2026-10-23-prior-1e-6-1` | 8 | 0.015 | EX:ranked-2026-10-23-prior-1e-6-1/README.txt L[1, 3] |
+| ex.register_2026_10_23_v2 | CURRENT_WITH_CAVEATS | D05, D06, D24, D25, D26 | `EX:register-2026-10-23-v2` | 6 | 0.012 | EX:register-2026-10-23-v2/README.txt L[1, 3] |
+| ex.potential_signals_2026_10_23 | SUPERSEDED -> ex.potential_signals_2026_10_23_v3 | D05 | `EX:potential-signals-2026-10-23` | 5 | 0.000 | EX:potential-signals-2026-10-23/README.md L[1, 1] |
+| ex.potential_signals_2026_10_23_v3 | CURRENT_WITH_CAVEATS | D05, D06, D24, D25, D26 | `EX:potential-signals-2026-10-23-v3` | 7 | 0.000 | EX:potential-signals-2026-10-23-v3/README.md L[1, 7] |
+| ex.potential_signals_graphics | CURRENT_WITH_CAVEATS | D05, D06, D26 | `EX:potential-signals-graphics-2026-10-23/FINAL-v3` | 109 | 0.045 | EX:potential-signals-graphics-2026-10-23/FINAL-v3/README.md L[1, 10] |
+| mod.tolerances_x04_x05 | CURRENT_WITH_CAVEATS |  | `MOD:results-data/tolerances_x04_x05` | 4 | 0.000 | MOD:prepare/gates/estimate_tolerances.py L[1, 5] |
+| mod.real_arrival_test_x06 | CURRENT_WITH_CAVEATS | D05 | `MOD:results-data/real_arrival_test_x06` | 4 | 0.000 | MOD:prepare/real_arrival_test_x06.py L[1, 4] |
 
 ## Results notes (claude-science-sep29)
 
@@ -115,7 +124,7 @@
 
 | id | status | defects | path | files | GB | definition source |
 |---|---|---|---|---|---|---|
-| code.module_prepare | CURRENT |  | `MOD:prepare` | 162 | 0.004 | NO DEFINITION LOCATED |
+| code.module_prepare | CURRENT |  | `MOD:prepare` | 168 | 0.004 | NO DEFINITION LOCATED |
 | code.module_engine | CURRENT |  | `MOD:lib.rs` | 1 | 0.000 | MOD:lib.rs L[1, 12] |
 
 ## Defects
@@ -126,9 +135,9 @@
 | D02 | Diego Garcia (H08S) detections that coincide with airgun shots were ranked as candidates | 44 of 47 H08S single candidates lie within 1.5 s of a shot in h08s_template_shots.csv (chance about 30 %). The searches note itself said only residual rows are candidates (G-S9). Pete (23 Oct): a shot coincidence is not an exclusion; constructive interference and waveform distortion can still carry a detection. | label + envelope interference test in the new register | ex.arrival_windows, ex.ranked, note.overnight_2026_10_22_summary |
 | D03 | Scott Reef 3250 used in pairs and triples although its path is blocked | 3250 carries no information (blocked path), but it is in most pairs and triples. | check column in new register | ex.ranked |
 | D04 | Detections in bands below the receiver pass band | 2-5 Hz members at IMOS (hardware corner 8 Hz) and on Kadri panels (5 Hz high-pass) lie where the recording chain strongly attenuates; a detection there is unlikely to be impact sound in that band (a corner attenuates, it does not remove all energy). Labelled G-S8 in the searches note but kept in the ranking. | check column in new register | art.candidates_A_F, ex.ranked |
-| D05 | Detection power measured only on model-matched templates | On the real F-35A arrival the M1b matched filter keeps only 0-3.4 dB of its model-matched gain; every P_D, eta50 and upper limit built on it is optimistic by about 4-10 dB. | no (next work card: real-arrival validation) | ex.injection, ex.kadri_predictions_v3, ex.levels, ex.register_2026_10_23, ex.run_j_gated_v2, ex.weak_signal, note.composition_run_j, note.injection_recovery_run_j, note.overnight_2026_10_22_summary, note.run_j_levels, note.weak_signal_methods |
-| D06 | Stand-in noise backgrounds used without approval | H01W/H08S use IMOS 3376 noise shaped to Blackman medians (proxy); 3315 and 3275 nulls come from the paired logger. Declared, but Pete requires approval for stand-ins. | no (labelled) | ex.injection, ex.register_2026_10_23, ex.run_j_gated_v2, ex.searches, note.composition_run_j, note.injection_recovery_run_j, note.searches_run_j |
-| D07 | Known events (Royer 2016) not removed from candidates | By the DIGITISED Royer marks, Kadri text time 00:52:03 lies inside the H01W-2 pick bar of icequake A (00:51:56.77-00:52:04.52) and caption time 00:54:30 is 5.9 s from the arrow for event 5 (00:54:24.06); Royer events 6 and 9 predict IMOS 3315 rows. Sensitivity: every digitised H01W-2 mark sits +7.7 to +16.6 s after Royer's Table 5 time for that event (other stations within about +/-5 s); against Table 5 the text time is +20 s from icequake A (00:51:42.99) and the caption time +17.6 s from event 5 (00:54:12.44). The figure-versus-table offset is an open question for Royer. "Time-consistent" is not identification. | known-event check column in new register | ex.arrival_windows, ex.kadri_package_v2, ex.ranked, note.kadri_package_v2, note.overnight_2026_10_22_summary |
+| D05 | Detection power measured only on model-matched templates | On the real F-35A arrival the M1b matched filter keeps only 0-3.4 dB of its model-matched gain; every P_D, eta50 and upper limit built on it is optimistic by about 4-10 dB. | no (next work card: real-arrival validation) | ex.injection, ex.kadri_predictions_v3, ex.levels, ex.potential_signals_2026_10_23, ex.potential_signals_2026_10_23_v3, ex.potential_signals_graphics, ex.ranked_2026_10_23_prior, ex.register_2026_10_23, ex.register_2026_10_23_v2, ex.run_j_gated_v2, ex.run_j_gated_v3, ex.weak_signal, mod.composition_run_j_v3, mod.real_arrival_test_x06, note.composition_run_j, note.injection_recovery_run_j, note.overnight_2026_10_22_summary, note.run_j_levels, note.weak_signal_methods |
+| D06 | Stand-in noise backgrounds used without approval | H01W/H08S use IMOS 3376 noise shaped to Blackman medians (proxy); 3315 and 3275 nulls come from the paired logger. Declared, but Pete requires approval for stand-ins. | no (labelled) | ex.injection, ex.potential_signals_2026_10_23_v3, ex.potential_signals_graphics, ex.ranked_2026_10_23_prior, ex.register_2026_10_23, ex.register_2026_10_23_v2, ex.run_j_gated_v2, ex.run_j_gated_v3, ex.searches, mod.composition_run_j_v3, note.composition_run_j, note.injection_recovery_run_j, note.searches_run_j |
+| D07 | Known events (Royer 2016) not removed from candidates | By the DIGITISED Royer marks, Kadri text time 00:52:03 lies inside the H01W-2 pick bar of icequake A (00:51:56.77-00:52:04.52) and caption time 00:54:30 is 5.9 s from the arrow for event 5 (00:54:24.06); Royer events 6 and 9 predict IMOS 3315 rows. Sensitivity: every digitised H01W-2 mark sits +7.7 to +16.6 s after Royer's Table 5 time for that event (other stations within about +/-5 s); against Table 5 the text time is +20 s from icequake A (00:51:42.99) and the caption time +17.6 s from event 5 (00:54:12.44). The figure-versus-table offset is an open question for Royer. "Time-consistent" is not identification. | known-event check column in new register; 23 Oct overnight: data-based tolerances (X05, H01W Table 5 +/-7.0 s, Fig. 4 marks bias-corrected by 13.1 s); rows that match only on the uncorrected Fig. 4 time base are labelled royer_timebase_dependent (conditional, not a finding; H01W 00:52:04 is +21.7 s from the icequake A prediction) | ex.arrival_windows, ex.kadri_package_v2, ex.ranked, note.kadri_package_v2, note.overnight_2026_10_22_summary |
 | D08 | Coincidences whose direct path to the receiver crosses land | Example: Kadri 00:40:34 row x Portland 3275; 201 of 2,000 path points above sea level in GEBCO 2026. | land-path check column in new register | ex.ranked |
 | D09 | Flight-only Pleiades layer used as if conditional on the Pleiades objects | Early candidate maps used the "post" layer, which is flight-only. | n/a (products withdrawn) | art.candidates_A_F |
 | D10 | Candidates A-F withdrawn | Withdrawn at Pete's instruction, 23 Oct 2026, for six stated reasons. | n/a | art.candidates_A_F, art.feasibility_tables, art.take2_review |
@@ -138,15 +147,16 @@
 | D20 | Coupling prior bounds 1e-6..1e-2 were an agent choice, not a ruling | Pete ruled 23 Oct that coupling is a prior range with its sources and the F-35A value is one point in it; the bounds are open. The agent-chosen upper bound 1e-2 lies below some F-35A one-factor values in the Metz note (2 m source 5.4e-2; f^-4 roll-off 1.3e-1), so the current prior truncates part of that range. | no (ruling needed) | ex.run_j_gated_v2, note.composition_run_j |
 | D22 | Old IMOS transmission-loss table (constant RAM correction, gap G-TL1) still used | Superseded by imos_tl_ram_arc.csv (RAM along the grid). | no re-run; labelled | ex.injection, ex.kadri_package_v2, ex.run_j_gated, note.injection_recovery_run_j, note.kadri_package_v2 |
 | D23 | TL clamped at the table edge for rows outside the TL latitude span | 11-16 % of run J rows by stratum (17 Oct columns). | already fixed in run-j-gated(-v2) by the whole-arc TL grid | ex.run_j_tau_eof, ex.run_j_tau_scenario |
-| D24 | Searches covered only the pre-registered windows | Held IMOS records outside the windows (for example the CMST 01:34 event) were not searched; free known-event checks were lost. | no (next work card) | ex.register_2026_10_23, ex.searches, note.searches_run_j |
-| D25 | Source depth fixed at 10 m in the MH370 chain | At the F-35A, 2 m or 30 m moves eta by more than two decades. | no (labelled) | ex.kadri_predictions_v3, ex.levels, ex.register_2026_10_23, ex.run_j_gated_v2, note.run_j_levels |
-| D26 | Cape Leeuwin and Diego Garcia p-values are not calibrated | Digitised plots at about 14.5 points per second with an emulated IMOS noise reference. | no (labelled) | ex.ranked, ex.register_2026_10_23, ex.searches, note.searches_run_j |
+| D24 | Searches covered only the pre-registered windows | Held IMOS records outside the windows (for example the CMST 01:34 event) were not searched; free known-event checks were lost. | no (next work card) | ex.potential_signals_2026_10_23_v3, ex.register_2026_10_23, ex.register_2026_10_23_v2, ex.searches, note.searches_run_j |
+| D25 | Source depth fixed at 10 m in the MH370 chain | At the F-35A, 2 m or 30 m moves eta by more than two decades. | no (labelled) | ex.kadri_predictions_v3, ex.levels, ex.potential_signals_2026_10_23_v3, ex.ranked_2026_10_23_prior, ex.register_2026_10_23, ex.register_2026_10_23_v2, ex.run_j_gated_v2, ex.run_j_gated_v3, mod.composition_run_j_v3, note.run_j_levels |
+| D26 | Cape Leeuwin and Diego Garcia p-values are not calibrated | Digitised plots at about 14.5 points per second with an emulated IMOS noise reference. | no (labelled) | ex.potential_signals_2026_10_23_v3, ex.potential_signals_graphics, ex.ranked, ex.ranked_2026_10_23_prior, ex.register_2026_10_23, ex.register_2026_10_23_v2, ex.searches, note.searches_run_j |
+| D27 | run-j-gated-v2 README states 3275 matches need coupling 30 / 19 (wrong) | The text used the uncorrected pass-A IMOS TL. Corrected RAM-grid TL gives about 0.022 (01:20:35) and 0.014 (01:07:47) at the q99 run J energy (possible). README kept (hashed); erratum file beside it. The v3 README was corrected after generation. | yes (erratum; driver text corrected in module 441feb2) | ex.run_j_gated_v2 |
 
 ## Constants
 
 | id | value | units | status | note | source |
 |---|---|---|---|---|---|
-| eta_F35A_metz | 0.00226 | fraction of impact kinetic energy radiated as sound (module definition) | PENDING_RULING | One point inside the coupling prior (Pete ruling 23 Oct). One-factor values in the Metz note table: 2.8e-4 (tau 0.05 s) to 1.3e-1 (f^-4 roll-off); 5.4e-2 at a 2 m source; 3.4e-4 at 30 m; full range over all cases 1.1e-5 to 6.3. | WORK:results/hydroacoustics-metz-f35a-anchor.md L[64, 73] |
+| eta_F35A_metz | 0.00226 | fraction of impact kinetic energy radiated as sound (module definition) | PENDING_RULING | One point inside the coupling prior (Pete ruling 23 Oct). One-factor values in the Metz note table: 2.8e-4 (tau 0.05 s) to 1.3e-1 (f^-4 roll-off); 5.4e-2 at a 2 m source; 3.4e-4 at 30 m; full range over all cases 1.1e-5 to 6.3. 23 Oct: agent recommendation (X02) to use 2.26e-3 as the F-35A reference point is applied to labels and the fixed column; Pete has not given an explicit ruling. | WORK:results/hydroacoustics-metz-f35a-anchor.md L[64, 73] |
 | eta_brown_arons | 0.00021 | Arons-equivalent coupling (different quantity) | RETIRED_AS_ANCHOR | Do not use as the F-35A point for the module definition (10.3 dB low). | WORK:results/hydroacoustics-metz-f35a-anchor.md L[171, 171] |
 | eta_prior_bounds | [1e-06, 0.01] | log-uniform, 41 points | AGENT_CHOICE_NOT_RULED | Pete: coupling is a prior range with its sources; bounds open. | EX:run-j-gated-v2/README.txt L[13, 13] |
 | c_sofar | [1.482, 0.006] | km/s, mean and sd | CURRENT |  | WORK:results/hydroacoustics-searches-run-j.md L[91, 91] |

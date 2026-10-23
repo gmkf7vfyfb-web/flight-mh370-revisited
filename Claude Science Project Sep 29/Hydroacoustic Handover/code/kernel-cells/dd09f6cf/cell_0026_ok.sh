@@ -1,1 +1,0 @@
-cd ~/Downloads/mh370-exchange/debris-drift; for d in run-j runA-rebuilt; do echo "== $d"; find $d -maxdepth 2 | head -30; done; ls runA-rebuilt/* | head; find . -name "README*" -maxdepth 3 | head

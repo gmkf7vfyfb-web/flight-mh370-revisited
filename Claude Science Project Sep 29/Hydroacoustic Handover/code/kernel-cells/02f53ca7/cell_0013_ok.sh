@@ -1,3 +1,0 @@
-cd repo; git ls-tree -r --name-only HEAD | grep -i "2604.12723\|bolide" | head; cd ../hydro; git ls-tree -r --name-only origin/hypothesis/hydroacoustics | grep -i "2604.12723\|bolide\|papers" | head
-grep -rl "2604.12723" "Claude Science Project Sep 29/engine/hypotheses/hydroacoustics" 2>/dev/null | head
-ls /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-digitisation/sources/; ls -R /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-digitisation/sources | head -20

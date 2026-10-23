@@ -1,1 +1,0 @@
-cd repo && timeout 60 git fetch -q origin && git merge -q --ff-only origin/claude-science-sep29; awk '/^## /{n++} n>=6' "Claude Science Project Sep 29/coordination/HYDROACOUSTICS.md"

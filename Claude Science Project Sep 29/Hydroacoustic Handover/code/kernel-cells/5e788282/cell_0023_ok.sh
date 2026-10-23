@@ -1,3 +1,0 @@
-cd /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/5e788282-a899-406d-be81-a794b69469f6
-R="repo/Claude Science Project Sep 29"
-sed -n 105,130p "$R/results/hydroacoustics-audit-architecture.md"; echo ----; sed -n 110,128p "$R/threads/master-prompts/hydroacoustics.md"; echo ---; sed -n 66,80p "$R/results/hydroacoustics-digitised-sources.md"; echo; grep -n "Refresh v2" "$R/threads/master-prompts/hydroacoustics.md" | head -3; grep -n -i "f-35\|metz\|kadri 2019\|kadri2019\|G4\b\|G5\b" "$R/threads/work-orders/hydroacoustics-order-2026-10-21.md" | cut -c1-300 | head -30

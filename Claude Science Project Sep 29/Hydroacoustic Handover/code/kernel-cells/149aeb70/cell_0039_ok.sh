@@ -1,1 +1,0 @@
-I=/Users/pete/Downloads/mh370-inputs/hydroacoustics; ls $I; echo ---; find $I -maxdepth 3 -iname "*.json" -o -maxdepth 3 -iname "*meta*" -o -maxdepth 3 -iname "*.csv" | head -20; echo "--- grep for coords"; grep -rl -i "latitude" $I --include="*.csv" --include="*.json" --include="*.txt" 2>/dev/null | head

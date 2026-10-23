@@ -1,1 +1,0 @@
-cd repo; P="ISO Sept 28 Status/inputs/papers/hydroacoustics"; grep -n -i -B2 -A12 "447\|air france" "$P"/kadri-S1.txt | head -80; grep -n -i "san juan\|H10\|H03\|H04" "$P"/kadri-S1.txt | head

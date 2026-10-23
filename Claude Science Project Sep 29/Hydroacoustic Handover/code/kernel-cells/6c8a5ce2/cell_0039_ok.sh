@@ -1,1 +1,0 @@
-cd .tmp/hy/"Claude Science Project Sep 29"; grep -rn -i "detectab" coordination/HYDROACOUSTICS.md coordination/architecture.md results/hydroacoustics-run-c-windows.md 2>/dev/null | cut -c1-260 | tail -20; grep -rln -i "tau" engine/hypotheses/hydroacoustics/prepare/*.py | head -30; sed -n 80,140p engine/hypotheses/hydroacoustics/prepare/per_impact_lnl.py

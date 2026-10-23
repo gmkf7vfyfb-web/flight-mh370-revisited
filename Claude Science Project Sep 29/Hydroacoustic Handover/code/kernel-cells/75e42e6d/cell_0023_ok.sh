@@ -1,1 +1,0 @@
-cd src; sed -n 20,70p Ulich_2018_north25S.txt; echo ====; head -30 Fluid_ontologies.txt | grep -v "^ *$"; sed -n 450,500p Fluid_ontologies.txt | grep -v "^ *$"

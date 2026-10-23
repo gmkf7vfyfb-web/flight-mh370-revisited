@@ -1,1 +1,0 @@
-cd /Users/pete/Downloads; du -sh mh370-inputs/hydroacoustics/imos 2>&1 | tail -1; ls mh370-ocean-data/gebco/grid/ 2>&1 | head; ls mh370-exchange/hydroacoustics/run-j-digitisation | head; ls mh370-exchange/hydroacoustics/sources | head -20

@@ -1,1 +1,0 @@
-cd "repo/Claude Science Project Sep 29"; grep -n "^## " coordination/OCEAN_DRIFT.md | tail -25; echo; grep -n "^#\|^[0-9]*\. \*\*" threads/master-prompts/ocean-drift.md | head -60

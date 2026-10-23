@@ -1,2 +1,0 @@
-cd "eof/Claude Science Project Sep 29/engine/hypotheses/end-of-flight/smoke"; grep -n "run-j-free\|0\.0011\|P_FAMILY\|0.9982" *.py *.sh 2>/dev/null | head -20; cd ~/Downloads/mh370-exchange/end-of-flight/run-j/summary; python3 -c "
-import json;d=json.load(open('family-shares-run-j.json'));print(json.dumps(d)[:1500])"; grep -rn "free=\|P(family)" ../../bin/scripts/*.sh 2>/dev/null | head

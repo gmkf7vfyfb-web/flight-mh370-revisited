@@ -1,1 +1,0 @@
-cd .tmp/hy/"Claude Science Project Sep 29"; ls results | grep -i -E "calib|event"; P=engine/hypotheses/hydroacoustics/prepare; wc -l $P/calibration_events.py $P/kraken_tl.py; grep -n -E "^def |^# |argparse|add_argument|STAGE|stage" $P/calibration_events.py | head -120

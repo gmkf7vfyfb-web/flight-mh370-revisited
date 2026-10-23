@@ -1,1 +1,0 @@
-cmp drive/blackman_receiver_observations.csv prior/Blackman_2004_extracted_data/blackman_receiver_observations.csv && echo IDENTICAL; cd repo; sed -n '1,400p' "Claude Science Project Sep 29/threads/master-prompts/hydroacoustics.md" | grep -n -i -E "blackman|air[0-9]|transmission|H01|H08|A3|A4|negative control" | head -40

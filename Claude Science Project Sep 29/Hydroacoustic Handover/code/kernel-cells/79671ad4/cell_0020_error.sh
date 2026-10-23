@@ -1,4 +1,0 @@
-cd src
-curl -sS -m 60 "https://api.opentopodata.org/v1/gebco2020?locations=-25.975,101.461|-25.732,101.369|-25.975,101.431|-25.975,101.491|-25.950,101.461|-26.000,101.461|-25.975,101.431" -o gebco_otd.json -w "%{http_code}\n"; head -c 1500 gebco_otd.json; echo
-curl -sS -m 60 "https://archive-api.open-meteo.com/v1/archive?latitude=-25.975&longitude=101.461&start_date=2014-04-03&end_date=2014-04-06&hourly=wind_speed_10m,wind_direction_10m,precipitation,cloud_cover&wind_speed_unit=ms&timezone=GMT" -o era5_wind.json -w "%{http_code}\n"; head -c 400 era5_wind.json; echo
-curl -sS -m 60 "https://marine-api.open-meteo.com/v1/marine?latitude=-25.975&longitude=101.461&start_date=2014-04-03&end_date=2014-04-06&hourly=wave_height,swell_wave_height,wind_wave_height&timezone=GMT" -o era5_wave.json -w "%{http_code}\n"; head -c 400 era5_wave.json

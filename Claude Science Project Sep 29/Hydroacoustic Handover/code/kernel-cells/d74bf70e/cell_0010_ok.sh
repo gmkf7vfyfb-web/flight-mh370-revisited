@@ -1,2 +1,0 @@
-cd repo
-git ls-tree -r --name-only HEAD | grep -v 'v01-share-withdrawn' | grep -i -E 'blackman|observed-transient|aligned-detection|raw-triad|raw_triad|ucrl|duncan|dall|imos|curtin|f-35|f35|icarus|hydroacoust' | head -40

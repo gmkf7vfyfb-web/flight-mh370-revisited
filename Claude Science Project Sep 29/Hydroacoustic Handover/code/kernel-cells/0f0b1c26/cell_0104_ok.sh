@@ -1,1 +1,0 @@
-cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/kadri_package/v2-2026-10-22/"; ls; grep -n "^#\|^D\|Request D\|^## D\|D[0-9.]" REQUESTS* | head -40

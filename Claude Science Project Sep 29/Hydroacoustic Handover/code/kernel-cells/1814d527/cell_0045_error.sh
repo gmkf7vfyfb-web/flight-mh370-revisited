@@ -1,2 +1,0 @@
-cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/kadri_package/v2-2026-10-22" && export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 && python make_templates.py /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-weak-signal/templates/templates_raw.npz predictions_meta.json . && ls -la templates_envelope.npz pulse_runj.npz && time python selftest.py /Users/pete/Downloads/mh370-exchange/hydroacoustics/kadri-package-v2/synthetic_triad . 2>&1 | tail -40
-du -sh /Users/pete/Downloads/mh370-exchange/hydroacoustics/kadri-package-v2/synthetic_triad

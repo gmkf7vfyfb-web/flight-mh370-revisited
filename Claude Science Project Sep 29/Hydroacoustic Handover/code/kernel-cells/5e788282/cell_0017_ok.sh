@@ -1,1 +1,0 @@
-ls /Users/pete/Downloads/mh370-exchange/ocean-transport/paths-calibration/; head -c 3000 /Users/pete/Downloads/mh370-exchange/ocean-transport/paths-calibration/README.md; cat /Users/pete/Downloads/mh370-ocean-data/gebco/grid/gebco_2026.json | head -20; ls /Users/pete/Downloads/mh370-ocean-data/woa23/soundspeed/ | head -30

@@ -1,2 +1,0 @@
-r = c.call_command(r'''cd ~/mh370/drift; T="repo/Claude Science Project Sep 29/engine/hypotheses/debris-drift/tests.rs"; grep -n "fn snapshots\|SNAP_SPEC\|SNAP_OUT" "$T" | head; ls -la target/release/deps/mh370_hypotheses-* | head; cat snap/snap-spec.toml | head -30; cat snap/smoke-globcurrent.toml | head -20; cat snap/run.log | tail -5; cat ~/.claude-science-scratch/ocean/era5/era5_u10_v10_3h_15-160E.series.json | head -c 800''', intent='Check drift snapshot harness and forcing manifests on deskstar (read only)')
-print(r.stdout[-6000:])

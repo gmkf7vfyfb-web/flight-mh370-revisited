@@ -1,2 +1,0 @@
-cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"; head -5 data/imos/recordings.csv; grep -c . data/imos/recordings.csv; python -c "
-import ast;t=open('prepare/imos_noise.py').read();m=ast.parse(t);print(ast.get_docstring(m)[:2500]);print([n.name for n in m.body if isinstance(n,ast.FunctionDef)])"; ls /Users/pete/Downloads/mh370-inputs/hydroacoustics/imos/ | head

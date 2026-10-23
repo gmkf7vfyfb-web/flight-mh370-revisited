@@ -1,5 +1,0 @@
-k=(~Pc.has_3250)&(~Pc.has_H08S)&(Pc.time_cls=='inside')&(Pc.energy_tier.str.startswith('feasible'))&(Pc.loc_cls=='inside prior')
-F=Pc[k].sort_values('rank_lnLR')
-print(F[['rank_lnLR','lnLR','rank_p','rx_a','t_a','p_a','rx_b','t_b','p_b','lag_s','n_pairs_obs','p_perm','locus_lat','locus_lon','implied_impact_utc','loc_mass','eta_min','eta_min_xF35A','n_arc_loci','other_loci','kadri_a','kadri_b']].to_string())
-kt=(~Tc.has_3250)&(~Tc.has_H08S)&(Tc.time_cls=='inside')&(Tc.energy_tier.str.startswith('feasible'))
-print(Tc[kt][['rank_lnLR','lnLR','rxs','times','ps','locus_lat','locus_lon','implied_impact_utc','eta_min_xF35A']].to_string())

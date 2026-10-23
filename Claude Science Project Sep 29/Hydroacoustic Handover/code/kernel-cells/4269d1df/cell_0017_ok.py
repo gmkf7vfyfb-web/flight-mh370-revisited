@@ -1,2 +1,0 @@
-r = c.call_command(r'''cd "$HOME/mh370/drift/repo/Claude Science Project Sep 29/engine/hypotheses"; git -C . log --oneline -1; ls debris-drift | head -50; grep -rn "node_subset_outside_extent\|fn source_grid\|release_unix_s" --include=*.rs . | head -20''', intent='Inspect drift grid and node-subset code on deskstar (read only)')
-print(r.stdout[-5000:], r.stderr[-500:])

@@ -1,1 +1,0 @@
-D=/Users/pete/Downloads/mh370-ocean-data/woa23/soundspeed; head -c 1500 $D/woa23_95A4_m01.json; echo; ls $D | sed 's/_m[0-9]*.*//' | sort | uniq -c; ls -la $D/woa23_95A4_m05_c_mean.f32

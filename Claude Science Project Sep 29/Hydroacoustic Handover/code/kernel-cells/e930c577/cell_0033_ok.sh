@@ -1,1 +1,0 @@
-cd "erepo/Claude Science Project Sep 29/engine/hypotheses/end-of-flight/smoke"; sed -n 60,115p option_table_0019.py; grep -n 'SATCOM_CSV *=' displacement_hist.py; grep -n 'def load' -A12 compact_impacts.py | head -30

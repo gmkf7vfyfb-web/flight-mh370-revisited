@@ -1,1 +1,0 @@
-lockf -t 0 /tmp/.mh370-heavy.lock echo FREE || echo HELD; ls -lt /Users/pete/Downloads/mh370-exchange/*/ | head -5; find /Users/pete/Downloads/mh370-exchange -maxdepth 3 -newermt "-60 minutes" 2>/dev/null | head -20

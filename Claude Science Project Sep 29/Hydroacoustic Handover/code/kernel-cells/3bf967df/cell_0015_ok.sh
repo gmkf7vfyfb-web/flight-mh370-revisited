@@ -1,3 +1,0 @@
-R=~/Downloads/mh370-exchange/end-of-flight/run-j; ls $R; cat $R/run-j-waypoints/seed-1/COLUMNS.txt | head -60; ls -la $R/run-j-waypoints/seed-1/ | head; python -c "
-import numpy as np; a=np.load('$HOME/Downloads/mh370-exchange/end-of-flight/run-j/run-j-waypoints/seed-1/impacts32.npy',mmap_mode='r'); print(a.shape,a.dtype)"
-grep -n m0011 "repo/Claude Science Project Sep 29/engine/data/satcom-observations.csv" "repo/Claude Science Project Sep 29/engine/data/satellite-ephemeris-inmarsat.csv"

@@ -1,1 +1,0 @@
-cd .tmp/repo/"Claude Science Project Sep 29"; wc -l coordination/HYDROACOUSTICS.md; ls results/hydroacoustics-audit results | grep -i calib; ls results/hydroacoustics-audit results/hydroacoustics-audit/*; git -C .. ls-tree -r --name-only HEAD | grep -i -E "calibration_events|hydroacoustics.*prepare|kraken" | head -40

@@ -1,1 +1,0 @@
-cd "main/Claude Science Project Sep 29"; ls -la results/ | awk '{print $5, $6,$7,$8, $9}' | grep -i hydro; ls results/evidence-sweep-2026-10-17 | head -30; ls threads/work-orders

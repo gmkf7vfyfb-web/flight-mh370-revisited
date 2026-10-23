@@ -1,1 +1,0 @@
-tail -2 /tmp/kp_build.log; grep -c "n=" /tmp/kp_build.log

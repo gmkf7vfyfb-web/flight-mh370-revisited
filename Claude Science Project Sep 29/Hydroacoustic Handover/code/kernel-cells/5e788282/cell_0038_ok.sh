@@ -1,3 +1,0 @@
-cd /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/5e788282-a899-406d-be81-a794b69469f6
-H="hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"
-sed -n 1,3p "$H/results-data/digitised/MANIFEST.csv" >/dev/null; tail -5 "$H/results-data/digitised/MANIFEST.csv"; ls "$H/results-data/digitised/brown-2026" "$H/results-data/digitised/ground-truth-cases"; head -40 "$H/prepare/digitise_ground_truth_cases.py" | head -40

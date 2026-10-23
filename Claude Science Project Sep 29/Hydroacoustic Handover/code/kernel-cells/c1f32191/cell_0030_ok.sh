@@ -1,2 +1,0 @@
-cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/composition_run_j" && nohup python driver.py 4 > /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated.staging/driver.out 2>&1 &
-sleep 20; cat /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated.staging/driver.log | tail -5; uptime

@@ -1,1 +1,0 @@
-cd leg; E=~/Downloads/mh370-exchange; S="$PWD/../erepo/Claude Science Project Sep 29/engine/hypotheses/end-of-flight/smoke"; mkdir -p scan_dev; python scan_runj_L.py $E/end-of-flight/run-j $E/core/run-j "$S" scan_dev run-j-waypoints seed-1 2>&1 | grep -v -i proj; ls -la scan_dev

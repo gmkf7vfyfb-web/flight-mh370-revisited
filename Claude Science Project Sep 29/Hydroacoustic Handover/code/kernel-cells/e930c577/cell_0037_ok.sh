@@ -1,2 +1,0 @@
-cd leg; E=~/Downloads/mh370-exchange; S="$PWD/../erepo/Claude Science Project Sep 29/engine/hypotheses/end-of-flight/smoke"; time python scan_runj_L.py $E/end-of-flight/run-j $E/core/run-j "$S" scan run-j-free seed-1 2>&1 | tail -5; python -c "
-import numpy as np,json; z=np.load('scan/run-j-free__seed-1.npz'); print(z['n_rows'], len(z['row']), json.loads(str(z['norms_json']))); import collections; print(np.isfinite(z['ld_D5']).mean(), np.nanmedian(z['tau90']), np.nanmedian(z['e_tr']))"

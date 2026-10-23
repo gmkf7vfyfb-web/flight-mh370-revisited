@@ -1,1 +1,0 @@
-R="repo/Claude Science Project Sep 29"; sed -n 110,125p "$R/results/hydroacoustics-tl-grid-run-j.md"; sed -n 280,292p "$R/results/hydroacoustics-tl-grid-run-j.md"; grep -n "G-TL2" "$R/results/hydroacoustics-tl-grid-run-j.md" | head -3; ls "$R/results" | grep -i hydroacoustics | tail -12; tail -40 "$R/coordination/architecture.md" | head -60

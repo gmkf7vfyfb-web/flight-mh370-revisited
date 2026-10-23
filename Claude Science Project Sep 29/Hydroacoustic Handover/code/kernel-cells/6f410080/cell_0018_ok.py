@@ -1,2 +1,0 @@
-for k,i in {'safari1':'17Cj6H2_XlHQnqXaitmIBRERU_-1Lc2DV','safari2':'1a6I1wYX_yghy_E4-Tf_053Y8ns_HEHbH'}.items():
-    r=host.mcp(S,"read_file_content",fileId=i); t=r.get('fileContent',''); open(f'handoff/{k}.txt','w').write(t); print(k,len(t)); print(t[:1500]); print('======')

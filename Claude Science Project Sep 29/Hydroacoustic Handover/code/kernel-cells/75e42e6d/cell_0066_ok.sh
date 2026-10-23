@@ -1,1 +1,0 @@
-cd src; sed -n 12645,12700p ATSB_OpSearch_2017.txt | grep -v "^ *$" | head -30

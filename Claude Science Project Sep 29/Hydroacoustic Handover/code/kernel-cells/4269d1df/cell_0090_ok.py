@@ -1,6 +1,0 @@
-s=open('figs.py').read()
-s=s.replace("ax.set_title('Near the bearing, debris evidence is above the run J average',loc='left')","ax.set_title('Debris evidence near the bearing exceeds run J',loc='left')")
-s=s.replace("(('T_core','D',-0.12),('C_core','s',0.12))","(('T_core','D',-0.2),('C_core','s',0.2))").replace("wspace=0.32","wspace=0.38")
-open('figs.py','w').write(s); exec(s)
-N3b=N3b.replace("transport noise (200 node perturbations) and seed bootstrap combined","transport noise (100 mean-preserving node perturbations per 1-deg band split-half SD) and seed bootstrap (100) combined")
-fig_llr(RC,prof,aus,ex)

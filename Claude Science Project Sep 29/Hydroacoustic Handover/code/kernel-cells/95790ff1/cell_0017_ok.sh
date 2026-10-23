@@ -1,1 +1,0 @@
-cd "repo/ISO Sept 28 Status/inputs/papers/hydroacoustics"; awk '/===== PAGE 27 =====/,/===== PAGE 34 =====/' ucrl-tr-207323.txt

@@ -1,1 +1,0 @@
-H=/Users/pete/Downloads/mh370-exchange/hydroacoustics/next-run-c; ls -la $H | head; ls $H/* | head -30; find $H -maxdepth 3 -name "*.md" -o -maxdepth 3 -name "*.json" | head; cd .tmp/hy/"Claude Science Project Sep 29"/engine/hypotheses/hydroacoustics/prepare; sed -n 1,80p per_impact_lnl.py

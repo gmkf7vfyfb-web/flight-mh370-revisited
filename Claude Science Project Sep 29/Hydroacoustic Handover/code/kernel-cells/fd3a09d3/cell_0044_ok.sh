@@ -1,1 +1,0 @@
-OUT=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-tl-grid; tail -1 $OUT/raw/passA.log; date -u; df -k /System/Volumes/Data | tail -1 | awk '{print $4/1048576 " GiB free"}'

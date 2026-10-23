@@ -1,1 +1,0 @@
-pip install -q gsw 2>&1 | tail -1; python -c "import gsw;print(gsw.__version__)"; ls -la hycom

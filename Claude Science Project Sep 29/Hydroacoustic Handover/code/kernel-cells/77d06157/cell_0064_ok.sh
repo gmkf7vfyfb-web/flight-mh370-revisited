@@ -1,1 +1,0 @@
-cd gfx && sed -i '' 's/pct(r.H01W_arrival_mass_D0, 1), tim\])/(pct(r.H01W_arrival_mass_D0, 1) if r.H01W_arrival_mass_D0 >= 1e-3 or r.H01W_arrival_mass_D0 == 0 else pct(r.H01W_arrival_mass_D0, 3)), tim])/' charts_kadri.py && grep -c "pct(r.H01W_arrival_mass_D0, 3)" charts_kadri.py

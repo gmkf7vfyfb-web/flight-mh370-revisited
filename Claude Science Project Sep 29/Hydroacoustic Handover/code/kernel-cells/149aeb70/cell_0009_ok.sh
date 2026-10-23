@@ -1,1 +1,0 @@
-ls -d /Users/pete/Downloads/*/ 2>/dev/null | grep -i -E "mh370|claude|science|navig" ; echo ---; find /Users/pete/Downloads -maxdepth 4 -type d -name coordination 2>/dev/null | head

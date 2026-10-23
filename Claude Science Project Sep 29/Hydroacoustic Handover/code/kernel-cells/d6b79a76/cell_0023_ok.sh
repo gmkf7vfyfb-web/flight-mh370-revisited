@@ -1,1 +1,0 @@
-lockf -t 0 /tmp/.mh370-heavy.lock echo LOCK_FREE || echo LOCK_HELD; vm_stat | head -8; memory_pressure 2>/dev/null | tail -1

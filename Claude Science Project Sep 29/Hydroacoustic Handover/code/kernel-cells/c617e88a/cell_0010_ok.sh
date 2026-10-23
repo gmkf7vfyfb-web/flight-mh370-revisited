@@ -1,2 +1,0 @@
-cd repo; git worktree add -q ../hydro origin/hypothesis/hydroacoustics 2>&1|tail -1; git worktree add -q ../eof origin/hypothesis/end-of-flight 2>&1|tail -1; git worktree add -q ../pl origin/hypothesis/pleiades 2>&1|tail -1
-cd ../hydro/"Claude Science Project Sep 29"; git log -1 --format="%H %cd"; ls engine/hypotheses/hydroacoustics/prepare | tail -30; ls results | grep hydro | grep -v "png\|pdf"; wc -l engine/hypotheses/hydroacoustics/lib.rs engine/hypotheses/hydroacoustics/physics.rs

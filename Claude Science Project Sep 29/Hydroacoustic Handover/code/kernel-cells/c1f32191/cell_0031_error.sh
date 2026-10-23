@@ -1,1 +1,0 @@
-sleep 15; S=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated.staging; cat $S/driver.log | tail -6; cat $S/driver.out | tail -3; ls $S; ps aux | grep -c "[w]orker.py"

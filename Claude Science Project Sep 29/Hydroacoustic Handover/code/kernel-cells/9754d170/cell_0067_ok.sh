@@ -1,1 +1,0 @@
-HB="audit/hb/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"; python "audit/repo/Claude Science Project Sep 29/results/hydroacoustics-audit/scripts/sus_spectra.py" "$HB/prepare" "audit/hb/ISO Sept 28 Status/inputs/papers/hydroacoustics/ucrl-tr-207323.pdf" "$HB/data/ims_response_2003" audit/work/sus/sus_spectra.npz 2>&1 | grep -v deprecated | tail -30

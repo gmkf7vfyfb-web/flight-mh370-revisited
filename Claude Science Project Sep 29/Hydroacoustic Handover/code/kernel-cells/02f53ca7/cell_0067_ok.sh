@@ -1,1 +1,0 @@
-cd hydro; git show origin/hypothesis/hydroacoustics:"Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/digitise_brown_2026.py" | head -60; git log origin/hypothesis/hydroacoustics --format='%h %ci %s' -5

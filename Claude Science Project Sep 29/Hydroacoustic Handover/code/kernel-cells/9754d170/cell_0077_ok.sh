@@ -1,2 +1,0 @@
-cd "audit/hb/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"; sed -n 138,200p prepare/f35a_eta_calibration.py; python3 -c "
-import json;d=json.load(open('results-data/f35a_cal/eta_cal_summary.json'));print(json.dumps(d)[:1500])"; head -3 results-data/ram_check/eta_cal_ramcorr.csv; head -3 results-data/f35a_cal/f35a_tl.csv; head -3 results-data/ram_check/h11_tl_ramcorr.csv

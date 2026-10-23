@@ -1,4 +1,0 @@
-cd /tmp; awk 'NR>=3078 && NR<=3100' arch.md | cut -c1-300
-cd /Users/pete/Downloads/flight-mh370-revisited
-echo "--- bibliography.csv history (Metz row)"; git log --format='%h %ad %s' --date=short origin/claude-science-sep29 -- "Claude Science Project Sep 29/results/hydroacoustics-bibliography.csv" | head -5
-echo "--- where did the 9 Oct session put the PDF / what did it digitise"; grep -n -i -E "metz" "Claude Science Project Sep 29/results/"*.md 2>/dev/null | head -3; git grep -n -i -E "metz" origin/claude-science-sep29 -- 'Claude Science Project Sep 29/results/hydroacoustics-*.md' 'Claude Science Project Sep 29/threads/*' 'Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/*.md' 2>/dev/null | grep -i -E "in hand|artifact|digitis|Downloads|fig" | cut -c1-300 | head

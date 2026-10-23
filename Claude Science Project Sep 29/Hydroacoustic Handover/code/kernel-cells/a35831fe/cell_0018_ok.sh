@@ -1,1 +1,0 @@
-sed 's|Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/||' /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/tool-results/a35831fe-107a-4961-bc9f-e6fd6d255601/tool-results/toolu_016zgbYjscA7J5wB8tzHfYmL.txt | grep -v -E "\.png$" 

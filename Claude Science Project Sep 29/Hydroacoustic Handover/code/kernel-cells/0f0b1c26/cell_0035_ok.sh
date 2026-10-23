@@ -1,1 +1,0 @@
-cd /Users/pete/Downloads; timeout 120 find . -maxdepth 6 \( -iname "*Underwater_acoustic*" -o -iname "*60529*" -o -iname "*kadri*2024*.pdf" -o -iname "*Kadri*ATSB*" -o -iname "*AF447*" -o -iname "*af447*" -o -iname "*vergoz*" -o -iname "*dall*osto*" \) 2>/dev/null | grep -v "/\.git/" | head -30

@@ -1,1 +1,0 @@
-cd build/at_src/at; head -60 Makefile; echo ====; head -20 LICENSE; ls Kraken | head -40

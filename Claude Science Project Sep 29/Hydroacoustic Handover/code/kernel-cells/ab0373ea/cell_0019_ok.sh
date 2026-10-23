@@ -1,2 +1,0 @@
-OUT=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-imos-ram-grid
-grep -v Warning $OUT/run.log | tail -25; ls $OUT/paths | head; ls $OUT/paths | wc -l; kill -0 80982 2>/dev/null && echo 80982 alive || echo 80982 gone

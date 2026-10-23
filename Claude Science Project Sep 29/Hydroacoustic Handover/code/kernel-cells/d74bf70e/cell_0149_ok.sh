@@ -1,1 +1,0 @@
-ls build 2>/dev/null | head -2; mkdir -p at && tar xzf "{{artifact:1bd321c2-571c-42e1-a8f4-b0a2c3eff82e}}" -C at && ls at at/Kraken && at/Kraken/kraken.exe < /dev/null 2>&1 | head -3; echo rc=$?

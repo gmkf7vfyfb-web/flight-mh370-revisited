@@ -1,1 +1,0 @@
-find /Users/pete -maxdepth 6 -name "Cargo.toml" -path "*mh370*" 2>/dev/null | head -20; echo "=== crates ==="; find /Users/pete -maxdepth 7 -type d -name "hypothesis" 2>/dev/null | head; echo "=== exchange ==="; ls /Users/pete/Downloads/mh370-exchange 2>/dev/null | head -40

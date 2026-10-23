@@ -1,1 +1,0 @@
-cd "audit/hb/ISO Sept 28 Status/inputs/papers/hydroacoustics/"; grep -n -i "arons\|bubble\|TNT\|0.7 Pa\|F-35\|efficiency" brown2026.txt | cut -c1-300 | head -30; grep -n "===== PAGE" brown2026.txt | head -3; grep -c "===== PAGE" brown2026.txt

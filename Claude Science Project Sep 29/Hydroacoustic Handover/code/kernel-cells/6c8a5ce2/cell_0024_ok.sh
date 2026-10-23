@@ -1,1 +1,0 @@
-D=/Users/pete/Downloads/mh370-exchange/ocean-transport/paths-calibration; cat $D/af447-H10S_meta.json; echo; cat $D/sanjuan-charge-H10N_meta.json; echo; head -3 $D/bathy_af447-H10S.csv; head -3 $D/ssp_af447-H10S.csv; cat $D/sanjuan-charge-H10N_shallow.csv

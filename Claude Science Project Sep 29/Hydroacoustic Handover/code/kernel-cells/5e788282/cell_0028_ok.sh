@@ -1,3 +1,0 @@
-cd /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/5e788282-a899-406d-be81-a794b69469f6
-H="hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"
-grep -n -i -B2 -A14 "route 2\|ROUTE 2" "$H/tl_recal_block9.py" | head -60; grep -n -i -A10 "9 a\|§9\|(9)\|^.*9(a)" "repo/Claude Science Project Sep 29/threads/master-prompts/hydroacoustics.md" | grep -i -A10 "recalib" | head -40

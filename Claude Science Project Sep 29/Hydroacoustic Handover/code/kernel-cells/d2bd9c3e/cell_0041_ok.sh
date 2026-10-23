@@ -1,1 +1,0 @@
-OUT=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-windows; ls $OUT/*/seed-*.npz | wc -l; tail -1 $OUT/driver.log

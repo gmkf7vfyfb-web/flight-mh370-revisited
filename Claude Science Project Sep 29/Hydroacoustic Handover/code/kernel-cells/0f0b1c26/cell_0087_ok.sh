@@ -1,1 +1,0 @@
-pwd; ls -d tools tools/* | head; echo "$HOME"

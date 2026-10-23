@@ -1,4 +1,0 @@
-mkdir -p "repo/Claude Science Project Sep 29/engine/data"; cp scorer/satcom-observations.csv "repo/Claude Science Project Sep 29/engine/data/"; rm -f kh/h0011/*
-export ENG="$PWD/repo/Claude Science Project Sep 29/engine"
-C=/Users/pete/Downloads/mh370-exchange/core/run-j
-for st in run-j-waypoints run-j-free run-j-repro-radar run-j-descent-climb; do for d in $C/$st/bto-bfo/seed-*; do k=${d##*seed-}; echo "$st $k"; done; done | xargs -P 6 -L 1 sh -c 'python kh/h0011_worker.py '$C'/$0/bto-bfo/seed-$1/handoff-m0011/handoff.toml.gz kh/h0011/$0-seed-$1.npz > /dev/null 2>>kh/h0011/err.log' ; ls kh/h0011 | wc -l; tail -3 kh/h0011/err.log

@@ -1,2 +1,0 @@
-cd hydro/"Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"; python -m py_compile run_j_windows_charts.py && echo OK
-OUT=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-windows; ls $OUT/*/seed-*.npz | wc -l; tail -2 $OUT/driver.log; uptime

@@ -1,1 +1,0 @@
-ls -la hycom

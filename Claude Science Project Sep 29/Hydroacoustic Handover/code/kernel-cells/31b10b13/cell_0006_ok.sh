@@ -1,3 +1,0 @@
-cd "repo/Claude Science Project Sep 29/results"; grep -n -i -E "0\.069|330|locus|31:41|fits.json|eta_50|η₅₀|eta50|6e-4|6 × 10|P_D fit|logistic|v2" hydroacoustics-composition-run-j.md | cut -c1-900 | head -50
-H="../../../hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data"
-ls $H/composition_run_j/v2 $H/injection_run_j $H/levels_run_j; cat "$H/composition_run_j/v2/coincidence_locus.csv" | head; cat "$H/composition_run_j/v2/coincidence_summary.json" | head -c 2500

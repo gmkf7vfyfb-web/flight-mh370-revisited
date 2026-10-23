@@ -1,1 +1,0 @@
-cd repo/r/"Claude Science Project Sep 29"; grep -rIh -i -E "18:22:12|mekar" --include=*.toml --include=*.csv engine/config engine/data 2>/dev/null | head -8; grep -rIh -E "^MEKAR|MEKAR," --include=*.csv . | head -3; grep -rIh -i -E "NILAM|IGOGU|ANOKO" --include=*.csv engine/data | head -4

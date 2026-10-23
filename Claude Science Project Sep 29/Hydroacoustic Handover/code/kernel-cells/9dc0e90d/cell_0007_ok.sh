@@ -1,3 +1,0 @@
-cd repo/r
-g(){ grep -rIn -i -E "$1" "Claude Science Project Sep 29" "Archive ISO Pre Sept 28" 2>/dev/null | grep -v -E "\.(json|csv|svg|geojson)" | cut -c1-230 | head -${2:-4}; echo "=== "; }
-g "OHASISBIO|Royer" 4; g "carbon monoxide|MOPITT|TROPOMI" 3; g "infrasound|IS04|IS52|microbarom" 4; g "T-phase|seismometer" 4; g "Gaofen|THEOS|WorldView|Chinese satellite" 2; g "flap.*(housed|retract|extended)" 2; g "Poupin|oldest barnacle" 2; g "Penang.*phone|Celcom" 2; g "Cocos|Christmas Island" 3; g "Sumatra|Java" 4

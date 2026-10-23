@@ -1,1 +1,0 @@
-grep -n "artifact" "repo/Claude Science Project Sep 29/results/kadri-haixun-conditional-2026-10-18/haixun-beacon-physics/README.md" | cut -c1-200

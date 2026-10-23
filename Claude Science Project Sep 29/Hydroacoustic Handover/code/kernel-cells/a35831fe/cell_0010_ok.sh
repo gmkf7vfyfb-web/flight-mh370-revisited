@@ -1,1 +1,0 @@
-cd /Users/pete/Downloads; ls -d */ | head -50; echo; ls mh370-exchange/hydroacoustics 2>/dev/null; echo; ls mh370-exchange/hydroacoustics/graphics-2026-10-22 2>/dev/null; df -h /Users/pete | tail -1

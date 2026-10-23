@@ -1,2 +1,0 @@
-cd src; for v in 1 4; do curl -s --max-time 30 "https://data.mendeley.com/public-api/datasets/nr4vt4h8gt?version=$v" -o mdl_v$v.json; python -c "
-import json;d=json.load(open('mdl_v$v.json')); print({k:(v if not isinstance(v,(list,dict)) else str(v)[:600]) for k,v in d.items() if k in ('name','description','files','folders','categories','data_licence','related_links','publish_date','version','doi')})"; done; for v in 1 4; do curl -s --max-time 30 "https://data.mendeley.com/public-api/datasets/nr4vt4h8gt/files?folder_id=root&version=$v" | head -c 300; echo; done

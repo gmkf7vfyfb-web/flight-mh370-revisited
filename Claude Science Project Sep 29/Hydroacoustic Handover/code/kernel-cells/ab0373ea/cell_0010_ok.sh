@@ -1,2 +1,0 @@
-P="hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"
-grep -n "def load_key" -A12 "$P"/run_j_levels.py | head -20; grep -n "repo_out" "$P"/run_j_levels.py | tail -5; sed -n 420,440p "$P"/run_j_levels.py | grep -n "repo_out\|to_csv" 

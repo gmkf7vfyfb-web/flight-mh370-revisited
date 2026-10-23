@@ -1,1 +1,0 @@
-cd src; for f in ATSB_OpSearch_2017.txt AMSA_reports.txt ICAO_WP30_Australia.txt ATSB_search_areas_30jul2015.txt; do echo "== $f"; grep -n -i "cospas\|sarsat\|emergency locator\|\bELT\b\|distress beacon\|406" $f | head -8; done

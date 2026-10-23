@@ -1,1 +1,0 @@
-cd /Users/pete/Downloads/flight-mh370-revisited 2>/dev/null && pwd && git log --oneline -5 && ls && echo --- && ls coordination 2>/dev/null | head -30

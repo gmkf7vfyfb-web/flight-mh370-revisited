@@ -1,2 +1,0 @@
-python3 -c "
-import pandas as pd; d=pd.read_csv('audit/work/sus/sus_tl.csv'); print(d.groupby(['site','station']).agg(n=('tl_db','size'),L=('range_km','first'),sh=('shallowest_m','first'))); print(d.columns.tolist())"

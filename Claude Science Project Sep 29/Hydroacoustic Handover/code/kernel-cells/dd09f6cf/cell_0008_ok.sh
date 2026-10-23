@@ -1,1 +1,0 @@
-cd "repo/Claude Science Project Sep 29/engine/hypotheses/seabed-search"; cat coverage/PROVENANCE.md; for f in coverage/*.cov; do echo "== $f"; head -c 400 $f; echo; done; cat ocean-infinity-2018.toml | head -60

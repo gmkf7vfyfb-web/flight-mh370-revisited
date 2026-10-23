@@ -1,1 +1,0 @@
-cd repo; export GIT_CONFIG_GLOBAL=/dev/null; git ls-tree -r --name-only HEAD | grep -E "^Claude Science Project Sep 29/engine/" | grep -i -E "readme|output|format|trace|route_sample|summar" | grep -v -E "results-data|\.png|\.pdf" | head -40

@@ -1,1 +1,0 @@
-cd src && file faa_tcds_777.pdf && head -c 600 faa_tcds_777.pdf

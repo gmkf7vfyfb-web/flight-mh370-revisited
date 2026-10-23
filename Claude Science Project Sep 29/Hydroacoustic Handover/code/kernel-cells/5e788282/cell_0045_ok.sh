@@ -1,3 +1,0 @@
-cd /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/5e788282-a899-406d-be81-a794b69469f6
-H="hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"
-grep -n -A22 "^def band_fraction" "$H/imos_stageB_map.py"; grep -n -A12 "^def envelope\|^def m1b\|^def M1b\|def stalta" "$H/weak_signal/methods.py" | head -60; grep -n "^def \|^METHODS" "$H/weak_signal/methods.py" | head -30

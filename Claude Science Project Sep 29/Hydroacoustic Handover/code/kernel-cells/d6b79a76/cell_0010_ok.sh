@@ -1,2 +1,0 @@
-cd ~/Downloads/mh370-exchange/end-of-flight/run-j-joined-v2; ls summary; tail -20 LOG; cat RUNS-DONE; ls J0011/seed-1 J0011/seed-22; ls J2241/run-j-waypoints | head; ls J2241/run-j-waypoints/seed-1 2>/dev/null; for d in J2241/*; do echo $d $(ls $d | grep -c seed); done; du -sh J0011/seed-1; python3 -c "
-import json;m=json.load(open('J0011/seed-1/run.json'));print(list(m.keys()));print({k:m[k] for k in m if k not in ('config','impact_columns','terminal')})" | head -40

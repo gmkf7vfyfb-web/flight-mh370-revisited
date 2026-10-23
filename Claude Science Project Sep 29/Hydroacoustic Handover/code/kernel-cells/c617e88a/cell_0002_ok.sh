@@ -1,1 +1,0 @@
-cd repo/"Claude Science Project Sep 29"; git log -1 --format=%H; wc -c results/pleiades/hydro-conditional-test-design.md; cat results/pleiades/hydro-conditional-test-design.md

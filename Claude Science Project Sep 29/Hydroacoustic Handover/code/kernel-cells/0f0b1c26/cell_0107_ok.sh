@@ -1,1 +1,0 @@
-cd repo; export GIT_CONFIG_GLOBAL=/dev/null; git show "origin/claude-science-sep29:Claude Science Project Sep 29/coordination/architecture.md" 2>/dev/null | grep -n "^## 2026-10-22" | tail -8; git show "origin/claude-science-sep29:Claude Science Project Sep 29/coordination/architecture.md" 2>/dev/null | awk '/^## 2026-10-22.*metz/{f=1} f' | head -40

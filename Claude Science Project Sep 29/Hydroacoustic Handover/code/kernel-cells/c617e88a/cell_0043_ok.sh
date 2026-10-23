@@ -1,1 +1,0 @@
-pwd; mkdir -p work/standin-scripts; ls work

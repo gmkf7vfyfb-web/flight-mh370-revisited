@@ -1,1 +1,0 @@
-export HOME=$PWD/h XDG_CONFIG_HOME=$PWD/h/.config; cd repo; git sparse-checkout add "/Claude Science Project Sep 29/engine/report/satcom_model.py" 2>&1|tail -1; ls -la "Claude Science Project Sep 29/engine/report/"; head -30 "Claude Science Project Sep 29/engine/report/satcom_model.py"; tail -3 ../kh/run.log

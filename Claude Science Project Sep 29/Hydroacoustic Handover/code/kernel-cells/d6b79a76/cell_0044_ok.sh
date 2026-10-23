@@ -1,1 +1,0 @@
-ls /tmp | grep -i "mh370\|rj\|eof" | head -20; ls -la /tmp/mh370-eof-rj1 2>/dev/null; find ~/Downloads/mh370-exchange -maxdepth 3 -name "mh370-eof-rj*" 2>/dev/null | head

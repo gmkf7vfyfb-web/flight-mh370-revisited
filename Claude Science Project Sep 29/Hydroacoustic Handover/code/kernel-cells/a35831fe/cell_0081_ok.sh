@@ -1,1 +1,0 @@
-cd /Users/pete/Downloads/mh370-exchange; ls -la composer/run-j-views-v3.2 composer/run-j-views-v3.2-australia | head -60; echo; ls -la searched-areas/spatial-fields-v2 searched-areas/run-j-spatial-v2 | head -50

@@ -1,2 +1,0 @@
-cd repo; export GIT_CONFIG_GLOBAL=/dev/null
-git ls-tree -r --name-only origin/claude-science-sep29 "Claude Science Project Sep 29/engine/hypotheses/end-of-flight/" 2>/dev/null | grep -v "\.toml$" | grep -i "0019\|table\|compact\|family_shares\|two.factor\|summar" | head -30

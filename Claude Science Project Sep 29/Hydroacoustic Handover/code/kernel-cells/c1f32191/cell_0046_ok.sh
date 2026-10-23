@@ -1,1 +1,0 @@
-cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/composition_run_j" && sed -i '' 's/    r = fig.canvas.get_renderer()/    fig.canvas.draw(); r = fig.canvas.get_renderer()/' charts.py && python charts.py /tmp/b11test /tmp/b11res test 2>&1 | grep -v Warn | tail -3

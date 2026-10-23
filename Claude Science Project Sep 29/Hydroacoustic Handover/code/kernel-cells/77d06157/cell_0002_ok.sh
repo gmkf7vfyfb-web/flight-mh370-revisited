@@ -1,1 +1,0 @@
-cd hydro/"Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"; ls; ls prepare | grep -i -E "run_j|level|graph|chart|plot|search|compos|kadri|air9|trace|imos_ram" ; ls results-data | head -50; ls results-data/levels_run_j results-data/searches_run_j results-data/composition_run_j 2>&1 | head -80

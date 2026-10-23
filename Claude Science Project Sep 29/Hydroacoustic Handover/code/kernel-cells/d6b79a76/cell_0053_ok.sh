@@ -1,1 +1,0 @@
-cd kh && echo "queued $(date)" > run.log && lockf -k /tmp/.mh370-heavy.lock sh -c 'echo "lock acquired $(date)"; python run_flight_leg.py out 4' >> run.log 2>&1; echo "exit $? $(date)" >> run.log; tail -5 run.log

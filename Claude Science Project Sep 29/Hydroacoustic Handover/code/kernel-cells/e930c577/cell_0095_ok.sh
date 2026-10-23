@@ -1,1 +1,0 @@
-python leg/cond_pred.py leg/scan leg/out > leg/out/cond_log.txt 2>&1; echo $?; grep -v -i -E 'proj|ca_bundle' leg/out/cond_log.txt | grep -E "PerthCanyon_3376|H08S|Error|error" | head -60

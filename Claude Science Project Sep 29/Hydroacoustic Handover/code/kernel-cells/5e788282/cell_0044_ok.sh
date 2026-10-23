@@ -1,4 +1,0 @@
-cd /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/5e788282-a899-406d-be81-a794b69469f6
-H="hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data"
-head -5 "$H/ram_check/h11_tl_ramcorr.csv"; wc -l "$H/ram_check/h11_tl_ramcorr.csv"; python -c "
-import pandas as pd; d=pd.read_csv('$H/ram_check/h11_tl_ramcorr.csv'); print(d.columns.tolist()); print(d.groupby(['station','src_depth_m']).size() if 'station' in d else d.head(20))"; grep -i h11 "$H/ram_check/ram_vs_kraken.csv" | head; head -3 "$H/f35a_cal/f35a_tl.csv"; cat "$H/f35a_cal/eta_cal_summary.json" | head -c 1500

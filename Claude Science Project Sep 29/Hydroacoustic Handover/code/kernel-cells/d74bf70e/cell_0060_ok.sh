@@ -1,1 +1,0 @@
-curl -s -m 60 http://oalib.hlsresearch.com/AcousticsToolbox/ | grep -o -i -E 'href="[^"]+\.(zip|tgz|tar\.gz)"' | head -20

@@ -1,1 +1,0 @@
-print(host.exec_interrupt("42340801-9c6f-4762-8db8-663b01ef9984"))

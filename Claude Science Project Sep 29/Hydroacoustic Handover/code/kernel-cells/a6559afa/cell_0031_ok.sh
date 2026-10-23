@@ -1,1 +1,0 @@
-cd /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated-v2; f=$(grep -rIl -e "2\.1e-4" -e "0\.00021" . | head -1); echo $f; grep -n -o -E ".{120}(2\.1e-4|0\.00021).{120}" "$f" | head -3; echo; ls | head; cat README* 2>/dev/null | grep -n -i -E "eta|anchor|coupling" | head -12

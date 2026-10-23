@@ -1,1 +1,0 @@
-cd src; sed -n 14,40p woa23_t13.asc | cut -c1-200; grep -n "lat\[" woa23_t13.asc; tail -12 woa23_t13.asc | cut -c1-300

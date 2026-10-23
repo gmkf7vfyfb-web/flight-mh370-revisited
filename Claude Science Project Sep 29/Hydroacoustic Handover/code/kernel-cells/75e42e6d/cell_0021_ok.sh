@@ -1,1 +1,0 @@
-cd src; awk 'NR>=495 && NR<=640' ATSB_search_areas_30jul2015.txt | grep -v "^ *$"; grep -n "^--- page" ATSB_search_areas_30jul2015.txt | awk -F: '$1>480 && $1<650'

@@ -1,1 +1,0 @@
-sed -n '/^def cycles/,/^def scorer/p' "repo/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/h08s_shot_outliers.py"

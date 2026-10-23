@@ -1,1 +1,0 @@
-W=/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/d74bf70e-a424-46a9-8149-902d027e782a; cd $W/hydro-wt; cat .git; git branch --show-current; git show --stat HEAD | head -40; git show --stat HEAD~1 | head -20; find "Claude Science Project Sep 29" -maxdepth 4 | head -50

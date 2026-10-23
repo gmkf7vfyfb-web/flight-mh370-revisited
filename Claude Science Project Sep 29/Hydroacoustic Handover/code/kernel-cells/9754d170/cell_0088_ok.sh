@@ -1,1 +1,0 @@
-cd audit/repo; for f in $(git ls-tree -r --name-only HEAD | grep -i "kadri.*table1.*csv\|kadri-table1"); do echo "$f"; done | head; git show "HEAD:Claude Science Project Sep 29/results/hydroacoustics-pleiades-test-preregistration.md" | sed -n 175,190p | cut -c1-250

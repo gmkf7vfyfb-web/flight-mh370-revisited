@@ -1,2 +1,0 @@
-python -c "
-import json;r=json.load(open('/Users/pete/Downloads/mh370-exchange/end-of-flight/run-j/run-j-waypoints/seed-1/run.json'));c=r['compact'];print({k:v for k,v in c.items() if 'T0' in k or 'time' in k.lower() or 'origin' in k.lower()})"

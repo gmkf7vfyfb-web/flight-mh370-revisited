@@ -1,1 +1,0 @@
-cd .tmp/hy/"Claude Science Project Sep 29"/coordination; grep -n "^## " HYDROACOUSTICS.md | tail -12; grep -n -i -E "run C" HYDROACOUSTICS.md | grep -i -E "hydroacoustics →|hydroacoustics ->|P_D|soft|summary" | cut -c1-220 | tail -15; grep -n "^## " architecture.md | grep -i hydro | tail -8

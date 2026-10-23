@@ -1,6 +1,0 @@
-RES="$PWD/repo/Claude Science Project Sep 29/results"; O=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated-v2; cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/composition_run_j" && B11_IMOS_RAMGRID=1 python charts.py $O/reduce "$RES" "module commits 90d7181, e13a32e; product run-j-gated-v2 (consistent table, built 2026-10-22T05:29:54 local)" 2>&1 | grep -v Warn; cd - >/dev/null; rm -rf charts_test; mkdir charts_test; cp "$RES"/hydroacoustics-composition-run-j-*.png charts_test/; python - <<'EOF'
-import pandas as pd
-ev=pd.read_csv("/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated-v2/reduce/evidence_three_ways.csv"); ul=pd.read_csv("/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated-v2/reduce/upper_limits.csv")
-e=ev[(ev.p==0.5)&(ev.alpha==0.05)&(ev.receivers=="IMOS gated")][["option","shift_median_deg","mass_north_33S_core","mass_north_33S_combined","KL_core_vs_combined_nats"]].round(3); print(e.to_string(index=False))
-print(ul[(ul.option=="D0")&(ul.p==0.5)&(ul.alpha==0.05)&(ul.receivers=="IMOS gated")&(ul.lat_lo==-41)&(ul.lat_hi==-20)][["pnd_at_1e-2","eta95_bayes_nondetection_logu_1e-6_1e-2"]].round(3).to_string(index=False))
-EOF

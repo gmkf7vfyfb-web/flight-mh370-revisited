@@ -1,1 +1,0 @@
-cd "hyd/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"; grep -n "def \|class \|self\.\(bmed\|teff\|rxpos\|taus\|fits\)\s*=" composition_run_j/common.py | head -50; grep -n "ETA_ANCHOR\|RECEIVERS\b\|RECEIVERS =\|RECEIVERS_GATED\|CAL_L_SD\|C_SOFAR\b =" composition_run_j/prereg.py | head

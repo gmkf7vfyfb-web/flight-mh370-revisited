@@ -1,1 +1,0 @@
-W="$PWD"; cd "repo/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics" && export OMP_NUM_THREADS=1 && python prepare/build_path_stub.py "$W/hydro/stub8" air8 2>&1 | grep -v "bathymetry [0-9]*/" | tail -5; ls -la "$W/hydro/stub8"

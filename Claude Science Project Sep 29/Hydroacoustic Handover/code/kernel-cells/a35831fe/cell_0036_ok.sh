@@ -1,1 +1,0 @@
-cd "hyd/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/ranked_candidates"; grep -n -E "eta_level|E_ref|1.13|energy|src_E|def " rank.py | head -60

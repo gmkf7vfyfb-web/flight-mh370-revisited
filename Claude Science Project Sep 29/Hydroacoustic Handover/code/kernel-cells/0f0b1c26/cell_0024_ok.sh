@@ -1,1 +1,0 @@
-D=/Users/pete/Downloads/mh370-exchange/ocean-transport/paths-calibration; ls -la $D; cat $D/README* 2>/dev/null | head -120

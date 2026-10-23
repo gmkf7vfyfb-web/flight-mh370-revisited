@@ -1,5 +1,0 @@
-show2("Calibrate against the 10 Boeing")
-show2("**Sampling adequacy is the thing")
-show2("1. The calibrated open-baseline")
-show2("Ballistic energy conservation. Level-flight")
-show2("- Do not import Holland's descent-rate bounds")

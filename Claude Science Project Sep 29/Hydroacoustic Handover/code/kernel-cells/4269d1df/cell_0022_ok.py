@@ -1,2 +1,0 @@
-r = c.call_command(r'''cd ~/mh370/drift; T="repo/Claude Science Project Sep 29/engine/hypotheses/debris-drift/tests.rs"; sed -n 640,708p "$T"; O=~/.claude-science-scratch/ocean; cat $O/era5/era5_u10_v10_3h.series.json | head -c 700; echo; ls $O/*/ | head -60; grep -n "manifest" ~/mh370/drift/arclat/arclat-glorys12-north.toml''', intent='Read drift snapshot harness source and manifest layout on deskstar (read only)')
-print(r.stdout[-9000:])

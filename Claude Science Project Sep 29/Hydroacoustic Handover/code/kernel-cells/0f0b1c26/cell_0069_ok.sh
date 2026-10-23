@@ -1,1 +1,0 @@
-grep -n -i -A3 "^Figure 1\b\|^Figure 2\b\|Figure 1[:.]\|Figure 2[:.]" "repo/ISO Sept 28 Status/inputs/papers/hydroacoustics/cmst-2014-30.txt" | head -30

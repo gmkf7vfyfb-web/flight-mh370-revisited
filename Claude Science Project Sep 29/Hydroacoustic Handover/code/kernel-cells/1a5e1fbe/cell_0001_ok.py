@@ -1,1 +1,0 @@
-print(type(r)); print(str(r)[:300])

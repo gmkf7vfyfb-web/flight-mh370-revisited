@@ -1,1 +1,0 @@
-cd .tmp/hy/"Claude Science Project Sep 29"/engine/hypotheses/hydroacoustics/prepare; cat kraken_tl.py | sed -n 1,121p; echo =====; grep -n -E "BANDS|SRC|R_|3.013|TAU|def |eta|G_|\.csv|E_F" f35a_eta_calibration.py | head -60

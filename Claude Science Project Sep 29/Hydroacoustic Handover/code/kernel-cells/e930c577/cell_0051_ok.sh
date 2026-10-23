@@ -1,1 +1,0 @@
-cd leg; rm -r out/path_blockage.csv; python blockage.py out/path_blockage.csv 2>&1 | grep -v -i proj

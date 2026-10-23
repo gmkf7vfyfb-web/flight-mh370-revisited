@@ -1,1 +1,0 @@
-cd "repo/Claude Science Project Sep 29"; wc -l coordination/OCEAN_DRIFT.md threads/master-prompts/ocean-drift.md ARCHITECTURE.md; tail -c 6000 coordination/OCEAN_DRIFT.md; echo =====; cat results/drift-runj-2026-10-17/arc-latitude-scan/README.md | head -120

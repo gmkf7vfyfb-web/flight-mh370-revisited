@@ -1,1 +1,0 @@
-cd main; for f in "Claude Science Project Sep 29/results/pleiades/d2-clusters-3km.csv" "Claude Science Project Sep 29/engine/hypotheses/pleiades/data/cosmo-contacts.csv" "ISO Sept 28 Status/inputs/recovered-v01/.sources/pleiades-bran2016-forward-inversion/data/pleiades-rating5-objects.csv"; do echo "== $f"; timeout 60 git show "HEAD:$f" | head -15; done

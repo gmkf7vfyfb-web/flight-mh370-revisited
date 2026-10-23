@@ -1,2 +1,0 @@
-W="$PWD"; cd "repo/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics" && export OMP_NUM_THREADS=1 RAYON_NUM_THREADS=2
-python prepare/air9_tl_validation.py data/stub "$W/at" data/blackman/fig23_air9_digitised.csv "$W/hydro/air9" 2>&1 | tail -30

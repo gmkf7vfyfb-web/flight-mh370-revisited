@@ -1,1 +1,0 @@
-cd "./.tmp/repo/ISO Sept 28 Status/results/worktree-hydroacoustics"; find . -type f -exec wc -c {} + | sort -n | tail -40; echo; cat hydroacoustics/kadri-package/eta.txt | head -40; echo; cat hydroacoustics/kadri-package/preregistration.toml | head -80

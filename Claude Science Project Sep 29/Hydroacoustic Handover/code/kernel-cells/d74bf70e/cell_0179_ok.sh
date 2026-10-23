@@ -1,1 +1,0 @@
-cd repo && timeout 60 git ls-remote origin hypothesis/hydroacoustics; git rev-parse HEAD

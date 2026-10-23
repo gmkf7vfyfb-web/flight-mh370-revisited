@@ -1,1 +1,0 @@
-cd leg; grep -n "" cond_pred.py | sed -n 54,64p | cat -A | cut -c1-80

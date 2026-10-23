@@ -1,1 +1,0 @@
-cd "./.tmp/repo/ISO Sept 28 Status/inputs/papers/hydroacoustics"; sed -n 1415,1560p brown2026.txt | cut -c1-200; echo ....; grep -n -A3 "^Metz, D\|^LeBras\|^Nielsen\|^Prario\|^Prior, M\|^Soloway\|^Wang, \|^Vergoz\|^Chu, \|^Arons\|^Okal\|^Gerstoft\|^Clarke" brown2026.txt | cut -c1-160

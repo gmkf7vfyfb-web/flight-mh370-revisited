@@ -1,1 +1,0 @@
-ls -la out/injection/ 2>/dev/null; ps aux | grep run_injection | grep -v grep | awk '{print $3, $4, $6/1e6 " GB"}' | head

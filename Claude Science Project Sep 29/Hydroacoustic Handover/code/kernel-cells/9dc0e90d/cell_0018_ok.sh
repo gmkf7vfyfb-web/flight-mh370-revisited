@@ -1,3 +1,0 @@
-cd repo/r/"Claude Science Project Sep 29"
-g(){ grep -rIn -i -E "$1" --include=*.md --include=*.toml --include=*.txt . 2>/dev/null | cut -c1-230 | head -${2:-3}; echo "=== "; }
-g "shipwreck|19th.century" 3; g "\bAIS\b|merchant|vessel transit|fishing fleet" 4; g "contrail" 1; g "unexamined|not yet examined|in custody" 2; g "cloud cover|cloud mask" 1; g "sonar contact|contacts? (reviewed|dismissed)|target list" 2; g "121\.5|mayday" 2; g "replica" 2

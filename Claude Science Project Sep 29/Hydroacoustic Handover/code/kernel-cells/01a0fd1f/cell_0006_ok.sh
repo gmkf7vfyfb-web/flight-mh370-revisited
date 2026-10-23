@@ -1,1 +1,0 @@
-cd rr; cat ctbto.txt

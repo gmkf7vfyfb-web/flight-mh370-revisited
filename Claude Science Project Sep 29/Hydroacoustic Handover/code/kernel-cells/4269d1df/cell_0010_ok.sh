@@ -1,1 +1,0 @@
-cd /Users/pete/Downloads; ls mh370-ocean-data; du -sh mh370-ocean-data/* 2>/dev/null; echo; ls mh370-exchange; echo; ls mh370-exchange/debris-drift; df -h /Users/pete/Downloads | tail -1; ls -d mh370* */mh370* 2>/dev/null | head

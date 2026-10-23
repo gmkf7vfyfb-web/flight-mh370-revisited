@@ -1,1 +1,0 @@
-M="hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data"; ls "$M/windows_run_j"; for f in "$M"/windows_run_j/*.csv; do echo "== $f $(wc -l < "$f")"; head -3 "$f" | cut -c1-600; done; ls /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-windows

@@ -1,1 +1,0 @@
-cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"; grep -l -E "w_D0|def .*weight" *.py | head; grep -n -E "def |w_D0|loglik|exp\(" searches_geometry*.py 2>/dev/null | head -40; ls | grep -i -E "search|geom|composer|views" 

@@ -1,2 +1,0 @@
-cd "hrepo/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"; head -3 results-data/kadri_package/next-run-b/predictions.csv | cut -c1-900; python -c "
-import pandas as pd; d=pd.read_csv('results-data/kadri_package/next-run-b/predictions.csv'); print(d.shape); print(d.groupby('station').range_km.describe()); print([c for c in d.columns])"; cat results-data/kadri_package/next-run-b/predictions_meta.json | head -60

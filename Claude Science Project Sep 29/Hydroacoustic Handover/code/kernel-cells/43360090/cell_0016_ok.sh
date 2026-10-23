@@ -1,3 +1,0 @@
-cd ./.tmp/repo; K="Archive ISO Pre Sept 28/codebases/v01-share-withdrawn/v01/workspace/.sources/kadri-2024-hydroacoustics"
-git ls-tree -r --name-only HEAD "$K" | grep -v "\.md$" | grep -i "json$" | sed 's|.*kadri-2024-hydroacoustics/||' | head -80
-echo ====; head -c 3000 "ISO Sept 28 Status/threads/hydroacoustics-open-questions.md" 2>/dev/null || (git sparse-checkout add "/ISO Sept 28 Status/threads/hydroacoustics-open-questions.md"; head -c 3000 "ISO Sept 28 Status/threads/hydroacoustics-open-questions.md")

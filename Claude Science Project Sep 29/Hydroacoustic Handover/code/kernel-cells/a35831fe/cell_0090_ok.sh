@@ -1,1 +1,0 @@
-cd main; git ls-tree -r --name-only HEAD | grep -i -E "pleiades.*(object|cluster|contact|rating).*\.(csv|json|toml)$|cosmo-contacts" | head -20; git ls-tree -r --name-only HEAD | grep -i -E "searched|seabed-search" | grep -i -E "\.(geojson|json|csv)$" | head -20

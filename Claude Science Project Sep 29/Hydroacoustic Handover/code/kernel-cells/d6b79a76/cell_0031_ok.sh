@@ -1,1 +1,0 @@
-cd kh; python3 -c "import ast;ast.parse(open('flight_leg_worker.py').read()); print('ok')"; grep -n "stratum\|sd /\|KEYS\|HEAD" flight_leg_worker.py | sed -n 1,60p; ls ../scorer

@@ -1,2 +1,0 @@
-cd "hrepo/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data/kadri_northern"; python -c "
-import json; j=json.load(open('h01w_time_discriminant.json')); print(json.dumps(j)[:2500])"; head -3 h01w_time_discriminant.csv

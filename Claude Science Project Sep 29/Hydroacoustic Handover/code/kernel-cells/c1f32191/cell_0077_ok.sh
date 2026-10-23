@@ -1,1 +1,0 @@
-cd "repo/Claude Science Project Sep 29/results"; grep -h -B1 -A2 "G23\*\*, declared" hydroacoustics-*.md | cut -c1-400 | head -8; echo ----; grep -h "G5" hydroacoustics-blackman-validation.md | cut -c1-300 | head -4; echo ----; grep -l "G23" hydroacoustics-*.md

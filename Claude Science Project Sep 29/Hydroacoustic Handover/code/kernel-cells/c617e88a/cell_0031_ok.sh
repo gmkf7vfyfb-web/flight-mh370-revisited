@@ -1,2 +1,0 @@
-cd hydro/"Claude Science Project Sep 29"/engine/hypotheses/hydroacoustics/results-data; python -c "
-import json;s=json.load(open('imos2b/summary.json'));print(json.dumps(s['mh370_detected'])[:1500])"; cat imos2b/mh370_windows.csv | head -20; head -5 stageA/mh370_windows_extended_null.csv; wc -l stageA/mh370_windows_extended_null.csv

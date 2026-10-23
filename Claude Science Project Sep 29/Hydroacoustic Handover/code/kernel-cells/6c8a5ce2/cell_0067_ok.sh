@@ -1,6 +1,0 @@
-cd .tmp; R="repo/Claude Science Project Sep 29/results"; D="$R/hydroacoustics-calibration-events-stage1-standin"; mkdir -p "$D/scripts" "$D/data"
-cp standin/run_event_tl.py standin/q1_af447.py standin/tau_sensitivity.py standin/chart_calibration.py standin/chart_tau.py "$D/scripts/"
-cp standin/tl/event_tl.csv standin/q1/af447_q1_grid.csv standin/q1/af447_q1_summary.json standin/sanjuan_h10n_implied_source.csv standin/sanjuan_h10n_implied_source_summary.json standin/tau90_hist.json "$D/data/"
-cp standin/full_tau/summary.json "$D/data/run_c_tau90_sensitivity_summary.json"; cp standin/smoke_tau/summary.json "$D/data/run_c_tau90_smoke_free_seed1_with_baseline_check.json"
-cp standin/hydroacoustics-calibration-events-stage1-standin.png standin/hydroacoustics-calibration-events-stage1-standin.pdf standin/hydroacoustics-run-c-tau-sensitivity-standin.png standin/hydroacoustics-run-c-tau-sensitivity-standin.pdf "$R/"
-du -sh "$D" "$R"/hydroacoustics-calibration-events-stage1-standin.* "$R"/hydroacoustics-run-c-tau-sensitivity-standin.*; rm -rf standin/tl/work standin/tl/stubschema; df -h /Users/pete/Downloads | tail -1

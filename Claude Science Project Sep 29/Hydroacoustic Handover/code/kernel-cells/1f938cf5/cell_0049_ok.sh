@@ -1,2 +1,0 @@
-cd hycom; B="https://tds.hycom.org/thredds/dodsC/GLBv0.08/expt_53.X/data/2014"
-for v in depth lat lon time; do curl -s -m 300 -o $v.ascii "$B.ascii?$v"; echo $v $(wc -c < $v.ascii); done; curl -s -m 60 "$B.das" | grep -A6 -E "^    time|water_u \{|water_temp \{" | head -40

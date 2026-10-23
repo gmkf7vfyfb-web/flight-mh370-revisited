@@ -1,1 +1,0 @@
-cd ~/Downloads/mh370-exchange/debris-drift; ls -la runA-rebuilt/debris-drift-production-globcurrent/merged | head -30; head -c 1500 run-j/summary.json; echo; sed -n 1,60p run-i/README.md

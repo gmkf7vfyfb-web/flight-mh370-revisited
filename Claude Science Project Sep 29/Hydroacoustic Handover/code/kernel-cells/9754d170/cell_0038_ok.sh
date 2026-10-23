@@ -1,3 +1,0 @@
-cd "audit/repo/Claude Science Project Sep 29/results/hydroacoustics-pleiades-test-standin"; python3 -c "
-import json;d=json.load(open('result/rhyd_mixture.json'));print(json.dumps(d)[:2500])"; echo; python3 -c "
-import json;d=json.load(open('power/held-out/power_check.json'));print(json.dumps(d)[:2000])"; echo; head -50 standin-scripts/power_check.py | cut -c1-250; grep -n "argv\|Usage\|usage" standin-scripts/*.py | head -20

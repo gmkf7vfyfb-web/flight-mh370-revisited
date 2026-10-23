@@ -1,1 +1,0 @@
-cat lib/seabed_loglik.py | cut -c1-250; sed -n 120,232p "repo/Claude Science Project Sep 29/results/composer-views-run-j/reduce_seed_views.py" | cut -c1-250 | head -50

@@ -1,2 +1,0 @@
-E=/Users/pete/Downloads/mh370-exchange/end-of-flight/run-j
-for s in run-j-waypoints run-j-free; do echo "== $s"; ls $E/$s | grep seed- | head -6; echo "dirs with impacts32: $(ls -d $E/$s/seed-*/impacts32.npy 2>/dev/null | wc -l); all seed- entries: $(ls $E/$s | grep -c seed-)"; ls $E/$s | grep seed- | grep -v -E '^seed-[0-9]+$' | head -3; done

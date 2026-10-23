@@ -1,1 +1,0 @@
-cp /tmp/interim/chart_test.png ./chart_test.png && ls -la chart_test.png

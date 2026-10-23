@@ -1,1 +1,0 @@
-H="hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"; grep -n "^[A-Z_]* *=" "$H/injection_recovery_run_j/prereg.py" | head -60; echo ----; sed -n 1,60p "$H/injection_recovery_run_j/inputs.py"

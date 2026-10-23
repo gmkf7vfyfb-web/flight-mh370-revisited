@@ -1,1 +1,0 @@
-mkdir -p v3 && cp hydro-fix-proposal.md v3/hydro-fix-proposal.md && grep -c "frames table, model column" v3/hydro-fix-proposal.md

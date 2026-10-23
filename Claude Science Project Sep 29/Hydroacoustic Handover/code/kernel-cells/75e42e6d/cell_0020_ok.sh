@@ -1,1 +1,0 @@
-cd src; grep -n -i "TPL\|pinger\|acoustic\|sonobuoy\|Haixun\|km2\|km²\|square" ATSB_search_areas_30jul2015.txt | head -60; head -60 ATSB_search_areas_30jul2015.txt | grep -v "^ *$" | head -30

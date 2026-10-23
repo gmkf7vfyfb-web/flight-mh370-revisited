@@ -1,1 +1,0 @@
-cd ~/Downloads/mh370-exchange/end-of-flight/ && ls; echo ---; ls run-j; echo ---; ls run-j/summary | head -50; echo; for d in run-j/*/; do echo $d $(ls $d | wc -l); done; ls run-j/run-j-waypoints | head; ls run-j/run-j-waypoints/seed-1 2>/dev/null; cat run-j/run-j-waypoints/seed-1/COLUMNS.txt 2>/dev/null | head -60; df -h ~/Downloads | tail -1

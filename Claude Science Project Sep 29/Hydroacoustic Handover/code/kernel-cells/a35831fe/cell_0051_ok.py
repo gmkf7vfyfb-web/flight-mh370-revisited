@@ -1,1 +1,0 @@
-aj=json.load(open(H+'windows_run_j/arc_lat_lon.json')); print(type(aj), (list(aj.keys())[:5] if isinstance(aj,dict) else aj[:2]))

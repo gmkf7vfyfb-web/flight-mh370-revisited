@@ -1,1 +1,0 @@
-cd "repo/ISO Sept 28 Status/inputs/papers/hydroacoustics"; for p in 16 17 18 19 20 21 22; do awk "/===== PAGE $p =====/,/===== PAGE $((p+1)) =====/" ucrl-tr-207323.txt | grep -o -i -E "[^.]*(liter|litre|energy|joule|equivalent|bar\b|MPa|psi|inch|wall thick|peak pressure|Pa )[^.]*\." | sed "s/^/p$p: /"; done | cut -c1-400

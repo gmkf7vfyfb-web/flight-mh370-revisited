@@ -1,1 +1,0 @@
-cd hydro; export GIT_CONFIG_GLOBAL=/dev/null; git ls-tree -r -l HEAD | grep -i "published-fig" ; git ls-tree -r --name-only HEAD | grep -i "\.sources/" | sed 's#.*\.sources/##' | cut -d/ -f1 | sort | uniq -c

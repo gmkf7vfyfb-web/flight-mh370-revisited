@@ -1,9 +1,0 @@
-set -x
-cd "/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/d74bf70e-a424-46a9-8149-902d027e782a/hydro-wt/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"; export OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 PYTHONPATH=".:exploratory/pleiades_test:/tmp/eof-cur/Claude Science Project Sep 29/engine/hypotheses/end-of-flight/smoke"
-date -u
-python search_windows_mixture.py --exchange /Users/pete/Downloads/mh370-exchange/end-of-flight/next-run-d-he --mixture-json /tmp/fe_d_primary.json --eof-module "/tmp/eof-cur/Claude Science Project Sep 29/engine/hypotheses/end-of-flight/smoke/displacement_hist.py" --out /tmp/sw_rund/primary --family-evidence /tmp/fe_d_primary.json --variants alive unpowered silent --compact-reader "/tmp/eof-cur/Claude Science Project Sep 29/engine/hypotheses/end-of-flight/smoke/compact_impacts.py" --speed-max 212 > /tmp/sw_rund_primary.log 2>&1
-date -u
-python search_windows_mixture.py --exchange /Users/pete/Downloads/mh370-exchange/end-of-flight/next-run-d-he --mixture-json /tmp/fe_d_without.json --eof-module "/tmp/eof-cur/Claude Science Project Sep 29/engine/hypotheses/end-of-flight/smoke/displacement_hist.py" --out /tmp/sw_rund/no_survival --family-evidence /tmp/fe_d_without.json --variants unpowered --compact-reader "/tmp/eof-cur/Claude Science Project Sep 29/engine/hypotheses/end-of-flight/smoke/compact_impacts.py" --speed-max 212 --no-survival > /tmp/sw_rund_nosurv.log 2>&1
-date -u
-python per_impact_lnl.py .. /Users/pete/Downloads/mh370-exchange/end-of-flight/next-run-d-he /Users/pete/Downloads/mh370-exchange/hydroacoustics/next-run-d-he ../results-data/kadri2a/kadri_table1_geometry.csv --compact-reader "/tmp/eof-cur/Claude Science Project Sep 29/engine/hypotheses/end-of-flight/smoke/compact_impacts.py" --strata next-d-free next-d-repro-radar next-d-descent-climb next-d-routes > /tmp/pil_rund.log 2>&1
-date -u

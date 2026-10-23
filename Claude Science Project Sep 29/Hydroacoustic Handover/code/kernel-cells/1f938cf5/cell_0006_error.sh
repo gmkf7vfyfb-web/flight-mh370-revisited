@@ -1,4 +1,0 @@
-export HOME=$PWD/home XDG_CONFIG_HOME=$PWD/home/.config; mkdir -p $HOME
-git clone -q --depth 1 --single-branch -b claude-science-sep29 --filter=blob:none --sparse https://x-access-token:$GITHUB_TOKEN@github.com/gmkf7vfyfb-web/flight-mh370-revisited.git repo 2>&1 | grep -v "failed to store"
-cd repo; git sparse-checkout set --no-cone "/Claude Science Project Sep 29/coordination/" "/Claude Science Project Sep 29/threads/master-prompts/settling.md" "/Claude Science Project Sep 29/ARCHITECTURE.md" "/ISO Sept 28 Status/threads/master-prompts/common.txt" "/Claude Science Project Sep 29/engine/hypotheses/settling/" "/Claude Science Project Sep 29/results/kadri-haixun-conditional-2026-10-18/"
-git log --oneline -1; ls "Claude Science Project Sep 29/coordination/"; ls -R "Claude Science Project Sep 29/results/kadri-haixun-conditional-2026-10-18/" 2>/dev/null; ls "Claude Science Project Sep 29/engine/hypotheses/settling/"

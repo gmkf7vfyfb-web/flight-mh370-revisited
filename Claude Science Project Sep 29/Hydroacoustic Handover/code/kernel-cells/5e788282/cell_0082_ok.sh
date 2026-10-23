@@ -1,1 +1,0 @@
-sleep 30; cat /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/5e788282-a899-406d-be81-a794b69469f6/step5.log | head -80

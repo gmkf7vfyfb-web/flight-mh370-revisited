@@ -1,1 +1,0 @@
-cd /Users/pete/Downloads/mh370-exchange/end-of-flight/run-i && for i in $(seq 1 40); do if [ -f run-i-subsample.npz ]; then echo READY; break; fi; sleep 15; done; tail -3 subsample.log; ls -la run-i-subsample.npz

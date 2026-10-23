@@ -1,1 +1,0 @@
-export HOME=$PWD/home XDG_CONFIG_HOME=$PWD/home/.config; cd repo; git pull -q --rebase 2>&1 | tail -2; git log -3 --format='%h %ci %s' | cut -c1-150; git ls-tree -r --name-only HEAD | grep -E 'kadri-haixun-conditional-2026-10-18' | head -30

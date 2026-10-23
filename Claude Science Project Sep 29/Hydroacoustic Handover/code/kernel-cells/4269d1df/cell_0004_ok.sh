@@ -1,4 +1,0 @@
-export HOME=$PWD/h XDG_CONFIG_HOME=$PWD/h/.config
-cd repo
-git sparse-checkout set --no-cone "/Claude Science Project Sep 29/threads/master-prompts/" "/Claude Science Project Sep 29/coordination/" "/Claude Science Project Sep 29/ARCHITECTURE.md" "/Claude Science Project Sep 29/results/drift-runj-2026-10-17/" "/Claude Science Project Sep 29/results/kadri-haixun-conditional-2026-10-18/" "/ISO Sept 28 Status/threads/master-prompts/common.txt" "/Claude Science Project Sep 29/engine/hypotheses/debris-drift/*.toml" "/Claude Science Project Sep 29/engine/hypotheses/debris-drift/*.rs" "/Claude Science Project Sep 29/engine/hypotheses/debris-drift/src/" "/Claude Science Project Sep 29/engine/hypotheses/debris-drift/configs/" 2>&1|tail -2
-cd "Claude Science Project Sep 29"; ls; ls coordination | head -50; ls -R results/drift-runj-2026-10-17 | head -80; ls -R results/kadri-haixun-conditional-2026-10-18; ls engine/hypotheses/debris-drift 2>&1 | head -30

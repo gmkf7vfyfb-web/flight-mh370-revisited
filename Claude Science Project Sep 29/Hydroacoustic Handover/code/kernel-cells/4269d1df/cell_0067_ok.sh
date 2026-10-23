@@ -1,1 +1,0 @@
-cat hpc/e1521cb6-b837-45b7-9f22-a43ded2dee9d/parse-*.log | head -20

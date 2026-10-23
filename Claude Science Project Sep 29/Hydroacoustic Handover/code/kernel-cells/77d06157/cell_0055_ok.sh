@@ -1,2 +1,0 @@
-cat /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-searches/geometry/run.json | head -c 1500; echo; python -c "
-import json;e=json.load(open('/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-windows/ess.json'));print({k:v for k,v in e.items() if 'p0.5' in k})"

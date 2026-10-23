@@ -1,4 +1,0 @@
-sc,v=cdse("SENTINEL-1","2014-04-03T00:00:00.000Z","2014-05-01T00:00:00.000Z","POLYGON((-10 35,30 35,30 70,-10 70,-10 35))"); print("S1 Europe Apr2014",sc,len(v), [x["Name"] for x in v[:3]])
-sc,v=cdse("SENTINEL-1","2014-04-03T00:00:00.000Z","2015-01-01T00:00:00.000Z","POLYGON((95 -32,108 -32,108 -20,95 -20,95 -32))"); print("S1 SE Indian Ocean 2014",sc,len(v), [ (x["Name"],x["ContentDate"]["Start"]) for x in v[:5]])
-sc,v=cdse("SENTINEL-1","2014-04-03T00:00:00.000Z","2016-01-01T00:00:00.000Z"); print("S1 locality to 2015",sc,len(v), [ (x["Name"][:40],x["ContentDate"]["Start"][:10]) for x in v[:5]])
-print([x["Name"] for x in res["TERRAAQUA"][:6]]); print([x["Name"] for x in res["SMOS"][:3]])

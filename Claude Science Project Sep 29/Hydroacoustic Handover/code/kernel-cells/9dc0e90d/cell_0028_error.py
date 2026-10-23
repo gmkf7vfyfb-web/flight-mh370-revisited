@@ -1,1 +1,0 @@
-print(r.get('response','')[6000:])

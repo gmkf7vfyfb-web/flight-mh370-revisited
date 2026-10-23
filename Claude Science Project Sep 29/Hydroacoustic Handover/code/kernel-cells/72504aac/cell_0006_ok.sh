@@ -1,3 +1,0 @@
-S=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-searches
-for f in named/table1_verdicts.csv named/poster_boxes.csv named/royer_arrivals.csv named/royer_verdicts.csv geometry/bearing_h01w.csv geometry/lags.csv geometry/arrival_check.csv coincidence/coincidence_summary.csv; do echo "== $f $(wc -l < $S/$f)"; head -12 $S/$f | cut -c1-400; done
-cat $S/named/named_summary.json | head -c 1500; echo; cat $S/geometry/run.json | head -c 1500

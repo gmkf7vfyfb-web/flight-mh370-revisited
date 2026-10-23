@@ -1,1 +1,0 @@
-time python haixun_beacon.py out 2>&1 | tail -80; head -5 out/profile.csv; tail -3 out/profile.csv

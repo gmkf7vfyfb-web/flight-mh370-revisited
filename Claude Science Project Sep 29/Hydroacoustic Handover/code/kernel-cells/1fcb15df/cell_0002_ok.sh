@@ -1,1 +1,0 @@
-cd /Users/pete/Downloads/mh370-exchange/hydroacoustics/; ls; find run-j-searches -maxdepth 2 | head -60; ls graphics-2026-10-22 2>&1; ls graphics-2026-10-22/* 2>&1 | head

@@ -1,3 +1,0 @@
-cd repo/r
-g(){ grep -rIn -i -E "$1" --include=*.md --include=*.toml --include=*.py --include=*.txt "Claude Science Project Sep 29" "Archive ISO Pre Sept 28" 2>/dev/null | grep -v -i "flight simulator\b.*rust" | cut -c1-260 | head -${2:-6}; echo "=== "; }
-g "barnacle|Lepas" 10; g "isotope" 4; g "pinger|ULB" 6; g "surface search|aerial search" 8; g "\bELT\b|SARSAT" 5; g "home simulator|flight simulator|simulator data" 5; g "outboard flap|flap.*retract" 6; g "Indonesia" 6; g "Kate Tee|McKay|sighting" 4

@@ -1,1 +1,0 @@
-E=/Users/pete/Downloads/mh370-exchange/end-of-flight/next-run; ls $E; ls $E/*/ | head -30; cat $E/$(ls $E | head -1)/seed-1/COLUMNS.txt 2>/dev/null | head -120 || true

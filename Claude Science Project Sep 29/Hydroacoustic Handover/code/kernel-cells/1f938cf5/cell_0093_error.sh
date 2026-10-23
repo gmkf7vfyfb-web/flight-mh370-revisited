@@ -1,1 +1,0 @@
-export HOME=$PWD/home XDG_CONFIG_HOME=$PWD/home/.config; cd repo; git fetch -q origin claude-science-sep29 2>&1 | grep -v "failed to store"; git rev-parse --short HEAD origin/claude-science-sep29

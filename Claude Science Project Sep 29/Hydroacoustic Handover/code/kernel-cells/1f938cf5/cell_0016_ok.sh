@@ -1,1 +1,0 @@
-find ~/Downloads/mh370-exchange ~/Downloads/mh370-settling-work -maxdepth 4 -iname "*kadri*" -o -maxdepth 4 -iname "*haixun*" 2>/dev/null | head; ls -la /tmp/.mh370-heavy.lock 2>&1; ps aux | grep -i -E "mh370|python" | grep -v grep | awk '{print $3,$4,$11,$12,$13,$14}' | head

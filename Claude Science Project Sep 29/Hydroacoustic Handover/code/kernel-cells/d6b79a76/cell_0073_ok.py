@@ -1,4 +1,0 @@
-show=['key','variant','ess','impact time, min after 00:00','minutes after 00:19:29','final flame-out, min after 00:00','minutes aloft after flame-out','share_A1','share_A2','share_B','share_C1','share_powered_after_0019a','share_unpowered_glide_turns','share_unpowered_glide_no_turns','share_arrested_dive_after_steep_0019b','share_inside_arc','n_rows_99pct_sumwL','n_parents_99pct']
-def fmt(v): return '/'.join(f'{x:.1f}' for x in v) if isinstance(v,list) else (f'{v:.3f}' if isinstance(v,float) else v)
-ch['key']=ch.key.str.replace(' total q=0.333 (C2 silent)','')
-print(ch[ch.variant.isin(['T1.0','C1.0'])][show].map(fmt).to_string())

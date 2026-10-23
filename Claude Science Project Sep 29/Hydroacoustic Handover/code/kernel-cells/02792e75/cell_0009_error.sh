@@ -1,1 +1,0 @@
-cd src; curl -v --http1.1 -o x.pdf "https://www.atsb.gov.au/media/5773565/operational-search-for-mh370_final_3oct2017.pdf" --max-time 60 2>&1 | grep -E "^< |error|reset|HTTP/" | head -20; ls -la x.pdf 2>/dev/null

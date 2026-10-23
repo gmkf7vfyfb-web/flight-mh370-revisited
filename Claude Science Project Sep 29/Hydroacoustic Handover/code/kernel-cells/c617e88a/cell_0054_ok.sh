@@ -1,1 +1,0 @@
-P=/Users/pete/Downloads/mh370-exchange/pleiades/hydro-test/next-run-b; ls -la $P; ls $P/*/ | head -30

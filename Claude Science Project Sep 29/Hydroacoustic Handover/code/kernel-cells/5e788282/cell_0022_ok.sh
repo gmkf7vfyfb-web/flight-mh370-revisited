@@ -1,2 +1,0 @@
-cd /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/5e788282-a899-406d-be81-a794b69469f6
-grep -rIn -i "shallow sound channel\|shallow SOFAR\|shallow channel\|upper anchor\|upper bound" repo/"Claude Science Project Sep 29"/results/hydroacoustics-*.md repo/"Claude Science Project Sep 29"/threads/master-prompts/hydroacoustics.md repo/"Claude Science Project Sep 29"/threads/work-orders/hydroacoustics-order-2026-10-21.md 2>/dev/null | grep -i "f-35\|f35\|anchor\|channel" | cut -c1-400 | head -30

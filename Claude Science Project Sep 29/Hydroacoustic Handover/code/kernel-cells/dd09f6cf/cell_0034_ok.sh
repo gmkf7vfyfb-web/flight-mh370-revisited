@@ -1,1 +1,0 @@
-cd lib; sed -n 1,37p option_table_0019.py | cut -c1-300; sed -n 100,200p option_table_0019.py | cut -c1-300; grep -n "strata\|0.9982\|P_FAM" ../repo/"Claude Science Project Sep 29"/results/composer-views-run-j/compose_views.py | head -20

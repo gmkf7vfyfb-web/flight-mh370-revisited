@@ -1,2 +1,0 @@
-ls -la work/result/ 2>&1; python -c "
-import json; r=json.load(open('work/result/per_seed.json')); print(len(r)); x=r[0]; print({k:(round(v,4) if isinstance(v,float) else v) for k,v in x.items() if 'S' not in k or k=='lnS0'})" 2>&1 | tail -3; ps aux | grep -c "[r]hyd_result"

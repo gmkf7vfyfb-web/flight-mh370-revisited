@@ -1,1 +1,0 @@
-cd build/at_src/at/tests/Munk && ls | head -30 && cat MunkK.env 2>/dev/null | head -40

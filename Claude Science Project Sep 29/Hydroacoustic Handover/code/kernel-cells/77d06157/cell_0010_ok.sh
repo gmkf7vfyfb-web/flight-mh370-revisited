@@ -1,1 +1,0 @@
-S=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-searches; find $S -maxdepth 2 | head -60; M="hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data"; ls "$M/searches_run_j/panels" "$M/searches_run_j/named" "$M/searches_run_j/geometry" "$M/composition_run_j/v2" "$M/weak_signal" "$M/air9_ew0112"

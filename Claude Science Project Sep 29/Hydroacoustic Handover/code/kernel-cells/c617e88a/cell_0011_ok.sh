@@ -1,1 +1,0 @@
-cd hydro/"Claude Science Project Sep 29"/engine/hypotheses/hydroacoustics; grep -nE "fn |log_lik|return|0\.0|NaN|TODO" lib.rs | head -40; cat hypothesis.toml | head -60

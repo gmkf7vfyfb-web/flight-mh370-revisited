@@ -1,1 +1,0 @@
-cd ~/Downloads/mh370-exchange/end-of-flight/run-j-joined-v2; ls J0011 | head; ls J0011/$(ls J0011 | grep seed | head -1); cat RUNS-DONE | head -5; ls summary | head; du -sh J0011 J2241

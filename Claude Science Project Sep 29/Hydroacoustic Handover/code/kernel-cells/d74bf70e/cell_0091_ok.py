@@ -1,1 +1,0 @@
-for m in re.finditer(r"funding|grant application|budget", t, re.I): print(repr(t[max(0,m.start()-200):m.end()+150]))

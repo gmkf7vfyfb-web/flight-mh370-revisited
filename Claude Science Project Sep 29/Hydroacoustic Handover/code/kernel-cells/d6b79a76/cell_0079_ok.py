@@ -1,6 +1,0 @@
-import os; os.makedirs('kh/fig',exist_ok=True)
-apply_figure_style(sizes=(7,6,5.5))
-exec(open('kh/figures.py').read())
-ARC=arc_line()
-fig_maps('1.0'); fig_maps('0.5'); fig_bf()
-print(os.listdir('kh/fig'))

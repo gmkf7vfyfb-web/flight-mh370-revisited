@@ -1,1 +1,0 @@
-ls -d hydro/tools hydro/repo 2>&1; ls hydro/tools 2>/dev/null | head

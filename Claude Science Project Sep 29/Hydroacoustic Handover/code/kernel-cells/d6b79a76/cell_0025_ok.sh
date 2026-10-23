@@ -1,1 +1,0 @@
-mkdir -p kh; pwd

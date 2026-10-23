@@ -1,1 +1,0 @@
-host.view_image('cand/candA_2_closeup_map.png')

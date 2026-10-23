@@ -1,1 +1,0 @@
-cd ~/Downloads/mh370-exchange 2>/dev/null && ls; echo; ls ~/Downloads | head -50; echo; df -h ~/Downloads | tail -1

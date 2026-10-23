@@ -1,1 +1,0 @@
-cd hydro/"Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"; ls composition_run_j searches_run_j kadri_package; grep -rn "def .*locus\|coincidence_locus\|1.482\|def arc_line\|arc_points" composition_run_j/*.py searches_run_j/*.py | head -20; grep -n "H01W\|H08S" ../data/stations.csv | head

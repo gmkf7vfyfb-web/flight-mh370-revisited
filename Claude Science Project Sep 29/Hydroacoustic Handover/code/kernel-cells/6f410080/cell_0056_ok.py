@@ -1,1 +1,0 @@
-t=open('handoff/fluid.txt').read(); print(t[:1500])

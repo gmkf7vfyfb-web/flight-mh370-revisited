@@ -1,1 +1,0 @@
-f = host.findings(); print(f if not isinstance(f, dict) else {k:(v if k!="findings" else [(x.get("id"), x.get("severity"), (x.get("summary") or x.get("text") or "")[:200]) for x in v]) for k,v in f.items()})

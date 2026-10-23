@@ -1,3 +1,0 @@
-cd leg; grep -n "^TIME\|^T0" "../erepo/Claude Science Project Sep 29/engine/hypotheses/end-of-flight/smoke/compact_impacts.py" | head; sed -i '' 's|t_imp = cat("t_impact") - DAY0|t_imp = cat("t_impact") + 1394232081.0 - DAY0   # impacts32 stores seconds after T0 = 1394232081|' analyse_L.py; grep -n "t_imp =" analyse_L.py; cd ..; python leg/analyse_L.py leg/scan_dev leg/out_dev 2>&1 | grep -v -i -E 'proj|ca_bundle' | python -c "
-import sys; s=sys.stdin.read(); i=s.find('{\"T|core'); print(s[i:i+1500])"; python -c "
-import json; r=json.load(open('leg/out_dev/L_regions.json'))['regions']; print(r['D2|strip']['t_impact_q'])"

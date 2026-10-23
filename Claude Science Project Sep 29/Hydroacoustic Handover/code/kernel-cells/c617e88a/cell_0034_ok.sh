@@ -1,2 +1,0 @@
-cd hydro/"Claude Science Project Sep 29"/engine/hypotheses/hydroacoustics/results-data/kadri2a; head -3 kadri_fig9_triggers.csv; python -c "
-import pandas as pd; t=pd.read_csv('kadri_fig9_triggers.csv'); print(t.shape); print(t.groupby([c for c in t.columns if c in ('station','panel','variant','level','op','threshold')]).size())"; head -20 kadri_table1_geometry.csv | cut -c1-300

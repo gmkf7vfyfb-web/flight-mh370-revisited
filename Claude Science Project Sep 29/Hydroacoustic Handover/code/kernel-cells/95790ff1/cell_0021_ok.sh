@@ -1,1 +1,0 @@
-cd "repo/ISO Sept 28 Status/inputs/papers/hydroacoustics"; awk '/===== PAGE 3 =====/,/===== PAGE 4 =====/' ucrl-tr-207323.txt | head -c 3500; echo; for p in 15 16 17 18 19 20 21 22; do awk "/===== PAGE $p =====/,/===== PAGE $((p+1)) =====/" ucrl-tr-207323.txt | grep -o -i -E "[^.]*(detect|H0[148]|Diego|Leeuwin|Crozet|transmission loss|dB re)[^.]*\." | sed "s/^/p$p: /"; done

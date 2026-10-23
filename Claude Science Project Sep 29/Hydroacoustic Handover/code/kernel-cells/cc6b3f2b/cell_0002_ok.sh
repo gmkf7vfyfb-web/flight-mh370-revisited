@@ -1,4 +1,0 @@
-export GIT_CONFIG_GLOBAL=/dev/null
-cd repo && git sparse-checkout set --skip-checks "Claude Science Project Sep 29/coordination" "Claude Science Project Sep 29/results" "Claude Science Project Sep 29/threads" "Claude Science Project Sep 29/ARCHITECTURE.md" 2>&1 | grep -v config/git; ls "Claude Science Project Sep 29"; cd ..
-P="hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"
-ls "$P"; echo ---; ls "$P/prepare"; echo ---; ls "$P/prepare/exploratory" 2>/dev/null; echo ---; ls "$P/data" ; echo ---; ls "repo/Claude Science Project Sep 29/results/" | grep -i hydro; echo ---; ls "repo/Claude Science Project Sep 29/threads/work-orders/"; wc -l "repo/Claude Science Project Sep 29/threads/master-prompts/hydroacoustics.md" "repo/Claude Science Project Sep 29/coordination/HYDROACOUSTICS.md"

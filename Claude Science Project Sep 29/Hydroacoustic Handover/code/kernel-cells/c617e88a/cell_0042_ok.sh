@@ -1,2 +1,0 @@
-cd hydro/"Claude Science Project Sep 29"/engine/hypotheses/hydroacoustics; sed -n 176,184p prepare/kadri_table1_test.py; head -3 results-data/near_limits/ims_tl_kraken.csv results-data/near_limits/ims_ram_delta.csv results-data/ram_check/imos_tl_ramcorr.csv results-data/ram_check/eta_cal_ramcorr.csv; python -c "
-import json;r=json.load(open('data/ocean_paths/request.json'));print([(p['name'],p['a'],p['b']) for p in r['paths']][:12])"

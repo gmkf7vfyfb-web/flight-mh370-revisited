@@ -1,2 +1,0 @@
-mkdir -p hycom; cd hycom; U="https://ncss.hycom.org/thredds/ncss/GLBv0.08/expt_53.X/data/2014?var=water_u&var=water_v&var=water_temp&var=salinity&north=-23.5&south=-27.5&west=99.0&east=103.5&disableProjSubset=on&horizStride=1&time_start=2014-03-08T00:00:00Z&time_end=2014-03-09T21:00:00Z&timeStride=1&vertCoord=&accept=netcdf4"
-curl -s -m 600 -o hycom_53X_20140308-09.nc -w "%{http_code} %{size_download}\n" "$U"; ls -la; file hycom_53X_20140308-09.nc; head -c 300 hycom_53X_20140308-09.nc | strings | head -5

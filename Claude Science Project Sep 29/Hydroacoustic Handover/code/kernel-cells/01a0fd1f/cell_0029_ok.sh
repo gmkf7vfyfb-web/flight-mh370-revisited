@@ -1,1 +1,0 @@
-cd rr/drive; grep -n -i -B2 -A8 "ohasisbio\|royer" hydroacoustics.txt assembled-hydroacoustics.txt | head -80

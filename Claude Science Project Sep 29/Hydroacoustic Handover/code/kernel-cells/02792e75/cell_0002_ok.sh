@@ -1,4 +1,0 @@
-export HOME=$PWD/home XDG_CONFIG_HOME=$PWD/home/.config; mkdir -p $HOME
-git clone -q --depth 1 --single-branch -b claude-science-sep29 --filter=blob:none --sparse https://x-access-token:$GITHUB_TOKEN@github.com/gmkf7vfyfb-web/flight-mh370-revisited.git repo 2>&1 | tail -2
-cd repo && git sparse-checkout set --no-cone "Claude Science Project Sep 29/results/evidence-sweep-2026-10-17/*" "Claude Science Project Sep 29/results/kadri-haixun-conditional-2026-10-18/*" "Claude Science Project Sep 29/paper/*" "Claude Science Project Sep 29/results/*.bib" "Claude Science Project Sep 29/results/*references*" 2>&1 | tail -2
-git log --oneline -1; find "Claude Science Project Sep 29" -type f | head -80; 

@@ -1,1 +1,0 @@
-time python haixun_beacon.py out 2>&1 | tail -80
