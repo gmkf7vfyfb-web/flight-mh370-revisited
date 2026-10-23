@@ -13,7 +13,7 @@ HERE = Path(__file__).resolve().parent; MOD = HERE.parent.parent
 sys.path.insert(0, str(MOD / "prepare" / "composition_run_j")); sys.path.insert(0, str(MOD / "prepare"))
 import prereg as R; import common as Cm; import run_j_windows as Wm
 spec = importlib.util.spec_from_file_location("rprereg", HERE / "prereg.py"); P = importlib.util.module_from_spec(spec); spec.loader.exec_module(P)
-EX = Path("/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-searches"); OUT = MOD / "results-data" / "ranked_candidates"; OUT.mkdir(exist_ok=True)
+EX = Path("/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-searches"); OUT = Path(os.environ["RANK_OUT"]) if os.environ.get("RANK_OUT") else MOD / "results-data" / "ranked_candidates"; OUT.mkdir(parents=True, exist_ok=True)
 G = Geod(ellps="WGS84"); M = Cm.Machinery(imos_ramgrid=True); T0 = R.T0; ANCH = R.ETA_ANCHOR
 S = dict(np.load(EX / "geometry/sample.npz")); anyw = (S["w_D0"] > 0) | (S["w_D2"] > 0) | (S["w_D3"] > 0) | (S["w_D4"] > 0); idx = np.where(anyw)[0]
 lat, lon, t, E, tau = [S[k][idx] for k in ["lat", "lon", "t_unix", "E_j", "tau90_s"]]; Wt = {o: S[f"w_{o}"][idx] for o in R.OPTIONS}; w0 = Wt["D0"]

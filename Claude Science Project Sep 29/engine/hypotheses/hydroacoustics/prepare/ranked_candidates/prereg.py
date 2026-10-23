@@ -56,6 +56,10 @@ H08S x IMOS x IMOS ...).
 """
 SEED = 20261022
 ETA_LO, ETA_HI, N_ETA = 1e-6, 1e-2, 41
+# overnight 23 Oct 2026 (X03, A6): RANK_ETA_HI=1 re-ranks under the log-uniform prior on [1e-6, 1] at the same 0.1-decade step
+import os as _os
+if _os.environ.get("RANK_ETA_HI"):
+    ETA_HI = float(_os.environ["RANK_ETA_HI"]); N_ETA = int(round(10 * (__import__("math").log10(ETA_HI) - __import__("math").log10(ETA_LO)))) + 1
 ALPHA_CLIP = (0.001, 0.3)
 BEARING_WINDOW_S = 30.0
 BEARING_T3_SCALE_DEG = 3.3
