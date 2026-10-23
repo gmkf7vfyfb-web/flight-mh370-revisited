@@ -4,7 +4,7 @@
   "R": 19,
   "A": 50,
   "P": 28,
-  "S": 14,
+  "S": 15,
   "V": 8
  },
  "errors": [
@@ -1006,6 +1006,15 @@
    "what_was_wrong": "A commit step hung for 10 min because git status with a fresh index triggered lazy blob fetches.",
    "correct_or_status": "stopped; tree built from explicit paths",
    "affects": ""
+  },
+  {
+   "id": "S-15",
+   "source": "23 Oct session, found by the agent after verifier pass 2",
+   "thread": "a6559afa (23 Oct clean-up)",
+   "ref": "code/module/prepare/gates/test_gates.py (fixed in 394707d)",
+   "what_was_wrong": "The skip guard of the 2 Royer tests did not fire when HYDRO_ART was not set (Path('') is '.', which exists), so the tests failed instead of skipping. Earlier '9 of 9 pass' runs had HYDRO_ART set.",
+   "correct_or_status": "fixed in 394707d: 9 pass with HYDRO_ART set, 7 pass and 2 skip without it",
+   "affects": "prepare/gates/test_gates.py"
   },
   {
    "id": "V-01",

@@ -14,8 +14,8 @@ the registry, or the session records. Ids in brackets point to `errors/error_reg
 
 ## 2. The errors, by class
 
-The register has 119 entries: 19 registry defects (R), 50 automated reviewer findings (A), 28 errors that Pete
-reported (P), 14 errors of the 23 Oct session (S), 8 errors that the independent verifier found in the clean-up (V). One error can appear in more than one source. The classes:
+The register has 120 entries: 19 registry defects (R), 50 automated reviewer findings (A), 28 errors that Pete
+reported (P), 15 errors of the 23 Oct session (S), 8 errors that the independent verifier found in the clean-up (V). One error can appear in more than one source. The classes:
 
 | class | what happened | examples (ids) |
 |---|---|---|

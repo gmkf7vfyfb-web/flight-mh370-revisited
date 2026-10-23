@@ -7,7 +7,7 @@ Written in ASD-STE100 for work-specific text.
 ## Start here
 
 1. `REPORT.md` - what happened, every class of error with its ids, the root causes, what the 23 Oct clean-up did, what holds, what is open.
-2. `errors/error_register.json` (and `.csv`) - 119 entries: R- registry defects (19), A- automated reviewer findings (50), P- errors Pete reported (28), S- errors of the 23 Oct session (14),
+2. `errors/error_register.json` (and `.csv`) - 120 entries: R- registry defects (19), A- automated reviewer findings (50), P- errors Pete reported (28), S- errors of the 23 Oct session (15),
    V- errors that the independent verifier found in the 23 Oct clean-up (8), each with its status after the fixes.
 3. The registry (data of record): branch `hypothesis/hydroacoustics` @ 394707d, `Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/`
    (`REGISTRY.json`: 80 entries with status, defects, sha256 manifests and quoted definitions; `registry.py` loader). A copy is in `code/module/registry/`.
