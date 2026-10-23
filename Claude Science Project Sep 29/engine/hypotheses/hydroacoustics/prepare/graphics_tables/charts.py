@@ -96,7 +96,7 @@ class Data:
         md = reg_use("in.module_data"); self.kadri = {}
         for pnl, st in [("a", "H01W"), ("b", "H01W"), ("c", "H01W"), ("d", "H08S"), ("e", "H08S")]:
             d = pd.read_csv(md / "kadri_fig9_digitised" / f"kadri-2024-figure9-panel-{pnl}-{st}.csv")
-            t = pd.to_datetime(d.utc).astype("int64").values / 1e9 - T0
+            t = (pd.to_datetime(d.utc, utc=True) - pd.Timestamp("1970-01-01", tz="UTC")).dt.total_seconds().values - T0   # resolution-independent (pandas 3 gives us, not ns)
             self.kadri.setdefault(st, []).append((pnl, t, d.pressure_pa.values))
         self.shots = pd.read_csv(reg_use("in.h08s_shots")).t.values
         # --- IMOS raw
@@ -243,9 +243,20 @@ def parse_silence(txt):
     if not isinstance(txt, str): return out
     for m in re.finditer(r"(\w+): SNR ([+-]?[\d.]+) dB, P_D ([\d.]+) \(D05 -9\.5 dB: ([\d.]+)\)", txt):
         out[m.group(1)] = dict(snr_db=float(m.group(2)), p_d=float(m.group(3)), p_d_d05=float(m.group(4)))
-    for m in re.finditer(r"(\w+): candidate within 3 sigma \(not silent\)", txt):
+    for m in re.finditer(r"(\w+): (?:candidate|detection) within 3 sigma \(not silent\)", txt):
         out[m.group(1)] = dict(candidate_within_3sigma=True)
+    for m in re.finditer(r"(\w+): not assessable \(airgun survey dominates\)", txt):
+        out[m.group(1)] = dict(not_assessable=True)
     return out
+
+
+NA_TXT = "silence not assessed here: the airgun survey dominates this record"
+
+
+def _sil_part(k, v):
+    if v.get("not_assessable"): return f"{k}: not assessed (airgun survey dominates)"
+    if v.get("candidate_within_3sigma"): return f"{k}: detection at p <= 0.05 within 3 sigma (not silent)"
+    return f"{k}: SNR {v['snr_db']:+.1f} dB, P_D {v['p_d']:.2f} ({v['p_d_d05']:.2f} at -9.5 dB)"
 
 
 def silence_fields(t, r):
@@ -311,10 +322,11 @@ def row_title(row):
 
 def silence_text(row):
     """footnote text on non-member receivers (table columns from consistency_checks.py)."""
-    if row.get("p_silent") is None: return ""
     sl = row.get("silence", {})
-    parts = [("%s: detection at p <= 0.05 within 3 sigma (not silent)" % k) if v.get("candidate_within_3sigma") else
-             f"{k}: SNR {v['snr_db']:+.1f} dB, P_D {v['p_d']:.2f} ({v['p_d_d05']:.2f} at -9.5 dB)" for k, v in sl.items()]
+    parts = [_sil_part(k, v) for k, v in sl.items()]
+    if row.get("p_silent") is None:
+        return ("Silence at non-member receivers: not assessed (no non-member receiver with a record at the predicted arrival could be assessed"
+                + (f"; {'; '.join(parts)}" if parts else "") + "). ") if parts or "not assessed" in (row.get("silence_detail") or "") else ""
     return (f"Non-member receivers with data at the predicted arrival (E = q99, coupling needed, median tau90; P_D = block 7 fit at alpha 0.05): "
             f"{'; '.join(parts) if parts else 'none'}; P_silent = prod(1 - P_D) = {row['p_silent']:.3g} (with the -9.5 dB D05 real-arrival loss: "
             f"{row['p_silent_d05']:.3g})" + (f"; label: {row['silence_label']} (a label, not an exclusion; P_D optimistic D05, IMS noise stand-in D06). " if row.get("silence_label") else ". "))
@@ -429,7 +441,8 @@ def chart1(D, row, outdir):
         sil = row.get("silence", {}).get(rx) if not m else None
         if sil:
             ck["silence"] = sil
-            stx = ("a detection at p <= 0.05 lies within 3 sigma of the predicted arrival (not silent)" if sil.get("candidate_within_3sigma") else
+            stx = (NA_TXT if sil.get("not_assessable") else
+                   "a detection at p <= 0.05 lies within 3 sigma of the predicted arrival (not silent)" if sil.get("candidate_within_3sigma") else
                    f"no detection here; at the coupling this row needs: predicted SNR {sil['snr_db']:+.1f} dB, detection probability {sil['p_d']:.2f} "
                    f"({sil['p_d_d05']:.2f} with the -9.5 dB real-arrival loss)")
             ax.text(0.01, 0.06, stx, transform=ax.transAxes, ha="left", va="bottom", fontsize=TICK, color="#b35806",
@@ -683,10 +696,11 @@ def chart4(D, row, outdir, n_draw=20000):
     for i, rx in enumerate(RXS):
         sil = row.get("silence", {}).get(rx)
         if sil and rx not in members:
-            t_ = ("detection within 3 sigma:\nnot silent" if sil.get("candidate_within_3sigma") else
+            t_ = ("silence not assessed:\nairgun survey" if sil.get("not_assessable") else
+                  "detection within 3 sigma:\nnot silent" if sil.get("candidate_within_3sigma") else
                   f"no detection held;\nneeded coupling: SNR {sil['snr_db']:+.0f} dB\nP_D {sil['p_d']:.2f} ({sil['p_d_d05']:.2f} at -9.5 dB)")
-            ax.text(i, ytop + 1, t_, ha="center", va="bottom", fontsize=TICK - 0.5, color="#b35806")
-    ax.set_ylim(top=ytop + 9)
+            ax.text(i, ytop + 1 + (6 if i % 2 else 0), t_, ha="center", va="bottom", fontsize=TICK - 0.5, color="#b35806")   # staggered: no overlap
+    ax.set_ylim(top=ytop + 15)
     if row.get("silence_label"):
         ax.text(0.5, -0.17, f"The hydrophones marked in orange held records at the predicted time and should probably have recorded this sound at the "
                 f"coupling this row needs, but no detection was made there (P_silent {row['p_silent']:.2g}; {row['p_silent_d05']:.2g} with the -9.5 dB loss).",
@@ -762,7 +776,7 @@ def main():
                   timing_zmax=r.get("timing_zmax"))
         if r.get("timing_zmax") is not None and r["timing_zmax"] > 3: checks["failed"].append(f"{r['id']}: timing_zmax {r['timing_zmax']:.2f} > 3 in table")
         held = {p["rx"]: p["data"] for p in c1.get("panels", [])}
-        nodata = [k for k in r.get("silence", {}) if k in held and not held[k]]
+        nodata = [k for k, v in r.get("silence", {}).items() if k in held and not held[k] and not v.get("not_assessable")]
         ck["silence_receivers_without_data_on_chart1"] = nodata
         if nodata: checks["failed"].append(f"{r['id']}: silence_detail lists {nodata} but chart 1 holds no data there at the predicted arrival")
         if c1.get("members_with_data", 0) and c1.get("members_visible", 0) < c1.get("members_with_data", 0):

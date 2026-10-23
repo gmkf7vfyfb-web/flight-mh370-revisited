@@ -60,29 +60,29 @@ def main(reg, out):
         T[kind] = df
     # consistency tests (consistency_checks.py): common-source timing for sets (physical test) and silence at non-member receivers (label)
     sys.path.insert(0, str(Path(__file__).resolve().parent)); from consistency_checks import Checks
-    CK = Checks()
+    CK = Checks(); CK.set_register_singles(T["singles"])
     for kind, d in T.items():
-        zs, zt, psl, psl2, stx = [], [], [], [], []
+        zs, z10, zt, psl, psl2, stx = [], [], [], [], [], []
         for _, r in d.iterrows():
             if len(r.hard):
-                zs.append(np.nan); zt.append(""); psl.append(np.nan); psl2.append(np.nan); stx.append(""); continue
+                zs.append(np.nan); z10.append(np.nan); zt.append(""); psl.append(np.nan); psl2.append(np.nan); stx.append(""); continue
             if kind == "singles":
                 mem = [(str(r.rx), r.time_utc)]; m_ = re.match(r"([\d.]+)S\s+([\d.]+)E", str(r.implied_source)); lat, lon = (-float(m_[1]), float(m_[2])) if m_ else (np.nan, np.nan)
                 E = r.E_q99_at_src_J
             else:
                 mem = re.findall(r"(\w+) (\d\d:\d\d:\d\d)", r.members); lat, lon = r.locus_lat, r.locus_lon; E = r.E_q99_at_locus_J
             t_imp = CK_hms(r.implied_impact_utc)
-            if kind == "singles": z, ztxt = np.nan, ""
-            else: z, ztxt = CK.common_source(mem, lat, lon, t_imp)
+            if kind == "singles": z, zz, ztxt = np.nan, np.nan, ""
+            else: z, zz, ztxt = CK.common_source(mem, lat, lon, t_imp)
             a, b, txt = CK.silence({m[0] for m in mem}, lat, lon, t_imp, E, r.eta_at_q99E)
-            zs.append(z); zt.append(ztxt); psl.append(a); psl2.append(b); stx.append(txt)
-        d["timing_zmax"] = zs; d["timing_members"] = zt; d["p_silent_nonmembers"] = psl; d["p_silent_nonmembers_D05"] = psl2; d["silence_detail"] = stx
+            zs.append(z); z10.append(zz); zt.append(ztxt); psl.append(a); psl2.append(b); stx.append(txt)
+        d["timing_zmax"] = zs; d["timing_zmax_pick10"] = z10; d["timing_members"] = zt; d["p_silent_nonmembers"] = psl; d["p_silent_nonmembers_D05"] = psl2; d["silence_detail"] = stx
         bad = d["timing_zmax"] > 3
         d["hard"] = [h + ["members not common-source consistent (|z| > 3)"] if b_ else h for h, b_ in zip(d["hard"], bad)]
         d["silence_label"] = np.where(d["p_silent_nonmembers"] < 0.05, "silence at non-member receivers not consistent with the needed coupling (P_silent < 0.05)", "")
     ok = {k: d[d.hard.map(len) == 0] for k, d in T.items()}
     keep_m = ["set_type", "reg_row", "rank_lnLR", "lnLR", "members", "lag_s", "locus_lat", "locus_lon", "n_arc_loci", "locus_D0_mass_within_1deg",
-              "implied_impact_utc", "E_q99_at_locus_J", "eta_at_q99E", "x_metz_2.26e-3", "p_prior_eta_ge_needed", "coupling_check", "royer_timebase_dependent", "timing_zmax", "timing_members", "p_silent_nonmembers", "p_silent_nonmembers_D05", "silence_label", "silence_detail", "flags"]
+              "implied_impact_utc", "E_q99_at_locus_J", "eta_at_q99E", "x_metz_2.26e-3", "p_prior_eta_ge_needed", "coupling_check", "royer_timebase_dependent", "timing_zmax", "timing_zmax_pick10", "timing_members", "p_silent_nonmembers", "p_silent_nonmembers_D05", "silence_label", "silence_detail", "flags"]
     t1 = pd.concat([ok["pairs"], ok["triples"]]); t1 = t1[~t1.royer_match]
     t1 = t1.sort_values("lnLR", ascending=False)
     shotcols = [c for c in t1.columns if re.match(r"m\d_(shot_check|shot_dt_s|shot_p_related|shot_residual|band_check|known_event_uncorrected_figure)$", c)]
@@ -115,6 +115,10 @@ def main(reg, out):
                              locus_or_source=(f"{r.locus_lat:.2f}, {r.locus_lon:.2f}" if kind != "singles" else r.implied_source), implied_impact_utc=r.implied_impact_utc,
                              royer_match=bool(r.royer_match), shot_coincident=bool(r.shot_coincident), in_table_1_or_2=not bool(r.royer_match), known_events="; ".join(ev)))
     t3 = pd.DataFrame(rows).sort_values(["royer_match", "lnLR"], ascending=[False, False]); t3.insert(0, "table3_id", [f"K{i+1:03d}" for i in range(len(t3))])
+    sens = pd.concat([T["pairs"], T["triples"]])
+    sens = sens[sens.hard.map(lambda h: h == ["members not common-source consistent (|z| > 3)"]) & (sens.timing_zmax_pick10 <= 3) & ~sens.royer_match]
+    sens = sens.sort_values("lnLR", ascending=False)[[c for c in keep_m if c in sens.columns]]
+    sens.to_csv(out / "table1_sensitivity_pick10_returning_sets.csv", index=False)
     t1.to_csv(out / "table1_multisite.csv", index=False); t2.to_csv(out / "table2_single_site.csv", index=False); t3.to_csv(out / "table3_known_event_correlates.csv", index=False)
     hs = {k: pd.Series([x for h in d.hard for x in h]).value_counts().to_dict() for k, d in T.items()}
     s = dict(register=str(reg), n_register={k: len(d) for k, d in T.items()}, n_pass_physical={k: len(d) for k, d in ok.items()},
@@ -125,6 +129,7 @@ def main(reg, out):
              table2_timebase_dependent=int((t2.royer_timebase_dependent.fillna("").astype(str) != "").sum()),
              table1_silence_label=int((t1.silence_label != "").sum()), table2_silence_label=int((t2.silence_label != "").sum()),
              table1_silence_label_D05=int((t1.p_silent_nonmembers_D05 < 0.05).sum()), table2_silence_label_D05=int((t2.p_silent_nonmembers_D05 < 0.05).sum()),
+             sets_returning_with_pick10_not_royer=len(sens), sets_failing_common_source_with_pick10=int(sum(((d["timing_zmax_pick10"] > 3) & (d.hard.map(lambda h: "members not common-source consistent (|z| > 3)" in h))).sum() for k, d in T.items() if k != "singles")),
              sets_failing_common_source=int(sum(((d["timing_zmax"] > 3)).sum() for k, d in T.items() if k != "singles")),
              singles_without_position_by_rx=T["singles"][T["singles"].hard.map(lambda h: any("not assessable" in x for x in h))].rx.value_counts().to_dict(), hard_exclusions_by_reason=hs,
              royer_chance_fraction=cover)
