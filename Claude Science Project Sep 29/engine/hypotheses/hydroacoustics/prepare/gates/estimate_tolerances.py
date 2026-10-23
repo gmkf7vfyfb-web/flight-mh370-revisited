@@ -10,8 +10,10 @@ X04  H08S airgun-shot coincidence. Data: offset dt = (nearest shot time) - (dete
 X05  Royer 2016 known events. Three parts.
      (a) Prediction at a station from a Royer origin: travel-time residual fraction r = t_obs / (R / c0) - 1 over every Table 5
          arrival (royer_arrivals.csv, 143 arrivals), c0 = median implied speed. Robust sigma_r = 1.4826 * MAD.
-         Predicted-arrival 1-sigma: s(T) = sqrt((sigma_r T)^2 + e_t^2 + s_pick^2), e_t = Royer origin-time error of the event,
-         s_pick = pick sigma (part b). Tolerance = 2 s(T) (about 95 %).
+         Predicted-arrival 1-sigma: s(T) = sqrt((sigma_r T)^2 + e_t^2 + s_pick^2 + e_epi^2), e_t = Royer origin-time error of the
+         event, s_pick = pick sigma (part b), e_epi = epicentre term (verifier 23 Oct): finite-difference travel-time change for the
+         Royer 1-sigma latitude and longitude errors (WGS84 geodesic, c0), added in quadrature. Tolerance = 2 s(T) (about 95 %).
+         Royer event 2 has err_time 99.999 s (as printed in Royer Table 2/5; possibly a cap) - used as given and flagged.
      (b) Pick sigma: Royer map labels against Table 5 (royer_map_labels.csv) and pick bars at stations other than H01W-2
          (royer_figure_marks.csv); robust sigma of the residuals.
      (c) H01W-2 figure-mark offset: mean and sd of mark_minus_table5_s for H01W-2 pick bars (digitised Fig. 4). If the offset is
@@ -77,13 +79,23 @@ def main(mod, reg, out):
                  consistent_with_zero=bool(abs(hb.mean()) <= 2 * hb.std(ddof=1) / np.sqrt(len(hb))))
     ev = pd.read_csv(rd / "royer_events.csv").set_index("index")
     # tolerance for the cross-ID rows
-    cx = pd.read_csv(sys.argv[4]) if len(sys.argv) > 4 else None
+    cx = pd.read_csv(sys.argv[4], dtype={"rx": str}) if len(sys.argv) > 4 else None
     rows = []
     if cx is not None:
+        from pyproj import Geod
+        G_ = Geod(ellps="WGS84"); rxp = json.load(open("/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-searches/geometry/run.json"))["receivers"]
         for _, r in cx.iterrows():
-            Tt = r.range_km / c0; et = float(ev.loc[int(r.event), "err_time_s"])
-            s = float(np.sqrt((sig_r * Tt) ** 2 + et ** 2 + s_pick ** 2))
-            rows.append(dict(event=int(r.event), label=r.label, rx=r.rx, range_km=r.range_km, travel_s=Tt, err_time_s=et, sigma_pred_s=s, tol_new_s=2 * s, tol_old_s=r.tol_s, basis_old=r.basis))
+            Tt = r.range_km / c0; e = ev.loc[int(r.event)]; et = float(e.err_time_s)
+            la, lo = rxp[str(r.rx)][:2] if str(r.rx) in rxp else (np.nan, np.nan)
+            d = lambda a, b: G_.inv(b, a, lo, la)[2] / 1000.0
+            if np.isfinite(la):
+                d0 = d(e.lat_deg, e.lon_deg)
+                eepi = float(np.hypot((d(e.lat_deg + e.err_lat_deg, e.lon_deg) - d0) / c0, (d(e.lat_deg, e.lon_deg + e.err_lon_deg) - d0) / c0))
+            else:
+                eepi = np.nan
+            s = float(np.sqrt((sig_r * Tt) ** 2 + et ** 2 + s_pick ** 2 + (eepi if np.isfinite(eepi) else 0.0) ** 2))
+            rows.append(dict(event=int(r.event), label=r.label, rx=r.rx, range_km=r.range_km, travel_s=Tt, err_time_s=et, err_epicentre_s=eepi, sigma_pred_s=s, tol_new_s=2 * s, tol_old_s=r.tol_s, basis_old=r.basis,
+                             err_time_flag="err_time 99.999 s (possibly a cap in Royer's table)" if et >= 99.99 else ""))
         pd.DataFrame(rows).to_csv(out / "x05_crossid_tolerances.csv", index=False)
     x05 = dict(c0_km_s=c0, n_arrivals=int(len(a)), sigma_r_frac=sig_r, sigma_r_frac_sd=float(a.r_frac.std(ddof=1)),
                s_pick_map_labels_s=s_pick_labels, n_map_labels=int(lab.map_minus_table5_s.notna().sum()), s_pick_bars_other_s=s_pick_bars, n_bars_other=int(len(pb_other)),
