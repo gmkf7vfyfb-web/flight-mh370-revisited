@@ -26,9 +26,13 @@ def sha256(p, bufsize=1 << 22):
 
 
 def git_head(d):
+    """HEAD at build time plus a dirty flag. The registry is committed AFTER it is built, so the commit that contains it is the
+    next one on that branch; content hashes, not this field, tie the manifests to files."""
+    env = {**os.environ, "GIT_CONFIG_GLOBAL": "/dev/null"}
     try:
-        return subprocess.run(["git", "-C", str(d), "log", "-1", "--format=%H %cI"], capture_output=True, text=True,
-                              env={**os.environ, "GIT_CONFIG_GLOBAL": "/dev/null"}).stdout.strip()
+        h = subprocess.run(["git", "-C", str(d), "log", "-1", "--format=%H %cI"], capture_output=True, text=True, env=env).stdout.strip()
+        dirty = subprocess.run(["git", "-C", str(d), "status", "--porcelain", "--untracked-files=no", "--", "."], capture_output=True, text=True, env=env).stdout.strip()
+        return f"{h} (head at build time; uncommitted changes in scope: {'yes' if dirty else 'no'})"
     except Exception:
         return ""
 
@@ -45,15 +49,16 @@ def quote(path, lines):
     a, b = lines
     if a < 1 or b > len(txt) or a > b:
         raise ValueError(f"line range {lines} outside {path} ({len(txt)} lines)")
-    q = "\n".join(txt[a - 1:b]).strip()
-    if not q:
+    q = "\n".join(txt[a - 1:b])          # exact lines, no stripping (verifier finding 23 Oct)
+    if not q.strip():
         raise ValueError(f"empty quote at {path}:{a}-{b}")
     return q
 
 
 def manifest(path, do_hash):
     p = Path(path)
-    files = [p] if p.is_file() else sorted(x for x in p.rglob("*") if x.is_file())
+    skip = ("__pycache__", ".pytest_cache")
+    files = [p] if p.is_file() else sorted(x for x in p.rglob("*") if x.is_file() and not any(s in x.parts for s in skip))
     rows, total = [], 0
     for f in files:
         s = f.stat().st_size

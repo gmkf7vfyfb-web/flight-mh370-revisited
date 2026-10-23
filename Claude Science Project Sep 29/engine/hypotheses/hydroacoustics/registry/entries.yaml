@@ -163,6 +163,7 @@ entries:
   path: EX:run-j-gated-v2
   status: CURRENT_WITH_CAVEATS
   defects:
+  - D01
   - D05
   - D06
   - D20
@@ -568,6 +569,7 @@ entries:
   path: WORK:results/hydroacoustics-injection-recovery-run-j.md
   status: CURRENT_WITH_CAVEATS
   defects:
+  - D01
   - D05
   - D06
   - D22
@@ -922,7 +924,8 @@ constants:
   value: 0.00226
   units: fraction of impact kinetic energy radiated as sound (module definition)
   status: PENDING_RULING
-  note: One point inside the coupling prior (Pete ruling 23 Oct). Single-factor spread 2.8e-4 (tau 0.05 s) to 5.4e-2 (2 m source).
+  note: 'One point inside the coupling prior (Pete ruling 23 Oct). One-factor values in the Metz note table: 2.8e-4 (tau 0.05 s) to 1.3e-1 (f^-4
+    roll-off); 5.4e-2 at a 2 m source; 3.4e-4 at 30 m; full range over all cases 1.1e-5 to 6.3.'
   source:
     file: WORK:results/hydroacoustics-metz-f35a-anchor.md
     lines:
@@ -932,6 +935,7 @@ constants:
     - 2.26 × 10⁻³
     - 2.8 × 10⁻⁴
     - 5.4 × 10⁻²
+    - 1.3 × 10⁻¹
 - id: eta_brown_arons
   value: 0.00021
   units: Arons-equivalent coupling (different quantity)
@@ -1081,8 +1085,9 @@ defects:
   fixed_this_run: check column in new register
 - id: D04
   title: Detections in bands below the receiver pass band
-  what: 2-5 Hz members at IMOS (hardware corner 8 Hz) and on Kadri panels (5 Hz high-pass) cannot be impact sound in that band. Labelled G-S8
-    in the searches note but kept in the ranking.
+  what: 2-5 Hz members at IMOS (hardware corner 8 Hz) and on Kadri panels (5 Hz high-pass) lie where the recording chain strongly attenuates;
+    a detection there is unlikely to be impact sound in that band (a corner attenuates, it does not remove all energy). Labelled G-S8 in the searches
+    note but kept in the ranking.
   evidence:
   - file: WORK:results/hydroacoustics-searches-run-j.md
     lines:
@@ -1119,8 +1124,11 @@ defects:
   fixed_this_run: no (labelled)
 - id: D07
   title: Known events (Royer 2016) not removed from candidates
-  what: Kadri text time 00:52:03 lies inside Royer's pick bar for icequake A; caption time 00:54:30 is 6 s from Royer event 5; Royer events 6
-    and 9 predict IMOS 3315 candidates.
+  what: 'By the DIGITISED Royer marks, Kadri text time 00:52:03 lies inside the H01W-2 pick bar of icequake A (00:51:56.77-00:52:04.52) and caption
+    time 00:54:30 is 5.9 s from the arrow for event 5 (00:54:24.06); Royer events 6 and 9 predict IMOS 3315 rows. Sensitivity: every digitised
+    H01W-2 mark sits +7.7 to +16.6 s after Royer''s Table 5 time for that event (other stations within about +/-5 s); against Table 5 the text
+    time is +20 s from icequake A (00:51:42.99) and the caption time +17.6 s from event 5 (00:54:12.44). The figure-versus-table offset is an
+    open question for Royer. "Time-consistent" is not identification.'
   evidence:
   - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
     lines:
@@ -1190,7 +1198,9 @@ defects:
   fixed_this_run: 'yes: brief paragraph replaced'
 - id: D20
   title: Coupling prior bounds 1e-6..1e-2 were an agent choice, not a ruling
-  what: Pete ruled 23 Oct that coupling is a prior range with its sources and the F-35A value is one point in it; the bounds are open.
+  what: Pete ruled 23 Oct that coupling is a prior range with its sources and the F-35A value is one point in it; the bounds are open. The agent-chosen
+    upper bound 1e-2 lies below some F-35A one-factor values in the Metz note (2 m source 5.4e-2; f^-4 roll-off 1.3e-1), so the current prior
+    truncates part of that range.
   evidence:
   - file: EX:run-j-gated-v2/README.txt
     lines:

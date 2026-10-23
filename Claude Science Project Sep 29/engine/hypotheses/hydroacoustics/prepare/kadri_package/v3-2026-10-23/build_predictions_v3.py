@@ -6,7 +6,7 @@
 Kadri collaboration package v2 (work order 2026-10-21 block 12; brief section 9): predictions.csv on the whole-arc grid.
 PREPARE ONLY. Nothing is sent before Pete approves. PREDICTIVE, NOT CALIBRATED: module likelihood 0.0 in every row; caveats
 C1 (propagation slope misfit, +10.4/+7.4 dB per octave at H01W/H08S uncorrected) and C2 (coupling efficiency eta not
-calibrated; swept over four decades, F-35A upper anchor 2.1e-4) apply to every number.
+calibrated; swept over four decades; 2.1e-4 is Brown's Arons-equivalent value, kept for comparison; Metz 2.26e-3 pending ruling) apply to every number.
 
 ONE ROW PER (arc point x cross-arc offset x receiver). Arc points: the block-2 TL grid (tl_grid_run_j.py, prereg fc825c0):
 41.0-20.0 S every 0.5 deg on the 7th arc, offsets -60/-30/0/+30/+60 NM (negative = west, towards the satellite); 8 receivers
@@ -26,10 +26,10 @@ latent:impact_energy_transferred_j), tau90 median (strata only; the supplement h
 PER (CELL, RECEIVER): WGS84 range and back-azimuth from the TL grid; SOFAR arrival window = impact quantile + range/c with
 c = 1.482 +- 0.006 km/s (2 sd), AGW window with c in [1.40, 1.50] km/s (assumed, not modelled); TL per third-octave band 5-40 Hz
 at the 10 m reference source depth exactly as the module's chain uses it (IMS: raw KRAKEN minus the imp500 RAM delta, lhyd
-rule; IMOS: RAM-corrected table; NaN = blocked band, zero received energy); blockage status and the number of blocked bands;
+rule; IMOS: RAM along the grid, imos_tl_ram_arc.csv (v3); NaN = blocked band, zero received energy); blockage status and the number of blocked bands;
 flags ridge_source (source water depth < 2,000 m), adiabatic_suspect (TL is an upper bound on loss), ramcorr_extrapolated.
 PREDICTED LEVEL at the cell's median E and tau (pooled run J medians where the cell holds no mass; flagged): 5-40 Hz exposure
-(Pa^2 s) and peak 1 s SPL (dB re 1 uPa, T_eff = 2.683 s) for eta in {1e-2, 1e-3, 2.1e-4, 1e-4, 1e-5}; per-band received level
+(Pa^2 s) and peak 1 s SPL (dB re 1 uPa, T_eff = 2.683 s) for eta in {1e-2, 2.26e-3, 1e-3, 2.1e-4, 1e-4, 1e-5}; per-band received level
 at eta = 2.1e-4 (add 10 log10(eta/2.1e-4) for another eta); the module's noise median per receiver (IMS: digitised Blackman
 2003 + IMOS proxy; IMOS: imos2b) and the SNR at the anchor (IMS +4.8 dB triad gain). The 5-40 Hz band IS Kadri's band
 (Refresh v2 section 5), so no separate "after his chain" column is needed; the module's own 2-5 Hz band is not in the TL grid.
@@ -288,7 +288,7 @@ def main():
                 mass=meta_mass, pooled_medians=dict(E_j=Em_pool, tau90_s=tau_pool), t_eff_s=teff, etas=ETAS, eta_anchor=ETA_ANCHOR,
                 tl_tables=dict(dir=str(TLT), npz_sha256_16=sha(TLT / "tl_grid.npz")[:16]), impacts_sha256_16=shas,
                 caveats=dict(C1="propagation slope misfit, +10.4/+7.4 dB per octave at H01W/H08S, uncorrected",
-                             C2="coupling efficiency not calibrated; eta swept over four decades; F-35A upper anchor 2.1e-4"),
+                             C2="coupling efficiency not calibrated; eta swept over four decades; F-35A value under the module definition 2.26e-3 (Metz 2023) PENDING RULING; 2.1e-4 is Brown 2026 Arons-equivalent, kept for comparison"),
                 labels=["PREDICTIVE, NOT CALIBRATED", "module likelihood 0.0", "DRAFT for Pete's review; nothing is sent"],
                 seconds=round(time.time() - t0, 1))
     (out / "predictions_meta.json").write_text(json.dumps(meta, indent=1))

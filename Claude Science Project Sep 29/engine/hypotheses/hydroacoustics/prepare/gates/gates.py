@@ -17,7 +17,9 @@ Definitions and their sources (registry ids in registry/REGISTRY.json):
   impact time      implied impact before 00:19:29 UTC is IMPOSSIBLE (last satellite log-on; module convention).
   known events     Royer 2016 events: predicted arrival per receiver within the cross-ID tolerance; at H01W also the
                    digitised pick bars (royer_figure_marks.csv) +/- 2 s and appendix arrows +/- 20 s (the cross-ID
-                   tolerance at H01W; Royer's figure marks sit 7.7-16.6 s after his table times, an open question).
+                   tolerance at H01W). SENSITIVITY: every digitised H01W-2 mark sits +7.7 to +16.6 s after Royer's Table 5
+                   time for that event (other stations within about +/-5 s); against Table 5 alone some H01W matches fail.
+                   The figure-versus-table offset is an open question for Royer.
                    A match is "time-consistent", not proof.
   coupling         loudness-match coupling scaled from the energy at which it was computed to the q99 run J impact
                    energy at that latitude (D0 weights, +/- 1 deg), then given against 2.1e-4 (old) and 2.26e-3

@@ -24,6 +24,15 @@ OCEAN = Path("/Users/pete/Downloads/mh370-ocean-data")
 RK = EX / "graphics-2026-10-22/ranked"
 
 
+def why_not(eta, e_used, e_q99):
+    """Reason text when coupling_labels returns NOT_COMPUTABLE (verifier finding 23 Oct: one text was used for every cause)."""
+    if not (np.isfinite(e_used) and np.isfinite(e_q99)):
+        return "not assessed: coupling not computable (fewer than 20 run J impacts within 1 deg)"
+    if np.isinf(eta):
+        return "not assessed: loudness-match coupling infinite in the ranked table (a member receiver has no transmission-loss path, e.g. Scott Reef 3250)"
+    return "not assessed: loudness-match coupling not given in the ranked table (NaN)"
+
+
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("out"); ap.add_argument("--art", required=True)
     a = ap.parse_args(); out = Path(a.out); out.mkdir(parents=True, exist_ok=True); t0 = time.time()
@@ -75,7 +84,7 @@ def main():
         tv = G.time_check(G.hms(r.implied_impact_utc))
         f = flags(m) + ([clab.split(" (")[0].lower() + " coupling"] if clab.startswith("IMPOSSIBLE") else []) + (["implied impact before 00:19:29"] if tv.startswith("IMPOSSIBLE") else [])
         if not np.isfinite(r.src_lat): f.append("not assessed: no implied position")
-        elif clab == "NOT_COMPUTABLE": f.append("not assessed: coupling not computable (fewer than 20 run J impacts within 1 deg)")
+        elif clab == "NOT_COMPUTABLE": f.append(why_not(r.eta_needed, eq99, eq99))
         m.pop("_rx", None)  # flags already computed above
         rows.append({**{k: r[k] for k in ["rank_lnLR", "lnLR", "rx", "time_utc", "det", "band", "p", "source", "kadri_label", "implied_source", "implied_impact_utc", "eta_needed"]},
                      **m, "impact_time_check": tv, "E_q99_at_src_J": eq99, "eta_at_q99E": eta, "x_old_2.1e-4": xo, "x_metz_2.26e-3": xm,
@@ -102,7 +111,7 @@ def main():
             if clab.startswith("IMPOSSIBLE"): f.append("impossible coupling")
             if tv.startswith("IMPOSSIBLE"): f.append("implied impact before 00:19:29")
             if not np.isfinite(lat): f.append("not assessed: no arc locus")
-            elif clab == "NOT_COMPUTABLE": f.append("not assessed: coupling not computable (fewer than 20 run J impacts within 1 deg)")
+            elif clab == "NOT_COMPUTABLE": f.append(why_not(r.eta_level_locus, eq50, eq99))
             base = {k: r[k] for k in ["rank_lnLR", "lnLR", "locus_lat", "locus_lon", "implied_impact_utc", "n_arc_loci", "locus_D0_mass_within_1deg", "eta_level_locus"] if k in r}
             if kind == "pairs":
                 base.update(members=f"{r.rx_a} {r.t_a} [{r.band_a}] | {r.rx_b} {r.t_b} [{r.band_b}]", lag_s=r.lag_s, p_perm=r.p_perm)
