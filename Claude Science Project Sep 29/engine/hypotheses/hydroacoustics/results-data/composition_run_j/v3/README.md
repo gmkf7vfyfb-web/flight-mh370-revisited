@@ -13,8 +13,9 @@ ruling X03, 61 grid points), `ub0.1/` and `ub0.01/` (prior upper bound 1e-1 and 
    design: v2 used the old anchor 2.1e-4; v3 uses the F-35A value 2.26e-3 (X02, Pete has not given an explicit ruling; registry
    PENDING_RULING).
 2. reduce.py in v2 mode on the v2 statistics reproduces `../v2/` (max difference 2e-16); v3 adds columns eta_prior_ub and pnd_at_ub.
-3. Column margeta-ub1e-2 bit-identical to the v2 default column on one seed (run-j-waypoints) before the run; the independent verifier
-   found it bit-identical on 3 waypoints seeds.
+3. Column margeta-ub1e-2 is byte-identical to the v2 default column: independent verifier, 8 random seeds over all 4 strata (2 per
+   stratum); all 74 seeds have identical NaN patterns across the 6 columns and valid checksums; 0 NaN in the default column. The
+   independent verifier also recomputed ln Z hydro and eta95 from the accumulators for all three bounds (D0/p0.5/alpha 0.05, IMOS gated).
 4. In v3 mode the upper-limit column is named for the bound used (eta95_bayes_nondetection_logu_1e-6_<bound>); in v2 the name said 1e-2.
 
 ## Result (option D0, dive probability 0.5, alpha 0.05)
@@ -29,7 +30,8 @@ ruling X03, 61 grid points), `ub0.1/` and `ub0.01/` (prior upper bound 1e-1 and 
 
 Reading (plain words): for every prior bound the hydroacoustic term changes the end-of-flight distribution only a little (median at most
 0.10 deg; KL at most 0.02 nats). With IMOS only, the 95 % coupling limit is almost the prior limit: the IMOS data do not constrain the
-coupling. The IMS proxy column constrains it more (0.075), but that column uses stand-in noise at Cape Leeuwin and Diego Garcia (D06), so
+coupling (at bounds 1e-2 and 1e-1 eta95 is even slightly above the prior-alone value). The non-detection-only form gives 0.116 (bound 1),
+0.032 (1e-1), 0.0056 (1e-2). The IMS proxy column constrains it more (0.075), but that column uses stand-in noise at Cape Leeuwin and Diego Garcia (D06), so
 it is a sensitivity only. A higher bound gives more weight to amplitude-blind matches (G11-1); the amplitude-weighted column shows that
 part of the bound-1 shift (0.098 vs 0.046 deg) comes from that. No column is ruled for the composer.
 
