@@ -1,0 +1,1 @@
+sleep 590; S=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated.staging; tail -1 $S/driver.log; ls $S/_parts | wc -l; df -k /System/Volumes/Data | tail -1; uptime

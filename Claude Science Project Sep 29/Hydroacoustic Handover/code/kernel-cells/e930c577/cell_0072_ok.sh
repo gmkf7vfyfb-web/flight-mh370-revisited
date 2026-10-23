@@ -1,0 +1,1 @@
+cat leg/scan.log; ls leg/scan 2>/dev/null | wc -l; df -h ~ | tail -1

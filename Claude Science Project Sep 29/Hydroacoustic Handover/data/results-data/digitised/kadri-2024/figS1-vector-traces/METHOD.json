@@ -1,0 +1,82 @@
+{
+ "script": "prepare/digitise_kadri_2024_s1.py",
+ "pdf_sha256": "a152b944828e9a765752c41b2ef0ebe24bf510f84d7eed19200da3e7b94c3c0f",
+ "method": "Extract the Figure S1 pressure traces of Kadri (2024, Sci. Rep. 14:10102) Supplementary Information S1 from the\nPDF vector paths, with the same method as the archive's `extract_figure_vectors.py` used for Fig. 9.\n\nDIGITISED PUBLICATION OBJECTS, NOT CTBTO WAVEFORM SAMPLES. The PDF holds the plotted polyline vertices (MATLAB\nexport): processing, filtering, decimation and array-element selection cannot be reconstructed.\n\nSource: 41598_2024_60529_MOESM1_ESM.pdf (Europe PMC supplementary file for PMC11065988; nature.com is not on the\nsandbox allowlist). Figure S1 is on p. 5: five panels, 7 March 2014 (the first-route window), spectrogram (raster,\nleft) and pressure time series (vector, orange (0.851, 0.325, 0.098), right):\n  (a) H08S after 17:49 UTC, axis -2..2 x 1e6 uPa; (b) H08S after 18:44, -1..2; (c) H08S after 19:00, -2..2;\n  (d) H11S after 19:35, -1..1; (e) H11S after 19:41, -1..1. Time axis 0-10 min on all panels.\nAxis calibration: tick-label centres read from the PDF text layer (x labels 0..10 min; y labels left of each axes\nbox, the colour-bar labels and the 'x10^6' exponent excluded by x position). The vector vertices extend beyond the\nvisible axes (MATLAB exports the full data; the PDF clips it), so pressures outside the printed range are kept and\nflagged `outside_axes=1` (also vertices before 0 min or after 10 min: the plotted series starts about 15 s before the axis).\nVerification: the vertex count per panel, the fitted samples/s, the pressure RMS and the fraction outside the axes\nare written to METHOD.json; an overlay PNG per panel draws the extracted trace over a 4x render of the page crop.\n\nOutputs (--out, default results-data/digitised/kadri-2024/figS1-vector-traces/):\n  kadri-2024-figureS1-panel-<a..e>-<station>.csv  (plotted_time_s, utc, pressure_pa, pdf_x_pt, pdf_y_pt, outside_axes)\n  overlays/panel-<x>.png, METHOD.json\n",
+ "summary": {
+  "a": {
+   "station": "H08S",
+   "start_utc": "17:49",
+   "n_vertices": 28182,
+   "median_dt_s": 0.012225000000000819,
+   "samples_per_s": 81.7995910020395,
+   "rms_pa": 0.9505198829200946,
+   "frac_outside_axes": 0.08615428287559435,
+   "axes_pa": [
+    -2.0,
+    2.0
+   ],
+   "y_fit_pa_per_pt": -0.06653233502343214,
+   "x_fit_min_per_pt": 0.058060207548783216
+  },
+  "b": {
+   "station": "H08S",
+   "start_utc": "18:44",
+   "n_vertices": 21774,
+   "median_dt_s": 0.016371999999996945,
+   "samples_per_s": 61.0798924994006,
+   "rms_pa": 0.753352934815685,
+   "frac_outside_axes": 0.162533296592266,
+   "axes_pa": [
+    -1.0,
+    2.0
+   ],
+   "y_fit_pa_per_pt": -0.05438237817103155,
+   "x_fit_min_per_pt": 0.058060207548783216
+  },
+  "c": {
+   "station": "H08S",
+   "start_utc": "19:00",
+   "n_vertices": 15400,
+   "median_dt_s": 0.024346000000036838,
+   "samples_per_s": 41.07450915955339,
+   "rms_pa": 0.4849061030568463,
+   "frac_outside_axes": 0.012467532467532468,
+   "axes_pa": [
+    -2.0,
+    2.0
+   ],
+   "y_fit_pa_per_pt": -0.06784981436963325,
+   "x_fit_min_per_pt": 0.058060207548783216
+  },
+  "d": {
+   "station": "H11S",
+   "start_utc": "19:35",
+   "n_vertices": 15415,
+   "median_dt_s": 0.022673999999994976,
+   "samples_per_s": 44.10337831878899,
+   "rms_pa": 0.246276795370387,
+   "frac_outside_axes": 0.009276678559844308,
+   "axes_pa": [
+    -1.0,
+    1.0
+   ],
+   "y_fit_pa_per_pt": -0.03263254881636781,
+   "x_fit_min_per_pt": 0.05786395111711622
+  },
+  "e": {
+   "station": "H11S",
+   "start_utc": "19:41",
+   "n_vertices": 15395,
+   "median_dt_s": 0.022963000000004286,
+   "samples_per_s": 43.54831685754533,
+   "rms_pa": 0.24501899820529488,
+   "frac_outside_axes": 0.014745047093212081,
+   "axes_pa": [
+    -1.0,
+    1.0
+   ],
+   "y_fit_pa_per_pt": -0.03326616751169955,
+   "x_fit_min_per_pt": 0.058060207548783216
+  }
+ }
+}

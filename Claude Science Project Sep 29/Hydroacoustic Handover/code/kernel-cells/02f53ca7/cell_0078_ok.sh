@@ -1,0 +1,1 @@
+cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data/digitised"; ls; D=$(ls -d *lackman*); echo "DIR=$D"; ls "$D" | head -40; cat "$D"/README* "$D"/*.md 2>/dev/null | head -50; for f in "$D"/*.csv; do echo "== $f ($(wc -l < "$f") lines)"; head -2 "$f"; done 2>/dev/null | head -80

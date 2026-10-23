@@ -1,0 +1,1 @@
+cd ~/Downloads/mh370-exchange; find . -maxdepth 4 -newermt "-20 minutes" -type f 2>/dev/null | head -20; find . -maxdepth 3 -newermt "-60 minutes" -type d 2>/dev/null | head

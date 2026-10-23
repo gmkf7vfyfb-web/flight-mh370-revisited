@@ -1,0 +1,1 @@
+cd src; curl -sSL -m 60 -o dk100.pdf -w "%{http_code} %{url_effective}\n" "https://archive.org/download/manualsbase-id-639203/639203.pdf" 2>&1 | tail -2; ls -la; file dk100.pdf

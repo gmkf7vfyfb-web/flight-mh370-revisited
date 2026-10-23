@@ -1,0 +1,1 @@
+E=/Users/pete/Downloads/mh370-exchange/end-of-flight; ls $E; echo "=== tree2"; find $E -maxdepth 2 -type d | head -40; echo "=== impact-ish files"; find $E -maxdepth 4 -type f \( -name "*.npy" -o -name "*.json" -o -name "*.csv" -o -name "*.parquet" \) | head -40

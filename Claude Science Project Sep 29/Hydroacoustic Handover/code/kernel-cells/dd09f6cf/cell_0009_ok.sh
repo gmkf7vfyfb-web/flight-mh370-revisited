@@ -1,0 +1,1 @@
+cd "repo/Claude Science Project Sep 29/engine/hypotheses/seabed-search"; grep -n -B3 -A40 'def write_cov\|MH370COV' prepare/build_coverage.py | head -120

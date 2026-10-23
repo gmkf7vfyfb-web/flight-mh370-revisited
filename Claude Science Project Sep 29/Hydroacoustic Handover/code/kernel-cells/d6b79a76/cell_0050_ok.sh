@@ -1,0 +1,1 @@
+grep -h "seed .* start\|seed .* done" /tmp/eof-rjp.log | head -12; grep -h "start\|done" /tmp/eof-rjp-free.log | head -6; tail -2 kh/run.log

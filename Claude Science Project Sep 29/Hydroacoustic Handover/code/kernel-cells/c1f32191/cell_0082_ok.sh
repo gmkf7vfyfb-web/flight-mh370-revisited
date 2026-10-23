@@ -1,0 +1,3 @@
+export GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null; cd repo && git -c credential.helper= fetch -q origin claude-science-sep29 2>/dev/null; git log --oneline -1 origin/claude-science-sep29; git ls-tree -r origin/claude-science-sep29 --name-only | grep "composition-run-j" ; cd ../hydro && git ls-tree -r origin/hypothesis/hydroacoustics --name-only | grep composition_run_j | wc -l
+# make sure the committed prereg carries A2/A3 text (add if missing)
+grep -c "A2\|A3" "Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/composition_run_j/prereg.py"

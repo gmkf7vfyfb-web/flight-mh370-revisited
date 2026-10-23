@@ -1,0 +1,1 @@
+head -14 withdrawn/candidates-A-F-charts-note-2026-10-22.md; echo ...; head -12 withdrawn/hydroacoustics-take2-critical-review-2026-10-22.md | cut -c1-200

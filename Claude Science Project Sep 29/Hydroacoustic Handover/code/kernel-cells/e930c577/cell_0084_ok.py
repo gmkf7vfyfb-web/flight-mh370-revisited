@@ -1,0 +1,1 @@
+r=host.query("SELECT id, body FROM memories WHERE id IN ('mem_198dc6979cc3','mem_6c23d5d03bf1')"); [print(i,b) for i,b in r['rows']]

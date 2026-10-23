@@ -1,0 +1,1 @@
+cd .tmp/repo/"Claude Science Project Sep 29"/coordination; sed -n 1397,1421p HYDROACOUSTICS.md; echo =====; sed -n 1458,1498p HYDROACOUSTICS.md

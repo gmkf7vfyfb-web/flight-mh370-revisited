@@ -1,0 +1,1 @@
+cd "./.tmp/repo/ISO Sept 28 Status/inputs/papers/hydroacoustics"; wc -c *.txt; ls -la *.pdf *.png; head -c 1500 kadri-poster.txt; echo; echo ----; head -c 600 CalibrationNotes.txt; echo; head -c 400 3315_3250_3376__MetaData.txt

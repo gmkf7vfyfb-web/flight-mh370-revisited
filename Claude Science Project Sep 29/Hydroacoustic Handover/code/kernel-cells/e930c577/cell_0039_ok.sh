@@ -1,0 +1,2 @@
+cd ~/Downloads/mh370-exchange/end-of-flight/run-j-joined-v2; ls summary; head -c 1500 summary/*.json 2>/dev/null | head -60; tail -5 LOG 2>/dev/null; du -sh J0011/seed-1/impacts32.npy; python -c "
+import json; m=json.load(open('J0011/seed-1/run.json')); print([c for c in m['impact_columns'] if 'loglik' in c or c in ('weight','latitude_deg')][:20]); print(len(m['impact_columns']))"

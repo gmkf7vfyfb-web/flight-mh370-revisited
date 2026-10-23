@@ -1,0 +1,203 @@
+{
+ "provenance": {
+  "script": "prepare/search_windows_mixture.py",
+  "search_windows_sha256": "1b05492bbca5260f9d5250e29ee3a26124a97c4282cbf0c64112ed36d0c4e67e",
+  "eof_module": "/tmp/eof-43262c3/Claude Science Project Sep 29/engine/hypotheses/end-of-flight/smoke/displacement_hist.py",
+  "eof_module_sha256": "d81492148a44b490aa439484fc9240fe73542f92b20375ac2720613310cf4e78",
+  "exchange": "/Users/pete/Downloads/mh370-exchange/end-of-flight/next-run",
+  "p_family": {
+   "next-free": 0.6947721530492059,
+   "next-repro-radar": 0.15271743570298557,
+   "next-descent-climb": 0.137594663061475,
+   "next-routes": 0.014915748186333568
+  },
+  "family_evidence": "/Users/pete/Downloads/mh370-exchange/end-of-flight/next-run/summary/family-evidence-next-run-b.json",
+  "receivers": {
+   "H01W": [
+    -34.89030333333333,
+    114.14263666666666
+   ],
+   "H08S": [
+    -7.63938,
+    72.483828
+   ],
+   "H08N": [
+    -6.337533333333333,
+    71.00207733333333
+   ],
+   "3315": [
+    -31.867217,
+    115.001133
+   ],
+   "3376": [
+    -31.842167,
+    115.013733
+   ],
+   "3250": [
+    -15.483367,
+    121.251
+   ],
+   "3274": [
+    -38.536967,
+    141.247567
+   ],
+   "3275": [
+    -38.542433,
+    141.225583
+   ]
+  },
+  "weighting": "P(family) re-weighted by 00:19 evidence"
+ },
+ "arms": {
+  "none__other+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 20984062.37427582,
+   "n_replicates": 4,
+   "weights": {
+    "next-free": 0.6945986595061163,
+    "next-repro-radar": 0.15225710026168846,
+    "next-descent-climb": 0.13834247983036657,
+    "next-routes": 0.01480176040182861
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0026372201159631055,
+   "impact_q_pooled_utc": [
+    "00:19:58",
+    "00:21:16",
+    "00:22:50",
+    "00:32:00",
+    "00:40:16",
+    "00:47:34",
+    "00:58:18",
+    "01:02:30",
+    "01:11:26"
+   ],
+   "mass_beyond_grid": 6.66577903984944e-13
+  },
+  "none__other+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 20980512.261254955,
+   "n_replicates": 4,
+   "weights": {
+    "next-free": 0.6945986595061163,
+    "next-repro-radar": 0.15225710026168846,
+    "next-descent-climb": 0.13834247983036657,
+    "next-routes": 0.01480176040182861
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0024947901218212646,
+   "impact_q_pooled_utc": [
+    "00:19:58",
+    "00:21:16",
+    "00:22:50",
+    "00:31:58",
+    "00:40:16",
+    "00:47:34",
+    "00:58:18",
+    "01:02:28",
+    "01:11:16"
+   ],
+   "mass_beyond_grid": 8.770761894538737e-14
+  },
+  "r600_no-offset__other+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 509640.34120299976,
+   "n_replicates": 4,
+   "weights": {
+    "next-free": 0.638817690139958,
+    "next-repro-radar": 0.13953015433381613,
+    "next-descent-climb": 0.20408754718364067,
+    "next-routes": 0.017564608342585237
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 1.7609312123290674e-05,
+   "impact_q_pooled_utc": [
+    "00:20:42",
+    "00:21:08",
+    "00:21:38",
+    "00:28:30",
+    "00:35:12",
+    "00:41:34",
+    "00:49:00",
+    "00:50:24",
+    "00:53:06"
+   ],
+   "mass_beyond_grid": 6.743494651573201e-13
+  },
+  "r600_no-offset__other+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 509632.4515226682,
+   "n_replicates": 4,
+   "weights": {
+    "next-free": 0.638817690139958,
+    "next-repro-radar": 0.13953015433381613,
+    "next-descent-climb": 0.20408754718364067,
+    "next-routes": 0.017564608342585237
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 9.13602805111277e-06,
+   "impact_q_pooled_utc": [
+    "00:20:42",
+    "00:21:08",
+    "00:21:38",
+    "00:28:30",
+    "00:35:12",
+    "00:41:34",
+    "00:49:00",
+    "00:50:24",
+    "00:53:06"
+   ],
+   "mass_beyond_grid": 6.696865284538944e-13
+  },
+  "r600-bto__other+alive": {
+   "variant": "alive",
+   "ess_mixture_kish": 13006555.621293642,
+   "n_replicates": 4,
+   "weights": {
+    "next-free": 0.6971502264579884,
+    "next-repro-radar": 0.1386493413039646,
+    "next-descent-climb": 0.14779823105167786,
+    "next-routes": 0.016402201186369106
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0027189882542124565,
+   "impact_q_pooled_utc": [
+    "00:20:30",
+    "00:22:20",
+    "00:23:52",
+    "00:33:06",
+    "00:41:34",
+    "00:48:36",
+    "00:58:42",
+    "01:02:52",
+    "01:11:46"
+   ],
+   "mass_beyond_grid": 3.7703173916270316e-13
+  },
+  "r600-bto__other+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 13004630.055922616,
+   "n_replicates": 4,
+   "weights": {
+    "next-free": 0.6971502264579884,
+    "next-repro-radar": 0.1386493413039646,
+    "next-descent-climb": 0.14779823105167786,
+    "next-routes": 0.016402201186369106
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0025997426417926216,
+   "impact_q_pooled_utc": [
+    "00:20:30",
+    "00:22:20",
+    "00:23:52",
+    "00:33:06",
+    "00:41:34",
+    "00:48:36",
+    "00:58:42",
+    "01:02:50",
+    "01:11:38"
+   ],
+   "mass_beyond_grid": 3.539391002504999e-13
+  }
+ }
+}

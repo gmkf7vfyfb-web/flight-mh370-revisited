@@ -1,0 +1,1 @@
+cd repo/"Claude Science Project Sep 29"/coordination; sed -n 3581,3638p architecture.md; echo =====; sed -n 4160,4200p architecture.md

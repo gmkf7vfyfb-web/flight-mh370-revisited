@@ -1,0 +1,1 @@
+cd "audit/hb/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"; sed -n 60,88p air9_tl_validation.py; grep -n "def convert" -A40 shared_paths.py | head -60

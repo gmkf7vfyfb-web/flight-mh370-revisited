@@ -1,0 +1,1 @@
+import json; print(json.dumps(f["findings"][0], indent=1, default=str)[:3000])

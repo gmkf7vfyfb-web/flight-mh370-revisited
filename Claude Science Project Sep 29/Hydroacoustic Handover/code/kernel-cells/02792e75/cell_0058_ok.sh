@@ -1,0 +1,1 @@
+cd "repo/Claude Science Project Sep 29"; head -30 results/pleiades-references.bib; grep -h -o -E "^@[a-zA-Z]+\{[^,]+" paper/references.bib results/*.bib | sort -u | grep -i -E "atsb|sir|mot|malaysia|jacc|houston|ulich|dukane|factual|xinhua|amsa|csiro|griffin|minchin|kadri|icao|ukmod|tireless" | head -40; grep -c "^@" paper/references.bib

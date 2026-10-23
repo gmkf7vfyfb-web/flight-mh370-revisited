@@ -1,0 +1,1 @@
+ls; du -sh hydro repo src 2>&1 | tail -3

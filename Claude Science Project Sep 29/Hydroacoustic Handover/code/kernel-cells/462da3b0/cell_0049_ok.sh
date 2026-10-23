@@ -1,0 +1,6 @@
+cd "/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/462da3b0-2381-4cf6-84db-fe178606bed4/repo" && F="Claude Science Project Sep 29/results/hydroacoustics-next-run-b-standin.md"; cp "$F" ../hydroacoustics-next-run-b-standin.md
+git add "$F" && git -c user.name=MH370-iso-agents -c user.email=mh370-iso@invalid commit -q -m "Hydroacoustics stand-in note: list all 7 per-stratum start-edge exceptions to reference-289 containment (was undercounted)" 2>&1 | grep -v ignore
+U=https://x-access-token:${GITHUB_TOKEN}@github.com/gmkf7vfyfb-web/flight-mh370-revisited.git
+git push -q $U HEAD:claude-science-sep29 2>&1 | grep -v ignore || true
+[ "$(git ls-remote $U claude-science-sep29 | cut -f1)" = "$(git rev-parse HEAD)" ] || { git pull -q --rebase $U claude-science-sep29 2>&1 | grep -v ignore; git push -q $U HEAD:claude-science-sep29 2>&1 | grep -v ignore; }
+[ "$(git ls-remote $U claude-science-sep29 | cut -f1)" = "$(git rev-parse HEAD)" ] && echo pushed; git log --oneline -1

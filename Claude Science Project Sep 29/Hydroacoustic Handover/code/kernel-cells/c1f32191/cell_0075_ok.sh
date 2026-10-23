@@ -1,0 +1,2 @@
+O=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated; ls -la $O/reduce | awk '{print $5, $9}' | sort -n | tail -4; du -sh $O/*/seed-1/subsample.npz $O/run-j-waypoints/seed-1/acc.npz 2>/dev/null | head -3
+rm -f $O/reduce/subsample_merged.npz; du -sh $O; du -sh $O/reduce; df -k /System/Volumes/Data | tail -1

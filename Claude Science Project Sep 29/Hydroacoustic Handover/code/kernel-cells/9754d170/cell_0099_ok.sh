@@ -1,0 +1,1 @@
+A="audit/repo/Claude Science Project Sep 29/results/hydroacoustics-audit"; M="audit/hb/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"; python "$A/scripts/charts.py" "$M" "$A/data/markers_audit.json" "$A" 2>&1 | tail -5

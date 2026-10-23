@@ -1,0 +1,1 @@
+cd "repo/Claude Science Project Sep 29"; tail -c 5000 coordination/END_OF_FLIGHT.md; echo =====; cat results/drift-runj-2026-10-17/compose_drift_runj.py | head -250

@@ -1,0 +1,5 @@
+sub=cur.sel(latitude=slice(-26.5,-25.5),longitude=slice(97,101.5),time=slice('2014-03-08','2014-03-18'))
+print('GlobCurrent 0 m mean u %.2f v %.2f m/s, mean speed %.2f'%(float(sub.uo.mean()),float(sub.vo.mean()),float(np.sqrt(sub.uo**2+sub.vo**2).mean())))
+sw=win.sel(latitude=slice(-26.5,-25.5),longitude=slice(97,101.5),time=slice('2014-03-08','2014-03-18'))
+print('wind mean u %.1f v %.1f, mean speed %.1f m/s'%(float(sw.eastward_wind.mean()),float(sw.northward_wind.mean()),float(np.sqrt(sw.eastward_wind**2+sw.northward_wind**2).mean())))
+print(float(sub.uo.isel(depth=0).sel(time='2014-03-10').mean()))

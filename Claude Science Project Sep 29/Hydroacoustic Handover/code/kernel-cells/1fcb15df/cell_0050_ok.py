@@ -1,0 +1,56 @@
+
+note = f"""# Hydroacoustics graphics 22 Oct 2026, track "arrival-windows": what the data hold at every receiver when each candidate's sound should arrive
+
+*Hydroacoustic Module (arrival-windows track), 22 Oct 2026. Answers Pete's question: "was there absolutely nothing at the other sites, including the Australian coast loggers and Royer, at the corresponding arrival times?"*
+
+**Status: PREDICTIVE, NOT CALIBRATED. No detection is claimed.** Caveats C1 (sound-loss slope misfit, +10.4/+7.4 dB per octave at H01W/H08S) and C2 (coupling efficiency not calibrated; F-35A upper anchor 2.1e-4) apply to every expected level. Data marked digitised (Kadri 2024 Fig. 9 panels; Royer 2016 spectrograms, picks and figure marks) are copies of published figures, not recordings. Kadri times: text time 00:52:03, caption time 00:54:30.
+
+## 1. Answer
+
+1. **Strongest pair (Cape Leeuwin H01W 00:52:04 x Diego Garcia South H08S 01:12:49; locus 33.6 S 94.5 E, impact 00:31:41).** Of the 15 receiver rows, 7 hold data in the predicted window. The two raw IMOS records held both show **nothing**, although the model says each should have seen the source at the coupling the pair needs (eta 0.069 = 330 x the F-35A anchor, composition v2; this track's finer grid gives 0.068):
+   - Perth Canyon 3376: expected +13.4 dB above the background median, detection probability 0.90; observed matched-filter maximum 0.34 in 00:53:11-00:53:35, **p 0.80**.
+   - Portland 3274: expected +4.4 dB, detection probability 0.71; observed maximum 0.28 in 01:18:44-01:19:09, **p 0.86**.
+   - Perth Canyon 3315 (expected +8.4 dB, P_D 0.78), Portland 3275 (+12.0 dB, P_D 0.96) and Scott Reef 3250 (path blocked): **no record overlaps the window** (duty cycle 307 s per 15 min; 3315/3376 alternate slots).
+   - Diego Garcia North and OHASISBIO NEAMS: nothing held (H08N not obtained; NEAMS lost on recovery). MAD, WKER, NCRO: no digitised Royer panel covers the window. SWAMS and SSEIR: Royer's digitised spectrograms cover the windows; no Royer pick or figure mark lies in them; level not modelled (no OHASISBIO sound-loss).
+   - If the two misses were independent at the needed eta, P(both miss | pair is the impact) = 0.10 x 0.29 = **0.03** (PROVISIONAL: C1, C2, the 3376 terminal-profile sensitivity +/-9.6 dB of G-TL2, and the proxy noise at H01W/H08S all enter).
+2. **The Cape Leeuwin half of the pair coincides with a Royer event.** Royer's own pick bar for his event A (located ice-quake, 57.3 S 89.0 E, origin 00:16:29.4) on his Fig. 4 H01W-2 panel spans **00:51:56.8-00:52:04.5**, and his appendix strip arrow is at 00:51:58.8; his Table 5 gives 00:51:41-43 (the 13.6-16 s table-figure offset at H01W is unresolved). The digitised Royer H01W spectrogram peaks at 00:51:59 (+7.7 dB above its panel median). Event A predicted at H01W from Royer's origin at 1.482 km/s: 00:51:37 (1.467-1.518 km/s: 00:50:47-00:51:59). Event A's bearing from H01W is 209 deg, not 268.9 deg (the pair locus) and not Kadri's 57 / 306.18 deg. **Reading (inferred, provisional):** the 00:52:04 H01W row is most simply the arrival of Royer's event A, which removes the pair's physical basis; the pair is then a chance lag match (36 pair tests; permutation p 0.019 is what that many tests give by chance about half the time).
+3. **Bearing caveat (computed by the parent session).** The locus is at 268.9 deg from H01W (1,812 km) and 144.8 deg from H08S (3,660 km). Kadri publishes 57 deg or 306.18 deg for the 00:52 signal (text p. 9 and Table 1 caption disagree); neither is within 37 deg of 268.9 deg. The nearest Table 1 bearing is 00:52:50 at 274.84 deg, 46 s later.
+4. **Other candidates.** Across all 10 candidates x 15 receiver rows (150 cells): 65 not held; 12 "should have seen: nothing"; 10 "could not have seen: nothing"; 28 held but not scorable (no level model, blocked path or record edge); 16 Royer-only cells with a Royer arrival in the window (wide single-site windows; all are Royer's located non-arc events A/B/C1 or unlabelled); 19 cells with the defining signal or another p <= 0.05 row (almost all Scott Reef 3250 fish-chorus rows or Portland 3275 chance-rate rows). No candidate shows a second, independent receiver with a p <= 0.05 row where the model expects it.
+
+| candidate | implied source, impact | eta needed | rows held | "should have seen: nothing" | cells | defining / present |
+|---|---|---|---|---|---|---|
+""" + "\n".join(summ_rows) + f"""
+
+Scott Reef 3250 candidates (singles 1, 3; pairs 2-5): the model's arc-to-Scott-Reef path is blocked in the sound-loss grid, so no coupling makes an arc impact audible there; their expected levels elsewhere are drawn at eta 0.01 (top of the prior range) for reference. Pairs 3 and 5 put the locus at 24-25 S, from where the Portland path is also blocked. Single 5 (Portland 3274 BE 20-40 Hz, p 0.011) needs an impact at 00:05-00:16, before 00:19:29: no run J impact can produce it.
+
+## 2. Figures (PNG + PDF in this folder)
+
+- `cand01_pair1-strongest` ... `cand05_pair5`: one figure per two-site pair; `cand06_single1` ... `cand10_single5`: one per single-site signal. Rows = 15 receiver rows (H01W from Kadri and from Royer; H08S; H08N; IMOS 3315, 3376, 3274, 3275, 3250; OHASISBIO NEAMS, SWAMS, SSEIR, MAD, WKER, NCRO). Columns: pressure trace (IMOS 5-40 Hz Pa; Kadri plots 1-9 Hz, digitised; Royer 5-40 Hz band level, digitised), spectrogram, matched-filter statistic with p 0.3/0.1/0.05 null thresholds, 1 s level above the background median with the expected level (purple) and the P_D = 0.5 level (dotted purple). Window +/- 2 min plotted; predicted window shaded. Not-held rows give the window and the reason.
+- `arrival_window_matrix`: candidates x receivers, verdict colour, p, expected SNR. `arrival_window_matrix.csv`: 150 rows, 32 columns (window, held fraction, max statistic, p, trials-corrected p, expected SNR, P_D, SNR for P_D 0.5, SNR at the anchor, Royer picks and marks, verdict).
+
+## 3. Method
+
+- **Candidates.** The ranking track's `graphics-2026-10-22/ranked/ranked_{{pairs,singles}}.csv` did not appear in {RANK} during this track (checked at start and repeatedly over ~60 min); fallback used as instructed: top 5 distinct `primary_M1b` pairs by max_p from `run-j-searches/coincidence/pairs.csv` (the strongest pair is among them) and top 5 single rows by p from `imos/imos_candidates.csv` + `panels/panel_candidates.csv` (any detector; duplicates at one receiver within 60 s removed).
+- **Implied source.** Pairs: the lag locus on the 7th-arc grid (tl_grid_run_j table points, offset 0, 41-20 S) by the composition method (reproduces 33.56 S 94.51 E, 00:31:41); Monte Carlo n 4,000 with c ~ N(1.482, 0.006) km/s and pick error sd 3.6 s (injection 3 s + clock 2 s) at both picks; root nearest the primary locus (largest D0' mass within 1 deg). Singles: run J search-geometry sample (`geometry/sample.npz`: waypoints stratum seeds 1-8 + northern supplement; 00:19 Held Out, p 0.5) conditioned on the observed arrival with a Gaussian kernel (sd from c and pick error), 20,000 predictive draws.
+- **Predicted window** at every receiver = 2.5-97.5 % of the predictive arrival (includes c and pick/injection error). WGS84 geodesic, no refraction or blockage path lengthening.
+- **Expected level.** Module `composition_run_j/common.Machinery(imos_ramgrid=True)`: peak 1 s 5-40 Hz SNR re the 14-day background median = TL from the arc grid (IMOS: RAM-corrected `run-j-tl-grid/tables/imos_tl_ram_arc.csv`; IMS: KRAKEN - RAM delta + 4.8 dB triad gain), E and tau90 from run J rows within 1 deg of the locus (pair 1: composition `coincidence_locus.csv` v2, 1.08 GJ, 3.3 s), P_D from the block 7 logistic fits (M1b, alpha 0.05). eta needed: P_D = 0.5 at the defining receiver (jointly for pairs, product), searched on a 0.005-decade grid.
+- **Data and statistic.** IMOS: raw .DAT via `imos_noise.read_volts/decimate`, convention-A clock (`imos_search`), Curtin gain + sensitivity; M1b series by `searches_run_j/detectors` with the 18-template bank (reproduces `imos_windows.csv` exactly at 3376 00:50:03); p = (k+1)/(n+1) against the 55 s window maxima of the logger's own 1-15 March background (3315 <- 3376, 3275 <- 3274 stand-ins). Kadri panels: digitised traces, M1b series from `panel_series.npz`, null A (IMOS 3376 via the plot emulator). Royer: 34 digitised spectrogram panels (colour->dB, +/-1.5 dB), 143 Table 5 picks, 47 figure marks. The p for the window maximum is not corrected for window length (CSV gives 1-(1-p)^(W/55)).
+- **Verdict rules.** not held -> "could not have seen: no recording"; defining receiver with p <= 0.3, or any row p <= 0.05 -> "present"; held with P_D >= 0.5 and p > 0.05 -> "should have seen: nothing"; P_D < 0.5 -> "could not have seen: nothing"; no level model / blocked / record edge -> "not scorable"; Royer rows -> Royer arrival in window or none.
+
+## 4. COVERAGE
+
+- **(a) Feasible set.** Any arc impact 00:19:37-01:15:56 (run J, all strata) and the northern supplement; candidates' implied sources are points or conditional distributions inside it, except single 5 (impact before 00:19:29, outside it, labelled).
+- **(b) Model's reach.** SOFAR arrivals only (AGW not modelled: G-S1). Levels only at 3376, 3315, 3274, 3275 (gated) and H01W, H08S (proxy noise); no level model at H08N, 3250 (blocked path), OHASISBIO sites (no sound-loss computed). Locus search 41-20 S only (arc grid); latitude-only TL on the offset-0 line.
+- **(c) Proposal coverage.** Pairs: deterministic locus + 4,000 MC draws (all converged to a root: 4,000/4,000). Singles: conditioned ESS 5,084 / 971 / 186 / 932 / 0 (single 5: zero mass, arc-uniform fallback, labelled).
+- **Gaps.** G-AW1: ranked tables from the ranking track absent -> fallback selection (declared). G-AW2: no OHASISBIO level model, so Royer cells cannot say "should have seen". G-AW3: Royer H01W table-figure offset 13.6-16 s unresolved (affects the event A coincidence by <= 16 s, not its existence). G-AW4: duty cycle - 65 of 150 cells hold nothing; 3315 and 3275 never hold the strongest pair's window. G-AW5: the singles use the search-geometry sample (waypoints stratum only, 0.998 of the mixture; G-W4), not all four strata.
+
+## 5. Provenance
+
+Inputs: module branch `hypothesis/hydroacoustics` @ 9b27786 (prepare/composition_run_j, prepare/searches_run_j, results-data/digitised/royer-2016, data/imos/recordings.csv, data/kadri_fig9_digitised); exchange `run-j-searches/` (SHA256SUMS), `run-j-tl-grid/tables/imos_tl_ram_arc.csv`, `run-j-weak-signal/templates/templates_raw.npz`; raw IMOS under `mh370-inputs/hydroacoustics/imos/`. Helper code in this folder: `track_rowdata.py` (per-receiver data extraction), `track_plot.py` (figure), `track_matrix.py` (matrix); the geometry and level cells ran in the track's analysis kernel (lineage kept with the artifacts). Compute: one process, < 5 GB RAM, < 30 MB disk.
+
+done: 10 candidate figures + matrix (PNG/PDF) + CSV committed. next: rerun on the ranking track's tables if they differ from the fallback; add an OHASISBIO sound-loss path to score Royer cells. blocker: none.
+"""
+open(f"{OUT}/README.md","w").write(note)
+import shutil
+for f in ("track_rowdata.py","track_plot.py","track_matrix.py"): shutil.copy(f, f"{OUT}/{f}")
+print(len(note), sorted(os.listdir(OUT)))

@@ -1,0 +1,1 @@
+ls /Users/pete/.cargo/bin | head; export RUSTUP_HOME=/Users/pete/.rustup; /Users/pete/.cargo/bin/cargo --version; /Users/pete/.cargo/bin/rustc --version

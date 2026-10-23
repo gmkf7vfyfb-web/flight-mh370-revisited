@@ -1,0 +1,1 @@
+W=/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/370552c2-5cc9-44d0-86c9-507ea022948e; F="$W/repo/Claude Science Project Sep 29/engine/hypotheses/end-of-flight/full"; cat "$F/sweep_run_i.sh"; cat "$W/repo/Claude Science Project Sep 29/engine/hypotheses/end-of-flight/smoke/children-16.toml"

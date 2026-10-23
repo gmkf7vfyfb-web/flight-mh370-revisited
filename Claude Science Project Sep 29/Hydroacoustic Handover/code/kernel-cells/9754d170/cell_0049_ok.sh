@@ -1,0 +1,1 @@
+sed -e 's/<[^>]*>//g' audit/lit/AD0734381.pdf | grep -v '^\s*$' | tail -15

@@ -1,0 +1,1 @@
+cd hydro/"Claude Science Project Sep 29"/engine/hypotheses/hydroacoustics; sed -n 60,118p prepare/exploratory/near_limits_eof289.py; ls results-data 2>&1 | head; git -C . ls-tree -r --name-only HEAD -- results-data | head; cat ../../../.gitignore 2>/dev/null | head -20; ls /Users/pete/Downloads/mh370-exchange/; ls /Users/pete/Downloads/mh370-exchange/hydroacoustics 2>&1 | head

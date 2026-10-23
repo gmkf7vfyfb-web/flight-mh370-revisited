@@ -1,0 +1,1 @@
+mkdir -p "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/kadri_package/v2-2026-10-22" /Users/pete/Downloads/mh370-exchange/hydroacoustics/kadri-package-v2 && echo ok; df -k /System/Volumes/Data | tail -1

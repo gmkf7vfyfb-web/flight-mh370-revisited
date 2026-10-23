@@ -1,0 +1,1 @@
+cd "repo/Claude Science Project Sep 29/engine"; sed -n 100,192p crates/hypothesis/src/lib.rs; grep -rn "prediction_columns\|fn predict" crates/mh370/src/impacts.rs | head; ls config/sensitivity | grep -i -E 'smoke|handoff|integrated' ; grep -n -A12 '^\[\[compose\]\]\|compose' hypotheses/arc-kernel/run.toml config/integrated.toml | head -30

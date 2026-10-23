@@ -1,0 +1,3 @@
+cd repo && git add "Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/bearing_mixture_rerun.py" && git commit -q -m "Hydroacoustics: pre-register the bearing-mixture rerun of the composer test (five bearing models, thresholds unchanged)" && timeout 60 git push -q origin hypothesis/hydroacoustics && git log --oneline -1
+cd "Claude Science Project Sep 29/engine/hypotheses/hydroacoustics" && export OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 VECLIB_MAXIMUM_THREADS=2 RAYON_NUM_THREADS=2
+time python prepare/bearing_mixture_rerun.py "../../../results/no-exhaustion-prior-summary.json" ../../../../../hydro/bmr 2>&1 | tail -30

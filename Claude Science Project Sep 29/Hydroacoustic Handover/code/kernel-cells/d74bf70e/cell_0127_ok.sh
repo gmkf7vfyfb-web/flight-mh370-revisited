@@ -1,0 +1,1 @@
+for u in "https://dap.ceda.ac.uk/thredds/catalog/bodc/gebco/global/catalog.html" "https://dap.ceda.ac.uk/bodc/gebco/global/"; do echo "$u"; curl -s -m 40 -o /tmp/c.html -w '%{http_code}\n' "$u"; grep -o -E 'href="[^"]*gebco_20[0-9]{2}[^"]*"' /tmp/c.html | head -10; done

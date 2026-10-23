@@ -1,0 +1,3 @@
+wc -l stage1b/ram.log; python -c "
+import pandas as pd; d=pd.read_csv('stage1b/event_tl_ram.csv'); print(d.shape); print(d.pivot_table(index='fc_hz',columns=['path','src_depth_m'],values='tl_db').round(1)); print(d.wall_s.sum())"; python -c "
+import pandas as pd; d=pd.read_csv('stage1b/event_tl_kraken.csv'); print(d.pivot_table(index='fc_hz',columns=['path','src_depth_m'],values='tl_db').round(1))"

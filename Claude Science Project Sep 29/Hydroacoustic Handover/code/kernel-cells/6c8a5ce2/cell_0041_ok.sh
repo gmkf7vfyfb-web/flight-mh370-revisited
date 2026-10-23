@@ -1,0 +1,1 @@
+cd .tmp/repo/"Claude Science Project Sep 29"/coordination; wc -l architecture.md; grep -n "^## " architecture.md | grep -i -E "hydro" | tail -12

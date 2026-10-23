@@ -1,0 +1,322 @@
+"""Whole-arc transmission-loss grid for run J (work order 2026-10-21 block 2; brief Refresh v2 section 3 and 9(e)).
+
+PRE-REGISTERED METHOD (committed before the full grid was computed; the 3-path timing run is the only prior use).
+Closes the declared coverage gap "TL table 38.46-31.64 S" by computing the module's standard TL on a grid of source
+points along the 7th arc from 41 S to 20 S, with cross-arc offsets, to every receiver the module scores.
+
+SOURCE POINTS. Latitude 41.0 S to 20.0 S every 0.5 deg (43 rows). The 7th arc is the zero contour of the project's
+arc-distance field (searched-areas/run-j-supplement/arc-grid.npz, the arc_distance_nm convention of end of flight,
+checked against run J impacts: 99.8 % sign agreement, p50 error 0.009 NM). Cross-arc offsets are contours of that
+field at -60, -30, 0, +30, +60 NM (negative = west of the arc, towards the satellite; positive = east). Run J's prior
+mass is NOT mainly inside the arc: one seed per stratum gives arc_distance medians +8 to +17 NM, 21-30 % of mass
+beyond +45 NM and 5-8 % beyond -45 NM; the 95 % quantile is +91 to +126 NM. Points east of +60 NM are a declared
+coverage gap of this grid (nearest-offset extrapolation; see the results note). Span: the 99.5 % latitude quantile
+of run J (prior and every 00:19 option, four strata and the northern supplement) is 25.7-24.2 S, so 20 S governs.
+
+RECEIVERS. IMS triads H01W, H08S, H08N: centroid of the 2014 elements in data/stations.csv, receiver at the mean
+hydrophone depth (f35a_eta_calibration.receiver_depth). IMOS loggers 3315, 3376 (Perth Canyon), 3250 (Scott Reef),
+3274, 3275 (Portland) at the positions of data/ocean_paths/request.json (brief section 4), receiver 2 m above the
+seabed: min(path end depth, last profile depth) - 2 m, as imos_stageB_tl.py.
+
+PATHS (schema of shared_paths.py, consumed by air9_tl_validation.build_profiles unchanged). WGS84 geodesic sampled
+every 250 m. Bathymetry GEBCO_2026 15": on-track depth = median of the 3 x 3 cells around the nearest cell (the
+shared ocean-transport section rule, nx2d K2 PASS <= 1 dB); tid = centre cell; corridor_max_elevation_m = maximum
+elevation over 17 cross-track samples at -2..+2 km (250 m steps, nearest cell). Sound speed WOA23 decade A5B4
+(2005-2014), March, bilinear at 25 km nodes, in-situ t and SP recovered with gsw; levels below the WOA floor NaN and
+extended by build_profiles as before (SA, CT held). The module's TL method is unchanged: KRAKEN adiabatic
+incoherent modes (kraken_tl.tl_path), profiles every 5 km (median depth within +/-2.5 km), HARD bottom
+(cp 1650, rho 1.9, 0.5 dB/lambda), Francois-Garrison (T 4 C, S 34.7, pH 8, 1,000 m), spherical correction, source
+depths 2, 10, 30 m (10 m is the reference), third-octave centres 5-40 Hz (50 and 63 Hz when --bands adds them).
+
+BLOCKAGE RULE (the module's existing rule, nx2d.py step 3 and imos_stageB_tl.py; no new threshold): a path whose
+on-track GEBCO elevation is >= 0 m anywhere is BLOCKED 'land' and not run; a (path, band) for which KRAKEN finds no
+propagating mode on some 5-km profile (fatal "No modes") is BLOCKED 'no_modes' for that band, contributing zero
+received energy. A path with a 5-km profile shallower than 15 m is marked 'no_modes_shallow' in every band without
+running KRAKEN (validated equivalent of the same rule, see run_path; --no-prescreen disables it). Recorded beside the flag, as diagnostics only: minimum on-track depth, minimum corridor depth
+(-max corridor elevation), km of track shallower than 1,000 m (the sound-channel axis region, imos_path_blockage.csv
+convention), and the shallowest point excluding the last 100 km. Nothing is imputed on a blocked band.
+
+RECORDED PER (source, receiver, band, source depth): tl_db, n_modes_first, n_modes_min, status, range_km,
+back_azimuth_deg (at the receiver, towards the source), azimuth_deg (at the source), rcv_depth_m, the diagnostics
+above, and the deep-sound-channel travel time at c = 1.482 km/s with its 1-sigma spread from c_sd = 0.006 km/s
+(search_windows.py / lhyd.py constants). No RAM delta is applied here: the drop-in table (tl_grid_table.py) applies
+the module's existing per-station RAM deltas (results-data/near_limits/ims_ram_delta.csv; ram_check) unchanged.
+
+RESOURCES. 4 worker processes (operating note), one job per path (all bands, three source depths in one KRAKEN
+call). Work directories are deleted after each path. Budget rule of the work order: time 3 paths first; if the
+full grid exceeds about 90 minutes at 4 processes, coarsen the offsets to {-30, 0, +30} and say so.
+
+Usage: python tl_grid_run_j.py <out_dir> --at-bin <tools_dir> [--offsets -60 -30 0 30 60] [--lat-step 0.5]
+       [--lat-south -41 --lat-north -20] [--bands 5 ... 40] [--receivers ...] [--procs 4] [--limit N] [--only-paths]
+       [--extra-sources name:lat:lon ...]   (the old five quantile points, for the method comparison)
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import pathlib
+import shutil
+import sys
+import time
+from multiprocessing import Pool
+
+import gsw
+import numpy as np
+import pandas as pd
+from pyproj import Geod
+
+HERE = pathlib.Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+import air9_tl_validation as A  # noqa: E402
+import kraken_tl as K  # noqa: E402
+
+OCEAN = pathlib.Path("/Users/pete/Downloads/mh370-ocean-data")
+EXCH = pathlib.Path("/Users/pete/Downloads/mh370-exchange")
+ARC_GRID = EXCH / "searched-areas/run-j-supplement/arc-grid.npz"
+G = Geod(ellps="WGS84")
+BANDS = [5.0, 6.3, 8.0, 10.0, 12.5, 16.0, 20.0, 25.0, 31.5, 40.0]
+SRC = [2.0, 10.0, 30.0]
+C_MEAN, C_SD = 1.482, 0.006          # km/s, deep sound channel (lhyd.py / search_windows.py)
+NM_KM = 1.852
+WOA_DECADE, WOA_MONTH = "A5B4", 3    # 2005-2014, March (ocean transport's rule: the decade containing the event)
+IMS = ["H01W", "H08S", "H08N"]
+IMOS = ["3315", "3376", "3250", "3274", "3275"]
+SHALLOW_M = 15.0                    # pre-screen depth, see run_path
+
+
+# ----------------------------------------------------------------------------- receivers and sources
+def receivers(names):
+    st = pd.read_csv(HERE.parent / "data/stations.csv", comment="#")
+    req = json.loads((HERE.parent / "data/ocean_paths/request.json").read_text())
+    imos = {p["name"].split("-")[1]: p["b"] for p in req["paths"]}          # [lon, lat]
+    out = {}
+    for n in names:
+        if n in IMS:
+            g = st[st.triad == n]
+            out[n] = dict(lat=float(g.latitude_deg.mean()), lon=float(g.longitude_deg.mean()), kind="ims",
+                          rcv_depth_m=float(g.hydrophone_depth_m.mean()))
+        else:
+            lon, lat = imos[n]
+            out[n] = dict(lat=float(lat), lon=float(lon), kind="imos", rcv_depth_m=None)   # seabed - 2 m, set per path
+    return out
+
+
+def arc_sources(lat_south, lat_north, step, offsets_nm):
+    """The arc-distance field is defined only in cells that hold impacts (n > 0; elsewhere a fill value). Per
+    latitude row, longitude is fitted as linear in arc distance over the valid cells (within 150 NM of the wanted
+    offset when >= 20 such cells exist, else all valid cells) and evaluated at the offset. Fit rms and whether the
+    offset lies outside the fitted span (arc_fit_extrapolated) are recorded per source point in sources.csv; the
+    results note reports which rows are extrapolated (the southern rows, where run J holds few impacts) and their rms."""
+    z = np.load(ARC_GRID)
+    arc = z["arc"].astype(float); n = z["n"]; s0, w0, st = float(z["south"]), float(z["west"]), float(z["step"])
+    lons = w0 + st * np.arange(arc.shape[1])
+    rows = []
+    for lat in np.round(np.arange(lat_south, lat_north + 1e-9, step), 3):
+        i = int(round((lat - s0) / st))
+        ok = n[i] > 0
+        for off in offsets_nm:
+            near = ok & (np.abs(arc[i] - off) <= 150.0)
+            use = near if near.sum() >= 20 else ok
+            A_ = np.vstack([np.ones(use.sum()), arc[i][use]]).T
+            c, _, _, _ = np.linalg.lstsq(A_, lons[use], rcond=None)
+            rms = float(np.sqrt(np.mean((A_ @ c - lons[use]) ** 2)))
+            rows.append(dict(source_id=f"arc{abs(lat):05.1f}S_{int(off):+d}", lat=float(lat), lon=float(c[0] + c[1] * off),
+                             offset_nm=float(off), arc_fit_cells=int(use.sum()), arc_fit_rms_deg=rms,
+                             arc_fit_extrapolated=bool(off < arc[i][use].min() or off > arc[i][use].max())))
+    return pd.DataFrame(rows)
+
+
+# ----------------------------------------------------------------------------- environment along a path
+_G = {}
+
+
+def gebco():
+    if "g" not in _G:
+        m = json.loads((OCEAN / "gebco/grid/gebco_2026.json").read_text())
+        el = np.memmap(OCEAN / "gebco/grid" / m["elevation_file"], dtype="<i2", mode="r", shape=(m["nlat"], m["nlon"]))
+        tid = np.memmap(OCEAN / "gebco/grid" / m["tid_file"], dtype="u1", mode="r", shape=(m["nlat"], m["nlon"]))
+        _G["g"] = (m, el, tid)
+    return _G["g"]
+
+
+def woa():
+    if "w" not in _G:
+        d = OCEAN / "woa23/soundspeed"
+        m = json.loads((d / f"woa23_{WOA_DECADE}_m{WOA_MONTH:02d}.json").read_text())
+        shp = (m["nlat"], m["nlon"], len(m["depth_m"]))
+        g = {k: np.fromfile(d / m[f"{k}_file"], dtype="<f4").reshape(shp) for k in ("c_mean", "c_sd", "sa", "ct")}
+        _G["w"] = (m, g)
+    return _G["w"]
+
+
+def _ij(m, lat, lon):
+    i = np.clip(np.rint((lat - m["lat0"]) / m["step_deg"]).astype(int), 1, m["nlat"] - 2)
+    j = np.clip(np.rint((lon - m["lon0"]) / m["step_deg"]).astype(int), 1, m["nlon"] - 2)
+    return i, j
+
+
+def bathy_along(lat, lon, az):
+    m, el, tid = gebco()
+    i, j = _ij(m, lat, lon)
+    nb = np.stack([el[i + di, j + dj] for di in (-1, 0, 1) for dj in (-1, 0, 1)], 0).astype(float)
+    depth_med = np.median(nb, axis=0)
+    t = tid[i, j].astype(int)
+    cmax = np.full(len(lat), -np.inf)
+    for off in np.arange(-2000.0, 2000.1, 250.0):
+        if off == 0:
+            cmax = np.maximum(cmax, el[i, j].astype(float)); continue
+        plon, plat, _ = G.fwd(lon, lat, az + 90.0, np.full(len(lat), off))
+        pi, pj = _ij(m, plat, plon)
+        cmax = np.maximum(cmax, el[pi, pj].astype(float))
+    return depth_med, t, cmax
+
+
+def woa_profile(lat, lon):
+    m, g = woa()
+    x = (lon - m["lon0"]) / m["step_deg"]; y = (lat - m["lat0"]) / m["step_deg"]
+    j0, i0 = int(np.floor(x)), int(np.floor(y)); fx, fy = x - j0, y - i0
+    out = {}
+    for k, a in g.items():
+        num = np.zeros(a.shape[2]); den = np.zeros(a.shape[2])
+        for i, j, w in ((i0, j0, (1 - fy) * (1 - fx)), (i0, j0 + 1, (1 - fy) * fx), (i0 + 1, j0, fy * (1 - fx)), (i0 + 1, j0 + 1, fy * fx)):
+            v = a[i, j, :].astype(float); ok = np.isfinite(v)
+            num[ok] += w * v[ok]; den[ok] += w
+        out[k] = np.where(den > 0, num / np.where(den > 0, den, 1), np.nan)
+    return np.array(m["depth_m"], float), out
+
+
+def build_path(src, rcv, ds_km=0.25, node_km=25.0):
+    """src, rcv: dict(lat, lon). Returns (bathy DataFrame, ssp DataFrame, info dict) in the shared_paths.py schema."""
+    az12, az21, L = G.inv(src["lon"], src["lat"], rcv["lon"], rcv["lat"]); L /= 1000.0
+    n = int(np.ceil(L / ds_km))
+    pts = np.array([(src["lon"], src["lat"])] + G.npts(src["lon"], src["lat"], rcv["lon"], rcv["lat"], n - 1) + [(rcv["lon"], rcv["lat"])])
+    lon, lat = pts[:, 0], pts[:, 1]
+    r = np.linspace(0.0, L, len(pts))
+    az = np.empty(len(pts)); az[:-1] = G.inv(lon[:-1], lat[:-1], lon[1:], lat[1:])[0]; az[-1] = az[-2]
+    el, t, cmax = bathy_along(lat, lon, az)
+    bathy = pd.DataFrame(dict(range_km=r, lat=lat, lon=lon, elevation_m=el, tid=t, corridor_max_elevation_m=cmax))
+    rn = np.append(np.arange(0.0, L, node_km), L); rows = []
+    for k, rr in enumerate(rn):
+        ii = int(np.argmin(np.abs(r - rr)))
+        z, p = woa_profile(lat[ii], lon[ii])
+        pr = gsw.p_from_z(-z, lat[ii])
+        sp = gsw.SP_from_SA(p["sa"], pr, lon[ii], lat[ii]); tt = gsw.t_from_CT(p["sa"], p["ct"], pr)
+        rows.append(pd.DataFrame(dict(node=k, range_km=rr, lat=lat[ii], lon=lon[ii], depth_m=z, t_insitu_c=tt, sp_psu=sp,
+                                      c_m_s=p["c_mean"], c_sd_m_s=p["c_sd"])))
+    ssp = pd.concat(rows, ignore_index=True)
+    last100 = el[: max(1, len(el) - int(100.0 / ds_km))]
+    info = dict(range_km=float(L), azimuth_deg=float(az12 % 360), back_azimuth_deg=float(az21 % 360),
+                min_track_depth_m=float(-el.max()), min_corridor_depth_m=float(-cmax.max()),
+                km_shallower_1000=float(ds_km * np.sum(el > -1000.0)), land_on_track=bool((el >= 0).any()),
+                min_depth_excl_last100_m=float(-last100.max()), end_depth_m=float(-el[-1]),
+                travel_time_s=float(L / C_MEAN), travel_time_sd_s=float(L * C_SD / C_MEAN ** 2))
+    return bathy, ssp, info
+
+
+# ----------------------------------------------------------------------------- one path, all bands
+def run_path(job):
+    name, src, rcv, bands, at_bin, work, keep_paths, pathdir, no_prescreen = job
+    os.environ["OMP_NUM_THREADS"] = "1"; os.environ["OPENBLAS_NUM_THREADS"] = "1"
+    t0 = time.time()
+    bathy, ssp, info = build_path(src, rcv)
+    if keep_paths:
+        bathy.to_csv(pathdir / f"bathy_{name}.csv", index=False); ssp.to_csv(pathdir / f"ssp_{name}.csv", index=False)
+    base = dict(source_id=src["id"], src_lat=src["lat"], src_lon=src["lon"], offset_nm=src.get("offset_nm", np.nan),
+                receiver=rcv["name"], rcv_lat=rcv["lat"], rcv_lon=rcv["lon"], **info)
+    rows = []
+    if info["land_on_track"]:
+        for fc in bands:
+            for zs in SRC:
+                rows.append(dict(base, fc_hz=fc, src_depth_m=zs, rcv_depth_m=np.nan, tl_db=np.nan, status="land",
+                                 n_modes_first=0, n_modes_min=0, min_profile_depth_m=np.nan))
+        return rows, time.time() - t0, 0.0
+    rprof, profiles = A.build_profiles(bathy, ssp)
+    minD = float(min(p[0] for p in profiles))
+    if minD < SHALLOW_M and not no_prescreen:
+        # Pre-screen equivalent to the KRAKEN rule, not a new threshold: over the hard bottom (cp 1650) the first
+        # Pekeris mode cuts off at D_c = c_w c_b / (4 f sqrt(c_b^2 - c_w^2)) = 22 m at 40 Hz, so a 5-km profile
+        # shallower than 15 m has no propagating mode in any band <= 40 Hz and KRAKEN would stop with "No modes".
+        # Validated before the grid run with --no-prescreen: arc036.0S_+0-3250 (1.5 m), arc026.0S_+0-H08N (2.5 m) and
+        # arc036.0S_+0-H08N (10.5 m) all gave KRAKEN no_modes in all 10 bands; arc030.0S_+0-3250 (104 m) was open from 12.5 Hz.
+        for fc in bands:
+            for zs in SRC:
+                rows.append(dict(base, fc_hz=fc, src_depth_m=zs, rcv_depth_m=np.nan, tl_db=np.nan, status="no_modes_shallow",
+                                 n_modes_first=0, n_modes_min=0, min_profile_depth_m=minD))
+        return rows, time.time() - t0, 0.0
+    rd = rcv["rcv_depth_m"] if rcv["kind"] == "ims" else min(info["end_depth_m"], profiles[-1][0]) - 2.0
+    rd = float(min(rd, profiles[-1][0] - 1.0))
+    L = rprof[-1]; wd = pathlib.Path(work) / name
+    tk = 0.0
+    for fc in bands:
+        tag = f"f{fc:g}".replace(".", "p")
+        try:
+            r, tl, nm, dt = K.tl_path(wd, tag, fc, profiles, rprof, np.array([L]), SRC, [rd], A.BOTTOMS["hard"], at_bin, fg=A.FG)
+            tk += sum(dt)
+        except RuntimeError as e:
+            if "no modes" not in str(e).lower():
+                shutil.rmtree(wd, ignore_errors=True); raise
+            for zs in SRC:
+                rows.append(dict(base, fc_hz=fc, src_depth_m=zs, rcv_depth_m=rd, tl_db=np.nan, status="no_modes",
+                                 n_modes_first=0, n_modes_min=0, min_profile_depth_m=minD))
+            continue
+        s = K.read_shd(wd / f"{tag}.shd")
+        x = s["rr_m"] / 1000.0 / 6371.0; sph = 10 * np.log10(x / np.sin(x))
+        for js, zs in enumerate(s["sz"]):
+            tlz = -20 * np.log10(np.abs(s["p"][0, js, 0])) + sph
+            rows.append(dict(base, fc_hz=fc, src_depth_m=float(zs), rcv_depth_m=rd, tl_db=float(tlz[-1]), status="ok",
+                             n_modes_first=nm[0] if nm else -1, n_modes_min=min(nm) if nm else -1, min_profile_depth_m=minD))
+    shutil.rmtree(wd, ignore_errors=True)
+    return rows, time.time() - t0, tk
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("out"); ap.add_argument("--at-bin", required=True)
+    ap.add_argument("--offsets", nargs="+", type=float, default=[-60, -30, 0, 30, 60])
+    ap.add_argument("--lat-step", type=float, default=0.5); ap.add_argument("--lat-south", type=float, default=-41.0)
+    ap.add_argument("--lat-north", type=float, default=-20.0)
+    ap.add_argument("--bands", nargs="+", type=float, default=BANDS)
+    ap.add_argument("--receivers", nargs="+", default=IMS + IMOS)
+    ap.add_argument("--procs", type=int, default=4); ap.add_argument("--limit", type=int)
+    ap.add_argument("--extra-sources", nargs="*", default=[])
+    ap.add_argument("--no-arc", action="store_true", help="only --extra-sources")
+    ap.add_argument("--keep-paths", action="store_true"); ap.add_argument("--work", default=None)
+    ap.add_argument("--select", nargs="*", default=None, help="run only these path names (source_id-receiver)")
+    ap.add_argument("--no-prescreen", action="store_true", help="run KRAKEN even on profiles shallower than SHALLOW_M (validation)")
+    a = ap.parse_args()
+    out = pathlib.Path(a.out); out.mkdir(parents=True, exist_ok=True)
+    work = pathlib.Path(a.work or (out / "work")); work.mkdir(parents=True, exist_ok=True)
+    pathdir = out / "paths"; pathdir.mkdir(exist_ok=True)
+    srcs = pd.DataFrame(columns=["source_id", "lat", "lon", "offset_nm"]) if a.no_arc else arc_sources(a.lat_south, a.lat_north, a.lat_step, a.offsets)
+    for s in a.extra_sources:
+        n, la, lo = s.split(":"); srcs = pd.concat([srcs, pd.DataFrame([dict(source_id=n, lat=float(la), lon=float(lo), offset_nm=np.nan)])], ignore_index=True)
+    srcs.to_csv(out / "sources.csv", index=False)
+    rx = receivers(a.receivers)
+    jobs = []
+    for _, s in srcs.iterrows():
+        for rn, r in rx.items():
+            name = f"{s.source_id}-{rn}"
+            if a.select and name not in a.select:
+                continue
+            jobs.append((name, dict(id=s.source_id, lat=s.lat, lon=s.lon, offset_nm=s.offset_nm), dict(r, name=rn), a.bands, a.at_bin, str(work), a.keep_paths, pathdir, a.no_prescreen))
+    if a.limit:
+        jobs = jobs[: a.limit]
+    print(f"{len(srcs)} sources x {len(rx)} receivers -> {len(jobs)} paths, {len(a.bands)} bands, {a.procs} procs", flush=True)
+    t0 = time.time(); rows = []; wall = {}
+    with Pool(a.procs) as pool:
+        for k, (rr, dt, tk) in enumerate(pool.imap_unordered(run_path, jobs)):
+            rows += rr; wall[rr[0]["source_id"] + "-" + rr[0]["receiver"]] = dict(wall_s=round(dt, 1), kraken_field_s=round(tk, 1), range_km=round(rr[0]["range_km"], 1))
+            if (k + 1) % 20 == 0 or k + 1 == len(jobs):
+                print(f"{k + 1}/{len(jobs)} paths, {time.time() - t0:.0f} s", flush=True)
+                pd.DataFrame(rows).to_csv(out / "tl_grid_partial.csv", index=False)
+    df = pd.DataFrame(rows)
+    df.to_csv(out / "tl_grid.csv", index=False)
+    (out / "wall.json").write_text(json.dumps(dict(total_s=round(time.time() - t0, 1), procs=a.procs, bands=a.bands, paths=wall), indent=1))
+    if (out / "tl_grid_partial.csv").exists():
+        (out / "tl_grid_partial.csv").unlink()
+    print(f"done: {len(df)} rows, {time.time() - t0:.0f} s", flush=True)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,1 @@
+D="hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data/tl_recal_block9"; head -3 "$D/route1_residuals.csv"; cat "$D/route1_grades.csv"; cat "$D/route1_verdict.json" | head -c 1200; echo; cat "$D/route1_common_mode_grades.csv"; sed -n 29,60p "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/tl_recal_block9_charts.py"

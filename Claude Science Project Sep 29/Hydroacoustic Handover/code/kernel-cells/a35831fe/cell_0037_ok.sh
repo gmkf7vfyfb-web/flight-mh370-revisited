@@ -1,0 +1,1 @@
+cd "hyd/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/ranked_candidates"; sed -n 1,60p rank.py | cut -c1-260; sed -n 86,115p rank.py | cut -c1-300

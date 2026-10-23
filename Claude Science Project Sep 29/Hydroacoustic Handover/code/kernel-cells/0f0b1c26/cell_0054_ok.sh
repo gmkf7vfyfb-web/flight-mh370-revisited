@@ -1,0 +1,1 @@
+cd "repo/Claude Science Project Sep 29/results"; cat hydroacoustics-calibration-events-stage1-standin.md; ls hydroacoustics-calibration-events-stage1-standin/*; head -3 hydroacoustics-calibration-events-stage1-standin/data/event_tl.csv

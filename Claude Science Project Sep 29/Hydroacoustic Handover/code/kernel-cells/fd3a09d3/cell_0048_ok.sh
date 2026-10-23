@@ -1,0 +1,1 @@
+OUT=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-tl-grid; tail -1 $OUT/raw/passA.log; ls $OUT/raw; tail -1 $OUT/raw/passB.log 2>/dev/null; date -u

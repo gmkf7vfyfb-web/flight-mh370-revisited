@@ -1,0 +1,1 @@
+cd "hyd/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"; grep -n -E "def |tstart|unix|header|time" prepare/weak_signal/common.py | head -40; grep -n -B3 -A12 "tstart *=" prepare/searches_run_j/imos_search.py | head -40

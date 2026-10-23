@@ -1,0 +1,1 @@
+cd hpc/0d37c2df-178b-41c2-ae15-2bb5437a8d9b; ls -la; cat SHA256SUMS; grep -h "Maximum resident\|Elapsed" log-L-*.txt log-G0-*.txt; tail -3 log-L-glorys12.txt

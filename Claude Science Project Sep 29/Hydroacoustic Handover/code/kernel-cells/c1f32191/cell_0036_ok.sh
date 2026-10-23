@@ -1,0 +1,1 @@
+cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/composition_run_j" && S=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated.staging && OMP_NUM_THREADS=1 timeout 900 python reduce.py $S /tmp/b11test 2>&1 | grep -v Warn | tail -30; ls /tmp/b11test

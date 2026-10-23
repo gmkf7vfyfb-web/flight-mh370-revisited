@@ -1,0 +1,103 @@
+> **WITHDRAWN 23 October 2026. Do not use.** See hydroacoustics-candidates-withdrawal-2026-10-23.md.
+>
+> 1. The candidates come from detector outputs at noise level: 1.6-7.6 dB above the record median in their own bands (Portland 3275 for E: 11.8 dB, energy at 20-40 Hz, not impact-like). No record shows an impact signal at the predicted times.
+> 2. Four member detections used a 2-5 Hz band. That band is below the IMOS 8 Hz high-pass. Candidate F had only such members.
+> 3. The members of candidate A do not fit one impact at one coupling (provisional model: H01W +5.7 dB, Portland 3274 -8.3 dB at the F-35A coupling).
+> 4. Statements that candidates lie on searched sea floor used point estimates only. With bearing, timing and speed errors included, 33-49 % of candidate A's impact probability is on sea floor that is not searched.
+> 5. The permutation p-values used the invalid 2-5 Hz members and stand-in noise references, so 'chance level' is not established either.
+> 6. The first map versions used the flight-only Pleiades layer as if it were conditional on the objects (corrected in later versions; the charts are withdrawn for reasons 1-5).
+
+---
+
+# Candidates A–F: raw records, close-up maps, route maps and predicted loudness
+
+**Version 2 (22 Oct 2026, later the same evening):** version 1 drew the Pleiades layer from the module's flight-only map (its README says `pre = post: no search`) and labelled it conditional on the Pleiades objects. The maps and every Pleiades statement below are corrected. The true conditional PDF has mean 35.44 S 92.20 E and its 50 % region spans 34.8-35.9 S, 91.7-93.2 E; this agrees with the module README (35.38-35.60 S, 92.20-92.62 E) and the composer core x Pleiades product (35.43 S 92.19 E).
+
+*22 October 2026. Exploratory, not pre-registered. All hydroacoustic numbers are PREDICTIVE, NOT CALIBRATED against real arrivals. Companion to [hydroacoustics-take2-critical-review-2026-10-22.md]({{artifact:17b39438-4234-4068-a2a0-213cafd12d9c}}).*
+
+Summary table: [candidates-A-F-summary.csv]({{artifact:3d369b1b-0a16-41b3-afb6-088e184b4367}}).
+
+## Correction to the review (found while making these charts)
+
+The feasible list in the review did not check the frequency band of each detection. Four of its members are band-energy detections at **2–5 Hz**. That band is below the IMOS loggers' 8 Hz hardware high-pass, so these detections cannot contain impact sound in that band:
+- **Candidate A:** Perth Canyon 3376 00:51:30 (2–5 Hz). A keeps two members: Kadri 00:49:58 and Portland 3274 01:15:51.
+- **Candidate E:** Perth Canyon 3376 00:55:01 (2–5 Hz). E is now a single site, Portland 3275 01:20:35.
+- **Candidate F:** both members (3315 01:00:34 and 3275 01:24:02) are 2–5 Hz. **F is not a candidate.**
+
+B's Cape Leeuwin member (00:48:21) comes from the "1–9 Hz plot band" of a digitised envelope, not the 5–40 Hz signal band.
+
+## Correction 2: there are no coincident signals in the raw records
+
+The raw-record charts (chart 1 of each candidate) plot the 5-40 Hz broadband trace. Most member detections were made in a narrower band. Measured in its own band, each member is only 1.6 to 7.6 dB above the median level of its 5-minute IMOS record (Portland 3275 for E: 11.8 dB). Peaks of that size do not show in a broadband trace. So the members are weak detector outputs whose times agree with one impact point, not signals that can be seen. Their timing agreement is at the chance level (permutation p 0.075 to 0.999).
+
+Check made: the IMOS time base is correct. The Curtin (CMST 2014) event peaks on Perth Canyon 3315 at 01:33:43.4 UTC, 14 dB above the median, against the published time of about 01:33:42.
+
+## Per-candidate charts and findings
+
+Impact points were refitted by least squares to the member arrival times along the run J mean impact line. So they differ slightly from the ranked-table loci.
+
+| | impact point, time | fit residuals | routes within 120 km | sea floor already searched? | Pleiades-conditional mass within 1° | predicted SNR at the F-35A coupling (H01W / 3315 / 3376 / 3274 / 3275, dB) |
+|---|---|---|---|---|---|---|
+| A | 35.81 S 91.58 E, 00:26:46 | +9 / −6 / −3 s | 11.4 % | yes, ATSB Phase 2 | 0.63 | 5.7 / 1.0 / 2.0 / −8.3 / −0.9 |
+| B | 32.62 S 95.10 E, 00:28:35 | −15 / +7 / +8 s (poor) | 1.1 % | yes, Ocean Infinity 2018 | 0.002 | 2.0 / 3.4 / 9.0 / −4.5 / 1.5 |
+| C | 36.74 S 90.16 E, 00:29:05 | single site | 74.4 % | yes, ATSB Phase 2 | 0.09 | 10.5 / −0.3 / 0.2 / −3.4 / 4.0 |
+| D | 36.85 S 90.09 E, 00:25:43 | exact (2 sites) | 75.5 % | yes, ATSB Phase 2 | 0.08 | 10.8 / −0.0 / 0.4 / −3.4 / 3.9 |
+| E | 33.46 S 94.18 E, 00:32:58 | exact (2 sites) | 3.7 % | yes, Ocean Infinity 2018 | 0.02 | −4.6 / −7.5 / −2.3 / −11.5 / −4.3 |
+| F | 37.21 S 89.88 E, 00:33:52 | exact (2 sites) | 75.9 % | yes, ATSB Phase 2 | 0.06 | 0.2 / −10.7 / −10.2 / −15.6 / −8.5 |
+
+SNR is the median over run J impacts at that place and time. The detector needs about +2 to +3 dB on a model signal and about +6 to +12 dB on a real arrival.
+
+**A** — [raw records]({{artifact:41d7f6a3-c57b-45ea-a345-105573390055}}), [close-up map]({{artifact:9e3ce907-f84a-4ef6-9004-9c8a4e158d08}}), [routes]({{artifact:f669e581-51bf-47fe-b16f-5e12885c8252}}), [predicted loudness]({{artifact:246c1591-9484-4e4f-a55d-e7151fdec2bc}}).
+- No member stands out by eye in the raw records. The Perth Canyon member is invalid (2–5 Hz).
+- The impact point lies on ATSB Phase 2 searched sea floor. It is 122 km from the nearest Pleiades object. It sits just outside the south-west edge of the Pleiades-conditional 50 % region and inside the 90 % region.
+- At the F-35A coupling, Cape Leeuwin is predicted at +5.7 dB. That is near the model-signal threshold and below the real-arrival threshold.
+
+**B** — [raw]({{artifact:447597d5-329b-4856-a9da-36eadb735680}}), [map]({{artifact:a1889ae4-0f3f-44d2-80f0-44b5d5b1a4da}}), [routes]({{artifact:f2523990-041d-40dc-b22c-485d8cc5c934}}), [loudness]({{artifact:d0889406-acce-4749-85b0-2b72c015b268}}).
+- The three arrivals do not fit one source well (Cape Leeuwin 15 s early).
+- Only 1.1 % of routes reach the place, and it lies on Ocean Infinity 2018 searched sea floor.
+- Perth Canyon 3376 is predicted at +9 dB at the F-35A coupling, but 3376 held no record at that time.
+
+**C** — [raw]({{artifact:db6f1c0d-5b66-4592-ac5b-e97271f14bd1}}), [map]({{artifact:41294bfb-3813-4947-973a-d24283d622cc}}), [routes]({{artifact:9f12b069-0e90-4d1e-9711-b03473e99de7}}), [loudness]({{artifact:934f4323-6d0d-4e2a-a8c7-22b4c6172fb5}}).
+- The Kadri row has no visible transient on the digitised trace.
+- The place is in the prior core and on Phase 2 searched sea floor. It is outside the Pleiades-conditional 50 % region.
+- Cape Leeuwin is predicted at +10.5 dB, so it should be near or above detection. It is the defining site, but the module did not detect the row there.
+
+**D** — [raw]({{artifact:0496a560-91d7-4c6c-abeb-5db6b251c6d9}}), [map]({{artifact:6a42a841-8fe5-4bb8-92ed-0e4f3adef17a}}), [routes]({{artifact:d46c7e34-9d94-4910-b76e-bd558875169b}}), [loudness]({{artifact:6cd39a6b-a63a-48ba-9a80-e42481e92282}}).
+- Both members are in valid bands (p 0.17 and 0.086).
+- Cape Leeuwin is predicted at +10.8 dB, but its panel at the predicted arrival (00:50:13) shows nothing distinctive. That counts against D, conditional on the substitute Cape Leeuwin noise.
+- The place is in the prior core and on Phase 2 searched sea floor. It is outside the Pleiades-conditional 50 % region.
+
+**E** — [raw]({{artifact:c2788c1d-7549-4592-95ea-f6542afb5f86}}), [map]({{artifact:4f5cfd0b-156b-46f6-898a-083fcb8bb08a}}), [routes]({{artifact:fa1cbebe-f175-44bb-acfd-59d57e7c2aba}}), [loudness]({{artifact:cc56124d-9610-4283-98e9-576d886770fd}}).
+- The Portland 3275 transient at 01:20:35 is clearly visible in the raw record.
+- Its energy is concentrated at 20–40 Hz (peak +18 dB at 27.5 Hz) with no excess at 5–10 Hz.
+- That spectrum does not look like the modelled impact spectrum (most energy below 10 Hz). It is loud for the low impact energy at that time (median 0.88 GJ; predicted −4.3 dB at the F-35A coupling).
+- A biological or local source is possible but not tested. Portland 3274 (about 2 km away) was not recording.
+
+**F** — [raw]({{artifact:6fd0525a-d05b-47d3-ade5-6de252e23c80}}), [map]({{artifact:8c696a4e-c941-4040-bc70-f6d7a741007e}}), [routes]({{artifact:4656eab0-af6b-412f-baa1-e450f3f0ea6f}}), [loudness]({{artifact:fcf96702-0484-48fe-b707-c80aa7302247}}).
+- Not a candidate: both members are 2–5 Hz.
+- Late, low-energy impacts (median 0.85 GJ) would be 8–16 dB below noise at the IMOS loggers at the F-35A coupling.
+
+## What in these charts is flawed or inherited from last night's and this morning's runs
+
+1. **Candidate selection.** Every candidate comes from the overnight search lists. Those lists have three problems:
+   - Their p-values use noise references that do not match the night (counts below chance).
+   - Their p-values use substitute nulls at 3315 and 3275.
+   - They include 2–5 Hz detections, which removed F and half of A and E.
+2. **Cape Leeuwin and Diego Garcia records** (charts 1) are digitised plots of Kadri's filtered trace at about 14.5 points per second, so they show envelope shape, not waveform. Diego Garcia is dominated by airgun shots every 10 s.
+3. **Royer strips** (charts 1) are digitised spectrogram levels. The 16 s figure-to-table offset is unresolved, so both alignments are drawn.
+4. **Predicted loudness** (charts 4) uses the module chain, which carries these issues:
+   - The old 2.1e-4 coupling is drawn hatched and marked wrong.
+   - The detector threshold line is model-matched, so the real-arrival band is drawn beside it.
+   - Cape Leeuwin and Diego Garcia noise is a substitute (IMOS noise shaped to Blackman medians).
+   - Diego Garcia ignores the airgun survey.
+   - The source depth is fixed at 10 m, although the F-35A anchor moves by two decades between 2 m and 30 m.
+   - The Perth Canyon 3376 terminal-profile error is 3.6–10 × (G-TL2).
+5. **Maps and routes** (charts 2 and 3) do not use hydroacoustic results, so last night's errors do not affect them. Their own labels apply:
+   - The sea-floor PDF is composer v3.2 product S (core × searched areas, D0′). Ocean Infinity coverage is inferred (grade C). The Pleiades PDF is conditional on the objects being debris.
+   - Routes are core posterior samples to 00:11:49, conditioned on satellite data only. The last 8 minutes are a straight extension.
+
+## Readings
+
+- All five remaining candidates lie on sea floor that has already been searched (Phase 2 or Ocean Infinity 2018).
+- C and D sit in the prior core. A is the only candidate near the Pleiades-conditional region (0.63 of its mass within 1 degree). At C and D the impact model predicts Cape Leeuwin should be near or above detection at the F-35A coupling, and the digitised Cape Leeuwin trace shows nothing distinctive at the predicted time.
+- None of A–E is supported above chance.

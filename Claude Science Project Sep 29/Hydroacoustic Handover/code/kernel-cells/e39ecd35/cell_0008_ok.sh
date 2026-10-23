@@ -1,0 +1,1 @@
+cd src && curl -sS -m 120 -L -o mot_index.html "https://www.mot.gov.my/en/aviation/mh370/safety-investigation-report" -w "%{http_code} %{size_download}\n" ; ls -la mot_index.html 2>/dev/null; echo "---"; curl -sS -m 120 -o mot_index2.html -L "https://www.mot.gov.my/en/Pages/Aviation/MH370.aspx" -w "%{http_code} %{size_download}\n"

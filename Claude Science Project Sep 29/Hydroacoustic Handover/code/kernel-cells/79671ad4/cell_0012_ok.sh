@@ -1,0 +1,1 @@
+mkdir -p src; cd src; curl -sL -m 60 -o dk100_manual_rev13.pdf "https://dn721903.ca.archive.org/0/items/manualsbase-id-639203/639203.pdf"; ls -la; file dk100_manual_rev13.pdf; curl -sL -m 60 -o dk120_manual_rev16.pdf "https://assets.edmo.com/documents/DK120-Manual.pdf"; ls -la

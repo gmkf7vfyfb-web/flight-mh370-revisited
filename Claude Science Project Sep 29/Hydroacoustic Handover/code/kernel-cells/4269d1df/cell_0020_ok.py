@@ -1,0 +1,2 @@
+r = c.call_command(r'''cd "$HOME/mh370/drift/repo/Claude Science Project Sep 29/engine"; grep -rln "length_scale_km" --include=*.rs . | head; F=$(grep -rln "struct OceanError\|OceanErrorField\|fn ocean_error" --include=*.rs . | head -3); echo $F; for f in $F; do grep -n "OceanError\|length_scale\|time_scale\|modes\|fourier\|cos(" $f | head -40; done''', intent='Read drift ocean-error implementation on deskstar (read only)')
+print(r.stdout[-7000:])

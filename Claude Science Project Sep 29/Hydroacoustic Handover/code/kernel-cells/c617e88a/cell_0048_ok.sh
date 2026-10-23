@@ -1,0 +1,1 @@
+P=/Users/pete/Downloads/mh370-exchange/pleiades/hydro-test/next-run-b; ls -la $P/next-free $P/next-free/seed-1 2>&1 | head -20; cat $P/next-free/seed-1/COLUMNS.txt 2>/dev/null | head -30; cd repo; git log -1 --format="%h %s" origin/hypothesis/pleiades; git log -1 --format="%h %s" origin/hypothesis/end-of-flight

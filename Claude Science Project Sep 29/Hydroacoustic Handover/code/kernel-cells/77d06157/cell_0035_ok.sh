@@ -1,0 +1,2 @@
+python -c "
+import numpy as np;T=np.load('/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-weak-signal/templates/templates_raw.npz');print([(k,T[k].shape) for k in T.files])"; ls /Users/pete/Downloads/mh370-inputs/hydroacoustics/imos | head; cat "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data/blackman_noise/blackman_noise_offsets.json"; grep -n "0.897\|threshold" "repo/Claude Science Project Sep 29/results/hydroacoustics-weak-signal-methods.md" | head -5 | cut -c1-300

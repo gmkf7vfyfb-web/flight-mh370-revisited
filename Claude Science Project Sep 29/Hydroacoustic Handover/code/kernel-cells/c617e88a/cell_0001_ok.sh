@@ -1,0 +1,1 @@
+cd repo/"Claude Science Project Sep 29"; ls; ls results | grep -iE "hydro|pleiad"; ls results/pleiades | head -60; ls coordination

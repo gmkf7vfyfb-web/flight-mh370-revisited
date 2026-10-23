@@ -1,0 +1,1 @@
+cd "repo/Claude Science Project Sep 29"; grep -rl --include=*.md --include=*.py "Actual simulated descents\|aligned at their own fuel" . 2>/dev/null | head; grep -rl "Longest lower-drag\|positive-lift targets" . 2>/dev/null | head; cat /Users/pete/Downloads/mh370-exchange/end-of-flight/run-j/run-j-waypoints/seed-1/COLUMNS.txt | head -60 | tr '\n' ' ' | cut -c1-1500

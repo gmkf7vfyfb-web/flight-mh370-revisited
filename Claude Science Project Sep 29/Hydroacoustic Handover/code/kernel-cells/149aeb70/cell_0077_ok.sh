@@ -1,0 +1,1 @@
+cd /Users/pete/Downloads/mh370-exchange/end-of-flight/run-i-dive && for i in $(seq 1 45); do if [ -f loud_tail_ess_dive.json ]; then break; fi; sleep 15; done; cat loud_tail_ess.log | tail -20

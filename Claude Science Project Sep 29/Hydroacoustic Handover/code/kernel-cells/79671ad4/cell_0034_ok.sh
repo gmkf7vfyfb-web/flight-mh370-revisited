@@ -1,0 +1,1 @@
+python haixun_beacon.py out 2>&1 | grep -E "^(A|B|C) |sens" 

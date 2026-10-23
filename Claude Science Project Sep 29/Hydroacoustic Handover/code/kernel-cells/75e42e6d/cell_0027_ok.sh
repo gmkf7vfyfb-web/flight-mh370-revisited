@@ -1,0 +1,1 @@
+cd src; grep -v "^ *$" App2.6A_MarineBio1.txt | head -230

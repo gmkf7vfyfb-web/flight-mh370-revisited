@@ -1,0 +1,1 @@
+host.view_image(r2[1]['image_path'], crop=(100,1050,1450,1650))

@@ -1,0 +1,1 @@
+du -sh build hydro repo .target .scratchhome 2>/dev/null; df -g . | tail -1

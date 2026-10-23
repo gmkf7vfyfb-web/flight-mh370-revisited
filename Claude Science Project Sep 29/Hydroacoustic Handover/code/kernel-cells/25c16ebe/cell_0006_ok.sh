@@ -1,0 +1,1 @@
+cd /Users/pete/Downloads/mh370-exchange; ls -la; echo "=== end-of-flight ==="; ls -la end-of-flight | head -60; echo "=== look for src ==="; find /Users/pete/Downloads -maxdepth 4 -name "*.rs" 2>/dev/null | head -20; echo "=== core ==="; ls core | head -30

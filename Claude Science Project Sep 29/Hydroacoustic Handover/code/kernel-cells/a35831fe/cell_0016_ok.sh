@@ -1,0 +1,2 @@
+cd "main/Claude Science Project Sep 29/results"; python -c "
+import json;d=json.load(open('evidence-sweep-2026-10-17/royer_table5.json'));print(type(d)); print(json.dumps(d)[:3000])"; echo; grep -n -i -E "royer|ice|event" hydroacoustics-digitised-sources.md | head -50

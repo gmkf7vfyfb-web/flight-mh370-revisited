@@ -1,0 +1,1 @@
+cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/kadri_package/v2-2026-10-22/"; sed -n 73,108p REQUESTS.txt; tail -5 REQUESTS.txt

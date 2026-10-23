@@ -1,0 +1,2 @@
+cd erepo/"Claude Science Project Sep 29/engine/hypotheses/end-of-flight/smoke"; python -c "
+import json; j=json.load(open('compact-columns.json')); s=json.dumps(j); i=s.find('family4'); print(s[i-50:i+700])"; grep -n "def family_labels" -A25 compact_impacts.py | grep -i -E 'family4|== *[0-9]|code' | head -20

@@ -1,0 +1,2 @@
+r = c.call_command(r'''cd "$HOME/mh370/drift/repo/Claude Science Project Sep 29/engine/hypotheses/debris-drift"; sed -n 700,800p lib.rs; grep -n "fn select_candidates" -A 25 lib.rs | head -40; grep -n "pub fn build\|nlat\|margin" source_grid.rs | head -30''', intent='Read drift node-selection code on deskstar (read only)')
+print(r.stdout[-9000:])

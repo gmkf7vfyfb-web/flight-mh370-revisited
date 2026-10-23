@@ -1,0 +1,1 @@
+cd hydro/"Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"; sed -n 1,30p tl_recal_block9_charts.py; grep -n "def \|savefig\|predicted-vs-measured\|Technical\|NOT EXPLAINED\|np.load\|read_csv\|json.load" tl_recal_block9_charts.py | head -40; ls ../results-data/tl_recal_block9

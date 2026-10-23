@@ -1,0 +1,1 @@
+pwd; ls tools; find tools -maxdepth 3 -type f -perm +111 | head -20; cat tools/BUILD-NOTES.txt | head -30

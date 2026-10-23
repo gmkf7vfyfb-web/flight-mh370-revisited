@@ -1,0 +1,1 @@
+cd ~/Downloads; ls mh370-inputs; ls mh370-inputs/hydroacoustics; du -sh mh370-inputs/hydroacoustics/*; cd flight-mh370-revisited && git -c safe.directory='*' log -1 --format='%h %ci %s' 2>&1 | head; git -c safe.directory='*' branch --show-current

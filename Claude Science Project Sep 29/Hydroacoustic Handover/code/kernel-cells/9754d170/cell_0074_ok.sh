@@ -1,0 +1,1 @@
+A="audit/repo/Claude Science Project Sep 29/results/hydroacoustics-audit"; mkdir -p "$A/data"; python "$A/scripts/air9_audit.py" "audit/hb/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics" "$A/data"

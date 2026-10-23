@@ -1,0 +1,1 @@
+find /Users/pete/Downloads -maxdepth 6 -type d -name coordination 2>/dev/null; echo ---; find /Users/pete/Downloads -maxdepth 6 -iname "HYDROACOUSTICS.md" 2>/dev/null | head

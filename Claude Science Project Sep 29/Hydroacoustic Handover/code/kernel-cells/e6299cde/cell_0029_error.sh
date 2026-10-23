@@ -1,0 +1,2 @@
+cd /Users/pete/Downloads/mh370-inputs/hydroacoustics/imos/background
+for l in 3376 3274 3250; do echo "$l $(ls $l/2014*/*.DAT 2>/dev/null | wc -l) files, $(du -sh $l | cut -f1)"; done; ls | head; python -c "import json;m=json.load(open('MANIFEST.json'));print(str(m)[:300])"

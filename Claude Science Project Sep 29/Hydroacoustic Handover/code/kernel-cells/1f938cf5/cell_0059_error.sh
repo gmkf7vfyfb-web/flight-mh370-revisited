@@ -1,0 +1,1 @@
+ls -la hycom; head -c 400 hycom/water_u.sub.ascii 2>/dev/null

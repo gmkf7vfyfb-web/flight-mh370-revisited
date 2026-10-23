@@ -1,0 +1,1 @@
+cd src; curl -sSL -m 60 -o dk100.pdf "https://dn721903.ca.archive.org/0/items/manualsbase-id-639203/639203.pdf" 2>&1 | tail -3; ls -la

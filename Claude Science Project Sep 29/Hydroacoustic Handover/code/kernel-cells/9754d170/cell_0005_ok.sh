@@ -1,0 +1,1 @@
+cd "audit/hb/Claude Science Project Sep 29"; wc -c results/hydroacoustics-blackman-validation.md; sed -n 1,200p results/hydroacoustics-blackman-validation.md | cut -c1-600

@@ -1,0 +1,1 @@
+cd "hrepo/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"; grep -rl -E '1,?710|1709\.|1710\.' results-data prepare 2>/dev/null | head; grep -n -E '1,?710' prepare/kadri_northern_conditional.py | head

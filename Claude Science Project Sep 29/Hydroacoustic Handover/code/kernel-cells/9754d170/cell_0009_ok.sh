@@ -1,0 +1,1 @@
+cd "audit/hb/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"; cat data/blackman/extraction_method.txt | head -40; echo; head -5 data/blackman/fig23_air9_digitised.csv; wc -l data/blackman/fig23_air9_digitised.csv; head -5 data/blackman/blackman_transmission_loss.csv; wc -l data/blackman/blackman_transmission_loss.csv; cat data/blackman/MANIFEST.txt | head -30

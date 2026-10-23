@@ -1,0 +1,1 @@
+cd "hrepo/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"; grep -n -E '^(IMOS|DAY0|H01W|HERE|ROOT|KD|DATA)|Path\(' prepare/imos_preregistration.py prepare/imos_detectors.py prepare/h08s_shot_outliers.py prepare/kadri_table1_test.py prepare/imos_noise.py | head -30; ls results-data | head -80; ls results-data/kadri_package results-data/kadri_package/* | head -40

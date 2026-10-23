@@ -1,0 +1,2 @@
+mkdir -p deliver && P="hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/kadri_package/v2-2026-10-22"
+cp "$P/predictions.csv" deliver/kadri-v2-predictions.csv; cp "$P/windows.csv" deliver/kadri-v2-windows.csv; cp "$P/REQUESTS.txt" deliver/kadri-v2-REQUESTS.md; cp "$P/CALIBRATION_STATUS.txt" deliver/kadri-v2-CALIBRATION_STATUS.txt; cp "$P/COVER_NOTE_FOR_PETE.txt" deliver/kadri-v2-COVER_NOTE_FOR_PETE.md; cp "repo/Claude Science Project Sep 29/results/hydroacoustics-kadri-package-v2.md" deliver/; ls -la deliver

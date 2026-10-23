@@ -1,0 +1,1 @@
+S=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated/stats-ramgrid-v2; date -u +%H:%MZ; tail -1 $S/driver.log | cut -c1-80; ls $S/_parts | wc -l; uptime | cut -c30-; df -k /System/Volumes/Data | tail -1 | awk '{print $4/1048576 " GiB free"}'

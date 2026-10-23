@@ -1,0 +1,1 @@
+cd ~/Downloads 2>/dev/null || cd /Users/pete/Downloads; pwd; ls; echo; ls mh370-ocean-data | head; du -sh mh370-ocean-data/* 2>/dev/null | head -30; echo; ls mh370-exchange; ls mh370-exchange/debris-drift | head -40; df -h /Users/pete/Downloads | tail -1

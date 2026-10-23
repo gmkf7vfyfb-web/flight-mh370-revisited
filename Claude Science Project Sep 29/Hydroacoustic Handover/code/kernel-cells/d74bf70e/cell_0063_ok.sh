@@ -1,0 +1,1 @@
+cd build/at_src/at; grep -n -v '^#' Makefile | grep -v '^[0-9]*:\s*$' | head -60; ls /opt 2>/dev/null; which gfortran; ls $CONDA_PREFIX/bin 2>/dev/null | grep -i fortran | head

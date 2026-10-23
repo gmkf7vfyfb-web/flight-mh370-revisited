@@ -1,0 +1,1 @@
+E=/Users/pete/Downloads/mh370-exchange/end-of-flight/next-run; ls -la $E/next-free/seed-1; cat $E/README.md | head -60; nl -v0 $E/next-free/seed-1/COLUMNS.txt | tr '\n' ' ' | head -c 5000

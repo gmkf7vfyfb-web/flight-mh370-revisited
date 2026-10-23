@@ -1,0 +1,1 @@
+cd "hyd/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"; sed -n 1,33p searches_run_j/imos_search.py | cut -c1-220; ls searches_run_j weak_signal; grep -n "^def \|^import\|^from\|sys.path" weak_signal/common.py | head -30

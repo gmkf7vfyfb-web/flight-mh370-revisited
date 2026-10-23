@@ -1,0 +1,5 @@
+export XDG_CONFIG_HOME=$PWD/.xdg; cd repo; P="Claude Science Project Sep 29"
+git add "$P/results/hydroacoustics-pleiades-test-standin.md" "$P"/results/hydroacoustics-pleiades-test-standin-*.png "$P/results/hydroacoustics-pleiades-test-standin" "$P/coordination/HYDROACOUSTICS.md" "$P/coordination/PLEIADES.md" "$P/coordination/architecture.md"
+git status --short | head -30
+git -c user.name=MH370-iso-agents -c user.email=mh370-iso@invalid commit -q -m "Hydroacoustics (architecture stand-in): Pleiades hydroacoustic test first pass on core (b) - power check informative (weak); ln R_hyd within noise for all three core 00:19 options; posted to HYDROACOUSTICS, PLEIADES, architecture"
+git -c user.name=MH370-iso-agents -c user.email=mh370-iso@invalid pull --rebase -q origin claude-science-sep29 2>&1 | grep -v "failed to store" | tail -5; git status --short | grep -E "^(UU|AA)" | head

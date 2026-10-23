@@ -1,0 +1,1 @@
+cd .tmp/repo; git ls-remote --heads origin 2>/dev/null | awk '{print substr($1,1,10), $2}'

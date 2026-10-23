@@ -1,0 +1,2 @@
+r = c.call_command(r'''cd ~/mh370/drift; cat runs/arclat-smoke/summary.toml | head -60; head -c 600 runs/arclat-smoke/nodes.csv | cut -c1-200''', intent='Read drift arc-latitude smoke summary (grid geometry) on deskstar')
+print(r.stdout[-6000:])

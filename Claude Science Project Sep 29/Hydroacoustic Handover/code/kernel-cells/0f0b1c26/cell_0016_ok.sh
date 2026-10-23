@@ -1,0 +1,1 @@
+grep -i "kadri-2024-hydroacoustics/" /tmp/repo_tree.txt | grep -v "/code/\|/outputs/\|data/kadri-figure-extraction/figure9\|data/[a-z-]*\.\(json\|csv\)$" 

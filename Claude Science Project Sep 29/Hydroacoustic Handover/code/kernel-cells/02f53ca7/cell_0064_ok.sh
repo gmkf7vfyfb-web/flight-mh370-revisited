@@ -1,0 +1,1 @@
+cd "repo/Claude Science Project Sep 29/coordination"; git -C ../.. fetch -q origin claude-science-sep29 2>/dev/null; wc -l architecture.md; grep -n "^## " architecture.md | tail -5; tail -30 architecture.md | cut -c1-220

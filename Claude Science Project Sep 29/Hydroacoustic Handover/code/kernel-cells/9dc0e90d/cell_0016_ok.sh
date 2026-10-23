@@ -1,0 +1,1 @@
+grep -c "D2" out/evidence-sweep-2026-10-17.md; grep -n "2D\|C6" out/evidence-sweep-2026-10-17.md | head

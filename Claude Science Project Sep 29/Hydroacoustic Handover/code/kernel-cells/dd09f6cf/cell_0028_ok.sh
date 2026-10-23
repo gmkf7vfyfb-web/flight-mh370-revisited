@@ -1,0 +1,1 @@
+cd ~/Downloads/mh370-exchange/end-of-flight/run-j; ls; ls summary | head -30; ls run-j-waypoints | head -3; ls -la run-j-waypoints/seed-1; cat run-j-waypoints/seed-1/COLUMNS.txt 2>/dev/null | head -40

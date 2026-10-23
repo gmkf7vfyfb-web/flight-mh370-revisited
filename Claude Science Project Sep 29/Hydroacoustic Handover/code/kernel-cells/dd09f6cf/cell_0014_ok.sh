@@ -1,0 +1,1 @@
+mkdir -p dl; for u in "http://mh370.mot.gov.my/" "https://archive.org/wayback/available?url=mh370.mot.gov.my" "http://web.archive.org/cdx/search/cdx?url=mh370.mot.gov.my/*&output=txt&limit=200&filter=mimetype:application/pdf"; do echo "== $u"; curl -sL -m 40 -o dl/x -w "%{http_code} %{size_download}\n" "$u"; head -c 3000 dl/x; echo; done

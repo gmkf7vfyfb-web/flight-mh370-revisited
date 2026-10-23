@@ -1,0 +1,1 @@
+cd src; sed -n 295,340p Iannello_Guillaume_2016-11-29_FurtherSim.txt | grep -v "^ *$"

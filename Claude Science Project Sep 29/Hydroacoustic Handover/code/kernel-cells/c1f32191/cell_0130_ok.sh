@@ -1,0 +1,1 @@
+RES="repo/Claude Science Project Sep 29/results"; sed -n '276,290p' "$RES/hydroacoustics-composition-run-j.md" | cut -c1-1500

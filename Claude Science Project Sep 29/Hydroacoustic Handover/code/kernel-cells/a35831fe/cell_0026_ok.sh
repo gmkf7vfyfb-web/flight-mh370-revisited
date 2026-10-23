@@ -1,0 +1,1 @@
+cd /Users/pete/Downloads/mh370-inputs/hydroacoustics/imos; ls; for d in MH370/* Portland_MH370/*; do echo "$d $(ls $d | wc -l)"; done 2>/dev/null; ls MH370; ls MH370/* | head -5; ls -la MH370/3315_PerthCanyon | head -5; find . -maxdepth 3 -name "*.txt" -o -maxdepth 3 -name "*.csv" | head

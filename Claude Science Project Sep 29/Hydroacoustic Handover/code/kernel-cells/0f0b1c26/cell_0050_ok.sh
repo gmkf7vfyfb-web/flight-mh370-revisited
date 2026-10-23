@@ -1,0 +1,1 @@
+cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"; sed -n '/^"""/,$p' calibration_events.py | sed -n '/^import\|^from/,$p' | head -120; ls ../results-data | head -60; ls ../results-data/f35a* 2>/dev/null | head

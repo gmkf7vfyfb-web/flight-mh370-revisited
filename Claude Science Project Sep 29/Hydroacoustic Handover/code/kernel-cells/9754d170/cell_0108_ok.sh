@@ -1,0 +1,1 @@
+cd audit/work/sens; ls out/*/ 2>/dev/null; for f in log_*; do echo "$f: $(tail -1 $f | cut -c1-200)"; done

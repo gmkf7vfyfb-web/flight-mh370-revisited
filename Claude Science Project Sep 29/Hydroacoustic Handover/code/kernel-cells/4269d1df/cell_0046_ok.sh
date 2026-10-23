@@ -1,0 +1,1 @@
+cat hpc/0d37c2df-178b-41c2-ae15-2bb5437a8d9b/stdout.log | cut -c1-300

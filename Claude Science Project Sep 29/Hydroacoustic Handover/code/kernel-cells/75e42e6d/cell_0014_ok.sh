@@ -1,0 +1,1 @@
+cd src; cat 2016-08-14_Prelim_IG_Simulator.txt; echo =========; sed -n 1,400p Iannello_Godfrey_2016-08-25_McMurdo.txt

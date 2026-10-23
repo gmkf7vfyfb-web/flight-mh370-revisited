@@ -1,0 +1,1 @@
+cd "repo/Claude Science Project Sep 29/results/evidence-sweep-2026-10-17"; sed -n 100,160p research-beacons-tpl-simulator-barnacles.md | cut -c1-600; echo =====; cut -c1-500 research-satellite-imagery-2014.md | head -150

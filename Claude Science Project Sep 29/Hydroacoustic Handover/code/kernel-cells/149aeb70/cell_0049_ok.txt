@@ -1,0 +1,224 @@
+# [edit_file] created /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/149aeb70-e4ae-4829-a477-5c291fc000a5/make_hydro_figs.py
++++ /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/149aeb70-e4ae-4829-a477-5c291fc000a5/make_hydro_figs.py
++import json, numpy as np, matplotlib as mpl, matplotlib.pyplot as plt
++from matplotlib.lines import Line2D
++from matplotlib.patches import Polygon as MplPoly
++
++apply_figure_style(sizes=(8, 7, 6))
++RUN = "/Users/pete/Downloads/mh370-exchange/end-of-flight/run-i"
++S = np.load(f"{RUN}/run-i-subsample.npz", allow_pickle=True)
++cols = [str(c) for c in S["columns"]]; ci = {c: i for i, c in enumerate(cols)}
++OPTS = [k for k in S.files if k not in ("columns", "strata", "baseline")]
++LOUD = 4.678e10; TAU_SHORT = 2.0; T0019B = 19 * 60 + 37; C_KMS = 1.48
++
++LOGGERS = {  # IMOS deep-water loggers, positions from the deployment metadata
++    "3315": dict(lat=-(31 + 52.033/60), lon=115 + 0.068/60, site="Perth Canyon", cov=0.308),
++    "3376": dict(lat=-(31 + 50.530/60), lon=115 + 0.824/60, site="Perth Canyon", cov=0.467),
++    "3250": dict(lat=-(15 + 29.002/60), lon=121 + 15.060/60, site="Scott Reef", cov=None),
++    "3274": dict(lat=-(38 + 32.218/60), lon=141 + 14.854/60, site="Portland", cov=0.366),
++    "3275": dict(lat=-(38 + 32.546/60), lon=141 + 13.535/60, site="Portland", cov=0.106)}
++WIN = {"3250": (2909.2, 4754.0), "3274": (3831.7, 5098.6), "3275": (3830.4, 5097.2),
++       "3315": (2234.0, 3704.9), "3376": (2234.5, 3706.3)}
++IMS = {"H01W": (-34.8929, 114.1539), "H08S": (-7.6453, 72.4744), "H08N": (-6.3421, 71.0143)}
++BLOCKED = {"3250": "path crosses 199 km of land", "H08N": "Chagos Bank blocks every modelled path"}
++
++
++def gc_km(lat1, lon1, lat2, lon2):
++    p1, p2 = np.radians(lat1), np.radians(lat2)
++    dl = np.radians(np.asarray(lon2) - np.asarray(lon1))
++    a = np.sin((p2 - p1) / 2) ** 2 + np.cos(p1) * np.cos(p2) * np.sin(dl / 2) ** 2
++    return 6371.0 * 2 * np.arcsin(np.sqrt(a))
++
++
++def gc_path(lat1, lon1, lat2, lon2, n=80):
++    p1, l1, p2, l2 = map(np.radians, (lat1, lon1, lat2, lon2))
++    d = 2 * np.arcsin(np.sqrt(np.sin((p2 - p1) / 2) ** 2 + np.cos(p1) * np.cos(p2) * np.sin((l2 - l1) / 2) ** 2))
++    f = np.linspace(0, 1, n); A = np.sin((1 - f) * d) / np.sin(d); B = np.sin(f * d) / np.sin(d)
++    x = A * np.cos(p1) * np.cos(l1) + B * np.cos(p2) * np.cos(l2)
++    y = A * np.cos(p1) * np.sin(l1) + B * np.cos(p2) * np.sin(l2)
++    z = A * np.sin(p1) + B * np.sin(p2)
++    return np.degrees(np.arctan2(z, np.hypot(x, y))), np.degrees(np.arctan2(y, x))
++
++
++def land_patches(ax, fc="0.90", ec="0.65"):
++    gj = json.load(open("/tmp/ne_land.geojson"))
++    for feat in gj["features"]:
++        g = feat["geometry"]
++        polys = g["coordinates"] if g["type"] == "Polygon" else [p[0] for p in g["coordinates"]]
++        if g["type"] == "Polygon":
++            polys = [g["coordinates"][0]]
++        for ring in polys:
++            a = np.asarray(ring)
++            ax.add_patch(MplPoly(a, closed=True, facecolor=fc, edgecolor=ec, lw=0.4, zorder=0))
++
++
++def foot(fig, ste, tech, y=0.012):
++    fig.text(0.008, y + 0.018, ste, fontsize=5.6, color="0.25", va="bottom", wrap=True)
++    fig.text(0.008, y, tech, fontsize=5.6, color="0.45", va="bottom", wrap=True)
++
++
++B = S["baseline"]
++g = lambda A, c: A[:, ci[c]]
++sel = (g(B, "peak_rate_w") > LOUD) & (g(B, "tau90_s") < TAU_SHORT)
++lat, lon, tim = g(B, "latitude_deg")[sel], g(B, "longitude_deg")[sel], g(B, "t_impact_s")[sel]
++
++ncov = np.zeros(sel.sum(), int)
++for lg, d in LOGGERS.items():
++    arr = tim + gc_km(lat, lon, d["lat"], d["lon"]) / C_KMS
++    ncov += ((arr >= WIN[lg][0]) & (arr <= WIN[lg][1])).astype(int)
++
++# ---------------------------------------------------------------- Figure 1: map
++fig1, ax = plt.subplots(figsize=(7.2, 5.0))
++land_patches(ax)
++ax.scatter(g(B, "longitude_deg"), g(B, "latitude_deg"), s=1.2, c="0.78", lw=0, zorder=1)
++cmap = plt.get_cmap("viridis", 4)
++sc = ax.scatter(lon, lat, c=np.clip(ncov, 0, 3), s=7, cmap=cmap, vmin=-0.5, vmax=3.5, lw=0, zorder=3)
++cb = fig1.colorbar(sc, ax=ax, ticks=[0, 1, 2, 3], shrink=0.62, pad=0.015)
++cb.set_label("Loggers recording when the sound arrives", fontsize=6)
++cb.ax.set_yticklabels(["none", "1", "2", "3 or more"], fontsize=6)
++
++med = (np.median(lat), np.median(lon))
++for nm, (la, lo) in IMS.items():
++    ax.plot(lo, la, "^", ms=7, mfc="#d1495b" if nm in BLOCKED else "#1b3a6b", mec="w", mew=0.6, zorder=5)
++    ax.annotate(nm, (lo, la), (0, 7), textcoords="offset points", ha="center", fontsize=6.5, zorder=6)
++    py, px = gc_path(*med, la, lo)
++    ax.plot(px, py, "--" if nm in BLOCKED else "-", lw=0.8,
++            color="#d1495b" if nm in BLOCKED else "#1b3a6b", alpha=0.75, zorder=2)
++for lg, d in LOGGERS.items():
++    bad = lg in BLOCKED
++    ax.plot(d["lon"], d["lat"], "s", ms=5, mfc="#d1495b" if bad else "#e8903a", mec="w", mew=0.6, zorder=5)
++    py, px = gc_path(*med, d["lat"], d["lon"])
++    ax.plot(px, py, "--" if bad else "-", lw=0.7, color="#d1495b" if bad else "#e8903a", alpha=0.7, zorder=2)
++for site, (la, lo, dy) in {"Perth Canyon (2 loggers)": (-31.86, 115.0, -9),
++                           "Scott Reef": (-15.48, 121.25, -9),
++                           "Portland (2 loggers)": (-38.54, 141.24, 8)}.items():
++    ax.annotate(site, (lo, la), (0, dy), textcoords="offset points", ha="center", fontsize=6.2, zorder=6)
++ax.set_xlim(62, 152); ax.set_ylim(-46, 2)
++ax.set_xlabel("Longitude (°E)"); ax.set_ylabel("Latitude (°)")
++ax.set_title("Where a loud, short impact could be heard, and by how many loggers at once", loc="left")
++ax.legend(handles=[Line2D([], [], ls="none", marker="o", ms=3, color="0.78", label="all impacts in run I"),
++                   Line2D([], [], ls="none", marker="o", ms=4, color=cmap(3), label="loud and short impacts"),
++                   Line2D([], [], ls="none", marker="^", ms=6, color="#1b3a6b", label="treaty station (3 hydrophones)"),
++                   Line2D([], [], ls="none", marker="s", ms=5, color="#e8903a", label="research logger"),
++                   Line2D([], [], ls="-", color="#d1495b", label="path blocked by land or bank")],
++          loc="lower left", frameon=False, fontsize=6, handletextpad=0.4)
++fig1.tight_layout(rect=(0, 0.075, 1, 1))
++foot(fig1,
++     "Plain: the grey cloud is every impact point in the latest end-of-flight run. The coloured points are only the loud, short "
++     "impacts, which are the ones that could make a sound loud enough to find. The colour shows how many research loggers were "
++     "recording at the moment the sound would reach them. Red lines show paths that land or a shallow bank blocks, so those "
++     "receivers can tell us nothing. This is a prediction. It is not a measurement of a received sound.",
++     "Technical: run I (mh370-exchange/end-of-flight/run-i), 00:19 data held out, 4 strata weighted equally, weighted draw of "
++     "20,000 impacts; loud and short = peak radiated mechanical power > 4.678e10 W (top decile) and tau90 < 2 s, n=1,972. "
++     "Arrival = impact time + great-circle range / 1.48 km/s, no bathymetric correction. Logger windows from "
++     "imos_coincidence.json; within a window the loggers duty-cycle, so scorable coverage is 0.11-0.47 per logger. Coupling to "
++     "acoustic source level is NOT modelled here. Provisional end-of-flight physics; conclusions are conditional on it.")
++fig1.savefig("hydro-smoke-coverage-map.png", dpi=300)
++
++# ------------------------------------------------- Figure 2: estimability depths
++ess = json.load(open(f"{RUN}/loud_tail_ess.json")); par = json.load(open(f"{RUN}/parent_ess.json"))
++names = [r["option"] for r in ess["rows"] if r["option"] in par["options"]]
++order = sorted(names, key=lambda n: par["options"][n]["ess_parents_loud_p90"])
++y = np.arange(len(order))
++a_all = [par["options"][n]["ess_parents_all"] for n in order]
++a_loud = [par["options"][n]["ess_parents_loud_p90"] for n in order]
++top = {r["option"]: r["ess_p99"] for r in ess["rows"]}
++
++fig2, ax = plt.subplots(figsize=(6.6, 3.5))
++for yi, lo, hi in zip(y, a_loud, a_all):
++    ax.plot([lo, hi], [yi, yi], color="0.80", lw=1.4, zorder=1, solid_capstyle="round")
++ax.scatter(a_all, y, s=26, color="#9db7d4", zorder=3, label="all impacts")
++ax.scatter(a_loud, y, s=30, color="#1b3a6b", zorder=4, label="loud decile only")
++ax.axvline(1000, color="#d1495b", lw=1.0, zorder=2)
++ax.text(1000, len(order) - 0.35, " not estimable below 1,000", color="#d1495b", fontsize=6, va="center")
++ax.set_xscale("log"); ax.set_yticks(y); ax.set_yticklabels(order, fontsize=6.5)
++ax.set_xlabel("Effective number of independent impacts (parent level)")
++ax.set_xlim(2e2, 4e6)
++ax.set_title("Every 00:19 option is estimable on run I; two are thin once only loud impacts count", loc="left")
++for nm, note in [("both/no-offset", "746 — marginal"), ("both/startup-offset", "2,287")]:
++    i = order.index(nm)
++    ax.annotate(note, (par["options"][nm]["ess_parents_loud_p90"], i), (-6, -10),
++                textcoords="offset points", ha="right", fontsize=6, color="#1b3a6b")
++ax.legend(loc="lower right", frameon=False, fontsize=6.5)
++fig2.tight_layout(rect=(0, 0.12, 1, 1))
++foot(fig2,
++     "Plain: each line shows how much independent data we really have for one way of reading the 00:19 satellite data. The light "
++     "dot counts all impacts. The dark dot counts only the loud ones, which are the ones hydroacoustics can use. Left of the red "
++     "line there is too little data to give an answer. Only the loudest one per cent, not drawn, falls below the line for the two "
++     "both-reading options, at 70 and 284 effective impacts.",
++     "Technical: effective sample size = (sum w)^2 / sum w^2 on parent-level weights, run I, 102,399,904 impacts from 3,199,997 "
++     "parents, 4 strata weighted equally, self-normalised within stratum. Loud decile = peak radiated mechanical power > 4.678e10 "
++     "W under the 00:19-held-out baseline. Supersedes the core (b) figures of 219 and 159 for the two both-reading options.")
++fig2.savefig("hydro-estimability-depth-limits.png", dpi=300)
++
++# ------------------------------------------------- Figure 3: duration vs energy
++tau = g(B, "tau90_s"); en = g(B, "energy_transferred_j") / 1e9; pk = g(B, "peak_rate_w")
++fig3, ax = plt.subplots(figsize=(6.6, 4.2))
++hb = ax.hexbin(tau, en, xscale="log", yscale="log", gridsize=46, mincnt=1, cmap="Greys", lw=0, zorder=1)
++loud = pk > LOUD
++ax.scatter(tau[loud], en[loud], s=5, color="#1b3a6b", lw=0, alpha=0.55, zorder=3)
++ax.axhspan(0.7, 1.1, color="#e8903a", alpha=0.28, zorder=2)
++ax.text(14, 0.9, "F-35A, 2019\n0.9 ± 0.2 GJ\nheard 3,300 km away", fontsize=6, color="#a8631d", va="center", ha="right")
++ax.axvline(TAU_SHORT, color="#d1495b", lw=0.9, ls="--", zorder=4)
++ax.text(TAU_SHORT * 0.88, 22, "short", fontsize=6, color="#d1495b", ha="right")
++ax.set_xlabel("Duration of the energy transfer to the water, tau90 (s)")
++ax.set_ylabel("Energy transferred to the water (GJ)")
++ax.set_title("The loud impacts are the short ones, and they carry about ten times the F-35A's energy", loc="left")
++cb3 = fig3.colorbar(hb, ax=ax, shrink=0.75, pad=0.015); cb3.set_label("impacts in the draw", fontsize=6)
++ax.legend(handles=[Line2D([], [], ls="none", marker="o", ms=4, color="#1b3a6b", label="loud decile (top 10% peak power)")],
++          loc="lower left", frameon=False, fontsize=6.5)
++fig3.tight_layout(rect=(0, 0.125, 1, 1))
++foot(fig3,
++     "Plain: each point is one possible impact. Left means the energy goes into the water quickly, which makes a sharp sound. Up "
++     "means more energy. The dark points are the loudest tenth. They sit at the top left, so a loud impact is also a short one. "
++     "The orange band is the one aircraft impact in the literature with a well known energy, which was heard 3,300 km away. "
++     "Our energy is the energy put into the water. The F-35A figure is the impact kinetic energy, so the two are close but not "
++     "the same quantity.",
++     "Technical: run I, 00:19 held out, weighted draw of 20,000 impacts, tau90 and energy from the end-of-flight sidecar "
++     "tau90_v1.npz (method 1, results/eof-impact-tau-method-oct11.md). Loud decile n=1,972; median tau90 in that decile 0.124 s "
++     "against 4.03 s overall. F-35A 900 ± 200 MJ, detected at H11N/H11S (Metz et al. 2022; Kadri 2024, Sci Rep 14:9091); the "
++     "published ~6 s pulse is RECEIVED duration after dispersion, not source duration. Energy-to-acoustic coupling into the sound "
++     "channel is about 1e-4 from that case (Icarus 2026) and is a declared alternative here, not a constant.")
++fig3.savefig("hydro-impact-duration-energy.png", dpi=300)
++
++# ------------------------------------------------- Figure 4: the Holland question
++show = ["baseline", "both/no-offset", "both/startup-offset", "both/inflated",
++        "r1200/no-offset", "r1200/startup-offset", "r1200/inflated",
++        "r600/no-offset", "r600/startup-offset", "r600/inflated"]
++vs_med, frac_dive, frac_loud_given_dive, frac_loud = [], [], [], []
++for nm in show:
++    A = S[nm]; t = g(A, "t_impact_s"); vs = g(A, "latent:state_m0019b_vertical_speed_fpm"); p = g(A, "peak_rate_w")
++    f = np.isfinite(vs)
++    vs_med.append(-np.median(vs[f]) / 1000)
++    dive = (t - T0019B) < 180
++    frac_dive.append(dive.mean()); frac_loud_given_dive.append((p[dive] > LOUD).mean())
++    frac_loud.append((p > LOUD).mean())
++yy = np.arange(len(show))[::-1]
++fig4, (axa, axb) = plt.subplots(1, 2, figsize=(7.4, 3.8), gridspec_kw=dict(wspace=0.42))
++axa.barh(yy, vs_med, color=["#9db7d4" if n == "baseline" else "#1b3a6b" for n in show], height=0.6)
++axa.set_yticks(yy); axa.set_yticklabels(show, fontsize=6.5)
++axa.set_xlabel("Rate of descent at 00:19:37 (thousand ft/min)")
++axa.set_title("Holland's reading does mean a steep dive", loc="left", fontsize=8)
++panel_letter(axa, "a")
++axb.scatter(np.array(frac_dive) * 100, yy, s=30, color="#1b3a6b", zorder=3, label="dive runs on into the water")
++axb.scatter(np.array(frac_loud) * 100, yy, s=26, color="#e8903a", zorder=3, label="impact is in the loud decile")
++for i, (a, b) in enumerate(zip(frac_dive, frac_loud)):
++    axb.plot([a * 100, b * 100], [yy[i], yy[i]], color="0.82", lw=1.2, zorder=1)
++axb.set_yticks(yy); axb.set_yticklabels([]); axb.set_xlabel("Share of the option's probability (%)")
++axb.set_title("but most of its weight pulls out of the dive", loc="left", fontsize=8)
++axb.set_xlim(0, 18); axb.legend(loc="lower right", frameon=False, fontsize=6)
++panel_letter(axb, "b")
++fig4.tight_layout(rect=(0, 0.16, 1, 1))
++foot(fig4,
++     "Plain: panel a shows how fast the aircraft is going down at 00:19:37 under each reading of the satellite data. The two "
++     "both-reading options and the three r1200 options all give a steep dive, so the recollection is correct. Panel b shows what "
++     "happens next. Only a small part of each option's probability keeps diving into the water within three minutes. The "
++     "both-reading options keep the least, about 5 to 6 in 100, against 15 in 100 for r1200. That, and not the dive itself, is "
++     "why they end up with fewer loud impacts.",
++     "Technical: run I, weighted draw of 20,000 impacts per option, strata weighted equally. Rate of descent is the state at the "
++     "second 00:19 burst. Dive runs on = impact within 180 s of 00:19:37. Loud decile = peak radiated mechanical power > 4.678e10 "
++     "W. Median altitude at 00:19:37 is 29,100 ft and 22,100 ft for the two both-reading options against 17,200 ft for r1200, so "
++     "the both options start the dive higher and need more of their weight on an arrested descent to reach the same impact time.")
++fig4.savefig("hydro-holland-dive-question.png", dpi=300)
++print("saved 4 figures; loud&short n =", int(sel.sum()), "| coverage counts:", np.bincount(ncov, minlength=4)[:4])
++

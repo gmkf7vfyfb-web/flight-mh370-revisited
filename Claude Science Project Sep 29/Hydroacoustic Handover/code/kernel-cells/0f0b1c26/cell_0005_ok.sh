@@ -1,0 +1,1 @@
+export GIT_CONFIG_GLOBAL=/dev/null; cd repo && git log --oneline -1 && git sparse-checkout set "Claude Science Project Sep 29/coordination" "Claude Science Project Sep 29/results" "Claude Science Project Sep 29/threads" 2>&1 | grep -v ignore; ls "Claude Science Project Sep 29/"; ls "Claude Science Project Sep 29/results" | grep -i hydro | head -50; du -sh . ../hydro

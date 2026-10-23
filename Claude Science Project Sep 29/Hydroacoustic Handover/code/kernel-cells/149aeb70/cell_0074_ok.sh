@@ -1,0 +1,1 @@
+cd /Users/pete/Downloads/mh370-exchange/end-of-flight && sed 's|/run-i"|/run-i-dive"|; s|loud_tail_ess.json|loud_tail_ess_dive.json|' run-i/loud_tail_ess.py > run-i-dive/loud_tail_ess.py && cd run-i-dive && nohup python3 loud_tail_ess.py > loud_tail_ess.log 2>&1 & echo launched

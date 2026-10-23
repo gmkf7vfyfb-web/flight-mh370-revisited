@@ -1,0 +1,2 @@
+cd repo && export GIT_CONFIG_GLOBAL=/dev/null && git show origin/claude-science-sep29:"Claude Science Project Sep 29/coordination/architecture.md" | sed -n '13582,13640p'
+git show origin/claude-science-sep29 --stat --oneline | head -5; git ls-tree origin/claude-science-sep29 "Claude Science Project Sep 29/results/" | grep -i "injection-recovery-run-j"

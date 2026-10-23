@@ -1,0 +1,20 @@
+dl('1ihPpZdTJ2qrcHPexog1akKZGi4Ek6bhB','Iannello_Godfrey_2016-08-25_McMurdo.pdf')
+dl('1npHNdf_750XDQ6IohblEHuBeNnOWMjag','Iannello_Guillaume_2016-11-29_FurtherSim.pdf')
+dl('1EQ7s5z_vvUUXtY4nH-03KGKglKKGbPf0','2016-08-14_Prelim_IG_Simulator.pdf')
+dl('1kMN5vQiHT9cano1OXa257qZ0EioNF_i0','Iannello_blog_SimData_Part1.pdf')
+dl('1PjnS_5eVDuGwN8X3SRGEbOPDQjFdqTZS','Wise_HowZaharieNavigated.pdf')
+dl('1DJG-kkcV5JiofBZQFA0YCVnajIrwcIWJ','ICAO_WP30_Australia.pdf')
+dl('1yRDZNpqGJonOWS4ZFBwcB1jbmKzw-Sai','Ulich_2018_north25S.pdf')
+dl('1w6c_lgv8IKH5YXEDoETST5v2uoW9H8oD','AMSA_reports.pdf')
+dl('1o0osNYLIIxnO-12EZMP3zY4N5PsLdhlG','Fluid_ontologies.pdf')
+dl('1gHUVNMzjnh0LSD_LqOjzGGMiRuo_nzaq','ATSB_search_debris_update.pdf')
+try:
+    r = host.mcp(S,"read_file_content",fileId='1zwSCCwXcsryJdi4kHb4WE13_9-WIb4J4')
+    open('src/ATSB_OpSearch_2017.txt','w').write(r.get('fileContent','')); print('opsearch chars', len(r.get('fileContent','')))
+except Exception as e: print('ops ERR', e)
+for q in ["fullText contains 'Definition of Underwater Search Areas'", "title contains 'underwater_search_areas'", "title contains 'search_areas'","title contains 'RMP'"]:
+    try:
+        rr = host.mcp(S,"search_files",query=q,pageSize=25,excludeContentSnippets=True)
+        print("==",q)
+        for f in rr.get('files',[]): print(' ',f['id'],f.get('fileSize'),f['title'])
+    except Exception as e: print(q,e)

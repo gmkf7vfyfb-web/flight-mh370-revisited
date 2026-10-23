@@ -1,0 +1,2 @@
+r=c.call_command('date -u; tail -4 ~/mh370/drift/arclat/chain.log; tail -2 ~/mh370/drift/runs/arclat-globcurrent-south-1.log; pgrep -af kadriB | head -3; uptime', intent='Check drift arc-latitude chain progress (read only)')
+print(r.stdout)

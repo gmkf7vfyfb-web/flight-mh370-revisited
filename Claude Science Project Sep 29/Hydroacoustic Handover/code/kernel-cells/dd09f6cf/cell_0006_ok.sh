@@ -1,0 +1,1 @@
+cd "repo/Claude Science Project Sep 29"; sed -n 1,400p results/evidence-sweep-2026-10-17/research-surface-search-pod.md | cut -c1-600

@@ -1,0 +1,1 @@
+A="audit/repo/Claude Science Project Sep 29/results/hydroacoustics-audit"; python "$A/scripts/fig_residuals.py" "$A/data/air9_residuals.csv" "$A/data/sus_bands.csv" "$A/hydroacoustics-audit-calibration-checks" && echo ok

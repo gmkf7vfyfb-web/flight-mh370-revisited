@@ -1,0 +1,1 @@
+cd repo && git fetch -q origin claude-science-sep29 && git rev-parse --short origin/claude-science-sep29 && git show --stat --oneline origin/claude-science-sep29 | head -4

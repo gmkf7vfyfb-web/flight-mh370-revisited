@@ -1,0 +1,1 @@
+cd leg; head -3 scan.log; grep -c kept scan.log; grep -v kept scan.log | head; ls scan | wc -l; du -sh scan; for s in run-j-free run-j-repro-radar run-j-descent-climb run-j-waypoints; do echo $s $(ls scan | grep -c "^$s__"); done

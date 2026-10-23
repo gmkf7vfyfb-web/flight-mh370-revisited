@@ -1,0 +1,1 @@
+cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/composition_run_j" && O=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated && mkdir -p $O/reduce && OMP_NUM_THREADS=1 python reduce.py $O $O/reduce 2>&1 | grep -v Warn | tail -3 && python tables.py $O/reduce > $O/reduce/tables.md 2>/dev/null; wc -l $O/reduce/tables.md; du -sh $O/reduce

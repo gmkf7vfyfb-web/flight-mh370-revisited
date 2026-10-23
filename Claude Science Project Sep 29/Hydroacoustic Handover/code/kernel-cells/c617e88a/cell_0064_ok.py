@@ -1,0 +1,1 @@
+import time; time.sleep(240); print(host.exec_peek("efb2b7fc-2902-4fcf-9daf-c18243689983")["stdout"][-2000:])

@@ -1,0 +1,1 @@
+cd repo/"Claude Science Project Sep 29"/results; grep -nE "median|90 ?%|°S|S\b" pleiades-next-run-b-standin.md | head -25; python -c "import pyproj;print(pyproj.__version__)"; nproc 2>/dev/null; sysctl -n hw.ncpu

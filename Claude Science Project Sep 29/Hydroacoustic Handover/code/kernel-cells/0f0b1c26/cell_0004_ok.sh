@@ -1,0 +1,1 @@
+ls -d hydro repo 2>&1; cd hydro 2>/dev/null && git log --oneline -1 && git sparse-checkout list && git status | head -5

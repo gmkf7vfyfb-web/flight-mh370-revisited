@@ -1,0 +1,2 @@
+print(t1[['event_id','time_utc','bearing_deg','in_H01W_union','arc_crossing_lat','arc_crossing_lon','line_to_arc_km','implied_impact_utc','implied_time_band_D0','implied_time_band_D4','bearing_verdict','panel_min_p']].to_string())
+kc=pd.read_csv(H+'calibration_events/stage1b/kadri_crash_timing_EXPLORATORY.csv'); print(kc.columns.tolist()); print(kc.to_string()[:3000])

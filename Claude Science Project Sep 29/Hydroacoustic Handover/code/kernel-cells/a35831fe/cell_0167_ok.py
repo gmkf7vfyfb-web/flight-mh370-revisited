@@ -1,0 +1,2 @@
+print(src2c.count("if k=='A'"), src2d.count("if k=='A'"), src2c.count("    h=["), src2c.count("    ax.legend(handles=h"), src2c.count("    fig.text(0.01,0.0"))
+for mt in re.finditer(re.escape("if k=='A'"),src2c): print(src2c[mt.start()-80:mt.start()+120].replace('\n','⏎'))

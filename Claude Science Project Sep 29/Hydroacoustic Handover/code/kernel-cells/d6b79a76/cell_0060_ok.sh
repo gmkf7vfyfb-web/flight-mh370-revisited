@@ -1,0 +1,8 @@
+WS=$PWD; mkdir -p kh/tgt; printf '[terminal]\nchildren = 16\n' > kh/tgt/children-16.toml; printf '[terminal]\nchildren = 256\n' > kh/tgt/children-256.toml
+python kh/targeted_build.py 1 $WS/kh/tgt/smokeRT --max-parents 40
+printf 'seeds = [1001]\n' > kh/tgt/seed-1001.toml
+W=/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/370552c2-5cc9-44d0-86c9-507ea022948e; E="$W/repo/Claude Science Project Sep 29/engine"; cd "$E"
+S=hypotheses/end-of-flight
+CHAIN=$(python -c "import json;print(' '.join(json.load(open('/Users/pete/Downloads/mh370-exchange/core/run-j/run-j-waypoints/run.json'))['config_paths']))")
+EXTRA="$S/smoke/v2-broad.toml $S/full/family-b-ditching.toml $S/full/residual-bank-boeing.toml $S/smoke/trim-at-loss.toml $S/full/pushover.toml $S/full/boeing-sequence.toml $S/full/b-late-onset-proposal.toml $S/full/holland-estimable.toml $S/full/a1-aimed-pitchdown.toml $S/full/piloted-turns.toml $S/full/run-i.toml $S/smoke/within-parent-unnormalised.toml $S/full/c2-silent-aim.toml $S/full/dive-branch.toml $WS/kh/tgt/children-16.toml $S/full/round3-laws.toml $S/full/bank-cap-uniform.toml"
+echo "$CHAIN" | wc -w; time RAYON_NUM_THREADS=4 /tmp/mh370-eof-rj1 terminal $WS/kh/tgt/smokeRT $CHAIN $S/smoke/snapshot-m0011.toml $S/smoke/terminal.toml $S/full/reference-289.toml $S/full/descent-idle-floor.toml $WS/kh/tgt/seed-1001.toml $EXTRA $WS/kh/tgt/smoke-out 2>&1 | tail -3; ls $WS/kh/tgt/smoke-out $WS/kh/tgt/smoke-out/bto-bfo/* 2>&1 | head; git -C "$E" status --short | head -5

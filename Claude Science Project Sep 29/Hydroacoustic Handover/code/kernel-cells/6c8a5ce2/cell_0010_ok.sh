@@ -1,0 +1,1 @@
+cd .tmp/repo/"Claude Science Project Sep 29"/coordination; grep -n "^## " HYDROACOUSTICS.md | tail -25

@@ -1,0 +1,3 @@
+P="hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"
+OUT=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-imos-ram-grid
+cd "$P" && PYTHONPATH=. python imos_ram_grid_charts.py /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-tl-grid/tables /tmp/interim/tables /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-levels/tables/detectable.csv $OUT/levels-rerun/tables/detectable.csv /tmp/interim/chart_test.png --commit 4920cc2 2>&1 | grep -v Warning | tail -3

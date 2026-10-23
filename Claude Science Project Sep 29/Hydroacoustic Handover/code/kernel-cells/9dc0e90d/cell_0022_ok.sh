@@ -1,0 +1,1 @@
+grep -c "^| E" out/evidence-sweep-2026-10-17.md

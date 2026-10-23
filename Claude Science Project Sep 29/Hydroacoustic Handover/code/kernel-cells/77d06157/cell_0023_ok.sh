@@ -1,0 +1,3 @@
+cd hydro/"Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"; sed -n 20,100p run_j_windows_charts.py; sed -n 210,250p run_j_windows_charts.py; python -c "
+import numpy as np,json;z=np.load('/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-windows/pooled.npz');print(list(z['keys'])[:6]);a=json.loads(str(z['arc']));print(type(a), list(a)[:5] if isinstance(a,dict) else a[:2])
+s=np.load('/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-windows/supplement.npz');print({k:s[k].shape for k in s.files})"

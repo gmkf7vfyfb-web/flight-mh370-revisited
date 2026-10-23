@@ -1,0 +1,1 @@
+cd atsrc/at; grep -n -i -E "Option\( *4|Opt\( *4|incoh|Comp" KrakenField/EvaluateADMod.f90 KrakenField/field.f90 | head; sed -n 60,112p KrakenField/EvaluateADMod.f90; grep -n -i -E 'ifreq|iProf|irec|GetModes' KrakenField/ReadModes.f90 | head -20

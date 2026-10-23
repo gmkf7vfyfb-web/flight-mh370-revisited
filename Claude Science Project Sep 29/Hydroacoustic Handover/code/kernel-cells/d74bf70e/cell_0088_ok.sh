@@ -1,0 +1,1 @@
+cd repo && cut -d, -f2,3 "ISO Sept 28 Status/inputs/recovered-v01/.sources/kadri-2024-hydroacoustics/data/kadri-table1-transients.csv" | sort | sed -n '2p;$p'

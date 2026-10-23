@@ -1,0 +1,3 @@
+uptime; df -k /System/Volumes/Data | tail -1 | awk '{printf "free %.1f GiB\n",$4/1048576}'
+G=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-tl-grid; du -sh $G; ls -t $G | head -8; tail -3 $G/passA.log 2>/dev/null | cut -c1-200; ls $G/raw 2>/dev/null | wc -l
+cd repo; export GIT_CONFIG_GLOBAL=/dev/null; git fetch -q origin claude-science-sep29; git log --format='%h %ci %s' origin/claude-science-sep29 | head -4 | cut -c1-140

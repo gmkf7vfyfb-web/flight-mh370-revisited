@@ -1,0 +1,1 @@
+export HOME=$PWD/home XDG_CONFIG_HOME=$PWD/home/.config; cd repo; git ls-tree -r --name-only HEAD | grep -i -E 'kadri|h08s|perth|ohasis|royer|evidence-sweep|coordination/(HYDRO|architecture)|master-prompts/(hydro|common)|ARCHITECTURE' | head -60; git ls-remote --heads origin 2>/dev/null | awk '{print $2}' | grep -i -E 'hydro|end-of|kadri' 

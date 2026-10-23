@@ -1,0 +1,1 @@
+curl -s -m 30 "https://service.iris.edu/fdsnws/station/1/query?net=IM&sta=H10N*,H10S*&level=channel&format=text&starttime=2009-06-01&endtime=2017-12-02" | head -40

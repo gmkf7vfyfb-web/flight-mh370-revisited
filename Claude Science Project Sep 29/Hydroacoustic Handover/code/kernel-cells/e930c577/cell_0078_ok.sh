@@ -1,0 +1,3 @@
+cd leg; python -c "
+import json; q=json.load(open('out_dev/q2_crosscheck.json')); print({k:(None if v['log10_B'] is None else round(v['log10_B'],2), round(v['ess_wL'],1), v['impact_q']) for k,v in q.items() if 'D2' in k or 'D5' in k})
+import pandas as pd; L=pd.read_json('out_dev/levels.json'); print(L[(L.D=='D2')&(L.subset=='strip')][['station','eta','snr_db_q','pd05_mean','share_pd05_ge_0p5']].to_string())"; cat scan.log

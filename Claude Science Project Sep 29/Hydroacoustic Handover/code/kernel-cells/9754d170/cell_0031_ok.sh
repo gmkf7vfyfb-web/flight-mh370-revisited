@@ -1,0 +1,1 @@
+cd "audit/repo/Claude Science Project Sep 29"; ls coordination | head -40; grep -n -i "sampling coverage" coordination/*.md | head -5; grep -n -i "sampling coverage" ARCHITECTURE.md 2>/dev/null | head

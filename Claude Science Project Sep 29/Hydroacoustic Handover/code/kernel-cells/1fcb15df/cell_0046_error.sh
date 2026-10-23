@@ -1,0 +1,1 @@
+ls -la /Users/pete/Downloads/mh370-exchange/hydroacoustics/ | grep -i graph; ls /Users/pete/Downloads/mh370-exchange/hydroacoustics/graphics-2026-10-22/ranked 2>&1

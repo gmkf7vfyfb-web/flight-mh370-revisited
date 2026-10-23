@@ -1,0 +1,1 @@
+cd "audit/repo/Claude Science Project Sep 29"; tail -30 coordination/HYDROACOUSTICS.md | cut -c1-500; grep -n "90ee3eb5\|SAMPLING COVERAGE" coordination/architecture.md | head -5; ls results | grep -i audit

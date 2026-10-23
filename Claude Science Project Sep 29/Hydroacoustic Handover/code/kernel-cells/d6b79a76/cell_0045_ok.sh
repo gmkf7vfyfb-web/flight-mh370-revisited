@@ -1,0 +1,1 @@
+cat /tmp/eof-rj-chain-rest.sh | head -60; ls /tmp | grep -i "rj\|joined\|J2241\|heavy" 

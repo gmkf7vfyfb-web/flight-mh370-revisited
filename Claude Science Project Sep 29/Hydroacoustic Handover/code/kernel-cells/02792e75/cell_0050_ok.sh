@@ -1,0 +1,1 @@
+cd "repo/Claude Science Project Sep 29/results/kadri-haixun-conditional-2026-10-18"; sed -n 1,25p kadri_geom.py

@@ -1,0 +1,1 @@
+cd src; curl -sSL -m 40 -o dk100.pdf -w "%{http_code}\n" "https://archive.org/download/manualsbase-id-639203/639203.pdf" 2>&1 | tail -2; ls -la; curl -sSL -m 40 -o dk120.pdf -w "%{http_code}\n" "https://assets.edmo.com/documents/DK120-Manual.pdf" 2>&1|tail -2

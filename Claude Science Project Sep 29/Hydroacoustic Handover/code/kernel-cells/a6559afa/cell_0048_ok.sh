@@ -1,0 +1,1 @@
+D="/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/a35831fe-107a-4961-bc9f-e6fd6d255601/hyd/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"; grep -v "^#" "$D/data/stations.csv" | cut -d, -f2 | sort | uniq -c

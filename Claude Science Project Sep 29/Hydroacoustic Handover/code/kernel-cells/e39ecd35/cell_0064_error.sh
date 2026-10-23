@@ -1,0 +1,1 @@
+cd src && curl -sS -m 300 -L -o llnl_mh370_hydro.pdf -w "%{http_code} %{size_download}\n" "https://www.osti.gov/servlets/purl/1136454" && file llnl_mh370_hydro.pdf

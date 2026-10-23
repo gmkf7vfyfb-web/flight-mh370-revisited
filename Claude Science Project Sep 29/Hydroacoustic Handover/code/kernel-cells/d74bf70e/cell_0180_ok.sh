@@ -1,0 +1,2 @@
+cd "repo/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics" && export OMP_NUM_THREADS=1 RAYON_NUM_THREADS=2
+/usr/bin/time -l python prepare/air9_tl_validation.py data/stub "$OLDPWD/../../../../../at" data/blackman/fig23_air9_digitised.csv ../../../../../hydro/air9 2>&1 | grep -v -E "^\s+[0-9]+ +(block|page|messages|signals|voluntary|involuntary|instructions|cycles|peak)" | tail -30

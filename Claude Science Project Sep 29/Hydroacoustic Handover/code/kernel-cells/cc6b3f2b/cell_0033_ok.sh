@@ -1,0 +1,1 @@
+pip install -q ssqueezepy 2>&1 | tail -2; python -c "import ssqueezepy; print(ssqueezepy.__version__)"

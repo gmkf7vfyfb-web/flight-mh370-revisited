@@ -1,0 +1,1 @@
+cd repo; export GIT_CONFIG_GLOBAL=/dev/null; p=$(git ls-tree -r --name-only HEAD | grep -E "compact_impacts\.py$" | head -1); echo "$p"; git show "HEAD:$p" 2>/dev/null | grep -n -i -E -A3 "def family_labels|family4|A1|A2|'B'" | head -50

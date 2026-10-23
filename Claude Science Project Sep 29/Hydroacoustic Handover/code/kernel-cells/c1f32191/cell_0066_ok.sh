@@ -1,0 +1,1 @@
+sleep 500; S=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated.staging; cat $S/topup.log | tail -4; df -k /System/Volumes/Data | tail -1

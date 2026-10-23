@@ -1,0 +1,1 @@
+cd "hyd/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"; grep -rln -E "\.DAT|DAT'" prepare src 2>/dev/null | head; grep -rn -E "fromhex|base=16|, 16\)|16\)$|record_start|start_utc" prepare/*.py prepare/searches_run_j/*.py 2>/dev/null | head -20

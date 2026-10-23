@@ -1,0 +1,1 @@
+ls -la hycom | grep -E "sub|small|53X"

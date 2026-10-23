@@ -1,0 +1,1 @@
+sleep 480; S=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated-v2.staging; date -u +%H:%MZ; tail -3 $S/driver.log 2>/dev/null | cut -c1-120; ls $S/_parts 2>/dev/null | wc -l; ls /Users/pete/Downloads/mh370-exchange/hydroacoustics/ | grep gated

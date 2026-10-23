@@ -1,0 +1,2 @@
+cd /Users/pete/Downloads/mh370-exchange; cat pleiades/run-j/README.md; ls pleiades/run-j/maps pleiades/run-j/surfaces | head -40; echo; cat core/run-j/run-j-waypoints/COMPACT.txt 2>/dev/null | head -30; ls -la core/run-j/run-j-waypoints/ | head; ls core/run-j/run-j-waypoints/bto-bfo | head; python -c "
+import json;d=json.load(open('composer/run-j-views-v3.2/views-v3-run-j.json'));print(json.dumps(d['meta'])[:1500])"

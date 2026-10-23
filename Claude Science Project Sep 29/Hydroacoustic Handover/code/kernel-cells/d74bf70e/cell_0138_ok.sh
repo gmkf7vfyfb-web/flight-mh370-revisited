@@ -1,0 +1,1 @@
+cd repo && F="Claude Science Project Sep 29/coordination/OCEAN_TRANSPORT.md"; wc -l "$F"; grep -n '^## ' "$F"; grep -n -i -E 'hydro|bathym|sound speed|stub' "$F" | cut -c1-180 | head -20

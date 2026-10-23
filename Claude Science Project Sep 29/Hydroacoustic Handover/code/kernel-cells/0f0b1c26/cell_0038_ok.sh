@@ -1,0 +1,1 @@
+cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data/digitised/ground-truth-cases"; for f in nielsen2021_table1_locations.csv nielsen2021_text_times.csv vergoz2021_text_values.csv vergoz2021_table2_cepstral_delays.csv; do echo "## $f"; cat $f | cut -c1-300; done

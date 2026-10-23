@@ -1,0 +1,1 @@
+curl -s -m 30 -w "\nHTTP %{http_code}\n" "https://service.iris.edu/fdsnws/station/1/query?net=IM&sta=H10*&level=channel&format=text" | head -40

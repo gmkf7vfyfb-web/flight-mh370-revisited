@@ -1,0 +1,1 @@
+cd ~/Downloads; ls; echo ---; ls mh370-ocean-data mh370-ocean-data/* 2>/dev/null | head -80; echo; df -h ~/Downloads | tail -1

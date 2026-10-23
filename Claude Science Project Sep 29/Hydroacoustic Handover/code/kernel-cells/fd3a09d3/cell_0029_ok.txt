@@ -1,0 +1,40 @@
+# [edit_file] /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/fd3a09d3-4e0f-4f0c-9e05-c56066b94f5f/hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/tl_grid_run_j.py
+--- /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/fd3a09d3-4e0f-4f0c-9e05-c56066b94f5f/hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/tl_grid_run_j.py
++++ /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/fd3a09d3-4e0f-4f0c-9e05-c56066b94f5f/hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/tl_grid_run_j.py
+-    z = np.load(ARC_GRID)
+-    arc = z["arc"]; s0, w0, st = float(z["south"]), float(z["west"]), float(z["step"])
+-    lons = w0 + st * np.arange(arc.shape[1])
+-    rows = []
+-    for lat in np.round(np.arange(lat_south, lat_north + 1e-9, step), 3):
+-        i = int(round((lat - s0) / st))
+-        row = arc[i].astype(float)
+-        for off in offsets_nm:
+-            d = row - off
+-            k = np.where(np.diff(np.sign(d)) != 0)[0]
+-            if len(k) == 0:
+-                continue
+-            k = k[0]
+-            lon = lons[k] - d[k] * (lons[k + 1] - lons[k]) / (d[k + 1] - d[k])
+-            rows.append(dict(source_id=f"arc{abs(lat):05.1f}S_{int(off):+d}", lat=float(lat), lon=float(lon), offset_nm=float(off)))
+-    return pd.DataFrame(rows)
++    """The arc-distance field is defined only in cells that hold impacts (n > 0; elsewhere a fill value). Per
++    latitude row, longitude is fitted as linear in arc distance over the valid cells (within 150 NM of the wanted
++    offset when >= 20 such cells exist, else all valid cells) and evaluated at the offset. Fit rms and whether the
++    offset lies outside the fitted span (extrapolated: 41.0 and 40.5 S only) are recorded in sources.csv."""
++    z = np.load(ARC_GRID)
++    arc = z["arc"].astype(float); n = z["n"]; s0, w0, st = float(z["south"]), float(z["west"]), float(z["step"])
++    lons = w0 + st * np.arange(arc.shape[1])
++    rows = []
++    for lat in np.round(np.arange(lat_south, lat_north + 1e-9, step), 3):
++        i = int(round((lat - s0) / st))
++        ok = n[i] > 0
++        for off in offsets_nm:
++            near = ok & (np.abs(arc[i] - off) <= 150.0)
++            use = near if near.sum() >= 20 else ok
++            A_ = np.vstack([np.ones(use.sum()), arc[i][use]]).T
++            c, _, _, _ = np.linalg.lstsq(A_, lons[use], rcond=None)
++            rms = float(np.sqrt(np.mean((A_ @ c - lons[use]) ** 2)))
++            rows.append(dict(source_id=f"arc{abs(lat):05.1f}S_{int(off):+d}", lat=float(lat), lon=float(c[0] + c[1] * off),
++                             offset_nm=float(off), arc_fit_cells=int(use.sum()), arc_fit_rms_deg=rms,
++                             arc_fit_extrapolated=bool(off < arc[i][use].min() or off > arc[i][use].max())))
++    return pd.DataFrame(rows)

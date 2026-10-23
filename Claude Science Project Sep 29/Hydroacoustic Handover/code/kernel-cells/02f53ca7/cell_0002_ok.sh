@@ -1,0 +1,3 @@
+cd "repo/Claude Science Project Sep 29"
+echo "=== WORK ORDER block 9 ==="; awk '/^#+ .*[Bb]lock 9|^9\.|^### 9|^## 9/{p=1} p&&/^#+ .*[Bb]lock 10|^## 10|^### 10|^10\./{p=0} p' threads/work-orders/hydroacoustics-order-2026-10-21.md | head -80
+echo "=== BRIEF Refresh v2 §9 ==="; awk '/Refresh v2/{r=1} r&&/^#+ *9[ .]|^\*\*9[ .]|^9\. /{p=1} p&&/^#+ *10[ .]|^\*\*10[ .]|^10\. /{p=0} p' threads/master-prompts/hydroacoustics.md | head -80

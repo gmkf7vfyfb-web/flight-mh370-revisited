@@ -1,0 +1,236 @@
+# [edit_file] created /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/136c4fba-91c3-4b5f-af49-9440a97ab1e6/repo/Claude Science Project Sep 29/results/hydroacoustics-kadri-northern-run-j.md
++++ /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/136c4fba-91c3-4b5f-af49-9440a97ab1e6/repo/Claude Science Project Sep 29/results/hydroacoustics-kadri-northern-run-j.md
++# Hydroacoustics run J, Task 1 — the Kadri northern conditional, smoke scale
++
++Branch `hypothesis/hydroacoustics`. Work order `hydro-work-order-2026-10-13.md`, Task 1.
++Pre-registration committed **6ecbb0a** (`prepare/kadri_northern_conditional.py`) and amendment A1
++committed **011ec84** (`prepare/kadri_h01w_time_discriminant.py`), both **before any statistic in them
++was computed**. Outputs in `engine/hypotheses/hydroacoustics/results-data/kadri_northern/`.
++
++**Labels.** PREDICTIVE, NOT CALIBRATED. Module likelihood remains zero. Impact set
++`run-i-dive`, smoke scale (one seed of eight per stratum). Digitised figure data throughout, never
++cited as the underlying measurement.
++
++---
++
++## 1. What was asked and what came back
++
++Kadri's main signal carries bearing 306.18 degrees from Cape Leeuwin and his paper gives two times for
++it: 00:52:03 in the text and 00:54:30 in the caption. Both were tested as separate options, at Diego
++Garcia South (H08S) on the digitised figure 9 panels and at Perth Canyon on the IMOS recordings.
++
++**No detection, and the candidate yield is what chance predicts at every level.** Of 34 pre-registered
++rows, 28 were computable. Against the pre-registered levels:
++
++| level | candidates found | expected by chance |
++|---|---|---|
++| screen, 0.3 | 10 | 8.4 |
++| mark, 0.1 | 2 | 2.8 |
++| report, 0.05 | 1 | 1.4 |
++
++Two rows reach 0.05 on one null or another, and both are discussed in §3 because both have a reason to
++be set aside. The family is 28 tests and they are not independent.
++
++**The separate result, and the one with substance: Kadri's two times are now resolved.** See §4.
++
++---
++
++## 2. Geometry and timing, checked not re-derived
++
++The work order's ranges reproduce with the module's own Karney geodesics from the arc crossing at
++26.2 S 101.9 E: H01W 1,517.0 km against 1,520 stated, Perth Canyon 3376 1,420.8 km against 1,422, H08S
++3,729.1 km against 3,730. Combined 1 sigma on arrival time 18 s at H08S and 6 s at Perth Canyon, taken
++from the work order and not re-derived.
++
++Blocked and carrying no information for this source: Portland loggers 3274 and 3275 (land), Scott Reef
++3250 (North West Shelf), H08N (Chagos Bank). H01W is Kadri's own detection and cannot test itself.
++
++## 3. What is and is not testable on the data we hold
++
++**One correction to the work order.** The digitised H08S *record* does not end at 01:18:29; the airgun
++*shot train* does. Panel e runs to 01:19:58.998 with 8,973 vertices at a median native spacing of
++0.049 s. The last closed airgun cycle starts at 01:18:19. The consequence is specific rather than
++general:
++
++- The two cycle statistics that need a *closed* cycle — shot energy and inter-shot gap power — are
++  computable in the text window (7 shots) and **not computable** in the caption window. Six rows are
++  reported as not computable for that reason. Nothing coarser was substituted.
++- The four statistics that need only a shot and its shoulders — shape correlation against the local
++  stacked template, the leading, trailing and tail shoulder residuals, and the principal-component
++  outlier score — are computable in **both** windows, because shot peaks continue to 01:19:09. The
++  caption window holds 2 of them.
++- At Perth Canyon there is no repeating airgun train, so a local stacked *shot* template does not exist
++  and the shape and shoulder statistics are undefined there. The defined analogue, a matched filter
++  against the committed real transient T_C2, was added as D4 and is new in this run.
++
++**The stop condition was not triggered.** At 40 Hz each shot window carries 360 samples over 9 s, and
++the native vertex spacing of 0.049 s (95th percentile 0.190 s) sits well inside the 0.25 s envelope
++smoothing the statistic uses. Resolution is adequate and is recorded per panel in `summary.json`.
++
++**Perth Canyon coverage.** Logger 3315 has zero coverage in both windows, confirming the earlier
++finding rather than assuming it. Logger 3376 covers 26.0 s of each window — the full 95 per cent window
++in both cases — in recording `531A6929.DAT`.
++
++### The two rows that reach 0.05
++
++**Perth Canyon 3376, caption window, band-power exceedance D2: 9.88 dB, p = 0.0196 against a
++7,046-realisation window null, peaking at 00:53:27.853, inside the window; SNR 8.73 dB, maximum 1 s
++5–40 Hz level 104.94 dB re 1 uPa.** This is the loudest band-power moment of the whole 307 s recording
++and it falls inside the 26 s predicted window. Three things argue against reading it as an arrival.
++First, the STA/LTA energy-ratio detector sees nothing there: D1 peaks 0.7 s away at p = 0.432. Second,
++and more telling, the matched filter against T_C2 gives **p = 1.000** at that time — the excursion
++matches the shape of a real transient *worse* than every background window tested, which is what a rise
++in band-limited noise looks like, not an impulsive arrival. Third, it belongs to the caption option,
++which §4 shows is not the time Kadri's own figure carries. The earlier item-2b pass scored the same
++9.884 dB at p = 0.16 on a 307 s window; both are correct for their own window, and the pre-registered
++one here is the 26 s window, in which the same value is rarer.
++
++**H08S, caption window, shape correlation rho: 0.385, p = 0.0459 on the pooled d+e null** (p = 0.0816 on
++the primary panel-e null). In independent-block units this is the 2nd most extreme 2-shot block of
++about 24, and it rests on 2 shots. The direction is right — low shape correlation is the anomaly — but
++the sample is two cycles and the pooled null is the secondary.
++
++In the text window, on the panel-e null, four primary statistics are each the most extreme 7-shot block
++in the panel — inter-shot gap power, shape correlation, trailing-shoulder residual and the
++principal-component score, all at p = 0.159. Panel e holds only 6.3 independent blocks of that size, so
++"most extreme in the panel" and p = 0.16 are the same statement. The four are also not independent:
++they all respond to the energy structure of the same cycles. Four agreeing statistics here are not four
++pieces of evidence.
++
++## 4. Amendment A1 — Kadri's two times, resolved at Cape Leeuwin
++
++Panel c of his figure 9 starts at 00:47:00 and runs 600 s, so it contains both candidate times. This is
++a two-point comparison between times fixed by his paper, not a search.
++
++**The panel maximum of the 2–20 Hz envelope is at 00:52:04** — 1.25 s from the text time, 145.75 s from
++the caption time. His text calls 00:52:03 the figure 9c peak, and the figure agrees with the text.
++Ranked against all positions of the same ±3 s window across the panel, in independent-window units
++(about 99 in the panel):
++
++| statistic | 00:52:03, text | rank | 00:54:30, caption | rank |
++|---|---|---|---|---|
++| envelope peak, Pa | 1.168 | **1 of 99** | 0.866 | 3.9 |
++| RMS over ±1 s, Pa | 0.250 | 4.8 | 0.267 | 3.2 |
++| STA/LTA maximum | 3.78 | **1 of 94** | 2.81 | 3.0 |
++| matched filter vs T_C2 | 0.0774 | **1 of 95** | 0.0531 | 24.5 |
++
++Three of four favour the text time and on three of four it is the largest independent excursion in the
++panel. Under the rule fixed before computing: **the text time, 00:52:03, is the time his figure shows**,
++and 00:54:30 reads as a transcription error. Two qualifications. The caption time is not empty — a real
++excursion sits there, third or fourth largest on amplitude though about 25th on waveform match — so a
++reader could defend it as a second, smaller arrival, and the question still goes to Kadri as a
++confirmation rather than an open ask. And panel c is clipped at the plot's ±1 Pa rail, so every
++amplitude is a lower bound, although no sample in either ±3 s window is itself at the rail.
++
++**What A1 does not say.** It identifies which time his figure plots. It is not a detection of an impact
++signal and does not bear on the MH370 hypothesis in either direction.
++
++The digitised band is 2–20 Hz, not the 2–40 Hz of the earlier H01W level convention: the vertex rate
++limits the usable band to 20 Hz. The 2–40 Hz label is reachable only on the 500 Hz IMOS recordings.
++
++## 5. Likelihood ratio, and why it is one
++
++The conditional fixes the source **location** from Kadri's bearing, so the arrival windows and every
++measured p-value are independent of the dive probability p. The dive probability enters only through
++the predicted received level, by way of the impact energy distribution. Reweighting `run-i-dive` by 2p
++and 2(1-p) on `latent:pushover_to_surface` gives a median energy transferred of 1.23 GJ at p = 0.5,
++1.05 GJ at p = 0, 2.26 GJ at p = 1, with effective sample 2.46, 1.51 and 1.53 million rows.
++
++With the committed transmission loss of 138.7 dB at 3,730 km (sd 7.9 dB), the predicted received energy
++at H08S relative to the median airgun shot runs −37.4 to −4.1 dB across the three values of p and four
++decades of coupling efficiency:
++
++| coupling efficiency | predicted SNR, dB (p = 0 / 0.5 / 1) | P_D | likelihood ratio, non-detection |
++|---|---|---|---|
++| 1e-4 | −37.4 / −36.7 / −34.1 | 0.007 | 1.000 |
++| 1e-3 | −27.4 / −26.7 / −24.1 | 0.007 | 1.000 |
++| 1e-2 | −17.4 / −16.7 / −14.1 | 0.007 to 0.011 | 1.000 to 0.996 |
++| 1e-1 | −7.4 / −6.7 / −4.1 | 0.129 to 0.382 | 0.877 to 0.622 |
++
++**At every coupling efficiency up to 1e-2, at all three values of the dive probability, the detection
++probability is at the detector's own false-alarm rate and the likelihood ratio is 1.000.** The
++non-detection carries no information. Only at 1e-1 — three decades above the F-35A anchor — does it
++begin to, and weakly.
++
++Two corrections were made to this construction before any value was quoted. The likelihood ratio
++initially divided a detection probability measured under the ±3 robust-z outlier rule by the 0.3
++p-value screen level, which are two different detectors; that gave a ratio above 1 for a
++non-detection, which cannot be right. Both sides now use the same detector, with its own false-alarm
++rate of 0.0067 taken as the floor of its own injection curve. Separately, two of the four Cape Leeuwin
++statistics were indexed from their window start without their own base lag, putting the RMS window 2.0 s
++early and the matched filter 2.0 s late; centring is now derived from each series' window length and
++lag. The A1 verdict is unchanged by that fix.
++
++At coupling 1e-4 and 1e-3 the predicted level is **below the lowest injected level** of the committed
++curve, so P_D there is an extrapolation to the floor and is flagged as such in `likelihood_ratio.csv`.
++
++**Perth Canyon has no likelihood ratio.** There is no committed transmission loss at 1,422 km on that
++path, and building one is Task 2. Rather than substitute a spreading bracket, the measured p-values,
++SNR and maximum level are reported and the predicted level is recorded as not assessed.
++
++## 6. COVERAGE
++
++- **Feasible set.** The conditional asserts a source at the Kadri bearing's arc crossing, 26.2 S
++  101.9 E. The impact *energy* and duration come from `run-i-dive` marginally, because the conditional
++  fixes location and not energy.
++- **Model's reach.** Receivers: three of seven carry information for a source this far north; four are
++  blocked and are named in §2 with the reason. Statistics: cycle statistics exist only where an airgun
++  train exists, which is H08S only; the caption window at H08S supports four of the six cycle
++  statistics and not the two that need a closed cycle.
++- **Proposal's coverage.** `run-i-dive`, one seed of eight per stratum, 16.0 million rows, effective
++  sample 1.5 to 2.5 million. Perth Canyon 3376 covers 26.0 s of each 26 s window; 3315 covers none.
++- **Gaps.** (i) No transmission loss on the 26.2 S to Perth Canyon path — blocking for the Perth Canyon
++  likelihood ratio, Task 2. (ii) P_D below the lowest injected level at coupling 1e-4 and 1e-3 —
++  extrapolated, not blocking for a null result. (iii) Seven of eight seeds per stratum unread at this
++  smoke scale — not blocking, the energy quantiles are stable at this effective sample. (iv) The
++  caption option's H08S window cannot be tested on the two closed-cycle statistics at all — permanent
++  on these data; the raw record is Kadri's.
++- **ESS per value of p:** 2.46e6 at 0.5, 1.51e6 at 0, 1.53e6 at 1.
++
++## 7. Caveat wording, verbatim
++
++> Peak radiated mechanical power is not an acoustic source level; the coupling is a declared
++> alternative with a prior, not a constant.
++
++> The propagation model passes a level check against the 2001 airguns and fails a frequency-slope
++> check by +10 dB per octave at Cape Leeuwin and +7 at Diego Garcia South; the airgun data cannot
++> separate the source spectrum, the array pattern and the propagation.
++
++> Detection probability is measured in IMOS logger noise and shifted by +4.8 dB to stand in for a
++> three-element IMS station. It is a proxy.
++
++> In the predicted windows no transient exceeded the pre-registered false-alarm level; the smallest
++> resolvable p is 0.0101. That is no significant detection with limited power, not an absence.
++
++> Module likelihood remains zero until injection-recovery gives detection probability against
++> received level.
++
++## 8. Footnotes carried by every table and figure from this run
++
++**Short form (ASD-STE100).** The sound data come from a printed figure. A person measured the lines in
++the figure. The data are not the original recordings. The test was written down before the data were
++examined. The smallest p-value that the null can give is 0.0101. The impact data are run I dive, one
++seed of eight for each group. Nothing was found above the agreed level.
++
++**Technical form.** Source: Kadri (2024) figure 9 vector traces, digitised, panels c (H01W), d and e
++(H08S); IMOS/Curtin loggers 3315 and 3376, same-night role-B recordings as the window null, 14-day
++stage-A background not re-read. Impact prior: `run-i-dive`, 4 strata x seed-1, reweighted by
++`latent:pushover_to_surface` at p = 0.5 primary with p = 0 and 1 beside it; run I is the p = 0 point of
++the same prior and is not a separate alternative. Transmission loss: `kadri_package/next-run-b/
++predictions.csv` at 3,730 km, power mean over 5–40 Hz, sd 7.9 dB. Coupling efficiency swept 1e-4 to
++1e-1. Levels: screen 0.3, mark 0.1, report 0.05; the coincidence null's floor is 1/99 = 0.0101 and each
++table row states the floor of the null it used. Excluded and why: H08N, Portland 3274 and 3275, Scott
++Reef 3250, all blocked for a source north of 28.765 S; the peak-window residual, identically zero by
++construction. Labels: PREDICTIVE, NOT CALIBRATED; module likelihood zero.
++
++## 9. Next
++
++1. Task 3, the Kadri package: the northern conditional becomes its own hypothesis with the windows
++   above, and the question about his two times becomes a confirmation of 00:52:03 rather than an open
++   ask. The caption-time H08S window 01:18:46–01:20:00 is still the one request we cannot meet
++   ourselves on the closed-cycle statistics.
++2. Task 2, Option B, needs the 26.2 S to Perth Canyon path built before that station can carry a
++   likelihood ratio.
++3. If the Perth Canyon 00:53:27.9 excursion is ever to be settled rather than set aside, it needs the
++   source classes checked — ship, whale chorus, swell — against the same recording.
++

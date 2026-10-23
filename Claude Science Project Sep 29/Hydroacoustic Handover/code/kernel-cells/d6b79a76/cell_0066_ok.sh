@@ -1,0 +1,1 @@
+WS=$(pwd); sed -i '' 's#\$PY tau_sidecar.py \$C > /dev/null#PYTHONPATH=$WS/scorer $PY $WS/scorer/tau_sidecar.py $C > /dev/null#' kh/targeted_seed.sh; grep -n tau_sidecar kh/targeted_seed.sh; rm -rf kh/tgt/smoke; time bash kh/targeted_seed.sh 1 $WS/kh/tgt/smoke $WS/kh/tgt/children-16.toml 40 2>&1 | tail -5; ls kh/tgt/smoke

@@ -1,0 +1,5 @@
+R="repo/Claude Science Project Sep 29/results"; H="hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"
+wc -c "$R"/hydroacoustics-injection-recovery-run-j.md "$R"/hydroacoustics-searches-run-j.md "$R"/hydroacoustics-tl-grid-run-j.md "$R"/hydroacoustics-run-j-windows.md "$H"/prepare/per_impact_lnl.py "$H"/prepare/run_j_driver.py "$H"/prepare/tl_grid_evidence.py "$H"/prepare/run_j_windows.py "$H"/prepare/tl_grid_table.py "$H"/prepare/run_j_levels.py
+ls "$H"/results-data/injection_run_j "$H"/results-data/searches_run_j "$H"/results-data/tl_grid_run_j "$H"/results-data/windows_run_j
+ls /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-injection /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-tl-grid /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-tl-grid/tables /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j/ /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j/primary-tau-eof | head -60
+cd hydro && git log --oneline -12

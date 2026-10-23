@@ -1,0 +1,1 @@
+cd "settl/Claude Science Project Sep 29/engine/hypotheses/settling/"; wc -l *.rs *.toml; cat run.toml | head -120

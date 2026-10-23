@@ -1,0 +1,1 @@
+sed -i '' "s/np.datetime64('2014-03-07T04:00')/np.datetime64('2014-03-07T04:30')/; s/position read at 04:00 UTC/position read at 04:30 UTC/" lib/surface_drift.py; grep -n "04:30" lib/surface_drift.py; time python lib/surface_drift.py ocean/test_cells.npy ocean/test_drift.npz 0.012

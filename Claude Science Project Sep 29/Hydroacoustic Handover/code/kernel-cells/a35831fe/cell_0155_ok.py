@@ -1,0 +1,5 @@
+wn=wi/wi.sum(); print('ESS prior',1/np.sum(wn**2), 'max share',wn.max())
+Wt=wi*Lt; Wt/=Wt.sum(); print('ESS prior*time',1/np.sum(Wt**2))
+Wb=wi*L_bear('t3'); Wb/=Wb.sum(); print('ESS prior*bearing',1/np.sum(Wb**2))
+print(np.percentile(np.log10(wi[wi>0]),[1,50,99,99.99]), (wi>0).mean())
+print('source counts',np.unique(S['source'][m],return_counts=True))

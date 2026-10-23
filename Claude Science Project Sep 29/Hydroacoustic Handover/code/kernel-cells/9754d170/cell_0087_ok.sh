@@ -1,0 +1,1 @@
+cd "audit/repo/Claude Science Project Sep 29/results"; grep -n -i "kadri.*csv\|imos_events_searched\|power_check\|sources-0019\|N_SYN" hydroacoustics-pleiades-test-standin.md hydroacoustics-pleiades-test-preregistration.md | cut -c1-300 | head -20; ls /Users/pete/Downloads/mh370-inputs/hydroacoustics/ | head

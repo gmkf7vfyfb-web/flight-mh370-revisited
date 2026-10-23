@@ -1,0 +1,1 @@
+cd repo && awk '/^## /{n++} n>=5' "Claude Science Project Sep 29/coordination/HYDROACOUSTICS.md"

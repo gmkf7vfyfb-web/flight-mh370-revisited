@@ -1,0 +1,1 @@
+cd hydro/"Claude Science Project Sep 29"/engine/hypotheses/hydroacoustics; sed -n 1,40p prepare/kadri_table1_test.py | cut -c1-250; grep -nE "BOX|box|bg|background|def bf|t3|student|PICK|pick" prepare/kadri_table1_test.py | head -30; head -5 results-data/pair_tests/imos_coincidence_candidates.csv

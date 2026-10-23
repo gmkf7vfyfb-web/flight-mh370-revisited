@@ -1,0 +1,1 @@
+cd src; for u in "https://data.mendeley.com/public-api/datasets/nr4vt4h8gt" "https://data.mendeley.com/public-api/datasets/nr4vt4h8gt/files?folder_id=root&version=1" "https://api.datacite.org/dois/10.17632/nr4vt4h8gt.1"; do echo "== $u"; curl -s --max-time 30 -w "\nHTTP %{http_code}\n" "$u" | head -c 3000; echo; done

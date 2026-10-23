@@ -1,0 +1,1 @@
+cd "audit/repo/Claude Science Project Sep 29"; wc -c results/hydroacoustics-blackman-validation.md; cat results/hydroacoustics-blackman-validation.md | cut -c1-900

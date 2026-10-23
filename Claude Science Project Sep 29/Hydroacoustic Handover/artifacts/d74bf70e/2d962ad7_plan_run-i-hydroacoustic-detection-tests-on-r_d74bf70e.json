@@ -1,0 +1,134 @@
+{
+  "version": 3,
+  "created_at": "2026-10-13T14:15:09.081Z",
+  "task_summary": "Run I hydroacoustic detection tests on raw IMOS and digitised IMS data",
+  "agents": [],
+  "phases": [
+    {
+      "name": "Preparation and predictions",
+      "delegations": [
+        {
+          "name": "Predictions",
+          "steps": [
+            {
+              "title": "Restore repo and data inputs",
+              "description": "Re-clone the repository and worktree, and locate the IMOS raw records (3315, 3376, 3250, 3274, 3275), the 14-day background (3250, 3274, 3376) and Kadri's digitised Fig. 9 traces. About 10 min, no heavy compute."
+            },
+            {
+              "title": "Request run I pulse-duration sidecar",
+              "description": "Post a request to end of flight for the run I pulse-duration sidecar (method 1, as run C had). Until it lands, run with the scenario prior and label the results. No compute on our side."
+            },
+            {
+              "title": "Predict received spectra per station and family",
+              "description": "From run I impacts weighted by end-of-flight weights, compute the predicted received band levels and arrival times at each station, split by families A1, A2 and B and by 00:19 option. About 15-25 min at 2 threads outside the lock, plus about 1 h of development."
+            },
+            {
+              "title": "Draw per-station charts with family markers",
+              "description": "One chart per station: H01W, H08S, H08N (blocked), and IMOS 3315, 3376, 3250, 3274 and 3275. Each shows the background noise against the predicted levels, with markers for A1, A2 and B, plain and technical footnotes, and no jargon in titles or axes. About 10 min."
+            }
+          ]
+        }
+      ],
+      "id": "phase-0"
+    },
+    {
+      "name": "Pre-registration",
+      "delegations": [
+        {
+          "name": "Prereg",
+          "steps": [
+            {
+              "title": "Write and commit detection-test pre-registration",
+              "description": "Pre-register the following before any run. Detector: a whitened matched-spectrum (Eckart) detector using run I predicted spectra and pulse-duration templates. Statistics: a scan statistic giving local and look-elsewhere-corrected global p-values, with no fixed thresholds; empirical nulls (IMOS 14-day background, time slides and off-window segments for the digitised traces, shot-train aware at H08S). Multi-site joint statistic: marginalises the predicted arrival-time difference and its uncertainty. Information gain in bits, an injection-recovery design, and the coverage table. No compute."
+            }
+          ]
+        }
+      ],
+      "id": "phase-1"
+    },
+    {
+      "name": "Detection tests",
+      "delegations": [
+        {
+          "name": "Tests",
+          "steps": [
+            {
+              "title": "IMOS raw single-site scans",
+              "description": "Run the matched detector over the 8 Mar 2014 windows at 3315, 3376, 3250, 3274 and 3275, with p-values from the 14-day background where it exists (3250, 3274, 3376) and from off-window segments elsewhere. About 20-40 min at 12 threads under the heavy lock, which covers reading about 14 GB."
+            },
+            {
+              "title": "Digitised H01W and H08S single-site scans",
+              "description": "Run the same detector on the digitised Cape Leeuwin and Diego Garcia South band traces, list every candidate with its local and global p-value, and handle the 9.98 s shot train at H08S explicitly. About 5-10 min."
+            },
+            {
+              "title": "Multi-site coincidence tests",
+              "description": "Test the H01W x H08S, 3376 x 3274 and IMS x IMOS pairs within run I predicted arrival-time windows, including SOFAR speed, path and pick-time uncertainty. Report p-values from time-slide and background nulls, and the information gain from two weak signals. About 15-30 min at 2 threads."
+            },
+            {
+              "title": "Injection-recovery, upper limits, Bayes factor",
+              "description": "Inject run I predicted signals into real noise at predicted times, per station. Report power, the 95% upper limit on the coupled source level, the Bayes factor for signal-as-predicted against noise only, and where the predicted signal is rejected at 5%. About 1-2 h at 12 threads under the heavy lock."
+            },
+            {
+              "title": "Coverage table of untested space",
+              "description": "Tabulate what is not tested and why: time bounds (Kadri's H01W panel ends about 00:57, H08S covers 01:00-01:20; IMOS file spans), geography (3250 Scott Reef blocked, H08N blocked by Chagos, ridge reach gap), and run I cells below the ESS gate. Minutes."
+            }
+          ]
+        }
+      ],
+      "id": "phase-2"
+    },
+    {
+      "name": "Calibration and windows",
+      "delegations": [
+        {
+          "name": "Calibration",
+          "steps": [
+            {
+              "title": "Updated air9 predicted-vs-measured chart",
+              "description": "Redraw with the measured curve, the KRAKEN model, the model with array-factor and near-field terms (labelled post hoc), and the corridor spread, with residual slope per station. About 20 min, no heavy compute."
+            },
+            {
+              "title": "Run G18 SUS transmission loss",
+              "description": "Run the 2003 SUS shots A2, A4 and A5 to both stations (the open calibration item). Estimated about 1 h at 12 threads under the heavy lock; this estimate is uncertain."
+            },
+            {
+              "title": "Run I search windows for D x C options",
+              "description": "Extend search_windows_mixture to run I's D0-D5 x C1/C2 options and compute arrival windows per station. About 45 min of development and 10-15 min of compute at 2 threads."
+            }
+          ]
+        }
+      ],
+      "id": "phase-3"
+    },
+    {
+      "name": "Reporting",
+      "delegations": [
+        {
+          "name": "Report",
+          "steps": [
+            {
+              "title": "Results note with COVERAGE and commit",
+              "description": "Write the results note (results, p-values, power, limits, coverage, labels), commit it with the data, and post to architecture. Whether any result enters the module likelihood stays a separate ruling (the P_D gate in the contract)."
+            }
+          ]
+        }
+      ],
+      "id": "phase-4"
+    }
+  ],
+  "desired_outputs": [
+    "Per-station charts (noise vs predicted signal, markers per hypothesis family A1/A2/B) for every station, run I",
+    "Pre-registration note for the run I detection tests (committed before running)",
+    "Single-site detection scan results with p-values against empirical noise nulls (IMOS raw, digitised H01W/H08S)",
+    "Multi-site coincidence results with time-uncertainty windows, p-values and information gain",
+    "Injection-recovery power, 95% upper limits and Bayes factor (signal as predicted vs noise only) per station",
+    "Coverage table: what is not tested (time, geography, blocked paths)",
+    "Updated air9 predicted-vs-measured chart",
+    "Run I search windows for the D x C 00:19 options",
+    "Results note with COVERAGE section"
+  ],
+  "feasibility": {
+    "confidence": "medium",
+    "rationale": "Raw IMS triad data are not held, so Cape Leeuwin and Diego Garcia South tests use Kadri's digitised Fig. 9 traces, which cover only part of run I's predicted arrival windows. Absence can be rejected only at a stated level and conditional on an uncalibrated propagation model, not proved outright."
+  }
+}

@@ -1,0 +1,35 @@
+S=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated/stats-ramgrid; RES="repo/Claude Science Project Sep 29/results"
+python - <<'EOF'
+import json
+S="/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated/stats-ramgrid"; RES="repo/Claude Science Project Sep 29/results"
+tabs=open(f"{S}/reduce/addendum_tables.md").read(); summ=json.load(open(f"{S}/reduce/summary.json"))
+ess=summ["ess_streamed"]; cov=summ["ramgrid_covered_share"]
+add = f"""
+
+---
+
+## Addendum A4 (23 Oct 2026): statistics re-run on the corrected IMOS transmission-loss table (RAM along the arc grid); the exchange columns are on the OLD table
+
+*Hydroacoustic Module (composition track), 23 Oct 2026. Pre-registered as amendment A4 in `prepare/composition_run_j/prereg.py` (commit `e13a32e`) before the re-run; code and data in the follow-up commits. Trigger: the RAM-along-grid track closed G-TL1 on the offset-0 arc line (`results/hydroacoustics-imos-ram-grid.md`; table `run-j-tl-grid/tables/imos_tl_ram_arc.csv`). PREDICTIVE, NOT CALIBRATED; C1, C2; both Kadri times; no detection claimed.*
+
+**Plain words.** The corrected sound-loss table makes the Australian recorders a little less sensitive to impacts in the most likely region (south of 36°S) and a little more sensitive further north. Everything stated above stays true, and the small shifts get smaller: adding the recorders now moves the latitude estimate north by about 0.06° instead of 0.10°, and the result that the recorders cannot rule out any sound-coupling share in the assumed range stands. **The per-row likelihood columns in the exchange folder were computed with the OLD table and must be rewritten before anyone uses them in the composer**; the statistics in this addendum are the ones to quote.
+
+**What changed and what did not.** Only the IMOS TL for the four gated loggers was switched (offset-0 line, 10 m source; rows the RAM grid does not cover keep the old value inside the drop-in file — on the offset-0 line that is only land/shallow rows: covered share of open rows {', '.join(f'{k} {v:.2f}' for k, v in cov.items())}). IMS TL, P_D fits, candidates, windows, weights and the η prior are unchanged. The per-row columns in `run-j-gated/` were **not** rewritten (disk: ~13 GiB free when this was asked; a rewrite needs ≥ 28 GiB); the README there now carries the warning and the rewrite recipe (`B11_IMOS_RAMGRID=1 python driver.py`); READY stays because the columns are consistent with their own README. New statistics (per-seed accumulators and 1-in-125 subsamples, 1.2 GB, no file over 200 MB) are in `run-j-gated/stats-ramgrid/`; compact tables in `results-data/composition_run_j/ramgrid/` beside the old ones. Kish ESS is identical to the main run (D0′/D2/D3/D4 at p 0.5: {ess['D0/p0.5']:,.0f} / {ess['D2/p0.5']:,.0f} / {ess['D3/p0.5']:,.0f} / {ess['D4/p0.5']:,.0f}); the weights did not change.
+
+**Amplitude-consistency-weighted match (G11-1 sensitivity, A4c).** For the IMOS receivers the time-matched candidate density is multiplied by exp(−½((log₁₀ E_c − log₁₀ SE_r(i, η))/1.0)²), E_c = the candidate's observed excess 5–40 Hz band energy, SE_r the row's predicted received band energy at η (σ = 10 dB, generous). It only down-weights, so it lies between the full and the non-detection-only likelihoods and is labelled, not a calibrated likelihood ratio. With a 10 dB kernel the two Portland 3275 candidates (η needed 19–30 for the median impact) still match the loudest rows at η near 10⁻² (E up to 12 GJ and +2σ calibration), so the variant removes about half of their effect, not all of it; the non-detection-only control removes it entirely.
+
+**Headline, corrected table (D0′, p 0.5, α 0.05, η marginal):** ln Z = **−0.037** (was −0.066); median latitude shift **+0.06°** (was +0.10°); mass north of 33°S 0.058 → **0.064** (was 0.072); KL **0.011 nats** (was 0.019). Amplitude-weighted: −0.084 / +0.04° / 0.006; non-detection only: −0.185 / −0.03° / 0.001. 95 % upper limit on η from the non-detection **5.2 × 10⁻³** (was 4.6 × 10⁻³; prior alone 6.3 × 10⁻³); per 5° band under D0′: 5.2 / 4.8 / 5.7 / 6.3 / 6.6 × 10⁻³ (41–36 … 21–20°S). P(no detection | η) **0.48 at 10⁻², 0.72 at 10⁻³, 0.85 at the anchor** (were 0.37 / 0.61 / 0.75): the corrected table lowers the predicted levels at the loggers for the southern impacts (3315 and 3275 by 5–6 dB at the median, 3274 by 2 dB, 3376 by 0.6 dB) and raises them slightly north of 31°S. Classical exclusion still not reached below 10⁻² anywhere. **The D3/D4 p = 1 shifts fall from +1.4–1.5° to +0.3° (KL 0.31 → 0.22)**, amplitude-weighted +0.13°, non-detection only −0.02°: G11-1 remains the reason those rows are not yet trustworthy, but the corrected table has removed most of the effect. Bayes factors: Kadri 306.18° row −0.034 at both times (was −0.004; IMS proxy, circular: +1.35 text / +0.08 caption); Royer B −0.18; Holland p = 1 : p = 0 −0.04 (D0′), −0.03 (D2), −0.01 (D3), −0.03 (D4) on the gated term (non-detection only −0.04 / −0.03 / −0.20 / −0.17). The coincidence locus and its η requirement are unchanged (IMS proxy chain untouched).
+
+{tabs}
+
+**Coverage changes.** G-TL1 closed on the offset-0 line for the statistics (not for the columns: **G11-6, new** — the exchange columns are on the old table until rewritten); G-TL1a/b (±30 NM paths, 5/8 Hz bands interpolated from 10 Hz, `band_extrapolated` 30 % of 3315/3376 rows) carried in from the RAM-grid note; G-TL-X unchanged (latitude-only chain); G11-1 narrowed by the amplitude-weighted sensitivity, not closed (a calibrated amplitude likelihood ratio needs the background level density of screen-level candidates). All other gaps as in §7.
+
+**Ruling request, updated.** As §8, with the corrected statistics: the module recommends that the composer wait for the column rewrite on `imos_tl_ram_arc.csv` (one driver run, ≥ 28 GiB free) and then admit `hydro-lnL-imos-margeta` with the G11-1 label, or the amplitude-weighted variant as the default if architecture prefers a conservative match term; in either case the IMS proxy stays a sensitivity.
+
+- done (A4): pre-registered amendment, statistics re-run on all 313.6 M rows + supplement with the corrected IMOS table and the amplitude-weighted variant (100 min at 4 processes under external load 130–185), old-vs-new tables, README warning, this addendum, coordination entry.
+- next: column rewrite when disk allows; ruling; RAM at 5/8 Hz on the offset-0 paths (G-TL1b) would remove the band extrapolation.
+- blocker: disk for the column rewrite (needs ≥ 28 GiB free); the ruling.
+"""
+open(f"{RES}/hydroacoustics-composition-run-j.md","a").write(add); print("appended", len(add))
+EOF
+H="hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data/composition_run_j"; mkdir -p "$H/ramgrid" && cp $S/reduce/*.csv $S/reduce/*.json "$H/ramgrid/" && cp $S/reduce/addendum_tables.md "$H/ramgrid/addendum_tables.txt" && cp $S/reduce/tables.md "$H/ramgrid/tables.txt" 2>/dev/null; rm -f "$H/ramgrid/tables.md"; cp /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated/README.txt "$H/exchange_README.txt"; ls "$H/ramgrid" | head; du -sh "$H"

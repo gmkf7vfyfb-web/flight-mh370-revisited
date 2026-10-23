@@ -1,0 +1,45 @@
+{
+ "bands": [
+  12.5,
+  40.0,
+  50.0,
+  63.0
+ ],
+ "d_obs": [
+  12.0,
+  20.06,
+  22.28,
+  20.88
+ ],
+ "d_model": [
+  6.99,
+  10.75,
+  12.13,
+  14.47
+ ],
+ "residual": [
+  5.01,
+  9.31,
+  10.15,
+  6.41
+ ],
+ "level": 7.861546066059276,
+ "slope": 1.384043981596147,
+ "shape": 1.6810577119805232,
+ "open_weight_H08S": {
+  "12.5": 0.3502086703731059,
+  "40.0": 0.1863361434833833,
+  "50.0": 0.1863361434833833,
+  "63.0": 0.1863361434833833
+ },
+ "grades": {
+  "level": "FAIL",
+  "slope": "PASS",
+  "shape": "PASS"
+ },
+ "test": "K3 nx2d amendment 1 (fc667060)",
+ "verdict_reach": "OPEN in all 4 shared bands (open weight 0.19-0.35); geodesic BLOCKED (Cocos Keeling)",
+ "verdict_C2": "FAIL (level +7.9 dB; slope +1.4 PASS; shape 1.7 PASS); the corridor over-predicts the H08S signal relative to H01W by about 8 dB",
+ "deviation": "H01W corridor computed only for the 4 shared bands (12.5, 40, 50, 63 Hz); the full 5-63 Hz run exceeded 10 min and was stopped; H08S corridor has all 12 bands",
+ "observations": "audit sus_bands.csv (A11sus, 915 m), noise-subtracted signal_db"
+}

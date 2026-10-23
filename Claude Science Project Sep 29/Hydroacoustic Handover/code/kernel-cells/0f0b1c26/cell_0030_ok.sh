@@ -1,0 +1,3 @@
+cd src; curl -sS -L -m 120 -o kadri2024.pdf -w "%{http_code} %{size_download} %{content_type}\n" "https://pmc.ncbi.nlm.nih.gov/articles/PMC11065988/pdf/41598_2024_Article_60529.pdf"; file kadri2024.pdf; head -c 300 kadri2024.pdf | strings | head -5; mkdir -p pmc24 ; grep -oE 'https://cdn.ncbi.nlm.nih.gov/pmc/blobs/5ad4/11065988/[^"]+_HTML.jpg' pmc24.html | sort -u | while read u; do curl -sS -m 60 -o pmc24/$(basename $u) "$u"; done; python -c "
+from PIL import Image;import glob
+for f in sorted(glob.glob('pmc24/*.jpg')): print(f,Image.open(f).size)" | head -5

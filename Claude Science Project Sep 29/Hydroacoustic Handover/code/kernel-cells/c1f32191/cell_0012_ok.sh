@@ -1,0 +1,2 @@
+P="hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"
+sed -n 100,200p "$P/run_j_windows.py"; echo ----; sed -n 280,300p "$P/run_j_windows.py"; echo ---- TT; sed -n 235,300p "$P/tl_grid_table.py"

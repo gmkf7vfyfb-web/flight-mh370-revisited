@@ -1,0 +1,1 @@
+cd main; F="Claude Science Project Sep 29/results/composer-views-v3-run-j/compose_v3.py"; git show "HEAD:$F" | grep -n -E "^import|^from|as V|V = " | head; timeout 120 git grep -n -E "^NY|^NX|MAP_|LA0|LO0|DEG *=|^LAT|^LON" HEAD -- "Claude Science Project Sep 29/results/composer-views-*/*.py" "Claude Science Project Sep 29/results/composer-views-*.py" 2>/dev/null | head -20

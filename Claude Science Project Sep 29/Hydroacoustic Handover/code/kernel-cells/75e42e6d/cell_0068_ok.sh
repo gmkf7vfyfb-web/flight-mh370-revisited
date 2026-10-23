@@ -1,0 +1,1 @@
+grep -n "metron_appB_table4_p39.png\]\|atsb2014_fig1[24]_page" research-beacons-tpl-simulator-barnacles.md | cut -c1-250

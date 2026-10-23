@@ -1,0 +1,2 @@
+df -k /System/Volumes/Data | tail -1 | awk '{printf "free %.1f GiB\n",$4/1048576}'; uptime; date -u
+G=/Users/pete/Downloads/mh370-exchange/hydroacoustics; du -sh $G/run-j-gated-v2* 2>/dev/null; ls $G/run-j-gated-v2*/ 2>/dev/null | head -4; for d in $G/run-j-gated-v2*; do [ -d "$d/_parts" ] && echo "parts: $(ls $d/_parts | wc -l)"; tail -1 $d/driver.log 2>/dev/null | cut -c1-120; done

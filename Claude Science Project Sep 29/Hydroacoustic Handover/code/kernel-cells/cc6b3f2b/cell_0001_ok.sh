@@ -1,0 +1,2 @@
+export GIT_CONFIG_GLOBAL=/dev/null
+ls; echo ---; ls hydro | head; echo ---; cd hydro && git sparse-checkout list; git status | head -3; ls "Claude Science Project Sep 29" 2>/dev/null | head; cd ..; echo --- repo; ls repo 2>/dev/null | head; cd repo 2>/dev/null && git sparse-checkout list

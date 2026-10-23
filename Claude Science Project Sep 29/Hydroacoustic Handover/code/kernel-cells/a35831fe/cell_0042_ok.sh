@@ -1,0 +1,1 @@
+cd "hyd/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/data/kadri_fig9_digitised"; cat kadri-table1-transients.csv; cat PROVENANCE.txt; head -3 kadri-2024-figure9-panel-c-H01W.csv

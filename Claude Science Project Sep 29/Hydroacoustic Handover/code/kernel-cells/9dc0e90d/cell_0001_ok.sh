@@ -1,0 +1,2 @@
+mkdir -p repo && cd repo && git clone -q --depth 1 --single-branch -b claude-science-sep29 https://x-access-token:${GITHUB_TOKEN}@github.com/gmkf7vfyfb-web/flight-mh370-revisited.git r 2>&1 | tail -2
+cd r; find . -name ARCHITECTURE.md | head; A=$(find . -name ARCHITECTURE.md | head -1); wc -l "$A"; grep -n "^#" "$A" | head -80 > ../heads.txt; wc -l ../heads.txt

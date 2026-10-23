@@ -1,0 +1,1 @@
+cd "repo/Claude Science Project Sep 29/results/evidence-sweep-2026-10-17"; wc -w research-*.md evidence-register.md; grep -n -i -E "haixun|echo|tireless|white object|90 km|pinger|37.5|ULB|DK100|battery" research-*.md evidence-register.md | cut -c1-300 | head -60

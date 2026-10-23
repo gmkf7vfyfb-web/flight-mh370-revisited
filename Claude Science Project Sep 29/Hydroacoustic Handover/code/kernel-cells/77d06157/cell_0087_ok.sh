@@ -1,0 +1,1 @@
+python -c "import ast;ast.parse(open('gfx/charts_traces.py').read());print('ok')"; grep -n "recording is louder" gfx/charts_traces.py | cut -c1-60

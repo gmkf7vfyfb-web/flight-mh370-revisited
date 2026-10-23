@@ -1,0 +1,11 @@
+for t in list(b.texts): t.remove()
+b.text(75, 0.62, "Cape Leeuwin alone", fontsize=7, color="#7a7a7a", va="bottom")
+b.text(25, 1.24, "Diego Garcia S + N", fontsize=7, color="#9a9a9a", va="bottom")
+b.text(615, 1.80, "Leeuwin +\nDiego Garcia S", fontsize=7, color=col_t, va="bottom")
+b.set_xticks([0,180,600]); b.set_xticks([60], minor=True)
+a.get_legend().remove(); a.legend(loc=(0.50,0.36), frameon=False, fontsize=7)
+fig.savefig("hydro/sct/synthetic-composer-test.png", dpi=300, bbox_inches="tight")
+fig.savefig("hydro/sct/synthetic-composer-test.pdf", bbox_inches="tight")
+r = fig.canvas.get_renderer()
+texts=[(t,t.get_window_extent(r)) for t in fig.findobj(mpl.text.Text) if t.get_text().strip() and t.get_visible()]
+print([(x.get_text()[:20],y.get_text()[:20]) for i,(x,bx) in enumerate(texts) for y,by in texts[i+1:] if bx.overlaps(by)])

@@ -1,0 +1,1 @@
+cd repo && echo '/Claude Science Project Sep 29/results/no-exhaustion-prior-summary.json' >> .git/info/sparse-checkout && timeout 120 git sparse-checkout reapply && ls -la "Claude Science Project Sep 29/results/no-exhaustion-prior-summary.json" && git log --oneline -1 claude-science-sep29 -- "Claude Science Project Sep 29/results/no-exhaustion-prior-summary.json"

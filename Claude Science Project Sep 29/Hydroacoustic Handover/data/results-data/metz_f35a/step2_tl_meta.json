@@ -1,0 +1,49 @@
+{
+ "prereg": "prepare/metz_f35a/prereg.py @7dc315f",
+ "receivers": {
+  "H11N": {
+   "name": "H11N",
+   "lat": 19.720513666666665,
+   "lon": 166.899582,
+   "kind": "ims",
+   "rcv_depth_m": 730.6666666666666
+  },
+  "H11S": {
+   "name": "H11S",
+   "lat": 18.498256666666666,
+   "lon": 166.69724533333334,
+   "kind": "ims",
+   "rcv_depth_m": 739.3333333333334
+  }
+ },
+ "seconds": {
+  "f35a-H11N": 36,
+  "f35a-H11S-U2": 36,
+  "f35a-H11S": 36,
+  "f35a-8km-H11S": 36,
+  "f35a-8km-H11N": 35,
+  "f35a+8km-H11N": 35,
+  "f35a+8km-H11S": 36
+ },
+ "crosscheck_vs_9oct_export": {
+  "H11N": {
+   "depth_abs_diff_median_m": 1.0,
+   "depth_abs_diff_p95_m": 13.549417772037298,
+   "c_abs_diff_median_m_s": 6.824561228313542e-05,
+   "c_abs_diff_p95_m_s": 0.0015844576353174487,
+   "n_c_pairs": 13253,
+   "new_range_km": 3248.798426925483,
+   "export_range_km": 3248.7984
+  },
+  "H11S": {
+   "depth_abs_diff_median_m": 1.0,
+   "depth_abs_diff_p95_m": 15.721409679391941,
+   "c_abs_diff_median_m_s": 6.0755233562304056e-05,
+   "c_abs_diff_p95_m_s": 0.0015824030022031366,
+   "n_c_pairs": 13661,
+   "new_range_km": 3341.507123011065,
+   "export_range_km": 3341.5071000000003
+  }
+ },
+ "h11s_azimuth_deg": 130.23634906927327
+}

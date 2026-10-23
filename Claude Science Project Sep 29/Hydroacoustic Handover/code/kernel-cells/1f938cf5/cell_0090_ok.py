@@ -1,0 +1,1 @@
+print(pd.Series([k.rsplit('/',1)[0] for k in keys]).value_counts().to_dict())

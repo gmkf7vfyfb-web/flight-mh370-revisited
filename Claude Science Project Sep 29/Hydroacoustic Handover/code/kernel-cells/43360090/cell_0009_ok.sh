@@ -1,0 +1,1 @@
+cd "./.tmp/repo/ISO Sept 28 Status/inputs/papers/hydroacoustics"; for n in 20 28 100 101 107 116 226 290 292 293 298; do echo "--- L$n"; sed -n ${n}p ucrl-tr-207323.txt | cut -c1-2600; done

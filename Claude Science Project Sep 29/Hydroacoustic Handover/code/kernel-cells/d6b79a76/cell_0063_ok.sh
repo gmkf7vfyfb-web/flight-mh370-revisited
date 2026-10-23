@@ -1,0 +1,1 @@
+S="eof/Claude Science Project Sep 29/engine/hypotheses/end-of-flight/smoke"; sed -n 1,30p "$S/tau_sidecar.py"; grep -n "^def \|argv\|import" "$S/tau_sidecar.py" | head -20

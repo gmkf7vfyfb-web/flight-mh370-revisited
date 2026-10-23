@@ -1,0 +1,2 @@
+cd leg; python -c "
+import pandas as pd; E=pd.read_csv('out/royer_events_vs_L.csv'); print(E[E.event.isin([2,3,5,7,8,9,11,12,14,15])][['event','type','origin_utc','lat','lon','h01w_az','h01w_range_km','km_to_crossing','err_time_s']].to_string(index=False))"; cat scan.log 2>/dev/null; cat leg/scan.log; ls leg/scan | wc -l

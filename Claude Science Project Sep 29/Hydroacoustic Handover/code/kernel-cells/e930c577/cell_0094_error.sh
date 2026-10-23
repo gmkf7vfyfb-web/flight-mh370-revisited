@@ -1,0 +1,1 @@
+python leg/cond_pred.py leg/scan leg/out 2>&1 | grep -v -i -E 'proj|ca_bundle' | grep -E "D2|D5|D0" | grep -E "PerthCanyon_3376|H08S" | grep -v '^"'

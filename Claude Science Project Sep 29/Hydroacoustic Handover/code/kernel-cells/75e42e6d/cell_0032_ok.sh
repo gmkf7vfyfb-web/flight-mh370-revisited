@@ -1,0 +1,1 @@
+cd src; head -c 600 FrenchJudiciary_article.txt; echo; grep -n -i "barnacle\|Lepas\|isotope\|DGA\|Blamart\|Bassinot\|Poupin\|largest" FrenchJudiciary_article.txt | head -40; echo ===; grep -n -i "barnacle\|Lepas\|marine growth\|marine organism\|bryozoa" ATSB_search_debris_update.txt ATSB_OpSearch_2017.txt | head -30

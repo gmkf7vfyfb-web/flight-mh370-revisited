@@ -1,0 +1,2 @@
+P="$PWD/hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"
+OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 python work/extract_seed.py "$P" $(seq -s, 2 24) 4 2>&1 | tail -25; du -sh work

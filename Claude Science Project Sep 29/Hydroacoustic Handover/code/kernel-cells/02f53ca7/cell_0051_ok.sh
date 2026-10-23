@@ -1,0 +1,1 @@
+W=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-tlrecal; tail -2 $W/nx2d.log; echo ---; cat $W/ram.log | tail -5; ls $W/nx2d/air7-H01W/ 2>/dev/null; date -u

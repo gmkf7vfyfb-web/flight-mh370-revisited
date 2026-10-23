@@ -1,0 +1,10 @@
+
+print(tl['quantile'].unique(), tl.logger.unique(), tl.fc_hz.unique(), tl.src_depth_m.unique())
+print(tl.groupby(['logger'])[['range_km','rcv_depth_m']].first())
+rc = pd.read_csv(f"{RD}/ram_check/imos_tl_ramcorr.csv"); print(rc.columns.tolist(), rc.shape); print(rc.head(3).to_string())
+h11 = pd.read_csv(f"{RD}/ram_check/h11_tl_ramcorr.csv"); print(h11.columns.tolist(), h11.shape)
+ec = pd.read_csv(f"{RD}/ram_check/eta_cal_ramcorr.csv"); print(ec.to_string()[:1500])
+s = json.load(open(f"{RD}/blackman_noise/blackman_noise_summary.json")); print(json.dumps(s)[:1200])
+z = np.load(f"{RD}/blackman_noise/blackman_noise_curves.npz"); print({k: z[k].shape for k in z.files})
+pn = pd.read_csv(f"{RD}/blackman_noise/blackman_noise_panels.csv"); print(pn.columns.tolist(), pn.shape); print(pn.head(3).to_string())
+print(open("/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-tl-grid/raw/passA.log").read()[-600:])

@@ -1,0 +1,1 @@
+curl -s -m 120 "https://tds.hycom.org/thredds/dodsC/GLBv0.08/expt_53.X/data/2014.das" | grep -E "^    [a-z_]+ \{|scale_factor|add_offset" | head -40

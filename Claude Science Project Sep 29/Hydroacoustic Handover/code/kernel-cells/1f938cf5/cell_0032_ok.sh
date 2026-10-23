@@ -1,0 +1,1 @@
+tail -5 extract_L.log; wc -l extract_L.log; ls -la hycom

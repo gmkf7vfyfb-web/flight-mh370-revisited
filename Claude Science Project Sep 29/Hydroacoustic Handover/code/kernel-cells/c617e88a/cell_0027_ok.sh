@@ -1,0 +1,1 @@
+cd repo/"Claude Science Project Sep 29"; sed -n 1,200p results/hydroacoustics-next-run-b-standin/standin_mixture.py | head -80; sed -n 1,70p ../../eof/"Claude Science Project Sep 29"/engine/hypotheses/end-of-flight/smoke/displacement_hist.py | grep -n "def \|alive\|OPTIONS\|r600-bto" 

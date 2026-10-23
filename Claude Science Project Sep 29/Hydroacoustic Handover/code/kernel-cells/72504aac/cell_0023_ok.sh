@@ -1,0 +1,1 @@
+cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"; sed -n 1,60p run_j_windows.py; sed -n 76,100p run_j_windows.py; sed -n 150,260p run_j_windows.py; sed -n 300,352p run_j_windows.py

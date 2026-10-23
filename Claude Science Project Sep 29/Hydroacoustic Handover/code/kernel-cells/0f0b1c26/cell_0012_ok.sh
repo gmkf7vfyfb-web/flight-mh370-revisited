@@ -1,0 +1,1 @@
+cd hydro; export GIT_CONFIG_GLOBAL=/dev/null; git ls-tree -r --name-only HEAD | grep -i "published-fig"; du -sh .git

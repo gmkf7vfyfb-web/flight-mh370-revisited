@@ -1,0 +1,1 @@
+cd ~/Downloads/mh370-exchange/hydroacoustics; ls -la; find . -maxdepth 3 | head -150; du -sh .

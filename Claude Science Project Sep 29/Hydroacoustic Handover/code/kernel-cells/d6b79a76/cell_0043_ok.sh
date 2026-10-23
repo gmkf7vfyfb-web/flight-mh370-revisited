@@ -1,0 +1,1 @@
+cd ~/Downloads/mh370-exchange/end-of-flight; head -60 bin/README.md; ls -la bin | head -30; cat run-j/run-j-waypoints/seed-1.convert8.log 2>/dev/null | head -5; tail -3 ~/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/d6b79a76-addc-42aa-84ad-897b9904c0cb/kh/run.log

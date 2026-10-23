@@ -1,0 +1,1 @@
+cd src; sed -n 1,60p Iannello_Guillaume_2016-11-29_FurtherSim.txt | grep -v "^ *$"; grep -n -i "conclusion\|summary" Iannello_Guillaume_2016-11-29_FurtherSim.txt

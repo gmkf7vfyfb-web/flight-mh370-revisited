@@ -1,0 +1,1 @@
+cd .tmp/hy/"Claude Science Project Sep 29"/engine/hypotheses/hydroacoustics/prepare/exploratory/pleiades_test; grep -n "nuisance" lhyd.py review_rerun.py ../../per_impact_lnl.py; grep -n "staticmethod" -A1 lhyd.py | head

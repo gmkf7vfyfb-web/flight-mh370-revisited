@@ -1,0 +1,2 @@
+cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"
+sed -n 55,80p prepare/imos_stageB_tl.py | cut -c1-200; ls data/ocean_paths | head; head -3 data/ocean_paths/imos_path_blockage.csv 2>/dev/null

@@ -1,0 +1,1 @@
+cd "./.tmp/repo/ISO Sept 28 Status/results/worktree-hydroacoustics/hydroacoustics"; sed -n 80,200p kadri-package/preregistration.toml; echo ====; cat imos/detection-probability.json; echo; cat imos/search.json; echo; cat widened-windows.json
