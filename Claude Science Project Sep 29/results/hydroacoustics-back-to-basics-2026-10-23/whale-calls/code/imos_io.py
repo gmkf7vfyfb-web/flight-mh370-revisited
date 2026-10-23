@@ -8,6 +8,10 @@ Reading, calibration and clock handling copy the module's pre-registered chain
     module clock test on the Curtin 01:33:44 control, dA = -0.24 s);
   * received level: dB re 1 uPa^2/Hz = 10 log10(V^2/Hz) - G(f) - S_h, G from the logger's white-noise calibration file
     (input -90 dB re 1 V^2/Hz), S_h the metadata sensitivity read as dB re 1 V^2/uPa^2.
+    UNITS (deviation inherited from the module, imos_noise.py): the metadata label says 'dB re V^2/Pa^2', but the values
+    (-196 to -197.8) are the magnitudes of an HTI-90-U class hydrophone re 1 V/uPa. Read literally (re Pa) every level
+    would sit 120 dB above any measured ocean noise; with the uPa reading the 5-40 Hz record medians are 80-97 dB re 1 uPa^2/Hz,
+    consistent with ambient noise. Detection does not depend on this constant (all detectors use relative levels).
 Data are resampled to FS = 250 Hz (Nyquist 125 Hz covers fin-whale 96 Hz and Sri Lankan 105 Hz components).
 """
 from __future__ import annotations
