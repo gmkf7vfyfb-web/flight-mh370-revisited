@@ -1,0 +1,1256 @@
+registry_version: hydro-registry v1 (2026-10-23)
+status_values:
+  CURRENT: No known defect. Not re-verified in this run unless verified_this_run is true.
+  CURRENT_WITH_CAVEATS: Usable with the listed defects/limitations stated beside every number taken from it.
+  KNOWN_DEFECT: Contains at least one listed defect that changes a reported number or claim. Do not use the affected parts.
+  SUPERSEDED: Replaced by the entry named in superseded_by. Kept for history.
+  WITHDRAWN: Withdrawn at Pete's instruction. Do not use.
+  PENDING_RULING: Correct as computed, but its adoption waits for a ruling by Pete.
+  UNCHECKED: No definition located or not inspected in this run.
+entries:
+- id: in.imos_raw
+  kind: input
+  path: INPUTS:imos
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: INPUTS:imos/MH370/3315_3250_3376__MetaData.txt
+    lines:
+    - 1
+    - 12
+  note: IMOS raw records MH370 window and 14-day background; SHA256SUMS.txt from retrieval is inside.
+- id: in.gebco_2026
+  kind: input
+  path: OCEAN:gebco/grid
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: OCEAN:gebco/grid/gebco_2026.json
+    lines:
+    - 1
+    - 12
+- id: in.woa23
+  kind: input
+  path: OCEAN:woa23
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  note: World Ocean Atlas 2023; sound speed grids in soundspeed/.
+- id: in.run_j_impacts
+  kind: input
+  path: EOF:run-j
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  hash: false
+  hash_note: Owned by end of flight; per-seed SHA256 recorded in run-j-windows run.json. Not re-hashed here.
+- id: in.module_data
+  kind: input
+  path: MOD:data
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  note: 'Module inputs: stations.csv, Kadri Fig. 9 digitised traces, Blackman, IMS response, ocean paths, IMOS calibration, Kadri package inputs.'
+- id: in.royer_2016_digitised
+  kind: input
+  path: MOD:results-data/digitised/royer-2016
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  note: Royer 2016 events, arrivals, figure marks (digitised from the published report).
+- id: in.h08s_shots
+  kind: input
+  path: MOD:results-data/h08s_template/h08s_template_shots.csv
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  note: Airgun shot times on the digitised H08S panels (110 shots).
+- id: in.h08s_shots_v1
+  kind: input
+  path: MOD:results-data/h08s_template/v1_defective
+  status: SUPERSEDED
+  defects: []
+  verified_this_run: false
+  superseded_by: in.h08s_shots
+  note: Folder name says defective.
+- id: in.geometry_sample
+  kind: input
+  path: EX:run-j-searches/geometry
+  status: CURRENT_WITH_CAVEATS
+  defects: []
+  verified_this_run: false
+  definition:
+    file: EX:run-j-searches/geometry/run.json
+    lines:
+    - 1
+    - 1
+  note: Waypoints stratum only (0.998 of mixture), supplement at p = 0.5 (G-S7).
+- id: in.sources_pdfs
+  kind: input
+  path: EX:sources
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  note: 'Source PDFs (Metz 2023, EW0112, Gaspin-Shuler) and fetched open-access copies. Licence: do not publish purchased PDFs.'
+- id: ex.ranked
+  kind: product
+  path: EX:graphics-2026-10-22/ranked
+  status: KNOWN_DEFECT
+  defects:
+  - D01
+  - D02
+  - D03
+  - D04
+  - D07
+  - D08
+  - D26
+  verified_this_run: false
+  definition:
+    file: EX:graphics-2026-10-22/ranked/README.txt
+    lines:
+    - 1
+    - 14
+  superseded_by: ex.register_2026_10_23
+- id: ex.arrival_windows
+  kind: product
+  path: EX:graphics-2026-10-22/arrival-windows
+  status: KNOWN_DEFECT
+  defects:
+  - D01
+  - D02
+  - D07
+  verified_this_run: false
+  definition:
+    file: EX:graphics-2026-10-22/arrival-windows/README.md
+    lines:
+    - 1
+    - 5
+  note: 'Built around the "strongest pair" H01W 00:52:04 x H08S 01:12:49: an icequake-A time and an airgun-shot time.'
+- id: ex.kadri_package_v2
+  kind: product
+  path: EX:kadri-package-v2
+  status: KNOWN_DEFECT
+  defects:
+  - D01
+  - D22
+  - D07
+  verified_this_run: false
+  definition:
+    file: EX:kadri-package-v2/README.md
+    lines:
+    - 1
+    - 6
+  note: DRAFT, not sent. Must not be sent. Predictions superseded by v3 draft; text errata in kadri-package-v3-draft-predictions/ERRATA_v2_text.txt.
+  superseded_by: ex.kadri_predictions_v3
+- id: ex.run_j_gated
+  kind: product
+  path: EX:run-j-gated
+  status: SUPERSEDED
+  defects:
+  - D22
+  - D01
+  verified_this_run: false
+  definition:
+    file: EX:run-j-gated/README.txt
+    lines:
+    - 1
+    - 7
+  superseded_by: ex.run_j_gated_v2
+- id: ex.run_j_gated_v2
+  kind: product
+  path: EX:run-j-gated-v2
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D05
+  - D06
+  - D20
+  - D25
+  verified_this_run: false
+  definition:
+    file: EX:run-j-gated-v2/README.txt
+    lines:
+    - 1
+    - 14
+  note: Default column hydro-lnL-imos-margeta does not use the anchor. The fixed column at eta 2.1e-4 is labelled by D01 only. Not ruled for composer
+    use.
+- id: ex.imos_ram_grid
+  kind: product
+  path: EX:run-j-imos-ram-grid
+  status: CURRENT_WITH_CAVEATS
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-imos-ram-grid.md
+    lines:
+    - 3
+    - 9
+  note: G-TL2 (Perth Canyon 3376 terminal profile) open.
+- id: ex.injection
+  kind: product
+  path: EX:run-j-injection
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D05
+  - D06
+  - D22
+  verified_this_run: false
+  definition:
+    file: EX:run-j-injection/README.txt
+    lines:
+    - 1
+    - 9
+- id: ex.levels
+  kind: product
+  path: EX:run-j-levels
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D01
+  - D05
+  - D25
+  verified_this_run: false
+  definition:
+    file: EX:run-j-levels/README.md
+    lines:
+    - 1
+    - 10
+- id: ex.metz_f35a
+  kind: product
+  path: EX:run-j-metz-f35a
+  status: PENDING_RULING
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-metz-f35a-anchor.md
+    lines:
+    - 3
+    - 7
+- id: ex.searches
+  kind: product
+  path: EX:run-j-searches
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D06
+  - D24
+  - D26
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-searches-run-j.md
+    lines:
+    - 3
+    - 5
+  note: Raw search outputs. The defects D02-D04 arose in the ranking built from these, not here (the note labels G-S8, G-S9).
+- id: ex.run_j_smoke
+  kind: product
+  path: EX:run-j-smoke
+  status: UNCHECKED
+  defects: []
+  verified_this_run: false
+  note: No README and no note located.
+- id: ex.tl_grid
+  kind: product
+  path: EX:run-j-tl-grid
+  status: CURRENT_WITH_CAVEATS
+  defects: []
+  verified_this_run: false
+  definition:
+    file: EX:run-j-tl-grid/README.md
+    lines:
+    - 1
+    - 7
+- id: ex.tlrecal
+  kind: product
+  path: EX:run-j-tlrecal
+  status: UNCHECKED
+  defects: []
+  verified_this_run: false
+  note: TL recalibration track outputs (nx2d, RAM sections). No README located.
+- id: ex.weak_signal
+  kind: product
+  path: EX:run-j-weak-signal
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D05
+  verified_this_run: false
+  definition:
+    file: EX:run-j-weak-signal/README.txt
+    lines:
+    - 1
+    - 9
+- id: ex.windows
+  kind: product
+  path: EX:run-j-windows
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-run-j-windows.md
+    lines:
+    - 1
+    - 5
+- id: ex.digitisation
+  kind: product
+  path: EX:run-j-digitisation
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-digitised-sources.md
+    lines:
+    - 1
+    - 5
+- id: ex.run_j_tau_eof
+  kind: product
+  path: EX:run-j/primary-tau-eof
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D23
+  verified_this_run: false
+  definition:
+    file: EX:run-j/primary-tau-eof/README.txt
+    lines:
+    - 1
+    - 6
+- id: ex.run_j_tau_scenario
+  kind: product
+  path: EX:run-j/sensitivity-tau-scenario
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D23
+  verified_this_run: false
+  definition:
+    file: EX:run-j/sensitivity-tau-scenario/README.txt
+    lines:
+    - 1
+    - 6
+- id: ex.session_staging_1012
+  kind: product
+  path: EX:session-staging-2026-10-12
+  status: UNCHECKED
+  defects: []
+  verified_this_run: false
+- id: art.take2_review
+  kind: product
+  path: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D10
+  verified_this_run: false
+  definition:
+    file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+    lines:
+    - 1
+    - 24
+  note: Withdrawn in part (header lists what is kept). Exploratory; not pre-registered.
+- id: art.candidates_withdrawal
+  kind: product
+  path: ART:a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: ART:a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md
+    lines:
+    - 1
+    - 3
+- id: art.candidates_A_F
+  kind: product
+  path: ART:a35831fe/b5497699_candidates-A-F-summary.csv
+  status: WITHDRAWN
+  defects:
+  - D10
+  - D04
+  - D09
+  verified_this_run: false
+- id: art.feasibility_tables
+  kind: product
+  path: ART:a35831fe
+  status: WITHDRAWN
+  defects:
+  - D10
+  verified_this_run: false
+  note: module-singles/pairs/triples-feasibility.csv and the A-F charts note in this folder are withdrawn; royer-events-crossid-all-sites.csv
+    and candA_raw_panel_checks.csv are not.
+- id: art.royer_crossid
+  kind: product
+  path: ART:a35831fe/239646ad_royer-events-crossid-all-sites.csv
+  status: CURRENT_WITH_CAVEATS
+  defects: []
+  verified_this_run: false
+  note: Not withdrawn. Predictions use geodesic distance / speed (exploratory).
+- id: note.agw_scenarios
+  kind: note
+  path: WORK:results/hydroacoustics-agw-scenarios.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-agw-scenarios.md
+    lines:
+    - 1
+    - 5
+- id: note.air9_ew0112_source_reference
+  kind: note
+  path: WORK:results/hydroacoustics-air9-ew0112-source-reference.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-air9-ew0112-source-reference.md
+    lines:
+    - 2
+    - 13
+- id: note.audit_architecture
+  kind: note
+  path: WORK:results/hydroacoustics-audit-architecture.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-audit-architecture.md
+    lines:
+    - 1
+    - 6
+- id: note.audit_sus_absolute
+  kind: note
+  path: WORK:results/hydroacoustics-audit-sus-absolute.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-audit-sus-absolute.md
+    lines:
+    - 1
+    - 6
+- id: note.blackman_validation
+  kind: note
+  path: WORK:results/hydroacoustics-blackman-validation.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-blackman-validation.md
+    lines:
+    - 1
+    - 6
+- id: note.calibration_events_stage1_standin
+  kind: note
+  path: WORK:results/hydroacoustics-calibration-events-stage1-standin.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-calibration-events-stage1-standin.md
+    lines:
+    - 1
+    - 7
+- id: note.calibration_events_stage1b
+  kind: note
+  path: WORK:results/hydroacoustics-calibration-events-stage1b.md
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D13
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-calibration-events-stage1b.md
+    lines:
+    - 1
+    - 11
+- id: note.composition_run_j
+  kind: note
+  path: WORK:results/hydroacoustics-composition-run-j.md
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D01
+  - D05
+  - D06
+  - D20
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-composition-run-j.md
+    lines:
+    - 1
+    - 5
+- id: note.core_set_windows
+  kind: note
+  path: WORK:results/hydroacoustics-core-set-windows.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-core-set-windows.md
+    lines:
+    - 1
+    - 12
+- id: note.coverage
+  kind: note
+  path: WORK:results/hydroacoustics-coverage.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-coverage.md
+    lines:
+    - 1
+    - 4
+- id: note.digitised_sources
+  kind: note
+  path: WORK:results/hydroacoustics-digitised-sources.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-digitised-sources.md
+    lines:
+    - 1
+    - 5
+- id: note.f35a_eta_calibration
+  kind: note
+  path: WORK:results/hydroacoustics-f35a-eta-calibration.md
+  status: SUPERSEDED
+  defects:
+  - D01
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-f35a-eta-calibration.md
+    lines:
+    - 1
+    - 6
+  superseded_by: ex.metz_f35a
+- id: note.imos_detectors
+  kind: note
+  path: WORK:results/hydroacoustics-imos-detectors.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-imos-detectors.md
+    lines:
+    - 1
+    - 5
+- id: note.imos_noise
+  kind: note
+  path: WORK:results/hydroacoustics-imos-noise.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-imos-noise.md
+    lines:
+    - 1
+    - 4
+- id: note.imos_ram_grid
+  kind: note
+  path: WORK:results/hydroacoustics-imos-ram-grid.md
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D01
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-imos-ram-grid.md
+    lines:
+    - 1
+    - 9
+- id: note.ims_noise_blackman
+  kind: note
+  path: WORK:results/hydroacoustics-ims-noise-blackman.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-ims-noise-blackman.md
+    lines:
+    - 1
+    - 8
+- id: note.injection_recovery_run_j
+  kind: note
+  path: WORK:results/hydroacoustics-injection-recovery-run-j.md
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D05
+  - D06
+  - D22
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-injection-recovery-run-j.md
+    lines:
+    - 1
+    - 5
+- id: note.item3_injection_recovery
+  kind: note
+  path: WORK:results/hydroacoustics-item3-injection-recovery.md
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D01
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-item3-injection-recovery.md
+    lines:
+    - 1
+    - 7
+- id: note.kadri_package_v2
+  kind: note
+  path: WORK:results/hydroacoustics-kadri-package-v2.md
+  status: KNOWN_DEFECT
+  defects:
+  - D01
+  - D22
+  - D07
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-kadri-package-v2.md
+    lines:
+    - 1
+    - 10
+- id: note.kadri_table1_test
+  kind: note
+  path: WORK:results/hydroacoustics-kadri-table1-test.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-kadri-table1-test.md
+    lines:
+    - 1
+    - 4
+- id: note.literature_review
+  kind: note
+  path: WORK:results/hydroacoustics-literature-review.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-literature-review.md
+    lines:
+    - 1
+    - 3
+- id: note.methods_draft
+  kind: note
+  path: WORK:results/hydroacoustics-methods-draft.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-methods-draft.md
+    lines:
+    - 1
+    - 11
+- id: note.metz_f35a_anchor
+  kind: note
+  path: WORK:results/hydroacoustics-metz-f35a-anchor.md
+  status: PENDING_RULING
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-metz-f35a-anchor.md
+    lines:
+    - 1
+    - 7
+- id: note.near_limits_planning
+  kind: note
+  path: WORK:results/hydroacoustics-near-limits-planning.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-near-limits-planning.md
+    lines:
+    - 1
+    - 5
+- id: note.next_run_b_standin
+  kind: note
+  path: WORK:results/hydroacoustics-next-run-b-standin.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-next-run-b-standin.md
+    lines:
+    - 1
+    - 6
+- id: note.nx2d_corridor
+  kind: note
+  path: WORK:results/hydroacoustics-nx2d-corridor.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-nx2d-corridor.md
+    lines:
+    - 2
+    - 13
+- id: note.overnight_2026_10_22_summary
+  kind: note
+  path: WORK:results/hydroacoustics-overnight-2026-10-22-summary.md
+  status: KNOWN_DEFECT
+  defects:
+  - D01
+  - D02
+  - D05
+  - D07
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-overnight-2026-10-22-summary.md
+    lines:
+    - 1
+    - 9
+- id: note.pair_tests_oct09
+  kind: note
+  path: WORK:results/hydroacoustics-pair-tests-oct09.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-pair-tests-oct09.md
+    lines:
+    - 1
+    - 4
+- id: note.pleiades_test_preregistration
+  kind: note
+  path: WORK:results/hydroacoustics-pleiades-test-preregistration.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-pleiades-test-preregistration.md
+    lines:
+    - 1
+    - 6
+- id: note.pleiades_test_standin
+  kind: note
+  path: WORK:results/hydroacoustics-pleiades-test-standin.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-pleiades-test-standin.md
+    lines:
+    - 1
+    - 7
+- id: note.prior_work_critique
+  kind: note
+  path: WORK:results/hydroacoustics-prior-work-critique.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-prior-work-critique.md
+    lines:
+    - 1
+    - 3
+- id: note.ram_tl_check
+  kind: note
+  path: WORK:results/hydroacoustics-ram-tl-check.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-ram-tl-check.md
+    lines:
+    - 1
+    - 4
+- id: note.references
+  kind: note
+  path: WORK:results/hydroacoustics-references.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-references.md
+    lines:
+    - 1
+    - 4
+- id: note.run_c_windows
+  kind: note
+  path: WORK:results/hydroacoustics-run-c-windows.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-run-c-windows.md
+    lines:
+    - 1
+    - 3
+- id: note.run_j_levels
+  kind: note
+  path: WORK:results/hydroacoustics-run-j-levels.md
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D01
+  - D05
+  - D25
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-run-j-levels.md
+    lines:
+    - 1
+    - 5
+- id: note.run_j_windows
+  kind: note
+  path: WORK:results/hydroacoustics-run-j-windows.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-run-j-windows.md
+    lines:
+    - 1
+    - 3
+- id: note.search_windows_ref289
+  kind: note
+  path: WORK:results/hydroacoustics-search-windows-ref289.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-search-windows-ref289.md
+    lines:
+    - 1
+    - 12
+- id: note.searches_run_j
+  kind: note
+  path: WORK:results/hydroacoustics-searches-run-j.md
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D06
+  - D24
+  - D26
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-searches-run-j.md
+    lines:
+    - 1
+    - 5
+- id: note.synthetic_composer_test
+  kind: note
+  path: WORK:results/hydroacoustics-synthetic-composer-test.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-synthetic-composer-test.md
+    lines:
+    - 1
+    - 5
+- id: note.tl_grid_run_j
+  kind: note
+  path: WORK:results/hydroacoustics-tl-grid-run-j.md
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D01
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-tl-grid-run-j.md
+    lines:
+    - 1
+    - 9
+- id: note.weak_signal_methods
+  kind: note
+  path: WORK:results/hydroacoustics-weak-signal-methods.md
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D05
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-weak-signal-methods.md
+    lines:
+    - 1
+    - 9
+- id: note.source_access_ledger_2026_10_22
+  kind: note
+  path: WORK:results/source-access-ledger-2026-10-22.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/source-access-ledger-2026-10-22.md
+    lines:
+    - 1
+    - 3
+- id: ex.register_2026_10_23
+  kind: product
+  path: EX:register-2026-10-23
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D05
+  - D06
+  - D24
+  - D25
+  - D26
+  verified_this_run: true
+  definition:
+    file: EX:register-2026-10-23/README.txt
+    lines:
+    - 1
+    - 4
+  note: 'Built in this run; replaces ex.ranked for reading. Independent verification: see the verifier report.'
+- id: code.module_prepare
+  kind: code
+  path: MOD:prepare
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  note: All module scripts (pre-registrations, workers, checks). Version is the module branch commit in git.module_branch.
+- id: code.module_engine
+  kind: code
+  path: MOD:lib.rs
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: MOD:lib.rs
+    lines:
+    - 1
+    - 12
+- id: ex.kadri_predictions_v3
+  kind: product
+  path: EX:kadri-package-v3-draft-predictions
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D05
+  - D25
+  verified_this_run: true
+  definition:
+    file: EX:kadri-package-v3-draft-predictions/README.txt
+    lines:
+    - 1
+    - 6
+  note: Predictions table only; package text not updated (ERRATA_v2_text.txt). eta 2.26e-3 column pending ruling. NOT FOR SENDING.
+constants:
+- id: eta_F35A_metz
+  value: 0.00226
+  units: fraction of impact kinetic energy radiated as sound (module definition)
+  status: PENDING_RULING
+  note: One point inside the coupling prior (Pete ruling 23 Oct). Single-factor spread 2.8e-4 (tau 0.05 s) to 5.4e-2 (2 m source).
+  source:
+    file: WORK:results/hydroacoustics-metz-f35a-anchor.md
+    lines:
+    - 64
+    - 73
+    must_contain:
+    - 2.26 × 10⁻³
+    - 2.8 × 10⁻⁴
+    - 5.4 × 10⁻²
+- id: eta_brown_arons
+  value: 0.00021
+  units: Arons-equivalent coupling (different quantity)
+  status: RETIRED_AS_ANCHOR
+  note: Do not use as the F-35A point for the module definition (10.3 dB low).
+  source:
+    file: WORK:results/hydroacoustics-metz-f35a-anchor.md
+    lines:
+    - 171
+    - 171
+    must_contain:
+    - 2.1 × 10⁻⁴
+    - 10.3 dB
+- id: eta_prior_bounds
+  value:
+  - 1.0e-06
+  - 0.01
+  units: log-uniform, 41 points
+  status: AGENT_CHOICE_NOT_RULED
+  note: 'Pete: coupling is a prior range with its sources; bounds open.'
+  source:
+    file: EX:run-j-gated-v2/README.txt
+    lines:
+    - 13
+    - 13
+    must_contain:
+    - '[1e-6, 1e-2]'
+- id: c_sofar
+  value:
+  - 1.482
+  - 0.006
+  units: km/s, mean and sd
+  status: CURRENT
+  source:
+    file: WORK:results/hydroacoustics-searches-run-j.md
+    lines:
+    - 91
+    - 91
+    must_contain:
+    - 1.482 ± 0.006 km/s
+- id: pick_sd
+  value: 10
+  units: s
+  status: CONVENTION_NO_LOCATED_SOURCE
+  note: Module convention; no published source located.
+  source:
+    file: MOD:prepare/imos_detectors.py
+    lines:
+    - 23
+    - 23
+    must_contain:
+    - pick sd 10 s
+- id: imos_hw_corner
+  value: 8
+  units: Hz (IMOS hardware high-pass corner)
+  status: CURRENT
+  source:
+    file: WORK:results/hydroacoustics-searches-run-j.md
+    lines:
+    - 90
+    - 90
+    must_contain:
+    - 8 Hz hardware corner
+- id: kadri_highpass
+  value: 5
+  units: Hz (Kadri 2017 chain high-pass; 2024 adds 2-40 Hz band-pass)
+  status: CURRENT
+  source:
+    file: WORK:results/hydroacoustics-digitised-sources.md
+    lines:
+    - 212
+    - 217
+    must_contain:
+    - 5 Hz
+    - 2–40 Hz
+- id: imos_duty_cycle
+  value:
+  - 307
+  - 900
+  units: s recorded per s (about 34 %)
+  status: CURRENT
+  source:
+    file: WORK:results/hydroacoustics-imos-noise.md
+    lines:
+    - 18
+    - 18
+    must_contain:
+    - 307 s every 15 min
+- id: gps_utc_2014
+  value: 16
+  units: s (GPS minus UTC, July 2012 to June 2015)
+  status: EXTERNAL_STANDARD
+  note: IERS Bulletin C; not in the repo. IMOS hex filenames are 16 s earlier than Portland rec_times.txt (session record).
+  source:
+    file: null
+    lines: null
+- id: shot_window
+  value: 1.5
+  units: s (H08S airgun coincidence label)
+  status: AGENT_CHOICE_NOT_RULED
+  note: Used by the Take 2 review; chance rate taken as 3/10 for a 10 s shot cadence.
+  source:
+    file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+    lines:
+    - 159
+    - 159
+    must_contain:
+    - 1.5 s
+defects:
+- id: D01
+  title: Old coupling value 2.1e-4 used as the F-35A "upper anchor"
+  what: 2.1e-4 is Brown 2026's Arons-equivalent coupling, a different quantity. Under the module definition the F-35A value from Metz 2023 is
+    2.26e-3 (pending ruling). Every "x F-35A" multiple on 2.1e-4 is 10.8 times too high.
+  evidence:
+  - file: WORK:results/hydroacoustics-metz-f35a-anchor.md
+    lines:
+    - 171
+    - 171
+  fixed_this_run: 'partly: new register gives both multiples; old products keep the label'
+- id: D02
+  title: Diego Garcia (H08S) detections that coincide with airgun shots were ranked as candidates
+  what: '44 of 47 H08S single candidates lie within 1.5 s of a shot in h08s_template_shots.csv (chance about 30 %). The searches note itself said
+    only residual rows are candidates (G-S9). Pete (23 Oct): a shot coincidence is not an exclusion; constructive interference and waveform distortion
+    can still carry a detection.'
+  evidence:
+  - file: WORK:results/hydroacoustics-searches-run-j.md
+    lines:
+    - 90
+    - 90
+  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+    lines:
+    - 159
+    - 159
+  fixed_this_run: label + envelope interference test in the new register
+- id: D03
+  title: Scott Reef 3250 used in pairs and triples although its path is blocked
+  what: 3250 carries no information (blocked path), but it is in most pairs and triples.
+  evidence:
+  - file: EX:graphics-2026-10-22/ranked/README.txt
+    lines:
+    - 6
+    - 7
+  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+    lines:
+    - 164
+    - 164
+  fixed_this_run: check column in new register
+- id: D04
+  title: Detections in bands below the receiver pass band
+  what: 2-5 Hz members at IMOS (hardware corner 8 Hz) and on Kadri panels (5 Hz high-pass) cannot be impact sound in that band. Labelled G-S8
+    in the searches note but kept in the ranking.
+  evidence:
+  - file: WORK:results/hydroacoustics-searches-run-j.md
+    lines:
+    - 90
+    - 90
+  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+    lines:
+    - 165
+    - 165
+  fixed_this_run: check column in new register
+- id: D05
+  title: Detection power measured only on model-matched templates
+  what: On the real F-35A arrival the M1b matched filter keeps only 0-3.4 dB of its model-matched gain; every P_D, eta50 and upper limit built
+    on it is optimistic by about 4-10 dB.
+  evidence:
+  - file: WORK:results/hydroacoustics-metz-f35a-anchor.md
+    lines:
+    - 120
+    - 120
+  fixed_this_run: 'no (next work card: real-arrival validation)'
+- id: D06
+  title: Stand-in noise backgrounds used without approval
+  what: H01W/H08S use IMOS 3376 noise shaped to Blackman medians (proxy); 3315 and 3275 nulls come from the paired logger. Declared, but Pete
+    requires approval for stand-ins.
+  evidence:
+  - file: WORK:results/hydroacoustics-searches-run-j.md
+    lines:
+    - 90
+    - 90
+  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+    lines:
+    - 168
+    - 168
+  fixed_this_run: no (labelled)
+- id: D07
+  title: Known events (Royer 2016) not removed from candidates
+  what: Kadri text time 00:52:03 lies inside Royer's pick bar for icequake A; caption time 00:54:30 is 6 s from Royer event 5; Royer events 6
+    and 9 predict IMOS 3315 candidates.
+  evidence:
+  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+    lines:
+    - 160
+    - 160
+  fixed_this_run: known-event check column in new register
+- id: D08
+  title: Coincidences whose direct path to the receiver crosses land
+  what: 'Example: Kadri 00:40:34 row x Portland 3275; 201 of 2,000 path points above sea level in GEBCO 2026.'
+  evidence:
+  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+    lines:
+    - 171
+    - 171
+  fixed_this_run: land-path check column in new register
+- id: D09
+  title: Flight-only Pleiades layer used as if conditional on the Pleiades objects
+  what: Early candidate maps used the "post" layer, which is flight-only.
+  evidence:
+  - file: ART:a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md
+    lines:
+    - 12
+    - 12
+  fixed_this_run: n/a (products withdrawn)
+- id: D10
+  title: Candidates A-F withdrawn
+  what: Withdrawn at Pete's instruction, 23 Oct 2026, for six stated reasons.
+  evidence:
+  - file: ART:a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md
+    lines:
+    - 1
+    - 12
+  fixed_this_run: n/a
+- id: D12
+  title: False "closed access / not held" labels on held sources (Metz 2023, Kadri 2019)
+  what: Corrected on 22 Oct; the source-access ledger keeps the old label as an audit trail.
+  evidence:
+  - file: WORK:results/source-access-ledger-2026-10-22.md
+    lines:
+    - 1
+    - 3
+  fixed_this_run: already fixed 22 Oct
+- id: D13
+  title: Kadri crash-panel timing check is exploratory with an incomplete model
+  what: Straight geodesic, one speed, no seismic (T-phase) path, inputs not from primary reports, H10S position not from the IMS station file,
+    two events with assumed times. It is NOT evidence that Kadri's panel times are wrong.
+  evidence:
+  - file: MOD:prepare/kadri_crash_timing.py
+    lines:
+    - 1
+    - 9
+  fixed_this_run: relabelled
+- id: D18
+  title: Brief says the F-35A coupling is an "upper bound" because of a shallow channel
+  what: The Metz work found the shallow-channel effect +2.9 dB, NOT SUPPORTED at the 3 dB rule.
+  evidence:
+  - file: WORK:results/hydroacoustics-metz-f35a-anchor.md
+    lines:
+    - 176
+    - 176
+  - git: claude-science-sep29@fe5cdfd
+    path: Claude Science Project Sep 29/threads/master-prompts/hydroacoustics.md
+    lines:
+    - 125
+    - 129
+    note: old wording, corrected in this run
+  fixed_this_run: 'yes: brief paragraph replaced'
+- id: D20
+  title: Coupling prior bounds 1e-6..1e-2 were an agent choice, not a ruling
+  what: Pete ruled 23 Oct that coupling is a prior range with its sources and the F-35A value is one point in it; the bounds are open.
+  evidence:
+  - file: EX:run-j-gated-v2/README.txt
+    lines:
+    - 13
+    - 13
+  fixed_this_run: no (ruling needed)
+- id: D22
+  title: Old IMOS transmission-loss table (constant RAM correction, gap G-TL1) still used
+  what: Superseded by imos_tl_ram_arc.csv (RAM along the grid).
+  evidence:
+  - file: EX:run-j-gated/README.txt
+    lines:
+    - 3
+    - 7
+  - file: EX:kadri-package-v2/build_predictions_v2.py
+    lines:
+    - 212
+    - 212
+  - file: EX:run-j-injection/README.txt
+    lines:
+    - 9
+    - 9
+  fixed_this_run: no re-run; labelled
+- id: D23
+  title: TL clamped at the table edge for rows outside the TL latitude span
+  what: 11-16 % of run J rows by stratum (17 Oct columns).
+  evidence:
+  - file: EX:run-j/primary-tau-eof/README.txt
+    lines:
+    - 6
+    - 6
+  fixed_this_run: already fixed in run-j-gated(-v2) by the whole-arc TL grid
+- id: D24
+  title: Searches covered only the pre-registered windows
+  what: Held IMOS records outside the windows (for example the CMST 01:34 event) were not searched; free known-event checks were lost.
+  evidence:
+  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+    lines:
+    - 172
+    - 172
+  fixed_this_run: no (next work card)
+- id: D25
+  title: Source depth fixed at 10 m in the MH370 chain
+  what: At the F-35A, 2 m or 30 m moves eta by more than two decades.
+  evidence:
+  - file: WORK:results/hydroacoustics-metz-f35a-anchor.md
+    lines:
+    - 69
+    - 69
+  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+    lines:
+    - 169
+    - 169
+  fixed_this_run: no (labelled)
+- id: D26
+  title: Cape Leeuwin and Diego Garcia p-values are not calibrated
+  what: Digitised plots at about 14.5 points per second with an emulated IMOS noise reference.
+  evidence:
+  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+    lines:
+    - 166
+    - 166
+  fixed_this_run: no (labelled)

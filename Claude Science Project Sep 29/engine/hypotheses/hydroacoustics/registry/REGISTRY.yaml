@@ -1,0 +1,2684 @@
+registry_version: hydro-registry v1 (2026-10-23)
+built_utc: '2026-10-23T01:37:44Z'
+hashing: true
+git:
+  module_branch: 590c80f57e9ecdf44ffb4f62680b07e72c471c11 2026-10-22T10:19:49-06:00
+  work_branch: fe5cdfd4bbf78b8e62ff559dbf46c986ba284b08 2026-10-22T10:31:50-06:00
+roots:
+  EX: /Users/pete/Downloads/mh370-exchange/hydroacoustics
+  EOF: /Users/pete/Downloads/mh370-exchange/end-of-flight
+  INPUTS: /Users/pete/Downloads/mh370-inputs/hydroacoustics
+  OCEAN: /Users/pete/Downloads/mh370-ocean-data
+  ART: /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/a6559afa-0c43-4302-86d9-0e2798dcb1c7/handover/artifacts
+  MOD: /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/a6559afa-0c43-4302-86d9-0e2798dcb1c7/src/mod/Claude Science
+    Project Sep 29/engine/hypotheses/hydroacoustics
+  WORK: /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/a6559afa-0c43-4302-86d9-0e2798dcb1c7/src/work/Claude
+    Science Project Sep 29
+status_values:
+  CURRENT: No known defect. Not re-verified in this run unless verified_this_run is true.
+  CURRENT_WITH_CAVEATS: Usable with the listed defects/limitations stated beside every number taken from it.
+  KNOWN_DEFECT: Contains at least one listed defect that changes a reported number or claim. Do not use the affected parts.
+  SUPERSEDED: Replaced by the entry named in superseded_by. Kept for history.
+  WITHDRAWN: Withdrawn at Pete's instruction. Do not use.
+  PENDING_RULING: Correct as computed, but its adoption waits for a ruling by Pete.
+  UNCHECKED: No definition located or not inspected in this run.
+entries:
+- id: in.imos_raw
+  kind: input
+  path: INPUTS:imos
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: INPUTS:imos/MH370/3315_3250_3376__MetaData.txt
+    lines:
+    - 1
+    - 12
+    quote: "Curtin ID                               3315\nSet details                             IMOS PerthCanyon 2013-2014 E09\nSet success\
+      \                             OK                         \nGBytes                                   43.000\nLatitude (WGS84)           \
+      \             31 deg 52.033' S\nLongitude (WGS84)                       115 deg  0.068' E\nwater depth (m)                         not noted\n\
+      receiver depth (m)                      not noted\nstart first sample (UTC)                28-Nov-2013 09:00:00\nstart last sample (UTC)\
+      \                 31-Mar-2014 07:00:01\nstart first sample in water (UTC)       not listed\nstart last sample in water (UTC)        not\
+      \ listed"
+  note: IMOS raw records MH370 window and 14-day background; SHA256SUMS.txt from retrieval is inside.
+  n_files: 4598
+  bytes: 17349250279
+  manifest: manifests/in.imos_raw.tsv.gz
+  manifest_sha256: d67e9425258e7365b11583a46db485b1315a459584f6a16a21bdaf334f1b94cb
+- id: in.gebco_2026
+  kind: input
+  path: OCEAN:gebco/grid
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: OCEAN:gebco/grid/gebco_2026.json
+    lines:
+    - 1
+    - 12
+    quote: "{\n \"source\": \"gebco_2026\",\n \"lon0\": 40.00208333333333,\n \"lat0\": -59.99791666666667,\n \"step_deg\": 0.004166666666662877,\n\
+      \ \"nlon\": 33600,\n \"nlat\": 21600,\n \"elevation_file\": \"gebco_2026_elevation.i16\",\n \"elevation_dtype\": \"i16\",\n \"tid_file\"\
+      : \"gebco_2026_tid.u8\",\n \"description\": \"GEBCO_2026 ice-surface elevation and TID, 15 arc-second, copied unchanged\",\n \"doi\": \"\
+      10.5285/4f68d5c7-45eb-f999-e063-7086abc036fa\","
+  n_files: 9
+  bytes: 2816641918
+  manifest: manifests/in.gebco_2026.tsv.gz
+  manifest_sha256: b555907e3d314fa3865b87dc3f76423521e12f790cf1cd2e1c65e83324562e6c
+- id: in.woa23
+  kind: input
+  path: OCEAN:woa23
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  note: World Ocean Atlas 2023; sound speed grids in soundspeed/.
+  n_files: 489
+  bytes: 7907827326
+  manifest: manifests/in.woa23.tsv.gz
+  manifest_sha256: 29d9dc8d8cde44eacb14e2dea4af0eb1686d7e505c87767370077a345080c7d8
+  definition:
+    file: null
+    lines: null
+    quote: null
+    note: NO DEFINITION LOCATED
+- id: in.run_j_impacts
+  kind: input
+  path: EOF:run-j
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  hash: false
+  hash_note: Owned by end of flight; per-seed SHA256 recorded in run-j-windows run.json. Not re-hashed here.
+  n_files: null
+  bytes: null
+  manifest: null
+  manifest_sha256: null
+  definition:
+    file: null
+    lines: null
+    quote: null
+    note: NO DEFINITION LOCATED
+- id: in.module_data
+  kind: input
+  path: MOD:data
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  note: 'Module inputs: stations.csv, Kadri Fig. 9 digitised traces, Blackman, IMS response, ocean paths, IMOS calibration, Kadri package inputs.'
+  n_files: 52
+  bytes: 8217386
+  manifest: manifests/in.module_data.tsv.gz
+  manifest_sha256: deb2c28b15879d0a38ba54b8f2ca77c76d69a17cb74ff82174702ddc130b325c
+  definition:
+    file: null
+    lines: null
+    quote: null
+    note: NO DEFINITION LOCATED
+- id: in.royer_2016_digitised
+  kind: input
+  path: MOD:results-data/digitised/royer-2016
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  note: Royer 2016 events, arrivals, figure marks (digitised from the published report).
+  n_files: 135
+  bytes: 54151065
+  manifest: manifests/in.royer_2016_digitised.tsv.gz
+  manifest_sha256: ffa709ac1c71b6700ee2713de1d871c6c43fe45624475995ef57b5b05e6bccd6
+  definition:
+    file: null
+    lines: null
+    quote: null
+    note: NO DEFINITION LOCATED
+- id: in.h08s_shots
+  kind: input
+  path: MOD:results-data/h08s_template/h08s_template_shots.csv
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  note: Airgun shot times on the digitised H08S panels (110 shots).
+  n_files: 1
+  bytes: 24986
+  manifest: manifests/in.h08s_shots.tsv.gz
+  manifest_sha256: 6e387432fd1b04bc2d74c37f1bab6371ff02801e2db02899c95598b2fa9b3af0
+  definition:
+    file: null
+    lines: null
+    quote: null
+    note: NO DEFINITION LOCATED
+- id: in.h08s_shots_v1
+  kind: input
+  path: MOD:results-data/h08s_template/v1_defective
+  status: SUPERSEDED
+  defects: []
+  verified_this_run: false
+  superseded_by: in.h08s_shots
+  note: Folder name says defective.
+  n_files: 4
+  bytes: 42291
+  manifest: manifests/in.h08s_shots_v1.tsv.gz
+  manifest_sha256: 22d84c7a543b8840fe7906641a12362b84f01703cd499b20169bb99a5ac39745
+  definition:
+    file: null
+    lines: null
+    quote: null
+    note: NO DEFINITION LOCATED
+- id: in.geometry_sample
+  kind: input
+  path: EX:run-j-searches/geometry
+  status: CURRENT_WITH_CAVEATS
+  defects: []
+  verified_this_run: false
+  definition:
+    file: EX:run-j-searches/geometry/run.json
+    lines:
+    - 1
+    - 1
+    quote: '{'
+  note: Waypoints stratum only (0.998 of mixture), supplement at p = 0.5 (G-S7).
+  n_files: 6
+  bytes: 301776115
+  manifest: manifests/in.geometry_sample.tsv.gz
+  manifest_sha256: 1c6ab77113f95bec1a921b9f3b24a933fb8183efb0ed4305d2910697b6d7b61d
+- id: in.sources_pdfs
+  kind: input
+  path: EX:sources
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  note: 'Source PDFs (Metz 2023, EW0112, Gaspin-Shuler) and fetched open-access copies. Licence: do not publish purchased PDFs.'
+  n_files: 25
+  bytes: 37200816
+  manifest: manifests/in.sources_pdfs.tsv.gz
+  manifest_sha256: a0de167d8615b44f1be285e7f66a15cd8bf805e828e1bd03c8fe776e87e9df0a
+  definition:
+    file: null
+    lines: null
+    quote: null
+    note: NO DEFINITION LOCATED
+- id: ex.ranked
+  kind: product
+  path: EX:graphics-2026-10-22/ranked
+  status: KNOWN_DEFECT
+  defects:
+  - D01
+  - D02
+  - D03
+  - D04
+  - D07
+  - D08
+  - D26
+  verified_this_run: false
+  definition:
+    file: EX:graphics-2026-10-22/ranked/README.txt
+    lines:
+    - 1
+    - 14
+    quote: "Ranked hydroacoustic candidates (graphics track, 22 Oct 2026). EXPLORATORY; PREDICTIVE, NOT CALIBRATED; caveats C1, C2.\nPre-registration:\
+      \ module branch hypothesis/hydroacoustics commit 9f47cf7, prepare/ranked_candidates/prereg.py (formula and inputs).\nFiles:\n  ranked_singles.csv\
+      \    184 one-recorder candidates (imos_candidates.csv 133 + panel_candidates.csv 51), ranked by approximate ln LR (D0', p 0.5).\n  ranked_pairs.csv\
+      \      3,321 distinct candidate pairs from coincidence/pairs.csv (3,494 rows; the searches' 3,315 count merges the two Scott Reef 01:32:07\
+      \ windows).\n  ranked_triples.csv    12,331 three-recorder sets whose three pairwise combinations are all lag-consistent rows of pairs.csv;\
+      \ 11,067 contain blocked Scott Reef 3250 and 63 more have no\n                        simulated impact matching all three times (ln LR -inf);\
+      \ 1,201 scored. No IMOS x IMOS x IMOS set without Scott Reef exists.\n  ranked_multisite.csv  pairs + triples in one ranking.\n  detectability_and_energy.json\
+      \  eta50 recomputed on the corrected IMOS table, run J energy quantiles per 00:19 option.\nScore: ln LR = ln N - ln B; N = sum_i w_i mean_eta\
+      \ prod_c [P_D(snr; alpha = p_c) x timing kernel x level consistency (10 dB) x Kadri Table 1 bearing term (H01W, within 30 s, t3 3.3 deg)];\n\
+      B = prod_c (p_c / 55 s). ln LR < 0 everywhere: no candidate set is favoured over background.\nCoupling columns: singles eta_needed = level\
+      \ match at the reference impact (37.1 S, 1.13 GJ, tau90 3.3 s) with the corrected TL (IMOS) or the searches' eta_needed (panels);\npairs/triples\
+      \ eta_pd50_all_a005 = coupling for prod P_D = 0.5 at alpha 0.05 at the arc locus of the lag (block 11 convention; reproduces 0.0692 for\
+      \ H01W 00:52:04 x H08S 01:12:49).\neta_x_F35A = multiple of the F-35A anchor 2.1e-4: provisional - from Brown 2026's quote of Metz 2023;\
+      \ re-derivation from Metz pending."
+  superseded_by: ex.register_2026_10_23
+  n_files: 6
+  bytes: 20429982
+  manifest: manifests/ex.ranked.tsv.gz
+  manifest_sha256: e3d1ace84ad87e0a35f7bd472ef04805f1186836e22ed596371f9efde8a2c64e
+- id: ex.arrival_windows
+  kind: product
+  path: EX:graphics-2026-10-22/arrival-windows
+  status: KNOWN_DEFECT
+  defects:
+  - D01
+  - D02
+  - D07
+  verified_this_run: false
+  definition:
+    file: EX:graphics-2026-10-22/arrival-windows/README.md
+    lines:
+    - 1
+    - 5
+    quote: '# Hydroacoustics graphics 22 Oct 2026, track "arrival-windows": what the data hold at every receiver when each candidate''s sound
+      should arrive
+
+
+      *Hydroacoustic Module (arrival-windows track), 22 Oct 2026. Answers Pete''s question: "was there absolutely nothing at the other sites,
+      including the Australian coast loggers and Royer, at the corresponding arrival times?"*
+
+
+      **Status: PREDICTIVE, NOT CALIBRATED. No detection is claimed.** Caveats C1 (sound-loss slope misfit, +10.4/+7.4 dB per octave at H01W/H08S)
+      and C2 (coupling efficiency not calibrated; F-35A upper anchor 2.1e-4) apply to every expected level. Data marked digitised (Kadri 2024
+      Fig. 9 panels; Royer 2016 spectrograms, picks and figure marks) are copies of published figures, not recordings. Kadri times: text time
+      00:52:03, caption time 00:54:30.'
+  note: 'Built around the "strongest pair" H01W 00:52:04 x H08S 01:12:49: an icequake-A time and an airgun-shot time.'
+  n_files: 70
+  bytes: 82238095
+  manifest: manifests/ex.arrival_windows.tsv.gz
+  manifest_sha256: 54089e3c258ed4a517d7b061204cf06252a984d2a6fe159532fb822c740a6963
+- id: ex.kadri_package_v2
+  kind: product
+  path: EX:kadri-package-v2
+  status: KNOWN_DEFECT
+  defects:
+  - D01
+  - D22
+  - D07
+  verified_this_run: false
+  definition:
+    file: EX:kadri-package-v2/README.md
+    lines:
+    - 1
+    - 6
+    quote: '# MH370 hydroacoustic prediction package, v2 (22 October 2026) — DRAFT, not sent
+
+
+      Prepared by the hydroacoustics module of the MH370 Bayesian reconstruction (Davey et al. 2016 reproduction and extension)
+
+      for the collaboration with Dr Usama Kadri. **Status: PREDICTIVE, NOT CALIBRATED.** Nothing here is a detection claim.
+
+      Every number carries caveats C1 (propagation slope misfit) and C2 (coupling efficiency not calibrated); see
+
+      `CALIBRATION_STATUS.txt`. Both published H01W times are carried everywhere: "text time 00:52:03" and "caption time 00:54:30".'
+  note: DRAFT, not sent. Must not be sent. Predictions superseded by v3 draft; text errata in kadri-package-v3-draft-predictions/ERRATA_v2_text.txt.
+  superseded_by: ex.kadri_predictions_v3
+  n_files: 59
+  bytes: 40327964
+  manifest: manifests/ex.kadri_package_v2.tsv.gz
+  manifest_sha256: 4cdf7568668a75df06ec0506dce9e3eecc1c2c0657cc14ded34f70104c9efe80
+- id: ex.run_j_gated
+  kind: product
+  path: EX:run-j-gated
+  status: SUPERSEDED
+  defects:
+  - D22
+  - D01
+  verified_this_run: false
+  definition:
+    file: EX:run-j-gated/README.txt
+    lines:
+    - 1
+    - 7
+    quote: 'SUPERSEDED by run-j-gated-v2 (IMOS TL table): the columns here are on the OLD imos_tl_ramcorr_arc.csv table; use run-j-gated-v2 (imos_tl_ram_arc.csv).
+
+
+      *** WARNING (23 Oct 2026, amendment A4): THE COLUMNS IN THIS DIRECTORY ARE ON THE OLD IMOS TL TABLE (imos_tl_ramcorr_arc.csv, constant
+
+      *** rule-2 RAM correction, gap G-TL1). The RAM-along-grid track has since issued the corrected table imos_tl_ram_arc.csv (run-j-tl-grid/tables/).
+
+      *** The per-row columns here MUST BE REWRITTEN with the corrected table before any composer use. They are internally consistent with this
+
+      *** README and READY stays. The corrected STATISTICS (upper limits, evidence, Bayes factors; not columns) are in stats-ramgrid/ and in the
+
+      *** addendum of results/hydroacoustics-composition-run-j.md. Rewrite recipe: B11_IMOS_RAMGRID=1 python driver.py (writes to run-j-gated.staging,
+      ~6.3 GB, needs >= 28 GiB free).'
+  superseded_by: ex.run_j_gated_v2
+  n_files: 1725
+  bytes: 9432027221
+  manifest: manifests/ex.run_j_gated.tsv.gz
+  manifest_sha256: 9929ed659c6f5fd9ef9e79d899f031e7e4e96459af01beaeb2d73f3ca6cc8411
+- id: ex.run_j_gated_v2
+  kind: product
+  path: EX:run-j-gated-v2
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D05
+  - D06
+  - D20
+  - D25
+  verified_this_run: false
+  definition:
+    file: EX:run-j-gated-v2/README.txt
+    lines:
+    - 1
+    - 14
+    quote: "Hydroacoustics block 11 (composition) on end of flight run J, all four strata (74 seeds). Written 2026-10-22T12:34:15Z.\nPRODUCT v2\
+      \ (amendment A4, prereg e13a32e): IMOS TL from the RAM-along-grid drop-in imos_tl_ram_arc.csv (G-TL1 closed on the offset-0 line); supersedes\
+      \ run-j-gated (old IMOS table).\nPre-registration prepare/composition_run_j/prereg.py (module branch, commit 90d7181 + A4 e13a32e); worker.py\
+      \ / driver.py; 4 single-thread workers.\nRows 313,599,968; not_computed (NaN) 0; the marginalised IMOS column (proposed default) is present\
+      \ for every seed; per-seed checks (rows equal end of flight's, float32, NaN only where inputs non-finite and identical\nacross columns,\
+      \ finite elsewhere, quantiles in _parts/*.json): all pass. Seeds with fewer than five columns (another process held the disk below the 20\
+      \ GiB floor during the run; the marginalised IMOS\ncolumn was written, the other four were not): 0 []\nTOP-UP RECIPE (when >= 22 GiB free):\
+      \ B11_TOPUP=1 python worker.py <stratum> <seed> <this dir>  then  python driver.py  (finaliser only).\n\nCOLUMNS (float32, row i = row i\
+      \ of end-of-flight/run-j/<stratum>/seed-N/impacts32.npy):\n  hydro-lnL-imos-eta1e-3.npy      ln L of the IMOS-gated term at coupling efficiency\
+      \ eta = 1e-3\n  hydro-lnL-imos-eta2.1e-4.npy    ... at eta = 2.1e-4 (F-35A upper anchor, Brown et al. 2026)\n  hydro-lnL-imos-eta1e-4.npy\
+      \      ... at eta = 1e-4\n  hydro-lnL-imos-margeta.npy      ... marginalised over a log-uniform prior on eta in [1e-6, 1e-2] (41 points,\
+      \ equal weights)  <- PROPOSED DEFAULT\n  hydro-lnL-ims-proxy-margeta.npy SENSITIVITY: IMOS-gated term x H01W/H08S PROXY-background terms,\
+      \ eta marginalised. PREDICTIVE for IMS."
+  note: Default column hydro-lnL-imos-margeta does not use the anchor. The fixed column at eta 2.1e-4 is labelled by D01 only. Not ruled for composer
+    use.
+  n_files: 835
+  bytes: 7484078760
+  manifest: manifests/ex.run_j_gated_v2.tsv.gz
+  manifest_sha256: eb86c68b06566bebf981e0d50a2b464a84c7c4a99fe2249ef04a732fe451f369
+- id: ex.imos_ram_grid
+  kind: product
+  path: EX:run-j-imos-ram-grid
+  status: CURRENT_WITH_CAVEATS
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-imos-ram-grid.md
+    lines:
+    - 3
+    - 9
+    quote: '# Hydroacoustics — RAM (coupled modes) along the arc grid at the five IMOS loggers: closure of gap G-TL1 (work order 2026-10-21)
+
+
+      Hydroacoustic Module (imos-ram-grid track), overnight unattended run 21/22 Oct 2026 (local MDT; 22 Oct UTC). **PREDICTIVE, NOT
+
+      CALIBRATED.** Caveats **C1** (propagation slope misfit, +10.4/+7.4 dB per octave at H01W/H08S; a source-term caveat after the
+
+      recalibration track''s EW0112 result) and **C2** (coupling efficiency not calibrated; η swept over four decades, F-35A upper anchor
+
+      2.1e-4) travel with every number here. Nothing in this note is timed; both Kadri times ("text time 00:52:03", "caption time
+
+      00:54:30") are carried unchanged by the consumers. No likelihood is written: the module still returns zero likelihood.'
+  note: G-TL2 (Perth Canyon 3376 terminal profile) open.
+  n_files: 826
+  bytes: 577718602
+  manifest: manifests/ex.imos_ram_grid.tsv.gz
+  manifest_sha256: ac52d3fe375d4797f29b44870ffc1dc2ebc1acf2ae4378ed82b483bf8cf86784
+- id: ex.injection
+  kind: product
+  path: EX:run-j-injection
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D05
+  - D06
+  - D22
+  verified_this_run: false
+  definition:
+    file: EX:run-j-injection/README.txt
+    lines:
+    - 1
+    - 9
+    quote: 'Hydroacoustics block 7 (work order 2026-10-21): injection-recovery on run J - P_D against received level; eta mapping.
+
+      Written 2026-10-22 ~04:30 UTC by the Hydroacoustic Module (block 7 track, unattended). Pre-registration e816313 (prepare/injection_recovery_run_j/prereg.py).
+
+      STATUS: PREDICTIVE, NOT CALIBRATED. Caveats C1 (propagation slope misfit +10.4/+7.4 dB per octave at H01W/H08S) and C2 (coupling efficiency
+      not calibrated; eta swept over four decades, F-35A upper anchor). H01W/H08S backgrounds are PROXIES (IMOS 3376 shaped to Blackman 2004 App.
+      B, digitised). No likelihood column is written here.
+
+      inputs/    inputs.json (run J tau/range/energy quantiles per 00:19 option and p; ESS), subsample.npz (1-in-4 thin of the 8x50k-row chunk
+      subsample of all 74 seeds; lat, lon, E_j, tau90_s, lnw_<option>, push-over flags, dist_<receiver>)
+
+      templates/ templates_raw.npz (KRAKEN broadband channel, 75 ranges), template_build.json
+
+      run/       thresholds.json, null_maxima_<rx>.npz, proxy_check.json, injection_scores.csv (26,460 rows), pd_vs_level.csv, fits.json, errors.csv,
+      summary.json
+
+      eta/       eta_map.json, eta50_by_lat_band.csv
+
+      figs/      hydroacoustics-injection-recovery-run-j-{pd,eta}.{png,pdf}
+
+      Run J impacts: /Users/pete/Downloads/mh370-exchange/end-of-flight/run-j (74 seeds; SHA256 per seed in the windows track''s run.json). TL:
+      IMOS = module results-data/ram_check/imos_tl_ramcorr.csv; H01W/H08S = run-j-tl-grid/raw/passA/tl_grid.csv (block 2 track, PROVISIONAL).'
+  n_files: 28
+  bytes: 209042345
+  manifest: manifests/ex.injection.tsv.gz
+  manifest_sha256: cb2324ddc95cbd19ce408e1494a74a8e91a26cd08d71100b485739bd44bf6e33
+- id: ex.levels
+  kind: product
+  path: EX:run-j-levels
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D01
+  - D05
+  - D25
+  verified_this_run: false
+  definition:
+    file: EX:run-j-levels/README.md
+    lines:
+    - 1
+    - 10
+    quote: 'run-j-levels — hydroacoustics block 3 (level half) + block 6 charts on end of flight run J. Hydroacoustic Module (levels track), 22
+      Oct 2026.
+
+      Pre-registration: prepare/run_j_levels.py (hypothesis/hydroacoustics commit 4277320, before any draw). Note: results/hydroacoustics-run-j-levels.md
+      (claude-science-sep29).
+
+      PREDICTIVE, NOT CALIBRATED; caveats C1 and C2 on every number. Likelihood 0.0 everywhere; nothing here is a detection.
+
+      draws/<stratum>/seed-k.npz   per key (option/p) 2 M-draw weighted subsample fields (idx, lat, lon, t, E, tau90, bank_deg, arc_nm, bank_source,
+      family4, pushover_to_surface); meta = per-key weight sums
+
+      draws/supplement.npz         the same for the northern supplement (technique >= 1); E = 1/2 m v^2 (amendment 1), tau90 absent (G-L2)
+
+      levels/<option>_p<p>.npz     per receiver: weighted SNR histogram at eta = 1 (0.1 dB bins, grid -200..100 dB), blocked_mass, tau_k / tau_scenario
+      / kadri_chain variants; map/* best-receiver samples (150k)
+
+      tables/*.csv                 detectable.csv (quantiles + shares per receiver x key x eta), band_levels_eta1.csv, eta_50.csv, power_screen.csv,
+      best_receiver.csv, coverage.csv, sensitivities.csv, illustrative_traces.csv, math_check.json
+
+      noise/                       imos_thirdoctave_percentiles.csv (1 s band SPL percentiles, 8 Mar role-B set and 14-day background set), files_used.csv
+
+      run.json                     constants, noise medians, Kadri chain weights, per-key ESS
+
+      Inputs: run J impacts32 (74 seeds; SHA256 per seed in each draw file''s meta), run-j-supplement/reduced/impacts-ruleB.npz, TL grid results-data/tl_grid_run_j,
+      module noise summaries.'
+  n_files: 107
+  bytes: 510182266
+  manifest: manifests/ex.levels.tsv.gz
+  manifest_sha256: 7f91e3265ddab0916bc25befa2dc38b3eb7270216a642adeeff875cc85f51f2b
+- id: ex.metz_f35a
+  kind: product
+  path: EX:run-j-metz-f35a
+  status: PENDING_RULING
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-metz-f35a-anchor.md
+    lines:
+    - 3
+    - 7
+    quote: '# Hydroacoustics: the F-35A coupling anchor re-derived from Metz et al. (2023) through the module''s own chain; real-arrival test
+      of the matched filter; TL route 2; source-pulse check — PREDICTIVE, NOT CALIBRATED
+
+
+      *Hydroacoustic Module, track "metz-f35a", 22 October 2026 (Pete''s correction list items 1, 2 F-35A part, 4, 5). Every number
+
+      carries caveats C1 (propagation slope) and C2 (coupling efficiency not calibrated for an airliner). All F-35A data are
+
+      DIGITISED from the published figures; nothing here is a CTBTO waveform sample. No detection is claimed.*'
+  n_files: 38
+  bytes: 82245201
+  manifest: manifests/ex.metz_f35a.tsv.gz
+  manifest_sha256: 2dd955eb285f170303be838b8d885d227dd705b94c6e741ba620e715415be4bb
+- id: ex.searches
+  kind: product
+  path: EX:run-j-searches
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D06
+  - D24
+  - D26
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-searches-run-j.md
+    lines:
+    - 3
+    - 5
+    quote: '# Hydroacoustics: pre-registered searches on the data held, run J (work order 2026-10-21, blocks 4 and 5)
+
+
+      *Hydroacoustic Module (searches track), 22 Oct 2026. Unattended overnight run. Pre-registration committed to the module branch at `a4cdab0`
+      (`prepare/searches_run_j/preregistration.py`, with `prereg_windows.csv`, `prereg_lag_intervals.csv`, `prereg_impact_time_bands.csv`) BEFORE
+      any statistic was computed on hydrophone data. Code: `engine/hypotheses/hydroacoustics/prepare/searches_run_j/` (module branch). Tables:
+      `results-data/searches_run_j/` (module branch) and `/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-searches/` (293 MB, SHA256SUMS).
+      Charts: `results/hydroacoustics-searches-run-j-timeline.{png,pdf}`, `results/hydroacoustics-searches-run-j-table1.{png,pdf}`.*'
+  note: Raw search outputs. The defects D02-D04 arose in the ranking built from these, not here (the note labels G-S8, G-S9).
+  n_files: 32
+  bytes: 305661921
+  manifest: manifests/ex.searches.tsv.gz
+  manifest_sha256: 3dfea5e2db326728cd1e5d0138ea8d51f5b426569d096908ec3e80be15fab852
+- id: ex.run_j_smoke
+  kind: product
+  path: EX:run-j-smoke
+  status: UNCHECKED
+  defects: []
+  verified_this_run: false
+  note: No README and no note located.
+  n_files: 4
+  bytes: 156799211
+  manifest: manifests/ex.run_j_smoke.tsv.gz
+  manifest_sha256: 3a849e997a259642a695bc34d4eab7af947021dfaf554a0e8c8be8ccb947f087
+  definition:
+    file: null
+    lines: null
+    quote: null
+    note: NO DEFINITION LOCATED
+- id: ex.tl_grid
+  kind: product
+  path: EX:run-j-tl-grid
+  status: CURRENT_WITH_CAVEATS
+  defects: []
+  verified_this_run: false
+  definition:
+    file: EX:run-j-tl-grid/README.md
+    lines:
+    - 1
+    - 7
+    quote: '# Hydroacoustics — whole-arc transmission-loss grid for run J (work order 2026-10-21, block 2)
+
+
+      Producer: Hydroacoustic Module (tl-grid track), 22 Oct 2026, overnight unattended run. PREDICTIVE, NOT CALIBRATED;
+
+      caveats C1 (source-spectrum / slope misfit) and C2 (coupling efficiency not calibrated) apply to every number.
+
+      Results note: `results/hydroacoustics-tl-grid-run-j.md` (claude-science-sep29). Code: module branch `hypothesis/hydroacoustics`,
+
+      `prepare/tl_grid_run_j.py` (grid, pre-registered fc825c0), `tl_grid_table.py`, `tl_grid_evidence.py`, `tl_grid_charts.py`,
+
+      `tl_grid_ram_subset.py` (4392091 and later).'
+  n_files: 49
+  bytes: 51832994
+  manifest: manifests/ex.tl_grid.tsv.gz
+  manifest_sha256: 3b1f5888818478359851b79454dafa670089da089c6a47f88ab34fdb61ccc3d1
+- id: ex.tlrecal
+  kind: product
+  path: EX:run-j-tlrecal
+  status: UNCHECKED
+  defects: []
+  verified_this_run: false
+  note: TL recalibration track outputs (nx2d, RAM sections). No README located.
+  n_files: 31
+  bytes: 15315484
+  manifest: manifests/ex.tlrecal.tsv.gz
+  manifest_sha256: 60a1f4a2b7a2df9b1dc0cdf81ce9b7f682c4fc07ccd80824d816dd117faf8426
+  definition:
+    file: null
+    lines: null
+    quote: null
+    note: NO DEFINITION LOCATED
+- id: ex.weak_signal
+  kind: product
+  path: EX:run-j-weak-signal
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D05
+  verified_this_run: false
+  definition:
+    file: EX:run-j-weak-signal/README.txt
+    lines:
+    - 1
+    - 9
+    quote: 'Hydroacoustics weak-signal method trials (work order 2026-10-21 block 8), 22 Oct 2026, unattended overnight track.
+
+      Pre-registration: module branch commit 78c7e88 (prepare/weak_signal/preregistration.py). Code: prepare/weak_signal/.
+
+      injection/      test set (a): null_maxima_<logger>.npz, thresholds.json, injection_scores.csv, pd_vs_snr.csv, m2_pairs.csv, summary.json
+
+      injection_ext/  amendment 1 (SNR 15-30 dB): injection_scores_ext.csv, pd_vs_snr_union.csv, summary_ext.json
+
+      kadri/          test set (b): candidates.csv, box_maxima.csv, m2_cross_station.csv, panel_statistics.npz, null_panel_maxima.npz
+
+      h08s/           test set (c): suppression.csv, surviving_candidates.csv, injection_pd.csv, injection_raw.csv, series.npz
+
+      templates/      KRAKEN broadband templates (templates_raw.npz, template_build.json)
+
+      figs/           the three charts (PNG + PDF); copies in results/ on claude-science-sep29
+
+      All digitised Kadri data are digitised plots; caveats C1 and C2 apply to every number.'
+  n_files: 37
+  bytes: 17740768
+  manifest: manifests/ex.weak_signal.tsv.gz
+  manifest_sha256: 39b9e2276010f3a7f1a021a1488e9c2a21e01f804a8afa7e1fc30dbead02756d
+- id: ex.windows
+  kind: product
+  path: EX:run-j-windows
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-run-j-windows.md
+    lines:
+    - 1
+    - 5
+    quote: '# Hydroacoustics: arrival windows on run J (block 3, timing half; block 6 timeline charts)
+
+
+      *Hydroacoustic Module (run J windows track), 22 Oct 2026 03:11 UTC. Unattended overnight run of work order 2026-10-21. Pre-registration
+      `prepare/run_j_windows.py` committed at bc99b07 before any run; amendment 1 (plumbing only: subprocess workers instead of a process pool,
+      the sandbox forbids POSIX semaphores) disclosed in the docstring. Data: `results-data/windows_run_j/` on `hypothesis/hydroacoustics` (windows.csv,
+      coverage.csv, request_windows.csv, ess.json, run.json); per-seed histograms in `mh370-exchange/hydroacoustics/run-j-windows/` (153 MB).*
+
+
+      **Status: PREDICTIVE, NOT CALIBRATED.** These are timing windows only. No level, no detection and no likelihood is claimed; caveats C1 (propagation
+      slope misfit, +10.4/+7.4 dB per octave at H01W/H08S) and C2 (coupling efficiency not calibrated; η swept over four decades) apply to any
+      level statement built on them. The level/power-screen half of block 3 waits for the TL grid of the parallel track. Both Kadri times are
+      carried everywhere: "text time 00:52:03" and "caption time 00:54:30".'
+  n_files: 155
+  bytes: 160038500
+  manifest: manifests/ex.windows.tsv.gz
+  manifest_sha256: 5d6bc2a8382b3603211af681a2f20dd2b6dacc1d5171e6b3ad8d73175afd9e17
+- id: ex.digitisation
+  kind: product
+  path: EX:run-j-digitisation
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-digitised-sources.md
+    lines:
+    - 1
+    - 5
+    quote: '# Hydroacoustics: digitised sources inventory and extraction (work order block 1)
+
+
+      Hydroacoustic Module (digitisation track), 22 October 2026. Brief: `threads/master-prompts/hydroacoustics.md`
+
+      (Refresh v2 §4: no raw data from Kadri or Royer is expected, so every dataset rendered in the publications is
+
+      extracted and recorded). Work order: `threads/work-orders/hydroacoustics-order-2026-10-21.md`, block 1.'
+  n_files: 177
+  bytes: 78951042
+  manifest: manifests/ex.digitisation.tsv.gz
+  manifest_sha256: 4eb0ad13d88a7ca9f63c31388264d4753fe9843d30e56a8bf28f7dda2c4c8740
+- id: ex.run_j_tau_eof
+  kind: product
+  path: EX:run-j/primary-tau-eof
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D23
+  verified_this_run: false
+  definition:
+    file: EX:run-j/primary-tau-eof/README.txt
+    lines:
+    - 1
+    - 6
+    quote: "Hydroacoustics on end of flight run J, all four strata (74 seeds), tau = eof (PRIMARY). Written 2026-10-17T22:43:52Z.\nWriter prepare/per_impact_lnl.py\
+      \ amendment 8 (prereg 9662384), driver prepare/run_j_driver.py; peak 4 single-thread workers.\nRows 313,599,968; not_computed 0; per-seed\
+      \ checks (rows equal end of flight's, row = 0..n-1, lnL_gated = 0.0): all pass.\nCOMPOSER USE: lnL_gated = 0.0 is the module likelihood\
+      \ (P_D gate not passed). lnL_soft is a labelled SENSITIVITY only.\nLABELS: TL NOT CALIBRATED; IMS P_D borrowed (IMOS 3274 + 4.8 dB); run\
+      \ J convergence accepted as a pass by project ruling, 16 Oct 2026;\n  TL clamped at the table edge (reach gap) for rows outside the TL latitude\
+      \ span - share by stratum: run-j-waypoints 0.109, run-j-free 0.156, run-j-repro-radar 0.158, run-j-descent-climb 0.146"
+  n_files: 373
+  bytes: 15366503143
+  manifest: manifests/ex.run_j_tau_eof.tsv.gz
+  manifest_sha256: c1dd534d281453775ba63f973556a84ea563a31229d0e1ac3f7c11c67d90773e
+- id: ex.run_j_tau_scenario
+  kind: product
+  path: EX:run-j/sensitivity-tau-scenario
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D23
+  verified_this_run: false
+  definition:
+    file: EX:run-j/sensitivity-tau-scenario/README.txt
+    lines:
+    - 1
+    - 6
+    quote: "Hydroacoustics on end of flight run J, all four strata (74 seeds), tau = scenario (SENSITIVITY: scenario tau, log-uniform 0.05-10\
+      \ s). Written 2026-10-17T23:15:14Z.\nWriter prepare/per_impact_lnl.py amendment 8 (prereg 9662384), driver prepare/run_j_driver.py; peak\
+      \ 4 single-thread workers.\nRows 313,599,968; not_computed 0; per-seed checks (rows equal end of flight's, row = 0..n-1, lnL_gated = 0.0):\
+      \ all pass.\nCOMPOSER USE: lnL_gated = 0.0 is the module likelihood (P_D gate not passed). lnL_soft is a labelled SENSITIVITY only.\nLABELS:\
+      \ TL NOT CALIBRATED; IMS P_D borrowed (IMOS 3274 + 4.8 dB); run J convergence accepted as a pass by project ruling, 16 Oct 2026;\n  TL clamped\
+      \ at the table edge (reach gap) for rows outside the TL latitude span - share by stratum: run-j-waypoints 0.109, run-j-free 0.156, run-j-repro-radar\
+      \ 0.158, run-j-descent-climb 0.146"
+  n_files: 373
+  bytes: 15366502072
+  manifest: manifests/ex.run_j_tau_scenario.tsv.gz
+  manifest_sha256: 0fddfe3c73bf19095ff3dfed983896c68badb96f84dd909beae4422033bfb35b
+- id: ex.session_staging_1012
+  kind: product
+  path: EX:session-staging-2026-10-12
+  status: UNCHECKED
+  defects: []
+  verified_this_run: false
+  n_files: 41
+  bytes: 418833
+  manifest: manifests/ex.session_staging_1012.tsv.gz
+  manifest_sha256: ca9502b1e6609be583faed86288eb2630a69c56f7b0836c7ddbcf99c717f790c
+  definition:
+    file: null
+    lines: null
+    quote: null
+    note: NO DEFINITION LOCATED
+- id: art.take2_review
+  kind: product
+  path: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D10
+  verified_this_run: false
+  definition:
+    file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+    lines:
+    - 1
+    - 24
+    quote: '> **PARTLY WITHDRAWN 23 October 2026.** See hydroacoustics-candidates-withdrawal-2026-10-23.md.
+
+      >
+
+      > Withdrawn: section 1 item 8; the ''feasible'' columns of the section 7 table; the whole subsection ''Feasible candidates'' with its ''Reading'';
+      the location, time and coupling chart; the three module feasibility tables. Reason: the candidates come from detector outputs at noise level,
+      four members used a 2-5 Hz band below the IMOS 8 Hz high-pass, and the p-values used stand-in noise references.
+
+      >
+
+      > Kept, checked in this review: items 2, 3, 4, 5 and 10 (airgun shots at Diego Garcia, Royer event matches, Scott Reef, unused event tables).
+
+      > Kept, computed once and not independently checked (provisional): items 6 and 7 (coupling anchor, detection power) and section 2.
+
+      > Item 1 must not be read as ''no impact signal exists''. It means only that no signal in these records is a supported impact.
+
+      > Section 8 (redo list) remains a proposal that waits for Pete''s ruling.
+
+
+      ---
+
+
+      # Hydroacoustics, take 2: critical review of the 21–22 October runs
+
+
+      *22 October 2026. Review session, Hydroacoustic Module work. Every number below comes from a file in the repository (`claude-science-sep29`
+      at fe5cdfd, `hypothesis/hydroacoustics` at 590c80f), the exchange folder, or a computation made in this review. The review computations
+      are exploratory and were not pre-registered. All hydroacoustic numbers stay PREDICTIVE, NOT CALIBRATED (caveats C1, C2).*
+
+
+      Tables made by this review:
+
+      - [potential-signals-register.csv]({{artifact:e80ab18e-2296-4d13-98b6-7c7ed411df9d}}): every published candidate and every module candidate
+      that passes the screens, with location, time, tests and verdict.
+
+      - [royer-events-crossid-all-sites.csv]({{artifact:239646ad-0169-4cb8-b279-5d6e484460d2}}): Royer''s 20 located events, the predicted arrival
+      at each of 7 receivers, whether we hold data there, and the nearest candidate.
+
+      - [module-singles-feasibility.csv]({{artifact:6061dbb8-4086-46c6-907c-9f4ac39e074e}}), [module-pairs-feasibility.csv]({{artifact:eda089ea-2ebd-41a8-bcdf-a1c467201259}}),
+      [module-triples-feasibility.csv]({{artifact:3f2be3fb-d4d2-4c02-b377-fcf6982e3b77}}): all 184 singles, 3,321 pairs and 12,331 triples, each
+      with the time, place, energy, airgun and blocked-receiver flags.
+
+
+      ![Where and when each candidate puts the impact, and the loudness each needs]({{artifact:1fcf1eb7-d63d-45e2-8619-9c33b5d26c10}})
+
+
+      ---'
+  note: Withdrawn in part (header lists what is kept). Exploratory; not pre-registered.
+  n_files: 1
+  bytes: 34767
+  manifest: manifests/art.take2_review.tsv.gz
+  manifest_sha256: 30bb1a67b7f19ff0b90c03c39588249abb686a20aa2aeb1ff0c7a5b64f4d93e5
+- id: art.candidates_withdrawal
+  kind: product
+  path: ART:a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: ART:a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md
+    lines:
+    - 1
+    - 3
+    quote: '# Withdrawal notice: hydroacoustic candidates A-F (review session of 22 October 2026)
+
+
+      *23 October 2026. Withdrawn at Pete''s instruction. Nothing from this session was committed to the repository or sent to Kadri or Royer.*'
+  n_files: 1
+  bytes: 5233
+  manifest: manifests/art.candidates_withdrawal.tsv.gz
+  manifest_sha256: e0e49d33f9d32060ae776d0de93e340c25194a92bc6bbbbae9ad6527df08ac13
+- id: art.candidates_A_F
+  kind: product
+  path: ART:a35831fe/b5497699_candidates-A-F-summary.csv
+  status: WITHDRAWN
+  defects:
+  - D10
+  - D04
+  - D09
+  verified_this_run: false
+  n_files: 1
+  bytes: 1601
+  manifest: manifests/art.candidates_A_F.tsv.gz
+  manifest_sha256: d7153e6a140c218b5eef66241fb82e28d2a9cf283949d90354645f0cd0033cb0
+  definition:
+    file: null
+    lines: null
+    quote: null
+    note: NO DEFINITION LOCATED
+- id: art.feasibility_tables
+  kind: product
+  path: ART:a35831fe
+  status: WITHDRAWN
+  defects:
+  - D10
+  verified_this_run: false
+  note: module-singles/pairs/triples-feasibility.csv and the A-F charts note in this folder are withdrawn; royer-events-crossid-all-sites.csv
+    and candA_raw_panel_checks.csv are not.
+  n_files: 10
+  bytes: 5169275
+  manifest: manifests/art.feasibility_tables.tsv.gz
+  manifest_sha256: 220dfb0d1b770ca1d5fd062b076e0a5b04ec074f18011fc366f26e9c5601ef57
+  definition:
+    file: null
+    lines: null
+    quote: null
+    note: NO DEFINITION LOCATED
+- id: art.royer_crossid
+  kind: product
+  path: ART:a35831fe/239646ad_royer-events-crossid-all-sites.csv
+  status: CURRENT_WITH_CAVEATS
+  defects: []
+  verified_this_run: false
+  note: Not withdrawn. Predictions use geodesic distance / speed (exploratory).
+  n_files: 1
+  bytes: 17629
+  manifest: manifests/art.royer_crossid.tsv.gz
+  manifest_sha256: d70f52905fab7f9504592ed4d652a6bde3450b7dc3219fb414c152d8bc414089
+  definition:
+    file: null
+    lines: null
+    quote: null
+    note: NO DEFINITION LOCATED
+- id: note.agw_scenarios
+  kind: note
+  path: WORK:results/hydroacoustics-agw-scenarios.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-agw-scenarios.md
+    lines:
+    - 1
+    - 5
+    quote: '# Hydroacoustics: acoustic-gravity-wave (AGW) estimate for the two impact scenarios (EXPLORATORY)
+
+
+      *Hydroacoustic Module, 10 Oct 2026, ~23:45 UTC. Pre-registered at `55ebdcc` (`prepare/exploratory/agw_scenarios.py`, module
+
+      branch) before any noise record was fetched or any signal level computed. Results at `24f122ec`
+
+      (`results-data/agw_scenarios/`). Order of magnitude only. This is never a likelihood term.*'
+  n_files: 1
+  bytes: 5405
+  manifest: manifests/note.agw_scenarios.tsv.gz
+  manifest_sha256: 165bb8ede473d57901bc8549a591432734afd99c55d2c530cf38030625d22753
+- id: note.air9_ew0112_source_reference
+  kind: note
+  path: WORK:results/hydroacoustics-air9-ew0112-source-reference.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-air9-ew0112-source-reference.md
+    lines:
+    - 2
+    - 13
+    quote: "## Confirmatory test on other airgun sites (pre-registered 1d828390, amendment 1 b3886252; results 759aaf7f)\n- **Verdict: NOT TESTABLE.**\
+      \ Only 2 pairs pass the registered testability rule, and 3 are required.\n  - At Fig. 23's resolution (351 × 458 px), air2 to air5 and air7/air8\
+      \ at H08S cannot be traced uniquely.\n  - air2's grey window follows the fringe of the air1 curve, which the overlay check catches.\n- **Descriptive\
+      \ results:**\n  - **air1 → H08N**, 18° off the tow axis, 10–80 Hz: slope +6.0 dB/oct uncorrected, +1.9 with a flat source level,\n    and\
+      \ −1.9 under the full model M* (PARTIAL). This agrees with the air9 post hoc model.\n  - **air7 → H01W:** the module TL exceeds the observed\
+      \ TL by about **55 dB**, because the path crosses a 1,190-m\n    feature at 28.8–29.0 S, 98.0–98.5 E. The observed air7 and air9 curves\
+      \ at Cape Leeuwin almost coincide.\n    This is a **TL-model failure on a ridge path**, a candidate for N×2D, and not a source test.\n-\
+      \ **Recovery package:** each claim was checked against the page images (`recovery_package_claims_verified.csv`).\n  All hold; Fig. 1 is\
+      \ illegible; the Ball sensitivity is stated on p. 3 \"of unknown manufacture\"."
+  n_files: 1
+  bytes: 1187
+  manifest: manifests/note.air9_ew0112_source_reference.tsv.gz
+  manifest_sha256: d97b6cd26550c9ce3553a054f0bb9a37022cba1e35abe683ad3ef5077320bb62
+- id: note.audit_architecture
+  kind: note
+  path: WORK:results/hydroacoustics-audit-architecture.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-audit-architecture.md
+    lines:
+    - 1
+    - 6
+    quote: '# Hydroacoustics: independent audit of bugs and model fidelity (architecture, 10–11 Oct 2026)
+
+
+      Commissioned by Modular Architecture at Pete''s request (10 Oct 2026, ~17:45 −0600). The audit is read-only on module
+
+      code: module branch `hypothesis/hydroacoustics` @ `3412bc6`, scripts imported unchanged. Criteria were pre-registered
+
+      before any comparison: `criteria.md` (`940f1a3`) and the C3 source-model declaration (`7157b77`; amendments `90ab705`,
+
+      `adaf1ab` changed one citation and no number). All audit code, data and charts are in `results/hydroacoustics-audit/`.'
+  n_files: 1
+  bytes: 24538
+  manifest: manifests/note.audit_architecture.tsv.gz
+  manifest_sha256: 338988f88fd380f6998736aaef1ba2557776d9d703aadc701b75d8e98e8ee12b
+- id: note.audit_sus_absolute
+  kind: note
+  path: WORK:results/hydroacoustics-audit-sus-absolute.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-audit-sus-absolute.md
+    lines:
+    - 1
+    - 6
+    quote: '# Hydroacoustics audit, C4 absolute: SUS 2003 against Gaspin & Shuler (1971)
+
+
+      **Labels: UNCONVERGED** (core (b) split-half not converged; this test uses no core output, the label is carried by
+
+      rule). **Source model outside its stated validity** (G&S ≤ ~1,000 ft; SUS at 2,000 and 3,000 ft). **Predictive
+
+      audit, not a likelihood.** Architecture stand-in for hydroacoustics, 11 Oct 2026, read-only on module code. The
+
+      criteria are pre-registered in `hydroacoustics-audit/criteria.md` (940f1a3); none was changed.'
+  n_files: 1
+  bytes: 18798
+  manifest: manifests/note.audit_sus_absolute.tsv.gz
+  manifest_sha256: c30bb1370f2caf9c16513732364ee66658ef998a2468dfd6cdd7d97f2d6ae92a
+- id: note.blackman_validation
+  kind: note
+  path: WORK:results/hydroacoustics-blackman-validation.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-blackman-validation.md
+    lines:
+    - 1
+    - 6
+    quote: '# Hydroacoustics: propagation engine against Blackman (2004), with air9 as the case and air8 as the negative control - PROVISIONAL
+
+
+      **Why provisional.** The ocean environment is the WOA23 + GEBCO_2026 path stub (rulings item 5 and H3), not
+
+      the shared ocean-transport API. The observed values are DIGITISED from a low-resolution chart (Fig. 23,
+
+      ±2 dB). Both criteria were pre-registered and committed before the first run: `72046ff` for air9 and
+
+      `6fd9268` for air8. All code is on `hypothesis/hydroacoustics`.'
+  n_files: 1
+  bytes: 24598
+  manifest: manifests/note.blackman_validation.tsv.gz
+  manifest_sha256: 1cd46b93011ac1e19708c614521d9e7cb28e728bc20fa6933bc4b4eb3bbf5975
+- id: note.calibration_events_stage1_standin
+  kind: note
+  path: WORK:results/hydroacoustics-calibration-events-stage1-standin.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-calibration-events-stage1-standin.md
+    lines:
+    - 1
+    - 7
+    quote: '# Hydroacoustics calibration events, stage 1, and the run C τ sensitivity (architecture stand-in, 11 Oct 2026)
+
+
+      **Status: STAND-IN, for the module to review.** The architecture stand-in ran the module''s own pre-registered recipe with
+
+      only the inputs changed (Pete''s pre-approval for recipe runs). **UNCONVERGED:** core (b) split-half is not converged, and
+
+      the run C sensitivity in §2 rests on it. The calibration events in §1 do not use the core posterior. **San Juan →
+
+      H10N is PROVISIONAL** (plain 2-D across the Rio Grande Rise). Nothing here is a likelihood. Module rule C6 still
+
+      applies: TL is NOT CALIBRATED.'
+  n_files: 1
+  bytes: 14379
+  manifest: manifests/note.calibration_events_stage1_standin.tsv.gz
+  manifest_sha256: d983193c2d51abc5d03c98ff48ac7e0d80d957ff67d44719df49ac73cfdad203
+- id: note.calibration_events_stage1b
+  kind: note
+  path: WORK:results/hydroacoustics-calibration-events-stage1b.md
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D13
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-calibration-events-stage1b.md
+    lines:
+    - 1
+    - 11
+    quote: '> **Registry status (23 Oct 2026): CURRENT_WITH_CAVEATS; defects D13.** Read `results/hydroacoustics/INDEX.md` (generated from the
+      registry) before you use any number here.
+
+
+      # Hydroacoustics: calibration events on known South Atlantic sources (stage 1b) and the published-record checks
+
+
+      Hydroacoustic Module (correction track), 22 October 2026. **PREDICTIVE, NOT CALIBRATED; caveats C1 (propagation slope
+
+      misfit, now a source-term caveat) and C2 (coupling efficiency not calibrated; eta swept over four decades; the F-35A anchor
+
+      value is under ruling, see the metz-f35a entry of 22 Oct) apply to every number.** Nothing here is a likelihood and nothing
+
+      moves the posterior. Pre-registration: `prepare/calibration_events_stage1b.py`, module commit `5230679`, pushed before any
+
+      module TL or RAM value on these paths was computed. The KRAKEN half is **not blind** (the architecture stand-in ran it on
+
+      11 Oct; this run reproduces it to 0.0 dB); the RAM half and the absolute charge source are blind. Companion: the addendum of
+
+      22 Oct in `hydroacoustics-digitised-sources.md` (G6–G8, Kadri''s chain, IMOS 3315/3275).'
+  n_files: 1
+  bytes: 13458
+  manifest: manifests/note.calibration_events_stage1b.tsv.gz
+  manifest_sha256: 972f0330f8a29d5ca997c1c1ee10216ba7824e8f303b418de84e7e779751fe11
+- id: note.composition_run_j
+  kind: note
+  path: WORK:results/hydroacoustics-composition-run-j.md
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D01
+  - D05
+  - D06
+  - D20
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-composition-run-j.md
+    lines:
+    - 1
+    - 5
+    quote: '> **Registry status (23 Oct 2026): CURRENT_WITH_CAVEATS; defects D01, D05, D06, D20.** η = 2.1 × 10⁻⁴ in this note is Brown (2026)''s
+      Arons-equivalent value, not the F-35A value under the module definition (Metz 2.26 × 10⁻³, pending Pete''s ruling); η values themselves
+      are unchanged, "× F-35A" multiples on 2.1e-4 are 10.8 times too high. Read `results/hydroacoustics/INDEX.md` (generated from the registry)
+      before you use any number here.
+
+
+      # Hydroacoustics: composition on run J — gated likelihood columns, upper limits on coupling, evidence three ways, Bayes factors per conditional,
+      two-site coincidence (work order 2026-10-21, block 11)
+
+
+      *Hydroacoustic Module (composition track), 22 Oct 2026 ~07:00 UTC. Unattended overnight run. Pre-registration `prepare/composition_run_j/prereg.py`
+      committed at `90d7181` BEFORE any likelihood value, limit, evidence or Bayes factor was computed; code at `dddfbd0` (+ this note''s commit
+      for amendments A2–A3, `tables.py`, `charts.py`). Data: `results-data/composition_run_j/` on `hypothesis/hydroacoustics` (tables, summaries,
+      exchange README copy); the per-impact columns, per-seed streamed accumulators and 1-in-125 subsamples in `/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated/`
+      (6.5 GB, SHA256SUMS, READY). Charts: `hydroacoustics-composition-run-j-evidence.{png,pdf}`, `hydroacoustics-composition-run-j-limits.{png,pdf}`.*'
+  n_files: 1
+  bytes: 57920
+  manifest: manifests/note.composition_run_j.tsv.gz
+  manifest_sha256: 9e70fc8edc15610ff54dfdf0d946f2945d2588c2c4892028b4a1ea290c94323e
+- id: note.core_set_windows
+  kind: note
+  path: WORK:results/hydroacoustics-core-set-windows.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-core-set-windows.md
+    lines:
+    - 1
+    - 12
+    quote: "# Hydroacoustics: request windows for the standard 00:19 option set (plain names) - PROVISIONAL-OVERNIGHT\n\n**Status:** This note\
+      \ relabels and re-unions existing per-arm results under architecture's ruling (~16:30 UTC,\n10 Oct) on the standard 00:19 options. No weights\
+      \ or quantiles are recomputed.\n**Script:** `prepare/core_set_windows.py` (`820f48d`, branch `hypothesis/hydroacoustics`).\n**Outputs:**\
+      \ `results-data/search_windows/core_set/{next-run-b-mixture,reference-289}/`.\n**Inputs:**\n- core (b): the stand-in mixture `results/hydroacoustics-next-run-b-standin/mixture/windows_by_arm.csv`,\
+      \ adopted by\n  the module at `2152191`;\n- reference-289: `438c9e9`.\n**Labels (core (b)):** core (b) split-half NOT converged; two-tank\
+      \ bookkeeping only; P(family) held fixed (0.6948 /\n0.1527 / 0.1376 / 0.0149); validation gate not run (EoF's next-run shares not yet available);\
+      \ uncorrected fuel;"
+  n_files: 1
+  bytes: 5646
+  manifest: manifests/note.core_set_windows.tsv.gz
+  manifest_sha256: 972c48e49b6fe38032cc2c835c74721fbb5941be2a3abd192ab5b000546ac5e1
+- id: note.coverage
+  kind: note
+  path: WORK:results/hydroacoustics-coverage.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-coverage.md
+    lines:
+    - 1
+    - 4
+    quote: '# Hydroacoustics: COVERAGE (Pete''s sampling-coverage rule, 10 Oct 2026)
+
+
+      *Hydroacoustic Module, 11 Oct 2026 ~00:05 UTC. One place for the coverage of every hydroacoustic result. Each results
+
+      note carries a short COVERAGE section that points here and adds its own gaps.*'
+  n_files: 1
+  bytes: 4736
+  manifest: manifests/note.coverage.tsv.gz
+  manifest_sha256: c00c4f4620233ff65b7b1b015627da02046d8c8fb2672aa7e3916d4054d42d0a
+- id: note.digitised_sources
+  kind: note
+  path: WORK:results/hydroacoustics-digitised-sources.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-digitised-sources.md
+    lines:
+    - 1
+    - 5
+    quote: '# Hydroacoustics: digitised sources inventory and extraction (work order block 1)
+
+
+      Hydroacoustic Module (digitisation track), 22 October 2026. Brief: `threads/master-prompts/hydroacoustics.md`
+
+      (Refresh v2 §4: no raw data from Kadri or Royer is expected, so every dataset rendered in the publications is
+
+      extracted and recorded). Work order: `threads/work-orders/hydroacoustics-order-2026-10-21.md`, block 1.'
+  n_files: 1
+  bytes: 23629
+  manifest: manifests/note.digitised_sources.tsv.gz
+  manifest_sha256: 3a4c7ab6d252e110fd94ae14334822b26dc6abb2048faf524354e51be9c56a8a
+- id: note.f35a_eta_calibration
+  kind: note
+  path: WORK:results/hydroacoustics-f35a-eta-calibration.md
+  status: SUPERSEDED
+  defects:
+  - D01
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-f35a-eta-calibration.md
+    lines:
+    - 1
+    - 6
+    quote: '> **Registry status (23 Oct 2026): SUPERSEDED; defects D01.** η = 2.1 × 10⁻⁴ in this note is Brown (2026)''s Arons-equivalent value,
+      not the F-35A value under the module definition (Metz 2.26 × 10⁻³, pending Pete''s ruling); η values themselves are unchanged, "× F-35A"
+      multiples on 2.1e-4 are 10.8 times too high. Superseded by registry entry ex.metz_f35a. Read `results/hydroacoustics/INDEX.md` (generated
+      from the registry) before you use any number here.
+
+
+      # Hydroacoustics: coupling efficiency η calibrated on the F-35A → H11 path, and stage C - PROVISIONAL
+
+
+      **Pre-registration:** `prepare/f35a_eta_calibration.py`, committed `3ca9564` before any transmission loss
+
+      on these paths was computed. A wording correction to its source citation followed in `ebfaae7`.'
+  superseded_by: ex.metz_f35a
+  n_files: 1
+  bytes: 5686
+  manifest: manifests/note.f35a_eta_calibration.tsv.gz
+  manifest_sha256: 40b4e398594a235cd77c39b7752984944879aeccec4ae7d9fca50c82d023f0fc
+- id: note.imos_detectors
+  kind: note
+  path: WORK:results/hydroacoustics-imos-detectors.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-imos-detectors.md
+    lines:
+    - 1
+    - 5
+    quote: '# Hydroacoustics items 2b and 2c: detectors on the IMOS raw data, the positive controls, Kadri at Perth Canyon - PROVISIONAL
+
+
+      **Pre-registered** at `02bb8d0` (`prepare/imos_detectors.py`). Run at `hypothesis/hydroacoustics` HEAD;
+
+      outputs are in `results-data/imos2b/`. Noise, clock and coverage come from item 1d
+
+      (`hydroacoustics-imos-noise.md`).'
+  n_files: 1
+  bytes: 5976
+  manifest: manifests/note.imos_detectors.tsv.gz
+  manifest_sha256: 6636819aba56af00b2961131061e09cbbb3cc16244fabbe2d0440646c12da354
+- id: note.imos_noise
+  kind: note
+  path: WORK:results/hydroacoustics-imos-noise.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-imos-noise.md
+    lines:
+    - 1
+    - 4
+    quote: '# Hydroacoustics item 1d: noise in the IMOS raw data, and what the recorders could have caught - PROVISIONAL
+
+
+      **Pre-registered** at `0ffa244` (`prepare/imos_preregistration.py`) before any sample was read. Run by
+
+      `prepare/imos_noise.py` at `hypothesis/hydroacoustics` HEAD. Outputs are in `results-data/imos1d/`.'
+  n_files: 1
+  bytes: 5897
+  manifest: manifests/note.imos_noise.tsv.gz
+  manifest_sha256: 7384f969cf0f534fde42a1a35ec3eb7f006e455251a39c092b5c4359ae384fa2
+- id: note.imos_ram_grid
+  kind: note
+  path: WORK:results/hydroacoustics-imos-ram-grid.md
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D01
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-imos-ram-grid.md
+    lines:
+    - 1
+    - 9
+    quote: '> **Registry status (23 Oct 2026): CURRENT_WITH_CAVEATS; defects D01.** η = 2.1 × 10⁻⁴ in this note is Brown (2026)''s Arons-equivalent
+      value, not the F-35A value under the module definition (Metz 2.26 × 10⁻³, pending Pete''s ruling); η values themselves are unchanged, "×
+      F-35A" multiples on 2.1e-4 are 10.8 times too high. Read `results/hydroacoustics/INDEX.md` (generated from the registry) before you use
+      any number here.
+
+
+      # Hydroacoustics — RAM (coupled modes) along the arc grid at the five IMOS loggers: closure of gap G-TL1 (work order 2026-10-21)
+
+
+      Hydroacoustic Module (imos-ram-grid track), overnight unattended run 21/22 Oct 2026 (local MDT; 22 Oct UTC). **PREDICTIVE, NOT
+
+      CALIBRATED.** Caveats **C1** (propagation slope misfit, +10.4/+7.4 dB per octave at H01W/H08S; a source-term caveat after the
+
+      recalibration track''s EW0112 result) and **C2** (coupling efficiency not calibrated; η swept over four decades, F-35A upper anchor
+
+      2.1e-4) travel with every number here. Nothing in this note is timed; both Kadri times ("text time 00:52:03", "caption time
+
+      00:54:30") are carried unchanged by the consumers. No likelihood is written: the module still returns zero likelihood.'
+  n_files: 1
+  bytes: 28987
+  manifest: manifests/note.imos_ram_grid.tsv.gz
+  manifest_sha256: 927ef88153f8799c11c710002e2d98a541c81509c3b3abe93d1047e47a38ea76
+- id: note.ims_noise_blackman
+  kind: note
+  path: WORK:results/hydroacoustics-ims-noise-blackman.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-ims-noise-blackman.md
+    lines:
+    - 1
+    - 8
+    quote: "# Hydroacoustics: ambient noise at H01W, H08S and H08N, traced from Blackman et al. (2004) Appendix B\n\n**What this is.** These are\
+      \ background-noise levels at the three IMS hydrophone stations relevant to MH370. They\nreplace the stand-in used until now, which was the\
+      \ Perth Canyon IMOS logger's 2014 level.\n- **Source** [Blackman2004UCRL]: the blue noise curves in Appendix B (PDF pp. 27–33, Figs B1–B11),\
+      \ from the 2003\n  cruise. Each curve is the mean of the three sensors over 6 s, taken 20 s before each shot's predicted arrival (p. 27).\n\
+      - **Code:** `prepare/blackman_noise.py`, pre-registered at `e137521`; outputs at `889bc7f` (`results-data/blackman_noise/`).\n- **Labels:**\
+      \ 2003 levels, not 8 Mar 2014; calibration convention inferred (see below)."
+  n_files: 1
+  bytes: 9384
+  manifest: manifests/note.ims_noise_blackman.tsv.gz
+  manifest_sha256: 3d7ca2789631c4dc27c5c61b4a2a3a566fa5d0fa24f9c3785f267a025f940d17
+- id: note.injection_recovery_run_j
+  kind: note
+  path: WORK:results/hydroacoustics-injection-recovery-run-j.md
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D05
+  - D06
+  - D22
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-injection-recovery-run-j.md
+    lines:
+    - 1
+    - 5
+    quote: '> **Registry status (23 Oct 2026): CURRENT_WITH_CAVEATS; defects D05, D06, D22.** Uses the old IMOS TL table (imos_tl_ramcorr), superseded
+      by imos_tl_ram_arc.csv. Read `results/hydroacoustics/INDEX.md` (generated from the registry) before you use any number here.
+
+
+      # Hydroacoustics: injection-recovery on run J — P_D against received level, the gate of contract rule 2 (block 7)
+
+
+      *Hydroacoustic Module (block 7 track), 22 Oct 2026 ~04:40 UTC. Unattended overnight run of work order 2026-10-21. Pre-registration `prepare/injection_recovery_run_j/prereg.py`
+      committed at e816313 before any statistic on hydrophone data; code at 0106f51 (+ this note''s commit). Data: `results-data/injection_run_j/`
+      on `hypothesis/hydroacoustics` (tables, fits, thresholds, summaries); full outputs including the 26,460-row injection table, null maxima,
+      templates and the run J subsample in `mh370-exchange/hydroacoustics/run-j-injection/` (214 MB, SHA256SUMS).*'
+  n_files: 1
+  bytes: 25439
+  manifest: manifests/note.injection_recovery_run_j.tsv.gz
+  manifest_sha256: e2216c80428640e4b2edec51f312323dbcfec27eb170ebab24915485f4341514
+- id: note.item3_injection_recovery
+  kind: note
+  path: WORK:results/hydroacoustics-item3-injection-recovery.md
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D01
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-item3-injection-recovery.md
+    lines:
+    - 1
+    - 7
+    quote: '> **Registry status (23 Oct 2026): CURRENT_WITH_CAVEATS; defects D01.** η = 2.1 × 10⁻⁴ in this note is Brown (2026)''s Arons-equivalent
+      value, not the F-35A value under the module definition (Metz 2.26 × 10⁻³, pending Pete''s ruling); η values themselves are unchanged, "×
+      F-35A" multiples on 2.1e-4 are 10.8 times too high. Read `results/hydroacoustics/INDEX.md` (generated from the registry) before you use
+      any number here.
+
+
+      # Hydroacoustics item 3: injection-recovery and the P_D gate at the IMOS recorders - PROVISIONAL
+
+
+      **Pre-registrations:**
+
+      - Stage A (`eb83b31`): P_D against SNR by injection.
+
+      - Stage B (`64752c7`): from source energy to SNR.'
+  n_files: 1
+  bytes: 5864
+  manifest: manifests/note.item3_injection_recovery.tsv.gz
+  manifest_sha256: a1a4ddbcd335361f5a1ba69fe5fc6ff54cb72330f755a4f7b819d03c0bfe35e2
+- id: note.kadri_package_v2
+  kind: note
+  path: WORK:results/hydroacoustics-kadri-package-v2.md
+  status: KNOWN_DEFECT
+  defects:
+  - D01
+  - D22
+  - D07
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-kadri-package-v2.md
+    lines:
+    - 1
+    - 10
+    quote: '> **Registry status (23 Oct 2026): KNOWN_DEFECT; defects D01, D22, D07.** η = 2.1 × 10⁻⁴ in this note is Brown (2026)''s Arons-equivalent
+      value, not the F-35A value under the module definition (Metz 2.26 × 10⁻³, pending Pete''s ruling); η values themselves are unchanged, "×
+      F-35A" multiples on 2.1e-4 are 10.8 times too high. Uses the old IMOS TL table (imos_tl_ramcorr), superseded by imos_tl_ram_arc.csv. Read
+      `results/hydroacoustics/INDEX.md` (generated from the registry) before you use any number here.
+
+
+      # Hydroacoustics: Kadri collaboration package v2 (work order 2026-10-21, block 12) — PREPARE ONLY
+
+
+      *Hydroacoustic Module (Kadri-package track), 22 Oct 2026 ~05:00 UTC. Unattended overnight run. Module commits `f2b678c`, `a58c3c5`
+
+      (`prepare/kadri_package/v2-2026-10-22/` on `hypothesis/hydroacoustics`). Zip-ready copy: `/Users/pete/Downloads/mh370-exchange/hydroacoustics/kadri-package-v2/`
+
+      (39 MB with the synthetic waveforms; the zip itself 18.6 MB; SHA256SUMS). **Nothing has been sent. Pete approves before anything leaves
+      the project.**
+
+      No statistic on hydrophone data was computed in this block (nothing to pre-register); every number is PREDICTIVE, NOT CALIBRATED with
+
+      caveats C1 (propagation slope misfit, +10.4/+7.4 dB per octave at H01W/H08S) and C2 (coupling efficiency not calibrated; η over four decades,
+
+      F-35A upper anchor 2.1e-4). Both Kadri times carried everywhere: text time 00:52:03 and caption time 00:54:30.*'
+  n_files: 1
+  bytes: 9859
+  manifest: manifests/note.kadri_package_v2.tsv.gz
+  manifest_sha256: ab8a1870faf07da0d1b8a427ad90aded27c4a2f8fce15a8ba33a37158d50769d
+- id: note.kadri_table1_test
+  kind: note
+  path: WORK:results/hydroacoustics-kadri-table1-test.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-kadri-table1-test.md
+    lines:
+    - 1
+    - 4
+    quote: '# Hydroacoustics interim deliverable 2a: Kadri (2024) H01W transients against the impact PDF - PROVISIONAL
+
+
+      **Pre-registered** in `prepare/kadri_table1_test.py` (`hypothesis/hydroacoustics` at `0b14da9`) before the
+
+      first run. One implementation defect was fixed after the run (`e0ad490`; see "Correction" below).'
+  n_files: 1
+  bytes: 5872
+  manifest: manifests/note.kadri_table1_test.tsv.gz
+  manifest_sha256: 8c196ce3e16c7be5898557c92bdbb3d4f0d4e9c591a04bf6d9c75ad4d8ddf388
+- id: note.literature_review
+  kind: note
+  path: WORK:results/hydroacoustics-literature-review.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-literature-review.md
+    lines:
+    - 1
+    - 3
+    quote: '# Hydroacoustics module: literature review of the state of the art
+
+
+      Brief: `Claude Science Project Sep 29/threads/master-prompts/hydroacoustics.md` (27,457 B, branch `claude-science-sep29`), deliverable §10
+      item 2(a). Inbox `coordination/HYDROACOUSTICS.md` read (entries to 2026-10-08). Companion files: `hydroacoustics-prior-work-critique.md`,
+      `hydroacoustics-bibliography.csv` (keys used below), `ground-truth-cases.csv` (37 rows).'
+  n_files: 1
+  bytes: 29155
+  manifest: manifests/note.literature_review.tsv.gz
+  manifest_sha256: d19b7a5bbbb1d36a3eef019a11809919fe7ba20c9d490046c5217a38b2b2805e
+- id: note.methods_draft
+  kind: note
+  path: WORK:results/hydroacoustics-methods-draft.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-methods-draft.md
+    lines:
+    - 1
+    - 11
+    quote: '# Hydroacoustics module: methods (draft for the paper) - PROVISIONAL-OVERNIGHT
+
+
+      **Status:** working draft, written 10 Oct 2026 (~04:00–05:00 UTC) under the overnight plan
+
+      (`coordination/OVERNIGHT-2026-10-10.md`). It describes methods only. **No result in it is final.** Every
+
+      number is copied from a committed results note, which is named beside it.
+
+      **Labels:** prior impacts are either the *stand-in* (run `no-exhaustion-prior`, `b3dd44b`, track
+
+      295.66° ± 1.0°, `config/sensitivity/no-exhaustion-prior.toml`) or *reference-289* (`runs/snap289-m0011`,
+
+      track 289.7° ± 1.0°, `davey2016.toml` + `sensitivity/no-exhaustion-prior.toml` +
+
+      `sensitivity/reference-snapshots.toml`, rev `55c4536-dirty`). Both carry **uncorrected fuel** and a
+
+      **provisional sampler**. Platform: macOS arm64 workstation.
+
+      **Citations:** keys are those in `hydroacoustics-references.md` / `.bib`. Square brackets mark a key.'
+  n_files: 1
+  bytes: 15375
+  manifest: manifests/note.methods_draft.tsv.gz
+  manifest_sha256: e662c8ae3aae9c8c83c67c6588029edc8dd9074ad3dd2abd39eb72655dc93f4c
+- id: note.metz_f35a_anchor
+  kind: note
+  path: WORK:results/hydroacoustics-metz-f35a-anchor.md
+  status: PENDING_RULING
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-metz-f35a-anchor.md
+    lines:
+    - 1
+    - 7
+    quote: '> **Registry status (23 Oct 2026): PENDING_RULING.** Its result waits for Pete''s ruling. Read `results/hydroacoustics/INDEX.md` (generated
+      from the registry) before you use any number here.
+
+
+      # Hydroacoustics: the F-35A coupling anchor re-derived from Metz et al. (2023) through the module''s own chain; real-arrival test of the
+      matched filter; TL route 2; source-pulse check — PREDICTIVE, NOT CALIBRATED
+
+
+      *Hydroacoustic Module, track "metz-f35a", 22 October 2026 (Pete''s correction list items 1, 2 F-35A part, 4, 5). Every number
+
+      carries caveats C1 (propagation slope) and C2 (coupling efficiency not calibrated for an airliner). All F-35A data are
+
+      DIGITISED from the published figures; nothing here is a CTBTO waveform sample. No detection is claimed.*'
+  n_files: 1
+  bytes: 20977
+  manifest: manifests/note.metz_f35a_anchor.tsv.gz
+  manifest_sha256: 51bb6859519af69dac9f412591f6745329bfb766defb380064617a7ffcab9559
+- id: note.near_limits_planning
+  kind: note
+  path: WORK:results/hydroacoustics-near-limits-planning.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-near-limits-planning.md
+    lines:
+    - 1
+    - 5
+    quote: '# Hydroacoustics: what is detectable near the limits, and what a weak multi-site detection is worth - EXPLORATORY
+
+
+      **Status.** This is a planning analysis, not a test: no recorded data were searched. The scripts are in
+
+      `engine/hypotheses/hydroacoustics/prepare/exploratory/` and the outputs in
+
+      `results-data/near_limits/` (module commit on `hypothesis/hydroacoustics`).'
+  n_files: 1
+  bytes: 7603
+  manifest: manifests/note.near_limits_planning.tsv.gz
+  manifest_sha256: b931972f28db329929bb91b2a181a02ede687d68a38a2840ac2f7beb4f1f07f4
+- id: note.next_run_b_standin
+  kind: note
+  path: WORK:results/hydroacoustics-next-run-b-standin.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-next-run-b-standin.md
+    lines:
+    - 1
+    - 6
+    quote: '# Hydroacoustics: search and request windows from the core (b) impacts, +alive and +silent (stand-in run)
+
+
+      **Run by an architecture stand-in on the module''s behalf; module to review.** Hydroacoustics was idle overnight. Its
+
+      pre-approved item (`coordination/OVERNIGHT-2026-10-10.md` §3, Hydroacoustics) is to re-derive its windows from the new
+
+      impacts once end of flight had ruled on impact times. End of flight ruled at 04:05 UTC (+alive reference, +silent
+
+      sensitivity) and `end-of-flight/next-run/READY` was written at 08:36Z. Run 09:18–10:03Z, 10 Oct 2026.'
+  n_files: 1
+  bytes: 19133
+  manifest: manifests/note.next_run_b_standin.tsv.gz
+  manifest_sha256: aca09aaf0c84628cb470bec91c2aa765720d78a7afc1f2111f70de523d1afa51
+- id: note.nx2d_corridor
+  kind: note
+  path: WORK:results/hydroacoustics-nx2d-corridor.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-nx2d-corridor.md
+    lines:
+    - 2
+    - 13
+    quote: "## Amendment 1: K3 (blocked-but-detected) and K4 (MH370 → H08N); pre-registered fc667060, results 5d26c80a\n- **K3, A11sus (915 m)\
+      \ → H08S across the Cocos (Keeling) Islands.** The geodesic is BLOCKED, as the audit found. The\n  corridor is **open**: open weight 0.40\
+      \ at 5 Hz, falling to 0.19 at 31.5–63 Hz, with TL 106–116 dB. The observed\n  detection is therefore within the corridor's reach.\n  - C2\
+      \ station difference (H01W − H08S, observed − model) over the 4 shared bands 12.5/40/50/63 Hz:\n    - level **+7.9 dB, FAIL**;\n    - slope\
+      \ +1.4 dB/oct, PASS;\n    - shape 1.7 dB, PASS.\n  - The corridor gets the spectral shape right but over-predicts the island-shadowed signal\
+      \ by about 8 dB.\n  - Deviation: the H01W corridor was computed for the 4 shared bands only; the full run exceeded 10 min.\n- **K4, the\
+      \ MH370 representative impact (−37.99 S, 89.857 E) → H08N: BLOCKED** in all 510 members, 5–40 Hz.\n  Great Chagos Bank is crossed 55–150\
+      \ km before the receiver, where F is only 5–11 km."
+  n_files: 1
+  bytes: 1337
+  manifest: manifests/note.nx2d_corridor.tsv.gz
+  manifest_sha256: fabc44a3466509bc8a506e4f59fd398994c996441469d632a10cb3488d17124f
+- id: note.overnight_2026_10_22_summary
+  kind: note
+  path: WORK:results/hydroacoustics-overnight-2026-10-22-summary.md
+  status: KNOWN_DEFECT
+  defects:
+  - D01
+  - D02
+  - D05
+  - D07
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-overnight-2026-10-22-summary.md
+    lines:
+    - 1
+    - 9
+    quote: '> **Registry status (23 Oct 2026): KNOWN_DEFECT; defects D01, D02, D05, D07.** η = 2.1 × 10⁻⁴ in this note is Brown (2026)''s Arons-equivalent
+      value, not the F-35A value under the module definition (Metz 2.26 × 10⁻³, pending Pete''s ruling); η values themselves are unchanged, "×
+      F-35A" multiples on 2.1e-4 are 10.8 times too high. Read `results/hydroacoustics/INDEX.md` (generated from the registry) before you use
+      any number here.
+
+
+      # Hydroacoustics — overnight run of work order 2026-10-21 (21/22 October 2026): summary
+
+
+      **Status: every block of the work order ran and is committed. No detection is claimed. The module''s likelihood in the
+
+      composer stays at zero pending an architecture ruling. All numbers are PREDICTIVE, NOT CALIBRATED, and carry caveats C1
+
+      (propagation source-term misfit) and C2 (coupling efficiency η not calibrated; swept over four decades, F-35A anchor
+
+      η = 2.1e-4).** Read this note first, then the block notes it points to. Every block note has its own COVERAGE section and
+
+      a list of deviations from its task; the deviations are repeated here in short form because they qualify every number.'
+  n_files: 1
+  bytes: 18084
+  manifest: manifests/note.overnight_2026_10_22_summary.tsv.gz
+  manifest_sha256: 664c8023673985c5ec63e37c67330780f805af83207aa71ee615dcd7103a355a
+- id: note.pair_tests_oct09
+  kind: note
+  path: WORK:results/hydroacoustics-pair-tests-oct09.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-pair-tests-oct09.md
+    lines:
+    - 1
+    - 4
+    quote: '# Hydroacoustics: first two-site pair counts on data in hand, and what the impact energies imply - PROVISIONAL
+
+
+      **Pre-registration:** `prepare/kadri_trace_pairs.py` and `prepare/imos_coincidence.py`, both committed
+
+      at `bf97e70` before any count was computed.'
+  n_files: 1
+  bytes: 20722
+  manifest: manifests/note.pair_tests_oct09.tsv.gz
+  manifest_sha256: 6973e5be5b5e6e4c21d0d0e19a487fcb3b78a9104ed2460f9a9a8cfe4a0dd26f
+- id: note.pleiades_test_preregistration
+  kind: note
+  path: WORK:results/hydroacoustics-pleiades-test-preregistration.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-pleiades-test-preregistration.md
+    lines:
+    - 1
+    - 6
+    quote: '# Pre-registration: hydroacoustic test of the Pléiades hypothesis (first pass, core (b))
+
+
+      **Run by an architecture stand-in for the hydroacoustics module; module to review.** Written and committed
+
+      **before any R_hyd was computed** (architecture ~20:00 and ~20:10 UTC, 10 Oct 2026). At the time of writing, the
+
+      Pléiades stand-in''s `READY` flag did not exist; three strata of per-impact columns were on disk, and no value in
+
+      them had been read. Changes after the first R_hyd are amendments, committed and disclosed.'
+  n_files: 1
+  bytes: 15384
+  manifest: manifests/note.pleiades_test_preregistration.tsv.gz
+  manifest_sha256: 7c6d3105424df11cf143a8dd4c6c90efb515310d01b8ba0896211ed0c15fd1ed
+- id: note.pleiades_test_standin
+  kind: note
+  path: WORK:results/hydroacoustics-pleiades-test-standin.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-pleiades-test-standin.md
+    lines:
+    - 1
+    - 7
+    quote: '# Hydroacoustic test of the Pléiades hypothesis: first pass on core (b) (stand-in)
+
+
+      **Run by an architecture stand-in for the hydroacoustics module; module to review.** 10 Oct 2026.
+
+      **Labels:** core (b) not converged (split-half); two-tank bookkeeping only; Pléiades/COSMO transport errors treated as
+
+      independent (correlation pending from ocean transport); GlobCurrent windage as run (debris-drift audit F1); end-of-flight
+
+      sweep run by a stand-in (EoF `3c6319f`); L_hyd is a stand-in construction from the module''s exploratory per-sample
+
+      model, not the module''s gated likelihood (its `impact_log_likelihood` still returns 0.0). PROVISIONAL.'
+  n_files: 1
+  bytes: 17433
+  manifest: manifests/note.pleiades_test_standin.tsv.gz
+  manifest_sha256: 1bdfb3a569cd42cef8ebfae986b1e99ba6a34a894cc88d09ff95b43c5c1eeb74
+- id: note.prior_work_critique
+  kind: note
+  path: WORK:results/hydroacoustics-prior-work-critique.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-prior-work-critique.md
+    lines:
+    - 1
+    - 3
+    quote: '# Hydroacoustics module: critical review of prior work on the MH370 case
+
+
+      Brief §10 item 2(b). The literature context and the keys used here are in `hydroacoustics-literature-review.md` and `hydroacoustics-bibliography.csv`.'
+  n_files: 1
+  bytes: 29298
+  manifest: manifests/note.prior_work_critique.tsv.gz
+  manifest_sha256: fc0044397ff945de234d8dabf9eaa757edea3eaf44c5f0976b7727d5677f69df
+- id: note.ram_tl_check
+  kind: note
+  path: WORK:results/hydroacoustics-ram-tl-check.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-ram-tl-check.md
+    lines:
+    - 1
+    - 4
+    quote: '# Hydroacoustics: RAM parabolic-equation cross-check of the KRAKEN transmission loss - PROVISIONAL
+
+
+      **Pre-registration:** `prepare/ram_tl_check.py`, committed `6b747a1` before any matched comparison was
+
+      computed.'
+  n_files: 1
+  bytes: 4887
+  manifest: manifests/note.ram_tl_check.tsv.gz
+  manifest_sha256: 8eb653cb8b1005b42b69bc22941eb91cd634bbcce18fa6d495d16cdd13ba7a57
+- id: note.references
+  kind: note
+  path: WORK:results/hydroacoustics-references.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-references.md
+    lines:
+    - 1
+    - 4
+    quote: '# Hydroacoustics module: citation ledger
+
+
+      **Standing rule ~01:20 UTC, 9 Oct, with the ~02:25 correction:** this ledger and
+
+      `hydroacoustics-references.bib` (same keys) both live in `results/`.'
+  n_files: 1
+  bytes: 18032
+  manifest: manifests/note.references.tsv.gz
+  manifest_sha256: d29d481229d7b9dca6651500ec827bf062484c32fcb4e3e5b813543ab49cd3c6
+- id: note.run_c_windows
+  kind: note
+  path: WORK:results/hydroacoustics-run-c-windows.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-run-c-windows.md
+    lines:
+    - 1
+    - 3
+    quote: '# Hydroacoustics: arrival windows and validation gate on end of flight''s run C
+
+
+      *Hydroacoustic Module, 11 Oct 2026 ~06:40 UTC. Data: `results-data/search_windows/next-run-c/` on `hypothesis/hydroacoustics`.*'
+  n_files: 1
+  bytes: 3492
+  manifest: manifests/note.run_c_windows.tsv.gz
+  manifest_sha256: 981ccec2896b1b5a3b818ba5e9e54b620243ee0954350d9ac7ef5f2ca2a52d9f
+- id: note.run_j_levels
+  kind: note
+  path: WORK:results/hydroacoustics-run-j-levels.md
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D01
+  - D05
+  - D25
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-run-j-levels.md
+    lines:
+    - 1
+    - 5
+    quote: '> **Registry status (23 Oct 2026): CURRENT_WITH_CAVEATS; defects D01, D05, D25.** η = 2.1 × 10⁻⁴ in this note is Brown (2026)''s Arons-equivalent
+      value, not the F-35A value under the module definition (Metz 2.26 × 10⁻³, pending Pete''s ruling); η values themselves are unchanged, "×
+      F-35A" multiples on 2.1e-4 are 10.8 times too high. Read `results/hydroacoustics/INDEX.md` (generated from the registry) before you use
+      any number here.
+
+
+      # Hydroacoustics: received levels, detectability and the power screen on run J (block 3, level half; block 6 noise-versus-levels charts,
+      loudness maps, illustrative traces)
+
+
+      *Hydroacoustic Module (levels track), 22 Oct 2026, unattended overnight run of work order 2026-10-21. Pre-registration `prepare/run_j_levels.py`
+      committed at `4277320` on `hypothesis/hydroacoustics` before any draw or any recording was read. One amendment (plumbing, disclosed in §8).
+      Data: `results-data/levels_run_j/` (tables, 0.5 MB); full products in `/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-levels/`
+      (491 MB: draws, per-key SNR histograms, noise percentiles, SHA256SUMS).*'
+  n_files: 1
+  bytes: 26453
+  manifest: manifests/note.run_j_levels.tsv.gz
+  manifest_sha256: dc8fc199cead6c6b0b87069790e0cdcb90a6e7eccec751db46ea0ef337ac1a40
+- id: note.run_j_windows
+  kind: note
+  path: WORK:results/hydroacoustics-run-j-windows.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-run-j-windows.md
+    lines:
+    - 1
+    - 3
+    quote: '# Hydroacoustics: arrival windows on run J (block 3, timing half; block 6 timeline charts)
+
+
+      *Hydroacoustic Module (run J windows track), 22 Oct 2026 03:11 UTC. Unattended overnight run of work order 2026-10-21. Pre-registration
+      `prepare/run_j_windows.py` committed at bc99b07 before any run; amendment 1 (plumbing only: subprocess workers instead of a process pool,
+      the sandbox forbids POSIX semaphores) disclosed in the docstring. Data: `results-data/windows_run_j/` on `hypothesis/hydroacoustics` (windows.csv,
+      coverage.csv, request_windows.csv, ess.json, run.json); per-seed histograms in `mh370-exchange/hydroacoustics/run-j-windows/` (153 MB).*'
+  n_files: 1
+  bytes: 16549
+  manifest: manifests/note.run_j_windows.tsv.gz
+  manifest_sha256: bfb477cf90848e23f09ae173af4ff20b676fafafc89a00a2c455d6280ff518fc
+- id: note.search_windows_ref289
+  kind: note
+  path: WORK:results/hydroacoustics-search-windows-ref289.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-search-windows-ref289.md
+    lines:
+    - 1
+    - 12
+    quote: '# Hydroacoustics: search and request windows from the reference-289 impacts, +alive and +silent - PROVISIONAL-OVERNIGHT
+
+
+      **Status:** This run validates the method; it is **not the deliverable**. Architecture (~03:20 UTC, 10 Oct) asked for
+
+      the windows to come from the large-run impacts. The same pre-registered script will run on those when
+
+      `end-of-flight/next-run/READY` appears.
+
+      **Labels:** PROVISIONAL-OVERNIGHT; uncorrected fuel; provisional sampler.
+
+      **Provenance** (from each seed''s `run.json`):
+
+      - Impacts: reference-289, exchange `eof-289-full` seeds 1–4, 3.2M rows each; hand-off `runs/snap289-m0011`.
+
+      - Prior track 289.7° ± 1.0°.
+
+      - Configs: `davey2016.toml` + `sensitivity/no-exhaustion-prior.toml` + `sensitivity/reference-snapshots.toml`.
+
+      - Code revision `55c4536-dirty`. Platform: Mac arm64.
+
+      **Script:** `prepare/search_windows.py`, pre-registered at `55eb191` (branch `hypothesis/hydroacoustics`).'
+  n_files: 1
+  bytes: 5290
+  manifest: manifests/note.search_windows_ref289.tsv.gz
+  manifest_sha256: a27be8af9e1ec751380895f289e2a937ba10827d60d9ffc2197b5d41adc054a8
+- id: note.searches_run_j
+  kind: note
+  path: WORK:results/hydroacoustics-searches-run-j.md
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D06
+  - D24
+  - D26
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-searches-run-j.md
+    lines:
+    - 1
+    - 5
+    quote: '> **Registry status (23 Oct 2026): CURRENT_WITH_CAVEATS; defects D06, D24, D26.** Read `results/hydroacoustics/INDEX.md` (generated
+      from the registry) before you use any number here.
+
+
+      # Hydroacoustics: pre-registered searches on the data held, run J (work order 2026-10-21, blocks 4 and 5)
+
+
+      *Hydroacoustic Module (searches track), 22 Oct 2026. Unattended overnight run. Pre-registration committed to the module branch at `a4cdab0`
+      (`prepare/searches_run_j/preregistration.py`, with `prereg_windows.csv`, `prereg_lag_intervals.csv`, `prereg_impact_time_bands.csv`) BEFORE
+      any statistic was computed on hydrophone data. Code: `engine/hypotheses/hydroacoustics/prepare/searches_run_j/` (module branch). Tables:
+      `results-data/searches_run_j/` (module branch) and `/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-searches/` (293 MB, SHA256SUMS).
+      Charts: `results/hydroacoustics-searches-run-j-timeline.{png,pdf}`, `results/hydroacoustics-searches-run-j-table1.{png,pdf}`.*'
+  n_files: 1
+  bytes: 20882
+  manifest: manifests/note.searches_run_j.tsv.gz
+  manifest_sha256: cdddf0dcdb69109c4c5b61c16562a8d9cd3ea7e10c585c8ae6332bc034d3fba4
+- id: note.synthetic_composer_test
+  kind: note
+  path: WORK:results/hydroacoustics-synthetic-composer-test.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-synthetic-composer-test.md
+    lines:
+    - 1
+    - 5
+    quote: '# Hydroacoustics: synthetic composer test (brief §7 step 2) - PROVISIONAL
+
+
+      **What it asks.** How much would a hydroacoustic detection at one, two or three IMS sites, with O−C
+
+      inside its stated uncertainty, move the impact PDF? It needs no propagation engine and no real data,
+
+      and the brief and the architect both rank it ahead of building any detection method.'
+  n_files: 1
+  bytes: 4720
+  manifest: manifests/note.synthetic_composer_test.tsv.gz
+  manifest_sha256: 2ee5b52416cce0ddde983255010eec1a8742bb090a2d7a5b623afc7e50b2bb34
+- id: note.tl_grid_run_j
+  kind: note
+  path: WORK:results/hydroacoustics-tl-grid-run-j.md
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D01
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-tl-grid-run-j.md
+    lines:
+    - 1
+    - 9
+    quote: '> **Registry status (23 Oct 2026): CURRENT_WITH_CAVEATS; defects D01.** η = 2.1 × 10⁻⁴ in this note is Brown (2026)''s Arons-equivalent
+      value, not the F-35A value under the module definition (Metz 2.26 × 10⁻³, pending Pete''s ruling); η values themselves are unchanged, "×
+      F-35A" multiples on 2.1e-4 are 10.8 times too high. Read `results/hydroacoustics/INDEX.md` (generated from the registry) before you use
+      any number here.
+
+
+      # Hydroacoustics — whole-arc transmission-loss grid for run J (work order 2026-10-21, block 2)
+
+
+      Hydroacoustic Module (tl-grid track), 22 October 2026, overnight unattended run. Brief: `threads/master-prompts/hydroacoustics.md`
+
+      (Refresh v2 §3 latitude span, §9(e) grid extension). Inbox read at start (`coordination/HYDROACOUSTICS.md`, last entry 21 Oct
+
+      ~18:30Z). **PREDICTIVE, NOT CALIBRATED.** Every number below carries caveats **C1** (propagation slope misfit, +10.4/+7.4 dB per
+
+      octave at H01W/H08S) and **C2** (coupling efficiency not calibrated; η swept over four decades, F-35A upper anchor 2.1e-4).
+
+      No recording was read; this note is a model statement, not a statistic on data. Nothing here is evidence of a detection.'
+  n_files: 1
+  bytes: 28379
+  manifest: manifests/note.tl_grid_run_j.tsv.gz
+  manifest_sha256: 7430def54a3389c31771c743f16be429e91a26029c62ad6cf955dd7d4d74c1f0
+- id: note.weak_signal_methods
+  kind: note
+  path: WORK:results/hydroacoustics-weak-signal-methods.md
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D05
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics-weak-signal-methods.md
+    lines:
+    - 1
+    - 9
+    quote: '> **Registry status (23 Oct 2026): CURRENT_WITH_CAVEATS; defects D05.** Read `results/hydroacoustics/INDEX.md` (generated from the
+      registry) before you use any number here.
+
+
+      # Hydroacoustics — weak-signal method trials (work order 2026-10-21, block 8; brief Refresh v2 §7)
+
+
+      **Status: DONE as a method trial; PREDICTIVE, NOT CALIBRATED. No detection is claimed.** Every number below carries
+
+      caveat C1 (propagation slope misfit, +10.4/+7.4 dB per octave at H01W/H08S) and C2 (coupling efficiency not
+
+      calibrated; η swept over four decades, F-35A upper anchor). The Kadri Fig. 9 traces are DIGITISED plots (PDF vector
+
+      polylines, ~14.5 vertices/s, envelope resolution), not recordings. Both Kadri times are carried everywhere: text time
+
+      00:52:03 and caption time 00:54:30.'
+  n_files: 1
+  bytes: 30542
+  manifest: manifests/note.weak_signal_methods.tsv.gz
+  manifest_sha256: 6600b9fa4774ff21a63244e2aaf515f352353086f53c24c3e8b0fd22a24527d2
+- id: note.source_access_ledger_2026_10_22
+  kind: note
+  path: WORK:results/source-access-ledger-2026-10-22.md
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/source-access-ledger-2026-10-22.md
+    lines:
+    - 1
+    - 3
+    quote: '# Source access ledger — 22 October 2026
+
+
+      Prepared at Pete''s request (22 Oct 2026). Pete''s ruling: the project has the right to use every source stored in the repo, the Google
+      Drive and the project source folders; a publisher''s access status is not a reason to avoid a source. This ledger records, for every source
+      that had a blocking label, whether a copy is held and where. The machine-readable table is `source-access-ledger-2026-10-22.csv` (78 rows).'
+  n_files: 1
+  bytes: 7155
+  manifest: manifests/note.source_access_ledger_2026_10_22.tsv.gz
+  manifest_sha256: 0b541dae6d74a66846c6021b772e677220d9d378f248e658637dfa5fe5f3157a
+- id: ex.register_2026_10_23
+  kind: product
+  path: EX:register-2026-10-23
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D05
+  - D06
+  - D24
+  - D25
+  - D26
+  verified_this_run: true
+  definition:
+    file: EX:register-2026-10-23/README.txt
+    lines:
+    - 1
+    - 4
+    quote: 'Hydroacoustic detection register, 23 Oct 2026 (hydro clean-up run, proposal v6 block 2). EXPLORATORY; PREDICTIVE, NOT CALIBRATED;
+      caveats C1, C2.
+
+      It replaces, for reading, graphics-2026-10-22/ranked (registry status KNOWN_DEFECT: D01-D04, D07, D08, D26) and the withdrawn Take 2 feasibility
+      tables.
+
+      Every row of ranked_singles / ranked_pairs / ranked_triples is kept. Nothing is ranked, selected or called a candidate here.
+
+      Code: module branch hypothesis/hydroacoustics, prepare/gates/gates.py (checks), build_register.py (this table), test_gates.py (9 tests;
+      they'
+  note: 'Built in this run; replaces ex.ranked for reading. Independent verification: see the verifier report.'
+  n_files: 6
+  bytes: 11034532
+  manifest: manifests/ex.register_2026_10_23.tsv.gz
+  manifest_sha256: 7c80f11e4f754dcd17d8fe3f398e4245c4c538aa3fb7282c7ad8af832438477b
+- id: code.module_prepare
+  kind: code
+  path: MOD:prepare
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  note: All module scripts (pre-registrations, workers, checks). Version is the module branch commit in git.module_branch.
+  n_files: 180
+  bytes: 3958037
+  manifest: manifests/code.module_prepare.tsv.gz
+  manifest_sha256: 2c97c1ad78f6c003f0595619d61f729f7ef78694f84f1696ebb0fa020e3e3960
+  definition:
+    file: null
+    lines: null
+    quote: null
+    note: NO DEFINITION LOCATED
+- id: code.module_engine
+  kind: code
+  path: MOD:lib.rs
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: MOD:lib.rs
+    lines:
+    - 1
+    - 12
+    quote: '//! Hydroacoustics: forward-propagate each impact sample to predicted arrivals at the IMS
+
+      //! hydroacoustic stations, by the deep sound channel (SOFAR) and acoustic-gravity-wave (AGW)
+
+      //! branches kept separate, and assess detectability before any detection is claimed.
+
+      //!
+
+      //! Brief: `Claude Science Project Sep 29/threads/master-prompts/hydroacoustics.md`.
+
+      //!
+
+      //! MODE. Only `mode = "predictive"` exists. `impact_log_likelihood` returns exactly 0.0, which
+
+      //! means "module selected, no data used" (ruled 2026-10-08, coordination/HYDROACOUSTICS.md); NaN
+
+      //! is reserved for a sample the module could not compute. A likelihood mode is refused at
+
+      //! construction until injection-recovery has given P_D against received level, spanning the
+
+      //! coupling-efficiency prior (brief §2 rule 2 and the 8 October impact-source section). The
+
+      //! eventual form is (1 - P_D) + P_D x (match to detections / background rate).'
+  n_files: 1
+  bytes: 9630
+  manifest: manifests/code.module_engine.tsv.gz
+  manifest_sha256: 6a730a33da108c56e223a00c08500face537aafd67984a3aef43d0495c2ca00d
+- id: ex.kadri_predictions_v3
+  kind: product
+  path: EX:kadri-package-v3-draft-predictions
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D05
+  - D25
+  verified_this_run: true
+  definition:
+    file: EX:kadri-package-v3-draft-predictions/README.txt
+    lines:
+    - 1
+    - 6
+    quote: 'Kadri package v3 DRAFT PREDICTIONS ONLY (hydro clean-up run, 23 Oct 2026). NOT FOR SENDING. PREDICTIVE, NOT CALIBRATED; C1, C2.
+
+      Code: module branch hypothesis/hydroacoustics, prepare/kadri_package/v3-2026-10-23/build_predictions_v3.py (v2 script plus three changes,
+      listed in its docstring).
+
+      Changes from v2 predictions.csv: (1) IMOS TL from imos_tl_ram_arc.csv (RAM along the grid) in place of imos_tl_ramcorr_arc.csv (registry
+      defect D22);
+
+      (2) added eta 2.26e-3 columns (exposure, 1 s SPL) and snr_db_eta2.26e-3_metz_pending: the Metz 2023 F-35A value under the module definition,
+      PENDING PETE''S RULING;
+
+      (3) labels. The 2.1e-4 columns are kept for comparison; 2.1e-4 is Brown 2026''s Arons-equivalent value, not the F-35A value under the module
+      definition (D01).
+
+      Check against v2 (v2_v3_comparison.json): same 1,720 keys; every common column identical on IMS rows (H01W, H08S, H08N); IMOS TL change
+      q05/q50/q95 -26.9/0.0/+10.7 dB;'
+  note: Predictions table only; package text not updated (ERRATA_v2_text.txt). eta 2.26e-3 column pending ruling. NOT FOR SENDING.
+  n_files: 5
+  bytes: 1821871
+  manifest: manifests/ex.kadri_predictions_v3.tsv.gz
+  manifest_sha256: c7035a53699f1fba6b8352f6a710643a1a1dd69de596e4c06947662832a40a1d
+constants:
+- id: eta_F35A_metz
+  value: 0.00226
+  units: fraction of impact kinetic energy radiated as sound (module definition)
+  status: PENDING_RULING
+  note: One point inside the coupling prior (Pete ruling 23 Oct). Single-factor spread 2.8e-4 (tau 0.05 s) to 5.4e-2 (2 m source).
+  source:
+    file: WORK:results/hydroacoustics-metz-f35a-anchor.md
+    lines:
+    - 64
+    - 73
+    must_contain:
+    - 2.26 × 10⁻³
+    - 2.8 × 10⁻⁴
+    - 5.4 × 10⁻²
+    quote: '|---|---|
+
+      | **pre-registered anchor** (geometric mean of the triads, RAM-corrected TL, τ_5 = 10 s; identical at the 3.30 s fallback and for every
+      τ ≥ 1.1 s) | **2.26 × 10⁻³** |
+
+      | by triad, H11N / H11S | 3.3 × 10⁻³ / 1.5 × 10⁻³ |
+
+      | at τ = 0.05 s (the physical entry time of a 16 m jet at 300 m/s) | 2.8 × 10⁻⁴ |
+
+      | E = 700 / 1,100 MJ | 2.9 × 10⁻³ / 1.8 × 10⁻³ |
+
+      | source depth 2 / 30 m | 5.4 × 10⁻² / 3.4 × 10⁻⁴ |
+
+      | f⁻⁴ roll-off | 1.3 × 10⁻¹ |
+
+      | KRAKEN without RAM | 1.05 × 10⁻³ |
+
+      | source ± 8 km in range | 2.2 / 2.4 × 10⁻³ |
+
+      | full range over all cases at τ_5 / at every τ | 8.6 × 10⁻⁵ – 6.3 / 1.1 × 10⁻⁵ – 6.3 |'
+- id: eta_brown_arons
+  value: 0.00021
+  units: Arons-equivalent coupling (different quantity)
+  status: RETIRED_AS_ANCHOR
+  note: Do not use as the F-35A point for the module definition (10.3 dB low).
+  source:
+    file: WORK:results/hydroacoustics-metz-f35a-anchor.md
+    lines:
+    - 171
+    - 171
+    must_contain:
+    - 2.1 × 10⁻⁴
+    - 10.3 dB
+    quote: '| F-35A coupling anchor quoted in C2 | 2.1 × 10⁻⁴ (Brown/Arons) | **2.26 × 10⁻³** (single-factor spread 2.8 × 10⁻⁴ at τ 0.05 s to
+      5.4 × 10⁻² at a 2 m source) | every "at the anchor" statement moves +10.3 dB in received level |'
+- id: eta_prior_bounds
+  value:
+  - 1.0e-06
+  - 0.01
+  units: log-uniform, 41 points
+  status: AGENT_CHOICE_NOT_RULED
+  note: 'Pete: coupling is a prior range with its sources; bounds open.'
+  source:
+    file: EX:run-j-gated-v2/README.txt
+    lines:
+    - 13
+    - 13
+    must_contain:
+    - '[1e-6, 1e-2]'
+    quote: hydro-lnL-imos-margeta.npy      ... marginalised over a log-uniform prior on eta in [1e-6, 1e-2] (41 points, equal weights)  <- PROPOSED
+      DEFAULT
+- id: c_sofar
+  value:
+  - 1.482
+  - 0.006
+  units: km/s, mean and sd
+  status: CURRENT
+  source:
+    file: WORK:results/hydroacoustics-searches-run-j.md
+    lines:
+    - 91
+    - 91
+    must_contain:
+    - 1.482 ± 0.006 km/s
+    quote: '- **Parameter bounds with sources:** c 1.482 ± 0.006 km/s and AGW 1.40–1.50 km/s (windows note); lag intervals from `geometry/lags.csv`;
+      bearing error t₃ sd 3.3° demonstrated / Gaussian 0.4° claimed (kadri_table1_test); thresholds 0.3/0.1/0.05 (ruling 13 Oct); H08S shot rules
+      (weak-signal test set c); window 55 s from 32 s (this pre-registration).'
+- id: pick_sd
+  value: 10
+  units: s
+  status: CONVENTION_NO_LOCATED_SOURCE
+  note: Module convention; no published source located.
+  source:
+    file: MOD:prepare/imos_detectors.py
+    lines:
+    - 23
+    - 23
+    must_contain:
+    - pick sd 10 s
+    quote: windows), pick sd 10 s each.
+- id: imos_hw_corner
+  value: 8
+  units: Hz (IMOS hardware high-pass corner)
+  status: CURRENT
+  source:
+    file: WORK:results/hydroacoustics-searches-run-j.md
+    lines:
+    - 90
+    - 90
+    must_contain:
+    - 8 Hz hardware corner
+    quote: '- **Gaps and status:** (G-S1) AGW branch unsearchable with the data held — open, needs a sub-2 Hz detector and unfiltered data. (G-S2)
+      digitised panels only at H01W/H08S — open until Kadri''s derived products arrive; the raw-data request stands. (G-S3) no IMOS bearing —
+      permanent. (G-S4) 3315 and 3275 nulls are stand-ins from the paired logger — open (no bucket data). (G-S5) `eta_needed` uses pass-A TL at
+      one source latitude and the median E (the upper anchor) — interim until the TL grid note lands; the column is a label, not a gate. (G-S6)
+      the time-slide null is schedule-biased (amendment A1) — replaced by the held-span permutation null; both reported. (G-S7) the geometry sample
+      omits the free/descent-climb/repro strata (0.2 % of the mixture, windows note G-W4) and keeps the supplement at p = 0.5 only (G-W1). (G-S8)
+      the 2–5 Hz IMOS band is below the 8 Hz hardware corner (labelled). (G-S9) H08S raw-panel rows are null-mismatch artefacts of the airgun
+      survey; only the residual rows are candidates.'
+- id: kadri_highpass
+  value: 5
+  units: Hz (Kadri 2017 chain high-pass; 2024 adds 2-40 Hz band-pass)
+  status: CURRENT
+  source:
+    file: WORK:results/hydroacoustics-digitised-sources.md
+    lines:
+    - 212
+    - 217
+    must_contain:
+    - 5 Hz
+    - 2–40 Hz
+    quote: "p. 7) high-passes below 5 Hz with a Butterworth IIR and detects by windowed entropy (window 4 s, step 0.5 s, threshold\n  2.3·10⁴,\
+      \ peaks within 2 s across the three channels); the **2–40 Hz band-pass is added in Kadri 2024** (p. 11: \"in\n  addition to the CTBTO high\
+      \ pass filter\"; filter order not stated; log-energy entropy, \"a few seconds\" window, same\n  threshold, TOA cross-correlation bearing\
+      \ ±0.4° at 99.5 %). The SnT 2025 poster (held as text) states the same chain.\n  Kadri 2019 (Sci. Rep. 9:912) is a theory paper with no\
+      \ processing chain. So \"Kadri (2017, 2019, 2024) high-passes at\n  5 Hz and band-passes 2–40 Hz\" should read \"Kadri 2017 high-passes\
+      \ at 5 Hz; Kadri 2024 adds a 2–40 Hz band-pass\"; the"
+- id: imos_duty_cycle
+  value:
+  - 307
+  - 900
+  units: s recorded per s (about 34 %)
+  status: CURRENT
+  source:
+    file: WORK:results/hydroacoustics-imos-noise.md
+    lines:
+    - 18
+    - 18
+    must_contain:
+    - 307 s every 15 min
+    quote: All loggers sample at 6 kHz, recording about 307 s every 15 min (a 34% duty cycle). The analogue
+- id: gps_utc_2014
+  value: 16
+  units: s (GPS minus UTC, July 2012 to June 2015)
+  status: EXTERNAL_STANDARD
+  note: IERS Bulletin C; not in the repo. IMOS hex filenames are 16 s earlier than Portland rec_times.txt (session record).
+  source:
+    file: null
+    lines: null
+    quote: null
+    note: external source; no file in the registry roots
+- id: shot_window
+  value: 1.5
+  units: s (H08S airgun coincidence label)
+  status: AGENT_CHOICE_NOT_RULED
+  note: Used by the Take 2 review; chance rate taken as 3/10 for a 10 s shot cadence.
+  source:
+    file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+    lines:
+    - 159
+    - 159
+    must_contain:
+    - 1.5 s
+    quote: 1. **Airgun shots were ranked as candidates.** The module holds the times of 110 airgun shots in the Diego Garcia panels (`h08s_template_shots.csv`).
+      44 of 47 Diego Garcia candidates lie within 1.5 s of a shot; chance gives 30 %. Every top-5 pair and the "strongest pair" use one of them.
+      The 01:12:49 candidate is 0.14 s from a shot. The shot suppression (−5 to −8 dB) was measured, but the candidates were not gated.
+defects:
+- id: D01
+  title: Old coupling value 2.1e-4 used as the F-35A "upper anchor"
+  what: 2.1e-4 is Brown 2026's Arons-equivalent coupling, a different quantity. Under the module definition the F-35A value from Metz 2023 is
+    2.26e-3 (pending ruling). Every "x F-35A" multiple on 2.1e-4 is 10.8 times too high.
+  evidence:
+  - file: WORK:results/hydroacoustics-metz-f35a-anchor.md
+    lines:
+    - 171
+    - 171
+    quote: '| F-35A coupling anchor quoted in C2 | 2.1 × 10⁻⁴ (Brown/Arons) | **2.26 × 10⁻³** (single-factor spread 2.8 × 10⁻⁴ at τ 0.05 s to
+      5.4 × 10⁻² at a 2 m source) | every "at the anchor" statement moves +10.3 dB in received level |'
+  fixed_this_run: 'partly: new register gives both multiples; old products keep the label'
+  affects:
+  - ex.arrival_windows
+  - ex.kadri_package_v2
+  - ex.levels
+  - ex.ranked
+  - ex.run_j_gated
+  - note.composition_run_j
+  - note.f35a_eta_calibration
+  - note.imos_ram_grid
+  - note.item3_injection_recovery
+  - note.kadri_package_v2
+  - note.overnight_2026_10_22_summary
+  - note.run_j_levels
+  - note.tl_grid_run_j
+- id: D02
+  title: Diego Garcia (H08S) detections that coincide with airgun shots were ranked as candidates
+  what: '44 of 47 H08S single candidates lie within 1.5 s of a shot in h08s_template_shots.csv (chance about 30 %). The searches note itself said
+    only residual rows are candidates (G-S9). Pete (23 Oct): a shot coincidence is not an exclusion; constructive interference and waveform distortion
+    can still carry a detection.'
+  evidence:
+  - file: WORK:results/hydroacoustics-searches-run-j.md
+    lines:
+    - 90
+    - 90
+    quote: '- **Gaps and status:** (G-S1) AGW branch unsearchable with the data held — open, needs a sub-2 Hz detector and unfiltered data. (G-S2)
+      digitised panels only at H01W/H08S — open until Kadri''s derived products arrive; the raw-data request stands. (G-S3) no IMOS bearing —
+      permanent. (G-S4) 3315 and 3275 nulls are stand-ins from the paired logger — open (no bucket data). (G-S5) `eta_needed` uses pass-A TL at
+      one source latitude and the median E (the upper anchor) — interim until the TL grid note lands; the column is a label, not a gate. (G-S6)
+      the time-slide null is schedule-biased (amendment A1) — replaced by the held-span permutation null; both reported. (G-S7) the geometry sample
+      omits the free/descent-climb/repro strata (0.2 % of the mixture, windows note G-W4) and keeps the supplement at p = 0.5 only (G-W1). (G-S8)
+      the 2–5 Hz IMOS band is below the 8 Hz hardware corner (labelled). (G-S9) H08S raw-panel rows are null-mismatch artefacts of the airgun
+      survey; only the residual rows are candidates.'
+  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+    lines:
+    - 159
+    - 159
+    quote: 1. **Airgun shots were ranked as candidates.** The module holds the times of 110 airgun shots in the Diego Garcia panels (`h08s_template_shots.csv`).
+      44 of 47 Diego Garcia candidates lie within 1.5 s of a shot; chance gives 30 %. Every top-5 pair and the "strongest pair" use one of them.
+      The 01:12:49 candidate is 0.14 s from a shot. The shot suppression (−5 to −8 dB) was measured, but the candidates were not gated.
+  fixed_this_run: label + envelope interference test in the new register
+  affects:
+  - ex.arrival_windows
+  - ex.ranked
+  - note.overnight_2026_10_22_summary
+- id: D03
+  title: Scott Reef 3250 used in pairs and triples although its path is blocked
+  what: 3250 carries no information (blocked path), but it is in most pairs and triples.
+  evidence:
+  - file: EX:graphics-2026-10-22/ranked/README.txt
+    lines:
+    - 6
+    - 7
+    quote: "ranked_triples.csv    12,331 three-recorder sets whose three pairwise combinations are all lag-consistent rows of pairs.csv; 11,067\
+      \ contain blocked Scott Reef 3250 and 63 more have no\n                        simulated impact matching all three times (ln LR -inf); 1,201\
+      \ scored. No IMOS x IMOS x IMOS set without Scott Reef exists."
+  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+    lines:
+    - 164
+    - 164
+    quote: 6. **Scott Reef was used although it carries no information.** It is in 63 singles, 2,584 pairs (78 %) and 11,067 triples (90 %). Its
+      loudness test cannot be computed (blocked path).
+  fixed_this_run: check column in new register
+  affects:
+  - ex.ranked
+- id: D04
+  title: Detections in bands below the receiver pass band
+  what: 2-5 Hz members at IMOS (hardware corner 8 Hz) and on Kadri panels (5 Hz high-pass) cannot be impact sound in that band. Labelled G-S8
+    in the searches note but kept in the ranking.
+  evidence:
+  - file: WORK:results/hydroacoustics-searches-run-j.md
+    lines:
+    - 90
+    - 90
+    quote: '- **Gaps and status:** (G-S1) AGW branch unsearchable with the data held — open, needs a sub-2 Hz detector and unfiltered data. (G-S2)
+      digitised panels only at H01W/H08S — open until Kadri''s derived products arrive; the raw-data request stands. (G-S3) no IMOS bearing —
+      permanent. (G-S4) 3315 and 3275 nulls are stand-ins from the paired logger — open (no bucket data). (G-S5) `eta_needed` uses pass-A TL at
+      one source latitude and the median E (the upper anchor) — interim until the TL grid note lands; the column is a label, not a gate. (G-S6)
+      the time-slide null is schedule-biased (amendment A1) — replaced by the held-span permutation null; both reported. (G-S7) the geometry sample
+      omits the free/descent-climb/repro strata (0.2 % of the mixture, windows note G-W4) and keeps the supplement at p = 0.5 only (G-W1). (G-S8)
+      the 2–5 Hz IMOS band is below the 8 Hz hardware corner (labelled). (G-S9) H08S raw-panel rows are null-mismatch artefacts of the airgun
+      survey; only the residual rows are candidates.'
+  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+    lines:
+    - 165
+    - 165
+    quote: 7. **Bands below the filters were searched.** 35 singles and 1,111 pairs use a 2–5 Hz band. The IMOS loggers roll off below 8 Hz. Kadri's
+      processing high-passes at 5 Hz. A 2–5 Hz detection on these records cannot be the impact's 2–5 Hz sound.
+  fixed_this_run: check column in new register
+  affects:
+  - art.candidates_A_F
+  - ex.ranked
+- id: D05
+  title: Detection power measured only on model-matched templates
+  what: On the real F-35A arrival the M1b matched filter keeps only 0-3.4 dB of its model-matched gain; every P_D, eta50 and upper limit built
+    on it is optimistic by about 4-10 dB.
+  evidence:
+  - file: WORK:results/hydroacoustics-metz-f35a-anchor.md
+    lines:
+    - 120
+    - 120
+    quote: '- On a real long-range arrival the dispersion-aware matched filter keeps only 0–3.4 dB of its 6.6–7 dB model-matched gain at'
+  fixed_this_run: 'no (next work card: real-arrival validation)'
+  affects:
+  - ex.injection
+  - ex.kadri_predictions_v3
+  - ex.levels
+  - ex.register_2026_10_23
+  - ex.run_j_gated_v2
+  - ex.weak_signal
+  - note.composition_run_j
+  - note.injection_recovery_run_j
+  - note.overnight_2026_10_22_summary
+  - note.run_j_levels
+  - note.weak_signal_methods
+- id: D06
+  title: Stand-in noise backgrounds used without approval
+  what: H01W/H08S use IMOS 3376 noise shaped to Blackman medians (proxy); 3315 and 3275 nulls come from the paired logger. Declared, but Pete
+    requires approval for stand-ins.
+  evidence:
+  - file: WORK:results/hydroacoustics-searches-run-j.md
+    lines:
+    - 90
+    - 90
+    quote: '- **Gaps and status:** (G-S1) AGW branch unsearchable with the data held — open, needs a sub-2 Hz detector and unfiltered data. (G-S2)
+      digitised panels only at H01W/H08S — open until Kadri''s derived products arrive; the raw-data request stands. (G-S3) no IMOS bearing —
+      permanent. (G-S4) 3315 and 3275 nulls are stand-ins from the paired logger — open (no bucket data). (G-S5) `eta_needed` uses pass-A TL at
+      one source latitude and the median E (the upper anchor) — interim until the TL grid note lands; the column is a label, not a gate. (G-S6)
+      the time-slide null is schedule-biased (amendment A1) — replaced by the held-span permutation null; both reported. (G-S7) the geometry sample
+      omits the free/descent-climb/repro strata (0.2 % of the mixture, windows note G-W4) and keeps the supplement at p = 0.5 only (G-W1). (G-S8)
+      the 2–5 Hz IMOS band is below the 8 Hz hardware corner (labelled). (G-S9) H08S raw-panel rows are null-mismatch artefacts of the airgun
+      survey; only the residual rows are candidates.'
+  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+    lines:
+    - 168
+    - 168
+    quote: 10. **Substitutes were used without approval.** Paired-logger backgrounds at 3315 and 3275; shaped IMOS noise at H01W and H08S; a reference
+      impact (37.1 S, 1.13 GJ) for single-site coupling, not the implied place; τ and energy stand-ins for supplement rows. Each was declared,
+      but under your rule each needed approval.
+  fixed_this_run: no (labelled)
+  affects:
+  - ex.injection
+  - ex.register_2026_10_23
+  - ex.run_j_gated_v2
+  - ex.searches
+  - note.composition_run_j
+  - note.injection_recovery_run_j
+  - note.searches_run_j
+- id: D07
+  title: Known events (Royer 2016) not removed from candidates
+  what: Kadri text time 00:52:03 lies inside Royer's pick bar for icequake A; caption time 00:54:30 is 6 s from Royer event 5; Royer events 6
+    and 9 predict IMOS 3315 candidates.
+  evidence:
+  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+    lines:
+    - 160
+    - 160
+    quote: 2. **Known events were not removed.** Royer located 20 events that night, with picks at Cape Leeuwin. Kadri's 00:52:03 lies inside
+      Royer's pick bar for icequake A on his Fig. 4 (00:51:56.8–00:52:04.5). Kadri's 00:54:30 is 6 s from Royer's arrow for event 5. Kadri's poster
+      box 4 contains Royer's pick bar for event B. At the IMOS loggers, Royer events 6 and 9 predict arrivals at Perth Canyon 3315 at 01:16:53
+      and 01:04:29; the module has candidates at 01:16:55 and 01:04:29 (chance of each match about 0.05). The thread knew of the icequake A match
+      at about 10:00 today, but the pair stayed on top of the charts.
+  fixed_this_run: known-event check column in new register
+  affects:
+  - ex.arrival_windows
+  - ex.kadri_package_v2
+  - ex.ranked
+  - note.kadri_package_v2
+  - note.overnight_2026_10_22_summary
+- id: D08
+  title: Coincidences whose direct path to the receiver crosses land
+  what: 'Example: Kadri 00:40:34 row x Portland 3275; 201 of 2,000 path points above sea level in GEBCO 2026.'
+  evidence:
+  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+    lines:
+    - 171
+    - 171
+    quote: 13. **One coincidence crosses land.** Kadri's 00:40:34 row (bearing 303°, arc point 26.34 S 100.93 E) predicts Portland 3275 at 01:07:37,
+      and the module has its third-ranked single there (01:07:46, p 0.009). But the direct path from that point to Portland crosses south-west
+      Western Australia (GEBCO, 201 of 2,000 path points above sea level). So that match is not physical by the direct path.
+  fixed_this_run: land-path check column in new register
+  affects:
+  - ex.ranked
+- id: D09
+  title: Flight-only Pleiades layer used as if conditional on the Pleiades objects
+  what: Early candidate maps used the "post" layer, which is flight-only.
+  evidence:
+  - file: ART:a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md
+    lines:
+    - 12
+    - 12
+    quote: 6. The first map versions used the flight-only Pleiades layer as if it were conditional on the objects (corrected in later versions;
+      the charts are withdrawn for reasons 1-5).
+  fixed_this_run: n/a (products withdrawn)
+  affects:
+  - art.candidates_A_F
+- id: D10
+  title: Candidates A-F withdrawn
+  what: Withdrawn at Pete's instruction, 23 Oct 2026, for six stated reasons.
+  evidence:
+  - file: ART:a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md
+    lines:
+    - 1
+    - 12
+    quote: '# Withdrawal notice: hydroacoustic candidates A-F (review session of 22 October 2026)
+
+
+      *23 October 2026. Withdrawn at Pete''s instruction. Nothing from this session was committed to the repository or sent to Kadri or Royer.*
+
+
+      ## Why the work is withdrawn
+
+
+      1. The candidates come from detector outputs at noise level: 1.6-7.6 dB above the record median in their own bands (Portland 3275 for E:
+      11.8 dB, energy at 20-40 Hz, not impact-like). No record shows an impact signal at the predicted times.
+
+      2. Four member detections used a 2-5 Hz band. That band is below the IMOS 8 Hz high-pass. Candidate F had only such members.
+
+      3. The members of candidate A do not fit one impact at one coupling (provisional model: H01W +5.7 dB, Portland 3274 -8.3 dB at the F-35A
+      coupling).
+
+      4. Statements that candidates lie on searched sea floor used point estimates only. With bearing, timing and speed errors included, 33-49
+      % of candidate A''s impact probability is on sea floor that is not searched.
+
+      5. The permutation p-values used the invalid 2-5 Hz members and stand-in noise references, so ''chance level'' is not established either.
+
+      6. The first map versions used the flight-only Pleiades layer as if it were conditional on the objects (corrected in later versions; the
+      charts are withdrawn for reasons 1-5).'
+  fixed_this_run: n/a
+  affects:
+  - art.candidates_A_F
+  - art.feasibility_tables
+  - art.take2_review
+- id: D12
+  title: False "closed access / not held" labels on held sources (Metz 2023, Kadri 2019)
+  what: Corrected on 22 Oct; the source-access ledger keeps the old label as an audit trail.
+  evidence:
+  - file: WORK:results/source-access-ledger-2026-10-22.md
+    lines:
+    - 1
+    - 3
+    quote: '# Source access ledger — 22 October 2026
+
+
+      Prepared at Pete''s request (22 Oct 2026). Pete''s ruling: the project has the right to use every source stored in the repo, the Google
+      Drive and the project source folders; a publisher''s access status is not a reason to avoid a source. This ledger records, for every source
+      that had a blocking label, whether a copy is held and where. The machine-readable table is `source-access-ledger-2026-10-22.csv` (78 rows).'
+  fixed_this_run: already fixed 22 Oct
+  affects: []
+- id: D13
+  title: Kadri crash-panel timing check is exploratory with an incomplete model
+  what: Straight geodesic, one speed, no seismic (T-phase) path, inputs not from primary reports, H10S position not from the IMS station file,
+    two events with assumed times. It is NOT evidence that Kadri's panel times are wrong.
+  evidence:
+  - file: MOD:prepare/kadri_crash_timing.py
+    lines:
+    - 1
+    - 9
+    quote: '"""EXPLORATORY (labelled; not pre-registered, correction track 22 Oct 2026): arrival-time check of Kadri (2024) Figs. 4-5
+
+      past-crash panels against a sound-channel arrival. For each panel: impact time (Kadri S1, or BEA for AF447: 02:14:28 UTC),
+
+      impact position (S1; F-35A: the module''s Metz-derived working point 40.64 N 142.96 E), receiver triad centroid
+
+      (data/stations.csv; H10S from the ocean transport path README, -8.951, -14.652), WGS84 geodesic range, predicted arrival
+
+      t = impact + range / c with c ~ N(1.482, 0.006) km/s (the module''s SOFAR prior). Observed: Kadri''s highlighted box (digitised
+
+      box_min in results-data/calibration_events/kadri_peaks.csv where present, else the window start + 5 min, Kadri p. 11:
+
+      "presented around the middle of a 10 min time window"). Reported: observed minus predicted (s) and the implied group speed.
+
+      Digitised times are +/- 1 px (~2.4 s at 669 px over 10 min)."""
+
+      import sys'
+  fixed_this_run: relabelled
+  affects:
+  - note.calibration_events_stage1b
+- id: D18
+  title: Brief says the F-35A coupling is an "upper bound" because of a shallow channel
+  what: The Metz work found the shallow-channel effect +2.9 dB, NOT SUPPORTED at the 3 dB rule.
+  evidence:
+  - file: WORK:results/hydroacoustics-metz-f35a-anchor.md
+    lines:
+    - 176
+    - 176
+    quote: '| "upper bound because of the shallow channel" | asserted | +2.9 dB effect, NOT SUPPORTED at the 3 dB rule | the module''s η is not
+      an upper bound for that reason |'
+  - git: claude-science-sep29@fe5cdfd
+    path: Claude Science Project Sep 29/threads/master-prompts/hydroacoustics.md
+    lines:
+    - 125
+    - 129
+    note: old wording, corrected in this run
+  fixed_this_run: 'yes: brief paragraph replaced'
+  affects: []
+- id: D20
+  title: Coupling prior bounds 1e-6..1e-2 were an agent choice, not a ruling
+  what: Pete ruled 23 Oct that coupling is a prior range with its sources and the F-35A value is one point in it; the bounds are open.
+  evidence:
+  - file: EX:run-j-gated-v2/README.txt
+    lines:
+    - 13
+    - 13
+    quote: hydro-lnL-imos-margeta.npy      ... marginalised over a log-uniform prior on eta in [1e-6, 1e-2] (41 points, equal weights)  <- PROPOSED
+      DEFAULT
+  fixed_this_run: no (ruling needed)
+  affects:
+  - ex.run_j_gated_v2
+  - note.composition_run_j
+- id: D22
+  title: Old IMOS transmission-loss table (constant RAM correction, gap G-TL1) still used
+  what: Superseded by imos_tl_ram_arc.csv (RAM along the grid).
+  evidence:
+  - file: EX:run-j-gated/README.txt
+    lines:
+    - 3
+    - 7
+    quote: '*** WARNING (23 Oct 2026, amendment A4): THE COLUMNS IN THIS DIRECTORY ARE ON THE OLD IMOS TL TABLE (imos_tl_ramcorr_arc.csv, constant
+
+      *** rule-2 RAM correction, gap G-TL1). The RAM-along-grid track has since issued the corrected table imos_tl_ram_arc.csv (run-j-tl-grid/tables/).
+
+      *** The per-row columns here MUST BE REWRITTEN with the corrected table before any composer use. They are internally consistent with this
+
+      *** README and READY stays. The corrected STATISTICS (upper limits, evidence, Bayes factors; not columns) are in stats-ramgrid/ and in the
+
+      *** addendum of results/hydroacoustics-composition-run-j.md. Rewrite recipe: B11_IMOS_RAMGRID=1 python driver.py (writes to run-j-gated.staging,
+      ~6.3 GB, needs >= 28 GiB free).'
+  - file: EX:kadri-package-v2/build_predictions_v2.py
+    lines:
+    - 212
+    - 212
+    quote: 'imo = pd.read_csv(TLT / "imos_tl_ramcorr_arc.csv", dtype={"logger": str}); imo = imo[np.isclose(imo.src_depth_m, Z_REF)]'
+  - file: EX:run-j-injection/README.txt
+    lines:
+    - 9
+    - 9
+    quote: 'Run J impacts: /Users/pete/Downloads/mh370-exchange/end-of-flight/run-j (74 seeds; SHA256 per seed in the windows track''s run.json).
+      TL: IMOS = module results-data/ram_check/imos_tl_ramcorr.csv; H01W/H08S = run-j-tl-grid/raw/passA/tl_grid.csv (block 2 track, PROVISIONAL).'
+  fixed_this_run: no re-run; labelled
+  affects:
+  - ex.injection
+  - ex.kadri_package_v2
+  - ex.run_j_gated
+  - note.injection_recovery_run_j
+  - note.kadri_package_v2
+- id: D23
+  title: TL clamped at the table edge for rows outside the TL latitude span
+  what: 11-16 % of run J rows by stratum (17 Oct columns).
+  evidence:
+  - file: EX:run-j/primary-tau-eof/README.txt
+    lines:
+    - 6
+    - 6
+    quote: 'TL clamped at the table edge (reach gap) for rows outside the TL latitude span - share by stratum: run-j-waypoints 0.109, run-j-free
+      0.156, run-j-repro-radar 0.158, run-j-descent-climb 0.146'
+  fixed_this_run: already fixed in run-j-gated(-v2) by the whole-arc TL grid
+  affects:
+  - ex.run_j_tau_eof
+  - ex.run_j_tau_scenario
+- id: D24
+  title: Searches covered only the pre-registered windows
+  what: Held IMOS records outside the windows (for example the CMST 01:34 event) were not searched; free known-event checks were lost.
+  evidence:
+  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+    lines:
+    - 172
+    - 172
+    quote: 14. **Searches covered only the pre-registered windows.** Held IMOS records outside them were not searched (for example the 01:30 records
+      that contain the CMST event). This is correct for the MH370 test, but it removed free known-event checks.
+  fixed_this_run: no (next work card)
+  affects:
+  - ex.register_2026_10_23
+  - ex.searches
+  - note.searches_run_j
+- id: D25
+  title: Source depth fixed at 10 m in the MH370 chain
+  what: At the F-35A, 2 m or 30 m moves eta by more than two decades.
+  evidence:
+  - file: WORK:results/hydroacoustics-metz-f35a-anchor.md
+    lines:
+    - 69
+    - 69
+    quote: '| source depth 2 / 30 m | 5.4 × 10⁻² / 3.4 × 10⁻⁴ |'
+  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+    lines:
+    - 169
+    - 169
+    quote: 11. **The source depth was fixed at 10 m.** At the F-35A, 2 m or 30 m moves η by more than two decades. The MH370 chain did not run
+      the source-depth sensitivity (G-L4).
+  fixed_this_run: no (labelled)
+  affects:
+  - ex.kadri_predictions_v3
+  - ex.levels
+  - ex.register_2026_10_23
+  - ex.run_j_gated_v2
+  - note.run_j_levels
+- id: D26
+  title: Cape Leeuwin and Diego Garcia p-values are not calibrated
+  what: Digitised plots at about 14.5 points per second with an emulated IMOS noise reference.
+  evidence:
+  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+    lines:
+    - 166
+    - 166
+    quote: 8. **The Cape Leeuwin and Diego Garcia p-values are not calibrated.** The digitised panels are plots at about 14.5 points per second.
+      Their noise reference was an emulated IMOS 3376 plot (a substitute). H01W gave 0.11 of the chance count, which shows the mismatch.
+  fixed_this_run: no (labelled)
+  affects:
+  - ex.ranked
+  - ex.register_2026_10_23
+  - ex.searches
+  - note.searches_run_j
+build_errors: []
