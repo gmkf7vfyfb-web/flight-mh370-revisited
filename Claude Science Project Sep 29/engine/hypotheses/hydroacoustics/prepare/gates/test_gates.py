@@ -12,7 +12,7 @@ import gates as G
 HERE = Path(__file__).resolve().parent
 MOD = HERE.parent.parent
 EX = Path(os.environ.get("HYDRO_EX", "/Users/pete/Downloads/mh370-exchange/hydroacoustics"))
-ART = Path(os.environ.get("HYDRO_ART", ""))
+ART = Path(os.environ["HYDRO_ART"]) if os.environ.get("HYDRO_ART") else None  # None -> Royer tests skip
 OCEAN = Path(os.environ.get("HYDRO_OCEAN", "/Users/pete/Downloads/mh370-ocean-data"))
 RK = EX / "graphics-2026-10-22/ranked"
 
@@ -76,7 +76,7 @@ def test_gebco_orientation():
 
 
 def test_royer_icequake_A_at_kadri_text_time():
-    if not ART.exists() or str(ART) == "":
+    if ART is None or not ART.exists():
         pytest.skip("HYDRO_ART not set")
     R = G.Royer(ART / "a35831fe/239646ad_royer-events-crossid-all-sites.csv",
                 MOD / "results-data/digitised/royer-2016/royer_figure_marks.csv")
@@ -93,7 +93,7 @@ def test_time_and_coupling_rules():
 
 
 def test_royer_untabled_arrow_0048():
-    if not ART.exists() or str(ART) == "":
+    if ART is None or not ART.exists():
         pytest.skip("HYDRO_ART not set")
     R = G.Royer(ART / "a35831fe/239646ad_royer-events-crossid-all-sites.csv",
                 MOD / "results-data/digitised/royer-2016/royer_figure_marks.csv")
