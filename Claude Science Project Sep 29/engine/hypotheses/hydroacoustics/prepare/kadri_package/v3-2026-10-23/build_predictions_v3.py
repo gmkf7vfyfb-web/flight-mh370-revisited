@@ -31,7 +31,7 @@ flags ridge_source (source water depth < 2,000 m), adiabatic_suspect (TL is an u
 PREDICTED LEVEL at the cell's median E and tau (pooled run J medians where the cell holds no mass; flagged): 5-40 Hz exposure
 (Pa^2 s) and peak 1 s SPL (dB re 1 uPa, T_eff = 2.683 s) for eta in {1e-2, 2.26e-3, 1e-3, 2.1e-4, 1e-4, 1e-5}; per-band received level
 at eta = 2.1e-4 (add 10 log10(eta/2.1e-4) for another eta); the module's noise median per receiver (IMS: digitised Blackman
-2003 + IMOS proxy; IMOS: imos2b) and the SNR at the anchor (IMS +4.8 dB triad gain). The 5-40 Hz band IS Kadri's band
+2003 + IMOS proxy; IMOS: imos2b) and the SNR at eta 2.1e-4 (Brown 2026 Arons-equivalent; not the F-35A value) (IMS +4.8 dB triad gain). The 5-40 Hz band IS Kadri's band
 (Refresh v2 section 5), so no separate "after his chain" column is needed; the module's own 2-5 Hz band is not in the TL grid.
 Received level: SE = sum_b eta E rho c/(2 pi) S_b(f_c, 1/tau) 10^(-TL_b/10), S_b = imos_stageB_map.band_fraction (ESD flat to
 1/tau, f^-2 above), the second implementation of lhyd._se used by tl_grid_evidence.py.
@@ -285,7 +285,7 @@ def main():
     meta = dict(script="prepare/kadri_package/v2-2026-10-22/build_predictions_v2.py", written=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
                 n_rows=len(df), n_cells=len(LATS) * len(OFFS), lats=[float(v) for v in LATS], offsets_nm=[float(v) for v in OFFS], receivers=RX,
                 seeds_used=used, p_core=p_core, supplement=dict(rows_used=n_supp, arc_fallback_rows=n_fb, sha256_16=sha_supp, share=share),
-                mass=meta_mass, pooled_medians=dict(E_j=Em_pool, tau90_s=tau_pool), t_eff_s=teff, etas=ETAS, eta_anchor=ETA_ANCHOR,
+                mass=meta_mass, pooled_medians=dict(E_j=Em_pool, tau90_s=tau_pool), t_eff_s=teff, etas=ETAS, eta_snr_column=ETA_ANCHOR, eta_snr_column_note="2.1e-4 = Brown 2026 Arons-equivalent coupling, a different quantity from the Metz F-35A value; kept only to compare with v2",
                 tl_tables=dict(dir=str(TLT), npz_sha256_16=sha(TLT / "tl_grid.npz")[:16]), impacts_sha256_16=shas,
                 caveats=dict(C1="propagation slope misfit, +10.4/+7.4 dB per octave at H01W/H08S, uncorrected",
                              C2="coupling efficiency not calibrated; eta swept over four decades; F-35A value under the module definition 2.26e-3 (Metz 2023) PENDING RULING; 2.1e-4 is Brown 2026 Arons-equivalent, kept for comparison"),

@@ -27,7 +27,7 @@ RK = EX / "graphics-2026-10-22/ranked"
 def why_not(eta, e_used, e_q99):
     """Reason text when coupling_labels returns NOT_COMPUTABLE (verifier finding 23 Oct: one text was used for every cause)."""
     if not (np.isfinite(e_used) and np.isfinite(e_q99)):
-        return "not assessed: coupling not computable (fewer than 20 run J impacts within 1 deg)"
+        return "not assessed: coupling not computable (energy not available: fewer than 20 run J impacts within 1 deg, or latitude outside the energy grid)"
     if np.isinf(eta):
         return "not assessed: loudness-match coupling infinite in the ranked table (a member receiver has no transmission-loss path, e.g. Scott Reef 3250)"
     return "not assessed: loudness-match coupling not given in the ranked table (NaN)"
