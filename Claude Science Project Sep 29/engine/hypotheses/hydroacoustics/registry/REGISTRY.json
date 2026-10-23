@@ -1,10 +1,10 @@
 {
  "registry_version": "hydro-registry v1 (2026-10-23)",
- "built_utc": "2026-10-23T02:53:11Z",
+ "built_utc": "2026-10-23T05:47:35Z",
  "hashing": true,
  "git": {
-  "module_branch": "394707d5e25a16064dafa611ae41dc9ebc874793 2026-10-22T20:46:46-06:00 (head at build time; uncommitted changes in scope: yes)",
-  "work_branch": "2a6f73e24a7eec2dc71ceaa1f8c1aaed5126142b 2026-10-22T20:50:05-06:00 (head at build time; uncommitted changes in scope: yes)"
+  "module_branch": "441feb2e30dddf7460a9b99149e5458de2e94e7c 2026-10-22T23:45:09-06:00 (head at build time; uncommitted changes in scope: yes)",
+  "work_branch": "74c87111e18346435c24213df7144cadf98f7ac6 2026-10-22T20:54:53-06:00 (head at build time; uncommitted changes in scope: yes)"
  },
  "roots": {
   "EX": "/Users/pete/Downloads/mh370-exchange/hydroacoustics",
@@ -338,13 +338,14 @@
    "id": "ex.run_j_gated_v2",
    "kind": "product",
    "path": "EX:run-j-gated-v2",
-   "status": "CURRENT_WITH_CAVEATS",
+   "status": "SUPERSEDED",
    "defects": [
     "D01",
     "D05",
     "D06",
     "D20",
-    "D25"
+    "D25",
+    "D27"
    ],
    "verified_this_run": false,
    "definition": {
@@ -356,10 +357,11 @@
     "quote": "Hydroacoustics block 11 (composition) on end of flight run J, all four strata (74 seeds). Written 2026-10-22T12:34:15Z.\nPRODUCT v2 (amendment A4, prereg e13a32e): IMOS TL from the RAM-along-grid drop-in imos_tl_ram_arc.csv (G-TL1 closed on the offset-0 line); supersedes run-j-gated (old IMOS table).\nPre-registration prepare/composition_run_j/prereg.py (module branch, commit 90d7181 + A4 e13a32e); worker.py / driver.py; 4 single-thread workers.\nRows 313,599,968; not_computed (NaN) 0; the marginalised IMOS column (proposed default) is present for every seed; per-seed checks (rows equal end of flight's, float32, NaN only where inputs non-finite and identical\nacross columns, finite elsewhere, quantiles in _parts/*.json): all pass. Seeds with fewer than five columns (another process held the disk below the 20 GiB floor during the run; the marginalised IMOS\ncolumn was written, the other four were not): 0 []\nTOP-UP RECIPE (when >= 22 GiB free): B11_TOPUP=1 python worker.py <stratum> <seed> <this dir>  then  python driver.py  (finaliser only).\n\nCOLUMNS (float32, row i = row i of end-of-flight/run-j/<stratum>/seed-N/impacts32.npy):\n  hydro-lnL-imos-eta1e-3.npy      ln L of the IMOS-gated term at coupling efficiency eta = 1e-3\n  hydro-lnL-imos-eta2.1e-4.npy    ... at eta = 2.1e-4 (F-35A upper anchor, Brown et al. 2026)\n  hydro-lnL-imos-eta1e-4.npy      ... at eta = 1e-4\n  hydro-lnL-imos-margeta.npy      ... marginalised over a log-uniform prior on eta in [1e-6, 1e-2] (41 points, equal weights)  <- PROPOSED DEFAULT\n  hydro-lnL-ims-proxy-margeta.npy SENSITIVITY: IMOS-gated term x H01W/H08S PROXY-background terms, eta marginalised. PREDICTIVE for IMS."
    },
    "note": "Default column hydro-lnL-imos-margeta does not use the anchor. The fixed column at eta 2.1e-4 is labelled by D01 only. Not ruled for composer use.",
-   "n_files": 835,
-   "bytes": 7484078760,
+   "superseded_by": "ex.run_j_gated_v3",
+   "n_files": 836,
+   "bytes": 7484079749,
    "manifest": "manifests/ex.run_j_gated_v2.tsv.gz",
-   "manifest_sha256": "eb86c68b06566bebf981e0d50a2b464a84c7c4a99fe2249ef04a732fe451f369"
+   "manifest_sha256": "7b1e7e1a009d12f56411839f7be4e0ba97442e4581825b97bdd06dbf45556288"
   },
   {
    "id": "ex.imos_ram_grid",
@@ -1646,7 +1648,7 @@
    "id": "ex.register_2026_10_23",
    "kind": "product",
    "path": "EX:register-2026-10-23",
-   "status": "CURRENT_WITH_CAVEATS",
+   "status": "SUPERSEDED",
    "defects": [
     "D05",
     "D06",
@@ -1664,6 +1666,7 @@
     "quote": "Hydroacoustic detection register, 23 Oct 2026 (hydro clean-up run, proposal v6 block 2). EXPLORATORY; PREDICTIVE, NOT CALIBRATED; caveats C1, C2.\nIt replaces, for reading, graphics-2026-10-22/ranked (registry status KNOWN_DEFECT: D01-D04, D07, D08, D26) and the withdrawn Take 2 feasibility tables.\nEvery row of ranked_singles / ranked_pairs / ranked_triples is kept. Nothing is ranked, selected or called a candidate here.\nCode: module branch hypothesis/hydroacoustics, prepare/gates/gates.py (checks), build_register.py (this table), test_gates.py (9 tests; they"
    },
    "note": "Built in this run; replaces ex.ranked for reading. Independent verification: see the verifier report.",
+   "superseded_by": "ex.register_2026_10_23_v2",
    "n_files": 6,
    "bytes": 11186994,
    "manifest": "manifests/ex.register_2026_10_23.tsv.gz",
@@ -1677,10 +1680,10 @@
    "defects": [],
    "verified_this_run": false,
    "note": "All module scripts (pre-registrations, workers, checks). Version is the module branch commit in git.module_branch.",
-   "n_files": 162,
-   "bytes": 3639394,
+   "n_files": 168,
+   "bytes": 3778578,
    "manifest": "manifests/code.module_prepare.tsv.gz",
-   "manifest_sha256": "1bcf714ff37ec9feed8e401f8278752b0331372de3018c4d2f4331dd75754e6f",
+   "manifest_sha256": "0a93a6c1e7a40b43317f22289eb1c0aa2c15c25326676c1f7e4d1258f82df46c",
    "definition": {
     "file": null,
     "lines": null,
@@ -1731,6 +1734,229 @@
    "bytes": 1824061,
    "manifest": "manifests/ex.kadri_predictions_v3.tsv.gz",
    "manifest_sha256": "0cc7ad8aea2337959bf5db43ebd2b83e0a4f0f106e709dc19b7bf78a9e709583"
+  },
+  {
+   "id": "ex.run_j_gated_v3",
+   "kind": "product",
+   "path": "EX:run-j-gated-v3",
+   "status": "CURRENT_WITH_CAVEATS",
+   "defects": [
+    "D05",
+    "D06",
+    "D25"
+   ],
+   "verified_this_run": false,
+   "definition": {
+    "file": "EX:run-j-gated-v3/README.txt",
+    "lines": [
+     1,
+     3
+    ],
+    "quote": "Hydroacoustics block 11 (composition), PRODUCT v3 (amendment A6), end of flight run J, all four strata (74 seeds). Written 2026-10-23T05:40:47Z.\nSame inputs, code path and random calibration draws as run-j-gated-v2 (IMOS TL imos_tl_ram_arc.csv, A4); changes (A6, Pete ruling X03 23 Oct 2026):\nthe coupling prior is log-uniform on [1e-6, 1] (1 = physical limit), 61 grid points at 0.1 decade; the first 41 points equal the v2 grid."
+   },
+   "note": "Coupling prior log-uniform [1e-6, 1] (X03); bound variants 1e-1, 1e-2 (1e-2 = v2 default, bit-identical). README lines 15-23 corrected after generation (3275 coupling 0.022 / 0.014). Not ruled for composer use. Reductions in MOD:results-data/composition_run_j/v3.",
+   "n_files": 1045,
+   "bytes": 9540934585,
+   "manifest": "manifests/ex.run_j_gated_v3.tsv.gz",
+   "manifest_sha256": "0e6e5dfe2615523de4e78c29ea58c91e35c67e943decc5c0d8718f98e1f4f516"
+  },
+  {
+   "id": "mod.composition_run_j_v3",
+   "kind": "product",
+   "path": "MOD:results-data/composition_run_j/v3",
+   "status": "CURRENT_WITH_CAVEATS",
+   "defects": [
+    "D05",
+    "D06",
+    "D25"
+   ],
+   "verified_this_run": false,
+   "definition": {
+    "file": "MOD:results-data/composition_run_j/v3/README.md",
+    "lines": [
+     1,
+     8
+    ],
+    "quote": "# Hydroacoustic composition term, product v3 (amendment A6): coupling prior bound 1 and sensitivities (23 Oct 2026)\n\n*ASD-STE100 for work-specific text; standard statistical terms as they are. PREDICTIVE, NOT CALIBRATED (caveats C1, C2).*\n\nColumns: `mh370-exchange/hydroacoustics/run-j-gated-v3/` (74 seeds, 4 strata, 313,599,968 rows, 0 not computed; 8,471 s wall, 6 workers;\nREADME.txt there corrected after generation, see its [CORRECTED] note). Reductions here: `ub1/` (coupling prior log-uniform on [1e-6, 1],\nruling X03, 61 grid points), `ub0.1/` and `ub0.01/` (prior upper bound 1e-1 and 1e-2: sensitivities). Code: prepare/composition_run_j\n(prereg.py A6, worker, reduce.py with B11_V3=1 B11_IMOS_RAMGRID=1 B11_ETA_UB=<bound>). Summary table: `bounds_comparison_D0_p0.5_a0.05.csv`."
+   },
+   "note": "Reductions for prior bounds 1, 1e-1, 1e-2; regression vs v2 passes except anchor columns (anchor 2.26e-3, PENDING_RULING X02).",
+   "n_files": 39,
+   "bytes": 1940656,
+   "manifest": "manifests/mod.composition_run_j_v3.tsv.gz",
+   "manifest_sha256": "c1b8a9035fe53c4e93d4c87090eb723f2b75c28dba36a5b974eebd11f0f5dd95"
+  },
+  {
+   "id": "ex.ranked_2026_10_23_prior",
+   "kind": "product",
+   "path": "EX:ranked-2026-10-23-prior-1e-6-1",
+   "status": "CURRENT_WITH_CAVEATS",
+   "defects": [
+    "D05",
+    "D06",
+    "D25",
+    "D26"
+   ],
+   "verified_this_run": true,
+   "definition": {
+    "file": "EX:ranked-2026-10-23-prior-1e-6-1/README.txt",
+    "lines": [
+     1,
+     3
+    ],
+    "quote": "Merge a rank.py re-run (raw tables) into the committed 22 Oct ranked tables (overnight 23 Oct 2026, X03).\n\nThe committed tables (results-data/ranked_candidates = exchange graphics-2026-10-22/ranked) were written by the interactive session;"
+   },
+   "note": "Re-rank under coupling prior [1e-6, 1] (X03). Every ln LR below 0. Verified (lnLR reproduction exact).",
+   "n_files": 8,
+   "bytes": 15072011,
+   "manifest": "manifests/ex.ranked_2026_10_23_prior.tsv.gz",
+   "manifest_sha256": "acd1cb39b53e86a1452c3b5cd9dd8bead88d21428ae461c3debff2db8c6eca15"
+  },
+  {
+   "id": "ex.register_2026_10_23_v2",
+   "kind": "product",
+   "path": "EX:register-2026-10-23-v2",
+   "status": "CURRENT_WITH_CAVEATS",
+   "defects": [
+    "D05",
+    "D06",
+    "D24",
+    "D25",
+    "D26"
+   ],
+   "verified_this_run": true,
+   "definition": {
+    "file": "EX:register-2026-10-23-v2/README.txt",
+    "lines": [
+     1,
+     3
+    ],
+    "quote": "Hydroacoustic detection register, VERSION 2 (23 Oct 2026, overnight run). EXPLORATORY; PREDICTIVE, NOT CALIBRATED; caveats C1, C2.\nSame rows as register-2026-10-23 (singles 184, pairs 3,321, triples 12,331). Changes from version 1:\n - ranking columns from ../ranked-2026-10-23-prior-1e-6-1 (re-ranked under the coupling prior log-uniform [1e-6, 1], X03);"
+   },
+   "note": "Register v2 (data-based tolerances X04/X05 with epicentre term; re-ranked). Verified rounds 2-3.",
+   "n_files": 6,
+   "bytes": 12181306,
+   "manifest": "manifests/ex.register_2026_10_23_v2.tsv.gz",
+   "manifest_sha256": "0555c29ca1efd88b4b99d4ddb9db0d904e69ccdb3bc3c17a98800fd713bb1211"
+  },
+  {
+   "id": "ex.potential_signals_2026_10_23",
+   "kind": "product",
+   "path": "EX:potential-signals-2026-10-23",
+   "status": "SUPERSEDED",
+   "defects": [
+    "D05"
+   ],
+   "verified_this_run": true,
+   "definition": {
+    "file": "EX:potential-signals-2026-10-23/README.md",
+    "lines": [
+     1,
+     1
+    ],
+    "quote": "**SUPERSEDED (23 Oct 2026 05:30 UTC) by `../potential-signals-2026-10-23-v3/`: the silence test here ignored non-M1b detections and treated H08S as silent; the icequake A sentence in test 4 is false. Row sets are unchanged in v3.**"
+   },
+   "note": "Tables v2. Silence test ignored non-M1b detections and treated H08S as silent; icequake A sentence false (verifier round 3).",
+   "superseded_by": "ex.potential_signals_2026_10_23_v3",
+   "n_files": 5,
+   "bytes": 270930,
+   "manifest": "manifests/ex.potential_signals_2026_10_23.tsv.gz",
+   "manifest_sha256": "88db7d64be4029b085dd89056a77d5bb116081b2f70d2ac27a44c801bcbf2cf2"
+  },
+  {
+   "id": "ex.potential_signals_2026_10_23_v3",
+   "kind": "product",
+   "path": "EX:potential-signals-2026-10-23-v3",
+   "status": "CURRENT_WITH_CAVEATS",
+   "defects": [
+    "D05",
+    "D06",
+    "D24",
+    "D25",
+    "D26"
+   ],
+   "verified_this_run": true,
+   "definition": {
+    "file": "EX:potential-signals-2026-10-23-v3/README.md",
+    "lines": [
+     1,
+     7
+    ],
+    "quote": "# Potential hydroacoustic signals: tables 1-3 (23 Oct 2026, version 3)\n\n*ASD-STE100 for work-specific text; standard statistical terms as they are. PREDICTIVE, NOT CALIBRATED. No row is a detection claim.*\n*Version 3 (05:30 UTC) corrects two errors that the independent verifier found in version 2 (round 3): the silence test did not\nuse all detections, and it treated Diego Garcia H08S as silent although the airgun survey dominates that record. It also corrects one\nfalse sentence about icequake A. Row sets and order are the SAME as version 2; only the silence columns and labels change.\nVersion 2 (`../potential-signals-2026-10-23/`) is superseded; version 1 was superseded at 05:00 UTC.*"
+   },
+   "note": "Potential-signal tables 1-3 (121 / 73 / 323 rows). No row is a detection claim; every ln LR below 0. Verified round 4 (all 194 rows of P_silent recomputed).",
+   "n_files": 7,
+   "bytes": 280835,
+   "manifest": "manifests/ex.potential_signals_2026_10_23_v3.tsv.gz",
+   "manifest_sha256": "8a3f66c1cac79be9c3ea383dddd3774e3495e362e303f1787de7255a32f7d65b"
+  },
+  {
+   "id": "ex.potential_signals_graphics",
+   "kind": "product",
+   "path": "EX:potential-signals-graphics-2026-10-23/FINAL-v3",
+   "status": "CURRENT_WITH_CAVEATS",
+   "defects": [
+    "D05",
+    "D06",
+    "D26"
+   ],
+   "verified_this_run": true,
+   "definition": {
+    "file": "EX:potential-signals-graphics-2026-10-23/FINAL-v3/README.md",
+    "lines": [
+     1,
+     10
+    ],
+    "quote": "# Charts for the potential-signal tables — FINAL-v3 (23 Oct 2026, 05:30 UTC)\n\n*ASD-STE100 for work-specific text. PREDICTIVE, NOT CALIBRATED. No chart shows a detection claim.*\n\n**Tables:** `../../potential-signals-2026-10-23-v3/` (version 3). **This folder replaces `FINAL-v2/`** (kept unchanged; superseded). `FINAL/` and `PREVIEW/` are also superseded.\nCode: module branch hypothesis/hydroacoustics, `prepare/graphics_tables/charts.py` (version 3 commit: see INDEX). Command (72 s, 1 core):\n\n    python charts.py --table1 .../potential-signals-2026-10-23-v3/table1_multisite.csv --table2 .../table2_single_site.csv \\\n                     --out .../potential-signals-graphics-2026-10-23/FINAL-v3 --top 10 --extra M011,M015,M033,M045,M049,M063\n"
+   },
+   "note": "Charts 1-4 for 26 rows (table 1 M001-M010 + 6 airgun-free rows; table 2 S001-S010). FINAL-v2, FINAL and PREVIEW in the same parent folder are SUPERSEDED.",
+   "n_files": 109,
+   "bytes": 44798489,
+   "manifest": "manifests/ex.potential_signals_graphics.tsv.gz",
+   "manifest_sha256": "cf3a93941a85b2f0ddfb8f11a97a07436fc208b4b7f476f8987187c5809e12c5"
+  },
+  {
+   "id": "mod.tolerances_x04_x05",
+   "kind": "product",
+   "path": "MOD:results-data/tolerances_x04_x05",
+   "status": "CURRENT_WITH_CAVEATS",
+   "defects": [],
+   "verified_this_run": true,
+   "definition": {
+    "file": "MOD:prepare/gates/estimate_tolerances.py",
+    "lines": [
+     1,
+     5
+    ],
+    "quote": "\"\"\"X04 / X05: timing tolerances estimated from data (overnight run 23-24 Oct 2026; Pete: \"You'd estimate this using the data\").\n\nX04  H08S airgun-shot coincidence. Data: offset dt = (nearest shot time) - (detection time) for every H08S row of the detection\n     register (register-2026-10-23/register_singles.csv) whose time lies inside the shot sequence (first shot - 5 s .. last\n     shot + 5 s). Shots: results-data/h08s_template/h08s_template_shots.csv (cadence median 9.975 s). Model (maximum likelihood):"
+   },
+   "note": "X04 shot window +/-1.22 s about -0.11 s; X05 Royer tolerances incl. epicentre term. Royer Fig. 4 / Table 5 offset 13.1 s not explained.",
+   "n_files": 4,
+   "bytes": 31331,
+   "manifest": "manifests/mod.tolerances_x04_x05.tsv.gz",
+   "manifest_sha256": "cd6182796010afc6bb0570be90198222f6906a4ac0c721ea69ad185a6dcea547"
+  },
+  {
+   "id": "mod.real_arrival_test_x06",
+   "kind": "product",
+   "path": "MOD:results-data/real_arrival_test_x06",
+   "status": "CURRENT_WITH_CAVEATS",
+   "defects": [
+    "D05"
+   ],
+   "verified_this_run": true,
+   "definition": {
+    "file": "MOD:prepare/real_arrival_test_x06.py",
+    "lines": [
+     1,
+     4
+    ],
+    "quote": "\"\"\"PRE-REGISTRATION, work card X06 (proposal X06; registry defect D05; gap G-W1): FIRST REAL-ARRIVAL TEST of the module's\ndetectors on held IMOS raw records. Approved by Pete, 23 Oct 2026 (overnight run, item 4).\n\nThis docstring is committed BEFORE any recording sample at an event time is read by this work card. Up to this commit"
+   },
+   "note": "M1b detected 6 of 37 real arrivals vs 19.8 predicted. Amendment 2 post-hoc; one duplicate window (Royer-7 = CMST-C1); one land-path detection (Royer-3 at 3250); pre-registered timing not independently verifiable.",
+   "n_files": 4,
+   "bytes": 67562,
+   "manifest": "manifests/mod.real_arrival_test_x06.tsv.gz",
+   "manifest_sha256": "e94e319c19c9f20a8bfbe67228fb6ff57f2611e7796718874867b123bdde3aa8"
   }
  ],
  "constants": [
@@ -1739,7 +1965,7 @@
    "value": 0.00226,
    "units": "fraction of impact kinetic energy radiated as sound (module definition)",
    "status": "PENDING_RULING",
-   "note": "One point inside the coupling prior (Pete ruling 23 Oct). One-factor values in the Metz note table: 2.8e-4 (tau 0.05 s) to 1.3e-1 (f^-4 roll-off); 5.4e-2 at a 2 m source; 3.4e-4 at 30 m; full range over all cases 1.1e-5 to 6.3.",
+   "note": "One point inside the coupling prior (Pete ruling 23 Oct). One-factor values in the Metz note table: 2.8e-4 (tau 0.05 s) to 1.3e-1 (f^-4 roll-off); 5.4e-2 at a 2 m source; 3.4e-4 at 30 m; full range over all cases 1.1e-5 to 6.3. 23 Oct: agent recommendation (X02) to use 2.26e-3 as the F-35A reference point is applied to labels and the fixed column; Pete has not given an explicit ruling.",
    "source": {
     "file": "WORK:results/hydroacoustics-metz-f35a-anchor.md",
     "lines": [
@@ -2057,9 +2283,17 @@
     "ex.injection",
     "ex.kadri_predictions_v3",
     "ex.levels",
+    "ex.potential_signals_2026_10_23",
+    "ex.potential_signals_2026_10_23_v3",
+    "ex.potential_signals_graphics",
+    "ex.ranked_2026_10_23_prior",
     "ex.register_2026_10_23",
+    "ex.register_2026_10_23_v2",
     "ex.run_j_gated_v2",
+    "ex.run_j_gated_v3",
     "ex.weak_signal",
+    "mod.composition_run_j_v3",
+    "mod.real_arrival_test_x06",
     "note.composition_run_j",
     "note.injection_recovery_run_j",
     "note.overnight_2026_10_22_summary",
@@ -2092,9 +2326,15 @@
    "fixed_this_run": "no (labelled)",
    "affects": [
     "ex.injection",
+    "ex.potential_signals_2026_10_23_v3",
+    "ex.potential_signals_graphics",
+    "ex.ranked_2026_10_23_prior",
     "ex.register_2026_10_23",
+    "ex.register_2026_10_23_v2",
     "ex.run_j_gated_v2",
+    "ex.run_j_gated_v3",
     "ex.searches",
+    "mod.composition_run_j_v3",
     "note.composition_run_j",
     "note.injection_recovery_run_j",
     "note.searches_run_j"
@@ -2114,7 +2354,7 @@
      "quote": "2. **Known events were not removed.** Royer located 20 events that night, with picks at Cape Leeuwin. Kadri's 00:52:03 lies inside Royer's pick bar for icequake A on his Fig. 4 (00:51:56.8–00:52:04.5). Kadri's 00:54:30 is 6 s from Royer's arrow for event 5. Kadri's poster box 4 contains Royer's pick bar for event B. At the IMOS loggers, Royer events 6 and 9 predict arrivals at Perth Canyon 3315 at 01:16:53 and 01:04:29; the module has candidates at 01:16:55 and 01:04:29 (chance of each match about 0.05). The thread knew of the icequake A match at about 10:00 today, but the pair stayed on top of the charts."
     }
    ],
-   "fixed_this_run": "known-event check column in new register",
+   "fixed_this_run": "known-event check column in new register; 23 Oct overnight: data-based tolerances (X05, H01W Table 5 +/-7.0 s, Fig. 4 marks bias-corrected by 13.1 s); rows that match only on the uncorrected Fig. 4 time base are labelled royer_timebase_dependent (conditional, not a finding; H01W 00:52:04 is +21.7 s from the icequake A prediction)",
    "affects": [
     "ex.arrival_windows",
     "ex.kadri_package_v2",
@@ -2339,7 +2579,9 @@
    ],
    "fixed_this_run": "no (next work card)",
    "affects": [
+    "ex.potential_signals_2026_10_23_v3",
     "ex.register_2026_10_23",
+    "ex.register_2026_10_23_v2",
     "ex.searches",
     "note.searches_run_j"
    ]
@@ -2370,8 +2612,13 @@
    "affects": [
     "ex.kadri_predictions_v3",
     "ex.levels",
+    "ex.potential_signals_2026_10_23_v3",
+    "ex.ranked_2026_10_23_prior",
     "ex.register_2026_10_23",
+    "ex.register_2026_10_23_v2",
     "ex.run_j_gated_v2",
+    "ex.run_j_gated_v3",
+    "mod.composition_run_j_v3",
     "note.run_j_levels"
    ]
   },
@@ -2391,10 +2638,41 @@
    ],
    "fixed_this_run": "no (labelled)",
    "affects": [
+    "ex.potential_signals_2026_10_23_v3",
+    "ex.potential_signals_graphics",
     "ex.ranked",
+    "ex.ranked_2026_10_23_prior",
     "ex.register_2026_10_23",
+    "ex.register_2026_10_23_v2",
     "ex.searches",
     "note.searches_run_j"
+   ]
+  },
+  {
+   "id": "D27",
+   "title": "run-j-gated-v2 README states 3275 matches need coupling 30 / 19 (wrong)",
+   "what": "The text used the uncorrected pass-A IMOS TL. Corrected RAM-grid TL gives about 0.022 (01:20:35) and 0.014 (01:07:47) at the q99 run J energy (possible). README kept (hashed); erratum file beside it. The v3 README was corrected after generation.",
+   "evidence": [
+    {
+     "file": "EX:run-j-gated-v2/README.txt",
+     "lines": [
+      23,
+      23
+     ],
+     "quote": "(IMOS M1b p <= 0.05: 3275 01:20:35 and 01:07:47, both louder than any impact could be at Portland, eta_needed 30 / 19 -- matching is"
+    },
+    {
+     "file": "EX:run-j-gated-v2/ERRATUM_2026-10-23.txt",
+     "lines": [
+      4,
+      7
+     ],
+     "quote": "   This is WRONG. It used the uncorrected (pass-A) IMOS transmission loss. With the corrected RAM-grid TL the coupling needed at the q99\n   run J impact energy is about 0.022 (01:20:35) and 0.014 (01:07:46/47): about 9.7x and 6x the F-35A value 2.26e-3, possible (below 1).\n   Source: ../potential-signals-2026-10-23-v3/table2_single_site.csv (eta_at_q99E), verified independently (3275 coupling 0.0219;\n   pass-A TL 158.2 dB vs corrected 134.0 dB). Registry defect D27."
+    }
+   ],
+   "fixed_this_run": "yes (erratum; driver text corrected in module 441feb2)",
+   "affects": [
+    "ex.run_j_gated_v2"
    ]
   }
  ],

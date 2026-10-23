@@ -168,13 +168,14 @@ entries:
 - id: ex.run_j_gated_v2
   kind: product
   path: EX:run-j-gated-v2
-  status: CURRENT_WITH_CAVEATS
+  status: SUPERSEDED
   defects:
   - D01
   - D05
   - D06
   - D20
   - D25
+  - D27
   verified_this_run: false
   definition:
     file: EX:run-j-gated-v2/README.txt
@@ -183,6 +184,7 @@ entries:
     - 14
   note: Default column hydro-lnL-imos-margeta does not use the anchor. The fixed column at eta 2.1e-4 is labelled by D01 only. Not ruled for composer
     use.
+  superseded_by: ex.run_j_gated_v3
 - id: ex.imos_ram_grid
   kind: product
   path: EX:run-j-imos-ram-grid
@@ -880,7 +882,7 @@ entries:
 - id: ex.register_2026_10_23
   kind: product
   path: EX:register-2026-10-23
-  status: CURRENT_WITH_CAVEATS
+  status: SUPERSEDED
   defects:
   - D05
   - D06
@@ -894,6 +896,7 @@ entries:
     - 1
     - 4
   note: 'Built in this run; replaces ex.ranked for reading. Independent verification: see the verifier report.'
+  superseded_by: ex.register_2026_10_23_v2
 - id: code.module_prepare
   kind: code
   path: MOD:prepare
@@ -926,13 +929,149 @@ entries:
     - 1
     - 6
   note: Predictions table only; package text not updated (ERRATA_v2_text.txt). eta 2.26e-3 column pending ruling. NOT FOR SENDING.
+- id: ex.run_j_gated_v3
+  kind: product
+  path: EX:run-j-gated-v3
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D05
+  - D06
+  - D25
+  verified_this_run: false
+  definition:
+    file: EX:run-j-gated-v3/README.txt
+    lines:
+    - 1
+    - 3
+  note: Coupling prior log-uniform [1e-6, 1] (X03); bound variants 1e-1, 1e-2 (1e-2 = v2 default, bit-identical). README lines 15-23 corrected
+    after generation (3275 coupling 0.022 / 0.014). Not ruled for composer use. Reductions in MOD:results-data/composition_run_j/v3.
+- id: mod.composition_run_j_v3
+  kind: product
+  path: MOD:results-data/composition_run_j/v3
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D05
+  - D06
+  - D25
+  verified_this_run: false
+  definition:
+    file: MOD:results-data/composition_run_j/v3/README.md
+    lines:
+    - 1
+    - 8
+  note: Reductions for prior bounds 1, 1e-1, 1e-2; regression vs v2 passes except anchor columns (anchor 2.26e-3, PENDING_RULING X02).
+- id: ex.ranked_2026_10_23_prior
+  kind: product
+  path: EX:ranked-2026-10-23-prior-1e-6-1
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D05
+  - D06
+  - D25
+  - D26
+  verified_this_run: true
+  definition:
+    file: EX:ranked-2026-10-23-prior-1e-6-1/README.txt
+    lines:
+    - 1
+    - 3
+  note: Re-rank under coupling prior [1e-6, 1] (X03). Every ln LR below 0. Verified (lnLR reproduction exact).
+- id: ex.register_2026_10_23_v2
+  kind: product
+  path: EX:register-2026-10-23-v2
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D05
+  - D06
+  - D24
+  - D25
+  - D26
+  verified_this_run: true
+  definition:
+    file: EX:register-2026-10-23-v2/README.txt
+    lines:
+    - 1
+    - 3
+  note: Register v2 (data-based tolerances X04/X05 with epicentre term; re-ranked). Verified rounds 2-3.
+- id: ex.potential_signals_2026_10_23
+  kind: product
+  path: EX:potential-signals-2026-10-23
+  status: SUPERSEDED
+  defects:
+  - D05
+  verified_this_run: true
+  definition:
+    file: EX:potential-signals-2026-10-23/README.md
+    lines:
+    - 1
+    - 1
+  note: Tables v2. Silence test ignored non-M1b detections and treated H08S as silent; icequake A sentence false (verifier round 3).
+  superseded_by: ex.potential_signals_2026_10_23_v3
+- id: ex.potential_signals_2026_10_23_v3
+  kind: product
+  path: EX:potential-signals-2026-10-23-v3
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D05
+  - D06
+  - D24
+  - D25
+  - D26
+  verified_this_run: true
+  definition:
+    file: EX:potential-signals-2026-10-23-v3/README.md
+    lines:
+    - 1
+    - 7
+  note: Potential-signal tables 1-3 (121 / 73 / 323 rows). No row is a detection claim; every ln LR below 0. Verified round 4 (all 194 rows of P_silent recomputed).
+- id: ex.potential_signals_graphics
+  kind: product
+  path: EX:potential-signals-graphics-2026-10-23/FINAL-v3
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D05
+  - D06
+  - D26
+  verified_this_run: true
+  definition:
+    file: EX:potential-signals-graphics-2026-10-23/FINAL-v3/README.md
+    lines:
+    - 1
+    - 10
+  note: Charts 1-4 for 26 rows (table 1 M001-M010 + 6 airgun-free rows; table 2 S001-S010). FINAL-v2, FINAL and PREVIEW in the same parent folder are SUPERSEDED.
+- id: mod.tolerances_x04_x05
+  kind: product
+  path: MOD:results-data/tolerances_x04_x05
+  status: CURRENT_WITH_CAVEATS
+  defects: []
+  verified_this_run: true
+  definition:
+    file: MOD:prepare/gates/estimate_tolerances.py
+    lines:
+    - 1
+    - 5
+  note: X04 shot window +/-1.22 s about -0.11 s; X05 Royer tolerances incl. epicentre term. Royer Fig. 4 / Table 5 offset 13.1 s not explained.
+- id: mod.real_arrival_test_x06
+  kind: product
+  path: MOD:results-data/real_arrival_test_x06
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D05
+  verified_this_run: true
+  definition:
+    file: MOD:prepare/real_arrival_test_x06.py
+    lines:
+    - 1
+    - 4
+  note: M1b detected 6 of 37 real arrivals vs 19.8 predicted. Amendment 2 post-hoc; one duplicate window (Royer-7 = CMST-C1); one land-path detection (Royer-3 at 3250); pre-registered timing not independently verifiable.
 constants:
 - id: eta_F35A_metz
   value: 0.00226
   units: fraction of impact kinetic energy radiated as sound (module definition)
   status: PENDING_RULING
   note: 'One point inside the coupling prior (Pete ruling 23 Oct). One-factor values in the Metz note table: 2.8e-4 (tau 0.05 s) to 1.3e-1 (f^-4
-    roll-off); 5.4e-2 at a 2 m source; 3.4e-4 at 30 m; full range over all cases 1.1e-5 to 6.3.'
+    roll-off); 5.4e-2 at a 2 m source; 3.4e-4 at 30 m; full range over all cases 1.1e-5 to 6.3. 23 Oct: agent recommendation (X02) to use 2.26e-3 as
+    the F-35A reference point is applied to labels and the fixed column; Pete has not given an explicit ruling.'
   source:
     file: WORK:results/hydroacoustics-metz-f35a-anchor.md
     lines:
@@ -1141,7 +1280,9 @@ defects:
     lines:
     - 160
     - 160
-  fixed_this_run: known-event check column in new register
+  fixed_this_run: 'known-event check column in new register; 23 Oct overnight: data-based tolerances (X05, H01W Table 5 +/-7.0 s, Fig. 4 marks
+    bias-corrected by 13.1 s); rows that match only on the uncorrected Fig. 4 time base are labelled royer_timebase_dependent (conditional, not a
+    finding; H01W 00:52:04 is +21.7 s from the icequake A prediction)'
 - id: D08
   title: Coincidences whose direct path to the receiver crosses land
   what: 'Example: Kadri 00:40:34 row x Portland 3275; 201 of 2,000 path points above sea level in GEBCO 2026.'
@@ -1271,3 +1412,17 @@ defects:
     - 166
     - 166
   fixed_this_run: no (labelled)
+- id: D27
+  title: run-j-gated-v2 README states 3275 matches need coupling 30 / 19 (wrong)
+  what: The text used the uncorrected pass-A IMOS TL. Corrected RAM-grid TL gives about 0.022 (01:20:35) and 0.014 (01:07:47) at the q99
+    run J energy (possible). README kept (hashed); erratum file beside it. The v3 README was corrected after generation.
+  evidence:
+  - file: EX:run-j-gated-v2/README.txt
+    lines:
+    - 23
+    - 23
+  - file: EX:run-j-gated-v2/ERRATUM_2026-10-23.txt
+    lines:
+    - 4
+    - 7
+  fixed_this_run: yes (erratum; driver text corrected in module 441feb2)
