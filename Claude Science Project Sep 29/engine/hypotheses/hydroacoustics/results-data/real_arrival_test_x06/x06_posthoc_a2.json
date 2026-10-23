@@ -1,0 +1,271 @@
+{
+ "note": "POST-HOC amendment 2; not pre-registered",
+ "n_groups": 33,
+ "detectors": {
+  "D1": {
+   "groups_tested": 33,
+   "groups_detected": 6,
+   "timing_cmst_same_record": {
+    "n": 2,
+    "mean_s": 0.08,
+    "values_s": [
+     0.73,
+     -0.56
+    ],
+    "sd_s": 0.91,
+    "ci95_s": [
+     -1.18,
+     1.35
+    ]
+   },
+   "timing_royer_predicted": {
+    "n": 3,
+    "mean_s": 11.1,
+    "values_s": [
+     20.81,
+     24.32,
+     -11.84
+    ],
+    "sd_s": 19.94,
+    "ci95_s": [
+     -11.47,
+     33.66
+    ]
+   },
+   "timing_royer_z": {
+    "n": 3,
+    "mean_s": 0.52,
+    "values_s": [
+     1.07,
+     1.03,
+     -0.53
+    ],
+    "sd_s": 0.91,
+    "ci95_s": [
+     -0.51,
+     1.56
+    ]
+   },
+   "above_noise_subset": {
+    "groups": [
+     "CMST-C2",
+     "Royer-20@3376",
+     "CMST-C1",
+     "Royer-4/B@3376"
+    ],
+    "detected": [
+     true,
+     true,
+     true,
+     false
+    ],
+    "p": [
+     0.0,
+     0.0,
+     0.0101,
+     0.1864
+    ],
+    "snr_db": [
+     19.16,
+     11.16,
+     14.48,
+     11.23
+    ],
+    "pd_inj_a05": [
+     0.938,
+     0.54,
+     0.76,
+     0.545
+    ],
+    "n": 4,
+    "n_detected": 3,
+    "predicted": 2.78,
+    "P_N_le_obs": 0.7902
+   }
+  },
+  "D2": {
+   "groups_tested": 33,
+   "groups_detected": 3,
+   "timing_cmst_same_record": {
+    "n": 1,
+    "mean_s": 1.63,
+    "values_s": [
+     1.63
+    ]
+   },
+   "timing_royer_predicted": {
+    "n": 2,
+    "mean_s": 21.61,
+    "values_s": [
+     16.2,
+     27.02
+    ],
+    "sd_s": 7.65,
+    "ci95_s": [
+     11.01,
+     32.21
+    ]
+   },
+   "timing_royer_z": {
+    "n": 2,
+    "mean_s": 1.84,
+    "values_s": [
+     2.55,
+     1.14
+    ],
+    "sd_s": 1.0,
+    "ci95_s": [
+     0.46,
+     3.23
+    ]
+   },
+   "above_noise_subset": {
+    "groups": [
+     "CMST-C2",
+     "Royer-4/B@3376",
+     "CMST-C1",
+     "Royer-20@3376"
+    ],
+    "detected": [
+     true,
+     true,
+     true,
+     false
+    ],
+    "p": [
+     0.0,
+     0.0028,
+     0.0089,
+     0.1824
+    ],
+    "snr_db": [
+     19.16,
+     11.23,
+     14.48,
+     11.16
+    ],
+    "pd_inj_a05": [
+     0.563,
+     0.088,
+     0.172,
+     0.087
+    ],
+    "n": 4,
+    "n_detected": 3,
+    "predicted": 0.91,
+    "P_N_le_obs": 0.9993
+   }
+  },
+  "M1b": {
+   "groups_tested": 32,
+   "groups_detected": 5,
+   "timing_cmst_same_record": {
+    "n": 1,
+    "mean_s": 1.63,
+    "values_s": [
+     1.63
+    ]
+   },
+   "timing_royer_predicted": {
+    "n": 4,
+    "mean_s": 6.23,
+    "values_s": [
+     21.31,
+     -12.24,
+     20.31,
+     -4.44
+    ],
+    "sd_s": 17.13,
+    "ci95_s": [
+     -10.56,
+     23.03
+    ]
+   },
+   "timing_royer_z": {
+    "n": 4,
+    "mean_s": 0.12,
+    "values_s": [
+     1.09,
+     -0.55,
+     0.13,
+     -0.19
+    ],
+    "sd_s": 0.7,
+    "ci95_s": [
+     -0.57,
+     0.81
+    ]
+   },
+   "above_noise_subset": {
+    "groups": [
+     "Royer-20@3376",
+     "CMST-C2",
+     "CMST-C1",
+     "Royer-4/B@3376"
+    ],
+    "detected": [
+     true,
+     true,
+     false,
+     false
+    ],
+    "p": [
+     0.0073,
+     0.0108,
+     0.2443,
+     0.6417
+    ],
+    "snr_db": [
+     11.16,
+     19.16,
+     14.48,
+     11.23
+    ],
+    "pd_inj_a05": [
+     0.803,
+     0.979,
+     0.91,
+     0.805
+    ],
+    "n": 4,
+    "n_detected": 2,
+    "predicted": 3.5,
+    "P_N_le_obs": 0.074
+   }
+  }
+ },
+ "pooled_royer_timing": {
+  "n": 6,
+  "mean_s": 11.28,
+  "values_s": [
+   20.81,
+   16.2,
+   27.02,
+   -12.24,
+   20.31,
+   -4.44
+  ],
+  "sd_s": 15.78,
+  "ci95_s": [
+   -1.35,
+   23.9
+  ],
+  "groups": [
+   "Royer-20@3376",
+   "Royer-4/B@3376",
+   "CMST-C1",
+   "Royer-3/A@3250",
+   "Royer-2@3274",
+   "CMST-C4"
+  ],
+  "detector_used": [
+   "D1",
+   "D2",
+   "D2",
+   "M1b",
+   "M1b",
+   "M1b"
+  ],
+  "reading": "95 % interval includes 0 s and includes +16 s"
+ }
+}

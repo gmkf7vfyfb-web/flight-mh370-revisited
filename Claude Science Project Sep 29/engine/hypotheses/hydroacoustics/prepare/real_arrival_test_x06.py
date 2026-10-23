@@ -406,5 +406,65 @@ def main(out_dir=None):
     print(json.dumps(summ["detectors"], indent=1, default=str))
 
 
+# ======================================================================================================================
+# AMENDMENT 2 (POST-HOC; written after the first run of main(); not pre-registered). It does not change any number of
+# x06_table.csv or x06_summary.json. It reads x06_table.csv and writes x06_posthoc_a2.json:
+#  (i)  arrival-group corrections seen only in the results: Royer-7/C1 at 3250 has the same window maximum (same pick)
+#       as CMST-C4 (the Curtin event at Scott Reef) -> group CMST-C4; at 3274 Royer-7/C1 and Royer-C2/C3 share the
+#       02:01 record and the same window maximum -> one group '3274@02:01 (Royer-7/C1 or C2/C3)'.
+#  (ii) timing per detector on detected rows, timing-independent, PEAK-type references only (C4 onset removed), one row
+#       per arrival group and reference source (smallest p), split by reference source (CMST observed time on the same record vs Royer
+#       predicted time).
+#  (iii) detection against injection P_D on the subset of arrival groups whose SNR exceeds the 95th percentile of the
+#       same SNR statistic on null windows (the arrival stands out from noise in 5-40 Hz level), Poisson-binomial.
+#  (iv) pooled timing over the three detectors for Royer-predicted references (per group, the pick of the smallest-p
+#       detected detector), mean and 95 % interval compared with 0 s and +16 s; reading only if n >= 5.
+def posthoc_a2(out_dir=None):
+    out = Path(out_dir) if out_dir else MOD / "results-data" / "real_arrival_test_x06"
+    t = pd.read_csv(out / "x06_table.csv")
+    t["group_a2"] = t.arrival_group
+    t.loc[(t.event == "Royer-7/C1") & (t.logger == 3250), "group_a2"] = "CMST-C4"
+    t.loc[(t.logger == 3274) & t.event.isin(["Royer-7/C1", "Royer-11/C2", "Royer-12/C3"]), "group_a2"] = "3274@02:01 (Royer-7/C1 or C2/C3)"
+    res = dict(note="POST-HOC amendment 2; not pre-registered", n_groups=int(t.group_a2.nunique()), detectors={})
+
+    def stats(e):
+        e = np.asarray(e, float)
+        if len(e) == 0:
+            return dict(n=0)
+        d = dict(n=int(len(e)), mean_s=round(float(e.mean()), 2), values_s=[round(float(x), 2) for x in e])
+        if len(e) > 1:
+            sd = float(e.std(ddof=1)); d.update(sd_s=round(sd, 2), ci95_s=[round(float(e.mean() - 1.96 * sd / np.sqrt(len(e))), 2),
+                                                                         round(float(e.mean() + 1.96 * sd / np.sqrt(len(e))), 2)])
+        return d
+
+    for det, g in t[t.p.notna()].groupby("detector"):
+        u = g.sort_values("p").groupby("group_a2").head(1)
+        us = g.assign(src=g.source.str[:4]).sort_values("p").groupby(["group_a2", "src"]).head(1)   # one row per group and reference source
+        dd = us[us.detected & us.timing_independent & (us.ref_kind == "peak")]
+        cm, ry = dd[dd.source.str.startswith("CMST")], dd[dd.source.str.startswith("Royer")]
+        vis = u[u.snr_db > u.snr_null_p95_db]
+        pmf = poisson_binomial(vis.pd_inj_a05.values); k = int(vis.detected.sum())
+        res["detectors"][det] = dict(
+            groups_tested=int(len(u)), groups_detected=int(u.detected.sum()),
+            timing_cmst_same_record=stats(cm.pick_error_s), timing_royer_predicted=stats(ry.pick_error_s),
+            timing_royer_z=stats(ry.pick_error_z),
+            above_noise_subset=dict(groups=vis.group_a2.tolist(), detected=vis.detected.tolist(), p=vis.p.round(4).tolist(),
+                                    snr_db=vis.snr_db.tolist(), pd_inj_a05=vis.pd_inj_a05.tolist(), n=int(len(vis)), n_detected=k,
+                                    predicted=round(float(vis.pd_inj_a05.sum()), 2), P_N_le_obs=round(float(pmf[: k + 1].sum()), 4)))
+    d = t[t.p.notna() & t.detected & t.timing_independent & (t.ref_kind == "peak") & t.source.str.startswith("Royer")]
+    pooled = d.sort_values("p").groupby("group_a2").head(1)
+    ps = stats(pooled.pick_error_s)
+    ps["groups"] = pooled.group_a2.tolist(); ps["detector_used"] = pooled.detector.tolist()
+    ps["reading"] = ("no reading (n < 5)" if ps["n"] < 5 else
+                     f"95 % interval {'includes' if ps['ci95_s'][0] <= 0 <= ps['ci95_s'][1] else 'excludes'} 0 s and "
+                     f"{'includes' if ps['ci95_s'][0] <= 16 <= ps['ci95_s'][1] else 'excludes'} +16 s")
+    res["pooled_royer_timing"] = ps
+    (out / "x06_posthoc_a2.json").write_text(json.dumps(res, indent=1, default=str))
+    print(json.dumps(res, indent=1, default=str))
+
+
 if __name__ == "__main__":
-    main(*sys.argv[1:2])
+    if "--a2" in sys.argv:
+        posthoc_a2(*[a for a in sys.argv[1:] if a != "--a2"][:1])
+    else:
+        main(*sys.argv[1:2])
