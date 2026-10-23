@@ -7,7 +7,11 @@ It keeps every row. It adds check columns from gates.py. It does not rank, selec
 Inputs (registry ids): ex.ranked (ranked_singles/pairs/triples.csv), in.h08s_shots, ex.weak_signal
 (h08s/surviving_candidates.csv), in.gebco_2026, art.royer_crossid, in.royer_2016_digitised (figure marks),
 in.geometry_sample (sample.npz, run.json receivers).
-Usage: python build_register.py <out dir> [--art <handover artifacts dir>]
+Usage: python build_register.py <out dir> --art <handover artifacts dir> [--tol <tolerances dir>] [--ranked <ranked dir>]
+Version 2 (overnight 23-24 Oct 2026): --tol uses the data-based X04/X05 tolerances (estimate_tolerances.py); a Royer time match
+at ANY receiver is flagged (with the receiver's chance-match fraction in summary.json); --ranked reads re-ranked tables; columns
+shot_p_related, known_event_uncorrected_figure (old H01W figure rule, sensitivity) and p_prior_eta_ge_needed (log-uniform
+prior on [1e-6, 1]: P(eta >= coupling needed at q99 energy)) are added.
 """
 import argparse, hashlib, json, sys, time
 from pathlib import Path
@@ -34,13 +38,17 @@ def why_not(eta, e_used, e_q99):
 
 
 def main():
-    ap = argparse.ArgumentParser(); ap.add_argument("out"); ap.add_argument("--art", required=True)
+    ap = argparse.ArgumentParser(); ap.add_argument("out"); ap.add_argument("--art", required=True); ap.add_argument("--tol"); ap.add_argument("--ranked")
     a = ap.parse_args(); out = Path(a.out); out.mkdir(parents=True, exist_ok=True); t0 = time.time()
+    global RK
+    if a.ranked: RK = Path(a.ranked)
+    V2 = a.tol is not None
+    tj = str(Path(a.tol) / "tolerances.json") if V2 else None; tc = str(Path(a.tol) / "x05_crossid_tolerances.csv") if V2 else None
     rx_pos = json.load(open(EX / "run-j-searches/geometry/run.json"))["receivers"]
-    shots = G.Shots(MOD / "results-data/h08s_template/h08s_template_shots.csv", EX / "run-j-weak-signal/h08s/surviving_candidates.csv")
+    shots = G.Shots(MOD / "results-data/h08s_template/h08s_template_shots.csv", EX / "run-j-weak-signal/h08s/surviving_candidates.csv", tol_json=tj)
     land = G.Land(OCEAN / "gebco/grid/gebco_2026.json")
     royer = G.Royer(Path(a.art) / "a35831fe/239646ad_royer-events-crossid-all-sites.csv",
-                    MOD / "results-data/digitised/royer-2016/royer_figure_marks.csv")
+                    MOD / "results-data/digitised/royer-2016/royer_figure_marks.csv", tol_json=tj, tol_csv=tc)
     en = G.Energy(EX / "run-j-searches/geometry/sample.npz")
     land_cache = {}
 
@@ -56,9 +64,12 @@ def main():
         tt = G.hms(t)
         sv, sdt, sres = shots.check(rx, tt)
         lv, ln_all, ln_in = land_of(lat, lon, rx) if np.isfinite(lat) else ("NO_POSITION", -1, -1)
-        return dict(_rx=str(rx), band_check=G.band_check(rx, band), receiver_check=G.receiver_check(rx), shot_check=sv,
-                    shot_dt_s=sdt, shot_residual=sres, land_check=lv, land_points_inner=ln_in,
-                    known_event=royer.check(rx, tt))
+        d = dict(_rx=str(rx), band_check=G.band_check(rx, band), receiver_check=G.receiver_check(rx), shot_check=sv,
+                 shot_dt_s=sdt, shot_residual=sres, land_check=lv, land_points_inner=ln_in,
+                 known_event=royer.check(rx, tt))
+        if V2:
+            d.update(shot_p_related=shots.p_related(rx, tt), known_event_uncorrected_figure=royer.check_uncorrected(rx, tt))
+        return d
 
     def flags(m):
         f = []
@@ -68,7 +79,9 @@ def main():
         if m["shot_check"] == "COINCIDENT_WITH_SHOT": f.append("airgun-shot coincidence")
         if m["land_check"] == "CROSSES_LAND": f.append("path crosses land")
         # Royer windows cover 26-31 % of 00:00-02:00 at IMOS and H08S (chance match ~0.3), 9 % at H01W: flag at H01W only
-        if m["known_event"] not in ("NO_KNOWN_EVENT_MATCH", "n/a") and m.get("_rx") == "H01W": f.append("H01W time-consistent with Royer known event")
+        if V2:
+            if m["known_event"] not in ("NO_KNOWN_EVENT_MATCH", "n/a"): f.append(f"{m.get('_rx')} time-consistent with Royer known event")
+        elif m["known_event"] not in ("NO_KNOWN_EVENT_MATCH", "n/a") and m.get("_rx") == "H01W": f.append("H01W time-consistent with Royer known event")
         return f
 
     summary = {}
@@ -88,7 +101,7 @@ def main():
         m.pop("_rx", None)  # flags already computed above
         rows.append({**{k: r[k] for k in ["rank_lnLR", "lnLR", "rx", "time_utc", "det", "band", "p", "source", "kadri_label", "implied_source", "implied_impact_utc", "eta_needed"]},
                      **m, "impact_time_check": tv, "E_q99_at_src_J": eq99, "eta_at_q99E": eta, "x_old_2.1e-4": xo, "x_metz_2.26e-3": xm,
-                     "coupling_check": clab, "flags": "; ".join(f) if f else "none", "n_flags": len(f)})
+                     "coupling_check": clab, "p_prior_eta_ge_needed": G.p_prior_ge(eta), "flags": "; ".join(f) if f else "none", "n_flags": len(f)})
     RS = pd.DataFrame(rows); RS.to_csv(out / "register_singles.csv", index=False)
     summary["singles"] = dict(n=len(RS), n_no_flags=int((RS.n_flags == 0).sum()),
                               flag_counts=pd.Series([x for s in RS["flags"] for x in s.split("; ") if x != "none"]).value_counts().to_dict())
@@ -121,7 +134,7 @@ def main():
                 for k, v in m.items():
                     if k != "_rx": base[f"m{i+1}_{k}"] = v
             rows.append({**base, "impact_time_check": tv, "E_q50_at_locus_J": eq50, "E_q99_at_locus_J": eq99, "eta_at_q99E": eta,
-                         "x_old_2.1e-4": xo, "x_metz_2.26e-3": xm, "coupling_check": clab, "flags": "; ".join(f) if f else "none", "n_flags": len(f)})
+                         "x_old_2.1e-4": xo, "x_metz_2.26e-3": xm, "coupling_check": clab, "p_prior_eta_ge_needed": G.p_prior_ge(eta), "flags": "; ".join(f) if f else "none", "n_flags": len(f)})
         return pd.DataFrame(rows)
 
     for kind, fn in [("pairs", "ranked_pairs.csv"), ("triples", "ranked_triples.csv")]:
@@ -142,6 +155,8 @@ def main():
         cover[rx_] = dict(window_s=round(tot, 1), fraction_of_0000_0200=round(tot / 7200, 3))
     summary["royer_window_coverage_by_receiver"] = cover
     summary["royer_note"] = "A time match is expected by chance at about the listed fraction for a detection anywhere in 00:00-02:00."
+    summary["version"] = "v2 (data-based X04/X05 tolerances; Royer flag at every receiver)" if V2 else "v1"
+    if V2: summary["tolerances"] = json.load(open(tj))
     summary["energy_grid"] = dict(lat=en.grid.tolist(), q50=en.q50.tolist(), q99=en.q99.tolist(), n=en.n.tolist())
     summary["built_utc"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     json.dump(summary, open(out / "summary.json", "w"), indent=1)

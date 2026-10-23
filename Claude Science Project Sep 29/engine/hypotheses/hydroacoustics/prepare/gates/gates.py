@@ -70,17 +70,33 @@ def receiver_check(rx: str) -> str:
 
 
 class Shots:
-    def __init__(self, shots_csv, residual_csv):
+    """tol_json (X04, estimate_tolerances.py): window |dt - mu| <= w from the mixture fit, and p_related(dt). Without it the
+    old constant window (1.5 s, centre 0) is used (Take 2 reproduction tests)."""
+    def __init__(self, shots_csv, residual_csv, tol_json=None):
         self.t = np.sort(pd.read_csv(shots_csv).t.values.astype(float))
         r = pd.read_csv(residual_csv)
         r["t"] = r.utc.map(hms)
         self.res = r
+        self.fit = json.load(open(tol_json))["x04"] if tol_json else None
+        self.mu, self.win = (self.fit["window_center_s"], self.fit["window_half_width_s"]) if self.fit else (0.0, 1.5)
 
-    def check(self, rx, t, win=1.5):
+    def p_related(self, rx, t):
+        """P(shot-related | dt) from the X04 mixture fit; NaN when not H08S, outside the shot sequence, or no fit."""
+        if self.fit is None or str(rx) != "H08S" or not np.isfinite(t):
+            return np.nan
+        T = self.fit["shot_interval_median_s"]
+        if t < self.t[0] - T / 2 or t > self.t[-1] + T / 2:
+            return np.nan
+        f = self.fit["fit"]; dt = float((self.t - t)[np.argmin(np.abs(self.t - t))])
+        n = f["pi"] * np.exp(-0.5 * ((dt - f["mu"]) / f["sigma"]) ** 2) / (f["sigma"] * np.sqrt(2 * np.pi))
+        return float(n / (n + (1 - f["pi"]) / T))
+
+    def check(self, rx, t, win=None):
+        win = self.win if win is None else win
         if str(rx) != "H08S" or not np.isfinite(t):
             return "n/a", np.nan, "n/a"
         dt = float((self.t - t)[np.argmin(np.abs(self.t - t))])
-        if abs(dt) > win:
+        if abs(dt - self.mu) > win:
             return "NOT_COINCIDENT", dt, "n/a"
         near = self.res[(np.abs(self.res.t - t) <= win) & (self.res.stage != "raw")]
         if len(near):
@@ -117,12 +133,38 @@ class Land:
 
 
 class Royer:
-    def __init__(self, crossid_csv, marks_csv):
+    """tol_json/tol_csv (X05, estimate_tolerances.py): cross-ID tolerance 2 s(T) per row from data; H01W rows whose basis is a Royer
+    Table 5 pick use 2 sqrt(s_pick^2 + s_det^2) (s_det = X04 sigma, detection-time error against a known source); H01W-2 figure
+    marks are bias-corrected by the measured mark-minus-Table-5 offset and matched within 2 sd. Without the files the old
+    constant tolerances are used (Take 2 reproduction tests). check_uncorrected() keeps the old figure-mark rule as a sensitivity."""
+    def __init__(self, crossid_csv, marks_csv, tol_json=None, tol_csv=None):
         c = pd.read_csv(crossid_csv)
         c["t"] = c.pred.map(hms)
+        self.tol = None
+        if tol_json and tol_csv:
+            tj = json.load(open(tol_json)); x5 = tj["x05"]; s_det = tj["x04"]["fit"]["sigma"]
+            tc = pd.read_csv(tol_csv, dtype={"rx": str})[["event", "rx", "tol_new_s"]]
+            c = c.merge(tc, on=["event", "rx"], how="left", validate="one_to_one")
+            pick = c.basis.astype(str).str.startswith("Royer pick")
+            c["tol_old_s"] = c.tol_s
+            c["tol_s"] = np.where(pick, 2 * np.sqrt(x5["s_pick_used_s"] ** 2 + s_det ** 2), c.tol_new_s)
+            off = x5["h01w2_pick_bar_offset"]
+            self.tol = dict(mark_bias_s=off["mean_s"] if not off["consistent_with_zero"] else 0.0, mark_tol_s=2 * off["sd_s"])
         self.c = c
         m = pd.read_csv(marks_csv)
         self.m = m[m.station.astype(str).str.startswith("H01W")]
+
+    def check_uncorrected(self, rx, t):
+        """Old H01W figure-mark rule (pick bar +/- 2 s, arrow +/- 20 s, no bias correction): sensitivity only."""
+        if str(rx) != "H01W" or not np.isfinite(t):
+            return "n/a"
+        out = []
+        for _, r in self.m.iterrows():
+            if r.kind == "pick_bar" and r.t_utc_s - 2 <= t <= r.t_end_utc_s + 2:
+                out.append(f"inside Royer {r.figure} pick bar {r.t_utc}-{r.t_end_utc} (uncorrected figure time)")
+            elif r.kind == "arrow" and abs(t - r.t_utc_s) <= 20:
+                out.append(f"within 20 s of Royer {r.figure} arrow {r.t_utc} (uncorrected figure time)")
+        return "; ".join(out) if out else "NO_KNOWN_EVENT_MATCH"
 
     def check(self, rx, t):
         if not np.isfinite(t):
@@ -132,7 +174,15 @@ class Royer:
         for _, r in k.iterrows():
             lab = r.label if isinstance(r.label, str) else str(r.event)
             out.append(f"Royer event {r.event}{'/' + lab if lab != str(r.event) else ''} ({r.cls}) predicted {r.pred} +/- {r.tol_s:g} s")
-        if str(rx) == "H01W":
+        if str(rx) == "H01W" and self.tol is not None:
+            b, w = self.tol["mark_bias_s"], self.tol["mark_tol_s"]
+            for _, r in self.m.iterrows():
+                if r.kind == "pick_bar" and r.t_utc_s - b - w <= t <= r.t_end_utc_s - b + w:
+                    out.append(f"inside Royer {r.figure} pick bar {r.t_utc}-{r.t_end_utc} corrected by -{b:.1f} s, +/- {w:.1f} s")
+                elif r.kind == "arrow" and abs(t - (r.t_utc_s - b)) <= w:
+                    lab = r.nearest_table5_label if isinstance(r.nearest_table5_label, str) else "untabled"
+                    out.append(f"within {w:.1f} s of Royer {r.figure} arrow {r.t_utc} corrected by -{b:.1f} s ({lab})")
+        elif str(rx) == "H01W":
             for _, r in self.m.iterrows():
                 if r.kind == "pick_bar" and r.t_utc_s - 2 <= t <= r.t_end_utc_s + 2:
                     out.append(f"inside Royer {r.figure} pick bar {r.t_utc}-{r.t_end_utc}")
@@ -179,6 +229,13 @@ def coupling_labels(eta_at_E, E_used, E_q99):
     eta = eta_at_E * E_used / E_q99
     lab = "IMPOSSIBLE (coupling > 1 even at q99 energy)" if eta > 1 else "POSSIBLE_IN_PRINCIPLE (coupling <= 1)"
     return eta, eta / ETA_OLD, eta / ETA_METZ, lab
+
+
+def p_prior_ge(eta, lo=1e-6, hi=1.0):
+    """Prior probability that eta >= the coupling needed, under a log-uniform prior on [lo, hi] (A6 / X03). NaN if not computable."""
+    if not np.isfinite(eta) or eta <= 0:
+        return np.nan
+    return float(np.clip((np.log10(hi) - np.log10(eta)) / (np.log10(hi) - np.log10(lo)), 0.0, 1.0))
 
 
 def time_check(t_impact):
