@@ -7,9 +7,9 @@ Written in ASD-STE100 for work-specific text.
 ## Start here
 
 1. `REPORT.md` - what happened, every class of error with its ids, the root causes, what the 23 Oct clean-up did, what holds, what is open.
-2. `errors/error_register.json` (and `.csv`) - 120 entries: R- registry defects (19), A- automated reviewer findings (50), P- errors Pete reported (28), S- errors of the 23 Oct session (15),
+2. `errors/error_register.json` (and `.csv`) - 122 entries: R- registry defects (19), A- automated reviewer findings (50), P- errors Pete reported (28), S- errors of the 23 Oct session (17),
    V- errors that the independent verifier found in the 23 Oct clean-up (8), each with its status after the fixes.
-3. The registry (data of record): branch `hypothesis/hydroacoustics` @ 394707d, `Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/`
+3. The registry (data of record): branch `hypothesis/hydroacoustics` @ 5d2960d, `Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/`
    (`REGISTRY.json`: 80 entries with status, defects, sha256 manifests and quoted definitions; `registry.py` loader). A copy is in `code/module/registry/`.
 4. `Claude Science Project Sep 29/results/hydroacoustics/` on this branch: `INDEX.md` (generated from the registry), `decisions.md` / `decisions.json`
    (Pete's rulings in his exact words), `proposals.md` (agent proposals; not rules).
@@ -20,10 +20,10 @@ Written in ASD-STE100 for work-specific text.
 
 | folder | contents |
 |---|---|
-| `code/module/` | every tracked file of `engine/hypotheses/hydroacoustics/` at 394707d (git archive) except `results-data/`: `prepare/` (all scripts and tests, 3 small `.npz` templates), `lib.rs`, `physics.rs`, `*.toml`, `registry/`, and `data/` (module input files: digitised paper panels, IMS responses, IMOS and ocean-path tables, stations) |
+| `code/module/` | every tracked file of `engine/hypotheses/hydroacoustics/` at 5d2960d (git archive) except `results-data/`: `prepare/` (all scripts and tests, 3 small `.npz` templates), `lib.rs`, `physics.rs`, `*.toml`, `registry/`, and `data/` (module input files: digitised paper panels, IMS responses, IMOS and ocean-path tables, stations) |
 | `code/kernel-cells/<session>/` | 3,809 code cells run in the 46 sessions' kernels (platform cell log), with `cells_index.json` |
 | `code/exchange-scripts/` | `.py`/`.sh` files stored with the exchange products in `~/Downloads/mh370-exchange/hydroacoustics/` |
-| `data/results-data/` | text files (csv, json, txt, log, xml) of the module's `results-data/` at c9ac5cc (unchanged at 394707d); files over 200 kB are gzipped. PNG charts are not copied (they are on the module branch). |
+| `data/results-data/` | text files (csv, json, txt, log, xml) of the module's `results-data/` at c9ac5cc (unchanged at 5d2960d); files over 200 kB are gzipped. PNG charts are not copied (they are on the module branch). |
 | `data/register-2026-10-23/` | the detection register (singles 184, pairs 3,321, triples 12,331) with README, summary and SHA256SUMS of the uncompressed files; files over 200 kB are gzipped |
 | `data/kadri-package-v3-draft-predictions/` | Kadri v3 draft predictions (NOT FOR SENDING), meta, README, errata for the v2 text, v2-v3 comparison |
 | `artifacts/<session>/<version>_<file>` | 238 text artifacts (csv, md, json, py, txt, bib) produced in the 46 sessions; `artifacts_index.json` lists all 433 artifacts with sha256 |

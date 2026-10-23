@@ -14,8 +14,8 @@ the registry, or the session records. Ids in brackets point to `errors/error_reg
 
 ## 2. The errors, by class
 
-The register has 120 entries: 19 registry defects (R), 50 automated reviewer findings (A), 28 errors that Pete
-reported (P), 15 errors of the 23 Oct session (S), 8 errors that the independent verifier found in the clean-up (V). One error can appear in more than one source. The classes:
+The register has 122 entries: 19 registry defects (R), 50 automated reviewer findings (A), 28 errors that Pete
+reported (P), 17 errors of the 23 Oct session (S), 8 errors that the independent verifier found in the clean-up (V). One error can appear in more than one source. The classes:
 
 | class | what happened | examples (ids) |
 |---|---|---|
@@ -49,7 +49,7 @@ The same classes of error occurred on Fable 5.1 and on Opus 5.5 (section 1), so 
 
 | item | result | where |
 |---|---|---|
-| Registry | 80 entries (CURRENT 42, CURRENT_WITH_CAVEATS 23, KNOWN_DEFECT 5, PENDING_RULING 2, SUPERSEDED 3, UNCHECKED 3, WITHDRAWN 2), 10 constants, 19 defects; sha256 for 10,341 files (78.4 GB); definitions extracted from cited lines by code; 0 build errors; `check_registry.py --verify` 0 differences | module branch 394707d `registry/` |
+| Registry | 80 entries (CURRENT 42, CURRENT_WITH_CAVEATS 23, KNOWN_DEFECT 5, PENDING_RULING 2, SUPERSEDED 3, UNCHECKED 3, WITHDRAWN 2), 10 constants, 19 defects; sha256 for 10,341 files (78.4 GB); definitions extracted from cited lines by code; 0 build errors; `check_registry.py --verify` 0 differences | module branch 5d2960d `registry/` |
 | Checks in code | band, receiver, airgun-shot label with shot-subtraction residual, land path (GEBCO 2026), Royer known events, impact time, coupling; 9 tests reproduce the Take 2 counts (the 2 Royer tests need `HYDRO_ART` and skip without it) | `prepare/gates/` |
 | Detection register | singles 184, pairs 3,321, triples 12,331; rows with no flag: 38 / 10 / 2 (no flag is not a detection claim). Coupling not assessed: pairs 2,577 infinite coupling (Scott Reef 3250), 202 NaN, 119 no arc locus; triples 11,850 no locus, 195 NaN | `mh370-exchange/hydroacoustics/register-2026-10-23/` |
 | Kadri package | v2 KNOWN_DEFECT, not to be sent; v3 draft predictions (corrected IMOS table, 2.26e-3 column pending ruling; IMS rows differ from v2 only in `labels`; IMOS TL change q05/q50/q95 -26.9/0.0/+10.7 dB); errata for the v2 text | `kadri-package-v3-draft-predictions/` |

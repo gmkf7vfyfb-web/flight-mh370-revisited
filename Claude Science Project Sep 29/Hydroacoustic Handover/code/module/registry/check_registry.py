@@ -4,7 +4,9 @@
   python check_registry.py --stale      list every registered text file that still uses a retired value (2.1e-4 as anchor,
                                         old IMOS table imos_tl_ramcorr) without saying so, with file and line
   python check_registry.py --wording    list wording that Pete has ruled out ("recorded no signal", "closed access" as a
-                                        new label, "I am confident", "all ... already searched") with file and line
+                                        new label, "I am confident", "all ... already searched") with file and line.
+                                        "closed access" lines are listed as LABEL unless the line marks a correction
+                                        (wrong, false, corrected, copied, filed as, G4/G5 ...)
 Exit status 1 if --verify finds a difference. --stale and --wording only report.
 """
 import argparse, gzip, hashlib, re, sys
@@ -16,6 +18,9 @@ OLD_ANCHOR = re.compile(r"2\.1\s*(e-?0?4|×\s*10⁻⁴|x\s*10\^?-4)|0\.00021")
 OLD_TABLE = re.compile(r"imos_tl_ramcorr")
 CONTEXT_OK = re.compile(r"(?i)retired|old anchor|different quantity|low by 10\.3|superseded|was 2\.1|instead of|replac|→|->|D01")
 WORDING = re.compile(r"(?i)recorded no signal|no signal was (recorded|detected)|\bi am confident\b|already been searched|no hydroacoustic detection")
+# "closed access" as a label (P-05, P-09): listed unless the same line marks it as a correction or a description of the old label
+CLOSED = re.compile(r"(?i)closed[- ]access")
+CLOSED_CONTEXT_OK = re.compile(r"(?i)wrong|false|misattribut|never as|correct|copied|filed as|wrote|said|\bG[45]\b")
 TEXT = {".md", ".txt", ".csv", ".json", ".py", ".yaml"}
 
 
@@ -45,6 +50,8 @@ def main():
                         print(f"STALE\t{e['id']}\t{e['status']}\t{p}:{i}\t{line.strip()[:160]}")
                     if a.wording and WORDING.search(line):
                         print(f"WORDING\t{e['id']}\t{e['status']}\t{p}:{i}\t{line.strip()[:160]}")
+                    if a.wording and CLOSED.search(line) and not CLOSED_CONTEXT_OK.search(line):
+                        print(f"LABEL\t{e['id']}\t{e['status']}\t{p}:{i}\t{line.strip()[:160]}")
     if a.verify:
         print(f"verify: {bad} differences")
     sys.exit(1 if bad else 0)

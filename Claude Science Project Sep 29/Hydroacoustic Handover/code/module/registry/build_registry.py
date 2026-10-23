@@ -149,13 +149,19 @@ def main():
         r["evidence"] = ev
         r["affects"] = sorted(e["id"] for e in spec["entries"] if d["id"] in e.get("defects", []))
         out_defects.append(r)
+    for e in out_entries:
+        if e.get("status") not in spec["status_values"]:
+            errors.append(f"{e.get('id')}: status {e.get('status')} not in status_values")
+    for c in out_consts:
+        if c.get("status") not in spec["constant_status_values"]:
+            errors.append(f"{c.get('id')}: status {c.get('status')} not in constant_status_values")
     reg = {
         "registry_version": spec["registry_version"],
         "built_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "hashing": not a.no_hash,
         "git": {"module_branch": git_head(a.mod), "work_branch": git_head(a.work)},
         "roots": {k: v for k, v in roots.items()},
-        "status_values": spec["status_values"],
+        "status_values": spec["status_values"], "constant_status_values": spec["constant_status_values"],
         "entries": out_entries, "constants": out_consts, "defects": out_defects,
         "build_errors": errors,
     }

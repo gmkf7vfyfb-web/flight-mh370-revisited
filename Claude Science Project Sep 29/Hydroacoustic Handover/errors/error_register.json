@@ -4,7 +4,7 @@
   "R": 19,
   "A": 50,
   "P": 28,
-  "S": 15,
+  "S": 17,
   "V": 8
  },
  "errors": [
@@ -1015,6 +1015,24 @@
    "what_was_wrong": "The skip guard of the 2 Royer tests did not fire when HYDRO_ART was not set (Path('') is '.', which exists), so the tests failed instead of skipping. Earlier '9 of 9 pass' runs had HYDRO_ART set.",
    "correct_or_status": "fixed in 394707d: 9 pass with HYDRO_ART set, 7 pass and 2 skip without it",
    "affects": "prepare/gates/test_gates.py"
+  },
+  {
+   "id": "S-16",
+   "source": "automated reviewer finding on the 23 Oct session",
+   "thread": "a6559afa (23 Oct clean-up)",
+   "ref": "code/module/registry/entries.yaml",
+   "what_was_wrong": "The registry glossary status_values did not define 5 status codes that its constants use (RETIRED_AS_ANCHOR, AGENT_CHOICE_NOT_RULED, CONVENTION_NO_LOCATED_SOURCE, EXTERNAL_STANDARD, and the constant meaning of CURRENT/PENDING_RULING).",
+   "correct_or_status": "fixed in 5d2960d: constant_status_values glossary added; the build gives an error for any status not in a glossary (0 errors)",
+   "affects": "registry/entries.yaml; build_registry.py; REGISTRY.json"
+  },
+  {
+   "id": "S-17",
+   "source": "automated reviewer finding on the 23 Oct session",
+   "thread": "a6559afa (23 Oct clean-up)",
+   "ref": "code/module/registry/check_registry.py",
+   "what_was_wrong": "check_registry.py --wording said it lists 'closed access' used as a new label, but its pattern did not contain 'closed access'.",
+   "correct_or_status": "fixed in 5d2960d: LABEL check added; lines that mark a correction are not listed; 12 existing lines are all corrections, 0 LABEL hits",
+   "affects": "registry/check_registry.py; stale_and_wording_2026-10-23.tsv"
   },
   {
    "id": "V-01",
