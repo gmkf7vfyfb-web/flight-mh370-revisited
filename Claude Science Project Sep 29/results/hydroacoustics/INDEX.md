@@ -1,6 +1,6 @@
 # Hydroacoustics: index of data, products, notes and defects (generated from the registry)
 
-*Generated from `engine/hypotheses/hydroacoustics/registry/REGISTRY.json` on `hypothesis/hydroacoustics` (hydro-registry v1 (2026-10-23); built 2026-10-23T02:24:47Z; module c9ac5ccddc4d; work branch 81e552601e9b; sha256 manifests: yes). Do not edit by hand: change `entries.yaml`, rebuild, regenerate.*
+*Generated from `engine/hypotheses/hydroacoustics/registry/REGISTRY.json` on `hypothesis/hydroacoustics` (hydro-registry v1 (2026-10-23); built 2026-10-23T02:45:52Z; module 4afe5060ebad; work branch f2a2b5c9cc16; sha256 manifests: yes). Do not edit by hand: change `entries.yaml`, rebuild, regenerate.*
 
 **How to use.** Find the item below. Read its status and defects. Read its definition (quoted in REGISTRY.json from the cited lines). Use only CURRENT or CURRENT_WITH_CAVEATS items for results, and state the listed defects beside every number. Pete's rulings: `decisions.md`. Proposals that are not yet rules: `proposals.md`.
 
