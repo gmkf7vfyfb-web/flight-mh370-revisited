@@ -1,0 +1,2 @@
+print(open("/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-injection/inputs/inputs.log").read()[-250:])
+import os; print(os.listdir("/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-injection/inputs"))

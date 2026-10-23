@@ -1,0 +1,1 @@
+cd repo/"Claude Science Project Sep 29"/results; sed -n 1,92p hydroacoustics-kadri-table1-test.md

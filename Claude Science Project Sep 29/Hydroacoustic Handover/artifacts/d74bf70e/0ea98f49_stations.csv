@@ -1,0 +1,21 @@
+# IMS hydroacoustic triad elements valid on 2014-03-08, network IM.
+# Source: FDSN station web service, EarthScope (formerly IRIS DMC), level=channel, channel EDH,
+#   https://service.earthscope.org/fdsnws/station/1/query?net=IM&sta=H*&level=channel&format=text
+#   retrieved 2026-10-07 by prepare/fetch_stations.py. hydrophone_depth_m = -Elevation (metres below sea level).
+# H08 epochs in this source begin 2002-01-17: 2001 positions (Blackman air9) must come from UCRL-TR-207323 itself.
+element,triad,latitude_deg,longitude_deg,hydrophone_depth_m,sample_rate_hz,epoch_start,sensor
+H01W1,H01W,-34.892899,114.153900,1063.000000,250.000000,2001-08-28T00:00:00.0000,1 to 100 Hz HiTech hydrophone and datalogger
+H01W2,H01W,-34.897079,114.134033,1046.000000,250.000000,2004-06-02T00:00:00.0000,1 to 100 Hz HiTech hydrophone and datalogger
+H01W3,H01W,-34.880932,114.139977,1056.000000,250.000000,2004-06-02T00:00:00.0000,1 to 100 Hz HiTech hydrophone and datalogger
+H08N1,H08N,-6.342100,71.014297,1248.000000,250.000000,2002-01-17T00:00:00.0000,USAEDS HiTech hydrophone
+H08N2,H08N,-6.325060,71.000053,1243.000000,250.000000,2002-01-17T00:00:00.0000,USAEDS EDO hydrophone and datalogger
+H08N3,H08N,-6.345440,70.991882,1182.000000,250.000000,2002-01-17T00:00:00.0000,USAEDS HiTech hydrophone
+H08S1,H08S,-7.645300,72.474403,1413.000000,250.000000,2002-01-17T00:00:00.0000,USAEDS HiTech hydrophone and datalogger
+H08S2,H08S,-7.645340,72.493248,1356.000000,250.000000,2002-01-17T00:00:00.0000,USAEDS EDO hydrophone and datalogger
+H08S3,H08S,-7.627500,72.483833,1359.000000,250.000000,2002-01-17T00:00:00.0000,USAEDS HiTech hydrophone and datalogger
+H11N1,H11N,19.713560,166.891083,731.000000,250.000000,2007-02-12T00:00:00.0000,HiTech 1 to 100 Hz hydrophone and datalogger
+H11N2,H11N,19.730801,166.897675,732.000000,250.000000,2007-02-12T00:00:00.0000,HiTech 1 to 100 Hz hydrophone and datalogger
+H11N3,H11N,19.717180,166.909988,729.000000,250.000000,2007-02-12T00:00:00.0000,HiTech 1 to 100 Hz hydrophone and datalogger
+H11S1,H11S,18.508270,166.700272,750.000000,250.000000,2007-02-12T00:00:00.0000,HiTec 1 to 100 Hz hydrophone and datalogger
+H11S2,H11S,18.490820,166.705002,742.000000,250.000000,2007-02-12T00:00:00.0000,HiTec 1 to 100 Hz hydrophone and datalogger
+H11S3,H11S,18.495680,166.686462,726.000000,250.000000,2007-02-12T00:00:00.0000,HiTec 1 to 100 Hz hydrophone and datalogger

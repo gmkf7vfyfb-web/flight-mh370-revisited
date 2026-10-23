@@ -1,0 +1,1 @@
+cd out && sed -i '' 's/which crosses the 7th arc at about 25–26°S/which crosses the 7th arc at roughly 24–26°S/' hydroacoustics-prior-work-critique.md && grep -c "24–26°S" hydroacoustics-prior-work-critique.md; grep -n "25–26" *.md; wc -w *.md; head -3 ground-truth-cases.csv | cut -c1-200

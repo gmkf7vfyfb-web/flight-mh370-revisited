@@ -1,0 +1,3 @@
+cd repo/"Claude Science Project Sep 29"; grep -rli "publication coverage\|publication-coverage\|pubcoverage\|kadri.*coverage.*end of flight" results coordination threads 2>/dev/null | head
+cd ../../hydro/"Claude Science Project Sep 29"; grep -rli "publication coverage\|coverage versus\|converted to impact time" engine/hypotheses/hydroacoustics results coordination 2>/dev/null | head
+ls engine/hypotheses/hydroacoustics/results-data/kadri_fig9_noise engine/hypotheses/hydroacoustics/results-data/search_windows

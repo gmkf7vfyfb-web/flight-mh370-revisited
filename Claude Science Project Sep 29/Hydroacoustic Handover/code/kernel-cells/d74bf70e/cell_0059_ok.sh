@@ -1,0 +1,1 @@
+curl -s -m 30 -o /dev/null -w '%{http_code}\n' http://oalib.hlsresearch.com/AcousticsToolbox/ ; echo rc=$?

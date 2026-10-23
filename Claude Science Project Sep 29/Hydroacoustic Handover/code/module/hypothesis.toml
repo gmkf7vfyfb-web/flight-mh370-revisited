@@ -1,0 +1,11 @@
+# Metadata for this hypothesis. Keep it current; the report prints it.
+question = "Where would each impact sample's sound have arrived at the IMS hydrophones, could it have been detected, and once P_D is calibrated, what do the recordings say about the impact location?"
+# open | supported | not-supported | inconclusive
+status = "open"
+# Predictive mode only: impact_log_likelihood returns exactly 0.0 (selected, no data used).
+mode = "predictive"
+summary = "Run J Task 1, the Kadri northern conditional on data held, 13 Oct 2026 (prereg 6ecbb0a, amendment A1 011ec84; results/hydroacoustics-kadri-northern-run-j.md). No detection: of 34 pre-registered rows 28 were computable, giving 10 candidates at the 0.3 screen level against 8.4 expected by chance, 2 at 0.1 against 2.8, and 1 at 0.05 against 1.4. Likelihood ratio for the non-detection is 1.000 at every coupling efficiency up to 1e-2 at dive probability 0, 0.5 and 1, because the predicted received level puts detection probability at the detector's own false-alarm rate of 0.0067; it reaches 0.622 only at coupling 1e-1. Separately, amendment A1 resolves Kadri's two times from his own figure: the panel-c envelope maximum is at 00:52:04, 1.25 s from his text time 00:52:03 and 145.75 s from his caption time 00:54:30, and the text time is the largest independent excursion in the panel on three of four statistics. Module likelihood remains zero; labels PREDICTIVE, NOT CALIBRATED."
+core_requests = [
+  "1. Impact modules need the terminal module's latents BY NAME. ImpactView.latents is a bare slice and its doc says it is empty for every module but the terminal one; hydroacoustics needs energy_transfer_tau90_s, impact_energy_transferred_j, energy_transfer_n_pulses and impact_heading_deg / impact_bank_deg. Requested: the runner passes the terminal module's latent_columns() names (or an index lookup) to impact modules, so no module hard-codes another module's column order.",
+  "2. Seafloor depth at the impact point in ImpactView, from the one shared bathymetry surface (ruled to ocean transport, coordination/HYDROACOUSTICS.md 2026-10-08). Needed for f_c = c/4H and the AGW regime per sample. Along-path depth is a separate ocean-transport interface request, not an ImpactView field.",
+]

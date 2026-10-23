@@ -1,0 +1,1 @@
+cd repo; export GIT_CONFIG_GLOBAL=/dev/null; git show "HEAD:Claude Science Project Sep 29/engine/hypotheses/end-of-flight/smoke/compact_impacts.py" | sed -n 77,92p

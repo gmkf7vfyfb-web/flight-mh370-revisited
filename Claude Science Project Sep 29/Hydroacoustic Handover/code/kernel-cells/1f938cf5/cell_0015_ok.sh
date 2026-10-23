@@ -1,0 +1,2 @@
+cd ~/Downloads/mh370-exchange/end-of-flight/run-j/; for f in run-j-*; do n=$(ls -d $f/seed-*/ | wc -l); s=$(du -sh $f | cut -f1); echo $f $n $s; done; python3 -c "
+import numpy as np; a=np.load('run-j-waypoints/seed-1/impacts32.npy',mmap_mode='r'); print(a.shape,a.dtype, a.flags['C_CONTIGUOUS'])"; ls ../run-j-joined-v2/ 2>/dev/null | head; cat run-j-waypoints/README.md | head -40

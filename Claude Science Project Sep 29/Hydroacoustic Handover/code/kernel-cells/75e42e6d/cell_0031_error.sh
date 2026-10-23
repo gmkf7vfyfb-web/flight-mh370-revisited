@@ -1,0 +1,1 @@
+cd src; sed -n 8850,8870p sir.txt | grep -v "^ *$"; echo ====; sed -n 19340,19400p sir.txt | grep -v "^ *$"; which tesseract

@@ -1,0 +1,195 @@
+# [edit_file] created /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/77d06157-117b-4091-a991-cdcae35e10aa/gfx/charts_time.py
++++ /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/77d06157-117b-4091-a991-cdcae35e10aa/gfx/charts_time.py
++"""Chart 5 (predicted arrivals at Cape Leeuwin and Diego Garcia South against the Kadri trace spans, poster boxes, both
++Kadri times, the strongest two-station pair, plus the request windows) and chart 6 (impact-time distributions against
++the impact times the published traces can show)."""
++exec(open(str(WS_ROOT) + "/gfx/common.py").read())
++import run_j_windows as R
++import run_j_windows_charts as RWC
++from matplotlib.patches import Patch
++from matplotlib.lines import Line2D
++
++WEX = XH / "run-j-windows"
++DW = RWC.load(WEX)
++GREY = "#555555"; KCOL = "#b4232c"; PCOL = "#e5a02a"; GCOL = "#111111"
++KADRI_TEXT, KADRI_CAPTION = RWC.KADRI_TEXT, RWC.KADRI_CAPTION
++PAIR_A, PAIR_B = unix("00:52:04.35"), unix("01:12:49.3")    # digitised-panel candidate times (searches note)
++PANELS = {"H01W": [(T0 + 27 * 60, T0 + 37 * 60), (T0 + 37 * 60, T0 + 47 * 60), (T0 + 47 * 60, T0 + 57 * 60)],
++          "H08S": [(T0 + 60 * 60, T0 + 70 * 60), (T0 + 70 * 60, T0 + 80 * 60)]}
++OPTS = ["D0", "D2", "D3", "D4"]
++P = 0.5
++
++
++def cov(rx, opt, br="SOFAR"):
++    c = [c for c in DW["cov"] if c["receiver"] == rx and c["option"] == opt and float(c["p"]) == P and c["branch"] == br]
++    return float(c[0]["held_fraction"]) if c else np.nan
++
++
++def arrival_panel(ax, rx, x0, x1, letter):
++    imp = RWC.row(DW, "impact", "D0", P, "-")
++    for a, b in PANELS[rx]: ax.axvspan(a, b, color="#e8e8e8", lw=0, zorder=0)
++    RWC.nested_bars(ax, 5.0, imp, GREY)
++    for i, opt in enumerate(OPTS):
++        y = 4.0 - i
++        rs = RWC.row(DW, rx, opt, P, "SOFAR"); ra = RWC.row(DW, rx, opt, P, "AGW")
++        RWC.nested_bars(ax, y + 0.17, rs, OPT_COL[opt], True, h=0.5)
++        RWC.nested_bars(ax, y - 0.22, ra, OPT_COL[opt], False, h=0.34)
++        ax.text(x1 - 30, y, f"{100 * cov(rx, opt):.0f} %", fontsize=6, ha="right", va="center", color=OPT_COL[opt])
++    for k, (a, b) in enumerate(PANELS[rx]):
++        ax.barh(0.0, b - a - 8, left=a + 4, height=0.45, color="black", lw=0)
++        ax.text(0.5 * (a + b), 0.0, "abcde"[k + (0 if rx == "H01W" else 3)], color="white", fontsize=6, ha="center", va="center")
++    if rx == "H01W":
++        for a, b in RWC.POSTER_A + RWC.POSTER_C: ax.axvspan(a, b, ymin=0.0, ymax=0.93, color=PCOL, alpha=0.35, lw=0, zorder=1)
++        ax.axvline(KADRI_TEXT, color=KCOL, lw=0.9, ls="--", ymax=0.93); ax.axvline(KADRI_CAPTION, color=KCOL, lw=0.9, ls=":", ymax=0.93)
++        ax.text(KADRI_TEXT - 30, 5.95, "text time\n00:52:03", fontsize=5.8, color=KCOL, ha="right", va="center")
++        ax.text(KADRI_CAPTION + 30, 5.95, "caption time\n00:54:30", fontsize=5.8, color=KCOL, ha="left", va="center")
++        ax.plot(PAIR_A, -0.62, marker="*", ms=8, color=GCOL, clip_on=False, zorder=6)
++        ax.text(PAIR_A + 60, -0.62, "00:52:04", fontsize=5.8, va="center")
++    else:
++        ax.plot(PAIR_B, -0.62, marker="*", ms=8, color=GCOL, clip_on=False, zorder=6)
++        ax.text(PAIR_B + 60, -0.62, "01:12:49", fontsize=5.8, va="center")
++    ax.set_ylim(-1.0, 6.5); ax.set_xlim(x0, x1)
++    ax.set_yticks([5, 4, 3, 2, 1, 0]); ax.set_yticklabels(["impact time"] + [OPT[o] for o in OPTS] + ["published trace panels"])
++    ax.xaxis.set_major_locator(matplotlib.ticker.MultipleLocator(900)); ax.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(tfmt))
++    ax.grid(axis="x", color="#dddddd", lw=0.5); ax.set_xlabel("Time, UTC, 8 March 2014")
++    ax.set_title(f"{letter}  {STN[rx]}: predicted arrival of the impact sound", fontsize=8)
++    ax.text(x1 - 30, 5.0, "inside\npanels", fontsize=5.5, ha="right", va="center", color=GREY)
++
++
++def request_panel(ax):
++    sites = ["H01W", "H08S", "H08N", "3315", "3376", "3274", "3275", "3250"]
++    ys = np.arange(len(sites))[::-1]
++    for y, rx in zip(ys, sites):
++        for br, dy, col in (("SOFAR", 0.17, "#1f4e9c"), ("AGW", -0.17, "#c7761a")):
++            rq = [r for r in DW["req"] if r["receiver"] == rx and r["branch"] == br and float(r["p"]) == P][0]
++            if rq["start"]:
++                a, b = float(rq["start_unix"]), float(rq["end_unix"])
++                ax.barh(y + dy, b - a, left=a, height=0.3, color=col, lw=0)
++                ax.text(b + 100, y + dy, f"{rq['start'][:5]}–{rq['end'][:5]}" + ("  tail widened" if "UNCONVERGED" in rq["note"] else ""), fontsize=5.8, va="center", color=col)
++            for pp in (0.0, 1.0):
++                rq2 = [r for r in DW["req"] if r["receiver"] == rx and r["branch"] == br and float(r["p"]) == pp][0]
++                if rq2["start"]: ax.plot([float(rq2["start_unix"]), float(rq2["end_unix"])], [y + dy] * 2, "|", color="black", ms=6, mew=0.7, zorder=6)
++        if rx in PANELS:
++            for a, b in PANELS[rx]: ax.barh(y, b - a, left=a, height=0.75, color="none", ec="black", lw=0.8, zorder=7)
++    ax.set_yticks(ys); ax.set_yticklabels([STN[s] for s in sites])
++    ax.xaxis.set_major_locator(matplotlib.ticker.MultipleLocator(900)); ax.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(tfmt))
++    ax.set_xlim(T0, T0 + 3 * 3600 + 15 * 60); ax.grid(axis="x", color="#dddddd", lw=0.5); ax.set_xlabel("Time, UTC, 8 March 2014")
++    ax.set_title("c  Recording time to request from each station so that every likely arrival is covered (dive probability 0.5)", fontsize=8)
++    leg = [Patch(color="#1f4e9c", label="deep sound channel"), Patch(color="#c7761a", label="surface (acoustic-gravity) wave, speed assumed"),
++           Line2D([], [], marker="|", color="black", ls="", label="window ends at dive probability 0 and 1"),
++           Patch(fc="none", ec="black", label="published trace panel held (Kadri 2024 Fig. 9)")]
++    ax.legend(handles=leg, loc="lower right", frameon=False, fontsize=6.3)
++
++
++def chart5(fname):
++    fig = plt.figure(figsize=(13, 10.5))
++    essD = {o: float(RWC.row(DW, "H01W", o, P, "SOFAR")["ess"]) for o in OPTS}
++    plain = ("Panels a and b show when the sound of the impact would arrive at Cape Leeuwin and at Diego Garcia South, for four ways to use the last "
++             "satellite data at 00:19. The grey bar is the time of the impact. The black bars are the 10-minute trace panels that Kadri published; the "
++             "percentage at the right is the part of each predicted arrival inside those panels. The orange areas are the six boxes on Kadri's 2025 "
++             "poster. The red lines are the two times Kadri gives for his signal. The star marks the strongest pair of candidate signals found tonight. "
++             "Panel c gives the recording time to request from each station. No detection is claimed.")
++    tech = ("Source posterior: end-of-flight run J (74 seeds, 313.6 M rows) + northern supplement; p (dive) = 0.5; weights = end-of-flight two-factor table "
++            "total, C2 silent (q = 1/3), survival factor, strata by p_core x Zhat (run_j_windows.py, prereg bc99b07). Arrival = impact time + WGS84 geodesic / c; "
++            "deep sound channel c ~ N(1.482, 0.006) km/s; acoustic-gravity branch c ~ U(1.40, 1.50) km/s (assumed, not modelled); no refraction or blockage. "
++            "Bars: 50 % (thick), 90 %, 99 % (thin) intervals, dot = median; arrow = upper tail not converged across seeds (> 5 min spread). Kish ESS at Cape Leeuwin: "
++            + ", ".join(f"{OPT_CODE[o]} {essD[o]:,.0f}" for o in OPTS) +
++            ". Rows are the 00:19 options (D0′, D2, D3, D4); the log-on cause is mixed by the end-of-flight weights (the earlier chart's 'other / fuel exhaustion' and "
++            "'alive / silent' arms are not separate in run J). D1 and D5 are not in the run J windows design (gap). Kadri 2024 Fig. 9 panels a–c 00:27–00:57 (H01W), "
++            "d–e 01:00–01:20 (H08S), digitised. Kadri times: text time 00:52:03 (p. 9) and caption time 00:54:30 (Table 1). Poster boxes: SnT 2025 panels (a) and (c), "
++            "digitised. Strongest two-station pair (searches note): H01W 00:52:04 (envelope matched filter, p 0.043) x H08S 01:12:49 (p 0.039; airgun-suppressed "
++            "residual p_B 0.30), lag 1,245 s inside the predicted 809–1,536 s; 19 lag-consistent pairs vs 8.8 expected, permutation p 0.019 over 36 receiver-pair tests. "
++            "BEARING CAVEAT: the pair's arc locus (33.6 S 94.5 E) lies at 268.9 deg from H01W and 144.8 deg from H08S; Kadri gives 57 deg (text p. 9) or 306.18 deg "
++            "(Table 1 caption) for the 00:52 signal, neither within 37 deg of 268.9; the nearest Table 1 bearing is 00:52:50 at 274.84 deg, 46 s later. "
++            "Request windows: union over options with ESS >= 1,000 of [q0.5 − 10 min, q99.5 + 20 min]. " + CAV)
++    b = need_bottom(fig, plain, tech)
++    h1 = 0.32; top = 0.95
++    ax1 = fig.add_axes([0.17, top - h1, 0.34, h1]); ax2 = fig.add_axes([0.64, top - h1, 0.34, h1])
++    arrival_panel(ax1, "H01W", T0 + 15 * 60, T0 + 85 * 60, "a"); arrival_panel(ax2, "H08S", T0 + 55 * 60, T0 + 125 * 60, "b")
++    ax2.set_yticklabels([]);
++    ax3 = fig.add_axes([0.17, b + 0.06, 0.81, top - h1 - 0.15 - b - 0.06]); request_panel(ax3)
++    leg = [Patch(color=GREY, label="impact time: 50 %, 90 %, 99 % intervals"), Patch(fc=OPT_COL["D0"], ec=OPT_COL["D0"], label="arrival, deep sound channel (filled)"),
++           Patch(fc="white", ec=OPT_COL["D0"], label="arrival, surface wave branch (hollow)"), Patch(color="#e8e8e8", label="time span of a published trace panel"),
++           Patch(color=PCOL, alpha=0.5, label="Kadri 2025 poster boxes"), Line2D([], [], color=KCOL, ls="--", label="Kadri text time 00:52:03"),
++           Line2D([], [], color=KCOL, ls=":", label="Kadri caption time 00:54:30"), Line2D([], [], marker="*", color=GCOL, ls="", ms=8, label="strongest two-station candidate pair (see note)")]
++    fig.legend(handles=leg, loc="upper left", ncol=4, frameon=False, bbox_to_anchor=(0.06, top - h1 - 0.045), fontsize=6.5)
++    fig.text(0.01, 0.99, "Predicted arrival of the impact sound at Cape Leeuwin and Diego Garcia South against the published traces, and the recording time to request",
++             fontsize=10, ha="left", va="top")
++    footnotes(fig, plain, tech)
++    return save(fig, fname)
++
++
++def mix_hist(key):
++    keys = DW["keys"]; Hp = DW["H"][keys.index(key)].astype(float)
++    s = np.load(WEX / "supplement.npz"); sk = list(s["keys"]); Hs = s["H"][sk.index(key)].astype(float)
++    sD = DW["ess"][key.rsplit("/", 1)[0]]["supplement_share"]
++    return (1 - sD) * Hp / Hp.sum() + (sD * Hs / Hs.sum() if Hs.sum() > 0 else 0)
++
++
++def chart6(fname):
++    from pyproj import Geod
++    g = Geod(ellps="WGS84"); rx = R.receivers()
++    tp = json.load(open(RD / "tl_grid_run_j" / "table_points.json")); pts = sorted([(v["lat"], v["lon"]) for v in tp.values() if v["offset_nm"] == 0])
++    la = np.array([p_[0] for p_ in pts]); lo = np.array([p_[1] for p_ in pts]); lat = np.linspace(-40, -20, 201); lon = np.interp(lat, la, lo)
++    def dist(st): return g.inv(lon, lat, np.full_like(lon, rx[st][1]), np.full_like(lat, rx[st][0]))[2] / 1000.0
++    fig = plt.figure(figsize=(13, 8.6))
++    plain = ("Panel a shows when the aircraft hit the water, for four ways to use the last satellite data at 00:19. The bars below the curves give the "
++             "50 %, 90 % and 99 % ranges. Panel b shows, for each place along the last satellite arc, which impact times the published Cape Leeuwin "
++             "and Diego Garcia traces could show. The red lines give the impact time that each of Kadri's two signal times would need. The star is "
++             "the place and time that the strongest pair of candidate signals would need. Where the shaded bands do not cover the impact times, the "
++             "published traces could not show the impact even if it were loud enough.")
++    tech = ("Source posterior: end-of-flight run J + northern supplement, p = 0.5 (run_j_windows.py, prereg bc99b07); densities = pooled 2 s histograms of the "
++            "strata mixed with the supplement by its share (D0′ 0.125), shown per minute; bars = [q25, q75], [q5, q95], [q0.5, q99.5] of windows.csv, dot = median. "
++            "Arc = offset-0 line of the block-2 TL grid (table_points.json). Bands in b = panel span minus geodesic / c, c = 1.482 +/- 2 x 0.006 km/s; Kadri 2024 "
++            "Fig. 9 panels a–c 00:27–00:57 (H01W), d–e 01:00–01:20 (H08S), digitised. Red lines: impact time = H01W arrival − range / 1.482 km/s for the text time "
++            "00:52:03 and the caption time 00:54:30. Star: locus of the strongest two-station pair (lag 1,245 s, 33.56 S 94.51 E, implied impact 00:31:41; "
++            "composition note); its bearing from H01W is 268.9 deg, not Kadri's 57 or 306.18 deg (nearest Table 1 bearing 00:52:50, 274.84 deg). Dashed horizontal "
++            "lines: 99th-percentile northern latitude of the impact mass per option. Latitude span to 20 S. ESS: " +
++            ", ".join(f"{OPT_CODE[o]} {float(RWC.row(DW, 'impact', o, P, '-')['ess']):,.0f}" for o in OPTS) + ". " + CAV)
++    b = need_bottom(fig, plain, tech)
++    top = 0.92; hh = top - b - 0.17
++    axa = fig.add_axes([0.06, b + 0.12 + 0.3 * hh, 0.4, 0.7 * hh]); axa2 = fig.add_axes([0.06, b + 0.10, 0.4, 0.24 * hh], sharex=axa)
++    axb = fig.add_axes([0.56, b + 0.10, 0.42, hh])
++    tg = R.GRID0 + (np.arange(R.NBIN) + 0.5) * R.DT
++    for j, opt in enumerate(OPTS):
++        h = mix_hist(f"{opt}/p0.5/impact"); hb = h.reshape(-1, 30).sum(1); tb = tg.reshape(-1, 30).mean(1)
++        axa.plot(tb, hb, color=OPT_COL[opt], lw=1.5 if opt == "D0" else 1.0, label=OPT[opt])
++        RWC.nested_bars(axa2, 3 - j, RWC.row(DW, "impact", opt, P, "-"), OPT_COL[opt], True, h=0.6)
++    for ax in (axa, axa2):
++        for st, col in (("H01W", "#1f4e9c"), ("H08S", "#c7761a")):
++            pass
++    axa.set_ylabel("Probability per minute"); axa.set_xlim(T0 + 10 * 60, T0 + 70 * 60); axa.legend(frameon=False, fontsize=6.5, loc="upper right")
++    axa.set_title("a  Impact-time distribution for four uses of the 00:19 data (dive probability 0.5)", fontsize=8)
++    plt.setp(axa.get_xticklabels(), visible=False)
++    axa2.set_yticks([3, 2, 1, 0]); axa2.set_yticklabels(["50 / 90 / 99 %"] + [""] * 3, fontsize=6); axa2.set_ylim(-0.6, 3.6)
++    axa2.xaxis.set_major_locator(matplotlib.ticker.MultipleLocator(600)); axa2.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(tfmt))
++    axa2.set_xlabel("Impact time, UTC, 8 March 2014"); axa2.grid(axis="x", color="#dddddd", lw=0.5)
++    for st, col, lab in (("H01W", "#1f4e9c", "Cape Leeuwin trace panels a–c"), ("H08S", "#c7761a", "Diego Garcia South trace panels d–e")):
++        d = dist(st)
++        for k, (a, bb) in enumerate(PANELS[st]):
++            lo_ = a - d / (R.C_SOFAR - 2 * R.C_SOFAR_SD); hi_ = bb - d / (R.C_SOFAR + 2 * R.C_SOFAR_SD)
++            axb.fill_betweenx(lat, lo_, hi_, color=col, alpha=0.22, lw=0, label=lab + ", as impact time" if k == 0 else None)
++    d1 = dist("H01W")
++    axb.plot(KADRI_TEXT - d1 / R.C_SOFAR, lat, color=KCOL, ls="--", lw=1.0, label="impact time for Kadri text time 00:52:03")
++    axb.plot(KADRI_CAPTION - d1 / R.C_SOFAR, lat, color=KCOL, ls=":", lw=1.2, label="impact time for Kadri caption time 00:54:30")
++    axb.plot(unix("00:31:41.27"), -33.565, marker="*", ms=11, color=GCOL, ls="", label="strongest two-station pair: 33.6°S, 00:31:41")
++    for j, opt in enumerate(OPTS):
++        r = RWC.row(DW, "impact", opt, P, "-")
++        axb.plot([float(r["q25_unix"]), float(r["q75_unix"])], [-20.6 + 0.0 - 0.3 * j] * 2, color=OPT_COL[opt], lw=3.5, solid_capstyle="butt")
++        axb.plot([float(r["q5_unix"]), float(r["q95_unix"])], [-20.6 - 0.3 * j] * 2, color=OPT_COL[opt], lw=1.6)
++        axb.plot([float(r["q0.5_unix"]), float(r["q99.5_unix"])], [-20.6 - 0.3 * j] * 2, color=OPT_COL[opt], lw=0.6)
++        l99 = r["lat99_north_deg"]
++        if l99 not in ("", "None"): axb.axhline(float(l99), color=OPT_COL[opt], lw=0.7, ls="--", xmax=0.97)
++    axb.text(T0 + 47 * 60, -20.75, "impact-time 50 / 90 / 99 % (colours as in a)", fontsize=5.8, va="center")
++    axb.set_ylim(-40, -20); axb.set_xlim(T0 - 15 * 60, T0 + 60 * 60)
++    axb.set_yticks([-40, -35, -30, -25, -20]); axb.set_yticklabels(["40°S", "35°S", "30°S", "25°S", "20°S"])
++    axb.xaxis.set_major_locator(matplotlib.ticker.MultipleLocator(900)); axb.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(tfmt))
++    axb.set_xlabel("Impact time, UTC, 8 March 2014"); axb.set_ylabel("Latitude of the impact on the last satellite arc")
++    axb.axvline(T0 + 19 * 60 + 29, color="#888888", lw=0.6); axb.text(T0 + 19 * 60 + 50, -39.6, "00:19:29", fontsize=5.8, color="#666666")
++    axb.set_title("b  Impact times that the published traces could show, by latitude on the arc", fontsize=8)
++    axb.legend(frameon=False, fontsize=6.2, loc="upper left", bbox_to_anchor=(0.0, -0.13), ncol=2)
++    fig.text(0.01, 0.985, "When the aircraft hit the water, against the impact times that the published Cape Leeuwin and Diego Garcia traces could show",
++             fontsize=10, ha="left", va="top")
++    footnotes(fig, plain, tech)
++    return save(fig, fname)
++

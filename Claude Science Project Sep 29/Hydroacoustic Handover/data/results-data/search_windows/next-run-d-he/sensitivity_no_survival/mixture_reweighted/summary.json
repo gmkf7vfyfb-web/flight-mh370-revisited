@@ -1,0 +1,178 @@
+{
+ "provenance": {
+  "script": "prepare/search_windows_mixture.py",
+  "search_windows_sha256": "849a066dc2fc97317cc6249be8fafeebfb64f831269bfe076165064eeda358ce",
+  "eof_module": "/tmp/eof-cur/Claude Science Project Sep 29/engine/hypotheses/end-of-flight/smoke/displacement_hist.py",
+  "eof_module_sha256": "d81492148a44b490aa439484fc9240fe73542f92b20375ac2720613310cf4e78",
+  "exchange": "/Users/pete/Downloads/mh370-exchange/end-of-flight/next-run-d-he",
+  "p_family": {
+   "next-d-free": 0.594,
+   "next-d-repro-radar": 0.235,
+   "next-d-descent-climb": 0.153,
+   "next-d-routes": 0.019
+  },
+  "family_evidence": "/tmp/fe_d_without.json",
+  "receivers": {
+   "H01W": [
+    -34.89030333333333,
+    114.14263666666666
+   ],
+   "H08S": [
+    -7.63938,
+    72.483828
+   ],
+   "H08N": [
+    -6.337533333333333,
+    71.00207733333333
+   ],
+   "3315": [
+    -31.867217,
+    115.001133
+   ],
+   "3376": [
+    -31.842167,
+    115.013733
+   ],
+   "3250": [
+    -15.483367,
+    121.251
+   ],
+   "3274": [
+    -38.536967,
+    141.247567
+   ],
+   "3275": [
+    -38.542433,
+    141.225583
+   ]
+  },
+  "weighting": "P(family) re-weighted by 00:19 evidence"
+ },
+ "arms": {
+  "none__other+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 6918741.081120102,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.5934531233746075,
+    "next-d-repro-radar": 0.23439410329472685,
+    "next-d-descent-climb": 0.15330159319702252,
+    "next-d-routes": 0.01885118013364303
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.00046758035615214824,
+   "impact_q_pooled_utc": [
+    "00:19:58",
+    "00:21:06",
+    "00:22:24",
+    "00:30:10",
+    "00:37:20",
+    "00:43:52",
+    "00:54:42",
+    "00:58:36",
+    "01:06:14"
+   ],
+   "mass_beyond_grid": 1.0869083411080283e-12
+  },
+  "r600_no-offset__other+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 195922.97974484455,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.606636985290098,
+    "next-d-repro-radar": 0.2055419716123388,
+    "next-d-descent-climb": 0.17120114183837706,
+    "next-d-routes": 0.01661990125918609
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 1.3577796297022046e-06,
+   "impact_q_pooled_utc": [
+    "00:20:14",
+    "00:20:52",
+    "00:21:14",
+    "00:27:28",
+    "00:33:38",
+    "00:37:52",
+    "00:46:14",
+    "00:48:06",
+    "00:50:58"
+   ],
+   "mass_beyond_grid": 1.1656231535539519e-12
+  },
+  "both_no-offset__other+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 1639.4085994350323,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.5885646171234833,
+    "next-d-repro-radar": 0.23986402777579494,
+    "next-d-descent-climb": 0.1504310099249708,
+    "next-d-routes": 0.021140345175751005
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 2.0862910291995386e-07,
+   "impact_q_pooled_utc": [
+    "00:20:14",
+    "00:21:46",
+    "00:23:06",
+    "00:28:48",
+    "00:30:58",
+    "00:33:08",
+    "00:37:16",
+    "00:38:50",
+    "00:47:10"
+   ],
+   "mass_beyond_grid": 2.375877272697835e-14
+  },
+  "both_startup-offset__fuel-exhaustion+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 4299.491705103724,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.5819674732406317,
+    "next-d-repro-radar": 0.20421276731392374,
+    "next-d-descent-climb": 0.19341676997026916,
+    "next-d-routes": 0.020402989475175284
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:12",
+    "00:20:34",
+    "00:21:10",
+    "00:25:26",
+    "00:30:10",
+    "00:35:18",
+    "00:38:48",
+    "00:42:42",
+    "00:46:30"
+   ],
+   "mass_beyond_grid": 3.1530333899354446e-14
+  },
+  "r600-bto__other+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 8798885.003659926,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.5944773555270175,
+    "next-d-repro-radar": 0.22082978679193596,
+    "next-d-descent-climb": 0.16360484968469416,
+    "next-d-routes": 0.0210880079963524
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0004998190740729094,
+   "impact_q_pooled_utc": [
+    "00:20:02",
+    "00:21:18",
+    "00:22:34",
+    "00:30:24",
+    "00:37:54",
+    "00:44:46",
+    "00:55:22",
+    "00:59:08",
+    "01:06:34"
+   ],
+   "mass_beyond_grid": 6.983302824892235e-14
+  }
+ }
+}

@@ -1,0 +1,3 @@
+cd "hrepo/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"; grep -n -i -E 'snr' prepare/imos_detectors.py | head -20; ls results-data/stageA; head -5 results-data/stageA/pd_vs_snr_union.csv; head -3 results-data/ram_check/imos_tl_ramcorr.csv; python -c "
+import pandas as pd; k=pd.read_csv('results-data/ram_check/imos_tl_ramcorr.csv'); print(k.shape); print(k.columns.tolist()); print(k.iloc[:,:4].drop_duplicates().head(30).to_string())"; cat results-data/imos1d/noise_bands.csv | head; python -c "
+import json; r=json.load(open('data/ocean_paths/request_ims.json')); print([(p['name'],p['a'],p['b']) for p in r['paths']])"

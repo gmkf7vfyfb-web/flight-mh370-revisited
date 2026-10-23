@@ -1,0 +1,1 @@
+cd .tmp/repo; git ls-tree -r --name-only HEAD | grep -E "compact_impacts.py|tau_sidecar.py" ; cd ../hy; git ls-tree -r --name-only HEAD | grep -i -E "kadri.*table1.*csv|table1.*\.csv" | head

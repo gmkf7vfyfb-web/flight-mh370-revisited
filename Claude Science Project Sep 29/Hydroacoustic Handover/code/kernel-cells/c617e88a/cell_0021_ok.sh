@@ -1,0 +1,1 @@
+ls /Users/pete/Downloads/mh370-inputs/hydroacoustics/imos 2>&1 | head; ls /Users/pete/Downloads/ | head -30

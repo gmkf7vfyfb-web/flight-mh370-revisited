@@ -1,0 +1,2 @@
+R="repo/Claude Science Project Sep 29/results"
+for f in hydroacoustics-run-j-windows.md hydroacoustics-tl-grid-run-j.md hydroacoustics-searches-run-j.md hydroacoustics-weak-signal-methods.md hydroacoustics-digitised-sources.md hydroacoustics-blackman-validation.md; do echo "#### $f $(wc -l < "$R/$f") lines"; grep -n "^## \|^### " "$R/$f" | head -30; done

@@ -1,0 +1,1 @@
+cd "repo/Claude Science Project Sep 29/results"; cat hydroacoustics-air9-ew0112-source-reference.md | cut -c1-3000; grep -n -i "G23\|slope\|NOT EXPLAINED" hydroacoustics-blackman-validation.md 2>/dev/null | cut -c1-300 | head -20; ls | grep -i blackman

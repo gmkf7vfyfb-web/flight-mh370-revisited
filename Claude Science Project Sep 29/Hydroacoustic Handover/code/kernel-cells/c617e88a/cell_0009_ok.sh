@@ -1,0 +1,1 @@
+cd repo; git ls-tree -r --name-only origin/hypothesis/hydroacoustics | grep "^Claude Science Project Sep 29" | grep -iE "hydro" | grep -v "\.png$\|\.pdf$" | grep -v "^Claude Science Project Sep 29/results/hydroacoustics-[a-z0-9-]*\.md$" | head -80

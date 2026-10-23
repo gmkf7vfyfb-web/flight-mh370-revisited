@@ -1,0 +1,1 @@
+cd "audit/hb/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"; cat kraken_tl.py | cut -c1-220; echo ======; grep -n "RHO_C\|def band_fraction" -A14 imos_stageB_map.py | head -60

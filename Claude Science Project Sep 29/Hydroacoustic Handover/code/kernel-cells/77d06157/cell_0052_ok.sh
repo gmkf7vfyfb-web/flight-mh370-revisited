@@ -1,0 +1,1 @@
+cd hydro/"Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"; sed -n 105,200p run_j_windows_charts.py | cut -c1-400; grep -n "def receivers\|RX_LABEL\|GRID0\|NBIN\|DT =" run_j_windows.py | head

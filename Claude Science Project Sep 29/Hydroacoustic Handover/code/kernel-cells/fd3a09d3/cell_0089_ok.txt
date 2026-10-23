@@ -1,0 +1,92 @@
+# [edit_file] created /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/fd3a09d3-4e0f-4f0c-9e05-c56066b94f5f/hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/tl_grid_ram_subset.py
++++ /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/fd3a09d3-4e0f-4f0c-9e05-c56066b94f5f/hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/tl_grid_ram_subset.py
++"""EXPLORATORY (labelled): RAM (pyram, coupled modes) against adiabatic KRAKEN on a representative subset of
++`adiabatic_suspect` grid paths, as asked by architecture on 22 Oct 2026 after the TL-recalibration track found the air7 -> H01W
++adiabatic excess (+55 dB) to be largely an artefact (RAM +16 to +22 dB). Not a recalibration: the per-path RAM - KRAKEN
++difference is reported as a bias estimate for the grid's suspect paths; the grid itself stays adiabatic ("upper bound on loss").
++
++SETTINGS: tl_recal_block9.ram_job / ram_tl_check: pyram split-step Pade, dr = 2 lambda, dz = lambda / 20, 9 frequencies
++log-spaced across the third octave, intensity mean over the last 500 m, hard bottom (cp 1650, rho 1.9, 0.5 dB/lambda), NO
++water absorption in either model (matched KRAKEN rerun without Francois-Garrison), spherical correction. Bands 31.5 and 40 Hz
++(50-63 Hz would cost 3-5 x more and are not run tonight), source 10 m, receiver as the grid (triad depth / seabed - 2 m).
++PATHS: one per receiver, offset 0, open in both bands, adiabatic_suspect_excl_rx = 1, spanning latitudes:
++  H01W 33.0 S, H08S 35.0 S, H08N 32.0 S, 3315 36.0 S, 3376 25.0 S, 3274 36.0 S, 3275 40.0 S, 3250 24.0 S.
++Environment rebuilt with tl_grid_run_j.build_path (identical to the grid run). 4 processes.
++Usage: python tl_grid_ram_subset.py <out_dir> --at-bin <tools> [--procs 4] [--bands 31.5 40]
++"""
++from __future__ import annotations
++
++import argparse
++import json
++import pathlib
++import sys
++import time
++from multiprocessing import Pool
++
++import numpy as np
++import pandas as pd
++
++HERE = pathlib.Path(__file__).resolve().parent
++sys.path.insert(0, str(HERE))
++import air9_tl_validation as A  # noqa: E402
++import kraken_tl as K  # noqa: E402
++import tl_grid_run_j as TG  # noqa: E402
++
++SUBSET = [("H01W", -33.0), ("H08S", -35.0), ("H08N", -32.0), ("3315", -36.0), ("3376", -25.0), ("3274", -36.0), ("3275", -40.0), ("3250", -24.0)]
++
++
++def ram_job(a):
++    tag, bathy_csv, ssp_csv, fc, zs, rd = a
++    from pyram.PyRAM import PyRAM
++    b = pd.read_csv(bathy_csv); s = pd.read_csv(ssp_csv)
++    rprof, prof = A.build_profiles(b, s); nodes = A.node_profiles(s); keys = sorted(nodes)
++    nr = np.array([nodes[k][0] for k in keys]); z = nodes[keys[0]][1]; Cm = np.vstack([nodes[k][2] for k in keys]).T
++    D = np.array([p[0] for p in prof])
++    if D.max() >= z[-1]:
++        z = np.append(z, D.max() + 100.0); Cm = np.vstack([Cm, Cm[-1:]])
++    L = rprof[-1] * 1e3; t0 = time.time(); I = []
++    for f in fc * 2 ** (np.linspace(-1, 1, 9) / 6):
++        lam = 1500.0 / f
++        m = PyRAM(f, zs, rd, z, nr * 1e3, Cm, np.array([0.0]), np.array([0.0]), np.array([[A.BOTTOMS["hard"]["cp"]]]), np.array([[A.BOTTOMS["hard"]["rho"]]]),
++                  np.array([[A.BOTTOMS["hard"]["ap"]]]), np.column_stack([rprof * 1e3, D]), rmax=L, zmplt=D.max(), dr=2 * lam, dz=lam / 20, ndr=1, ndz=1)
++        r = m.run(); rr, tl = r["Ranges"], r["TL Line"]; k = rr >= rr[-1] - 500.0
++        I.append(np.mean(10 ** (-tl[k] / 10)))
++    x = L / 1000.0 / 6371.0
++    return dict(tag=tag, fc_hz=fc, src_depth_m=zs, rcv_depth_m=rd, range_km=L / 1e3, tl_ram_db=float(-10 * np.log10(np.mean(I)) + 10 * np.log10(x / np.sin(x))), wall_s=time.time() - t0)
++
++
++def main():
++    ap = argparse.ArgumentParser(); ap.add_argument("out"); ap.add_argument("--at-bin", required=True); ap.add_argument("--procs", type=int, default=4)
++    ap.add_argument("--bands", nargs="+", type=float, default=[31.5, 40.0])
++    a = ap.parse_args(); out = pathlib.Path(a.out); out.mkdir(parents=True, exist_ok=True); pdir = out / "paths"; pdir.mkdir(exist_ok=True)
++    srcs = TG.arc_sources(-41, -20, 0.5, [0]).set_index("lat"); rx = TG.receivers([r for r, _ in SUBSET])
++    jobs, krows = [], []
++    for rec, lat in SUBSET:
++        s = srcs.loc[lat]; tag = f"{s.source_id}-{rec}"
++        bathy, ssp, info = TG.build_path(dict(lat=lat, lon=s.lon), rx[rec])
++        bathy.to_csv(pdir / f"bathy_{tag}.csv", index=False); ssp.to_csv(pdir / f"ssp_{tag}.csv", index=False)
++        rprof, profiles = A.build_profiles(bathy, ssp); L = float(rprof[-1])
++        rd = rx[rec]["rcv_depth_m"] if rx[rec]["kind"] == "ims" else min(info["end_depth_m"], profiles[-1][0]) - 2.0
++        rd = float(min(rd, profiles[-1][0] - 1.0))
++        for fc in a.bands:
++            root = f"noabs_{tag}_f{fc:g}".replace(".", "p")
++            try:
++                K.tl_path(out / "work", root, fc, profiles, rprof, np.array([L]), [10.0], [rd], A.BOTTOMS["hard"], a.at_bin, fg=None)
++                sh = K.read_shd(out / "work" / f"{root}.shd"); x = L / 6371.0
++                krows.append(dict(tag=tag, fc_hz=fc, tl_kraken_noabs_db=float(-20 * np.log10(np.abs(sh["p"][0, 0, 0, -1])) + 10 * np.log10(x / np.sin(x)))))
++            except RuntimeError:
++                krows.append(dict(tag=tag, fc_hz=fc, tl_kraken_noabs_db=np.inf))
++            jobs.append((tag, pdir / f"bathy_{tag}.csv", pdir / f"ssp_{tag}.csv", fc, 10.0, rd))
++        print(tag, "range", round(L), "rd", rd, "min corridor", info["min_corridor_depth_m"], flush=True)
++    t0 = time.time()
++    with Pool(a.procs) as P:
++        R = pd.DataFrame(list(P.imap_unordered(ram_job, jobs)))
++    R = R.merge(pd.DataFrame(krows), on=["tag", "fc_hz"]); R["ram_minus_kraken_db"] = R.tl_ram_db - R.tl_kraken_noabs_db
++    R.to_csv(out / "ram_subset.csv", index=False)
++    json.dump(dict(wall_s=time.time() - t0, procs=a.procs, bands=a.bands, label="EXPLORATORY; RAM - adiabatic KRAKEN, no absorption in either"), open(out / "ram_subset_wall.json", "w"), indent=1)
++    print(R.round(1).to_string(index=False)); print("wall", round(time.time() - t0), "s")
++
++
++if __name__ == "__main__":
++    main()
++

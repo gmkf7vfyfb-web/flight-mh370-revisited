@@ -1,0 +1,129 @@
+{
+ "geometry": [
+  {
+   "receiver": "H01W",
+   "range_km": 1517.0
+  },
+  {
+   "receiver": "Perth Canyon 3376",
+   "range_km": 1420.8
+  },
+  {
+   "receiver": "Perth Canyon 3315",
+   "range_km": 1420.9
+  },
+  {
+   "receiver": "H08S",
+   "range_km": 3729.1
+  }
+ ],
+ "resolution_check": [
+  {
+   "panel": "d",
+   "fs_hz": 40.0,
+   "samples_per_shot_window": 360,
+   "n_shots": 60,
+   "n_vertices": 8935,
+   "native_vertex_spacing_median_s": 0.04889490799999585,
+   "native_vertex_spacing_p95_s": 0.19210133699999687,
+   "resample_grid_s": 0.025,
+   "envelope_boxcar_s": 0.25,
+   "computable": "yes: 360 samples per 9 s shot window, native spacing well inside the 0.25 s envelope smoothing"
+  },
+  {
+   "panel": "e",
+   "fs_hz": 40.0,
+   "samples_per_shot_window": 360,
+   "n_shots": 50,
+   "n_vertices": 8973,
+   "native_vertex_spacing_median_s": 0.04922754800003304,
+   "native_vertex_spacing_p95_s": 0.1902064430000042,
+   "resample_grid_s": 0.025,
+   "envelope_boxcar_s": 0.25,
+   "computable": "yes: 360 samples per 9 s shot window, native spacing well inside the 0.25 s envelope smoothing"
+  }
+ ],
+ "windows": {
+  "text|perth": [
+   "00:50:44",
+   "00:51:10"
+  ],
+  "text|h08s": [
+   "01:16:19",
+   "01:17:33"
+  ],
+  "caption|perth": [
+   "00:53:11",
+   "00:53:37"
+  ],
+  "caption|h08s": [
+   "01:18:46",
+   "01:20:00"
+  ]
+ },
+ "kadri_times": {
+  "text": "00:52:03",
+  "caption": "00:54:30"
+ },
+ "source_times": {
+  "text": "00:34:55",
+  "caption": "00:37:22"
+ },
+ "tiers": {
+  "screen": 0.3,
+  "mark": 0.1,
+  "report": 0.05
+ },
+ "coincidence_null_floor": 0.010101010101010102,
+ "dive_energy": {
+  "0.5": {
+   "ess": 2455090.080695267,
+   "n_rows": 16000000,
+   "e_q05": 349588032.0,
+   "e_q50": 1230614016.0,
+   "e_q95": 10994572288.0
+  },
+  "0.0": {
+   "ess": 1506597.5640647989,
+   "n_rows": 16000000,
+   "e_q05": 347810784.0,
+   "e_q50": 1053608512.0,
+   "e_q95": 10679755776.0
+  },
+  "1.0": {
+   "ess": 1526941.3122829746,
+   "n_rows": 16000000,
+   "e_q05": 351882592.0,
+   "e_q50": 2255429632.0,
+   "e_q95": 11153937408.0
+  }
+ },
+ "h08s_predicted": {
+  "tl_db": 138.6501158568903,
+  "tl_sd_db": 7.9,
+  "tl_range_km": 3730.0,
+  "c_e": 44849.23570052606,
+  "exposure": {
+   "0.5|0.0001": 7.531219715267003e-05,
+   "0.5|0.001": 0.0007531219715267003,
+   "0.5|0.01": 0.007531219715267002,
+   "0.5|0.1": 0.07531219715267003,
+   "0.0|0.0001": 6.447965889044067e-05,
+   "0.0|0.001": 0.0006447965889044068,
+   "0.0|0.01": 0.0064479658890440675,
+   "0.0|0.1": 0.06447965889044067,
+   "1.0|0.0001": 0.0001380297631106763,
+   "1.0|0.001": 0.001380297631106763,
+   "1.0|0.01": 0.013802976311067628,
+   "1.0|0.1": 0.13802976311067627
+  }
+ },
+ "median_shot_E_peak": 0.3561858311264816,
+ "n_shots": 110,
+ "shots_per_panel": {
+  "d": 60,
+  "e": 50
+ },
+ "last_shot_utc": "01:19:09",
+ "provenance": "run-i-dive seed-1 per stratum (smoke scale); Kadri Fig 9 digitised vectors; IMOS role-B same-night null; TL from kadri_package/next-run-b/predictions.csv"
+}

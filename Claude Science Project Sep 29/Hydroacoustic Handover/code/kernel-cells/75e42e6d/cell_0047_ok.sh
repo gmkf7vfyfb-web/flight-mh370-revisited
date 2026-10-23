@@ -1,0 +1,1 @@
+ls /Users/pete/Downloads | grep -i -E "operational|atsb|mh370|ae-2014|debris" | head -30

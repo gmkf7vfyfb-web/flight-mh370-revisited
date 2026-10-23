@@ -1,0 +1,1 @@
+cd "repo/Claude Science Project Sep 29/results/kadri-haixun-conditional-2026-10-18/sources-sightings"; ls; grep -n -i "white\|90 km\|il-76\|sighting" *.md | head -40

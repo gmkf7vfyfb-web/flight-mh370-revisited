@@ -1,0 +1,1 @@
+curl -s -m 30 "https://wms.gebco.net/mapserv?request=GetCapabilities&service=WMS&version=1.3.0" -o dl/gebco_caps.xml -w "%{http_code} %{size_download}\n"; grep -o "<Name>[^<]*</Name>" dl/gebco_caps.xml | head -30

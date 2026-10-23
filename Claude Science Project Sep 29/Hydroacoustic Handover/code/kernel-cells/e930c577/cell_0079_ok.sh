@@ -1,0 +1,1 @@
+cd leg; grep -n "t_imp\b\|t_imp =" analyse_L.py | head; grep -n "T0_COMPACT" analyse_L.py | head -3

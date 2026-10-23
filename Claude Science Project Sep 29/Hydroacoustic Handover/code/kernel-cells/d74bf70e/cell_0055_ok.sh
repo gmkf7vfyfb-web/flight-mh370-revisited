@@ -1,0 +1,1 @@
+df -h . | tail -1; df -g . | tail -1

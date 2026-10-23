@@ -1,0 +1,1 @@
+cd /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/5e788282-a899-406d-be81-a794b69469f6; head -20 step2.log; grep -n "at_bin\|kraken.exe" "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/kraken_tl.py" | head

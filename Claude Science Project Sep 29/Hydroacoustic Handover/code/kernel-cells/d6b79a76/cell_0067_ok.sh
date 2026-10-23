@@ -1,0 +1,1 @@
+du -sh kh/out kh/out/rows kh/tgt repo eof 2>/dev/null; df -g /Users/pete | tail -1; du -sh ~/Downloads/mh370-exchange/* 2>/dev/null | sort -h | tail -8

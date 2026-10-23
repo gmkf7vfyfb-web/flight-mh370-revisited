@@ -1,0 +1,2 @@
+cd "hyd/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data"; R=digitised/royer-2016
+cat $R/royer_events.csv; echo; cat $R/royer_stations.csv; echo; head -3 $R/royer_arrivals.csv; wc -l $R/royer_arrivals.csv; echo; cat searches_run_j/named/royer_verdicts.csv; echo; python -c "import json;print(json.dumps(json.load(open('$R/METHOD.json')))[:2500])"

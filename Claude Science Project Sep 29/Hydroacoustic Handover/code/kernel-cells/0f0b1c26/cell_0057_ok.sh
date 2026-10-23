@@ -1,0 +1,1 @@
+sha256sum articles/10.1038_s41598-017-14177-3.pdf /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-digitisation/sources/kadri2017.pdf | cut -c1-20; ls "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data/digitised/cmst-2014/" "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data/digitised/cmst-2014/"* | head -40

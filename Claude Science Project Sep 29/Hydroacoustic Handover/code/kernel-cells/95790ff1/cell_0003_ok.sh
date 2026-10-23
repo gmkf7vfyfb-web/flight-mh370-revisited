@@ -1,0 +1,1 @@
+cd repo; git ls-tree -r --name-only HEAD | grep -E "coordination/" | head; git ls-tree -r --name-only HEAD | grep -i blackman

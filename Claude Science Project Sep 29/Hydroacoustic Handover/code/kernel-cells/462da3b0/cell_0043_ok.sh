@@ -1,0 +1,1 @@
+cd /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/462da3b0-2381-4cf6-84db-fe178606bed4/repo && git pull -q --rebase origin claude-science-sep29 2>&1 | grep -v ignore; git log --oneline -3; cd "Claude Science Project Sep 29/coordination"; tail -5 SEARCHED_AREAS.md PLEIADES.md architecture.md | cut -c1-200; date -u +%H:%M:%SZ

@@ -1,0 +1,1 @@
+cd leg; ls scan | sed 's/__.*//' | sort | uniq -c; cd ..; time python leg/analyse_L.py leg/scan leg/out > leg/out/analyse_log.txt 2>&1; tail -2 leg/out/analyse_log.txt | cut -c1-200

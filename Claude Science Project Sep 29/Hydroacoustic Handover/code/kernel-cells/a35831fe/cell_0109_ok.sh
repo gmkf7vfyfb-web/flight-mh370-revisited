@@ -1,0 +1,1 @@
+cd main; git show "HEAD:Claude Science Project Sep 29/results/composer-views-run-j/views_common.py" | sed -n 1,40p; git show "HEAD:Claude Science Project Sep 29/results/composer-views-run-j/report_figures.py" | sed -n 100,140p | cut -c1-220

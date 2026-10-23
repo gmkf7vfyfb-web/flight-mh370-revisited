@@ -1,0 +1,1 @@
+cd "audit/hb/ISO Sept 28 Status/inputs/papers/hydroacoustics/"; for l in 92 93 94 116 117 118 290 292 293 294 312 313; do echo "== $l"; sed -n "${l}p" ucrl-tr-207323.txt | cut -c1-3000; done

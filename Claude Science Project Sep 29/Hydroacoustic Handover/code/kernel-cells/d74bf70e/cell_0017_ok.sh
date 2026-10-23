@@ -1,0 +1,1 @@
+cd repo && git fetch -q origin && git log --oneline HEAD..origin/claude-science-sep29 && git diff --stat HEAD origin/claude-science-sep29 -- "Claude Science Project Sep 29/coordination/" "Claude Science Project Sep 29/threads/master-prompts/hydroacoustics.md" "Claude Science Project Sep 29/ARCHITECTURE.md"; git branch -r | head

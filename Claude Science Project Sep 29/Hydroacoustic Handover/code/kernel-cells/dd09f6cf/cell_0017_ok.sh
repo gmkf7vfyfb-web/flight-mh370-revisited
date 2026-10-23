@@ -1,0 +1,1 @@
+cd "repo/Claude Science Project Sep 29/engine/crates/ocean/prepare"; sed -n 1,60p ausseabed_to_grid.py

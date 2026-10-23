@@ -1,0 +1,1 @@
+cd src; grep -n "Figure 1.5A\|^--- page" SIR_2018_official.txt | grep -B1 "1.5A" ; grep -n -i "simulat" ATSB_OpSearch_2017.txt | head -30; grep -n -i "simulat" Iannello_Guillaume_2016-11-29_FurtherSim.txt | head; grep -n -i "simulator" Wise_HowZaharieNavigated.txt | head -5

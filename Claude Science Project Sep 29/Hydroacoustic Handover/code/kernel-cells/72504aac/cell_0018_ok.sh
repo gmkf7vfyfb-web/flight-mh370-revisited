@@ -1,0 +1,1 @@
+cd /tmp/rs; grep -n -h -A12 -E "TRACE_COLUMNS: |const TRACE_COLUMNS|route_points|route_step|trace.*points|struct Trace" * | head -120

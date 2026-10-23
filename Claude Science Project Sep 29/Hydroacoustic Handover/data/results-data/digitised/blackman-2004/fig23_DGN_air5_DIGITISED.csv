@@ -1,0 +1,31 @@
+# DIGITISED from Blackman et al. (2004) UCRL-TR-207323 Fig. 23 (observed TL, median over shots, plotted only where SNR > 3 dB), panel DGN (= H08N), curve air5.
+# Source raster 351x458 px (153 dpi; the public PDFs hold nothing finer), pdf sha256 34a735f76b3aef78. Script prepare/digitise_blackman_fig23_all.py.
+# Grey window (205, 232), thickness (1, 2) px, dotted=False; ambiguous=1 where another cluster of the same grey lies within 4 dB. Reading +/-1 dB (isolated) to +/-2 dB (flagged), +/-0.5 Hz. Not a measurement.
+# SEPARABILITY: thin light grey, separable from air4 only by line weight; points above 40 Hz coincide with the thick air4 curve and are WEIGHT-AMBIGUOUS
+x_px,f_hz,tl_db,grey_min,thickness_px,ambiguous
+73,7.478,120.278,211,2,0
+81,10.261,130.556,222,1,0
+93,14.435,128.611,208,2,0
+94,14.783,128.889,215,2,0
+111,20.696,128.889,208,2,0
+134,28.696,128.889,211,2,0
+152,34.957,133.611,211,2,0
+180,44.696,136.667,215,2,0
+191,48.522,140.0,208,2,0
+215,56.87,141.389,211,2,0
+219,58.261,142.778,208,2,0
+222,59.304,143.611,208,2,0
+223,59.652,143.333,208,2,0
+255,70.783,146.944,208,2,0
+256,71.13,147.222,215,2,0
+257,71.478,147.222,215,2,0
+258,71.826,147.222,215,2,0
+259,72.174,146.944,211,2,0
+263,73.565,146.111,219,2,0
+266,74.609,145.556,219,2,0
+267,74.957,145.278,208,2,0
+294,84.348,140.0,208,2,0
+302,87.13,138.611,211,2,0
+323,94.435,131.944,210,1,0
+331,97.217,137.5,211,2,0
+336,98.957,135.278,208,2,0

@@ -1,0 +1,1 @@
+cd "repo/Claude Science Project Sep 29"; for k in atsb2017operational atsb2017 sir2018 mot2018mh370; do grep -h -A6 "{$k," paper/references.bib results/*.bib | head -8; echo; done; grep -h -i -E "search_areas|underwater search areas|atsb2014" paper/references.bib results/*.bib | head

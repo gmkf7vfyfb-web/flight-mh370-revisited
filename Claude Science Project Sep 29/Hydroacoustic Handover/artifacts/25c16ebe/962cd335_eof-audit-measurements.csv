@@ -1,0 +1,68 @@
+metric,value,description,conditions
+onset_min_utc,00:10:59,earliest descent onset in file = the 00:11 hand-off epoch,"run-i-dive waypoints seed-1, all rows"
+onset_boundary_mass_all,0.133,weight fraction with onset within 30 s of hand-off,held-out weighting
+onset_boundary_mass_deliberate,0.216,weight fraction of deliberate-descent family within 30 s of hand-off,held-out weighting
+ess_parents_none,50966,"effective sample size over 100,000 hand-off trajectories",no 00:19 data scored
+ess_parents_r600_raw,3983,effective sample size,"R600 burst frequency offset, raw model"
+ess_parents_r1200_raw,216,effective sample size,"R1200 burst frequency offset, raw model"
+ess_parents_both_startup,170,effective sample size,"both bursts, start-up offset model"
+ess_parents_both_raw,38.8,effective sample size,"both bursts, raw model"
+top1_weight_share_both_raw,0.123,largest single trajectory's weight share,"both bursts, raw model"
+top10_weight_share_both_raw,0.335,top ten trajectories' weight share,"both bursts, raw model"
+impact_time_q05_q50_q95_heldout,00:16:46 / 00:35:31 / 00:52:21,time of sea-surface impact (UTC),held out
+impact_time_q05_q50_q95_both,00:19:54 / 00:26:55 / 00:42:19,time of sea-surface impact (UTC),"both bursts, raw model"
+impact_speed_q05_q50_q95,63 / 119 / 355,speed at sea surface (m/s),held out
+fpa_q05_q50_q95,1.7 / 4.2 / 56.2,flight-path angle below horizontal (deg),held out
+total_ke_q05_q50_q95,0.35 / 1.23 / 11.0,total kinetic energy at impact (GJ),held out
+vertical_ke_q05_q95,6.30e5 / 7.37e9,vertical kinetic energy at impact (J),held out
+tau90_q05_q50_q95,0.11 / 3.62 / 11.31,90 per cent energy-transfer duration (s),sidecar tau90_v1.npz
+decel_q05_q95,0.86 / 2.89,mean deceleration during transfer (g),sidecar
+bank_zero_share,0.521,weight fraction with exactly zero bank at impact,held out
+nondescending_q50_q95,53 / 411,non-descending seconds between onset and impact,held out
+nondescending_gt600_share,0.0175,weight fraction with more than 600 s non-descending,held out
+energy_transferred_vs_total_ke,5.95e-8,"max relative difference, transferred energy against total kinetic energy",identity to float32
+empty_columns,6,energy-transfer columns that are entirely non-finite in impacts32.npy,"impact_energy_transferred_j, t05, t95, tau90, peak_rate_w, n_pulses"
+leveloff_support_ft,11000-30000,configured level-off altitude range,"brief requires 10,000 ft and 4,000 ft included"
+deliberate_control_weights,"0.5,0.5,0,0",control-outcome weights in the deliberate family,two of four outcomes carry zero weight
+anticipatory_lead_support_s,0-9000,configured anticipatory onset lead before predicted exhaustion,mostly unreachable from a 00:11 hand-off
+fine_window_s,30,integration refinement window around the transition,systems sequence spans about 60-120 s
+family_shares_heldout,0.156 / 0.321 / 0.523,uncontrolled after exhaustion / piloted after exhaustion / deliberate,"held out, dominant stratum"
+contact_speed_feasible_heldout,0.726,weight fraction flagged as feasible low-speed contact,held out
+contact_speed_feasible_both,0.548,same flag,"both bursts, raw model"
+aim_prior_uniformity_rate,0.0030,max |weighted CDF - uniform| for push-over rate under sampling weight only,support 6500-40000 ft/min; exact correction confirmed
+aim_prior_uniformity_floor,0.0041,max |weighted CDF - uniform| for push-over load floor,support -1.0 to 0.8 g
+aim_window_share_prior_rate,0.6615,"corrected prior share inside the 18,000-40,000 ft/min aim window",uniform would give 0.6567
+aim_window_share_posterior_rate,0.9438,"same share under both 00:19 bursts, raw model","the evidence selecting, not the sampler"
+aim_window_share_prior_floor,0.1650,corrected prior share inside the 0.15-0.45 g aim window,uniform would give 0.1667
+aim_window_share_posterior_floor,0.3995,"same share under both 00:19 bursts, raw model",
+proposal_self_check_mean,1.000178,stored mean importance correction,standard error 0.000693
+dive_share_prior,0.4949,"P(push-over continued to surface | push-over drawn), corrected prior",
+dive_share_r600,0.2543,"same, 00:19 R600 burst only",data moves share DOWN from prior
+dive_share_r1200,0.4460,"same, 00:19 R1200 burst only",
+dive_share_both_raw,0.3105,"same, both bursts raw model",
+dive_share_both_startup,0.3088,"same, both bursts start-up offset model",
+dive_share_sd_observed,0.1140,across-parent standard deviation of dive share,"6,232 parents, 20.4 draws each"
+dive_share_sd_fixed_p,0.1108,predicted if probability fixed at 0.5 per descent,matches observed
+dive_share_sd_hyperprior,0.3025,"predicted if per-parent probability drawn from U[0,1]",does not match: hyper-prior not implemented
+handoff_fuel_state_live,711648 distinct,realised flame-out times in one stratum-seed; fallback_fuel_kg=2000 not in use,core request 1 has landed
+require_power_until,m0011,core rejects loss of the second engine before 00:11,hard_reject = true; first-engine loss permitted
+core_tanks_single_engine,"tanks=2, single_engine=true",core models the single-engine fuel and performance phase,inop_flow_scale 0.5; hold-taper driftdown 207-227 KCAS
+engines_at_onset_none,0.5687,weight share with no engine thrusting at descent onset,held-out weighting
+engines_at_onset_one,0.3694,weight share with exactly one engine thrusting at onset,
+engines_at_onset_both,0.0619,weight share with both engines thrusting at onset,
+flameout_col_is_final,+288 s median,final flame-out minus takeover for A-family rows with one engine running at takeover,"n=85,018; q95 +1,113 s"
+flameout_col_at_takeover,-2.4 s median,"same, for A-family rows with no engine running at takeover","n=325,071"
+single_engine_phase_share_A,0.2248,A-family weight taking over more than 60 s before its final flame-out,a real single-engine phase inside the EoF stage
+eof_asymmetric_params,none,asymmetric-thrust / yaw / rudder parameters in the EoF envelope,"only windmilling_per_engine, a symmetric drag increment"
+already_dry_at_handoff,0.0547,weight share taking over at the 00:11 hand-off epoch itself,
+flameout_between_arcs,0.5436,weight share running dry between 00:11 and 00:19:37,"model output, not an assumption"
+never_dry_before_impact,0.0656,weight share that impacts with fuel remaining,ditchings under power
+mass_at_impact_q05_q95,174194 / 174782,"mass at impact (kg) against zero-fuel weight 174,196 kg",almost all impacts are dry
+descending_fraction_q05_q50_q95,0.572 / 0.931 / 1.001,fraction of onset-to-impact time spent descending,held-out weighting; CORRECTS the earlier 600 s statistic
+descending_fraction_below_060,0.0582,weight share with descending fraction under 0.60,requirement MET; dynamics note's own test threshold
+descending_fraction_below_090,0.4148,weight share with descending fraction under 0.90,
+max_nondescending_s,2407.5,longest level segment in file (s),"configured leveloff_seconds cap is 2,400 s"
+long_descent_share,0.1082,"weight share with onset-to-impact over 1,800 s",
+long_descent_nondescending_q50,132.2,median non-descending seconds among those,the narrow residual concern
+leveloff_altitude_verifiable,no,realised level-off altitude is not an emitted column,"dynamics note records 10,000 ft and 4,000 ft as always-present candidates; config interval is the ADDITIONAL sampled altitude; earlier 'gap' finding WITHDRAWN"
+WITHDRAWN_nondescending_gt600,1.75 per cent,"superseded statistic, retained for traceability","threshold near-unsatisfiable at a 1,176 s median duration; replaced by the fraction"

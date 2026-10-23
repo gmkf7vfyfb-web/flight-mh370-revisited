@@ -1,0 +1,3 @@
+F=/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/tool-results/3bf967df-557a-4844-be77-69ce4588f20b/tool-results/toolu_01LcaCrvBnuVweYDjyNN4vMG.txt
+grep -c "seed-.*: n=" $F; grep -E "Error" $F | grep -v "convert8.log\|invalid literal" | sort | uniq -c | head; grep "ValueError" $F | grep -v "log'" | head
+for st in run-j-waypoints run-j-free run-j-repro-radar run-j-descent-climb; do echo $st $(ls red/${st}_*.npz | wc -l) $(ls -d /Users/pete/Downloads/mh370-exchange/end-of-flight/run-j/$st/seed-*/ | wc -l); done

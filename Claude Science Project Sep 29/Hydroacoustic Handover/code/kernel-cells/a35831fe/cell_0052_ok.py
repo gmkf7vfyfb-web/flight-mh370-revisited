@@ -1,0 +1,1 @@
+a=aj['D0/p0.5']; print(type(a), str(a)[:300])

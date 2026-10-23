@@ -1,0 +1,1 @@
+cd audit/repo && git fetch -q origin claude-science-sep29 2>/dev/null; git log --oneline -3 origin/claude-science-sep29; git status -sb | head -2

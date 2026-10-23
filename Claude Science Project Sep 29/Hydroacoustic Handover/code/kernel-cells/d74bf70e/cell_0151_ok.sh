@@ -1,0 +1,3 @@
+cd repo && timeout 120 git fetch -q origin hypothesis/hydroacoustics && git checkout -q hypothesis/hydroacoustics && git reset -q --hard FETCH_HEAD && git log --oneline -1
+git merge-base --is-ancestor claude-science-sep29 HEAD && echo up-to-date || { git rebase -q claude-science-sep29 && echo rebased; }
+git log --oneline -3; ls "Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/data/blackman" | head -3; ls "ISO Sept 28 Status/inputs/papers/hydroacoustics/"

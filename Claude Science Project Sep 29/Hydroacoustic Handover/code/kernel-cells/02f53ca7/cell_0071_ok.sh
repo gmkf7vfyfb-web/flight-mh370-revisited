@@ -1,0 +1,4 @@
+cd repo; git show origin/claude-science-sep29:"Claude Science Project Sep 29/coordination/HYDROACOUSTICS.md" | grep -n "^## " | tail -3
+git show origin/claude-science-sep29:"Claude Science Project Sep 29/coordination/HYDROACOUSTICS.md" | grep -in "block 9\|recalibration\|TL recal" | tail -5 | cut -c1-200
+W=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-tlrecal; du -sh $W; rm -rf $W/scratch $W/scratch_smoke $W/scratch_ram $W/scratch_prof $W/nx2d/air7-H01W/work; du -sh $W; ls $W
+cp "Claude Science Project Sep 29/results/hydroacoustics-air9-ew0112-predicted-vs-measured.png" "Claude Science Project Sep 29/results/hydroacoustics-air9-ew0112-residual-vs-frequency.png" "Claude Science Project Sep 29/results/hydroacoustics-air7-corridor-sensitivity.png" "Claude Science Project Sep 29/results/hydroacoustics-blackman-validation.md" ..

@@ -1,0 +1,2 @@
+W=$PWD; cd hydro/"Claude Science Project Sep 29"/engine/hypotheses/hydroacoustics/prepare; PYTHONPATH=. OMP_NUM_THREADS=2 python $W/work/standin-scripts/extract_imos_events.py $W/work/imos_events_searched2.json 2>/dev/null; cd $W/work; shasum -a 256 imos_events_searched.json imos_events_searched2.json; python -c "
+import json; d=json.load(open('imos_events_searched2.json')); print({k:(round(v['covered_s'],1),len(v['recorded_segments']),v['events']['loose']) for k,v in d.items()})"

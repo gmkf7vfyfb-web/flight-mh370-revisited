@@ -1,0 +1,34 @@
+later_event,earlier_event,station,table_origin_diff_s,appB_predicted_diff_s,appB_observed_diff_s,predicted_minus_table_s,consistent_within_2s,interpretation
+A1sus3,A1sph1,H01,1725.82,1725,,-0.82,True,consistent
+A1sus2,A1sus3,H01,590.08,590,,-0.08,True,consistent
+A2sus2,A2sus3,H01,285.39,285,293.0,-0.39,True,consistent
+A2sus2,A2sus3,H08S,285.39,285,,-0.39,True,consistent
+A2sus2,A2sus3,H08N,285.39,285,285.0,-0.39,True,consistent
+A4sus3,A4sph5,H01,1906.21,1906,,-0.21,True,consistent
+A4sus3,A4sph5,H08S,1906.21,1906,,-0.21,True,consistent
+A4sus3,A4sph5,H08N,1906.21,1906,,-0.21,True,consistent
+A4sus2,A4sus3,H01,291.27,291,,-0.27,True,consistent
+A4sus2,A4sus3,H08S,291.27,291,288.0,-0.27,True,consistent
+A4sus2,A4sus3,H08N,291.27,291,,-0.27,True,consistent
+A5sus3,A5sph5,H01,1804.0,1205,,-599.0,False,unexplained reference offset; unresolved
+A5sus3,A5sph5,H08S,1804.0,1803,,-1.0,True,consistent
+A5sus2,A5sus3,H01,240.0,240,,0.0,True,consistent
+A5sus2,A5sus3,H08S,240.0,240,,0.0,True,consistent
+A6sus2,A6sus3,H01,329.31,330,327.0,0.69,True,consistent
+A6sus2,A6sus3,H08S,329.31,329,329.0,-0.31,True,consistent
+A6sus2,A6sus3,H08N,329.31,329,,-0.31,True,consistent
+A7sus3,A7sph5,H01,27113.9,1913,1914.0,-25200.9,False,whole-hour reference offset (different data segment)
+A7sus3,A7sph5,H08S,27113.9,-5286,-5287.0,-32399.9,False,whole-hour reference offset (different data segment)
+A7sus3,A7sph5,H08N,27113.9,-5286,,-32399.9,False,whole-hour reference offset (different data segment)
+A7sus2,A7sus3,H01,424.06,364,424.0,-60.06,False,~60 s origin-time offset in Appendix B prediction; observed differences match Table 5
+A7sus2,A7sus3,H08S,424.06,364,425.0,-60.06,False,~60 s origin-time offset in Appendix B prediction; observed differences match Table 5
+A7sus2,A7sus3,H08N,424.06,364,424.0,-60.06,False,~60 s origin-time offset in Appendix B prediction; observed differences match Table 5
+A8sus2,A8sph1,H01,1634.48,1634,1608.0,-0.48,True,consistent
+A8sus2,A8sph1,H08S,1634.48,1634,1629.0,-0.48,True,consistent
+A8sus2,A8sph1,H08N,1634.48,1634,,-0.48,True,consistent
+A8sus2b,A8sus2,H01,359.86,-6841,-6840.0,-7200.86,False,whole-hour reference offset (different data segment)
+A8sus2b,A8sus2,H08S,359.86,360,360.0,0.14,True,consistent
+A8sus2b,A8sus2,H08N,359.86,360,360.0,0.14,True,consistent
+A11sph5,A11sus,H01,3606.07,1926,1926.0,-1680.07,False,unexplained reference offset; unresolved
+A11sph5,A11sus,H08S,3606.07,2054,,-1552.07,False,unexplained reference offset; unresolved
+A11sph5,A11sus,H08N,3606.07,2054,,-1552.07,False,unexplained reference offset; unresolved

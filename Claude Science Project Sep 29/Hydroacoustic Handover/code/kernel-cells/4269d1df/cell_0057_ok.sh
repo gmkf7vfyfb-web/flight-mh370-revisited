@@ -1,0 +1,1 @@
+cd scorer; sed -n 1,115p option_table_0019.py | cut -c1-250; sed -n 95,143p compact_impacts.py | cut -c1-200

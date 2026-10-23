@@ -1,0 +1,22 @@
+{
+ "amendment1": {
+  "layout": "USGS OFR 95-228 Fig. 4 (8470 cu in)",
+  "H_ref_grid_both_ok": 0.0,
+  "H_flat_grid_both_ok": 0.0,
+  "verdict": "both NOT SUPPORTED"
+ },
+ "farfield": {
+  "heading_deg": 111.2,
+  "bearing_H01W": 123.0,
+  "bearing_H08S": 303.4,
+  "af_db_12p5": -0.23,
+  "af_db_63": -6.5
+ },
+ "posthoc_exploratory": {
+  "model": "H-flat + near-field Ball factor + far-field array factor",
+  "grid_both_ok": 0.778,
+  "nominal_H01W_slope": 2.33,
+  "nominal_H08S_slope": -0.43,
+  "label": "POST HOC, not a verdict; confirmatory test pre-registered separately"
+ }
+}

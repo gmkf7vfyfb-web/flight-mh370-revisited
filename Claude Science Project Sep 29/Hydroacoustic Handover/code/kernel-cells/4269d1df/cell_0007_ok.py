@@ -1,0 +1,3 @@
+c = host.compute.create('deskstar')
+r = c.call_command(r'''cd ~/mh370/drift; tail -5 arclat/chain.log; ls -la runs | tail -20; ls arclat; pgrep -af "drift|chain|cargo|snapshot" | head; df -h ~ | tail -1; ls snap snap/timing 2>/dev/null | head -40; cat /sys/fs/cgroup/memory.max''', intent='Read status of drift arc-latitude scan and snapshot harness on deskstar')
+print(r.stdout[-6000:], r.stderr[-1000:])

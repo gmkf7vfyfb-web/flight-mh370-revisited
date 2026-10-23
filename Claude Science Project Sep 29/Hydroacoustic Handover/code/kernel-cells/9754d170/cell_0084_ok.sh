@@ -1,0 +1,1 @@
+cd "audit/repo/Claude Science Project Sep 29/results/hydroacoustics-pleiades-test-standin/standin-scripts"; sed -n 50,166p power_check.py | cut -c1-220; echo =====; sed -n 1,140p rhyd_result.py | cut -c1-220

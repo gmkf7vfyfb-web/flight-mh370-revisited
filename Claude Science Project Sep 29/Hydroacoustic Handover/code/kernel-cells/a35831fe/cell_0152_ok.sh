@@ -1,0 +1,2 @@
+cd "hyd/Claude Science Project Sep 29"; grep -rln "w_D0" . | head; f=$(grep -rln "w_D0" --include=*.py . | head -1); echo "== $f"; grep -n "w_D\|D0\b\|D0'\|held out\|00:19" "$f" | head -30 | cut -c1-250
+grep -rn "D0'\|D0 =\|D0:" results-data 2>/dev/null | head -3; grep -rn "\"D0\"\|D0 means\|D0 =\|D0 is" ../"Claude Science Project Sep 29"/engine/hypotheses/hydroacoustics/prepare/searches_run_j/*.py | head -8 | cut -c1-250

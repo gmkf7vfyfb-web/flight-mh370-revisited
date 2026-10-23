@@ -1,0 +1,1 @@
+cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data"; ls ram_check; head -3 ram_check/*.csv | cut -c1-300; grep -l f35a ram_check/* | head

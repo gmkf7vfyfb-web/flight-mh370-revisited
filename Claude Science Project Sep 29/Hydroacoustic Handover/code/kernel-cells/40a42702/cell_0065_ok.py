@@ -1,0 +1,1 @@
+print(open(OUT+"/run.log").read()[-600:])

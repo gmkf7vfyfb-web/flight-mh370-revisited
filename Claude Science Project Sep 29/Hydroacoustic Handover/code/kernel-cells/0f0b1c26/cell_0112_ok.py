@@ -1,0 +1,1 @@
+plt.close('all'); exec(open('fig1.py').read())

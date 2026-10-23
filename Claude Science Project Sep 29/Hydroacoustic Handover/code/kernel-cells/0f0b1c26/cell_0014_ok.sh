@@ -1,0 +1,1 @@
+cd repo; export GIT_CONFIG_GLOBAL=/dev/null; git ls-tree -r --name-only HEAD > /tmp/repo_tree.txt; wc -l /tmp/repo_tree.txt; grep -i "published-fig\|published_fig" /tmp/repo_tree.txt | head -30; grep -i "kadri-2024-hydroacoustics" /tmp/repo_tree.txt | grep -iE "\.(png|jpe?g|tif|pdf)$" | grep -v outputs/ | head; grep -i "inputs/papers/hydro" /tmp/repo_tree.txt | head -40

@@ -1,0 +1,1 @@
+X=/Users/pete/Downloads/mh370-exchange/hydroacoustics; ls $X; ls $X/run-j-imos-ram-grid $X/run-j-imos-ram-grid/levels-rerun-v2 $X/run-j-imos-ram-grid/levels-rerun-v2/* 2>&1 | head -40; ls $X/run-j-levels; ls $X/run-j-levels/levels | head; du -sh $X/run-j-levels/draws; ls $X/run-j-tl-grid/tables

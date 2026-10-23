@@ -1,0 +1,1 @@
+cd repo/"Claude Science Project Sep 29"; grep -rnE "0\.14|2\.8 ?%" results/hydroacoustics-*.md coordination/architecture.md | grep -iE "P_D|detect" | head -15; echo ===; grep -nE "^## .*hydroacoustics" coordination/architecture.md | tail -25

@@ -1,0 +1,1 @@
+cd /Users/pete/Downloads; find . -maxdepth 5 -iname "*.pdf" 2>/dev/null | grep -i -E "atsb|operational|underwater|sir|factual|jacc|search|ae-2014|mh370" | head -50; df -h /Users/pete/Downloads | tail -1

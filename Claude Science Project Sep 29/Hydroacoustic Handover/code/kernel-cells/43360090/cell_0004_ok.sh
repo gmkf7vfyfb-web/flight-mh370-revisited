@@ -1,0 +1,1 @@
+cd "./.tmp/repo/ISO Sept 28 Status/inputs/papers/hydroacoustics"; tail -c +1500 kadri-poster.txt

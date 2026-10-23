@@ -1,0 +1,1 @@
+sleep 45; df -g /Users/pete | tail -1; lockf -t 0 /tmp/.mh370-heavy.lock echo FREE || echo HELD; ls kh/h0011 | head; cat kh/h0011/err.log 2>/dev/null | tail -3; ls -la kh/h0011_worker.py

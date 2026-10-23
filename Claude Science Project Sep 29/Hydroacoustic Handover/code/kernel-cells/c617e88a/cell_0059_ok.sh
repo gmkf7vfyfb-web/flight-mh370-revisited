@@ -1,0 +1,1 @@
+P=/Users/pete/Downloads/mh370-exchange/pleiades/hydro-test/next-run-b; cat $P/READY; cd $P && shasum -a 256 -c SHA256SUMS 2>&1 | grep -v ": OK" | head; grep -c . SHA256SUMS; cat README.md | head -120

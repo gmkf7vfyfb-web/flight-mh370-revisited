@@ -1,0 +1,109 @@
+{
+ "source": "Royer 2016 LDO-201608",
+ "sha256": "2e7190b96c7bb77438625a62e8cdd987d7283ee8ad9e0e7ae8312b6297d955f5",
+ "page": 9,
+ "note": "Figure 5, p.9, event B. MAD/SWAMS bars carry a '?'. H01W-2 bar ~00:36:08-00:36:35.",
+ "image_size": [
+  802,
+  990
+ ],
+ "rotate_deg": 0,
+ "panels": [
+  {
+   "panel_id": "fig5_eventB_mad_0106-0109",
+   "station": "MAD",
+   "t_start_utc": "01:06",
+   "t_end_utc": "01:09",
+   "t_start_s": 3960,
+   "t_end_s": 4140,
+   "axis": "frame = printed span (tick spacing verified)",
+   "f_top_hz": 60.0,
+   "f_bottom_hz": 0.0,
+   "frame_px": {
+    "row0": 25,
+    "row1": 215,
+    "col0": 51,
+    "col1": 702
+   },
+   "s_per_px": 0.2765,
+   "hz_per_px": 0.3158,
+   "reading_uncertainty": {
+    "time_s": 0.28,
+    "freq_hz": 0.32,
+    "db": 1.5
+   }
+  },
+  {
+   "panel_id": "fig5_eventB_swams2_0046-0049",
+   "station": "SWAMS-2",
+   "t_start_utc": "00:46",
+   "t_end_utc": "00:49",
+   "t_start_s": 2760,
+   "t_end_s": 2940,
+   "axis": "frame = printed span (tick spacing verified)",
+   "f_top_hz": 60.0,
+   "f_bottom_hz": 0.0,
+   "frame_px": {
+    "row0": 267,
+    "row1": 458,
+    "col0": 51,
+    "col1": 702
+   },
+   "s_per_px": 0.2765,
+   "hz_per_px": 0.3141,
+   "reading_uncertainty": {
+    "time_s": 0.28,
+    "freq_hz": 0.31,
+    "db": 1.5
+   }
+  },
+  {
+   "panel_id": "fig5_eventB_swams3_0046-0049",
+   "station": "SWAMS-3",
+   "t_start_utc": "00:46",
+   "t_end_utc": "00:49",
+   "t_start_s": 2760,
+   "t_end_s": 2940,
+   "axis": "frame = printed span (tick spacing verified)",
+   "f_top_hz": 60.0,
+   "f_bottom_hz": 0.0,
+   "frame_px": {
+    "row0": 509,
+    "row1": 700,
+    "col0": 52,
+    "col1": 701
+   },
+   "s_per_px": 0.2773,
+   "hz_per_px": 0.3141,
+   "reading_uncertainty": {
+    "time_s": 0.28,
+    "freq_hz": 0.31,
+    "db": 1.5
+   }
+  },
+  {
+   "panel_id": "fig5_eventB_h01w2_0034-0037",
+   "station": "H01W-2",
+   "t_start_utc": "00:34",
+   "t_end_utc": "00:37",
+   "t_start_s": 2040,
+   "t_end_s": 2220,
+   "axis": "frame = printed span (tick spacing verified)",
+   "f_top_hz": 60.0,
+   "f_bottom_hz": 0.0,
+   "frame_px": {
+    "row0": 749,
+    "row1": 940,
+    "col0": 51,
+    "col1": 701
+   },
+   "s_per_px": 0.2769,
+   "hz_per_px": 0.3141,
+   "reading_uncertainty": {
+    "time_s": 0.28,
+    "freq_hz": 0.31,
+    "db": 1.5
+   }
+  }
+ ]
+}

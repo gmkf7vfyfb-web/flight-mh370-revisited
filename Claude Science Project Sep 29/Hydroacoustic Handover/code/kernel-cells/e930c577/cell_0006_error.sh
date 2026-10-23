@@ -1,0 +1,1 @@
+ls ~/Downloads | head -80; ls -d ~/Downloads/*mh370* ~/Downloads/*/mh370-inputs 2>/dev/null

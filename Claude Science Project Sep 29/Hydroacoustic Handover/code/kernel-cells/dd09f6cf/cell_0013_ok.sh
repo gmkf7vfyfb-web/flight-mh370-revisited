@@ -1,0 +1,1 @@
+for u in "http://mh370.mot.gov.my/" "https://www.mot.gov.my/en/" "http://archive.org/wayback/available?url=mh370.mot.gov.my/download/Operational_Search_Update_17.pdf"; do echo "== $u"; curl -s -m 20 -o /tmp/x -w "%{http_code} %{size_download}\n" "$u"; head -c 300 /tmp/x; echo; done

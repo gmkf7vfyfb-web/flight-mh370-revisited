@@ -1,0 +1,6 @@
+cd fix-metz && export GIT_CONFIG_GLOBAL=/dev/null
+P='Claude Science Project Sep 29'
+git sparse-checkout add "/$P/results/hydroacoustics-bibliography.csv" "/$P/results/hydroacoustics-references.md" "/$P/results/hydroacoustics-digitised-sources.md" "/$P/results/hydroacoustics-blackman-validation.md" "/$P/results/hydroacoustics-kadri-package-v2.md" "/$P/results/hydroacoustics-overnight-2026-10-22-summary.md" "/$P/results/hydroacoustics-prior-work-critique.md" "/$P/results/hydroacoustics-literature-review.md" "/$P/results/debris-drift-find-episodes.md" "/$P/results/evidence-sweep-2026-10-17/research-radar-infrasound-ohasisbio.md" "/$P/results/satellite-coverage-2014-03/coincidence/literature/satellite-literature-register.csv" "/$P/paper/JON-MODEL-PAPERS.md" "/$P/results/source-access-ledger-2026-10-22.csv" "/$P/results/source-access-ledger-2026-10-22.md" "/$P/results/hydroacoustics-audit-architecture.md" 2>&1 | grep -v ignore || true
+git checkout -q -B fix-sep29 origin/claude-science-sep29 2>&1 | grep -v ignore || true
+git status --short | head -3; echo "files present:"; ls "$P/results" | grep -c .
+grep -rn -i -E "no copy (of [^.]{0,60} )?in (the )?(project )?store|no copy located|NO COPY IN STORE|we hold no copy" "$P" 2>/dev/null | grep -v "^$P/results/source-access-ledger" | sed "s|^$P/||" | cut -c1-210

@@ -1,0 +1,1 @@
+sed -i '' 's/\[O: AR-2012-128, p. iii "Safety summary"\]/[O: AR-2012-128, PDF p. 3 "Safety summary"]/; s/(p. iii)\./(PDF p. 3)./' research-beacons-tpl-simulator-barnacles.md; grep -n "AR-2012-128" research-beacons-tpl-simulator-barnacles.md

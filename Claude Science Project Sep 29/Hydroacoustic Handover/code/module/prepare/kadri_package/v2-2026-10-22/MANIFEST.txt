@@ -1,0 +1,58 @@
+# Kadri package v2 manifest, written 2026-10-22T04:46:27Z. sha256  size  file  provenance
+d1c227d6a0ec0ac1b3658adcf9e6f058157648dffd3733ae8589dd54bcac0c0a       8077  CALIBRATION_STATUS.txt  --  rewritten from the 22 Oct results notes
+e6fbcad9af3253d1d94145301632c8fe3194311ab1987ba3e3cdb520194495f4       3943  COVER_NOTE_FOR_PETE.txt  --  approval items and removal suggestions (internal; not for the recipient)
+c1a616b3ee26564d7260e08b44335dc306f4ee72d741b130a0cc772e0ce7eb69       4825  README.txt  --  package contents and how to run on IMS triad data
+7ad1ffc9675adfdd2fbca162f72f797f69adf606d181a42795f2be51505ae212      11485  REQUESTS.txt  --  ask list (brief section 9, Refresh v2 sections 4-6, work order block 12; searches/windows/digitisation/TL-recalibration notes of 22 Oct)
+a22c95cb07bac024d75ae238b732b994df6062ae275944c80ff677a5d4c532af      20221  build_predictions_v2.py  --  builder (module code)
+642e28d484f5ad589a9270ddf82eff1e8c316b022b9107391ecb6d2b886f3269       5142  build_windows_v2.py  --  builder (module code)
+ae178ddeb01c3e8433032d111e48aee9a118ea73c286310e7ce813ac92c048c7       4847  make_templates.py  --  builder (module code)
+edc761937c0c257ff8a5246ce8693b8b18eea8aa73737125438d97b973e8c03c    1546358  predictions.csv  --  build_predictions_v2.py on run J (74 seeds) + supplement, TL grid run-j-tl-grid/tables (block 2), noise proxies (results-data), 22 Oct 2026
+38a96f18e25171d23b42a9886c88bffec39346aff43b08956ec2dc75b49f373e       6491  predictions_meta.json  --  build_predictions_v2.py: seeds, SHA-256 prefixes of inputs, mass shares, pooled medians
+4864069b78d589d37f32b5a6f9d60e864498cfa2167a36d803d3259ee25e74e8     101846  pulse_runj.npz  --  make_templates.py: 2,200 km template, tau = run J pooled median tau90 (predictions_meta.json), 5-40 Hz, 250 Hz
+13d5473879c1ffa7ecf241b8eaed7e64c095ae0af5bfa018c7f68b14740713e2       7237  reference_measure.py  --  module draft of 9 Oct 2026 + M1b envelope matched filter (weak_signal/methods.py, 78c7e88), rewritten self-contained
+51ae2a26160660c3f0b8ed96008e190b6f0fe917e044e70fe924fb040fcec229       3927  selftest.py  --  self-test driver (this package)
+d4d0af95acabae37292392775e203bcb0820424fb0a43670dc5ceb4bea1d1596      47799  selftest_results.csv  --  selftest.py output, 36 runs x 5 bands
+37b233723d6904f752a9b95a9f36f148e7e4850c748f2d6a01df7d84f7509868       1784  selftest_summary.json  --  selftest.py summary incl. M1b null threshold (60 noise-only runs)
+b1e46b5c0d86ab3be0ab6ab76ddfe4b907c567a803a9a129c5ee6566a21e326f       2381  stations.csv  --  copy of module data/stations.csv (IMS triad elements, EarthScope FDSN, retrieved 2026-10-07) for synth_triad.py
+c34232abca320193e530077d217c7fcd5aa82d5687cfd8feddaea277333bf1b1       3573  synth_triad.py  --  module draft of 9 Oct 2026, pulse replaced by pulse_runj.npz, coloured noise, 180 s
+2a059a0ae0c8263b27cde52a0a347d5853a174e30e4bbd09f66c98080200c790     225628  templates_envelope.csv  --  same, text form
+fc64cd2fadf104b531cc9e5816eb1b30224d8a3ac74dafabb8beb08cd50c9c74     130518  templates_envelope.npz  --  make_templates.py from run-j-weak-signal/templates/templates_raw.npz (KRAKEN flat-profile synthesis, weak-signal track)
+885b82a4ae1262b772d93734f13443ff0407be1c4b95d08fe4eeb266ae0aa7e9       1089  templates_meta.json  --  make_templates.py summary
+46ae6035c1faa6db2bf9d84b74b2b53417dfbec37bce0128fd8eaa54f75c3a79      25793  windows.csv  --  build_windows_v2.py from run-j-windows/request_windows.csv + windows.csv (block 3, bc99b07); reference rows from the brief, Kadri 2024, Royer 2016 Table 5, searches note
+d5f60fabf556228c27b758e750de902aa7cddb59036c4938e2b40844505bf79a     542404  synthetic_triad/synth_H01W_baz256.8_snr+0_seed1.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+492afd6335031dbb87724326de325ea1b2cd1470902bcd50af820516f998c186     542404  synthetic_triad/synth_H01W_baz256.8_snr+0_seed2.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+6c5a4c04fe4a23ca62443a45947fe3ff294bc686fc0a003185d5bf1b1a465698     542404  synthetic_triad/synth_H01W_baz256.8_snr+0_seed3.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+8af89fdedc725d89077e484ff9c3d372f6b3daa696f949348771afc7c588e771     542404  synthetic_triad/synth_H01W_baz256.8_snr+10_seed1.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+a73cf092671615e2c6a0231e346421311de60f3594b55d99a8d3cdf4ea5db639     542404  synthetic_triad/synth_H01W_baz256.8_snr+10_seed2.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+fdc69bb40e4b388766815064b5fbde2488580c458f5abd7e0969e545b1155392     542404  synthetic_triad/synth_H01W_baz256.8_snr+10_seed3.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+1cea19749e964f4492007ff9cf59bf03eda0482e4b63d383de720fb5f7f3f2be     542404  synthetic_triad/synth_H01W_baz256.8_snr+3_seed1.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+68cd3859eada6ef07e91c0c0eda0aeadc884a315a5b87b4a6a9402b9dab8b69a     542404  synthetic_triad/synth_H01W_baz256.8_snr+3_seed2.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+505a95486cef812a03b0b87f4886c5312de541766e13367c437bf7dcd53abfd9     542404  synthetic_triad/synth_H01W_baz256.8_snr+3_seed3.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+c8508d324a59042cd7b2a8eba2a578d263e4c0683301c76422541b8732e59477     542404  synthetic_triad/synth_H01W_baz256.8_snr-10_seed1.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+ff95af617b89dc6364ffa8d29852270cd86ec5c5eebcfd0387c914ec2e2b8b45     542404  synthetic_triad/synth_H01W_baz256.8_snr-10_seed2.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+1278acd9329d0822cb8ff61f12856ee848c7e9d1727b74f16cd625b3700cf74d     542404  synthetic_triad/synth_H01W_baz256.8_snr-10_seed3.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+39c9cac67c6dc4a30b05e5a961a29e597519ee178819e1cc874e5a55eefa2fcf     542404  synthetic_triad/synth_H01W_baz256.8_snr-3_seed1.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+e4c83e092305e8d3f413df67631a450786886dbb9339c19520d660b247f9bbb5     542404  synthetic_triad/synth_H01W_baz256.8_snr-3_seed2.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+0ee9ce41e55856999471f84b40428f41a620639278142a49e976a72fbff7b005     542404  synthetic_triad/synth_H01W_baz256.8_snr-3_seed3.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+ae3ac68f0d8ed8f9f85bd6a4d4eaa00c5700f3421ff7be48774bbdd94dda439a     542404  synthetic_triad/synth_H01W_baz256.8_snr-6_seed1.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+41d6cb0ae0f135c28108a4ab749076143249261f6135556773aaade63215cf15     542404  synthetic_triad/synth_H01W_baz256.8_snr-6_seed2.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+8f07b6287a01079035c4dae6b219072e3d0eaa78dce63e533cb9c26bf464f7ac     542404  synthetic_triad/synth_H01W_baz256.8_snr-6_seed3.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+61b6cb25296d3d605ff0abf4de63b46a2765232f62c9e9fb014f6f8fb77a8d5c     542404  synthetic_triad/synth_H01W_baz306.18_snr+0_seed1.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+f3aef1ffc61b8a18cc96f8b598ec44a4257b7b8d5263e65d10dd416121acd32c     542404  synthetic_triad/synth_H01W_baz306.18_snr+0_seed2.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+ae866cd1b0656437c111890da4779bae4d0a5547422b4b74b7005f8781af14c6     542404  synthetic_triad/synth_H01W_baz306.18_snr+0_seed3.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+eb93f723a0fff2e9214ea3a1a1f8e2940d3708768955143a2c97ab229e7f5d16     542404  synthetic_triad/synth_H01W_baz306.18_snr+10_seed1.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+b986a6d91fa63195703f419098f52ce3bd26d669650206da33eba9435b8c7cc7     542404  synthetic_triad/synth_H01W_baz306.18_snr+10_seed2.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+bf1f73ce17e76868f02d00a0f751646216e49ebccc81816ff6750f0f02cf93c7     542404  synthetic_triad/synth_H01W_baz306.18_snr+10_seed3.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+9b44943bdb7048bbce0998bfcb893acecc0b161dfc0f795a31e7031f6b27c209     542404  synthetic_triad/synth_H01W_baz306.18_snr+3_seed1.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+d6b1e5174ae8906199c3af0b2558367b80977af97797c4d50b24d61aa8e5fb62     542404  synthetic_triad/synth_H01W_baz306.18_snr+3_seed2.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+19f374bda09f4f83dfc9aed4634c67a4e272850c17037e07d763bbf2dc9ee069     542404  synthetic_triad/synth_H01W_baz306.18_snr+3_seed3.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+3f9558edf5f0d2bd158e01a15872f00ec1809726edc58523d11b9370b89e0b83     542404  synthetic_triad/synth_H01W_baz306.18_snr-10_seed1.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+2159ec3f071503aee4c5d9dabbe3a031184f60a1f196505b63d4557445ded5e9     542404  synthetic_triad/synth_H01W_baz306.18_snr-10_seed2.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+4bcf6d8f575cdd7e59f5593dc00b7ce03f9f80905ffa04c00c471c3d8bbdf6ad     542404  synthetic_triad/synth_H01W_baz306.18_snr-10_seed3.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+e43e79e99aad4f224746fdb04d175e95a4ea7c8cd121d981ae92f957d3ea9e64     542404  synthetic_triad/synth_H01W_baz306.18_snr-3_seed1.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+971ed973e8f9fd93c9de3d3b8578397596e1fb87a5d1c0783e1bee53f0039e6f     542404  synthetic_triad/synth_H01W_baz306.18_snr-3_seed2.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+0a83c19768b56f3fa1de1222f21bd717356be18809f4329e9241ef8dedabd4d2     542404  synthetic_triad/synth_H01W_baz306.18_snr-3_seed3.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+225f31a9a29a3da4581710ef93a2f8cb2d5fc2d29c3a230462d3dc3721588c24     542404  synthetic_triad/synth_H01W_baz306.18_snr-6_seed1.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+56ff93d239bdf3ae8f17d9d25e874ae34780aa1386719522cb3dc3224b529a0a     542404  synthetic_triad/synth_H01W_baz306.18_snr-6_seed2.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+bb06d317b25f8a617f568a77fc7932c6357c31ad83e2e3c1c17cff83163ae4d4     542404  synthetic_triad/synth_H01W_baz306.18_snr-6_seed3.npz  --  selftest.py via synth_triad.py (exchange copy only; not in git)
+# In the zip-ready exchange copy README/REQUESTS/COVER_NOTE are .md (same content); inside engine/ they are .txt by project rule.

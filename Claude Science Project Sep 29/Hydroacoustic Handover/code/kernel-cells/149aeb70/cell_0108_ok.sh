@@ -1,0 +1,1 @@
+find /Users/pete/Downloads -maxdepth 8 -ipath "*kadri*" -type d 2>/dev/null | head -20; echo "=== files"; find /Users/pete/Downloads -maxdepth 10 -ipath "*kadri*" -type f \( -name "*.csv" -o -name "*.json" -o -name "*.svg" -o -name "*.txt" \) 2>/dev/null | head -30

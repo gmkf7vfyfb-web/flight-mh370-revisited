@@ -1,0 +1,134 @@
+"""Step 3 of prereg.py (7dc315f): real-arrival test of the matched filter (gap G-W1). The DIGITISED F-35A arrival at
+H11 (Metz et al. 2023 Fig. 3), reconstructed with random carrier phase (R1 time-frequency, R2 envelope x spectrum),
+is injected into block 7's real backgrounds (IMOS 3376 own 14-day set; H01W proxy) on block 7's level grid and scored
+by block 7's detectors with block 7's template bank and thresholds, unchanged. A paired model-matched control (block 7
+pulse, tau 3.30 s) uses the same files and onsets. Block 7 code is imported, not copied.
+Usage: python step3_real_arrival.py <block7_dir> <out_dir> [nproc]
+"""
+from __future__ import annotations
+import importlib.util as ilu, json, os, pathlib, sys, time
+from multiprocessing import Pool
+import numpy as np, pandas as pd
+from scipy import signal
+
+HERE = pathlib.Path(__file__).resolve().parent
+B7 = HERE.parent / "injection_recovery_run_j"
+sys.path.insert(0, str(B7)); sys.path.insert(0, str(HERE.parent)); sys.path.insert(0, str(HERE.parent / "weak_signal")); sys.path.insert(0, str(HERE))
+import run as RUN          # noqa: E402  block 7 (imports block 7's prereg as R)
+import prereg as R7        # noqa: E402  block 7 prereg (first on the path)
+_sp = ilu.spec_from_file_location("metz_prereg", HERE / "prereg.py"); MR = ilu.module_from_spec(_sp); _sp.loader.exec_module(MR)
+import obs as OB           # noqa: E402
+
+FS = R7.FS
+VARIANTS = ["R1|H11N1", "R1|H11S1", "R2|H11N1", "R2|H11S1", "control"]
+ART = {}
+
+
+def arrival_data(el):
+    """Excess spectrogram (5-40 Hz rows), its time axis, the envelope excess and the mean excess spectrum."""
+    P, tt, ff = OB.spectrogram(el)
+    P = np.where(np.isfinite(P), P, 80.0); lin = 10 ** (P / 10)
+    t, L = OB.envelope(el); ipk, Ln, a, b = OB.windows(t, L)
+    inw = (tt >= t[a]) & (tt <= t[b])
+    noise = np.median(lin[:, ~inw], axis=1)
+    exc = np.clip(lin - noise[:, None], 0, None); exc[:, ~inw] = 0.0
+    m = (ff >= 5.0) & (ff <= 40.0)
+    env = np.clip(10 ** (L / 10) - 10 ** (Ln / 10), 0, None); env[:a] = 0; env[b + 1:] = 0
+    # energy-peak time of the envelope (the 1 s RMS maximum) -> placed at PULSE_PEAK_S in the frame
+    return dict(f=ff[m][::-1], S=exc[m][::-1], tt=tt, t_env=t, env=env, t_pk=float(t[ipk]), spec=exc[m][::-1].mean(1))
+
+
+def synth(kind, el, rng):
+    d = ART[el]; n = int(R7.PULSE_LEN_S * FS); tf = np.arange(n) / FS + d["t_pk"] - R7.PULSE_PEAK_S      # frame time in UTC s
+    if kind == "R1":
+        nper, hop = int(0.5 * FS), int(0.1 * FS)
+        w = rng.standard_normal(n)
+        f, tk, Z = signal.stft(w, fs=FS, window="hann", nperseg=nper, noverlap=nper - hop)
+        tk_utc = tk + tf[0]
+        # interpolate the excess map onto (f, tk): time by nearest pixel column mean in each 0.1 s frame, freq linear
+        cols = np.clip(np.searchsorted(d["tt"], tk_utc), 0, len(d["tt"]) - 1)
+        Sm = d["S"][:, cols]                                                           # [f_pix, frames]
+        G = np.vstack([np.interp(f, d["f"], Sm[:, k], left=0.0, right=0.0) for k in range(Sm.shape[1])]).T
+        _, x = signal.istft(Z * np.sqrt(G), fs=FS, window="hann", nperseg=nper, noverlap=nper - hop)
+        x = x[:n] if len(x) >= n else np.pad(x, (0, n - len(x)))
+    else:
+        w = rng.standard_normal(n); Wf = np.fft.rfft(w); f = np.fft.rfftfreq(n, 1 / FS)
+        x = np.fft.irfft(Wf * np.sqrt(np.interp(f, d["f"], d["spec"], left=0.0, right=0.0)), n)
+        x = x * np.sqrt(np.interp(tf, d["t_env"], d["env"], left=0.0, right=0.0))
+    sos = signal.butter(4, list(R7.BAND), btype="bandpass", fs=FS, output="sos")
+    x = signal.sosfiltfilt(sos, x)
+    return x / np.sqrt(np.sum(x ** 2))
+
+
+def _init(xs, ctx, art, T, taus, grid):
+    os.environ["OMP_NUM_THREADS"] = "1"; RUN._set_bg(xs, ctx); ART.update(art)
+    ART["_T"] = T; ART["_tau"] = taus; ART["_grid"] = grid
+
+
+def one(job):
+    xi, on, lev, var, seed, bmed, rx = job
+    rng = np.random.default_rng(seed)
+    if var == "control":
+        r = float(rng.choice(ART["_grid"])); tau = ART["_tau"]; p = RUN.pulse(ART["_T"], r, tau)
+    else:
+        kind, el = var.split("|"); p = synth(kind, el, rng); r = np.nan; tau = np.nan
+    pk = RUN.peak_level_db(p)[0]; g = 10 ** ((lev + bmed - pk) / 20)
+    row = RUN.inj_one((xi, on, g, p, lev, tau, r, bmed)); row.update(variant=var, receiver=rx)
+    return row
+
+
+def main(b7, out_dir, nproc=4):
+    b7 = pathlib.Path(b7); out = pathlib.Path(out_dir); out.mkdir(parents=True, exist_ok=True); t0 = time.time()
+    inp = json.load(open(b7 / "inputs" / "inputs.json")); T = dict(np.load(b7 / "templates" / "templates_raw.npz"))
+    tb = json.load(open(b7 / "templates" / "template_build.json")); S7 = json.load(open(b7 / "run" / "summary.json"))
+    TH = json.load(open(b7 / "run" / "thresholds.json"))
+    taus = [float(v) for v in inp["tau"]["D0/p0.5"]]; tau_mid = taus[1]
+    art = {el: arrival_data(el) for el in ("H11N1", "H11S1")}
+    X = {}; X["3376"], bad = RUN.load_set(RUN.own_14day_files("3376"), nproc)
+    X["H01W"], pchk = RUN.build_proxy(X["3376"], "3376", "H01W", nproc)
+    print("backgrounds", len(X["3376"]), bad, round(time.time() - t0), flush=True)
+    meta = dict(prereg="prepare/metz_f35a/prereg.py @7dc315f", block7=str(b7), taus=taus, tau_control=tau_mid, variants=VARIANTS, bg_median={}, null_check={})
+    rows = []
+    for ri, rx in enumerate(("3376", "H01W")):
+        br = [float(v) for v in tb["bank"][rx]["bank"]]; bank = RUN.bank_for(T, br, taus); grid = [float(v) for v in tb["bank"][rx]["grid"]]
+        bmed = float(S7["bg_median_level_db"][rx]); meta["bg_median"][rx] = bmed
+        # reproducibility check: null on a 10 % file subset vs block 7's thresholds
+        sub = X[rx][::10]
+        with Pool(nproc, initializer=RUN._init, initargs=(bank,)) as pool:
+            res = pool.map(RUN.null_one, sub, chunksize=4)
+        nm = {k: np.concatenate([r[k] for r in res]) for k in RUN.METHODS}
+        meta["null_check"][rx] = {k: dict(subset_q99=float(np.nanquantile(v, 0.99)), block7_q99=TH[rx][k]["0.01"], n=int(np.isfinite(v).sum())) for k, v in nm.items()}
+        rng = np.random.default_rng([MR.SEED, MR.STREAM, ri]); jobs = []
+        for lev in MR.LEVELS_DB:
+            for k in range(MR.N_INJ[rx]):
+                xi = int(rng.integers(len(X[rx]))); on = float(rng.uniform(R7.MARGIN_S[0], len(X[rx][xi]) / FS - R7.MARGIN_S[1]))
+                for v in VARIANTS:
+                    jobs.append((xi, on, float(lev), v, int(rng.integers(2 ** 31)), bmed, rx))
+        with Pool(nproc, initializer=_init, initargs=(X[rx], bank, art, T, tau_mid, grid)) as pool:
+            res = pool.map(one, jobs, chunksize=16)
+        rows.extend(res); print("inj", rx, len(res), round(time.time() - t0), flush=True)
+    df = pd.DataFrame(rows); df.to_csv(out / "step3_injection_scores.csv", index=False)
+    pdrows, fits = [], {}
+    for (rx, var), g0 in df.groupby(["receiver", "variant"]):
+        for name in RUN.METHODS:
+            for a in (0.05, 0.01, 0.001):
+                thr = TH[rx][name][str(a)]
+                if thr is None:
+                    continue
+                ks, ns, lvs = [], [], []
+                for lev, g2 in g0.groupby("level_db"):
+                    n = int(g2[name].notna().sum()); k = int((g2[name] >= thr).sum()); lo, hi = RUN.wilson(k, max(n, 1))
+                    pdrows.append(dict(receiver=rx, variant=var, method=name, alpha=a, level_re_noise_db=lev, k=k, n=n, pd=k / max(n, 1), ci_lo=lo, ci_hi=hi, threshold=thr))
+                    ks.append(k); ns.append(n); lvs.append(lev)
+                ks, ns, lvs = np.array(ks), np.array(ns), np.array(lvs, float)
+                reached = bool((ks / np.maximum(ns, 1) >= 0.5).any()); l50, s = RUN.fit_logistic(lvs, ks, ns)
+                fits[f"{rx}|{var}|{name}|{a}"] = dict(reached=reached, L50_re_noise_db=l50 if reached else None, slope_db=s)
+    pd.DataFrame(pdrows).to_csv(out / "step3_pd_vs_level.csv", index=False)
+    json.dump(fits, open(out / "step3_fits.json", "w"), indent=1)
+    meta["seconds"] = round(time.time() - t0); meta["proxy_check"] = pchk.get("bands") if isinstance(pchk, dict) else None
+    json.dump(meta, open(out / "step3_meta.json", "w"), indent=1, default=str)
+    print("done", round(time.time() - t0))
+
+
+if __name__ == "__main__":
+    main(sys.argv[1], sys.argv[2], int(sys.argv[3]) if len(sys.argv) > 3 else 4)

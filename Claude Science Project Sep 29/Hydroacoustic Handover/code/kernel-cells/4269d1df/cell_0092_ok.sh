@@ -1,0 +1,1 @@
+cd "repo/Claude Science Project Sep 29"; wc -l threads/master-prompts/ocean-drift.md; grep -n -i "mixture\|model average\|equal weight\|equal-prior\|populated\|headline" threads/master-prompts/ocean-drift.md | head -20

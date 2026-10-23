@@ -1,0 +1,1 @@
+print(R[R.group.str.startswith('Published: Kadri 2024')][['id','times','implied_lat','implied_impact','verdict','known_event']].to_string())

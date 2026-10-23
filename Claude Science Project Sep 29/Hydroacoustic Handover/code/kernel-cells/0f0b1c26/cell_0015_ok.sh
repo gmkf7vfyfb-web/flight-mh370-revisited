@@ -1,0 +1,1 @@
+grep -i "kadri-2024-hydroacoustics" /tmp/repo_tree.txt | sed 's#.*kadri-2024-hydroacoustics/##' | awk -F/ '{print $1"/"$2}' | sort | uniq -c | head -40; grep -i "\.sources/" /tmp/repo_tree.txt | sed 's#.*\.sources/##' | cut -d/ -f1 | sort | uniq -c

@@ -1,0 +1,1 @@
+cd repo; export GIT_CONFIG_GLOBAL=/dev/null; mkdir -p /tmp/rs; while read f; do git show "HEAD:$f" > "/tmp/rs/$(echo $f | tr '/ ' '__')" 2>/dev/null; done < /tmp/rs.txt; cd /tmp/rs; grep -l -E "routes.npy|trace.npy" * ; grep -n -h -B3 -A25 -E "\"trace.npy\"|\"routes.npy\"" * | head -120

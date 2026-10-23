@@ -1,0 +1,2 @@
+res3 = host.collect(fids3, timeout=1800)
+for r in res3: print(r.get('name'), r['status'], [ (a.get('filename'),a.get('version_id')) for a in (r.get('artifacts_created') or []) if a.get('filename','').startswith('research')])

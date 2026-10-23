@@ -1,0 +1,1 @@
+cd rr; cat wise_radar.txt; echo =========; cat cocos370.txt | head -c 18500

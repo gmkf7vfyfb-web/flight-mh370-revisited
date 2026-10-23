@@ -1,0 +1,3 @@
+cd /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/5e788282-a899-406d-be81-a794b69469f6
+H="hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"
+python "$H/prepare/digitise_metz_2023.py" --pdf "/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/artifacts/proj_9cc1a5a85f63/8713f33b-92dd-4026-b29d-18c6ec42e04a/v1dc5cd5c_art3A10.10072Fs00024-022-03117-6.pdf" 2>&1 | tail -150; ls "$H/results-data/digitised/metz2023" "$H/results-data/digitised/metz2023/rasters"

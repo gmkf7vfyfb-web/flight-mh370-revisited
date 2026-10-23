@@ -1,0 +1,1 @@
+cd repo; P="ISO Sept 28 Status/inputs/papers/hydroacoustics"; sed -n 70,160p "$P"/kadri2024.txt; echo ======; sed -n 325,360p "$P"/kadri2024.txt; sed -n 540,600p "$P"/kadri2024.txt | head -40

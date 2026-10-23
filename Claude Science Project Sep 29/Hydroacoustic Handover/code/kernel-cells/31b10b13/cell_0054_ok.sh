@@ -1,0 +1,1 @@
+cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics" && OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 timeout 1500 python prepare/ranked_candidates/rank.py > /tmp/rank_verify.log 2>&1; echo exit $?; tail -3 /tmp/rank_verify.log; ls -la results-data/ranked_candidates/

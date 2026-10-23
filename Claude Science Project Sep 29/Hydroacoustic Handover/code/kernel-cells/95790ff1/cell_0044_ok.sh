@@ -1,0 +1,1 @@
+cd "repo/ISO Sept 28 Status/inputs/papers/hydroacoustics"; awk '/===== PAGE 15 =====/,/===== PAGE 16 =====/' ucrl-tr-207323.txt | head -c 2500; echo; awk '/===== PAGE 16 =====/,/===== PAGE 17 =====/' ucrl-tr-207323.txt | grep -o -E "[^.]*(dB|Hz|kg|psi|depth|ms)[^.]*\." | head -20

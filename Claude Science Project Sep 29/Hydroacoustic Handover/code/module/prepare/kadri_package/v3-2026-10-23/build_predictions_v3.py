@@ -1,0 +1,299 @@
+"""v3 PREDICTIONS ONLY (hydro clean-up run, 23 Oct 2026). Changes from v2, nothing else:
+  (1) IMOS TL from imos_tl_ram_arc.csv (RAM along the grid) in place of imos_tl_ramcorr_arc.csv (old constant correction, defect D22);
+  (2) eta 2.26e-3 (Metz 2023 F-35A value under the module definition, PENDING PETE'S RULING) added to ETAS, with its own SNR column;
+      the 2.1e-4 columns are kept for comparison and are NOT the F-35A value under the module definition (defect D01);
+  (3) labels say so. The v2 package TEXT (README, REQUESTS, cover note) is NOT updated: see the errata list. NOT FOR SENDING.
+Kadri collaboration package v2 (work order 2026-10-21 block 12; brief section 9): predictions.csv on the whole-arc grid.
+PREPARE ONLY. Nothing is sent before Pete approves. PREDICTIVE, NOT CALIBRATED: module likelihood 0.0 in every row; caveats
+C1 (propagation slope misfit, +10.4/+7.4 dB per octave at H01W/H08S uncorrected) and C2 (coupling efficiency eta not
+calibrated; swept over four decades; 2.1e-4 is Brown's Arons-equivalent value, kept for comparison; Metz 2.26e-3 pending ruling) apply to every number.
+
+ONE ROW PER (arc point x cross-arc offset x receiver). Arc points: the block-2 TL grid (tl_grid_run_j.py, prereg fc825c0):
+41.0-20.0 S every 0.5 deg on the 7th arc, offsets -60/-30/0/+30/+60 NM (negative = west, towards the satellite); 8 receivers
+(IMS triads H01W, H08S, H08N; IMOS loggers 3315, 3376 Perth Canyon, 3274, 3275 Portland, 3250 Scott Reef).
+
+WEIGHT per cell = run J impact mass in the cell (latitude to the nearest 0.5 deg row; arc distance to the nearest offset,
+|arc| > 75 NM clamped to the outer offset and counted in `offset_clamped_share`; rows south of 41.25 S or north of 19.75 S
+are outside the grid and reported in predictions_meta.json). Weights are the run J windows track's (run_j_windows.py,
+bc99b07): ln w = ln(weight/sum) + ln(1 - P_breakup) + loglik_D + ln(0.75 e^C1 + 0.25 e^C2) (EoF total q = 1/3 cell), strata
+mixed by p_core x Z_hat (seeds pooled), the northern supplement (impacts-ruleB.npz, technique >= 1) mixed in with its
+lnw:comb share s_D. Options: D0' (00:19 held out; PRIMARY, p = 0.5), D2 (R600 BTO+BFO), D3 (both BFOs as recorded, Holland
+H2 data), D4 (both BFOs, shared start-up offset, Holland H1 data); dive probability p in {0, 0.5, 1} for D0'. Supplement rows
+keep native weights at every p (declared gap G-W1 of the windows note).
+PER CELL (D0', p = 0.5): impact-time quantiles 5/50/95 % and 0.5/99.5 % (30 s histogram), kinetic-energy quantiles 5/50/95 %
+(E = energy_transferred_j from the tau90_v1 sidecar = contact kinetic energy, an UPPER anchor; supplement rows use
+latent:impact_energy_transferred_j), tau90 median (strata only; the supplement has no tau90).
+PER (CELL, RECEIVER): WGS84 range and back-azimuth from the TL grid; SOFAR arrival window = impact quantile + range/c with
+c = 1.482 +- 0.006 km/s (2 sd), AGW window with c in [1.40, 1.50] km/s (assumed, not modelled); TL per third-octave band 5-40 Hz
+at the 10 m reference source depth exactly as the module's chain uses it (IMS: raw KRAKEN minus the imp500 RAM delta, lhyd
+rule; IMOS: RAM along the grid, imos_tl_ram_arc.csv (v3); NaN = blocked band, zero received energy); blockage status and the number of blocked bands;
+flags ridge_source (source water depth < 2,000 m), adiabatic_suspect (TL is an upper bound on loss), ramcorr_extrapolated.
+PREDICTED LEVEL at the cell's median E and tau (pooled run J medians where the cell holds no mass; flagged): 5-40 Hz exposure
+(Pa^2 s) and peak 1 s SPL (dB re 1 uPa, T_eff = 2.683 s) for eta in {1e-2, 2.26e-3, 1e-3, 2.1e-4, 1e-4, 1e-5}; per-band received level
+at eta = 2.1e-4 (add 10 log10(eta/2.1e-4) for another eta); the module's noise median per receiver (IMS: digitised Blackman
+2003 + IMOS proxy; IMOS: imos2b) and the SNR at eta 2.1e-4 (Brown 2026 Arons-equivalent; not the F-35A value) (IMS +4.8 dB triad gain). The 5-40 Hz band IS Kadri's band
+(Refresh v2 section 5), so no separate "after his chain" column is needed; the module's own 2-5 Hz band is not in the TL grid.
+Received level: SE = sum_b eta E rho c/(2 pi) S_b(f_c, 1/tau) 10^(-TL_b/10), S_b = imos_stageB_map.band_fraction (ESD flat to
+1/tau, f^-2 above), the second implementation of lhyd._se used by tl_grid_evidence.py.
+
+Usage (from prepare/kadri_package/v2-2026-10-22/): python build_predictions_v2.py <out_dir> [--seeds-per-stratum N]
+Reads: end-of-flight/run-j (all seeds by default), run-j-supplement/reduced/impacts-ruleB.npz, searched-areas arc-grid.npz,
+hydroacoustics/run-j-tl-grid/tables, module results-data (noise, stage B T_eff, RAM delta). Writes predictions.csv,
+predictions_meta.json. Single process; about 6 minutes for 74 seeds.
+"""
+from __future__ import annotations
+import argparse, hashlib, json, pathlib, sys, time
+import numpy as np
+import pandas as pd
+
+HERE = pathlib.Path(__file__).resolve().parent
+PREP = HERE.parents[1]
+sys.path.insert(0, str(PREP))
+import run_j_windows as W          # noqa: E402
+import imos_stageB_map as B        # noqa: E402
+import tl_grid_table as TT         # noqa: E402
+
+RD = PREP.parent / "results-data"
+EX = pathlib.Path("/Users/pete/Downloads/mh370-exchange")
+EOF_ = EX / "end-of-flight/run-j"
+SUPP = EX / "end-of-flight/run-j-supplement/reduced/impacts-ruleB.npz"
+ARCG = EX / "searched-areas/run-j-supplement/arc-grid.npz"
+TLT = EX / "hydroacoustics/run-j-tl-grid/tables"
+T0 = W.T0
+LATS = np.round(np.arange(-41.0, -19.99, 0.5), 2)            # 43 rows
+OFFS = np.array([-60.0, -30.0, 0.0, 30.0, 60.0])
+OPTS = ["D0", "D2", "D3", "D4"]
+WKEYS = ["D0/p0.5", "D2/p0.5", "D3/p0.5", "D4/p0.5", "D0/p0", "D0/p1"]
+BANDS = [5.0, 6.3, 8.0, 10.0, 12.5, 16.0, 20.0, 25.0, 31.5, 40.0]
+ETAS = [1e-2, 2.26e-3, 1e-3, 2.1e-4, 1e-4, 1e-5]
+ETA_METZ = 2.26e-3   # PENDING RULING
+ETA_ANCHOR = 2.1e-4
+Z_REF = 10.0
+TRIAD_GAIN_DB = 4.8
+TB = T0 + np.arange(600.0, 5400.1, 30.0)                   # 00:10-01:30 UTC, 30 s bins
+EB = np.arange(7.0, 11.01, 0.05)                           # log10 E (J)
+TAUB = np.arange(-1.5, 1.51, 0.05)                         # log10 tau (s)
+RX = ["H01W", "H08S", "H08N", "3315", "3376", "3274", "3275", "3250"]
+RX_TYPE = {"H01W": "IMS triad", "H08S": "IMS triad", "H08N": "IMS triad", "3315": "IMOS logger", "3376": "IMOS logger",
+           "3274": "IMOS logger", "3275": "IMOS logger", "3250": "IMOS logger"}
+
+
+def sha(p):
+    h = hashlib.sha256()
+    with open(p, "rb") as f:
+        for b in iter(lambda: f.read(1 << 22), b""): h.update(b)
+    return h.hexdigest()
+
+
+def cell_index(lat, arc_nm):
+    """(ilat, ioff, inside, clamped) for arrays lat (deg) and arc distance (NM)."""
+    il = np.rint((lat - LATS[0]) / 0.5).astype(int)
+    inside = (il >= 0) & (il < len(LATS)) & np.isfinite(arc_nm)
+    io = np.argmin(np.abs(np.nan_to_num(arc_nm)[:, None] - OFFS[None, :]), axis=1)
+    clamped = np.abs(arc_nm) > 75.0
+    return np.clip(il, 0, len(LATS) - 1), io, inside, clamped
+
+
+class Acc:
+    def __init__(self):
+        n = len(LATS) * len(OFFS)
+        self.w = {k: np.zeros(n) for k in WKEYS}
+        self.ht = np.zeros((n, len(TB) - 1)); self.he = np.zeros((n, len(EB) - 1)); self.htau = np.zeros((n, len(TAUB) - 1))
+        self.outside = {k: 0.0 for k in WKEYS}; self.clamped = {k: 0.0 for k in WKEYS}; self.total = {k: 0.0 for k in WKEYS}
+        self.wclamp = np.zeros(n)
+
+    def add(self, lat, arc, t, E, tau, weights, scale):
+        il, io, inside, cl = cell_index(lat, arc)
+        cid = il * len(OFFS) + io
+        for k, w in weights.items():
+            w = w * scale
+            self.total[k] += w.sum(); self.outside[k] += w[~inside].sum(); self.clamped[k] += w[inside & cl].sum()
+            self.w[k] += np.bincount(cid[inside], weights=w[inside], minlength=len(self.w[k]))
+        w = weights["D0/p0.5"] * scale; m = inside & (w > 0)
+        self.wclamp += np.bincount(cid[m & cl], weights=w[m & cl], minlength=len(self.wclamp))
+        tb = np.clip(np.searchsorted(TB, t[m]) - 1, 0, len(TB) - 2)
+        np.add.at(self.ht, (cid[m], tb), w[m])
+        me = m & np.isfinite(E) & (E > 0)
+        eb = np.clip(np.searchsorted(EB, np.log10(E[me])) - 1, 0, len(EB) - 2)
+        np.add.at(self.he, (cid[me], eb), w[me])
+        if tau is not None:
+            mt = m & np.isfinite(tau) & (tau > 0)
+            tb2 = np.clip(np.searchsorted(TAUB, np.log10(tau[mt])) - 1, 0, len(TAUB) - 2)
+            np.add.at(self.htau, (cid[mt], tb2), w[mt])
+
+
+def hq(h, edges, qs):
+    """Weighted quantiles from a histogram (bin centres)."""
+    if h.sum() <= 0: return [np.nan] * len(qs)
+    c = np.cumsum(h) / h.sum(); x = 0.5 * (edges[1:] + edges[:-1])
+    return [float(np.interp(q, c, x)) for q in qs]
+
+
+def strata_pass(seeds_per_stratum):
+    fe = json.loads((EOF_ / "summary" / "family-evidence-run-j.json").read_text()); p_core = fe["p_core"]
+    acc = Acc(); used = {}; shas = {}
+    for s in W.STRATA:
+        sds = sorted((d for d in (EOF_ / s).glob("seed-*") if (d / "impacts32.npy").exists()), key=lambda d: int(d.name.split("-")[1]))
+        if seeds_per_stratum: sds = sds[:seeds_per_stratum]
+        K = len(sds); used[s] = K
+        for sd in sds:
+            t1 = time.time(); g, meta, n = W.load_seed(sd); logon = meta["config"]["hypotheses"]["end-of-flight"]["logon"]
+            z = np.load(sd / "tau90_v1.npz"); E = z["energy_transferred_j"].astype(float); tau = z["tau90_s"].astype(float)
+            weights = {}
+            for opt in OPTS:
+                lnw = W.ln_weights(g, logon, opt); base = np.exp(np.where(np.isfinite(lnw), lnw, -np.inf)); base[~np.isfinite(base)] = 0.0
+                weights[f"{opt}/p0.5"] = base * W.p_factor(g, 0.5)
+                if opt == "D0":
+                    weights["D0/p0"] = base * W.p_factor(g, 0.0); weights["D0/p1"] = base * W.p_factor(g, 1.0)
+            acc.add(g("latitude_deg"), g("arc_distance_nm"), g("unix_s"), E, tau, weights, p_core[s] / K)
+            shas[f"{s}/{sd.name}"] = sha(sd / "impacts32.npy")[:16]
+            print(f"{s} {sd.name} n={n} {time.time() - t1:.1f}s", flush=True)
+    return acc, used, shas, p_core
+
+
+def arc_distance_field(lat, lon):
+    z = np.load(ARCG); arc, nn = z["arc"], z["n"]; south, west, step = float(z["south"]), float(z["west"]), float(z["step"])
+    i = np.clip(np.rint((lat - south) / step).astype(int), 0, arc.shape[0] - 1); j = np.clip(np.rint((lon - west) / step).astype(int), 0, arc.shape[1] - 1)
+    v = arc[i, j].astype(float); ok = nn[i, j] > 0
+    return v, ok
+
+
+def supplement_pass(src):
+    """Supplement rows (technique >= 1): arc distance from the arc-grid field; where the field has no cell, the nearest
+    offset by longitude at the row's latitude (from the TL grid sources) is used and counted."""
+    z = np.load(SUPP); sel = z["technique"] >= 1
+    lat = z["latitude_deg"][sel].astype(float); lon = z["longitude_deg"][sel].astype(float); t = z["t_impact_s"][sel].astype(float) + T0
+    E = z["latent:impact_energy_transferred_j"][sel].astype(float)
+    arc, ok = arc_distance_field(lat, lon)
+    il = np.clip(np.rint((lat - LATS[0]) / 0.5).astype(int), 0, len(LATS) - 1)
+    lon_tab = np.full((len(LATS), len(OFFS)), np.nan)
+    for _, r in src.iterrows():
+        lon_tab[int(np.rint((r.lat - LATS[0]) / 0.5)), int(np.argmin(np.abs(OFFS - r.offset_nm)))] = r.lon
+    fb = OFFS[np.nanargmin(np.abs(lon_tab[il] - lon[:, None]), axis=1)]
+    arc = np.where(ok, arc, fb)
+    weights = {}; share = {}
+    for opt in OPTS:
+        wa = np.exp(z[f"lnw:comb/{opt}"].astype(float)); wa[~np.isfinite(wa)] = 0.0
+        share[opt] = float(wa[sel].sum()); w = wa[sel]
+        weights[f"{opt}/p0.5"] = w
+        if opt == "D0": weights["D0/p0"] = w; weights["D0/p1"] = w
+    acc = Acc(); acc.add(lat, arc, t, E, None, weights, 1.0)
+    return acc, share, int(sel.sum()), int((~ok).sum()), sha(SUPP)[:16]
+
+
+def hms(ts):
+    if not np.isfinite(ts): return ""
+    s = int(round(ts - T0)); return f"{s // 3600:02d}:{(s % 3600) // 60:02d}:{s % 60:02d}"
+
+
+def main():
+    ap = argparse.ArgumentParser(); ap.add_argument("out"); ap.add_argument("--seeds-per-stratum", type=int, default=0)
+    a = ap.parse_args(); out = pathlib.Path(a.out); out.mkdir(parents=True, exist_ok=True); t0 = time.time()
+    # --- TL grid tables and source points
+    npz = np.load(TLT / "tl_grid.npz", allow_pickle=True); G = pd.DataFrame({k: npz[k] for k in npz.files})
+    G = G[np.isclose(G.src_depth_m, Z_REF)].copy()
+    src = G[["source_id", "src_lat", "src_lon", "offset_nm", "source_water_depth_m"]].drop_duplicates("source_id").rename(columns={"src_lat": "lat", "src_lon": "lon"})
+    # --- run J mass per cell
+    accS, used, shas, p_core = strata_pass(a.seeds_per_stratum)
+    accU, share, n_supp, n_fb, sha_supp = supplement_pass(src)
+    pooled_w, meta_mass = {}, {}
+    for k in WKEYS:
+        opt = k.split("/")[0]; sD = share[opt]
+        Zs, Zu = accS.total[k], accU.total[k]
+        pooled_w[k] = (1 - sD) * accS.w[k] / Zs + sD * accU.w[k] / Zu
+        meta_mass[k] = dict(supplement_share=sD, outside_grid_share=float((1 - sD) * accS.outside[k] / Zs + sD * accU.outside[k] / Zu),
+                            offset_clamped_share=float((1 - sD) * accS.clamped[k] / Zs + sD * accU.clamped[k] / Zu))
+    sD0 = share["D0"]; Zs, Zu = accS.total["D0/p0.5"], accU.total["D0/p0.5"]
+    HT = (1 - sD0) * accS.ht / Zs + sD0 * accU.ht / Zu; HE = (1 - sD0) * accS.he / Zs + sD0 * accU.he / Zu; HTAU = accS.htau / Zs
+    WCL = (1 - sD0) * accS.wclamp / Zs + sD0 * accU.wclamp / Zu
+    Em_pool = 10 ** hq(HE.sum(0), EB, [0.5])[0]; tau_pool = 10 ** hq(HTAU.sum(0), TAUB, [0.5])[0]
+    # --- noise, T_eff, RAM delta
+    teff = json.loads((RD / "stageB/pd_samples_summary.json").read_text())["t_eff_s"]["T_C2"]
+    noise = json.loads((TLT.parent / "evidence/noise_levels.json").read_text())["noise"]
+    rd = pd.read_csv(RD / "near_limits/ims_ram_delta.csv")
+    ramd = {}
+    for stn in ("H01W", "H08S"):
+        dd = rd[(rd.path == f"imp500_{stn}") & np.isclose(rd.src_depth_m, 10.0)].set_index("fc_hz").delta_db
+        ramd[stn] = {fc: float(np.interp(np.log10(fc), np.log10(dd.index.values), dd.values)) for fc in BANDS}
+    imo = pd.read_csv(TLT / "imos_tl_ram_arc.csv", dtype={"logger": str}); imo = imo[np.isclose(imo.src_depth_m, Z_REF)]
+    imo_key = imo.set_index(["logger", "quantile", "fc_hz"]).sort_index()
+    rows = []
+    for _, sp in src.sort_values(["lat", "offset_nm"], ascending=[False, True]).iterrows():
+        il = int(np.rint((sp.lat - LATS[0]) / 0.5)); io = int(np.argmin(np.abs(OFFS - sp.offset_nm))); cid = il * len(OFFS) + io
+        tq = hq(HT[cid], TB, [0.005, 0.05, 0.5, 0.95, 0.995]); eq = [10 ** v for v in hq(HE[cid], EB, [0.05, 0.5, 0.95])]
+        tauq = 10 ** hq(HTAU[cid], TAUB, [0.5])[0]
+        has_mass = pooled_w["D0/p0.5"][cid] > 0
+        Em = eq[1] if np.isfinite(eq[1]) else Em_pool; taum = tauq if np.isfinite(tauq) else tau_pool
+        Sb = {fc: float(np.asarray(B.band_fraction(fc, np.array([1 / taum]), 2)).ravel()[0]) for fc in BANDS}
+        g = G[G.source_id == sp.source_id]
+        for rx in RX:
+            gr = g[g.receiver == rx]
+            if gr.empty: continue
+            r0 = gr.iloc[0]
+            tl = {}; flags = dict(ramcorr_extrapolated=0, adiabatic_suspect=int(r0.adiabatic_suspect), ridge_source=bool(r0.ridge_source))
+            for fc in BANDS:
+                rb = gr[np.isclose(gr.fc_hz, fc)]
+                v = float(rb.tl_db.iloc[0]) if len(rb) and rb.status.iloc[0] == "ok" else np.nan
+                if rx in ramd and np.isfinite(v): v = v - ramd[rx][fc]
+                if rx in TT.IMOS:
+                    try:
+                        ir = imo_key.loc[(rx, sp.source_id, fc)]
+                        if isinstance(ir, pd.DataFrame): ir = ir.iloc[0]
+                        v = float(ir.tl_db); flags["ramcorr_extrapolated"] = int(flags["ramcorr_extrapolated"] or bool(ir.get("ramcorr_extrapolated", False)))
+                    except KeyError:
+                        v = np.nan
+                tl[fc] = v
+            nblk = int(sum(not np.isfinite(v) for v in tl.values()))
+            status = "blocked (all bands)" if nblk == len(BANDS) else ("partial" if nblk else "open")
+            d = float(r0.range_km)
+            row = {"source_id": sp.source_id, "lat": round(float(sp.lat), 2), "lon": round(float(sp.lon), 4), "offset_nm": float(sp.offset_nm),
+                   "seafloor_depth_m": float(sp.source_water_depth_m), "ridge_source": flags["ridge_source"]}
+            row.update({f"weight_{k.replace('/', '_')}": float(pooled_w[k][cid]) for k in WKEYS})
+            row.update({"offset_clamped_share": float(WCL[cid] / pooled_w["D0/p0.5"][cid]) if has_mass else np.nan,
+                        "impact_q0.5": hms(tq[0]), "impact_q05": hms(tq[1]), "impact_q50": hms(tq[2]), "impact_q95": hms(tq[3]), "impact_q99.5": hms(tq[4]),
+                        "ke_q05_j": eq[0], "ke_q50_j": eq[1], "ke_q95_j": eq[2], "tau90_q50_s": tauq,
+                        "energy_source": "cell" if has_mass else "pooled run J (cell empty)",
+                        "receiver": rx, "receiver_type": RX_TYPE[rx], "rcv_lat": float(r0.rcv_lat), "rcv_lon": float(r0.rcv_lon), "range_km": round(d, 1),
+                        "back_azimuth_deg": round(float(r0.back_azimuth_deg), 2), "azimuth_at_source_deg": round(float(r0.azimuth_deg), 2),
+                        "travel_time_sofar_s": round(d / W.C_SOFAR, 1),
+                        "sofar_start_q05": hms(tq[1] + d / (W.C_SOFAR + 2 * W.C_SOFAR_SD)), "sofar_end_q95": hms(tq[3] + d / (W.C_SOFAR - 2 * W.C_SOFAR_SD)),
+                        "sofar_start_q0.5": hms(tq[0] + d / (W.C_SOFAR + 2 * W.C_SOFAR_SD)), "sofar_end_q99.5": hms(tq[4] + d / (W.C_SOFAR - 2 * W.C_SOFAR_SD)),
+                        "agw_start_q05": hms(tq[1] + d / W.C_AGW[1]), "agw_end_q95": hms(tq[3] + d / W.C_AGW[0]),
+                        "blockage": status, "n_bands_blocked": nblk, "min_track_depth_m": float(r0.min_track_depth_m),
+                        "adiabatic_suspect": flags["adiabatic_suspect"], "ramcorr_extrapolated": flags["ramcorr_extrapolated"], "tl_sd_db": 7.9})
+            row.update({f"tl_db_{fc:g}hz": (round(tl[fc], 1) if np.isfinite(tl[fc]) else np.nan) for fc in BANDS})
+            SE1 = Em * B.RHO_C / (2 * np.pi)
+            SEb = {fc: (SE1 * Sb[fc] * 10 ** (-tl[fc] / 10) if np.isfinite(tl[fc]) else 0.0) for fc in BANDS}
+            SE = sum(SEb.values())
+            nz = noise[rx]; gain = TRIAD_GAIN_DB if RX_TYPE[rx].startswith("IMS") else 0.0
+            for eta in ETAS:
+                se = eta * SE; spl = 10 * np.log10(se / teff / 1e-12) if se > 0 else np.nan
+                row[f"exposure_pa2s_5-40hz_eta{eta:g}"] = se; row[f"spl_1s_db_5-40hz_eta{eta:g}"] = round(spl, 1) if np.isfinite(spl) else np.nan
+            for fc in BANDS:
+                v = ETA_ANCHOR * SEb[fc]; row[f"rl_db_{fc:g}hz_eta2.1e-4"] = round(10 * np.log10(v / teff / 1e-12), 1) if v > 0 else np.nan
+            row["noise_median_db_5-40hz"] = round(nz["median"], 1); row["noise_hi_db_5-40hz"] = round(nz["hi"], 1); row["noise_source"] = nz["source"]
+            row["triad_gain_db"] = gain
+            s_anchor = row["spl_1s_db_5-40hz_eta0.00021"]
+            row["snr_db_eta2.1e-4"] = round(s_anchor - nz["median"] + gain, 1) if np.isfinite(s_anchor) else np.nan
+            s_metz = row["spl_1s_db_5-40hz_eta0.00226"]
+            row["snr_db_eta2.26e-3_metz_pending"] = round(s_metz - nz["median"] + gain, 1) if np.isfinite(s_metz) else np.nan
+            row["eta_for_snr0"] = (float(f"{ETA_ANCHOR * 10 ** (-row['snr_db_eta2.1e-4'] / 10):.3g}") if np.isfinite(row["snr_db_eta2.1e-4"]) else np.nan)
+            row["module_likelihood"] = 0.0
+            row["labels"] = "v3 PREDICTIONS ONLY, NOT FOR SENDING; PREDICTIVE, NOT CALIBRATED; C1; C2; IMOS TL = RAM along grid; eta 2.26e-3 = Metz F-35A value pending ruling; 2.1e-4 columns kept for comparison (different quantity); run J; D0' primary; p = 0.5; E = contact KE upper anchor"
+            rows.append(row)
+    df = pd.DataFrame(rows); df.to_csv(out / "predictions.csv", index=False)
+    meta = dict(script="prepare/kadri_package/v2-2026-10-22/build_predictions_v2.py", written=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                n_rows=len(df), n_cells=len(LATS) * len(OFFS), lats=[float(v) for v in LATS], offsets_nm=[float(v) for v in OFFS], receivers=RX,
+                seeds_used=used, p_core=p_core, supplement=dict(rows_used=n_supp, arc_fallback_rows=n_fb, sha256_16=sha_supp, share=share),
+                mass=meta_mass, pooled_medians=dict(E_j=Em_pool, tau90_s=tau_pool), t_eff_s=teff, etas=ETAS, eta_snr_column=ETA_ANCHOR, eta_snr_column_note="2.1e-4 = Brown 2026 Arons-equivalent coupling, a different quantity from the Metz F-35A value; kept only to compare with v2",
+                tl_tables=dict(dir=str(TLT), npz_sha256_16=sha(TLT / "tl_grid.npz")[:16]), impacts_sha256_16=shas,
+                caveats=dict(C1="propagation slope misfit, +10.4/+7.4 dB per octave at H01W/H08S, uncorrected",
+                             C2="coupling efficiency not calibrated; eta swept over four decades; F-35A value under the module definition 2.26e-3 (Metz 2023) PENDING RULING; 2.1e-4 is Brown 2026 Arons-equivalent, kept for comparison"),
+                labels=["PREDICTIVE, NOT CALIBRATED", "module likelihood 0.0", "DRAFT for Pete's review; nothing is sent"],
+                seconds=round(time.time() - t0, 1))
+    (out / "predictions_meta.json").write_text(json.dumps(meta, indent=1))
+    print(json.dumps({k: v for k, v in meta.items() if k in ("n_rows", "mass", "pooled_medians", "seconds", "seeds_used")}, indent=1))
+
+
+if __name__ == "__main__":
+    main()

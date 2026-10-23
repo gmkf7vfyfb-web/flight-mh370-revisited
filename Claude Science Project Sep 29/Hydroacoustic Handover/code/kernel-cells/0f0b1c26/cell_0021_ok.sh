@@ -1,0 +1,1 @@
+cd repo; P="ISO Sept 28 Status/inputs/papers/hydroacoustics"; git sparse-checkout add "$P" 2>&1 | grep -v ignore; ls -la "$P"; wc -c "$P"/kadri2024.txt; grep -n -i "AF447\|air france\|high-pass\|highpass\|high pass\|band-pass\|bandpass\|band pass\|entropy\|butterworth\|filter\|window\|detector\|STA\b\|Hz" "$P"/kadri2024.txt | head -80

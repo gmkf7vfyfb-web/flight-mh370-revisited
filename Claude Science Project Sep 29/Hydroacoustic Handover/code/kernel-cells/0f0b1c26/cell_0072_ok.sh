@@ -1,0 +1,2 @@
+cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"; python -c "
+import json;p=json.load(open('data/imos/preregistration.json'));print(json.dumps(p['loggers']['3315'])[:600]); print(list(p.keys()))"; grep -n "def clock_err\|CURTIN_RCS_UTC\|CURTIN_TOL_S\|^IMOS\|IMOS =" prepare/imos_preregistration.py | head; ls results-data/imos1d 2>/dev/null | head; cat results-data/imos1d/clock_test.json 2>/dev/null | head -30

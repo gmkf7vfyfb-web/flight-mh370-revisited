@@ -1,0 +1,2 @@
+cd hyd; P='Claude Science Project Sep 29/engine/hypotheses/hydroacoustics'
+git sparse-checkout add "/$P/results-data/digitised/royer-2016/spectrograms/*_band.csv" 2>&1 | grep -v config/git; ls "$P/results-data/digitised/royer-2016/spectrograms/" | head; head -3 "$P/results-data/digitised/royer-2016/spectrograms/appendix_sseir_sseir_0030-0100_band.csv"

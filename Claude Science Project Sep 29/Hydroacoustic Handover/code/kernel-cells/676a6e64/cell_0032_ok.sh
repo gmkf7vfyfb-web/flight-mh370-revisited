@@ -1,0 +1,6 @@
+set +e
+echo "=== ocean data"; ls /Users/pete/Downloads/mh370-ocean-data 2>/dev/null; ls /Users/pete/Downloads/mh370-ocean-data/gebco/grid 2>/dev/null | head; du -sh /Users/pete/Downloads/mh370-ocean-data/gebco /Users/pete/Downloads/mh370-ocean-data/woa23 2>/dev/null; head -c 400 /Users/pete/Downloads/mh370-ocean-data/gebco/grid/gebco_2026.json 2>/dev/null; echo; ls /Users/pete/Downloads/mh370-ocean-data/woa23/soundspeed 2>/dev/null | head -5
+echo "=== ocean crate example"; ls "repo/Claude Science Project Sep 29/engine/crates" 2>/dev/null; ls "repo/Claude Science Project Sep 29/engine/crates/ocean/examples" 2>/dev/null
+echo "=== cargo"; ls /Users/pete/.cargo/bin 2>/dev/null | head; ls "repo/Claude Science Project Sep 29/engine/target/release" 2>/dev/null | head
+echo "=== python pkgs"; python -c "import gsw, pyproj, scipy, numpy; print('gsw',gsw.__version__,'pyproj',pyproj.__version__,'scipy',scipy.__version__)" 2>&1 | tail -1
+echo "=== envs"; ls /Users/pete/.claude-science/conda/envs 2>/dev/null

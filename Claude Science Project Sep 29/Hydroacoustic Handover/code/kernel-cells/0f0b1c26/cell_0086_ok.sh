@@ -1,0 +1,1 @@
+W=/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/0f0b1c26-b241-4b3b-9f87-53c4386c8175; ls $W/tools | head; find $W/tools -name "kraken.exe" | head -3

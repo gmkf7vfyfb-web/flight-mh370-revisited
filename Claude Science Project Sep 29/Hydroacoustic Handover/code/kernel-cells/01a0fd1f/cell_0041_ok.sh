@@ -1,0 +1,2 @@
+cd rr; curl -sL -m 90 -o harben2002.pdf "https://www.ldeo.columbia.edu/res/pi/Monitoring/Doc/Srr_2002/print/04-03.pdf"; echo "$? $(wc -c < harben2002.pdf)"; file harben2002.pdf
+curl -sL -m 90 -o osti850576.html "https://www.osti.gov/biblio/850576"; echo "$? $(wc -c < osti850576.html)"

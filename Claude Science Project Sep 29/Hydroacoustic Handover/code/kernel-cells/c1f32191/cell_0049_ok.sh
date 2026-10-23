@@ -1,0 +1,1 @@
+rm -rf charts_test; mkdir -p charts_test && cp /tmp/b11res/*.png charts_test/ && ls -la charts_test | tail -2

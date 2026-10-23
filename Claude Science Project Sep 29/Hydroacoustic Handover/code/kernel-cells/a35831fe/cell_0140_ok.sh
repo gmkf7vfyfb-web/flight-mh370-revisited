@@ -1,0 +1,2 @@
+D=/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/tool-results/a35831fe-107a-4961-bc9f-e6fd6d255601/compaction-history/a35831fe-107a-4961-bc9f-e6fd6d255601/
+ls -la $D; grep -o "CANDS\[[^]]*\]\s*=[^\n]\{0,200\}" $D/compaction_0.txt | head; grep -n "def refit\|def fit_\|minimize\|least_squares\|lsq" $D/compaction_0.txt | head -20

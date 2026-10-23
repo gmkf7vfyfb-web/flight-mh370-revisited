@@ -1,0 +1,1 @@
+W=/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/a35831fe-107a-4961-bc9f-e6fd6d255601; ls $W 2>&1 | head -40; echo ---; find $W -maxdepth 2 -name "*.py" 2>/dev/null | grep -v "/repo\|/main/\|/hyd/" | head -40

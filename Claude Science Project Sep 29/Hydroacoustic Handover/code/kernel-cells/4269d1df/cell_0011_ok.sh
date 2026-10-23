@@ -1,0 +1,1 @@
+cd /Users/pete/Downloads/mh370-exchange/debris-drift; for d in run-j runA-rebuilt; do echo "== $d"; find $d -maxdepth 3 | head -40; du -sh $d; done; ls /Users/pete/Downloads/flight-mh370-revisited | head; ls "/Users/pete/Downloads/flight-mh370-revisited/Claude Science Project Sep 29/engine" 2>/dev/null | head

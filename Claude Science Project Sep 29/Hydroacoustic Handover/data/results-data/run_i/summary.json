@@ -1,0 +1,50 @@
+{
+ "run": "end-of-flight/run-i (binary mh370-eof-ri1)",
+ "writer": "prepare/per_impact_lnl.py amendments 1-7 (a0964d0)",
+ "reader": "end-of-flight smoke/compact_impacts.py at hypothesis/end-of-flight e3f0f88",
+ "strata": {
+  "next-i-waypoints": {
+   "rows": 25599936,
+   "not_computed": 0,
+   "seeds_failing_checks": 0,
+   "lnL_soft_q01_q50_q99": [
+    -12.548,
+    0.0,
+    2.932
+   ]
+  },
+  "next-i-free": {
+   "rows": 25600000,
+   "not_computed": 0,
+   "seeds_failing_checks": 0,
+   "lnL_soft_q01_q50_q99": [
+    -11.918,
+    0.0,
+    2.77
+   ]
+  },
+  "next-i-descent-climb": {
+   "rows": 25600032,
+   "not_computed": 0,
+   "seeds_failing_checks": 0,
+   "lnL_soft_q01_q50_q99": [
+    -12.12,
+    0.0,
+    2.857
+   ]
+  },
+  "next-i-repro-radar": {
+   "rows": 25599936,
+   "not_computed": 0,
+   "seeds_failing_checks": 0,
+   "lnL_soft_q01_q50_q99": [
+    -12.255,
+    0.0,
+    2.781
+   ]
+  }
+ },
+ "module_likelihood": "lnL_gated = 0.0 in every row (checked)",
+ "tau": "latent:energy_transfer_tau90_s NaN in all rows of run I (checked waypoints seed-1): scenario-prior tau, gap G-H1",
+ "label": "lnL_soft is a SENSITIVITY: hydroacoustics low-power, NOT CALIBRATED; IMS P_D borrowed"
+}

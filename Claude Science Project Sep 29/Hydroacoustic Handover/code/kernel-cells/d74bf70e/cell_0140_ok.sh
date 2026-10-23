@@ -1,0 +1,1 @@
+df -g . | tail -1; cd "repo/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics" && export OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 RAYON_NUM_THREADS=2 && time python prepare/build_path_stub.py ../../../../../hydro/stub 2>&1 | grep -v "bathymetry [0-9]*/" | tail -20; ls -la ../../../../../hydro/stub; df -g . | tail -1

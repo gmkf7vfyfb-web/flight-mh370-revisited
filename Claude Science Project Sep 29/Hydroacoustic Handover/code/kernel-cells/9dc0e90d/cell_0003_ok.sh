@@ -1,0 +1,1 @@
+cd repo/r/"Claude Science Project Sep 29"; sed -n 13,40p ARCHITECTURE.md | cut -c1-400; echo; sed -n 111,137p ARCHITECTURE.md | cut -c1-300; echo; sed -n 360,393p ARCHITECTURE.md | cut -c1-260; ls; ls threads/master-prompts 2>/dev/null

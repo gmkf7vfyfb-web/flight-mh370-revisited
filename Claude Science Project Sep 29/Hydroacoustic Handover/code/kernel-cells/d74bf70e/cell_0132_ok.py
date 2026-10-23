@@ -1,0 +1,2 @@
+c=['site','segment','date_utc','start_utc','end_utc','start_lat_dd','start_lon_dd','end_lat_dd','end_lon_dd','seafloor_start_m','seafloor_end_m','range_H01_km','range_H08S_km']
+print(sl[sl.site.astype(str).isin(["air8","air9"])][c].to_string(index=False))

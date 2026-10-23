@@ -1,0 +1,3 @@
+python -c "import cartopy" 2>&1 | tail -1; python -c "import shapely, pyproj; print(shapely.__version__, pyproj.__version__)" 2>&1
+find /Users/pete/Downloads/mh370-exchange /Users/pete/Downloads/mh370-inputs /Users/pete/Downloads/mh370-ocean-data -maxdepth 4 \( -iname "*ne_*" -o -iname "*coast*" -o -iname "*land*.geojson" -o -iname "*searched*" \) 2>/dev/null | head -20
+ls "repo/Claude Science Project Sep 29/results" | grep -i -E "search|coast|natural" | head

@@ -1,0 +1,1 @@
+cd "repo/Claude Science Project Sep 29/results/hydroacoustics-audit/"; sed -n 1,66p scripts/sus_absolute.py; sed -n 1,60p gaspin-shuler/gs_reconstruct.py | grep -n "R_FT\|RHOC\|import\|^def\|SHAPES" 

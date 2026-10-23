@@ -1,0 +1,2 @@
+ls -la /Users/pete/Downloads/mh370-exchange/searched-areas | head -30; find /Users/pete/Downloads/mh370-exchange/searched-areas -maxdepth 3 \( -name "*.geojson" -o -name "*.json" -o -name "*.npz" -o -name "*.csv" \) | head -20
+python -c "import pyproj; print(pyproj.__version__)"

@@ -1,0 +1,1 @@
+cd main; timeout 120 git grep -n -E "maps-v3|NY *=|MAP_LAT|map_lat0|LAT0|lat0 *=" HEAD -- "Claude Science Project Sep 29/engine/hypotheses/composer" "Claude Science Project Sep 29/engine/crates/composer" 2>/dev/null | head -20; git ls-tree -r --name-only HEAD | grep -i "compose_v3\|figures_v3\|composer.*\.py$" | head -20

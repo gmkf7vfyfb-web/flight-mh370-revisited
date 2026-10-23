@@ -1,0 +1,1 @@
+L_=rv.split('\n'); print('\n'.join(L_[0:28])); print('......'); print('\n'.join(L_[189:221]))

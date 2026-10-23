@@ -1,0 +1,1 @@
+find . -maxdepth 3 -name "hydroacoustics-run-j-timelines.png" 2>/dev/null; cp "repo/Claude Science Project Sep 29/results"/hydroacoustics-run-j-*.png "repo/Claude Science Project Sep 29/results"/hydroacoustics-run-j-*.pdf . && ls *.png

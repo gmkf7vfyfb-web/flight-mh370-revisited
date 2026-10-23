@@ -1,0 +1,3 @@
+cd "repo/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics" && export XDG_CONFIG_HOME=/tmp/xdg
+KD="../../../../Archive ISO Pre Sept 28/codebases/v01-share-withdrawn/v01/workspace/.sources/kadri-2024-hydroacoustics/data"
+time python3 prepare/kadri_northern_conditional.py "$KD" results-data/kadri_northern 2>&1 | grep -viE "userwarning|_set_context|runtimewarning|return \(x -|obs = float|nanmax|nanmin" | tail -50

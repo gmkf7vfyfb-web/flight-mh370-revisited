@@ -1,0 +1,334 @@
+{
+ "models": {
+  "t3-3.3": null,
+  "mix-a": [
+   0.5,
+   0.1,
+   4.0
+  ],
+  "mix-b": [
+   1.0,
+   0.1,
+   4.0
+  ],
+  "mix-c": [
+   0.5,
+   0.3,
+   4.0
+  ],
+  "mix-d": [
+   1.0,
+   0.3,
+   4.0
+  ]
+ },
+ "bias_sd_deg": 0.5,
+ "base": {
+  "sigma_x_nm": 20.0,
+  "mu_t_s": 300.0,
+  "sigma_t_s": 180.0,
+  "pick_s": 10.0
+ },
+ "rows": [
+  {
+   "bearing_model": "t3-3.3",
+   "stations": "H01W",
+   "info_bits_median": 0.4881348008109201,
+   "info_bits_q10": 0.3112296290351413,
+   "info_bits_q90": 1.3333957363113336,
+   "sd_ratio_median": 0.3279932050779085,
+   "shift_over_post_sd_median": 1.1019874734495207,
+   "err_post_km_median": 63.969498771513884,
+   "ess_median": 122988.26807989828,
+   "verdict": "modest"
+  },
+  {
+   "bearing_model": "t3-3.3",
+   "stations": "H08S",
+   "info_bits_median": 0.38349785971730965,
+   "info_bits_q10": 0.24672154042269373,
+   "info_bits_q90": 1.10893731110338,
+   "sd_ratio_median": 0.3530073209572304,
+   "shift_over_post_sd_median": 0.950229912613962,
+   "err_post_km_median": 70.28444426059201,
+   "ess_median": 136001.29507451574,
+   "verdict": "modest"
+  },
+  {
+   "bearing_model": "t3-3.3",
+   "stations": "H08S+H08N",
+   "info_bits_median": 0.590086218953735,
+   "info_bits_q10": 0.27306921710537135,
+   "info_bits_q90": 2.11518870255123,
+   "sd_ratio_median": 0.30067013709972024,
+   "shift_over_post_sd_median": 1.3239508997206921,
+   "err_post_km_median": 49.93816892972645,
+   "ess_median": 115790.71376249104,
+   "verdict": "modest"
+  },
+  {
+   "bearing_model": "t3-3.3",
+   "stations": "H01W+H08S",
+   "info_bits_median": 2.214068458010997,
+   "info_bits_q10": 1.598798685274014,
+   "info_bits_q90": 4.304074572722862,
+   "sd_ratio_median": 0.20524154706010556,
+   "shift_over_post_sd_median": 1.7820285160930718,
+   "err_post_km_median": 33.62082594379569,
+   "ess_median": 31862.259426979155,
+   "verdict": "material"
+  },
+  {
+   "bearing_model": "t3-3.3",
+   "stations": "H01W+H08S+H08N",
+   "info_bits_median": 2.6112201553971146,
+   "info_bits_q10": 1.828722988539727,
+   "info_bits_q90": 4.949490296514032,
+   "sd_ratio_median": 0.18932837500548036,
+   "shift_over_post_sd_median": 2.2665746254361965,
+   "err_post_km_median": 33.49675058314543,
+   "ess_median": 24714.701172279038,
+   "verdict": "material"
+  },
+  {
+   "bearing_model": "mix-a",
+   "stations": "H01W",
+   "info_bits_median": 1.3152218552145243,
+   "info_bits_q10": 0.9613011445566245,
+   "info_bits_q90": 2.794743480629821,
+   "sd_ratio_median": 0.22270757815688635,
+   "shift_over_post_sd_median": 1.5565184011912687,
+   "err_post_km_median": 37.733404664870726,
+   "ess_median": 62920.535850176166,
+   "verdict": "material"
+  },
+  {
+   "bearing_model": "mix-a",
+   "stations": "H08S",
+   "info_bits_median": 1.2195765648541577,
+   "info_bits_q10": 0.8557833376149867,
+   "info_bits_q90": 2.4102353209484,
+   "sd_ratio_median": 0.19105393975098353,
+   "shift_over_post_sd_median": 1.873450713470627,
+   "err_post_km_median": 32.33206085810749,
+   "ess_median": 68880.85915473738,
+   "verdict": "material"
+  },
+  {
+   "bearing_model": "mix-a",
+   "stations": "H08S+H08N",
+   "info_bits_median": 1.626563960391525,
+   "info_bits_q10": 1.0210692953181904,
+   "info_bits_q90": 3.8632156555416888,
+   "sd_ratio_median": 0.12701187404331535,
+   "shift_over_post_sd_median": 3.093669166851733,
+   "err_post_km_median": 21.613589178367807,
+   "ess_median": 53754.961845578735,
+   "verdict": "material"
+  },
+  {
+   "bearing_model": "mix-a",
+   "stations": "H01W+H08S",
+   "info_bits_median": 3.2090214840668403,
+   "info_bits_q10": 2.2985425266907926,
+   "info_bits_q90": 5.801824374822259,
+   "sd_ratio_median": 0.09974602568075625,
+   "shift_over_post_sd_median": 3.613657503963783,
+   "err_post_km_median": 16.92587112316517,
+   "ess_median": 15379.552111035096,
+   "verdict": "material"
+  },
+  {
+   "bearing_model": "mix-a",
+   "stations": "H01W+H08S+H08N",
+   "info_bits_median": 3.7766523624625896,
+   "info_bits_q10": 2.66052907497729,
+   "info_bits_q90": 6.27225006968685,
+   "sd_ratio_median": 0.08555260146393262,
+   "shift_over_post_sd_median": 4.253741082209389,
+   "err_post_km_median": 16.762449546286014,
+   "ess_median": 10439.312860895185,
+   "verdict": "material"
+  },
+  {
+   "bearing_model": "mix-b",
+   "stations": "H01W",
+   "info_bits_median": 0.8898915031604896,
+   "info_bits_q10": 0.6097420889626806,
+   "info_bits_q90": 2.830807658291236,
+   "sd_ratio_median": 0.25832182126648656,
+   "shift_over_post_sd_median": 1.4475021825281424,
+   "err_post_km_median": 43.42297645699712,
+   "ess_median": 89091.39811467225,
+   "verdict": "modest"
+  },
+  {
+   "bearing_model": "mix-b",
+   "stations": "H08S",
+   "info_bits_median": 0.7745171607949866,
+   "info_bits_q10": 0.5229139905457602,
+   "info_bits_q90": 2.033982467617222,
+   "sd_ratio_median": 0.24336043952672332,
+   "shift_over_post_sd_median": 1.6121565810521483,
+   "err_post_km_median": 48.766908578997345,
+   "ess_median": 97441.01250401133,
+   "verdict": "modest"
+  },
+  {
+   "bearing_model": "mix-b",
+   "stations": "H08S+H08N",
+   "info_bits_median": 1.0832503147605026,
+   "info_bits_q10": 0.7015030679678225,
+   "info_bits_q90": 3.150044752819283,
+   "sd_ratio_median": 0.185670356961335,
+   "shift_over_post_sd_median": 1.9465935416502673,
+   "err_post_km_median": 33.89864614576733,
+   "ess_median": 80625.8896428798,
+   "verdict": "material"
+  },
+  {
+   "bearing_model": "mix-b",
+   "stations": "H01W+H08S",
+   "info_bits_median": 2.7597811700463546,
+   "info_bits_q10": 1.919470738593439,
+   "info_bits_q90": 5.584517063421051,
+   "sd_ratio_median": 0.14035295593352148,
+   "shift_over_post_sd_median": 3.248281868878054,
+   "err_post_km_median": 26.828724246011753,
+   "ess_median": 21059.3402302227,
+   "verdict": "material"
+  },
+  {
+   "bearing_model": "mix-b",
+   "stations": "H01W+H08S+H08N",
+   "info_bits_median": 3.022148575075823,
+   "info_bits_q10": 2.2303419755770273,
+   "info_bits_q90": 5.291251872158742,
+   "sd_ratio_median": 0.12305627753302537,
+   "shift_over_post_sd_median": 3.146622143189558,
+   "err_post_km_median": 24.13886752181274,
+   "ess_median": 17816.143251710753,
+   "verdict": "material"
+  },
+  {
+   "bearing_model": "mix-c",
+   "stations": "H01W",
+   "info_bits_median": 0.9842519326961731,
+   "info_bits_q10": 0.754864006779526,
+   "info_bits_q90": 2.0463737317507062,
+   "sd_ratio_median": 0.2803983290346803,
+   "shift_over_post_sd_median": 1.3063619766383137,
+   "err_post_km_median": 47.959281290090935,
+   "ess_median": 71793.70927072619,
+   "verdict": "modest"
+  },
+  {
+   "bearing_model": "mix-c",
+   "stations": "H08S",
+   "info_bits_median": 0.9311505478360201,
+   "info_bits_q10": 0.6786663238133376,
+   "info_bits_q90": 1.4717536472291692,
+   "sd_ratio_median": 0.2717500939742069,
+   "shift_over_post_sd_median": 1.2009038693858618,
+   "err_post_km_median": 38.4932995737051,
+   "ess_median": 76203.33466217606,
+   "verdict": "modest"
+  },
+  {
+   "bearing_model": "mix-c",
+   "stations": "H08S+H08N",
+   "info_bits_median": 1.2467182471052247,
+   "info_bits_q10": 0.5502371325723812,
+   "info_bits_q90": 3.1817694436896726,
+   "sd_ratio_median": 0.17700595660386897,
+   "shift_over_post_sd_median": 2.1020730227895568,
+   "err_post_km_median": 29.411767406928668,
+   "ess_median": 71056.17555306938,
+   "verdict": "material"
+  },
+  {
+   "bearing_model": "mix-c",
+   "stations": "H01W+H08S",
+   "info_bits_median": 2.804235563526116,
+   "info_bits_q10": 1.8726399638479931,
+   "info_bits_q90": 5.319741378387461,
+   "sd_ratio_median": 0.14124215676730334,
+   "shift_over_post_sd_median": 2.617331224354767,
+   "err_post_km_median": 26.66598934394174,
+   "ess_median": 20126.833515906073,
+   "verdict": "material"
+  },
+  {
+   "bearing_model": "mix-c",
+   "stations": "H01W+H08S+H08N",
+   "info_bits_median": 3.309902220502437,
+   "info_bits_q10": 2.3569109259424605,
+   "info_bits_q90": 5.8639080255850216,
+   "sd_ratio_median": 0.11375583918799337,
+   "shift_over_post_sd_median": 3.261604779754722,
+   "err_post_km_median": 19.56027534027137,
+   "ess_median": 13907.432330305994,
+   "verdict": "material"
+  },
+  {
+   "bearing_model": "mix-d",
+   "stations": "H01W",
+   "info_bits_median": 0.6904593867030657,
+   "info_bits_q10": 0.49400137449062304,
+   "info_bits_q90": 2.363266974715613,
+   "sd_ratio_median": 0.2999208470606525,
+   "shift_over_post_sd_median": 1.2770246039443138,
+   "err_post_km_median": 48.75254344408176,
+   "ess_median": 99502.99525881557,
+   "verdict": "modest"
+  },
+  {
+   "bearing_model": "mix-d",
+   "stations": "H08S",
+   "info_bits_median": 0.6234313737494668,
+   "info_bits_q10": 0.42923219643065674,
+   "info_bits_q90": 1.5562414557038462,
+   "sd_ratio_median": 0.29773545329648315,
+   "shift_over_post_sd_median": 1.1176952315106976,
+   "err_post_km_median": 58.499870345007025,
+   "ess_median": 106358.41841714075,
+   "verdict": "modest"
+  },
+  {
+   "bearing_model": "mix-d",
+   "stations": "H08S+H08N",
+   "info_bits_median": 0.7923859136459941,
+   "info_bits_q10": 0.3478049709080675,
+   "info_bits_q90": 2.2877271028463864,
+   "sd_ratio_median": 0.23667146827606345,
+   "shift_over_post_sd_median": 1.4234743705656725,
+   "err_post_km_median": 41.76314144404443,
+   "ess_median": 100105.72669226403,
+   "verdict": "modest"
+  },
+  {
+   "bearing_model": "mix-d",
+   "stations": "H01W+H08S",
+   "info_bits_median": 2.3762260858428936,
+   "info_bits_q10": 1.7243692460843456,
+   "info_bits_q90": 4.526439281120214,
+   "sd_ratio_median": 0.16819155387999038,
+   "shift_over_post_sd_median": 2.038276261239883,
+   "err_post_km_median": 28.844128763681873,
+   "ess_median": 28064.768486312176,
+   "verdict": "material"
+  },
+  {
+   "bearing_model": "mix-d",
+   "stations": "H01W+H08S+H08N",
+   "info_bits_median": 2.85793644151496,
+   "info_bits_q10": 2.1180499587113935,
+   "info_bits_q90": 5.373156700512227,
+   "sd_ratio_median": 0.15191383644585935,
+   "shift_over_post_sd_median": 2.8781819236985413,
+   "err_post_km_median": 30.447757250023276,
+   "ess_median": 19821.465161229804,
+   "verdict": "material"
+  }
+ ]
+}

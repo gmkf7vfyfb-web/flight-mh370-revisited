@@ -1,0 +1,1 @@
+cd src; curl -sS -L -m 60 -o pmc24.html "https://pmc.ncbi.nlm.nih.gov/articles/PMC11065988/"; grep -oE 'https?://[^"]+\.(jpg|png|pdf)' pmc24.html | sort -u | head -40; grep -oE 'href="[^"]+\.pdf"' pmc24.html | head

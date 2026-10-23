@@ -1,0 +1,1 @@
+cd repo && git add "Claude Science Project Sep 29/engine/hypotheses/hydroacoustics" && git diff --cached --name-only && git commit -q -m "Hydroacoustics: digitise Duncan & Dall'Osto fig. 3 (signal level and path bathymetry), labelled digitised, with the 301.6 deg path caveat" && git push -q origin hypothesis/hydroacoustics && git log --oneline -1

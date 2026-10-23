@@ -1,0 +1,1 @@
+E=/Users/pete/Downloads/mh370-exchange/end-of-flight; find $E -maxdepth 4 \( -iname "*trace*" -o -iname "*traj*" -o -iname "*descent*" -o -iname "*altitude*" -o -iname "*profile*" \) 2>/dev/null | grep -v "/seed-" | head -30; echo ---; find $E/run-j -maxdepth 3 -iname "*traj*" -o -maxdepth 3 -iname "*trace*" | head; ls $E/run-j; ls $E/run-j/run-j-waypoints/seed-1 | head -30

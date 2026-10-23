@@ -1,0 +1,2 @@
+cd hydro/"Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"; ls results-data/tl_grid_run_j; grep -n "OPTIONS\s*=\|PS\s*=\|STRATA\s*=" prepare/run_j_windows.py; ls /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-levels/draws/*| head; python -c "
+import numpy as np,json;z=np.load('/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-levels/draws/run-j-waypoints/seed-1.npz');print(z.files[:40]);print(len(z.files))"

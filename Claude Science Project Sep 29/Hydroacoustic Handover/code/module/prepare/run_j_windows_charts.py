@@ -1,0 +1,277 @@
+"""Charts for the run J arrival windows (block 6 timeline charts of the 21 Oct 2026 work order). Post-processing only.
+
+Reads the exchange outputs of run_j_windows.py (pooled.npz, windows.csv, coverage.csv, request_windows.csv, run.json,
+supplement.npz) and draws, with Pete's chart rule (10 Oct 2026: no project jargon in titles, axes or legends; two footnotes,
+plain ASD-STE100 and technical):
+  (i)   hydroacoustics-run-j-timelines: per receiver (8 panels), impact-time 50/90/99 % bands, predicted arrival intervals per
+        00:19 option (SOFAR filled, acoustic-gravity-wave branch hollow), the recordings held (IMOS 307 s records, Kadri Fig. 9
+        panel spans), the six poster boxes shaded, both Kadri times marked, Royer's H01W picks for events B, C2, D1, D2.
+  (i-b) hydroacoustics-run-j-timelines-ohasisbio: the six 2014 OHASISBIO sites, "no recordings held", Royer's picks.
+  (ii)  hydroacoustics-run-j-request-windows: union over options with ESS >= 1,000, padded -10/+20 min, per receiver.
+  (iii) hydroacoustics-run-j-publication-coverage: impact-time densities per option against the Kadri Fig. 9 spans converted
+        to impact time along the arc from 38 S to 20 S (arc proxy = weighted mean impact longitude per 0.5 deg latitude bin,
+        production + supplement, D0' p = 0.5).
+Usage: python run_j_windows_charts.py <exchange dir> <results dir> [--prereg <hash>]
+"""
+import csv, json, pathlib, sys
+import numpy as np
+import matplotlib; matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
+from matplotlib.lines import Line2D
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import run_j_windows as R
+
+OPT_PLAIN = {"D0": "00:19 Held Out", "D2": "00:19 R600 BTO + BFO", "D3": "00:19 both BFOs as recorded (Holland H2 data)",
+             "D4": "00:19 both BFOs with start-up offset (Holland H1 data)"}
+OPT_COL = {"D0": "#1f4e9c", "D2": "#c7761a", "D3": "#2a8a6a", "D4": "#8a3d9c"}
+GREY = "#555555"
+KADRI_TEXT = R.T0 + 52 * 60 + 3; KADRI_CAPTION = R.T0 + 54 * 60 + 30
+POSTER_C = [(R.T0 + 51 * 60 + 10, R.T0 + 52 * 60 + 50), (R.T0 + 53 * 60 + 50, R.T0 + 55 * 60 + 20)]
+POSTER_A = [(R.T0 + 28 * 60 + 12, R.T0 + 29 * 60 + 42), (R.T0 + 30 * 60 + 24, R.T0 + 31 * 60 + 54),
+            (R.T0 + 32 * 60 + 30, R.T0 + 34 * 60), (R.T0 + 35 * 60 + 24, R.T0 + 36 * 60 + 54)]
+ROYER_EVENTS = {"B": "4", "C2": "11", "D1": "14", "D2": "15"}   # Table 4 row -> Table 5 key
+ROYER_SITES = {"H01W": ["H01W1", "H01W2", "H01W3"], "SWAMS": ["SWAMS1", "SWAMS2", "SWAMS3"], "MAD": ["MAD"], "NCRO": ["NCRO"],
+               "WKER": ["WKER"], "SSEIR": ["SSEIR"], "NEAMS": []}
+
+
+def style():
+    plt.rcParams.update({"font.size": 8, "axes.titlesize": 8, "axes.labelsize": 8, "legend.fontsize": 7, "xtick.labelsize": 6.5,
+                         "ytick.labelsize": 7, "axes.spines.top": False, "axes.spines.right": False, "figure.dpi": 150,
+                         "font.family": "DejaVu Sans"})
+
+
+def tfmt(x, _=None):
+    s = int(round(x - R.T0)); s %= 86400
+    return f"{s // 3600:02d}:{(s % 3600) // 60:02d}"
+
+
+def hhmm(ts): return R.hms(ts)[:5]
+
+
+def load(ex):
+    ex = pathlib.Path(ex)
+    pooled = np.load(ex / "pooled.npz"); keys = list(pooled["keys"]); H = pooled["H"]; arc = json.loads(str(pooled["arc"]))
+    rows = list(csv.DictReader(open(ex / "windows.csv"))); cov = list(csv.DictReader(open(ex / "coverage.csv")))
+    req = list(csv.DictReader(open(ex / "request_windows.csv"))); run = json.loads((ex / "run.json").read_text())
+    ess = json.loads((ex / "ess.json").read_text())
+    supp = np.load(ex / "supplement.npz"); sarc_keys = list(supp["lat_keys"])
+    return dict(keys=keys, H=H, arc=arc, rows=rows, cov=cov, req=req, run=run, ess=ess,
+                supp_lat_w=supp["lat_w"][sarc_keys.index("D0/p0.5")], supp_lat_wlon=supp["lat_wlon"][sarc_keys.index("D0/p0.5")])
+
+
+def row(D, rx, opt, p, br):
+    for r in D["rows"]:
+        if r["receiver"] == rx and r["option"] == opt and float(r["p"]) == p and r["branch"] == br: return r
+    raise KeyError((rx, opt, p, br))
+
+
+def royer_times(repo_results, site):
+    tab = json.loads((pathlib.Path(repo_results) / "evidence-sweep-2026-10-17" / "royer_table5.json").read_text())
+    out = {}
+    for ev, key in ROYER_EVENTS.items():
+        vals = []
+        for el in ROYER_SITES.get(site, []):
+            v = tab[key].get(el, "X")
+            if v != "X":
+                h, m, s = v.split(":"); vals.append(R.T0 + int(h) * 3600 + int(m) * 60 + float(s))
+        if vals: out[ev] = float(np.mean(vals))
+    return out
+
+
+def nested_bars(ax, y, r, color, filled=True, h=0.62):
+    """50/90/99 % intervals as nested bars; median as a white dot."""
+    q = {k: float(r[f"q{k}_unix"]) for k in ("0.5", "5", "25", "50", "75", "95", "99.5")}
+    ec = color if not filled else "none"
+    ax.barh(y, q["99.5"] - q["0.5"], left=q["0.5"], height=h * 0.25, color=color if filled else "none", edgecolor=color, lw=0.6, alpha=0.9 if filled else 1)
+    ax.barh(y, q["95"] - q["5"], left=q["5"], height=h * 0.55, color=color if filled else "white", edgecolor=color, lw=0.6, alpha=0.9 if filled else 1)
+    ax.barh(y, q["75"] - q["25"], left=q["25"], height=h, color=color if filled else "white", edgecolor=color, lw=0.8)
+    ax.plot(q["50"], y, "o", ms=2.6, mfc="white" if filled else color, mec=color, mew=0.7, zorder=5)
+    if r.get("unconverged") == "1":
+        ax.plot(q["99.5"] + 90, y, ">", ms=3, color=GREY, zorder=5)
+
+
+def footnotes(fig, plain, tech, y0=0.005):
+    lh = 0.105 / fig.get_size_inches()[1]          # one 5.8 pt line, as a figure fraction
+    ytech = y0; yplain = y0 + lh * (tech.count("\n") + 1) + 0.6 * lh
+    fig.text(0.01, ytech, tech, fontsize=5.8, color="#555555", va="bottom", ha="left")
+    fig.text(0.01, yplain, plain, fontsize=6.3, color="#333333", va="bottom", ha="left")
+
+
+def wrap(s, n=190):
+    import textwrap; return "\n".join(textwrap.wrap(s, n))
+
+
+def chart_timelines(D, results, repo_results, sites, fname, title, p=0.5, prereg=""):
+    style(); iv = R.held_intervals()
+    ncol = 2; nrow = int(np.ceil(len(sites) / ncol))
+    fig, axs = plt.subplots(nrow, ncol, figsize=(11, 2.35 * nrow + 1.9), sharex=True)
+    axs = np.atleast_1d(axs).ravel()
+    x0, x1 = R.T0, R.T0 + 2 * 3600 + 50 * 60
+    for ax, rx in zip(axs, sites):
+        ax.set_title(f"{R.RX_LABEL[rx]}", loc="left")
+        imp = row(D, "impact", "D0", p, "-")
+        nested_bars(ax, 5.0, imp, GREY)
+        for i, opt in enumerate(["D0", "D2", "D3", "D4"]):
+            y = 4.0 - i
+            rs = row(D, rx, opt, p, "SOFAR"); ra = row(D, rx, opt, p, "AGW")
+            nested_bars(ax, y + 0.18, rs, OPT_COL[opt], True, h=0.5)
+            nested_bars(ax, y - 0.22, ra, OPT_COL[opt], False, h=0.36)
+            if float(rs["ess"]) < R.ESS_MIN:
+                ax.text(x1 - 60, y, f"ESS {float(rs['ess']):.0f}", fontsize=5.5, color=GREY, ha="right", va="center")
+        held = iv.get(rx, [])
+        if held:
+            for a, b in held: ax.barh(0.0, b - a, left=a, height=0.5, color="black", lw=0)
+            if rx == "H01W":
+                for a, b in POSTER_A + POSTER_C: ax.axvspan(a, b, color="#e5a02a", alpha=0.35, lw=0)
+                ax.axvline(KADRI_TEXT, color="#b4232c", lw=0.9, ls="--"); ax.axvline(KADRI_CAPTION, color="#b4232c", lw=0.9, ls=":")
+                ax.text(KADRI_TEXT - 40, 5.75, "text time 00:52:03", fontsize=5.8, color="#b4232c", ha="right", va="center")
+                ax.text(KADRI_CAPTION + 40, 5.75, "caption time 00:54:30", fontsize=5.8, color="#b4232c", ha="left", va="center")
+        else:
+            ax.text(x0 + 300, 0.0, "no recordings held", fontsize=6.5, color=GREY, va="center")
+        for j, (ev, tv) in enumerate(sorted(royer_times(repo_results, rx).items(), key=lambda kv: kv[1])):
+            if x0 <= tv <= x1:
+                ax.plot(tv, -0.75, "^", ms=4, color="#1b7f3b", mec="black", mew=0.3, clip_on=False)
+                ax.text(tv, -1.05 - 0.45 * (j % 2), ev, fontsize=5.5, color="#1b7f3b", ha="center", va="top", clip_on=False)
+        covr = [c for c in D["cov"] if c["receiver"] == rx and c["option"] == "D0" and float(c["p"]) == p and c["branch"] == "SOFAR"]
+        if covr and held:
+            ax.text(x1 - 60, -0.95, f"{100 * float(covr[0]['held_fraction']):.0f} % of the predicted arrival lies inside the recordings held", fontsize=5.8, color="black", ha="right", va="center")
+        ax.set_ylim(-1.9, 6.2); ax.set_xlim(x0, x1)
+        ax.set_yticks([5, 4, 3, 2, 1, 0]); ax.set_yticklabels(["impact time", "00:19 held out", "00:19 R600 BTO + BFO", "00:19 both BFOs, as recorded", "00:19 both BFOs, start-up offset", "recordings held"])
+        ax.xaxis.set_major_locator(matplotlib.ticker.MultipleLocator(900)); ax.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(tfmt))
+        ax.grid(axis="x", color="#dddddd", lw=0.5)
+    for ax in axs[len(sites):]: ax.axis("off")
+    for ax in axs[-ncol:]: ax.set_xlabel("Time, UTC, 8 March 2014")
+    leg = [Patch(color=GREY, label="impact time: 50 % (thick), 90 %, 99 % (thin) intervals; dot = median"),
+           Patch(facecolor=OPT_COL["D0"], edgecolor=OPT_COL["D0"], label="predicted arrival, deep sound channel (filled)"),
+           Patch(facecolor="white", edgecolor=OPT_COL["D0"], label="predicted arrival, acoustic-gravity wave branch (hollow)"),
+           Patch(color="black", label="recording held"), Patch(color="#e5a02a", alpha=0.5, label="Kadri 2025 poster boxes (Cape Leeuwin)"),
+           Line2D([], [], color="#b4232c", ls="--", label="Kadri 2024 event, text time 00:52:03"),
+           Line2D([], [], color="#b4232c", ls=":", label="Kadri 2024 event, caption time 00:54:30"),
+           Line2D([], [], marker="^", color="#1b7f3b", ls="", label="Royer 2016 arrival picks (events B, C2, D1, D2)"),
+           Line2D([], [], marker=">", color=GREY, ls="", label="upper tail not converged across seeds (> 5 min spread)")]
+    fig.legend(handles=leg, loc="upper center", ncol=3, frameon=False, bbox_to_anchor=(0.5, 0.965))
+    fig.suptitle(title, y=0.992, fontsize=9.5, ha="center")
+    ess0 = float(row(D, "H01W", "D0", p, "SOFAR")["ess"]); essD = {o: float(row(D, "H01W", o, p, "SOFAR")["ess"]) for o in OPT_COL}
+    plain = wrap("What the chart shows: for each receiver, when the sound of the impact would arrive, under four ways of using the 00:19 satellite data. "
+                 "The grey bar is the impact time itself. The black bars are the recordings that the project holds. The percentage says how much of the predicted "
+                 "arrival falls inside those recordings. Where a bar is hollow, the sound is the slower surface-wave type, whose speed is assumed and not yet calculated. "
+                 "No detection is claimed. The sound levels are not calibrated (caveats C1, C2).", 215)
+    tech = wrap(f"Technical: source posterior = end of flight run J (74 seeds, 313.6 M rows) + northern supplement (reduced/impacts-ruleB.npz, technique >= 1 rows), "
+                f"p (dive) = {p:g}, weights = EoF two-factor table total q = 1/3, C2 silent, survival factor, strata by p_core x Zhat, seeds pooled by evidence; "
+                f"supplement share by its lnw:comb mass. Arrival = impact time + WGS84 geodesic / c; SOFAR c ~ N(1.482, 0.006) km/s; AGW c ~ U(1.40, 1.50) km/s "
+                f"(assumed, not modelled); no refraction, blockage or path lengthening. Kish ESS at Cape Leeuwin: " + ", ".join(f"{OPT_PLAIN[o]} {essD[o]:,.0f}" for o in essD) +
+                f". Held data: IMOS 307 s records every 15 min (data/imos/recordings.csv); Kadri 2024 Fig. 9 panels a-c (00:27-00:57) and d-e (01:00-01:20), digitised traces; "
+                f"H08N and OHASISBIO: nothing held. Poster boxes (SnT 2025 panels a, c) and Royer (LDO-201608) Table 5 picks are digitised/transcribed values. "
+                f"PREDICTIVE, NOT CALIBRATED; caveats C1 (propagation slope misfit +10.4/+7.4 dB per octave) and C2 (coupling efficiency not calibrated). "
+                f"Run J convergence accepted as a pass by project ruling, 16 Oct 2026. Script prepare/run_j_windows.py (prereg {prereg}); charts run_j_windows_charts.py.", 235)
+    fig.subplots_adjust(top=0.86 if nrow > 3 else 0.84, bottom=0.17 if nrow > 3 else 0.2, left=0.15, right=0.985, hspace=0.5, wspace=0.42)
+    footnotes(fig, plain, tech)
+    for ext in ("png", "pdf"): fig.savefig(pathlib.Path(results) / f"{fname}.{ext}", dpi=200 if ext == "png" else None)
+    plt.close(fig)
+
+
+def chart_request(D, results, fname, prereg=""):
+    style()
+    fig, ax = plt.subplots(figsize=(10, 4.9))
+    sites = [r for r in R.RX_ORDER if not r in ("NEAMS", "SWAMS", "SSEIR", "MAD", "WKER", "NCRO")]
+    ys = np.arange(len(sites))[::-1]
+    for y, rx in zip(ys, sites):
+        for br, dy, col in (("SOFAR", 0.18, "#1f4e9c"), ("AGW", -0.18, "#c7761a")):
+            rq = [r for r in D["req"] if r["receiver"] == rx and r["branch"] == br and float(r["p"]) == 0.5][0]
+            if rq["start"]:
+                a, b = float(rq["start_unix"]), float(rq["end_unix"])
+                ax.barh(y + dy, b - a, left=a, height=0.3, color=col, lw=0)
+                ax.text(b + 120, y + dy, f"{rq['start'][:5]}-{rq['end'][:5]}", fontsize=6.2, va="center", color=col)
+            for pp, mk in ((0.0, "|"), (1.0, "|")):
+                rq2 = [r for r in D["req"] if r["receiver"] == rx and r["branch"] == br and float(r["p"]) == pp][0]
+                if rq2["start"]:
+                    ax.plot([float(rq2["start_unix"]), float(rq2["end_unix"])], [y + dy] * 2, mk, color="black", ms=7, mew=0.7, zorder=6)
+    ax.set_yticks(ys); ax.set_yticklabels([R.RX_LABEL[s] for s in sites])
+    ax.xaxis.set_major_locator(matplotlib.ticker.MultipleLocator(900)); ax.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(tfmt))
+    ax.set_xlim(R.T0, R.T0 + 3 * 3600 + 15 * 60); ax.grid(axis="x", color="#dddddd", lw=0.5)
+    ax.set_xlabel("Time, UTC, 8 March 2014")
+    ax.set_title("Data request windows per receiver (dive probability 0.5): union over the 00:19 options with ESS >= 1,000, padded -10 / +20 min", loc="left")
+    leg = [Patch(color="#1f4e9c", label="deep sound channel"), Patch(color="#c7761a", label="acoustic-gravity wave branch (speed assumed)"),
+           Line2D([], [], marker="|", color="black", ls="", label="window ends at dive probability 0 and 1")]
+    ax.legend(handles=leg, loc="upper right", frameon=False)
+    plain = wrap("What the chart shows: for each receiver, the span of recording time that should be requested so that it covers every credible arrival of the impact sound, "
+                 "whichever way the 00:19 satellite data are used. Scott Reef is far from every credible impact and carries no information; it is kept as a declared row. "
+                 "No detection is claimed; levels are not calibrated (caveats C1, C2).", 215)
+    tech = wrap(f"Technical: run J + northern supplement, p = 0.5 (ticks: p = 0, 1); union over options with Kish ESS >= 1,000 of [q0.5 - 10 min, q99.5 + 20 min], "
+                f"start floored and end ceiled to 5 min; tails flagged UNCONVERGED (> 5 min seed spread of q0.5/q99.5 over the 24 waypoints seeds) are widened to the seed envelope first. "
+                f"SOFAR c ~ N(1.482, 0.006) km/s; AGW c ~ U(1.40, 1.50) km/s (assumed). PREDICTIVE, NOT CALIBRATED; C1, C2. prereg {prereg}.", 235)
+    fig.subplots_adjust(top=0.92, bottom=0.33, left=0.2, right=0.97)
+    footnotes(fig, plain, tech)
+    for ext in ("png", "pdf"): fig.savefig(pathlib.Path(results) / f"{fname}.{ext}", dpi=200 if ext == "png" else None)
+    plt.close(fig)
+
+
+def chart_pubcov(D, results, fname, prereg=""):
+    style()
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4.6), gridspec_kw={"width_ratios": [1.1, 1]})
+    x0, x1 = R.T0 + 10 * 60, R.T0 + 110 * 60
+    tgrid = R.GRID0 + (np.arange(R.NBIN) + 0.5) * R.DT
+    # (a) impact-time densities per option, p = 0.5, 1-min bins
+    for opt in ["D0", "D2", "D3", "D4"]:
+        h = D["H"][D["keys"].index(f"{opt}/p0.5/impact")].astype(float); h /= h.sum()
+        hb = h.reshape(-1, 30).sum(1); tb = tgrid.reshape(-1, 30).mean(1)
+        ess = float(row(D, "impact", opt, 0.5, "-")["ess"])
+        ax1.plot(tb, hb / (60 / 60), color=OPT_COL[opt], lw=1.4 if opt == "D0" else 1.0, label=f"{OPT_PLAIN[opt]} (ESS {ess:,.0f})")
+    ax1.set_xlim(x0, x1); ax1.xaxis.set_major_locator(matplotlib.ticker.MultipleLocator(900)); ax1.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(tfmt))
+    ax1.set_xlabel("Impact time, UTC, 8 March 2014"); ax1.set_ylabel("Probability per minute")
+    ax1.set_title("a  Impact-time density under four uses of the 00:19 data (dive probability 0.5)", loc="left")
+    ax1.legend(frameon=False, loc="upper right")
+    # (b) arc latitude vs impact time: Fig. 9 spans converted to impact time
+    arc = D["arc"]["D0/p0.5"]; lat = np.array(arc["lat_mid"]); w = np.array(arc["w"]); lon = np.array(arc["lon_mean"], float)
+    sw = D["supp_lat_w"]; swl = D["supp_lat_wlon"]
+    sD = D["ess"]["D0/p0.5"]["supplement_share"]
+    wt = (1 - sD) * w / max(w.sum(), 1e-300) + sD * sw / max(sw.sum(), 1e-300)
+    lon_mix = np.where(wt > 0, ((1 - sD) * w / max(w.sum(), 1e-300) * np.nan_to_num(lon) + sD * swl / max(sw.sum(), 1e-300)) / np.where(wt > 0, wt, 1), np.nan)
+    ok = np.isfinite(lon_mix) & (wt > 1e-6 * wt.max()) & (lat <= -19.5) & (lat >= -40)
+    rx = R.receivers()
+    from pyproj import Geod
+    g = Geod(ellps="WGS84")
+    for st, span, col in (("H01W", (R.T0 + 27 * 60, R.T0 + 57 * 60), "#1f4e9c"), ("H08S", (R.T0 + 60 * 60, R.T0 + 80 * 60), "#c7761a")):
+        _, _, d = g.inv(lon_mix[ok], lat[ok], np.full(ok.sum(), rx[st][1]), np.full(ok.sum(), rx[st][0])); d /= 1000
+        lo = span[0] - d / (R.C_SOFAR - 2 * R.C_SOFAR_SD); hi = span[1] - d / (R.C_SOFAR + 2 * R.C_SOFAR_SD)
+        ax2.fill_betweenx(lat[ok], lo, hi, color=col, alpha=0.3, lw=0, label=f"{R.RX_LABEL[st]}: Kadri Fig. 9 trace spans, as impact time")
+    for opt in ["D0", "D2", "D3", "D4"]:
+        r = row(D, "impact", opt, 0.5, "-")
+        for k, ls in (("5", ":"), ("50", "-"), ("95", ":")):
+            ax2.axvline(float(r[f"q{k}_unix"]), color=OPT_COL[opt], lw=1.0 if k == "50" else 0.7, ls=ls)
+        l99 = r["lat99_north_deg"]
+        if l99 not in ("", "None"): ax2.axhline(float(l99), color=OPT_COL[opt], lw=0.6, ls="--")
+    ax2.axhspan(-20, -15, color="#eeeeee", lw=0)
+    ax2.set_ylim(-40, -19.5); ax2.set_xlim(R.T0 - 15 * 60, R.T0 + 75 * 60)
+    ax2.xaxis.set_major_locator(matplotlib.ticker.MultipleLocator(900)); ax2.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(tfmt))
+    ax2.set_xlabel("Impact time, UTC, 8 March 2014"); ax2.set_ylabel("Latitude of the impact along the arc (degrees, south negative)")
+    ax2.set_title("b  Impact times that Kadri's published traces could show, by latitude", loc="left")
+    h, l = ax2.get_legend_handles_labels()
+    h += [Line2D([], [], color=GREY, ls="-", label="impact-time median per option (colour as in a)"), Line2D([], [], color=GREY, ls=":", label="5 % and 95 % impact-time quantiles"),
+          Line2D([], [], color=GREY, ls="--", label="99th-percentile northern latitude of the impact mass")]
+    ax2.legend(handles=h, frameon=False, loc="upper right", fontsize=6.0)
+    plain = wrap("What the chart shows: (a) when the aircraft hit the water, under four ways of using the last satellite data. (b) the impact times that the three published "
+                 "Cape Leeuwin trace panels and the two Diego Garcia panels could show, for an impact at each latitude along the arc. Where the coloured bands do not cover "
+                 "the impact-time lines, the published traces could not show the impact even if it were loud enough. The chart says nothing about loudness (caveats C1, C2).", 215)
+    tech = wrap(f"Technical: run J + northern supplement, p = 0.5; EoF total q = 1/3 (C2 silent) weights, survival factor, strata by p_core x Zhat. Arc proxy = weighted mean "
+                f"impact longitude per 0.5 deg latitude bin (production + supplement, D0', p = 0.5); bands = panel span minus geodesic / c with c = 1.482 +/- 2 x 0.006 km/s. "
+                f"Fig. 9 panels a-c 00:27-00:57 (H01W), d-e 01:00-01:20 (H08S), spans read from the digitised traces (metadata.json of the figure extraction). "
+                f"Grey above 20 S: outside the declared latitude span. PREDICTIVE, NOT CALIBRATED; C1, C2. prereg {prereg}.", 235)
+    fig.subplots_adjust(top=0.9, bottom=0.33, left=0.07, right=0.98, wspace=0.28)
+    footnotes(fig, plain, tech)
+    for ext in ("png", "pdf"): fig.savefig(pathlib.Path(results) / f"{fname}.{ext}", dpi=200 if ext == "png" else None)
+    plt.close(fig)
+
+
+if __name__ == "__main__":
+    ex, results = sys.argv[1], sys.argv[2]; prereg = sys.argv[sys.argv.index("--prereg") + 1] if "--prereg" in sys.argv else ""
+    repo_results = sys.argv[sys.argv.index("--repo-results") + 1] if "--repo-results" in sys.argv else results
+    D = load(ex); pathlib.Path(results).mkdir(parents=True, exist_ok=True)
+    chart_timelines(D, results, repo_results, ["H01W", "H08S", "H08N", "3315", "3376", "3274", "3275", "3250"], "hydroacoustics-run-j-timelines",
+                    "Predicted arrival of the impact sound at each receiver against the recordings held (run J, dive probability 0.5)", prereg=prereg)
+    chart_timelines(D, results, repo_results, ["NEAMS", "SWAMS", "SSEIR", "MAD", "WKER", "NCRO"], "hydroacoustics-run-j-timelines-ohasisbio",
+                    "Predicted arrival at the six OHASISBIO sites of 2014: no recordings held; Royer's picks marked (run J, dive probability 0.5)", prereg=prereg)
+    chart_request(D, results, "hydroacoustics-run-j-request-windows", prereg=prereg)
+    chart_pubcov(D, results, "hydroacoustics-run-j-publication-coverage", prereg=prereg)
+    print("charts written")

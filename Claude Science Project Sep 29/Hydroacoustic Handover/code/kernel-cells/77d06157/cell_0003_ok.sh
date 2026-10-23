@@ -1,0 +1,1 @@
+cd hydro/"Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"; wc -l run_j_levels.py run_j_levels_charts.py run_j_windows_charts.py imos_ram_grid_charts.py; sed -n 1,80p run_j_levels.py; grep -n "imos-tl-file\|argparse\|add_argument\|def \|amendment" run_j_levels.py | head -80

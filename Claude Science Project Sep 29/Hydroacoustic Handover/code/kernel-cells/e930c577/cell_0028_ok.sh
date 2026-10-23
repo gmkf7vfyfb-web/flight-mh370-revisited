@@ -1,0 +1,2 @@
+cd "hrepo/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"; sed -n 84,125p prepare/kadri_predictions.py; head -5 results-data/near_limits/ims_tl_kraken.csv; python -c "
+import pandas as pd; k=pd.read_csv('results-data/near_limits/ims_tl_kraken.csv',dtype={'quantile':str}); print(k.shape, k.columns.tolist()); print(k.drop_duplicates(['station','quantile'])[['station','quantile']+[c for c in k.columns if 'lat' in c or 'range' in c]].to_string())"; ls results-data/near_limits results-data/ram_check | head -40

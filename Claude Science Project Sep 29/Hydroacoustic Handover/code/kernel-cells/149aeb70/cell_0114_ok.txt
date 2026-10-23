@@ -1,0 +1,81 @@
+# [edit_file] created /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/149aeb70-e4ae-4829-a477-5c291fc000a5/make_h08s_fig.py
++++ /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/149aeb70-e4ae-4829-a477-5c291fc000a5/make_h08s_fig.py
++import numpy as np, pandas as pd, matplotlib.pyplot as plt, textwrap
++from matplotlib.lines import Line2D
++apply_figure_style(sizes=(8, 7, 6))
++
++CUT = 1 * 3600 + 14 * 60 + 29      # module's pair-search upper edge, dt 1,346 s from 00:52:03
++A1 = 1 * 3600 + 16 * 60 + 54       # predicted arrival, source 00:34:55 (Kadri text)
++A2 = 1 * 3600 + 19 * 60 + 21       # predicted arrival, source 00:37:22 (Kadri caption)
++END = float(cy.t_next.max())
++out = pd.read_csv(host.artifact_path("cfb4a586-b3da-4c1b-80a8-b3ba11ec57b7"))
++out["t_s"] = out.t_utc.map(lambda s: int(s[:2]) * 3600 + int(s[3:5]) * 60 + int(s[6:]))
++
++fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(7.4, 4.8), sharex=True,
++                               gridspec_kw=dict(hspace=0.10, height_ratios=[1, 1]))
++for ax, zc, lab in ((ax1, "z_E_shot", "Shot energy"), (ax2, "z_P_gap", "Power between shots")):
++    ax.axhspan(-2, 2, color="0.90", zorder=0)
++    ax.axhline(0, color="0.55", lw=0.6, zorder=1)
++    ax.axvspan(CUT, END, color="#e8903a", alpha=0.13, zorder=0)
++    ax.plot(cy.t_shot, cy[zc], "-", color="0.72", lw=0.7, zorder=2)
++    ax.plot(cy.t_shot, cy[zc], "o", ms=3.2, mfc="#1b3a6b", mec="none", zorder=3)
++    hi = out[out.cls == ("shot_high" if zc == "z_E_shot" else "none")]
++    for _, r in out.iterrows():
++        if zc != "z_E_shot":
++            continue
++        ax.plot(r.t_s, r.z, "o", ms=7, mfc="none", mec="#d1495b", mew=1.3, zorder=4)
++    ax.axvline(CUT, color="#a8631d", lw=1.0, zorder=5)
++    ax.axvline(A1, color="#d1495b", lw=1.3, zorder=5)
++    ax.axvline(END, color="0.35", lw=1.0, ls=(0, (4, 2)), zorder=5)
++    ax.set_ylabel(f"{lab}\n(standard deviations)")
++    ax.margins(x=0.012)
++ax1.set_ylim(-6.2, 6.2)
++ax1.annotate("01:12:49, +4.1 sd", (out.loc[out.cls == "shot_high", "t_s"].iloc[0], 4.11), (-8, 12),
++             textcoords="offset points", ha="right", fontsize=6.2, color="#a8313f",
++             arrowprops=dict(arrowstyle="-", lw=0.6, color="#a8313f"))
++ax1.annotate("three deficits,\n01:11:39 to 01:13:59", (out.loc[out.cls == "shot_low", "t_s"].iloc[1], -4.91), (6, -16),
++             textcoords="offset points", fontsize=6.2, color="#a8313f",
++             arrowprops=dict(arrowstyle="-", lw=0.6, color="#a8313f"))
++ax1.text(CUT - 25, 5.4, "pair search\nstopped here", ha="right", fontsize=6.2, color="#a8631d")
++ax1.text(A1 + 25, 5.4, "predicted arrival\n01:16:54", ha="left", fontsize=6.2, color="#a8313f")
++ax1.text(END - 25, -5.6, "digitised record ends 01:18:29", ha="right", fontsize=6.2, color="0.3")
++ax2.annotate("01:19:21, the other candidate arrival, is 52 s past the end of the digitised panel",
++             (END, 3.4), (-10, 0), textcoords="offset points", ha="right", fontsize=6.2, color="0.3")
++tk = np.arange(3600, 4800, 120)
++ax2.set_xticks(tk)
++ax2.set_xticklabels([f"{int(t//3600):02d}:{int(t%3600//60):02d}" for t in tk])
++ax2.set_xlabel("Time at Diego Garcia South, UTC 8 March 2014")
++ax2.set_xlim(3570, 4800)
++ax1.set_title("The only anomalies in the digitised record sit just before the search stopped", loc="left")
++ax1.legend(handles=[Line2D([], [], marker="o", ms=3.2, ls="-", color="0.72", mfc="#1b3a6b", mec="none",
++                           label="one airgun shot cycle (9.98 s)"),
++                    Line2D([], [], marker="o", ms=7, ls="none", mfc="none", mec="#d1495b", mew=1.3,
++                           label="flagged outlier"),
++                    Line2D([], [], color="#e8903a", lw=6, alpha=0.3, label="never searched for a pair")],
++           loc="lower left", frameon=False, fontsize=6, ncol=3, handletextpad=0.4, columnspacing=1.0)
++
++ste = ("Plain: each dot is one airgun shot arriving at Diego Garcia South, about one every ten seconds. The top panel is how much "
++       "energy that shot carried, the bottom panel is the quiet interval between shots, both measured in standard deviations from "
++       "the record's own average. The grey band is the normal range. The four circled shots are the only ones in the whole "
++       "digitised record that fall outside it, and they sit between 01:11:39 and 01:13:59. The orange strip is the part of the "
++       "record that no pair search has ever looked at. The red line is where a sound from Kadri's own bearing would arrive if his "
++       "text time is right. If his caption time is right instead, the arrival is 52 seconds after the digitised panel stops, so "
++       "that case cannot be tested without the raw station data.")
++tech = ("Technical: per-cycle shot energy and inter-shot gap power from the module's digitisation of Kadri (2024) Fig 9 H08S "
++        "panels d and e, 107 cycles spanning 01:00:03 to 01:18:29 with a digitisation seam at 01:09:50-01:10:09; z-scores are the "
++        "module's own, computed within the record (h08s_cycles.csv, h08s_outliers.csv). Outliers: shot_high 01:12:49 z=+4.11; "
++        "shot_low 01:11:39 z=-4.17, 01:13:09 z=-4.91, 01:13:59 z=-3.16; all four are flagged coincident under the loose and "
++        "table1-gated conditions, none under strict. The pre-registered H01W x H08S pair span (dt 856-1,347 s from 00:52:03) ends "
++        "at 01:14:29, leaving 21 of the 107 cycles unsearched. Predicted arrivals assume a source at 26.2 S 101.9 E, the "
++        "bearing-implied crossing, at 1.48 km/s over 3,730 km. Excess energy is the primary statistic and deficits secondary by "
++        "the module's convention, because unrelated broadband sources add on average. Not a detection claim.")
++w_in, h_in = fig.get_size_inches(); ncol_ = int(w_in * 72 / 3.05); lh = 7.4 / (h_in * 72)
++lines = [(l, "0.25") for l in textwrap.wrap(ste, ncol_)] + [("", "0")] + [(l, "0.45") for l in textwrap.wrap(tech, ncol_)]
++bottom = len(lines) * lh + 0.02
++fig.subplots_adjust(bottom=bottom + 0.11, top=0.92, left=0.115, right=0.985)
++for i, (l, col) in enumerate(lines):
++    fig.text(0.008, bottom - 0.012 - (i + 1) * lh, l, fontsize=5.6, color=col, va="baseline")
++fig.savefig("hydro-h08s-digitised-tail.png", dpi=300)
++print("cycles after pair cutoff:", int((cy.t_shot >= CUT).sum()), "| record ends", END,
++      "| A1 inside:", A1 < END, "| A2 inside:", A2 < END)
++

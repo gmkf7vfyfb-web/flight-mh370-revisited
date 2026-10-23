@@ -1,0 +1,1 @@
+cat kh/run.log | tail -8; tail -3 /tmp/eof-rjv2-17-24.log; date -u

@@ -1,0 +1,1 @@
+cd rr; sed -n 150,215p mis2014.txt; grep -n "PAGE" mis2014.txt | sed -n 1,10p

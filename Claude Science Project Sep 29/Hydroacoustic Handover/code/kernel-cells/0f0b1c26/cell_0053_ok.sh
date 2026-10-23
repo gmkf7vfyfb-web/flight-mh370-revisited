@@ -1,0 +1,1 @@
+cd "repo/Claude Science Project Sep 29"; grep -rl "af447-H10S\|sanjuan-charge" coordination results 2>/dev/null | head; grep -n "af447-H10S\|sanjuan-charge\|calibration_events\|calibration events" coordination/HYDROACOUSTICS.md | tail -15; ls results | grep -i calib; tail -c 4000 coordination/HYDROACOUSTICS.md

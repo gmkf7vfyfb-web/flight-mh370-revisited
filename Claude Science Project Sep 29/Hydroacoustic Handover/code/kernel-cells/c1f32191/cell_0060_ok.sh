@@ -1,0 +1,1 @@
+cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/composition_run_j" && python tables.py /tmp/b11test 2>&1 | grep -v Warn | head -12; S=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated.staging; tail -1 $S/driver.log; ls $S/_parts | wc -l; df -k /System/Volumes/Data | tail -1; uptime

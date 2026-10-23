@@ -1,0 +1,1 @@
+for f in /tmp/eof-rjv2-17-24.log /tmp/eof-rjv2-ext.log /tmp/eof-rjv2-ext2.log; do echo "== $f $(stat -f %Sm $f)"; tail -4 $f; done; cat /tmp/eof-rjv2-post.sh | head -30

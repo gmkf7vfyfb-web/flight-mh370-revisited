@@ -1,0 +1,2 @@
+cd hycom; B="https://tds.hycom.org/thredds/dodsC/GLBv0.08/expt_53.X/data/2014.ascii"
+for v in water_u water_v water_temp salinity; do (curl -g -s -m 2400 -o $v.small.ascii -w "$v %{http_code} %{size_download} %{time_total}\n" "$B?$v[519:520][0:39][1162:1200][3500:3532]" > $v.small.log) & done; wait; cat *.small.log

@@ -1,0 +1,45 @@
+{
+ "script": "prepare/kadri_predictions.py",
+ "eof_module_sha256": "f964a9b9b4a42fe21eb4f34edaf1a014650f4c2ef9339cdb3aa75a6040983169",
+ "exchange": "/Users/pete/Downloads/mh370-exchange/end-of-flight/next-run",
+ "p_family": {
+  "next-free": 0.6947721530492059,
+  "next-repro-radar": 0.15271743570298557,
+  "next-descent-climb": 0.137594663061475,
+  "next-routes": 0.014915748186333568
+ },
+ "options": [
+  [
+   "00:19 Held Out",
+   "none__other+alive"
+  ],
+  [
+   "00:19 R600 BTO Only",
+   "r600-bto__other+alive"
+  ],
+  [
+   "00:19 R600 BTO + Raw BFO",
+   "r600_no-offset__other+alive"
+  ]
+ ],
+ "R_per_s": 3.012910065398646,
+ "tau_s": 1.0,
+ "src_depth_m": 10.0,
+ "tl_sd_db": 7.9,
+ "etas": [
+  0.0001,
+  0.001,
+  0.0027,
+  0.01
+ ],
+ "n_rows": 4224,
+ "labels": [
+  "core (b) split-half NOT converged",
+  "two-tank bookkeeping only",
+  "P(family) held fixed",
+  "uncorrected fuel",
+  "provisional sampler",
+  "PROVISIONAL",
+  "DRAFT for Pete's review"
+ ]
+}

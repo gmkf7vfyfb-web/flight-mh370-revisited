@@ -1,0 +1,132 @@
+EXTRACTION METHOD — Blackman, de Groot-Hedlin, Orcutt, Harben, Clark & Ramirez (2004),
+"Methods for Calibrating Basin-Wide Hydroacoustic Propagation in the Indian Ocean", UCRL-TR-207323 (OSTI 850576)
+Re-extracted 2026-10-08 for the MH370 hydroacoustics module. Ruling: HYDROACOUSTICS inbox, 2026-10-08, Q1.
+
+SOURCES
+  Repo github.com/gmkf7vfyfb-web/flight-mh370-revisited, branch claude-science-sep29, HEAD 90d7019.
+  'ISO Sept 28 Status/inputs/papers/hydroacoustics/ucrl-tr-207323.pdf': 34 pages, 33,317,040 B, sha256 34a735f76b3aef786035ee4d11f758b141fbfbea63303d31133292c77a549cfc.
+  '.../ucrl-tr-207323.txt': 68,012 B, sha256 25f7830ac5bdebd9cd18000c88e5e12afb8c817dd025012fcad3f56f74c6d1f2.
+  Cross-check 1: Drive file 1xCqnNIVYuH1iF2OIFEnNgbtAMHbzekkU (blackman_receiver_observations.csv, 7,392 B).
+  Cross-check 2: the earlier extraction set. It is on the branch as
+    'Sept 27 2026 backup PL ChatGPT instance/Blackman_2004_extracted_data_2026-09-27.zip.b64' (commit 26e3487).
+    As committed, the base64 file is one character short and does not decode. Inserting 'G' at character offset
+    13597 is the only single-character insertion that makes every zip CRC pass. After that, all 9 entries match
+    the bundle's own SHA256SUMS.json. Only the receiver-observations entry was damaged. That entry is
+    byte-identical to the Drive copy.
+  The JASA 2004 paper (doi 10.1121/1.1786711) is closed access and could not be fetched. Nothing here is taken from it.
+
+TOOLS
+  Python 3.11.16; pypdfium2 5.9.0 (page render at 300 dpi, Fig 23 at 600 dpi, embedded-image extraction);
+  Pillow 12.3.0 (crops); pandas 2.3.3; numpy 2.4.6. Pages were read visually from rendered images.
+  No OCR engine was used.
+
+PAGE NUMBERING
+  source_page_pdf = 1-based PDF page index. source_page_printed = the number in the page footer.
+  Printed = pdf - 2 for pdf pages 3-33.
+
+PAGES USED
+  pdf 3-7 (summary, sources), 8 (Fig 1), 9-12 (Sec 4.1-4.4), 13-14 (Sec 4.4, Figs 9-11), 15 (HX-554),
+  17 and 20-21 (sphere modelling, scanned only), 23 (Sec 4.7, Figs 22-23), 25-26 (Appendix A Tables I-5),
+  27-33 (Appendix B, Figs B1-B11).
+
+PROCEDURE
+  1. Appendix A tables. Every row was transcribed from the text layer and then checked character by character
+     against 300-dpi renders. I cropped each table half and read them visually. As a second check, each table
+     was re-serialised and its whitespace-stripped string compared with the text layer. Table I, 2, 3, 4 and 5
+     all matched exactly.
+  2. Decimal degrees: lat = -(deg + min/60), because the column headers say lat (S); lon = +(deg + min/60) (E).
+     They are rounded to 6-7 decimals, and the printed strings are kept alongside.
+     Dates come from year + JD (2001 and 2003 are not leap years).
+  3. Appendix B. The per-panel annotations (predicted/observed arrival, ND marker, back-azimuth arrows) are inside
+     raster figures and are not in the text layer. All 78 panel-station cells (26 events x 3 stations) were read
+     from 300-dpi renders. Each was re-read on cropped annotation strips (crops/ann2_p27..p33) for digit
+     certainty. ND-marker and arrow presence were read from full-page renders.
+  4. Receiver observations were coded under the conservative rule: status comes ONLY from an explicit statement
+     (text, caption, or an Appendix B observed/ND annotation). Silence is coded not_reported. Status vocabulary:
+       detected; detected_questionable_pick (numeric pick printed with '?', no ND marker);
+       not_detected; not_detected_with_tentative_pick (ND marker drawn AND numeric pick with '?');
+       not_assessed_data_truncated; not_reported; ambiguous_as_printed.
+     SIO, LLNL and other analyses are kept as separate rows. They are never merged into one verdict.
+  5. Transmission loss. The report prints NO numeric observed TL in its text. The only measured TL is Figure 23,
+     a 351x458 px grayscale raster. It was read by eye from a 600-dpi render (about ±2 dB, ±2 Hz) and
+     cross-checked with a pixel trace of the darkest curve. The axes were calibrated from the frame lines and
+     the tick-label centres (36 px per 10 dB; 2.88 px per Hz). Coverage is partial: about 70-80% of columns,
+     and 51/55-60 Hz is missed. All TL numbers are labelled figure-read or pixel-traced. None is a printed value.
+  6. Appendix B relative-timing check (appendixB_timing_consistency.csv). Within a site, the differences between
+     predicted arrival times were compared with Table 3-5 origin-time differences.
+
+JUDGEMENT CALLS
+  J1  JD144 10:54:57.77 is printed 'A3'. It is corrected to A4 (event A4sus3) in a separate column, and the
+      printed value is kept. See jd144_check.txt.
+  J2  Table I continuation segments with a blank site column (air1, air4, air7, air8, air9 second lines) are
+      assigned to the preceding site. Segment 1 of air1 carries units ('2110 m', '97 sec') printed only there.
+  J3  Appendix B labels map to Table 5 rows by depth (sus2 = 2000 ft = 610 m, sus3 = 3000 ft = 915 m, Fig 1
+      legend) and by time order. A8sus2 = 09:13:59.37 and A8sus2b = 09:19:59.23 (Appendix B predicted
+      difference 360 s = table 359.86 s).
+  J4  'Propagation to H08S was blocked for the first 4 airgun sites' is coded not_detected for air1-air4 at H08S
+      (explicit statement of blockage).
+  J5  'Propagation from shooting last 3 sites (air6-air9 ...) to H08N was also blocked': air7-air9 are coded
+      not_detected because both readings cover them. air6 is coded ambiguous_as_printed.
+  J6  Figure 23 curve presence counts as an explicit positive, because the caption states that curves are drawn
+      only where signal exceeded noise by 3 dB. This gives air7 and air8 detected at H08S and air7 at H01, and
+      supports air1-air5 at H08N. The air8 curve at DGS is the only evidence that air8 was received anywhere.
+  J7  'These were the only shots that were clearly visible in the VLF band at Cape Leeuwin' (air9) is NOT
+      coded as a non-detection for air1-air6 at H01. It is a relative statement, and it is contradicted by
+      air7 having some H01 energy. Those cells are not_reported.
+  J8  'Figures 9-11 illustrate the character of the signal recorded at the IMS hydrophones' is taken as an
+      explicit statement that the panels shown carry recorded signals. Fig 9 gives A6 SUS at H08S/H01/H04N and
+      A6 610 m at H08S/H01. Fig 10 gives A8 610 m at H04N/H04S and A11 at H08S. Fig 11 gives A11 at
+      H04N/H08S/H01.
+  J9  2001 sphere detections: sph1 at H08N (Fig 6) and sph7 at H08S and H01 (Fig 7) have named stations.
+      sph3, sph4 and sph6 are coded detected at 'IMS station(s) not specified' (text: five of six detected; all
+      detected had ~680 m depth). sph2 is not_detected with no station named.
+  J10 Fig B5's H08N column shows the A4 panels (identical labels and values to Fig B4). A5 at H08N is coded
+      not_reported, and the duplicated A4 values are NOT copied to A5.
+  J11 A hidden caption is in the clipped part of the embedded Fig 22 raster. It is not visible on the printed
+      page and reads, in part, that white '+' marks a site whose signal was not seen at DGN. It is used only as
+      a supplementary note on the air6/H08N row, never as the status basis.
+  J12 The station names H08N/H08S/H04 in the PDF's own text are partly products of a global find-replace in the
+      original document. The printed page shows 'Ninety East RiH08e', 'disH04imination' and 'UH04L-ID'
+      (DG->H08, CR->H04). Station identity is unaffected. The figure panels use CL/DGS/DGN, mapped to
+      H01/H08S/H08N.
+
+UNREADABLE, NOT PRINTED OR UNRESOLVED (recorded as missing, not guessed)
+  U1  Station coordinates for H01 and H08 are NOT printed anywhere in the report. Stations appear only as map
+      symbols (Fig 1 triangles; Fig 22 circle at H8N01). The approximate external station positions used in
+      jd144_check.txt are not report values and are not written to any CSV.
+  U2  Source-receiver ranges are printed only for: air9 (H08S about 4825 km, H01 1665 km; pdf p10); sph1 (798 km
+      to H08N01; Fig 6); sph7 (4396 km to H08S01, 1465 km to H0101; Fig 7); 2001 single spheres generally
+      (800-1200 km); A11 SUS (6140 km H04N, 3577 km H08S, 2595 km H01; Fig 11). All other shot-line ranges are
+      blank, with the reason 'not printed'.
+  U3  The A11 SUS charge size is not given (Table 5 header '1.8 lb except A11').
+  U4  A9 and A10 partial-fire SUS (Appendix B 'suspuf') have no origin time or position anywhere in the report.
+  U5  A8 second SUS depth: Table 5 says 610 m, but the Fig B8 caption says 915 m. Unresolved; flagged.
+  U6  A10sus3: observed arrivals are about 60 s later than predicted at H01 and H08S. Either the Table 5 origin
+      time or the Appendix B prediction is about 1 min off. Unresolved; flagged (provisional).
+  U7  A7sus2: the Appendix B predicted times are 60 s early relative to Table 5. Observed inter-shot differences
+      (424-425 s) match Table 5 (424.06 s), so the table value is supported. Flagged.
+  U8  Appendix B time references: A5sph5 at H01 (-599 s) and the A11 pair at all stations (-1552/-1680 s)
+      do not match the table differences, and the offsets are not whole hours. A7sph5 and A8sus2b at H01 are
+      whole-hour offsets, which suggests a different data segment. These are unresolved and do not affect
+      detection status.
+  U9  Figure 1 detection colour-coding (boxes, fill/outline) cannot be decoded reliably at this resolution and
+      was not used.
+  U10 Figure 22 (modelled TL map) was not digitised. There are no per-site printed values.
+  U11 In Fig 23, the DGN curves for air2, air3 and air4 overlap at 5-17 Hz and cannot be separated reliably.
+      Only a joint range is given.
+  U12 The air9 representative position quoted in the brief (27°33.6'S 98°52.6'E) is not printed in the report.
+      The mean of the four Table I endpoints is 27°33.675'S 98°52.925'E.
+
+CROSS-CHECK RESULTS
+  Shot lines (14 segments) and all 35 non-airgun events in the recovered 2026-09-27 bundle agree with this
+  re-extraction on every coordinate, depth, interval and time. The only differences are seconds padding and
+  the earlier bundle's field name 'shot_ranges', which actually holds SHOT NUMBERS. Receiver observations:
+  see receiver_observations_diff_vs_drive.csv. In short, 9 Drive rows (7, 15, 19, 24-29) give a status, station or range
+  that UCRL-TR-207323 does not support, and row 23 is less specific than the report. A further 8 rows agree on
+  status but cite features not named in UCRL (sph6 4168/1960 km and sph6 at H01; sph3/sph4/sph2 at
+  Diego Garcia; air6 not detected at H08S; 'Chagos Bank'; 'Saya de Malha Bank'). The Drive copy has no
+  Appendix B (LLNL) per-station results.
+
+TEXT-LAYER QUALITY
+  Apart from the find-replace artefacts in J12, which are also printed on the page, the .txt agreed with the
+  page images for every Appendix A value. The .txt contains no Appendix B annotations, because they are raster.

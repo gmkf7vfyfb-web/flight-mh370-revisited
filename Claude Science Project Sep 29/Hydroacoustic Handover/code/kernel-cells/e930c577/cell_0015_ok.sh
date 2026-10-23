@@ -1,0 +1,1 @@
+cd hrepo; B="Claude Science Project Sep 29"; cat "$B/results/hydroacoustics-kadri-northern-run-j.md"

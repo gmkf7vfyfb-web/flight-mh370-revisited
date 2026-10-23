@@ -1,0 +1,1 @@
+cd gfx && sed -i '' 's|int(w_ \* 16 / (FS \* 0.52 / 72)) - 1|int(w_ * 16 / (FS * 0.585 / 72)) - 1|; s|fig = plt.figure(figsize=(16, 9.0))|fig = plt.figure(figsize=(16, 7.9))|' charts_table.py && grep -c "0.585" charts_table.py

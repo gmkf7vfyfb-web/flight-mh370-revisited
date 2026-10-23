@@ -1,0 +1,1 @@
+cd hydro; export GIT_CONFIG_GLOBAL=/dev/null; git ls-tree -r --name-only HEAD | grep -i "kadri-2024-hydroacoustics" | grep -v "figure9-vector" | head -80; echo; git ls-tree -r --name-only HEAD | grep -i "kadri-2024-hydroacoustics" | wc -l

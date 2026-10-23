@@ -1,0 +1,1 @@
+sleep 590; S=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated-v2.staging; date -u +%H:%MZ; tail -1 $S/driver.log | cut -c1-80; ls $S/_parts | wc -l; df -k /System/Volumes/Data | tail -1 | awk '{print $4/1048576 " GiB free"}'

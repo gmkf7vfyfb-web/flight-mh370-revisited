@@ -1,0 +1,1253 @@
+{
+ "provenance": {
+  "script": "prepare/search_windows_mixture.py",
+  "search_windows_sha256": "849a066dc2fc97317cc6249be8fafeebfb64f831269bfe076165064eeda358ce",
+  "eof_module": "/tmp/eof-cur/Claude Science Project Sep 29/engine/hypotheses/end-of-flight/smoke/displacement_hist.py",
+  "eof_module_sha256": "d81492148a44b490aa439484fc9240fe73542f92b20375ac2720613310cf4e78",
+  "exchange": "/Users/pete/Downloads/mh370-exchange/end-of-flight/next-run-d-he",
+  "p_family": {
+   "next-d-free": 0.594,
+   "next-d-repro-radar": 0.235,
+   "next-d-descent-climb": 0.153,
+   "next-d-routes": 0.019
+  },
+  "family_evidence": "/tmp/fe_d_without.json",
+  "receivers": {
+   "H01W": [
+    -34.89030333333333,
+    114.14263666666666
+   ],
+   "H08S": [
+    -7.63938,
+    72.483828
+   ],
+   "H08N": [
+    -6.337533333333333,
+    71.00207733333333
+   ],
+   "3315": [
+    -31.867217,
+    115.001133
+   ],
+   "3376": [
+    -31.842167,
+    115.013733
+   ],
+   "3250": [
+    -15.483367,
+    121.251
+   ],
+   "3274": [
+    -38.536967,
+    141.247567
+   ],
+   "3275": [
+    -38.542433,
+    141.225583
+   ]
+  },
+  "weighting": "P(family) held fixed"
+ },
+ "arms": {
+  "none__other": {
+   "variant": "plain",
+   "ess_mixture_kish": 7282588.659335387,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.05913968728692853,
+   "share_after_011556": 0.0004426970845658264,
+   "impact_q_pooled_utc": [
+    "00:14:42",
+    "00:17:02",
+    "00:19:00",
+    "00:28:40",
+    "00:36:26",
+    "00:43:24",
+    "00:54:20",
+    "00:58:16",
+    "01:05:58"
+   ],
+   "mass_beyond_grid": -0.0009999999975272011
+  },
+  "none__other+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 6904844.612983132,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.00046819286543856703,
+   "impact_q_pooled_utc": [
+    "00:19:58",
+    "00:21:06",
+    "00:22:24",
+    "00:30:10",
+    "00:37:20",
+    "00:43:52",
+    "00:54:42",
+    "00:58:36",
+    "01:06:14"
+   ],
+   "mass_beyond_grid": -0.0009999999989089847
+  },
+  "none__fuel-exhaustion": {
+   "variant": "plain",
+   "ess_mixture_kish": 582509.4414313647,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.02525341804624897,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:18:06",
+    "00:19:38",
+    "00:20:32",
+    "00:28:40",
+    "00:34:56",
+    "00:41:56",
+    "00:47:32",
+    "00:48:36",
+    "00:50:34"
+   ],
+   "mass_beyond_grid": -0.0009999999999548148
+  },
+  "none__fuel-exhaustion+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 561674.0220459217,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:19:52",
+    "00:20:30",
+    "00:21:16",
+    "00:29:16",
+    "00:35:14",
+    "00:42:08",
+    "00:47:34",
+    "00:48:38",
+    "00:50:34"
+   ],
+   "mass_beyond_grid": -0.0009999999999943388
+  },
+  "r600_inflated__other": {
+   "variant": "plain",
+   "ess_mixture_kish": 4499935.872986174,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0015312449539559554,
+   "share_after_011556": 0.00017226835153391813,
+   "impact_q_pooled_utc": [
+    "00:19:54",
+    "00:20:56",
+    "00:21:50",
+    "00:28:56",
+    "00:36:16",
+    "00:42:26",
+    "00:50:40",
+    "00:54:22",
+    "01:02:08"
+   ],
+   "mass_beyond_grid": -0.000999999999895973
+  },
+  "r600_inflated__other+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 4520012.8411108,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.00017125634254612854,
+   "impact_q_pooled_utc": [
+    "00:20:00",
+    "00:21:00",
+    "00:21:54",
+    "00:28:58",
+    "00:36:18",
+    "00:42:26",
+    "00:50:40",
+    "00:54:24",
+    "01:02:08"
+   ],
+   "mass_beyond_grid": -0.000999999999901302
+  },
+  "r600_inflated__fuel-exhaustion": {
+   "variant": "plain",
+   "ess_mixture_kish": 509091.29907138797,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0002608307561659242,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:32",
+    "00:21:04",
+    "00:21:42",
+    "00:29:34",
+    "00:35:04",
+    "00:41:44",
+    "00:47:32",
+    "00:48:32",
+    "00:50:20"
+   ],
+   "mass_beyond_grid": -0.0009999999998293596
+  },
+  "r600_inflated__fuel-exhaustion+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 508950.5556046331,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:32",
+    "00:21:04",
+    "00:21:42",
+    "00:29:34",
+    "00:35:04",
+    "00:41:44",
+    "00:47:32",
+    "00:48:32",
+    "00:50:20"
+   ],
+   "mass_beyond_grid": -0.0009999999998329123
+  },
+  "r600_no-offset__other": {
+   "variant": "plain",
+   "ess_mixture_kish": 189353.22691989498,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0013865806897660378,
+   "share_after_011556": 1.3638552990037902e-06,
+   "impact_q_pooled_utc": [
+    "00:20:06",
+    "00:20:50",
+    "00:21:12",
+    "00:27:24",
+    "00:33:36",
+    "00:37:52",
+    "00:46:14",
+    "00:48:04",
+    "00:50:56"
+   ],
+   "mass_beyond_grid": -0.0009999999988330455
+  },
+  "r600_no-offset__other+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 198444.50791453294,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 1.3658956569488226e-06,
+   "impact_q_pooled_utc": [
+    "00:20:14",
+    "00:20:52",
+    "00:21:14",
+    "00:27:28",
+    "00:33:38",
+    "00:37:52",
+    "00:46:14",
+    "00:48:06",
+    "00:50:56"
+   ],
+   "mass_beyond_grid": -0.0009999999988219432
+  },
+  "r600_no-offset__fuel-exhaustion": {
+   "variant": "plain",
+   "ess_mixture_kish": 49240.677319489536,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.00011558444726492223,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:34",
+    "00:20:50",
+    "00:21:06",
+    "00:28:08",
+    "00:33:44",
+    "00:37:28",
+    "00:46:46",
+    "00:48:12",
+    "00:50:06"
+   ],
+   "mass_beyond_grid": -0.0009999999992296171
+  },
+  "r600_no-offset__fuel-exhaustion+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 49231.7139341931,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:34",
+    "00:20:50",
+    "00:21:06",
+    "00:28:08",
+    "00:33:44",
+    "00:37:28",
+    "00:46:46",
+    "00:48:12",
+    "00:50:06"
+   ],
+   "mass_beyond_grid": -0.000999999999228951
+  },
+  "r600_startup-offset__other": {
+   "variant": "plain",
+   "ess_mixture_kish": 144424.94002228364,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.001025635361870982,
+   "share_after_011556": 4.550752634004523e-08,
+   "impact_q_pooled_utc": [
+    "00:20:04",
+    "00:20:28",
+    "00:20:38",
+    "00:26:06",
+    "00:31:16",
+    "00:35:16",
+    "00:41:02",
+    "00:44:12",
+    "00:49:06"
+   ],
+   "mass_beyond_grid": -0.0009999999993812736
+  },
+  "r600_startup-offset__other+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 144312.79603498473,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 3.879180868868961e-08,
+   "impact_q_pooled_utc": [
+    "00:20:08",
+    "00:20:28",
+    "00:20:40",
+    "00:26:08",
+    "00:31:16",
+    "00:35:16",
+    "00:41:04",
+    "00:44:12",
+    "00:49:06"
+   ],
+   "mass_beyond_grid": -0.0009999999993921538
+  },
+  "r600_startup-offset__fuel-exhaustion": {
+   "variant": "plain",
+   "ess_mixture_kish": 37715.97990978898,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0003666382797657425,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:16",
+    "00:20:26",
+    "00:20:32",
+    "00:24:48",
+    "00:31:24",
+    "00:35:46",
+    "00:43:08",
+    "00:46:38",
+    "00:49:30"
+   ],
+   "mass_beyond_grid": -0.0009999999996737063
+  },
+  "r600_startup-offset__fuel-exhaustion+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 37701.63660212895,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:16",
+    "00:20:26",
+    "00:20:32",
+    "00:24:48",
+    "00:31:24",
+    "00:35:46",
+    "00:43:08",
+    "00:46:38",
+    "00:49:30"
+   ],
+   "mass_beyond_grid": -0.0009999999996730402
+  },
+  "r1200_inflated__other": {
+   "variant": "plain",
+   "ess_mixture_kish": 65642.59709124762,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 2.465399359313283e-07,
+   "impact_q_pooled_utc": [
+    "00:19:58",
+    "00:20:14",
+    "00:20:20",
+    "00:26:00",
+    "00:30:20",
+    "00:33:36",
+    "00:37:56",
+    "00:39:42",
+    "00:45:40"
+   ],
+   "mass_beyond_grid": -0.0009999999938457016
+  },
+  "r1200_inflated__other+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 65642.58045511259,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 5.9556398371846314e-08,
+   "impact_q_pooled_utc": [
+    "00:19:58",
+    "00:20:14",
+    "00:20:20",
+    "00:26:00",
+    "00:30:20",
+    "00:33:36",
+    "00:37:56",
+    "00:39:42",
+    "00:45:40"
+   ],
+   "mass_beyond_grid": -0.0009999999938468118
+  },
+  "r1200_inflated__fuel-exhaustion": {
+   "variant": "plain",
+   "ess_mixture_kish": 11966.496110946757,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:08",
+    "00:20:16",
+    "00:20:20",
+    "00:22:18",
+    "00:28:50",
+    "00:34:44",
+    "00:38:44",
+    "00:40:38",
+    "00:45:52"
+   ],
+   "mass_beyond_grid": -0.0009999999979775076
+  },
+  "r1200_inflated__fuel-exhaustion+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 11966.496110946757,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:08",
+    "00:20:16",
+    "00:20:20",
+    "00:22:18",
+    "00:28:50",
+    "00:34:44",
+    "00:38:44",
+    "00:40:38",
+    "00:45:52"
+   ],
+   "mass_beyond_grid": -0.0009999999979775076
+  },
+  "r1200_no-offset__other": {
+   "variant": "plain",
+   "ess_mixture_kish": 14090.215747462622,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 4.295264391291986e-08,
+   "impact_q_pooled_utc": [
+    "00:19:58",
+    "00:20:16",
+    "00:20:20",
+    "00:26:12",
+    "00:30:22",
+    "00:33:38",
+    "00:37:52",
+    "00:39:36",
+    "00:45:08"
+   ],
+   "mass_beyond_grid": -0.0009999999999539266
+  },
+  "r1200_no-offset__other+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 14090.21562858524,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 3.202518158492193e-08,
+   "impact_q_pooled_utc": [
+    "00:19:58",
+    "00:20:16",
+    "00:20:20",
+    "00:26:12",
+    "00:30:22",
+    "00:33:38",
+    "00:37:52",
+    "00:39:36",
+    "00:45:08"
+   ],
+   "mass_beyond_grid": -0.0009999999999545928
+  },
+  "r1200_no-offset__fuel-exhaustion": {
+   "variant": "plain",
+   "ess_mixture_kish": 3187.9625619915278,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:08",
+    "00:20:18",
+    "00:20:20",
+    "00:22:34",
+    "00:28:56",
+    "00:34:46",
+    "00:38:36",
+    "00:40:00",
+    "00:45:00"
+   ],
+   "mass_beyond_grid": -0.0009999999999488196
+  },
+  "r1200_no-offset__fuel-exhaustion+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 3187.9625619915278,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:08",
+    "00:20:18",
+    "00:20:20",
+    "00:22:34",
+    "00:28:56",
+    "00:34:46",
+    "00:38:36",
+    "00:40:00",
+    "00:45:00"
+   ],
+   "mass_beyond_grid": -0.0009999999999488196
+  },
+  "r1200_startup-offset__other": {
+   "variant": "plain",
+   "ess_mixture_kish": 45561.07908149523,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 1.8649580145532843e-07,
+   "impact_q_pooled_utc": [
+    "00:19:52",
+    "00:20:08",
+    "00:20:12",
+    "00:26:08",
+    "00:30:40",
+    "00:33:40",
+    "00:37:28",
+    "00:38:44",
+    "00:44:30"
+   ],
+   "mass_beyond_grid": -0.0009999999999590337
+  },
+  "r1200_startup-offset__other+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 45561.079081494725,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 1.8649578374442815e-07,
+   "impact_q_pooled_utc": [
+    "00:19:52",
+    "00:20:08",
+    "00:20:12",
+    "00:26:08",
+    "00:30:40",
+    "00:33:40",
+    "00:37:28",
+    "00:38:44",
+    "00:44:30"
+   ],
+   "mass_beyond_grid": -0.0009999999999599218
+  },
+  "r1200_startup-offset__fuel-exhaustion": {
+   "variant": "plain",
+   "ess_mixture_kish": 8218.725888585474,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:00",
+    "00:20:10",
+    "00:20:12",
+    "00:22:24",
+    "00:28:30",
+    "00:34:22",
+    "00:38:00",
+    "00:39:00",
+    "00:45:04"
+   ],
+   "mass_beyond_grid": -0.00099999999996081
+  },
+  "r1200_startup-offset__fuel-exhaustion+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 8218.725888585474,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:00",
+    "00:20:10",
+    "00:20:12",
+    "00:22:24",
+    "00:28:30",
+    "00:34:22",
+    "00:38:00",
+    "00:39:00",
+    "00:45:04"
+   ],
+   "mass_beyond_grid": -0.00099999999996081
+  },
+  "both_inflated__other": {
+   "variant": "plain",
+   "ess_mixture_kish": 33462.7617196445,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 5.006154240823139e-07,
+   "impact_q_pooled_utc": [
+    "00:20:06",
+    "00:20:36",
+    "00:21:58",
+    "00:28:16",
+    "00:30:54",
+    "00:33:32",
+    "00:38:00",
+    "00:40:50",
+    "00:47:02"
+   ],
+   "mass_beyond_grid": -0.0009999999925751624
+  },
+  "both_inflated__other+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 33462.760243246965,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 4.596976477698771e-07,
+   "impact_q_pooled_utc": [
+    "00:20:06",
+    "00:20:36",
+    "00:21:58",
+    "00:28:16",
+    "00:30:54",
+    "00:33:32",
+    "00:38:00",
+    "00:40:50",
+    "00:47:02"
+   ],
+   "mass_beyond_grid": -0.0009999999925789371
+  },
+  "both_inflated__fuel-exhaustion": {
+   "variant": "plain",
+   "ess_mixture_kish": 14761.688100002713,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:14",
+    "00:20:24",
+    "00:20:32",
+    "00:24:56",
+    "00:30:12",
+    "00:35:26",
+    "00:40:52",
+    "00:43:34",
+    "00:47:26"
+   ],
+   "mass_beyond_grid": -0.0009999999982506225
+  },
+  "both_inflated__fuel-exhaustion+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 14761.688100002713,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:14",
+    "00:20:24",
+    "00:20:32",
+    "00:24:56",
+    "00:30:12",
+    "00:35:26",
+    "00:40:52",
+    "00:43:34",
+    "00:47:26"
+   ],
+   "mass_beyond_grid": -0.0009999999982506225
+  },
+  "both_no-offset__other": {
+   "variant": "plain",
+   "ess_mixture_kish": 1622.0043102993702,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 2.0439846541731685e-07,
+   "impact_q_pooled_utc": [
+    "00:20:16",
+    "00:21:46",
+    "00:23:06",
+    "00:28:48",
+    "00:30:58",
+    "00:33:08",
+    "00:37:16",
+    "00:38:50",
+    "00:47:12"
+   ],
+   "mass_beyond_grid": -0.0009999999999763531
+  },
+  "both_no-offset__other+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 1622.0043102993702,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 2.0439846541731685e-07,
+   "impact_q_pooled_utc": [
+    "00:20:16",
+    "00:21:46",
+    "00:23:06",
+    "00:28:48",
+    "00:30:58",
+    "00:33:08",
+    "00:37:16",
+    "00:38:50",
+    "00:47:12"
+   ],
+   "mass_beyond_grid": -0.0009999999999763531
+  },
+  "both_no-offset__fuel-exhaustion": {
+   "variant": "plain",
+   "ess_mixture_kish": 835.3574107632627,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:12",
+    "00:20:24",
+    "00:21:14",
+    "00:25:20",
+    "00:29:58",
+    "00:35:14",
+    "00:39:20",
+    "00:42:36",
+    "00:47:32"
+   ],
+   "mass_beyond_grid": -0.0009999999999734666
+  },
+  "both_no-offset__fuel-exhaustion+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 835.3574107632627,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:12",
+    "00:20:24",
+    "00:21:14",
+    "00:25:20",
+    "00:29:58",
+    "00:35:14",
+    "00:39:20",
+    "00:42:36",
+    "00:47:32"
+   ],
+   "mass_beyond_grid": -0.0009999999999734666
+  },
+  "both_startup-offset__other": {
+   "variant": "plain",
+   "ess_mixture_kish": 5456.936097177114,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 4.949633834939235e-10,
+   "impact_q_pooled_utc": [
+    "00:20:12",
+    "00:21:14",
+    "00:22:44",
+    "00:28:52",
+    "00:31:10",
+    "00:33:28",
+    "00:37:10",
+    "00:39:34",
+    "00:45:24"
+   ],
+   "mass_beyond_grid": -0.0009999999999688036
+  },
+  "both_startup-offset__other+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 5456.936097177114,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 4.949633834939235e-10,
+   "impact_q_pooled_utc": [
+    "00:20:12",
+    "00:21:14",
+    "00:22:44",
+    "00:28:52",
+    "00:31:10",
+    "00:33:28",
+    "00:37:10",
+    "00:39:34",
+    "00:45:24"
+   ],
+   "mass_beyond_grid": -0.0009999999999688036
+  },
+  "both_startup-offset__fuel-exhaustion": {
+   "variant": "plain",
+   "ess_mixture_kish": 4261.444476095877,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:12",
+    "00:20:34",
+    "00:21:12",
+    "00:25:26",
+    "00:30:10",
+    "00:35:18",
+    "00:38:50",
+    "00:42:42",
+    "00:46:30"
+   ],
+   "mass_beyond_grid": -0.0009999999999681375
+  },
+  "both_startup-offset__fuel-exhaustion+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 4261.444476095877,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:20:12",
+    "00:20:34",
+    "00:21:12",
+    "00:25:26",
+    "00:30:10",
+    "00:35:18",
+    "00:38:50",
+    "00:42:42",
+    "00:46:30"
+   ],
+   "mass_beyond_grid": -0.0009999999999681375
+  },
+  "r600-bto__other": {
+   "variant": "plain",
+   "ess_mixture_kish": 8738132.178790253,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0014934344384391332,
+   "share_after_011556": 0.0005060136277899106,
+   "impact_q_pooled_utc": [
+    "00:19:54",
+    "00:21:14",
+    "00:22:30",
+    "00:30:20",
+    "00:37:52",
+    "00:44:46",
+    "00:55:20",
+    "00:59:08",
+    "01:06:34"
+   ],
+   "mass_beyond_grid": -0.0009999999999381615
+  },
+  "r600-bto__other+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 8739195.926123438,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0005044630371602231,
+   "impact_q_pooled_utc": [
+    "00:20:02",
+    "00:21:18",
+    "00:22:34",
+    "00:30:22",
+    "00:37:54",
+    "00:44:46",
+    "00:55:22",
+    "00:59:08",
+    "01:06:34"
+   ],
+   "mass_beyond_grid": -0.000999999999930834
+  },
+  "r600-bto__fuel-exhaustion": {
+   "variant": "plain",
+   "ess_mixture_kish": 740370.6730596933,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.001908313267053748,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:19:50",
+    "00:20:42",
+    "00:21:34",
+    "00:29:18",
+    "00:35:10",
+    "00:42:26",
+    "00:47:42",
+    "00:48:44",
+    "00:50:34"
+   ],
+   "mass_beyond_grid": -0.0009999999998835385
+  },
+  "r600-bto__fuel-exhaustion+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 738862.706323918,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:19:56",
+    "00:20:46",
+    "00:21:38",
+    "00:29:20",
+    "00:35:12",
+    "00:42:26",
+    "00:47:44",
+    "00:48:44",
+    "00:50:34"
+   ],
+   "mass_beyond_grid": -0.0009999999999019682
+  },
+  "both-bto__other": {
+   "variant": "plain",
+   "ess_mixture_kish": 7488813.300681406,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0004829867755389625,
+   "impact_q_pooled_utc": [
+    "00:20:04",
+    "00:21:24",
+    "00:22:42",
+    "00:30:40",
+    "00:38:12",
+    "00:44:50",
+    "00:55:08",
+    "00:58:56",
+    "01:06:26"
+   ],
+   "mass_beyond_grid": -0.0009999999998981934
+  },
+  "both-bto__other+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 7488793.978196085,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.00048112228260785146,
+   "impact_q_pooled_utc": [
+    "00:20:04",
+    "00:21:24",
+    "00:22:42",
+    "00:30:40",
+    "00:38:12",
+    "00:44:50",
+    "00:55:08",
+    "00:58:56",
+    "01:06:26"
+   ],
+   "mass_beyond_grid": -0.0009999999998981934
+  },
+  "both-bto__fuel-exhaustion": {
+   "variant": "plain",
+   "ess_mixture_kish": 686778.3574573763,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:19:56",
+    "00:20:50",
+    "00:21:44",
+    "00:29:40",
+    "00:35:44",
+    "00:42:58",
+    "00:47:44",
+    "00:48:44",
+    "00:50:32"
+   ],
+   "mass_beyond_grid": -0.0009999999998739906
+  },
+  "both-bto__fuel-exhaustion+unpowered": {
+   "variant": "unpowered",
+   "ess_mixture_kish": 686778.3574573763,
+   "n_replicates": 4,
+   "weights": {
+    "next-d-free": 0.594,
+    "next-d-repro-radar": 0.235,
+    "next-d-descent-climb": 0.153,
+    "next-d-routes": 0.019
+   },
+   "share_before_001937": 0.0,
+   "share_after_011556": 0.0,
+   "impact_q_pooled_utc": [
+    "00:19:56",
+    "00:20:50",
+    "00:21:44",
+    "00:29:40",
+    "00:35:44",
+    "00:42:58",
+    "00:47:44",
+    "00:48:44",
+    "00:50:32"
+   ],
+   "mass_beyond_grid": -0.0009999999998739906
+  }
+ }
+}

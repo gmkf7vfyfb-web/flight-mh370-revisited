@@ -1,0 +1,2 @@
+sleep 900; OUT=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-imos-ram-grid
+grep -c "ok ram" $OUT/run.log; grep "failed" $OUT/run.log | head -3; grep "ok ram" $OUT/run.log | tail -2; date; uptime; df -k /System/Volumes/Data | tail -1 | awk '{print $4/1048576 " GiB free"}'

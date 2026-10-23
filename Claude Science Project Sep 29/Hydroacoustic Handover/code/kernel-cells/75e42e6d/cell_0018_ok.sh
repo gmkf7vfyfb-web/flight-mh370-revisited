@@ -1,0 +1,1 @@
+cd src; grep -n -i "acoustic search for the underwater\|towed pinger\|TPL\|Haixun\|sonobuoy\|Tireless\|HMS Echo\|Echo\b" ATSB_OpSearch_2017.txt | head -60

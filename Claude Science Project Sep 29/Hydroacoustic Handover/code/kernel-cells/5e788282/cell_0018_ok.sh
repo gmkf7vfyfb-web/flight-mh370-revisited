@@ -1,0 +1,1 @@
+ls /Users/pete/Downloads/mh370-exchange/ocean-transport/; find /Users/pete/Downloads/mh370-exchange /Users/pete/Downloads/mh370-ocean-data -maxdepth 3 -iname "*f35a*" 2>/dev/null | head; ls /Users/pete/Downloads/mh370-ocean-data/woa23/ ; cat /Users/pete/Downloads/mh370-ocean-data/woa23/soundspeed/woa23_95A4_m04.json | head -c 1500

@@ -1,0 +1,3 @@
+P="hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"
+cat "$P/prepare/kadri_package/reference_measure.py"; echo =====SYNTH; cat "$P/prepare/kadri_package/synth_triad.py"
+echo =====PRED_META; cat "$P/results-data/kadri_package/next-run-b/predictions_meta.json" | head -60; head -3 "$P/results-data/kadri_package/next-run-b/predictions.csv"; wc -l "$P/results-data/kadri_package/next-run-b/predictions.csv"

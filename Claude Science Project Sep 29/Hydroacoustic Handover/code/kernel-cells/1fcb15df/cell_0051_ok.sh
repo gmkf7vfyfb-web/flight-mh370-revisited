@@ -1,0 +1,3 @@
+cd graphics_out && sed -i '' 's/did not appear in \(.*\) during this track (checked at start and repeatedly over ~60 min)/did not appear in \1 at any check during this track (start to finish, about 50 min)/' README.md && grep -c "about 50 min" README.md
+ls /Users/pete/Downloads/mh370-exchange/hydroacoustics/graphics-2026-10-22/ranked 2>&1 | head -2
+mkdir -p /Users/pete/Downloads/mh370-exchange/hydroacoustics/graphics-2026-10-22/arrival-windows && cp * /Users/pete/Downloads/mh370-exchange/hydroacoustics/graphics-2026-10-22/arrival-windows/ && du -sh /Users/pete/Downloads/mh370-exchange/hydroacoustics/graphics-2026-10-22/arrival-windows

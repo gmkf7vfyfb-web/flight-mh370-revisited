@@ -1,0 +1,5 @@
+sub=ds.sel(latitude=slice(-28.5,-23),longitude=slice(94,103),time=slice('2014-03-08','2014-04-05'))
+u=sub.uo.isel(depth=0); v=sub.vo.isel(depth=0)
+print('box-mean u,v m/s', float(u.mean()), float(v.mean()), 'rms speed', float(np.sqrt((u**2+v**2).mean())))
+pt=ds.sel(latitude=-25.73,longitude=101.37,method='nearest').isel(depth=0).sel(time=slice('2014-03-08','2014-03-22'))
+print(np.round(pt.uo.values,2), np.round(pt.vo.values,2))

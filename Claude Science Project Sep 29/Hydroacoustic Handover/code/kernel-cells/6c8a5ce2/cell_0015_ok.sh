@@ -1,0 +1,1 @@
+cd .tmp/hy/"Claude Science Project Sep 29"/engine/hypotheses/hydroacoustics; sed -n 60,112p prepare/f35a_eta_calibration.py; sed -n 137,172p prepare/f35a_eta_calibration.py; ls results-data | head -80; ls results-data/*f35* 2>/dev/null | head

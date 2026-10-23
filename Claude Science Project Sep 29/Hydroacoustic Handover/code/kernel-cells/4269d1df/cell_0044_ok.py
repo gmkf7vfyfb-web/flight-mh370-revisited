@@ -1,0 +1,2 @@
+r = c.call_command(r'''cd "$HOME/mh370/drift/repo/Claude Science Project Sep 29/engine"; grep -rn "mmap\|Mmap\|read_to_end\|fs::read(" crates/ocean/src/*.rs | head -8; ls ~/.claude-science-scratch/J* 2>/dev/null | head; ls -d ~/.claude-science-scratch/*/ | head; ps -eo pid,etime,rss,cmd | grep -E "snapshots|pilot" | grep -v grep | cut -c1-200''', intent='Check forcing load method and snapshot job progress on deskstar (read only)')
+print(r.stdout[-4000:])

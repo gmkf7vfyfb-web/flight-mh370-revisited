@@ -1,0 +1,1 @@
+cd src; python -c "import fitz; print(fitz.__doc__)" 2>&1 | head -2; which pdftotext

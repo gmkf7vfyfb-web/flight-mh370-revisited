@@ -1,0 +1,11 @@
+event,receiver,range_km,impact_utc,predicted_utc,predicted_sd_s,kadri_box_utc,box_source,obs_minus_pred_s,box_start_minus_pred_s,implied_speed_km_s,window_contains_prediction,source
+F-35A,H11N,3248.8,2019-04-09T10:26:30Z,2019-04-09 11:03:02+00:00,8.9,11:02:17-11:03:42,digitised,-2.0,-45.0,1.483,True,S1 time; module working point (Metz et al. 2023)
+F-35A,H11S,3341.5,2019-04-09T10:26:30Z,2019-04-09 11:04:05+00:00,9.1,11:03:24-11:04:52,digitised,3.0,-41.0,1.48,True,S1 time; module working point (Metz et al. 2023)
+Yemenia 626,H08N,3104.1,2009-06-29T22:50:00Z,2009-06-29 23:24:55+00:00,8.5,23:33:03-23:34:31,digitised,533.0,488.0,1.182,False,"S1 'around 22:50'; ASN site (S1 position on land, amendment 2)"
+Yemenia 626,H08S,3237.5,2009-06-29T22:50:00Z,2009-06-29 23:26:25+00:00,8.8,23:31:15-23:32:42,digitised,334.0,290.0,1.285,False,"S1 'around 22:50'; ASN site (S1 position on land, amendment 2)"
+Sriwijaya 182,H08S,3832.5,2021-01-09T07:40:00Z,2021-01-09 08:23:06+00:00,10.5,08:10:36-08:12:04,digitised,-706.0,-750.0,2.038,False,S1
+AF447,H10S,2209.7,2009-06-01T02:14:28Z,2009-06-01 02:39:19+00:00,6.0,02:44:58-02:46:27,digitised,384.0,340.0,1.178,False,BEA impact time; S1 position
+Transair 810,H11N,3667.7,2021-07-02T11:46:00Z,2021-07-02 12:27:15+00:00,10.0,12:32:00-12:34:00,window+5 min (Kadri p.11),345.0,285.0,1.301,False,S1
+Transair 810,H11S,3712.0,2021-07-02T11:46:00Z,2021-07-02 12:27:45+00:00,10.1,12:31:00-12:33:00,window+5 min (Kadri p.11),255.0,195.0,1.345,True,S1
+Lion Air 904,H01W,2896.6,2013-04-13T07:10:00Z,2013-04-13 07:42:35+00:00,7.9,07:41:00-07:43:00,window+5 min (Kadri p.11),-35.0,-95.0,1.509,True,S1
+Lion Air 904,H08S,4700.6,2013-04-13T07:10:00Z,2013-04-13 08:02:52+00:00,12.8,08:02:00-08:04:00,window+5 min (Kadri p.11),8.0,-52.0,1.478,True,S1

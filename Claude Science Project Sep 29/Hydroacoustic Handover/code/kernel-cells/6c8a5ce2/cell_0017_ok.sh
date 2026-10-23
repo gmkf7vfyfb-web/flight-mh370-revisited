@@ -1,0 +1,1 @@
+cd .tmp/hy/"Claude Science Project Sep 29"; grep -rhoE "[^ \`'\"(]*(acoustics-toolbox|/at/|AcousticsToolbox|at_bin)[^ \`'\")]*" coordination results 2>/dev/null | sort | uniq -c | sort -rn | head -20; ls /Users/pete/Downloads | head -50

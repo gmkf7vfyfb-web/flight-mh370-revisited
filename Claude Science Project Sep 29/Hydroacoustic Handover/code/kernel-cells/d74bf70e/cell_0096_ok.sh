@@ -1,0 +1,1 @@
+df -g . | tail -1; du -sh repo/.git; ls repo/.git/objects/pack | wc -l; du -sh repo/.git/objects/pack | tail -1

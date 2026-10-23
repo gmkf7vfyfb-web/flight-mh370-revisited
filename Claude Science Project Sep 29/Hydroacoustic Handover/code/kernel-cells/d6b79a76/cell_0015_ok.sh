@@ -1,0 +1,3 @@
+cd ~/Downloads/mh370-exchange/end-of-flight; ls bin/scripts; grep -rln "joined" bin/scripts | head; ls ../core/run-j/run-j-waypoints/bto-bfo/seed-1/handoff-m2241 ../core/run-j/run-j-waypoints/bto-bfo/seed-1/handoff-m0011; python3 -c "
+import json;m=json.load(open('run-j-joined-v2/J2241/seed-1/run.json'));print(m['source_run'], m['replicates'][0]['terminal']['descents'], m['stop']['epoch'])
+m=json.load(open('run-j-joined-v2/J0011/seed-1/run.json'));print(m['source_run'], m['config']['hypotheses']['end-of-flight'].get('onset'))"

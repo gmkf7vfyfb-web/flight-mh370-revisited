@@ -1,0 +1,1 @@
+cd "repo/Claude Science Project Sep 29" && grep -n "244_70\|244,70" engine/hypotheses/hydroacoustics/physics.rs && cd engine/hypotheses/hydroacoustics && time python prepare/synthetic_composer_test.py "../../../results/no-exhaustion-prior-summary.json" ../../../../../hydro/sct 2>&1 | tail -80

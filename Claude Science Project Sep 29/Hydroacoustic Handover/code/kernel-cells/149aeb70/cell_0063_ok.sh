@@ -1,0 +1,10 @@
+cd "/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/149aeb70-e4ae-4829-a477-5c291fc000a5" && python3 - <<'PY'
+p="make_hydro_figs.py"; s=open(p).read()
+s=s.replace('ax.set_title("Every 00:19 option is estimable on run I; two are thin once only loud impacts count", loc="left")',
+            'ax.set_title("All nine 00:19 options are estimable overall on run I; one drops below the floor on loud impacts alone", loc="left")')
+s=s.replace('for nm, note in [("both/no-offset", "746 — marginal"), ("both/startup-offset", "2,287")]:',
+            'for nm, note in [("both/no-offset", "746 — below the floor"), ("both/startup-offset", "2,287")]:')
+s=s.replace('"Plain: each line shows how much independent data we really have for one way of reading the 00:19 satellite data. The light "\n     "dot counts all impacts. The dark dot counts only the loud ones, which are the ones hydroacoustics can use. Left of the red "\n     "line there is too little data to give an answer. Only the loudest one per cent, not drawn, falls below the line for the two "\n     "both-reading options, at 70 and 284 effective impacts.",',
+            '"Plain: each line shows how much independent data we really have for one way of reading the 00:19 satellite data. The light "\n     "dot counts all impacts. The dark dot counts only the loud ones, which are the ones hydroacoustics can use. Left of the red "\n     "line there is too little data to give an answer. Every option is to the right of the line when all impacts are counted. One "\n     "option, both/no-offset, crosses to the left when only loud impacts are counted, at 746, so it is not estimable at that "\n     "depth. At the loudest one per cent, not drawn here, both of the both-reading options fall below the line, at 70 and 284 "\n     "effective impacts.",')
+open(p,"w").write(s); print("patched")
+PY

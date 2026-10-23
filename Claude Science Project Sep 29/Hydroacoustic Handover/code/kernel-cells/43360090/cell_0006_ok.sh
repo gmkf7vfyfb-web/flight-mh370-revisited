@@ -1,0 +1,1 @@
+cd "./.tmp/repo/ISO Sept 28 Status/inputs/papers/hydroacoustics"; sed -n 130,160p brown2026.txt; echo ....; sed -n 180,200p brown2026.txt; echo ....; sed -n 262,315p brown2026.txt; echo ....; sed -n 550,600p brown2026.txt; echo ...; grep -n "^Metz\|Metz, D\|Arons\|Vergoz\|Chu and Fan\|Nishimura\|Nicolas" brown2026.txt | tail -15

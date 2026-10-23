@@ -1,0 +1,1 @@
+cd pod && curl -sSL -o iamsar2025.pdf "https://www.mardep.gov.hk/filemanager/en/share/msnote/pdf/msin2532anx1.pdf" -w "%{http_code} %{size_download}\n"

@@ -1,0 +1,1 @@
+mkdir -p tools && tar xzf "{{artifact:1bd321c2-571c-42e1-a8f4-b0a2c3eff82e}}" -C tools && ls tools; find tools -name kraken.exe

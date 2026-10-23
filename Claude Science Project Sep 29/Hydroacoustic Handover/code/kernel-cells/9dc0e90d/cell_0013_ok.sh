@@ -1,0 +1,1 @@
+cd /Users/pete/Downloads; ls review resolution 2>/dev/null | grep -i -E "ledger|wspr|manuscript" | head; grep -rIh -i "wspr" review/*LEDGER* 2>/dev/null | cut -c1-400 | head -6; grep -rIl -i wspr resolution 2>/dev/null | head -5

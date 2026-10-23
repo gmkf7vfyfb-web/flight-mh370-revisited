@@ -1,0 +1,1 @@
+cd "repo/ISO Sept 28 Status/inputs/papers/hydroacoustics"; grep -o -E ".{60}(120|122|133|135|1665|4825|4400|4396|1465|798)[^0-9].{40}" ucrl-tr-207323.txt

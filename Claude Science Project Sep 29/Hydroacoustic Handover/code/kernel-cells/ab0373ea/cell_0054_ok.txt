@@ -1,0 +1,55 @@
+# [edit_file] created /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/ab0373ea-3460-46fd-87d0-112603723552/note_fill.py
++++ /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/ab0373ea-3460-46fd-87d0-112603723552/note_fill.py
++import pandas as pd, numpy as np, json, sys, pathlib
++TN = pathlib.Path(sys.argv[1]); OUT = pathlib.Path("/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-imos-ram-grid")
++TO = pathlib.Path("/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-tl-grid/tables")
++L = ["3315", "3376", "3274", "3275", "3250"]; NM = {"3315": "Perth Canyon 3315", "3376": "Perth Canyon 3376", "3274": "Portland 3274", "3275": "Portland 3275", "3250": "Scott Reef 3250"}
++d = pd.read_csv(TN / "imos_ram_minus_kraken_arc.csv", dtype={"logger": str}); d0 = d[d.offset_nm == 0]
++print("## DELTA quantiles (RAM - KRAKEN_noabs, dB; offset 0; n nodes, min / q10 / median / q90 / max); positive = RAM loses more")
++print("| Logger | 10 Hz | 20 Hz | 40 Hz |\n|---|---|---|---|")
++for lg in L:
++    cells = []
++    for fc in (10.0, 20.0, 40.0):
++        g = d0[(d0.logger == lg) & (d0.fc_hz == fc)].ram_minus_kraken_db
++        q = g.quantile([.1, .5, .9]); cells.append(f"n={len(g)}: {g.min():.0f} / {q[.1]:.0f} / **{q[.5]:.0f}** / {q[.9]:.0f} / {g.max():.0f}")
++    print(f"| {NM[lg]} | " + " | ".join(cells) + " |")
++print("\nAll offsets pooled (n nodes per logger):", {lg: int(len(d[d.logger == lg].groupby(['lat', 'offset_nm']))) for lg in L})
++old = pd.read_csv(TO / "imos_tl_ramcorr_arc.csv", dtype={"logger": str}); new = pd.read_csv(TN / "imos_tl_ram_arc.csv", dtype={"logger": str})
++m = old.merge(new, on=["quantile", "logger", "fc_hz", "src_depth_m"], suffixes=("_old", "_new")); m = m[(m.offset_nm_old == 0) & np.isclose(m.src_depth_m, 10) & m.ram_grid_covered]
++m["dd"] = m.tl_db_new - m.tl_db_old; mo = m[(m.tl_db_old < 230) | (m.tl_db_new < 230)]
++print("\n## new - old TL (dB), offset 0, 10 m, covered rows with either value < 230 dB (open paths): q10 / median / q90 per band")
++print("| Logger | 10 Hz | 20 Hz | 31.5 Hz | 40 Hz | all bands 5-40 |\n|---|---|---|---|---|---|")
++for lg in L:
++    c = []
++    for fc in (10.0, 20.0, 31.5, 40.0, None):
++        g = mo[(mo.logger == lg) & ((mo.fc_hz == fc) if fc else True)].dd
++        c.append(f"{g.quantile(.1):+.0f} / **{g.median():+.0f}** / {g.quantile(.9):+.0f}" if len(g) else "—")
++    print(f"| {NM[lg]} | " + " | ".join(c) + " |")
++cov = pd.read_csv(TN / "imos_tl_ram_coverage.csv", dtype={"logger": str})
++print("\n## coverage (paths = logger x 1.0 deg lat x offset)")
++print(cov.groupby(["logger", "offset_nm"]).coverage.value_counts().unstack(fill_value=0).to_string())
++print("\nrows covered per logger (all offsets / offset 0):")
++for lg in L:
++    g = new[new.logger == lg]; g0 = g[g.offset_nm == 0]
++    print(lg, f"{g.ram_grid_covered.mean():.1%}", f"offset0 {g0.ram_grid_covered.mean():.1%}", "open rows (status ok/ram_fill) offset0 covered:", f"{g0[g0.status.isin(['ok','ram_fill'])].ram_grid_covered.mean():.1%}",
++          "modes:", g0[g0.ram_grid_covered].ram_grid_mode.value_counts().to_dict(), "below floor:", int(g.below_physical_floor.sum()))
++print("\nbuild:", json.load(open(TN / "imos_tl_ram_build.json")))
++# levels
++o = pd.read_csv("/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-levels/tables/detectable.csv", dtype={"receiver": str}); n = pd.read_csv(OUT / "levels-rerun/tables/detectable.csv", dtype={"receiver": str})
++o = o[(o.key == "D0/p0.5") & o.receiver.isin(L)]; mm = o.merge(n, on=["receiver", "eta"], suffixes=("_o", "_n"))
++eo = pd.read_csv("/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-levels/tables/eta_50.csv", dtype={"receiver": str}); en = pd.read_csv(OUT / "levels-rerun/tables/eta_50.csv", dtype={"receiver": str})
++eo = eo[(eo.key == "D0/p0.5")]; ee = eo.merge(en, on=["receiver", "threshold"], suffixes=("_o", "_n")).set_index(["receiver", "threshold"])
++print("\n## LEVELS old -> new (D0', p 0.5): SNR q10/q50/q90 at the anchor; MF / baseline share at 2.1e-4 and 1e-3; eta_50 MF / base")
++print("| Logger | SNR q10/q50/q90 at η=2.1e-4, old → new | share MF / base at 2.1e-4, old → new | share MF / base at 1e-3, old → new | η₅₀ MF old → new | η₅₀ base old → new | blocked mass old → new |\n|---|---|---|---|---|---|---|")
++def pc(x): return f"{100 * x:.1f} %"
++def e50(x): return ">1" if x > 1 else f"{x:.1e}"
++for lg in L:
++    a = mm[(mm.receiver == lg) & np.isclose(mm.eta, 0.00021)].iloc[0]; b = mm[(mm.receiver == lg) & np.isclose(mm.eta, 0.001)].iloc[0]
++    print(f"| {NM[lg]} | {a.snr_q10_o:+.1f}/{a.snr_q50_o:+.1f}/{a.snr_q90_o:+.1f} → {a.snr_q10_n:+.1f}/{a.snr_q50_n:+.1f}/{a.snr_q90_n:+.1f} | {pc(a.frac_matched_filter_o)} / {pc(a.frac_baseline_o)} → **{pc(a.frac_matched_filter_n)}** / {pc(a.frac_baseline_n)} | "
++          f"{pc(b.frac_matched_filter_o)} / {pc(b.frac_baseline_o)} → **{pc(b.frac_matched_filter_n)}** / {pc(b.frac_baseline_n)} | {e50(ee.loc[(lg, 'matched_filter'), 'eta_50_o'])} → {e50(ee.loc[(lg, 'matched_filter'), 'eta_50_n'])} | "
++          f"{e50(ee.loc[(lg, 'baseline'), 'eta_50_o'])} → {e50(ee.loc[(lg, 'baseline'), 'eta_50_n'])} | {a.blocked_mass_o:.3f} → {a.blocked_mass_n:.3f} |")
++ps = pd.read_csv(OUT / "levels-rerun/tables/power_screen.csv", dtype={"receiver": str}); print("\npower screen new:", ps[np.isclose(ps.eta, 1e-3)][["receiver", "frac_matched_filter", "screen"]].to_string(index=False))
++acc = pd.read_csv(OUT / "acceptance_check.csv"); print("\nacceptance:", acc[["tag", "fc_hz", "tl_ram_db_subset", "tl_ram_db_grid", "diff_ram_db", "pass_0p5"]].round(4).to_string(index=False))
++w = json.load(open(OUT / "wall.json")); print("\nwall:", w)
++rows = pd.read_csv(OUT / "ram_grid_rows.csv").drop_duplicates(["tag", "fc_hz"]); print("rows ok:", (rows.status == "ok").sum(), "failed:", (rows.status != "ok").sum(), "cpu-hours:", round(rows.wall_s.sum() / 3600, 1))
++

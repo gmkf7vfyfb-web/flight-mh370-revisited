@@ -1,0 +1,83 @@
+{
+ "frame_id": "e5e68baf-caca-429f-8445-180c9d8be519",
+ "name": "Verifier",
+ "status": "completed",
+ "wall_s": 2236,
+ "structured_output": {
+  "checks": [
+   {
+    "item": "F1 'fewer than 20 impacts' reason text",
+    "claim": "why_not() gives per-cause reasons",
+    "recomputed": "Pairs: 'coupling infinite ... e.g. Scott Reef 3250' 2,577 = rows with eta_level_locus inf (2,577); 'coupling not given (NaN)' 202 = NaN rows with a locus (202); 'no arc locus' 119 = no-locus rows (119). Triples: NaN 195 = 195; no locus 11,850 = 11,850. The 'fewer than 20' text now occurs 0 times. summary.json reason counts equal the CSV counts; all other flag counts and n_no_flags (38/10/2) unchanged; SHA256SUMS 5/5 match.",
+    "verdict": "AGREE",
+    "evidence": "FIXED. build_register.py why_not(); register_pairs.csv / register_triples.csv / summary.json. Residual (minor): why_not() still prints 'fewer than 20 run J impacts' for any non-finite energy, which gates.py (line ~169) also returns for a latitude outside the energy grid; 0 rows are affected now."
+   },
+   {
+    "item": "F2 D01 missing on two items",
+    "claim": "D01 added to note.injection_recovery_run_j and ex.run_j_gated_v2; banner regenerated",
+    "recomputed": "REGISTRY.json: note.injection_recovery_run_j [D01, D05, D06, D22]; ex.run_j_gated_v2 [D01, D05, D06, D20, D25]; both in D01.affects. INDEX rows match. Banner line 1 of hydroacoustics-injection-recovery-run-j.md lists D01, D05, D06, D22 and explains 2.1e-4.",
+    "verdict": "AGREE",
+    "evidence": "FIXED."
+   },
+   {
+    "item": "F3 F-35A one-factor spread / prior truncation",
+    "claim": "brief and eta_F35A_metz note cite 2.8e-4 to 1.3e-1; truncation by 1e-2 stated (X03)",
+    "recomputed": "Brief line 145: '2.8 x 10^-4 (tau 0.05 s) to 1.3 x 10^-1 (f^-4 roll-off), 5.4 x 10^-2 at a 2 m source' and the 1e-2 truncation sentence. Registry eta_F35A_metz note and INDEX line 149 corrected; 1.3 x 10^-1 added to must_contain. INDEX D20 (line 138) states the truncation.",
+    "verdict": "PARTLY",
+    "evidence": "PARTLY. hydroacoustics-metz-f35a-anchor.md line 171 (section 6 table, also the D01/eta_brown_arons evidence quote) still says 'single-factor spread 2.8 x 10^-4 at tau 0.05 s to 5.4 x 10^-2 at a 2 m source'. It is listed only as a STALE line (INDEX line 192). proposals.md X03 (line 9) is unchanged and does not mention the truncation; it is stated in D20 instead."
+   },
+   {
+    "item": "F4 Kadri v3 identity overstated",
+    "claim": "README, comparison json, docstring, meta corrected",
+    "recomputed": "Rebuilt predictions.csv: keys identical; IMS rows differ only in 'labels'; 36 IMOS columns differ; SNR diff 10.3 dB on 1,035 and 10.4 dB on 240 of 1,275 finite rows; TL change over tl_db_5hz..40hz on IMOS rows q05/q50/q95 = -26.9/0.0/+10.7 dB (7,859 values). README.txt and v2_v3_comparison.json ('ims_rows_columns_that_differ': ['labels']) now say exactly this. Docstring lines 2-9 and 29 corrected.",
+    "verdict": "PARTLY",
+    "evidence": "Identity claims FIXED. Residual 2.1e-4 'anchor' wording: predictions_meta.json key 'eta_anchor' = 0.00021; build_predictions_v3.py docstring line 34 'the SNR at the anchor' (the SNR column is at 2.1e-4)."
+   },
+   {
+    "item": "F5 Certainty statements",
+    "claim": "INDEX D04 and ERRATA item 4 reworded",
+    "recomputed": "INDEX D04: 'lie where the recording chain strongly attenuates; a detection there is unlikely to be impact sound ... (a corner attenuates, it does not remove all energy)'. ERRATA item 4: 'On timing alone it cannot be separated from the shot; a shot coincidence is not an exclusion (Pete, 23 Oct)'. 0.136 s to the nearest shot recomputed.",
+    "verdict": "AGREE",
+    "evidence": "FIXED. New minor point in ERRATA item 4: it names residual rows 01:07:37 and 01:19:37, but ranked_singles has three H08S 'residual env' rows (01:07:37, 01:07:52, 01:19:37); 'near the H01W lag' was not verified."
+   },
+   {
+    "item": "F6 Royer H01W dependence on digitised marks",
+    "claim": "gates.py docstring and register README state the sensitivity",
+    "recomputed": "gates.py Royer docstring: '+7.7 to +16.6 s after Royer's Table 5 ... against Table 5 alone some H01W matches fail'. Register README and ERRATA item 3 say the same; D07 text gives +20 s (event A) and +17.6 s / 5.9 s (event 5), matching my values.",
+    "verdict": "AGREE",
+    "evidence": "FIXED (documented; the flags themselves are unchanged, as intended). 'Some matches fail' is not quantified."
+   },
+   {
+    "item": "F7 Provenance, caches, exact quotes",
+    "claim": "git field = head at build time + dirty flag; caches excluded; quotes exact",
+    "recomputed": "REGISTRY git: c9ac5cc... and 81e5526... '(head at build time; uncommitted changes in scope: yes)'; INDEX header matches. 0 __pycache__/.pytest_cache rows in any manifest. 35/35 file-cited quotes are byte-identical to the cited lines and contain every must_contain string. check_registry.py --verify: 'verify: 0 differences', exit 0, both with default roots and with MOD/WORK set to my clones of be85de9/f2a2b5c.",
+    "verdict": "AGREE",
+    "evidence": "FIXED. Plain check_registry.py (no flags) prints only 31 registry UserWarnings and exits 0."
+   },
+   {
+    "item": "F8 Brief rule 1 vs INDEX; '46 frames'",
+    "claim": "rule 1 aligned; decisions header says 11 root sessions",
+    "recomputed": "Brief rule 1 and profile rule 1 now: use only CURRENT / CURRENT_WITH_CAVEATS; SUPERSEDED, UNCHECKED, PENDING_RULING only with status stated; WITHDRAWN, KNOWN_DEFECT not used. Rule 3 cites P39/P40. decisions.md/json: '11 root sessions among the 46'; Pete-messages artifact has 11 frames; 52/52 quotes still exact.",
+    "verdict": "AGREE",
+    "evidence": "FIXED. The '46' total itself is still not checked (not in any file I can reach)."
+   },
+   {
+    "item": "Regression checks",
+    "claim": "check_registry 0 errors; 9 tests pass",
+    "recomputed": "pytest -q test_gates.py with HYDRO_ART = folder holding a35831fe/239646ad_royer-events-crossid-all-sites.csv: 9 passed. Registry 80/10/19, no build errors, status counts unchanged. 13 non-CURRENT notes carry banners equal to their status and defects. INDEX 80 entries match. The live HYDROACOUSTIC_MODULE systemPrompt equals the updated profile-prompt-after file (4,804 chars, sha256 97360961bbb3874a...).",
+    "verdict": "AGREE",
+    "evidence": "A first pytest run with a wrong HYDRO_ART path gave 7 passed, 2 skipped; with the correct path, 9 passed."
+   }
+  ],
+  "other_findings": [
+   "F3 residual: hydroacoustics-metz-f35a-anchor.md line 171 still gives the old 'single-factor spread ... to 5.4 x 10^-2'. This line is the evidence quote of D01 and eta_brown_arons, and it is shown only as a STALE line in INDEX.",
+   "F4 residual: predictions_meta.json 'eta_anchor': 0.00021 and build_predictions_v3.py docstring line 34 'the SNR at the anchor' still call 2.1e-4 'the anchor'.",
+   "ERRATA_v2_text.txt item 4 names two of the three H08S residual rows (01:07:52 is omitted); 'near the H01W lag' is not supported in the text.",
+   "why_not() keeps the 'fewer than 20 impacts' text for every non-finite energy, which also covers a latitude outside the energy grid; 0 rows are affected now."
+  ],
+  "summary": "Re-check against be85de9 / f2a2b5c and the rebuilt exchange outputs. FIXED: F1, F2, F5, F6, F7, F8. PARTLY: F3 (brief, registry and INDEX corrected; Metz note line 171 still says 5.4e-2) and F4 (identity claims corrected; meta key eta_anchor = 2.1e-4 and docstring line 34 'SNR at the anchor' remain). Regression: check_registry --verify 0 differences; 9/9 tests pass; register counts, banners, INDEX and the live profile all agree. No files were edited."
+ },
+ "deviations": [
+  "Did not re-run the full first-pass checks (random file hashes, land path, energy grid, 10-row label re-derivation); only the findings, the register counts, quotes, banners, INDEX, profile, check_registry and the tests were re-checked."
+ ]
+}

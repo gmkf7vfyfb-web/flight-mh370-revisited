@@ -1,0 +1,2 @@
+print(host.query("SELECT frame_id, kind, length(body) FROM frame_blobs WHERE frame_id IN ('676a6e64-2eac-490f-b67d-6c3f5c82f047','a35831fe-107a-4961-bc9f-e6fd6d255601')"))
+print(host.query("SELECT frame_id, count(*), max(idx) FROM frame_messages WHERE frame_id IN ('676a6e64-2eac-490f-b67d-6c3f5c82f047','a35831fe-107a-4961-bc9f-e6fd6d255601') GROUP BY frame_id"))

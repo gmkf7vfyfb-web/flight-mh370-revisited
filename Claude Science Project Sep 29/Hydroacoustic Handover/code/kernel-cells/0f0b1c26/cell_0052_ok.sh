@@ -1,0 +1,1 @@
+cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"; awk 'NR>=60' prepare/calibration_events.py | sed -n '29,120p' | tail -n +20; cat results-data/calibration_events/request.json

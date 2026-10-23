@@ -1,0 +1,1 @@
+cd /Users/pete/.claude-science 2>/dev/null; cd $OLDPWD; for d in eof pl hydro repo; do grep -rln "def option_posteriors" $d/"Claude Science Project Sep 29" 2>/dev/null; done; grep -n "def \|alive\|r600-bto" eof/"Claude Science Project Sep 29"/engine/hypotheses/end-of-flight/smoke/sweep_summary.py | head -60

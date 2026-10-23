@@ -1,0 +1,3 @@
+P="hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"
+X="/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-tl-grid"
+cat "$P"/tl_grid_ram_subset.py; echo =====; cat "$P"/ram_tl_check.py; echo =====; cat "$X/ram-subset/ram_subset.csv"; cat "$X/ram-subset/ram_subset_wall.json"; ls "$X/ram-subset/paths" | head; ls "$X/raw/passA/paths" | head -5; ls "$X/raw/passA/paths" | wc -l

@@ -1,0 +1,1 @@
+cd repo && timeout 120 git fetch -q origin claude-science-sep29 && git log --oneline -1 FETCH_HEAD && git show FETCH_HEAD:"Claude Science Project Sep 29/coordination/HYDROACOUSTICS.md" | awk '/^## /{n++} n>=9'

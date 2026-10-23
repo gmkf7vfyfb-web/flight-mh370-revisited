@@ -1,0 +1,1 @@
+cd "audit/repo/Claude Science Project Sep 29/results/hydroacoustics-pleiades-test-standin/standin-scripts"; cat lhyd.py | cut -c1-250

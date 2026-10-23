@@ -1,0 +1,1 @@
+cd /Users/pete/Downloads; ls -d mh370* 2>/dev/null; echo ---; ls mh370-exchange/hydroacoustics 2>/dev/null; echo ---; du -sh mh370-exchange/hydroacoustics/* 2>/dev/null | sort -h | tail -25

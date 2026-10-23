@@ -1,0 +1,2 @@
+cd hydro/"Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"; sed -n 20,100p composition_run_j/common.py; python -c "
+import json;tp=json.load(open('../results-data/tl_grid_run_j/table_points.json'));print(len(tp));print(list(tp.items())[:2])"

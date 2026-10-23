@@ -1,0 +1,2 @@
+cd /tmp; grep -n -i "metz" arch.md | cut -c1-220; echo; echo "--- headings for lines 13468-13733"; for L in 13468 13517 13524 13616 13733; do awk -v l=$L 'NR<=l && /^## / {h=$0} END{print l": "h}' arch.md | cut -c1-160; done
+echo "--- overnight operating note rule"; cd /Users/pete/Downloads/flight-mh370-revisited; git show origin/claude-science-sep29:"Claude Science Project Sep 29/results/hydroacoustics-overnight-2026-10-22-summary.md" | grep -n -i -E "never request|ask the user|operating note|Downloads" | cut -c1-250 | head

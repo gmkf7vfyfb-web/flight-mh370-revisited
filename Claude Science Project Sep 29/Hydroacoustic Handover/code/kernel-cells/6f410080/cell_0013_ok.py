@@ -1,0 +1,2 @@
+for f in ['amsa/20032014MediaReleasePossibleDebrisFoundMH370Update6.pdf','amsa/20032014MediaReleaseUpdate7MH370FINAL.pdf','amsa/21032014MediaReleaseUpdate8MH370.pdf','amsa/21032014MediaReleaseUpdate10MH370_Searchresumes.pdf','amsa/21032014_MediaRelease_Update11MH370.pdf','amsa/23032014_Media_Release_Update10MH370.pdf','amsa/27032014_MediaRelease_Update20_MH370AMdocx_000.pdf','amsa/28032014MH370AMSA_ATSB_Media_Release.pdf','amsa/28032014MH370Update23.pdf']:
+    print('#####',f); print(re.sub(r'\s+',' ',txt[f]))

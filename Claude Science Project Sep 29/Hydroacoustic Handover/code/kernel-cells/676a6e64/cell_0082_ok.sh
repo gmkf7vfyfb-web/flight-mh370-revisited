@@ -1,0 +1,3 @@
+df -k /System/Volumes/Data | tail -1 | awk '{printf "free %.1f GiB\n",$4/1048576}'; uptime
+O=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-imos-ram-grid; ls -t $O | head -4; for f in $O/run3.log $O/run_lowband.log; do [ -f $f ] && { grep -c 'ok ram' $f; tail -1 $f | cut -c1-120; }; done
+cd repo; export GIT_CONFIG_GLOBAL=/dev/null; git fetch -q origin claude-science-sep29; git log --format='%h %ci %s' origin/claude-science-sep29 | head -3 | cut -c1-150

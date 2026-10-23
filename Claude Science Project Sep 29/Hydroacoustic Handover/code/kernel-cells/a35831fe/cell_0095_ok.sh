@@ -1,0 +1,1 @@
+cd "hyd/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"; sed -n 25,135p composition_run_j/common.py | cut -c1-250; sed -n 1,20p composition_run_j/common.py | cut -c1-200

@@ -1,0 +1,1 @@
+cd src; grep -n -i "recorders are located\|located in the aft\|aft equipment\|E11\|rack" sir.txt | head -15; sed -n 7900,7950p sir.txt | grep -v "^ *$" | head -45

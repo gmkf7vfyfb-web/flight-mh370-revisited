@@ -1,0 +1,1 @@
+cd /Users/pete/Downloads/mh370-inputs/hydroacoustics/imos; head -40 MH370/3315_3250_3376__MetaData.txt; echo ----; head -30 Portland_MH370/MetaData_3274_3275.txt; head -5 Portland_MH370/3274_Portland/rec_times.txt

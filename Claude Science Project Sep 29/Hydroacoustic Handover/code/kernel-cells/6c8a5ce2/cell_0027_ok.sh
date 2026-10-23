@@ -1,0 +1,1 @@
+curl -sL -m 40 -w "\nHTTP %{http_code}\n" "https://service.iris.edu/fdsnws/station/1/query?net=IM&sta=H10*&level=channel&format=text" | awk -F'|' '{print $2,$3,$5,$6,$7,$8,$9,$16,$17}' | head -40

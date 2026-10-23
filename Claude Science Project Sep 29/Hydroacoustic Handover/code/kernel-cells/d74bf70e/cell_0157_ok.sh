@@ -1,0 +1,1 @@
+cd atsrc/at; sed -n 108,133p misc/RWSHDFile.f90; echo ====FLP; cat tests/Munk/MunkK.flp 2>/dev/null || ls tests/Munk | grep -i flp; echo; grep -n -i -B2 -A25 'SUBROUTINE EvaluateAD' KrakenField/EvaluateADMod.f90 | grep -v '^\s*$' | head -60

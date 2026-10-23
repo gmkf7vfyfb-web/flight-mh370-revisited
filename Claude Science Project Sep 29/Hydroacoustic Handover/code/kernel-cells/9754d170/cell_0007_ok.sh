@@ -1,0 +1,1 @@
+cd "audit/hb/ISO Sept 28 Status/inputs/papers/hydroacoustics/"; wc -l ucrl-tr-207323.txt; grep -n -i -E 'transmission loss|source level|source spectrum|Figure 2[^0-9]|Fig\. 2[^0-9]|SUS|Figure 23|signature|airgun array|227|228|230' ucrl-tr-207323.txt | cut -c1-220 | head -80

@@ -1,0 +1,2 @@
+cd "hrepo/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"; grep -n -i -E 'snr|spl|def |tau|R_per|exposure' prepare/per_impact_lnl.py | head -60; python -c "
+import json; j=json.load(open('results-data/blackman_noise/blackman_noise_summary.json')); print(json.dumps(j)[:1500])"

@@ -1,0 +1,3 @@
+cd repo && M="Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/data/stub"
+sed -i '' 's|GEBCO_2026: DOI 10.5285/4f68d5c7-45eb-f999-e063-7086abc0b9f6 per the dataset.s own metadata (verify on citation).|GEBCO_2026: DOI 10.5285/4f68d5c7-45eb-f999-e063-7086abc036fa, read from the dataset id attribute via OPeNDAP 2026-10-09.|' "$M/PROVISIONAL.txt"; grep DOI "$M/PROVISIONAL.txt"
+git commit -q -am "Hydroacoustics: correct the GEBCO_2026 DOI in the stub note (was completed from a truncated display)" && timeout 60 git push -q origin hypothesis/hydroacoustics && git log --oneline -1

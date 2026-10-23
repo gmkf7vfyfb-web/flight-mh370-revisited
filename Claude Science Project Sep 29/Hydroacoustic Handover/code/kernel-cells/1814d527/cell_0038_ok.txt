@@ -1,0 +1,51 @@
+# [edit_file] created /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/1814d527-d9b6-410a-a48a-1b497eabc73d/hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/kadri_package/v2-2026-10-22/README.md
++++ /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/1814d527-d9b6-410a-a48a-1b497eabc73d/hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/kadri_package/v2-2026-10-22/README.md
++# MH370 hydroacoustic prediction package, v2 (22 October 2026) — DRAFT, not sent
++
++Prepared by the hydroacoustics module of the MH370 Bayesian reconstruction (Davey et al. 2016 reproduction and extension)
++for the collaboration with Dr Usama Kadri. **Status: PREDICTIVE, NOT CALIBRATED.** Nothing here is a detection claim.
++Every number carries caveats C1 (propagation slope misfit) and C2 (coupling efficiency not calibrated); see
++`CALIBRATION_STATUS.txt`. Both published H01W times are carried everywhere: "text time 00:52:03" and "caption time 00:54:30".
++
++## Contents
++
++| file | what it is |
++|---|---|
++| `predictions.csv`, `predictions_meta.json` | 1,720 rows: one per arc point (41–20°S every 0.5°) × cross-arc offset (−60…+60 NM) × receiver (H01W, H08S, H08N; IMOS 3315, 3376, 3274, 3275, 3250). Run J impact weight under the primary data option (00:19 held out, dive probability 0.5) and beside it the R600 BTO+BFO and the two Holland data options; impact-time and kinetic-energy quantiles; range, back-azimuth, deep-sound-channel and acoustic-gravity-wave arrival windows; transmission loss per third-octave band 5–40 Hz with blockage and model-trust flags; predicted 5–40 Hz exposure and 1 s SPL for five coupling efficiencies; the module's noise proxy and the SNR at the F-35A anchor. Column notes in the script docstring (`build_predictions_v2.py`). |
++| `windows.csv` | Request windows per receiver and branch (SOFAR, AGW), union over data options, padded −10/+20 min; reference rows for Kadri's two times, the poster boxes, two Table 1 rows, the H08S interval 01:05–01:20 and Royer's H01W picks. |
++| `reference_measure.py` | ~150 lines, numpy + scipy: Butterworth bands; peak, RMS, exposure; pre-event noise; SNR; plane-wave bearing fit; optional envelope matched filter (M1b). |
++| `templates_envelope.npz` / `.csv`, `templates_meta.json`, `pulse_runj.npz` | M1b templates (32: 8 ranges × 4 source durations) and the run J pulse model used for the synthetic test set. |
++| `synth_triad.py`, `selftest.py`, `selftest_results.csv`, `selftest_summary.json` | Synthetic H01W triad test set (run J pulse model in coloured Gaussian noise) and the self-test results. The waveform files themselves are in `synthetic_triad/` of the zip (not in git). |
++| `REQUESTS.md` | The ask list with reasons and windows; the questions; the parallel request to J.-Y. Royer. |
++| `CALIBRATION_STATUS.txt` | What is calibrated, what is a proxy, the gate status. |
++| `MANIFEST.txt` | SHA-256 of every file and its provenance. |
++
++## Running the reference measurement unchanged on IMS triad data
++
++1. Export one triad record to `.npz` with these keys: `t0_utc` (ISO string, start of the record), `fs` (Hz, 250 for IMS),
++   `x` (3 × N pressure in Pa, elements in a fixed order after instrument response removal), `lat`, `lon` (3 element
++   positions, degrees, same order). Any record length ≥ 5 min works; include at least 60 s before the window of interest.
++2. Choose the signal window `[w0, w1]` and a pre-event noise window `[n0, n1]`, both in seconds from `t0_utc`
++   (e.g. for the text time at H01W with a record starting 00:45:00: signal 390–480 s, noise 60–300 s).
++3. Run
++   ```
++   python reference_measure.py H01W_0045.npz 390 480 60 300 out.csv --m1b templates_envelope.npz
++   ```
++   Output: one row per band (2–5, 5–10, 10–20, 20–40, 5–40 Hz) with peak Pa, RMS Pa, exposure Pa²s, noise RMS, SNR dB,
++   back-azimuth, apparent speed, minimum inter-element cross-correlation, delay-fit residual; and, for 5–40 Hz, the M1b
++   maximum correlation coefficient in the window, its time, and the maximum in the noise window.
++4. Thresholds: none are supplied. The M1b statistic must be referenced to the station's own background (maxima of ρ over
++   60 s windows on quiet days; the 99th percentile is the α = 0.01 reference used in our trials). The self-test gives the
++   model-matched best case only (`selftest_summary.json`).
++5. Nothing else is needed: no project code, no network. `python synth_triad.py test.npz 256.8 0` makes a synthetic record
++   you can use to check the pipeline before touching data (requires `pulse_runj.npz` and the IMS `stations.csv` positions,
++   both in the zip).
++
++## Provenance (short)
++
++Impact set: end of flight run J (74 seeds, 313,599,968 rows; convergence accepted as a pass by project ruling 16 Oct 2026) plus
++the northern supplement. TL: KRAKEN adiabatic, bathymetry-following, GEBCO 2026 15″ and WOA23 March, 10 m source, RAM delta on
++the IMS paths (block 2, pre-registered fc825c0). Windows: block 3 (bc99b07). Templates: weak-signal track (78c7e88). Searches
++quoted in the request list: block 5 (a4cdab0). All on the module branch `hypothesis/hydroacoustics`; results notes on
++`claude-science-sep29` under `results/hydroacoustics-*.md`.
++

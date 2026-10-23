@@ -1,0 +1,1 @@
+curl -sL -m 60 "http://web.archive.org/cdx/search/cdx?url=mh370.mot.gov.my/*&output=txt&filter=mimetype:application/pdf&collapse=urlkey" -o dl/cdx.txt; wc -l dl/cdx.txt; grep -iE 'search|update|weekly|ocean|OSU|progress' dl/cdx.txt | awk '{print $2, $3, $7}' | head -60

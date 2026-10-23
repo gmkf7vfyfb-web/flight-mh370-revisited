@@ -1,0 +1,1 @@
+cd atsrc/at/Kraken; sed -n 575,600p kraken.f90; sed -n 180,230p ../misc/ReadEnvironmentMod.f90 | grep -v '^\s*!' 

@@ -1,0 +1,1 @@
+export HOME=$PWD/home XDG_CONFIG_HOME=$PWD/home/.config; cd repo; git pull -q --rebase 2>&1|tail -2; git log --oneline -5; f="Claude Science Project Sep 29/coordination/HYDROACOUSTICS.md"; wc -l "$f"; grep -n "^## " "$f" | tail -6; grep -n -i "haixun\|kadri" "$f" | tail -10 | cut -c1-300; ls "Claude Science Project Sep 29/results/kadri-haixun-conditional-2026-10-18/"

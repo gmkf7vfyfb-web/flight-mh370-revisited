@@ -1,0 +1,1 @@
+k=txt.find('man with just one watch'); print(txt[k+200:k+4500])

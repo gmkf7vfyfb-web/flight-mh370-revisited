@@ -1,0 +1,2 @@
+df -k /System/Volumes/Data | tail -1 | awk '{printf "free %.1f GiB\n",$4/1048576}'; uptime
+O=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-imos-ram-grid; ls $O | head; grep -c ' ok ' $O/run.log 2>/dev/null; tail -2 $O/run.log 2>/dev/null | cut -c1-160

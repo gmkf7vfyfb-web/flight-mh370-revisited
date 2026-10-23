@@ -1,0 +1,1 @@
+cd eof/"Claude Science Project Sep 29"/engine/hypotheses/end-of-flight/smoke; grep -n "def option_posteriors" -B5 -A80 displacement_hist.py | head -150; git -C . log -1 --format=%h -- displacement_hist.py

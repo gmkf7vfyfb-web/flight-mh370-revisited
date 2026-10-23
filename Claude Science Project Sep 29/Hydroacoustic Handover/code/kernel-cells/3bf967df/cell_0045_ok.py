@@ -1,0 +1,2 @@
+print(host.findings.mark_addressed(["1afc3aa5-46ef-4c83-a3a8-cb34a79fa037"], "SYNTHESIS.md (6f9b213) states these were the run I DIVE draw around the wrong 26.2 S point and are superseded by run J numbers."))
+print(host.findings.mark_addressed(["b74e04c9-9084-4375-86a0-13217e8fed56"], "SYNTHESIS.md states arm V2 acoustic ln B as -5.0 to -9.6 at bearing sd 1.0 deg (-4.5 only at sd 0.5 deg)."))

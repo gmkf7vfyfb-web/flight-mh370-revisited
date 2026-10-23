@@ -1,0 +1,1 @@
+cd "hrepo/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"; sed -n '1,200p' kadri_northern_conditional.py

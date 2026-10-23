@@ -1,0 +1,1 @@
+cd src; curl -sv -L --max-time 60 "https://data.mendeley.com/datasets/nr4vt4h8gt/1" -o mdl.html 2>&1 | grep -i "^< HTTP\|location\|error\|timed\|CONNECT" | head; ls -la mdl.html 2>/dev/null; curl -s --max-time 30 "https://data.mendeley.com/public-api/datasets/nr4vt4h8gt/versions" | head -c 500

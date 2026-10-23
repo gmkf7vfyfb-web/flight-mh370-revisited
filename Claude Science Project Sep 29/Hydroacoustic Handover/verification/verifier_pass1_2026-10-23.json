@@ -1,0 +1,140 @@
+{
+ "frame_id": "e5e68baf-caca-429f-8445-180c9d8be519",
+ "name": "Verifier",
+ "status": "completed",
+ "wall_s": 1009,
+ "structured_output": {
+  "checks": [
+   {
+    "item": "1 Registry structure and file hashes",
+    "claim": "80 entries, 10 constants, 19 defects, build_errors empty; manifest sha256 values correct",
+    "recomputed": "80 / 10 / 19 / 0 build errors. Random 40 files (seed 20261023; 20 EX, 16 INPUTS, 3 OCEAN, 1 MOD): 40/40 sha256 and byte sizes agree. Extra (not requested): every manifest file under WORK, MOD, ART roots hashed against clones 81e5526/c9ac5cc and the ART folder: WORK 42/42 OK, ART 14/14 OK, MOD 355 OK + 18 MISSING. All 79 manifest_sha256 values reproduce (hash of the TSV body without header).",
+    "verdict": "AGREE",
+    "evidence": "The 18 MOD misses are __pycache__/*.pyc and gates/.pytest_cache files that are listed in the code.module_prepare manifest but are not in commit c9ac5cc (untracked caches hashed from the working tree). The random 40 contained no WORK or ART file; the full WORK/ART hash covers that gap."
+   },
+   {
+    "item": "2 Registry quotes and constant values",
+    "claim": "Each stored quote equals the cited file lines; every must_contain string present; constant values as quoted",
+    "recomputed": "34 file-cited quotes (9 constants + 25 defect evidences; gps_utc_2014 has no file; D18 cites git fe5cdfd, checked with git show: lines 125-129 hold the old 'upper bound ... shallow sound channel' text). 27/34 byte-identical; 7/34 differ only by stripped leading whitespace (eta_prior_bounds, pick_sd, kadri_highpass, D03, D20, D22 build_predictions_v2.py:212, D23). All must_contain strings present. Values: 2.26e-3, 2.1e-4, [1e-6,1e-2], 1.482 +/- 0.006 km/s, 'pick sd 10 s', '8 Hz hardware corner', 'high-passes below 5 Hz', '307 s every 15 min' all match the quoted text.",
+    "verdict": "PARTLY",
+    "evidence": "Not exact equality for 7 quotes (leading indent removed: quote == line.strip()). Content otherwise identical. ART files checked against the ART folder; their sha256 equals the artifact-store checksums (take2 d28aa25a 0941636f..., withdrawal 269947b9 72432e56..., crossid 239646ad 7a24d7c1...)."
+   },
+   {
+    "item": "3a Gate counts on ranked/",
+    "claim": "35 / 1,111 / 63 / 2,584 / 11,067 / 47 H08S singles, 44 within 1.5 s of a shot",
+    "recomputed": "singles band '2-5' 35; pairs either band '2-5' 1,111; singles rx 3250 63; pairs with 3250 2,584; triples rxs containing 3250 11,067 (same with exact token split); H08S singles 47, of which 44 within 1.5 s of a shot (t = s after 00:00; also 44 with strict <1.5 s). Next-nearest outside: 3.9 s, 9.1 s, 27.8 s.",
+    "verdict": "AGREE",
+    "evidence": "ranked_singles.csv 184 rows, ranked_pairs.csv 3,321, ranked_triples.csv 12,331; h08s_template_shots.csv 110 shots, panels d/e, 01:00:04-01:19:09, median spacing 9.975 s; shot +/-1.5 s windows cover 28.5 % of that span (supports 'chance about 30 %')."
+   },
+   {
+    "item": "3b Module tests",
+    "claim": "9 tests reproduce the review counts",
+    "recomputed": "pytest -q test_gates.py with HYDRO_ART=<folder>/a35831fe/239646ad_royer-events-crossid-all-sites.csv (copied from artifact store version 239646ad, sha256 7a24d7c1...): 9 passed in 0.39 s, 0 skipped.",
+    "verdict": "AGREE",
+    "evidence": "HYDRO_EX and HYDRO_OCEAN left at the test defaults (Mac paths). Run with -p no:cacheprovider and PYTHONDONTWRITEBYTECODE so nothing was written to the clone."
+   },
+   {
+    "item": "4 Land path",
+    "claim": "201 of 2,000 points on land 26.34S 100.93E -> 3275; 0 for 37.1S 90E to H01W, H08S, 3376, 3275",
+    "recomputed": "pyproj Geod WGS84 npts(2000), nearest-node GEBCO 2026 (row 0 = south edge, little-endian int16; orientation checked on Perth +22 m, Uluru +672 m, 35S 95E -4,409 m): 201 points with elevation > 0 (also 201 with >= 0). 37.1S 90E: H01W 0, H08S 0, 3376 0, 3275 0.",
+    "verdict": "AGREE",
+    "evidence": "Receivers from run-j-searches/geometry/run.json; 3275 = (-38.542433, 141.225583)."
+   },
+   {
+    "item": "5 Royer marks",
+    "claim": "00:52:03 inside fig4_eventA H01W pick bar; 00:48:21 within 20 s of arrow 00:48:11.41",
+    "recomputed": "fig4_eventA H01W-2 bar 3116.8-3124.5 s (00:51:56.77-00:52:04.52); 00:52:03 = 3123.0 s, inside. 00:48:21 - 00:48:11.41 = 9.6 s.",
+    "verdict": "AGREE",
+    "evidence": "Caveat (see other findings): every H01W-2 mark in the same file sits +7.7 to +16.6 s (pick bars) after Royer's Table 5 arrival for that station, while other stations sit within about +/-5 s; Table 5 gives event A at H01W 00:51:42.99, 20 s before 00:52:03."
+   },
+   {
+    "item": "6 Detection register",
+    "claim": "184 / 3,321 / 12,331 rows; summary.json flag counts; labels correct",
+    "recomputed": "Rows 184 / 3,321 / 12,331; SHA256SUMS 4/4 match. Flag counts recomputed from the 'flags' column equal summary.json exactly for singles, pairs, triples (n_no_flags 38 / 10 / 2; 'none' is the empty-flag token); n_flags equals the number of flags on every row; 'impossible coupling' == eta_at_q99E > 1 on every row (5 pairs, 5 triples); 'before 00:19:29' recomputed 371 pairs, 2 triples. 10 rows re-derived (3 singles, 3 pairs, 2 triples random seed 11, plus 1 positioned single and 1 triple with a locus): band, receiver, shot (+dt), land (+inner land points: 18, 164, 0...), impact-time and coupling labels all agree.",
+    "verdict": "PARTLY",
+    "evidence": "Labels agree, but the flag text 'not assessed: coupling not computable (fewer than 20 run J impacts within 1 deg)' is wrong for all 2,779 pairs and 195 triples that carry it: every one has E_q50/E_q99 at the locus (enough impacts); the real cause is eta_level_locus = inf (2,577 pairs, all with 3250) or NaN (202 pairs, 195 triples). build_register.py lines 78/105 map any NOT_COMPUTABLE (gates.py line 175, non-finite eta) to that text. Random draw was heavy on 3250 and no-position rows, so 2 fully assessed rows were added."
+   },
+   {
+    "item": "7 Coupling scaling",
+    "claim": "energy_grid and eta_at_q99E / multiples",
+    "recomputed": "D0-weighted (w_D0>0), |lat-L|<=1: 36.5S q50 1.96459e9 J, q99 1.20996e10 J (grid node -36.5: identical; n 3,261,374 vs grid 3,261,372). 33.7S q50 1.07351e9, q99 1.21266e10 (grid interpolated 1.07291e9 / 1.21244e10). Singles: rows 41, 19, 50 eta 0.003942/0.003939, 0.01377/0.01377, 0.05251/0.05252; x2.1e-4 18.77/18.76, 65.58/65.59, 250.1/250.1; x2.26e-3 1.744/1.743, 6.094/6.095, 23.24/23.24. Pairs: row 199 eta 0.4645/0.4638 (x 2212/2208, 205.5/205.2); row 300 0.02657/0.02661 (126.5/126.7, 11.76/11.78); row 2780 (3250 pair) eta_level_locus inf -> NaN in both; extra row 0 0.03436 matches.",
+    "verdict": "AGREE",
+    "evidence": "Differences <= 0.3 %, from 0.25 deg grid interpolation versus my direct +/-1 deg window."
+   },
+   {
+    "item": "8 Kadri v3 predictions",
+    "claim": "same keys; IMS rows identical on all common columns; SNR offset 10*log10(2.26e-3/2.1e-4) on every finite row; v3 reads imos_tl_ram_arc.csv",
+    "recomputed": "1,720 identical (source_id, receiver) keys; v3 adds 3 columns. IMS rows (645): all common columns identical EXCEPT 'labels' (differs on all 645; declared change 3). IMOS rows: 36 columns change (TL, levels, SNR, blockage, labels). SNR difference on 1,275 finite rows: 10.3 dB on 1,035, 10.4 dB on 240 (theory 10.319 dB; both columns rounded to 0.1 dB); exposure ratio 10.7619 exactly. build_predictions_v3.py line 218 reads TLT/'imos_tl_ram_arc.csv'.",
+    "verdict": "PARTLY",
+    "evidence": "README.txt says 'every common column identical on IMS rows' and '10.3 dB on every row'; v2_v3_comparison.json says ims_rows_identical_all_common_columns true. Literally false: labels differ on every IMS row, and 240 rows show 10.4 dB (rounding). The v3 docstring lines 6-9 and 29 still say 'F-35A upper anchor 2.1e-4' and 'IMOS: RAM-corrected table'."
+   },
+   {
+    "item": "9 Metz value consistency",
+    "claim": "2.26e-3 consistent with triads 3.3e-3/1.5e-3; ratio 10.8, 10.3 dB",
+    "recomputed": "sqrt(3.3e-3 x 1.5e-3) = 2.225e-3; with rounding of the triad values the range is 2.171e-3 to 2.279e-3, so 2.26e-3 is consistent (at the upper end). 2.26e-3/2.1e-4 = 10.762; 10*log10 = 10.32 dB. Other checks: 2.26e-3/2.8e-4 = 8.07 ('factor of 8'); 10log10(2.26/3.0) = -1.23 dB ('-1.2 dB').",
+    "verdict": "PARTLY",
+    "evidence": "No contradiction of a registry constant VALUE. But the 'single-factor spread 2.8e-4 to 5.4e-2' (registry eta_F35A_metz note, D01 evidence line 171, INDEX, brief line 143) is contradicted by the note's own table (line 70): the f^-4 roll-off single factor gives 1.3e-1, above 5.4e-2."
+   },
+   {
+    "item": "10 decisions.md / decisions.json quotes",
+    "claim": "52 quotes exact substrings of the cited messages",
+    "recomputed": "52/52 exact substrings when matched by (frame_id, message_idx); P50 uses idx '(after export)' = M129. decisions.md table rows equal decisions.json (quote, topic, frame, idx) for all 52.",
+    "verdict": "AGREE",
+    "evidence": "Topic labels read against context: none misrepresents Pete. Minor context losses: P17 cuts 'and provide the scientific basis for that result (or not)' (it was a request to prove or not, not a standard); P35 'that' refers to EOF ('Checking on EOF.' omitted); P25 begins with the agent's sentence that Pete quoted before 'I agree' (quote marks kept). The claim '46 hydroacoustic frames' is NOT CHECKED (the Pete-messages artifact holds 11 frames)."
+   },
+   {
+    "item": "11 Note banners and INDEX tables",
+    "claim": "13 non-CURRENT notes carry a banner equal to the registry status; INDEX agrees with REGISTRY.json",
+    "recomputed": "42 note entries, 13 non-CURRENT; all 13 first lines match '> **Registry status (23 Oct 2026): <STATUS>' with the registry status; no CURRENT note has a banner. INDEX lists all 80 entries; every status, superseded_by target and defect list matches; Defects table ids/order and 'affects' lists match; status counts line matches.",
+    "verdict": "AGREE",
+    "evidence": "Registry-internal check: entry.defects and defect.affects are mutually consistent. Defect coverage gaps are reported under other findings (D01 missing on note.injection_recovery_run_j and ex.run_j_gated_v2)."
+   },
+   {
+    "item": "12 Brief",
+    "claim": "REGISTRY AND DATA RULES block present; coupling paragraph corrected and consistent with the Metz note",
+    "recomputed": "Block at lines 8-21 (7 rules). Coupling paragraph lines 140-147: 2.26e-3 (z_s 10 m), spread 2.8e-4 to 5.4e-2, 2.1e-4 Arons-equivalent, 'upper bound ... shallow sound channel' NOT SUPPORTED (+2.9 dB), prior 1e-6..1e-2 agent choice. These numbers equal the Metz note lines 64-73 and 171-176.",
+    "verdict": "PARTLY",
+    "evidence": "Same 5.4e-2 spread issue as item 9 (f^-4 roll-off 1.3e-1). Rule 1 bans only WITHDRAWN and KNOWN_DEFECT, but INDEX line 5 says use only CURRENT or CURRENT_WITH_CAVEATS (INDEX also excludes SUPERSEDED, UNCHECKED, PENDING_RULING): the two rules differ."
+   },
+   {
+    "item": "13 Profile",
+    "claim": "live HYDROACOUSTIC_MODULE systemPrompt equals profile-prompt-...-after-2026-10-23.txt",
+    "recomputed": "Byte-identical (4,588 chars, sha256 ee471b33afc1dc85...); differs from the 'before' file.",
+    "verdict": "AGREE",
+    "evidence": "host.agents.get('HYDROACOUSTIC_MODULE') in repl."
+   },
+   {
+    "item": "14 Language",
+    "claim": "No detection/absence, certainty or 'published work is wrong' statements in the new files",
+    "recomputed": "Hits that are certainty claims: (a) INDEX.md:128 (D04): '2-5 Hz members at IMOS (hardware corner 8 Hz) and on Kadri panels (5 Hz high-pass) cannot be impact sound in that band.' (b) ERRATA_v2_text.txt:7-8 (item 4): 'the H08S 01:12:49 raw-panel row lies 0.14 s from an airgun shot ... It is not an independent arrival.' (c) ERRATA_v2_text.txt:5-6 (item 3): '... is time-consistent with Royer 2016 icequake A (it lies inside Royer's Fig. 4 H01W pick bar ...)' stated without the H01W-2 timing caveat. No statement that a detection exists; no statement that another researcher's work is wrong (D13 at INDEX.md:136 and ERRATA item 6 explicitly say the opposite). decisions.md P17 contains 'definitively isn't a detectable signal' but it is Pete's quoted request.",
+    "verdict": "DIFFER",
+    "evidence": "(a) A corner/high-pass attenuates below the corner, it does not remove all energy; 'cannot' is a certainty claim. (b) conflicts with Pete P23/P24 (shot present can still contain a detection) and with the register README line 11 ('NOT an exclusion'); 0.136 s recomputed. (c) see item 5 caveat."
+   },
+   {
+    "item": "15 Other",
+    "claim": "-",
+    "recomputed": "See other_findings.",
+    "verdict": "PARTLY",
+    "evidence": "8 further findings listed."
+   }
+  ],
+  "other_findings": [
+   "Register flag text is wrong for 2,779 pairs and 195 triples: 'not assessed: coupling not computable (fewer than 20 run J impacts within 1 deg)' is applied when eta_level_locus is inf (2,577 pairs, all with 3250) or NaN (202 pairs, 195 triples); all these rows have E_q50/E_q99 at the locus. Cause: build_register.py lines 78 and 105 map every NOT_COMPUTABLE (gates.py line 175, any non-finite input) to the 'fewer than 20' text.",
+   "D01 coverage gap: note.injection_recovery_run_j (line 13: 'about three times the F-35A anchor (2.1 x 10^-4)') has defects D05, D06, D22 only; ex.run_j_gated_v2 README line 11 ('eta = 2.1e-4 (F-35A upper anchor, Brown et al. 2026)') has D05, D06, D20, D25 only. Both are CURRENT_WITH_CAVEATS without D01, although the stale-wording TSV lists these lines.",
+   "Single-factor spread '2.8e-4 to 5.4e-2' (registry eta_F35A_metz note, D01 text, INDEX, brief line 143, Metz note line 171) omits the f^-4 roll-off case in the same note's table (line 70: 1.3e-1). The prior upper bound 1e-2 (eta_prior_bounds) lies below the 2 m-source (5.4e-2) and f^-4 (1.3e-1) values, so the agent-chosen prior truncates part of the F-35A single-factor range; this is not stated in the brief or INDEX.",
+   "Royer H01W-2 timing: in royer_figure_marks.csv every H01W-2 pick bar is +7.7 to +16.6 s after Royer's Table 5 arrival for that event (13.8 s for event A), and H01W-2 arrows mostly +6 to +18 s, while MAD, SSEIR, SWAMS, WKER, NCRO bars are within about +/-5 s (outliers are second bars). Against Table 5 (00:51:42.99) Kadri's 00:52:03 is +20 s, outside the +/-2 s pick-bar rule. D07, ERRATA item 3 and the register's 4 single + 199 pair + 2,690 triple 'H01W time-consistent with Royer' flags depend on the digitised bar position; this sensitivity is not stated. Similarly D07's 'caption time 00:54:30 is 6 s from Royer event 5' is 5.9 s from the digitised arrow (00:54:24.06) but 17.6 s from Table 5 (00:54:12.44).",
+   "Kadri v3: README.txt and v2_v3_comparison.json state IMS rows identical on all common columns, but 'labels' differs on all 645 IMS rows; README says SNR difference 10.3 dB 'on every row' but 240 of 1,275 finite rows show 10.4 dB (rounding; exposure ratio exactly 10.762). build_predictions_v3.py keeps the v2 docstring text 'F-35A upper anchor 2.1e-4' (lines 8-9) and 'IMOS: RAM-corrected table' (line 29), which contradict its own change list.",
+   "ERRATA_v2_text.txt item 4 says the H08S 01:12:49 row 'is not an independent arrival'. This is a certainty claim and conflicts with Pete's rulings P23/P24 and the register README ('NOT an exclusion'). INDEX D04 says 2-5 Hz members 'cannot be impact sound in that band'; a hardware corner or Butterworth high-pass attenuates, it does not eliminate.",
+   "Provenance: REGISTRY.json 'git' and the INDEX header record module 590c80f and work fe5cdfd (HEADs before the clean-up commits), not c9ac5cc / 81e5526 that contain the registry and the banners; content hashes nevertheless match the committed files. The code.module_prepare manifest includes 18 untracked __pycache__/.pytest_cache files that are not in the repo. 7 of 34 registry quotes have leading whitespace stripped, so 'quote equals file lines' holds only after strip().",
+   "Brief rule 1 (only WITHDRAWN and KNOWN_DEFECT excluded) is weaker than INDEX line 5 (use only CURRENT or CURRENT_WITH_CAVEATS); brief rule 3 adds 'where it runs and the development time', which is wider than Pete's quoted P39/P40 (computational time). decisions.md's '46 hydroacoustic frames' could not be checked (the Pete-messages artifact has 11 frames; 8 are cited)."
+  ],
+  "summary": "The core numbers reproduce from raw files: registry hashes (40/40 random, plus all WORK/ART files), the review gate counts (35, 1,111, 63, 2,584, 11,067, 44 of 47), the land path (201 of 2,000; 0 for the four 37.1S paths), the Royer checks, the register flag counts and 10 re-derived rows, the energy grid and coupling multiples (<=0.3 %), the 52 quotes, the 13 banners, INDEX vs registry, and the live profile. The module tests pass (9/9). Errors found: (1) a wrong reason text on 2,779 pair and 195 triple flags ('fewer than 20 impacts' where the cause is inf/NaN coupling); (2) D01 missing on two items that still call 2.1e-4 the F-35A anchor; (3) the stated F-35A single-factor spread upper end 5.4e-2 is contradicted by the note's own f^-4 value 1.3e-1, which is also above the 1e-2 prior bound; (4) Kadri v3 README/json overstate identity (labels differ on IMS rows; 10.4 dB on 240 rows) and the v3 script docstring keeps the old anchor wording; (5) two certainty statements (INDEX D04 'cannot', ERRATA item 4 'not an independent arrival'); (6) the Royer H01W match depends on digitised H01W-2 marks that are +8 to +17 s from Royer's Table 5, which is not stated. Quotes match only after leading-whitespace strip for 7 of 34."
+ },
+ "deviations": [
+  "Item 1: the random 40 files fell in EX/INPUTS/OCEAN/MOD only (none in WORK/ART); I added a full hash of all WORK, MOD and ART manifest files instead of re-drawing.",
+  "Item 6: 8 random rows plus 2 extra fully assessed rows (10 in total); the land check was re-derived only on those rows, not on all 15,836.",
+  "Item 8: the IMOS TL change quantiles (-26.9/0.0/+10.7 dB) in v2_v3_comparison.json were not recomputed (the TL column used is not identified).",
+  "Item 10: the '46 frames' source count is NOT CHECKED; the Pete-messages artifact holds 11 frames.",
+  "Item 3b: HYDRO_EX/HYDRO_OCEAN left at test defaults (Mac paths); the crossid CSV came from artifact-store version 239646ad."
+ ]
+}

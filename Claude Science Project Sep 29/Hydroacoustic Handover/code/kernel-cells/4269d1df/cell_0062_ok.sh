@@ -1,0 +1,1 @@
+sed -i '' 's/minlength=4)/minlength=8)/' rowcond.py; export OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2; KSEEDS=1 /usr/bin/time -l python rowcond.py smoke-rowcond.npz run-j-waypoints=0.9982 2>&1 | grep -E "seed|WROTE|maximum resident|real|Error|error" | head

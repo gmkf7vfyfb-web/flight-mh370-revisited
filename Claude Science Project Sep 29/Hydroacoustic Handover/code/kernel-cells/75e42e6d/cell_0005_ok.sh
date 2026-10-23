@@ -1,0 +1,1 @@
+cd src; head -c 1500 sir.txt; echo; grep -n -i -c "ELT" sir.txt; grep -n -i "page [0-9]* of\|^[0-9]\{1,3\}$" sir.txt | head -5; grep -n -i "emergency locator" sir.txt | head -30

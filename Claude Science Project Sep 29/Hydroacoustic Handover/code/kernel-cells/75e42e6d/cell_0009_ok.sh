@@ -1,0 +1,1 @@
+cd src; sed -n 3420,3470p sir.txt | grep -v "^ *$"

@@ -1,0 +1,1 @@
+ls ~/Downloads/mh370-ocean-data ~/Downloads/mh370-large-files 2>/dev/null | head -40; find ~/Downloads/mh370-ocean-data ~/Downloads/mh370-large-files ~/Downloads/mh370-exchange -maxdepth 4 -iname '*gebco*' 2>/dev/null | head; ls "hrepo/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/data/ocean_paths" | head

@@ -1,0 +1,1 @@
+cd "hrepo/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics"; grep -n -i -E 'tl|exposure|peak|R_per|eta|def ' prepare/kadri_predictions.py | head -60

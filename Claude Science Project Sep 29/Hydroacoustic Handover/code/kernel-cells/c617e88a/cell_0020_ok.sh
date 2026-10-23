@@ -1,0 +1,1 @@
+cd hydro/"Claude Science Project Sep 29"/engine/hypotheses/hydroacoustics; grep -nE "^(IMOS|META|HERE|DAY0|T_IMPACT_REF|C_G|SD_C|GEOD)\b" prepare/imos_preregistration.py prepare/imos_detectors.py prepare/f35a_eta_calibration.py; sed -n 40,70p prepare/imos_stageB_map.py; ls results-data/stageA; head -3 data/imos/recordings.csv

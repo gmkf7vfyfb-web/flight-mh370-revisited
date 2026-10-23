@@ -1,0 +1,18 @@
+{
+ "prereg": "kadri_fig9_noise.py c24425f6",
+ "H01W": {
+  "median_delta_db": -5.96,
+  "rule_outcome": "3 < |Delta| <= 6: Delta added as a labelled sensitivity (Blackman retained as primary)",
+  "caveat": "time-series cross-check (not pre-registered, diagnostic): panel (b) column extremes about 0.45 Pa -> sigma about 0.13 Pa (102.4 dB re 1 uPa), consistent with the Blackman PSD integrated over 5-125 Hz (about 103 dB); the spectrogram colour reading is likely biased low by the 64-dB colour floor and JPEG darkening (30-40 % of pixels dropped by the 40-RGB rule)"
+ },
+ "H08S": {
+  "median_delta_db": 1.91,
+  "rule_outcome": "|Delta| <= 3: Blackman retained",
+  "impulses": "periodic impulses (about every 10-15 s) in both panels: columns with extremes > 2x the median in 8-11 %, > 3x in 1-5 % (column about 1.9 s); a detection-probability matter (masking/false alarms) on 8 March 2014, labelled on every H08S result"
+ },
+ "calibration": {
+  "H01W_freq_ticks": "40/30/20/10 Hz at y 193.3/216.0/241.0/276.7",
+  "H01W_cbar": "100/90/80/70 dB at y 214.7/238.3/261.7/285.3"
+ },
+ "label": "DIGITISED from a published JPEG; +/- 2 dB declared; predictive"
+}

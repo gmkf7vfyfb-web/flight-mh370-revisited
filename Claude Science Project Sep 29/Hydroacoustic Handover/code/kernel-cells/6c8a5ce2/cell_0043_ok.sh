@@ -1,0 +1,1 @@
+cd .tmp/hy/"Claude Science Project Sep 29"/engine/hypotheses/hydroacoustics/prepare; sed -n 140,200p per_impact_lnl.py; grep -n -E "TAU_GRID|def nuisance" -A12 exploratory/pleiades_test/lhyd.py | head -50; ls exploratory/pleiades_test/

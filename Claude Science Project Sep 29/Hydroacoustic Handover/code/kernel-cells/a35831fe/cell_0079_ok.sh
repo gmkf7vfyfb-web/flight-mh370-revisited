@@ -1,0 +1,1 @@
+cd /Users/pete/Downloads/mh370-exchange; ls; echo; for d in */; do echo "== $d"; ls $d | head -15; done 2>/dev/null | head -150

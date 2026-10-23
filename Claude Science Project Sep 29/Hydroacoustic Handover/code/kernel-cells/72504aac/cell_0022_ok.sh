@@ -1,0 +1,1 @@
+cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"; ls searches_run_j; grep -n -E "def |w_D0|loglik|OPTION|D0|survival|inflight" run_j_windows.py | head -60

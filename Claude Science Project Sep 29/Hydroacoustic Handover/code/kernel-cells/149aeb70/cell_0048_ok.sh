@@ -1,0 +1,1 @@
+cd /tmp && timeout 60 curl -sSL -o ne_land.geojson "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_land.geojson" && ls -la ne_land.geojson && head -c 120 ne_land.geojson

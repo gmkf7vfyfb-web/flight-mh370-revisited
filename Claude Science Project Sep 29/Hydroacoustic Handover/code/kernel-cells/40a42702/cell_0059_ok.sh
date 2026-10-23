@@ -1,0 +1,1 @@
+pwd; python -c "import os;print(repr(os.getcwd()))"; ls -d $PWD/tools; realpath tools 2>&1 | head -2

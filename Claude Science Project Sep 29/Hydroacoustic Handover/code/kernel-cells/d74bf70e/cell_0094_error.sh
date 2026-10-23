@@ -1,0 +1,1 @@
+cd repo && git ls-tree -r -l HEAD | grep -i "Blackman_2004_extracted" ; git log --oneline -1 26e3487 2>/dev/null || git log --oneline --all -1 -- "Sept 27 2026 backup PL ChatGPT instance/Blackman_2004_extracted_data_2026-09-27.zip.b64"

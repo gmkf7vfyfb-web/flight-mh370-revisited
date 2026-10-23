@@ -1,0 +1,1 @@
+ps -Ao pid,etime,%cpu,rss,command | grep -E 'lockf|python|cargo|mh370' | grep -v grep | cut -c1-250 | head -20; uptime

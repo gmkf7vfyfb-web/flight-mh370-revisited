@@ -1,0 +1,1 @@
+curl -sL -m 90 "http://web.archive.org/cdx/search/cdx?url=mot.gov.my&matchType=domain&output=txt&filter=original:.*(?i)(search.?update|weekly|operational.?search|seabed).*&collapse=urlkey&limit=300" -o dl/cdx2.txt; wc -l dl/cdx2.txt; awk '{print $2, $3, $4}' dl/cdx2.txt | head -80

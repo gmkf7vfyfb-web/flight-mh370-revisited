@@ -1,0 +1,1 @@
+cd "repo/Claude Science Project Sep 29/results/drift-runj-2026-10-17/arc-latitude-scan"; cat arclat-globcurrent-north.toml | cut -c1-400; echo ====; cat run_arclat.sh; echo ===; head -5 arclat-release-points.csv; grep -c . arclat-release-points.csv

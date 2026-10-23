@@ -1,0 +1,1 @@
+sleep 590; S=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated/stats-ramgrid-v2; date -u +%H:%MZ; tail -1 $S/driver.log | cut -c1-80; ls $S/_parts 2>/dev/null | wc -l

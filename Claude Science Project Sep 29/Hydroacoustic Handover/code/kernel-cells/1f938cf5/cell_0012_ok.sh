@@ -1,0 +1,1 @@
+cd "settl/Claude Science Project Sep 29/engine/hypotheses/settling/"; cat breakup.toml

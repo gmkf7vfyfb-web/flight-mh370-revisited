@@ -1,0 +1,1 @@
+cd repo/"Claude Science Project Sep 29"; wc -l coordination/HYDROACOUSTICS.md results/hydroacoustics-*.md | sort -n | tail -40; grep -n "^## " coordination/HYDROACOUSTICS.md | tail -40

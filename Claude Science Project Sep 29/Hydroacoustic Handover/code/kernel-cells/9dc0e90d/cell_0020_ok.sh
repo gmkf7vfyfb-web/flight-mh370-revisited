@@ -1,0 +1,1 @@
+cd repo/r/"Claude Science Project Sep 29"/results; grep -c "^| [a-z]" debris-drift-find-episodes.md; grep -i -E "no.step|evatra|2023|2024|2025" debris-drift-find-episodes.md | cut -c1-200 | head; sed -n 1,30p debris-drift-find-episodes.md | cut -c1-200 | head -30

@@ -1,0 +1,81 @@
+# [edit_file] created /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/149aeb70-e4ae-4829-a477-5c291fc000a5/make_kadri_fig.py
++++ /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/149aeb70-e4ae-4829-a477-5c291fc000a5/make_kadri_fig.py
++import numpy as np, matplotlib.pyplot as plt, textwrap, json
++from matplotlib.lines import Line2D
++from matplotlib.patches import Polygon as MplPoly
++apply_figure_style(sizes=(8, 7, 6))
++Z = np.load("/Users/pete/Downloads/mh370-exchange/end-of-flight/run-i-dive/run-i-dive-subsample.npz", allow_pickle=True)
++cc = {str(n): i for i, n in enumerate(Z["columns"])}; b = Z["baseline"]
++ila, ilo = b[:, cc["latitude_deg"]], b[:, cc["longitude_deg"]]
++
++fig, ax = plt.subplots(figsize=(7.2, 5.4))
++gj = json.load(open("/tmp/ne_land.geojson"))
++for feat in gj["features"]:
++    g = feat["geometry"]
++    rings = [g["coordinates"][0]] if g["type"] == "Polygon" else [p[0] for p in g["coordinates"]]
++    for ring in rings:
++        ax.add_patch(MplPoly(np.asarray(ring), closed=True, facecolor="0.90", edgecolor="0.65", lw=0.4, zorder=0))
++
++lat_ax = np.arange(-45, -19, 0.25); lon_ax = np.polyval(cf, lat_ax)
++tested_m = (lat_ax >= -45) & (lat_ax <= -28.9)
++ax.plot(lon_ax, lat_ax, color="0.45", lw=1.0, zorder=2)
++ax.plot(lon_ax[tested_m], lat_ax[tested_m], color="#1b3a6b", lw=3.2, alpha=0.35, zorder=1)
++ax.scatter(ilo, ila, s=1.0, c="0.72", lw=0, zorder=2)
++
++bl, bl2 = fwd(*H01W, 306.18, np.arange(0, 1700, 5))
++ax.plot(bl2, bl, color="#d1495b", lw=1.2, zorder=4)
++ax.plot(101.88, -26.19, "*", ms=15, mfc="#d1495b", mec="w", mew=0.7, zorder=6)
++ax.annotate("Kadri's main signal:\nbearing 306.2° crosses here\n26.2°S 101.9°E, source 00:35-00:37",
++            (101.88, -26.19), (14, 10), textcoords="offset points", fontsize=6.4, color="#a8313f", zorder=7)
++
++for nm, (rla, rlo) in [("H01W", H01W), ("H08S", RX["H08S Diego Garcia S"]),
++                       ("Perth Canyon", (-31.8422, 115.0137)), ("Scott Reef", (-15.4834, 121.2510)),
++                       ("Portland", (-38.5370, 141.2476))]:
++    bad = nm in ("Portland", "Scott Reef")
++    col = "#d1495b" if bad else "#1b3a6b"
++    ax.plot(rlo, rla, "^" if nm.startswith("H0") else "s", ms=7 if nm.startswith("H0") else 5,
++            mfc=col, mec="w", mew=0.6, zorder=6)
++    py, px = gc_path(-26.19, 101.88, rla, rlo)
++    ax.plot(px, py, "--" if bad else "-", lw=0.9, color=col, alpha=0.8, zorder=3)
++    d = float(gc_km(-26.19, 101.88, rla, rlo))
++    lab = {"H01W": "H01W Cape Leeuwin\n1,520 km, 00:52", "H08S": "H08S Diego Garcia S\n3,730 km, arrives 01:17",
++           "Perth Canyon": "Perth Canyon\n1,422 km, arrives 00:51", "Scott Reef": "Scott Reef\nshelf blocks it",
++           "Portland": "Portland\nland blocks it north of 28.8°S"}[nm]
++    off = {"H01W": (-8, -16), "H08S": (10, 4), "Perth Canyon": (8, 6), "Scott Reef": (8, -4), "Portland": (-6, -18)}[nm]
++    ax.annotate(lab, (rlo, rla), off, textcoords="offset points", fontsize=6.2,
++                ha="right" if off[0] < 0 else "left", color="#a8313f" if bad else "0.15", zorder=7)
++
++ax.axhline(-28.765, color="#e8903a", lw=0.9, ls=":", zorder=3)
++ax.text(63.5, -28.4, "north of 28.8°S Portland is lost and the pair test's span ends",
++        fontsize=6, color="#a8631d", zorder=7)
++ax.set_xlim(62, 152); ax.set_ylim(-46, 2)
++ax.set_xlabel("Longitude (°E)"); ax.set_ylabel("Latitude (°)")
++ax.set_title("Kadri's own bearing points north of everything the pair test was set up to find", loc="left")
++ax.legend(handles=[Line2D([], [], ls="none", marker="o", ms=3, color="0.72", label="impacts in the latest run"),
++                   Line2D([], [], color="#1b3a6b", lw=3.2, alpha=0.35, label="arc segment the pair test covers (45–28.9°S)"),
++                   Line2D([], [], color="#d1495b", lw=1.2, label="bearing 306.2° from Cape Leeuwin"),
++                   Line2D([], [], ls="--", color="#d1495b", lw=0.9, label="path blocked for this source")],
++          loc="lower left", frameon=False, fontsize=6, handletextpad=0.5)
++
++ste = ("Plain: the star is where Kadri's strongest signal points, using his own bearing from Cape Leeuwin. It is about 1,000 km "
++       "north of where most of our simulated impacts are, and it is north of the blue band, which is the only stretch of the arc "
++       "the two-station pair test was set up to search. For a source at the star, the Portland recorders are behind Australia and "
++       "Scott Reef is behind the shallow shelf, so only Cape Leeuwin, Perth Canyon and Diego Garcia South could hear it. Perth "
++       "Canyon was recording and found nothing above the noise, but it only caught about three minutes of the window.")
++tech = ("Technical: arc is a quadratic fit to the run I dive impact cloud, a stand-in for the 7th arc; travel at 1.48 km/s; "
++        "blocking here is LAND ONLY from Natural Earth 110m, so it understates shelf blocking, which is why Scott Reef is marked "
++        "from the module's GEBCO result instead. Bearing 306.18 deg and the 00:52:03 (text) / 00:54:30 (caption) detection times "
++        "are the module's digitisation of Kadri (2024); the 2.5-minute discrepancy is in the publication. Implied source time "
++        "00:34:55 or 00:37:22. The pre-registered H01W x H08S pair test spans dt 856-1,347 s, which covers arc latitudes 45.0 to "
++        "28.9 S; this crossing needs dt 1,493 s. Impacts within 100/200/400 km of the star carry 0.37/1.19/2.31% of run I dive "
++        "weight with median impact time 00:36-00:38. Perth Canyon logger 3376 covered 186.0 s and 154.2 s of the two predicted "
++        "windows with best p 0.749 and 0.709 at SNR 7.7-8.7 dB; logger 3315 had zero coverage in both.")
++w_in, h_in = fig.get_size_inches(); ncol = int(w_in * 72 / 3.05); lh = 7.4 / (h_in * 72)
++lines = [(l, "0.25") for l in textwrap.wrap(ste, ncol)] + [("", "0")] + [(l, "0.45") for l in textwrap.wrap(tech, ncol)]
++bottom = len(lines) * lh + 0.02
++fig.tight_layout(rect=(0, bottom, 1, 1))
++for i, (l, col) in enumerate(lines):
++    fig.text(0.008, bottom - 0.012 - (i + 1) * lh, l, fontsize=5.6, color=col, va="baseline")
++fig.savefig("hydro-kadri-northern-locality.png", dpi=300)
++print("saved")
++

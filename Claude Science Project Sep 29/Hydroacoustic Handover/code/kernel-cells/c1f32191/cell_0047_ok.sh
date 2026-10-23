@@ -1,0 +1,1 @@
+mkdir -p charts_test && cp /tmp/b11res/*.png charts_test/ && ls charts_test; S=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated.staging; tail -1 $S/driver.log; ls $S/_parts | wc -l

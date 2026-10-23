@@ -1,0 +1,1 @@
+cd fix-metz && export GIT_CONFIG_GLOBAL=/dev/null && git checkout -q -- . && git status --short | head -5; echo "clean: $(git status --short | wc -l) changes"; git log -1 --format='%h' 

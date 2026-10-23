@@ -1,0 +1,145 @@
+{
+ "n_cycles": 107,
+ "cycles_per_panel": {
+  "d": 59,
+  "e": 48
+ },
+ "period_s_median": 9.950000000037107,
+ "gap_vs_shot_energy_db": -7.627524907961401,
+ "results": {
+  "shot_high|strict": {
+   "n_outliers": 1,
+   "n_coincident": 0,
+   "null_mean": 0.3113207547169811,
+   "null_q95": 1.0,
+   "p": 1.0,
+   "reading": "consistent with chance"
+  },
+  "shot_high|loose": {
+   "n_outliers": 1,
+   "n_coincident": 1,
+   "null_mean": 0.8018867924528302,
+   "null_q95": 1.0,
+   "p": 0.8037383177570093,
+   "reading": "consistent with chance"
+  },
+  "shot_high|table1_gated": {
+   "n_outliers": 1,
+   "n_coincident": 1,
+   "null_mean": 0.6981132075471698,
+   "null_q95": 1.0,
+   "p": 0.7009345794392523,
+   "reading": "consistent with chance"
+  },
+  "gap_high|strict": {
+   "n_outliers": 0,
+   "n_coincident": 0,
+   "null_mean": 0.0,
+   "null_q95": 0.0,
+   "p": 1.0,
+   "reading": "consistent with chance"
+  },
+  "gap_high|loose": {
+   "n_outliers": 0,
+   "n_coincident": 0,
+   "null_mean": 0.0,
+   "null_q95": 0.0,
+   "p": 1.0,
+   "reading": "consistent with chance"
+  },
+  "gap_high|table1_gated": {
+   "n_outliers": 0,
+   "n_coincident": 0,
+   "null_mean": 0.0,
+   "null_q95": 0.0,
+   "p": 1.0,
+   "reading": "consistent with chance"
+  },
+  "shot_low|strict": {
+   "n_outliers": 3,
+   "n_coincident": 1,
+   "null_mean": 0.9245283018867925,
+   "null_q95": 3.0,
+   "p": 0.4392523364485981,
+   "reading": "consistent with chance"
+  },
+  "shot_low|loose": {
+   "n_outliers": 3,
+   "n_coincident": 3,
+   "null_mean": 2.4056603773584904,
+   "null_q95": 3.0,
+   "p": 0.6728971962616822,
+   "reading": "consistent with chance"
+  },
+  "shot_low|table1_gated": {
+   "n_outliers": 3,
+   "n_coincident": 3,
+   "null_mean": 2.0943396226415096,
+   "null_q95": 3.0,
+   "p": 0.4392523364485981,
+   "reading": "consistent with chance"
+  },
+  "gap_low|strict": {
+   "n_outliers": 0,
+   "n_coincident": 0,
+   "null_mean": 0.0,
+   "null_q95": 0.0,
+   "p": 1.0,
+   "reading": "consistent with chance"
+  },
+  "gap_low|loose": {
+   "n_outliers": 0,
+   "n_coincident": 0,
+   "null_mean": 0.0,
+   "null_q95": 0.0,
+   "p": 1.0,
+   "reading": "consistent with chance"
+  },
+  "gap_low|table1_gated": {
+   "n_outliers": 0,
+   "n_coincident": 0,
+   "null_mean": 0.0,
+   "null_q95": 0.0,
+   "p": 1.0,
+   "reading": "consistent with chance"
+  }
+ },
+ "injection_pd": [
+  {
+   "snr_gap_db": 0,
+   "pd": 0.37,
+   "n": 300
+  },
+  {
+   "snr_gap_db": 3,
+   "pd": 0.4533333333333333,
+   "n": 300
+  },
+  {
+   "snr_gap_db": 6,
+   "pd": 0.45666666666666667,
+   "n": 300
+  },
+  {
+   "snr_gap_db": 10,
+   "pd": 0.31333333333333335,
+   "n": 300
+  },
+  {
+   "snr_gap_db": 15,
+   "pd": 0.16,
+   "n": 300
+  },
+  {
+   "snr_gap_db": 20,
+   "pd": 0.13333333333333333,
+   "n": 300
+  },
+  {
+   "snr_gap_db": 25,
+   "pd": 0.03666666666666667,
+   "n": 300
+  }
+ ],
+ "provenance": "stand-in prior, run no-exhaustion-prior (b3dd44b), track 295.66 +- 1.0 deg"
+}

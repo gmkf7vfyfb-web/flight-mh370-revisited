@@ -1,0 +1,1 @@
+uptime; S=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-gated.staging; tail -4 $S/driver.log; for f in $S/_w_run-j-free_1[4-7].log; do tail -1 $f; done; df -k /System/Volumes/Data | tail -1

@@ -1,0 +1,4 @@
+cd hyd; P='Claude Science Project Sep 29/engine/hypotheses/hydroacoustics'
+git ls-tree -r --name-only HEAD | grep -i royer | grep -v png
+git sparse-checkout set --no-cone "/$P/results-data/digitised/royer-2016/*.json" "/$P/results-data/digitised/royer-2016/*.csv" "/$P/results-data/digitised/royer-2016/tables/*" "/$P/results-data/searches_run_j/*" "/$P/results-data/calibration_events/*" "/$P/results-data/kadri2a/*" "/$P/results-data/kadri_northern/*" "/$P/results-data/pair_tests/*" "/$P/results-data/windows_run_j/*" "/$P/prepare/ranked_candidates/*" "/$P/results-data/digitised/MANIFEST.csv" "/$P/results-data/metz_f35a/*" "/$P/results-data/digitised/cmst*/*" 2>&1 | grep -v config/git
+ls "$P/results-data/digitised/royer-2016/"

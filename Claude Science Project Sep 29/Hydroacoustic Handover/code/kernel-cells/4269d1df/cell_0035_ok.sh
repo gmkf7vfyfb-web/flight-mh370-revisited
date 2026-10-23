@@ -1,0 +1,1 @@
+cd "repo/Claude Science Project Sep 29/results/drift-runj-2026-10-17"; cat apply_australia.py | cut -c1-260; echo ======; sed -n 1,45p analyze_runj.py | cut -c1-260

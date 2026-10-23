@@ -1,0 +1,1 @@
+W=/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/d74bf70e-a424-46a9-8149-902d027e782a; grep -rl --include=*.py "noise-vs-impact\|scenario_markers" $W 2>/dev/null | grep -v '/repo/Archive' | head; cd "audit/repo/Claude Science Project Sep 29"; grep -n -i "noise-vs-impact\|scenario_markers" coordination/HYDROACOUSTICS.md | head -20

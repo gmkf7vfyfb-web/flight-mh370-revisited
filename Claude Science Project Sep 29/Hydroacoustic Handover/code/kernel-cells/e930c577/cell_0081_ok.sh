@@ -1,0 +1,1 @@
+cat leg/scan.log; lockf -t 0 /tmp/.mh370-heavy.lock true && echo FREE || echo HELD; date -u +%H:%MZ

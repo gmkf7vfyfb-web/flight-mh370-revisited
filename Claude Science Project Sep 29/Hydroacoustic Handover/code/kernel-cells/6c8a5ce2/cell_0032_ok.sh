@@ -1,0 +1,1 @@
+cd .tmp/hy/"Claude Science Project Sep 29"/engine/hypotheses/hydroacoustics; grep -n -i -E "vertical|near-vertical|angle" prepare/f35a_eta_calibration.py | head; grep -n -i -E "vertical|F-35A" prepare/calibration_events.py | head; head -3 results-data/f35a_cal/eta_cal.csv; cat results-data/calibration_events/request.json

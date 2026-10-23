@@ -1,0 +1,1 @@
+cd repo; export GIT_CONFIG_GLOBAL=/dev/null; git show "HEAD:Claude Science Project Sep 29/engine/.sources/davey-2016/fig10-3-bto-bfo-latitude-pdf-vector.csv" > ../work/davey_fig10_3_vector.csv 2>/dev/null; head -3 ../work/davey_fig10_3_vector.csv; wc -l ../work/davey_fig10_3_vector.csv

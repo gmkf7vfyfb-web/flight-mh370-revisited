@@ -1,0 +1,1 @@
+export HOME=$PWD/home XDG_CONFIG_HOME=$PWD/home/.config; cd repo; git ls-remote origin refs/heads/claude-science-sep29 2>&1 | grep -v "failed to store"; git rev-parse HEAD

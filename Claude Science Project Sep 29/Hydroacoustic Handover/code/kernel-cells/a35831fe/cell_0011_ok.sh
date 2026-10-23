@@ -1,0 +1,1 @@
+cd /Users/pete/Downloads/flight-mh370-revisited && git branch -a 2>&1 | head; git log -1 --format='%h %ci %s' 2>&1; git status --short 2>&1 | head -5; ls; ls /Users/pete/Downloads/mh370-exchange/hydroacoustics/graphics-2026-10-22/ranked /Users/pete/Downloads/mh370-exchange/hydroacoustics/sources | head -60

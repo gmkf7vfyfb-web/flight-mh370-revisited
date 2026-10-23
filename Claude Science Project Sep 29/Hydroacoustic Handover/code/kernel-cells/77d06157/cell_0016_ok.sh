@@ -1,0 +1,1 @@
+cd hydro/"Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare"; sed -n 200,250p composition_run_j/reduce.py; grep -n "def \|arc" composition_run_j/common.py | head -30

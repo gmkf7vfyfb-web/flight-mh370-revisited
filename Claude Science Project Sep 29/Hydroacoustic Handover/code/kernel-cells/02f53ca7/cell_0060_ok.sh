@@ -1,0 +1,3 @@
+cd "hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data/tl_recal_block9"; C30=$(python -c "import pandas as pd; E=pd.read_csv('tl_runs_ext.csv'); print(int(E[E.tag=='air7off+30_H01W'].min_profile_depth_m.iloc[0]))"); echo $C30
+cd "$OLDPWD/repo/Claude Science Project Sep 29/results"; sed -i '' "s/crest 1,37x \/ 1,572 \/ 1,779 m/crest 1,$(( C30 - 1000 )) \/ 1,572 \/ 1,779 m/" hydroacoustics-blackman-validation.md; grep -n "crest 1," hydroacoustics-blackman-validation.md | tail -2
+W=/Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-tlrecal; tail -3 $W/ram.log; ls $W/scratch_ram/*.shd 2>/dev/null | wc -l; date -u

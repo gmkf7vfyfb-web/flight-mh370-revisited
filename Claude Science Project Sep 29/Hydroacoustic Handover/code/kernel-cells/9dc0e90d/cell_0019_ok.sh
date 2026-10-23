@@ -1,0 +1,1 @@
+cd repo/r/"Claude Science Project Sep 29"; grep -rIn -i -E "leeway|replica flaperon|flaperon replica|cut.down|genuine 777 flaperon|tested a" --include=*.md . | cut -c1-200 | head -5; echo ===; grep -rIn -i -E "GDAS|ERA5" --include=*.md --include=*.toml . | cut -c1-150 | head -3

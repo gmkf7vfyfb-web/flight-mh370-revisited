@@ -1,0 +1,1 @@
+wc -l thread676.txt; grep -n "#### " thread676.txt | awk -F: '{print $1": "$2}' | head -80 | tr '\n' ' '

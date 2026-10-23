@@ -1,0 +1,2 @@
+cd "repo/Claude Science Project Sep 29/results/hydroacoustics-audit/"; cat gaspin-shuler-extraction.md | head -90; python -c "
+import ast;print(ast.get_docstring(ast.parse(open('gaspin-shuler/gs_reconstruct.py').read())))"; grep -n "^def " gaspin-shuler/gs_reconstruct.py scripts/sus_spectra.py scripts/sus_absolute.py

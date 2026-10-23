@@ -1,0 +1,1 @@
+df -k /System/Volumes/Data | tail -1; du -sk /Users/pete/Downloads/mh370-exchange/hydroacoustics/* 2>/dev/null | sort -n | tail -6; du -sk /Users/pete/Downloads/mh370-exchange/* 2>/dev/null | sort -n | tail -4; ls -lt /Users/pete/Downloads/mh370-exchange/hydroacoustics/ | head; du -sk /Users/pete/.claude-science/orgs/*/workspaces 2>/dev/null | tail -1

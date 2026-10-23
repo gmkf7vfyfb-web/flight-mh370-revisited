@@ -1,0 +1,1 @@
+mkdir -p drafts && cp /tmp/tlg_charts_A/*.png drafts/ && ls drafts

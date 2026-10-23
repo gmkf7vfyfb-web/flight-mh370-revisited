@@ -1,0 +1,1 @@
+cd hydro; export GIT_CONFIG_GLOBAL=/dev/null; git ls-tree -r --name-only HEAD | grep -i "published\|kadri-figure-extraction" | grep -v figure9-vector | head -40; echo ---; git ls-tree -r --name-only HEAD | grep -i "published-fig" | wc -l; git ls-tree -r --name-only HEAD | grep -i "inputs/papers/hydro" | head -60

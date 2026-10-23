@@ -1,0 +1,1 @@
+cd /Users/pete/Downloads/mh370-exchange/end-of-flight; for d in run-i run-i-dive run-i-c2aim run-h next-run-c bin; do echo "=== $d ==="; ls -la $d | head -25; done

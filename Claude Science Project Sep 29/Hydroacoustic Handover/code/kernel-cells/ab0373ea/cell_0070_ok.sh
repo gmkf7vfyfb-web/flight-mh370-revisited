@@ -1,0 +1,1 @@
+cp "repo/Claude Science Project Sep 29/results/hydroacoustics-imos-ram-grid-old-vs-new.png" "repo/Claude Science Project Sep 29/results/hydroacoustics-imos-ram-grid.md" . && cp /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-tl-grid/tables/imos_tl_ram_coverage.csv . && ls -la hydroacoustics-imos-ram-grid* imos_tl_ram_coverage.csv | awk '{print $5, $9}'

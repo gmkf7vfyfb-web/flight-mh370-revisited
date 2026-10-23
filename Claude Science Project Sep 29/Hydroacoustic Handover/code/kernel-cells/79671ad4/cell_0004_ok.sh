@@ -1,0 +1,1 @@
+cd "repo/Claude Science Project Sep 29/results/evidence-sweep-2026-10-17"; grep -n -i -E "ULB|Dukane|DK1|37\.5|Haixun|Echo|Tireless|TPL|sonobuoy|Benthos|Ocean Shield|pinger|160|dB|battery|range" research-beacons-tpl-simulator-barnacles.md | cut -c1-600 | head -80

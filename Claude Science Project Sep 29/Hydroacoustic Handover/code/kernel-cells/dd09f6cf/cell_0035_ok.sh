@@ -1,0 +1,1 @@
+cd "repo/Claude Science Project Sep 29/results/composer-views-run-j"; sed -n 1,70p compose_views.py | cut -c1-250; cat /Users/pete/Downloads/mh370-exchange/end-of-flight/run-j/summary/family-shares-run-j.json | head -40

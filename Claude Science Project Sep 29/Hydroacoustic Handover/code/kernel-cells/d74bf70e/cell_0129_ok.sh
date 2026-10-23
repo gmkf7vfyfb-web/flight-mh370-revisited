@@ -1,0 +1,4 @@
+c(){ curl -s -m 60 "$1" | grep -o -E "href='[^']*'|href=\"[^\"]*\"" | grep -v -E 'css|serverInfo|unidata|ncei.noaa.gov"' ; }
+c "https://dap.ceda.ac.uk/thredds/catalog/bodc/gebco/global/gebco_2026/catalog.html" | head; 
+for d in $(c "https://dap.ceda.ac.uk/thredds/catalog/bodc/gebco/global/gebco_2026/catalog.html" | grep -o "'[a-z_]*/catalog.html'" | tr -d "'" | head -3); do echo "-- $d"; c "https://dap.ceda.ac.uk/thredds/catalog/bodc/gebco/global/gebco_2026/$d" | head -8; done
+echo ===WOA; c "https://www.ncei.noaa.gov/thredds-ocean/catalog/woa23/DATA/temperature/netcdf/95A4/catalog.html"; c "https://www.ncei.noaa.gov/thredds-ocean/catalog/woa23/DATA/temperature/netcdf/95A4/1.00/catalog.html" | grep -E 't16|t00' | head

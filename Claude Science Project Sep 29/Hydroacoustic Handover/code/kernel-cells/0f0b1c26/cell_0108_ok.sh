@@ -1,0 +1,1 @@
+D="hydro/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data/calibration_events/stage1b"; cp stage1b/event_tl_kraken.csv stage1b/event_tl_ram.csv stage1b/charge_h10n_residuals.csv stage1b/stage1b_summary.json stage1b/ram.log "$D/"; ls "$D"; du -sh stage1b

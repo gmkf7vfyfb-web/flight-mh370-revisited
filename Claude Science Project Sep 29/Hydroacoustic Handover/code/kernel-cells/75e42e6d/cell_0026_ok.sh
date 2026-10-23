@@ -1,0 +1,1 @@
+cd src; sed -n 55,100p ATSB_ELT_AR-2012-128.txt | grep -v "^ *$"; grep -n "^--- page" ATSB_ELT_AR-2012-128.txt | head -8; sed -n 1,12p ATSB_ELT_AR-2012-128.txt | grep -v "^ *$"

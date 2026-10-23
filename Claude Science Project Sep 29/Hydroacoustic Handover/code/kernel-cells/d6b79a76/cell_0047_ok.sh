@@ -1,0 +1,1 @@
+export HOME=$PWD/h XDG_CONFIG_HOME=$PWD/h/.config; cd eof; git sparse-checkout add "/Claude Science Project Sep 29/engine/hypotheses/end-of-flight/full/" 2>&1|tail -1; F="Claude Science Project Sep 29/engine/hypotheses/end-of-flight/full"; ls "$F" | head -80; cat "$F/run_j_production.sh" | head -70

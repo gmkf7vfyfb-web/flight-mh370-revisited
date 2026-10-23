@@ -1,0 +1,1 @@
+cd "eof/Claude Science Project Sep 29/engine/hypotheses/end-of-flight/smoke"; ls; grep -l "joined" *.py | head; grep -l "J0011\|J2241\|joined-v2" *.py *.sh 2>/dev/null

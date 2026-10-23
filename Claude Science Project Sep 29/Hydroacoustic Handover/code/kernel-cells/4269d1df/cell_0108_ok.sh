@@ -1,0 +1,1 @@
+export HOME=$PWD/h XDG_CONFIG_HOME=$PWD/h/.config; cd repo; git ls-remote https://x-access-token:$GITHUB_TOKEN@github.com/gmkf7vfyfb-web/flight-mh370-revisited.git refs/heads/claude-science-sep29; git rev-parse HEAD; ls "Claude Science Project Sep 29/results/kadri-haixun-conditional-2026-10-18/"
