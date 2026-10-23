@@ -87,7 +87,7 @@ are IMOS 3376 shaped to Blackman 2003 medians, digitised; single hydrophone + 4.
 Caveats C1 (propagation slope misfit, +10.4/+7.4 dB per octave at H01W/H08S) and C2 (coupling efficiency not calibrated; eta over
 four decades, F-35A upper anchor). Both Kadri times carried: text time 00:52:03, caption time 00:54:30. Detector M1b, false-alarm
 level alpha = 0.05 per 55 s window (report level), beta = alpha / 55 s; matched candidates from the block 5 pre-registered tables
-(IMOS M1b p <= 0.05: 3275 01:20:35 and 01:07:47, both louder than any impact could be at Portland, eta_needed 30 / 19 -- matching is
+(IMOS M1b p <= 0.05: 3275 01:20:35 and 01:07:47, [ERRATUM 23 Oct: NOT louder than any impact; corrected TL gives coupling 0.022 / 0.014] -- matching is
 amplitude-blind, gap G11-1; H01W M1b p <= 0.05: 00:52:04 text time; H08S residual: none). TL = block 2 arc grid (41-20 S, offset 0,
 10 m source; IMOS {'RAM along the grid, imos_tl_ram_arc.csv' if RAMGRID else 'RAM-corrected, G-TL1'}; IMS raw KRAKEN minus imp500 RAM delta). tau = end of flight tau90 (method 1). E = contact
 kinetic energy (sidecar energy_transferred_j, an upper anchor). Calibration error N(0, 10 dB) per row shared by receivers.
@@ -115,9 +115,11 @@ COLUMNS (float32, row i = row i of end-of-flight/run-j/<stratum>/seed-N/impacts3
 NaN = not computed; 0.0 = computed, no information. Accumulators: acc.npz (bound 1), acc_ub0.1.npz, acc_ub0.01.npz per seed.
 
 KNOWN LIMITS (registry defects): D05 detector not validated on real long-range arrivals; D06 IMS stand-in noise (proxy column only);
-G11-1 matching is amplitude-blind in every column except -amp-: the Portland 3275 matches 01:20:35 and 01:07:47 need eta 30 / 19 (above 1,
-physically impossible) but still count as matches; a higher prior bound gives them more weight, so the 1e-2 / 1e-1 / 1 differences partly
-measure G11-1, not physics. D25 source depth fixed at 10 m. H01W match 00:52:04 is time-consistent with Royer icequake A (D07).
+G11-1 matching is amplitude-blind in every column except -amp-: a match counts whatever coupling it needs. The Portland 3275 matches
+01:20:35 and 01:07:47 need coupling about 0.022 and 0.014 at the q99 run J energy (corrected TL; about 9.7x and 6x the F-35A value
+2.26e-3; possible, below 1). A higher prior bound gives such matches more weight, so the 1e-2 / 1e-1 / 1 differences partly measure
+G11-1, not physics. D25 source depth fixed at 10 m. H01W match 00:52:04 matches Royer icequake A ONLY on the uncorrected Fig. 4 time
+base (+21.7 s from the Table-5-based prediction, outside +/-7.0 s); conditional, not a finding (D07).
 PREDICTIVE, NOT CALIBRATED.
 
 Per-seed summary:

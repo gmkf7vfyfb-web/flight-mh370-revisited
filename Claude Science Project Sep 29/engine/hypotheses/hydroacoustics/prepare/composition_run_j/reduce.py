@@ -256,7 +256,10 @@ def main(cols_dir, out_dir):
     out = Path(out_dir); out.mkdir(parents=True, exist_ok=True)
     acc, supp, share, sub, supp_sub, meta = load_parts(cols_dir)
     mx, norm = mix(acc, supp, share)
-    ul = upper_limits(mx, norm); ul.to_csv(out / "upper_limits.csv", index=False)
+    ul = upper_limits(mx, norm)
+    if R.V3:   # A6: the v2 column name states the v2 bound 1e-2; in v3 mode name the bound actually used (values follow B11_ETA_UB)
+        ul = ul.rename(columns={"eta95_bayes_nondetection_logu_1e-6_1e-2": "eta95_bayes_nondetection_logu_1e-6_" + f"{ETA[-1]:.0e}".replace("e+00", "").replace("e-0", "e-")})
+    ul.to_csv(out / "upper_limits.csv", index=False)
     ev, dists = evidence_three_ways(mx); ev.to_csv(out / "evidence_three_ways.csv", index=False)
     np.savez_compressed(out / "latitude_distributions.npz", **{f"{k[0]}|a{k[1]:g}|{'amp' if k[2] == 'A' else ('ims' if k[2] else 'imos')}|{n}": v for k, d in dists.items() for n, v in d.items()})
     nd = {"band_mid": (R.LAT_BAND_EDGES_1DEG[:-1] + 0.5).tolist()}
