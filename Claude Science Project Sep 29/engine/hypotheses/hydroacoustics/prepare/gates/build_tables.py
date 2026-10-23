@@ -47,10 +47,13 @@ def main(reg, out):
         df["hard"] = df["flags"].map(hard_reasons)
         df["royer_match"] = df["flags"].fillna("").str.contains("time-consistent with Royer")
         df["shot_coincident"] = df["flags"].fillna("").str.contains("airgun-shot coincidence")
+        ucols = ["known_event_uncorrected_figure"] if kind == "singles" else [c for c in df.columns if c.endswith("_known_event_uncorrected_figure")]
+        df["royer_timebase_dependent"] = df[ucols].apply(lambda r: "; ".join(str(v) for v in r if isinstance(v, str) and v not in ("n/a", "NO_KNOWN_EVENT_MATCH")), axis=1) if ucols else ""
+        df["royer_timebase_dependent"] = np.where(df.royer_match, "", df["royer_timebase_dependent"])
         T[kind] = df
     ok = {k: d[d.hard.map(len) == 0] for k, d in T.items()}
     keep_m = ["set_type", "reg_row", "rank_lnLR", "lnLR", "members", "lag_s", "locus_lat", "locus_lon", "n_arc_loci", "locus_D0_mass_within_1deg",
-              "implied_impact_utc", "E_q99_at_locus_J", "eta_at_q99E", "x_metz_2.26e-3", "p_prior_eta_ge_needed", "coupling_check", "flags"]
+              "implied_impact_utc", "E_q99_at_locus_J", "eta_at_q99E", "x_metz_2.26e-3", "p_prior_eta_ge_needed", "coupling_check", "royer_timebase_dependent", "flags"]
     t1 = pd.concat([ok["pairs"], ok["triples"]]); t1 = t1[~t1.royer_match]
     t1 = t1.sort_values("lnLR", ascending=False)
     shotcols = [c for c in t1.columns if re.match(r"m\d_(shot_check|shot_dt_s|shot_p_related|shot_residual|band_check|known_event_uncorrected_figure)$", c)]
@@ -58,12 +61,12 @@ def main(reg, out):
     t1.insert(0, "table1_id", [f"M{i+1:03d}" for i in range(len(t1))])
     keep_s = ["set_type", "reg_row", "rank_lnLR", "lnLR", "rx", "time_utc", "det", "band", "p", "source", "kadri_label", "implied_source", "implied_impact_utc",
               "E_q99_at_src_J", "eta_at_q99E", "x_metz_2.26e-3", "p_prior_eta_ge_needed", "coupling_check", "band_check", "shot_check", "shot_dt_s",
-              "shot_p_related", "shot_residual", "known_event_uncorrected_figure", "flags"]
+              "shot_p_related", "shot_residual", "royer_timebase_dependent", "flags"]
     t2 = ok["singles"][~ok["singles"].royer_match].sort_values("lnLR", ascending=False)
     t2 = t2[[c for c in keep_s if c in t2.columns]]; t2.insert(0, "table2_id", [f"S{i+1:03d}" for i in range(len(t2))])
     rows = []
     for kind, d in ok.items():
-        for _, r in d[d.royer_match | d.shot_coincident].iterrows():
+        for _, r in d[d.royer_match | d.shot_coincident | (d.royer_timebase_dependent.astype(str) != "")].iterrows():
             if kind == "singles":
                 mem = [(r.rx, r.time_utc, r.known_event, r.get("shot_check"), r.get("shot_dt_s"), r.get("shot_p_related"))]
             else:
@@ -75,9 +78,11 @@ def main(reg, out):
                     ev.append(f"{rx} {t}: Royer 2016 event {e}, predicted {pt} +/- {tol} s (chance match at {rx} about {100*cover.get(str(rx), {}).get('fraction_of_0000_0200', np.nan):.0f} %)")
                 if isinstance(ke, str) and "pick bar" in ke or (isinstance(ke, str) and "arrow" in ke):
                     ev.append(f"{rx} {t}: {ke}")
-                if sc == "COINCIDENT_WITH_SHOT":
+                if sc == "COINCIDENT_WITH_SHOT" or False:
                     ev.append(f"{rx} {t}: airgun shot, dt {sdt:+.2f} s, P(shot-related) {sp:.2f}")
-            rows.append(dict(set_type=kind[:-1], reg_row=r.reg_row, rank_lnLR=r.rank_lnLR, lnLR=r.lnLR, members=r.members if kind != "singles" else f"{r.rx} {r.time_utc} [{r.band}] {r.det}",
+            if str(r.royer_timebase_dependent):
+                ev.append("TIME-BASE DEPENDENT (H01W): matches only on the uncorrected Royer Fig. 4 time base, not on Table 5 / bias-corrected marks: " + str(r.royer_timebase_dependent))
+            rows.append(dict(set_type=kind[:-1], reg_row=r.reg_row, royer_timebase_dependent=bool(str(r.royer_timebase_dependent)), rank_lnLR=r.rank_lnLR, lnLR=r.lnLR, members=r.members if kind != "singles" else f"{r.rx} {r.time_utc} [{r.band}] {r.det}",
                              locus_or_source=(f"{r.locus_lat:.2f}, {r.locus_lon:.2f}" if kind != "singles" else r.implied_source), implied_impact_utc=r.implied_impact_utc,
                              royer_match=bool(r.royer_match), shot_coincident=bool(r.shot_coincident), in_table_1_or_2=not bool(r.royer_match), known_events="; ".join(ev)))
     t3 = pd.DataFrame(rows).sort_values(["royer_match", "lnLR"], ascending=[False, False]); t3.insert(0, "table3_id", [f"K{i+1:03d}" for i in range(len(t3))])
@@ -86,7 +91,10 @@ def main(reg, out):
     s = dict(register=str(reg), n_register={k: len(d) for k, d in T.items()}, n_pass_physical={k: len(d) for k, d in ok.items()},
              table1=dict(n=len(t1), pairs=int((t1.set_type == "pair").sum()), triples=int((t1.set_type == "triple").sum()), with_shot_label=int(t1["flags"].str.contains("airgun").sum())),
              table2=dict(n=len(t2), by_rx=t2.rx.value_counts().to_dict(), with_shot_label=int(t2["flags"].str.contains("airgun").sum())),
-             table3=dict(n=len(t3), royer=int(t3.royer_match.sum()), shot_only=int((~t3.royer_match).sum())), hard_exclusions_by_reason=hs,
+             table3=dict(n=len(t3), royer=int(t3.royer_match.sum()), shot=int(t3.shot_coincident.sum()), timebase_dependent_only=int((t3.royer_timebase_dependent & ~t3.royer_match).sum())),
+             table1_timebase_dependent=int((t1.royer_timebase_dependent.astype(str).fillna("") != "").sum()) if "royer_timebase_dependent" in t1 else None,
+             table2_timebase_dependent=int((t2.royer_timebase_dependent.fillna("").astype(str) != "").sum()),
+             singles_without_position_by_rx=T["singles"][T["singles"].hard.map(lambda h: any("not assessable" in x for x in h))].rx.value_counts().to_dict(), hard_exclusions_by_reason=hs,
              royer_chance_fraction=cover)
     json.dump(s, open(out / "tables_summary.json", "w"), indent=1, default=str); print(json.dumps({k: s[k] for k in ("n_pass_physical", "table1", "table2", "table3")}, indent=1))
 
