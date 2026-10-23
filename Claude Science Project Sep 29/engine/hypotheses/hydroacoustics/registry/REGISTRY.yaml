@@ -1,9 +1,9 @@
 registry_version: hydro-registry v1 (2026-10-23)
-built_utc: '2026-10-23T02:45:52Z'
+built_utc: '2026-10-23T02:53:11Z'
 hashing: true
 git:
-  module_branch: '4afe5060ebad48f662ff25ba8eb5f6e094bb85c9 2026-10-22T20:44:42-06:00 (head at build time; uncommitted changes in scope: yes)'
-  work_branch: 'f2a2b5c9cc161ee1d818796fc2513806740916b6 2026-10-22T20:26:27-06:00 (head at build time; uncommitted changes in scope: yes)'
+  module_branch: '394707d5e25a16064dafa611ae41dc9ebc874793 2026-10-22T20:46:46-06:00 (head at build time; uncommitted changes in scope: yes)'
+  work_branch: '2a6f73e24a7eec2dc71ceaa1f8c1aaed5126142b 2026-10-22T20:50:05-06:00 (head at build time; uncommitted changes in scope: yes)'
 roots:
   EX: /Users/pete/Downloads/mh370-exchange/hydroacoustics
   EOF: /Users/pete/Downloads/mh370-exchange/end-of-flight
@@ -22,6 +22,13 @@ status_values:
   WITHDRAWN: Withdrawn at Pete's instruction. Do not use.
   PENDING_RULING: Correct as computed, but its adoption waits for a ruling by Pete.
   UNCHECKED: No definition located or not inspected in this run.
+constant_status_values:
+  CURRENT: Value in use; source located and quoted.
+  PENDING_RULING: Value computed from its source; its adoption waits for a ruling by Pete.
+  RETIRED_AS_ANCHOR: Kept only for comparison with older products. Do not use it as the F-35A point under the module definition.
+  AGENT_CHOICE_NOT_RULED: Chosen by an agent, not ruled by Pete. Open proposal; state it as an assumption.
+  CONVENTION_NO_LOCATED_SOURCE: Module convention in code; no published source located.
+  EXTERNAL_STANDARD: Value from an external standard (cited in the note); the standard document is not in the repo.
 entries:
 - id: in.imos_raw
   kind: input

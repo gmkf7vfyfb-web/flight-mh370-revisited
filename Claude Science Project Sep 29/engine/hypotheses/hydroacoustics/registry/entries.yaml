@@ -7,6 +7,13 @@ status_values:
   WITHDRAWN: Withdrawn at Pete's instruction. Do not use.
   PENDING_RULING: Correct as computed, but its adoption waits for a ruling by Pete.
   UNCHECKED: No definition located or not inspected in this run.
+constant_status_values:
+  CURRENT: Value in use; source located and quoted.
+  PENDING_RULING: Value computed from its source; its adoption waits for a ruling by Pete.
+  RETIRED_AS_ANCHOR: Kept only for comparison with older products. Do not use it as the F-35A point under the module definition.
+  AGENT_CHOICE_NOT_RULED: Chosen by an agent, not ruled by Pete. Open proposal; state it as an assumption.
+  CONVENTION_NO_LOCATED_SOURCE: Module convention in code; no published source located.
+  EXTERNAL_STANDARD: Value from an external standard (cited in the note); the standard document is not in the repo.
 entries:
 - id: in.imos_raw
   kind: input
