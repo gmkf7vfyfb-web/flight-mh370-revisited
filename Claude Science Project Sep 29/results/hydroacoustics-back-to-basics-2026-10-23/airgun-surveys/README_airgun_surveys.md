@@ -65,7 +65,7 @@ Evidence on the data held ([fig2_cadence_alignment.png](fig2_cadence_alignment.p
 * **Doppler** could not be used. The predicted SSEIR/SWAMS-3 differential is below about 2 × 10⁻⁴, inside the Royer time-base uncertainty (0.34 % between figure types).
 * **Shot emission times** (survey A, from SSEIR strip arrivals): 23:06 (7 March) to 00:44 UTC, ±103 s from location uncertainty ([survey_A_emission_times_from_SSEIR.csv](survey_A_emission_times_from_SSEIR.csv)).
 * **Source level**: received pulse-peak band levels (5–58 Hz) are at least 103–115 dB re 1 µPa. These are lower bounds, because the Royer colour scale saturates at 100 dB re 1 µPa²/Hz (up to 27 % of pixels saturated). Simple spreading over about 6,200 km gives a source level of at least about 222 dB re 1 µPa at 1 m. This is consistent with a commercial array, but the module's transmission-loss chain is not calibrated in slope, so it is an order-of-magnitude check only.
-* **Survey C (Huzzas)**: position known (NOPSEMA polygon). Path checks agree with what is heard: blocked to H01W, Perth Canyon, Scott Reef, SWAMS and WKER; partial to MAD and H08S.
+* **Survey C (Huzzas)**: position known (NOPSEMA polygon). [Corrected in §10: from the vessel's 8 March position the open-ocean paths to SSEIR, NCRO, WKER, MAD and H08S are open; SWAMS has one ~15 km section at 850 m; H01W, Perth Canyon, Scott Reef, H08N and Portland are blocked.]
 
 ## 6. Step 3: online records
 
@@ -110,3 +110,65 @@ Evidence on the data held ([fig2_cadence_alignment.png](fig2_cadence_alignment.p
 ![fig3_survey_location_posterior.png](fig3_survey_location_posterior.png)
 ![fig4_template_subtraction_example.png](fig4_template_subtraction_example.png)
 ![fig5_detection_probability_gain.png](fig5_detection_probability_gain.png)
+
+
+## 10. Addendum (23 Oct, second pass): was the Huzzas survey recorded at the French sites?
+
+**Correction to §5 (path checks).** My statement "Survey C: blocked to … SWAMS and WKER; partial to MAD and H08S" is withdrawn. It excluded only 50 km at the source, but the vessel sits on the shelf (about 260 m), so the "shallow" points were the source's own shelf. The lead's GEBCO_2026 geodesic table (vessel on CMST's nav bearing, about 21.0° S 114.6–114.9° E) supersedes it:
+
+* **Open (no point shallower than 1000 m once off the shelf):** SSEIR, NCRO, WKER, MAD, H08S.
+* **SWAMS:** one ~15 km section at about 850 m.
+* **Blocked:** H01W (530–730 km of Western Australia), Perth Canyon, Scott Reef (250–380 km of shelf shallower than 200 m), H08N, Portland.
+* **From AD-7 (19.91° N 91.97° E):** open to SSEIR, SWAMS, NCRO, WKER and H08S. MAD is blocked (31 km shallower than 200 m on the Chagos–Laccadive ridge), which matches the absence of the 10 s train at MAD. H01W and IMOS are blocked by land.
+
+**Search under the 10 s train.**
+
+* **Method.** The 10 s train was removed shot by shot in the 3–20 Hz band of each Royer record, with the same neighbour-template rule as at H08S. The residual was scanned at 7.70–7.95 s. The null was the same statistic in 200 random 0.25 s period windows (6.0–9.65 s, excluding 7.0–7.4 s, which is the strip alias of the 10 s train, and 7.6–8.1 s). Tables: huzzas_residual_period_scan.csv, huzzas_cadence_template_tests.csv.
+* **MAD:** recorded (all four panels, R 9–10; reported earlier).
+* **SSEIR, candidate:**
+  * Strip 00:00–00:30: 7.938 s, R = 4.37, p = 0.005 (the floor of the null), present before subtraction (R 4.58).
+  * Strongest at 3–8 Hz (R 7.05), but also present at 25–58 Hz.
+  * Concentrated in 00:00–00:16, when the 10 s train is still weak.
+  * Absent from the blocked H01W strip at the same time (R 1.7, p 0.49), and not a 5-pixel raster artefact.
+  * Not significant after correction for 19 records (19 × 0.005 ≈ 0.10).
+* **SSEIR, marginal:** strip 01:30–02:00 at 7.78 s, p = 0.055.
+* **NCRO, marginal:** 01:30 panel at 7.703 s (at the band edge), p = 0.045.
+* **SWAMS-2/3 and WKER:** not detected.
+* **Phase test.** Predicted arrival phase (MAD and H08S Huzzas times, 1.48 km/s, geodesic ranges) is uncertain by about ±10–20 s, which is more than one period, so the phase cannot be predicted. Template tests were therefore run over a ±40 s shift. Three of 15 reach p < 0.05 (binomial P(≥3) ≈ 0.04), but the best shifts disagree between SSEIR and SWAMS-3 for the same emission window (−8 s against −37 s). Not a consistent detection.
+* **Upper limits.** These come from injecting a 7.73–7.90 s Gaussian pulse train before subtraction, 60 per level; detection means R above that record's null 95 % point (huzzas_upper_limits_summary.csv). Levels are relative to the median 10 s shot peak in the same band (3–20 Hz):
+  * 3-minute panels: 50 % detection at −16 to −7 dB, 90 % at −12 to −4 dB.
+  * 2-hour strips: 50 % at −7 to −1.5 dB, 90 % at −4 to −0.3 dB.
+  * Least sensitive: SSEIR Fig. 8 at +0.1 / +2.4 dB.
+  * No upper limit where the record is already a candidate.
+* **Answer:** recorded at MAD; one candidate at SSEIR; marginal at NCRO; not detected at SWAMS-2/3 or WKER down to the levels above. **Provisional.**
+
+**Same-night calibration check** (huzzas_to_10s_level_ratios.csv). Received Huzzas/10 s ratio minus cylindrical spreading, 10 log10(R_A/R_C):
+
+| Site | Residual (dB) |
+|---|---|
+| SSEIR 01:30–02:00 | −13.1 (3–20 Hz) |
+| NCRO 01:30 | −11.0 |
+| H08S 9d | −10.6 |
+| H08S 9e | −13.0 |
+| SSEIR 00:00–00:30 | −7.9 |
+
+The SSEIR 00:00–00:30 value is higher because the 10 s train is still weak at that time (start of line or ramp-up). So, with one exception, Huzzas arrives about 11–13 dB weaker than spreading alone predicts. That difference combines source level and shelf/slope coupling. The data cannot separate the two, because the 10 s survey's array is not documented.
+
+Caveats:
+
+* With the Thorp 0.003 dB/kyd low-frequency absorption term the residuals spread from −7 to −20 dB, so the agreement holds only without that term.
+* The SSEIR 01:30 and NCRO values come from marginal detections, which sit near the detection threshold by construction.
+* The H08S values hold only if the dominant H08S train is the Bay of Bengal survey (§4). Their agreement with the OHASISBIO sites is weak support for that, not proof.
+* No absolute source levels are claimed: the Royer colour scale saturates, and Kadri amplitudes are digitised (panel 9e has a +8.8 dB scale step, so only within-panel ratios are used).
+
+**Deviations (this pass).**
+
+* Huzzas vessel position taken as 21.0° S 114.75° E for ranges; speed fixed at 1.48 km/s for phase prediction.
+* Search band 3–20 Hz for removal and search (3–8 Hz also reported).
+* Injection pulse shape assumed Gaussian (1.06 s FWHM), 60 injections per level, not 300.
+* NCRO and WKER have no records overlapping the MAD-derived windows, and WKER has none overlapping the H08S-derived window, so those got period tests only.
+* Figure 1 regenerated (version 2) with a corrected panel b title.
+
+**Addendum files:** [huzzas_residual_period_scan.csv](huzzas_residual_period_scan.csv) · [huzzas_cadence_template_tests.csv](huzzas_cadence_template_tests.csv) · [huzzas_upper_limits_summary.csv](huzzas_upper_limits_summary.csv) · [huzzas_injection_upper_limits.csv](huzzas_injection_upper_limits.csv) · [huzzas_to_10s_level_ratios.csv](huzzas_to_10s_level_ratios.csv)
+
+![fig6_huzzas_under_10s_train.png](fig6_huzzas_under_10s_train.png)
