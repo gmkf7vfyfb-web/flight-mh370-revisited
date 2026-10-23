@@ -1,0 +1,76 @@
+Cape Leeuwin — IMS hydrophone station (H01W)
+Digitised from publications; times UTC on 8 March
+Pressure trace, Kadri 2024 Fig. 9 a–c: 00:27–00:57, continuous;
+    5–40 Hz (author's filter); ~15 points/s
+Spectrograms, element 2, Royer 2016: 00:01–02:03, continuous;
+    0–60 Hz (Fig. 2: 0–125 Hz)
+5–40 Hz band level, 3 elements, CMST 2014 Fig. 2: 01:31:40–01:35:50
+Picks: Kadri Table 1, 19 (00:38–00:55); Royer Table 5, 57 (00:22–02:27);
+    CMST detections, 270 (00:21–07:59)
+Figure images only, Kadri 2017: 7 Mar 19:00–20:00
+7th arc 20° S–43.9° S (southern end of arc): clear line of sight
+
+Diego Garcia South — IMS hydrophone station (H08S)
+Digitised from publications; times UTC on 8 March
+Pressure trace, Kadri 2024 Fig. 9 d–e: 01:00–01:20, continuous; 5–40 Hz (author's filter); ~15 points/s
+    panel e amplitude scale not reliable (+8.8 dB step at the panel join)
+Pressure trace, Kadri 2024 Fig. S1 a–c: 7 Mar 17:49–17:59, 18:44–18:54, 19:00–19:10 (3 separate windows); 5–40 Hz
+Picks: CMST detections, 802 (00:00–03:00); Kadri 2019 signals, 6 (7 Mar 23:57–8 Mar 03:55); airgun shots on Fig. 9 d–e, 110
+7th arc line of sight: blocked 42.1° S; large attenuation 28.8–28.9, 38.4–38.5, 41.5–42.0*° S; ridge
+    above hydrophone depth (partial loss) 28.6–29.3*, 32.0–36.9*, 39.2–39.4*, 41.6–41.9*° S; clear
+    elsewhere
+
+Perth Canyon — 2 seabed loggers (IMOS)
+Raw recordings held; times UTC
+Logger 3315: 8 Mar 00:00–9 Mar 00:50 (100 records)
+    + digitised envelope, CMST 2014 Fig. 1: 8 Mar 01:31:41–01:34:35
+Logger 3376: 8 Mar 00:05–9 Mar 00:55 (100 records)
+    + 14-day background: 1–7 and 9–15 Mar (1,344 records)
+All: one 307 s record every 15 min (34 % of the time);
+    6 kHz sampling; 8–2,800 Hz
+7th arc 20° S–43.9° S (southern end of arc): clear line of sight
+
+Scott Reef — seabed logger (IMOS)
+Raw recordings held; times UTC
+Logger 3250: 8 Mar 00:00–9 Mar 00:50 (100 records)
+    + 14-day background: 1–7 and 9–15 Mar (1,344 records)
+All: one 307 s record every 15 min (34 % of the time);
+    6 kHz sampling; 8–2,800 Hz
+7th arc line of sight: blocked 29.6–43.9° S; large
+    attenuation 20.0–29.5° S; clear elsewhere
+
+Portland — 2 seabed loggers (IMOS)
+Raw recordings held; times UTC
+Logger 3274: 7 Mar 12:00–8 Mar 23:50 (144 records)
+    + 14-day background: 1–7 and 9–15 Mar (1,344 records)
+Logger 3275: 8 Mar 00:05–23:55 (96 records)
+All: one 307 s record every 15 min (34 % of the time);
+    6 kHz sampling; 8–2,800 Hz
+7th arc line of sight: blocked 20.0–29.4° S; large
+    attenuation 29.5–29.6° S; clear elsewhere
+
+French OHASISBIO moored hydrophones
+Digitised from Royer 2016 spectrograms and Table 5; times UTC on 8 March.
+'7th arc' lines: arc latitudes with blocked or large-attenuation paths; clear elsewhere
+except partial ridge losses (see the line-of-sight chart)
+SWAMS3: 00:00–02:03 continuous + 4 × 3-min panels; 0–60 Hz (one panel
+    0–120); 18 picks
+SWAMS2: 1 × 3-min panel 00:46–00:49; 0–60 Hz; 18 picks
+SWAMS1: picks only, 18 (00:07–02:36)
+    SWAMS1–3, 7th arc: large attenuation 26.2–27.0° S
+SSEIR: 00:00–01:54 continuous + 3 × 3-min panels; 0–60 Hz (one panel
+    0–120); 11 picks
+    7th arc: blocked 40.6–41.2*° S; large attenuation 25.3–25.4,
+        28.0–32.8*, 40.7–41.1*° S
+MAD: 4 × 3-min panels 01:03–01:48; 0–60 Hz (one panel 0–120); 12 picks
+    7th arc: blocked 40.3–40.9*° S; large attenuation 25.7, 28.4–35.2*,
+        40.7–40.8° S
+NCRO: 2 × 3-min panels 01:25–01:33; 0–60 Hz; 7 picks
+    7th arc: blocked 30.1–30.5, 33.2–34.5*° S; large attenuation
+        20.0–24.4*, 27.5–27.9, 30.0–34.6*° S
+WKER: 1 × 3-min panel 00:41–00:44; 0–60 Hz; 2 picks
+    7th arc: large attenuation 26.5–27.2° S
+
+Plain-language note.  Each box shows the data that the project has for one site. Orange circles: we have the recorded sound files. Diamonds: we have only values that were read from figures and tables in published papers; these are not recordings. 'Continuous' means that the period has no gap. A seabed logger records for 307 seconds in each 15 minutes, so a sound can arrive between two records. The frequency band is the band of the instrument, of the author's filter or of the published plot. Times are UTC. Line of sight: we follow the sea floor along the straight path from each point of the 7th arc to the site. 'Blocked' means land or very shallow water on the path. 'Large attenuation' means that a ridge or shelf rises above the deep sound channel for a long distance. * means that the effect occurs at only some latitudes in that band.
+
+Technical note.  Source: hydro_data.sqlite (hydro-data-db v1, built 2026-10-23T21:00:42Z; module branch hypothesis/hydroacoustics at 131e520). Seabed loggers (IMOS, Curtin CMST): .DAT records, 6 kHz, header filter LF 8 Hz / HF 2,800 Hz; UTC = logger time − e(t), e linear between the two clock sets (convention A; CMST 01:33:44 event reproduced to −0.24 s); 4,572 files SHA-256 verified; 56 records are in both the event-day and background sets. Digitised: Kadri 2024 Fig. 9 and S1 (PDF vector vertices of the plotted trace; 5–40 Hz = author's 5 Hz high-pass and 2–40 Hz band-pass, Methods); Royer 2016 spectrograms (colour to dB, ±1.5 dB; Cape Leeuwin figure times 7.7–16.6 s later than Table 5, cause not resolved) and Table 5 picks (all elements); CMST 2014 Figs 1, 2, 5, 7; Kadri 2019 Table 3; airgun shot table derived by the module from Fig. 9 d–e. Positions: FDSN EarthScope (IMS, mean of 3 elements, 2014 epoch), Royer 2016 Table 1 (OHASISBIO), Curtin metadata (IMOS). Not on the map: NEAMS (lost on recovery, Royer 2016 Table 1); Wake Island South (Kadri 2024 Fig. S1 d–e, 7 Mar 19:35–19:51, 5–40 Hz); Diego Garcia North (dropped by ruling of 23 Oct 2026: Chagos Bank blocks every path from the 7th arc); calibration cases at other stations and years (F-35A 2019, ARA San Juan 2017, AF447 2009, fireballs 2003–04, 2001 airguns) are in the database under context 'calibration'. Line of sight (arc_line_of_sight.py, table arc_path): 7th arc = small circle centre 0.570° N 64.252° E, radius 44.501°, southern end 43.9° S; points every 0.1° latitude; WGS84 geodesics sampled every ~1 km on GEBCO 2026 (15 arc-s). Blocked: land, or water shallower than min(receiver depth, 200 m), more than 20 km from the receiver. Large attenuation: >= 10 km shallower than 1,000 m, more than 100 km from the receiver. Ridge above hydrophone depth: deep receivers, >= 10 km shallower than the hydrophone. Bands merged within 1°; * = fewer than 95 % of latitudes in the band. Main obstacles: Amsterdam–St Paul plateau and islands, Ninety East Ridge, Broken Ridge, a ridge near 28.5° S 98.6° E, a rise near 33° S 83° E (deep sites); North West Shelf and Exmouth Plateau (Scott Reef); Australia and the Cape Leeuwin shelf (Portland). Geometric screen, not transmission loss.

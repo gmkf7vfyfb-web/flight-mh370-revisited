@@ -1,0 +1,33 @@
+PASS C01 | IMS element positions: module stations.csv against FDSN station list | 15 elements matched; max horizontal difference 0.0 m
+PASS C02 | IMS element positions: Royer 2016 Table 1 against FDSN (recorded; FDSN used) | 6 elements; horizontal differences 7-403 m; Royer prints hydrophone depth 800 m, FDSN 1046-1413 m
+PASS C17 | IMOS logger positions: metadata parse against module preregistration.json | 5 loggers; max difference 0.0 m
+PASS C03_3376 | IMOS 3376 background: files on disk equal SHA256SUMS lines | 1344 files, 1344 checksum lines
+PASS C03_3274 | IMOS 3274 background: files on disk equal SHA256SUMS lines | 1344 files, 1344 checksum lines
+PASS C03_3250 | IMOS 3250 background: files on disk equal SHA256SUMS lines | 1344 files, 1344 checksum lines
+PASS C04 | IMOS raw files: SHA-256 recomputed against recordings.csv / SHA256SUMS | 4572 match, 0 mismatch, 5 computed without a reference (calibration records)
+PASS C05_imos3315_mh370_day | imos3315_mh370_day: one sample rate and one filter setting in all records | fs [6000.0], LF [8.0], HF [2800.0]
+PASS C05_imos3376_mh370_day | imos3376_mh370_day: one sample rate and one filter setting in all records | fs [6000.0], LF [8.0], HF [2800.0]
+PASS C05_imos3250_mh370_day | imos3250_mh370_day: one sample rate and one filter setting in all records | fs [6000.0], LF [8.0], HF [2800.0]
+PASS C05_imos3274_mh370_day | imos3274_mh370_day: one sample rate and one filter setting in all records | fs [6000.0], LF [8.0], HF [2800.0]
+PASS C05_imos3275_mh370_day | imos3275_mh370_day: one sample rate and one filter setting in all records | fs [6000.0], LF [8.0], HF [2800.0]
+PASS C05_imos3376_background | imos3376_background: one sample rate and one filter setting in all records | fs [6000], LF [8.0], HF [2800.0]
+PASS C05_imos3274_background | imos3274_background: one sample rate and one filter setting in all records | fs [6000], LF [8.0], HF [2800.0]
+PASS C05_imos3250_background | imos3250_background: one sample rate and one filter setting in all records | fs [6000], LF [8.0], HF [2800.0]
+PASS C06_3315 | IMOS 3315 event-day records: start spacing (expected about 900 s) | spacing median 900.0 s, min 873.0 s, max 927.0 s; n=100
+PASS C06_3376 | IMOS 3376 event-day records: start spacing (expected about 900 s) | spacing median 900.0 s, min 880.0 s, max 921.0 s; n=100
+PASS C06_3250 | IMOS 3250 event-day records: start spacing (expected about 900 s) | spacing median 900.0 s, min 890.0 s, max 910.0 s; n=100
+PASS C06_3274 | IMOS 3274 event-day records: start spacing (expected about 900 s) | spacing median 900.0 s, min 882.0 s, max 918.0 s; n=144
+PASS C06_3275 | IMOS 3275 event-day records: start spacing (expected about 900 s) | spacing median 900.0 s, min 891.0 s, max 909.0 s; n=96
+PASS C07 | IMOS event-day: recordings.csv rows equal .DAT files on disk | 540 rows, 540 files
+PASS C08 | IMOS file-name hex time against header 'First Data' (logger clock), recorded only | header minus file-name time: median 16.0 s, range 15.0 to 17.0 s (n=4572); the database uses the header time
+PASS C09 | Digitised and module data files: CSV imported verbatim as tables, other files referenced with SHA-256 | 142 tables imported; 276 non-CSV files referenced. Excluded by design: data/stub (test stubs), data/kadri_package and data/ocean_paths (derived products)
+PASS C14 | Every imported table and file reference is linked to a dataset | 0 unlinked: []
+PASS C10 | Every dataset site_id exists in site | orphan count checked
+PASS C11 | Every pick site_id exists in site | orphans: []
+PASS C12 | Segment end not before start | checked
+PASS C13 | Every dataset registry_entry_id exists in REGISTRY.json | 4 ids used; missing: []
+PASS C15 | kadri2024_table1 times lie inside the kadri2024_fig9_h01w panels | 19 of 19
+PASS C16 | h08s_airgun_shots times lie inside the kadri2024_fig9_h08s panels | 110 of 110
+PASS C18 | Every dataset has at least one segment, pick, imported table or file reference | 0 empty datasets
+PASS C19 | Digitised traces: every UTC value parses (ISO 8601) | 43 files; failures: []
+PASS C20 | Records held in two IMOS sets (byte-identical files; marked in segment.same_file_in, counted once for coverage) | 4 records in both imos3250_background and imos3250_mh370_day (2014-03-08T23:59 to 2014-03-09T00:44); 48 records in both imos3274_background and imos3274_mh370_day (2014-03-07T12:00 to 2014-03-07T23:44); 4 records in both
