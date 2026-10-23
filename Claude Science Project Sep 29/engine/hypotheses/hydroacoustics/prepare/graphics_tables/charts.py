@@ -237,6 +237,26 @@ def _txt(v):
     return v.strip() if isinstance(v, str) and v.strip() else None
 
 
+def parse_silence(txt):
+    """silence_detail (consistency_checks.py): per non-member receiver with data -> SNR at the needed coupling, P_D, P_D with -9.5 dB (D05)."""
+    out = {}
+    if not isinstance(txt, str): return out
+    for m in re.finditer(r"(\w+): SNR ([+-]?[\d.]+) dB, P_D ([\d.]+) \(D05 -9\.5 dB: ([\d.]+)\)", txt):
+        out[m.group(1)] = dict(snr_db=float(m.group(2)), p_d=float(m.group(3)), p_d_d05=float(m.group(4)))
+    for m in re.finditer(r"(\w+): candidate within 3 sigma \(not silent\)", txt):
+        out[m.group(1)] = dict(candidate_within_3sigma=True)
+    return out
+
+
+def silence_fields(t, r):
+    g = lambda c: r[t.columns.get_loc(c) + 1] if c in t.columns else None
+    ps, ps5 = g("p_silent_nonmembers"), g("p_silent_nonmembers_D05")
+    return dict(p_silent=float(ps) if ps is not None and np.isfinite(ps) else None, p_silent_d05=float(ps5) if ps5 is not None and np.isfinite(ps5) else None,
+                silence_label=_txt(g("silence_label")), silence=parse_silence(g("silence_detail")), silence_detail=_txt(g("silence_detail")),
+                timing_zmax=(float(g("timing_zmax")) if g("timing_zmax") is not None and np.isfinite(g("timing_zmax")) else None),
+                timing_members=_txt(g("timing_members")))
+
+
 def rows_from_tables(t1, t2, top):
     rows = []
     for r in (t1 if top is None else t1.head(top)).itertuples():
@@ -249,7 +269,8 @@ def rows_from_tables(t1, t2, top):
                          p_prior=float(r.p_prior_eta_ge_needed), lnLR=float(r.lnLR), rank=int(r.rank_lnLR), flags=str(r.flags), E_q99=float(r.E_q99_at_locus_J),
                          pos_kind="arc locus of the time lag between the first two members (table1)", n_arc_loci=int(r.n_arc_loci),
                          lag_s=float(r.lag_s) if np.isfinite(r.lag_s) else np.nan,
-                         royer_tb=_txt(r[t1.columns.get_loc("royer_timebase_dependent") + 1]) if "royer_timebase_dependent" in t1.columns else None))
+                         royer_tb=_txt(r[t1.columns.get_loc("royer_timebase_dependent") + 1]) if "royer_timebase_dependent" in t1.columns else None,
+                         **silence_fields(t1, r)))
     for r in (t2 if top is None else t2.head(top)).itertuples():
         la, lo = re.match(r"([\d.]+)S\s+([\d.]+)E", r.implied_source).groups()
         m = dict(rx=str(r.rx), t=r.time_utc, band=r.band, det=r.det, p=float(r.p), shot_check=r.shot_check if isinstance(r.shot_check, str) else None,
@@ -258,7 +279,8 @@ def rows_from_tables(t1, t2, top):
                          members=[m], eta_needed=float(r.eta_at_q99E), x_metz=float(r[t2.columns.get_loc("x_metz_2.26e-3") + 1]),
                          p_prior=float(r.p_prior_eta_ge_needed), lnLR=float(r.lnLR), rank=int(r.rank_lnLR), flags=str(r.flags), E_q99=float(r.E_q99_at_src_J),
                          pos_kind="posterior-weighted mean of run J impacts that match the arrival time (table2 implied_source)", n_arc_loci=None, lag_s=np.nan,
-                         royer_tb=_txt(r[t2.columns.get_loc("royer_timebase_dependent") + 1]) if "royer_timebase_dependent" in t2.columns else None))
+                         royer_tb=_txt(r[t2.columns.get_loc("royer_timebase_dependent") + 1]) if "royer_timebase_dependent" in t2.columns else None,
+                         **silence_fields(t2, r)))
     return rows
 
 
@@ -285,6 +307,17 @@ def footnote(fig, plain, tech, y=None, width=165):
 def row_title(row):
     kind = {"pair": "two-receiver", "triple": "three-receiver", "single": "one-receiver"}[row["kind"]]
     return f"Table {row['table'][-1]} row {row['id']} ({kind} set, register rank {row['rank']} by log-likelihood ratio, ln LR {row['lnLR']:.2f})"
+
+
+def silence_text(row):
+    """footnote text on non-member receivers (table columns from consistency_checks.py)."""
+    if row.get("p_silent") is None: return ""
+    sl = row.get("silence", {})
+    parts = [("%s: detection at p <= 0.05 within 3 sigma (not silent)" % k) if v.get("candidate_within_3sigma") else
+             f"{k}: SNR {v['snr_db']:+.1f} dB, P_D {v['p_d']:.2f} ({v['p_d_d05']:.2f} at -9.5 dB)" for k, v in sl.items()]
+    return (f"Non-member receivers with data at the predicted arrival (E = q99, coupling needed, median tau90; P_D = block 7 fit at alpha 0.05): "
+            f"{'; '.join(parts) if parts else 'none'}; P_silent = prod(1 - P_D) = {row['p_silent']:.3g} (with the -9.5 dB D05 real-arrival loss: "
+            f"{row['p_silent_d05']:.3g})" + (f"; label: {row['silence_label']} (a label, not an exclusion; P_D optimistic D05, IMS noise stand-in D06). " if row.get("silence_label") else ". "))
 
 
 # ------------------------------------------------------------------------------------------------------------------ chart 1
@@ -364,7 +397,7 @@ def chart1(D, row, outdir):
             for s in sh: ax.axvline(s, ymin=0.9, ymax=1.0, color="#7570b3", lw=0.8)
         ck = dict(rx=rx, member=bool(m), range_km=round(d, 1), travel_s=round(tt, 2), sigma_t_s=round(sig, 2), data=got, source=src,
                   window_coverage=(ck_cov if got else 0.0))
-        head = f"{RX_NAME[rx]}: {d:,.0f} km, travel time {tt:,.1f} s"
+        head = f"{RX_NAME[rx]}: {d:,.0f} km, travel time {tt:,.1f} s, 1 sigma {sig:.1f} s"
         if m:
             det = D.detection(rx, m["t"], m["band"])
             ax.axvline(x_det, color=C_DET, lw=1.1, ls="--", zorder=3)
@@ -385,6 +418,22 @@ def chart1(D, row, outdir):
                 vt = "visibility check not computable" if v is None else (f"envelope peak {v['peak_excess_db']:+.1f} dB over the panel median, "
                                                                           f"local p {v['p_local']} ({v['n_null_windows']} windows of 6 s)")
                 ax.text(0.01, 0.84, vt, transform=ax.transAxes, ha="left", va="top", fontsize=TICK, color="#333333")
+                if rx == "H08S" and m.get("shot_check") == "COINCIDENT_WITH_SHOT" and v is not None and v["visible"]:
+                    ax.text(0.98, 0.62, f"the visible pulse is the airgun shot ({float(m['shot_dt_s']):+.2f} s from the detection)", transform=ax.transAxes,
+                            ha="right", va="top", fontsize=ANN, color="#7570b3", bbox=dict(facecolor="white", edgecolor="none", alpha=0.8, pad=1))
+                    ck["visible_pulse_is_airgun_shot"] = True
+            if row["table"] == "table2":
+                ax.text(0.01, 0.06, f"one-receiver row: the implied impact time comes from this detection, so it sits at 0 by construction "
+                        f"(offset {x_det:+.1f} s because the table position is a weighted mean)", transform=ax.transAxes, ha="left", va="bottom",
+                        fontsize=TICK, color="#1b9e77", bbox=dict(facecolor="white", edgecolor="none", alpha=0.8, pad=1))
+        sil = row.get("silence", {}).get(rx) if not m else None
+        if sil:
+            ck["silence"] = sil
+            stx = ("a detection at p <= 0.05 lies within 3 sigma of the predicted arrival (not silent)" if sil.get("candidate_within_3sigma") else
+                   f"no detection here; at the coupling this row needs: predicted SNR {sil['snr_db']:+.1f} dB, detection probability {sil['p_d']:.2f} "
+                   f"({sil['p_d_d05']:.2f} with the -9.5 dB real-arrival loss)")
+            ax.text(0.01, 0.06, stx, transform=ax.transAxes, ha="left", va="bottom", fontsize=TICK, color="#b35806",
+                    bbox=dict(facecolor="white", edgecolor="none", alpha=0.85, pad=1))
         if not got:
             if rx in ("H01W", "H08S"):
                 nx = " (outside the published Fig. 9 panels: H01W 00:27-00:57, H08S 01:00-01:20 UTC)"
@@ -407,16 +456,18 @@ def chart1(D, row, outdir):
                  x=0.01, ha="left", fontsize=BASE)
     h = [Line2D([0], [0], color=C_TRACE, lw=0.6), Line2D([0], [0], color=C_ENV, lw=0.9), Line2D([0], [0], color=C_IMPACT, lw=0.9),
          Patch(color="#fdd0a2"), Line2D([0], [0], color=C_DET, lw=1.1, ls="--"), Line2D([0], [0], color="#7570b3", lw=0.8)]
-    lab = ["pressure record", "1 s RMS envelope", "implied impact time", "timing uncertainty, 1 sigma", "detection time (table member)", "airgun shot (Diego Garcia)"]
+    lab = ["pressure record", "1 s RMS envelope", "implied impact time", "timing uncertainty, 1 sigma (value in each panel title)", "detection time (table member)", "airgun shot (Diego Garcia)"]
     fig.legend(h, lab, ncol=6, loc="upper left", bbox_to_anchor=(0.01, 0.955), fontsize=TICK, handlelength=1.6)
     nvis = [c for c in checks if c.get("member") and c.get("data")]
     plain = ("Each panel is one hydrophone. We moved each record back by the time that sound needs to go from the position on the map to "
              "that hydrophone. If the sound came from that position at that time, it would show at zero in every panel. The green dashed line "
              "is the detection that put this row in the table. Red text says when the detection is not clear on this plot. Grey text says when "
-             "we hold no record for that time. This chart does not show that any detection comes from the aircraft.")
+             "we hold no record for that time. Orange text gives, for a hydrophone with a record but no detection, how loud the sound should have been "
+             "at the share of energy that this row needs. This chart does not show that any detection comes from the aircraft.")
     tech = (f"Position: {row['pos_kind']}, {abs(L):.3f} S {Lo:.3f} E; implied impact {row['t0_txt']} (table). Travel time = WGS-84 geodesic range / "
-            f"{C_KMS} km/s; sigma = sqrt((range x {C_SD}/c^2)^2 + {D.sigma_extra[0]:g}^2 + {D.sigma_extra[1]:g}^2) s (sound speed, injection, clock; "
-            f"block 11 values). IMOS: raw .DAT, module clock correction and band gains (calibration_gain.csv), 4th-order Butterworth zero-phase in the "
+            f"{C_KMS} km/s; band = 1 sigma = sqrt((range x {C_SD}/c^2)^2 + {D.sigma_extra[0]:g}^2 + {D.sigma_extra[1]:g}^2) s (sound speed, injection pick, clock; "
+            f"block 11 timing kernel and consistency_checks.py), with +/-{C_SD} km/s taken as 1 sd of the sound speed (the module elsewhere treats it as "
+            f"2 sd; then the speed term halves). " + (f"Common-source timing: {row['timing_members']} (max |z| {row['timing_zmax']:.2f}; rows with |z| > 3 excluded). " if row.get("timing_members") else "") + f"IMOS: raw .DAT, module clock correction and band gains (calibration_gain.csv), 4th-order Butterworth zero-phase in the "
             f"member's detection band (5-40 Hz on other panels). Kadri: digitised Fig. 9 polylines (~14.5 points/s; his 5 Hz high-pass + 2-40 Hz "
             f"band-pass), no extra filter, envelope resolution only. Visibility rule (display only, not a detection test): 1 s RMS envelope peak "
             f"within +/-{PEAK_WIN_S:g} s of the detection >= {VIS_EXCESS_DB:g} dB over the median of the +/-20 s window AND local p <= {VIS_P_LOCAL} "
@@ -425,7 +476,7 @@ def chart1(D, row, outdir):
             f"shown (blocked path, no information). OHASISBIO: no waveform data held. Flags: {row['flags']}. "
             + (f"Royer time-base dependent (table column royer_timebase_dependent): the H01W member matches a Royer 2016 event only on the "
                f"UNCORRECTED Fig. 4 time base; on Table 5 / bias-corrected marks it does not ({row['royer_tb']}). " if row.get("royer_tb") else "")
-            + "PREDICTIVE, NOT CALIBRATED; C1, C2.")
+            + silence_text(row) + "PREDICTIVE, NOT CALIBRATED; C1, C2.")
     footnote(fig, plain, tech)
     fig.subplots_adjust(hspace=0.62, top=0.885, bottom=0.07, left=0.08, right=0.99)
     fn = Path(outdir) / "chart1.png"; fig.savefig(fn, bbox_inches="tight"); plt.close(fig)
@@ -628,6 +679,18 @@ def chart4(D, row, outdir, n_draw=20000):
             ax.plot([x - wb * 0.45, x + wb * 0.45], [q[1]] * 2, color="w" if j in (3, 4) else "k", lw=1.0, zorder=3)
             res[rx]["levels"][lab.split(" ")[0]] = dict(q05=round(q[0], 1), q50=round(q[1], 1), q95=round(q[2], 1),
                                                           share_above_noise_median=round(float((lv > nz["median"]).mean()), 3))
+    ytop = ax.get_ylim()[1]
+    for i, rx in enumerate(RXS):
+        sil = row.get("silence", {}).get(rx)
+        if sil and rx not in members:
+            t_ = ("detection within 3 sigma:\nnot silent" if sil.get("candidate_within_3sigma") else
+                  f"no detection held;\nneeded coupling: SNR {sil['snr_db']:+.0f} dB\nP_D {sil['p_d']:.2f} ({sil['p_d_d05']:.2f} at -9.5 dB)")
+            ax.text(i, ytop + 1, t_, ha="center", va="bottom", fontsize=TICK - 0.5, color="#b35806")
+    ax.set_ylim(top=ytop + 9)
+    if row.get("silence_label"):
+        ax.text(0.5, -0.17, f"The hydrophones marked in orange held records at the predicted time and should probably have recorded this sound at the "
+                f"coupling this row needs, but no detection was made there (P_silent {row['p_silent']:.2g}; {row['p_silent_d05']:.2g} with the -9.5 dB loss).",
+                transform=ax.transAxes, ha="center", va="top", fontsize=ANN, color="#b35806", wrap=True)
     ax.set_xticks(range(len(RXS)))
     ax.set_xticklabels([RX_NAME[r].replace(" H0", "\nH0").replace(" 33", "\n33").replace(" 32", "\n32") + ("\n(detected here)" if r in members else "") for r in RXS], fontsize=TICK)
     ax.set_ylabel("received level, dB re 1 uPa^2\n(5-40 Hz, mean over the signal duration)")
@@ -636,7 +699,7 @@ def chart4(D, row, outdir, n_draw=20000):
     h = [Patch(color=c) for c in cols] + [Line2D([0], [0], color="#cc4c02", lw=1.2), Patch(color="#fee391"), Line2D([0], [0], color="#cc4c02", lw=0.7, ls=":")]
     lab = ["share of impact energy that becomes sound " + etas[0][0]] + [e[0] for e in etas[1:]] + ["noise median", "noise 10-90 %", "noise 99 %"]
     h[5] = Patch(facecolor=cols[5], edgecolor="k"); h[2] = Patch(facecolor=cols[2], edgecolor="k", lw=1.1)
-    ax.legend(h, lab, ncol=2, loc="upper left", bbox_to_anchor=(0, -0.2), fontsize=TICK)
+    ax.legend(h, lab, ncol=2, loc="upper left", bbox_to_anchor=(0, -0.25 if row.get("silence_label") else -0.2), fontsize=TICK)
     plain = ("Each bar shows how loud an impact at this place would be at each hydrophone, for one value of the share of impact energy that becomes "
              "sound. The bar runs from the 5 % to the 95 % value over the possible impacts; the line in the bar is the middle value. Yellow is the "
              "normal background noise. The red bar uses the share that this row needs. A bar above the yellow does not mean that a detector finds the signal.")
@@ -648,8 +711,9 @@ def chart4(D, row, outdir, n_draw=20000):
             f"not q05/q95. H08S level ignores the airgun survey; Kadri's 5 Hz high-pass + 2-40 Hz band-pass is not applied. Coupling 2.26e-3 is the "
             f"F-35A value under the module definition (Metz 2023, pending ruling); it is one point in the prior range. Needed coupling "
             f"{row['eta_needed']:.3g} = {row['x_metz']:.3g} x 2.26e-3; P(coupling >= needed) under log-uniform [1e-6, 1] = {row['p_prior']:.2f} (table). "
-            f"Detection power not shown (model-template P_D is optimistic by about 4-10 dB, D05). PREDICTIVE, NOT CALIBRATED; C1, C2.")
-    footnote(fig, plain, tech, y=-0.12, width=165)
+            f"Table E_q50/E_q99 are interpolated on a 0.25 deg latitude grid (up to 13 % on coupling); the energies above are computed at the row latitude. "
+            + silence_text(row) + "Bars are not detection probabilities (model-template P_D is optimistic, D05). PREDICTIVE, NOT CALIBRATED; C1, C2.")
+    footnote(fig, plain, tech, y=-0.2 if row.get("silence_label") else -0.12, width=165)
     fig.subplots_adjust(left=0.11, right=0.99, top=0.86, bottom=0.2)
     fn = Path(outdir) / "chart4.png"; fig.savefig(fn, bbox_inches="tight"); plt.close(fig)
     labels_txt = " ".join(lab)
@@ -694,6 +758,13 @@ def main():
             except Exception as e:
                 ck[k] = dict(error=repr(e)); checks["failed"].append(f"{r['id']} {k}: {e!r}")
         c1 = ck.get("chart1", {})
+        ck.update(p_silent=r.get("p_silent"), p_silent_d05=r.get("p_silent_d05"), silence_label=r.get("silence_label"), silence_detail=r.get("silence_detail"),
+                  timing_zmax=r.get("timing_zmax"))
+        if r.get("timing_zmax") is not None and r["timing_zmax"] > 3: checks["failed"].append(f"{r['id']}: timing_zmax {r['timing_zmax']:.2f} > 3 in table")
+        held = {p["rx"]: p["data"] for p in c1.get("panels", [])}
+        nodata = [k for k in r.get("silence", {}) if k in held and not held[k]]
+        ck["silence_receivers_without_data_on_chart1"] = nodata
+        if nodata: checks["failed"].append(f"{r['id']}: silence_detail lists {nodata} but chart 1 holds no data there at the predicted arrival")
         if c1.get("members_with_data", 0) and c1.get("members_visible", 0) < c1.get("members_with_data", 0):
             ck["note_chart1"] = "at least one member detection is not visible at this scale (see panels)"
         c4 = ck.get("chart4", {})
