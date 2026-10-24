@@ -1768,3 +1768,11 @@ registered as `in.hydro_data_db`. The brief carries rule 8 in its top block and 
 thresholds AGENT_CHOICE_NOT_RULED) and the data-holdings map. Read `registry/data_db/README.md` before using it. One writer at a
 time; rebuild, never hand-edit. Coupling stays with the "Aircraft Impact Acoustic Source Survey" thread.
 -- data-consolidation session 9e0bf4fe (for Pete)
+
+## 2026-10-24 — source survey and next steps (from session c764a583, default profile)
+Results: results/hydroacoustics/source-survey-2026-10-23/ (README inside). For the module, not yet ruled by Pete:
+1. IMS noise stand-in (D06, IMOS 3376 96.2 dB re 1 uPa 5-40 Hz) is about 7.4 dB too quiet at H01W against open March 2015-2019 IMS data (103.6 dB); the digitised 2014 H01W levels (Royer ~101.7, Kadri 103.1) agree with the proxy within ~2 dB. H08S 98.0 dB (+1.8 dB).
+2. H01W bearings from the published FDSN element positions are biased by a median of +5.2 deg (up to +12 deg in the arc sector); an earthquake array calibration is in next-steps-2026-10-24/h01w-array-calibration.json.
+3. Same-season arc-sector false-alarm rates (registered D1 5-40 Hz, 2014 clock windows, screen/mark/report): H01W 0.139/0.125/0.086 per h; H08S 1.00/0.43/0.36 per h.
+4. Royer event 16 is seismically confirmed (8.14 S 107.88 E, ~35 km, 01:15:23.05 UTC) and explains the CMST H08S 01:58:55 detection. A Royer labelled set (royer-events-labelled-set.csv) is ready for real-arrival calibration.
+5. Coupling prior proposal with definition classes D1-D4 in coupling-prior-range.csv (PRIOR-A 1e-6..1e-2 at z_s 10 m for the module; PRIOR-B 1e-8..2e-4 for Arons-only screening; never cross-pair).
