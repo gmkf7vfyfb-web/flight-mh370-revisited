@@ -1,0 +1,58 @@
+item,value,unit,note
+impact time (TSB A98H0003),1998-09-03T01:31:18,UTC,TSB footnote 1: in UTC the flight occurred on 3 September 1998
+impact latitude,44.40917,deg,TSB debris-field centre 44 24 33 N
+impact longitude,-63.97361,deg,TSB 063 58 25 W
+water depth,55,m,TSB
+main debris field,125 x 95,m,TSB
+CN catalogue event,19980903.0131003,,"origin 1998-09-03T01:31:17.0Z, epicentre fixed at wreck, depth 0 (operator assigned), event type ""mining explosion"", text ""Swiss air crash flight 111"""
+CN catalogue magnitude,0.57,MwN (CN FDSN label; Canadian Nuttli-type MN),CN catalogue creation time 2001-05-24
+ISC bulletin,no event,,"ISC FDSN event query 3 Sep 1998 00:00-24:00 UTC, 38-52 N 75-50 W, all origins: HTTP 204 (checked 24 Oct 2026)"
+USGS ComCat,no event,,"3 Sep 1998 00:30-03:00 UTC, 40-50 N 72-55 W: no rows (checked 24 Oct 2026)"
+Halifax station HAL,no 1998 epoch in CNDC FDSN,,HAL metadata start 2003-01-13 (EHZ); the 1998 Halifax seismograph record named by TSB is not in the open FDSN archive
+"CN.GGN (Grand Manan, 240 km)",no data,,CNDC dataselect HTTP 204 for the window
+distance to LMN,173.4,km,azimuth from wreck 338.1 deg
+distance to GSQ,555.2,km,azimuth from wreck 335.5 deg
+distance to GGN,240.3,km,azimuth from wreck 290.1 deg
+distance to HRV,648.9,km,azimuth from wreck 253.6 deg
+LMN instrument,"Guralp CMG-3T, 40 sps BHZ/BHN/BHE",,"Caledonia Mountain NB; the TSB ""Moncton"" record is assumed to be this station (about 70 km SW of Moncton) - assumption"
+"LMN P onset BHZ (AIC, 3-15 Hz causal)",27.53,s after 01:31:18,
+"LMN S onset BHZ (AIC, 3-15 Hz causal)",48.3,s after 01:31:18,
+"LMN P onset BHN (AIC, 3-15 Hz causal)",27.52,s after 01:31:18,
+"LMN S onset BHN (AIC, 3-15 Hz causal)",48.35,s after 01:31:18,
+"LMN P onset BHE (AIC, 3-15 Hz causal)",27.95,s after 01:31:18,
+"LMN S onset BHE (AIC, 3-15 Hz causal)",48.43,s after 01:31:18,
+S-P time,20.83,s,
+"S-P distance (Vp 6.0-6.3, Vs 3.5-3.65 km/s)",175-181,km,true distance 173.4 km
+origin time from LMN picks,-1.38 to +0.85,s relative to 01:31:18,"crustal Vp 6.0-6.3, Vs 3.5-3.65 km/s; timing of 1998 digitiser clock not independently verified"
+LMN BHZ 1-3 Hz peak velocity,19.99,nm/s,noise RMS 5.82 nm/s; peak SNR 3.4
+LMN BHN 1-3 Hz peak velocity,24.48,nm/s,noise RMS 7.07 nm/s; peak SNR 3.5
+LMN BHE 1-3 Hz peak velocity,29.16,nm/s,noise RMS 7.05 nm/s; peak SNR 4.1
+LMN BHZ 2-8 Hz peak velocity,16.9,nm/s,noise RMS 1.28 nm/s; peak SNR 13.2
+LMN BHN 2-8 Hz peak velocity,25.19,nm/s,noise RMS 1.68 nm/s; peak SNR 15.0
+LMN BHE 2-8 Hz peak velocity,22.61,nm/s,noise RMS 1.56 nm/s; peak SNR 14.5
+LMN BHZ 3-15 Hz peak velocity,20.56,nm/s,noise RMS 1.13 nm/s; peak SNR 18.2
+LMN BHN 3-15 Hz peak velocity,22.78,nm/s,noise RMS 1.40 nm/s; peak SNR 16.3
+LMN BHE 3-15 Hz peak velocity,24.28,nm/s,noise RMS 1.33 nm/s; peak SNR 18.3
+LMN BHZ 1.5-18 Hz peak velocity,25.26,nm/s,noise RMS 2.50 nm/s; peak SNR 10.1
+LMN BHN 1.5-18 Hz peak velocity,31.31,nm/s,noise RMS 3.27 nm/s; peak SNR 9.6
+LMN BHE 1.5-18 Hz peak velocity,38.73,nm/s,noise RMS 2.96 nm/s; peak SNR 13.1
+LMN 3-component vector PGV 1.5-18 Hz,40.54,nm/s,at 50.73 s
+signal duration (3-15 Hz power > 2x noise median),63.6,s,27.2 to 90.8 s
+signal duration (3-15 Hz power > 3x noise median),44.0,s,27.5 to 71.5 s
+impulsive transient,102.35,s after 01:31:18,"2-sample impulse on all 3 components at the same sample, no dispersion or coda: probable instrumental glitch, excluded"
+S-window band SNR maximum,7.11 at 8.0 Hz,third-octave,P window maximum 6.57 at 8.0 Hz
+water-layer quarter-wave frequency,6.82,Hz,c/(4h) for 55 m; observed peak near 8 Hz is consistent but this is not tested (no co-located reference)
+impact MN relative to 5 reference events at LMN (1-15 Hz),0.74 +/- 0.15,MN,"mean +/- SD over references; same station, same method"
+impact MN relative to 5 reference events at LMN (3-15 Hz),0.58 +/- 0.13,MN,
+"Nuttli formula minus catalogue MN, reference events",0.57 +/- 0.15,MN units,analyst-practice offset; impact offset 0.74
+"ML (Hutton-Boore, WA simulated, horizontals)",1.41,ML,California attenuation; indicative only
+Mw estimate from MN,0.07 to 0.24,Mw,"eastern Canada average MN - Mw = 0.5 (Bent 2011, as cited by Bent & Greene); not a moment measurement"
+"radiated seismic energy, direct, 1.5-17 Hz (12-case grid)",1.47e+03 to 3.65e+04,J,"median 7.77e+03 J; band-limited, noise-subtracted; lower bound for full band"
+"reference calibration log10(Es) - 1.5 MN (same method, 5 land events)",3.55 +/- 0.18,,impact value 2.42
+"Es from Gutenberg-Richter log Es = 1.5M + 4.8, M = MN",4.52e+05 to 8.09e+05,J,MN 0.57 (catalogue) to 0.74 (relative)
+Es from Gutenberg-Richter with M = MN - 0.5,8.04e+04 to 1.44e+05,J,
+"Es from log Es = 1.5 Me + 4.4 (Choy-Boatwright form), Me = MN - 0.5",3.2e+04 to 5.73e+04,J,
+impact kinetic energy,2.74e+09 (range 2.39e+09 to 2.92e+09),J,"mass 230 t (crew-reported gross weight at 01:21) down to 215 t (assumed allowance: fuel dump began after 01:25:41 and stopped before impact, amount not established); speed 300 kn indicated (TSB), 290-310 kn assumed; IAS taken as TAS at sea level"
+"seismic coupling class S1 = Es / KE, direct method",5e-07 to 1.5e-05,,NEW CLASS S1 (regional land seismic radiated energy over impact KE). Not comparable with hydroacoustic classes D1-D4 or the Arons definition (Brown et al. 2026 ~1e-4)
+"seismic coupling class S1 = Es / KE, magnitude-energy relations",1.1e-05 to 0.00034,,earthquake-derived relations applied to a surface impact: indicative
+"seismic coupling class S1, all methods",5e-07 to 0.00034,,provisional; spans about 3 orders of magnitude

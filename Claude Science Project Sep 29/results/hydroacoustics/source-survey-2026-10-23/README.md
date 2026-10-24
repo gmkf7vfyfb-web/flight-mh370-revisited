@@ -14,4 +14,7 @@ Start with `impact-and-other-sources-synthesis-2026-10-23.md`, then `next-steps-
 | next-steps-2026-10-24/island-seismic-*, royer-events-labelled-set.csv | island seismometer check; Royer event 16 relocated; Royer labelled set (840 rows) |
 | next-steps-2026-10-24/aadc-* | AADC Casey/S Kerguelen 2014 access (email-request gate) and geometry |
 
-Two tracks were still running when this was committed: Metz et al. 2023 near-field records, and Swissair 111 seismic records.
+| next-steps-2026-10-24/metz-* | Metz et al. 2023 F-35A close-range records re-digitised; source duration bound, ~20 Hz gap, implied source slope, near-field coupling |
+| next-steps-2026-10-24/swissair111-*, airliner-* | Swissair 111 (3 Sep 1998 UTC) seismic record at CN.LMN, magnitude, seismic coupling class S1; nine other airliner sea impacts checked |
+
+Correction: the 23 Oct survey said Metz Fig. 2 was not digitised and gave the Swissair 111 date as 2 Sep 1998. Both were wrong: Fig. 2 was already digitised on the module branch, and the impact was on 3 Sep 1998 UTC.

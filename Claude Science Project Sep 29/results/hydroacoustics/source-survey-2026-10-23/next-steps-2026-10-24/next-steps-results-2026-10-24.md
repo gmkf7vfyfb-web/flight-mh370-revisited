@@ -55,14 +55,37 @@ Note: [aadc-moorings-note.md]({{artifact:89a81868-64bc-4cb3-aff6-a5027d7e868e}})
 - **They would be a strong independent check on Royer's southern events.** For all 10 Royer events south of 50 S, a mooring is closer than Royer's nearest receiver: 260-1,427 km against 1,150-3,572 km. The moorings are also south of the events, while all of Royer's receivers are north or west. Example: icequake A is 693 km from South Kerguelen, with a predicted arrival at 00:24:17.
 - **Calibration to Pa** also needs the ADC full-scale voltage, which is held in the gated sidecar files.
 
-## 4. Still running
+## 4. Metz et al. 2023 F-35A close-range records (180-255 km)
 
-- **Metz close-range records.** The track is waiting on approval for `www.jamstec.go.jp`.
-- **Swissair 111 seismic record.** The track is waiting on approval for `earthquakescanada.nrcan.gc.ca`.
+Note: [metz-nearfield-note.md]({{artifact:71f9f592-ca1a-4388-9dff-cf5d55128c74}}). Tables: [metz-nearfield-derived.csv]({{artifact:817bdb0f-4188-44a5-add8-92402b7a054b}}), [metz-nearfield-eta.csv]({{artifact:5a8fd3a5-3aa0-4202-a560-1633d6f9d2e7}}), [metz-source-slope.csv]({{artifact:36fce763-909c-4e20-97db-40fff3772877}}), [metz-geometry.csv]({{artifact:3018d01d-c250-4727-a1dc-cf7c7e5f7d60}}).
 
-## 5. Decisions for Pete
+- **Correction to the 23 Oct survey.** The project had already digitised Metz Fig. 2 (module branch, prepare/digitise_metz_2023.py), so "not digitised" was stale. An independent re-digitisation agrees: envelope peaks to 0.002 dB, spectrogram pixels to a median of 0.10 dB. It also reproduces Metz's stated reading errors (5.62 s at KSP2 against 5.7 s; 1.38 s at H11S1 against 1.4 s).
+- **Raw waveforms are not open.** The JAMSTEC cabled-observatory data centre now shows a notice that access is partly suspended. Download was for registered users only.
+- **Source duration.** The 5-95 % energy span is 7.1-10.5 s at close range and 3.3-5.0 s at Wake Island. Propagation cannot shorten a signal, so the source energy span, at the angles the sound channel holds, is at most about 3.3 s. Most of the close-range length comes from seabed and slope reverberation. The close-range onset is sharp (10-90 % rise 0.76-0.84 s, which equals the 1-s window limit). The emergent onset at Wake is therefore a path effect.
+- **Sub-event hint.** At close range, 25-40 Hz energy arrives first and stops within about 2-2.5 s, while 4-10 Hz energy continues to 8-13 s. This fits a short broadband entry phase followed by low-frequency energy, but path dispersion can produce the same pattern. It is not resolved.
+- **The ~20 Hz gap is at all four close-range and both far stations.** It does not move with range, so it is not a surface-image notch at source depths of 30 m or less. It is a source feature or a common processing feature.
+- **Source spectrum is steeper than the module model.** After the module's propagation loss is removed, the implied source energy spectrum falls at about -12 dB/octave (5-40 Hz) at close range and -10 dB/octave at Wake. The project's one-pole f⁻² source (-6 dB/octave) does not fit; an f⁻⁴-like source does. Caveat: the module propagation loss fails the 2001 airgun frequency-slope check, so these slopes may be biased steep by a similar amount. The close-range-versus-far comparison of received spectra does not depend on the model and is not affected.
+- **Coupling (D1).** The close-range values are 0.106 (2 m), 4.43e-3 (10 m) and 6.79e-4 (30 m): 4.2 × the far-field value at every depth (2.4 × without KSP2). The close-range level depends mostly on the seabed model; a soft bottom changes it by about × 200. **The close-range records do not narrow the trade-off between coupling and source depth.**
+- **Geometry.** The point consistent with Metz's ranges (40.4496 N 142.9237 E) is 21.4 km from the module's working point. Kadri S1's site is 64 km from Misawa, against Metz's 135 km.
+- **Data-file finding.** The module-branch Fig. 2 spectrogram files keep frame and tick pixels at about 110 dB. The far-field Fig. 3 files show 13-17 % saturated edge pixels. These lie mostly outside the arrival windows; the effect is probably small but was not quantified.
+
+## 5. Swissair 111 (MD-11, 3 September 1998 01:31:18 UTC) as an airliner-energy case
+
+Note: [airliner-seismic-cases-note.md]({{artifact:444bf62f-94a5-4323-87d4-45c1540e5459}}). Tables: [swissair111-seismic.csv]({{artifact:652b61c4-60b1-4683-a229-801904a9b121}}), [airliner-ocean-impacts-seismic-cases.csv]({{artifact:4aa5cc0f-1e6d-484f-b548-da60aed3ffcf}}), [swissair111-energy-sensitivity.csv]({{artifact:20e3cf81-6c68-4733-b2c0-8288f79d7873}}).
+
+- **Date correction.** The impact was on 3 September 1998 UTC (TSB report, footnote 1), not 2 September as in the survey.
+- **Catalogued.** Earthquakes Canada event 19980903.0131003: origin 01:31:17.0, location fixed at the wreck, magnitude MN 0.57, classed as "mining explosion". ISC and USGS ComCat have no event.
+- **Recorded.** Station CN.LMN (Caledonia Mountain, 173.4 km) shows clear P and S; implied origin time within -1.4 to +0.9 s of 01:31:18; SNR 17.3; p 0.022, at the p floor (44 noise windows). Peak ground velocity is 40.5 nm/s (three components). The 44-64 s signal length comes mostly from the path and must not be used as an impact duration. The Halifax record the TSB mentions is not in the open archive (metadata start in 2003).
+- **Magnitude and energy.** Scaling against five land events at LMN gives MN 0.74 ± 0.15 (1-15 Hz) and 0.58 ± 0.13 (3-15 Hz). Kinetic energy is 2.74 GJ (2.39-2.92). Radiated seismic energy is 1.5e3-3.7e4 J measured directly, or 3.2e4-8.1e5 J from magnitude.
+- **New coupling class S1** (land-recorded seismic energy / impact kinetic energy): 5e-7 to 3.4e-4. It is provisional and spans about three decades. It must not be mixed with the hydroacoustic classes D1-D4.
+- **No hydroacoustic record** exists in the open literature or the TSB report.
+- **Nine other airliner sea impacts** (Alaska 261, Flash 604, EgyptAir 990 and 804, Lion Air 610, Sriwijaya 182, TWA 800, Adam Air 574, Ethiopian 409) give no detection that holds: no significant detection with limited power. The coastal stations are too noisy, or the archives have no data. AF447, Yemenia 626 and AirAsia 8501 were not scanned.
+
+## 6. Decisions for Pete
 
 1. Submit the AADC email request (free, no account) for the 8 March 2014 Casey and South Kerguelen files? It is the only way to check Royer's southern icequake locations independently.
 2. Replace the module's IMS noise stand-in (D06) with the 2015-2019 March percentiles, declared as a proxy? This moves H01W about 7 dB louder.
 3. Apply the H01W array bearing calibration to the module's H01W bearing work?
-4. Still open from 23 Oct: the AMSA March 2014 AIS click-through, and a Global Fishing Watch token.
+4. Should the module's source spectrum move from the one-pole f⁻² model to an f⁻⁴-like declared alternative, given that the Metz close-range and far-field records both imply about -10 to -12 dB/octave (with the propagation-slope caveat)?
+5. Add Swissair 111 to the ground-truth cases table as a seismic (S1) airliner case?
+6. Still open from 23 Oct: the AMSA March 2014 AIS click-through, and a Global Fishing Watch token.
