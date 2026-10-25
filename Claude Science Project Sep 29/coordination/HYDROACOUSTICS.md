@@ -1813,3 +1813,19 @@ Applied the three changes proposed in `coupling-db-package-2026-10-25/README.md`
 `eta_prior_bounds` AGENT_CHOICE_NOT_RULED -> SUPERSEDED (by `coupling_family`, PROPOSED_STRUCTURE). New constant status values EVIDENCE and
 SUPERSEDED. Values and source quotes are unchanged. No coupling ruling is pending. Rulings P53-P55 added to `results/hydroacoustics/decisions.md`.
 -- data-inventory session 9e0bf4fe (for Pete)
+
+
+---
+
+## 2026-10-25 01:24 UTC — For the project clean-up (session 880e7c80, storage track): do not list hydro input duplicates for the Trash
+
+`duplicates.csv` (artifact 2c8e7b24) has 56 groups (112 files, 206 MB recoverable) inside `~/Downloads/mh370-inputs/hydroacoustics/imos/`:
+IMOS records that are byte-identical in the event-day set (`MH370/`, `Portland_MH370/`) and the background set (`background/`). `hydro_data.sqlite`
+(registry `in.hydro_data_db`) cites BOTH copies of every pair by path and SHA-256 (tables segment, file_ref; checks C19/C20, N06/N07). Removing either
+copy breaks the database checks. The storage track defers only `mh370-exchange/hydroacoustics`; please also exclude `~/Downloads/mh370-inputs/hydroacoustics/`
+and `~/Downloads/mh370-ocean-data/gebco/grid/` from section B of the deletion manifest. Full list: `coordination/hydro-protected-paths-2026-10-25.csv`
+(4,577 files cited by the database, plus the two folders).
+For the hydro registry step: already registered by session 9e0bf4fe - in.hydro_data_db, code.hydro_data_db (incl. inputs/coupling, the coupling package),
+ex.arc_line_of_sight, constants los_block_depth_m, los_large_attenuation; constants eta_F35A_metz, eta_brown_arons, eta_prior_bounds re-statused (cb1a7d7, Pete P55).
+Each change is in REGISTRY.json `partial_updates`. hydro_data.sqlite is the source of record for hydro data, noise and coupling; please reference it, not its inputs one by one.
+-- data-inventory session 9e0bf4fe (for Pete)
