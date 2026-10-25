@@ -428,8 +428,11 @@ def added_lines_in_range(a, b):
         return None
     cur, n = None, 0
     for line in diff.splitlines():
-        if line.startswith("+++ b/"):
-            cur = line[6:]
+        if line.startswith("+++ "):
+            t = line[4:].rstrip("\t")
+            if t.startswith('"') and t.endswith('"'):
+                t = t[1:-1].encode("latin-1", "backslashreplace").decode("unicode_escape").encode("latin-1").decode("utf-8", "replace")
+            cur = t[2:] if t.startswith("b/") else None
         elif line.startswith("@@"):
             m = re.search(r"\+(\d+)", line); n = int(m.group(1)) if m else 0
         elif line.startswith("+") and not line.startswith("+++") and cur:
