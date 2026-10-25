@@ -1,0 +1,404 @@
+registry_version: pleiades registry v1 (2026-10-25)
+module: pleiades
+generated_by: registry/backfill_registry.py (do not edit by hand; correct status_records.yaml and rebuild)
+entries:
+- id: pleiades.code.branch-hypothesis-pleiades
+  kind: code
+  module: pleiades
+  path: GIT:hypothesis/pleiades@a1a54b51f3d53bf26310e38108d13de21e073343
+  git:
+    branch: hypothesis/pleiades
+    commit: a1a54b51f3d53bf26310e38108d13de21e073343
+    date: '2026-10-12T19:55:26Z'
+    subject: 'Pleiades: run I close-ups D0-D5 (colour + seabed) after official searches; note updated'
+    tree: f47f8eb2654d94f24034e2a6b89e9aa41732b03f
+    n_files: 9708
+    bytes: 2209797063
+    commits_not_in_working_branch: 0
+    compared_with_working_head: a0f25c19fb5cd9d1c0d340167507260ceb6e2b86
+  note: Code on branch hypothesis/pleiades at a1a54b51f3d5 (2026-10-12). 0 commits are not in the working branch. Not merged (Pete's rule).
+  assignment_basis: branch name
+  hash: false
+  hash_note: git objects are content-addressed; tree sha recorded
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: pleiades.code.engine-hypotheses-pleiades
+  kind: code
+  module: pleiades
+  path: WORK:engine/hypotheses/pleiades
+  file_list: null
+  note: 'Engine code on the working branch: engine/hypotheses/pleiades (60 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: fb4e9f5b26329aa75223a2b2f182048f48bbb368
+      date: '2026-10-07T18:59:29-06:00'
+      subject: 'Pleiades: scaffold hypotheses/pleiades and section 11 western-reach test (provisional)'
+    last_changed:
+      commit: e455705fdb5c3f280382e6defcac9135de824702
+      date: '2026-10-20T04:37:52-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: pleiades.ex.pleiades-_top-files
+  kind: product
+  module: pleiades
+  path: EX:pleiades/
+  exchange_prefix: pleiades/
+  exchange_top_files_only: true
+  note: 'Exchange folder pleiades/_top-files: 1 files, 0.00 GB; SHA-256 from SHA256SUMS 0, computed 1, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: pleiades.ex.pleiades-next-run-d-he
+  kind: product
+  module: pleiades
+  path: EX:pleiades/next-run-d-he
+  exchange_prefix: pleiades/next-run-d-he
+  exchange_top_files_only: false
+  note: 'Exchange folder pleiades/next-run-d-he: 23 files, 0.09 GB; SHA-256 from SHA256SUMS 16, computed 7, not hashed 0. 16 files listed in a SHA256SUMS file here
+    are not in the folder now.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: pleiades.ex.pleiades-run-j
+  kind: product
+  module: pleiades
+  path: EX:pleiades/run-j
+  exchange_prefix: pleiades/run-j
+  exchange_top_files_only: false
+  note: 'Exchange folder pleiades/run-j: 63 files, 8.98 GB; SHA-256 from SHA256SUMS 59, computed 4, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: pleiades.ex.pleiades-run-j-a1branch
+  kind: product
+  module: pleiades
+  path: EX:pleiades/run-j-a1branch
+  exchange_prefix: pleiades/run-j-a1branch
+  exchange_top_files_only: false
+  note: 'Exchange folder pleiades/run-j-a1branch: 17 files, 0.74 GB; SHA-256 from SHA256SUMS 15, computed 2, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: pleiades.ex.pleiades-run-j-supplement
+  kind: product
+  module: pleiades
+  path: EX:pleiades/run-j-supplement
+  exchange_prefix: pleiades/run-j-supplement
+  exchange_top_files_only: false
+  note: 'Exchange folder pleiades/run-j-supplement: 30 files, 0.75 GB; SHA-256 from SHA256SUMS 28, computed 2, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: pleiades.note.coordination-pleiades_md
+  kind: note
+  module: pleiades
+  path: WORK:coordination/PLEIADES.md
+  note: PLEIADES inbox
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 6a2f9377af93daed81de316e8868d3b53dc2c869
+      date: '2026-10-07T12:52:38-06:00'
+      subject: 'Architecture: ocean drift master prompt, and the coordination inboxes'
+    last_changed:
+      commit: fe5cdfd4bbf78b8e62ff559dbf46c986ba284b08
+      date: '2026-10-22T10:31:50-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: pleiades.note.threads-drafts-pleiades-v2-draft_md
+  kind: note
+  module: pleiades
+  path: WORK:threads/drafts/pleiades-v2-DRAFT.md
+  note: Pléiades and COSMO-SkyMed — mission and master prompt, version 2 (DRAFT, not adopted; awaiting Pete)
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 11ffa5766ccb1cdb77dcb1182dacc11f3c84e604
+      date: '2026-10-17T14:43:21-06:00'
+      subject: 'pleiades: DRAFT brief v2 (not adopted; awaiting Pete); finds-test aggregate.py (reproduces the table exactly); inbox entry'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: pleiades.note.threads-master-prompts-pleiades_md
+  kind: note
+  module: pleiades
+  path: WORK:threads/master-prompts/pleiades.md
+  note: Pléiades and COSMO-SkyMed — mission and master prompt, version 2
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 0c6be96165853eac683f830f749915d97675c081
+      date: '2026-10-07T18:00:06-06:00'
+      subject: 'Pleiades: align the brief, and seed the inbox'
+    last_changed:
+      commit: 8cae711638062921fe02ab4c153420a473b0596a
+      date: '2026-10-22T10:18:07-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT
+  status_rank: explicit
+  status_evidence:
+  - rank: explicit
+    source: WORK:coordination/PLEIADES.md:32
+    quote: '`threads/master-prompts/pleiades.md` is authoritative and supersedes the September ISO `.txt`,'
+- id: pleiades.res.pleiades
+  kind: product
+  module: pleiades
+  path: WORK:results/pleiades
+  note: 'Pleiades: results/pleiades notes and data, citation ledger, eighth entry (two-epoch negative result shown by injection), ocean-transport usage note'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: b4d551f30c7b2036a18ec2235be639eef605ad3d
+      date: '2026-10-08T19:48:54-06:00'
+      subject: 'Pleiades: results/pleiades notes and data, citation ledger, eighth entry (two-epoch negative result shown by injection), ocean-transport usage note'
+    last_changed:
+      commit: 0f5b22f835da2af7cc8c1b257677bfa9c645d185
+      date: '2026-10-20T04:46:22-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: pleiades.res.pleiades-conditional-r600-raw-bfo-standin
+  kind: product
+  module: pleiades
+  path: WORK:results/pleiades-conditional-r600-raw-bfo-standin
+  note: 'stand-in: Pléiades-conditional impact PDF on core (b), R600 BTO + Raw BFO - tension, trace-back to 00:11 hand-off, searches under H (UNCONVERGED; for Pléiades
+    and searched areas to review)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: f7356ccbb238c5dd8945957416c683a3e3aaa808
+      date: '2026-10-10T16:01:33-06:00'
+      subject: 'stand-in: Pléiades-conditional impact PDF on core (b), R600 BTO + Raw BFO - tension, trace-back to 00:11 hand-off, searches under H (UNCONVERGED;
+        for Pléiades and searched areas to review)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: pleiades.res.pleiades-conditional-r600-raw-bfo-standin_md
+  kind: note
+  module: pleiades
+  path: WORK:results/pleiades-conditional-r600-raw-bfo-standin.md
+  note: Pléiades-conditional impact PDF on core (b), 00:19 R600 BTO + Raw BFO — trace-back and searches under H (stand-in)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: f7356ccbb238c5dd8945957416c683a3e3aaa808
+      date: '2026-10-10T16:01:33-06:00'
+      subject: 'stand-in: Pléiades-conditional impact PDF on core (b), R600 BTO + Raw BFO - tension, trace-back to 00:11 hand-off, searches under H (UNCONVERGED;
+        for Pléiades and searched areas to review)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/pleiades-conditional-r600-raw-bfo-standin.md:7
+    quote: '**Labels (every number below):** **UNCONVERGED — core (b) split-half NOT converged** · end-of-flight physics PROVISIONAL'
+- id: pleiades.res.pleiades-methods-draft_md
+  kind: note
+  module: pleiades
+  path: WORK:results/pleiades-methods-draft.md
+  note: 'Methods draft: the Pléiades / COSMO-SkyMed conditional hypothesis'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: e20adec2bbb2d919e08d9e6e155111037bdaacc9
+      date: '2026-10-09T00:05:58-06:00'
+      subject: 'Pleiades: methods draft; two-epoch at measured spread on daily GlobCurrent tracks (IG 0.001-0.07 bits; correction to tenth entry)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/pleiades-methods-draft.md:7
+    quote: '**Status.** Every number is PROVISIONAL. Five things make it so:'
+- id: pleiades.res.pleiades-next-run-b-standin_md
+  kind: note
+  module: pleiades
+  path: WORK:results/pleiades-next-run-b-standin.md
+  note: 'Pléiades / COSMO-SkyMed conditional branch on end of flight''s next-run (core (b)) impacts: stand-in re-run'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: a26c6559dbed1aecd79376d6974f488f3aef1d2b
+      date: '2026-10-10T05:23:51-06:00'
+      subject: 'results: Pléiades conditional branch on EoF next-run (core (b)) impacts, every 00:19 option, plain and +alive (stand-in for Pléiades; PROVISIONAL-OVERNIGHT);
+        posted to PLEIADES, architecture, SEARCHED'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/pleiades-next-run-b-standin.md:5
+    quote: '**Labels:** `core (b) split-half NOT converged` · `two-tank bookkeeping only` · `PROVISIONAL-OVERNIGHT` · `EoF sweep run by a stand-in`.'
+- id: pleiades.res.pleiades-references_bib
+  kind: product
+  module: pleiades
+  path: WORK:results/pleiades-references.bib
+  note: 'Pleiades: results/pleiades notes and data, citation ledger, eighth entry (two-epoch negative result shown by injection), ocean-transport usage note'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: b4d551f30c7b2036a18ec2235be639eef605ad3d
+      date: '2026-10-08T19:48:54-06:00'
+      subject: 'Pleiades: results/pleiades notes and data, citation ledger, eighth entry (two-epoch negative result shown by injection), ocean-transport usage note'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: pleiades.res.pleiades-references_md
+  kind: note
+  module: pleiades
+  path: WORK:results/pleiades-references.md
+  note: 'Pléiades module: citation ledger'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: b4d551f30c7b2036a18ec2235be639eef605ad3d
+      date: '2026-10-08T19:48:54-06:00'
+      subject: 'Pleiades: results/pleiades notes and data, citation ledger, eighth entry (two-epoch negative result shown by injection), ocean-transport usage note'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: pleiades.xd.pleiades-columns
+  kind: archive
+  module: pleiades
+  path: XDRIVE:mh370-exchange/pleiades/columns
+  note: 'Listed for copy to the external drive in archive-tools/archive-to-porsche.v3.sh line 19 (destination /Volumes/Porsche 1TB Backup/mh370-archive). Source folder
+    in ~/Downloads now: absent. The VERIFIED-*.txt list is on the drive; it was not readable from this session, so the copy is not confirmed here.'
+  assignment_basis: archive script item list
+  hash: false
+  hash_note: external drive not mounted in this session
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: pleiades.xd.pleiades-run-i
+  kind: archive
+  module: pleiades
+  path: XDRIVE:mh370-exchange/pleiades/run-i
+  note: 'Listed for copy to the external drive in archive-tools/archive-to-porsche.v3.sh line 15 (destination /Volumes/Porsche 1TB Backup/mh370-archive). Source folder
+    in ~/Downloads now: absent. The VERIFIED-*.txt list is on the drive; it was not readable from this session, so the copy is not confirmed here.'
+  assignment_basis: archive script item list
+  hash: false
+  hash_note: external drive not mounted in this session
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []

@@ -1,0 +1,2543 @@
+registry_version: drift registry v1 (2026-10-25)
+module: drift
+generated_by: registry/backfill_registry.py (do not edit by hand; correct status_records.yaml and rebuild)
+entries:
+- id: drift.code.branch-core-ocean-transport
+  kind: code
+  module: drift
+  path: GIT:core/ocean-transport@c54bf93568fe1547489adfedee5aa8344d4e21a0
+  git:
+    branch: core/ocean-transport
+    commit: c54bf93568fe1547489adfedee5aa8344d4e21a0
+    date: '2026-10-12T18:50:23Z'
+    subject: 'crates/ocean: lon_join series manifests (adjacent longitude bands joined into one grid; shared column bit-identical or one-step contiguous) + test;
+      fetch scripts take FORCING_LON; ocean fields east to'
+    tree: b8e1fd6bb5436b725756625e3ab96feca10956e5
+    n_files: 9657
+    bytes: 2184089327
+    commits_not_in_working_branch: 0
+    compared_with_working_head: a0f25c19fb5cd9d1c0d340167507260ceb6e2b86
+  note: Code on branch core/ocean-transport at c54bf93568fe (2026-10-12). 0 commits are not in the working branch. Not merged (Pete's rule).
+  assignment_basis: branch name
+  hash: false
+  hash_note: git objects are content-addressed; tree sha recorded
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.code.branch-hypothesis-debris-drift
+  kind: code
+  module: drift
+  path: GIT:hypothesis/debris-drift@d51d80a80508d3277ede76c1de546b1b477c5c60
+  git:
+    branch: hypothesis/debris-drift
+    commit: d51d80a80508d3277ede76c1de546b1b477c5c60
+    date: '2026-10-13T02:00:32Z'
+    subject: Merge remote-tracking branch 'origin/claude-science-sep29' into hypothesis/debris-drift
+    tree: 15dc28d2cd5485bfe9ddb8e6b33f5e05e2fce733
+    n_files: 9848
+    bytes: 2239026165
+    commits_not_in_working_branch: 51
+    compared_with_working_head: a0f25c19fb5cd9d1c0d340167507260ceb6e2b86
+  note: Code on branch hypothesis/debris-drift at d51d80a80508 (2026-10-13). 51 commits are not in the working branch. Not merged (Pete's rule).
+  assignment_basis: branch name
+  hash: false
+  hash_note: git objects are content-addressed; tree sha recorded
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.code.engine-crates-ocean
+  kind: code
+  module: drift
+  path: WORK:engine/crates/ocean
+  file_list: null
+  note: 'Engine code on the working branch: engine/crates/ocean (38 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: 311e481a4c5df3eb4814fd93d7a8aaa8315ee157
+      date: '2026-10-07T19:37:18-06:00'
+      subject: 'crates/ocean: shared ocean transport API with analytic fields and tests'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.ex.debris-drift-_top-files
+  kind: product
+  module: drift
+  path: EX:debris-drift/
+  exchange_prefix: debris-drift/
+  exchange_top_files_only: true
+  note: 'Exchange folder debris-drift/_top-files: 2 files, 0.00 GB; SHA-256 from SHA256SUMS 0, computed 2, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.ex.debris-drift-arclat-north-2026-10-20
+  kind: product
+  module: drift
+  path: EX:debris-drift/arclat-north-2026-10-20
+  exchange_prefix: debris-drift/arclat-north-2026-10-20
+  exchange_top_files_only: false
+  note: 'Exchange folder debris-drift/arclat-north-2026-10-20: 20 files, 0.00 GB; SHA-256 from SHA256SUMS 18, computed 2, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.ex.debris-drift-arclat-ruled-australia-2026-10-21
+  kind: product
+  module: drift
+  path: EX:debris-drift/arclat-ruled-australia-2026-10-21
+  exchange_prefix: debris-drift/arclat-ruled-australia-2026-10-21
+  exchange_top_files_only: false
+  note: 'Exchange folder debris-drift/arclat-ruled-australia-2026-10-21: 9 files, 0.00 GB; SHA-256 from SHA256SUMS 7, computed 2, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.ex.debris-drift-kadri-haixun-2026-10-18
+  kind: product
+  module: drift
+  path: EX:debris-drift/kadri-haixun-2026-10-18
+  exchange_prefix: debris-drift/kadri-haixun-2026-10-18
+  exchange_top_files_only: false
+  note: 'Exchange folder debris-drift/kadri-haixun-2026-10-18: 10 files, 0.42 GB; SHA-256 from SHA256SUMS 9, computed 1, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.ex.debris-drift-run-j
+  kind: product
+  module: drift
+  path: EX:debris-drift/run-j
+  exchange_prefix: debris-drift/run-j
+  exchange_top_files_only: false
+  note: 'Exchange folder debris-drift/run-j: 73 files, 9.83 GB; SHA-256 from SHA256SUMS 24, computed 49, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.ex.debris-drift-runa-rebuilt
+  kind: product
+  module: drift
+  path: EX:debris-drift/runA-rebuilt
+  exchange_prefix: debris-drift/runA-rebuilt
+  exchange_top_files_only: false
+  note: 'Exchange folder debris-drift/runA-rebuilt: 5 files, 0.00 GB; SHA-256 from SHA256SUMS 4, computed 1, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.ex.debris-drift-runa-standin
+  kind: product
+  module: drift
+  path: EX:debris-drift/runA-standin
+  exchange_prefix: debris-drift/runA-standin
+  exchange_top_files_only: false
+  note: 'Exchange folder debris-drift/runA-standin: 13 files, 0.00 GB; SHA-256 from SHA256SUMS 0, computed 13, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.ex.ocean-transport-paths-calibration
+  kind: product
+  module: drift
+  path: EX:ocean-transport/paths-calibration
+  exchange_prefix: ocean-transport/paths-calibration
+  exchange_top_files_only: false
+  note: 'Exchange folder ocean-transport/paths-calibration: 11 files, 0.00 GB; SHA-256 from SHA256SUMS 9, computed 2, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.home.mh370-ocean-data
+  kind: data_home
+  module: drift
+  path: DL:mh370-ocean-data
+  note: Ocean model and observation data (GLORYS12, ERA5, GlobCurrent, OSCAR, WAVERYS, GDP, BRAN2016, GEBCO, GSHHG, WOA23, AusSeabed, products).
+  assignment_basis: data home
+  hash: stat
+  hash_note: file list and sizes only; SHA-256 taken from SHA256SUMS files where present
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.note.coordination-ocean_drift_md
+  kind: note
+  module: drift
+  path: WORK:coordination/OCEAN_DRIFT.md
+  note: OCEAN_DRIFT inbox
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 6a2f9377af93daed81de316e8868d3b53dc2c869
+      date: '2026-10-07T12:52:38-06:00'
+      subject: 'Architecture: ocean drift master prompt, and the coordination inboxes'
+    last_changed:
+      commit: 8cae711638062921fe02ab4c153420a473b0596a
+      date: '2026-10-22T10:18:07-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.note.coordination-ocean_transport_md
+  kind: note
+  module: drift
+  path: WORK:coordination/OCEAN_TRANSPORT.md
+  note: OCEAN_TRANSPORT inbox
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 6a2f9377af93daed81de316e8868d3b53dc2c869
+      date: '2026-10-07T12:52:38-06:00'
+      subject: 'Architecture: ocean drift master prompt, and the coordination inboxes'
+    last_changed:
+      commit: 8cae711638062921fe02ab4c153420a473b0596a
+      date: '2026-10-22T10:18:07-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.note.threads-drafts-ocean-drift-status-draft_md
+  kind: note
+  module: drift
+  path: WORK:threads/drafts/ocean-drift-status-DRAFT.md
+  note: 'Ocean drift: status (updated 17 Oct 2026)'
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: baba2829b0a2987c701e70fae4368492a2f2f9fc
+      date: '2026-10-17T21:01:51-06:00'
+      subject: drift items 7-8 (core-node refinement, refloat), three-tier Australian scheme, draft brief/status/contract; coordination entries
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.note.threads-drafts-ocean-drift-v2-draft_md
+  kind: note
+  module: drift
+  path: WORK:threads/drafts/ocean-drift-v2-DRAFT.md
+  note: 'Ocean drift: module brief (v2, 17 Oct 2026)'
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 7efe474b43f1fb1fcef1919d053244b4eb4ebb0f
+      date: '2026-10-17T12:06:31-06:00'
+      subject: DRAFT drift brief v2 and shared contract (not adopted; awaiting Pete)
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.note.threads-master-prompts-ocean-drift_md
+  kind: note
+  module: drift
+  path: WORK:threads/master-prompts/ocean-drift.md
+  note: 'Ocean drift: module brief (v2, 17 Oct 2026)'
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 6a2f9377af93daed81de316e8868d3b53dc2c869
+      date: '2026-10-07T12:52:38-06:00'
+      subject: 'Architecture: ocean drift master prompt, and the coordination inboxes'
+    last_changed:
+      commit: 8cae711638062921fe02ab4c153420a473b0596a
+      date: '2026-10-22T10:18:07-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.note.threads-master-prompts-ocean-transport_md
+  kind: note
+  module: drift
+  path: WORK:threads/master-prompts/ocean-transport.md
+  note: Shared ocean transport — mission and master prompt
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: e149ff5bc9e390281a893606c8306d2bda7214b6
+      date: '2026-10-07T19:07:20-06:00'
+      subject: 'Overnight plan: ocean-transport and composer briefs, and work orders for every module'
+    last_changed:
+      commit: 8cae711638062921fe02ab4c153420a473b0596a
+      date: '2026-10-22T10:18:07-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-across-arc-note_md
+  kind: note
+  module: drift
+  path: WORK:results/debris-drift-across-arc-note.md
+  note: Why the drift-only 50 % region leans west of (inside) the 7th arc
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: e9eb694ce5b72fef4b423d58a14dec5403972831
+      date: '2026-10-12T07:14:25-06:00'
+      subject: 'drift: across-arc note (why the drift-only 50 % region leans west)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-australia-east-of-120_pdf
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-australia-east-of-120.pdf
+  note: 'drift: correct the populated WA segment to Perth-Augusta; drifter evidence that 12 of 196 crossings reach populated south-east coast'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 44ad8fa3a788462f3c91f09c7949f0db148bfb39
+      date: '2026-10-14T22:56:15-06:00'
+      subject: 'drift: correct the populated WA segment to Perth-Augusta; drifter evidence that 12 of 196 crossings reach populated south-east coast'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-australia-east-of-120_png
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-australia-east-of-120.png
+  note: 'drift: correct the populated WA segment to Perth-Augusta; drifter evidence that 12 of 196 crossings reach populated south-east coast'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 44ad8fa3a788462f3c91f09c7949f0db148bfb39
+      date: '2026-10-14T22:56:15-06:00'
+      subject: 'drift: correct the populated WA segment to Perth-Augusta; drifter evidence that 12 of 196 crossings reach populated south-east coast'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-australia-nonrecovery-design_md
+  kind: note
+  module: drift
+  path: WORK:results/debris-drift-australia-nonrecovery-design.md
+  note: 'Australian non-recovery term: design (brief section 13 item raised by Pete, 12 Oct 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: ed1f5ad44424932583e2e0fbe0d576ecf18abe1d
+      date: '2026-10-12T07:29:49-06:00'
+      subject: 'drift: Australian non-recovery design; record'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-australia-pilot-composed-approx_json
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-australia-pilot-composed-approx.json
+  note: 'drift: Australian pilot result (reach-limited, interim)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: ea9d4b549a9329a25bf759daa0b0b5bca87920dd
+      date: '2026-10-12T19:41:18-06:00'
+      subject: 'drift: Australian pilot result (reach-limited, interim)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-australia-pilot-nodes_csv
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-australia-pilot-nodes.csv
+  note: 'drift: Australian pilot result (reach-limited, interim)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: ea9d4b549a9329a25bf759daa0b0b5bca87920dd
+      date: '2026-10-12T19:41:18-06:00'
+      subject: 'drift: Australian pilot result (reach-limited, interim)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-australia-pilot_json
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-australia-pilot.json
+  note: 'drift: Australian pilot result (reach-limited, interim)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: ea9d4b549a9329a25bf759daa0b0b5bca87920dd
+      date: '2026-10-12T19:41:18-06:00'
+      subject: 'drift: Australian pilot result (reach-limited, interim)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-australia-pilot_md
+  kind: note
+  module: drift
+  path: WORK:results/debris-drift-australia-pilot.md
+  note: 'Australian non-recovery pilot (drift, G26): result'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: ea9d4b549a9329a25bf759daa0b0b5bca87920dd
+      date: '2026-10-12T19:41:18-06:00'
+      subject: 'drift: Australian pilot result (reach-limited, interim)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/debris-drift-australia-pilot.md:5
+    quote: '> **Labels:** PILOT; **REACH-LIMITED** (domain 15-120 E: debris carried east of 120 E counts as never found, so the southern penalty is'
+- id: drift.res.debris-drift-australia-pilot_pdf
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-australia-pilot.pdf
+  note: 'drift: Australian pilot result (reach-limited, interim)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: ea9d4b549a9329a25bf759daa0b0b5bca87920dd
+      date: '2026-10-12T19:41:18-06:00'
+      subject: 'drift: Australian pilot result (reach-limited, interim)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-australia-pilot_png
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-australia-pilot.png
+  note: 'drift: Australian pilot result (reach-limited, interim)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: ea9d4b549a9329a25bf759daa0b0b5bca87920dd
+      date: '2026-10-12T19:41:18-06:00'
+      subject: 'drift: Australian pilot result (reach-limited, interim)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-australia-populated-only_md
+  kind: note
+  module: drift
+  path: WORK:results/debris-drift-australia-populated-only.md
+  note: 'Australian non-recovery: the populated-coast restriction (Pete''s ruling, 15 Oct 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 30b5363fa33e3cf0dbb358dec61cdb01c01ea580
+      date: '2026-10-14T22:48:46-06:00'
+      subject: 'drift: populated-coast restriction (Pete''s ruling) - one 1,216 km coast carries 83 per cent of the term; reach limit reduced to the populated south-east'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/debris-drift-australia-populated-only.md:6
+    quote: '> Reach-limited pilot, 15-120 E, GLORYS12 only. Debris that would travel east of 120 E is not tracked, which is'
+- id: drift.res.debris-drift-australia-populated-only_pdf
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-australia-populated-only.pdf
+  note: 'drift: populated-coast restriction (Pete''s ruling) - one 1,216 km coast carries 83 per cent of the term; reach limit reduced to the populated south-east'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 30b5363fa33e3cf0dbb358dec61cdb01c01ea580
+      date: '2026-10-14T22:48:46-06:00'
+      subject: 'drift: populated-coast restriction (Pete''s ruling) - one 1,216 km coast carries 83 per cent of the term; reach limit reduced to the populated south-east'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-australia-populated-only_png
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-australia-populated-only.png
+  note: 'drift: populated-coast restriction (Pete''s ruling) - one 1,216 km coast carries 83 per cent of the term; reach limit reduced to the populated south-east'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 30b5363fa33e3cf0dbb358dec61cdb01c01ea580
+      date: '2026-10-14T22:48:46-06:00'
+      subject: 'drift: populated-coast restriction (Pete''s ruling) - one 1,216 km coast carries 83 per cent of the term; reach limit reduced to the populated south-east'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-australia-preregistration_md
+  kind: note
+  module: drift
+  path: WORK:results/debris-drift-australia-preregistration.md
+  note: 'Pre-registration: Australian non-recovery term (drift), 12 Oct 2026'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 29bb6ca0d2dead326c72a56c79ded5c56230ce95
+      date: '2026-10-12T10:06:10-06:00'
+      subject: 'drift: Australian non-recovery pre-registration (B primary, Pete)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-australia-sensitivities-shares_csv
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-australia-sensitivities-shares.csv
+  note: 'drift item 9: Australian non-recovery sensitivities (A, C, off, searcher) on the interim pilot - no compute needed; direction holds'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 50337bd8dac1d4fc854abb0ea9a7866e3003c61b
+      date: '2026-10-14T22:26:44-06:00'
+      subject: 'drift item 9: Australian non-recovery sensitivities (A, C, off, searcher) on the interim pilot - no compute needed; direction holds'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-australia-sensitivities_json
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-australia-sensitivities.json
+  note: 'drift item 9: Australian non-recovery sensitivities (A, C, off, searcher) on the interim pilot - no compute needed; direction holds'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 50337bd8dac1d4fc854abb0ea9a7866e3003c61b
+      date: '2026-10-14T22:26:44-06:00'
+      subject: 'drift item 9: Australian non-recovery sensitivities (A, C, off, searcher) on the interim pilot - no compute needed; direction holds'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-australia-sensitivities_md
+  kind: note
+  module: drift
+  path: WORK:results/debris-drift-australia-sensitivities.md
+  note: 'Australian non-recovery term: the pre-registered sensitivities (drift, G26)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 50337bd8dac1d4fc854abb0ea9a7866e3003c61b
+      date: '2026-10-14T22:26:44-06:00'
+      subject: 'drift item 9: Australian non-recovery sensitivities (A, C, off, searcher) on the interim pilot - no compute needed; direction holds'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/debris-drift-australia-sensitivities.md:7
+    quote: '> Reach-limited pilot, 15–120 E, GLORYS12 only. Debris that would travel east of 120 E is not tracked, which is'
+- id: drift.res.debris-drift-australia-sensitivities_pdf
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-australia-sensitivities.pdf
+  note: 'drift item 9: Australian non-recovery sensitivities (A, C, off, searcher) on the interim pilot - no compute needed; direction holds'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 50337bd8dac1d4fc854abb0ea9a7866e3003c61b
+      date: '2026-10-14T22:26:44-06:00'
+      subject: 'drift item 9: Australian non-recovery sensitivities (A, C, off, searcher) on the interim pilot - no compute needed; direction holds'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-australia-sensitivities_png
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-australia-sensitivities.png
+  note: 'drift item 9: Australian non-recovery sensitivities (A, C, off, searcher) on the interim pilot - no compute needed; direction holds'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 50337bd8dac1d4fc854abb0ea9a7866e3003c61b
+      date: '2026-10-14T22:26:44-06:00'
+      subject: 'drift item 9: Australian non-recovery sensitivities (A, C, off, searcher) on the interim pilot - no compute needed; direction holds'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-australia-sensitivities_py
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-australia-sensitivities.py
+  note: 'drift item 9: Australian non-recovery sensitivities (A, C, off, searcher) on the interim pilot - no compute needed; direction holds'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 50337bd8dac1d4fc854abb0ea9a7866e3003c61b
+      date: '2026-10-14T22:26:44-06:00'
+      subject: 'drift item 9: Australian non-recovery sensitivities (A, C, off, searcher) on the interim pilot - no compute needed; direction holds'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-coverage-runc_csv
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-coverage-runc.csv
+  note: 'results: drift run C coverage (all strata) and run A node list (343)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: e813307bcd7f227f7739b5951f1bd09760cb3c94
+      date: '2026-10-10T23:39:29-06:00'
+      subject: 'results: drift run C coverage (all strata) and run A node list (343)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-extension-nodes-runc_csv
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-extension-nodes-runc.csv
+  note: 'results: drift run C coverage (all strata) and run A node list (343)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: e813307bcd7f227f7739b5951f1bd09760cb3c94
+      date: '2026-10-10T23:39:29-06:00'
+      subject: 'results: drift run C coverage (all strata) and run A node list (343)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-find-episodes_md
+  kind: note
+  module: drift
+  path: WORK:results/debris-drift-find-episodes.md
+  note: Find episodes for the stringent nine — draft for the architect's ruling
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: a7b0d1f5a34a975713334f2105cb99f68750684c
+      date: '2026-10-07T19:58:17-06:00'
+      subject: 'results: debris-drift critical review of prior work, and draft find-episode grouping for the architect''s ruling (provisional)'
+    last_changed:
+      commit: d5dd5c0ed07cd429a2192e86e78de7fb4552062c
+      date: '2026-10-22T09:46:08-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-flaperon-provenance_md
+  kind: note
+  module: drift
+  path: WORK:results/debris-drift-flaperon-provenance.md
+  note: 'The flaperon''s drift response: provenance and circularity (review item 17)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 2d007fb20c4b62f673725f827fdb4eae03c8b935
+      date: '2026-10-08T08:31:46-06:00'
+      subject: 'results: flaperon response provenance from CSIRO Part II primary text (review item 17); coordination: rulings received, constant-speed leeway request
+        to ocean transport'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-glorys12-interim-scoring-b-halves_csv
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-glorys12-interim-scoring-b-halves.csv
+  note: 'results: drift interim GLORYS12 scoring on core (b) impacts (not converged; split-half and bandwidth sensitivity)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: cb69b78b66eaac04cad78b4d8acf4ca9f48e057b
+      date: '2026-10-10T05:48:22-06:00'
+      subject: 'results: drift interim GLORYS12 scoring on core (b) impacts (not converged; split-half and bandwidth sensitivity)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-glorys12-interim-scoring-b_csv
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-glorys12-interim-scoring-b.csv
+  note: 'results: drift interim GLORYS12 scoring on core (b) impacts (not converged; split-half and bandwidth sensitivity)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: cb69b78b66eaac04cad78b4d8acf4ca9f48e057b
+      date: '2026-10-10T05:48:22-06:00'
+      subject: 'results: drift interim GLORYS12 scoring on core (b) impacts (not converged; split-half and bandwidth sensitivity)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-glorys12-interim-scoring-b_md
+  kind: note
+  module: drift
+  path: WORK:results/debris-drift-glorys12-interim-scoring-b.md
+  note: 'Debris drift, interim: GLORYS12 surface scored on end of flight''s core (b) impacts'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: cb69b78b66eaac04cad78b4d8acf4ca9f48e057b
+      date: '2026-10-10T05:48:22-06:00'
+      subject: 'results: drift interim GLORYS12 scoring on core (b) impacts (not converged; split-half and bandwidth sensitivity)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-methods-draft_md
+  kind: note
+  module: drift
+  path: WORK:results/debris-drift-methods-draft.md
+  note: 'Methods draft: the debris-drift likelihood'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: e16ebe580416f2f89bfe9a2758c739482a043691
+      date: '2026-10-08T23:01:34-06:00'
+      subject: 'results: drift methods draft (first version; pilot result not yet in; every value cited to the module ledger or a module file)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-pass1-lnr-sensitivity_pdf
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-pass1-lnR-sensitivity.pdf
+  note: 'drift: figure for pass 1 ln R sensitivity'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 86ad404a2c74be6471519c0c306f767b680e23e6
+      date: '2026-10-11T02:18:18-06:00'
+      subject: 'drift: figure for pass 1 ln R sensitivity'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-pass1-lnr-sensitivity_png
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-pass1-lnR-sensitivity.png
+  note: 'drift: figure for pass 1 ln R sensitivity'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 86ad404a2c74be6471519c0c306f767b680e23e6
+      date: '2026-10-11T02:18:18-06:00'
+      subject: 'drift: figure for pass 1 ln R sensitivity'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-pass1-surface-sensitivity-per-stratum_csv
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-pass1-surface-sensitivity-per-stratum.csv
+  note: 'drift: review of composer pass 1 (carry rule R1, drift surface sensitivity R2)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: b7fa0633853c9463778ac59f298525945bfeaf99
+      date: '2026-10-11T02:16:47-06:00'
+      subject: 'drift: review of composer pass 1 (carry rule R1, drift surface sensitivity R2)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-pass1-surface-sensitivity_csv
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-pass1-surface-sensitivity.csv
+  note: 'drift: review of composer pass 1 (carry rule R1, drift surface sensitivity R2)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: b7fa0633853c9463778ac59f298525945bfeaf99
+      date: '2026-10-11T02:16:47-06:00'
+      subject: 'drift: review of composer pass 1 (carry rule R1, drift surface sensitivity R2)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-pass1-surface-sensitivity_md
+  kind: note
+  module: drift
+  path: WORK:results/debris-drift-pass1-surface-sensitivity.md
+  note: 'Drift review of composer pass 1 (run C): carry rule and drift-surface sensitivity'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: b7fa0633853c9463778ac59f298525945bfeaf99
+      date: '2026-10-11T02:16:47-06:00'
+      subject: 'drift: review of composer pass 1 (carry rule R1, drift surface sensitivity R2)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/debris-drift-pass1-surface-sensitivity.md:5
+    quote: '> **Labels:** run C NOT CONVERGED; EoF physics provisional, no structural limit (G13); hydro stand-in, not calibrated; drift GLORYS12'
+- id: drift.res.debris-drift-pilot-nodes_csv
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-pilot-nodes.csv
+  note: 'results: drift pilot (PROVISIONAL, not evidence) - 1,709 nodes, 1.7e7 trajectories; no node resolves at 50 km (Rodrigues zero hits); arrival probabilities
+    vs prediction; noise SD 3.9/5.9 ln units at 1'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 0b01eaf476cf35fbdfd5e1991d4223940f03a91f
+      date: '2026-10-09T03:05:58-06:00'
+      subject: 'results: drift pilot (PROVISIONAL, not evidence) - 1,709 nodes, 1.7e7 trajectories; no node resolves at 50 km (Rodrigues zero hits); arrival probabilities
+        vs prediction; noise SD 3.9/5.9 ln units at 1'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-pilot-numbers_json
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-pilot-numbers.json
+  note: 'results: drift pilot (PROVISIONAL, not evidence) - 1,709 nodes, 1.7e7 trajectories; no node resolves at 50 km (Rodrigues zero hits); arrival probabilities
+    vs prediction; noise SD 3.9/5.9 ln units at 1'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 0b01eaf476cf35fbdfd5e1991d4223940f03a91f
+      date: '2026-10-09T03:05:58-06:00'
+      subject: 'results: drift pilot (PROVISIONAL, not evidence) - 1,709 nodes, 1.7e7 trajectories; no node resolves at 50 km (Rodrigues zero hits); arrival probabilities
+        vs prediction; noise SD 3.9/5.9 ln units at 1'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-pilot-prediction_md
+  kind: note
+  module: drift
+  path: WORK:results/debris-drift-pilot-prediction.md
+  note: 'Drift pilot: the prediction, stated before the compute is spent'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 050fc059d321f29d53fb371f876ac21fbe008200
+      date: '2026-10-08T19:13:39-06:00'
+      subject: 'results: debris-drift pilot prediction, stated before the pilot runs'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/debris-drift-pilot-prediction.md:7
+    quote: '**The run it refers to** is `engine/hypotheses/debris-drift/pilot.toml` on `hypothesis/debris-drift`'
+- id: drift.res.debris-drift-pilot-scoring-289-seed1_json
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-pilot-scoring-289-seed1.json
+  note: 'results: drift pilot surface scored on EoF reference-289 impacts, seed 1 (interface diagnostic; 0% scored at 50 km, 8.5-20% outside pilot support)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: f8cdccdec532f9ff92818bd92c5ba1914baf2831
+      date: '2026-10-09T09:25:31-06:00'
+      subject: 'results: drift pilot surface scored on EoF reference-289 impacts, seed 1 (interface diagnostic; 0% scored at 50 km, 8.5-20% outside pilot support)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: drift.res.debris-drift-pilot-scoring-289_json
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: SUPERSEDED
+  status_rank: explicit
+  status_evidence:
+  - rank: explicit
+    source: WORK:results/debris-drift-pilot-scoring-289.md:29
+    quote: '`results/debris-drift-pilot-scoring-289.json`. The seed-1 table this replaces is kept as'
+- id: drift.res.debris-drift-pilot-scoring-289_json
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-pilot-scoring-289.json
+  note: 'results+coord: drift pilot surface scored on EoF reference-289 impacts, seeds 1-4 (0% scored at 50 km; interface ready for production)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 9bc10f7ba3e7327dbf85f30f4538faf2c100682a
+      date: '2026-10-09T10:47:43-06:00'
+      subject: 'results+coord: drift pilot surface scored on EoF reference-289 impacts, seeds 1-4 (0% scored at 50 km; interface ready for production)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-pilot-scoring-289_md
+  kind: note
+  module: drift
+  path: WORK:results/debris-drift-pilot-scoring-289.md
+  note: The drift pilot surface scored on end of flight's reference-289 impacts (seeds 1-4)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: f8cdccdec532f9ff92818bd92c5ba1914baf2831
+      date: '2026-10-09T09:25:31-06:00'
+      subject: 'results: drift pilot surface scored on EoF reference-289 impacts, seed 1 (interface diagnostic; 0% scored at 50 km, 8.5-20% outside pilot support)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-pilot-sizing_md
+  kind: note
+  module: drift
+  path: WORK:results/debris-drift-pilot-sizing.md
+  note: 'Drift source grid: pilot sizing from the reference posterior'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 60c9fa07aaeeedbc8a40312884e268b7d0543de3
+      date: '2026-10-07T20:29:14-06:00'
+      subject: 'coordination: ocean drift night summary; transport follow-up (chainage request); results: debris-drift pilot sizing (provisional)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-pilot_md
+  kind: note
+  module: drift
+  path: WORK:results/debris-drift-pilot.md
+  note: 'Drift pilot: result, read against the prediction'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 0b01eaf476cf35fbdfd5e1991d4223940f03a91f
+      date: '2026-10-09T03:05:58-06:00'
+      subject: 'results: drift pilot (PROVISIONAL, not evidence) - 1,709 nodes, 1.7e7 trajectories; no node resolves at 50 km (Rodrigues zero hits); arrival probabilities
+        vs prediction; noise SD 3.9/5.9 ln units at 1'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-pilot_pdf
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-pilot.pdf
+  note: 'results: drift pilot (PROVISIONAL, not evidence) - 1,709 nodes, 1.7e7 trajectories; no node resolves at 50 km (Rodrigues zero hits); arrival probabilities
+    vs prediction; noise SD 3.9/5.9 ln units at 1'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 0b01eaf476cf35fbdfd5e1991d4223940f03a91f
+      date: '2026-10-09T03:05:58-06:00'
+      subject: 'results: drift pilot (PROVISIONAL, not evidence) - 1,709 nodes, 1.7e7 trajectories; no node resolves at 50 km (Rodrigues zero hits); arrival probabilities
+        vs prediction; noise SD 3.9/5.9 ln units at 1'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-pilot_png
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-pilot.png
+  note: 'results: drift pilot (PROVISIONAL, not evidence) - 1,709 nodes, 1.7e7 trajectories; no node resolves at 50 km (Rodrigues zero hits); arrival probabilities
+    vs prediction; noise SD 3.9/5.9 ln units at 1'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 0b01eaf476cf35fbdfd5e1991d4223940f03a91f
+      date: '2026-10-09T03:05:58-06:00'
+      subject: 'results: drift pilot (PROVISIONAL, not evidence) - 1,709 nodes, 1.7e7 trajectories; no node resolves at 50 km (Rodrigues zero hits); arrival probabilities
+        vs prediction; noise SD 3.9/5.9 ln units at 1'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-production-complete_md
+  kind: note
+  module: drift
+  path: WORK:results/debris-drift-production-complete.md
+  note: 'Debris drift production: complete (both ocean models), 10 Oct 2026 ~17:40 UTC'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 95e16e57b966da94601224c10c9c8dabcb4700d0
+      date: '2026-10-10T11:27:25-06:00'
+      subject: 'results: drift production complete (both models; GlobCurrent F1-labelled); posted to PLEIADES, SEARCHED_AREAS'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/debris-drift-production-complete.md
+    quote: null
+    read_by_hand: complete as configured; GlobCurrent arm carries audit F1 caveat
+- id: drift.res.debris-drift-production-sizing_md
+  kind: note
+  module: drift
+  path: WORK:results/debris-drift-production-sizing.md
+  note: Drift production sizing (sequence step 4), from the pilot and six diagnostics
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 37da6efde8e0d6f18eef8fd22b296f9ee8e57655
+      date: '2026-10-09T04:31:16-06:00'
+      subject: 'results: drift production sizing (step 4); coordination: drift pilot+sizing entry (Rodrigues structural zero under land renormalisation; PROVISIONAL-OVERNIGHT
+        choices), transport request for error len'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-references_bib
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-references.bib
+  note: 'results: drift citation ledger .bib in results/ per af2deac; coordination: drift pilot running (chunked, 2 threads beside core), step 5 evaluate smoke on
+    fixture impacts'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 518897153c661aa652e2f04f466970eca910fc2e
+      date: '2026-10-08T19:59:52-06:00'
+      subject: 'results: drift citation ledger .bib in results/ per af2deac; coordination: drift pilot running (chunked, 2 threads beside core), step 5 evaluate smoke
+        on fixture impacts'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-references_md
+  kind: note
+  module: drift
+  path: WORK:results/debris-drift-references.md
+  note: 'Ocean drift: citation ledger'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: a691461a75901b77b9943483dab5e13ded4c939a
+      date: '2026-10-08T19:18:47-06:00'
+      subject: 'results: flaperon provenance - Part II pages corrected (footers, +1), genuine vs replica; drift citation ledger; coordination: drift progress, D-a
+        page correction, ledger-location conflict, second lee'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-review_md
+  kind: note
+  module: drift
+  path: WORK:results/debris-drift-review.md
+  note: 'Debris drift: critical review of the prior work on this case, and the improvements proposed'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: a7b0d1f5a34a975713334f2105cb99f68750684c
+      date: '2026-10-07T19:58:17-06:00'
+      subject: 'results: debris-drift critical review of prior work, and draft find-episode grouping for the architect''s ruling (provisional)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-runa-complete_md
+  kind: note
+  module: drift
+  path: WORK:results/debris-drift-runA-complete.md
+  note: 'Debris drift run A complete: both ocean models at 710 nodes; final per-impact exports'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 59672d35f4d98b502f5abb0f8f030a591036d6fe
+      date: '2026-10-12T03:23:03-06:00'
+      subject: 'drift: run A complete; final both-model exports READY'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/debris-drift-runA-complete.md:5
+    quote: '> **Labels:** interim per-node surfaces; not composed; not evidence about the impact location by themselves. GLORYS12 extension chunks 2-3'
+- id: drift.res.debris-drift-runa-globcurrent-complete_md
+  kind: note
+  module: drift
+  path: WORK:results/debris-drift-runA-globcurrent-complete.md
+  note: 'Debris drift run A, part 1: GlobCurrent with product-relative windage, 710 nodes (complete)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 41b68a1064b13d868184f1dae03b5d91bfd16c83
+      date: '2026-10-11T18:54:31-06:00'
+      subject: 'drift: run A part 1 complete; interim both-model exports'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/debris-drift-runA-globcurrent-complete.md:9
+    quote: '> recovery bandwidth 50 km; interim per-node surfaces, not composed, not evidence about the impact location.'
+- id: drift.res.debris-drift-runa-rebuilt
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-runA-rebuilt
+  note: Run A debris-drift surfaces, rebuilt 16 Oct 2026 (no transport)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 1e735390cfee04d7ac873217b078f47f4ec32e12
+      date: '2026-10-16T18:59:25-06:00'
+      subject: 'drift: run A surfaces rebuilt from per-impact columns (no transport); drift-only composition on run J waypoints (24 seeds) with tension statistics,
+        seed bootstrap and transport-noise replicates'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-source-pdf-mixture_json
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-source-pdf-mixture.json
+  note: 'drift: source-location PDF map, mixed ocean model (drift alone)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: ffe775dc38f15311693ea7f3159ff4c88b0226ba
+      date: '2026-10-12T07:02:56-06:00'
+      subject: 'drift: source-location PDF map, mixed ocean model (drift alone)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-source-pdf-mixture_pdf
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-source-pdf-mixture.pdf
+  note: 'drift: source-location PDF map, mixed ocean model (drift alone)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: ffe775dc38f15311693ea7f3159ff4c88b0226ba
+      date: '2026-10-12T07:02:56-06:00'
+      subject: 'drift: source-location PDF map, mixed ocean model (drift alone)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-source-pdf-mixture_png
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-source-pdf-mixture.png
+  note: 'drift: source-location PDF map, mixed ocean model (drift alone)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: ffe775dc38f15311693ea7f3159ff4c88b0226ba
+      date: '2026-10-12T07:02:56-06:00'
+      subject: 'drift: source-location PDF map, mixed ocean model (drift alone)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-support-core-b_csv
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-support-core-b.csv
+  note: 'results: drift support check on core (b) impacts (pre-READY); question to Pete on node extension (PROVISIONAL-OVERNIGHT: C)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 663352f900791cf061578a8ec938bc0c11bc0262
+      date: '2026-10-10T02:31:59-06:00'
+      subject: 'results: drift support check on core (b) impacts (pre-READY); question to Pete on node extension (PROVISIONAL-OVERNIGHT: C)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-support-core-b_md
+  kind: note
+  module: drift
+  path: WORK:results/debris-drift-support-core-b.md
+  note: 'Debris drift: does the production node set cover end of flight''s impacts on core (b)?'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 663352f900791cf061578a8ec938bc0c11bc0262
+      date: '2026-10-10T02:31:59-06:00'
+      subject: 'results: drift support check on core (b) impacts (pre-READY); question to Pete on node extension (PROVISIONAL-OVERNIGHT: C)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-two-model-agreement-710_pdf
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-two-model-agreement-710.pdf
+  note: 'drift: run A complete; final both-model exports READY'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 59672d35f4d98b502f5abb0f8f030a591036d6fe
+      date: '2026-10-12T03:23:03-06:00'
+      subject: 'drift: run A complete; final both-model exports READY'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-two-model-agreement-710_png
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-two-model-agreement-710.png
+  note: 'drift: run A complete; final both-model exports READY'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 59672d35f4d98b502f5abb0f8f030a591036d6fe
+      date: '2026-10-12T03:23:03-06:00'
+      subject: 'drift: run A complete; final both-model exports READY'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-two-model-agreement-relwind_pdf
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-two-model-agreement-relwind.pdf
+  note: 'drift: run A part 1 complete; interim both-model exports'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 41b68a1064b13d868184f1dae03b5d91bfd16c83
+      date: '2026-10-11T18:54:31-06:00'
+      subject: 'drift: run A part 1 complete; interim both-model exports'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-two-model-agreement-relwind_png
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-two-model-agreement-relwind.png
+  note: 'drift: run A part 1 complete; interim both-model exports'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 41b68a1064b13d868184f1dae03b5d91bfd16c83
+      date: '2026-10-11T18:54:31-06:00'
+      subject: 'drift: run A part 1 complete; interim both-model exports'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-two-model-comparison_json
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-two-model-comparison.json
+  note: 'results: drift production complete (both models; GlobCurrent F1-labelled); posted to PLEIADES, SEARCHED_AREAS'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 95e16e57b966da94601224c10c9c8dabcb4700d0
+      date: '2026-10-10T11:27:25-06:00'
+      subject: 'results: drift production complete (both models; GlobCurrent F1-labelled); posted to PLEIADES, SEARCHED_AREAS'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-two-model-nodes-relwind_csv
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-two-model-nodes-relwind.csv
+  note: 'drift: run A part 1 complete; interim both-model exports'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 41b68a1064b13d868184f1dae03b5d91bfd16c83
+      date: '2026-10-11T18:54:31-06:00'
+      subject: 'drift: run A part 1 complete; interim both-model exports'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-two-model-nodes_csv
+  kind: product
+  module: drift
+  path: WORK:results/debris-drift-two-model-nodes.csv
+  note: 'results: drift production complete (both models; GlobCurrent F1-labelled); posted to PLEIADES, SEARCHED_AREAS'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 95e16e57b966da94601224c10c9c8dabcb4700d0
+      date: '2026-10-10T11:27:25-06:00'
+      subject: 'results: drift production complete (both models; GlobCurrent F1-labelled); posted to PLEIADES, SEARCHED_AREAS'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.debris-drift-windage-smoke_md
+  kind: note
+  module: drift
+  path: WORK:results/debris-drift-windage-smoke.md
+  note: 'Debris drift: GlobCurrent windage smoke test (audit F1), 10 Oct 2026 ~22:15 UTC'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 13a375364546a005518e408320ef68e322494b91
+      date: '2026-10-10T16:01:04-06:00'
+      subject: 'results: drift windage smoke test complete (both arms pass); decision for Pete'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/debris-drift-windage-smoke.md:3
+    quote: '**Interim, 92 of 367 nodes, not evidence.** Figure: `debris-drift-windage-smoke.png` (artifact 77b66a86).'
+- id: drift.res.drift-items-2026-10-17
+  kind: product
+  module: drift
+  path: WORK:results/drift-items-2026-10-17
+  note: Drift items 1-8 on run J (architecture stand-in, 17 Oct 2026)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 7efe474b43f1fb1fcef1919d053244b4eb4ebb0f
+      date: '2026-10-17T12:06:31-06:00'
+      subject: DRAFT drift brief v2 and shared contract (not adopted; awaiting Pete)
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.drift-model-audit-architecture_md
+  kind: note
+  module: drift
+  path: WORK:results/drift-model-audit-architecture.md
+  note: 'Debris-drift ocean-model disagreement: independent audit (architecture)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: bc295cac547cb72ac7af23bbd9f4274d0d90b517
+      date: '2026-10-10T10:29:06-06:00'
+      subject: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+        (F1), residual S4 difference real; GDP tests; c'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.drift-model-audit-attribution_csv
+  kind: product
+  module: drift
+  path: WORK:results/drift-model-audit-attribution.csv
+  note: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+    (F1), residual S4 difference real; GDP tests; c'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: bc295cac547cb72ac7af23bbd9f4274d0d90b517
+      date: '2026-10-10T10:29:06-06:00'
+      subject: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+        (F1), residual S4 difference real; GDP tests; c'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.drift-model-audit-band-means_csv
+  kind: product
+  module: drift
+  path: WORK:results/drift-model-audit-band-means.csv
+  note: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+    (F1), residual S4 difference real; GDP tests; c'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: bc295cac547cb72ac7af23bbd9f4274d0d90b517
+      date: '2026-10-10T10:29:06-06:00'
+      subject: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+        (F1), residual S4 difference real; GDP tests; c'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.drift-model-audit-crossimpl_csv
+  kind: product
+  module: drift
+  path: WORK:results/drift-model-audit-crossimpl.csv
+  note: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+    (F1), residual S4 difference real; GDP tests; c'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: bc295cac547cb72ac7af23bbd9f4274d0d90b517
+      date: '2026-10-10T10:29:06-06:00'
+      subject: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+        (F1), residual S4 difference real; GDP tests; c'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.drift-model-audit-ensemble-arrivals_csv
+  kind: product
+  module: drift
+  path: WORK:results/drift-model-audit-ensemble-arrivals.csv
+  note: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+    (F1), residual S4 difference real; GDP tests; c'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: bc295cac547cb72ac7af23bbd9f4274d0d90b517
+      date: '2026-10-10T10:29:06-06:00'
+      subject: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+        (F1), residual S4 difference real; GDP tests; c'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.drift-model-audit-figure_png
+  kind: product
+  module: drift
+  path: WORK:results/drift-model-audit-figure.png
+  note: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+    (F1), residual S4 difference real; GDP tests; c'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: bc295cac547cb72ac7af23bbd9f4274d0d90b517
+      date: '2026-10-10T10:29:06-06:00'
+      subject: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+        (F1), residual S4 difference real; GDP tests; c'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.drift-model-audit-gdp-agulhas_csv
+  kind: product
+  module: drift
+  path: WORK:results/drift-model-audit-gdp-agulhas.csv
+  note: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+    (F1), residual S4 difference real; GDP tests; c'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: bc295cac547cb72ac7af23bbd9f4274d0d90b517
+      date: '2026-10-10T10:29:06-06:00'
+      subject: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+        (F1), residual S4 difference real; GDP tests; c'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.drift-model-audit-gdp-longrange_csv
+  kind: product
+  module: drift
+  path: WORK:results/drift-model-audit-gdp-longrange.csv
+  note: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+    (F1), residual S4 difference real; GDP tests; c'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: bc295cac547cb72ac7af23bbd9f4274d0d90b517
+      date: '2026-10-10T10:29:06-06:00'
+      subject: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+        (F1), residual S4 difference real; GDP tests; c'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.drift-model-audit-gdp-swio-paired_csv
+  kind: product
+  module: drift
+  path: WORK:results/drift-model-audit-gdp-swio-paired.csv
+  note: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+    (F1), residual S4 difference real; GDP tests; c'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: bc295cac547cb72ac7af23bbd9f4274d0d90b517
+      date: '2026-10-10T10:29:06-06:00'
+      subject: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+        (F1), residual S4 difference real; GDP tests; c'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.drift-model-audit-gdp-swio-replay_csv
+  kind: product
+  module: drift
+  path: WORK:results/drift-model-audit-gdp-swio-replay.csv
+  note: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+    (F1), residual S4 difference real; GDP tests; c'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: bc295cac547cb72ac7af23bbd9f4274d0d90b517
+      date: '2026-10-10T10:29:06-06:00'
+      subject: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+        (F1), residual S4 difference real; GDP tests; c'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.drift-model-audit-harness-audit_fates_rs
+  kind: product
+  module: drift
+  path: WORK:results/drift-model-audit-harness-audit_fates.rs
+  note: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+    (F1), residual S4 difference real; GDP tests; c'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: bc295cac547cb72ac7af23bbd9f4274d0d90b517
+      date: '2026-10-10T10:29:06-06:00'
+      subject: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+        (F1), residual S4 difference real; GDP tests; c'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.drift-model-audit-harness-audit_tracks_rs
+  kind: product
+  module: drift
+  path: WORK:results/drift-model-audit-harness-audit_tracks.rs
+  note: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+    (F1), residual S4 difference real; GDP tests; c'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: bc295cac547cb72ac7af23bbd9f4274d0d90b517
+      date: '2026-10-10T10:29:06-06:00'
+      subject: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+        (F1), residual S4 difference real; GDP tests; c'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.drift-model-audit-independent-integrator_py
+  kind: product
+  module: drift
+  path: WORK:results/drift-model-audit-independent-integrator.py
+  note: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+    (F1), residual S4 difference real; GDP tests; c'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: bc295cac547cb72ac7af23bbd9f4274d0d90b517
+      date: '2026-10-10T10:29:06-06:00'
+      subject: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+        (F1), residual S4 difference real; GDP tests; c'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.drift-model-audit-numbers_json
+  kind: product
+  module: drift
+  path: WORK:results/drift-model-audit-numbers.json
+  note: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+    (F1), residual S4 difference real; GDP tests; c'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: bc295cac547cb72ac7af23bbd9f4274d0d90b517
+      date: '2026-10-10T10:29:06-06:00'
+      subject: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+        (F1), residual S4 difference real; GDP tests; c'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.drift-model-audit-upstream-supply_csv
+  kind: product
+  module: drift
+  path: WORK:results/drift-model-audit-upstream-supply.csv
+  note: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+    (F1), residual S4 difference real; GDP tests; c'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: bc295cac547cb72ac7af23bbd9f4274d0d90b517
+      date: '2026-10-10T10:29:06-06:00'
+      subject: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+        (F1), residual S4 difference real; GDP tests; c'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.drift-model-audit-windage-fit_csv
+  kind: product
+  module: drift
+  path: WORK:results/drift-model-audit-windage-fit.csv
+  note: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+    (F1), residual S4 difference real; GDP tests; c'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: bc295cac547cb72ac7af23bbd9f4274d0d90b517
+      date: '2026-10-10T10:29:06-06:00'
+      subject: 'audit: debris-drift ocean-model disagreement (architecture, independent): not a bug; windage applied identically to products with different wind content
+        (F1), residual S4 difference real; GDP tests; c'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.drift-runj-2026-10-17
+  kind: product
+  module: drift
+  path: WORK:results/drift-runj-2026-10-17
+  note: Debris drift on core run J / end-of-flight run J (waypoints stratum) — no new drift transport, 17 Oct 2026
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 1e735390cfee04d7ac873217b078f47f4ec32e12
+      date: '2026-10-16T18:59:25-06:00'
+      subject: 'drift: run A surfaces rebuilt from per-impact columns (no transport); drift-only composition on run J waypoints (24 seeds) with tension statistics,
+        seed bootstrap and transport-noise replicates'
+    last_changed:
+      commit: 497677f1df6b712c46de4ee3700c41a1a243301e
+      date: '2026-10-20T19:16:12-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/drift-runj-2026-10-17/README.md
+    quote: null
+    read_by_hand: complete for the waypoints stratum only; four-stratum mixture waits
+- id: drift.res.kadri-haixun-conditional-2026-10-18
+  kind: product
+  module: drift
+  path: WORK:results/kadri-haixun-conditional-2026-10-18
+  note: 'Kadri-Haixun conditional: pre-registration and corrected bearing-arc geometry'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 207b33219ac7797fd059a29a5147340314ee9c18
+      date: '2026-10-17T18:27:31-06:00'
+      subject: 'Kadri-Haixun conditional: pre-registration and corrected bearing-arc geometry'
+    last_changed:
+      commit: 8cae711638062921fe02ab4c153420a473b0596a
+      date: '2026-10-22T10:18:07-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.ocean-data-manifest_md
+  kind: note
+  module: drift
+  path: WORK:results/ocean-data-manifest.md
+  note: Ocean data manifest
+  assignment_basis: commit subject
+  git:
+    first_added:
+      commit: cddc63d9d302c367b9b00a2e782adf372c6830bc
+      date: '2026-10-07T19:46:05-06:00'
+      subject: 'Ocean data manifest: GDP 6-hourly drifters (ocean drift, validation data), 359 MB, sha256 per file'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.ocean-fields-east-120-160e_md
+  kind: note
+  module: drift
+  path: WORK:results/ocean-fields-east-120-160E.md
+  note: Ocean fields east to 160 E (ocean transport, 12 October 2026)
+  assignment_basis: override from commit subject (read by hand)
+  git:
+    first_added:
+      commit: c54bf93568fe1547489adfedee5aa8344d4e21a0
+      date: '2026-10-12T12:50:23-06:00'
+      subject: 'crates/ocean: lon_join series manifests (adjacent longitude bands joined into one grid; shared column bit-identical or one-step contiguous) + test;
+        fetch scripts take FORCING_LON; ocean fields east to'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.ocean-product-recommendation_md
+  kind: note
+  module: drift
+  path: WORK:results/ocean-product-recommendation.md
+  note: Ocean product recommendation, for the architect's ruling (ocean transport, 9 October 2026)
+  assignment_basis: override from commit subject (read by hand)
+  git:
+    first_added:
+      commit: 24d4b9131e132cf3d7c318dd8c9faeaf8c75bf19
+      date: '2026-10-08T23:37:47-06:00'
+      subject: 'crates/ocean: Copernicus-GlobCurrent as the second ocean model (catalogue entries globcurrent-my-p1d / -pt1h, fetch script, converted series); GDP
+        drifter replay (gdp_segments.py, drifter_replay examp'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/ocean-product-recommendation.md:3
+    quote: '**Status: ruled by the architect on 9 October.** The reference is GLORYS12 + ERA5. GlobCurrent is the second `ocean-model` value, a declared alternative
+      at equal prior weight. The text below is the recommendation as submitted. All products listed under "Available now" are'
+- id: drift.res.ocean-references_bib
+  kind: product
+  module: drift
+  path: WORK:results/ocean-references.bib
+  note: 'crates/ocean: item 3 - ocean_paths export (geodesic bathymetry with TID and corridor maximum, WOA23 sound speed with spread); GEBCO TID read from netCDF3;
+    citation ledger moved to results/ocean-refere'
+  assignment_basis: override from commit subject (read by hand)
+  git:
+    first_added:
+      commit: 75ac7dfb607c03c3cd266f500c5d2e71ad9d9312
+      date: '2026-10-08T19:45:01-06:00'
+      subject: 'crates/ocean: item 3 - ocean_paths export (geodesic bathymetry with TID and corridor maximum, WOA23 sound speed with spread); GEBCO TID read from
+        netCDF3; citation ledger moved to results/ocean-refere'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.ocean-references_md
+  kind: note
+  module: drift
+  path: WORK:results/ocean-references.md
+  note: Shared ocean transport (`engine/crates/ocean`) — citation ledger
+  assignment_basis: override from commit subject (read by hand)
+  git:
+    first_added:
+      commit: 75ac7dfb607c03c3cd266f500c5d2e71ad9d9312
+      date: '2026-10-08T19:45:01-06:00'
+      subject: 'crates/ocean: item 3 - ocean_paths export (geodesic bathymetry with TID and corridor maximum, WOA23 sound speed with spread); GEBCO TID read from
+        netCDF3; citation ledger moved to results/ocean-refere'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.ocean-transport-error-gdp-replay_json
+  kind: product
+  module: drift
+  path: WORK:results/ocean-transport-error-gdp-replay.json
+  note: 'crates/ocean: Copernicus-GlobCurrent as the second ocean model (catalogue entries globcurrent-my-p1d / -pt1h, fetch script, converted series); GDP drifter
+    replay (gdp_segments.py, drifter_replay examp'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 24d4b9131e132cf3d7c318dd8c9faeaf8c75bf19
+      date: '2026-10-08T23:37:47-06:00'
+      subject: 'crates/ocean: Copernicus-GlobCurrent as the second ocean model (catalogue entries globcurrent-my-p1d / -pt1h, fetch script, converted series); GDP
+        drifter replay (gdp_segments.py, drifter_replay examp'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.ocean-transport-error-gdp-replay_md
+  kind: note
+  module: drift
+  path: WORK:results/ocean-transport-error-gdp-replay.md
+  note: Transport-model error from a GDP drifter replay (ocean transport, 9 October 2026)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 24d4b9131e132cf3d7c318dd8c9faeaf8c75bf19
+      date: '2026-10-08T23:37:47-06:00'
+      subject: 'crates/ocean: Copernicus-GlobCurrent as the second ocean model (catalogue entries globcurrent-my-p1d / -pt1h, fetch script, converted series); GDP
+        drifter replay (gdp_segments.py, drifter_replay examp'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/ocean-transport-error-gdp-replay.md
+    quote: null
+    read_by_hand: 'status line: measured'
+- id: drift.res.ocean-transport-error-gdp-replay_png
+  kind: product
+  module: drift
+  path: WORK:results/ocean-transport-error-gdp-replay.png
+  note: 'crates/ocean: Copernicus-GlobCurrent as the second ocean model (catalogue entries globcurrent-my-p1d / -pt1h, fetch script, converted series); GDP drifter
+    replay (gdp_segments.py, drifter_replay examp'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 24d4b9131e132cf3d7c318dd8c9faeaf8c75bf19
+      date: '2026-10-08T23:37:47-06:00'
+      subject: 'crates/ocean: Copernicus-GlobCurrent as the second ocean model (catalogue entries globcurrent-my-p1d / -pt1h, fetch script, converted series); GDP
+        drifter replay (gdp_segments.py, drifter_replay examp'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.ocean-transport-error-pairs_json
+  kind: product
+  module: drift
+  path: WORK:results/ocean-transport-error-pairs.json
+  note: 'crates/ocean: wider GLORYS12V1 profile column 75-115E 45-10S for settling (fetch_profile.py box option; bit-identical in the overlap); replay_pairs.py and
+    results/ocean-transport-error-pairs.{md,json}'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 107ba959782fff69c907b85d41cd67f3d3a114d7
+      date: '2026-10-10T13:39:42-06:00'
+      subject: 'crates/ocean: wider GLORYS12V1 profile column 75-115E 45-10S for settling (fetch_profile.py box option; bit-identical in the overlap); replay_pairs.py
+        and results/ocean-transport-error-pairs.{md,json}'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.res.ocean-transport-error-pairs_md
+  kind: note
+  module: drift
+  path: WORK:results/ocean-transport-error-pairs.md
+  note: Correlation of transport errors between two nearby drifting objects (ocean transport, 10 October 2026)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 107ba959782fff69c907b85d41cd67f3d3a114d7
+      date: '2026-10-10T13:39:42-06:00'
+      subject: 'crates/ocean: wider GLORYS12V1 profile column 75-115E 45-10S for settling (fetch_profile.py box option; bit-identical in the overlap); replay_pairs.py
+        and results/ocean-transport-error-pairs.{md,json}'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/ocean-transport-error-pairs.md
+    quote: null
+    read_by_hand: 'status line: measured, small sample, wide intervals'
+- id: drift.xd.debris-drift-run-i
+  kind: archive
+  module: drift
+  path: XDRIVE:mh370-exchange/debris-drift/run-i
+  note: 'Listed for copy to the external drive in archive-tools/archive-to-porsche.v3.sh line 13 (destination /Volumes/Porsche 1TB Backup/mh370-archive). Source folder
+    in ~/Downloads now: absent. The VERIFIED-*.txt list is on the drive; it was not readable from this session, so the copy is not confirmed here.'
+  assignment_basis: archive script item list
+  hash: false
+  hash_note: external drive not mounted in this session
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.xd.debris-drift-run-i-dive
+  kind: archive
+  module: drift
+  path: XDRIVE:mh370-exchange/debris-drift/run-i-dive
+  note: 'Listed for copy to the external drive in archive-tools/archive-to-porsche.v3.sh line 24 (destination /Volumes/Porsche 1TB Backup/mh370-archive). Source folder
+    in ~/Downloads now: absent. The VERIFIED-*.txt list is on the drive; it was not readable from this session, so the copy is not confirmed here.'
+  assignment_basis: archive script item list
+  hash: false
+  hash_note: external drive not mounted in this session
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []

@@ -1,0 +1,5386 @@
+registry_version: core registry v1 (2026-10-25)
+module: core
+generated_by: registry/backfill_registry.py (do not edit by hand; correct status_records.yaml and rebuild)
+entries:
+- id: core.code.branch-core-request21
+  kind: code
+  module: core
+  path: GIT:core-request21@2e9366be31f97f66865c10f7a3634cec598a71e7
+  git:
+    branch: core-request21
+    commit: 2e9366be31f97f66865c10f7a3634cec598a71e7
+    date: '2026-10-15T23:35:44Z'
+    subject: 'core request 21: per-path fuel-flow factor on extrapolated steps (kappa_x), off by default; tests, configs, gate job'
+    tree: aec58c93b639dde0de4064d8100a118c99643baa
+    n_files: 10116
+    bytes: 2252236850
+    commits_not_in_working_branch: 1
+    compared_with_working_head: a0f25c19fb5cd9d1c0d340167507260ceb6e2b86
+  note: Code on branch core-request21 at 2e9366be31f9 (2026-10-15). 1 commits are not in the working branch. Not merged (Pete's rule).
+  assignment_basis: branch name
+  hash: false
+  hash_note: git objects are content-addressed; tree sha recorded
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.code.branch-core-tau-h
+  kind: code
+  module: core
+  path: GIT:core-tau-h@5c92fb1f25d67418fe626849c2940a1ba5e40723
+  git:
+    branch: core-tau-h
+    commit: 5c92fb1f25d67418fe626849c2940a1ba5e40723
+    date: '2026-10-12T03:19:37Z'
+    subject: 'FlightState.tau_h: the hand-off particle''s own manoeuvre time constant (architecture-approved core request; for review, not merged)'
+    tree: 5ff0d1beb18f3f120b1fce96e8d0dd9d77ab25bc
+    n_files: 9572
+    bytes: 2160484487
+    commits_not_in_working_branch: 1
+    compared_with_working_head: a0f25c19fb5cd9d1c0d340167507260ceb6e2b86
+  note: Code on branch core-tau-h at 5c92fb1f25d6 (2026-10-12). 1 commits are not in the working branch. Not merged (Pete's rule).
+  assignment_basis: branch name
+  hash: false
+  hash_note: git objects are content-addressed; tree sha recorded
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.code.engine-_sources
+  kind: code
+  module: core
+  path: WORK:engine/.sources
+  file_list: null
+  note: 'Engine code on the working branch: engine/.sources (19 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: ed40a728563e57ea6019007a4fcb702dc580dd1c
+      date: '2026-09-29T14:48:44-06:00'
+      subject: 'Claude Science Sep 29: live working copy, converged base run, convergence gate'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.code.engine-_top-files
+  kind: code
+  module: core
+  path: WORK:engine/
+  file_list:
+  - engine/.gitignore
+  - engine/.iso-env-setup.sh
+  - engine/AGENTS.md
+  - engine/Cargo.lock
+  - engine/Cargo.toml
+  - engine/Makefile
+  - engine/README.md
+  - engine/_view_001_stage-comparison.png
+  - engine/rust-toolchain.toml
+  - engine/status.md
+  note: 'Engine code on the working branch: engine/_top-files (10 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: ed40a728563e57ea6019007a4fcb702dc580dd1c
+      date: '2026-09-29T14:48:44-06:00'
+      subject: 'Claude Science Sep 29: live working copy, converged base run, convergence gate'
+    last_changed:
+      commit: 8cae711638062921fe02ab4c153420a473b0596a
+      date: '2026-10-22T10:18:07-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.code.engine-config
+  kind: code
+  module: core
+  path: WORK:engine/config
+  file_list: null
+  note: 'Engine code on the working branch: engine/config (179 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: ed40a728563e57ea6019007a4fcb702dc580dd1c
+      date: '2026-09-29T14:48:44-06:00'
+      subject: 'Claude Science Sep 29: live working copy, converged base run, convergence gate'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.code.engine-crates-flight
+  kind: code
+  module: core
+  path: WORK:engine/crates/flight
+  file_list: null
+  note: 'Engine code on the working branch: engine/crates/flight (4 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: ed40a728563e57ea6019007a4fcb702dc580dd1c
+      date: '2026-09-29T14:48:44-06:00'
+      subject: 'Claude Science Sep 29: live working copy, converged base run, convergence gate'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.code.engine-crates-geo
+  kind: code
+  module: core
+  path: WORK:engine/crates/geo
+  file_list: null
+  note: 'Engine code on the working branch: engine/crates/geo (2 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: ed40a728563e57ea6019007a4fcb702dc580dd1c
+      date: '2026-09-29T14:48:44-06:00'
+      subject: 'Claude Science Sep 29: live working copy, converged base run, convergence gate'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.code.engine-crates-hypothesis
+  kind: code
+  module: core
+  path: WORK:engine/crates/hypothesis
+  file_list: null
+  note: 'Engine code on the working branch: engine/crates/hypothesis (3 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: ed40a728563e57ea6019007a4fcb702dc580dd1c
+      date: '2026-09-29T14:48:44-06:00'
+      subject: 'Claude Science Sep 29: live working copy, converged base run, convergence gate'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.code.engine-crates-mh370
+  kind: code
+  module: core
+  path: WORK:engine/crates/mh370
+  file_list: null
+  note: 'Engine code on the working branch: engine/crates/mh370 (15 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: ed40a728563e57ea6019007a4fcb702dc580dd1c
+      date: '2026-09-29T14:48:44-06:00'
+      subject: 'Claude Science Sep 29: live working copy, converged base run, convergence gate'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.code.engine-crates-satcom
+  kind: code
+  module: core
+  path: WORK:engine/crates/satcom
+  file_list: null
+  note: 'Engine code on the working branch: engine/crates/satcom (2 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: ed40a728563e57ea6019007a4fcb702dc580dd1c
+      date: '2026-09-29T14:48:44-06:00'
+      subject: 'Claude Science Sep 29: live working copy, converged base run, convergence gate'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.code.engine-fuel-model
+  kind: code
+  module: core
+  path: WORK:engine/fuel-model
+  file_list: null
+  note: 'Engine code on the working branch: engine/fuel-model (9 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: 79a438e4db689a6288b52d04ce6b8426918e760e
+      date: '2026-10-09T17:47:08-06:00'
+      subject: 'Fuel model: internal-v1 (all tables, F3/F4 fixes, FPPM temperature term, factor as multiplier, Boeing+MH371 calibration), imbalance, INOP; delivery
+        1'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.code.engine-hypotheses-_template
+  kind: code
+  module: core
+  path: WORK:engine/hypotheses/_template
+  file_list: null
+  note: 'Engine code on the working branch: engine/hypotheses/_template (3 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: ed40a728563e57ea6019007a4fcb702dc580dd1c
+      date: '2026-09-29T14:48:44-06:00'
+      subject: 'Claude Science Sep 29: live working copy, converged base run, convergence gate'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.code.engine-hypotheses-_top-files
+  kind: code
+  module: core
+  path: WORK:engine/hypotheses/
+  file_list:
+  - engine/hypotheses/Cargo.toml
+  - engine/hypotheses/build.rs
+  note: 'Engine code on the working branch: engine/hypotheses/_top-files (2 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: ed40a728563e57ea6019007a4fcb702dc580dd1c
+      date: '2026-09-29T14:48:44-06:00'
+      subject: 'Claude Science Sep 29: live working copy, converged base run, convergence gate'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.code.engine-hypotheses-altitude-prior
+  kind: code
+  module: core
+  path: WORK:engine/hypotheses/altitude-prior
+  file_list: null
+  note: 'Engine code on the working branch: engine/hypotheses/altitude-prior (3 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: ed40a728563e57ea6019007a4fcb702dc580dd1c
+      date: '2026-09-29T14:48:44-06:00'
+      subject: 'Claude Science Sep 29: live working copy, converged base run, convergence gate'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.code.engine-hypotheses-antenna-gain
+  kind: code
+  module: core
+  path: WORK:engine/hypotheses/antenna-gain
+  file_list: null
+  note: 'Engine code on the working branch: engine/hypotheses/antenna-gain (5 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: ed40a728563e57ea6019007a4fcb702dc580dd1c
+      date: '2026-09-29T14:48:44-06:00'
+      subject: 'Claude Science Sep 29: live working copy, converged base run, convergence gate'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.code.engine-hypotheses-arc-kernel
+  kind: code
+  module: core
+  path: WORK:engine/hypotheses/arc-kernel
+  file_list: null
+  note: 'Engine code on the working branch: engine/hypotheses/arc-kernel (3 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: ed40a728563e57ea6019007a4fcb702dc580dd1c
+      date: '2026-09-29T14:48:44-06:00'
+      subject: 'Claude Science Sep 29: live working copy, converged base run, convergence gate'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.code.engine-hypotheses-initial-mach
+  kind: code
+  module: core
+  path: WORK:engine/hypotheses/initial-mach
+  file_list: null
+  note: 'Engine code on the working branch: engine/hypotheses/initial-mach (3 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: ed40a728563e57ea6019007a4fcb702dc580dd1c
+      date: '2026-09-29T14:48:44-06:00'
+      subject: 'Claude Science Sep 29: live working copy, converged base run, convergence gate'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.code.engine-hypotheses-radar-fix
+  kind: code
+  module: core
+  path: WORK:engine/hypotheses/radar-fix
+  file_list: null
+  note: 'Engine code on the working branch: engine/hypotheses/radar-fix (3 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: d71512ebcd55a8fc6ec6de2fa8208adab2a8c110
+      date: '2026-10-08T19:25:37-06:00'
+      subject: 'radar-fix hypothesis module (timed primary-radar plots scored as positions, outlier mixture); excursion climb ceiling; early-families radar config
+        (Lido slide gap plots digitised, 18:22:12 10 NM past '
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.code.engine-hypotheses-src
+  kind: code
+  module: core
+  path: WORK:engine/hypotheses/src
+  file_list: null
+  note: 'Engine code on the working branch: engine/hypotheses/src (1 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: ed40a728563e57ea6019007a4fcb702dc580dd1c
+      date: '2026-09-29T14:48:44-06:00'
+      subject: 'Claude Science Sep 29: live working copy, converged base run, convergence gate'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.code.engine-report
+  kind: code
+  module: core
+  path: WORK:engine/report
+  file_list: null
+  note: 'Engine code on the working branch: engine/report (33 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: ed40a728563e57ea6019007a4fcb702dc580dd1c
+      date: '2026-09-29T14:48:44-06:00'
+      subject: 'Claude Science Sep 29: live working copy, converged base run, convergence gate'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.code.engine-scripts
+  kind: code
+  module: core
+  path: WORK:engine/scripts
+  file_list: null
+  note: 'Engine code on the working branch: engine/scripts (17 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: 9681a10092978a51405c33259f480e1c348ca76c
+      date: '2026-10-15T13:38:19-06:00'
+      subject: 'core order b: step 2 scripts copied; steps 1+3 job, fuel-feasibility overlays and script; predictions recorded'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.drive.0bzoiifnlx2auwetvsjbvs2jwx0e
+  kind: input
+  module: core
+  path: DRIVE:0BzOIIFNlx2aUWEtvSjBVS2JWX0E
+  note: Google Drive file id given in WORK:results/evidence-sweep-2026-10-17/research-satellite-imagery-2014.md line 212.
+  drive_id_source:
+    file: WORK:results/evidence-sweep-2026-10-17/research-satellite-imagery-2014.md
+    line: 212
+  assignment_basis: file that gives the Drive id
+  hash: false
+  hash_note: Drive file; not downloaded in this run
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.drive.1_fpht5nsrbmo9l2808j281wvbrkzqh9l
+  kind: input
+  module: core
+  path: DRIVE:1_FpHT5nsRBMo9L2808j281wvBRKzQH9l
+  note: Google Drive file id given in WORK:results/evidence-sweep-2026-10-17/research-surface-search-pod.md line 200.
+  drive_id_source:
+    file: WORK:results/evidence-sweep-2026-10-17/research-surface-search-pod.md
+    line: 200
+  assignment_basis: file that gives the Drive id
+  hash: false
+  hash_note: Drive file; not downloaded in this run
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.drive.1djg-kkcv5jiofbzqfa0ycvnajirwciwj
+  kind: input
+  module: core
+  path: DRIVE:1DJG-kkcV5JiofBZQFA0YCVnajIrwcIWJ
+  note: Google Drive file id given in WORK:results/evidence-sweep-2026-10-17/research-surface-search-pod.md line 202.
+  drive_id_source:
+    file: WORK:results/evidence-sweep-2026-10-17/research-surface-search-pod.md
+    line: 202
+  assignment_basis: file that gives the Drive id
+  hash: false
+  hash_note: Drive file; not downloaded in this run
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.drive.1iwxd8kz_bvphvxu4qyhraf23zag1arid
+  kind: input
+  module: core
+  path: DRIVE:1iwxd8kz_bvpHvXU4QYhRaF23zaG1ARiD
+  note: Google Drive file id given in WORK:results/evidence-sweep-2026-10-17/research-surface-search-pod.md line 194.
+  drive_id_source:
+    file: WORK:results/evidence-sweep-2026-10-17/research-surface-search-pod.md
+    line: 194
+  assignment_basis: file that gives the Drive id
+  hash: false
+  hash_note: Drive file; not downloaded in this run
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.drive.1jfy39xsfjmw7-px3yf2t-mxzj3r5lela
+  kind: input
+  module: core
+  path: DRIVE:1JFy39Xsfjmw7-Px3yf2T-Mxzj3r5lelA
+  note: Google Drive file id given in WORK:results/evidence-sweep-2026-10-17/research-surface-search-pod.md line 192.
+  drive_id_source:
+    file: WORK:results/evidence-sweep-2026-10-17/research-surface-search-pod.md
+    line: 192
+  assignment_basis: file that gives the Drive id
+  hash: false
+  hash_note: Drive file; not downloaded in this run
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.drive.1k1spe4ftmfo7bjfby5we03wl9pjewlqn
+  kind: input
+  module: core
+  path: DRIVE:1k1spe4FTmfO7bJfbY5we03Wl9pJeWlQn
+  note: Google Drive file id given in WORK:results/evidence-sweep-2026-10-17/research-surface-search-pod.md line 206.
+  drive_id_source:
+    file: WORK:results/evidence-sweep-2026-10-17/research-surface-search-pod.md
+    line: 206
+  assignment_basis: file that gives the Drive id
+  hash: false
+  hash_note: Drive file; not downloaded in this run
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.drive.1onz_ms9ylpcv7onudqnp_hwsubvhnlmc
+  kind: input
+  module: core
+  path: DRIVE:1oNz_mS9YlpcV7ONudQNp_HwsUBvhNLmc
+  note: Google Drive file id given in WORK:results/evidence-sweep-2026-10-17/research-radar-infrasound-ohasisbio.md line 196.
+  drive_id_source:
+    file: WORK:results/evidence-sweep-2026-10-17/research-radar-infrasound-ohasisbio.md
+    line: 196
+  assignment_basis: file that gives the Drive id
+  hash: false
+  hash_note: Drive file; not downloaded in this run
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.drive.1p2hmquu4pux3rah7syccn1bborf83umy
+  kind: input
+  module: core
+  path: DRIVE:1P2hMQUu4Pux3rah7sYccn1bboRf83umY
+  note: Google Drive file id given in WORK:results/evidence-sweep-2026-10-17/research-surface-search-pod.md line 195.
+  drive_id_source:
+    file: WORK:results/evidence-sweep-2026-10-17/research-surface-search-pod.md
+    line: 195
+  assignment_basis: file that gives the Drive id
+  hash: false
+  hash_note: Drive file; not downloaded in this run
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.drive.1rvogpgvkrac1wdarh_vrujqgjiv6mf1z
+  kind: input
+  module: core
+  path: DRIVE:1RVOgpgVKrAC1wDarH_VRUJQGjIv6Mf1Z
+  note: Google Drive file id given in WORK:results/evidence-sweep-2026-10-17/research-surface-search-pod.md line 201.
+  drive_id_source:
+    file: WORK:results/evidence-sweep-2026-10-17/research-surface-search-pod.md
+    line: 201
+  assignment_basis: file that gives the Drive id
+  hash: false
+  hash_note: Drive file; not downloaded in this run
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.drive.1s-wcmarkt0lrlv0uv3bfvskzved8tjdf
+  kind: input
+  module: core
+  path: DRIVE:1S-WCMaRKt0lRlV0Uv3bfVSKZvEd8TjDf
+  note: Google Drive file id given in WORK:results/evidence-sweep-2026-10-17/research-surface-search-pod.md line 193.
+  drive_id_source:
+    file: WORK:results/evidence-sweep-2026-10-17/research-surface-search-pod.md
+    line: 193
+  assignment_basis: file that gives the Drive id
+  hash: false
+  hash_note: Drive file; not downloaded in this run
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.drive.1st61jc0tmlxso6bztyd5vph_mqnttdf6
+  kind: input
+  module: core
+  path: DRIVE:1St61jC0TmlxsO6BztYD5vpH_mqNTTDF6
+  note: Google Drive file id given in WORK:results/evidence-sweep-2026-10-17/research-surface-search-pod.md line 196.
+  drive_id_source:
+    file: WORK:results/evidence-sweep-2026-10-17/research-surface-search-pod.md
+    line: 196
+  assignment_basis: file that gives the Drive id
+  hash: false
+  hash_note: Drive file; not downloaded in this run
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.drive.1zwsccwxcsryjdi4khb4we13_9-wib4j4
+  kind: input
+  module: core
+  path: DRIVE:1zwSCCwXcsryJdi4kHb4WE13_9-WIb4J4
+  note: Google Drive file id given in WORK:results/evidence-sweep-2026-10-17/research-surface-search-pod.md line 191.
+  drive_id_source:
+    file: WORK:results/evidence-sweep-2026-10-17/research-surface-search-pod.md
+    line: 191
+  assignment_basis: file that gives the Drive id
+  hash: false
+  hash_note: Drive file; not downloaded in this run
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.ex.core-_top-files
+  kind: product
+  module: core
+  path: EX:core/
+  exchange_prefix: core/
+  exchange_top_files_only: true
+  note: 'Exchange folder core/_top-files: 1 files, 0.00 GB; SHA-256 from SHA256SUMS 0, computed 1, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.ex.core-fuel-feasibility-2026-10-15
+  kind: product
+  module: core
+  path: EX:core/fuel-feasibility-2026-10-15
+  exchange_prefix: core/fuel-feasibility-2026-10-15
+  exchange_top_files_only: false
+  note: 'Exchange folder core/fuel-feasibility-2026-10-15: 5 files, 0.00 GB; SHA-256 from SHA256SUMS 4, computed 1, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.ex.core-gates-2026-10-15
+  kind: product
+  module: core
+  path: EX:core/gates-2026-10-15
+  exchange_prefix: core/gates-2026-10-15
+  exchange_top_files_only: false
+  note: 'Exchange folder core/gates-2026-10-15: 6 files, 0.01 GB; SHA-256 from SHA256SUMS 2, computed 4, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.ex.core-reports
+  kind: product
+  module: core
+  path: EX:core/reports
+  exchange_prefix: core/reports
+  exchange_top_files_only: false
+  note: 'Exchange folder core/reports: 17 files, 0.01 GB; SHA-256 from SHA256SUMS 0, computed 17, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.ex.core-run-j
+  kind: product
+  module: core
+  path: EX:core/run-j
+  exchange_prefix: core/run-j
+  exchange_top_files_only: false
+  note: 'Exchange folder core/run-j: 946 files, 99.03 GB; SHA-256 from SHA256SUMS 934, computed 12, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.ex.core-run-j-supplement
+  kind: product
+  module: core
+  path: EX:core/run-j-supplement
+  exchange_prefix: core/run-j-supplement
+  exchange_top_files_only: false
+  note: 'Exchange folder core/run-j-supplement: 268 files, 1.54 GB; SHA-256 from SHA256SUMS 264, computed 4, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.in.engine-data-__fuel-tables_json
+  kind: input
+  module: core
+  path: WORK:engine/data/._fuel-tables.json
+  file_list: null
+  note: 'Engine data on the working branch: engine/data/._fuel-tables.json (1 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: 2aa8f710076be7ce54c10431b0caea7b428b7359
+      date: '2026-10-03T07:09:04-07:00'
+      subject: '19:41 is the closest approach: tangential geometry, and a look-ahead that fails'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.in.engine-data-igrf11-declination_manifest_json
+  kind: input
+  module: core
+  path: WORK:engine/data/igrf11-declination.manifest.json
+  file_list: null
+  note: 'Engine data on the working branch: engine/data/igrf11-declination.manifest.json (1 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: a6f84426ca9939f5ec1d43914752ea658818ebe6
+      date: '2026-09-29T17:45:44-06:00'
+      subject: Declination generation tested and eliminated; waypoint stratum spec recorded
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.in.engine-data-igrf14-declination_manifest_json
+  kind: input
+  module: core
+  path: WORK:engine/data/igrf14-declination.manifest.json
+  file_list: null
+  note: 'Engine data on the working branch: engine/data/igrf14-declination.manifest.json (1 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: c7bd8bd76a34d7885ec37238f312c28a7478d163
+      date: '2026-10-01T14:31:47-07:00'
+      subject: 'endurance-aware proposal: sample the speed profile against the fuel state'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.in.engine-data-mh371
+  kind: input
+  module: core
+  path: WORK:engine/data/mh371
+  file_list: null
+  note: 'Engine data on the working branch: engine/data/mh371 (2 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: ed40a728563e57ea6019007a4fcb702dc580dd1c
+      date: '2026-09-29T14:48:44-06:00'
+      subject: 'Claude Science Sep 29: live working copy, converged base run, convergence gate'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.in.engine-data-sampling-region-phase3_csv
+  kind: input
+  module: core
+  path: WORK:engine/data/sampling-region-phase3.csv
+  file_list: null
+  note: 'Engine data on the working branch: engine/data/sampling-region-phase3.csv (1 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: fea3810c0a656827284cdf74c703f028c0c220d3
+      date: '2026-09-30T17:07:38-06:00'
+      subject: define the phase-3 sampling region as a simple polygon with SAMAK inside
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.in.engine-data-satcom-1825-sequence_csv
+  kind: input
+  module: core
+  path: WORK:engine/data/satcom-1825-sequence.csv
+  file_list: null
+  note: 'Engine data on the working branch: engine/data/satcom-1825-sequence.csv (1 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: ed40a728563e57ea6019007a4fcb702dc580dd1c
+      date: '2026-09-29T14:48:44-06:00'
+      subject: 'Claude Science Sep 29: live working copy, converged base run, convergence gate'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.in.engine-data-satcom-observations_csv
+  kind: input
+  module: core
+  path: WORK:engine/data/satcom-observations.csv
+  file_list: null
+  note: 'Engine data on the working branch: engine/data/satcom-observations.csv (1 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: ed40a728563e57ea6019007a4fcb702dc580dd1c
+      date: '2026-09-29T14:48:44-06:00'
+      subject: 'Claude Science Sep 29: live working copy, converged base run, convergence gate'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.in.engine-data-satellite-ephemeris-inmarsat_csv
+  kind: input
+  module: core
+  path: WORK:engine/data/satellite-ephemeris-inmarsat.csv
+  file_list: null
+  note: 'Engine data on the working branch: engine/data/satellite-ephemeris-inmarsat.csv (1 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: ed40a728563e57ea6019007a4fcb702dc580dd1c
+      date: '2026-09-29T14:48:44-06:00'
+      subject: 'Claude Science Sep 29: live working copy, converged base run, convergence gate'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.in.engine-data-satellite-ephemeris_csv
+  kind: input
+  module: core
+  path: WORK:engine/data/satellite-ephemeris.csv
+  file_list: null
+  note: 'Engine data on the working branch: engine/data/satellite-ephemeris.csv (1 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: ed40a728563e57ea6019007a4fcb702dc580dd1c
+      date: '2026-09-29T14:48:44-06:00'
+      subject: 'Claude Science Sep 29: live working copy, converged base run, convergence gate'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.in.engine-data-variants
+  kind: input
+  module: core
+  path: WORK:engine/data/variants
+  file_list: null
+  note: 'Engine data on the working branch: engine/data/variants (10 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: df374d9d554c7558d5bc53016ec9ea8ecdbdc6aa
+      date: '2026-09-29T18:58:49-06:00'
+      subject: add BTO/BFO measurement-error sensitivities and waypoint source assessment
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.in.engine-data-waypoints-n877-northern_csv
+  kind: input
+  module: core
+  path: WORK:engine/data/waypoints-n877-northern.csv
+  file_list: null
+  note: 'Engine data on the working branch: engine/data/waypoints-n877-northern.csv (1 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: f47fbd4e319387008c8fc74a7aeaf20cacfff4c8
+      date: '2026-09-30T16:04:28-06:00'
+      subject: waypoint table closed; test whether the 18:01 prior suppresses a better early path
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.in.engine-data-waypoints_csv
+  kind: input
+  module: core
+  path: WORK:engine/data/waypoints.csv
+  file_list: null
+  note: 'Engine data on the working branch: engine/data/waypoints.csv (1 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: e6e17068039481c046bc3795d6600a98502441c3
+      date: '2026-09-30T15:28:41-06:00'
+      subject: add AIP-sourced waypoint table with per-row provenance
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.in.engine-geo
+  kind: input
+  module: core
+  path: WORK:engine/geo
+  file_list: null
+  note: 'Engine data on the working branch: engine/geo (1 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: 6c8c650dccf8506da601ae9377ba0dbb23ff0f0c
+      date: '2026-10-02T07:18:27-07:00'
+      subject: 'the evidence ladder: four rungs, and the proposal validated at full scale'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.note.coordination-core_stages_md
+  kind: note
+  module: core
+  path: WORK:coordination/CORE_STAGES.md
+  note: CORE_STAGES inbox
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 6a2f9377af93daed81de316e8868d3b53dc2c869
+      date: '2026-10-07T12:52:38-06:00'
+      subject: 'Architecture: ocean drift master prompt, and the coordination inboxes'
+    last_changed:
+      commit: 8cae711638062921fe02ab4c153420a473b0596a
+      date: '2026-10-22T10:18:07-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.note.threads-master-prompts-filter-audit_md
+  kind: note
+  module: core
+  path: WORK:threads/master-prompts/filter-audit.md
+  note: 'Independent audit of the core filter''s flight dynamics and satellite measurement model: brief'
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 67769ef7d72f4045847208f36ecfa702b39c4388
+      date: '2026-10-09T15:56:25-06:00'
+      subject: 'Master prompt: independent audit of core flight dynamics, satcom model and sampler'
+    last_changed:
+      commit: 8cae711638062921fe02ab4c153420a473b0596a
+      date: '2026-10-22T10:18:07-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.note.threads-master-prompts-fuel-audit_md
+  kind: note
+  module: core
+  path: WORK:threads/master-prompts/fuel-audit.md
+  note: 'Independent audit of the fuel model: brief'
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: d2255db341c20ba9e8ca0874beec9f9e6c01aaf3
+      date: '2026-10-09T13:58:34-06:00'
+      subject: 'Fuel-model audit brief (two independent auditors); standing rule: every chart footnoted with run, parameters, assumptions'
+    last_changed:
+      commit: 8cae711638062921fe02ab4c153420a473b0596a
+      date: '2026-10-22T10:18:07-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.note.threads-master-prompts-fuel-model_md
+  kind: note
+  module: core
+  path: WORK:threads/master-prompts/fuel-model.md
+  note: 'Fuel-model session: master prompt'
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 74e2e15fc7d86784116ef1cc4296eb98d89a6dfd
+      date: '2026-10-09T17:12:42-06:00'
+      subject: 'Master prompt: fuel-model session; coordination: Pete''s confirmations (request 17 first, fuel session, Inmarsat ephemeris, one overnight run)'
+    last_changed:
+      commit: 8cae711638062921fe02ab4c153420a473b0596a
+      date: '2026-10-22T10:18:07-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.note.threads-work-orders-core-handover-2026-10-15-draft_md
+  kind: note
+  module: core
+  path: WORK:threads/work-orders/core-handover-2026-10-15-DRAFT.md
+  note: Core handover — DRAFT, pre-filled by the coordinating session 15 October 2026
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: e9457f4ef15e2d68af0959cdabdd9f9a364f44d5
+      date: '2026-10-14T22:58:00-06:00'
+      subject: Pre-filled core handover draft; three gaps flagged for the core thread
+    last_changed:
+      commit: e9457f4ef15e2d68af0959cdabdd9f9a364f44d5
+      date: '2026-10-14T22:58:00-06:00'
+  defects: []
+  superseded_by: core.note.threads-work-orders-core-handover-2026-10-15_md
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: SUPERSEDED
+  status_rank: chain
+  status_evidence:
+  - rank: chain
+    source: name chain
+    quote: null
+    rule: threads/work-orders/core-handover-2026-10-15-DRAFT.md -> threads/work-orders/core-handover-2026-10-15.md (DRAFT and final of the same name)
+- id: core.note.threads-work-orders-core-handover-2026-10-15_md
+  kind: note
+  module: core
+  path: WORK:threads/work-orders/core-handover-2026-10-15.md
+  note: Core handover — 15 October 2026
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: ff2cf9c2f07d843c4202f09029bac60d75935372
+      date: '2026-10-14T23:21:45-06:00'
+      subject: 'core: handover 2026-10-15 (gaps 1-3 answered, draft corrected)'
+    last_changed:
+      commit: ff2cf9c2f07d843c4202f09029bac60d75935372
+      date: '2026-10-14T23:21:45-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.note.threads-work-orders-core-handover-and-item10-2026-10-15_md
+  kind: note
+  module: core
+  path: WORK:threads/work-orders/core-handover-and-item10-2026-10-15.md
+  note: Core handover, and the item 10 work order — 15 October 2026
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: c9b8bc752c4b905397c00a81e6724d40b668eccb
+      date: '2026-10-14T22:16:22-06:00'
+      subject: Core handover task and item 10 order; composition ruling for approval; paste prompts point at repo paths
+    last_changed:
+      commit: c9b8bc752c4b905397c00a81e6724d40b668eccb
+      date: '2026-10-14T22:16:22-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.note.threads-work-orders-core-order-2026-10-15b_md
+  kind: note
+  module: core
+  path: WORK:threads/work-orders/core-order-2026-10-15b.md
+  note: Core work order, 15 October 2026 (b), for a FRESH core thread
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 5eeda142446282b33113e5b768b15f5c6fc9167f
+      date: '2026-10-15T12:41:21-06:00'
+      subject: 'Coordination 15 Oct (b): answers to Pete''s nine questions; core order b (gates B/C, scripts, fuel feasibility, item 10 Phase 1); EoF order b (D0
+        transmission imposed, sampled bank limit, uniform onset'
+    last_changed:
+      commit: 5eeda142446282b33113e5b768b15f5c6fc9167f
+      date: '2026-10-15T12:41:21-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.note.threads-work-orders-item10-order-rev2-2026-10-15_md
+  kind: note
+  module: core
+  path: WORK:threads/work-orders/item10-order-rev2-2026-10-15.md
+  note: Item 10 work order — REVISION 2, 15 October 2026 (supersedes section 2 of
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: b0a52ffc7c925489793a0a8e05d44857c6a8dc02
+      date: '2026-10-14T23:25:12-06:00'
+      subject: Item 10 order revised after core handover; run J change list filed; item 5 and gain notes
+    last_changed:
+      commit: 4ec7c95c817fb48b1552944d6e4e18307818cf2a
+      date: '2026-10-15T17:40:42-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.note.threads-work-orders-item5-fuel-evidence-2026-10-15_md
+  kind: note
+  module: core
+  path: WORK:threads/work-orders/item5-fuel-evidence-2026-10-15.md
+  note: Item 5 — what the fuel model costs in log evidence, decomposed
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: b0a52ffc7c925489793a0a8e05d44857c6a8dc02
+      date: '2026-10-14T23:25:12-06:00'
+      subject: Item 10 order revised after core handover; run J change list filed; item 5 and gain notes
+    last_changed:
+      commit: f8054f8eb8ae4eb3e7f26f944f709655b1a2d3f1
+      date: '2026-10-14T23:37:57-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.note.threads-work-orders-overnight-2026-10-19_md
+  kind: note
+  module: core
+  path: WORK:threads/work-orders/overnight-2026-10-19.md
+  note: Overnight work orders, 19 Oct 2026 (Pete approved; architecture / coordination session ac78e73d)
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: e5331158adf4e81a7c7297a031fc0e4fb79bfbf2
+      date: '2026-10-18T21:53:39-06:00'
+      subject: 'Overnight work orders 19 Oct 2026: EoF on northern supplement, A1-branch downstream, composer v3, supplement reports'
+    last_changed:
+      commit: 08d28d3606993c6b663c6967d37372225e823547
+      date: '2026-10-18T22:27:37-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.note.threads-work-orders-overnight-2026-10-20_md
+  kind: note
+  module: core
+  path: WORK:threads/work-orders/overnight-2026-10-20.md
+  note: Overnight work orders, 20 Oct 2026 (Pete approved items 1-4 at about 02:50Z; he is away until morning)
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 15316c853830e65759fd7fed16f2ba04cfad2316
+      date: '2026-10-19T20:45:42-06:00'
+      subject: 'Overnight work orders 20 Oct 2026: EoF supplement completion, downstream chain, drift arc-latitude 20-25 S, calibration cases 5 and 1'
+    last_changed:
+      commit: 15316c853830e65759fd7fed16f2ba04cfad2316
+      date: '2026-10-19T20:45:42-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.note.threads-work-orders-ruling-composition-nan-2026-10-15_md
+  kind: note
+  module: core
+  path: WORK:threads/work-orders/ruling-composition-nan-2026-10-15.md
+  note: Ruling for approval — the composition convention for not-computed rows, and the split-half tolerance
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: c9b8bc752c4b905397c00a81e6724d40b668eccb
+      date: '2026-10-14T22:16:22-06:00'
+      subject: Core handover task and item 10 order; composition ruling for approval; paste prompts point at repo paths
+    last_changed:
+      commit: 391123767f381558d5c39d6af3a3ed8590c0f717
+      date: '2026-10-15T00:25:23-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.note.threads-work-orders-work-order-2026-10-15_md
+  kind: note
+  module: core
+  path: WORK:threads/work-orders/work-order-2026-10-15.md
+  note: Work orders, 15 October 2026 — items 6, 7, 8, 9
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: d3c3d2b85e947bac491c57068934bf4a905097fb
+      date: '2026-10-14T22:14:52-06:00'
+      subject: 'Work order 2026-10-15: items 6, 7, 8, 9; seed three module inboxes'
+    last_changed:
+      commit: d3c3d2b85e947bac491c57068934bf4a905097fb
+      date: '2026-10-14T22:14:52-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.6temper-realloc-datasheet_md
+  kind: note
+  module: core
+  path: WORK:results/6temper-realloc-datasheet.md
+  note: 'Run datasheet: `6temper-realloc`'
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: d28278d36f3ca6aa45d4b15c9cbb19cc7b6dacd7
+      date: '2026-10-06T11:06:01-06:00'
+      subject: Datasheet for 6temper-realloc, and a graticule on the position maps
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: core.res.no-exhaustion-prior-datasheet_md
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: SUPERSEDED
+  status_rank: explicit
+  status_evidence:
+  - rank: explicit
+    source: memory:mem_f31fe88133b8
+    memory_evidence_tag: observed
+    quote: about 21 GB is superseded or experimental (6temper-realloc, best-model, best-model-6temper, tempered-1839-1941, tempered-three, bfo4hz-fixed) while no-exhaustion-prior
+      is the reference to keep.
+  status_note: Memory names the run '6temper-realloc'. Confirm with Pete.
+- id: core.res.6temper_realloc_convergence_json
+  kind: product
+  module: core
+  path: WORK:results/6temper_realloc_convergence.json
+  note: Allocation beats tempering by three to one and costs less
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 92fc3934f76bade8190ee419fdae90f1520f7953
+      date: '2026-10-06T08:52:39-06:00'
+      subject: Allocation beats tempering by three to one and costs less
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: core.res.no-exhaustion-prior-datasheet_md
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: SUPERSEDED
+  status_rank: explicit
+  status_evidence:
+  - rank: explicit
+    source: memory:mem_f31fe88133b8
+    memory_evidence_tag: observed
+    quote: about 21 GB is superseded or experimental (6temper-realloc, best-model, best-model-6temper, tempered-1839-1941, tempered-three, bfo4hz-fixed) while no-exhaustion-prior
+      is the reference to keep.
+  status_note: Memory names the run '6temper-realloc'. Confirm with Pete.
+- id: core.res.allocation-is-the-lever_md
+  kind: note
+  module: core
+  path: WORK:results/allocation-is-the-lever.md
+  note: Particle allocation moved replicate agreement three times further than tempering, and cost less
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 92fc3934f76bade8190ee419fdae90f1520f7953
+      date: '2026-10-06T08:52:39-06:00'
+      subject: Allocation beats tempering by three to one and costs less
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.answers-2026-10-15-pm_md
+  kind: note
+  module: core
+  path: WORK:results/answers-2026-10-15-pm.md
+  note: Answers to the nine-part message of 15 October 2026
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 5eeda142446282b33113e5b768b15f5c6fc9167f
+      date: '2026-10-15T12:41:21-06:00'
+      subject: 'Coordination 15 Oct (b): answers to Pete''s nine questions; core order b (gates B/C, scripts, fuel feasibility, item 10 Phase 1); EoF order b (D0
+        transmission imposed, sampled bank limit, uniform onset'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.arc-geometry-1941_pdf
+  kind: product
+  module: core
+  path: WORK:results/arc-geometry-1941.pdf
+  note: latitude-pdf plots, island trajectories, and what the northern mode is
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 7c2c03b00bbc6f63fd844cb8202ccb6183a5a329
+      date: '2026-10-04T09:58:05-06:00'
+      subject: latitude-pdf plots, island trajectories, and what the northern mode is
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.best-model_md
+  kind: note
+  module: core
+  path: WORK:results/best-model.md
+  note: 'The best model: fuel evidence inside a tempered filter'
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 8b639dd58abe0f4220277f80e406f25c51438e3f
+      date: '2026-10-05T01:52:22-06:00'
+      subject: 'Best model complete at 8 replicates: closest to Davey, not converged'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: core.res.no-exhaustion-prior-datasheet_md
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: SUPERSEDED
+  status_rank: explicit
+  status_evidence:
+  - rank: explicit
+    source: memory:mem_f31fe88133b8
+    memory_evidence_tag: observed
+    quote: about 21 GB is superseded or experimental (6temper-realloc, best-model, best-model-6temper, tempered-1839-1941, tempered-three, bfo4hz-fixed) while no-exhaustion-prior
+      is the reference to keep.
+  - rank: explicit
+    source: memory:mem_8be30f525cd0
+    memory_evidence_tag: inferred
+    quote: The first candidates are the six superseded core runs (6temper-realloc, best-model, best-model-6temper, tempered-1839-1941, tempered-three, bfo4hz-fixed;
+  status_note: The memory row is about the run outputs of this run ('superseded or experimental'); this note reports that run. Confirm with Pete.
+- id: core.res.bfo-sd-check-2026-10-15
+  kind: product
+  module: core
+  path: WORK:results/bfo-sd-check-2026-10-15
+  note: 'Run-J item 6 check: BFO sd 7 / 4.3177 / 4 Hz on the pure reproduction (15 October 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: a2fb9ebe2a3178f709894b3edcb2a6770755ffea
+      date: '2026-10-15T14:51:18-06:00'
+      subject: 'core: run-J item 6 check results (BFO sd 7/4.3177/4 Hz, pure reproduction)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.bfo4hz-comparison_csv
+  kind: product
+  module: core
+  path: WORK:results/bfo4hz-comparison.csv
+  note: 'results: BFO 4 Hz on the fixed model - the northern shoulder is a BFO-width effect'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 53c1bd74a97e012af4d73ec7cd9ff0aa6a3ae7e4
+      date: '2026-10-07T13:22:03-06:00'
+      subject: 'results: BFO 4 Hz on the fixed model - the northern shoulder is a BFO-width effect'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.bfo4hz-fe-figure_pdf
+  kind: product
+  module: core
+  path: WORK:results/bfo4hz-fe-figure.pdf
+  note: 'results: BFO 4 Hz on the fixed model - the northern shoulder is a BFO-width effect'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 53c1bd74a97e012af4d73ec7cd9ff0aa6a3ae7e4
+      date: '2026-10-07T13:22:03-06:00'
+      subject: 'results: BFO 4 Hz on the fixed model - the northern shoulder is a BFO-width effect'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.bfo4hz-fixed-summary_json
+  kind: product
+  module: core
+  path: WORK:results/bfo4hz-fixed-summary.json
+  note: 'results: BFO 4 Hz on the fixed model - the northern shoulder is a BFO-width effect'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 53c1bd74a97e012af4d73ec7cd9ff0aa6a3ae7e4
+      date: '2026-10-07T13:22:03-06:00'
+      subject: 'results: BFO 4 Hz on the fixed model - the northern shoulder is a BFO-width effect'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.bfo_4hz
+  kind: product
+  module: core
+  path: WORK:results/bfo_4hz
+  note: add BTO/BFO measurement-error sensitivities and waypoint source assessment
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: df374d9d554c7558d5bc53016ec9ea8ecdbdc6aa
+      date: '2026-09-29T18:58:49-06:00'
+      subject: add BTO/BFO measurement-error sensitivities and waypoint source assessment
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.bias_drift_only
+  kind: product
+  module: core
+  path: WORK:results/bias_drift_only
+  note: fuel converges with the book's own priors; record all five convergence attempts
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 4659d16fe0f0089ea8cb1de80c709bf90c33ea75
+      date: '2026-09-30T23:29:50-06:00'
+      subject: fuel converges with the book's own priors; record all five convergence attempts
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.branching-resampler_md
+  kind: note
+  module: core
+  path: WORK:results/branching-resampler.md
+  note: Davey's branching resampler, built and measured
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 30857aa886d32b1c459039b8545e1f4191128c61
+      date: '2026-10-04T07:25:17-06:00'
+      subject: build Davey's branching resampler; it reproduces the evidence and does not fix 19:41
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.bto_29us
+  kind: product
+  module: core
+  path: WORK:results/bto_29us
+  note: add BTO/BFO measurement-error sensitivities and waypoint source assessment
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: df374d9d554c7558d5bc53016ec9ea8ecdbdc6aa
+      date: '2026-09-29T18:58:49-06:00'
+      subject: add BTO/BFO measurement-error sensitivities and waypoint source assessment
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.bto_2x
+  kind: product
+  module: core
+  path: WORK:results/bto_2x
+  note: add BTO/BFO measurement-error sensitivities and waypoint source assessment
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: df374d9d554c7558d5bc53016ec9ea8ecdbdc6aa
+      date: '2026-09-29T18:58:49-06:00'
+      subject: add BTO/BFO measurement-error sensitivities and waypoint source assessment
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.c7-options-smoke
+  kind: product
+  module: core
+  path: WORK:results/c7-options-smoke
+  note: 'C-7(a): hold-then-taper drift-down profile (config option, tests; not run), INOP flow scale with fix overlay (internal-v1 grid_inop is 2x its tables); smoke
+    comparison; posts'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 808a5c55394ff51267cd4bf2139a92e45411c085
+      date: '2026-10-10T00:37:23-06:00'
+      subject: 'C-7(a): hold-then-taper drift-down profile (config option, tests; not run), INOP flow scale with fix overlay (internal-v1 grid_inop is 2x its tables);
+        smoke comparison; posts'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.c7-options-smoke_md
+  kind: note
+  module: core
+  path: WORK:results/c7-options-smoke.md
+  note: C-7 options at smoke scale, and the doubled one-engine flow (10 Oct 2026, core)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 808a5c55394ff51267cd4bf2139a92e45411c085
+      date: '2026-10-10T00:37:23-06:00'
+      subject: 'C-7(a): hold-then-taper drift-down profile (config option, tests; not run), INOP flow scale with fix overlay (internal-v1 grid_inop is 2x its tables);
+        smoke comparison; posts'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/c7-options-smoke.md:3
+    quote: '**Labels: PROVISIONAL-OVERNIGHT (not reviewed by Pete); SMOKE (config/smoke.toml, 2 seeds, Mac, 2 threads);'
+- id: core.res.compute-plan_md
+  kind: note
+  module: core
+  path: WORK:results/compute-plan.md
+  note: 'Compute plan: what the queue costs, and how to pay less for it'
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 7aba0605812a95ce321c8010d8039cabf88c0804
+      date: '2026-10-05T11:24:22-06:00'
+      subject: Compute plan from measured timings; correct an allocation confound
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.convergence-ledger_csv
+  kind: product
+  module: core
+  path: WORK:results/convergence-ledger.csv
+  note: Harvest every convergence.json into one ledger, and read it
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 21b2812ef7911dd88ce7295d755261068b9c0d43
+      date: '2026-10-06T00:47:03-06:00'
+      subject: Harvest every convergence.json into one ledger, and read it
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.convergence-ledger_md
+  kind: note
+  module: core
+  path: WORK:results/convergence-ledger.md
+  note: Every full-scale run this project has done, and what separates the converged ones
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 21b2812ef7911dd88ce7295d755261068b9c0d43
+      date: '2026-10-06T00:47:03-06:00'
+      subject: Harvest every convergence.json into one ledger, and read it
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.convergence-ledger_pdf
+  kind: product
+  module: core
+  path: WORK:results/convergence-ledger.pdf
+  note: Harvest every convergence.json into one ledger, and read it
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 21b2812ef7911dd88ce7295d755261068b9c0d43
+      date: '2026-10-06T00:47:03-06:00'
+      subject: Harvest every convergence.json into one ledger, and read it
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.convergence-ledger_png
+  kind: product
+  module: core
+  path: WORK:results/convergence-ledger.png
+  note: Harvest every convergence.json into one ledger, and read it
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 21b2812ef7911dd88ce7295d755261068b9c0d43
+      date: '2026-10-06T00:47:03-06:00'
+      subject: Harvest every convergence.json into one ledger, and read it
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.core-model-stages_md
+  kind: note
+  module: core
+  path: WORK:results/core-model-stages.md
+  note: 'Three core-model stages: vertical rate, fuel, drifting bias'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: a1c27130a0ad202c2f7b9508208cd5b05f9da06b
+      date: '2026-09-30T21:17:58-06:00'
+      subject: 'stage 3: drifting BFO bias, and the stage write-up'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects:
+  - core.D-fuel-audit-F9
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: KNOWN_DEFECT
+  status_rank: explicit
+  status_evidence:
+  - rank: explicit
+    source: WORK:results/fuel-model-audit-architecture.md:361
+    quote: '- `core-model-stages.md` describes the 18:01:49 fuel as 70.0 % of 78.73 min; the time base is wrong (F9).'
+  status_note: 'Fuel-model audit finding F9: time base of the 18:01:49 fuel is wrong. No record found that it was corrected in this note.'
+- id: core.res.core-requests-oct07_md
+  kind: note
+  module: core
+  path: WORK:results/core-requests-oct07.md
+  note: Core requests from the end-of-flight first increment
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 0168dca858df27b5768e4932133abd8ee1e9b70a
+      date: '2026-10-06T23:19:00-06:00'
+      subject: 'Architecture: triage the nine core requests from the end-of-flight first increment'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.core_4hz_250kt_2deg
+  kind: product
+  module: core
+  path: WORK:results/core_4hz_250kt_2deg
+  note: 'core combination: 4 Hz BFO, 250 kt Mach floor, 2 deg track sd, with and without a low altitude floor'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 8b617c0e2473b491fb8f5027f1fc8aaf6b336169
+      date: '2026-09-30T17:35:52-06:00'
+      subject: 'core combination: 4 Hz BFO, 250 kt Mach floor, 2 deg track sd, with and without a low altitude floor'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.core_4hz_250kt_2deg_lowalt
+  kind: product
+  module: core
+  path: WORK:results/core_4hz_250kt_2deg_lowalt
+  note: 'core combination: 4 Hz BFO, 250 kt Mach floor, 2 deg track sd, with and without a low altitude floor'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 8b617c0e2473b491fb8f5027f1fc8aaf6b336169
+      date: '2026-09-30T17:35:52-06:00'
+      subject: 'core combination: 4 Hz BFO, 250 kt Mach floor, 2 deg track sd, with and without a low altitude floor'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.davey-2016-reference_md
+  kind: note
+  module: core
+  path: WORK:results/davey-2016-reference.md
+  note: What Davey et al. (2016) actually specifies, and where this engine departs from it
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 1a6b3a95bcc996aaa7a3a052e56b6f6004501428
+      date: '2026-10-04T06:40:22-06:00'
+      subject: obtain Davey et al. (2016) and audit the engine against it
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.davey-2016_license_md
+  kind: note
+  module: core
+  path: WORK:results/davey-2016.LICENSE.md
+  note: 'Licence and attribution: `davey-2016.pdf`'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 768ddc5fe43886f41f3ef9c78fce4955f05bfef5
+      date: '2026-10-09T16:48:34-06:00'
+      subject: 'Coordination: core briefing on filter audit and merged sequence; EoF early V2 look; Davey PDF licence notice; restricted-source ledger'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.davey-2016_pdf
+  kind: product
+  module: core
+  path: WORK:results/davey-2016.pdf
+  note: latitude-pdf plots, island trajectories, and what the northern mode is
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 7c2c03b00bbc6f63fd844cb8202ccb6183a5a329
+      date: '2026-10-04T09:58:05-06:00'
+      subject: latitude-pdf plots, island trajectories, and what the northern mode is
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.davey-bto-only-2026-10-18
+  kind: product
+  module: core
+  path: WORK:results/davey-bto-only-2026-10-18
+  note: BTO-only check against Davey et al. (2016) Fig. 10.3 top panel (18 Oct 2026, core)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 3d105d9401f31e1fcacb9fe9a21a707de80ec96d
+      date: '2026-10-18T15:55:23-06:00'
+      subject: BTO-only check vs Davey Fig 10.3 top panel; exact reference-curve shoulders
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.davey-ch11-alignment_md
+  kind: note
+  module: core
+  path: WORK:results/davey-ch11-alignment.md
+  note: Davey et al. (2016) chapter 11 against this project's drift and searched-areas methods
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 90d70194c1c467349db7c9d9284c9fd4465d561e
+      date: '2026-10-07T18:45:25-06:00'
+      subject: 'results: check drift and searched-areas methods against Davey ch. 11'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.davey-ch11-reproduction_json
+  kind: product
+  module: core
+  path: WORK:results/davey-ch11-reproduction.json
+  note: 'Davey ch.11 s11.2 reproduction on no-exhaustion-prior 00:19:37 map (PROVISIONAL): +2.7 NM north, ESS 0.988; kernel/eps sensitivities; seed and drifter-bootstrap
+    noise'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 8b844e37ae5424dd33338be937422e485634e7e2
+      date: '2026-10-07T20:18:06-06:00'
+      subject: 'Davey ch.11 s11.2 reproduction on no-exhaustion-prior 00:19:37 map (PROVISIONAL): +2.7 NM north, ESS 0.988; kernel/eps sensitivities; seed and drifter-bootstrap
+        noise'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.davey-ch11-reproduction_md
+  kind: note
+  module: core
+  path: WORK:results/davey-ch11-reproduction.md
+  note: 'Davey et al. (2016) ch. 11 §11.2 reproduction: the single-flaperon drift update'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 8b844e37ae5424dd33338be937422e485634e7e2
+      date: '2026-10-07T20:18:06-06:00'
+      subject: 'Davey ch.11 s11.2 reproduction on no-exhaustion-prior 00:19:37 map (PROVISIONAL): +2.7 NM north, ESS 0.988; kernel/eps sensitivities; seed and drifter-bootstrap
+        noise'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/davey-ch11-reproduction.md:3
+    quote: '**PROVISIONAL.** Ocean Drift Module, Davey-reproduction sub-session, night of 8–9 October 2026'
+- id: core.res.davey-ch11-reproduction_pdf
+  kind: product
+  module: core
+  path: WORK:results/davey-ch11-reproduction.pdf
+  note: 'Davey ch.11 s11.2 reproduction on no-exhaustion-prior 00:19:37 map (PROVISIONAL): +2.7 NM north, ESS 0.988; kernel/eps sensitivities; seed and drifter-bootstrap
+    noise'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 8b844e37ae5424dd33338be937422e485634e7e2
+      date: '2026-10-07T20:18:06-06:00'
+      subject: 'Davey ch.11 s11.2 reproduction on no-exhaustion-prior 00:19:37 map (PROVISIONAL): +2.7 NM north, ESS 0.988; kernel/eps sensitivities; seed and drifter-bootstrap
+        noise'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.davey-ch11-reproduction_png
+  kind: product
+  module: core
+  path: WORK:results/davey-ch11-reproduction.png
+  note: 'Davey ch.11 s11.2 reproduction on no-exhaustion-prior 00:19:37 map (PROVISIONAL): +2.7 NM north, ESS 0.988; kernel/eps sensitivities; seed and drifter-bootstrap
+    noise'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 8b844e37ae5424dd33338be937422e485634e7e2
+      date: '2026-10-07T20:18:06-06:00'
+      subject: 'Davey ch.11 s11.2 reproduction on no-exhaustion-prior 00:19:37 map (PROVISIONAL): +2.7 NM north, ESS 0.988; kernel/eps sensitivities; seed and drifter-bootstrap
+        noise'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.davey-page-map_json
+  kind: product
+  module: core
+  path: WORK:results/davey-page-map.json
+  note: 'Citation audit: derive every Davey page from the running header'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 8d6dd16974f742b58416e206f01650d95053167e
+      date: '2026-10-05T00:19:09-06:00'
+      subject: 'Citation audit: derive every Davey page from the running header'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.davey2016
+  kind: product
+  module: core
+  path: WORK:results/davey2016
+  note: 'the evidence ladder: four rungs, and the proposal validated at full scale'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 6c8c650dccf8506da601ae9377ba0dbb23ff0f0c
+      date: '2026-10-02T07:18:27-07:00'
+      subject: 'the evidence ladder: four rungs, and the proposal validated at full scale'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.davey2016_base
+  kind: product
+  module: core
+  path: WORK:results/davey2016_base
+  note: 'Claude Science Sep 29: live working copy, converged base run, convergence gate'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: ed40a728563e57ea6019007a4fcb702dc580dd1c
+      date: '2026-09-29T14:48:44-06:00'
+      subject: 'Claude Science Sep 29: live working copy, converged base run, convergence gate'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  run_json:
+    file: WORK:results/davey2016_base/run.json
+    keys:
+    - assumptions
+    - code_revision
+    - config
+    - config_paths
+    - epochs
+    - final_columns
+    - handoff_columns
+    - hypotheses
+    - impact_columns
+    - model
+    - observations
+    - peak_memory_mib
+    - prior
+    - prior_unix_s
+    - reference_arcs
+    - replicates
+    - residual_columns
+    - route_interval_s
+    - runtime_s
+    - stop
+    - terminal
+    - threads
+    commit: null
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.declination_igrf11
+  kind: product
+  module: core
+  path: WORK:results/declination_igrf11
+  note: Declination generation tested and eliminated; waypoint stratum spec recorded
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: a6f84426ca9939f5ec1d43914752ea658818ebe6
+      date: '2026-09-29T17:45:44-06:00'
+      subject: Declination generation tested and eliminated; waypoint stratum spec recorded
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  run_json:
+    file: WORK:results/declination_igrf11/run.json
+    keys:
+    - assumptions
+    - code_revision
+    - config
+    - config_paths
+    - epochs
+    - final_columns
+    - handoff_columns
+    - hypotheses
+    - impact_columns
+    - model
+    - observations
+    - peak_memory_mib
+    - prior
+    - prior_unix_s
+    - reference_arcs
+    - replicates
+    - residual_columns
+    - route_interval_s
+    - runtime_s
+    - stop
+    - terminal
+    - threads
+    commit: null
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.density-m0011_pdf
+  kind: product
+  module: core
+  path: WORK:results/density-m0011.pdf
+  note: latitude-pdf plots, island trajectories, and what the northern mode is
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 7c2c03b00bbc6f63fd844cb8202ccb6183a5a329
+      date: '2026-10-04T09:58:05-06:00'
+      subject: latitude-pdf plots, island trajectories, and what the northern mode is
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.density-m0019a_pdf
+  kind: product
+  module: core
+  path: WORK:results/density-m0019a.pdf
+  note: latitude-pdf plots, island trajectories, and what the northern mode is
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 7c2c03b00bbc6f63fd844cb8202ccb6183a5a329
+      date: '2026-10-04T09:58:05-06:00'
+      subject: latitude-pdf plots, island trajectories, and what the northern mode is
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.early-families-configs_md
+  kind: note
+  module: core
+  path: WORK:results/early-families-configs.md
+  note: 'Early-flight families: configuration notes'
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 5aee2bb9dcf8da7b939c709ba2d12805a8b12e21
+      date: '2026-10-08T20:51:40-06:00'
+      subject: 'Adopt prior track 289.7 (Davey Fig. 4.2) in davey2016.toml per architecture ruling; 295.66 kept as sensitivity/prior-track-29566.toml; prior position
+        checked (no change). radar-fix: cross-track band m'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.early-path-prior-test_md
+  kind: note
+  module: core
+  path: WORK:results/early-path-prior-test.md
+  note: Does the 18:01 prior suppress a better explanation of the early arcs?
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: f47fbd4e319387008c8fc74a7aeaf20cacfff4c8
+      date: '2026-09-30T16:04:28-06:00'
+      subject: waypoint table closed; test whether the 18:01 prior suppresses a better early path
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.evidence-ladder_csv
+  kind: product
+  module: core
+  path: WORK:results/evidence-ladder.csv
+  note: 'the evidence ladder: four rungs, and the proposal validated at full scale'
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 6c8c650dccf8506da601ae9377ba0dbb23ff0f0c
+      date: '2026-10-02T07:18:27-07:00'
+      subject: 'the evidence ladder: four rungs, and the proposal validated at full scale'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.evidence-ladder_json
+  kind: product
+  module: core
+  path: WORK:results/evidence-ladder.json
+  note: 'the evidence ladder: four rungs, and the proposal validated at full scale'
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 6c8c650dccf8506da601ae9377ba0dbb23ff0f0c
+      date: '2026-10-02T07:18:27-07:00'
+      subject: 'the evidence ladder: four rungs, and the proposal validated at full scale'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.evidence-ladder_md
+  kind: note
+  module: core
+  path: WORK:results/evidence-ladder.md
+  note: The evidence ladder, and the endurance-aware proposal
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 6c8c650dccf8506da601ae9377ba0dbb23ff0f0c
+      date: '2026-10-02T07:18:27-07:00'
+      subject: 'the evidence ladder: four rungs, and the proposal validated at full scale'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.evidence-sweep-2026-10-17
+  kind: product
+  module: core
+  path: WORK:results/evidence-sweep-2026-10-17
+  note: 'Evidence sweep 17 Oct 2026: register, four research notes, new-scope entries in eight module inboxes (dependencies only, no imposed order)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: ae8a472322a7fbefd176cd4ec1347ecad46fa05a
+      date: '2026-10-17T16:16:16-06:00'
+      subject: 'Evidence sweep 17 Oct 2026: register, four research notes, new-scope entries in eight module inboxes (dependencies only, no imposed order)'
+    last_changed:
+      commit: 8cae711638062921fe02ab4c153420a473b0596a
+      date: '2026-10-22T10:18:07-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.exhaustion-prior-is-nearly-inert_md
+  kind: note
+  module: core
+  path: WORK:results/exhaustion-prior-is-nearly-inert.md
+  note: The 00:17:30 exhaustion term is nearly inert — re-measured on the fixed fuel model
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 638aac4acd2e1332b2576b706d2727bd481d6b87
+      date: '2026-10-06T09:35:37-06:00'
+      subject: The exhaustion-time prior does almost nothing, so I diagnosed the wrong term
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.families-289
+  kind: product
+  module: core
+  path: WORK:results/families-289
+  note: 'results: early-flight families with radar inside the likelihood (uncorrected fuel; provisional sampler); family probabilities and mixture in report; coordination'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: bd0dfe5bdb659a314473cc2a0bd86ab29d94bf6e
+      date: '2026-10-09T18:07:23-06:00'
+      subject: 'results: early-flight families with radar inside the likelihood (uncorrected fuel; provisional sampler); family probabilities and mixture in report;
+        coordination'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.families-289_md
+  kind: note
+  module: core
+  path: WORK:results/families-289.md
+  note: Early-flight families with radar scored inside the likelihood (9 Oct 2026 overnight run)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: bd0dfe5bdb659a314473cc2a0bd86ab29d94bf6e
+      date: '2026-10-09T18:07:23-06:00'
+      subject: 'results: early-flight families with radar inside the likelihood (uncorrected fuel; provisional sampler); family probabilities and mixture in report;
+        coordination'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/families-289.md:3
+    quote: '**Labels: uncorrected fuel model (fuel audit F1-F7); provisional sampler (core request 17); STK/SGP4 ephemeris.**'
+- id: core.res.fe-window-figure_pdf
+  kind: product
+  module: core
+  path: WORK:results/fe-window-figure.pdf
+  note: 'figure: fuel exhaustion, paper draft, with the storage artefact removed'
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 645e0bc94a6c30367a283849cba2373095c4ce9b
+      date: '2026-10-07T08:48:07-06:00'
+      subject: 'figure: fuel exhaustion, paper draft, with the storage artefact removed'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.fig-gain-by-latitude-0011_png
+  kind: product
+  module: core
+  path: WORK:results/fig-gain-by-latitude-0011.png
+  note: 'Gain by 6th-arc latitude with sampled headings (run I, 4 strata x 8 seeds): northern tracks head ENE but see the satellite at mirror angle; north-south received-power
+    difference median +0.19 dB under '
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 1b0caa2572d8d4895bdb316ec703a8f3105f0b94
+      date: '2026-10-15T16:12:04-06:00'
+      subject: 'Gain by 6th-arc latitude with sampled headings (run I, 4 strata x 8 seeds): northern tracks head ENE but see the satellite at mirror angle; north-south
+        received-power difference median +0.19 dB under '
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.filter-audit-architecture_md
+  kind: note
+  module: core
+  path: WORK:results/filter-audit-architecture.md
+  note: 'Independent audit of the core filter: satellite measurement model, flight dynamics, sampler'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 0944567c6ec687f15e531b587858e7a99b7676a6
+      date: '2026-10-09T16:18:42-06:00'
+      subject: 'results: independent filter audit (architecture auditor) - satcom reproductions, Davey-fidelity table, tempering ancestry defect'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.filter-audit-bfo-ashton-t5-t8_csv
+  kind: product
+  module: core
+  path: WORK:results/filter-audit-bfo-ashton-t5-t8.csv
+  note: 'results: independent filter audit (architecture auditor) - satcom reproductions, Davey-fidelity table, tempering ancestry defect'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 0944567c6ec687f15e531b587858e7a99b7676a6
+      date: '2026-10-09T16:18:42-06:00'
+      subject: 'results: independent filter audit (architecture auditor) - satcom reproductions, Davey-fidelity table, tempering ancestry defect'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.filter-audit-bfo-ashton-t9_csv
+  kind: product
+  module: core
+  path: WORK:results/filter-audit-bfo-ashton-t9.csv
+  note: 'results: independent filter audit (architecture auditor) - satcom reproductions, Davey-fidelity table, tempering ancestry defect'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 0944567c6ec687f15e531b587858e7a99b7676a6
+      date: '2026-10-09T16:18:42-06:00'
+      subject: 'results: independent filter audit (architecture auditor) - satcom reproductions, Davey-fidelity table, tempering ancestry defect'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.filter-audit-bto-calibration_csv
+  kind: product
+  module: core
+  path: WORK:results/filter-audit-bto-calibration.csv
+  note: 'results: independent filter audit (architecture auditor) - satcom reproductions, Davey-fidelity table, tempering ancestry defect'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 0944567c6ec687f15e531b587858e7a99b7676a6
+      date: '2026-10-09T16:18:42-06:00'
+      subject: 'results: independent filter audit (architecture auditor) - satcom reproductions, Davey-fidelity table, tempering ancestry defect'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.filter-audit-ephemeris-delta_csv
+  kind: product
+  module: core
+  path: WORK:results/filter-audit-ephemeris-delta.csv
+  note: 'results: independent filter audit (architecture auditor) - satcom reproductions, Davey-fidelity table, tempering ancestry defect'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 0944567c6ec687f15e531b587858e7a99b7676a6
+      date: '2026-10-09T16:18:42-06:00'
+      subject: 'results: independent filter audit (architecture auditor) - satcom reproductions, Davey-fidelity table, tempering ancestry defect'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.filter-audit-observation-table_csv
+  kind: product
+  module: core
+  path: WORK:results/filter-audit-observation-table.csv
+  note: 'results: independent filter audit (architecture auditor) - satcom reproductions, Davey-fidelity table, tempering ancestry defect'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 0944567c6ec687f15e531b587858e7a99b7676a6
+      date: '2026-10-09T16:18:42-06:00'
+      subject: 'results: independent filter audit (architecture auditor) - satcom reproductions, Davey-fidelity table, tempering ancestry defect'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.filter-audit-satcom-reproduction_png
+  kind: product
+  module: core
+  path: WORK:results/filter-audit-satcom-reproduction.png
+  note: 'results: independent filter audit (architecture auditor) - satcom reproductions, Davey-fidelity table, tempering ancestry defect'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 0944567c6ec687f15e531b587858e7a99b7676a6
+      date: '2026-10-09T16:18:42-06:00'
+      subject: 'results: independent filter audit (architecture auditor) - satcom reproductions, Davey-fidelity table, tempering ancestry defect'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.filter-audit-tempering-toy_csv
+  kind: product
+  module: core
+  path: WORK:results/filter-audit-tempering-toy.csv
+  note: 'results: independent filter audit (architecture auditor) - satcom reproductions, Davey-fidelity table, tempering ancestry defect'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 0944567c6ec687f15e531b587858e7a99b7676a6
+      date: '2026-10-09T16:18:42-06:00'
+      subject: 'results: independent filter audit (architecture auditor) - satcom reproductions, Davey-fidelity table, tempering ancestry defect'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.filter-audit-vertical-rate_csv
+  kind: product
+  module: core
+  path: WORK:results/filter-audit-vertical-rate.csv
+  note: 'results: independent filter audit (architecture auditor) - satcom reproductions, Davey-fidelity table, tempering ancestry defect'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 0944567c6ec687f15e531b587858e7a99b7676a6
+      date: '2026-10-09T16:18:42-06:00'
+      subject: 'results: independent filter audit (architecture auditor) - satcom reproductions, Davey-fidelity table, tempering ancestry defect'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.flyby-test-oct11
+  kind: product
+  module: core
+  path: WORK:results/flyby-test-oct11
+  note: flyby-test-oct11
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 2aa563743941d9696e7a2e5fd4ecbc287d9a3db1
+      date: '2026-10-11T12:37:26-06:00'
+      subject: 'core: fly-by test part 1 result'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.fnl_weather_sensitivity
+  kind: product
+  module: core
+  path: WORK:results/fnl_weather_sensitivity
+  note: 'Claude Science Sep 29: live working copy, converged base run, convergence gate'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: ed40a728563e57ea6019007a4fcb702dc580dd1c
+      date: '2026-09-29T14:48:44-06:00'
+      subject: 'Claude Science Sep 29: live working copy, converged base run, convergence gate'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  run_json:
+    file: WORK:results/fnl_weather_sensitivity/run.json
+    keys:
+    - assumptions
+    - code_revision
+    - config
+    - config_paths
+    - epochs
+    - final_columns
+    - handoff_columns
+    - hypotheses
+    - impact_columns
+    - model
+    - observations
+    - peak_memory_mib
+    - prior
+    - prior_unix_s
+    - reference_arcs
+    - replicates
+    - residual_columns
+    - route_interval_s
+    - runtime_s
+    - stop
+    - terminal
+    - threads
+    commit: null
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.fuel-burn-gap_md
+  kind: note
+  module: core
+  path: WORK:results/fuel-burn-gap.md
+  note: 'The fuel burn gap: root cause, fix, and what it invalidates'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: f7293e22013f5bafc38b4eb1de309110c826c185
+      date: '2026-10-06T12:56:25-06:00'
+      subject: A fifth of every trajectory burns no fuel at all
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.fuel-extrapolation-run-i-2026-10-15
+  kind: product
+  module: core
+  path: WORK:results/fuel-extrapolation-run-i-2026-10-15
+  note: Fuel-table extrapolation in run I (run-J item 7 check, 15 October 2026)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 04b8b5d1de46577e66f2020b62606cd7e870f31c
+      date: '2026-10-15T16:59:22-06:00'
+      subject: 'core: request 20 smoke result (descent-limited), SITA 18:25 signal quality, fuel-table extrapolation check, run-J decisions'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.fuel-feasibility-2026-10-15
+  kind: product
+  module: core
+  path: WORK:results/fuel-feasibility-2026-10-15
+  note: Fuel feasibility of Davey's posterior — direct check (core order 2026-10-15b step 3)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: c1709c36fa09853aaf97ccb1e4371571bededa68
+      date: '2026-10-15T14:15:07-06:00'
+      subject: 'core order b: step 1 gates B/C references + regress-seed1; step 3 fuel feasibility; script pooling fix'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.fuel-model
+  kind: product
+  module: core
+  path: WORK:results/fuel-model
+  note: 'Fuel model: internal-v1 (all tables, F3/F4 fixes, FPPM temperature term, factor as multiplier, Boeing+MH371 calibration), imbalance, INOP; delivery 1'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 79a438e4db689a6288b52d04ce6b8426918e760e
+      date: '2026-10-09T17:47:08-06:00'
+      subject: 'Fuel model: internal-v1 (all tables, F3/F4 fixes, FPPM temperature term, factor as multiplier, Boeing+MH371 calibration), imbalance, INOP; delivery
+        1'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.fuel-model-audit-architecture
+  kind: product
+  module: core
+  path: WORK:results/fuel-model-audit-architecture
+  note: 'results: independent fuel-model audit (architecture sub-agent) - direction of the north shift is physics; F1 factor inverted, F2 no temperature term, F3
+    bilinear edge, F4 sub-floor pockets, F5-F7 ceil'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: bffbe1af24099c2d72f2c4d5f4592624e2d4871d
+      date: '2026-10-09T14:25:22-06:00'
+      subject: 'results: independent fuel-model audit (architecture sub-agent) - direction of the north shift is physics; F1 factor inverted, F2 no temperature term,
+        F3 bilinear edge, F4 sub-floor pockets, F5-F7 ceil'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.fuel-model-audit-architecture_md
+  kind: note
+  module: core
+  path: WORK:results/fuel-model-audit-architecture.md
+  note: 'Independent audit of the fuel model (auditor: architecture)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: bffbe1af24099c2d72f2c4d5f4592624e2d4871d
+      date: '2026-10-09T14:25:22-06:00'
+      subject: 'results: independent fuel-model audit (architecture sub-agent) - direction of the north shift is physics; F1 factor inverted, F2 no temperature term,
+        F3 bilinear edge, F4 sub-floor pockets, F5-F7 ceil'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.fuel-path-degeneracy_md
+  kind: note
+  module: core
+  path: WORK:results/fuel-path-degeneracy.md
+  note: Why fuel breaks the filter, and the one remedy that reuses machinery already here
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 6465df071d5c458eeb4a39fdb72d64542f31c92a
+      date: '2026-10-06T01:24:08-06:00'
+      subject: Read the fuel terms out of filter.rs and name the mechanism
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.fuel-vs-nofuel-density_pdf
+  kind: product
+  module: core
+  path: WORK:results/fuel-vs-nofuel-density.pdf
+  note: Three conditioning figures, and the fuel-versus-no-fuel comparison
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 5dc29c1608f3447a273fc3f71b301d42b806f903
+      date: '2026-10-06T12:08:43-06:00'
+      subject: Three conditioning figures, and the fuel-versus-no-fuel comparison
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.fuel-vs-nofuel-density_png
+  kind: product
+  module: core
+  path: WORK:results/fuel-vs-nofuel-density.png
+  note: Three conditioning figures, and the fuel-versus-no-fuel comparison
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 5dc29c1608f3447a273fc3f71b301d42b806f903
+      date: '2026-10-06T12:08:43-06:00'
+      subject: Three conditioning figures, and the fuel-versus-no-fuel comparison
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.gain_by_latitude_0011_csv
+  kind: product
+  module: core
+  path: WORK:results/gain_by_latitude_0011.csv
+  note: 'Gain by 6th-arc latitude with sampled headings (run I, 4 strata x 8 seeds): northern tracks head ENE but see the satellite at mirror angle; north-south received-power
+    difference median +0.19 dB under '
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 1b0caa2572d8d4895bdb316ec703a8f3105f0b94
+      date: '2026-10-15T16:12:04-06:00'
+      subject: 'Gain by 6th-arc latitude with sampled headings (run I, 4 strata x 8 seeds): northern tracks head ENE but see the satellite at mirror angle; north-south
+        received-power difference median +0.19 dB under '
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.gates-bc-2026-10-15_md
+  kind: note
+  module: core
+  path: WORK:results/gates-bc-2026-10-15.md
+  note: Gate B and gate C references — regenerated 15 October 2026 (core order 2026-10-15b step 1)
+  assignment_basis: commit subject
+  git:
+    first_added:
+      commit: c1709c36fa09853aaf97ccb1e4371571bededa68
+      date: '2026-10-15T14:15:07-06:00'
+      subject: 'core order b: step 1 gates B/C references + regress-seed1; step 3 fuel feasibility; script pooling fix'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.handoff0011_north_distinct_csv
+  kind: product
+  module: core
+  path: WORK:results/handoff0011_north_distinct.csv
+  note: 'Northern ESS on run I measured: not adequate (implied ~66 north of 33S after drift+searches; 22-78 effective lineages per seed); run-J note 4.4 corrected;
+    core inbox'
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 1265257eb61c71057978b59b5dc505123ffe248b
+      date: '2026-10-15T17:09:09-06:00'
+      subject: 'Northern ESS on run I measured: not adequate (implied ~66 north of 33S after drift+searches; 22-78 effective lineages per seed); run-J note 4.4 corrected;
+        core inbox'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.heading-ab-289-vs-29566_md
+  kind: note
+  module: core
+  path: WORK:results/heading-ab-289-vs-29566.md
+  note: 'Prior heading A/B: 289.7 (corrected) vs 295.66 (earlier), full scale, seeds 1-4'
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 70349a5dde9af87adeb1b7cca47e38fa6e9ebd02
+      date: '2026-10-09T08:07:46-06:00'
+      subject: 'results + coord: reference-289 DELIVERED; heading A/B (median 37.27S -> 36.42S)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.hybrid-arm-oct11
+  kind: product
+  module: core
+  path: WORK:results/hybrid-arm-oct11
+  note: hybrid-arm-oct11
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 0f176edd05aeca93b91bc60f7121c86f846b4d60
+      date: '2026-10-11T14:05:40-06:00'
+      subject: 'core: hybrid arm result'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.island-paths_pdf
+  kind: product
+  module: core
+  path: WORK:results/island-paths.pdf
+  note: latitude-pdf plots, island trajectories, and what the northern mode is
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 7c2c03b00bbc6f63fd844cb8202ccb6183a5a329
+      date: '2026-10-04T09:58:05-06:00'
+      subject: latitude-pdf plots, island trajectories, and what the northern mode is
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.islands-check-2026-10-15
+  kind: product
+  module: core
+  path: WORK:results/islands-check-2026-10-15
+  note: 'core: correct ln-evidence agreement (0.10 not 0.05 nat) in request 20 smoke note; islands baseline files'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: c4b4c1ffcf58b7881bdf7dfd5071a3f39ea0798c
+      date: '2026-10-15T17:26:42-06:00'
+      subject: 'core: correct ln-evidence agreement (0.10 not 0.05 nat) in request 20 smoke note; islands baseline files'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.item10-phase1
+  kind: product
+  module: core
+  path: WORK:results/item10-phase1
+  note: 'core order b step 4: design note and run I look-ahead diagnostics (files missed by sparse add)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 764e2de18907997b7dcd9f299f83e8722527c2e3
+      date: '2026-10-15T13:47:43-06:00'
+      subject: 'core order b step 4: design note and run I look-ahead diagnostics (files missed by sparse add)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.ladder_json
+  kind: product
+  module: core
+  path: WORK:results/ladder.json
+  note: 'the evidence ladder: four rungs, and the proposal validated at full scale'
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 6c8c650dccf8506da601ae9377ba0dbb23ff0f0c
+      date: '2026-10-02T07:18:27-07:00'
+      subject: 'the evidence ladder: four rungs, and the proposal validated at full scale'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.m1941-geometry-and-lookahead_md
+  kind: note
+  module: core
+  path: WORK:results/m1941-geometry-and-lookahead.md
+  note: 'The 19:41 bottleneck: tangential geometry, and why a look-ahead does not fix it'
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 2aa8f710076be7ce54c10431b0caea7b428b7359
+      date: '2026-10-03T07:09:04-07:00'
+      subject: '19:41 is the closest approach: tangential geometry, and a look-ahead that fails'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.mach250kt_sensitivity
+  kind: product
+  module: core
+  path: WORK:results/mach250kt_sensitivity
+  note: Shoulder comparison against Davey, wider Mach sensitivity, per-run parameter table
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: f718dfc60dde8d05bff19da31269db31b91615ab
+      date: '2026-09-29T16:03:03-06:00'
+      subject: Shoulder comparison against Davey, wider Mach sensitivity, per-run parameter table
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  run_json:
+    file: WORK:results/mach250kt_sensitivity/run.json
+    keys:
+    - assumptions
+    - code_revision
+    - config
+    - config_paths
+    - epochs
+    - final_columns
+    - handoff_columns
+    - hypotheses
+    - impact_columns
+    - model
+    - observations
+    - peak_memory_mib
+    - prior
+    - prior_unix_s
+    - reference_arcs
+    - replicates
+    - residual_columns
+    - route_interval_s
+    - runtime_s
+    - stop
+    - terminal
+    - threads
+    commit: null
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.measurement-model-sensitivity_md
+  kind: note
+  module: core
+  path: WORK:results/measurement-model-sensitivity.md
+  note: Sensitivity of the posterior to the BTO and BFO error model
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: df374d9d554c7558d5bc53016ec9ea8ecdbdc6aa
+      date: '2026-09-29T18:58:49-06:00'
+      subject: add BTO/BFO measurement-error sensitivities and waypoint source assessment
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.mh370-waypoint-sampling-region_png
+  kind: product
+  module: core
+  path: WORK:results/mh370-waypoint-sampling-region.png
+  note: define the phase-3 sampling region as a simple polygon with SAMAK inside
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: fea3810c0a656827284cdf74c703f028c0c220d3
+      date: '2026-09-30T17:07:38-06:00'
+      subject: define the phase-3 sampling region as a simple polygon with SAMAK inside
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.model-comparison_csv
+  kind: product
+  module: core
+  path: WORK:results/model-comparison.csv
+  note: 'Best model complete at 8 replicates: closest to Davey, not converged'
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 8b639dd58abe0f4220277f80e406f25c51438e3f
+      date: '2026-10-05T01:52:22-06:00'
+      subject: 'Best model complete at 8 replicates: closest to Davey, not converged'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.n571-traffic-oct11
+  kind: product
+  module: core
+  path: WORK:results/n571-traffic-oct11
+  note: Other traffic on N571, 18:25-18:39 UTC, 7 March 2014 (for the traffic check)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: af8417eb3f6e62b330c3da4a23b33af57047512e
+      date: '2026-10-11T17:29:40-06:00'
+      subject: Apply Pete's 00:19 label to core route results; N571 traffic (UAE343 ADS-C, IGO053 estimated) and run H separation check; CORE_STAGES
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.next-run-a
+  kind: product
+  module: core
+  path: WORK:results/next-run-a
+  note: 'results: next-run (a) complete (C-7(a) one-engine dynamics; mixture 00:19 -36.89 vs (b) -37.15; routes split-half converged); seed 4 of two strata re-run
+    after full deskstar disk; trigger core/next-ru'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: cbad66015f3eef66460c52283ff917725bc7d060
+      date: '2026-10-10T00:54:12-06:00'
+      subject: 'results: next-run (a) complete (C-7(a) one-engine dynamics; mixture 00:19 -36.89 vs (b) -37.15; routes split-half converged); seed 4 of two strata
+        re-run after full deskstar disk; trigger core/next-ru'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.next-run-a_md
+  kind: note
+  module: core
+  path: WORK:results/next-run-a.md
+  note: 'Next large run (a), 10 Oct 2026: C-7(a) one-engine dynamics, compared with (b)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: cbad66015f3eef66460c52283ff917725bc7d060
+      date: '2026-10-10T00:54:12-06:00'
+      subject: 'results: next-run (a) complete (C-7(a) one-engine dynamics; mixture 00:19 -36.89 vs (b) -37.15; routes split-half converged); seed 4 of two strata
+        re-run after full deskstar disk; trigger core/next-ru'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/next-run-a.md:3
+    quote: '**Labels: PROVISIONAL-OVERNIGHT (not yet reviewed by Pete); platform x86_64-linux (deskstar); prior track'
+- id: core.res.next-run-b
+  kind: product
+  module: core
+  path: WORK:results/next-run-b
+  note: 'results: next-run (b) complete (four strata, seeds 1-4, 3.5M/seed; P(family), mixture -37.15, two-tank diagnostic 22-37% right engine dry before 00:11; split-half
+    not converged); Davey-only baseline c'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 8fd2084247a53820b7e696792962ada4170d63d0
+      date: '2026-10-09T23:30:05-06:00'
+      subject: 'results: next-run (b) complete (four strata, seeds 1-4, 3.5M/seed; P(family), mixture -37.15, two-tank diagnostic 22-37% right engine dry before 00:11;
+        split-half not converged); Davey-only baseline c'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.next-run-b_md
+  kind: note
+  module: core
+  path: WORK:results/next-run-b.md
+  note: 'Next large run (b), 10 Oct 2026: the updated model with every fix, two tanks as bookkeeping'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 8fd2084247a53820b7e696792962ada4170d63d0
+      date: '2026-10-09T23:30:05-06:00'
+      subject: 'results: next-run (b) complete (four strata, seeds 1-4, 3.5M/seed; P(family), mixture -37.15, two-tank diagnostic 22-37% right engine dry before 00:11;
+        split-half not converged); Davey-only baseline c'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/next-run-b.md:3
+    quote: '**Labels: PROVISIONAL-OVERNIGHT (not yet reviewed by Pete); platform x86_64-linux (deskstar); prior track'
+- id: core.res.no-exhaustion-prior-comparison_csv
+  kind: product
+  module: core
+  path: WORK:results/no-exhaustion-prior-comparison.csv
+  note: 'results: no-exhaustion-prior, the first full-scale run on the fixed fuel model'
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: b3dd44bfe69c8a36957d1cf4c1b6dcfe408cffc8
+      date: '2026-10-07T07:09:43-06:00'
+      subject: 'results: no-exhaustion-prior, the first full-scale run on the fixed fuel model'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.no-exhaustion-prior-datasheet_md
+  kind: note
+  module: core
+  path: WORK:results/no-exhaustion-prior-datasheet.md
+  note: 'Run datasheet: `no-exhaustion-prior`'
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: b3dd44bfe69c8a36957d1cf4c1b6dcfe408cffc8
+      date: '2026-10-07T07:09:43-06:00'
+      subject: 'results: no-exhaustion-prior, the first full-scale run on the fixed fuel model'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.no-exhaustion-prior-run_json
+  kind: product
+  module: core
+  path: WORK:results/no-exhaustion-prior-run.json
+  note: 'results: no-exhaustion-prior, the first full-scale run on the fixed fuel model'
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: b3dd44bfe69c8a36957d1cf4c1b6dcfe408cffc8
+      date: '2026-10-07T07:09:43-06:00'
+      subject: 'results: no-exhaustion-prior, the first full-scale run on the fixed fuel model'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.no-exhaustion-prior-summary_json
+  kind: product
+  module: core
+  path: WORK:results/no-exhaustion-prior-summary.json
+  note: 'results: no-exhaustion-prior, the first full-scale run on the fixed fuel model'
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: b3dd44bfe69c8a36957d1cf4c1b6dcfe408cffc8
+      date: '2026-10-07T07:09:43-06:00'
+      subject: 'results: no-exhaustion-prior, the first full-scale run on the fixed fuel model'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.optimal-allocation_md
+  kind: note
+  module: core
+  path: WORK:results/optimal-allocation.md
+  note: How many particles each mode should get, measured rather than argued
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 732c09650950d313351d40fd699f67e8002135bc
+      date: '2026-10-06T10:30:41-06:00'
+      subject: Fit the per-mode particle scaling and solve the allocation
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.overnight-reports-oct10
+  kind: product
+  module: core
+  path: WORK:results/overnight-reports-oct10
+  note: 'report: every page footnoted (REPORT_FOOTNOTE), evidence sentence read from the run''s config (fuel, radar, one-engine), long hypothesis parameters named
+    only, baseline labelled; standard reports for ('
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: daae59589ad56eda755fea3b60f46b5a37ce556a
+      date: '2026-10-10T09:33:17-06:00'
+      subject: 'report: every page footnoted (REPORT_FOOTNOTE), evidence sentence read from the run''s config (fuel, radar, one-engine), long hypothesis parameters
+        named only, baseline labelled; standard reports for ('
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.position-m0011_pdf
+  kind: product
+  module: core
+  path: WORK:results/position-m0011.pdf
+  note: 'temper 00:11 too: the epoch lifts 4.3x and convergence does not move'
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 8a6224b6115755551e51b4f50cd96593a343f18c
+      date: '2026-10-04T09:22:57-06:00'
+      subject: 'temper 00:11 too: the epoch lifts 4.3x and convergence does not move'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.position-m0019a_pdf
+  kind: product
+  module: core
+  path: WORK:results/position-m0019a.pdf
+  note: 'temper 00:11 too: the epoch lifts 4.3x and convergence does not move'
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 8a6224b6115755551e51b4f50cd96593a343f18c
+      date: '2026-10-04T09:22:57-06:00'
+      subject: 'temper 00:11 too: the epoch lifts 4.3x and convergence does not move'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.prior-track-295-vs-290_md
+  kind: note
+  module: core
+  path: WORK:results/prior-track-295-vs-290.md
+  note: The 18:01:49 prior track is about 6 degrees too far right
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: d4c54f26841ae5e75734fdc99d270ee2f3d20635
+      date: '2026-10-08T17:24:49-06:00'
+      subject: 'results: the 18:01:49 prior track (295.66, reconstructed) looks ~6 deg right of Davey Fig. 4.2 (289.7) and of the bearing to the 18:22 radar point;
+        no config changed'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.provisioning_md
+  kind: note
+  module: core
+  path: WORK:results/PROVISIONING.md
+  note: Engine data files that are not in git
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: bf568771b5b9b8a6add38477d3962eed4ad34b2a
+      date: '2026-10-01T19:06:20-07:00'
+      subject: 'evidence ladder: analysis, figure, and the data-provisioning record'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.quantity-convergence_csv
+  kind: product
+  module: core
+  path: WORK:results/quantity-convergence.csv
+  note: One verdict per reported number, not one for the whole run
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 0558e8f9c64b979e9475b8bf863d7166bc43c32a
+      date: '2026-10-06T09:17:00-06:00'
+      subject: One verdict per reported number, not one for the whole run
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.r600-1825-holdout-2026-10-15
+  kind: product
+  module: core
+  path: WORK:results/r600-1825-holdout-2026-10-15
+  note: '18:25:27 R600 burst held out: posterior predictive check (15 October 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 34a1b22524ced06bb799b4b7daa0049f85c69840
+      date: '2026-10-15T17:18:32-06:00'
+      subject: 'core: R600 18:25 held out (Pete) + hold-out check from smoke; core request 21 (fuel extrapolation factor); EoF work request (descent sampling)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.realloc-conditioned-on-exhaustion_pdf
+  kind: product
+  module: core
+  path: WORK:results/realloc-conditioned-on-exhaustion.pdf
+  note: The one-sided flame-out constraint, evaluated exactly with no new run
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 8ec11436e7b16ac7f9667a0246fedab79e2c89ad
+      date: '2026-10-06T11:27:57-06:00'
+      subject: The one-sided flame-out constraint, evaluated exactly with no new run
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.realloc-conditioned-on-exhaustion_png
+  kind: product
+  module: core
+  path: WORK:results/realloc-conditioned-on-exhaustion.png
+  note: The one-sided flame-out constraint, evaluated exactly with no new run
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 8ec11436e7b16ac7f9667a0246fedab79e2c89ad
+      date: '2026-10-06T11:27:57-06:00'
+      subject: The one-sided flame-out constraint, evaluated exactly with no new run
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.realloc-conditioned-window_pdf
+  kind: product
+  module: core
+  path: WORK:results/realloc-conditioned-window.pdf
+  note: Three conditioning figures, and the fuel-versus-no-fuel comparison
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 5dc29c1608f3447a273fc3f71b301d42b806f903
+      date: '2026-10-06T12:08:43-06:00'
+      subject: Three conditioning figures, and the fuel-versus-no-fuel comparison
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.realloc-conditioned-window_png
+  kind: product
+  module: core
+  path: WORK:results/realloc-conditioned-window.png
+  note: Three conditioning figures, and the fuel-versus-no-fuel comparison
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 5dc29c1608f3447a273fc3f71b301d42b806f903
+      date: '2026-10-06T12:08:43-06:00'
+      subject: Three conditioning figures, and the fuel-versus-no-fuel comparison
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.realloc-trajectory-statistics_pdf
+  kind: product
+  module: core
+  path: WORK:results/realloc-trajectory-statistics.pdf
+  note: Datasheet for 6temper-realloc, and a graticule on the position maps
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: d28278d36f3ca6aa45d4b15c9cbb19cc7b6dacd7
+      date: '2026-10-06T11:06:01-06:00'
+      subject: Datasheet for 6temper-realloc, and a graticule on the position maps
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.realloc-trajectory-statistics_png
+  kind: product
+  module: core
+  path: WORK:results/realloc-trajectory-statistics.png
+  note: Datasheet for 6temper-realloc, and a graticule on the position maps
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: d28278d36f3ca6aa45d4b15c9cbb19cc7b6dacd7
+      date: '2026-10-06T11:06:01-06:00'
+      subject: Datasheet for 6temper-realloc, and a graticule on the position maps
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.realloc-window-position-m0019a_pdf
+  kind: product
+  module: core
+  path: WORK:results/realloc-window-position-m0019a.pdf
+  note: Three conditioning figures, and the fuel-versus-no-fuel comparison
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 5dc29c1608f3447a273fc3f71b301d42b806f903
+      date: '2026-10-06T12:08:43-06:00'
+      subject: Three conditioning figures, and the fuel-versus-no-fuel comparison
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.realloc-window-position-m0019a_png
+  kind: product
+  module: core
+  path: WORK:results/realloc-window-position-m0019a.png
+  note: Three conditioning figures, and the fuel-versus-no-fuel comparison
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 5dc29c1608f3447a273fc3f71b301d42b806f903
+      date: '2026-10-06T12:08:43-06:00'
+      subject: Three conditioning figures, and the fuel-versus-no-fuel comparison
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.reject_4_btobfo_0019
+  kind: product
+  module: core
+  path: WORK:results/reject_4_btobfo_0019
+  note: 'the evidence ladder: four rungs, and the proposal validated at full scale'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 6c8c650dccf8506da601ae9377ba0dbb23ff0f0c
+      date: '2026-10-02T07:18:27-07:00'
+      subject: 'the evidence ladder: four rungs, and the proposal validated at full scale'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.request21-2026-10-16
+  kind: product
+  module: core
+  path: WORK:results/request21-2026-10-16
+  note: 'Core request 21: fuel-flow factor on extrapolated steps (kappa_x) — gated and smoked'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: ecf5dfe71bcf825e8f1e150dac2661334b718184
+      date: '2026-10-15T19:43:20-06:00'
+      subject: 'core: request 21 gated and smoked; results and CORE_STAGES'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/request21-2026-10-16/README.md:11
+    quote: '**Smoke:** Davey posterior with fuel tracked but not constraining (ff-internal chain), 2 seeds x 1.75M.'
+- id: core.res.route-pilot-oct11
+  kind: product
+  module: core
+  path: WORK:results/route-pilot-oct11
+  note: 'core: per-route pilot result; routes prior defect (14 of 48 distinct)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 3fa8a0f6fe609d1fcbd04c326c2d4be7ca412517
+      date: '2026-10-11T01:17:33-06:00'
+      subject: 'core: per-route pilot result; routes prior defect (14 of 48 distinct)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.route-sampler-smoke-oct11
+  kind: product
+  module: core
+  path: WORK:results/route-sampler-smoke-oct11
+  note: Route sampler smoke (core, 11 Oct 2026, ~23:40Z)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 6d9f4ef7b60321b0c670d387c72744b48119c6e9
+      date: '2026-10-11T17:56:04-06:00'
+      subject: 'engine: route sampler (waypoint-family reset, Pete 11 Oct): per-particle random routes over the 2014-epoch fixes, break-off 50/50 at 20/40/60/80%,
+        fly-by/fly-over per fix, equator stop/continue, trunc'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  run_json:
+    file: WORK:results/route-sampler-smoke-oct11/run.json
+    keys:
+    - assumptions
+    - code_revision
+    - config
+    - config_paths
+    - epochs
+    - final_columns
+    - final_time_origin_unix_s
+    - handoff_columns
+    - hypotheses
+    - impact_columns
+    - model
+    - observations
+    - peak_memory_mib
+    - prior
+    - prior_unix_s
+    - reference_arcs
+    - replicates
+    - residual_columns
+    - route_interval_s
+    - runtime_s
+    - stop
+    - tank_columns
+    - terminal
+    - threads
+    commit: null
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.routes-audit-arms-oct11
+  kind: product
+  module: core
+  path: WORK:results/routes-audit-arms-oct11
+  note: Routes audit arms — turn-point scan and matched volume (11 Oct 2026)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 26cbe2850acea5ce82fa8b0cf33a4e9bc461ea9c
+      date: '2026-10-11T11:56:46-06:00'
+      subject: 'core: audit arms result; scan and matched volume; CORE_STAGES post'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.routes-finding-audit
+  kind: product
+  module: core
+  path: WORK:results/routes-finding-audit
+  note: 'architecture: independent audit of the routes finding (not a defect; prior concentration, not better fit; pseudo-fix control smoke; UNCONVERGED)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 6edb699ed92126bafe33f95b9829c8d0e98d9099
+      date: '2026-10-11T05:08:55-06:00'
+      subject: 'architecture: independent audit of the routes finding (not a defect; prior concentration, not better fit; pseudo-fix control smoke; UNCONVERGED)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.routes-finding-audit-architecture_md
+  kind: note
+  module: core
+  path: WORK:results/routes-finding-audit-architecture.md
+  note: 'Routes finding: independent audit (architecture), 11 Oct 2026'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 6edb699ed92126bafe33f95b9829c8d0e98d9099
+      date: '2026-10-11T05:08:55-06:00'
+      subject: 'architecture: independent audit of the routes finding (not a defect; prior concentration, not better fit; pseudo-fix control smoke; UNCONVERGED)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/routes-finding-audit-architecture.md:3
+    quote: '**Status: UNCONVERGED.** Core (b) split-half is not converged, and this audit adds smoke-scale runs (50k particles, 2 seeds). Every number below is provisional
+      and is for comparison only.'
+- id: core.res.run-a-b-family-summaries-oct11
+  kind: product
+  module: core
+  path: WORK:results/run-a-b-family-summaries-oct11
+  note: 'results: family summaries for (a), (b), C recomputed with float64 quantiles'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 655ff948f9e4750cd03c762f6a4780279bf81b6e
+      date: '2026-10-10T18:32:42-06:00'
+      subject: 'results: family summaries for (a), (b), C recomputed with float64 quantiles'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.run-c-oct10
+  kind: product
+  module: core
+  path: WORK:results/run-c-oct10
+  note: 'report: early_families quantiles in float64 (float32 cumsum over 8 seeds pushed p95 into the tail); run C strata table'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: a349b4e0e806d27b8175a1b7616b079ff7027e73
+      date: '2026-10-10T18:12:08-06:00'
+      subject: 'report: early_families quantiles in float64 (float32 cumsum over 8 seeds pushed p95 into the tail); run C strata table'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.run-d-oct11
+  kind: product
+  module: core
+  path: WORK:results/run-d-oct11
+  note: 'Run D (core): look-ahead hand-offs at 22:41 and 00:11'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 8fc34fce0ebd0cc7fde638fd3ab8380d067f04f3
+      date: '2026-10-11T00:21:37-06:00'
+      subject: 'core: run D READY'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.run-e-oct11
+  kind: product
+  module: core
+  path: WORK:results/run-e-oct11
+  note: 'core: run E result (worse than C); recommend withdrawing ad50 default'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: bde1280fce96a20339bb039bbcffe147573398c3
+      date: '2026-10-11T03:25:04-06:00'
+      subject: 'core: run E result (worse than C); recommend withdrawing ad50 default'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.run-f-oct11
+  kind: product
+  module: core
+  path: WORK:results/run-f-oct11
+  note: 'core: run F result (no gain)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 2096afbf7561a2217f5fec9301f50f1607385315
+      date: '2026-10-11T06:23:34-06:00'
+      subject: 'core: run F result (no gain)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.run-g-oct11
+  kind: product
+  module: core
+  path: WORK:results/run-g-oct11
+  note: Run G — six waypoint routes, full scale (11 Oct 2026)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: b81ff1cc40d42d86be3f9ec1afb09867a0175b08
+      date: '2026-10-11T11:21:17-06:00'
+      subject: 'core: run G result, map, per-route tables; CORE_STAGES post'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  run_json:
+    file: WORK:results/run-g-oct11/run.json
+    keys:
+    - assumptions
+    - code_revision
+    - config
+    - config_paths
+    - epochs
+    - final_columns
+    - final_time_origin_unix_s
+    - handoff_columns
+    - hypotheses
+    - impact_columns
+    - model
+    - observations
+    - peak_memory_mib
+    - prior
+    - prior_unix_s
+    - reference_arcs
+    - replicates
+    - residual_columns
+    - route_interval_s
+    - runtime_s
+    - stop
+    - tank_columns
+    - terminal
+    - threads
+    commit: null
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.run-h-oct11
+  kind: product
+  module: core
+  path: WORK:results/run-h-oct11
+  note: run-h-oct11
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 018e1d9ee85de93cb32ab11a3e141826710d888b
+      date: '2026-10-11T13:27:14-06:00'
+      subject: 'core: run H interim result'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  run_json:
+    file: WORK:results/run-h-oct11/run.json
+    keys:
+    - assumptions
+    - code_revision
+    - config
+    - config_paths
+    - epochs
+    - final_columns
+    - final_time_origin_unix_s
+    - handoff_columns
+    - hypotheses
+    - impact_columns
+    - model
+    - observations
+    - peak_memory_mib
+    - prior
+    - prior_unix_s
+    - reference_arcs
+    - replicates
+    - residual_columns
+    - route_interval_s
+    - runtime_s
+    - stop
+    - tank_columns
+    - terminal
+    - threads
+    commit: null
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.run-i-downstream-status-2026-10-15_md
+  kind: note
+  module: core
+  path: WORK:results/run-i-downstream-status-2026-10-15.md
+  note: 'Run I through the downstream modules: status, and what must be settled before run J (15 October 2026, late)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 388cc2d56dc07bcbec01dcf854bf3dffc9ae0190
+      date: '2026-10-15T17:26:36-06:00'
+      subject: 'Coordination: run I downstream status by module and impact set; rulings not yet applied; corrections from end of flight; pre-run-J requirements'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.run-i-oct12
+  kind: product
+  module: core
+  path: WORK:results/run-i-oct12
+  note: 'Run I (core), 12 Oct 2026: first readings, waypoint family'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 5215394b8a1fce33918968ae95a4c5659186677f
+      date: '2026-10-12T06:58:40-06:00'
+      subject: 'core: run I waypoints staged; predictions 3-4; plan tables'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.run-i-proposal_md
+  kind: note
+  module: core
+  path: WORK:results/run-i-proposal.md
+  note: 'Run I proposal (core, 12 Oct 2026): free flight against the reset waypoint family, new speed envelope'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 8d4095f5510c19b4383c1573ae37e17ad81716d3
+      date: '2026-10-11T19:26:44-06:00'
+      subject: 'CORE_STAGES: speed smoke result; run I proposal'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: PENDING_RULING
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/run-i-proposal.md
+    quote: null
+    read_by_hand: 'status line: proposal for Pete''s GO (as written; run I was later run, see other records)'
+- id: core.res.run-j
+  kind: product
+  module: core
+  path: WORK:results/run-j
+  note: Run J (core) — results, 16 October 2026
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 70f3e4e5fa8dff75fb775622797873d09fc22f2c
+      date: '2026-10-16T05:49:33-06:00'
+      subject: 'core: run J waypoints landed; first numbers'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.run-j-change-list_md
+  kind: note
+  module: core
+  path: WORK:results/run-j-change-list.md
+  note: Run J change list
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: b0a52ffc7c925489793a0a8e05d44857c6a8dc02
+      date: '2026-10-14T23:25:12-06:00'
+      subject: Item 10 order revised after core handover; run J change list filed; item 5 and gain notes
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.run-j-proposal_md
+  kind: note
+  module: core
+  path: WORK:results/run-j-proposal.md
+  note: Run J proposal (core) — DRAFT, 15 October 2026
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: ed09a7757d38d6402617d1f739c84cc9a2757b1b
+      date: '2026-10-15T13:47:30-06:00'
+      subject: 'core order b: step 4 design (core request 20), step 5 run-J proposal draft, gates interim'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: PENDING_RULING
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/run-j-proposal.md
+    quote: null
+    read_by_hand: 'status line: draft for Pete''s GO (as written; run J was later run, see other records)'
+- id: core.res.run-j-recommendations-2026-10-15_md
+  kind: note
+  module: core
+  path: WORK:results/run-j-recommendations-2026-10-15.md
+  note: 'Run J: coordination recommendations, 15 October 2026 (evening)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: b8574254128267282cad2b8b5293037c0807deb0
+      date: '2026-10-15T16:45:34-06:00'
+      subject: 'Coordination: run-J recommendations for Pete (pre-flight checks, publication outputs, breakthrough-enabling outputs, overnight supervision); not an
+        order'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.run-j-supplement
+  kind: product
+  module: core
+  path: WORK:results/run-j-supplement
+  note: Run-J northern supplement — results (core, 18 Oct 2026)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 763deabf2cb97e826b33416e046389c293df9b74
+      date: '2026-10-17T19:31:18-06:00'
+      subject: 'core: run-J northern supplement — measurement, design (posted before the run), flag output.handoff_supplement (off by default), configs, job script'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.sampler-smoke-oct11
+  kind: product
+  module: core
+  path: WORK:results/sampler-smoke-oct11
+  note: 'core: item 2 sampler smoke result'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 2dde7401ea90b1bf88b6569d05cffe37a86c90a8
+      date: '2026-10-10T21:35:28-06:00'
+      subject: 'core: item 2 sampler smoke result'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.satellite-coverage-2014-03
+  kind: product
+  module: core
+  path: WORK:results/satellite-coverage-2014-03
+  note: Satellite imaging access over the 6th and 7th arcs, March 2014
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: e91367a6f31ddd2685fb0ca355f5496d78bf2ea1
+      date: '2026-10-20T14:40:27-06:00'
+      subject: 'Satellite coverage module: theoretical imaging access over the 6th/7th arcs, 7-27 Mar 2014'
+    last_changed:
+      commit: fe5cdfd4bbf78b8e62ff559dbf46c986ba284b08
+      date: '2026-10-22T10:31:50-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.shoulder-comparison_md
+  kind: note
+  module: core
+  path: WORK:results/shoulder-comparison.md
+  note: 'Why the northern shoulder is missing: this code against Davey et al. (2016)'
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: f718dfc60dde8d05bff19da31269db31b91615ab
+      date: '2026-09-29T16:03:03-06:00'
+      subject: Shoulder comparison against Davey, wider Mach sensitivity, per-run parameter table
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.sita-signal-quality-2026-10-15
+  kind: product
+  module: core
+  path: WORK:results/sita-signal-quality-2026-10-15
+  note: Signal quality of the bursts the filter uses (run-J item 3a, 15 October 2026)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 04b8b5d1de46577e66f2020b62606cd7e870f31c
+      date: '2026-10-15T16:59:22-06:00'
+      subject: 'core: request 20 smoke result (descent-limited), SITA 18:25 signal quality, fuel-table extrapolation check, run-J decisions'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.speed-envelope-smoke-oct12
+  kind: product
+  module: core
+  path: WORK:results/speed-envelope-smoke-oct12
+  note: Speed-envelope smoke (core, 12 Oct 2026, 00:20-00:50Z, 2 threads)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: bd1ac60406fe8513ec606211932ad572eec4a3ad
+      date: '2026-10-11T19:25:35-06:00'
+      subject: 'engine: trace buffer allocated only when output.trace is set (removes ~900 B/particle when off; gate C peak 825->794 MiB); speed-envelope smoke results'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.split-half-threshold_md
+  kind: note
+  module: core
+  path: WORK:results/split-half-threshold.md
+  note: Is the 0.90 split-half floor rigorous?
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 659a3b05e4cc9020a6b7bad2059b78cb858411ed
+      date: '2026-10-03T19:56:15-06:00'
+      subject: 'calibrate the split-half floor: 0.90 was asserted, not derived'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.stage1_vertical_rate
+  kind: product
+  module: core
+  path: WORK:results/stage1_vertical_rate
+  note: 'stage 3: drifting BFO bias, and the stage write-up'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: a1c27130a0ad202c2f7b9508208cd5b05f9da06b
+      date: '2026-09-30T21:17:58-06:00'
+      subject: 'stage 3: drifting BFO bias, and the stage write-up'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.stage2_fuel
+  kind: product
+  module: core
+  path: WORK:results/stage2_fuel
+  note: 'stage 3: drifting BFO bias, and the stage write-up'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: a1c27130a0ad202c2f7b9508208cd5b05f9da06b
+      date: '2026-09-30T21:17:58-06:00'
+      subject: 'stage 3: drifting BFO bias, and the stage write-up'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.stage2_fuel_burnonly
+  kind: product
+  module: core
+  path: WORK:results/stage2_fuel_burnonly
+  note: 'stage 3: drifting BFO bias, and the stage write-up'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: a1c27130a0ad202c2f7b9508208cd5b05f9da06b
+      date: '2026-09-30T21:17:58-06:00'
+      subject: 'stage 3: drifting BFO bias, and the stage write-up'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.stage2_fuel_equal
+  kind: product
+  module: core
+  path: WORK:results/stage2_fuel_equal
+  note: fuel converges with the book's own priors; record all five convergence attempts
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 4659d16fe0f0089ea8cb1de80c709bf90c33ea75
+      date: '2026-09-30T23:29:50-06:00'
+      subject: fuel converges with the book's own priors; record all five convergence attempts
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.stage2_fuel_hardonly
+  kind: product
+  module: core
+  path: WORK:results/stage2_fuel_hardonly
+  note: fuel converges with the book's own priors; record all five convergence attempts
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 4659d16fe0f0089ea8cb1de80c709bf90c33ea75
+      date: '2026-09-30T23:29:50-06:00'
+      subject: fuel converges with the book's own priors; record all five convergence attempts
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.stage2_fuel_narrowmach
+  kind: product
+  module: core
+  path: WORK:results/stage2_fuel_narrowmach
+  note: fuel converges with the book's own priors; record all five convergence attempts
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 4659d16fe0f0089ea8cb1de80c709bf90c33ea75
+      date: '2026-09-30T23:29:50-06:00'
+      subject: fuel converges with the book's own priors; record all five convergence attempts
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.stage2_fuel_narrowmach_8
+  kind: product
+  module: core
+  path: WORK:results/stage2_fuel_narrowmach_8
+  note: eight replicates; stage 3 on the fuel configuration; the shoulder is the unconverged quantity
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: c13b0fd9ee9182f30e8d41bc376e1d812871261f
+      date: '2026-10-01T01:35:11-06:00'
+      subject: eight replicates; stage 3 on the fuel configuration; the shoulder is the unconverged quantity
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.stage3_bias_drift_equal
+  kind: product
+  module: core
+  path: WORK:results/stage3_bias_drift_equal
+  note: fuel converges with the book's own priors; record all five convergence attempts
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 4659d16fe0f0089ea8cb1de80c709bf90c33ea75
+      date: '2026-09-30T23:29:50-06:00'
+      subject: fuel converges with the book's own priors; record all five convergence attempts
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.stage3_on_narrowmach
+  kind: product
+  module: core
+  path: WORK:results/stage3_on_narrowmach
+  note: eight replicates; stage 3 on the fuel configuration; the shoulder is the unconverged quantity
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: c13b0fd9ee9182f30e8d41bc376e1d812871261f
+      date: '2026-10-01T01:35:11-06:00'
+      subject: eight replicates; stage 3 on the fuel configuration; the shoulder is the unconverged quantity
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.step-check-2026-10-15
+  kind: product
+  module: core
+  path: WORK:results/step-check-2026-10-15
+  note: 'Audit F3: propagation step size (1 s against the default 10 s cruise / 5 s manoeuvre)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 915c0a3529966854b5f374fcbb8ada00cf7fb154
+      date: '2026-10-15T17:45:46-06:00'
+      subject: 'core: F3 step test passed; disk cleanup note'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.tempered_1839_1941
+  kind: product
+  module: core
+  path: WORK:results/tempered_1839_1941
+  note: 'tempering at full scale: the bottleneck moves off 19:41'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 0fe2036bc8bd097281c80bfe94af3029ad6d548f
+      date: '2026-10-04T08:13:04-06:00'
+      subject: 'tempering at full scale: the bottleneck moves off 19:41'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: core.res.no-exhaustion-prior-datasheet_md
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: SUPERSEDED
+  status_rank: explicit
+  status_evidence:
+  - rank: explicit
+    source: memory:mem_f31fe88133b8
+    memory_evidence_tag: observed
+    quote: about 21 GB is superseded or experimental (6temper-realloc, best-model, best-model-6temper, tempered-1839-1941, tempered-three, bfo4hz-fixed) while no-exhaustion-prior
+      is the reference to keep.
+  status_note: Memory names the run 'tempered-1839-1941'; the folder is its result. Confirm with Pete.
+- id: core.res.tempered_three
+  kind: product
+  module: core
+  path: WORK:results/tempered_three
+  note: 'temper 00:11 too: the epoch lifts 4.3x and convergence does not move'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 8a6224b6115755551e51b4f50cd96593a343f18c
+      date: '2026-10-04T09:22:57-06:00'
+      subject: 'temper 00:11 too: the epoch lifts 4.3x and convergence does not move'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: core.res.no-exhaustion-prior-datasheet_md
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: SUPERSEDED
+  status_rank: explicit
+  status_evidence:
+  - rank: explicit
+    source: memory:mem_f31fe88133b8
+    memory_evidence_tag: observed
+    quote: about 21 GB is superseded or experimental (6temper-realloc, best-model, best-model-6temper, tempered-1839-1941, tempered-three, bfo4hz-fixed) while no-exhaustion-prior
+      is the reference to keep.
+  status_note: Memory names the run 'tempered-three'; the folder is its result. Confirm with Pete.
+- id: core.res.tempering-ess_pdf
+  kind: product
+  module: core
+  path: WORK:results/tempering-ess.pdf
+  note: 'tempering at full scale: the bottleneck moves off 19:41'
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 0fe2036bc8bd097281c80bfe94af3029ad6d548f
+      date: '2026-10-04T08:13:04-06:00'
+      subject: 'tempering at full scale: the bottleneck moves off 19:41'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.tempering-ess_png
+  kind: product
+  module: core
+  path: WORK:results/tempering-ess.png
+  note: 'tempering at full scale: the bottleneck moves off 19:41'
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 0fe2036bc8bd097281c80bfe94af3029ad6d548f
+      date: '2026-10-04T08:13:04-06:00'
+      subject: 'tempering at full scale: the bottleneck moves off 19:41'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.tempering-is-not-the-fix_md
+  kind: note
+  module: core
+  path: WORK:results/tempering-is-not-the-fix.md
+  note: 'Tempering the mid-flight epochs: a negative result, and what it localises'
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 32247830e2cb602c80343daa0a83a6afdabf3431
+      date: '2026-10-05T23:23:09-06:00'
+      subject: 'Six tempered epochs: negative result, and it localises the real problem'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.tempering_md
+  kind: note
+  module: core
+  path: WORK:results/tempering.md
+  note: Annealed SMC at the bottleneck epochs
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 68f6cb9619539a34a7a097b77ffb58b9c94ab3fe
+      date: '2026-10-04T07:54:32-06:00'
+      subject: narrow an overclaimed monotonicity in the tempering table
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.track_wide
+  kind: product
+  module: core
+  path: WORK:results/track_wide
+  note: waypoint table closed; test whether the 18:01 prior suppresses a better early path
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: f47fbd4e319387008c8fc74a7aeaf20cacfff4c8
+      date: '2026-09-30T16:04:28-06:00'
+      subject: waypoint table closed; test whether the 18:01 prior suppresses a better early path
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.track_wide_mach250
+  kind: product
+  module: core
+  path: WORK:results/track_wide_mach250
+  note: waypoint table closed; test whether the 18:01 prior suppresses a better early path
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: f47fbd4e319387008c8fc74a7aeaf20cacfff4c8
+      date: '2026-09-30T16:04:28-06:00'
+      subject: waypoint table closed; test whether the 18:01 prior suppresses a better early path
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.turn-closeup-oct11
+  kind: product
+  module: core
+  path: WORK:results/turn-closeup-oct11
+  note: Turn close-up on Pete's chart (fly-over vs fly-by, 40 s traces); sampler smoke README; CORE_STAGES
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 394124593c80565afca0cba461ee6bdc218197b2
+      date: '2026-10-11T17:59:53-06:00'
+      subject: Turn close-up on Pete's chart (fly-over vs fly-by, 40 s traces); sampler smoke README; CORE_STAGES
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.turn-model-sensitivity-oct11
+  kind: product
+  module: core
+  path: WORK:results/turn-model-sensitivity-oct11
+  note: turn-model-sensitivity-oct11
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 51aa65975c7910dd2cc862f10e0439d16af1a3cd
+      date: '2026-10-11T15:00:53-06:00'
+      subject: 'core: turn-model + Mach sensitivity result; routes-prior ruling table'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.vertical-rate-sensitivity_md
+  kind: note
+  module: core
+  path: WORK:results/vertical-rate-sensitivity.md
+  note: Which arc does 17.50 Hz per 1,000 ft/min belong to?
+  assignment_basis: 'default core: commit subject is a core estimation-chain subject'
+  git:
+    first_added:
+      commit: 15c34b9a9ea766abb6d08b2c8bd99dcc52aa491c
+      date: '2026-10-07T14:55:39-06:00'
+      subject: 'satcom: settle core request 8 - 17.50 Hz belongs to the 00:19a arc'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.vr_only
+  kind: product
+  module: core
+  path: WORK:results/vr_only
+  note: 'stage 3: drifting BFO bias, and the stage write-up'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: a1c27130a0ad202c2f7b9508208cd5b05f9da06b
+      date: '2026-09-30T21:17:58-06:00'
+      subject: 'stage 3: drifting BFO bias, and the stage write-up'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.waypoint-coordinate-sources_md
+  kind: note
+  module: core
+  path: WORK:results/waypoint-coordinate-sources.md
+  note: Sourcing coordinates for the waypoint-constrained stratum
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: df374d9d554c7558d5bc53016ec9ea8ecdbdc6aa
+      date: '2026-09-29T18:58:49-06:00'
+      subject: add BTO/BFO measurement-error sensitivities and waypoint source assessment
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.waypoint-family-reset-proposal_md
+  kind: note
+  module: core
+  path: WORK:results/waypoint-family-reset-proposal.md
+  note: 'Waypoint family: gap against Pete''s specification, and a proposed reset (11 Oct 2026, core)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: edd70e3e8c28d3cc051183a9d43ce27059d59f88
+      date: '2026-10-11T16:22:10-06:00'
+      subject: 'core: waypoint family reset proposal; Mach correction; run H close-up map'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: PENDING_RULING
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/waypoint-family-reset-proposal.md:3
+    quote: 'Status: **proposal only. No run until Pete approves.** Revised 11 Oct evening with Pete''s additions 8-11. Source of the specification:'
+- id: core.res.waypoint-stratum-spec_md
+  kind: note
+  module: core
+  path: WORK:results/waypoint-stratum-spec.md
+  note: 'Waypoint-navigation stratum: sampling boundaries as specified'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: a6f84426ca9939f5ec1d43914752ea658818ebe6
+      date: '2026-09-29T17:45:44-06:00'
+      subject: Declination generation tested and eliminated; waypoint stratum spec recorded
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.res.waypoints-2014-epoch-oct11
+  kind: product
+  module: core
+  path: WORK:results/waypoints-2014-epoch-oct11
+  note: 2014-epoch fix table for the waypoint-family reset (11 Oct 2026)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 608e40828b6cb22b2a7bd3b353b022be2de2e686
+      date: '2026-10-11T17:09:01-06:00'
+      subject: 'results: 2014-epoch fix table (AIP Malaysia AMDT 2/2010 + navdata cycle 2013.10), tiers A-D/S, map; reset proposal revised with Pete''s additions
+        8-11'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: core.xd.core-run-j-run-j-smoke-waypoints
+  kind: archive
+  module: core
+  path: XDRIVE:mh370-exchange/core/run-j/run-j-smoke-waypoints
+  note: 'Listed for copy to the external drive in archive-tools/archive-to-porsche.v3.sh line 25 (destination /Volumes/Porsche 1TB Backup/mh370-archive). Source folder
+    in ~/Downloads now: absent. The VERIFIED-*.txt list is on the drive; it was not readable from this session, so the copy is not confirmed here.'
+  assignment_basis: archive script item list
+  hash: false
+  hash_note: external drive not mounted in this session
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []

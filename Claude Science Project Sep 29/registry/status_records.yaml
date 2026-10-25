@@ -1,0 +1,134 @@
+# Status records for the project registry backfill (25 Oct 2026).
+# Each record names an item, a status and the EXISTING record that gives that status. Nothing here is a new audit.
+# rank: ruling (Pete's ruling) > explicit (a superseded / withdrawn / defect statement) > chain (newer version, same name stem)
+#       > readme (status line in the item's own README or note). Items with no record get UNCHECKED.
+# Evidence: file = WORK:<path> (the 'Claude Science Project Sep 29' folder) or REPO:<path>, line = line number, must_contain = text
+# that the build looks for on that line; memory = memory row id, must_contain = text in that row. The build extracts the quote.
+# item = results-relative name (folder or loose file), or a registry id.
+records:
+- item: decision-2026-27-prelim
+  rank: explicit
+  status: SUPERSEDED
+  superseded_by: decision-2026-27-prelim-v2
+  evidence:
+  - {file: "WORK:results/decision-2026-27-prelim/README.md", line: 53, must_contain: "Superseded for interpretation"}
+  - {file: "WORK:results/decision-2026-27-prelim-v2/README.md", line: 3, must_contain: "Supersedes `results/decision-2026-27-prelim/`"}
+- item: eof-run-i-oct12
+  rank: explicit
+  status: SUPERSEDED
+  superseded_by: eof-run-i-dive-oct13
+  evidence:
+  - {file: "WORK:results/eof-run-i-dive-oct13/README.md", line: 3, must_contain: "Supersedes `eof-run-i-oct12`"}
+  - {file: "WORK:threads/master-prompts/end-of-flight.md", line: 279, must_contain: "Run-i-dive supersedes run I"}
+- item: seabed-search-eof-smoke
+  rank: explicit
+  status: SUPERSEDED
+  superseded_by: seabed-search-eof-smoke8
+  evidence:
+  - {file: "WORK:results/seabed-search-eof-smoke/README.md", line: 3, must_contain: "SUPERSEDED 9 October"}
+  - {file: "WORK:results/seabed-search-eof-smoke8/README.md", line: 82, must_contain: "Supersedes `results/seabed-search-eof-smoke/`"}
+- item: composer-pass1-run-c
+  rank: explicit
+  status: SUPERSEDED
+  superseded_by: composer-pass2-run-i
+  evidence:
+  - {file: "WORK:paper/REFERENCE-DRAFT.md", line: 830, must_contain: "is the one the paper should quote"}
+- item: composer-pass1-run-c.md
+  rank: explicit
+  status: SUPERSEDED
+  superseded_by: composer-pass2-run-i.md
+  evidence:
+  - {file: "WORK:paper/REFERENCE-DRAFT.md", line: 830, must_contain: "is the one the paper should quote"}
+- item: settling-next-run-b-standin.md
+  rank: explicit
+  status: SUPERSEDED
+  superseded_by: settling-core-set-next-run-b
+  note: "Statement covers the four-option result of this run."
+  evidence:
+  - {file: "WORK:results/settling-core-set-next-run-b/README.md", line: 10, must_contain: "It replaces the stand-in's four-option result"}
+- item: debris-drift-pilot-scoring-289-seed1.json
+  rank: explicit
+  status: SUPERSEDED
+  superseded_by: debris-drift-pilot-scoring-289.json
+  evidence:
+  - {file: "WORK:results/debris-drift-pilot-scoring-289.md", line: 29, must_contain: "The seed-1 table this replaces"}
+- item: best-model.md
+  rank: explicit
+  status: SUPERSEDED
+  superseded_by: no-exhaustion-prior-datasheet.md
+  note: "The memory row is about the run outputs of this run ('superseded or experimental'); this note reports that run. Confirm with Pete."
+  evidence:
+  - {memory: mem_f31fe88133b8, must_contain: "superseded or experimental"}
+  - {memory: mem_8be30f525cd0, must_contain: "six superseded core runs"}
+- item: tempered_1839_1941
+  rank: explicit
+  status: SUPERSEDED
+  superseded_by: no-exhaustion-prior-datasheet.md
+  note: "Memory names the run 'tempered-1839-1941'; the folder is its result. Confirm with Pete."
+  evidence:
+  - {memory: mem_f31fe88133b8, must_contain: "superseded or experimental"}
+- item: tempered_three
+  rank: explicit
+  status: SUPERSEDED
+  superseded_by: no-exhaustion-prior-datasheet.md
+  note: "Memory names the run 'tempered-three'; the folder is its result. Confirm with Pete."
+  evidence:
+  - {memory: mem_f31fe88133b8, must_contain: "superseded or experimental"}
+- item: 6temper-realloc-datasheet.md
+  rank: explicit
+  status: SUPERSEDED
+  superseded_by: no-exhaustion-prior-datasheet.md
+  note: "Memory names the run '6temper-realloc'. Confirm with Pete."
+  evidence:
+  - {memory: mem_f31fe88133b8, must_contain: "superseded or experimental"}
+- item: 6temper_realloc_convergence.json
+  rank: explicit
+  status: SUPERSEDED
+  superseded_by: no-exhaustion-prior-datasheet.md
+  note: "Memory names the run '6temper-realloc'. Confirm with Pete."
+  evidence:
+  - {memory: mem_f31fe88133b8, must_contain: "superseded or experimental"}
+- item: core-model-stages.md
+  rank: explicit
+  status: KNOWN_DEFECT
+  defects: [core.D-fuel-audit-F9]
+  note: "Fuel-model audit finding F9: time base of the 18:01:49 fuel is wrong. No record found that it was corrected in this note."
+  evidence:
+  - {file: "WORK:results/fuel-model-audit-architecture.md", line: 361, must_contain: "the time base is wrong (F9)"}
+- item: pleiades.note.threads-master-prompts-pleiades_md
+  rank: explicit
+  status: CURRENT
+  evidence:
+  - {file: "WORK:coordination/PLEIADES.md", line: 32, must_contain: "is authoritative"}
+- item: eof-calibration-tolerances-oct13
+  rank: ruling
+  status: CURRENT
+  note: "Approved by Pete 14 Oct 2026; no fit had been run against these numbers when the README was written."
+  evidence:
+  - {file: "WORK:results/eof-calibration-tolerances-oct13/README.md", line: 0, must_contain: "APPROVED by Pete"}
+- item: eof.note.threads-master-prompts-end-of-flight_md
+  rank: explicit
+  status: CURRENT
+  evidence:
+  - {memory: mem_cd6052de7cdf, must_contain: "supersedes the ISO Sept 28 end-of-flight.txt"}
+- item: project.note.architecture_md
+  rank: explicit
+  status: CURRENT_WITH_CAVEATS
+  note: "The ownership half of decision 1 is superseded by the composer ruling of 8 Oct 2026."
+  evidence:
+  - {memory: mem_d99fb6d82247, must_contain: "supersedes the ownership half of ARCHITECTURE.md decision 1"}
+- item: searched.note.threads-master-prompts-searched-areas_md
+  rank: explicit
+  status: CURRENT_WITH_CAVEATS
+  note: "A memory record states that the brief contains superseded instructions."
+  evidence:
+  - {memory: mem_be40f81c24dc, must_contain: "contain superseded instructions"}
+# README status lines where the automatic word map is wrong or has no word (read by hand, 25 Oct 2026)
+- {item: decision-2026-27-prelim-v2, rank: readme, status: CURRENT_WITH_CAVEATS, readme_override: "status line says pipeline test, not for release; 'Supersedes' refers to the older folder"}
+- {item: eof-run-i-dive-oct13, rank: readme, status: CURRENT_WITH_CAVEATS, readme_override: "PROVISIONAL physics, core not converged; 'Supersedes' refers to eof-run-i-oct12"}
+- {item: ocean-transport-error-gdp-replay.md, rank: readme, status: CURRENT, readme_override: "status line: measured"}
+- {item: ocean-transport-error-pairs.md, rank: readme, status: CURRENT_WITH_CAVEATS, readme_override: "status line: measured, small sample, wide intervals"}
+- {item: run-j-proposal.md, rank: readme, status: PENDING_RULING, readme_override: "status line: draft for Pete's GO (as written; run J was later run, see other records)"}
+- {item: run-i-proposal.md, rank: readme, status: PENDING_RULING, readme_override: "status line: proposal for Pete's GO (as written; run I was later run, see other records)"}
+- {item: drift-runj-2026-10-17, rank: readme, status: CURRENT_WITH_CAVEATS, readme_override: "complete for the waypoints stratum only; four-stratum mixture waits"}
+- {item: debris-drift-production-complete.md, rank: readme, status: CURRENT_WITH_CAVEATS, readme_override: "complete as configured; GlobCurrent arm carries audit F1 caveat"}

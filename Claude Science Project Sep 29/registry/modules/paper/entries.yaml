@@ -1,0 +1,585 @@
+registry_version: paper registry v1 (2026-10-25)
+module: paper
+generated_by: registry/backfill_registry.py (do not edit by hand; correct status_records.yaml and rebuild)
+entries:
+- id: paper.code.paper-build_citation_library_py
+  kind: code
+  module: paper
+  path: WORK:paper/build_citation_library.py
+  note: '---------------------------------------------------------------- bib parsing'
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: d856870af02dcbe3d28813ddb3789c7315795085
+      date: '2026-10-12T12:13:32-06:00'
+      subject: 'paper: verified JON author rules; master citation ledger and references.bib (96 entries, CrossRef-checked); PAPER.md status and four recommendations'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: paper.code.paper-build_reference_draft_py
+  kind: code
+  module: paper
+  path: WORK:paper/build_reference_draft.py
+  note: '--------------------------------------------------------------- parse extracts'
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: ec389d4df7a7b7d1e5b44bcf231055f085fe037f
+      date: '2026-10-12T14:26:28-06:00'
+      subject: 'paper: first reference draft (17 elements, 48 equations, 69 labelled results, G1-G26) + LaTeX companion + survey of nine Journal of Navigation papers;
+        recommendation 1 superseded, recommendation 7 fil'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: paper.code.paper-proposed-draft-build_draft_v2_py
+  kind: code
+  module: paper
+  path: WORK:paper/proposed-draft/build_draft_v2.py
+  note: '---------------------------------------------------------------- block helpers'
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 12155bd415962b15fb194415cf12054c0200f636
+      date: '2026-10-12T17:50:46-06:00'
+      subject: 'paper: STYLE-NOTES.md measured from the dissertation; PROPOSED draft v2 in Word and LaTeX from one source - new notation, build-up from the true unknowns,
+        results reported'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: paper.code.paper-write_citation_outputs_py
+  kind: code
+  module: paper
+  path: WORK:paper/write_citation_outputs.py
+  note: Davey et al. (2016) chapter-level DOIs and printed page ranges, retrieved from
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: d856870af02dcbe3d28813ddb3789c7315795085
+      date: '2026-10-12T12:13:32-06:00'
+      subject: 'paper: verified JON author rules; master citation ledger and references.bib (96 entries, CrossRef-checked); PAPER.md status and four recommendations'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: paper.note.coordination-paper_md
+  kind: note
+  module: paper
+  path: WORK:coordination/PAPER.md
+  note: PAPER inbox (paper drafting and citations assistant)
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 4c437c52de87d30747b7bc17f6a270066ff9edd4
+      date: '2026-10-12T08:47:16-06:00'
+      subject: 'architecture: paper drafting and citations assistant master prompt v0 (draft for Pete); PAPER inbox'
+    last_changed:
+      commit: 8cae711638062921fe02ab4c153420a473b0596a
+      date: '2026-10-22T10:18:07-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: paper.note.paper-citations-ledger_md
+  kind: note
+  module: paper
+  path: WORK:paper/CITATIONS-LEDGER.md
+  note: Master citation ledger — MH370 paper
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: d856870af02dcbe3d28813ddb3789c7315795085
+      date: '2026-10-12T12:13:32-06:00'
+      subject: 'paper: verified JON author rules; master citation ledger and references.bib (96 entries, CrossRef-checked); PAPER.md status and four recommendations'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: paper.note.paper-holland-audit_md
+  kind: note
+  module: paper
+  path: WORK:paper/HOLLAND-AUDIT.md
+  note: HOLLAND-AUDIT.md — every place Holland (2018) enters the method or the calibration
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 0560d9c8d32eb25acb83a3550f1d1482e9631a8a
+      date: '2026-10-12T18:43:08-06:00'
+      subject: 'paper: HOLLAND-AUDIT.md - six entry points, one deliberate non-dependency, three defects; RECOMMENDATION 10 (run the two 18:25 sensitivity configs);
+        query on the Boeing 8-s window attribution'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: paper.note.paper-jon-model-papers_md
+  kind: note
+  module: paper
+  path: WORK:paper/JON-MODEL-PAPERS.md
+  note: 'Model papers in *The Journal of Navigation*: format evidence'
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: ec389d4df7a7b7d1e5b44bcf231055f085fe037f
+      date: '2026-10-12T14:26:28-06:00'
+      subject: 'paper: first reference draft (17 elements, 48 equations, 69 labelled results, G1-G26) + LaTeX companion + survey of nine Journal of Navigation papers;
+        recommendation 1 superseded, recommendation 7 fil'
+    last_changed:
+      commit: 8cae711638062921fe02ab4c153420a473b0596a
+      date: '2026-10-22T10:18:07-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: paper.note.paper-jon-rules_md
+  kind: note
+  module: paper
+  path: WORK:paper/JON-RULES.md
+  note: The Journal of Navigation — verified author rules
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: d856870af02dcbe3d28813ddb3789c7315795085
+      date: '2026-10-12T12:13:32-06:00'
+      subject: 'paper: verified JON author rules; master citation ledger and references.bib (96 entries, CrossRef-checked); PAPER.md status and four recommendations'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: paper.note.paper-paper-budget_md
+  kind: note
+  module: paper
+  path: WORK:paper/PAPER-BUDGET.md
+  note: PAPER-BUDGET.md — section budget, ranked results, figure and table list
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: ebbb4f85337c2ccc168f059cd0a81e01b0c57223
+      date: '2026-10-12T18:40:21-06:00'
+      subject: 'paper: add PAPER-BUDGET.md (section budget, ranked results in three tiers, 10-figure and 3-table list); fix duplicate section 3.7 numbering in draft
+        v2'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: paper.note.paper-proposed-draft-fig1-impact-latitude_png
+  kind: product
+  module: paper
+  path: WORK:paper/proposed-draft/fig1-impact-latitude.png
+  note: 'paper: format audit against JON-RULES - fix five failures (keywords on manuscript, paragraph spacing, bold headings, missing reference list, no figures);
+    embed five figures with captions below and alt'
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 6712df33c5848118f50fb29f7b95d87042a86ca1
+      date: '2026-10-12T18:37:01-06:00'
+      subject: 'paper: format audit against JON-RULES - fix five failures (keywords on manuscript, paragraph spacing, bold headings, missing reference list, no figures);
+        embed five figures with captions below and alt'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: paper.note.paper-proposed-draft-fig2-impact-regions_png
+  kind: product
+  module: paper
+  path: WORK:paper/proposed-draft/fig2-impact-regions.png
+  note: 'paper: format audit against JON-RULES - fix five failures (keywords on manuscript, paragraph spacing, bold headings, missing reference list, no figures);
+    embed five figures with captions below and alt'
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 6712df33c5848118f50fb29f7b95d87042a86ca1
+      date: '2026-10-12T18:37:01-06:00'
+      subject: 'paper: format audit against JON-RULES - fix five failures (keywords on manuscript, paragraph spacing, bold headings, missing reference list, no figures);
+        embed five figures with captions below and alt'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: paper.note.paper-proposed-draft-fig3-ocean-models_png
+  kind: product
+  module: paper
+  path: WORK:paper/proposed-draft/fig3-ocean-models.png
+  note: 'paper: format audit against JON-RULES - fix five failures (keywords on manuscript, paragraph spacing, bold headings, missing reference list, no figures);
+    embed five figures with captions below and alt'
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 6712df33c5848118f50fb29f7b95d87042a86ca1
+      date: '2026-10-12T18:37:01-06:00'
+      subject: 'paper: format audit against JON-RULES - fix five failures (keywords on manuscript, paragraph spacing, bold headings, missing reference list, no figures);
+        embed five figures with captions below and alt'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: paper.note.paper-proposed-draft-fig4-coverage-ess_png
+  kind: product
+  module: paper
+  path: WORK:paper/proposed-draft/fig4-coverage-ess.png
+  note: 'paper: format audit against JON-RULES - fix five failures (keywords on manuscript, paragraph spacing, bold headings, missing reference list, no figures);
+    embed five figures with captions below and alt'
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 6712df33c5848118f50fb29f7b95d87042a86ca1
+      date: '2026-10-12T18:37:01-06:00'
+      subject: 'paper: format audit against JON-RULES - fix five failures (keywords on manuscript, paragraph spacing, bold headings, missing reference list, no figures);
+        embed five figures with captions below and alt'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: paper.note.paper-proposed-draft-fig5-seabed_png
+  kind: product
+  module: paper
+  path: WORK:paper/proposed-draft/fig5-seabed.png
+  note: 'paper: format audit against JON-RULES - fix five failures (keywords on manuscript, paragraph spacing, bold headings, missing reference list, no figures);
+    embed five figures with captions below and alt'
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 6712df33c5848118f50fb29f7b95d87042a86ca1
+      date: '2026-10-12T18:37:01-06:00'
+      subject: 'paper: format audit against JON-RULES - fix five failures (keywords on manuscript, paragraph spacing, bold headings, missing reference list, no figures);
+        embed five figures with captions below and alt'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: paper.note.paper-proposed-draft-proposed-draft-v2_docx
+  kind: product
+  module: paper
+  path: WORK:paper/proposed-draft/proposed-draft-v2.docx
+  note: 'paper: STYLE-NOTES.md measured from the dissertation; PROPOSED draft v2 in Word and LaTeX from one source - new notation, build-up from the true unknowns,
+    results reported'
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 12155bd415962b15fb194415cf12054c0200f636
+      date: '2026-10-12T17:50:46-06:00'
+      subject: 'paper: STYLE-NOTES.md measured from the dissertation; PROPOSED draft v2 in Word and LaTeX from one source - new notation, build-up from the true unknowns,
+        results reported'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: paper.note.paper-proposed-draft-proposed-draft-v2_tex
+  kind: note
+  module: paper
+  path: WORK:paper/proposed-draft/proposed-draft-v2.tex
+  note: 'paper: STYLE-NOTES.md measured from the dissertation; PROPOSED draft v2 in Word and LaTeX from one source - new notation, build-up from the true unknowns,
+    results reported'
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 12155bd415962b15fb194415cf12054c0200f636
+      date: '2026-10-12T17:50:46-06:00'
+      subject: 'paper: STYLE-NOTES.md measured from the dissertation; PROPOSED draft v2 in Word and LaTeX from one source - new notation, build-up from the true unknowns,
+        results reported'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: paper.note.paper-proposed-draft-proposed-draft_tex
+  kind: note
+  module: paper
+  path: WORK:paper/proposed-draft/proposed-draft.tex
+  note: 'paper: PROPOSED full draft (6,221 words, 13 equations, 3 tables, 27 refs, 9-figure list) with an end-to-end formulation of the integrated estimator; recommendation
+    8 filed'
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: a174803ac89a31f374b3bf81533eac150fa43b44
+      date: '2026-10-12T14:58:57-06:00'
+      subject: 'paper: PROPOSED full draft (6,221 words, 13 equations, 3 tables, 27 refs, 9-figure list) with an end-to-end formulation of the integrated estimator;
+        recommendation 8 filed'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: paper.note.paper-proposed-draft-proposed-draft-v2_tex
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: SUPERSEDED
+  status_rank: chain
+  status_evidence:
+  - rank: chain
+    source: name chain
+    quote: null
+    rule: paper/proposed-draft/proposed-draft.tex -> paper/proposed-draft/proposed-draft-v2.tex (same stem, higher version number)
+- id: paper.note.paper-proposed-draft-readme_md
+  kind: note
+  module: paper
+  path: WORK:paper/proposed-draft/README.md
+  note: PROPOSED full draft — assistant draft, not Pete's paper
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: a174803ac89a31f374b3bf81533eac150fa43b44
+      date: '2026-10-12T14:58:57-06:00'
+      subject: 'paper: PROPOSED full draft (6,221 words, 13 equations, 3 tables, 27 refs, 9-figure list) with an end-to-end formulation of the integrated estimator;
+        recommendation 8 filed'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: paper.note.paper-reference-draft_md
+  kind: note
+  module: paper
+  path: WORK:paper/REFERENCE-DRAFT.md
+  note: Reference draft — MH370 Bayesian reconstruction
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: ec389d4df7a7b7d1e5b44bcf231055f085fe037f
+      date: '2026-10-12T14:26:28-06:00'
+      subject: 'paper: first reference draft (17 elements, 48 equations, 69 labelled results, G1-G26) + LaTeX companion + survey of nine Journal of Navigation papers;
+        recommendation 1 superseded, recommendation 7 fil'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: paper.note.paper-reference-draft_tex
+  kind: note
+  module: paper
+  path: WORK:paper/reference-draft.tex
+  note: 'paper: first reference draft (17 elements, 48 equations, 69 labelled results, G1-G26) + LaTeX companion + survey of nine Journal of Navigation papers; recommendation
+    1 superseded, recommendation 7 fil'
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: ec389d4df7a7b7d1e5b44bcf231055f085fe037f
+      date: '2026-10-12T14:26:28-06:00'
+      subject: 'paper: first reference draft (17 elements, 48 equations, 69 labelled results, G1-G26) + LaTeX companion + survey of nine Journal of Navigation papers;
+        recommendation 1 superseded, recommendation 7 fil'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: paper.note.paper-references-paper-added_bib
+  kind: note
+  module: paper
+  path: WORK:paper/references-paper-added.bib
+  note: 'paper: restore regenerated ledger (97 entries, Davey chapter DOIs, copies-held provenance) and add paper-owned references-paper-added.bib'
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: d9d241393461a87674dae0a7a88dd0bf34389b45
+      date: '2026-10-12T12:20:18-06:00'
+      subject: 'paper: restore regenerated ledger (97 entries, Davey chapter DOIs, copies-held provenance) and add paper-owned references-paper-added.bib'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: paper.note.paper-references_bib
+  kind: note
+  module: paper
+  path: WORK:paper/references.bib
+  note: 'paper: verified JON author rules; master citation ledger and references.bib (96 entries, CrossRef-checked); PAPER.md status and four recommendations'
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: d856870af02dcbe3d28813ddb3789c7315795085
+      date: '2026-10-12T12:13:32-06:00'
+      subject: 'paper: verified JON author rules; master citation ledger and references.bib (96 entries, CrossRef-checked); PAPER.md status and four recommendations'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: paper.note.paper-style-notes_md
+  kind: note
+  module: paper
+  path: WORK:paper/STYLE-NOTES.md
+  note: Pete's style, measured from the dissertation
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 12155bd415962b15fb194415cf12054c0200f636
+      date: '2026-10-12T17:50:46-06:00'
+      subject: 'paper: STYLE-NOTES.md measured from the dissertation; PROPOSED draft v2 in Word and LaTeX from one source - new notation, build-up from the true unknowns,
+        results reported'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: paper.note.threads-master-prompts-paper-drafting_md
+  kind: note
+  module: paper
+  path: WORK:threads/master-prompts/paper-drafting.md
+  note: 'Master prompt: MH370 paper drafting and citations assistant (v3, 12 Oct 2026: approved by Pete in outline; adds proposed full draft, optional book, adversarial
+    review, recommendations channel)'
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 4c437c52de87d30747b7bc17f6a270066ff9edd4
+      date: '2026-10-12T08:47:16-06:00'
+      subject: 'architecture: paper drafting and citations assistant master prompt v0 (draft for Pete); PAPER inbox'
+    last_changed:
+      commit: 8cae711638062921fe02ab4c153420a473b0596a
+      date: '2026-10-22T10:18:07-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []

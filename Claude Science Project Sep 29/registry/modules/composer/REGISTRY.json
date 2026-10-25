@@ -1,0 +1,1260 @@
+{
+ "registry_version": "composer registry v1 (2026-10-25)",
+ "module": "composer",
+ "built_utc": "2026-10-25T14:45:53Z",
+ "hashing": true,
+ "work_branch_head_at_build": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86 2026-10-24T19:38:28-06:00",
+ "roots": {
+  "REPO": "(repository)",
+  "WORK": "(repository)",
+  "EX": "/Users/pete/Downloads/mh370-exchange",
+  "DL": "/Users/pete/Downloads",
+  "XDRIVE": "/Volumes/Porsche 1TB Backup/mh370-archive",
+  "GIT": "<branch>@<commit>",
+  "DRIVE": "<google drive file id>"
+ },
+ "status_values": {
+  "CURRENT": "No known defect in the records. Not re-verified in this run unless verified_this_run is true.",
+  "CURRENT_WITH_CAVEATS": "Usable with the listed limitations stated beside every number taken from it.",
+  "KNOWN_DEFECT": "A record states a defect that changes a reported number or claim. Do not use the affected parts.",
+  "SUPERSEDED": "Replaced by the entry named in superseded_by. Kept for history.",
+  "WITHDRAWN": "Withdrawn at Pete's instruction. Do not use.",
+  "PENDING_RULING": "Its adoption waits for a ruling by Pete.",
+  "UNCHECKED": "No status record found. Means only: not yet used in a result that we quote. It is not a review queue; check on use."
+ },
+ "entries": [
+  {
+   "id": "composer.code.branch-core-composer",
+   "kind": "code",
+   "module": "composer",
+   "path": "GIT:core/composer@5d2a20660a984ded867e97d03bdd9bdd3b8a7a1b",
+   "git": {
+    "branch": "core/composer",
+    "commit": "5d2a20660a984ded867e97d03bdd9bdd3b8a7a1b",
+    "date": "2026-10-08T01:30:02Z",
+    "subject": "compose: the stage-4 composer, all seven acceptance tests passing",
+    "tree": "ae9bbaf50d9f8df382b8428ea096830501a3d6c4",
+    "n_files": 7437,
+    "bytes": 1645495603,
+    "commits_not_in_working_branch": 2,
+    "compared_with_working_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86"
+   },
+   "note": "Code on branch core/composer at 5d2a20660a98 (2026-10-08). 2 commits are not in the working branch. Not merged (Pete's rule).",
+   "assignment_basis": "branch name",
+   "hash": false,
+   "hash_note": "git objects are content-addressed; tree sha recorded",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null
+  },
+  {
+   "id": "composer.code.branch-core-composer-pass0",
+   "kind": "code",
+   "module": "composer",
+   "path": "GIT:core/composer-pass0@258e89400151f95fcc0e076ae487b826d9a1ecdf",
+   "git": {
+    "branch": "core/composer-pass0",
+    "commit": "258e89400151f95fcc0e076ae487b826d9a1ecdf",
+    "date": "2026-10-10T22:07:36Z",
+    "subject": "composer pass 0: first end-to-end compose() on core (b) (stand-in; composer to review)",
+    "tree": "92a56f16d6fd4cd3fd38ada33efb20cb4bf79847",
+    "n_files": 8566,
+    "bytes": 1855088256,
+    "commits_not_in_working_branch": 0,
+    "compared_with_working_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86"
+   },
+   "note": "Code on branch core/composer-pass0 at 258e89400151 (2026-10-10). 0 commits are not in the working branch. Not merged (Pete's rule).",
+   "assignment_basis": "branch name",
+   "hash": false,
+   "hash_note": "git objects are content-addressed; tree sha recorded",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null
+  },
+  {
+   "id": "composer.code.branch-core-composer-pass1",
+   "kind": "code",
+   "module": "composer",
+   "path": "GIT:core/composer-pass1@960b314723e4790b142fd1dc92adc0a468508736",
+   "git": {
+    "branch": "core/composer-pass1",
+    "commit": "960b314723e4790b142fd1dc92adc0a468508736",
+    "date": "2026-10-10T23:16:31Z",
+    "subject": "composer pass 1: convergence flag (source + factor split-half) and given-excluded columns in crates/compose, with tests; seabed PDFs from settling's core-set samples (stand-in; composer to review)",
+    "tree": "6d77b13fef8a88ce0dc8d60d00263e18c29a5549",
+    "n_files": 8707,
+    "bytes": 1928905786,
+    "commits_not_in_working_branch": 0,
+    "compared_with_working_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86"
+   },
+   "note": "Code on branch core/composer-pass1 at 960b314723e4 (2026-10-10). 0 commits are not in the working branch. Not merged (Pete's rule).",
+   "assignment_basis": "branch name",
+   "hash": false,
+   "hash_note": "git objects are content-addressed; tree sha recorded",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null
+  },
+  {
+   "id": "composer.code.branch-core-composer-pass1-runc",
+   "kind": "code",
+   "module": "composer",
+   "path": "GIT:core/composer-pass1-runc@6838257f503247f490ce3431d851721681a7e046",
+   "git": {
+    "branch": "core/composer-pass1-runc",
+    "commit": "6838257f503247f490ce3431d851721681a7e046",
+    "date": "2026-10-11T07:54:37Z",
+    "subject": "composer pass 1 on run C (architecture stand-in): H after Pléiades READY, seabed PDFs (G12 closed), final note, gaps 24-28",
+    "tree": "3792c8a5cf6a6b3f20f187f828372a548974ff27",
+    "n_files": 8887,
+    "bytes": 1955512683,
+    "commits_not_in_working_branch": 0,
+    "compared_with_working_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86"
+   },
+   "note": "Code on branch core/composer-pass1-runc at 6838257f5032 (2026-10-11). 0 commits are not in the working branch. Not merged (Pete's rule).",
+   "assignment_basis": "branch name",
+   "hash": false,
+   "hash_note": "git objects are content-addressed; tree sha recorded",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null
+  },
+  {
+   "id": "composer.code.branch-core-composer-views-run-j",
+   "kind": "code",
+   "module": "composer",
+   "path": "GIT:core/composer-views-run-j@554e09e43dfdcb3386efb4c579a449ecfe483c99",
+   "git": {
+    "branch": "core/composer-views-run-j",
+    "commit": "554e09e43dfdcb3386efb4c579a449ecfe483c99",
+    "date": "2026-10-17T22:17:40Z",
+    "subject": "composer: section 0 views on run J (evidence alone / core+E / leave-one-out / all; disagreement; influence; whole-arc outputs; tests 8-9)",
+    "tree": "a912ce86c51b1760bba5a29c6cba6a3ad843ae14",
+    "n_files": 10430,
+    "bytes": 2298003339,
+    "commits_not_in_working_branch": 0,
+    "compared_with_working_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86"
+   },
+   "note": "Code on branch core/composer-views-run-j at 554e09e43dfd (2026-10-17). 0 commits are not in the working branch. Not merged (Pete's rule).",
+   "assignment_basis": "branch name",
+   "hash": false,
+   "hash_note": "git objects are content-addressed; tree sha recorded",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null
+  },
+  {
+   "id": "composer.code.branch-core-composer-views-run-j-oi",
+   "kind": "code",
+   "module": "composer",
+   "path": "GIT:core/composer-views-run-j-oi@57da52d7b879421cfeeb36a6b9444cce52f9eb69",
+   "git": {
+    "branch": "core/composer-views-run-j-oi",
+    "commit": "57da52d7b879421cfeeb36a6b9444cce52f9eb69",
+    "date": "2026-10-18T00:17:09Z",
+    "subject": "composer: OI reproduction check script and output (D-he OI columns 2.6e-7; raster areas)",
+    "tree": "95958ac1fec0029e998cffd9fadcc97a7ebf87ef",
+    "n_files": 10447,
+    "bytes": 2300034698,
+    "commits_not_in_working_branch": 0,
+    "compared_with_working_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86"
+   },
+   "note": "Code on branch core/composer-views-run-j-oi at 57da52d7b879 (2026-10-18). 0 commits are not in the working branch. Not merged (Pete's rule).",
+   "assignment_basis": "branch name",
+   "hash": false,
+   "hash_note": "git objects are content-addressed; tree sha recorded",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null
+  },
+  {
+   "id": "composer.code.engine-crates-compose",
+   "kind": "code",
+   "module": "composer",
+   "path": "WORK:engine/crates/compose",
+   "note": "Engine code on the working branch: engine/crates/compose (5 files). Code source of record is git.",
+   "assignment_basis": "engine folder map",
+   "git": {
+    "first_added": {
+     "commit": "9b23b16180769106ffffb7be85c4f7bb4a7e2fc9",
+     "date": "2026-10-08T08:49:17-06:00",
+     "subject": "core: requests O1, O2 and composer A - crates/ocean and crates/compose join the workspace; hypotheses may use ocean"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 5,
+   "bytes": 142013,
+   "manifest": "modules/composer/manifests/composer.code.engine-crates-compose.tsv.gz",
+   "manifest_sha256": "fc3d0d7feeeb93b6d59bc7eacea2b89af4dd474cf55b4b990981afb7a09bca2a"
+  },
+  {
+   "id": "composer.ex.composer-_top-files",
+   "kind": "product",
+   "module": "composer",
+   "path": "EX:composer/",
+   "exchange_prefix": "composer/",
+   "exchange_top_files_only": true,
+   "note": "Exchange folder composer/_top-files: 1 files, 0.00 GB; SHA-256 from SHA256SUMS 0, computed 1, not hashed 0.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "not_hashed": [],
+   "n_files": 1,
+   "bytes": 6148,
+   "manifest": "modules/composer/manifests/composer.ex.composer-_top-files.tsv.gz",
+   "manifest_sha256": "c092424cad0be8dc84ccb83890dcc2dc23685933425029dc71fe1a1b4fc0c2f3"
+  },
+  {
+   "id": "composer.ex.composer-e2e-calibration-smoke-2026-10-19",
+   "kind": "product",
+   "module": "composer",
+   "path": "EX:composer/e2e-calibration-smoke-2026-10-19",
+   "exchange_prefix": "composer/e2e-calibration-smoke-2026-10-19",
+   "exchange_top_files_only": false,
+   "note": "Exchange folder composer/e2e-calibration-smoke-2026-10-19: 45 files, 0.00 GB; SHA-256 from SHA256SUMS 44, computed 1, not hashed 0.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "not_hashed": [],
+   "n_files": 45,
+   "bytes": 1597105,
+   "manifest": "modules/composer/manifests/composer.ex.composer-e2e-calibration-smoke-2026-10-19.tsv.gz",
+   "manifest_sha256": "55806f61cbfa1f98ad8abfb75ce021830e7530de2867595df5bc5fbe4b8e8f16"
+  },
+  {
+   "id": "composer.ex.composer-e2e-calibration-smoke-2026-10-20-orderd",
+   "kind": "product",
+   "module": "composer",
+   "path": "EX:composer/e2e-calibration-smoke-2026-10-20-orderD",
+   "exchange_prefix": "composer/e2e-calibration-smoke-2026-10-20-orderD",
+   "exchange_top_files_only": false,
+   "note": "Exchange folder composer/e2e-calibration-smoke-2026-10-20-orderD: 57 files, 0.00 GB; SHA-256 from SHA256SUMS 56, computed 1, not hashed 0.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "not_hashed": [],
+   "n_files": 57,
+   "bytes": 2402362,
+   "manifest": "modules/composer/manifests/composer.ex.composer-e2e-calibration-smoke-2026-10-20-orderd.tsv.gz",
+   "manifest_sha256": "f1346c313a0d6698c2b19ab8ad92d62024954af96d461571cc3cf57d325e98d9"
+  },
+  {
+   "id": "composer.ex.composer-run-i",
+   "kind": "product",
+   "module": "composer",
+   "path": "EX:composer/run-i",
+   "exchange_prefix": "composer/run-i",
+   "exchange_top_files_only": false,
+   "note": "Exchange folder composer/run-i: 9 files, 0.03 GB; SHA-256 from SHA256SUMS 7, computed 2, not hashed 0.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "not_hashed": [],
+   "n_files": 9,
+   "bytes": 29661342,
+   "manifest": "modules/composer/manifests/composer.ex.composer-run-i.tsv.gz",
+   "manifest_sha256": "57d4f6d5c0d2d75d369b9f599c20c1cd5945d99a17cb97250e80268a0fa3dbda"
+  },
+  {
+   "id": "composer.ex.composer-run-j-views",
+   "kind": "product",
+   "module": "composer",
+   "path": "EX:composer/run-j-views",
+   "exchange_prefix": "composer/run-j-views",
+   "exchange_top_files_only": false,
+   "note": "Exchange folder composer/run-j-views: 280 files, 5.33 GB; SHA-256 from SHA256SUMS 0, computed 280, not hashed 0.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "not_hashed": [],
+   "n_files": 280,
+   "bytes": 5331281172,
+   "manifest": "modules/composer/manifests/composer.ex.composer-run-j-views.tsv.gz",
+   "manifest_sha256": "2ce42cfc2370087cd137df371f49be1752914cfd40c194a8b14d101ff32204ed"
+  },
+  {
+   "id": "composer.ex.composer-run-j-views-v3",
+   "kind": "product",
+   "module": "composer",
+   "path": "EX:composer/run-j-views-v3",
+   "exchange_prefix": "composer/run-j-views-v3",
+   "exchange_top_files_only": false,
+   "note": "Exchange folder composer/run-j-views-v3: 31 files, 1.02 GB; SHA-256 from SHA256SUMS 29, computed 2, not hashed 0.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "not_hashed": [],
+   "n_files": 31,
+   "bytes": 1019027045,
+   "manifest": "modules/composer/manifests/composer.ex.composer-run-j-views-v3.tsv.gz",
+   "manifest_sha256": "a1e38911c7744d093b9509b14ccaab771cac71b24ed14867868e9c7a6d4c6684"
+  },
+  {
+   "id": "composer.ex.composer-run-j-views-v3_1",
+   "kind": "product",
+   "module": "composer",
+   "path": "EX:composer/run-j-views-v3.1",
+   "exchange_prefix": "composer/run-j-views-v3.1",
+   "exchange_top_files_only": false,
+   "note": "Exchange folder composer/run-j-views-v3.1: 24 files, 0.03 GB; SHA-256 from SHA256SUMS 21, computed 3, not hashed 0.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "not_hashed": [],
+   "n_files": 24,
+   "bytes": 28597406,
+   "manifest": "modules/composer/manifests/composer.ex.composer-run-j-views-v3_1.tsv.gz",
+   "manifest_sha256": "a47dc3b4af7c32b5367fd239831242006b4eca39e744f4b4a00b9a96a9ad912c"
+  },
+  {
+   "id": "composer.ex.composer-run-j-views-v3_2",
+   "kind": "product",
+   "module": "composer",
+   "path": "EX:composer/run-j-views-v3.2",
+   "exchange_prefix": "composer/run-j-views-v3.2",
+   "exchange_top_files_only": false,
+   "note": "Exchange folder composer/run-j-views-v3.2: 34 files, 0.08 GB; SHA-256 from SHA256SUMS 29, computed 5, not hashed 0.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "not_hashed": [],
+   "n_files": 34,
+   "bytes": 78952856,
+   "manifest": "modules/composer/manifests/composer.ex.composer-run-j-views-v3_2.tsv.gz",
+   "manifest_sha256": "3d680d20c53dbffbe2f578d10c21fc1409d1a7bc15fefa038f8979c2eb87f8fe"
+  },
+  {
+   "id": "composer.ex.composer-run-j-views-v3_2-australia",
+   "kind": "product",
+   "module": "composer",
+   "path": "EX:composer/run-j-views-v3.2-australia",
+   "exchange_prefix": "composer/run-j-views-v3.2-australia",
+   "exchange_top_files_only": false,
+   "note": "Exchange folder composer/run-j-views-v3.2-australia: 14 files, 0.03 GB; SHA-256 from SHA256SUMS 11, computed 3, not hashed 0.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "not_hashed": [],
+   "n_files": 14,
+   "bytes": 29233383,
+   "manifest": "modules/composer/manifests/composer.ex.composer-run-j-views-v3_2-australia.tsv.gz",
+   "manifest_sha256": "6dcaa794339fb035777e09a4780e75daf6ec228b33d21eb28adb4784e0311fb2"
+  },
+  {
+   "id": "composer.note.coordination-composer_md",
+   "kind": "note",
+   "module": "composer",
+   "path": "WORK:coordination/COMPOSER.md",
+   "note": "Composer inbox",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "2a0d13ffff1efd2a6109bea9443ed71e768eec6b",
+     "date": "2026-10-18T22:29:23-06:00",
+     "subject": "composer: views v3 on run J (order C) - settled seabed, per-cell searched-areas field V1 (237090ab), dedicated drift arc-latitude run (15ab7c9); rho-field and q-level sweeps; D3 x A1 below the gate; n"
+    },
+    "last_changed": {
+     "commit": "8cae711638062921fe02ab4c153420a473b0596a",
+     "date": "2026-10-22T10:18:07-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 12220,
+   "manifest": "modules/composer/manifests/composer.note.coordination-composer_md.tsv.gz",
+   "manifest_sha256": "884275ab0f9b586b6299d2849424d6f1a1f41061bb86a45aa796c66e3cdf458a"
+  },
+  {
+   "id": "composer.note.threads-master-prompts-composer_md",
+   "kind": "note",
+   "module": "composer",
+   "path": "WORK:threads/master-prompts/composer.md",
+   "note": "Composer — mission and master prompt",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "e149ff5bc9e390281a893606c8306d2bda7214b6",
+     "date": "2026-10-07T19:07:20-06:00",
+     "subject": "Overnight plan: ocean-transport and composer briefs, and work orders for every module"
+    },
+    "last_changed": {
+     "commit": "8cae711638062921fe02ab4c153420a473b0596a",
+     "date": "2026-10-22T10:18:07-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 18382,
+   "manifest": "modules/composer/manifests/composer.note.threads-master-prompts-composer_md.tsv.gz",
+   "manifest_sha256": "9fce9dee1fe549ed1549350674dcbeb7aac996cc4cceb487432fbc4e4b4c711a"
+  },
+  {
+   "id": "composer.note.threads-work-orders-e2e-calibration-protocol-2026-10-19_md",
+   "kind": "note",
+   "module": "composer",
+   "path": "WORK:threads/work-orders/e2e-calibration-protocol-2026-10-19.md",
+   "note": "End-to-end calibration of the composed estimator — pre-registered protocol",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "3010631c0ac2f4dc3d84b3cbbce8a5e9596ea2d9",
+     "date": "2026-10-18T22:12:38-06:00",
+     "subject": "E2E calibration: pre-registered protocol (tiers 1a/1b/2/3, statistics, criteria), before any case runs (order E item 1)"
+    },
+    "last_changed": {
+     "commit": "6948c823431100ea3c64a959c889b21c5227f689",
+     "date": "2026-10-20T14:32:13-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 19099,
+   "manifest": "modules/composer/manifests/composer.note.threads-work-orders-e2e-calibration-protocol-2026-10-19_md.tsv.gz",
+   "manifest_sha256": "f780827ec282e7d9a8806beaa442f56adad166b879314c96bb25879af9e7eebb"
+  },
+  {
+   "id": "composer.res.composer-north-ess-run-i_md",
+   "kind": "note",
+   "module": "composer",
+   "path": "WORK:results/composer-north-ess-run-i.md",
+   "note": "Is run I's sampling adequate north of the searched areas? Measured 15 October 2026",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "1265257eb61c71057978b59b5dc505123ffe248b",
+     "date": "2026-10-15T17:09:09-06:00",
+     "subject": "Northern ESS on run I measured: not adequate (implied ~66 north of 33S after drift+searches; 22-78 effective lineages per seed); run-J note 4.4 corrected; core inbox"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 5736,
+   "manifest": "modules/composer/manifests/composer.res.composer-north-ess-run-i_md.tsv.gz",
+   "manifest_sha256": "0c43242824695c7a831b5b0ffa0ea7e94822f2e8cf9f4254b1bafb31564785aa"
+  },
+  {
+   "id": "composer.res.composer-pass0",
+   "kind": "product",
+   "module": "composer",
+   "path": "WORK:results/composer-pass0",
+   "note": "composer pass 0: first end-to-end compose() on core (b) (stand-in; composer to review)",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "258e89400151f95fcc0e076ae487b826d9a1ecdf",
+     "date": "2026-10-10T16:07:36-06:00",
+     "subject": "composer pass 0: first end-to-end compose() on core (b) (stand-in; composer to review)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 9,
+   "bytes": 74485,
+   "manifest": "modules/composer/manifests/composer.res.composer-pass0.tsv.gz",
+   "manifest_sha256": "4a1e330c5b7f1080e2a74e3e1be82309bf5903b86e1d3622e8d95237ccdd1acd"
+  },
+  {
+   "id": "composer.res.composer-pass0-next-run-b",
+   "kind": "product",
+   "module": "composer",
+   "path": "WORK:results/composer-pass0-next-run-b",
+   "note": "composer pass 0: first end-to-end compose() on core (b) (stand-in; composer to review)",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "258e89400151f95fcc0e076ae487b826d9a1ecdf",
+     "date": "2026-10-10T16:07:36-06:00",
+     "subject": "composer pass 0: first end-to-end compose() on core (b) (stand-in; composer to review)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 23,
+   "bytes": 4194441,
+   "manifest": "modules/composer/manifests/composer.res.composer-pass0-next-run-b.tsv.gz",
+   "manifest_sha256": "871acafaafd124c5211a75a30fd8b95805eab7034a5a9cb8dcc976c598183de9"
+  },
+  {
+   "id": "composer.res.composer-pass0-next-run-b_md",
+   "kind": "note",
+   "module": "composer",
+   "path": "WORK:results/composer-pass0-next-run-b.md",
+   "note": "Composer pass 0 (and pass 1 addendum): first end-to-end composition on core (b)",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "258e89400151f95fcc0e076ae487b826d9a1ecdf",
+     "date": "2026-10-10T16:07:36-06:00",
+     "subject": "composer pass 0: first end-to-end compose() on core (b) (stand-in; composer to review)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "CURRENT_WITH_CAVEATS",
+   "status_rank": "readme",
+   "status_evidence": [
+    {
+     "rank": "readme",
+     "source": "WORK:results/composer-pass0-next-run-b.md:9",
+     "quote": "> **Every number in this note is a PIPELINE TEST — core (b) unconverged; EoF physics provisional; hydro L_hyd stand-in;"
+    }
+   ],
+   "n_files": 1,
+   "bytes": 31009,
+   "manifest": "modules/composer/manifests/composer.res.composer-pass0-next-run-b_md.tsv.gz",
+   "manifest_sha256": "243498ee73a52cc0e8d9949c8bf56c59206ad9e5e7e8bd2baa78cdbfa44228f7"
+  },
+  {
+   "id": "composer.res.composer-pass1-run-c",
+   "kind": "product",
+   "module": "composer",
+   "path": "WORK:results/composer-pass1-run-c",
+   "note": "composer pass 1 on run C (architecture stand-in): WIP - products, figures, gaps; H and seabed held for Pléiades/settling READY",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "128c8c3b13bb869d0dab3d46d2244920f08d2665",
+     "date": "2026-10-11T00:55:21-06:00",
+     "subject": "composer pass 1 on run C (architecture stand-in): WIP - products, figures, gaps; H and seabed held for Pléiades/settling READY"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": "composer.res.composer-pass2-run-i",
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "SUPERSEDED",
+   "status_rank": "explicit",
+   "status_evidence": [
+    {
+     "rank": "explicit",
+     "source": "WORK:paper/REFERENCE-DRAFT.md:830",
+     "quote": "**Which composed pass is current.** Two composed passes are carried below. `composer-pass1-run-c.md` is the earlier pass on core run C; `composer-pass2-run-i.md` is the later end-to-end pass on core run I and is the one the paper should quote. Its own headline is labelled **UNCONVERGED; conditional on equal family prior** and it carries a declared-deviations section, so it is reported at that stre"
+    }
+   ],
+   "n_files": 31,
+   "bytes": 7958994,
+   "manifest": "modules/composer/manifests/composer.res.composer-pass1-run-c.tsv.gz",
+   "manifest_sha256": "b3d2523aa33666d458a5edd6f6037ce9f9bc162abc98cd895590e7ef3f8fa2ee"
+  },
+  {
+   "id": "composer.res.composer-pass1-run-c_md",
+   "kind": "note",
+   "module": "composer",
+   "path": "WORK:results/composer-pass1-run-c.md",
+   "note": "Composer pass 1 on core run C: first end-to-end composition (architecture stand-in for the composer)",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "128c8c3b13bb869d0dab3d46d2244920f08d2665",
+     "date": "2026-10-11T00:55:21-06:00",
+     "subject": "composer pass 1 on run C (architecture stand-in): WIP - products, figures, gaps; H and seabed held for Pléiades/settling READY"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": "composer.res.composer-pass2-run-i_md",
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "SUPERSEDED",
+   "status_rank": "explicit",
+   "status_evidence": [
+    {
+     "rank": "explicit",
+     "source": "WORK:paper/REFERENCE-DRAFT.md:830",
+     "quote": "**Which composed pass is current.** Two composed passes are carried below. `composer-pass1-run-c.md` is the earlier pass on core run C; `composer-pass2-run-i.md` is the later end-to-end pass on core run I and is the one the paper should quote. Its own headline is labelled **UNCONVERGED; conditional on equal family prior** and it carries a declared-deviations section, so it is reported at that stre"
+    }
+   ],
+   "n_files": 1,
+   "bytes": 34148,
+   "manifest": "modules/composer/manifests/composer.res.composer-pass1-run-c_md.tsv.gz",
+   "manifest_sha256": "6d0e1d7a577144d692beac1a2dbc413c0e36488d1280067c0b59b4a9abafd956"
+  },
+  {
+   "id": "composer.res.composer-pass2-run-i",
+   "kind": "product",
+   "module": "composer",
+   "path": "WORK:results/composer-pass2-run-i",
+   "note": "composer pass 2 on core run I (architecture stand-in): all 102.4M impacts composed; D0-D5 x causes x layers x ocean BMA x core families; seabed re-weighted; COVERAGE; run J changes. UNCONVERGED",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "0f9f26cffb20bcbd39e52f0a9b583753c90019ac",
+     "date": "2026-10-12T14:15:36-06:00",
+     "subject": "composer pass 2 on core run I (architecture stand-in): all 102.4M impacts composed; D0-D5 x causes x layers x ocean BMA x core families; seabed re-weighted; COVERAGE; run J changes. UNCONVERGED"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 23,
+   "bytes": 4587086,
+   "manifest": "modules/composer/manifests/composer.res.composer-pass2-run-i.tsv.gz",
+   "manifest_sha256": "84836c18fa5d778f6840bd7fac2bd6d52639d559d1741976570c3223abbcb334"
+  },
+  {
+   "id": "composer.res.composer-pass2-run-i_md",
+   "kind": "note",
+   "module": "composer",
+   "path": "WORK:results/composer-pass2-run-i.md",
+   "note": "Composer pass 2 on core run I: end-to-end composition (architecture stand-in for the composer)",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "0f9f26cffb20bcbd39e52f0a9b583753c90019ac",
+     "date": "2026-10-12T14:15:36-06:00",
+     "subject": "composer pass 2 on core run I (architecture stand-in): all 102.4M impacts composed; D0-D5 x causes x layers x ocean BMA x core families; seabed re-weighted; COVERAGE; run J changes. UNCONVERGED"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "CURRENT_WITH_CAVEATS",
+   "status_rank": "readme",
+   "status_evidence": [
+    {
+     "rank": "readme",
+     "source": "WORK:results/composer-pass2-run-i.md:7",
+     "quote": "> **Labels on every number in this note.** Core run I NOT CONVERGED (canonical split-half: waypoints 0.916 just below the floor 0.924;"
+    }
+   ],
+   "n_files": 1,
+   "bytes": 46654,
+   "manifest": "modules/composer/manifests/composer.res.composer-pass2-run-i_md.tsv.gz",
+   "manifest_sha256": "dfcd6b1e707c9e8e622af097332cc409a184db341e2828f8f9153d4e5a54facc"
+  },
+  {
+   "id": "composer.res.composer-pass2b-run-i-ruling",
+   "kind": "product",
+   "module": "composer",
+   "path": "WORK:results/composer-pass2b-run-i-ruling",
+   "note": "Composer pass 2b on core run I: 15 Oct not-computed-row ruling applied (no impact-level headline number changes; seabed areas move <= 0.16 %; no factor exceeds 10 %; per-factor split-half tolerances)",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "2431bf407185bc26aa96c934f16ed87d4f059cb3",
+     "date": "2026-10-15T00:11:50-06:00",
+     "subject": "Composer pass 2b on core run I: 15 Oct not-computed-row ruling applied (no impact-level headline number changes; seabed areas move <= 0.16 %; no factor exceeds 10 %; per-factor split-half tolerances)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 6,
+   "bytes": 662230,
+   "manifest": "modules/composer/manifests/composer.res.composer-pass2b-run-i-ruling.tsv.gz",
+   "manifest_sha256": "be9e95807ebe09a9ded262848c78396e50bb7dc780343c601b870fb0a5b5d45b"
+  },
+  {
+   "id": "composer.res.composer-pass2b-run-i-ruling_md",
+   "kind": "note",
+   "module": "composer",
+   "path": "WORK:results/composer-pass2b-run-i-ruling.md",
+   "note": "Composer pass 2b on core run I: the 15 Oct 2026 ruling on not-computed rows applied",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "2431bf407185bc26aa96c934f16ed87d4f059cb3",
+     "date": "2026-10-15T00:11:50-06:00",
+     "subject": "Composer pass 2b on core run I: 15 Oct not-computed-row ruling applied (no impact-level headline number changes; seabed areas move <= 0.16 %; no factor exceeds 10 %; per-factor split-half tolerances)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "CURRENT_WITH_CAVEATS",
+   "status_rank": "readme",
+   "status_evidence": [
+    {
+     "rank": "readme",
+     "source": "WORK:results/composer-pass2b-run-i-ruling.md:10",
+     "quote": "> **Standing labels on every number in this note.** Core run I **NOT CONVERGED**. End-of-flight uncontrolled arm **NOT CALIBRATED**."
+    }
+   ],
+   "n_files": 1,
+   "bytes": 48719,
+   "manifest": "modules/composer/manifests/composer.res.composer-pass2b-run-i-ruling_md.tsv.gz",
+   "manifest_sha256": "ccb6f0e55596fa737378461d5f9c1850638f2d15d3a09555a2c1f78117990dda"
+  },
+  {
+   "id": "composer.res.composer-summary-rs_patch",
+   "kind": "product",
+   "module": "composer",
+   "path": "WORK:results/composer-summary-rs.patch",
+   "note": "Coordination: composer entry (core/composer 5d2a206, 7/7 tests), core requests A-C, summary.rs patch for core",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "a01c88105f4f26fee69389cedf35e50cb5ef3180",
+     "date": "2026-10-07T19:34:45-06:00",
+     "subject": "Coordination: composer entry (core/composer 5d2a206, 7/7 tests), core requests A-C, summary.rs patch for core"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 14077,
+   "manifest": "modules/composer/manifests/composer.res.composer-summary-rs_patch.tsv.gz",
+   "manifest_sha256": "9ff241d98e2e531c80b582f34980061feae8a7a8cc35b7569b1ef1097a84541a"
+  },
+  {
+   "id": "composer.res.composer-views-run-j",
+   "kind": "product",
+   "module": "composer",
+   "path": "WORK:results/composer-views-run-j",
+   "note": "composer: section 0 views on run J (evidence alone / core+E / leave-one-out / all; disagreement; influence; whole-arc outputs; tests 8-9)",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "554e09e43dfdcb3386efb4c579a449ecfe483c99",
+     "date": "2026-10-17T16:17:40-06:00",
+     "subject": "composer: section 0 views on run J (evidence alone / core+E / leave-one-out / all; disagreement; influence; whole-arc outputs; tests 8-9)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": "composer.res.composer-views-v3-run-j",
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "SUPERSEDED",
+   "status_rank": "chain",
+   "status_evidence": [
+    {
+     "rank": "chain",
+     "source": "name chain",
+     "quote": null,
+     "rule": "composer-views-run-j -> composer-views-v3-run-j (same stem, higher version number)"
+    }
+   ],
+   "n_files": 32,
+   "bytes": 3258364,
+   "manifest": "modules/composer/manifests/composer.res.composer-views-run-j.tsv.gz",
+   "manifest_sha256": "ba74cba93c5c6c22d32321d3a953e8a52a4ebcc68ff93fd0ae5b6d5ead8d9429"
+  },
+  {
+   "id": "composer.res.composer-views-run-j_md",
+   "kind": "note",
+   "module": "composer",
+   "path": "WORK:results/composer-views-run-j.md",
+   "note": "Composer §0 views on run J — evidence alone, core + E, leave-one-out, all; disagreement; influence; whole-arc outputs",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "554e09e43dfdcb3386efb4c579a449ecfe483c99",
+     "date": "2026-10-17T16:17:40-06:00",
+     "subject": "composer: section 0 views on run J (evidence alone / core+E / leave-one-out / all; disagreement; influence; whole-arc outputs; tests 8-9)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": "composer.res.composer-views-v3-run-j_md",
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "SUPERSEDED",
+   "status_rank": "chain",
+   "status_evidence": [
+    {
+     "rank": "chain",
+     "source": "name chain",
+     "quote": null,
+     "rule": "composer-views-run-j.md -> composer-views-v3-run-j.md (same stem, higher version number)"
+    }
+   ],
+   "n_files": 1,
+   "bytes": 58565,
+   "manifest": "modules/composer/manifests/composer.res.composer-views-run-j_md.tsv.gz",
+   "manifest_sha256": "981b03d0db69f6ff5ded331b8a194a8a285a22740a641f27622132f8271e4db3"
+  },
+  {
+   "id": "composer.res.composer-views-v3-run-j",
+   "kind": "product",
+   "module": "composer",
+   "path": "WORK:results/composer-views-v3-run-j",
+   "note": "composer: views v3 on run J (order C) - settled seabed, per-cell searched-areas field V1 (237090ab), dedicated drift arc-latitude run (15ab7c9); rho-field and q-level sweeps; D3 x A1 below the gate; n",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "2a0d13ffff1efd2a6109bea9443ed71e768eec6b",
+     "date": "2026-10-18T22:29:23-06:00",
+     "subject": "composer: views v3 on run J (order C) - settled seabed, per-cell searched-areas field V1 (237090ab), dedicated drift arc-latitude run (15ab7c9); rho-field and q-level sweeps; D3 x A1 below the gate; n"
+    },
+    "last_changed": {
+     "commit": "09770bcdab195744e32832e0c487cbf2859ae24e",
+     "date": "2026-10-20T19:24:51-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 62,
+   "bytes": 13226121,
+   "manifest": "modules/composer/manifests/composer.res.composer-views-v3-run-j.tsv.gz",
+   "manifest_sha256": "0534bf9905df5f8e5a37fe10af9285549242612de0fd06c6cf2d796c19023916"
+  },
+  {
+   "id": "composer.res.composer-views-v3-run-j_md",
+   "kind": "note",
+   "module": "composer",
+   "path": "WORK:results/composer-views-v3-run-j.md",
+   "note": "Composer views v3.2 on run J — northern supplement in; drift arc-latitude profile 20–40 S (20 Oct 2026)",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "2a0d13ffff1efd2a6109bea9443ed71e768eec6b",
+     "date": "2026-10-18T22:29:23-06:00",
+     "subject": "composer: views v3 on run J (order C) - settled seabed, per-cell searched-areas field V1 (237090ab), dedicated drift arc-latitude run (15ab7c9); rho-field and q-level sweeps; D3 x A1 below the gate; n"
+    },
+    "last_changed": {
+     "commit": "0fe4e65f542a75b8cb14280708a2a6400676c931",
+     "date": "2026-10-20T05:23:57-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 56562,
+   "manifest": "modules/composer/manifests/composer.res.composer-views-v3-run-j_md.tsv.gz",
+   "manifest_sha256": "a708f2f7e1aa4c22dbd1072f3fc8d9c0fbac40b5f539283ee8e37cfb7839022e"
+  },
+  {
+   "id": "composer.res.composer_north_ess_run_i_csv",
+   "kind": "product",
+   "module": "composer",
+   "path": "WORK:results/composer_north_ess_run_i.csv",
+   "note": "Northern ESS on run I measured: not adequate (implied ~66 north of 33S after drift+searches; 22-78 effective lineages per seed); run-J note 4.4 corrected; core inbox",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "1265257eb61c71057978b59b5dc505123ffe248b",
+     "date": "2026-10-15T17:09:09-06:00",
+     "subject": "Northern ESS on run I measured: not adequate (implied ~66 north of 33S after drift+searches; 22-78 effective lineages per seed); run-J note 4.4 corrected; core inbox"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 9419,
+   "manifest": "modules/composer/manifests/composer.res.composer_north_ess_run_i_csv.tsv.gz",
+   "manifest_sha256": "0375088305af778aa8540fa10dce11fd0cd88dd34e6266fa1e7838a5f220301b"
+  },
+  {
+   "id": "composer.res.decision-2026-27-prelim",
+   "kind": "product",
+   "module": "composer",
+   "path": "WORK:results/decision-2026-27-prelim",
+   "note": "2026–27 season decision table — preliminary pipeline test on composer views v3.2 (20 Oct 2026)",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "fc786b5796cc260a1db3b1e651a9ef3decd73d36",
+     "date": "2026-10-20T14:22:12-06:00",
+     "subject": "decision table 2026-27: preliminary pipeline test on composer views v3.2 (not for release) + inbox entries"
+    },
+    "last_changed": {
+     "commit": "b5388e67f93a25878ab5e622259ab81cf6645e33",
+     "date": "2026-10-20T18:37:37-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": "composer.res.decision-2026-27-prelim-v2",
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "SUPERSEDED",
+   "status_rank": "explicit",
+   "status_evidence": [
+    {
+     "rank": "explicit",
+     "source": "WORK:results/decision-2026-27-prelim/README.md:53",
+     "quote": "> **Superseded for interpretation by `results/decision-2026-27-prelim-v2/` (21 Oct 2026).** This version used product DS only (no Australian non-recovery term); calling it \"all evidence\" was a labelling error."
+    },
+    {
+     "rank": "explicit",
+     "source": "WORK:results/decision-2026-27-prelim-v2/README.md:3",
+     "quote": "Status: **pipeline test, before calibration, not for release.** Supersedes `results/decision-2026-27-prelim/` (fc786b5) for interpretation. That version used only the composer product DS (core + drift finds + searched areas), described there as \"all evidence\"; it left out the Australian non-recovery term. This was an error of labelling in that note."
+    }
+   ],
+   "n_files": 12,
+   "bytes": 1054247,
+   "manifest": "modules/composer/manifests/composer.res.decision-2026-27-prelim.tsv.gz",
+   "manifest_sha256": "57d378867b862983257c2056199fc5160900a308b576d0e42a1ff3c3fa7d82f4"
+  },
+  {
+   "id": "composer.res.decision-2026-27-prelim-v2",
+   "kind": "product",
+   "module": "composer",
+   "path": "WORK:results/decision-2026-27-prelim-v2",
+   "note": "2026–27 decision table — preliminary pipeline test v2: with Australian non-finds and under the Pléiades hypothesis (21 Oct 2026)",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "b5388e67f93a25878ab5e622259ab81cf6645e33",
+     "date": "2026-10-20T18:37:37-06:00",
+     "subject": "decision table 2026-27 prelim v2: Australian non-finds and Pleiades H (not for release); inbox requests to drift, composer, searched areas"
+    },
+    "last_changed": {
+     "commit": "b5388e67f93a25878ab5e622259ab81cf6645e33",
+     "date": "2026-10-20T18:37:37-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "CURRENT_WITH_CAVEATS",
+   "status_rank": "readme",
+   "status_evidence": [
+    {
+     "rank": "readme",
+     "source": "WORK:results/decision-2026-27-prelim-v2/README.md",
+     "quote": null,
+     "read_by_hand": "status line says pipeline test, not for release; 'Supersedes' refers to the older folder"
+    }
+   ],
+   "n_files": 14,
+   "bytes": 1430447,
+   "manifest": "modules/composer/manifests/composer.res.decision-2026-27-prelim-v2.tsv.gz",
+   "manifest_sha256": "93d4c7af0f5a5afc446040b90d0ab26be272b27b320506bd702c5337d6551ba9"
+  },
+  {
+   "id": "composer.res.e2e-calibration-smoke-2026-10-19",
+   "kind": "product",
+   "module": "composer",
+   "path": "WORK:results/e2e-calibration-smoke-2026-10-19",
+   "note": "End-to-end calibration: 5-case smoke at reduced scale — 19 Oct 2026",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "d7c7357672f1a45602d3b85b044797fe87a5d689",
+     "date": "2026-10-19T02:00:40-06:00",
+     "subject": "E2E calibration smoke (order E item 2): 5 cases at 0.7M + 2 at 3.5M on deskstar; faults F1-F5, cost for 100+40 cases, proposed amendments A1-A5 (not adopted); note, figures, tables, scripts; inbox + a"
+    },
+    "last_changed": {
+     "commit": "df838816a7208ca2bfb5a1ec1852b3cd12294aff",
+     "date": "2026-10-19T23:00:12-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 54,
+   "bytes": 2380378,
+   "manifest": "modules/composer/manifests/composer.res.e2e-calibration-smoke-2026-10-19.tsv.gz",
+   "manifest_sha256": "eacdd2a26139d62ca8684613e8c4acbe146adf92a969f1ffb8c92921ad852c68"
+  },
+  {
+   "id": "composer.res.e2e-calibration-staged-2026-10-20",
+   "kind": "product",
+   "module": "composer",
+   "path": "WORK:results/e2e-calibration-staged-2026-10-20",
+   "note": "End-to-end calibration, staged run — started 20 Oct 2026 20:29Z on deskstar",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "d59ab851ef9c5477215dd449b58ba24535d75cc8",
+     "date": "2026-10-20T14:32:29-06:00",
+     "subject": "e2e calibration staged run: run record (README with resume instructions) and the scripts running on deskstar"
+    },
+    "last_changed": {
+     "commit": "2e2834cd3363ca7adf6ab55915847594b3cb0fcb",
+     "date": "2026-10-20T14:45:07-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 11,
+   "bytes": 35467,
+   "manifest": "modules/composer/manifests/composer.res.e2e-calibration-staged-2026-10-20.tsv.gz",
+   "manifest_sha256": "7e7ccdd667da467d087cd861b7ee02efbe5de81191f15c01fbdfae9d656c9f51"
+  },
+  {
+   "id": "composer.xd.composer-run-i-ruling-oct15",
+   "kind": "archive",
+   "module": "composer",
+   "path": "XDRIVE:mh370-exchange/composer/run-i-ruling-oct15",
+   "note": "Listed for copy to the external drive in archive-tools/archive-to-porsche.v3.sh line 18 (destination /Volumes/Porsche 1TB Backup/mh370-archive). Source folder in ~/Downloads now: absent. The VERIFIED-*.txt list is on the drive; it was not readable from this session, so the copy is not confirmed here.",
+   "assignment_basis": "archive script item list",
+   "hash": false,
+   "hash_note": "external drive not mounted in this session",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null
+  }
+ ]
+}

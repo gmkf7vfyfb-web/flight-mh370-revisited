@@ -1,0 +1,257 @@
+{
+ "core-request21": {
+  "sha": "2e9366be31f97f66865c10f7a3634cec598a71e7",
+  "date": "2026-10-15T23:35:44Z",
+  "subject": "core request 21: per-path fuel-flow factor on extrapolated steps (kappa_x), off by default; tests, configs, gate job",
+  "tree_sha": "aec58c93b639dde0de4064d8100a118c99643baa",
+  "n_files": 10116,
+  "bytes": 2252236850,
+  "truncated": false,
+  "vs_work": {
+   "work_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86",
+   "status": "diverged",
+   "branch_commits_not_in_work": 1,
+   "work_commits_not_in_branch": 245
+  }
+ },
+ "core-tau-h": {
+  "sha": "5c92fb1f25d67418fe626849c2940a1ba5e40723",
+  "date": "2026-10-12T03:19:37Z",
+  "subject": "FlightState.tau_h: the hand-off particle's own manoeuvre time constant (architecture-approved core request; for review, not merged)",
+  "tree_sha": "5ff0d1beb18f3f120b1fce96e8d0dd9d77ab25bc",
+  "n_files": 9572,
+  "bytes": 2160484487,
+  "truncated": false,
+  "vs_work": {
+   "work_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86",
+   "status": "diverged",
+   "branch_commits_not_in_work": 1,
+   "work_commits_not_in_branch": 454
+  }
+ },
+ "core/composer": {
+  "sha": "5d2a20660a984ded867e97d03bdd9bdd3b8a7a1b",
+  "date": "2026-10-08T01:30:02Z",
+  "subject": "compose: the stage-4 composer, all seven acceptance tests passing",
+  "tree_sha": "ae9bbaf50d9f8df382b8428ea096830501a3d6c4",
+  "n_files": 7437,
+  "bytes": 1645495603,
+  "truncated": false,
+  "vs_work": {
+   "work_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86",
+   "status": "diverged",
+   "branch_commits_not_in_work": 2,
+   "work_commits_not_in_branch": 1443
+  }
+ },
+ "core/composer-pass0": {
+  "sha": "258e89400151f95fcc0e076ae487b826d9a1ecdf",
+  "date": "2026-10-10T22:07:36Z",
+  "subject": "composer pass 0: first end-to-end compose() on core (b) (stand-in; composer to review)",
+  "tree_sha": "92a56f16d6fd4cd3fd38ada33efb20cb4bf79847",
+  "n_files": 8566,
+  "bytes": 1855088256,
+  "truncated": false,
+  "vs_work": {
+   "work_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86",
+   "status": "ahead",
+   "branch_commits_not_in_work": 0,
+   "work_commits_not_in_branch": 812
+  }
+ },
+ "core/composer-pass1": {
+  "sha": "960b314723e4790b142fd1dc92adc0a468508736",
+  "date": "2026-10-10T23:16:31Z",
+  "subject": "composer pass 1: convergence flag (source + factor split-half) and given-excluded columns in crates/compose, with tests; seabed PDFs from settling's core-set samples (stand-in; composer to review)",
+  "tree_sha": "6d77b13fef8a88ce0dc8d60d00263e18c29a5549",
+  "n_files": 8707,
+  "bytes": 1928905786,
+  "truncated": false,
+  "vs_work": {
+   "work_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86",
+   "status": "ahead",
+   "branch_commits_not_in_work": 0,
+   "work_commits_not_in_branch": 777
+  }
+ },
+ "core/composer-pass1-runc": {
+  "sha": "6838257f503247f490ce3431d851721681a7e046",
+  "date": "2026-10-11T07:54:37Z",
+  "subject": "composer pass 1 on run C (architecture stand-in): H after Pl\u00e9iades READY, seabed PDFs (G12 closed), final note, gaps 24-28",
+  "tree_sha": "3792c8a5cf6a6b3f20f187f828372a548974ff27",
+  "n_files": 8887,
+  "bytes": 1955512683,
+  "truncated": false,
+  "vs_work": {
+   "work_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86",
+   "status": "ahead",
+   "branch_commits_not_in_work": 0,
+   "work_commits_not_in_branch": 681
+  }
+ },
+ "core/composer-views-run-j": {
+  "sha": "554e09e43dfdcb3386efb4c579a449ecfe483c99",
+  "date": "2026-10-17T22:17:40Z",
+  "subject": "composer: section 0 views on run J (evidence alone / core+E / leave-one-out / all; disagreement; influence; whole-arc outputs; tests 8-9)",
+  "tree_sha": "a912ce86c51b1760bba5a29c6cba6a3ad843ae14",
+  "n_files": 10430,
+  "bytes": 2298003339,
+  "truncated": false,
+  "vs_work": {
+   "work_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86",
+   "status": "ahead",
+   "branch_commits_not_in_work": 0,
+   "work_commits_not_in_branch": 178
+  }
+ },
+ "core/composer-views-run-j-oi": {
+  "sha": "57da52d7b879421cfeeb36a6b9444cce52f9eb69",
+  "date": "2026-10-18T00:17:09Z",
+  "subject": "composer: OI reproduction check script and output (D-he OI columns 2.6e-7; raster areas)",
+  "tree_sha": "95958ac1fec0029e998cffd9fadcc97a7ebf87ef",
+  "n_files": 10447,
+  "bytes": 2300034698,
+  "truncated": false,
+  "vs_work": {
+   "work_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86",
+   "status": "ahead",
+   "branch_commits_not_in_work": 0,
+   "work_commits_not_in_branch": 168
+  }
+ },
+ "core/ocean-transport": {
+  "sha": "c54bf93568fe1547489adfedee5aa8344d4e21a0",
+  "date": "2026-10-12T18:50:23Z",
+  "subject": "crates/ocean: lon_join series manifests (adjacent longitude bands joined into one grid; shared column bit-identical or one-step contiguous) + test; fetch scripts take FORCING_LON; ocean fields east to",
+  "tree_sha": "b8e1fd6bb5436b725756625e3ab96feca10956e5",
+  "n_files": 9657,
+  "bytes": 2184089327,
+  "truncated": false,
+  "vs_work": {
+   "work_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86",
+   "status": "ahead",
+   "branch_commits_not_in_work": 0,
+   "work_commits_not_in_branch": 379
+  }
+ },
+ "hypothesis/debris-drift": {
+  "sha": "d51d80a80508d3277ede76c1de546b1b477c5c60",
+  "date": "2026-10-13T02:00:32Z",
+  "subject": "Merge remote-tracking branch 'origin/claude-science-sep29' into hypothesis/debris-drift",
+  "tree_sha": "15dc28d2cd5485bfe9ddb8e6b33f5e05e2fce733",
+  "n_files": 9848,
+  "bytes": 2239026165,
+  "truncated": false,
+  "vs_work": {
+   "work_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86",
+   "status": "diverged",
+   "branch_commits_not_in_work": 51,
+   "work_commits_not_in_branch": 331
+  }
+ },
+ "hypothesis/end-of-flight": {
+  "sha": "5d060f02175d1395f324d65a4a90d2c5b29640f1",
+  "date": "2026-10-14T21:45:33Z",
+  "subject": "end-of-flight: core request 12 (post-stage BFO bias for D5 at 22:41); coordination: open items",
+  "tree_sha": "86959f3da2d34ee181b010f2beffbe24b699cae5",
+  "n_files": 9973,
+  "bytes": 2243882647,
+  "truncated": false,
+  "vs_work": {
+   "work_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86",
+   "status": "ahead",
+   "branch_commits_not_in_work": 0,
+   "work_commits_not_in_branch": 297
+  }
+ },
+ "hypothesis/pleiades": {
+  "sha": "a1a54b51f3d53bf26310e38108d13de21e073343",
+  "date": "2026-10-12T19:55:26Z",
+  "subject": "Pleiades: run I close-ups D0-D5 (colour + seabed) after official searches; note updated",
+  "tree_sha": "f47f8eb2654d94f24034e2a6b89e9aa41732b03f",
+  "n_files": 9708,
+  "bytes": 2209797063,
+  "truncated": false,
+  "vs_work": {
+   "work_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86",
+   "status": "ahead",
+   "branch_commits_not_in_work": 0,
+   "work_commits_not_in_branch": 366
+  }
+ },
+ "hypothesis/seabed-search": {
+  "sha": "c6501cd11dab9edfb406705fc8ec6c873359dd61",
+  "date": "2026-10-09T01:49:36Z",
+  "subject": "seabed-search: residual-PDF views with Davey eq. 11.2, and the OI 2025-26 inferred variant (steps 6 and 7)",
+  "tree_sha": "addc9d6760659b12dad491311ff4d32b9d35db09",
+  "n_files": 7545,
+  "bytes": 1649076921,
+  "truncated": false,
+  "vs_work": {
+   "work_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86",
+   "status": "diverged",
+   "branch_commits_not_in_work": 1,
+   "work_commits_not_in_branch": 1352
+  }
+ },
+ "hypothesis/settling": {
+  "sha": "9330d4c082b291b04d0ee92d8702c2645aa1046b",
+  "date": "2026-10-10T21:35:04Z",
+  "subject": "settling: OSCAR v2.0 Final as a surface-current comparison variant in report_real (SETTLING_REPORT_VARIANTS filter); surface-current label taken from the product, unknown products refused (OSCAR had f",
+  "tree_sha": "41ef45a6e9718a95c7cfb37e609b59c45e957719",
+  "n_files": 7763,
+  "bytes": 1670012908,
+  "truncated": false,
+  "vs_work": {
+   "work_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86",
+   "status": "diverged",
+   "branch_commits_not_in_work": 18,
+   "work_commits_not_in_branch": 1171
+  }
+ },
+ "architecture/module-briefs-oct06": {
+  "sha": "6a2f9377af93daed81de316e8868d3b53dc2c869",
+  "date": "2026-10-07T18:52:38Z",
+  "subject": "Architecture: ocean drift master prompt, and the coordination inboxes",
+  "tree_sha": "9d44884879976a4c746e4602fa444d5f14837d1d",
+  "n_files": 7412,
+  "bytes": 1643645019,
+  "truncated": false,
+  "vs_work": {
+   "work_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86",
+   "status": "ahead",
+   "branch_commits_not_in_work": 0,
+   "work_commits_not_in_branch": 1484
+  }
+ },
+ "sept-29-chatgpt-advances": {
+  "sha": "5a906a27ec68ed32b19600cad0f7d3e91434f1c8",
+  "date": "2026-09-29T16:10:46Z",
+  "subject": "Add Rust validation workflow for September 29 integration",
+  "tree_sha": "e76be73f5ad94e2f35a00ad2510c4b12d87f1eba",
+  "n_files": 7048,
+  "bytes": 1588711343,
+  "truncated": false,
+  "vs_work": {
+   "work_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86",
+   "status": "diverged",
+   "branch_commits_not_in_work": 12,
+   "work_commits_not_in_branch": 1562
+  }
+ },
+ "main": {
+  "sha": "3f068c38e21cea553a5ca8585d6c0cae570517de",
+  "date": "2026-09-30T00:01:57Z",
+  "subject": "ISO Sept 28 Status: add the Malaysian safety report and Appendix 1.6E text; correct restriction notes",
+  "tree_sha": "6490d34c27e87791b151db7530483188550b4571",
+  "n_files": 7052,
+  "bytes": 1605102521,
+  "truncated": false,
+  "vs_work": {
+   "work_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86",
+   "status": "ahead",
+   "branch_commits_not_in_work": 0,
+   "work_commits_not_in_branch": 1560
+  }
+ }
+}

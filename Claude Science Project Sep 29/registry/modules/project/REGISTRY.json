@@ -1,0 +1,1733 @@
+{
+ "registry_version": "project registry v1 (2026-10-25)",
+ "module": "project",
+ "built_utc": "2026-10-25T14:46:00Z",
+ "hashing": true,
+ "work_branch_head_at_build": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86 2026-10-24T19:38:28-06:00",
+ "roots": {
+  "REPO": "(repository)",
+  "WORK": "(repository)",
+  "EX": "/Users/pete/Downloads/mh370-exchange",
+  "DL": "/Users/pete/Downloads",
+  "XDRIVE": "/Volumes/Porsche 1TB Backup/mh370-archive",
+  "GIT": "<branch>@<commit>",
+  "DRIVE": "<google drive file id>"
+ },
+ "status_values": {
+  "CURRENT": "No known defect in the records. Not re-verified in this run unless verified_this_run is true.",
+  "CURRENT_WITH_CAVEATS": "Usable with the listed limitations stated beside every number taken from it.",
+  "KNOWN_DEFECT": "A record states a defect that changes a reported number or claim. Do not use the affected parts.",
+  "SUPERSEDED": "Replaced by the entry named in superseded_by. Kept for history.",
+  "WITHDRAWN": "Withdrawn at Pete's instruction. Do not use.",
+  "PENDING_RULING": "Its adoption waits for a ruling by Pete.",
+  "UNCHECKED": "No status record found. Means only: not yet used in a result that we quote. It is not a review queue; check on use."
+ },
+ "entries": [
+  {
+   "id": "project.archive.hydroacoustic-handover",
+   "kind": "archive",
+   "module": "project",
+   "path": "WORK:Hydroacoustic Handover",
+   "note": "Hydroacoustic Handover folder (4963 files). Registered in place as a read-only archive (proposal 5.3.3). Notes refer to its paths; do not move.",
+   "assignment_basis": "proposal 5.3.3",
+   "git": {
+    "first_added": {
+     "commit": "aafc53910df2510a010004fdd121f6f064e899cd",
+     "date": "2026-10-22T20:48:42-06:00",
+     "subject": "Hydroacoustic Handover (23 Oct 2026): machine-readable package for review by another agent"
+    },
+    "last_changed": {
+     "commit": "43d8b1b5ee678b9ff8d684c26f9612fc87c54f5f",
+     "date": "2026-10-22T23:57:24-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 4963,
+   "bytes": 55269097,
+   "manifest": "modules/project/manifests/project.archive.hydroacoustic-handover.tsv.gz",
+   "manifest_sha256": "188e4bd13ab78cf7abdd9784b3b13b4d70143488c06b0ab04a75b7520a813236"
+  },
+  {
+   "id": "project.archive.loose-downloads",
+   "kind": "archive",
+   "module": "project",
+   "path": "REPO:Archive Sep 29 loose files/downloads",
+   "note": "Root folder downloads/ moved here with git mv on 25 Oct 2026 (24 files). Path before and after: Archive Sep 29 loose files/MANIFEST.tsv.",
+   "assignment_basis": "root loose folder",
+   "git": {
+    "note": "no commit found in the local history"
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 24,
+   "bytes": 31494773,
+   "manifest": "modules/project/manifests/project.archive.loose-downloads.tsv.gz",
+   "manifest_sha256": "4a7632781f8747c2c71f2de5432f69f7be4d5724b76f5b7ac9f8ebdf770b1f07"
+  },
+  {
+   "id": "project.archive.loose-handoff",
+   "kind": "archive",
+   "module": "project",
+   "path": "REPO:Archive Sep 29 loose files/handoff",
+   "note": "Root folder handoff/ moved here with git mv on 25 Oct 2026 (8 files). Path before and after: Archive Sep 29 loose files/MANIFEST.tsv.",
+   "assignment_basis": "root loose folder",
+   "git": {
+    "note": "no commit found in the local history"
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 8,
+   "bytes": 25798,
+   "manifest": "modules/project/manifests/project.archive.loose-handoff.tsv.gz",
+   "manifest_sha256": "8b55c41a65f7e8e27fcaa9e73522f6b8587e5844c1cd821f9b8fb99215ce0bcb"
+  },
+  {
+   "id": "project.archive.loose-library_full_audit",
+   "kind": "archive",
+   "module": "project",
+   "path": "REPO:Archive Sep 29 loose files/library_full_audit",
+   "note": "Root folder library_full_audit/ moved here with git mv on 25 Oct 2026 (140 files). Path before and after: Archive Sep 29 loose files/MANIFEST.tsv.",
+   "assignment_basis": "root loose folder",
+   "git": {
+    "note": "no commit found in the local history"
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 140,
+   "bytes": 69265206,
+   "manifest": "modules/project/manifests/project.archive.loose-library_full_audit.tsv.gz",
+   "manifest_sha256": "86fd4aee0ac7cbf6bacb6760b8d78ddee9906d53d7c5db4d7078d310c49635ea"
+  },
+  {
+   "id": "project.archive.loose-output",
+   "kind": "archive",
+   "module": "project",
+   "path": "REPO:Archive Sep 29 loose files/output",
+   "note": "Root folder output/ moved here with git mv on 25 Oct 2026 (11 files). Path before and after: Archive Sep 29 loose files/MANIFEST.tsv.",
+   "assignment_basis": "root loose folder",
+   "git": {
+    "note": "no commit found in the local history"
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 11,
+   "bytes": 9409390,
+   "manifest": "modules/project/manifests/project.archive.loose-output.tsv.gz",
+   "manifest_sha256": "bb0184b9f1b9e7ee6ff4121ef2e155e09bd053d73d8893c9343dd42043d88c83"
+  },
+  {
+   "id": "project.archive.loose-outputs",
+   "kind": "archive",
+   "module": "project",
+   "path": "REPO:Archive Sep 29 loose files/outputs",
+   "note": "Root folder outputs/ moved here with git mv on 25 Oct 2026 (228 files). Path before and after: Archive Sep 29 loose files/MANIFEST.tsv.",
+   "assignment_basis": "root loose folder",
+   "git": {
+    "note": "no commit found in the local history"
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 228,
+   "bytes": 98106413,
+   "manifest": "modules/project/manifests/project.archive.loose-outputs.tsv.gz",
+   "manifest_sha256": "b41935a587b1cb62069d54f68cc7ff1a5ec6884f1f272e0d49efadfe03370375"
+  },
+  {
+   "id": "project.archive.root-_root-files",
+   "kind": "archive",
+   "module": "project",
+   "path": "REPO:",
+   "note": "Loose files at the repository root. (33 files)",
+   "assignment_basis": "repository root",
+   "git": {
+    "first_added": {
+     "commit": "7a1c50711b54712e64862e0ad844cf83e6bf3aed",
+     "date": "2026-08-14T15:05:46-04:00",
+     "subject": "Import Flight MH370 Revisited project snapshot (2026-08-14)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 33,
+   "bytes": 2198862,
+   "manifest": "modules/project/manifests/project.archive.root-_root-files.tsv.gz",
+   "manifest_sha256": "4006b6f3c13ccb07704f3a0e67d403df7b84c7f2131f7aa7526012e30cdb117d"
+  },
+  {
+   "id": "project.archive.root-archive-iso-pre-sept-28",
+   "kind": "archive",
+   "module": "project",
+   "path": "REPO:Archive ISO Pre Sept 28",
+   "note": "Archive of work before 28 Sep 2026 (contains codebases/v01-share-withdrawn). (5368 files)",
+   "assignment_basis": "repository root",
+   "git": {
+    "first_added": {
+     "commit": "e8fedbf3d68c3ce28e865d63d2fbf2c161d4170e",
+     "date": "2026-09-29T14:35:22Z",
+     "subject": "Add Archive ISO Pre Sept 28: the older MH370 iso threads and old codebase copies"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 5368,
+   "bytes": 292560443,
+   "manifest": "modules/project/manifests/project.archive.root-archive-iso-pre-sept-28.tsv.gz",
+   "manifest_sha256": "9ed1281159ee57a8ed9a676e699ac08f6423c265a59c9b472c63ef744c4087a6"
+  },
+  {
+   "id": "project.archive.root-downloads_refined_bfo",
+   "kind": "archive",
+   "module": "project",
+   "path": "REPO:downloads_refined_bfo",
+   "note": "Root folder downloads_refined_bfo/. (3 files)",
+   "assignment_basis": "repository root",
+   "git": {
+    "first_added": {
+     "commit": "7a1c50711b54712e64862e0ad844cf83e6bf3aed",
+     "date": "2026-08-14T15:05:46-04:00",
+     "subject": "Import Flight MH370 Revisited project snapshot (2026-08-14)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 3,
+   "bytes": 3153,
+   "manifest": "modules/project/manifests/project.archive.root-downloads_refined_bfo.tsv.gz",
+   "manifest_sha256": "d528ce44252b7e992805a76eca1f99d154448b4f057a61ece0f374e2f901ed3c"
+  },
+  {
+   "id": "project.archive.root-environment",
+   "kind": "archive",
+   "module": "project",
+   "path": "REPO:environment",
+   "note": "Root folder environment/. (2 files)",
+   "assignment_basis": "repository root",
+   "git": {
+    "first_added": {
+     "commit": "7a1c50711b54712e64862e0ad844cf83e6bf3aed",
+     "date": "2026-08-14T15:05:46-04:00",
+     "subject": "Import Flight MH370 Revisited project snapshot (2026-08-14)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 2,
+   "bytes": 1096,
+   "manifest": "modules/project/manifests/project.archive.root-environment.tsv.gz",
+   "manifest_sha256": "d7880a828d1ac4ccc5f8629d43978e854b6140d26530d5a83188d48dabb83368"
+  },
+  {
+   "id": "project.archive.root-generated_images",
+   "kind": "archive",
+   "module": "project",
+   "path": "REPO:generated_images",
+   "note": "Root folder generated_images/. (5 files)",
+   "assignment_basis": "repository root",
+   "git": {
+    "first_added": {
+     "commit": "7a1c50711b54712e64862e0ad844cf83e6bf3aed",
+     "date": "2026-08-14T15:05:46-04:00",
+     "subject": "Import Flight MH370 Revisited project snapshot (2026-08-14)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 5,
+   "bytes": 6794640,
+   "manifest": "modules/project/manifests/project.archive.root-generated_images.tsv.gz",
+   "manifest_sha256": "da7b9527bca7853c7a7efa98066e384239256f84c871504e86009658c34468a8"
+  },
+  {
+   "id": "project.archive.root-history",
+   "kind": "archive",
+   "module": "project",
+   "path": "REPO:history",
+   "note": "Root folder history/. (2 files)",
+   "assignment_basis": "repository root",
+   "git": {
+    "first_added": {
+     "commit": "7a1c50711b54712e64862e0ad844cf83e6bf3aed",
+     "date": "2026-08-14T15:05:46-04:00",
+     "subject": "Import Flight MH370 Revisited project snapshot (2026-08-14)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 2,
+   "bytes": 3682,
+   "manifest": "modules/project/manifests/project.archive.root-history.tsv.gz",
+   "manifest_sha256": "4db49dc6b93585f2fafe4947ec17c7dd16287ca4b0959bb3b6e592e06883671f"
+  },
+  {
+   "id": "project.archive.root-iso-sept-28-status",
+   "kind": "archive",
+   "module": "project",
+   "path": "REPO:ISO Sept 28 Status",
+   "note": "FROZEN snapshot of 28 Sep 2026 (Pete's rule). Never edit. (761 files)",
+   "assignment_basis": "repository root",
+   "git": {
+    "first_added": {
+     "commit": "7fe30c2e6f3d3bff41d2bb2a9fbc3e304608ec59",
+     "date": "2026-09-29T01:47:53Z",
+     "subject": "Add ISO Sept 28 Status: recovery and continuation package for the MH370 iso threads"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 761,
+   "bytes": 460286458,
+   "manifest": "modules/project/manifests/project.archive.root-iso-sept-28-status.tsv.gz",
+   "manifest_sha256": "17da893721e0d68de7973c14bf733fb58f39e126c0918cbb0f42accb536c7524"
+  },
+  {
+   "id": "project.archive.root-library_materialized",
+   "kind": "archive",
+   "module": "project",
+   "path": "REPO:library_materialized",
+   "note": "Root folder library_materialized/. (4 files)",
+   "assignment_basis": "repository root",
+   "git": {
+    "first_added": {
+     "commit": "7a1c50711b54712e64862e0ad844cf83e6bf3aed",
+     "date": "2026-08-14T15:05:46-04:00",
+     "subject": "Import Flight MH370 Revisited project snapshot (2026-08-14)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 4,
+   "bytes": 709909,
+   "manifest": "modules/project/manifests/project.archive.root-library_materialized.tsv.gz",
+   "manifest_sha256": "3694dae63972c6c9b1d4c1f94fae0be1241046eb74f9cf748dfbedfc5bc91ed7"
+  },
+  {
+   "id": "project.archive.root-library_no_precomp",
+   "kind": "archive",
+   "module": "project",
+   "path": "REPO:library_no_precomp",
+   "note": "Root folder library_no_precomp/. (3 files)",
+   "assignment_basis": "repository root",
+   "git": {
+    "first_added": {
+     "commit": "7a1c50711b54712e64862e0ad844cf83e6bf3aed",
+     "date": "2026-08-14T15:05:46-04:00",
+     "subject": "Import Flight MH370 Revisited project snapshot (2026-08-14)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 3,
+   "bytes": 368040,
+   "manifest": "modules/project/manifests/project.archive.root-library_no_precomp.tsv.gz",
+   "manifest_sha256": "77dcf9bc32eec25479a57c42901882bc428c518106509cce8c8a0b30dc9f01c4"
+  },
+  {
+   "id": "project.archive.root-scripts",
+   "kind": "archive",
+   "module": "project",
+   "path": "REPO:scripts",
+   "note": "Root folder scripts/. (3 files)",
+   "assignment_basis": "repository root",
+   "git": {
+    "first_added": {
+     "commit": "7a1c50711b54712e64862e0ad844cf83e6bf3aed",
+     "date": "2026-08-14T15:05:46-04:00",
+     "subject": "Import Flight MH370 Revisited project snapshot (2026-08-14)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 3,
+   "bytes": 21462,
+   "manifest": "modules/project/manifests/project.archive.root-scripts.tsv.gz",
+   "manifest_sha256": "c103f656ce6f3d5d2356dba76a557006ec6f91ad8de31312ca01e1ef1220cd06"
+  },
+  {
+   "id": "project.archive.root-sept-27-2026-backup-pl-chatgpt-instance",
+   "kind": "archive",
+   "module": "project",
+   "path": "REPO:Sept 27 2026 backup PL ChatGPT instance",
+   "note": "Root folder Sept 27 2026 backup PL ChatGPT instance/. (252 files)",
+   "assignment_basis": "repository root",
+   "git": {
+    "first_added": {
+     "commit": "ab2ddced689b19b09482b373b6045053f81d5eb9",
+     "date": "2026-09-27T19:36:25-06:00",
+     "subject": "Add Sept 27 2026 MH370 research backup: README.md"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 252,
+   "bytes": 592404666,
+   "manifest": "modules/project/manifests/project.archive.root-sept-27-2026-backup-pl-chatgpt-instance.tsv.gz",
+   "manifest_sha256": "0d9436d71238921f573249a407b69c684fcdd493d12c09e2753acec58c5484fa"
+  },
+  {
+   "id": "project.archive.root-transfer_metadata",
+   "kind": "archive",
+   "module": "project",
+   "path": "REPO:transfer_metadata",
+   "note": "Root folder transfer_metadata/. (4 files)",
+   "assignment_basis": "repository root",
+   "git": {
+    "first_added": {
+     "commit": "7a1c50711b54712e64862e0ad844cf83e6bf3aed",
+     "date": "2026-08-14T15:05:46-04:00",
+     "subject": "Import Flight MH370 Revisited project snapshot (2026-08-14)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 4,
+   "bytes": 202955,
+   "manifest": "modules/project/manifests/project.archive.root-transfer_metadata.tsv.gz",
+   "manifest_sha256": "e27a1f3c1d8ee8509042b819dd51af655f533829d1905e346736b03e7f4c900c"
+  },
+  {
+   "id": "project.archive.root-upload",
+   "kind": "archive",
+   "module": "project",
+   "path": "REPO:upload",
+   "note": "Root folder upload/. (2 files)",
+   "assignment_basis": "repository root",
+   "git": {
+    "first_added": {
+     "commit": "7a1c50711b54712e64862e0ad844cf83e6bf3aed",
+     "date": "2026-08-14T15:05:46-04:00",
+     "subject": "Import Flight MH370 Revisited project snapshot (2026-08-14)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 2,
+   "bytes": 872264,
+   "manifest": "modules/project/manifests/project.archive.root-upload.tsv.gz",
+   "manifest_sha256": "ff3b8c18c72166bd9c8d3fa866264793265a7489802292195ddaf3f8397d736d"
+  },
+  {
+   "id": "project.code.branch-architecture-module-briefs-oct06",
+   "kind": "code",
+   "module": "project",
+   "path": "GIT:architecture/module-briefs-oct06@6a2f9377af93daed81de316e8868d3b53dc2c869",
+   "git": {
+    "branch": "architecture/module-briefs-oct06",
+    "commit": "6a2f9377af93daed81de316e8868d3b53dc2c869",
+    "date": "2026-10-07T18:52:38Z",
+    "subject": "Architecture: ocean drift master prompt, and the coordination inboxes",
+    "tree": "9d44884879976a4c746e4602fa444d5f14837d1d",
+    "n_files": 7412,
+    "bytes": 1643645019,
+    "commits_not_in_working_branch": 0,
+    "compared_with_working_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86"
+   },
+   "note": "Code on branch architecture/module-briefs-oct06 at 6a2f9377af93 (2026-10-07). 0 commits are not in the working branch. Not merged (Pete's rule).",
+   "assignment_basis": "branch name",
+   "hash": false,
+   "hash_note": "git objects are content-addressed; tree sha recorded",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null
+  },
+  {
+   "id": "project.code.branch-main",
+   "kind": "code",
+   "module": "project",
+   "path": "GIT:main@3f068c38e21cea553a5ca8585d6c0cae570517de",
+   "git": {
+    "branch": "main",
+    "commit": "3f068c38e21cea553a5ca8585d6c0cae570517de",
+    "date": "2026-09-30T00:01:57Z",
+    "subject": "ISO Sept 28 Status: add the Malaysian safety report and Appendix 1.6E text; correct restriction notes",
+    "tree": "6490d34c27e87791b151db7530483188550b4571",
+    "n_files": 7052,
+    "bytes": 1605102521,
+    "commits_not_in_working_branch": 0,
+    "compared_with_working_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86"
+   },
+   "note": "Code on branch main at 3f068c38e21c (2026-09-30). 0 commits are not in the working branch. Not merged (Pete's rule).",
+   "assignment_basis": "branch name",
+   "hash": false,
+   "hash_note": "git objects are content-addressed; tree sha recorded",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null
+  },
+  {
+   "id": "project.code.branch-sept-29-chatgpt-advances",
+   "kind": "code",
+   "module": "project",
+   "path": "GIT:sept-29-chatgpt-advances@5a906a27ec68ed32b19600cad0f7d3e91434f1c8",
+   "git": {
+    "branch": "sept-29-chatgpt-advances",
+    "commit": "5a906a27ec68ed32b19600cad0f7d3e91434f1c8",
+    "date": "2026-09-29T16:10:46Z",
+    "subject": "Add Rust validation workflow for September 29 integration",
+    "tree": "e76be73f5ad94e2f35a00ad2510c4b12d87f1eba",
+    "n_files": 7048,
+    "bytes": 1588711343,
+    "commits_not_in_working_branch": 12,
+    "compared_with_working_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86"
+   },
+   "note": "Code on branch sept-29-chatgpt-advances at 5a906a27ec68 (2026-09-29). 12 commits are not in the working branch. Not merged (Pete's rule).",
+   "assignment_basis": "branch name",
+   "hash": false,
+   "hash_note": "git objects are content-addressed; tree sha recorded",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null
+  },
+  {
+   "id": "project.code.threads-inbox-watch_sh",
+   "kind": "code",
+   "module": "project",
+   "path": "WORK:threads/inbox-watch.sh",
+   "note": "Inbox watcher for module sessions (Modular Architecture, 10 Oct 2026).",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "be8ee1f734128bb4a109853bf73d04857cd3c5d7",
+     "date": "2026-10-09T21:39:04-06:00",
+     "subject": "Overnight plan 10-11 Oct: sequence, pre-approvals, routing table; inbox watcher script"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 2144,
+   "manifest": "modules/project/manifests/project.code.threads-inbox-watch_sh.tsv.gz",
+   "manifest_sha256": "f5d8e4323693ba9381298ba7d8a5addeec2a207a609c5fd03f1992bb34bb6fbc"
+  },
+  {
+   "id": "project.drive.0b6gvsowo81httgjdvklrx3bca1e",
+   "kind": "input",
+   "module": "project",
+   "path": "DRIVE:0B6gvsOWO81hTTGJDVklRX3BCa1E",
+   "note": "Google Drive file id given in REPO:tmp/pdfs/meta.txt line 10950.",
+   "drive_id_source": {
+    "file": "REPO:tmp/pdfs/meta.txt",
+    "line": 10950
+   },
+   "assignment_basis": "file that gives the Drive id",
+   "hash": false,
+   "hash_note": "Drive file; not downloaded in this run",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null
+  },
+  {
+   "id": "project.drive.0b7yqpah4jin5amtwuurlzv9jnk0",
+   "kind": "input",
+   "module": "project",
+   "path": "DRIVE:0B7YQpAH4JIN5amtWUURLZV9JNk0",
+   "note": "Google Drive file id given in REPO:tmp/pdfs/meta.txt line 10785.",
+   "drive_id_source": {
+    "file": "REPO:tmp/pdfs/meta.txt",
+    "line": 10785
+   },
+   "assignment_basis": "file that gives the Drive id",
+   "hash": false,
+   "hash_note": "Drive file; not downloaded in this run",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null
+  },
+  {
+   "id": "project.ex.archive-artifact-store-npy",
+   "kind": "archive",
+   "module": "project",
+   "path": "EX:archive/artifact-store-npy",
+   "exchange_prefix": "archive/artifact-store-npy",
+   "exchange_top_files_only": false,
+   "note": "Exchange folder archive/artifact-store-npy: 96 files, 39.03 GB; SHA-256 from SHA256SUMS 0, computed 92, not hashed 4.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "not_hashed": [
+    "archive/artifact-store-npy/4304181a-4aac-46d6-a4a6-b3f600ce118d/0fb2faa6-4549-41fc-93a4-695bbe723d29.npy",
+    "archive/artifact-store-npy/4304181a-4aac-46d6-a4a6-b3f600ce118d/b70f7537-0442-43fd-8fb3-2b7e7ddd47bb.npy",
+    "archive/artifact-store-npy/4304181a-4aac-46d6-a4a6-b3f600ce118d/a241ea22-dfb7-4c07-9986-3cb8ee96081b.npy",
+    "archive/artifact-store-npy/4304181a-4aac-46d6-a4a6-b3f600ce118d/66f57904-f9ac-4879-8ee1-76177b19155d.npy"
+   ],
+   "n_files": 96,
+   "bytes": 39028399232,
+   "manifest": "modules/project/manifests/project.ex.archive-artifact-store-npy.tsv.gz",
+   "manifest_sha256": "72429412a2e1d928e3b47ae893898db48747cee0907758ce93e5ee29c2ba02f3"
+  },
+  {
+   "id": "project.home.archive-tools",
+   "kind": "data_home",
+   "module": "project",
+   "path": "DL:archive-tools",
+   "note": "Scripts that copy exchange folders to the external drive and check the copy (archive-to-porsche).",
+   "assignment_basis": "data home",
+   "hash": "stat",
+   "hash_note": "file list and sizes only; SHA-256 taken from SHA256SUMS files where present",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 4,
+   "bytes": 10208,
+   "manifest": "modules/project/manifests/project.home.archive-tools.tsv.gz",
+   "manifest_sha256": "c3045f5e46d4f372a22dfbec5b65b49500d8943fc625551461c6b185149089d2"
+  },
+  {
+   "id": "project.home.exchange-folder",
+   "kind": "data_home",
+   "module": "project",
+   "path": "EX:",
+   "note": "Exchange folder: run outputs of all modules. 4775 files, 437.4 GB without hydroacoustics. Hydroacoustics part is registered in phase 2.",
+   "assignment_basis": "data home",
+   "hash": false,
+   "hash_note": null,
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null
+  },
+  {
+   "id": "project.home.external-drive",
+   "kind": "data_home",
+   "module": "project",
+   "path": "XDRIVE:",
+   "note": "External drive 'Porsche 1TB Backup', folder mh370-archive (DEST in archive-tools scripts). Single copy; Time Machine does not include it.",
+   "assignment_basis": "data home",
+   "hash": false,
+   "hash_note": "drive not mounted in this session",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null
+  },
+  {
+   "id": "project.home.mh370-large-files",
+   "kind": "data_home",
+   "module": "project",
+   "path": "DL:mh370-large-files",
+   "note": "Large files folder.",
+   "assignment_basis": "data home",
+   "hash": "stat",
+   "hash_note": "file list and sizes only; SHA-256 taken from SHA256SUMS files where present",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 11,
+   "bytes": 6518380452,
+   "manifest": "modules/project/manifests/project.home.mh370-large-files.tsv.gz",
+   "manifest_sha256": "8d1b3edf9ab3b485354754548a36d5067cda93ff94e221138623a572757d80b5"
+  },
+  {
+   "id": "project.home.mh370-unpack",
+   "kind": "data_home",
+   "module": "project",
+   "path": "DL:mh370-unpack",
+   "note": "Unpacked material folder.",
+   "assignment_basis": "data home",
+   "hash": "stat",
+   "hash_note": "file list and sizes only; SHA-256 taken from SHA256SUMS files where present",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 681,
+   "bytes": 833491570,
+   "manifest": "modules/project/manifests/project.home.mh370-unpack.tsv.gz",
+   "manifest_sha256": "6378c1d0cf1021fbdacd7fe2f8b49603d0beb5531e1c289034aa6557bb27aa6d"
+  },
+  {
+   "id": "project.in.library-full-audit-mh370",
+   "kind": "input",
+   "module": "project",
+   "path": "REPO:library_full_audit/MH370",
+   "status": "CURRENT_WITH_CAVEATS",
+   "status_rank": "ruling",
+   "restricted": true,
+   "note": "MH371 ACARS and EHM reports (9M-MRO, 7 Mar 2014) and the MH370 climb EHM report. Kept in place, not moved. RESTRICTED: internal use only. Record every use in results/restricted-sources-ledger.md. Not for publication before review (Pete, 9-10 Oct 2026).",
+   "assignment_basis": "restricted-sources ledger",
+   "git": {
+    "first_added": {
+     "commit": "7a1c50711b54712e64862e0ad844cf83e6bf3aed",
+     "date": "2026-08-14T15:05:46-04:00",
+     "subject": "Import Flight MH370 Revisited project snapshot (2026-08-14)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status_evidence": [
+    {
+     "rank": "ruling",
+     "source": "WORK:results/restricted-sources-ledger.md:30",
+     "quote": "| `library_full_audit/MH370/mh371-acars.xlsx`, `MH371_EHM_Export.xls` | 9M-MRO's MH371 ACARS position reports and EHM engine reports, 7 Mar 2014 (the export also holds the MH370 climb report) | in git (library) | provenance unverified; internal use only |"
+    },
+    {
+     "rank": "ruling",
+     "source": "WORK:results/restricted-sources-ledger.md:4",
+     "quote": "- Material in the repository whose redistribution status is uncertain stays where it is."
+    },
+    {
+     "rank": "ruling",
+     "source": "memory:mem_77ee3e310c8e",
+     "memory_evidence_tag": "stated",
+     "quote": "Internal use is authorised in full."
+    }
+   ],
+   "n_files": 2,
+   "bytes": 250879,
+   "manifest": "modules/project/manifests/project.in.library-full-audit-mh370.tsv.gz",
+   "manifest_sha256": "16fb649b51a8e94e79f51b7483c7e96116128ca0139f1a7b031571eae5a718bf"
+  },
+  {
+   "id": "project.in.tmp-avionics_min",
+   "kind": "input",
+   "module": "project",
+   "path": "REPO:tmp/",
+   "status": "CURRENT_WITH_CAVEATS",
+   "status_rank": "ruling",
+   "restricted": true,
+   "note": "tmp/ avionics material: avionics_min (1 files). Provenance not verified. RESTRICTED: internal use only. Record every use in results/restricted-sources-ledger.md. Not for publication before review (Pete, 9-10 Oct 2026).",
+   "uses_recorded_in": "WORK:results/restricted-sources-ledger.md",
+   "assignment_basis": "Pete's ruling 9-10 Oct 2026",
+   "git": {
+    "first_added": {
+     "commit": "7a1c50711b54712e64862e0ad844cf83e6bf3aed",
+     "date": "2026-08-14T15:05:46-04:00",
+     "subject": "Import Flight MH370 Revisited project snapshot (2026-08-14)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status_evidence": [
+    {
+     "rank": "ruling",
+     "source": "memory:mem_bb853bca3bb6",
+     "memory_evidence_tag": "stated",
+     "quote": "Pete's rule for restricted or uncertain-provenance material in the repo (the tmp/ avionics training files, and the FPPM-confidential fuel-table cells): keep it and use it internally if useful, but record every use in results/restricted-sources-ledger.md (date, session, file, what was used, where it went)."
+    },
+    {
+     "rank": "ruling",
+     "source": "memory:mem_77ee3e310c8e",
+     "memory_evidence_tag": "stated",
+     "quote": "Internal use is authorised in full."
+    },
+    {
+     "rank": "ruling",
+     "source": "WORK:results/restricted-sources-ledger.md:26",
+     "quote": "| `tmp/avionics_training_*.{pdf,bin}`, `tmp/avionics_try_*.bin`, `tmp/avionics_min-1.png` | avionics training document; one file name suggests it came from a document-sharing site | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |"
+    }
+   ],
+   "n_files": 1,
+   "bytes": 224695,
+   "manifest": "modules/project/manifests/project.in.tmp-avionics_min.tsv.gz",
+   "manifest_sha256": "9fd1f9afc55bf5db5fbf745604cb6dd60205d522dba383410fafa822ce66dce6"
+  },
+  {
+   "id": "project.in.tmp-avionics_training",
+   "kind": "input",
+   "module": "project",
+   "path": "REPO:tmp/",
+   "status": "CURRENT_WITH_CAVEATS",
+   "status_rank": "ruling",
+   "restricted": true,
+   "note": "tmp/ avionics material: avionics_training (2 files). Provenance not verified. RESTRICTED: internal use only. Record every use in results/restricted-sources-ledger.md. Not for publication before review (Pete, 9-10 Oct 2026).",
+   "uses_recorded_in": "WORK:results/restricted-sources-ledger.md",
+   "assignment_basis": "Pete's ruling 9-10 Oct 2026",
+   "git": {
+    "first_added": {
+     "commit": "7a1c50711b54712e64862e0ad844cf83e6bf3aed",
+     "date": "2026-08-14T15:05:46-04:00",
+     "subject": "Import Flight MH370 Revisited project snapshot (2026-08-14)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status_evidence": [
+    {
+     "rank": "ruling",
+     "source": "memory:mem_bb853bca3bb6",
+     "memory_evidence_tag": "stated",
+     "quote": "Pete's rule for restricted or uncertain-provenance material in the repo (the tmp/ avionics training files, and the FPPM-confidential fuel-table cells): keep it and use it internally if useful, but record every use in results/restricted-sources-ledger.md (date, session, file, what was used, where it went)."
+    },
+    {
+     "rank": "ruling",
+     "source": "memory:mem_77ee3e310c8e",
+     "memory_evidence_tag": "stated",
+     "quote": "Internal use is authorised in full."
+    },
+    {
+     "rank": "ruling",
+     "source": "WORK:results/restricted-sources-ledger.md:26",
+     "quote": "| `tmp/avionics_training_*.{pdf,bin}`, `tmp/avionics_try_*.bin`, `tmp/avionics_min-1.png` | avionics training document; one file name suggests it came from a document-sharing site | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |"
+    }
+   ],
+   "n_files": 2,
+   "bytes": 434540,
+   "manifest": "modules/project/manifests/project.in.tmp-avionics_training.tsv.gz",
+   "manifest_sha256": "2db2ced871d3f9e97b2350e619e44c4c593aeeb6f6d4ed5eee8f44ccb3130940"
+  },
+  {
+   "id": "project.in.tmp-avionics_try",
+   "kind": "input",
+   "module": "project",
+   "path": "REPO:tmp/",
+   "status": "CURRENT_WITH_CAVEATS",
+   "status_rank": "ruling",
+   "restricted": true,
+   "note": "tmp/ avionics material: avionics_try (3 files). Provenance not verified. RESTRICTED: internal use only. Record every use in results/restricted-sources-ledger.md. Not for publication before review (Pete, 9-10 Oct 2026).",
+   "uses_recorded_in": "WORK:results/restricted-sources-ledger.md",
+   "assignment_basis": "Pete's ruling 9-10 Oct 2026",
+   "git": {
+    "first_added": {
+     "commit": "7a1c50711b54712e64862e0ad844cf83e6bf3aed",
+     "date": "2026-08-14T15:05:46-04:00",
+     "subject": "Import Flight MH370 Revisited project snapshot (2026-08-14)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status_evidence": [
+    {
+     "rank": "ruling",
+     "source": "memory:mem_bb853bca3bb6",
+     "memory_evidence_tag": "stated",
+     "quote": "Pete's rule for restricted or uncertain-provenance material in the repo (the tmp/ avionics training files, and the FPPM-confidential fuel-table cells): keep it and use it internally if useful, but record every use in results/restricted-sources-ledger.md (date, session, file, what was used, where it went)."
+    },
+    {
+     "rank": "ruling",
+     "source": "memory:mem_77ee3e310c8e",
+     "memory_evidence_tag": "stated",
+     "quote": "Internal use is authorised in full."
+    },
+    {
+     "rank": "ruling",
+     "source": "WORK:results/restricted-sources-ledger.md:26",
+     "quote": "| `tmp/avionics_training_*.{pdf,bin}`, `tmp/avionics_try_*.bin`, `tmp/avionics_min-1.png` | avionics training document; one file name suggests it came from a document-sharing site | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |"
+    }
+   ],
+   "n_files": 3,
+   "bytes": 437,
+   "manifest": "modules/project/manifests/project.in.tmp-avionics_try.tsv.gz",
+   "manifest_sha256": "fc1631e9a2f34b2f86fb88074bc65c6c5e55d8cc0f84f0189b1bb758a4d4f5c1"
+  },
+  {
+   "id": "project.in.tmp-paperzz_airlink",
+   "kind": "input",
+   "module": "project",
+   "path": "REPO:tmp/",
+   "status": "CURRENT_WITH_CAVEATS",
+   "status_rank": "ruling",
+   "restricted": true,
+   "note": "tmp/ avionics material: paperzz_airlink (1 files). Provenance not verified. RESTRICTED: internal use only. Record every use in results/restricted-sources-ledger.md. Not for publication before review (Pete, 9-10 Oct 2026).",
+   "uses_recorded_in": "WORK:results/restricted-sources-ledger.md",
+   "assignment_basis": "Pete's ruling 9-10 Oct 2026",
+   "git": {
+    "first_added": {
+     "commit": "7a1c50711b54712e64862e0ad844cf83e6bf3aed",
+     "date": "2026-08-14T15:05:46-04:00",
+     "subject": "Import Flight MH370 Revisited project snapshot (2026-08-14)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status_evidence": [
+    {
+     "rank": "ruling",
+     "source": "memory:mem_bb853bca3bb6",
+     "memory_evidence_tag": "stated",
+     "quote": "Pete's rule for restricted or uncertain-provenance material in the repo (the tmp/ avionics training files, and the FPPM-confidential fuel-table cells): keep it and use it internally if useful, but record every use in results/restricted-sources-ledger.md (date, session, file, what was used, where it went)."
+    },
+    {
+     "rank": "ruling",
+     "source": "memory:mem_77ee3e310c8e",
+     "memory_evidence_tag": "stated",
+     "quote": "Internal use is authorised in full."
+    },
+    {
+     "rank": "ruling",
+     "source": "WORK:results/restricted-sources-ledger.md:26",
+     "quote": "| `tmp/avionics_training_*.{pdf,bin}`, `tmp/avionics_try_*.bin`, `tmp/avionics_min-1.png` | avionics training document; one file name suggests it came from a document-sharing site | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |"
+    }
+   ],
+   "n_files": 1,
+   "bytes": 6085,
+   "manifest": "modules/project/manifests/project.in.tmp-paperzz_airlink.tsv.gz",
+   "manifest_sha256": "4d97091e188f9b9de06aab647842d7f129345dd7716de59b5fcec7b3cec81317"
+  },
+  {
+   "id": "project.in.tmp-scribd_satcom",
+   "kind": "input",
+   "module": "project",
+   "path": "REPO:tmp/",
+   "status": "CURRENT_WITH_CAVEATS",
+   "status_rank": "ruling",
+   "restricted": true,
+   "note": "tmp/ avionics material: scribd_satcom (1 files). Provenance not verified. RESTRICTED: internal use only. Record every use in results/restricted-sources-ledger.md. Not for publication before review (Pete, 9-10 Oct 2026).",
+   "uses_recorded_in": "WORK:results/restricted-sources-ledger.md",
+   "assignment_basis": "Pete's ruling 9-10 Oct 2026",
+   "git": {
+    "first_added": {
+     "commit": "7a1c50711b54712e64862e0ad844cf83e6bf3aed",
+     "date": "2026-08-14T15:05:46-04:00",
+     "subject": "Import Flight MH370 Revisited project snapshot (2026-08-14)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status_evidence": [
+    {
+     "rank": "ruling",
+     "source": "memory:mem_bb853bca3bb6",
+     "memory_evidence_tag": "stated",
+     "quote": "Pete's rule for restricted or uncertain-provenance material in the repo (the tmp/ avionics training files, and the FPPM-confidential fuel-table cells): keep it and use it internally if useful, but record every use in results/restricted-sources-ledger.md (date, session, file, what was used, where it went)."
+    },
+    {
+     "rank": "ruling",
+     "source": "memory:mem_77ee3e310c8e",
+     "memory_evidence_tag": "stated",
+     "quote": "Internal use is authorised in full."
+    },
+    {
+     "rank": "ruling",
+     "source": "WORK:results/restricted-sources-ledger.md:26",
+     "quote": "| `tmp/avionics_training_*.{pdf,bin}`, `tmp/avionics_try_*.bin`, `tmp/avionics_min-1.png` | avionics training document; one file name suggests it came from a document-sharing site | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |"
+    }
+   ],
+   "n_files": 1,
+   "bytes": 1138900,
+   "manifest": "modules/project/manifests/project.in.tmp-scribd_satcom.tsv.gz",
+   "manifest_sha256": "609fa49892c4b1d8b974c0cbce7ebc1722ad754f41895bdaa7fd0ec66fb3c215"
+  },
+  {
+   "id": "project.in.tmp-slideshare_airlink",
+   "kind": "input",
+   "module": "project",
+   "path": "REPO:tmp/",
+   "status": "CURRENT_WITH_CAVEATS",
+   "status_rank": "ruling",
+   "restricted": true,
+   "note": "tmp/ avionics material: slideshare_airlink (1 files). Provenance not verified. RESTRICTED: internal use only. Record every use in results/restricted-sources-ledger.md. Not for publication before review (Pete, 9-10 Oct 2026).",
+   "uses_recorded_in": "WORK:results/restricted-sources-ledger.md",
+   "assignment_basis": "Pete's ruling 9-10 Oct 2026",
+   "git": {
+    "first_added": {
+     "commit": "7a1c50711b54712e64862e0ad844cf83e6bf3aed",
+     "date": "2026-08-14T15:05:46-04:00",
+     "subject": "Import Flight MH370 Revisited project snapshot (2026-08-14)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status_evidence": [
+    {
+     "rank": "ruling",
+     "source": "memory:mem_bb853bca3bb6",
+     "memory_evidence_tag": "stated",
+     "quote": "Pete's rule for restricted or uncertain-provenance material in the repo (the tmp/ avionics training files, and the FPPM-confidential fuel-table cells): keep it and use it internally if useful, but record every use in results/restricted-sources-ledger.md (date, session, file, what was used, where it went)."
+    },
+    {
+     "rank": "ruling",
+     "source": "memory:mem_77ee3e310c8e",
+     "memory_evidence_tag": "stated",
+     "quote": "Internal use is authorised in full."
+    },
+    {
+     "rank": "ruling",
+     "source": "WORK:results/restricted-sources-ledger.md:26",
+     "quote": "| `tmp/avionics_training_*.{pdf,bin}`, `tmp/avionics_try_*.bin`, `tmp/avionics_min-1.png` | avionics training document; one file name suggests it came from a document-sharing site | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |"
+    }
+   ],
+   "n_files": 1,
+   "bytes": 1529120,
+   "manifest": "modules/project/manifests/project.in.tmp-slideshare_airlink.tsv.gz",
+   "manifest_sha256": "00209ad148e3d470db3a0156dd3bcc0952f1084009f670337f473689f8d916f0"
+  },
+  {
+   "id": "project.in.tmp-slideshare_avionics",
+   "kind": "input",
+   "module": "project",
+   "path": "REPO:tmp/",
+   "status": "CURRENT_WITH_CAVEATS",
+   "status_rank": "ruling",
+   "restricted": true,
+   "note": "tmp/ avionics material: slideshare_avionics (111 files). Provenance not verified. RESTRICTED: internal use only. Record every use in results/restricted-sources-ledger.md. Not for publication before review (Pete, 9-10 Oct 2026).",
+   "uses_recorded_in": "WORK:results/restricted-sources-ledger.md",
+   "assignment_basis": "Pete's ruling 9-10 Oct 2026",
+   "git": {
+    "first_added": {
+     "commit": "7a1c50711b54712e64862e0ad844cf83e6bf3aed",
+     "date": "2026-08-14T15:05:46-04:00",
+     "subject": "Import Flight MH370 Revisited project snapshot (2026-08-14)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status_evidence": [
+    {
+     "rank": "ruling",
+     "source": "memory:mem_bb853bca3bb6",
+     "memory_evidence_tag": "stated",
+     "quote": "Pete's rule for restricted or uncertain-provenance material in the repo (the tmp/ avionics training files, and the FPPM-confidential fuel-table cells): keep it and use it internally if useful, but record every use in results/restricted-sources-ledger.md (date, session, file, what was used, where it went)."
+    },
+    {
+     "rank": "ruling",
+     "source": "memory:mem_77ee3e310c8e",
+     "memory_evidence_tag": "stated",
+     "quote": "Internal use is authorised in full."
+    },
+    {
+     "rank": "ruling",
+     "source": "WORK:results/restricted-sources-ledger.md:26",
+     "quote": "| `tmp/avionics_training_*.{pdf,bin}`, `tmp/avionics_try_*.bin`, `tmp/avionics_min-1.png` | avionics training document; one file name suggests it came from a document-sharing site | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |"
+    }
+   ],
+   "n_files": 111,
+   "bytes": 7676246,
+   "manifest": "modules/project/manifests/project.in.tmp-slideshare_avionics.tsv.gz",
+   "manifest_sha256": "8ce29897725bd46c51764f59a05a3dea3e9c1fae45804fd34280ee760611c044"
+  },
+  {
+   "id": "project.note._gitignore",
+   "kind": "product",
+   "module": "project",
+   "path": "WORK:.gitignore",
+   "note": "Page images rendered from a report PDF for previewing; the PDF is the artifact.",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "ed40a728563e57ea6019007a4fcb702dc580dd1c",
+     "date": "2026-09-29T14:48:44-06:00",
+     "subject": "Claude Science Sep 29: live working copy, converged base run, convergence gate"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 283,
+   "manifest": "modules/project/manifests/project.note._gitignore.tsv.gz",
+   "manifest_sha256": "03a7f489db78eadad4f4f22240a53b931545989d2d5bedbe0b218d45042c6bb4"
+  },
+  {
+   "id": "project.note.architecture_md",
+   "kind": "note",
+   "module": "project",
+   "path": "WORK:ARCHITECTURE.md",
+   "note": "Architecture and coordination",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "a7e26b3f0931546f175c7943f03a92443b6c738c",
+     "date": "2026-10-04T11:22:03-06:00",
+     "subject": "ARCHITECTURE.md and RUNBOOK.md, for working across parallel sessions"
+    },
+    "last_changed": {
+     "commit": "8cae711638062921fe02ab4c153420a473b0596a",
+     "date": "2026-10-22T10:18:07-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "CURRENT_WITH_CAVEATS",
+   "status_rank": "explicit",
+   "status_evidence": [
+    {
+     "rank": "explicit",
+     "source": "memory:mem_d99fb6d82247",
+     "memory_evidence_tag": "stated",
+     "quote": "COMPOSER OWNERSHIP, RULED 2026-10-08 (supersedes the ownership half of ARCHITECTURE.md decision 1): the composer becomes a THREAD OF ITS OWN with its own brief;"
+    }
+   ],
+   "status_note": "The ownership half of decision 1 is superseded by the composer ruling of 8 Oct 2026.",
+   "n_files": 1,
+   "bytes": 37146,
+   "manifest": "modules/project/manifests/project.note.architecture_md.tsv.gz",
+   "manifest_sha256": "7fbc333926785ea4cdb889aa7cbc0ffead82f797ee4ae7aec6648ceff8a05a6b"
+  },
+  {
+   "id": "project.note.archive-sep29-manifest",
+   "kind": "note",
+   "module": "project",
+   "path": "REPO:Archive Sep 29 loose files/MANIFEST.tsv",
+   "note": "Path before, path after, bytes and SHA-256 of each file moved into the archive folder.",
+   "assignment_basis": "root loose folder",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 94000,
+   "manifest": "modules/project/manifests/project.note.archive-sep29-manifest.tsv.gz",
+   "manifest_sha256": "e4ed7d9818a855c1c717ee17a5f58d188ca2e5c5d946d3a5d45728a7646a2c94"
+  },
+  {
+   "id": "project.note.coordination-architecture_md",
+   "kind": "note",
+   "module": "project",
+   "path": "WORK:coordination/architecture.md",
+   "note": "Architecture inbox",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "6a2f9377af93daed81de316e8868d3b53dc2c869",
+     "date": "2026-10-07T12:52:38-06:00",
+     "subject": "Architecture: ocean drift master prompt, and the coordination inboxes"
+    },
+    "last_changed": {
+     "commit": "81e552601e9b43c7ed427632b410ba89d0a6c0a3",
+     "date": "2026-10-22T19:55:07-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 1100171,
+   "manifest": "modules/project/manifests/project.note.coordination-architecture_md.tsv.gz",
+   "manifest_sha256": "0b81b9eff3b6ceafc0c05d87ecce73225987bfe8cf3a76637c081180e34bf69f"
+  },
+  {
+   "id": "project.note.coordination-overnight-2026-10-10_md",
+   "kind": "note",
+   "module": "project",
+   "path": "WORK:coordination/OVERNIGHT-2026-10-10.md",
+   "note": "Overnight 10-11 October 2026: sequence, pre-approvals and routing (Pete approved)",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "be8ee1f734128bb4a109853bf73d04857cd3c5d7",
+     "date": "2026-10-09T21:39:04-06:00",
+     "subject": "Overnight plan 10-11 Oct: sequence, pre-approvals, routing table; inbox watcher script"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 9135,
+   "manifest": "modules/project/manifests/project.note.coordination-overnight-2026-10-10_md.tsv.gz",
+   "manifest_sha256": "04c3f0f687214dbb6710a6ba1aa080d629a5fe3aa6114d3708c4fe58c47db10c"
+  },
+  {
+   "id": "project.note.coordination-readme_md",
+   "kind": "note",
+   "module": "project",
+   "path": "WORK:coordination/README.md",
+   "note": "Coordination inboxes",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "6a2f9377af93daed81de316e8868d3b53dc2c869",
+     "date": "2026-10-07T12:52:38-06:00",
+     "subject": "Architecture: ocean drift master prompt, and the coordination inboxes"
+    },
+    "last_changed": {
+     "commit": "8cae711638062921fe02ab4c153420a473b0596a",
+     "date": "2026-10-22T10:18:07-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 2085,
+   "manifest": "modules/project/manifests/project.note.coordination-readme_md.tsv.gz",
+   "manifest_sha256": "7bd3e42d36a0da0a163584ce84380c2b69326c7589a24c4e95a8c4e15583c617"
+  },
+  {
+   "id": "project.note.readme_md",
+   "kind": "note",
+   "module": "project",
+   "path": "WORK:README.md",
+   "note": "Claude Science Project Sep 29",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "ed40a728563e57ea6019007a4fcb702dc580dd1c",
+     "date": "2026-09-29T14:48:44-06:00",
+     "subject": "Claude Science Sep 29: live working copy, converged base run, convergence gate"
+    },
+    "last_changed": {
+     "commit": "8cae711638062921fe02ab4c153420a473b0596a",
+     "date": "2026-10-22T10:18:07-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 8401,
+   "manifest": "modules/project/manifests/project.note.readme_md.tsv.gz",
+   "manifest_sha256": "135dbd9e84cd890748ab6870700161d3565e30d68944fb3d796c696e62c9bf7d"
+  },
+  {
+   "id": "project.note.runbook_md",
+   "kind": "note",
+   "module": "project",
+   "path": "WORK:RUNBOOK.md",
+   "note": "Runbook — who holds the machine",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "a7e26b3f0931546f175c7943f03a92443b6c738c",
+     "date": "2026-10-04T11:22:03-06:00",
+     "subject": "ARCHITECTURE.md and RUNBOOK.md, for working across parallel sessions"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 1423,
+   "manifest": "modules/project/manifests/project.note.runbook_md.tsv.gz",
+   "manifest_sha256": "9112bf8ed510918562efccd3a40ce4893ab0a209a10187101f549232e4fadacd"
+  },
+  {
+   "id": "project.note.threads-drafts-shared-contract-draft_md",
+   "kind": "note",
+   "module": "project",
+   "path": "WORK:threads/drafts/shared-contract-DRAFT.md",
+   "note": "Shared contract for MH370 project threads (v1, 17 Oct 2026)",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "7efe474b43f1fb1fcef1919d053244b4eb4ebb0f",
+     "date": "2026-10-17T12:06:31-06:00",
+     "subject": "DRAFT drift brief v2 and shared contract (not adopted; awaiting Pete)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 5979,
+   "manifest": "modules/project/manifests/project.note.threads-drafts-shared-contract-draft_md.tsv.gz",
+   "manifest_sha256": "f0c6389ee847f07a5d6d84212285b232aa60d51a617e1d8508ae99b13a935c4a"
+  },
+  {
+   "id": "project.res.project-assessment-2026-10-18_md",
+   "kind": "note",
+   "module": "project",
+   "path": "WORK:results/project-assessment-2026-10-18.md",
+   "note": "MH370 project: an outside reading of where it stands, what it is missing, and whether the case has a solution",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "b0ed0cbd00415bee28919b4ff0be6f8f5b34fcb8",
+     "date": "2026-10-18T08:28:08-06:00",
+     "subject": "architecture: re-measure the build-status and module-status tables (18 Oct); commit the project assessment note v4; inbox entry"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 21435,
+   "manifest": "modules/project/manifests/project.res.project-assessment-2026-10-18_md.tsv.gz",
+   "manifest_sha256": "42089aa1ddd08a534cb0952c2d8aa5d5b7239e255b4fbcf082a279b6d910aa51"
+  },
+  {
+   "id": "project.res.restricted-sources-ledger_md",
+   "kind": "note",
+   "module": "project",
+   "path": "WORK:results/restricted-sources-ledger.md",
+   "note": "Restricted-source ledger: internal use to be reviewed before publication",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "768ddc5fe43886f41f3ef9c78fce4955f05bfef5",
+     "date": "2026-10-09T16:48:34-06:00",
+     "subject": "Coordination: core briefing on filter audit and merged sequence; EoF early V2 look; Davey PDF licence notice; restricted-source ledger"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 5781,
+   "manifest": "modules/project/manifests/project.res.restricted-sources-ledger_md.tsv.gz",
+   "manifest_sha256": "9e3024fcb866d61b38144b24f33ac45471ef7b8d6fec54a89172a5ee321409a2"
+  },
+  {
+   "id": "project.res.source-access-ledger-2026-10-22_csv",
+   "kind": "product",
+   "module": "project",
+   "path": "WORK:results/source-access-ledger-2026-10-22.csv",
+   "note": "sources: remove blocking 'closed access / not held' labels (Pete's ruling 22 Oct 2026); add source-access ledger; Metz 2023, Royer 2016, ATSB 2016 are held; Kadri 2019 vs Dall'Osto 2019 misattribution",
+   "assignment_basis": "override from commit subject (read by hand)",
+   "git": {
+    "first_added": {
+     "commit": "d5dd5c0ed07cd429a2192e86e78de7fb4552062c",
+     "date": "2026-10-22T09:46:08-06:00",
+     "subject": "sources: remove blocking 'closed access / not held' labels (Pete's ruling 22 Oct 2026); add source-access ledger; Metz 2023, Royer 2016, ATSB 2016 are held; Kadri 2019 vs Dall'Osto 2019 misattribution"
+    },
+    "last_changed": {
+     "commit": "fe5cdfd4bbf78b8e62ff559dbf46c986ba284b08",
+     "date": "2026-10-22T10:31:50-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 36893,
+   "manifest": "modules/project/manifests/project.res.source-access-ledger-2026-10-22_csv.tsv.gz",
+   "manifest_sha256": "55081f9057e01b0096bffe1edd725b8c8bc00d899cba2d4ec5ae1901565d3ef5"
+  },
+  {
+   "id": "project.res.source-access-ledger-2026-10-22_md",
+   "kind": "note",
+   "module": "project",
+   "path": "WORK:results/source-access-ledger-2026-10-22.md",
+   "note": "Source access ledger — 22 October 2026",
+   "assignment_basis": "override from commit subject (read by hand)",
+   "git": {
+    "first_added": {
+     "commit": "d5dd5c0ed07cd429a2192e86e78de7fb4552062c",
+     "date": "2026-10-22T09:46:08-06:00",
+     "subject": "sources: remove blocking 'closed access / not held' labels (Pete's ruling 22 Oct 2026); add source-access ledger; Metz 2023, Royer 2016, ATSB 2016 are held; Kadri 2019 vs Dall'Osto 2019 misattribution"
+    },
+    "last_changed": {
+     "commit": "fe5cdfd4bbf78b8e62ff559dbf46c986ba284b08",
+     "date": "2026-10-22T10:31:50-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 7155,
+   "manifest": "modules/project/manifests/project.res.source-access-ledger-2026-10-22_md.tsv.gz",
+   "manifest_sha256": "a390299a47179825edca424583cb15a099954bf46dc168b014347ef7369f3377"
+  },
+  {
+   "id": "project.scratch.tmp",
+   "kind": "scratch",
+   "module": "project",
+   "path": "REPO:tmp/",
+   "note": "tmp/ scratch files (77 files): HGA images, fuel-table inspection dumps, PDFs. Not a source of record.",
+   "assignment_basis": "tmp/ less the restricted avionics files",
+   "git": {
+    "first_added": {
+     "commit": "7a1c50711b54712e64862e0ad844cf83e6bf3aed",
+     "date": "2026-08-14T15:05:46-04:00",
+     "subject": "Import Flight MH370 Revisited project snapshot (2026-08-14)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 77,
+   "bytes": 29112409,
+   "manifest": "modules/project/manifests/project.scratch.tmp.tsv.gz",
+   "manifest_sha256": "272fcfcd72edd30ac6540ed4ec87e1ac53fac0fdf6b842105f7f6ee02bd23715"
+  }
+ ]
+}

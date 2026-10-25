@@ -1,0 +1,1762 @@
+{
+ "registry_version": "searched-areas registry v1 (2026-10-25)",
+ "module": "searched-areas",
+ "built_utc": "2026-10-25T14:45:51Z",
+ "hashing": true,
+ "work_branch_head_at_build": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86 2026-10-24T19:38:28-06:00",
+ "roots": {
+  "REPO": "(repository)",
+  "WORK": "(repository)",
+  "EX": "/Users/pete/Downloads/mh370-exchange",
+  "DL": "/Users/pete/Downloads",
+  "XDRIVE": "/Volumes/Porsche 1TB Backup/mh370-archive",
+  "GIT": "<branch>@<commit>",
+  "DRIVE": "<google drive file id>"
+ },
+ "status_values": {
+  "CURRENT": "No known defect in the records. Not re-verified in this run unless verified_this_run is true.",
+  "CURRENT_WITH_CAVEATS": "Usable with the listed limitations stated beside every number taken from it.",
+  "KNOWN_DEFECT": "A record states a defect that changes a reported number or claim. Do not use the affected parts.",
+  "SUPERSEDED": "Replaced by the entry named in superseded_by. Kept for history.",
+  "WITHDRAWN": "Withdrawn at Pete's instruction. Do not use.",
+  "PENDING_RULING": "Its adoption waits for a ruling by Pete.",
+  "UNCHECKED": "No status record found. Means only: not yet used in a result that we quote. It is not a review queue; check on use."
+ },
+ "entries": [
+  {
+   "id": "searched.code.branch-hypothesis-seabed-search",
+   "kind": "code",
+   "module": "searched-areas",
+   "path": "GIT:hypothesis/seabed-search@c6501cd11dab9edfb406705fc8ec6c873359dd61",
+   "git": {
+    "branch": "hypothesis/seabed-search",
+    "commit": "c6501cd11dab9edfb406705fc8ec6c873359dd61",
+    "date": "2026-10-09T01:49:36Z",
+    "subject": "seabed-search: residual-PDF views with Davey eq. 11.2, and the OI 2025-26 inferred variant (steps 6 and 7)",
+    "tree": "addc9d6760659b12dad491311ff4d32b9d35db09",
+    "n_files": 7545,
+    "bytes": 1649076921,
+    "commits_not_in_working_branch": 1,
+    "compared_with_working_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86"
+   },
+   "note": "Code on branch hypothesis/seabed-search at c6501cd11dab (2026-10-09). 1 commits are not in the working branch. Not merged (Pete's rule).",
+   "assignment_basis": "branch name",
+   "hash": false,
+   "hash_note": "git objects are content-addressed; tree sha recorded",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null
+  },
+  {
+   "id": "searched.code.engine-hypotheses-seabed-search",
+   "kind": "code",
+   "module": "searched-areas",
+   "path": "WORK:engine/hypotheses/seabed-search",
+   "note": "Engine code on the working branch: engine/hypotheses/seabed-search (50 files). Code source of record is git.",
+   "assignment_basis": "engine folder map",
+   "git": {
+    "first_added": {
+     "commit": "83e58356b1f4bece5576072662b68f6d62004d10",
+     "date": "2026-10-08T19:24:45-06:00",
+     "subject": "seabed-search: port the M3 impact module onto Claude Science Sep 29 engine"
+    },
+    "last_changed": {
+     "commit": "66185853a4cae88b216b75461124de349228df53",
+     "date": "2026-10-20T13:11:40-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 50,
+   "bytes": 2840865,
+   "manifest": "modules/searched-areas/manifests/searched.code.engine-hypotheses-seabed-search.tsv.gz",
+   "manifest_sha256": "c99835aa32a9380f22de9747e54e8fe31073148c04d5196b24addec77113ed27"
+  },
+  {
+   "id": "searched.ex.searched-areas-_top-files",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "EX:searched-areas/",
+   "exchange_prefix": "searched-areas/",
+   "exchange_top_files_only": true,
+   "note": "Exchange folder searched-areas/_top-files: 1 files, 0.00 GB; SHA-256 from SHA256SUMS 0, computed 1, not hashed 0.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "not_hashed": [],
+   "n_files": 1,
+   "bytes": 6148,
+   "manifest": "modules/searched-areas/manifests/searched.ex.searched-areas-_top-files.tsv.gz",
+   "manifest_sha256": "24008baef6074d50a3e2c87d78e8e0a4950b518f4d5c6312bea0cc458c9fd716"
+  },
+  {
+   "id": "searched.ex.searched-areas-kadri-haixun-2026-10-18",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "EX:searched-areas/kadri-haixun-2026-10-18",
+   "exchange_prefix": "searched-areas/kadri-haixun-2026-10-18",
+   "exchange_top_files_only": false,
+   "note": "Exchange folder searched-areas/kadri-haixun-2026-10-18: 86 files, 0.55 GB; SHA-256 from SHA256SUMS 85, computed 1, not hashed 0.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "not_hashed": [],
+   "n_files": 86,
+   "bytes": 545599061,
+   "manifest": "modules/searched-areas/manifests/searched.ex.searched-areas-kadri-haixun-2026-10-18.tsv.gz",
+   "manifest_sha256": "d9a8cca040e1062754b698e8c1edce337e490c09656999a9176c21e8266552e6"
+  },
+  {
+   "id": "searched.ex.searched-areas-run-h",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "EX:searched-areas/run-h",
+   "exchange_prefix": "searched-areas/run-h",
+   "exchange_top_files_only": false,
+   "note": "Exchange folder searched-areas/run-h: 27 files, 0.05 GB; SHA-256 from SHA256SUMS 24, computed 3, not hashed 0.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "not_hashed": [],
+   "n_files": 27,
+   "bytes": 50212976,
+   "manifest": "modules/searched-areas/manifests/searched.ex.searched-areas-run-h.tsv.gz",
+   "manifest_sha256": "f5323adc913cc4d7588367f5a14635889039ac7190126d97d391388a53a3efe9"
+  },
+  {
+   "id": "searched.ex.searched-areas-run-j",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "EX:searched-areas/run-j",
+   "exchange_prefix": "searched-areas/run-j",
+   "exchange_top_files_only": false,
+   "note": "Exchange folder searched-areas/run-j: 607 files, 9.09 GB; SHA-256 from SHA256SUMS 518, computed 89, not hashed 0.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "not_hashed": [],
+   "n_files": 607,
+   "bytes": 9094623737,
+   "manifest": "modules/searched-areas/manifests/searched.ex.searched-areas-run-j.tsv.gz",
+   "manifest_sha256": "3d8e9def659343527943f1de59068c8362704093b7d4a4e93c7d6fbbcec470c4"
+  },
+  {
+   "id": "searched.ex.searched-areas-run-j-a1branch",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "EX:searched-areas/run-j-a1branch",
+   "exchange_prefix": "searched-areas/run-j-a1branch",
+   "exchange_top_files_only": false,
+   "note": "Exchange folder searched-areas/run-j-a1branch: 63 files, 0.40 GB; SHA-256 from SHA256SUMS 53, computed 10, not hashed 0.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "not_hashed": [],
+   "n_files": 63,
+   "bytes": 398236417,
+   "manifest": "modules/searched-areas/manifests/searched.ex.searched-areas-run-j-a1branch.tsv.gz",
+   "manifest_sha256": "18ecd3fa3669b44f35b96b5de59596d8e2f633c7ec5231ce7fb0dbe3f06fd918"
+  },
+  {
+   "id": "searched.ex.searched-areas-run-j-both-burst",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "EX:searched-areas/run-j-both-burst",
+   "exchange_prefix": "searched-areas/run-j-both-burst",
+   "exchange_top_files_only": false,
+   "note": "Exchange folder searched-areas/run-j-both-burst: 70 files, 0.23 GB; SHA-256 from SHA256SUMS 56, computed 14, not hashed 0.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "not_hashed": [],
+   "n_files": 70,
+   "bytes": 232060721,
+   "manifest": "modules/searched-areas/manifests/searched.ex.searched-areas-run-j-both-burst.tsv.gz",
+   "manifest_sha256": "9321ef3646042c9ec73dd2c0895bf1918fc84aacf93d7b5f81ec5a94242e1263"
+  },
+  {
+   "id": "searched.ex.searched-areas-run-j-settled",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "EX:searched-areas/run-j-settled",
+   "exchange_prefix": "searched-areas/run-j-settled",
+   "exchange_top_files_only": false,
+   "note": "Exchange folder searched-areas/run-j-settled: 29 files, 0.27 GB; SHA-256 from SHA256SUMS 22, computed 7, not hashed 0.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "not_hashed": [],
+   "n_files": 29,
+   "bytes": 268673004,
+   "manifest": "modules/searched-areas/manifests/searched.ex.searched-areas-run-j-settled.tsv.gz",
+   "manifest_sha256": "d13f316b9d73b2c350d560db84e26c25eaf6ee228b8a9d8ac9bf9d72850d0198"
+  },
+  {
+   "id": "searched.ex.searched-areas-run-j-spatial",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "EX:searched-areas/run-j-spatial",
+   "exchange_prefix": "searched-areas/run-j-spatial",
+   "exchange_top_files_only": false,
+   "note": "Exchange folder searched-areas/run-j-spatial: 20 files, 0.10 GB; SHA-256 from SHA256SUMS 11, computed 9, not hashed 0.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "not_hashed": [],
+   "n_files": 20,
+   "bytes": 98527584,
+   "manifest": "modules/searched-areas/manifests/searched.ex.searched-areas-run-j-spatial.tsv.gz",
+   "manifest_sha256": "0a41410a58e0474eaa68f4abdf9a5968a3e94605371647f37134c118abe17eb1"
+  },
+  {
+   "id": "searched.ex.searched-areas-run-j-spatial-v2",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "EX:searched-areas/run-j-spatial-v2",
+   "exchange_prefix": "searched-areas/run-j-spatial-v2",
+   "exchange_top_files_only": false,
+   "note": "Exchange folder searched-areas/run-j-spatial-v2: 19 files, 0.10 GB; SHA-256 from SHA256SUMS 12, computed 7, not hashed 0.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "not_hashed": [],
+   "n_files": 19,
+   "bytes": 98528068,
+   "manifest": "modules/searched-areas/manifests/searched.ex.searched-areas-run-j-spatial-v2.tsv.gz",
+   "manifest_sha256": "bbf66f1b8291dbe33b93fac50fe976ec6dca7afb60bd2f960abd8effa541ba4e"
+  },
+  {
+   "id": "searched.ex.searched-areas-run-j-supplement",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "EX:searched-areas/run-j-supplement",
+   "exchange_prefix": "searched-areas/run-j-supplement",
+   "exchange_top_files_only": false,
+   "note": "Exchange folder searched-areas/run-j-supplement: 172 files, 0.67 GB; SHA-256 from SHA256SUMS 138, computed 34, not hashed 0.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "not_hashed": [],
+   "n_files": 172,
+   "bytes": 665880879,
+   "manifest": "modules/searched-areas/manifests/searched.ex.searched-areas-run-j-supplement.tsv.gz",
+   "manifest_sha256": "160b8d161edcbff1de7e3f6f61521fff84e825851a910e12f756b3a635c14f6c"
+  },
+  {
+   "id": "searched.ex.searched-areas-spatial-fields",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "EX:searched-areas/spatial-fields",
+   "exchange_prefix": "searched-areas/spatial-fields",
+   "exchange_top_files_only": false,
+   "note": "Exchange folder searched-areas/spatial-fields: 3 files, 0.01 GB; SHA-256 from SHA256SUMS 0, computed 3, not hashed 0.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "not_hashed": [],
+   "n_files": 3,
+   "bytes": 13721984,
+   "manifest": "modules/searched-areas/manifests/searched.ex.searched-areas-spatial-fields.tsv.gz",
+   "manifest_sha256": "7d31517051cf07a1b74a48f4512f3ae0c5927ce5737e6c793ce60543a249dbc6"
+  },
+  {
+   "id": "searched.ex.searched-areas-spatial-fields-v2",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "EX:searched-areas/spatial-fields-v2",
+   "exchange_prefix": "searched-areas/spatial-fields-v2",
+   "exchange_top_files_only": false,
+   "note": "Exchange folder searched-areas/spatial-fields-v2: 5 files, 0.01 GB; SHA-256 from SHA256SUMS 3, computed 2, not hashed 0.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "not_hashed": [],
+   "n_files": 5,
+   "bytes": 10977472,
+   "manifest": "modules/searched-areas/manifests/searched.ex.searched-areas-spatial-fields-v2.tsv.gz",
+   "manifest_sha256": "ead6f4ae3bc3563cb18431fc61321491795f3bd7e998308f7879deb1b65f3b34"
+  },
+  {
+   "id": "searched.note.coordination-searched_areas_md",
+   "kind": "note",
+   "module": "searched-areas",
+   "path": "WORK:coordination/SEARCHED_AREAS.md",
+   "note": "SEARCHED_AREAS inbox",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "6a2f9377af93daed81de316e8868d3b53dc2c869",
+     "date": "2026-10-07T12:52:38-06:00",
+     "subject": "Architecture: ocean drift master prompt, and the coordination inboxes"
+    },
+    "last_changed": {
+     "commit": "8cae711638062921fe02ab4c153420a473b0596a",
+     "date": "2026-10-22T10:18:07-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 124978,
+   "manifest": "modules/searched-areas/manifests/searched.note.coordination-searched_areas_md.tsv.gz",
+   "manifest_sha256": "2d7b758e78698abdd4a8b78312b67facc45b440db964712e8aba48ae06a3d6c2"
+  },
+  {
+   "id": "searched.note.threads-master-prompts-searched-areas_md",
+   "kind": "note",
+   "module": "searched-areas",
+   "path": "WORK:threads/master-prompts/searched-areas.md",
+   "note": "Searched areas — mission and master prompt",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "24d8429a85a22cbe1dde1efca44722adcd3e7049",
+     "date": "2026-10-07T18:39:00-06:00",
+     "subject": "Searched areas: align the brief and seed the inbox"
+    },
+    "last_changed": {
+     "commit": "8cae711638062921fe02ab4c153420a473b0596a",
+     "date": "2026-10-22T10:18:07-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "CURRENT_WITH_CAVEATS",
+   "status_rank": "explicit",
+   "status_evidence": [
+    {
+     "rank": "explicit",
+     "source": "memory:mem_be40f81c24dc",
+     "memory_evidence_tag": "observed",
+     "quote": "The searched-areas brief (threads/master-prompts/searched-areas.md) and the SEARCHED_AREAS_MODULE profile prompt contain superseded instructions."
+    }
+   ],
+   "status_note": "A memory record states that the brief contains superseded instructions.",
+   "n_files": 1,
+   "bytes": 22195,
+   "manifest": "modules/searched-areas/manifests/searched.note.threads-master-prompts-searched-areas_md.tsv.gz",
+   "manifest_sha256": "aef1d667d68c4b8a875d2d46b9d0ff3cd4a8df1564861dfbc6e52280cb1998c9"
+  },
+  {
+   "id": "searched.note.threads-work-orders-searched-areas-spatial-detection-2026-10-18_md",
+   "kind": "note",
+   "module": "searched-areas",
+   "path": "WORK:threads/work-orders/searched-areas-spatial-detection-2026-10-18.md",
+   "note": "Work order — searched areas: a per-cell detection model (q and ρ as fields)",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "a6360d4b81a6663a4973c68992e877dadb851873",
+     "date": "2026-10-18T08:03:07-06:00",
+     "subject": "searched areas: work order for the per-cell detection model; inbox seeded; PROVENANCE.md brought in line with the 13 Oct base ruling"
+    },
+    "last_changed": {
+     "commit": "a6360d4b81a6663a4973c68992e877dadb851873",
+     "date": "2026-10-18T08:03:07-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 6223,
+   "manifest": "modules/searched-areas/manifests/searched.note.threads-work-orders-searched-areas-spatial-detection-2026-10-18_md.tsv.gz",
+   "manifest_sha256": "2d6b971d04880951359d1c7bc38bccd7e2c88bf29149ceaf70b55bc28f912510"
+  },
+  {
+   "id": "searched.res.seabed-bluefin21-area_md",
+   "kind": "note",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-bluefin21-area.md",
+   "note": "Bluefin-21, 2014: 771.4 km² measured against ATSB's 860 km²",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "96aecbbef36b69e689bb82db68d0ad2fb671d5b5",
+     "date": "2026-10-08T23:36:13-06:00",
+     "subject": "searched areas: Bluefin-21 area reconciled or reported (brief section 4)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 3746,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-bluefin21-area_md.tsv.gz",
+   "manifest_sha256": "3b208c488623ad9ad95f8dc0f20ead15e4e3d791bca79d3bb7c281f07d301664"
+  },
+  {
+   "id": "searched.res.seabed-detectable-target_md",
+   "kind": "note",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-detectable-target.md",
+   "note": "The detectable target for the seabed search",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "23050e7585d91fed49eb4c22c0a55668030fc0d7",
+     "date": "2026-10-08T19:17:49-06:00",
+     "subject": "searched areas: detectable-target definition (brief step 2), written before code"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 16694,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-detectable-target_md.tsv.gz",
+   "manifest_sha256": "ae84a1cc2dc9ec9e78bde2011a3a37b1a9f191a3e77dc96d2a6e335bf6f0b7f1"
+  },
+  {
+   "id": "searched.res.seabed-field-coverage-289",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-field-coverage-289",
+   "note": "Does the point target matter? Coverage read over settling's real wreckage fields",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "47fc1570828c88c17b9533e1838c2737a01c0c0f",
+     "date": "2026-10-09T22:27:35-06:00",
+     "subject": "seabed-search: measure the point target against settling's real wreckage fields"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 4419,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-field-coverage-289.tsv.gz",
+   "manifest_sha256": "145c7870d3406f29b5f145786a32bf5a66ff64bb0855fe17f78739def468519b"
+  },
+  {
+   "id": "searched.res.seabed-repeat-search-dependence_md",
+   "kind": "note",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-repeat-search-dependence.md",
+   "note": "Repeat search: dependent and independent misses",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "eeaed8cdc5e2062539b62746bcdc795be7c3dadf",
+     "date": "2026-10-08T19:34:14-06:00",
+     "subject": "results: seabed repeat-search dependence - 17,391 km2 of Phase 2 swept twice; dependent vs independent is 0.9% in Z"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "CURRENT_WITH_CAVEATS",
+   "status_rank": "readme",
+   "status_evidence": [
+    {
+     "rank": "readme",
+     "source": "WORK:results/seabed-repeat-search-dependence.md:6",
+     "quote": "**All numbers below are from the arc-kernel placeholder fixture — plumbing, not evidence.** What is"
+    }
+   ],
+   "n_files": 1,
+   "bytes": 6233,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-repeat-search-dependence_md.tsv.gz",
+   "manifest_sha256": "4271b53e7e1545ecfbda2cf8950903c0332226f62f471f9e1c930575cf8ee7dd"
+  },
+  {
+   "id": "searched.res.seabed-residual-views-and-oi2025_md",
+   "kind": "note",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-residual-views-and-oi2025.md",
+   "note": "Residual-PDF views, Davey eq. 11.2, and the Ocean Infinity 2025–26 variant",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "4d18745b1c91d2508fe65f3e32f917fecfad4970",
+     "date": "2026-10-08T19:50:17-06:00",
+     "subject": "results + coordination: searched-areas residual views and OI 2025-26; sequence steps 1-7 reported to architecture with four items (OI tracing licence, compose dev-dependency, ledger location, ATSB 201"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 8195,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-residual-views-and-oi2025_md.tsv.gz",
+   "manifest_sha256": "da74c9a6a9ac2ef4a61c5d44e32024821741a729678abdbbf06401146f8d13af"
+  },
+  {
+   "id": "searched.res.seabed-search-0019-h1h2",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-search-0019-h1h2",
+   "note": "The 00:19 interpretation, held out against Holland's two hypotheses — and a convergence wall",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "d41d20a289183f40ac42bff90f609abc1d0ed4dd",
+     "date": "2026-10-09T12:49:29-06:00",
+     "subject": "seabed-search: Pete's four 00:19 panels, and the convergence wall behind two of them"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 4,
+   "bytes": 1982158,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-0019-h1h2.tsv.gz",
+   "manifest_sha256": "f31c862d1e64a77fbbb7c1bd8d24481b743fa65c013f6edf77264525dd0f9034"
+  },
+  {
+   "id": "searched.res.seabed-search-0019-h1h2-alive",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-search-0019-h1h2-alive",
+   "note": "The standard result under end of flight's `+alive` reference",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "632af0beae59745afe9ad0a90405961032f78374",
+     "date": "2026-10-09T22:12:46-06:00",
+     "subject": "seabed-search: standard result under end of flight's +alive reference (PROVISIONAL-OVERNIGHT)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 4,
+   "bytes": 2015636,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-0019-h1h2-alive.tsv.gz",
+   "manifest_sha256": "1dca5facbf025194641917a5941b119f63d75387bec4b6428ca481304d36e8e1"
+  },
+  {
+   "id": "searched.res.seabed-search-0019-options",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-search-0019-options",
+   "note": "The impact PDF and the seabed search across every 00:19 interpretation",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "550c5c810c93dd401deaa529f5801570c1e69a4b",
+     "date": "2026-10-09T12:07:11-06:00",
+     "subject": "searched areas: impact PDF and search evidence across every 00:19 interpretation, greyscale 50/90/99"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 4,
+   "bytes": 2945650,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-0019-options.tsv.gz",
+   "manifest_sha256": "cacb43a917bca9263e44e2c485499daab4d2a6f6c12e5858cb18c1d2a119ac00"
+  },
+  {
+   "id": "searched.res.seabed-search-289-fullscale",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-search-289-fullscale",
+   "note": "The seabed search on full-scale reference-289 impacts",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "118d61e780192e223eba688e203c36fec712fc3f",
+     "date": "2026-10-09T11:27:50-06:00",
+     "subject": "searched areas: FULL SCALE on reference-289 - searches remove 32.0% of the probability, the shift reverses to north, OI 2018 becomes a four-point effect"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 8,
+   "bytes": 709540,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-289-fullscale.tsv.gz",
+   "manifest_sha256": "7fa8b20ee1ac55120b4c1df7665fc3135ed61890e75952cecd50e07794605b8b"
+  },
+  {
+   "id": "searched.res.seabed-search-289-fullscale-alive",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-search-289-fullscale-alive",
+   "note": "Full-scale rho sweep, variants and Davey eq. (11.2) planning, under `+alive`",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "ffda63423b4da91c0be5b4fbeaac42085ba12aae",
+     "date": "2026-10-09T23:09:18-06:00",
+     "subject": "seabed-search: full-scale rho sweep, variants and Davey eq. 11.2 planning under +alive"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 7,
+   "bytes": 710209,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-289-fullscale-alive.tsv.gz",
+   "manifest_sha256": "e2cbfefce86dc7e1d12545ae5c12a9573ecaa084d6cbd3beb4d0b4ac2c6c0a0b"
+  },
+  {
+   "id": "searched.res.seabed-search-b",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-search-b",
+   "note": "The seabed searches on core (b): the pre-approved overnight re-run",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "ccd65c07c8222703bb3e2278c9ae43176243e7b0",
+     "date": "2026-10-10T05:12:50-06:00",
+     "subject": "seabed-search: the pre-approved re-run on core (b), all four strata and the mixture"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "CURRENT_WITH_CAVEATS",
+   "status_rank": "readme",
+   "status_evidence": [
+    {
+     "rank": "readme",
+     "source": "WORK:results/seabed-search-b/README.md:12",
+     "quote": "**Labels, required of every number here:** core (b) split-half NOT converged; two-tank bookkeeping"
+    }
+   ],
+   "n_files": 49,
+   "bytes": 12197116,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-b.tsv.gz",
+   "manifest_sha256": "c08699254e2ffd8173e0ce51bc78bf3cbc37b681f96236ad2f6e5f63748542d1"
+  },
+  {
+   "id": "searched.res.seabed-search-c",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-search-c",
+   "note": "searched areas stand-in: run C chain (run_release.sh tag c) + rulings (speed <=212 re-weighted, 00:19 re-weighted mixture, H1/H2 not estimable); compact-layout STAND-IN edits for module review. UNCONV",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "2f33685658a4af061dcf872e7fc971fcc6e0070c",
+     "date": "2026-10-11T00:02:34-06:00",
+     "subject": "searched areas stand-in: run C chain (run_release.sh tag c) + rulings (speed <=212 re-weighted, 00:19 re-weighted mixture, H1/H2 not estimable); compact-layout STAND-IN edits for module review. UNCONV"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 54,
+   "bytes": 10940469,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-c.tsv.gz",
+   "manifest_sha256": "b9f0717a94ff18bd8d1315d1c7fd0a424871cfd111f795e8b59eeefadbc57e9f"
+  },
+  {
+   "id": "searched.res.seabed-search-c-review_md",
+   "kind": "note",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-search-c-review.md",
+   "note": "Searched areas: review of the run C stand-in, and the wreckage-field check on run C",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "0bc1436a7a3b48669efa7c7c3e5d942e40579581",
+     "date": "2026-10-11T10:28:42-06:00",
+     "subject": "seabed-search: review run C stand-in and both compact-layout STAND-IN edits (accepted, verified bit-identical, one amendment); widen the outcome key to settling's declared row*2^20+draw with a key-ord"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 18966,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-c-review_md.tsv.gz",
+   "manifest_sha256": "0e833625ef7ee9403259bfa232ed2aff48ab1abbd71bb5a7fbea957e2e302f7f"
+  },
+  {
+   "id": "searched.res.seabed-search-d-he",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-search-d-he",
+   "note": "seabed-search: score run D-he - Holland H1 and H2 estimable for the first time (ESS 4,537 and 3,307); both survival-factor arms; columns published on the exchange; fix split-half on four-seed releases",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "f1329295f605c94526f0016d2764473c586bd90e",
+     "date": "2026-10-11T19:45:27-06:00",
+     "subject": "seabed-search: score run D-he - Holland H1 and H2 estimable for the first time (ESS 4,537 and 3,307); both survival-factor arms; columns published on the exchange; fix split-half on four-seed releases"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 21,
+   "bytes": 4979615,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-d-he.tsv.gz",
+   "manifest_sha256": "64c6a92ba06deb6b1d008f9dca7da82f774c8d75e713ccbec5db3490269db962"
+  },
+  {
+   "id": "searched.res.seabed-search-d-he_md",
+   "kind": "note",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-search-d-he.md",
+   "note": "Searched areas on end of flight's run D-he: Holland H1 and H2 become estimable",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "f1329295f605c94526f0016d2764473c586bd90e",
+     "date": "2026-10-11T19:45:27-06:00",
+     "subject": "seabed-search: score run D-he - Holland H1 and H2 estimable for the first time (ESS 4,537 and 3,307); both survival-factor arms; columns published on the exchange; fix split-half on four-seed releases"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 13147,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-d-he_md.tsv.gz",
+   "manifest_sha256": "ae8f77f633839fa909d7b737040e507112df2bf0ceb1bdb7bcd82e261365fdf0"
+  },
+  {
+   "id": "searched.res.seabed-search-eof-smoke",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-search-eof-smoke",
+   "note": "Seabed search on end-of-flight impacts — smoke scale, 295.66° prior",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "3912037a99c480ca5fc17e76d9a9ef399d58463e",
+     "date": "2026-10-08T19:39:42-06:00",
+     "subject": "results: seabed search on end-of-flight impacts, smoke scale, 295.66 deg prior (step 5, first arm)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": "searched.res.seabed-search-eof-smoke8",
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "SUPERSEDED",
+   "status_rank": "explicit",
+   "status_evidence": [
+    {
+     "rank": "explicit",
+     "source": "WORK:results/seabed-search-eof-smoke/README.md:3",
+     "quote": "> **SUPERSEDED 9 October by `results/seabed-search-eof-smoke8/`**, the same measurement on eight"
+    },
+    {
+     "rank": "explicit",
+     "source": "WORK:results/seabed-search-eof-smoke8/README.md:82",
+     "quote": "*Searched areas, 9 October 2026. Supersedes `results/seabed-search-eof-smoke/`, which stays as the"
+    }
+   ],
+   "n_files": 7,
+   "bytes": 551567,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-eof-smoke.tsv.gz",
+   "manifest_sha256": "209fc2353f977210f0a00646e97b4aaffceef2fbc84b6656f2b1e62ade3074c5"
+  },
+  {
+   "id": "searched.res.seabed-search-eof-smoke8",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-search-eof-smoke8",
+   "note": "Convergence: the same measurement on eight replicates",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "65a4131b16807a0bc8410a8ac1ca09de513895db",
+     "date": "2026-10-08T23:45:04-06:00",
+     "subject": "searched areas: convergence on eight replicates (composition rule 6)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "CURRENT_WITH_CAVEATS",
+   "status_rank": "readme",
+   "status_evidence": [
+    {
+     "rank": "readme",
+     "source": "WORK:results/seabed-search-eof-smoke8/README.md:6",
+     "quote": "> it up on its next fetch, so `runs/eof-smoke-4` is 295.66 and `runs/eof-smoke8-4` is 289.7. The"
+    }
+   ],
+   "n_files": 8,
+   "bytes": 731003,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-eof-smoke8.tsv.gz",
+   "manifest_sha256": "710cae54d1eb1a65de3ae994e59bb2983b40c2832683d3db9aa29f44db59dba8"
+  },
+  {
+   "id": "searched.res.seabed-search-eof-smoke8-29566",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-search-eof-smoke8-29566",
+   "note": "searched areas: separate the prior change from convergence; last night's tail claim withdrawn",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "350c5000c745e8402077eb28d399dc63131d0e6d",
+     "date": "2026-10-09T08:53:37-06:00",
+     "subject": "searched areas: separate the prior change from convergence; last night's tail claim withdrawn"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 7,
+   "bytes": 728136,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-eof-smoke8-29566.tsv.gz",
+   "manifest_sha256": "d2e55b3906e7ce13729713c59dd210b91830b3c63a9808b02829b6696aab77eb"
+  },
+  {
+   "id": "searched.res.seabed-search-h",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-search-h",
+   "note": "seabed-search: correct the run D-he reading - 1-Z is the share of each option's TOTAL probability removed, not the fall in its on-Phase-2 share (which is 69.2/71.3 percent for H1/H2, SMALLER than the ",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "d6905b5b2a76c1bb50c60e0d57325b20406c22a8",
+     "date": "2026-10-11T19:51:51-06:00",
+     "subject": "seabed-search: correct the run D-he reading - 1-Z is the share of each option's TOTAL probability removed, not the fall in its on-Phase-2 share (which is 69.2/71.3 percent for H1/H2, SMALLER than the "
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 8,
+   "bytes": 1350811,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-h.tsv.gz",
+   "manifest_sha256": "9dd33e8ab7e9f51da5dae7490b5f3556b299ab1cea1eeff2895b661309925966"
+  },
+  {
+   "id": "searched.res.seabed-search-h_md",
+   "kind": "note",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-search-h.md",
+   "note": "Searched areas on end of flight's run H: the routes stratum, against run D-he's",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "b1f5a912cb17a137e7767374a2d0972e8dc24db1",
+     "date": "2026-10-11T19:57:48-06:00",
+     "subject": "seabed-search: score run H routes against run D-he routes; wreckage-field check on run D-he for all five options at step 1 (closes the field gap; detection definition worth -0.056 under H1/H2)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 5144,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-h_md.tsv.gz",
+   "manifest_sha256": "ae967701c363c2f64cb01d3c8d853ed63335b17d1730bf0d8565373e70f16f5c"
+  },
+  {
+   "id": "searched.res.seabed-search-i",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-search-i",
+   "note": "seabed-search: score run I, all four strata (102,399,904 impacts) - posterior moves onto searched ground, searches now remove half the probability; every option estimable per stratum; fix SHA256SUMS t",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "661b86887db0b82de7a964f0dc014a31ac9bbf8a",
+     "date": "2026-10-12T13:07:43-06:00",
+     "subject": "seabed-search: score run I, all four strata (102,399,904 impacts) - posterior moves onto searched ground, searches now remove half the probability; every option estimable per stratum; fix SHA256SUMS t"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 7,
+   "bytes": 3870180,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-i.tsv.gz",
+   "manifest_sha256": "a856fcf28b977f8643d5ae4c3f87be143cc6136e464c581df01ea8da854d6972"
+  },
+  {
+   "id": "searched.res.seabed-search-i_md",
+   "kind": "note",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-search-i.md",
+   "note": "Searched areas on end of flight's run I: the posterior moves onto searched ground",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "661b86887db0b82de7a964f0dc014a31ac9bbf8a",
+     "date": "2026-10-12T13:07:43-06:00",
+     "subject": "seabed-search: score run I, all four strata (102,399,904 impacts) - posterior moves onto searched ground, searches now remove half the probability; every option estimable per stratum; fix SHA256SUMS t"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 9437,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-i_md.tsv.gz",
+   "manifest_sha256": "3f24f0fe46177c8a0dd93ba918b57215fbdafa76784d479a7387fa8b845e9541"
+  },
+  {
+   "id": "searched.res.seabed-search-index_md",
+   "kind": "note",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-search-INDEX.md",
+   "note": "Searched areas: what this module has produced, and what each thing concludes",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "afe3194d7f14dc5df383df02794dfc8cec025fbc",
+     "date": "2026-10-10T01:06:27-06:00",
+     "subject": "results: an index of the module's dozen notes, with what each concludes"
+    },
+    "last_changed": {
+     "commit": "8cae711638062921fe02ab4c153420a473b0596a",
+     "date": "2026-10-22T10:18:07-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 5118,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-index_md.tsv.gz",
+   "manifest_sha256": "01bcb3f92f1ff62751f0e768955ddbe93eedbe1442eff0f92ff5dab88fa2b65d"
+  },
+  {
+   "id": "searched.res.seabed-search-methods-draft_md",
+   "kind": "note",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-search-methods-draft.md",
+   "note": "Methods draft — the seabed searches as disconfirming evidence",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "a223c73c7b07dddbb75934100b085640238cadf3",
+     "date": "2026-10-09T21:52:17-06:00",
+     "subject": "seabed-search: methods draft for the paper, and lib.rs doc caught up with the OI ruling"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 18464,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-methods-draft_md.tsv.gz",
+   "manifest_sha256": "b4712df5fcb35166d0f426af89f41a7b33626ce70fa05c78d345c17393d25309"
+  },
+  {
+   "id": "searched.res.seabed-search-prior-289-vs-29566_md",
+   "kind": "note",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-search-prior-289-vs-29566.md",
+   "note": "The 289.7 prior against 295.66, and a correction to last night's convergence note",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "350c5000c745e8402077eb28d399dc63131d0e6d",
+     "date": "2026-10-09T08:53:37-06:00",
+     "subject": "searched areas: separate the prior change from convergence; last night's tail claim withdrawn"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 5521,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-prior-289-vs-29566_md.tsv.gz",
+   "manifest_sha256": "6040ce67f7cdce1945d63a2ec611af57b27fee350c03a21f18f467f1a99dd20e"
+  },
+  {
+   "id": "searched.res.seabed-search-references_bib",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-search-references.bib",
+   "note": "seabed-search: bibliography for the module, with the three Ocean Infinity press releases read in primary form (112,000 km2 searched 2018; 120,000 km2 GEBCO data donation; search concluded 23 Jan 2026,",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "38045fdf73f5f304ff6668fcb053c70cb4a8d343",
+     "date": "2026-10-12T13:14:40-06:00",
+     "subject": "seabed-search: bibliography for the module, with the three Ocean Infinity press releases read in primary form (112,000 km2 searched 2018; 120,000 km2 GEBCO data donation; search concluded 23 Jan 2026,"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 5912,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-references_bib.tsv.gz",
+   "manifest_sha256": "251330b77f626d7acf90dd9fbef02a6bc1dc0a0a32af1d54b1a1d003256839e3"
+  },
+  {
+   "id": "searched.res.seabed-search-references_md",
+   "kind": "note",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-search-references.md",
+   "note": "Searched areas — reference ledger",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "6a00a776bf3bb80a5b5d63be13de4bb5244ae845",
+     "date": "2026-10-08T23:31:23-06:00",
+     "subject": "searched areas: ruling S3 (ledger renamed to results/seabed-search-references.md) and Pete's dive-class caveat"
+    },
+    "last_changed": {
+     "commit": "8cae711638062921fe02ab4c153420a473b0596a",
+     "date": "2026-10-22T10:18:07-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 24208,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-references_md.tsv.gz",
+   "manifest_sha256": "e47cc4be2b078419a65e5cc8e7751e41cda83d550a15dce8ba84dcc6895a36ce"
+  },
+  {
+   "id": "searched.res.seabed-search-why-wider_md",
+   "kind": "note",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-search-why-wider.md",
+   "note": "Why the 90 % region is larger after the searches than before",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "3faa4a704335be9132f999f6074a8b04c36faaff",
+     "date": "2026-10-10T15:39:29-06:00",
+     "subject": "results: why the 90% region grows after the searches, with the arithmetic"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 5042,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-why-wider_md.tsv.gz",
+   "manifest_sha256": "ed2c1248bf2f87790d4af685db26de12d9a55c8cb59b3cd96f42e7a4fe5f4565"
+  },
+  {
+   "id": "searched.res.seabed-size-response_md",
+   "kind": "note",
+   "module": "searched-areas",
+   "path": "WORK:results/seabed-size-response.md",
+   "note": "The size response g_k(W): implemented, and where it changes anything",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "6482e7f62254929ede764bd4579fc0766d29726d",
+     "date": "2026-10-09T22:01:12-06:00",
+     "subject": "seabed-search: implement the size response g_k(W) and the field-coverage alternatives"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 3974,
+   "manifest": "modules/searched-areas/manifests/searched.res.seabed-size-response_md.tsv.gz",
+   "manifest_sha256": "aa6b137749ec80ee2b0888b83e300db84520ef5ef4cca1e271a8b15938496c18"
+  },
+  {
+   "id": "searched.res.searched-areas-coverage-sources-2026-10-20",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "WORK:results/searched-areas-coverage-sources-2026-10-20",
+   "note": "Searched areas: coverage sources and maps (seabed, aircraft and ships, beacon searches, sonobuoys) — posted 20 Oct 2026",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "b82f6d3f444f5762a1d6a9a996cc63253d26f66a",
+     "date": "2026-10-20T13:11:56-06:00",
+     "subject": "searched areas: add results/searched-areas-coverage-sources-2026-10-20 (overview map v3, beacon and sonobuoy chart, maps north of 33 S, source ledgers, GA/AMSA polygons and tables) referenced by 66185"
+    },
+    "last_changed": {
+     "commit": "3de9525db6d66aa1e98269c1a3201522be1725af",
+     "date": "2026-10-20T13:17:23-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 17,
+   "bytes": 6435274,
+   "manifest": "modules/searched-areas/manifests/searched.res.searched-areas-coverage-sources-2026-10-20.tsv.gz",
+   "manifest_sha256": "f1e9978ae6e9397f56c744064b2fc3a60296f94de873d1a0ccdee9537c4b42e6"
+  },
+  {
+   "id": "searched.res.searched-areas-next-run-b-rho-eq11-2-coverage-standin",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "WORK:results/searched-areas-next-run-b-rho-eq11-2-coverage-standin",
+   "note": "searched areas (architecture stand-in): rho sweep, Davey eq. 11.2 curve and field-coverage check on core (b), +unpowered with re-weighted and fixed mixtures; COVERAGE section; UNCONVERGED",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "3b8130e1bab235418a3e35d78c23fa7541e346af",
+     "date": "2026-10-10T16:56:26-06:00",
+     "subject": "searched areas (architecture stand-in): rho sweep, Davey eq. 11.2 curve and field-coverage check on core (b), +unpowered with re-weighted and fixed mixtures; COVERAGE section; UNCONVERGED"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 11,
+   "bytes": 15554902,
+   "manifest": "modules/searched-areas/manifests/searched.res.searched-areas-next-run-b-rho-eq11-2-coverage-standin.tsv.gz",
+   "manifest_sha256": "f1862b1465f87b4fa962ca5fb97644f0cde729af234e55653edbc987e8ee648b"
+  },
+  {
+   "id": "searched.res.searched-areas-next-run-b-rho-eq11-2-coverage-standin_md",
+   "kind": "note",
+   "module": "searched-areas",
+   "path": "WORK:results/searched-areas-next-run-b-rho-eq11-2-coverage-standin.md",
+   "note": "Searched areas on core (b): the ρ sweep, the Davey eq. (11.2) curve, and the field-coverage check (architecture stand-in)",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "3b8130e1bab235418a3e35d78c23fa7541e346af",
+     "date": "2026-10-10T16:56:26-06:00",
+     "subject": "searched areas (architecture stand-in): rho sweep, Davey eq. 11.2 curve and field-coverage check on core (b), +unpowered with re-weighted and fixed mixtures; COVERAGE section; UNCONVERGED"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "CURRENT_WITH_CAVEATS",
+   "status_rank": "readme",
+   "status_evidence": [
+    {
+     "rank": "readme",
+     "source": "WORK:results/searched-areas-next-run-b-rho-eq11-2-coverage-standin.md:4",
+     "quote": "**Every number here is UNCONVERGED** (core (b) split-half not converged). Charts and data in"
+    }
+   ],
+   "n_files": 1,
+   "bytes": 29687,
+   "manifest": "modules/searched-areas/manifests/searched.res.searched-areas-next-run-b-rho-eq11-2-coverage-standin_md.tsv.gz",
+   "manifest_sha256": "742fdf9e0822cd874fe039155f5b1221b226f3c3cfdd4c90da061196cc4d01dc"
+  },
+  {
+   "id": "searched.res.searched-areas-next-run-c-standin",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "WORK:results/searched-areas-next-run-c-standin",
+   "note": "searched areas stand-in: run C chain (run_release.sh tag c) + rulings (speed <=212 re-weighted, 00:19 re-weighted mixture, H1/H2 not estimable); compact-layout STAND-IN edits for module review. UNCONV",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "2f33685658a4af061dcf872e7fc971fcc6e0070c",
+     "date": "2026-10-11T00:02:34-06:00",
+     "subject": "searched areas stand-in: run C chain (run_release.sh tag c) + rulings (speed <=212 re-weighted, 00:19 re-weighted mixture, H1/H2 not estimable); compact-layout STAND-IN edits for module review. UNCONV"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 10,
+   "bytes": 2690616,
+   "manifest": "modules/searched-areas/manifests/searched.res.searched-areas-next-run-c-standin.tsv.gz",
+   "manifest_sha256": "ec8f34fb713ae0eaeccead8bafebeb68bee7b8930dc84ad3f34151e21f426c46"
+  },
+  {
+   "id": "searched.res.searched-areas-next-run-c-standin_md",
+   "kind": "note",
+   "module": "searched-areas",
+   "path": "WORK:results/searched-areas-next-run-c-standin.md",
+   "note": "Searched areas on run C: the module's run_release.sh chain, with the rulings applied (architecture stand-in)",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "2f33685658a4af061dcf872e7fc971fcc6e0070c",
+     "date": "2026-10-11T00:02:34-06:00",
+     "subject": "searched areas stand-in: run C chain (run_release.sh tag c) + rulings (speed <=212 re-weighted, 00:19 re-weighted mixture, H1/H2 not estimable); compact-layout STAND-IN edits for module review. UNCONV"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "CURRENT_WITH_CAVEATS",
+   "status_rank": "readme",
+   "status_evidence": [
+    {
+     "rank": "readme",
+     "source": "WORK:results/searched-areas-next-run-c-standin.md:4",
+     "quote": "**Every number here is labelled: run C NOT CONVERGED (free split-half 0.918 vs 0.924).** Module to review."
+    }
+   ],
+   "n_files": 1,
+   "bytes": 17814,
+   "manifest": "modules/searched-areas/manifests/searched.res.searched-areas-next-run-c-standin_md.tsv.gz",
+   "manifest_sha256": "01c4a50c0a1b4c41061025d3f6613f76db70dee4b50a0f987e0597f2bf31ed1e"
+  },
+  {
+   "id": "searched.res.searched-areas-run-j",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "WORK:results/searched-areas-run-j",
+   "note": "Searched areas on run J, at the impact point — Ocean Infinity in the base",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "08fb80ba7c44aa65929f96bbadef08daa203066f",
+     "date": "2026-10-17T19:19:05-06:00",
+     "subject": "searched areas: run J scored with Ocean Infinity in the base (impact point); run.toml four-campaign base + base_guard; without-OI sensitivity override; compact conversion via approved stub; D3/D4 both"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 7,
+   "bytes": 435873,
+   "manifest": "modules/searched-areas/manifests/searched.res.searched-areas-run-j.tsv.gz",
+   "manifest_sha256": "95be338b667a1b99cf15f4c7dcbd49465defd467b9d30856fb6b55b28183e433"
+  },
+  {
+   "id": "searched.res.searched-areas-run-j-a1branch",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "WORK:results/searched-areas-run-j-a1branch",
+   "note": "Searched areas on end of flight's A1-branch conditional pass: the D3 × A1 gap is closed",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "a8e819f8f2a656c3e374858b3d87d8a97d63760a",
+     "date": "2026-10-18T23:18:29-06:00",
+     "subject": "searched areas: order B3 - A1-branch pass scored at impact point and settled (base + per-cell V0-V3); stratified estimator (settling's single measure, EoF form beside); D3 x A1 row ESS after searches "
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 7,
+   "bytes": 871693,
+   "manifest": "modules/searched-areas/manifests/searched.res.searched-areas-run-j-a1branch.tsv.gz",
+   "manifest_sha256": "f810b809c7189b08f10375af62b7c79c7210ee645f5810df20c136b5b277c493"
+  },
+  {
+   "id": "searched.res.searched-areas-run-j-settled",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "WORK:results/searched-areas-run-j-settled",
+   "note": "Searched areas on run J at the settled seabed positions, beside the impact point",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "4a23229cd54f1b7ae31110654efaae86eecc4c4b",
+     "date": "2026-10-18T00:23:22-06:00",
+     "subject": "searched areas: run J scored at settled seabed positions (5 sets, 133.1 M settled elements); impact-point vs settled tables; COVERAGE; SEARCHED_AREAS / architecture entries"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 5,
+   "bytes": 1256472,
+   "manifest": "modules/searched-areas/manifests/searched.res.searched-areas-run-j-settled.tsv.gz",
+   "manifest_sha256": "34c4ba18736890d5902d9393006fd72ea9df1fe66b187dd3fa6801c00ae9e5ea"
+  },
+  {
+   "id": "searched.res.searched-areas-run-j-supplement",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "WORK:results/searched-areas-run-j-supplement",
+   "note": "Searched areas on the full run J northern supplement (rule B): impact point, settled positions, per-cell field",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "a8e7e288dedd2a75b2b766f0e01b19f137f5441c",
+     "date": "2026-10-20T05:02:02-06:00",
+     "subject": "searched areas: order B3 (20 Oct) - full rule-B northern supplement scored at impact point (reduced table + A1 strata) and settled (ruleB-waypoints + a1-stratified), base + per-cell V1-V3; end of flig"
+    },
+    "last_changed": {
+     "commit": "a8e7e288dedd2a75b2b766f0e01b19f137f5441c",
+     "date": "2026-10-20T05:02:02-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 6,
+   "bytes": 2834623,
+   "manifest": "modules/searched-areas/manifests/searched.res.searched-areas-run-j-supplement.tsv.gz",
+   "manifest_sha256": "9918f17bbd5e2d87d3218f353de81a8c2e53d90402e0b1d4f9effd01157efbfe"
+  },
+  {
+   "id": "searched.res.searched-areas-spatial-detection",
+   "kind": "product",
+   "module": "searched-areas",
+   "path": "WORK:results/searched-areas-spatial-detection",
+   "note": "Searched areas: a per-cell detection model (q and ρ as fields) — run J, settled positions",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "237090ab2e20d92c60f594ca4082ca5dfa3eedd3",
+     "date": "2026-10-18T08:25:57-06:00",
+     "subject": "searched areas: per-cell detection model (q from ATSB Fig. 73, terrain-weighted rho, Ocean Infinity AIS density) scored on run J settled outcomes; results note; replies"
+    },
+    "last_changed": {
+     "commit": "3de9525db6d66aa1e98269c1a3201522be1725af",
+     "date": "2026-10-20T13:17:23-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 11,
+   "bytes": 1564525,
+   "manifest": "modules/searched-areas/manifests/searched.res.searched-areas-spatial-detection.tsv.gz",
+   "manifest_sha256": "ed43015ce173cd7f12a9d097dcbee63046ec449d98caef18f51b41ef75d3da79"
+  },
+  {
+   "id": "searched.xd.searched-areas-next-run-d-he",
+   "kind": "archive",
+   "module": "searched-areas",
+   "path": "XDRIVE:mh370-exchange/searched-areas/next-run-d-he",
+   "note": "Listed for copy to the external drive in archive-tools/archive-to-porsche.v3.sh line 22 (destination /Volumes/Porsche 1TB Backup/mh370-archive). Source folder in ~/Downloads now: absent. The VERIFIED-*.txt list is on the drive; it was not readable from this session, so the copy is not confirmed here.",
+   "assignment_basis": "archive script item list",
+   "hash": false,
+   "hash_note": "external drive not mounted in this session",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null
+  },
+  {
+   "id": "searched.xd.searched-areas-run-i",
+   "kind": "archive",
+   "module": "searched-areas",
+   "path": "XDRIVE:mh370-exchange/searched-areas/run-i",
+   "note": "Listed for copy to the external drive in archive-tools/archive-to-porsche.v3.sh line 17 (destination /Volumes/Porsche 1TB Backup/mh370-archive). Source folder in ~/Downloads now: absent. The VERIFIED-*.txt list is on the drive; it was not readable from this session, so the copy is not confirmed here.",
+   "assignment_basis": "archive script item list",
+   "hash": false,
+   "hash_note": "external drive not mounted in this session",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null
+  }
+ ]
+}
