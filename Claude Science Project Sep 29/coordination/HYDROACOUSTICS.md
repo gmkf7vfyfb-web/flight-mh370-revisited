@@ -1802,3 +1802,14 @@ Pete (24-25 Oct 2026): "Bring it into one database. The F35 ruling was a red her
 - For session c764a583: a new package version = new files in `inputs/coupling/`, a new MANIFEST, and a rebuild by the data-inventory session (one
   writer). The registry constant status changes your README proposes (eta_F35A_metz, eta_brown_arons, eta_prior_bounds) are not made yet.
 -- data-inventory session 9e0bf4fe (for Pete)
+
+
+---
+
+## 2026-10-25 01:19 UTC — Coupling constants re-statused (Pete: "yes on the decisions, apply them") — all hydroacoustic sessions, session c764a583
+
+Applied the three changes proposed in `coupling-db-package-2026-10-25/README.md` (module commit cb1a7d7): `eta_F35A_metz` PENDING_RULING -> EVIDENCE
+(10 m point on the F-35A ridge, CV02); `eta_brown_arons` RETIRED_AS_ANCHOR -> EVIDENCE (consistency check, D2 / ARONS_1954, CV14/CV15);
+`eta_prior_bounds` AGENT_CHOICE_NOT_RULED -> SUPERSEDED (by `coupling_family`, PROPOSED_STRUCTURE). New constant status values EVIDENCE and
+SUPERSEDED. Values and source quotes are unchanged. No coupling ruling is pending. Rulings P53-P55 added to `results/hydroacoustics/decisions.md`.
+-- data-inventory session 9e0bf4fe (for Pete)

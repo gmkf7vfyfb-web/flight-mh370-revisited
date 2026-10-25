@@ -58,3 +58,6 @@
 | P50 | Clean-up approval | “OK, do the overnight run as proposed” | Hydroacoustic Module Recovery Redesign (a6559afa, msg (after export)) |
 | P51 | Standards (challenge) | “Are ou 100% sure on this and would consider it defensible and publishable as an attack on his work? or is there a chance it's an error on this side.” | Hydroacoustic Module Recovery Redesign (a6559afa, msg 138) |
 | P52 | Run I (EOF input) | “I is basically6 flawed because the dive all level off which isn't realistic” | Hydroacoustic Module Next Steps Review (149aeb70, msg 347) |
+| P53 | Data source of record | “1. Yes on wiring into the module and brief.” | Hydroacoustic data inventory (9e0bf4fe, 23 Oct 2026) |
+| P54 | Coupling and noise in one database; F-35A | “Bring it into one database. The F35 ruling was a red herring, see the aircraft impact acoustic coupling thread's output.” | Hydroacoustic data inventory (9e0bf4fe, 24-25 Oct 2026) |
+| P55 | Registry coupling constants | “yes on the decisions, apply them” | Hydroacoustic data inventory (9e0bf4fe, 25 Oct 2026); applies eta_F35A_metz -> EVIDENCE, eta_brown_arons -> EVIDENCE, eta_prior_bounds -> SUPERSEDED (module commit cb1a7d7) |
