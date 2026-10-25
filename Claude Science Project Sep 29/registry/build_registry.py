@@ -122,6 +122,10 @@ def main():
                     raise ValueError(f"unknown defect ids {bad}")
                 if e["status"] not in STATUS:
                     raise ValueError(f"status {e['status']} not permitted")
+                if e["status"] == "SUPERSEDED" and not e.get("superseded_by"):
+                    raise ValueError("status SUPERSEDED without superseded_by")
+                if e["status"] != "UNCHECKED" and not e.get("status_evidence"):
+                    raise ValueError(f"status {e['status']} without status_evidence")
             except Exception as ex:
                 errors.append(f"{e['id']}: {type(ex).__name__}: {ex}")
             r.pop("file_list", None)

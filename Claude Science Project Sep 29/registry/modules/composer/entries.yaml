@@ -182,6 +182,14 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 3
+    mem_ids:
+    - mem_37b9aff1b216
+    - mem_d22576ba7a4d
+    - mem_d400d120e0e2
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: composer.ex.composer-_top-files
   kind: product
   module: composer
@@ -198,6 +206,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_c0e0df7e3649
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: composer.ex.composer-e2e-calibration-smoke-2026-10-19
   kind: product
   module: composer
@@ -262,6 +276,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_c03b57704b31
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: composer.ex.composer-run-j-views-v3
   kind: product
   module: composer
@@ -326,6 +346,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_126405feebb9
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: composer.note.coordination-composer_md
   kind: note
   module: composer
@@ -349,6 +375,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_58ac21216bd5
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: composer.note.threads-master-prompts-composer_md
   kind: note
   module: composer
@@ -371,6 +403,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_62858b168a80
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: composer.note.threads-work-orders-e2e-calibration-protocol-2026-10-19_md
   kind: note
   module: composer
@@ -393,6 +431,13 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_081f33dc2dd4
+    - mem_dab7070b9cd6
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: composer.res.composer-north-ess-run-i_md
   kind: note
   module: composer
@@ -416,6 +461,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_c2fc589a06ae
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: composer.res.composer-pass0
   kind: product
   module: composer
@@ -485,6 +536,12 @@ entries:
   - rank: readme
     source: WORK:results/composer-pass0-next-run-b.md:9
     quote: '> **Every number in this note is a PIPELINE TEST — core (b) unconverged; EoF physics provisional; hydro L_hyd stand-in;'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_54fb60335a6c
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: composer.res.composer-pass1-run-c
   kind: product
   module: composer
@@ -539,6 +596,12 @@ entries:
     quote: '**Which composed pass is current.** Two composed passes are carried below. `composer-pass1-run-c.md` is the earlier pass on core run C; `composer-pass2-run-i.md`
       is the later end-to-end pass on core run I and is the one the paper should quote. Its own headline is labelled **UNCONVERGED; conditional on equal family prior**
       and it carries a declared-deviations section, so it is reported at that stre'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_bf19e80bc6ab
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: composer.res.composer-pass2-run-i
   kind: product
   module: composer
@@ -563,6 +626,13 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_1c3c0c8f4128
+    - mem_93ff348be72a
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: composer.res.composer-pass2-run-i_md
   kind: note
   module: composer
@@ -589,6 +659,12 @@ entries:
   - rank: readme
     source: WORK:results/composer-pass2-run-i.md:7
     quote: '> **Labels on every number in this note.** Core run I NOT CONVERGED (canonical split-half: waypoints 0.916 just below the floor 0.924;'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_fe03ff8a1cb3
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: composer.res.composer-pass2b-run-i-ruling
   kind: product
   module: composer
@@ -639,6 +715,13 @@ entries:
   - rank: readme
     source: WORK:results/composer-pass2b-run-i-ruling.md:10
     quote: '> **Standing labels on every number in this note.** Core run I **NOT CONVERGED**. End-of-flight uncontrolled arm **NOT CALIBRATED**.'
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_cf5fb29abf2b
+    - mem_ef4825152579
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: composer.res.composer-summary-rs_patch
   kind: product
   module: composer
@@ -661,6 +744,13 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_0e0ab2efd37d
+    - mem_8e6402c51e35
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: composer.res.composer-views-run-j
   kind: product
   module: composer
@@ -687,6 +777,15 @@ entries:
     source: name chain
     quote: null
     rule: composer-views-run-j -> composer-views-v3-run-j (same stem, higher version number)
+  memory_notes:
+    n_rows: 4
+    mem_ids:
+    - mem_109941a00f7c
+    - mem_2093512c9df7
+    - mem_94514c70c95c
+    - mem_b2eeb8f68d9b
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: composer.res.composer-views-run-j_md
   kind: note
   module: composer
@@ -713,6 +812,13 @@ entries:
     source: name chain
     quote: null
     rule: composer-views-run-j.md -> composer-views-v3-run-j.md (same stem, higher version number)
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_61a87ed347ce
+    - mem_75537b636401
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: composer.res.composer-views-v3-run-j
   kind: product
   module: composer
@@ -760,6 +866,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_9ab3ef04109d
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: composer.res.composer_north_ess_run_i_csv
   kind: product
   module: composer
@@ -815,6 +927,13 @@ entries:
     quote: 'Status: **pipeline test, before calibration, not for release.** Supersedes `results/decision-2026-27-prelim/` (fc786b5) for interpretation. That version
       used only the composer product DS (core + drift finds + searched areas), described there as "all evidence"; it left out the Australian non-recovery term. This
       was an error of labelling in that note.'
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_b2e3e8cad11a
+    - mem_fcae9f73ee19
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: composer.res.decision-2026-27-prelim-v2
   kind: product
   module: composer
@@ -841,6 +960,12 @@ entries:
     source: WORK:results/decision-2026-27-prelim-v2/README.md
     quote: null
     read_by_hand: status line says pipeline test, not for release; 'Supersedes' refers to the older folder
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_26aeef297318
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: composer.res.e2e-calibration-smoke-2026-10-19
   kind: product
   module: composer
@@ -864,6 +989,13 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_24c909fdef82
+    - mem_54a945a7ec1b
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: composer.res.e2e-calibration-staged-2026-10-20
   kind: product
   module: composer
@@ -886,6 +1018,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_9ef90f9c7b48
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: composer.xd.composer-run-i-ruling-oct15
   kind: archive
   module: composer

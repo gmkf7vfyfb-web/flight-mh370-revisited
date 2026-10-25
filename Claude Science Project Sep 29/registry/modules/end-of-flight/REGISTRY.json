@@ -1,9 +1,9 @@
 {
  "registry_version": "end-of-flight registry v1 (2026-10-25)",
  "module": "end-of-flight",
- "built_utc": "2026-10-25T14:45:48Z",
+ "built_utc": "2026-10-25T22:59:13Z",
  "hashing": true,
- "work_branch_head_at_build": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86 2026-10-24T19:38:28-06:00",
+ "work_branch_head_at_build": "26b42d7242d5267a771e882b569168ef38929af8 2026-10-25T16:58:11-06:00",
  "roots": {
   "REPO": "(repository)",
   "WORK": "(repository)",
@@ -82,6 +82,31 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 18,
+    "mem_ids": [
+     "mem_06ebe453a542",
+     "mem_0f0ee0210aa5",
+     "mem_163a67ae8cee",
+     "mem_394bb772819a",
+     "mem_42ee5122bc3e",
+     "mem_57f0ac5522e3",
+     "mem_65624d253752",
+     "mem_78ea85193b22",
+     "mem_8073e66ebd2c",
+     "mem_9283b5941da6",
+     "mem_96ea508096a1",
+     "mem_a75de911c136",
+     "mem_afb559166173",
+     "mem_b01134841791",
+     "mem_ba3363351c1c",
+     "mem_d4b39827c9d3",
+     "mem_dc1c3d0623ac",
+     "mem_eae59867a71f"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 226,
    "bytes": 1243636,
    "manifest": "modules/end-of-flight/manifests/eof.code.engine-hypotheses-end-of-flight.tsv.gz",
@@ -104,6 +129,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_96902e2bb568"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "not_hashed": [],
    "n_files": 7,
    "bytes": 24483,
@@ -127,6 +160,16 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 3,
+    "mem_ids": [
+     "mem_51e780a9184f",
+     "mem_6bd94900cc24",
+     "mem_6cb233862087"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "not_hashed": [],
    "n_files": 30,
    "bytes": 72500185,
@@ -196,6 +239,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_d852eccb6093"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "not_hashed": [],
    "n_files": 26,
    "bytes": 276114,
@@ -219,6 +270,15 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 2,
+    "mem_ids": [
+     "mem_3ef84437b35c",
+     "mem_67b90e1392e1"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "not_hashed": [],
    "n_files": 1,
    "bytes": 6148,
@@ -265,6 +325,19 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 6,
+    "mem_ids": [
+     "mem_005628327136",
+     "mem_198dc6979cc3",
+     "mem_565a4d3be93e",
+     "mem_9e0ffb871ddb",
+     "mem_b502c35b3765",
+     "mem_c44a0984a933"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "not_hashed": [],
    "n_files": 722,
    "bytes": 151372860575,
@@ -288,6 +361,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_fdaae0fae003"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "not_hashed": [],
    "n_files": 55,
    "bytes": 5962232763,
@@ -380,11 +461,45 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 3,
+    "mem_ids": [
+     "mem_00205ffec96b",
+     "mem_2a9524226390",
+     "mem_7f1ead2309fb"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "not_hashed": [],
    "n_files": 85,
    "bytes": 2121840365,
    "manifest": "modules/end-of-flight/manifests/eof.ex.end-of-flight-run-j-supplement.tsv.gz",
    "manifest_sha256": "e6289c9dbbd5e2297b453fd935b34429276365493b4d4419782b2ece1ff30cb4"
+  },
+  {
+   "id": "eof.memnote.descent-6dof",
+   "kind": "note",
+   "module": "end-of-flight",
+   "path": "WORK:registry/memory-notes/descent-6dof.jsonl",
+   "note": "Memory rows on topic 'descent-6dof' moved to the registry on 25 Oct 2026 (76 rows; 58 have no other entry). Records of what memory said, not verified facts; each row has its verification status.",
+   "assignment_basis": "memory track topic",
+   "memory_notes": {
+    "file": "WORK:registry/memory-notes/descent-6dof.jsonl",
+    "n_rows": 76
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 95088,
+   "manifest": "modules/end-of-flight/manifests/eof.memnote.descent-6dof.tsv.gz",
+   "manifest_sha256": "08a606b6548aad859c0c154c8f12ad139361dd04a228c7c51e8c97f2b3ef29df"
   },
   {
    "id": "eof.note.coordination-end_of_flight_md",
@@ -412,6 +527,15 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 2,
+    "mem_ids": [
+     "mem_21c53142871d",
+     "mem_a59836e48cf8"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 224771,
    "manifest": "modules/end-of-flight/manifests/eof.note.coordination-end_of_flight_md.tsv.gz",
@@ -450,6 +574,20 @@
      "quote": "The EoF master prompt lives at 'Claude Science Project Sep 29/threads/master-prompts/end-of-flight.md' and supersedes the ISO Sept 28 end-of-flight.txt, which remains correct on physics and calibration and is stale on build status (it told the module to work against a flat flame-out prior and to raise the start-up-offset model as a core request;"
     }
    ],
+   "memory_notes": {
+    "n_rows": 7,
+    "mem_ids": [
+     "mem_06853d38b72a",
+     "mem_a40fa55f1291",
+     "mem_b7c8d89e83c3",
+     "mem_cd6052de7cdf",
+     "mem_ed69784a4856",
+     "mem_f7126cddc3fb",
+     "mem_fd3797c92991"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 62992,
    "manifest": "modules/end-of-flight/manifests/eof.note.threads-master-prompts-end-of-flight_md.tsv.gz",
@@ -543,6 +681,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_fa4ec183f64a"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 3048,
    "manifest": "modules/end-of-flight/manifests/eof.note.threads-work-orders-mode-allocation-test-2026-10-15_md.tsv.gz",
@@ -669,10 +815,24 @@
    "status_evidence": [
     {
      "rank": "readme",
-     "source": "WORK:results/burst-0019-plausibility-architecture.md:5",
-     "quote": "**Labels on every number below:** `core (b): split-half NOT converged` · `two-tank bookkeeping only` · `EoF sweep run by an architecture stand-in (EoF to review)` · `PROVISIONAL-OVERNIGHT dive class (b), divergent spiral at 0.5, 90° cap` · `descent idle floor ON` · `two-burst stopgap proposal OFF`. Strata are combined with core's fixed P(family): free 0.6948, Davey dynamics + radar 0.1527, descent"
+     "source": "WORK:results/burst-0019-plausibility-architecture.md:39",
+     "quote": "- **Prior decisions for Pete:**"
+    },
+    {
+     "rank": "readme",
+     "source": "WORK:results/burst-0019-plausibility-architecture.md:255",
+     "quote": "**A. Changes to the prior.** Modelling decisions for Pete; each config-gated and default off."
     }
    ],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_145375725a92"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
+   "status_note": "Decisions for Pete at lines 39 and 255. No later ruling found by a keyword search of the memory export (25 Oct 2026).",
    "n_files": 1,
    "bytes": 28670,
    "manifest": "modules/end-of-flight/manifests/eof.res.burst-0019-plausibility-architecture_md.tsv.gz",
@@ -723,8 +883,8 @@
      "subject": "End of flight: gate (c) sign-off for the hand-off stratum column; citation ledger (results/end-of-flight-references); section 8 effective-parent limits (smoke, provisional); parent-count question"
     },
     "last_changed": {
-     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
-     "date": "2026-10-19T21:55:56-06:00"
+     "commit": "26b42d7242d5267a771e882b569168ef38929af8",
+     "date": "2026-10-25T16:58:11-06:00"
     }
    },
    "defects": [],
@@ -736,9 +896,9 @@
    "status_rank": "none",
    "status_evidence": [],
    "n_files": 1,
-   "bytes": 12323,
+   "bytes": 56119,
    "manifest": "modules/end-of-flight/manifests/eof.res.end-of-flight-references_md.tsv.gz",
-   "manifest_sha256": "7c3eecbbea7177ee266670361238b30424567913d89dab13fefb71a75b7c4218"
+   "manifest_sha256": "7250790374e2d832082b3e9d7b6b921570394900b6d4348bfd618b81831708d6"
   },
   {
    "id": "eof.res.endurance_1_fuel_only",
@@ -927,6 +1087,14 @@
      "quote": "**TEST on the run D-he summary only (no new descents; architecture 01:45Z, 02:05Z, 02:15Z).** PROVISIONAL; core run D not"
     }
    ],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_9ec8c2cc1d63"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 2,
    "bytes": 25483,
    "manifest": "modules/end-of-flight/manifests/eof.res.eof-0019-two-factor-oct12.tsv.gz",
@@ -1026,6 +1194,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_cbb7c50cbaac"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 7,
    "bytes": 59185,
    "manifest": "modules/end-of-flight/manifests/eof.res.eof-6dof-refit-oct11.tsv.gz",
@@ -1193,6 +1369,15 @@
      "quote": "**UNCONVERGED.** Core run D is not converged (split-half below the 4-seed floor in three strata; routes above it only on an incomplete"
     }
    ],
+   "memory_notes": {
+    "n_rows": 2,
+    "mem_ids": [
+     "mem_24d660a89d54",
+     "mem_d068f295b84e"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 22674,
    "manifest": "modules/end-of-flight/manifests/eof.res.eof-a-vs-b-2241-run-d-standin_md.tsv.gz",
@@ -1503,6 +1688,14 @@
      "quote": "**SMOKE SCALE, not evidence. Uses the UNCORRECTED core fuel model** (audit findings F1-F4 pending core request 16)."
     }
    ],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_e7d3175a2eb8"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 3,
    "bytes": 14027,
    "manifest": "modules/end-of-flight/manifests/eof.res.eof-descent-fuel-oct09.tsv.gz",
@@ -1565,6 +1758,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_4af208ce0e24"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 18,
    "bytes": 10647122,
    "manifest": "modules/end-of-flight/manifests/eof.res.eof-displacement-oct09.tsv.gz",
@@ -1670,6 +1871,14 @@
      "quote": "**Caveat (verbatim).** The uncontrolled-arm dynamics are not calibrated: the Boeing leave-one-out gate failed in all three rounds."
     }
    ],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_3045b4aeb013"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 4,
    "bytes": 315550,
    "manifest": "modules/end-of-flight/manifests/eof.res.eof-evidence-sweep-oct18.tsv.gz",
@@ -1732,6 +1941,15 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 2,
+    "mem_ids": [
+     "mem_3d5b57dd78c7",
+     "mem_561e054dab8b"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 12,
    "bytes": 888212,
    "manifest": "modules/end-of-flight/manifests/eof.res.eof-fullscale-oct09.tsv.gz",
@@ -1769,6 +1987,14 @@
      "quote": "**Status: SMOKE AND PILOT SCALE. Nothing here is evidence for an impact distribution, a log-evidence, a Bayes factor or a family"
     }
    ],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_ce9a572fae42"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 11,
    "bytes": 246151,
    "manifest": "modules/end-of-flight/manifests/eof.res.eof-gates-oct13.tsv.gz",
@@ -1874,6 +2100,14 @@
      "quote": "**PROVISIONAL. Not converged at the core stage** (core run D split-half below its 4-seed floor 0.896 in three of four strata, and"
     }
    ],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_2d6c4ea8226e"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 2,
    "bytes": 22082,
    "manifest": "modules/end-of-flight/manifests/eof.res.eof-holland-sweep-run-d-oct11.tsv.gz",
@@ -1973,6 +2207,15 @@
      "quote": "**METHOD NOTE, posted before any column is written** (architecture ruling 20:35 -0600 10 Oct, item 2, delegated by Pete, provisional)."
     }
    ],
+   "memory_notes": {
+    "n_rows": 2,
+    "mem_ids": [
+     "mem_b076398ced92",
+     "mem_d99d39596926"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 5362,
    "manifest": "modules/end-of-flight/manifests/eof.res.eof-impact-tau-method-oct11_md.tsv.gz",
@@ -2066,6 +2309,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_c17c01945bf7"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 4,
    "bytes": 63770,
    "manifest": "modules/end-of-flight/manifests/eof.res.eof-item1-asym-oct14.tsv.gz",
@@ -2097,6 +2348,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_30a3e7293110"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 63,
    "bytes": 1268492,
    "manifest": "modules/end-of-flight/manifests/eof.res.eof-item2-fit-oct14.tsv.gz",
@@ -2165,6 +2424,15 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 2,
+    "mem_ids": [
+     "mem_2c2daef9dfaf",
+     "mem_433a390b9d9d"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 4,
    "bytes": 27076,
    "manifest": "modules/end-of-flight/manifests/eof.res.eof-item7-dive-prob-oct15.tsv.gz",
@@ -2196,6 +2464,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_9d73b1c1be55"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 7,
    "bytes": 230468,
    "manifest": "modules/end-of-flight/manifests/eof.res.eof-item8-round3-oct15.tsv.gz",
@@ -2295,6 +2571,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_51f05eb5c431"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 17,
    "bytes": 159786,
    "manifest": "modules/end-of-flight/manifests/eof.res.eof-order-b-oct15.tsv.gz",
@@ -2505,6 +2789,14 @@
      "quote": "**PROVISIONAL; per route, conditional on the route.** Core's caveat applies: the 6-route family is a data-selected subset"
     }
    ],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_da8458993744"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 2,
    "bytes": 37382,
    "manifest": "modules/end-of-flight/manifests/eof.res.eof-run-h-routes-oct12.tsv.gz",
@@ -2613,15 +2905,23 @@
    "inputs": [],
    "producing_thread": null,
    "verified_this_run": false,
-   "status": "CURRENT",
+   "status": "CURRENT_WITH_CAVEATS",
    "status_rank": "readme",
    "status_evidence": [
     {
      "rank": "readme",
-     "source": "WORK:results/eof-run-j-joined-v2-oct17/README.md:3",
-     "quote": "**Status:** run J waypoints, both arms (J0011 and J2241): seeds 1-8 complete at 06:56Z, seeds 9-12 at 11:22Z seeds 13-16 at 13:28Z (seeds 17-24 at 02:12Z 18 Oct; section 2d gives the 24-seed headline)."
+     "source": "WORK:results/eof-run-j-joined-v2-oct17/README.md:125",
+     "quote": "> The uncontrolled-arm dynamics are not calibrated: the Boeing leave-one-out gate failed in all"
     }
    ],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_bdb451e51569"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 27,
    "bytes": 274340,
    "manifest": "modules/end-of-flight/manifests/eof.res.eof-run-j-joined-v2-oct17.tsv.gz",
@@ -2659,6 +2959,16 @@
      "quote": "**Caveat (verbatim).** The uncontrolled-arm dynamics are not calibrated: the Boeing leave-one-out gate failed in all three rounds."
     }
    ],
+   "memory_notes": {
+    "n_rows": 3,
+    "mem_ids": [
+     "mem_2e70303e87ff",
+     "mem_674131533a5e",
+     "mem_d77dc7597bab"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 16,
    "bytes": 9077677,
    "manifest": "modules/end-of-flight/manifests/eof.res.eof-run-j-maps-oct17.tsv.gz",
@@ -2687,15 +2997,23 @@
    "inputs": [],
    "producing_thread": null,
    "verified_this_run": false,
-   "status": "CURRENT",
+   "status": "CURRENT_WITH_CAVEATS",
    "status_rank": "readme",
    "status_evidence": [
     {
      "rank": "readme",
-     "source": "WORK:results/eof-run-j-oct17/README.md:3",
-     "quote": "**Status:** complete. Core run J's split-half convergence is accepted as a pass by project ruling (16 Oct 2026). Every stratum has"
+     "source": "WORK:results/eof-run-j-oct17/README.md:74",
+     "quote": "> The uncontrolled-arm dynamics are not calibrated: the Boeing leave-one-out gate failed in all"
     }
    ],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_e6f1cc216ac5"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 24,
    "bytes": 1433900,
    "manifest": "modules/end-of-flight/manifests/eof.res.eof-run-j-oct17.tsv.gz",
@@ -2770,6 +3088,14 @@
      "quote": "**Caveat (verbatim).** The uncontrolled-arm dynamics are not calibrated: the Boeing leave-one-out gate failed in all three rounds."
     }
    ],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_da9a6cb0edc1"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 11,
    "bytes": 1708177,
    "manifest": "modules/end-of-flight/manifests/eof.res.eof-run-j-supplement-oct20.tsv.gz",
@@ -2900,6 +3226,14 @@
      "quote": "**DESIGN ONLY; no smoke run yet.** Architecture ~23:55 UTC 9 Oct and ~02:25 UTC 10 Oct (Pete's C-7 decision (b))."
     }
    ],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_bfee4a1d25af"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 3747,
    "manifest": "modules/end-of-flight/manifests/eof.res.eof-single-engine-design-oct10.tsv.gz",
@@ -2999,6 +3333,15 @@
      "quote": "**SMOKE SCALE. PLUMBING, NOT EVIDENCE.** Every number below comes from one seed, a hand-off rebuilt at"
     }
    ],
+   "memory_notes": {
+    "n_rows": 2,
+    "mem_ids": [
+     "mem_00c64a529383",
+     "mem_4654ecb2688a"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 3,
    "bytes": 52485,
    "manifest": "modules/end-of-flight/manifests/eof.res.eof-smoke-oct09.tsv.gz",
@@ -3030,6 +3373,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_e93952f22a58"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 2,
    "bytes": 29469,
    "manifest": "modules/end-of-flight/manifests/eof.res.eof-spiral-weight-oct09.tsv.gz",
@@ -3160,6 +3511,14 @@
      "quote": "**SMOKE. UNCORRECTED FUEL. PROVISIONAL SAMPLER.**"
     }
    ],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_b38cc4117c31"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 29,
    "bytes": 10517980,
    "manifest": "modules/end-of-flight/manifests/eof.res.eof-v2-2241-oct10.tsv.gz",
@@ -3197,6 +3556,14 @@
      "quote": "**SMOKE, PROVISIONAL-OVERNIGHT.** The run conditions:"
     }
    ],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_fc1a14bef9d5"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 13,
    "bytes": 1328121,
    "manifest": "modules/end-of-flight/manifests/eof.res.eof-v2-broad-oct10.tsv.gz",
@@ -3228,6 +3595,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_b356d2d6a3d9"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 226663,
    "manifest": "modules/end-of-flight/manifests/eof.res.fig-gain-37s-vs-26s_png.tsv.gz",
@@ -3321,6 +3696,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_3dc318ddb9ab"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 8965,
    "manifest": "modules/end-of-flight/manifests/eof.res.impact-interface-requirements_md.tsv.gz",

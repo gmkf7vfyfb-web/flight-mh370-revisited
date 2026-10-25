@@ -51,6 +51,27 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 16
+    mem_ids:
+    - mem_17f1e386ea0f
+    - mem_2417a4823575
+    - mem_3ef952285275
+    - mem_4a911978762a
+    - mem_528dc28cf6f2
+    - mem_54608ecb3ace
+    - mem_6106a8f4a841
+    - mem_645f59440d71
+    - mem_713c83a66d4b
+    - mem_93e428b46911
+    - mem_983294549f12
+    - mem_be9c7929df2b
+    - mem_c991462e701d
+    - mem_d335d28974de
+    - mem_d57ba8199b39
+    - mem_ead98a03ab31
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: searched.ex.searched-areas-_top-files
   kind: product
   module: searched-areas
@@ -67,6 +88,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_d6ac83fa3ced
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: searched.ex.searched-areas-kadri-haixun-2026-10-18
   kind: product
   module: searched-areas
@@ -83,6 +110,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_e0b4093a983e
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: searched.ex.searched-areas-run-h
   kind: product
   module: searched-areas
@@ -179,6 +212,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_bbdc602d9c5e
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: searched.ex.searched-areas-run-j-spatial-v2
   kind: product
   module: searched-areas
@@ -243,6 +282,24 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+- id: searched.memnote.seabed-search
+  kind: note
+  module: searched-areas
+  path: WORK:registry/memory-notes/seabed-search.jsonl
+  note: Memory rows on topic 'seabed-search' moved to the registry on 25 Oct 2026 (127 rows; 76 have no other entry). Records of what memory said, not verified facts;
+    each row has its verification status.
+  assignment_basis: memory track topic
+  memory_notes:
+    file: WORK:registry/memory-notes/seabed-search.jsonl
+    n_rows: 127
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
 - id: searched.note.coordination-searched_areas_md
   kind: note
   module: searched-areas
@@ -291,6 +348,12 @@ entries:
     source: memory:mem_be40f81c24dc
     memory_evidence_tag: observed
     quote: The searched-areas brief (threads/master-prompts/searched-areas.md) and the SEARCHED_AREAS_MODULE profile prompt contain superseded instructions.
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_be40f81c24dc
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
   status_note: A memory record states that the brief contains superseded instructions.
 - id: searched.note.threads-work-orders-searched-areas-spatial-detection-2026-10-18_md
   kind: note
@@ -336,6 +399,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_294ad15e6751
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: searched.res.seabed-detectable-target_md
   kind: note
   module: searched-areas
@@ -358,6 +427,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_29d6542494d6
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: searched.res.seabed-field-coverage-289
   kind: product
   module: searched-areas
@@ -380,6 +455,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_baefc728aa13
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: searched.res.seabed-repeat-search-dependence_md
   kind: note
   module: searched-areas
@@ -405,6 +486,12 @@ entries:
   - rank: readme
     source: WORK:results/seabed-repeat-search-dependence.md:6
     quote: '**All numbers below are from the arc-kernel placeholder fixture — plumbing, not evidence.** What is'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_fbec3e56361c
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: searched.res.seabed-residual-views-and-oi2025_md
   kind: note
   module: searched-areas
@@ -494,6 +581,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_539304041c43
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: searched.res.seabed-search-289-fullscale
   kind: product
   module: searched-areas
@@ -517,6 +610,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_d39ba40c1734
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: searched.res.seabed-search-289-fullscale-alive
   kind: product
   module: searched-areas
@@ -564,6 +663,13 @@ entries:
   - rank: readme
     source: WORK:results/seabed-search-b/README.md:12
     quote: '**Labels, required of every number here:** core (b) split-half NOT converged; two-tank bookkeeping'
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_09b2a3ce0535
+    - mem_df64e6121ae4
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: searched.res.seabed-search-c
   kind: product
   module: searched-areas
@@ -893,6 +999,13 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_2198fe0b9e3f
+    - mem_940833f5e4a8
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: searched.res.seabed-search-references_bib
   kind: product
   module: searched-areas
@@ -917,6 +1030,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_51ccedcb99c2
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: searched.res.seabed-search-references_md
   kind: note
   module: searched-areas
@@ -929,8 +1048,8 @@ entries:
       date: '2026-10-08T23:31:23-06:00'
       subject: 'searched areas: ruling S3 (ledger renamed to results/seabed-search-references.md) and Pete''s dive-class caveat'
     last_changed:
-      commit: 8cae711638062921fe02ab4c153420a473b0596a
-      date: '2026-10-22T10:18:07-06:00'
+      commit: 26b42d7242d5267a771e882b569168ef38929af8
+      date: '2026-10-25T16:58:11-06:00'
   defects: []
   superseded_by: null
   inputs: []
@@ -939,6 +1058,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_0b8536019601
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: searched.res.seabed-search-why-wider_md
   kind: note
   module: searched-areas
@@ -961,6 +1086,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_9395bcaacc57
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: searched.res.seabed-size-response_md
   kind: note
   module: searched-areas
@@ -1006,6 +1137,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_5c9e0c83e401
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: searched.res.searched-areas-next-run-b-rho-eq11-2-coverage-standin
   kind: product
   module: searched-areas
@@ -1056,6 +1193,12 @@ entries:
   - rank: readme
     source: WORK:results/searched-areas-next-run-b-rho-eq11-2-coverage-standin.md:4
     quote: '**Every number here is UNCONVERGED** (core (b) split-half not converged). Charts and data in'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_ec89ae5dee85
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: searched.res.searched-areas-next-run-c-standin
   kind: product
   module: searched-areas
@@ -1152,6 +1295,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_74b958f75b96
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: searched.res.searched-areas-run-j-settled
   kind: product
   module: searched-areas
@@ -1221,6 +1370,13 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_5c2e0dac3bc0
+    - mem_db8fcea91827
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: searched.xd.searched-areas-next-run-d-he
   kind: archive
   module: searched-areas

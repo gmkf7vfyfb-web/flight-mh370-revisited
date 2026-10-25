@@ -47,6 +47,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_b91b94fb8af8
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: paper.code.paper-proposed-draft-build_draft_v2_py
   kind: code
   module: paper
@@ -70,6 +76,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_0246054e2bc3
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: paper.code.paper-write_citation_outputs_py
   kind: code
   module: paper
@@ -84,6 +96,24 @@ entries:
     last_changed:
       commit: 091528122654f193a7c4dda32b0fb45bea769ddd
       date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: paper.memnote.paper
+  kind: note
+  module: paper
+  path: WORK:registry/memory-notes/paper.jsonl
+  note: Memory rows on topic 'paper' moved to the registry on 25 Oct 2026 (23 rows; 14 have no other entry). Records of what memory said, not verified facts; each
+    row has its verification status.
+  assignment_basis: memory track topic
+  memory_notes:
+    file: WORK:registry/memory-notes/paper.jsonl
+    n_rows: 23
   defects: []
   superseded_by: null
   inputs: []
@@ -114,6 +144,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_5142ed13b545
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: paper.note.paper-citations-ledger_md
   kind: note
   module: paper
@@ -159,6 +195,14 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 3
+    mem_ids:
+    - mem_3e63185198c1
+    - mem_a38bd2d6afc0
+    - mem_b69a10cb97b5
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: paper.note.paper-jon-model-papers_md
   kind: note
   module: paper
@@ -194,8 +238,8 @@ entries:
       date: '2026-10-12T12:13:32-06:00'
       subject: 'paper: verified JON author rules; master citation ledger and references.bib (96 entries, CrossRef-checked); PAPER.md status and four recommendations'
     last_changed:
-      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
-      date: '2026-10-19T21:55:56-06:00'
+      commit: 26b42d7242d5267a771e882b569168ef38929af8
+      date: '2026-10-25T16:58:11-06:00'
   defects: []
   superseded_by: null
   inputs: []
@@ -515,6 +559,13 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_2219a7569a00
+    - mem_8ce2ef8b436d
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: paper.note.paper-references_bib
   kind: note
   module: paper
@@ -560,6 +611,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_5b9429a9f091
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: paper.note.threads-master-prompts-paper-drafting_md
   kind: note
   module: paper
@@ -583,3 +640,10 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_41265244df06
+    - mem_aa80d5e8fb75
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts

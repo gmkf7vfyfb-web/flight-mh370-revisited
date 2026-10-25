@@ -31,7 +31,13 @@ entries:
   note: 'Root folder downloads/ moved here with git mv on 25 Oct 2026 (24 files). Path before and after: Archive Sep 29 loose files/MANIFEST.tsv.'
   assignment_basis: root loose folder
   git:
-    note: no commit found in the local history
+    first_added:
+      commit: 92c098f720b5f01dd9390c1c4e1eb6a3f06d6118
+      date: '2026-10-25T08:47:59-06:00'
+      subject: 'registry: project registry (8 modules + project), rules-for-new-work check, archive of loose root folders'
+    last_changed:
+      commit: 92c098f720b5f01dd9390c1c4e1eb6a3f06d6118
+      date: '2026-10-25T08:47:59-06:00'
   defects: []
   superseded_by: null
   inputs: []
@@ -47,7 +53,13 @@ entries:
   note: 'Root folder handoff/ moved here with git mv on 25 Oct 2026 (8 files). Path before and after: Archive Sep 29 loose files/MANIFEST.tsv.'
   assignment_basis: root loose folder
   git:
-    note: no commit found in the local history
+    first_added:
+      commit: 92c098f720b5f01dd9390c1c4e1eb6a3f06d6118
+      date: '2026-10-25T08:47:59-06:00'
+      subject: 'registry: project registry (8 modules + project), rules-for-new-work check, archive of loose root folders'
+    last_changed:
+      commit: 92c098f720b5f01dd9390c1c4e1eb6a3f06d6118
+      date: '2026-10-25T08:47:59-06:00'
   defects: []
   superseded_by: null
   inputs: []
@@ -60,10 +72,16 @@ entries:
   kind: archive
   module: project
   path: REPO:Archive Sep 29 loose files/library_full_audit
-  note: 'Root folder library_full_audit/ moved here with git mv on 25 Oct 2026 (140 files). Path before and after: Archive Sep 29 loose files/MANIFEST.tsv.'
+  note: 'Root folder library_full_audit/ moved here with git mv on 25 Oct 2026 (139 files). Path before and after: Archive Sep 29 loose files/MANIFEST.tsv.'
   assignment_basis: root loose folder
   git:
-    note: no commit found in the local history
+    first_added:
+      commit: 92c098f720b5f01dd9390c1c4e1eb6a3f06d6118
+      date: '2026-10-25T08:47:59-06:00'
+      subject: 'registry: project registry (8 modules + project), rules-for-new-work check, archive of loose root folders'
+    last_changed:
+      commit: 92c098f720b5f01dd9390c1c4e1eb6a3f06d6118
+      date: '2026-10-25T08:47:59-06:00'
   defects: []
   superseded_by: null
   inputs: []
@@ -79,7 +97,13 @@ entries:
   note: 'Root folder output/ moved here with git mv on 25 Oct 2026 (11 files). Path before and after: Archive Sep 29 loose files/MANIFEST.tsv.'
   assignment_basis: root loose folder
   git:
-    note: no commit found in the local history
+    first_added:
+      commit: 92c098f720b5f01dd9390c1c4e1eb6a3f06d6118
+      date: '2026-10-25T08:47:59-06:00'
+      subject: 'registry: project registry (8 modules + project), rules-for-new-work check, archive of loose root folders'
+    last_changed:
+      commit: 92c098f720b5f01dd9390c1c4e1eb6a3f06d6118
+      date: '2026-10-25T08:47:59-06:00'
   defects: []
   superseded_by: null
   inputs: []
@@ -95,7 +119,13 @@ entries:
   note: 'Root folder outputs/ moved here with git mv on 25 Oct 2026 (228 files). Path before and after: Archive Sep 29 loose files/MANIFEST.tsv.'
   assignment_basis: root loose folder
   git:
-    note: no commit found in the local history
+    first_added:
+      commit: 92c098f720b5f01dd9390c1c4e1eb6a3f06d6118
+      date: '2026-10-25T08:47:59-06:00'
+      subject: 'registry: project registry (8 modules + project), rules-for-new-work check, archive of loose root folders'
+    last_changed:
+      commit: 92c098f720b5f01dd9390c1c4e1eb6a3f06d6118
+      date: '2026-10-25T08:47:59-06:00'
   defects: []
   superseded_by: null
   inputs: []
@@ -540,7 +570,9 @@ entries:
   kind: input
   module: project
   path: DRIVE:0B6gvsOWO81hTTGJDVklRX3BCa1E
-  note: Google Drive file id given in REPO:tmp/pdfs/meta.txt line 10950.
+  drive_link: third-party
+  note: Third-party Google Drive link given in REPO:tmp/pdfs/meta.txt line 10950. Not a project-Drive file; the project Drive gives no metadata for it (independent
+    check, 25 Oct 2026). Not opened.
   drive_id_source:
     file: REPO:tmp/pdfs/meta.txt
     line: 10950
@@ -559,7 +591,9 @@ entries:
   kind: input
   module: project
   path: DRIVE:0B7YQpAH4JIN5amtWUURLZV9JNk0
-  note: Google Drive file id given in REPO:tmp/pdfs/meta.txt line 10785.
+  drive_link: third-party
+  note: Third-party Google Drive link given in REPO:tmp/pdfs/meta.txt line 10785. Not a project-Drive file; the project Drive gives no metadata for it (independent
+    check, 25 Oct 2026). Not opened.
   drive_id_source:
     file: REPO:tmp/pdfs/meta.txt
     line: 10785
@@ -677,8 +711,9 @@ entries:
   status: CURRENT_WITH_CAVEATS
   status_rank: ruling
   restricted: true
-  note: 'MH371 ACARS and EHM reports (9M-MRO, 7 Mar 2014) and the MH370 climb EHM report. Kept in place, not moved. RESTRICTED: internal use only. Record every use
-    in results/restricted-sources-ledger.md. Not for publication before review (Pete, 9-10 Oct 2026).'
+  note: 'MH371 ACARS and EHM reports (9M-MRO, 7 Mar 2014), the MH370 climb EHM report and Ulich''s fuel workbook (FPPM-confidential cells). Kept in place, not moved.
+    RESTRICTED: internal use only. Record every use in results/restricted-sources-ledger.md. Not for publication before review (Pete, 9-10 Oct 2026).'
+  uses_recorded_in: WORK:results/restricted-sources-ledger.md
   assignment_basis: restricted-sources ledger
   git:
     first_added:
@@ -686,8 +721,8 @@ entries:
       date: '2026-08-14T15:05:46-04:00'
       subject: Import Flight MH370 Revisited project snapshot (2026-08-14)
     last_changed:
-      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
-      date: '2026-10-19T21:55:56-06:00'
+      commit: 26b42d7242d5267a771e882b569168ef38929af8
+      date: '2026-10-25T16:58:11-06:00'
   defects: []
   superseded_by: null
   inputs: []
@@ -698,6 +733,10 @@ entries:
     source: WORK:results/restricted-sources-ledger.md:30
     quote: '| `library_full_audit/MH370/mh371-acars.xlsx`, `MH371_EHM_Export.xls` | 9M-MRO''s MH371 ACARS position reports and EHM engine reports, 7 Mar 2014 (the
       export also holds the MH370 climb report) | in git (library) | provenance unverified; internal use only |'
+  - rank: ruling
+    source: WORK:results/restricted-sources-ledger.md:34
+    quote: '| `library_full_audit/MH370/9M-MRO Fuel Model V5.X.xlsm` | Ulich''s fuel workbook; it holds the FPPM-confidential cells named above | in git (library)
+      | internal use only; kept in place (added 25 Oct 2026 by the registry track) |'
   - rank: ruling
     source: WORK:results/restricted-sources-ledger.md:4
     quote: '- Material in the repository whose redistribution status is uncertain stays where it is.'
@@ -865,9 +904,9 @@ entries:
     memory_evidence_tag: stated
     quote: Internal use is authorised in full.
   - rank: ruling
-    source: WORK:results/restricted-sources-ledger.md:26
-    quote: '| `tmp/avionics_training_*.{pdf,bin}`, `tmp/avionics_try_*.bin`, `tmp/avionics_min-1.png` | avionics training document; one file name suggests it came
-      from a document-sharing site | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |'
+    source: WORK:results/restricted-sources-ledger.md:33
+    quote: '| `tmp/paperzz_airlink.html` | saved paperzz web page (6,085 bytes; the saved page is a ''Just a moment...'' access check, no document text) | `7a1c5071`,
+      14 Aug 2026 | provenance unverified; internal use only (added 25 Oct 2026 by the registry track) |'
 - id: project.in.tmp-scribd_satcom
   kind: input
   module: project
@@ -905,9 +944,9 @@ entries:
     memory_evidence_tag: stated
     quote: Internal use is authorised in full.
   - rank: ruling
-    source: WORK:results/restricted-sources-ledger.md:26
-    quote: '| `tmp/avionics_training_*.{pdf,bin}`, `tmp/avionics_try_*.bin`, `tmp/avionics_min-1.png` | avionics training document; one file name suggests it came
-      from a document-sharing site | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |'
+    source: WORK:results/restricted-sources-ledger.md:31
+    quote: '| `tmp/scribd_satcom.html` | saved web page ''Overview of Satcom in Aviation'' from Scribd (1,138,900 bytes) | `7a1c5071`, 14 Aug 2026 | provenance unverified;
+      internal use only (added 25 Oct 2026 by the registry track) |'
 - id: project.in.tmp-slideshare_airlink
   kind: input
   module: project
@@ -945,9 +984,9 @@ entries:
     memory_evidence_tag: stated
     quote: Internal use is authorised in full.
   - rank: ruling
-    source: WORK:results/restricted-sources-ledger.md:26
-    quote: '| `tmp/avionics_training_*.{pdf,bin}`, `tmp/avionics_try_*.bin`, `tmp/avionics_min-1.png` | avionics training document; one file name suggests it came
-      from a document-sharing site | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |'
+    source: WORK:results/restricted-sources-ledger.md:32
+    quote: '| `tmp/slideshare_airlink.html` | saved SlideShare web page, title ''Avionics Training Systems Installation And Troubleshooting 2nd Len Buckwalter | PDF''
+      (1,529,120 bytes) | `7a1c5071`, 14 Aug 2026 | provenance unverified; internal use only (added 25 Oct 2026 by the registry track) |'
 - id: project.in.tmp-slideshare_avionics
   kind: input
   module: project
@@ -1095,9 +1134,135 @@ entries:
     memory_evidence_tag: stated
     quote: Internal use is authorised in full.
   - rank: ruling
-    source: WORK:results/restricted-sources-ledger.md:26
-    quote: '| `tmp/avionics_training_*.{pdf,bin}`, `tmp/avionics_try_*.bin`, `tmp/avionics_min-1.png` | avionics training document; one file name suggests it came
-      from a document-sharing site | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |'
+    source: WORK:results/restricted-sources-ledger.md:27
+    quote: '| `tmp/slideshare_avionics/slide-*.jpg` and their OCR text | slide deck images from SlideShare | `ed40a72`, 29 Sep 2026 | provenance unverified; internal
+      use only |'
+- id: project.memnote.coordination
+  kind: note
+  module: project
+  path: WORK:registry/memory-notes/coordination.jsonl
+  note: Memory rows on topic 'coordination' moved to the registry on 25 Oct 2026 (67 rows; 24 have no other entry). Records of what memory said, not verified facts;
+    each row has its verification status.
+  assignment_basis: memory track topic
+  memory_notes:
+    file: WORK:registry/memory-notes/coordination.jsonl
+    n_rows: 67
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: project.memnote.drive
+  kind: note
+  module: project
+  path: WORK:registry/memory-notes/drive.jsonl
+  note: Memory rows on topic 'drive' moved to the registry on 25 Oct 2026 (15 rows; 12 have no other entry). Records of what memory said, not verified facts; each
+    row has its verification status.
+  assignment_basis: memory track topic
+  memory_notes:
+    file: WORK:registry/memory-notes/drive.jsonl
+    n_rows: 15
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: project.memnote.figures-style
+  kind: note
+  module: project
+  path: WORK:registry/memory-notes/figures-style.jsonl
+  note: Memory rows on topic 'figures-style' moved to the registry on 25 Oct 2026 (39 rows; 30 have no other entry). Records of what memory said, not verified facts;
+    each row has its verification status.
+  assignment_basis: memory track topic
+  memory_notes:
+    file: WORK:registry/memory-notes/figures-style.jsonl
+    n_rows: 39
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: project.memnote.git-repo
+  kind: note
+  module: project
+  path: WORK:registry/memory-notes/git-repo.jsonl
+  note: Memory rows on topic 'git-repo' moved to the registry on 25 Oct 2026 (13 rows; 6 have no other entry). Records of what memory said, not verified facts; each
+    row has its verification status.
+  assignment_basis: memory track topic
+  memory_notes:
+    file: WORK:registry/memory-notes/git-repo.jsonl
+    n_rows: 13
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: project.memnote.literature
+  kind: note
+  module: project
+  path: WORK:registry/memory-notes/literature.jsonl
+  note: Memory rows on topic 'literature' moved to the registry on 25 Oct 2026 (6 rows; 4 have no other entry). Records of what memory said, not verified facts; each
+    row has its verification status.
+  assignment_basis: memory track topic
+  memory_notes:
+    file: WORK:registry/memory-notes/literature.jsonl
+    n_rows: 6
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: project.memnote.other
+  kind: note
+  module: project
+  path: WORK:registry/memory-notes/other.jsonl
+  note: Memory rows on topic 'other' moved to the registry on 25 Oct 2026 (29 rows; 16 have no other entry). Records of what memory said, not verified facts; each
+    row has its verification status.
+  assignment_basis: memory track topic
+  memory_notes:
+    file: WORK:registry/memory-notes/other.jsonl
+    n_rows: 29
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: project.memnote.platform
+  kind: note
+  module: project
+  path: WORK:registry/memory-notes/platform.jsonl
+  note: Memory rows on topic 'platform' moved to the registry on 25 Oct 2026 (13 rows; 9 have no other entry). Records of what memory said, not verified facts; each
+    row has its verification status.
+  assignment_basis: memory track topic
+  memory_notes:
+    file: WORK:registry/memory-notes/platform.jsonl
+    n_rows: 13
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
 - id: project.note._gitignore
   kind: product
   module: project
@@ -1184,6 +1349,16 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 5
+    mem_ids:
+    - mem_0c1b35ff3cdb
+    - mem_6539b60b0186
+    - mem_ab76df27a7d8
+    - mem_b218cc3602d1
+    - mem_d08033674c4a
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: project.note.coordination-overnight-2026-10-10_md
   kind: note
   module: project
@@ -1206,6 +1381,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_71262ebadf90
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: project.note.coordination-readme_md
   kind: note
   module: project
@@ -1242,6 +1423,28 @@ entries:
     last_changed:
       commit: 8cae711638062921fe02ab4c153420a473b0596a
       date: '2026-10-22T10:18:07-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: project.note.results-index
+  kind: note
+  module: project
+  path: WORK:results/INDEX.md
+  note: Results index. Generated by registry/make_index.py from REGISTRY.json; do not edit by hand.
+  assignment_basis: generated registry output
+  git:
+    first_added:
+      commit: 92c098f720b5f01dd9390c1c4e1eb6a3f06d6118
+      date: '2026-10-25T08:47:59-06:00'
+      subject: 'registry: project registry (8 modules + project), rules-for-new-work check, archive of loose root folders'
+    last_changed:
+      commit: 92c098f720b5f01dd9390c1c4e1eb6a3f06d6118
+      date: '2026-10-25T08:47:59-06:00'
   defects: []
   superseded_by: null
   inputs: []
@@ -1316,6 +1519,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_d17f16fb11e4
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: project.res.restricted-sources-ledger_md
   kind: note
   module: project
@@ -1328,8 +1537,8 @@ entries:
       date: '2026-10-09T16:48:34-06:00'
       subject: 'Coordination: core briefing on filter audit and merged sequence; EoF early V2 look; Davey PDF licence notice; restricted-source ledger'
     last_changed:
-      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
-      date: '2026-10-19T21:55:56-06:00'
+      commit: 26b42d7242d5267a771e882b569168ef38929af8
+      date: '2026-10-25T16:58:11-06:00'
   defects: []
   superseded_by: null
   inputs: []
@@ -1338,6 +1547,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_e4e5d9d7671f
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: project.res.source-access-ledger-2026-10-22_csv
   kind: product
   module: project
@@ -1362,6 +1577,13 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_95c18c2787c9
+    - mem_9e198266621c
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: project.res.source-access-ledger-2026-10-22_md
   kind: note
   module: project

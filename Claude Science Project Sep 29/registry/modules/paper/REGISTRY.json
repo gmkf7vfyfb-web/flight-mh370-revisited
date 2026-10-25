@@ -1,9 +1,9 @@
 {
  "registry_version": "paper registry v1 (2026-10-25)",
  "module": "paper",
- "built_utc": "2026-10-25T14:45:53Z",
+ "built_utc": "2026-10-25T22:59:15Z",
  "hashing": true,
- "work_branch_head_at_build": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86 2026-10-24T19:38:28-06:00",
+ "work_branch_head_at_build": "26b42d7242d5267a771e882b569168ef38929af8 2026-10-25T16:58:11-06:00",
  "roots": {
   "REPO": "(repository)",
   "WORK": "(repository)",
@@ -80,6 +80,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_b91b94fb8af8"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 31248,
    "manifest": "modules/paper/manifests/paper.code.paper-build_reference_draft_py.tsv.gz",
@@ -111,6 +119,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_0246054e2bc3"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 70241,
    "manifest": "modules/paper/manifests/paper.code.paper-proposed-draft-build_draft_v2_py.tsv.gz",
@@ -148,6 +164,30 @@
    "manifest_sha256": "b07f97c399154894a70ecc84f7a4ec7856e8e7263b0ea9dd3a0675b41ee6faea"
   },
   {
+   "id": "paper.memnote.paper",
+   "kind": "note",
+   "module": "paper",
+   "path": "WORK:registry/memory-notes/paper.jsonl",
+   "note": "Memory rows on topic 'paper' moved to the registry on 25 Oct 2026 (23 rows; 14 have no other entry). Records of what memory said, not verified facts; each row has its verification status.",
+   "assignment_basis": "memory track topic",
+   "memory_notes": {
+    "file": "WORK:registry/memory-notes/paper.jsonl",
+    "n_rows": 23
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 28033,
+   "manifest": "modules/paper/manifests/paper.memnote.paper.tsv.gz",
+   "manifest_sha256": "abc6ef7f984f710136d0ef2623180587cf9d60a51bbb8d1367e5a0bd0a403efe"
+  },
+  {
    "id": "paper.note.coordination-paper_md",
    "kind": "note",
    "module": "paper",
@@ -173,6 +213,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_5142ed13b545"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 78997,
    "manifest": "modules/paper/manifests/paper.note.coordination-paper_md.tsv.gz",
@@ -235,6 +283,16 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 3,
+    "mem_ids": [
+     "mem_3e63185198c1",
+     "mem_a38bd2d6afc0",
+     "mem_b69a10cb97b5"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 26663,
    "manifest": "modules/paper/manifests/paper.note.paper-holland-audit_md.tsv.gz",
@@ -285,8 +343,8 @@
      "subject": "paper: verified JON author rules; master citation ledger and references.bib (96 entries, CrossRef-checked); PAPER.md status and four recommendations"
     },
     "last_changed": {
-     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
-     "date": "2026-10-19T21:55:56-06:00"
+     "commit": "26b42d7242d5267a771e882b569168ef38929af8",
+     "date": "2026-10-25T16:58:11-06:00"
     }
    },
    "defects": [],
@@ -298,9 +356,9 @@
    "status_rank": "none",
    "status_evidence": [],
    "n_files": 1,
-   "bytes": 15884,
+   "bytes": 28794,
    "manifest": "modules/paper/manifests/paper.note.paper-jon-rules_md.tsv.gz",
-   "manifest_sha256": "1300ecc93e189cd08d5caa270df6979e448d698eae93cf820d92071e10896dd0"
+   "manifest_sha256": "6096296363fb90655653ba1d3f2a8427343180e895023b219943d41b7a53a3a2"
   },
   {
    "id": "paper.note.paper-paper-budget_md",
@@ -707,6 +765,15 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 2,
+    "mem_ids": [
+     "mem_2219a7569a00",
+     "mem_8ce2ef8b436d"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 3556,
    "manifest": "modules/paper/manifests/paper.note.paper-references-paper-added_bib.tsv.gz",
@@ -769,6 +836,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_5b9429a9f091"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 8066,
    "manifest": "modules/paper/manifests/paper.note.paper-style-notes_md.tsv.gz",
@@ -800,6 +875,15 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 2,
+    "mem_ids": [
+     "mem_41265244df06",
+     "mem_aa80d5e8fb75"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 22300,
    "manifest": "modules/paper/manifests/paper.note.threads-master-prompts-paper-drafting_md.tsv.gz",

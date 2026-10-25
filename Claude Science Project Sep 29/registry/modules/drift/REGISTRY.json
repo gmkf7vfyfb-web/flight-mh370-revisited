@@ -1,9 +1,9 @@
 {
  "registry_version": "drift registry v1 (2026-10-25)",
  "module": "drift",
- "built_utc": "2026-10-25T14:45:49Z",
+ "built_utc": "2026-10-25T22:59:14Z",
  "hashing": true,
- "work_branch_head_at_build": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86 2026-10-24T19:38:28-06:00",
+ "work_branch_head_at_build": "26b42d7242d5267a771e882b569168ef38929af8 2026-10-25T16:58:11-06:00",
  "roots": {
   "REPO": "(repository)",
   "WORK": "(repository)",
@@ -115,6 +115,19 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 6,
+    "mem_ids": [
+     "mem_1b45818fae07",
+     "mem_3599fc62f7e3",
+     "mem_5ea1a1eb1b5c",
+     "mem_8e4467d7177a",
+     "mem_9371dc8912df",
+     "mem_f2391d7b70b3"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 38,
    "bytes": 301855,
    "manifest": "modules/drift/manifests/drift.code.engine-crates-ocean.tsv.gz",
@@ -137,6 +150,17 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 4,
+    "mem_ids": [
+     "mem_0732a754a208",
+     "mem_1ba984afa8df",
+     "mem_b0d00cf8662c",
+     "mem_b17cdce128fc"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "not_hashed": [],
    "n_files": 2,
    "bytes": 6382,
@@ -327,6 +351,54 @@
    "manifest_sha256": "72095098bb355c67bab5848b9417f6e2a097d2736670a60af2b42ce2f27a3064"
   },
   {
+   "id": "drift.memnote.debris-drift",
+   "kind": "note",
+   "module": "drift",
+   "path": "WORK:registry/memory-notes/debris-drift.jsonl",
+   "note": "Memory rows on topic 'debris-drift' moved to the registry on 25 Oct 2026 (114 rows; 65 have no other entry). Records of what memory said, not verified facts; each row has its verification status.",
+   "assignment_basis": "memory track topic",
+   "memory_notes": {
+    "file": "WORK:registry/memory-notes/debris-drift.jsonl",
+    "n_rows": 114
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 138282,
+   "manifest": "modules/drift/manifests/drift.memnote.debris-drift.tsv.gz",
+   "manifest_sha256": "c1ed159b887cf84d9bb1e210207eddba3efa85d3924cb2721c7a06ca6a9f1bdb"
+  },
+  {
+   "id": "drift.memnote.ocean-data",
+   "kind": "note",
+   "module": "drift",
+   "path": "WORK:registry/memory-notes/ocean-data.jsonl",
+   "note": "Memory rows on topic 'ocean-data' moved to the registry on 25 Oct 2026 (17 rows; 12 have no other entry). Records of what memory said, not verified facts; each row has its verification status.",
+   "assignment_basis": "memory track topic",
+   "memory_notes": {
+    "file": "WORK:registry/memory-notes/ocean-data.jsonl",
+    "n_rows": 17
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 19956,
+   "manifest": "modules/drift/manifests/drift.memnote.ocean-data.tsv.gz",
+   "manifest_sha256": "1a9b4ca4ffb81b133c2aeb2f83790cc8435680fcce0e868c15b763bffd686c84"
+  },
+  {
    "id": "drift.note.coordination-ocean_drift_md",
    "kind": "note",
    "module": "drift",
@@ -383,6 +455,16 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 3,
+    "mem_ids": [
+     "mem_01f083b910a0",
+     "mem_7df9b6636bee",
+     "mem_fbba6aac9fe1"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 115879,
    "manifest": "modules/drift/manifests/drift.note.coordination-ocean_transport_md.tsv.gz",
@@ -476,6 +558,15 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 2,
+    "mem_ids": [
+     "mem_cb4fda21c9c2",
+     "mem_d72f569465b9"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 9627,
    "manifest": "modules/drift/manifests/drift.note.threads-master-prompts-ocean-drift_md.tsv.gz",
@@ -693,6 +784,15 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 2,
+    "mem_ids": [
+     "mem_5f24cf7db9cf",
+     "mem_b7f662e1ec8f"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 202200,
    "manifest": "modules/drift/manifests/drift.res.debris-drift-australia-pilot-nodes_csv.tsv.gz",
@@ -1752,6 +1852,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_31ea0b1f81e9"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 4495,
    "manifest": "modules/drift/manifests/drift.res.debris-drift-pilot-scoring-289_md.tsv.gz",
@@ -1783,6 +1891,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_8044d7366f13"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 4404,
    "manifest": "modules/drift/manifests/drift.res.debris-drift-pilot-sizing_md.tsv.gz",
@@ -1814,6 +1930,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_691327441d4e"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 8023,
    "manifest": "modules/drift/manifests/drift.res.debris-drift-pilot_md.tsv.gz",
@@ -1995,8 +2119,8 @@
      "subject": "results: flaperon provenance - Part II pages corrected (footers, +1), genuine vs replica; drift citation ledger; coordination: drift progress, D-a page correction, ledger-location conflict, second lee"
     },
     "last_changed": {
-     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
-     "date": "2026-10-19T21:55:56-06:00"
+     "commit": "26b42d7242d5267a771e882b569168ef38929af8",
+     "date": "2026-10-25T16:58:11-06:00"
     }
    },
    "defects": [],
@@ -2008,9 +2132,9 @@
    "status_rank": "none",
    "status_evidence": [],
    "n_files": 1,
-   "bytes": 12712,
+   "bytes": 30306,
    "manifest": "modules/drift/manifests/drift.res.debris-drift-references_md.tsv.gz",
-   "manifest_sha256": "75f3a3f8529fb34907cc385ad4a6bb21acf4b744a4daa8a8e0c343097f16593d"
+   "manifest_sha256": "7f0e7ffa15adacd1b58602d864a0df0101dd2e2d1e3150e332d0f798d45ddb40"
   },
   {
    "id": "drift.res.debris-drift-review_md",
@@ -2038,6 +2162,15 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 2,
+    "mem_ids": [
+     "mem_692d50a8cc9e",
+     "mem_8e23c6faf12d"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 45851,
    "manifest": "modules/drift/manifests/drift.res.debris-drift-review_md.tsv.gz",
@@ -2143,6 +2276,15 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 2,
+    "mem_ids": [
+     "mem_4fe652fb4e12",
+     "mem_f2f6a14d47aa"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 6,
    "bytes": 232030,
    "manifest": "modules/drift/manifests/drift.res.debris-drift-runa-rebuilt.tsv.gz",
@@ -2484,6 +2626,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_ee67f41c772e"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 51223,
    "manifest": "modules/drift/manifests/drift.res.debris-drift-two-model-nodes-relwind_csv.tsv.gz",
@@ -2515,6 +2665,15 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 2,
+    "mem_ids": [
+     "mem_b53567ca4aff",
+     "mem_c72873c0d325"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 19750,
    "manifest": "modules/drift/manifests/drift.res.debris-drift-two-model-nodes_csv.tsv.gz",
@@ -2583,6 +2742,18 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 5,
+    "mem_ids": [
+     "mem_1a7b98ac379c",
+     "mem_744877c813ab",
+     "mem_b573c14dac1d",
+     "mem_bd0c1e531df0",
+     "mem_cec068d9ec09"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 45,
    "bytes": 1168505,
    "manifest": "modules/drift/manifests/drift.res.drift-items-2026-10-17.tsv.gz",
@@ -2614,6 +2785,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_ba0d45e35a0b"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 24409,
    "manifest": "modules/drift/manifests/drift.res.drift-model-audit-architecture_md.tsv.gz",
@@ -3117,6 +3296,21 @@
      "read_by_hand": "complete for the waypoints stratum only; four-stratum mixture waits"
     }
    ],
+   "memory_notes": {
+    "n_rows": 8,
+    "mem_ids": [
+     "mem_060471bc437e",
+     "mem_153e555444e1",
+     "mem_154493941b45",
+     "mem_3d25093a4145",
+     "mem_49224dea722a",
+     "mem_7023b5ffc9fa",
+     "mem_7901748f7138",
+     "mem_862a7d4518eb"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 96,
    "bytes": 20410186,
    "manifest": "modules/drift/manifests/drift.res.drift-runj-2026-10-17.tsv.gz",
@@ -3148,6 +3342,17 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 4,
+    "mem_ids": [
+     "mem_8f9ee3ba249d",
+     "mem_97846ad97c81",
+     "mem_b1e21e7d226c",
+     "mem_fc9cf75132a1"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 158,
    "bytes": 14729079,
    "manifest": "modules/drift/manifests/drift.res.kadri-haixun-conditional-2026-10-18.tsv.gz",
@@ -3179,6 +3384,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_dd538c80d9b3"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 51241,
    "manifest": "modules/drift/manifests/drift.res.ocean-data-manifest_md.tsv.gz",
@@ -3297,8 +3510,8 @@
      "subject": "crates/ocean: item 3 - ocean_paths export (geodesic bathymetry with TID and corridor maximum, WOA23 sound speed with spread); GEBCO TID read from netCDF3; citation ledger moved to results/ocean-refere"
     },
     "last_changed": {
-     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
-     "date": "2026-10-19T21:55:56-06:00"
+     "commit": "26b42d7242d5267a771e882b569168ef38929af8",
+     "date": "2026-10-25T16:58:11-06:00"
     }
    },
    "defects": [],
@@ -3310,9 +3523,9 @@
    "status_rank": "none",
    "status_evidence": [],
    "n_files": 1,
-   "bytes": 18865,
+   "bytes": 26248,
    "manifest": "modules/drift/manifests/drift.res.ocean-references_md.tsv.gz",
-   "manifest_sha256": "c179dd97276799844380657ab69efd79c830f66a539552b22a09c04b9db1e437"
+   "manifest_sha256": "01ddbfd328c292c3f93210588c92d355cbd2e1c03d24406d0594ff6bc4793aba"
   },
   {
    "id": "drift.res.ocean-transport-error-gdp-replay_json",
@@ -3378,6 +3591,14 @@
      "read_by_hand": "status line: measured"
     }
    ],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_e7f63f519a9c"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 9707,
    "manifest": "modules/drift/manifests/drift.res.ocean-transport-error-gdp-replay_md.tsv.gz",

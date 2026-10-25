@@ -62,7 +62,7 @@ cv += ["## Exchange folder", "", f"- Entries: {len(ex)}. Files: {sum(e['n_files'
        "- Memory records say that `end-of-flight/run-i` and `end-of-flight/run-i-c2aim` are superseded by `run-i-dive`. These folders are not in the exchange folder now, so they have no entry.", ""]
 cv += ["## Files that are not registered, and why", "", "| file | reason |", "|---|---|"]
 for p in C["not_covered"]:
-    why = "hydroacoustics: left for phase 2" if re.search(r"(?i)hydro", p) else ("archive folder manifest note (described by project.note.archive-sep29-manifest)" if p.startswith("Archive Sep 29") else "not matched by an entry rule")
+    why = "hydroacoustics: left for phase 2" if re.search(r"(?i)hydro", p) and not p.startswith("Claude Science Project Sep 29/registry/") else ("registry's own file (scripts, manifests, generated outputs); a registry does not list itself" if p.startswith("Claude Science Project Sep 29/registry/") else ("archive folder manifest note (described by project.note.archive-sep29-manifest)" if p.startswith("Archive Sep 29") else "not matched by an entry rule"))
     cv.append(f"| {cell(p)} | {why} |")
 cv += ["", "## Status statements found but not applied", "",
        "These records name an item and a status word, but the statement is about another item. They are listed for review.", "",

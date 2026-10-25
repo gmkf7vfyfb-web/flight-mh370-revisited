@@ -45,6 +45,13 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_5d75bb9c1f56
+    - mem_d7d2f09cd14d
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: settling.ex.settling-run-j
   kind: product
   module: settling
@@ -93,6 +100,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_e616d983752b
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: settling.home.mh370-settling-work
   kind: data_home
   module: settling
@@ -194,6 +207,12 @@ entries:
   - rank: readme
     source: WORK:results/breakup-field-candidate.md:3
     quote: '**Status: candidate for the shared breakup-field freeze, PROVISIONAL.** Written by ocean settling at'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_e2dfe2c04134
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: settling.res.settling-aimed-resample
   kind: product
   module: settling
@@ -216,6 +235,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_c7229b5206ca
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: settling.res.settling-core-set-next-run-b
   kind: product
   module: settling
@@ -266,6 +291,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_fe151ba41363
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: settling.res.settling-d6-289
   kind: product
   module: settling
@@ -290,6 +321,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_1fab482c4960
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: settling.res.settling-d6-real
   kind: product
   module: settling
@@ -314,6 +351,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_2c3c451c0993
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: settling.res.settling-d6-real-289
   kind: product
   module: settling
@@ -338,6 +381,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_47c3c1d20a93
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: settling.res.settling-family-next-run-b
   kind: product
   module: settling
@@ -382,6 +431,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_7a84c489367d
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: settling.res.settling-first-pass
   kind: product
   module: settling
@@ -406,6 +461,13 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_8b9ff2d18475
+    - mem_982216d79c51
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: settling.res.settling-h1h2-estimability_md
   kind: note
   module: settling
@@ -428,6 +490,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_7ec68df8d8bd
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: settling.res.settling-implosion-events
   kind: product
   module: settling
@@ -523,6 +591,12 @@ entries:
   - rank: explicit
     source: WORK:results/settling-core-set-next-run-b/README.md:10
     quote: It replaces the stand-in's four-option result for this run (`results/settling-next-run-b-standin.md`), which used the earlier option set.
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_4caf8ebadea8
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
   status_note: Statement covers the four-option result of this run.
 - id: settling.res.settling-next-run-b-wider-profile-standin
   kind: product
@@ -609,8 +683,8 @@ entries:
       date: '2026-10-08T23:13:50-06:00'
       subject: 'results: settling citation ledger (backfill), methods draft, D6 occupants variant; settling entry'
     last_changed:
-      commit: 8cae711638062921fe02ab4c153420a473b0596a
-      date: '2026-10-22T10:18:07-06:00'
+      commit: 26b42d7242d5267a771e882b569168ef38929af8
+      date: '2026-10-25T16:58:11-06:00'
   defects: []
   superseded_by: null
   inputs: []
@@ -691,6 +765,13 @@ entries:
   - rank: readme
     source: WORK:results/settling-run-d-holland/README.md:7
     quote: '**PROVISIONAL, NOT CONVERGED.** Core run D''s split-half is below its floor in 3 of 4 strata.'
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_4f60b98b13e0
+    - mem_7309b6ced434
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: settling.res.settling-run-h
   kind: product
   module: settling
@@ -743,6 +824,12 @@ entries:
     quote: '**Labels (carry on every result):** core run I split-half NOT converged (waypoints 0.916 against floor 0.924); piloted-turn model and INTERIM pitch-down
       PROVISIONAL; in-flight structural outcome PROVISIONAL; breakup rows settled from the intact impact point (gap G-bf); P(left) = 0.8 PROVISIONAL; D4/D5 "Holland
       transient bias added". Each stratum is CONDITIONAL on itself.'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_97673e85fcb2
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: settling.res.settling-run-j
   kind: product
   module: settling
@@ -771,6 +858,12 @@ entries:
     quote: '**Labels (carry on every result):** core run J split-half **accepted as a pass by project ruling, 16 Oct 2026** (free flight 0.840 single split, 0.873
       all-partition mean; waypoints 0.934 all-partition); the thin northern detail north of 33 S is a tail-shape limitation (core prediction 5), not non-convergence.
       Piloted rapid descent to 40,000 ft/min with unloading; piloted-turn model and INTERIM pit'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_1fa75ca56f8f
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: settling.res.settling-run-j-a1branch
   kind: product
   module: settling
@@ -797,6 +890,12 @@ entries:
   - rank: readme
     source: WORK:results/settling-run-j-a1branch/README.md:7
     quote: '**Labels (carry):** core run J split-half accepted as a pass by project ruling, 16 Oct 2026. End of flight''s caveat: the uncontrolled-arm dynamics are'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_59e8770edf81
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: settling.res.settling-run-j-supplement
   kind: product
   module: settling
@@ -842,6 +941,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_1b1070343bb7
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: settling.res.settling-wreckage-field-289-priorities
   kind: product
   module: settling
@@ -864,6 +969,14 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 3
+    mem_ids:
+    - mem_5b10b6bc6489
+    - mem_a116dc298c9c
+    - mem_c9ea21a8e481
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: settling.xd.settling-next-run-d-he
   kind: archive
   module: settling

@@ -1,9 +1,9 @@
 {
  "registry_version": "searched-areas registry v1 (2026-10-25)",
  "module": "searched-areas",
- "built_utc": "2026-10-25T14:45:51Z",
+ "built_utc": "2026-10-25T22:59:15Z",
  "hashing": true,
- "work_branch_head_at_build": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86 2026-10-24T19:38:28-06:00",
+ "work_branch_head_at_build": "26b42d7242d5267a771e882b569168ef38929af8 2026-10-25T16:58:11-06:00",
  "roots": {
   "REPO": "(repository)",
   "WORK": "(repository)",
@@ -82,6 +82,29 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 16,
+    "mem_ids": [
+     "mem_17f1e386ea0f",
+     "mem_2417a4823575",
+     "mem_3ef952285275",
+     "mem_4a911978762a",
+     "mem_528dc28cf6f2",
+     "mem_54608ecb3ace",
+     "mem_6106a8f4a841",
+     "mem_645f59440d71",
+     "mem_713c83a66d4b",
+     "mem_93e428b46911",
+     "mem_983294549f12",
+     "mem_be9c7929df2b",
+     "mem_c991462e701d",
+     "mem_d335d28974de",
+     "mem_d57ba8199b39",
+     "mem_ead98a03ab31"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 50,
    "bytes": 2840865,
    "manifest": "modules/searched-areas/manifests/searched.code.engine-hypotheses-seabed-search.tsv.gz",
@@ -104,6 +127,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_d6ac83fa3ced"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "not_hashed": [],
    "n_files": 1,
    "bytes": 6148,
@@ -127,6 +158,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_e0b4093a983e"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "not_hashed": [],
    "n_files": 86,
    "bytes": 545599061,
@@ -265,6 +304,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_bbdc602d9c5e"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "not_hashed": [],
    "n_files": 20,
    "bytes": 98527584,
@@ -364,6 +411,30 @@
    "manifest_sha256": "ead6f4ae3bc3563cb18431fc61321491795f3bd7e998308f7879deb1b65f3b34"
   },
   {
+   "id": "searched.memnote.seabed-search",
+   "kind": "note",
+   "module": "searched-areas",
+   "path": "WORK:registry/memory-notes/seabed-search.jsonl",
+   "note": "Memory rows on topic 'seabed-search' moved to the registry on 25 Oct 2026 (127 rows; 76 have no other entry). Records of what memory said, not verified facts; each row has its verification status.",
+   "assignment_basis": "memory track topic",
+   "memory_notes": {
+    "file": "WORK:registry/memory-notes/seabed-search.jsonl",
+    "n_rows": 127
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 158839,
+   "manifest": "modules/searched-areas/manifests/searched.memnote.seabed-search.tsv.gz",
+   "manifest_sha256": "5fb154b1b7a100d60e5429a063ddbba7aaa2a16b9d4c3b93bc2e17148a7f107f"
+  },
+  {
    "id": "searched.note.coordination-searched_areas_md",
    "kind": "note",
    "module": "searched-areas",
@@ -427,6 +498,14 @@
      "quote": "The searched-areas brief (threads/master-prompts/searched-areas.md) and the SEARCHED_AREAS_MODULE profile prompt contain superseded instructions."
     }
    ],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_be40f81c24dc"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "status_note": "A memory record states that the brief contains superseded instructions.",
    "n_files": 1,
    "bytes": 22195,
@@ -490,6 +569,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_294ad15e6751"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 3746,
    "manifest": "modules/searched-areas/manifests/searched.res.seabed-bluefin21-area_md.tsv.gz",
@@ -521,6 +608,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_29d6542494d6"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 16694,
    "manifest": "modules/searched-areas/manifests/searched.res.seabed-detectable-target_md.tsv.gz",
@@ -552,6 +647,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_baefc728aa13"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 4419,
    "manifest": "modules/searched-areas/manifests/searched.res.seabed-field-coverage-289.tsv.gz",
@@ -589,6 +692,14 @@
      "quote": "**All numbers below are from the arc-kernel placeholder fixture — plumbing, not evidence.** What is"
     }
    ],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_fbec3e56361c"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 6233,
    "manifest": "modules/searched-areas/manifests/searched.res.seabed-repeat-search-dependence_md.tsv.gz",
@@ -713,6 +824,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_539304041c43"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 4,
    "bytes": 2945650,
    "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-0019-options.tsv.gz",
@@ -744,6 +863,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_d39ba40c1734"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 8,
    "bytes": 709540,
    "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-289-fullscale.tsv.gz",
@@ -812,6 +939,15 @@
      "quote": "**Labels, required of every number here:** core (b) split-half NOT converged; two-tank bookkeeping"
     }
    ],
+   "memory_notes": {
+    "n_rows": 2,
+    "mem_ids": [
+     "mem_09b2a3ce0535",
+     "mem_df64e6121ae4"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 49,
    "bytes": 12197116,
    "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-b.tsv.gz",
@@ -1263,6 +1399,15 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 2,
+    "mem_ids": [
+     "mem_2198fe0b9e3f",
+     "mem_940833f5e4a8"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 5521,
    "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-prior-289-vs-29566_md.tsv.gz",
@@ -1294,6 +1439,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_51ccedcb99c2"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 5912,
    "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-references_bib.tsv.gz",
@@ -1313,8 +1466,8 @@
      "subject": "searched areas: ruling S3 (ledger renamed to results/seabed-search-references.md) and Pete's dive-class caveat"
     },
     "last_changed": {
-     "commit": "8cae711638062921fe02ab4c153420a473b0596a",
-     "date": "2026-10-22T10:18:07-06:00"
+     "commit": "26b42d7242d5267a771e882b569168ef38929af8",
+     "date": "2026-10-25T16:58:11-06:00"
     }
    },
    "defects": [],
@@ -1325,10 +1478,18 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_0b8536019601"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
-   "bytes": 24208,
+   "bytes": 54446,
    "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-references_md.tsv.gz",
-   "manifest_sha256": "e47cc4be2b078419a65e5cc8e7751e41cda83d550a15dce8ba84dcc6895a36ce"
+   "manifest_sha256": "b8affc7b9e1b4ed7d154e33f2dca1c80a7ce61c0ff8df9458ffac3b95db64c4d"
   },
   {
    "id": "searched.res.seabed-search-why-wider_md",
@@ -1356,6 +1517,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_9395bcaacc57"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 5042,
    "manifest": "modules/searched-areas/manifests/searched.res.seabed-search-why-wider_md.tsv.gz",
@@ -1418,6 +1587,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_5c9e0c83e401"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 17,
    "bytes": 6435274,
    "manifest": "modules/searched-areas/manifests/searched.res.searched-areas-coverage-sources-2026-10-20.tsv.gz",
@@ -1486,6 +1663,14 @@
      "quote": "**Every number here is UNCONVERGED** (core (b) split-half not converged). Charts and data in"
     }
    ],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_ec89ae5dee85"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 29687,
    "manifest": "modules/searched-areas/manifests/searched.res.searched-areas-next-run-b-rho-eq11-2-coverage-standin_md.tsv.gz",
@@ -1616,6 +1801,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_74b958f75b96"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 7,
    "bytes": 871693,
    "manifest": "modules/searched-areas/manifests/searched.res.searched-areas-run-j-a1branch.tsv.gz",
@@ -1709,6 +1902,15 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 2,
+    "mem_ids": [
+     "mem_5c2e0dac3bc0",
+     "mem_db8fcea91827"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 11,
    "bytes": 1564525,
    "manifest": "modules/searched-areas/manifests/searched.res.searched-areas-spatial-detection.tsv.gz",

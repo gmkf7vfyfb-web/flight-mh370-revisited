@@ -78,6 +78,17 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 6
+    mem_ids:
+    - mem_1b45818fae07
+    - mem_3599fc62f7e3
+    - mem_5ea1a1eb1b5c
+    - mem_8e4467d7177a
+    - mem_9371dc8912df
+    - mem_f2391d7b70b3
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: drift.ex.debris-drift-_top-files
   kind: product
   module: drift
@@ -94,6 +105,15 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 4
+    mem_ids:
+    - mem_0732a754a208
+    - mem_1ba984afa8df
+    - mem_b0d00cf8662c
+    - mem_b17cdce128fc
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: drift.ex.debris-drift-arclat-north-2026-10-20
   kind: product
   module: drift
@@ -222,6 +242,42 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+- id: drift.memnote.debris-drift
+  kind: note
+  module: drift
+  path: WORK:registry/memory-notes/debris-drift.jsonl
+  note: Memory rows on topic 'debris-drift' moved to the registry on 25 Oct 2026 (114 rows; 65 have no other entry). Records of what memory said, not verified facts;
+    each row has its verification status.
+  assignment_basis: memory track topic
+  memory_notes:
+    file: WORK:registry/memory-notes/debris-drift.jsonl
+    n_rows: 114
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: drift.memnote.ocean-data
+  kind: note
+  module: drift
+  path: WORK:registry/memory-notes/ocean-data.jsonl
+  note: Memory rows on topic 'ocean-data' moved to the registry on 25 Oct 2026 (17 rows; 12 have no other entry). Records of what memory said, not verified facts;
+    each row has its verification status.
+  assignment_basis: memory track topic
+  memory_notes:
+    file: WORK:registry/memory-notes/ocean-data.jsonl
+    n_rows: 17
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
 - id: drift.note.coordination-ocean_drift_md
   kind: note
   module: drift
@@ -266,6 +322,14 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 3
+    mem_ids:
+    - mem_01f083b910a0
+    - mem_7df9b6636bee
+    - mem_fbba6aac9fe1
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: drift.note.threads-drafts-ocean-drift-status-draft_md
   kind: note
   module: drift
@@ -332,6 +396,13 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_cb4fda21c9c2
+    - mem_d72f569465b9
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: drift.note.threads-master-prompts-ocean-transport_md
   kind: note
   module: drift
@@ -486,6 +557,13 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_5f24cf7db9cf
+    - mem_b7f662e1ec8f
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: drift.res.debris-drift-australia-pilot_json
   kind: product
   module: drift
@@ -1235,6 +1313,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_31ea0b1f81e9
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: drift.res.debris-drift-pilot-sizing_md
   kind: note
   module: drift
@@ -1257,6 +1341,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_8044d7366f13
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: drift.res.debris-drift-pilot_md
   kind: note
   module: drift
@@ -1280,6 +1370,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_691327441d4e
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: drift.res.debris-drift-pilot_pdf
   kind: product
   module: drift
@@ -1414,8 +1510,8 @@ entries:
       subject: 'results: flaperon provenance - Part II pages corrected (footers, +1), genuine vs replica; drift citation ledger; coordination: drift progress, D-a
         page correction, ledger-location conflict, second lee'
     last_changed:
-      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
-      date: '2026-10-19T21:55:56-06:00'
+      commit: 26b42d7242d5267a771e882b569168ef38929af8
+      date: '2026-10-25T16:58:11-06:00'
   defects: []
   superseded_by: null
   inputs: []
@@ -1446,6 +1542,13 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_692d50a8cc9e
+    - mem_8e23c6faf12d
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: drift.res.debris-drift-runa-complete_md
   kind: note
   module: drift
@@ -1519,6 +1622,13 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_4fe652fb4e12
+    - mem_f2f6a14d47aa
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: drift.res.debris-drift-source-pdf-mixture_json
   kind: product
   module: drift
@@ -1761,6 +1871,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_ee67f41c772e
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: drift.res.debris-drift-two-model-nodes_csv
   kind: product
   module: drift
@@ -1783,6 +1899,13 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_b53567ca4aff
+    - mem_c72873c0d325
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: drift.res.debris-drift-windage-smoke_md
   kind: note
   module: drift
@@ -1830,6 +1953,16 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 5
+    mem_ids:
+    - mem_1a7b98ac379c
+    - mem_744877c813ab
+    - mem_b573c14dac1d
+    - mem_bd0c1e531df0
+    - mem_cec068d9ec09
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: drift.res.drift-model-audit-architecture_md
   kind: note
   module: drift
@@ -1853,6 +1986,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_ba0d45e35a0b
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: drift.res.drift-model-audit-attribution_csv
   kind: product
   module: drift
@@ -2240,6 +2379,19 @@ entries:
     source: WORK:results/drift-runj-2026-10-17/README.md
     quote: null
     read_by_hand: complete for the waypoints stratum only; four-stratum mixture waits
+  memory_notes:
+    n_rows: 8
+    mem_ids:
+    - mem_060471bc437e
+    - mem_153e555444e1
+    - mem_154493941b45
+    - mem_3d25093a4145
+    - mem_49224dea722a
+    - mem_7023b5ffc9fa
+    - mem_7901748f7138
+    - mem_862a7d4518eb
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: drift.res.kadri-haixun-conditional-2026-10-18
   kind: product
   module: drift
@@ -2262,6 +2414,15 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 4
+    mem_ids:
+    - mem_8f9ee3ba249d
+    - mem_97846ad97c81
+    - mem_b1e21e7d226c
+    - mem_fc9cf75132a1
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: drift.res.ocean-data-manifest_md
   kind: note
   module: drift
@@ -2284,6 +2445,12 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_dd538c80d9b3
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: drift.res.ocean-fields-east-120-160e_md
   kind: note
   module: drift
@@ -2371,8 +2538,8 @@ entries:
       subject: 'crates/ocean: item 3 - ocean_paths export (geodesic bathymetry with TID and corridor maximum, WOA23 sound speed with spread); GEBCO TID read from
         netCDF3; citation ledger moved to results/ocean-refere'
     last_changed:
-      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
-      date: '2026-10-19T21:55:56-06:00'
+      commit: 26b42d7242d5267a771e882b569168ef38929af8
+      date: '2026-10-25T16:58:11-06:00'
   defects: []
   superseded_by: null
   inputs: []
@@ -2432,6 +2599,12 @@ entries:
     source: WORK:results/ocean-transport-error-gdp-replay.md
     quote: null
     read_by_hand: 'status line: measured'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_e7f63f519a9c
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
 - id: drift.res.ocean-transport-error-gdp-replay_png
   kind: product
   module: drift

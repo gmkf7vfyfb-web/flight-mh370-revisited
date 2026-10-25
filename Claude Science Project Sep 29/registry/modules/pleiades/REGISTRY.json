@@ -1,9 +1,9 @@
 {
  "registry_version": "pleiades registry v1 (2026-10-25)",
  "module": "pleiades",
- "built_utc": "2026-10-25T14:45:52Z",
+ "built_utc": "2026-10-25T22:59:15Z",
  "hashing": true,
- "work_branch_head_at_build": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86 2026-10-24T19:38:28-06:00",
+ "work_branch_head_at_build": "26b42d7242d5267a771e882b569168ef38929af8 2026-10-25T16:58:11-06:00",
  "roots": {
   "REPO": "(repository)",
   "WORK": "(repository)",
@@ -82,6 +82,19 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 6,
+    "mem_ids": [
+     "mem_0737bbda566f",
+     "mem_7197b81ecbd6",
+     "mem_8e2f12876af3",
+     "mem_a8e461145c2d",
+     "mem_def8fcee88b2",
+     "mem_eb7bd0064cf0"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 60,
    "bytes": 490694,
    "manifest": "modules/pleiades/manifests/pleiades.code.engine-hypotheses-pleiades.tsv.gz",
@@ -104,6 +117,20 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 7,
+    "mem_ids": [
+     "mem_43576fc475a7",
+     "mem_7d9c98d30abc",
+     "mem_9bb11f1ca7a3",
+     "mem_b10e85233840",
+     "mem_bf50be27474b",
+     "mem_d7bdef9a7a8a",
+     "mem_e8cee223f1bc"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "not_hashed": [],
    "n_files": 1,
    "bytes": 6148,
@@ -127,6 +154,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_cb936d5402dd"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "not_hashed": [],
    "n_files": 23,
    "bytes": 85279084,
@@ -203,6 +238,30 @@
    "manifest_sha256": "a855dc4d73a8d8d14440428a7402116e6545951d56ddcb443f5835da0315d6cc"
   },
   {
+   "id": "pleiades.memnote.pleiades",
+   "kind": "note",
+   "module": "pleiades",
+   "path": "WORK:registry/memory-notes/pleiades.jsonl",
+   "note": "Memory rows on topic 'pleiades' moved to the registry on 25 Oct 2026 (120 rows; 77 have no other entry). Records of what memory said, not verified facts; each row has its verification status.",
+   "assignment_basis": "memory track topic",
+   "memory_notes": {
+    "file": "WORK:registry/memory-notes/pleiades.jsonl",
+    "n_rows": 120
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 143582,
+   "manifest": "modules/pleiades/manifests/pleiades.memnote.pleiades.tsv.gz",
+   "manifest_sha256": "684df8608a66afbce70f25940c21a57ce785e695018d3d37dd4ea5a1a13ef573"
+  },
+  {
    "id": "pleiades.note.coordination-pleiades_md",
    "kind": "note",
    "module": "pleiades",
@@ -228,6 +287,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_f10490bd9c48"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 188443,
    "manifest": "modules/pleiades/manifests/pleiades.note.coordination-pleiades_md.tsv.gz",
@@ -259,6 +326,14 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_52d6e4302688"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 11023,
    "manifest": "modules/pleiades/manifests/pleiades.note.threads-drafts-pleiades-v2-draft_md.tsv.gz",
@@ -296,6 +371,15 @@
      "quote": "`threads/master-prompts/pleiades.md` is authoritative and supersedes the September ISO `.txt`,"
     }
    ],
+   "memory_notes": {
+    "n_rows": 2,
+    "mem_ids": [
+     "mem_80dafb4dd7d2",
+     "mem_922990fe6b38"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 12428,
    "manifest": "modules/pleiades/manifests/pleiades.note.threads-master-prompts-pleiades_md.tsv.gz",
@@ -327,6 +411,27 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 14,
+    "mem_ids": [
+     "mem_0b34314827b6",
+     "mem_18bdbc131ecc",
+     "mem_4257c617038a",
+     "mem_4f22f91f3ceb",
+     "mem_4f6c3bf56072",
+     "mem_7f6cff0da34b",
+     "mem_8b822bf1714a",
+     "mem_9c24d3a9d6d5",
+     "mem_a19f0a1b1b69",
+     "mem_cb2c78fa70aa",
+     "mem_d383198cea2d",
+     "mem_df37cf54b2b7",
+     "mem_f900891a7a95",
+     "mem_f9be3aa1894d"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 582,
    "bytes": 308151316,
    "manifest": "modules/pleiades/manifests/pleiades.res.pleiades.tsv.gz",
@@ -395,6 +500,14 @@
      "quote": "**Labels (every number below):** **UNCONVERGED — core (b) split-half NOT converged** · end-of-flight physics PROVISIONAL"
     }
    ],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_4891992d3cd9"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 36059,
    "manifest": "modules/pleiades/manifests/pleiades.res.pleiades-conditional-r600-raw-bfo-standin_md.tsv.gz",
@@ -469,6 +582,14 @@
      "quote": "**Labels:** `core (b) split-half NOT converged` · `two-tank bookkeeping only` · `PROVISIONAL-OVERNIGHT` · `EoF sweep run by a stand-in`."
     }
    ],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_770d0f355fab"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
    "bytes": 20714,
    "manifest": "modules/pleiades/manifests/pleiades.res.pleiades-next-run-b-standin_md.tsv.gz",
@@ -519,8 +640,8 @@
      "subject": "Pleiades: results/pleiades notes and data, citation ledger, eighth entry (two-epoch negative result shown by injection), ocean-transport usage note"
     },
     "last_changed": {
-     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
-     "date": "2026-10-19T21:55:56-06:00"
+     "commit": "26b42d7242d5267a771e882b569168ef38929af8",
+     "date": "2026-10-25T16:58:11-06:00"
     }
    },
    "defects": [],
@@ -531,10 +652,18 @@
    "status": "UNCHECKED",
    "status_rank": "none",
    "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_cffafeea1f99"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
    "n_files": 1,
-   "bytes": 10137,
+   "bytes": 26513,
    "manifest": "modules/pleiades/manifests/pleiades.res.pleiades-references_md.tsv.gz",
-   "manifest_sha256": "b651d03e16f51b0130b025fe53bec6e32cb05311c6e790f8494f1be225bb1f6c"
+   "manifest_sha256": "703df7f9973ccd1283b2cf3b0c482ffa09122883ea42b2b591a1f37ae152b01b"
   },
   {
    "id": "pleiades.xd.pleiades-columns",
