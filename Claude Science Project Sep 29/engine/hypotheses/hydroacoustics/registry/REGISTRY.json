@@ -1973,11 +1973,11 @@
     ],
     "quote": "# hydro_data.sqlite — hydroacoustic data held by the project (raw and digitised data, background noise, acoustic coupling)\n\nOne SQLite file that lists every hydroacoustic **data** item the project holds: raw IMOS seabed-logger records and the values digitised from publications (Kadri, Royer, CMST, Blackman, Metz, Brown, Nielsen, Vergoz, Duncan & Dall'Osto) (stage 1), and every background-noise level and acoustic-coupling value with its definition, unit, source file and SHA-256 (stage 2, from 25 Oct 2026). Analysis **results** (detections, likelihoods, detectability) are not in this file. They stay in the module registry `registry/REGISTRY.json`, and every row here carries the registry entry id that covers its files.\n\nBuilt 2026-10-23T21:00:42Z from module branch `hypothesis/hydroacoustics` at 131e520 and `~/Downloads/mh370-inputs/hydroacoustics/imos`. Schema `hydro-data-db v1`."
    },
-   "note": "DATA SOURCE OF RECORD for hydroacoustic data (raw IMOS records and digitised published data, stage 1, 23 Oct 2026) and for background noise and acoustic coupling (stage 2, 25 Oct 2026): site, sensor, dataset, segment, pick, event, attribute, arc_path, noise_estimate, noise_condition, coupling_definition, coupling_value, coupling_evidence, coupling_curve tables; 4,572 raw files SHA-256 verified; stage 1 36/36 checks, stage 2 19 checks (17 PASS, 2 REVIEW listed for Pete: K09 restrictive wording, K11 coupling rows above 1). Rebuild with the data_db scripts; never edit by hand. Results stay in this registry.",
+   "note": "DATA SOURCE OF RECORD for hydroacoustic data (raw IMOS records and digitised published data, stage 1, 23 Oct 2026) and for background noise and acoustic coupling (stage 2, 25 Oct 2026): site, sensor, dataset, segment, pick, event, attribute, arc_path, noise_estimate, noise_condition, coupling_definition, coupling_value, coupling_evidence, coupling_curve tables; 4,572 raw files SHA-256 verified; stage 1 36/36 checks, stage 2 21 checks (19 PASS, 2 REVIEW listed for Pete: K09 restrictive wording, K11 coupling-curve rows above 1); coupling tables are the coupling thread's package of 25 Oct 2026, validated by its own script in every build. Rebuild with the data_db scripts; never edit by hand. Results stay in this registry.",
    "n_files": 1,
-   "bytes": 22138880,
+   "bytes": 22269952,
    "manifest": "manifests/in.hydro_data_db.tsv.gz",
-   "manifest_sha256": "e6be40555967c4231f4f100ede7d8f6777afc934868a7bbe429b72ffd7d0093f"
+   "manifest_sha256": "93c434bafa1e7422d9bee3bc35dc84301731d913ceb1a1868132b2bd969c64c6"
   },
   {
    "id": "code.hydro_data_db",
@@ -1989,16 +1989,16 @@
    "definition": {
     "file": "MOD:registry/data_db/README.md",
     "lines": [
-     77,
-     77
+     90,
+     90
     ],
     "quote": "Run order: `build_hydro_data_db.py` → `build_noise_coupling.py --db hydro_data.sqlite --mod <module root> --coupling inputs/coupling --record NOISE_COUPLING_RECORD.md` → `arc_line_of_sight.py --db hydro_data.sqlite --gebco <gebco grid dir>` → `arc_station_count.py --db hydro_data.sqlite --out arc_los_station_count` → `make_sites_map.py` / `arc_recording_opportunity.py`."
    },
    "note": "Builders and derived scripts for hydro_data.sqlite (build_hydro_data_db.py, build_noise_coupling.py, arc_line_of_sight.py, arc_station_count.py, make_sites_map.py, arc_recording_opportunity.py) with their outputs, inputs/coupling (coupling-thread files with MANIFEST.tsv) and NOISE_COUPLING_RECORD.md (generated).",
-   "n_files": 37,
-   "bytes": 35694932,
+   "n_files": 47,
+   "bytes": 35901487,
    "manifest": "manifests/code.hydro_data_db.tsv.gz",
-   "manifest_sha256": "16388dc36a32b60872bf949033c9aba7d020abc7b5b8d3e03100f9e3f9dcabf2"
+   "manifest_sha256": "4e92bd827f217c31ddca9dfdaa5e82d60c5d88846b8ce5cd6ea852122f4cd3e0"
   },
   {
    "id": "ex.arc_line_of_sight",
@@ -2802,6 +2802,17 @@
    "added_constants": [],
    "method": "build_registry.py functions (manifest, quote, resolve) applied to these two entries only (stage 2 noise and coupling added to hydro_data.sqlite); all other entries, manifests and built_utc unchanged.",
    "module_head_before": "d88d48e"
+  },
+  {
+   "utc": "2026-10-25T01:13:26Z",
+   "updated_entries": [
+    "in.hydro_data_db",
+    "code.hydro_data_db"
+   ],
+   "added_entries": [],
+   "added_constants": [],
+   "method": "build_registry.py functions (manifest, quote, resolve) applied to these two entries only (stage 2 coupling tables replaced by the coupling thread's package of 25 Oct 2026, commit 7e5859d); all other entries, manifests and built_utc unchanged.",
+   "module_head_before": "9a777b9"
   }
  ]
 }
