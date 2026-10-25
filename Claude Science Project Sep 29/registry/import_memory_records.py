@@ -129,6 +129,9 @@ def main():
         text, flags = clean(mid, exp[mid]["body"], a.export_vid)
         for fl in flags:
             stats["ledger_" + fl] += 1
+        if fx.get("corrected_text"):
+            text = "[SUPERSEDED WORDING - the independent verifier found this text wrong; use the corrected text column] " + text
+            stats["ledger_rows_marked_superseded_wording"] += 1
         status = fx.get("status") or f.get("d_status") or r["verification_status"]
         corr = fx["corrected_text"] if "corrected_text" in fx else (f.get("corrected_text") or r["new_text"])
         corr, _ = clean(mid, corr, a.export_vid) if corr else ("", [])
