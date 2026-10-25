@@ -41,5 +41,95 @@ entries:
   manifest: manifests/res.coupling_db_package_2026_10_25.tsv.gz
   note: "Coupling import package for hydro_data.sqlite; validator passes 17/17 checks and the negative test fails as intended. Family priors are PROPOSED_STRUCTURE (structure awaits Pete), values are EVIDENCE. (10 files)"
 # Coupling constants: already re-statused on hypothesis/hydroacoustics (commit cb1a7d7, Pete 25 Oct 2026); nothing to change here.
-pending_entries_after_verification:
-- "four raw-data tracks started 25 Oct 2026 (F-35A ridge from raw H11; Transair 810; propagation level check on San Juan charge and FSST; Kadri replication). Entries follow after an independent verifier pass."
+# Wave 3 (raw IMS analyses), added 25 Oct 2026 after the independent verifier pass.
+- id: res.raw_ims_2026_10_25
+  kind: product
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25
+  status: CURRENT_WITH_CAVEATS
+  defects: []
+  verified_this_run: true
+  definition:
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/README.md
+    lines:
+    - 1
+    - 25
+  manifest: manifests/res.raw_ims_2026_10_25.tsv.gz
+  note: "Four exploratory raw-IMS analyses (25 Oct 2026) with independent verifier pass (9 AGREE, 3 MINOR, 0 DISAGREE); errata listed in README apply. Nothing is a likelihood. (1 top-level files)"
+- id: res.raw_ims_2026_10_25.f35a_raw_ridge
+  kind: product
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/f35a-raw-ridge
+  status: CURRENT_WITH_CAVEATS
+  defects: []
+  verified_this_run: true
+  definition:
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/f35a-raw-ridge/f35a-raw-ridge-note.md
+    lines:
+    - 1
+    - 30
+  manifest: manifests/res.raw_ims_2026_10_25.f35a_raw_ridge.tsv.gz
+  note: "F-35A raw H11 re-derivation: raw exposure +0.22-0.29 dB over digitised; 20 Hz gap at 6/6 elements; D1 ridge (f^-2 module form, KRAKEN+RAM, 900 MJ) 2.40e-3 at 10 m (1.06x CV02), sigma_ln 0.61; f^-4 family not supported; per-triad coupled-mode sensitivity 1.81e-3; Arons D2 5.4e-4 (4-64 Hz); back-azimuth 3-4 deg off Metz (unresolved). Verifier: F1 F3 F4 AGREE, F2 MINOR. Erratum 1 (wording) and 4 apply. (32 files)"
+- id: res.raw_ims_2026_10_25.transair_810
+  kind: product
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/transair-810
+  status: CURRENT_WITH_CAVEATS
+  defects: []
+  verified_this_run: true
+  definition:
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/transair-810/transair810-note.md
+    lines:
+    - 1
+    - 30
+  manifest: manifests/res.raw_ims_2026_10_25.transair_810.tsv.gz
+  note: "Transair 810 ditching at Wake: no significant detection in the predicted window (module M1b p 0.079/0.095, not re-verified); Kadri's boxed burst real but from 152.6 deg (expected 79.2); R3 upper limit eta_rad <= ~0.14x F-35A ridge (H11S). Verifier: T1 T2 AGREE. Erratum 7 applies. (41 files)"
+- id: res.raw_ims_2026_10_25.kadri_2024_replication
+  kind: product
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/kadri-2024-replication
+  status: CURRENT_WITH_CAVEATS
+  defects: ["route length overstated 1-4 %: Sriwijaya/AB1103 offsets too negative by ~26/84 s (README erratum 2)"]
+  verified_this_run: true
+  definition:
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/kadri-2024-replication/kadri-replication-note.md
+    lines:
+    - 1
+    - 30
+  manifest: manifests/res.raw_ims_2026_10_25.kadri_2024_replication.tsv.gz
+  note: "Kadri 2024 (Sci. Rep. 14:10102) is a COMPARISON SET: F-35A reproduced and consistent; Transair, Sriwijaya, AB1103, AirAsia boxed signals real but not consistent with the crash sites under the project path model; Lion Air 610 no detection. Not evidence that Kadri erred. Verifier: K2 K3 AGREE, K1 MINOR. Errata 2 and 3 apply. (16 files)"
+- id: res.raw_ims_2026_10_25.propagation_level_check
+  kind: product
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/propagation-level-check
+  status: CURRENT_WITH_CAVEATS
+  defects: []
+  verified_this_run: true
+  definition:
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/propagation-level-check/propagation-level-check-note.md
+    lines:
+    - 1
+    - 30
+  manifest: manifests/res.raw_ims_2026_10_25.propagation_level_check.tsv.gz
+  note: "Known-energy explosions at Ascension (San Juan charge and event, FSST 2016/2021): stage-1b -14.4 dB level FAIL mostly a PSD-to-energy unit conversion (~7 dB); residual slope -3.7 to +2.9 dB/oct over 17 pairs (airgun misfit attributed to airgun source term, caveat wording awaits Pete); provisional sigma_model ~5 dB + ~4 dB source + >=6 dB ridge path; M1b detects real San Juan arrival at p floor but weak at 16-24 dB SNR. Verifier: P1 P3 AGREE, P2 MINOR. Errata 5 and 6 apply. (57 files)"
+- id: res.raw_ims_2026_10_25.db_rows_merged
+  kind: product
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/db-rows-merged
+  status: CURRENT
+  defects: []
+  verified_this_run: true
+  definition:
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/db-rows-merged/merge_wave3_rows.py
+    lines:
+    - 1
+    - 30
+  manifest: manifests/res.raw_ims_2026_10_25.db_rows_merged.tsv.gz
+  note: "All wave-3 DB rows with unique ids (CV26-CV123, OB07-OB81, E18, AC05/R3 updates); id-map.csv keeps track ids; validator PASS 0 failures on base package + rows. For the data-inventory thread to import (one writer). (6 files)"
+- id: res.raw_ims_2026_10_25.independent_verification
+  kind: product
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/independent-verification
+  status: CURRENT
+  defects: []
+  verified_this_run: true
+  definition:
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/independent-verification/wave3-verifier-report.md
+    lines:
+    - 1
+    - 30
+  manifest: manifests/res.raw_ims_2026_10_25.independent_verification.tsv.gz
+  note: "Independent recomputation of 12 headline items from raw data: 9 AGREE, 3 MINOR, 0 DISAGREE, 0 NOT VERIFIED. Not re-verified: module M1b p-values, KRAKEN/RAM runs. (3 files)"

@@ -1838,3 +1838,10 @@ Each change is in REGISTRY.json `partial_updates`. hydro_data.sqlite is the sour
 Pete (25 Oct 2026): "yes, let's go with your recommendation" — register session c764a583's committed outputs NOW from
 results/hydroacoustics/source-survey-2026-10-23/registry-handoff/ (entries-c764a583.yaml + manifests). Do not wait for this session to finish.
 The four raw-IMS tracks still running here will be added later, as a separate hand-off, after an independent verifier pass.
+
+## 2026-10-25 — raw IMS analyses (wave 3), verified, registry hand-off (from session c764a583) — for the clean-up thread (880e7c80) and the data-inventory thread
+- New folder `results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/` (README first): F-35A raw ridge, Transair 810, Kadri 2024 replication, propagation level check (San Juan, FSST at Ascension), merged DB rows, independent verification.
+- Independent verifier: 12 headline items recomputed from raw data, 9 AGREE, 3 MINOR, 0 DISAGREE. Errata (7, README) apply; notes are not edited.
+- Registry: 7 entries appended to `registry-handoff/entries-c764a583.yaml` (ids `res.raw_ims_2026_10_25*`), manifests in `registry-handoff/manifests/`. No workspace or host paths in committed files; local inputs via `MH370_OCEAN_DATA`, `MH370_EXCHANGE`, `MH370_HYDRO_ENV_LIB`.
+- For the data-inventory thread: `db-rows-merged/` holds CV26-CV123, OB07-OB81, E18, AC05 and R3 updates with unique ids (the three tracks' own ids collided; `id-map.csv`). Validator PASS on base package + rows. Import is yours (one writer). Explosion radiated fractions deliberately not written as coupling rows (would enter v_module_chain) — your decision.
+- For Pete (open): replacement wording for the propagation slope caveat; provisional sigma_model (~5 dB level + ~4 dB source + >=6 dB ridge path, slope ~1.5 dB/oct); f^-4 source family not supported by the raw F-35A data.

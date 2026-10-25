@@ -1,0 +1,22 @@
+PASS coupling_value.definition_class present
+PASS coupling_value.propagation_chain_required present
+PASS coupling_value.status present
+PASS coupling_value.role present
+PASS coupling_value.independence_group present
+PASS coupling_value.evidence_id present
+PASS definition class paired only with its allowed propagation chain
+PASS coupling_value.status in vocabulary
+PASS coupling_value.role in vocabulary
+PASS coupling_evidence.status in vocabulary
+PASS no table uses an ANCHOR status or role
+PASS every coupling_value links to a coupling_evidence row
+PASS family_element_evidence families exist
+PASS values positive and value_low <= value <= value_high
+PASS all F-35A values share one independence group (counted once)
+PASS module-chain view holds no Arons or seismic values
+PASS Arons view holds only D2 values
+  v_module_chain: 100 rows
+  v_arons_screen: 13 rows
+  v_envelope: 4 rows
+  v_cross_check: 1 rows
+RESULT: PASS (0 failures)
