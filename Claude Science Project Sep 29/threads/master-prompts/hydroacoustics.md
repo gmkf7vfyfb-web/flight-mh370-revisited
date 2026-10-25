@@ -25,7 +25,8 @@
 >    Every raw recording and every digitised published item the module holds is listed there with its site, period (UTC),
 >    sampling, frequency band and its basis, continuity, file path and SHA-256. Find data there first; read its files through
 >    the registry. Change it only by changing the scripts in `registry/data_db/` and rebuilding; never edit it by hand.
->    See "Data source of record — 23 October 2026" at the end of this file.
+>    Background noise and acoustic coupling are in the same file (stage 2, 25 Oct 2026). See "Data source of record — 23 October 2026"
+>    at the end of this file.
 
 
 **Refresh v2, 21 October 2026 (Pete's rulings of 21 Oct).** The section "Refresh v2" at the end of this file
@@ -686,8 +687,7 @@ files stop causing errors and omissions. It is on `hypothesis/hydroacoustics` at
 6. **Line of sight to the 7th arc** (`arc_path`, `arc_los_station_count.csv`): a bathymetric screen, not transmission loss.
    Its thresholds are agent choices, registered as constants `los_block_depth_m` and `los_large_attenuation` with status
    AGENT_CHOICE_NOT_RULED. It covers every station recording on 8 March 2014, whether or not the project holds its data.
-7. **Coupling efficiency** is not in the database. A literature-based feasible range is being built by the thread
-   "Aircraft Impact Acoustic Source Survey"; per-degree detectability (step 2) waits for it.
+7. **Noise and coupling are in the database (stage 2, 25 Oct 2026; Pete: "Bring it into one database. The F35 ruling was a red herring").** Background noise is in `noise_estimate` (one declared quantity and unit per value, original value kept) and `noise_condition`. Coupling is the coupling thread's package of 25 Oct 2026, imported unchanged and validated by its own `validate_coupling_tables.py` in every build: use a coupling value only through the view for its propagation chain (`v_module_chain`, `v_arons_screen`, `v_envelope`, `v_cross_check`; F-35A curves in `v_coupling_curve_module`). The F-35A values are points on one curve; no value is an anchor and none awaits a ruling. The coupling thread owns the coupling content; this database is the one writer. Read `registry/data_db/NOISE_COUPLING_RECORD.md` (generated) first. Commits 9a777b9, a813401.
 
 Superseded by this section: §4 "Data held" and Refresh v2 §4 as inventories (the database is the inventory; their
 descriptions stay as background). Refresh v2 §4's "Scott Reef's path to the arc crosses land" is refined by the

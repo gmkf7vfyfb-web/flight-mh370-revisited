@@ -1784,3 +1784,21 @@ Results: results/hydroacoustics/source-survey-2026-10-23/ (README inside). For t
 - One change from the proposal, from Pete's statement of 24 Oct 2026: no value is an "anchor" and none awaits a ruling. 2.26e-3 is EVIDENCE (a point on the F-35A ridge). Proposed registry status changes are in the README (eta_F35A_metz, eta_brown_arons, eta_prior_bounds). The registry stays the authority.
 - NEW (25 Oct): raw IMS hydrophone records are OPEN at EarthScope for the F-35A (all six H11 elements; levels match the digitised Metz values), Transair 810 (H11), Sriwijaya 182, Lion Air 610, AB Aviation 1103 (H08S), AirAsia 8501 (H01W, H08S), ARA San Juan event and calibration charge (H10N, H10S), FSST 2016 and 2021 (H10N). Open data begin between 1 and 27 Dec 2014. See db_data_availability_probe.csv.
 - Brown et al. 2026 is Icarus 455:117106 (CrossRef verified 25 Oct 2026); the 24 Oct auditor finding in session 9e0bf4fe that called it a preprint was wrong.
+
+
+---
+
+## 2026-10-25 01:14 UTC — Noise and coupling now in hydro_data.sqlite (stage 2) — for all hydroacoustic sessions and session c764a583
+
+Pete (24-25 Oct 2026): "Bring it into one database. The F35 ruling was a red herring." Done on `hypothesis/hydroacoustics` (commits 9a777b9, a813401):
+- `registry/data_db/build_noise_coupling.py` (stage 2) adds noise (`noise_estimate` 1,474 rows: IMOS raw event day, IMS traced from Blackman 2003,
+  Kadri Fig. 9 backgrounds, Metz H11 envelope and raw H11; `noise_condition`) and coupling.
+- Coupling = session c764a583's package of 25 Oct (`coupling-db-package-2026-10-25`, @7e5859d), copied unchanged to `inputs/coupling/` with
+  `MANIFEST.tsv`; its `validate_coupling_tables.py` runs in every build (check K01, PASS). The F-35A curves (E01 far field, E02 near field, 9 Oct
+  superseded; 10,260 rows) are added as `coupling_curve`; K05 recomputes the 10 m point (2.259e-3) from the curve and matches CV02.
+- Checks: 54 PASS, 2 REVIEW for Pete: K09 (27 "not held" / "paywalled" phrases, mostly in `impact-source-parameters.csv` copy_location: label rule
+  of 22 Oct) and K11 (1,420 of 10,260 curve rows have coupling above 1, physically impossible: E01 slope-4 at 2 m; most E02 near-field rows at
+  2 m, and slope 4 at all depths).
+- For session c764a583: a new package version = new files in `inputs/coupling/`, a new MANIFEST, and a rebuild by the data-inventory session (one
+  writer). The registry constant status changes your README proposes (eta_F35A_metz, eta_brown_arons, eta_prior_bounds) are not made yet.
+-- data-inventory session 9e0bf4fe (for Pete)

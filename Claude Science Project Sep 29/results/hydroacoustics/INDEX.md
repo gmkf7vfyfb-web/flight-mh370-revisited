@@ -32,7 +32,7 @@
 | in.h08s_shots_v1 | SUPERSEDED -> in.h08s_shots |  | `MOD:results-data/h08s_template/v1_defective` | 4 | 0.000 | NO DEFINITION LOCATED |
 | in.geometry_sample | CURRENT_WITH_CAVEATS |  | `EX:run-j-searches/geometry` | 6 | 0.302 | EX:run-j-searches/geometry/run.json L[1, 1] |
 | in.sources_pdfs | CURRENT |  | `EX:sources` | 25 | 0.037 | NO DEFINITION LOCATED |
-| in.hydro_data_db | CURRENT |  | `MOD:registry/data_db/hydro_data.sqlite` | 1 | 0.018 | MOD:registry/data_db/README.md L[1, 5] |
+| in.hydro_data_db | CURRENT |  | `MOD:registry/data_db/hydro_data.sqlite` | 1 | 0.022 | MOD:registry/data_db/README.md L[1, 5] |
 
 ## Products
 
@@ -128,7 +128,7 @@
 |---|---|---|---|---|---|---|
 | code.module_prepare | CURRENT |  | `MOD:prepare` | 168 | 0.004 | NO DEFINITION LOCATED |
 | code.module_engine | CURRENT |  | `MOD:lib.rs` | 1 | 0.000 | MOD:lib.rs L[1, 12] |
-| code.hydro_data_db | CURRENT |  | `MOD:registry/data_db` | 16 | 0.029 | MOD:registry/data_db/README.md L[43, 43] |
+| code.hydro_data_db | CURRENT |  | `MOD:registry/data_db` | 47 | 0.036 | MOD:registry/data_db/README.md L[90, 90] |
 
 ## Defects
 
