@@ -126,7 +126,7 @@ Do these steps from this folder.
 
 | Check | What it looks for | Result |
 |---|---|---|
-| C1 | A new result folder without a valid `manifest.json`; a new loose file at the top of `results/` or in `results/<module>/` | FAIL |
+| C1 | A new result folder without a valid `manifest.json`; a new loose file at the top of `results/` or in `results/<module>/`. Permitted at the top of `results/`: `INDEX.md`, `README.md`, `restricted-sources-ledger.md` and the module citation ledgers `<module>-references.md` / `.bib` | FAIL |
 | C1 | A new file in an old result folder that has no manifest | WARN |
 | C2 | A session-workspace path in a new path, in a new text file or in a new line of an old file | FAIL |
 | C3 | A version suffix in a new file name or a new folder name | FAIL |

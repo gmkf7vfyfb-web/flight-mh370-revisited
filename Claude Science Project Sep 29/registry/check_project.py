@@ -36,7 +36,8 @@ STATUS = {"CURRENT", "CURRENT_WITH_CAVEATS", "KNOWN_DEFECT", "SUPERSEDED", "WITH
 # written in two parts so that this file does not match its own pattern
 WS_PAT = re.compile("/" + "workspaces/" + "|" + "/" + r"\.claude-" + "science/")
 VERSION_PAT = re.compile(r"(?i)[-_ .](v[0-9]+|final|rev[0-9]+)(?=$|[-_ .()])")
-RESULTS_TOP_OK = {"INDEX.md", "README.md"}
+RESULTS_TOP_OK = {"INDEX.md", "README.md", "restricted-sources-ledger.md"}
+LEDGER_OK = re.compile(r"^[a-z0-9-]+-references\.(md|bib)$")   # module citation ledgers live at the top of results/
 TEXT_EXT = {".md", ".txt", ".csv", ".tsv", ".json", ".yaml", ".yml", ".py", ".rs", ".toml", ".sh", ".r", ".R", ".ipynb",
             ".html", ".tex", ".bib", ".cfg", ".ini", ".log", ".jl", ".m", ".js", ".ts", ""}
 MAX_SCAN = 20_000_000
@@ -362,7 +363,7 @@ def run_checks(view, added_lines=None):
             continue
         rel = p[len(RESULTS):].split("/")
         if len(rel) == 1:
-            if rel[0] not in RESULTS_TOP_OK:
+            if rel[0] not in RESULTS_TOP_OK and not LEDGER_OK.match(rel[0]):
                 fails.append(f"C1 {p}: new loose file at the top of results/. Put it in results/<module>/<run id>/ with manifest.json")
             continue
         top = RESULTS + rel[0]
@@ -477,7 +478,7 @@ def existing_violations(view):
         if f + "/manifest.json" not in pset:
             rows.append(("C1", f + "/", "result folder has no manifest.json"))
     for p in paths:
-        if p.startswith(RESULTS) and "/" not in p[len(RESULTS):] and PurePosixPath(p).name not in RESULTS_TOP_OK:
+        if p.startswith(RESULTS) and "/" not in p[len(RESULTS):] and PurePosixPath(p).name not in RESULTS_TOP_OK and not LEDGER_OK.match(PurePosixPath(p).name):
             rows.append(("C1", p, "loose file at the top of results/"))
     all_dirs = dirs_of(paths)
     for p in paths:
