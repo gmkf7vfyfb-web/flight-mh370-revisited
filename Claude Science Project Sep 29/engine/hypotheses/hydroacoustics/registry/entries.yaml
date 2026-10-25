@@ -1077,7 +1077,7 @@ entries:
     lines:
     - 1
     - 5
-  note: "DATA SOURCE OF RECORD for hydroacoustic data (raw IMOS records and digitised published data, stage 1, 23 Oct 2026) and for background noise and acoustic coupling (stage 2, 25 Oct 2026): site, sensor, dataset, segment, pick, event, attribute, arc_path, noise_estimate, noise_condition, coupling_definition, coupling_value, coupling_evidence, coupling_curve tables; 4,572 raw files SHA-256 verified; stage 1 36/36 checks, stage 2 21 checks (19 PASS, 2 REVIEW listed for Pete: K09 restrictive wording, K11 coupling-curve rows above 1); coupling tables are the coupling thread's package of 25 Oct 2026, validated by its own script in every build. Rebuild with the data_db scripts; never edit by hand. Results stay in this registry."
+  note: "DATA SOURCE OF RECORD for hydroacoustic data (raw IMOS records and digitised published data, stage 1, 23 Oct 2026) and for background noise and acoustic coupling (stage 2, 25 Oct 2026): site, sensor, dataset, segment, pick, event, attribute, arc_path, noise_estimate, noise_condition, coupling_definition, coupling_value, coupling_evidence, coupling_curve tables; 4,572 raw files SHA-256 verified; stage 1 36/36 checks, stage 2 20 checks (18 PASS, 2 REVIEW listed for Pete: K09 restrictive wording, K11 coupling-curve rows above 1); coupling tables are the coupling thread's package of 25 Oct 2026, validated by its own script in every build. Rebuild with the data_db scripts; never edit by hand. Results stay in this registry."
 - id: code.hydro_data_db
   kind: code
   path: MOD:registry/data_db
