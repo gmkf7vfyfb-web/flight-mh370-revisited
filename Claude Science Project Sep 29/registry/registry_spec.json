@@ -1,4 +1,15 @@
-{"modules": ["core", "end-of-flight", "drift", "settling", "searched-areas", "pleiades", "composer", "paper", "project"],
+{
+ "modules": [
+  "core",
+  "end-of-flight",
+  "drift",
+  "settling",
+  "searched-areas",
+  "pleiades",
+  "composer",
+  "paper",
+  "project"
+ ],
  "status_values": {
   "CURRENT": "No known defect in the records. Not re-verified in this run unless verified_this_run is true.",
   "CURRENT_WITH_CAVEATS": "Usable with the listed limitations stated beside every number taken from it.",
@@ -6,13 +17,37 @@
   "SUPERSEDED": "Replaced by the entry named in superseded_by. Kept for history.",
   "WITHDRAWN": "Withdrawn at Pete's instruction. Do not use.",
   "PENDING_RULING": "Its adoption waits for a ruling by Pete.",
-  "UNCHECKED": "No status record found. Means only: not yet used in a result that we quote. It is not a review queue; check on use."},
- "kind_values": {"input": "data that a run reads", "code": "code (source of record: git)", "product": "a result (tables, charts, arrays)",
-  "note": "a text note, brief or coordination file", "archive": "kept for history; read-only", "scratch": "scratch files; not a source of record",
-  "data_home": "a storage location (folder, drive)"},
+  "UNCHECKED": "No status record found. Means only: not yet used in a result that we quote. It is not a review queue; check on use."
+ },
+ "kind_values": {
+  "input": "data that a run reads",
+  "code": "code (source of record: git)",
+  "product": "a result (tables, charts, arrays)",
+  "note": "a text note, brief or coordination file",
+  "archive": "kept for history; read-only",
+  "scratch": "scratch files; not a source of record",
+  "data_home": "a storage location (folder, drive)"
+ },
  "external_registries": [
-  {"module": "hydroacoustics", "where": "branch hypothesis/hydroacoustics: Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/REGISTRY.json",
-   "note": "Not merged here. Phase 2 merges it, with the hand-off of session c764a583 (coordination/HYDROACOUSTICS.md, 25 Oct 2026) and the root fix (its ART root points to a session workspace)."}],
+  {
+   "module": "hydroacoustics",
+   "where": "branch hypothesis/hydroacoustics: Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/REGISTRY.json",
+   "note": "Not merged here. Phase 2 merges it, with the hand-off of session c764a583 (coordination/HYDROACOUSTICS.md, 25 Oct 2026) and the root fix (its ART root points to a session workspace)."
+  }
+ ],
  "defects": [
-  {"id": "core.D-fuel-audit-F9", "statement": "Fuel-model audit finding F9: the time base of the 18:01:49 fuel in core-model-stages.md is wrong.",
-   "evidence": {"file": "WORK:results/fuel-model-audit-architecture.md", "line": 361}}]}
+  {
+   "id": "core.D-fuel-audit-F9",
+   "statement": "Fuel-model audit finding F9: the time base of the 18:01:49 fuel in core-model-stages.md is wrong.",
+   "evidence": {
+    "file": "WORK:results/fuel-model-audit-architecture.md",
+    "line": 361
+   }
+  }
+ ],
+ "field_definitions": {
+  "manifest_sha256": "SHA-256 of the manifest rows (relpath, bytes, sha256; tab-separated) joined by '\\n', without the header and without a final newline; not the SHA-256 of the .tsv.gz file",
+  "drive_link": "project = file on the project Google Drive; third-party = link to another Drive, not a project file",
+  "memory_notes": "memory rows about this entry, moved out of memory on 25 Oct 2026; records of what memory said, not verified facts"
+ }
+}

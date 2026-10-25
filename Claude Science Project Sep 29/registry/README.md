@@ -44,9 +44,12 @@ Each entry has these fields:
 | `superseded_by` | The registry id of the newer item, if there is one. |
 | `defects` | Defect ids. The defects are in `REGISTRY.json`. |
 | `git` | The commit that first added the item and the commit that last changed it. For code on a branch: branch, commit and tree. |
-| `n_files`, `bytes`, `manifest`, `manifest_sha256` | The file list of the entry and its checksum. |
+| `n_files`, `bytes`, `manifest`, `manifest_sha256` | The number of files, their total bytes, the manifest file, and the checksum of the manifest content. `manifest_sha256` is the SHA-256 of the manifest rows (relpath, bytes, sha256: three columns, tab between columns), joined by a newline character, without the header row and without a newline at the end. It is not the SHA-256 of the .tsv.gz file. |
 | `note` | One line that tells what the item is. |
 | `restricted` | true for restricted material (section 7). |
+| `uses_recorded_in` | For restricted material: the ledger that records each use. |
+| `drive_link` | For a DRIVE entry: `project` (a file on the project Drive) or `third-party` (a link to another person's Drive; not a project file). |
+| `memory_notes` | The memory rows that give information about this entry (section 11). |
 
 ## 4. Roots
 
@@ -101,7 +104,7 @@ These rules stop the errors from occurring again. `check_project.py` does a chec
 
 ## 7. Restricted material
 
-The tmp/ avionics files and two MH371 files in `library_full_audit/MH370/` are restricted. Their entries have `restricted: true` and status CURRENT_WITH_CAVEATS.
+The tmp/ avionics files and three files in `library_full_audit/MH370/` (two MH371 files and Ulich's fuel workbook) are restricted. Their entries have `restricted: true` and status CURRENT_WITH_CAVEATS.
 
 1. Use them internally only.
 2. Record each use in `results/restricted-sources-ledger.md`.
@@ -136,4 +139,24 @@ Do these steps from this folder.
 1. The build does not hash the exchange folder again. It uses `SHA256SUMS` files and the hashes from `exchange_inventory.py` (25 October 2026). That script did not hash a file of 1 GB or more that has no `SHA256SUMS` entry. `COVERAGE.md` gives the number and the names.
 2. The external drive was not connected to the session. The entries for the drive come from the item lists in `~/Downloads/archive-tools/`. The `VERIFIED-*.txt` lists are on the drive, so the registry does not confirm the copies.
 3. Code on module branches is recorded by branch, commit and tree. The registry does not merge branches.
-4. Platform artifacts are not in this registry yet.
+4. `check_project.py` (working tree, `--commit`, `--pre-push`) and `--make-baseline` work in a blobless sparse clone. They read only new paths and the registry files. `--report-existing` reads every file: use a full clone for it.
+5. Platform artifacts are not in this registry yet.
+
+## 11. Memory notes
+
+On 25 October 2026 the memory track moved rows out of project memory. The folder `memory-notes/` holds the rows that moved to the registry. The module citation ledgers (`results/<module>-references.md`, `paper/JON-RULES.md`) hold the rows about external sources.
+
+**These rows are records of what memory said. They are not verified facts.** Before you use a value from a row, check it against its source. Each row gives:
+
+1. `mem_id`: the id of the memory row.
+2. `registry_entry`: the registry entry that the row is about. If no entry matched, the row links to the note entry of its topic (`<module>.memnote.<topic>`).
+3. `original_text`: the text of the row in the memory export (artifact version ba131e4c-350c-4db5-8b56-a61b3f2772f9).
+4. `verification_status`: VERIFIED, PARTIAL or UNVERIFIED, from the memory track. `verified_by` and `verification_evidence` tell how.
+
+The repository is public. Thus we changed the text in these cases, and the row tells you so in `text_flags`:
+
+1. If the text names a restricted source, we do not show the text. The row gives the export row to read instead.
+2. We replaced each session-workspace path with `<session workspace path>`.
+3. We removed spending amounts.
+
+`import_memory_records.py` makes these files. Do not edit them by hand. Hydroacoustics rows are not here (phase 2).

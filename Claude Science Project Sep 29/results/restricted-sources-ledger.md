@@ -28,6 +28,10 @@ Pete Large, 10 October 2026 (~01:10 UTC): "we have authorization for all confide
 | fuel tables: the FPPM-confidential cells in Ulich's workbook (`data/fuel-tables.json`, untracked) | flow values marked confidential | not in git | internal fuel model only (core request 16 C) |
 | `data/external/fuel-model/internal-v1.json` (untracked; git-ignored by `/data/external`) | dense flow grid and test vectors derived from all table classes, including the FPPM-confidential cells | not in git; ALSO held in the local Claude Science artifact store as `fuel-model-internal-v1-LOCAL-ONLY.json` (version `2ee08c24…`), saved 10 Oct by the fuel session; deletion was offered and Pete declined it, so it stays (as the engine-data artifact holding `fuel-tables.json` does) | internal fuel model only; never commit to git, never upload to a third-party service |
 | `library_full_audit/MH370/mh371-acars.xlsx`, `MH371_EHM_Export.xls` | 9M-MRO's MH371 ACARS position reports and EHM engine reports, 7 Mar 2014 (the export also holds the MH370 climb report) | in git (library) | provenance unverified; internal use only |
+| `tmp/scribd_satcom.html` | saved web page 'Overview of Satcom in Aviation' from Scribd (1,138,900 bytes) | `7a1c5071`, 14 Aug 2026 | provenance unverified; internal use only (added 25 Oct 2026 by the registry track) |
+| `tmp/slideshare_airlink.html` | saved SlideShare web page, title 'Avionics Training Systems Installation And Troubleshooting 2nd Len Buckwalter | PDF' (1,529,120 bytes) | `7a1c5071`, 14 Aug 2026 | provenance unverified; internal use only (added 25 Oct 2026 by the registry track) |
+| `tmp/paperzz_airlink.html` | saved paperzz web page (6,085 bytes; the saved page is a 'Just a moment...' access check, no document text) | `7a1c5071`, 14 Aug 2026 | provenance unverified; internal use only (added 25 Oct 2026 by the registry track) |
+| `library_full_audit/MH370/9M-MRO Fuel Model V5.X.xlsm` | Ulich's fuel workbook; it holds the FPPM-confidential cells named above | in git (library) | internal use only; kept in place (added 25 Oct 2026 by the registry track) |
 
 ## Uses
 

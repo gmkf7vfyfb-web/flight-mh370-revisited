@@ -12,7 +12,7 @@ Use it to find a file that a note gives by its old path. We did not change the o
 
 ## Files that we did not move
 
-Two files stay at `library_full_audit/MH370/`: `mh371-acars.xlsx` and `MH371_EHM_Export.xls`.
+Three files stay at `library_full_audit/MH370/`: `mh371-acars.xlsx`, `MH371_EHM_Export.xls` and `9M-MRO Fuel Model V5.X.xlsm` (Ulich's workbook, which holds the FPPM-confidential cells). We moved the workbook back on 25 October 2026, after the independent check.
 They are restricted holdings in `Claude Science Project Sep 29/results/restricted-sources-ledger.md`.
 Pete's decision of 9 October 2026 says that such material stays where it is.
 Use them internally only. Record each use in the ledger. Do not publish them before the review.

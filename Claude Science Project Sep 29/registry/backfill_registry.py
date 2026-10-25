@@ -82,6 +82,7 @@ DATA_HOMES = [("drift", "mh370-ocean-data", "Ocean model and observation data (G
               ("settling", "mh370-settling-work", "Settling work folder."), ("settling", "mh370-settling-work-j", "Settling work folder for run J."),
               ("project", "mh370-large-files", "Large files folder."), ("project", "mh370-unpack", "Unpacked material folder."),
               ("project", "archive-tools", "Scripts that copy exchange folders to the external drive and check the copy (archive-to-porsche).")]
+EXTERNAL_DRIVE = {"0bzoiifnlx2auwetvsjbvs2jwx0e", "0b6gvsowo81httgjdvklrx3bca1e", "0b7yqpah4jin5amtwuurlzv9jnk0"}  # verifier 25 Oct: third-party links
 STATUS_WORDS = re.compile(r"(?i)\b(supersed\w*|withdrawn|withdraw|retracted|do not use|obsolete|replaced by|is wrong|was wrong|known defect|deprecated)\b")
 STAT_LINE = re.compile(r"(?i)^\s*(>?\s*)?(\*\*)?\s*status\s*(:|\*\*\s*:|:\s*\*\*)")
 BANNER = re.compile(r"(?i)^\s*(>|\*\*).*\b(smoke|stand-?in|provisional|not evidence|do not quote|caveat|pilot|unconverged|not converged|draft|not for release)\b")
@@ -311,8 +312,10 @@ def main():
         if k == "library_full_audit":   # what stays in place (restricted holding)
             add({"id": "project.in.library-full-audit-mh370", "kind": "input", "module": "project", "path": "REPO:library_full_audit/MH370",
                  "status": "CURRENT_WITH_CAVEATS", "status_rank": "ruling", "restricted": True,
-                 "note": "MH371 ACARS and EHM reports (9M-MRO, 7 Mar 2014) and the MH370 climb EHM report. Kept in place, not moved. " + RESTRICTED_NOTE,
+                 "note": "MH371 ACARS and EHM reports (9M-MRO, 7 Mar 2014), the MH370 climb EHM report and Ulich's fuel workbook (FPPM-confidential cells). Kept in place, not moved. " + RESTRICTED_NOTE,
+                 "uses_recorded_in": "WORK:results/restricted-sources-ledger.md",
                  "_evidence": [{"file": "WORK:results/restricted-sources-ledger.md", "must_contain": "library_full_audit/MH370/mh371-acars.xlsx"},
+                               {"file": "WORK:results/restricted-sources-ledger.md", "must_contain": "library_full_audit/MH370/9M-MRO Fuel Model V5.X.xlsm` | Ulich"},
                                {"file": "WORK:results/restricted-sources-ledger.md", "must_contain": "stays where it is"},
                                {"memory": "mem_77ee3e310c8e", "must_contain": "Internal use is authorised in full"}],
                  "assignment_basis": "restricted-sources ledger", "git": gitinfo(files)})
@@ -334,12 +337,15 @@ def main():
         used |= set(fs)
         if not fs:
             report["avionics_pattern_without_files"].append(name); continue
+        needle = {"avionics_training": "tmp/avionics_training_", "avionics_try": "tmp/avionics_try_", "slideshare_avionics": "tmp/slideshare_avionics/",
+                  "scribd_satcom": "tmp/scribd_satcom.html", "paperzz_airlink": "tmp/paperzz_airlink.html",
+                  "slideshare_airlink": "tmp/slideshare_airlink.html", "avionics_min": "tmp/avionics_min-1.png"}[name]
         add({"id": f"project.in.tmp-{slug(name)}", "kind": "input", "module": "project", "path": "REPO:tmp/", "file_list": fs,
              "status": "CURRENT_WITH_CAVEATS", "status_rank": "ruling", "restricted": True,
              "note": f"tmp/ avionics material: {name} ({len(fs)} files). Provenance not verified. " + RESTRICTED_NOTE,
              "_evidence": [{"memory": "mem_bb853bca3bb6", "must_contain": "record every use in results/restricted-sources-ledger.md"},
                            {"memory": "mem_77ee3e310c8e", "must_contain": "Internal use is authorised in full"},
-                           {"file": "WORK:results/restricted-sources-ledger.md", "must_contain": "provenance unverified; internal use only"}],
+                           {"file": "WORK:results/restricted-sources-ledger.md", "must_contain": needle}],
              "uses_recorded_in": "WORK:results/restricted-sources-ledger.md", "assignment_basis": "Pete's ruling 9-10 Oct 2026", "git": gitinfo(fs)})
     rest = [p for p in tmpf if p not in used]
     add({"id": "project.scratch.tmp", "kind": "scratch", "module": "project", "path": "REPO:tmp/", "file_list": rest,
@@ -409,8 +415,12 @@ def main():
     for did, (p, i) in sorted(seen.items()):
         mod = "core" if "/results/evidence-sweep" in p else "project"
         root = "WORK:" + p[len(WORKN) + 1:] if p.startswith(WORKN) else "REPO:" + p
+        ext = slug(did) in EXTERNAL_DRIVE
         add({"id": f"{PREFIX[mod]}.drive.{slug(did)}", "kind": "input", "module": mod, "path": f"DRIVE:{did}",
-             "note": f"Google Drive file id given in {root} line {i}.", "drive_id_source": {"file": root, "line": i},
+             "drive_link": "third-party" if ext else "project",
+             "note": (f"Third-party Google Drive link given in {root} line {i}. Not a project-Drive file; the project Drive gives no metadata for it "
+                      f"(independent check, 25 Oct 2026). Not opened." if ext else f"Google Drive file id given in {root} line {i}."),
+             "drive_id_source": {"file": root, "line": i},
              "assignment_basis": "file that gives the Drive id", "hash": False, "hash_note": "Drive file; not downloaded in this run"})
 
     # ---------- 8. other data homes in ~/Downloads ----------
@@ -434,6 +444,24 @@ def main():
                      "compared_with_working_head": vw.get("work_head")},
              "note": f"Code on branch {b} at {v['sha'][:12]} ({v['date'][:10]}). {vw.get('branch_commits_not_in_work')} commits are not in the working branch. Not merged (Pete's rule).",
              "assignment_basis": "branch name", "hash": False, "hash_note": "git objects are content-addressed; tree sha recorded"})
+
+    # ---------- 10. memory notes (rows moved out of memory; records of what memory said) ----------
+    mi = HERE / "memory-notes" / "index.json"
+    if mi.exists():
+        idx = json.load(open(mi))
+        for t, v in sorted(idx["topics"].items()):
+            add({"id": v["topic_note_entry"], "kind": "note", "module": v["module"], "path": f"WORK:registry/{v['file']}",
+                 "note": (f"Memory rows on topic '{t}' moved to the registry on 25 Oct 2026 ({v['rows']} rows; {v['rows_linked_to_topic_note']} have no other entry). "
+                          "Records of what memory said, not verified facts; each row has its verification status."),
+                 "assignment_basis": "memory track topic", "memory_notes": {"file": f"WORK:registry/{v['file']}", "n_rows": v["rows"]}})
+        ids_now = {e["id"]: e for e in E}
+        for rid, mids in idx["links"].items():
+            e = ids_now.get(rid)
+            if e is None:
+                report["memory_note_links_to_missing_entry"].append([rid, len(mids)]); continue
+            if ".memnote." not in rid:
+                e["memory_notes"] = {"n_rows": len(mids), "mem_ids": mids, "where": "WORK:registry/memory-notes/<topic>.jsonl",
+                                     "nature": "records of what memory said; not verified facts"}
 
     # ---------- status ----------
     by_name = {e.get("_name"): e for e in E if e.get("_name")}

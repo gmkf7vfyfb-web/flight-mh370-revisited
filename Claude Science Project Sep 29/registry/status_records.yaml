@@ -123,12 +123,49 @@ records:
   note: "A memory record states that the brief contains superseded instructions."
   evidence:
   - {memory: mem_be40f81c24dc, must_contain: "contain superseded instructions"}
+# Fixes after the independent verifier (verifier-failures-2026-10-25.csv, track A), 25 Oct 2026
+- item: run-i-proposal.md
+  rank: ruling
+  status: SUPERSEDED
+  superseded_by: run-i-oct12
+  note: "Pete gave GO on 12 Oct 2026; run I was made. The run record replaces the proposal."
+  evidence:
+  - {memory: mem_7f5a12a21ba5, must_contain: "Pete GO 12 Oct 2026"}
+- item: run-j-proposal.md
+  rank: ruling
+  status: SUPERSEDED
+  superseded_by: run-j
+  note: "Pete pre-approved run J; run J was made. The run record replaces the proposal."
+  evidence:
+  - {file: "WORK:results/run-j/README.md", line: 4, must_contain: "Pete pre-approved 02:15Z"}
+- item: waypoint-family-reset-proposal.md
+  rank: ruling
+  status: CURRENT_WITH_CAVEATS
+  note: "Pete approved the whole reset on 11 Oct 2026. A later speed ruling for run I supersedes its 'Mach 0.70-0.87 in all strata' wording."
+  evidence:
+  - {memory: mem_e70afa325ed0, must_contain: "approved the whole waypoint-family reset"}
+  - {memory: mem_ab7dc3a3722a, must_contain: "superseding architecture's"}
+- item: eof-run-j-oct17
+  rank: readme
+  status: CURRENT_WITH_CAVEATS
+  evidence:
+  - {file: "WORK:results/eof-run-j-oct17/README.md", line: 74, must_contain: "The uncontrolled-arm dynamics are not calibrated"}
+- item: eof-run-j-joined-v2-oct17
+  rank: readme
+  status: CURRENT_WITH_CAVEATS
+  evidence:
+  - {file: "WORK:results/eof-run-j-joined-v2-oct17/README.md", line: 125, must_contain: "The uncontrolled-arm dynamics are not calibrated"}
+- item: burst-0019-plausibility-architecture.md
+  rank: readme
+  status: PENDING_RULING
+  note: "Decisions for Pete at lines 39 and 255. No later ruling found by a keyword search of the memory export (25 Oct 2026)."
+  evidence:
+  - {file: "WORK:results/burst-0019-plausibility-architecture.md", line: 39, must_contain: "Prior decisions for Pete"}
+  - {file: "WORK:results/burst-0019-plausibility-architecture.md", line: 255, must_contain: "Modelling decisions for Pete"}
 # README status lines where the automatic word map is wrong or has no word (read by hand, 25 Oct 2026)
 - {item: decision-2026-27-prelim-v2, rank: readme, status: CURRENT_WITH_CAVEATS, readme_override: "status line says pipeline test, not for release; 'Supersedes' refers to the older folder"}
 - {item: eof-run-i-dive-oct13, rank: readme, status: CURRENT_WITH_CAVEATS, readme_override: "PROVISIONAL physics, core not converged; 'Supersedes' refers to eof-run-i-oct12"}
 - {item: ocean-transport-error-gdp-replay.md, rank: readme, status: CURRENT, readme_override: "status line: measured"}
 - {item: ocean-transport-error-pairs.md, rank: readme, status: CURRENT_WITH_CAVEATS, readme_override: "status line: measured, small sample, wide intervals"}
-- {item: run-j-proposal.md, rank: readme, status: PENDING_RULING, readme_override: "status line: draft for Pete's GO (as written; run J was later run, see other records)"}
-- {item: run-i-proposal.md, rank: readme, status: PENDING_RULING, readme_override: "status line: proposal for Pete's GO (as written; run I was later run, see other records)"}
 - {item: drift-runj-2026-10-17, rank: readme, status: CURRENT_WITH_CAVEATS, readme_override: "complete for the waypoints stratum only; four-stratum mixture waits"}
 - {item: debris-drift-production-complete.md, rank: readme, status: CURRENT_WITH_CAVEATS, readme_override: "complete as configured; GlobCurrent arm carries audit F1 caveat"}

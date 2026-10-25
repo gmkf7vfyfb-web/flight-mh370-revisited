@@ -18,8 +18,11 @@ Usage
   python3 check_project.py                       check the working tree (tracked + untracked, not ignored files)
   python3 check_project.py --commit <sha>        check the tree of one commit
   python3 check_project.py --pre-push <remote> <url>   (git pre-push hook; reads ref lines on stdin)
-  python3 check_project.py --report-existing <out.md>  list every violation in the baseline tree (C1-C4), exit 0
-  python3 check_project.py --make-baseline       write baseline/ from HEAD (only at a registry rebuild; commit the result)
+  python3 check_project.py --report-existing <out.tsv> list every violation in the tree at HEAD (C1-C4), exit 0.
+                                                 It reads every blob: use a full clone, not a blobless clone.
+  python3 check_project.py --make-baseline       write baseline/ from HEAD (only at a registry rebuild; commit the result).
+                                                 Works in a blobless clone (reads only the registry files).
+The check itself (working tree, --commit, --pre-push) works in a blobless sparse clone: it reads only new paths and the registries.
 Exit status 1 if there is at least one FAIL.
 """
 import gzip, hashlib, json, os, re, subprocess, sys
@@ -63,27 +66,21 @@ class WorkTree:
 
 
 class CommitTree:
-    """Tree of one commit. Reads blobs through one 'git cat-file --batch' process."""
+    """Tree of one commit. Works in a blobless (partial) clone: it lists paths without blob sizes ('ls-tree' without -l, which
+    would fetch every blob), and asks 'cat-file --batch-check' for the size of a path only when a check reads that path
+    (new paths and registry files). Blob contents come through one 'cat-file --batch' process."""
     def __init__(self, sha):
-        self.sha = sha; self.name = f"commit {sha[:12]}"; self._p = None; self._sizes = None
+        self.sha = sha; self.name = f"commit {sha[:12]}"; self._p = None; self._q = None; self._sizes = {}
     def paths(self):
-        out = git("ls-tree", "-r", "-z", "-l", self.sha, cwd=TOP)
-        self._sizes = {}
-        for rec in out.split("\0"):
-            if not rec:
-                continue
-            meta, path = rec.split("\t", 1)
-            parts = meta.split()
-            if parts[1] == "blob":
-                self._sizes[path] = int(parts[3]) if parts[3] != "-" else 0
-        return sorted(self._sizes)
-    def _proc(self):
-        if self._p is None:
-            env = {**os.environ, "GIT_CONFIG_GLOBAL": os.environ.get("GIT_CONFIG_GLOBAL", "/dev/null")}
-            self._p = subprocess.Popen(["git", "cat-file", "--batch"], cwd=TOP, stdin=subprocess.PIPE, stdout=subprocess.PIPE, env=env)
-        return self._p
+        out = git("ls-tree", "-r", "-z", "--name-only", self.sha, cwd=TOP)
+        return sorted(p for p in out.split("\0") if p)
+    def _proc(self, batch):
+        env = {**os.environ, "GIT_CONFIG_GLOBAL": os.environ.get("GIT_CONFIG_GLOBAL", "/dev/null")}
+        return subprocess.Popen(["git", "cat-file", batch], cwd=TOP, stdin=subprocess.PIPE, stdout=subprocess.PIPE, env=env)
     def read(self, p):
-        q = self._proc()
+        if self._p is None:
+            self._p = self._proc("--batch")
+        q = self._p
         q.stdin.write(f"{self.sha}:{p}\n".encode()); q.stdin.flush()
         head = q.stdout.readline().split()
         if len(head) < 3 or head[1] == b"missing":
@@ -91,8 +88,14 @@ class CommitTree:
         n = int(head[2]); data = q.stdout.read(n); q.stdout.read(1)
         return data
     def size(self, p):
-        if self._sizes is None:
-            self.paths()
+        if p not in self._sizes:
+            if self._q is None:
+                self._q = self._proc("--batch-check")
+            self._q.stdin.write(f"{self.sha}:{p}\n".encode()); self._q.stdin.flush()
+            head = self._q.stdout.readline().split()
+            if len(head) < 3 or head[1] == b"missing":
+                raise FileNotFoundError(p)
+            self._sizes[p] = int(head[2])
         return self._sizes[p]
 
 
@@ -512,7 +515,7 @@ def main():
         paths = sorted(set(paths) | set(own))
         with gzip.open(BASE / "tracked_paths.txt.gz", "wt", encoding="utf-8") as fh:
             fh.write("\n".join(paths) + "\n")
-        rows, keys, _ = existing_violations(view)
+        keys = [k for k, _ in check_registries(load_registries(view, paths))]   # C4 only: no blob reads beyond the registry files
         json.dump({"baseline_commit": head, "n_paths": len(paths), "keys": sorted(set(keys))}, open(BASE / "known_violations.json", "w"), indent=1)
         print(f"baseline written: {len(paths)} paths at {head[:12]}, {len(set(keys))} known registry violations")
         return
