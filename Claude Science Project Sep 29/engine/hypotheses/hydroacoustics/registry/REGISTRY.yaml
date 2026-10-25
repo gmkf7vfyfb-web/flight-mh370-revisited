@@ -29,6 +29,9 @@ constant_status_values:
   AGENT_CHOICE_NOT_RULED: Chosen by an agent, not ruled by Pete. Open proposal; state it as an assumption.
   CONVENTION_NO_LOCATED_SOURCE: Module convention in code; no published source located.
   EXTERNAL_STANDARD: Value from an external standard (cited in the note); the standard document is not in the repo.
+  EVIDENCE: Measured or derived value that enters only through its measurement model (a point on a curve, a consistency check); not a parameter
+    and not awaiting a ruling. Use it with the propagation chain of its definition class.
+  SUPERSEDED: Replaced; kept for provenance. The note names the replacement.
 entries:
 - id: in.imos_raw
   kind: input
@@ -2412,10 +2415,11 @@ constants:
 - id: eta_F35A_metz
   value: 0.00226
   units: fraction of impact kinetic energy radiated as sound (module definition)
-  status: PENDING_RULING
-  note: 'One point inside the coupling prior (Pete ruling 23 Oct). One-factor values in the Metz note table: 2.8e-4 (tau 0.05 s) to 1.3e-1 (f^-4
-    roll-off); 5.4e-2 at a 2 m source; 3.4e-4 at 30 m; full range over all cases 1.1e-5 to 6.3. 23 Oct: agent recommendation (X02) to use 2.26e-3
-    as the F-35A reference point is applied to labels and the fixed column; Pete has not given an explicit ruling.'
+  status: EVIDENCE
+  note: 'EVIDENCE (CV02 in hydro_data.sqlite coupling_value): the 10 m point on the F-35A ridge over (coupling, source depth, spectrum) from one
+    recording; 5.4e-2 at 2 m, 3.4e-4 at 30 m (CV01, CV03); full curve in coupling_curve E01_far_field_H11. Not a parameter and no ruling is needed
+    (Pete, 24 Oct 2026: ''The F35 ruling was a red herring''). Use only with the module chain (MODULE_KRAKEN_RAM). Pete, 25 Oct 2026: ''yes on
+    the decisions, apply them'' (proposal in coupling-db-package-2026-10-25/README.md, session c764a583).'
   source:
     file: WORK:results/hydroacoustics-metz-f35a-anchor.md
     lines:
@@ -2449,8 +2453,10 @@ constants:
 - id: eta_brown_arons
   value: 0.00021
   units: Arons-equivalent coupling (different quantity)
-  status: RETIRED_AS_ANCHOR
-  note: Do not use as the F-35A point for the module definition (10.3 dB low).
+  status: EVIDENCE
+  note: 'EVIDENCE as a consistency check (CV14/CV15, definition class D2, chain ARONS_1954): the same F-35A recording read through the Arons relation,
+    so not independent of eta_F35A_metz. Never use with the module transmission-loss chain; the module-chain view excludes it. Pete, 25 Oct 2026:
+    ''yes on the decisions, apply them'' (proposal in coupling-db-package-2026-10-25/README.md, session c764a583).'
   source:
     file: WORK:results/hydroacoustics-metz-f35a-anchor.md
     lines:
@@ -2466,8 +2472,10 @@ constants:
   - 1.0e-06
   - 0.01
   units: log-uniform, 41 points
-  status: AGENT_CHOICE_NOT_RULED
-  note: 'Pete: coupling is a prior range with its sources; bounds open.'
+  status: SUPERSEDED
+  note: 'SUPERSEDED by the coupling families in hydro_data.sqlite (coupling_family R1, R2, R3, I, X; status PROPOSED_STRUCTURE, awaiting Pete''s
+    approval of the structure) and coupling_family_element_evidence. Kept for provenance of products that marginalised over [1e-6, 1e-2]. Pete,
+    25 Oct 2026: ''yes on the decisions, apply them'' (proposal in coupling-db-package-2026-10-25/README.md, session c764a583).'
   source:
     file: EX:run-j-gated-v2/README.txt
     lines:
@@ -3122,3 +3130,17 @@ partial_updates:
   method: build_registry.py functions (manifest, quote, resolve) applied to these two entries only (stage 2 coupling tables replaced by the coupling
     thread's package of 25 Oct 2026, commit 7e5859d); all other entries, manifests and built_utc unchanged.
   module_head_before: 9a777b9
+- utc: '2026-10-25T01:18:19Z'
+  updated_constants:
+    eta_F35A_metz: PENDING_RULING -> EVIDENCE
+    eta_brown_arons: RETIRED_AS_ANCHOR -> EVIDENCE
+    eta_prior_bounds: AGENT_CHOICE_NOT_RULED -> SUPERSEDED
+  added_constant_status_values:
+  - EVIDENCE
+  - SUPERSEDED
+  updated_entries: []
+  added_entries: []
+  added_constants: []
+  method: 'entries.yaml constants edited (status and note only; values and source quotes unchanged); same fields written to REGISTRY.json/yaml.
+    Pete, 25 Oct 2026: ''yes on the decisions, apply them'' (proposal in coupling-db-package-2026-10-25/README.md, session c764a583).'
+  module_head_before: a813401
