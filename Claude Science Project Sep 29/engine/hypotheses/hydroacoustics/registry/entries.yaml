@@ -1075,9 +1075,7 @@ entries:
     lines:
     - 1
     - 5
-  note: 'DATA SOURCE OF RECORD for hydroacoustic data (raw IMOS records and digitised published data) from 23 Oct 2026: site, sensor, dataset,
-    segment, pick, event, attribute, arc_path tables; 4,572 raw files SHA-256 verified; 36/36 build checks. Rebuild with the data_db scripts;
-    never edit by hand. Results stay in this registry.'
+  note: "DATA SOURCE OF RECORD for hydroacoustic data (raw IMOS records and digitised published data, stage 1, 23 Oct 2026) and for background noise and acoustic coupling (stage 2, 25 Oct 2026): site, sensor, dataset, segment, pick, event, attribute, arc_path, noise_estimate, noise_condition, coupling_definition, coupling_value, coupling_evidence, coupling_curve tables; 4,572 raw files SHA-256 verified; stage 1 36/36 checks, stage 2 19 checks (17 PASS, 2 REVIEW listed for Pete: K09 restrictive wording, K11 coupling rows above 1). Rebuild with the data_db scripts; never edit by hand. Results stay in this registry."
 - id: code.hydro_data_db
   kind: code
   path: MOD:registry/data_db
@@ -1087,10 +1085,9 @@ entries:
   definition:
     file: MOD:registry/data_db/README.md
     lines:
-    - 43
-    - 43
-  note: Builder and derived scripts for hydro_data.sqlite (build_hydro_data_db.py, arc_line_of_sight.py, arc_station_count.py, make_sites_map.py)
-    with their outputs.
+    - 77
+    - 77
+  note: "Builders and derived scripts for hydro_data.sqlite (build_hydro_data_db.py, build_noise_coupling.py, arc_line_of_sight.py, arc_station_count.py, make_sites_map.py, arc_recording_opportunity.py) with their outputs, inputs/coupling (coupling-thread files with MANIFEST.tsv) and NOISE_COUPLING_RECORD.md (generated)."
 - id: ex.arc_line_of_sight
   kind: product
   path: MOD:registry/data_db/arc_los_station_count.csv
