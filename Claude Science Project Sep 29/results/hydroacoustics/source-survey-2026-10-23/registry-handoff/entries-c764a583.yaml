@@ -1,0 +1,45 @@
+# Registry entries proposed by session c764a583 (Aircraft Impact Acoustic Source Survey), 25 Oct 2026.
+# Root WORK = "Claude Science Project Sep 29/" on branch claude-science-sep29 (as in build_registry.py).
+entries:
+- id: res.source_survey_2026_10_23
+  kind: product
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23
+  status: CURRENT_WITH_CAVEATS
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/impact-and-other-sources-synthesis-2026-10-23.md
+    lines:
+    - 1
+    - 30
+  manifest: manifests/res.source_survey_2026_10_23.tsv.gz
+  note: "Literature and catalogue survey of impact acoustic sources, other sources and 45 online catalogues. Review, not a measurement. Several primaries read at abstract level only (stated in each note). (12 files)"
+- id: res.next_steps_2026_10_24
+  kind: product
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24
+  status: CURRENT_WITH_CAVEATS
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/next-steps-results-2026-10-24.md
+    lines:
+    - 1
+    - 30
+  manifest: manifests/res.next_steps_2026_10_24.tsv.gz
+  note: "Exploratory: open IMS March background 2015-2019 (proxy for 2014), island seismometers, Royer labelled set, AADC access, Metz near field re-digitised, Swissair 111 seismic. Nothing returns a likelihood. 4.2x near/far wording corrected 24 Oct (2.0x against KRAKEN+RAM). (40 files)"
+- id: res.coupling_db_package_2026_10_25
+  kind: product
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/coupling-db-package-2026-10-25
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/coupling-db-package-2026-10-25/README.md
+    lines:
+    - 1
+    - 30
+  manifest: manifests/res.coupling_db_package_2026_10_25.tsv.gz
+  note: "Coupling import package for hydro_data.sqlite; validator passes 17/17 checks and the negative test fails as intended. Family priors are PROPOSED_STRUCTURE (structure awaits Pete), values are EVIDENCE. (10 files)"
+# Coupling constants: already re-statused on hypothesis/hydroacoustics (commit cb1a7d7, Pete 25 Oct 2026); nothing to change here.
+pending_entries_after_verification:
+- "four raw-data tracks started 25 Oct 2026 (F-35A ridge from raw H11; Transair 810; propagation level check on San Juan charge and FSST; Kadri replication). Entries follow after an independent verifier pass."

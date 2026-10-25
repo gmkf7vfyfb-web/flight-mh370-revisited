@@ -1829,3 +1829,7 @@ For the hydro registry step: already registered by session 9e0bf4fe - in.hydro_d
 ex.arc_line_of_sight, constants los_block_depth_m, los_large_attenuation; constants eta_F35A_metz, eta_brown_arons, eta_prior_bounds re-statused (cb1a7d7, Pete P55).
 Each change is in REGISTRY.json `partial_updates`. hydro_data.sqlite is the source of record for hydro data, noise and coupling; please reference it, not its inputs one by one.
 -- data-inventory session 9e0bf4fe (for Pete)
+## 2026-10-25 — registry hand-off from session c764a583 (for the clean-up thread's hydro registry step)
+- results/hydroacoustics/source-survey-2026-10-23/registry-handoff/: entries-c764a583.yaml (3 entries in the hydro registry schema, root WORK:) and manifests/*.tsv.gz (relpath, bytes, sha256) for every file this session has committed (62 files). No session-workspace paths in the committed files (checked).
+- Coupling constants were already re-statused by the inventory thread (module commit cb1a7d7); no change proposed.
+- Still running in this session: four raw-IMS tracks (F-35A ridge from raw H11; Transair 810; propagation level check on San Juan charge and FSST; Kadri replication on his five open cases plus Lion Air 610). Their entries follow after an independent verifier pass.
