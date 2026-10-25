@@ -1,0 +1,19 @@
+family,element,evidence,role,strength
+R1,eta_rad,AC01 F-35A far field (raw H11 now open) = E01,"likelihood ridge over eta_rad, z_eff, S",strong (one event)
+R1,eta_rad,"AC01 F-35A near field (Metz Fig 2, digitised) = E02",model-error measure (2.0x vs KRAKEN+RAM far field),moderate
+R1,eta_rad,"E06 bullets, E07 piles",upper envelope; scaling with speed and slenderness,weak (different scale)
+R1,eta_rad,"AC04 Sriwijaya, AC10 Lion Air 610 (raw H08S open)",tests with shallow-sea propagation; replication of Kadri,weak (propagation dominates)
+R1,eta_rad,AC11 Swissair 111 (seismic S1),"energy-scale cross-check, different physics",weak
+R1,z_eff,"E10 water-entry physics (cavity, pinch-off depth); E11 surface image",prior on effective depth vs speed and size,to be derived (literature step)
+R1,S(f),E03 F-35A spectra near and far; raw H11 spectra to 100 Hz (new),weights on f^-2 vs f^-4-like; ~20 Hz gap,moderate
+R1,tau,E04 F-35A duration bound (<= ~3.3 s); end-of-flight tau90,prior on duration,moderate
+R1,E_t,end-of-flight impact_energy_transferred_j (upper bound),per impact row,model output
+R2,eta_rad,"no aircraft calibration; AC08 AirAsia 8501 (raw open, shallow sea); AC02 AF447 and AC03 Yemenia (digitised Kadri panels only)",bracket between R1 posterior and slow-blunt analogs E08-E09; tests,weak
+R2,z_eff,E10 flat-entry and slamming physics (von Karman/Wagner); ditching studies,shallow z_eff (strong dipole loss),to be derived
+R2,"S(f), tau",none direct; Kadri panels for AF447/Yemenia (comparison only),declared alternatives,weak
+R3,eta_rad,"AC05 Transair 810 (raw H11 open) - candidate R3 calibration or upper limit; AC06 Lion Air 904 (digitised only); E08 raindrops, E09 ice blocks",likelihood term if detected; else upper limit; analog envelope,moderate potential
+R3,z_eff,"NASA/FAA ditching studies (loads only, no acoustics); E10",very shallow source,to be derived
+R3,E_t,end-of-flight (low vertical speed; small E_t),per impact row,model output
+I,eta_imp,"E14 glass 18 %, metal 0.2-0.6 %; RE01 San Juan (raw H10 open); RE14 Harben",separate source prior; real implosion test,moderate
+I,"depth, timing, P*V","settling module output (sink time, depth); RE16 qualitative",prior on implosion depth/time,model output
+PROP,"G (propagation, all families)","RE02 San Juan charge, RE03/04 FSST (raw H10N open); RE06 Blackman; RE07 Royer; RE08 earthquakes; RE09 IMS background",sigma_model level and slope; timing; noise,strong once raw known-yield events are scored

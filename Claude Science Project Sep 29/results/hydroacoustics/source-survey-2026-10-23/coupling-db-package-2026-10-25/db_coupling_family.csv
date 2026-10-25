@@ -1,0 +1,6 @@
+family_id,name,selection_rule_from_end_of_flight,prior_construction,status
+R1,steep high-speed entry,end-of-flight rows with high speed and steep flight-path angle (thresholds to be set with end of flight),"F-35A ridge with sigma_model, z_eff prior, scale-transfer term, event scatter",PROPOSED_STRUCTURE
+R2,shallow uncontrolled entry,"moderate speed, shallow angle, including flat high-sink-rate entries",bracketed between R1 posterior and slow-blunt analogs; deliberately wide,PROPOSED_STRUCTURE
+R3,controlled ditching,"low vertical speed, nose-up attitude","small E_t, shallow z_eff, low eta_rad; Transair 810 test pending",PROPOSED_STRUCTURE
+I,implosions while sinking,any regime; timing and depth from the settling module,"P x V x eta_imp (0.2-18 %), deep-source chain",PROPOSED_STRUCTURE
+X,in-flight break-up,not an MH370 end-of-flight family; comparison cases only,not modelled,PROPOSED_STRUCTURE

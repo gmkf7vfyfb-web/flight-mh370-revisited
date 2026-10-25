@@ -1,0 +1,17 @@
+ref_id,event,date,source,used_for,raw_ims_open,held_now,evidence_link
+RE01,ARA San Juan loss event,2017-11-15 13:51,"submarine implosion/explosion doublet, ~907-920 m wreck",implosion branch I; propagation,"YES - H10N1, H10S1 (probe)",digitised Nielsen 2021 Fig 5; Vergoz 2021 levels,E14 implosion source size; validates long-range implosion detection; first raw-data test of the matched filter on a real implosion
+RE02,San Juan calibration charge,2017-12-01 20:04,102-108 kg TNT at ~30-33 m,propagation (known energy),"YES - H10N1, H10S1 (probe)",digitised Nielsen 2021 Fig 5c/d,E12 absolute level check of the chain (current digitised result: level -14.4 dB FAIL)
+RE03,US Navy full ship shock trial 2016 (5 shots),2016-06-10 to 2016-09-21,"6,759 kg TNT each, shallow",propagation (known energy),YES - H10N1 on 2016-06-10 (probe),Brown 2026 Table A.4 values,E12 level and site scatter
+RE04,US Navy full ship shock trial 2021 (3 shots),2021-06-18 to 2021-08-08,"18,000 kg TNT each, shallow",propagation (known energy),YES - H10N1 on 2021-06-18 (probe),Brown 2026 Table A.4 values,E12 level and site scatter
+RE05,39 kg TNT charges at H11N/H03N (Prior et al.),2008-09-06 to 09,"39 kg TNT, shallow",propagation (known energy),NO (H11N1 2008: HTTP 204),Brown 2026 Table A.4 values,E12 (table values only)
+RE06,"Blackman 2001 airgun sites air7/8/9 and 2003 SUS A1-A11, glass spheres",2001-10; 2003-05,"controlled sources, declared levels",propagation TL validation; implosion (spheres),NO (pre-Dec-2014),UCRL-TR-207323 figures and tables,"E13 TL level passes, slope fails; spheres detected at 680 m, not at 320 m"
+RE07,"Royer 2016 located events (20), 7-8 Mar 2014",2014-03-07 23:45 to 03-08 02:05,"6 icequakes, 2 earthquakes, 12 uncertain",timing and false-alarm calibration on the MH370 night,NO raw IMS (2014); OHASISBIO request-only,Royer tables; royer-events-labelled-set.csv (840 rows),"timing rule check (median -3.1 s, SD 8.6 s); real-arrival set"
+RE08,Catalogued earthquakes 6-10 Mar 2014 (T-phases),2014-03-06 to 10,M 3-5 ridge and trench events,"timing (1.48 km/s rule), island-station sensitivity",island seismometers open; IMS 2014 not open,known-events table; island associations,"timing rule +10 s median, SD 46 s vs IDC arrivals"
+RE09,Open IMS March background 2015-2019,2015-2019 March,"ambient noise, ice, whales, airguns, T-phases",noise and false-alarm background (proxy for 2014),YES (downloaded 00-04 UTC blocks),ims-march-* tables,replaces IMS noise stand-in (+7.4 dB at H01W)
+RE10,Bullet water entry (Leslie 1964),lab,fast small slender projectile,eta_rad scaling (upper),n/a,abstract only,E06
+RE11,Pile driving,field,hard repeated steel impact,eta_rad envelope (upper),n/a,review values,E07
+RE12,Raindrops (Liu 2021),lab,slow small blunt,eta_rad scaling (lower),n/a,partial read,E08
+RE13,Iceberg block impacts (Glowacki & Deane 2020),field,large slow blunt,eta_rad scaling (lower); closest in size to an airliner,n/a,partial read,E09
+RE14,"Implosions: glass spheres (Orr & Schoenberg 1976), metal shells (Shukla 2018), Harben 2000 flasks",lab/field,P*V sources,implosion branch I,n/a,abstracts / snippets,E14
+RE15,Bolides / fireballs (Brown 2026: 30 events),2000-2024,airbursts,excluded from impact eta (different mechanism); IMS detection limits,post-Dec-2014 cases open on EarthScope (not probed),Brown 2026,E17
+RE16,"Titan (2023), USS Scorpion (1968), Kursk (2000)",various,implosion / explosion,implosion branch I (qualitative),no public quantitative acoustic data,grey literature / seismic,context only
