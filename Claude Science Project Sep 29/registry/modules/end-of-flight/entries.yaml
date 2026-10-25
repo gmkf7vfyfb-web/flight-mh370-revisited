@@ -1,0 +1,2745 @@
+registry_version: end-of-flight registry v1 (2026-10-25)
+module: end-of-flight
+generated_by: registry/backfill_registry.py (do not edit by hand; correct status_records.yaml and rebuild)
+entries:
+- id: eof.code.branch-hypothesis-end-of-flight
+  kind: code
+  module: end-of-flight
+  path: GIT:hypothesis/end-of-flight@5d060f02175d1395f324d65a4a90d2c5b29640f1
+  git:
+    branch: hypothesis/end-of-flight
+    commit: 5d060f02175d1395f324d65a4a90d2c5b29640f1
+    date: '2026-10-14T21:45:33Z'
+    subject: 'end-of-flight: core request 12 (post-stage BFO bias for D5 at 22:41); coordination: open items'
+    tree: 86959f3da2d34ee181b010f2beffbe24b699cae5
+    n_files: 9973
+    bytes: 2243882647
+    commits_not_in_working_branch: 0
+    compared_with_working_head: a0f25c19fb5cd9d1c0d340167507260ceb6e2b86
+  note: Code on branch hypothesis/end-of-flight at 5d060f02175d (2026-10-14). 0 commits are not in the working branch. Not merged (Pete's rule).
+  assignment_basis: branch name
+  hash: false
+  hash_note: git objects are content-addressed; tree sha recorded
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.code.engine-hypotheses-end-of-flight
+  kind: code
+  module: end-of-flight
+  path: WORK:engine/hypotheses/end-of-flight
+  file_list: null
+  note: 'Engine code on the working branch: engine/hypotheses/end-of-flight (226 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: 6d54252e9a74facb2dc0ed584f94f5451db60cd5
+      date: '2026-10-08T08:53:13-06:00'
+      subject: 'End of flight: land the first code increment, with the architecture review'
+    last_changed:
+      commit: 45ea4af06d5b6ae55a6101f59b149c67b5dc5f1d
+      date: '2026-10-20T04:08:02-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 18
+    mem_ids:
+    - mem_06ebe453a542
+    - mem_0f0ee0210aa5
+    - mem_163a67ae8cee
+    - mem_394bb772819a
+    - mem_42ee5122bc3e
+    - mem_57f0ac5522e3
+    - mem_65624d253752
+    - mem_78ea85193b22
+    - mem_8073e66ebd2c
+    - mem_9283b5941da6
+    - mem_96ea508096a1
+    - mem_a75de911c136
+    - mem_afb559166173
+    - mem_b01134841791
+    - mem_ba3363351c1c
+    - mem_d4b39827c9d3
+    - mem_dc1c3d0623ac
+    - mem_eae59867a71f
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.ex.end-of-flight-_top-files
+  kind: product
+  module: end-of-flight
+  path: EX:end-of-flight/
+  exchange_prefix: end-of-flight/
+  exchange_top_files_only: true
+  note: 'Exchange folder end-of-flight/_top-files: 7 files, 0.00 GB; SHA-256 from SHA256SUMS 0, computed 7, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_96902e2bb568
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.ex.end-of-flight-bin
+  kind: product
+  module: end-of-flight
+  path: EX:end-of-flight/bin
+  exchange_prefix: end-of-flight/bin
+  exchange_top_files_only: false
+  note: 'Exchange folder end-of-flight/bin: 30 files, 0.07 GB; SHA-256 from SHA256SUMS 16, computed 14, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 3
+    mem_ids:
+    - mem_51e780a9184f
+    - mem_6bd94900cc24
+    - mem_6cb233862087
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.ex.end-of-flight-order-b-bank-cap
+  kind: product
+  module: end-of-flight
+  path: EX:end-of-flight/order-b-bank-cap
+  exchange_prefix: end-of-flight/order-b-bank-cap
+  exchange_top_files_only: false
+  note: 'Exchange folder end-of-flight/order-b-bank-cap: 41 files, 0.25 GB; SHA-256 from SHA256SUMS 0, computed 41, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.ex.end-of-flight-round3-sensitivity
+  kind: product
+  module: end-of-flight
+  path: EX:end-of-flight/round3-sensitivity
+  exchange_prefix: end-of-flight/round3-sensitivity
+  exchange_top_files_only: false
+  note: 'Exchange folder end-of-flight/round3-sensitivity: 22 files, 0.24 GB; SHA-256 from SHA256SUMS 0, computed 22, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.ex.end-of-flight-run-i-asym-joined
+  kind: product
+  module: end-of-flight
+  path: EX:end-of-flight/run-i-asym-joined
+  exchange_prefix: end-of-flight/run-i-asym-joined
+  exchange_top_files_only: false
+  note: 'Exchange folder end-of-flight/run-i-asym-joined: 28 files, 0.00 GB; SHA-256 from SHA256SUMS 0, computed 26, not hashed 2.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_d852eccb6093
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.ex.end-of-flight-run-i-dive
+  kind: product
+  module: end-of-flight
+  path: EX:end-of-flight/run-i-dive
+  exchange_prefix: end-of-flight/run-i-dive
+  exchange_top_files_only: false
+  note: 'Exchange folder end-of-flight/run-i-dive: 1 files, 0.00 GB; SHA-256 from SHA256SUMS 0, computed 1, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_3ef84437b35c
+    - mem_67b90e1392e1
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.ex.end-of-flight-run-i-joined-v2
+  kind: product
+  module: end-of-flight
+  path: EX:end-of-flight/run-i-joined-v2
+  exchange_prefix: end-of-flight/run-i-joined-v2
+  exchange_top_files_only: false
+  note: 'Exchange folder end-of-flight/run-i-joined-v2: 29 files, 0.00 GB; SHA-256 from SHA256SUMS 0, computed 29, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.ex.end-of-flight-run-j
+  kind: product
+  module: end-of-flight
+  path: EX:end-of-flight/run-j
+  exchange_prefix: end-of-flight/run-j
+  exchange_top_files_only: false
+  note: 'Exchange folder end-of-flight/run-j: 722 files, 151.37 GB; SHA-256 from SHA256SUMS 296, computed 426, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 6
+    mem_ids:
+    - mem_005628327136
+    - mem_198dc6979cc3
+    - mem_565a4d3be93e
+    - mem_9e0ffb871ddb
+    - mem_b502c35b3765
+    - mem_c44a0984a933
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.ex.end-of-flight-run-j-a1branch
+  kind: product
+  module: end-of-flight
+  path: EX:end-of-flight/run-j-a1branch
+  exchange_prefix: end-of-flight/run-j-a1branch
+  exchange_top_files_only: false
+  note: 'Exchange folder end-of-flight/run-j-a1branch: 55 files, 5.96 GB; SHA-256 from SHA256SUMS 32, computed 23, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_fdaae0fae003
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.ex.end-of-flight-run-j-both-burst
+  kind: product
+  module: end-of-flight
+  path: EX:end-of-flight/run-j-both-burst
+  exchange_prefix: end-of-flight/run-j-both-burst
+  exchange_top_files_only: false
+  note: 'Exchange folder end-of-flight/run-j-both-burst: 63 files, 3.57 GB; SHA-256 from SHA256SUMS 33, computed 30, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.ex.end-of-flight-run-j-both-burst-production-laws
+  kind: product
+  module: end-of-flight
+  path: EX:end-of-flight/run-j-both-burst-production-laws
+  exchange_prefix: end-of-flight/run-j-both-burst-production-laws
+  exchange_top_files_only: false
+  note: 'Exchange folder end-of-flight/run-j-both-burst-production-laws: 8 files, 0.45 GB; SHA-256 from SHA256SUMS 4, computed 4, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.ex.end-of-flight-run-j-joined-v2
+  kind: product
+  module: end-of-flight
+  path: EX:end-of-flight/run-j-joined-v2
+  exchange_prefix: end-of-flight/run-j-joined-v2
+  exchange_top_files_only: false
+  note: 'Exchange folder end-of-flight/run-j-joined-v2: 319 files, 80.18 GB; SHA-256 from SHA256SUMS 48, computed 271, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.ex.end-of-flight-run-j-supplement
+  kind: product
+  module: end-of-flight
+  path: EX:end-of-flight/run-j-supplement
+  exchange_prefix: end-of-flight/run-j-supplement
+  exchange_top_files_only: false
+  note: 'Exchange folder end-of-flight/run-j-supplement: 85 files, 2.12 GB; SHA-256 from SHA256SUMS 74, computed 11, not hashed 0. 1409 files listed in a SHA256SUMS
+    file here are not in the folder now.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 3
+    mem_ids:
+    - mem_00205ffec96b
+    - mem_2a9524226390
+    - mem_7f1ead2309fb
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.memnote.descent-6dof
+  kind: note
+  module: end-of-flight
+  path: WORK:registry/memory-notes/descent-6dof.jsonl
+  note: Memory rows on topic 'descent-6dof' moved to the registry on 25 Oct 2026 (76 rows; 58 have no other entry). Records of what memory said, not verified facts;
+    each row has its verification status.
+  assignment_basis: memory track topic
+  memory_notes:
+    file: WORK:registry/memory-notes/descent-6dof.jsonl
+    n_rows: 76
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.note.coordination-end_of_flight_md
+  kind: note
+  module: end-of-flight
+  path: WORK:coordination/END_OF_FLIGHT.md
+  note: END_OF_FLIGHT inbox
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 6a2f9377af93daed81de316e8868d3b53dc2c869
+      date: '2026-10-07T12:52:38-06:00'
+      subject: 'Architecture: ocean drift master prompt, and the coordination inboxes'
+    last_changed:
+      commit: 8cae711638062921fe02ab4c153420a473b0596a
+      date: '2026-10-22T10:18:07-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_21c53142871d
+    - mem_a59836e48cf8
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.note.threads-master-prompts-end-of-flight_md
+  kind: note
+  module: end-of-flight
+  path: WORK:threads/master-prompts/end-of-flight.md
+  note: End of flight — mission and master prompt
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 647ab2dc5d54eac902558db2ba8a50cc6e090d73
+      date: '2026-10-05T16:50:10-06:00'
+      subject: End-of-flight mission and master prompt, next iteration
+    last_changed:
+      commit: 8cae711638062921fe02ab4c153420a473b0596a
+      date: '2026-10-22T10:18:07-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT
+  status_rank: explicit
+  status_evidence:
+  - rank: explicit
+    source: memory:mem_cd6052de7cdf
+    memory_evidence_tag: observed
+    quote: The EoF master prompt lives at 'Claude Science Project Sep 29/threads/master-prompts/end-of-flight.md' and supersedes the ISO Sept 28 end-of-flight.txt,
+      which remains correct on physics and calibration and is stale on build status (it told the module to work against a flat flame-out prior and to raise the start-up-offset
+      model as a core request;
+  memory_notes:
+    n_rows: 7
+    mem_ids:
+    - mem_06853d38b72a
+    - mem_a40fa55f1291
+    - mem_b7c8d89e83c3
+    - mem_cd6052de7cdf
+    - mem_ed69784a4856
+    - mem_f7126cddc3fb
+    - mem_fd3797c92991
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.note.threads-work-orders-eof-order-2026-10-15b_md
+  kind: note
+  module: end-of-flight
+  path: WORK:threads/work-orders/eof-order-2026-10-15b.md
+  note: End-of-flight work order, 15 October 2026 (b)
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 5eeda142446282b33113e5b768b15f5c6fc9167f
+      date: '2026-10-15T12:41:21-06:00'
+      subject: 'Coordination 15 Oct (b): answers to Pete''s nine questions; core order b (gates B/C, scripts, fuel feasibility, item 10 Phase 1); EoF order b (D0
+        transmission imposed, sampled bank limit, uniform onset'
+    last_changed:
+      commit: 90469c10265667940c1ef7c66ef2a159a5c45466
+      date: '2026-10-15T14:24:43-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.note.threads-work-orders-gain-observable-assessment-2026-10-15_md
+  kind: note
+  module: end-of-flight
+  path: WORK:threads/work-orders/gain-observable-assessment-2026-10-15.md
+  note: The received-power / antenna-gain observable — assessment of the prior work
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: b0a52ffc7c925489793a0a8e05d44857c6a8dc02
+      date: '2026-10-14T23:25:12-06:00'
+      subject: Item 10 order revised after core handover; run J change list filed; item 5 and gain notes
+    last_changed:
+      commit: f0f24f4cc1b52d23c2313f44635605cfcee1c054
+      date: '2026-10-14T23:41:50-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.note.threads-work-orders-mode-allocation-test-2026-10-15_md
+  kind: note
+  module: end-of-flight
+  path: WORK:threads/work-orders/mode-allocation-test-2026-10-15.md
+  note: Mode-allocation test for run J (proposal; needs Pete's GO). 15 October 2026
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 2936b2243285f38ea28bcc242e40c3c72d30341a
+      date: '2026-10-15T17:24:15-06:00'
+      subject: 'Northern ESS: corrected diagnosis (mode-probability noise at 00:11, not lineages); mode-allocation test proposed for run J; run-J note 4.4 updated'
+    last_changed:
+      commit: 2936b2243285f38ea28bcc242e40c3c72d30341a
+      date: '2026-10-15T17:24:15-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_fa4ec183f64a
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.burst-0019-plausibility-architecture-fig1_png
+  kind: product
+  module: end-of-flight
+  path: WORK:results/burst-0019-plausibility-architecture-fig1.png
+  note: 'Results: 00:19 push-over plausibility study (read-only; artefact of descent-model structure, not evidence; true rate undetermined); coordination entries'
+  assignment_basis: override from commit subject (read by hand)
+  git:
+    first_added:
+      commit: ee8afd8ee043b0d05a7d92375e0dcecf4ed6a2ac
+      date: '2026-10-10T11:31:22-06:00'
+      subject: 'Results: 00:19 push-over plausibility study (read-only; artefact of descent-model structure, not evidence; true rate undetermined); coordination entries'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.burst-0019-plausibility-architecture-fig2_png
+  kind: product
+  module: end-of-flight
+  path: WORK:results/burst-0019-plausibility-architecture-fig2.png
+  note: 'Results: 00:19 push-over plausibility study (read-only; artefact of descent-model structure, not evidence; true rate undetermined); coordination entries'
+  assignment_basis: override from commit subject (read by hand)
+  git:
+    first_added:
+      commit: ee8afd8ee043b0d05a7d92375e0dcecf4ed6a2ac
+      date: '2026-10-10T11:31:22-06:00'
+      subject: 'Results: 00:19 push-over plausibility study (read-only; artefact of descent-model structure, not evidence; true rate undetermined); coordination entries'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.burst-0019-plausibility-architecture-fig3_png
+  kind: product
+  module: end-of-flight
+  path: WORK:results/burst-0019-plausibility-architecture-fig3.png
+  note: 'Results: 00:19 push-over plausibility study (read-only; artefact of descent-model structure, not evidence; true rate undetermined); coordination entries'
+  assignment_basis: override from commit subject (read by hand)
+  git:
+    first_added:
+      commit: ee8afd8ee043b0d05a7d92375e0dcecf4ed6a2ac
+      date: '2026-10-10T11:31:22-06:00'
+      subject: 'Results: 00:19 push-over plausibility study (read-only; artefact of descent-model structure, not evidence; true rate undetermined); coordination entries'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.burst-0019-plausibility-architecture_md
+  kind: note
+  module: end-of-flight
+  path: WORK:results/burst-0019-plausibility-architecture.md
+  note: 'The two 00:19 bursts: how plausible is the push-over, and does our descent model under-sample it?'
+  assignment_basis: override from commit subject (read by hand)
+  git:
+    first_added:
+      commit: ee8afd8ee043b0d05a7d92375e0dcecf4ed6a2ac
+      date: '2026-10-10T11:31:22-06:00'
+      subject: 'Results: 00:19 push-over plausibility study (read-only; artefact of descent-model structure, not evidence; true rate undetermined); coordination entries'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: PENDING_RULING
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/burst-0019-plausibility-architecture.md:39
+    quote: '- **Prior decisions for Pete:**'
+  - rank: readme
+    source: WORK:results/burst-0019-plausibility-architecture.md:255
+    quote: '**A. Changes to the prior.** Modelling decisions for Pete; each config-gated and default off.'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_145375725a92
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+  status_note: Decisions for Pete at lines 39 and 255. No later ruling found by a keyword search of the memory export (25 Oct 2026).
+- id: eof.res.end-of-flight-references_bib
+  kind: product
+  module: end-of-flight
+  path: WORK:results/end-of-flight-references.bib
+  note: 'End of flight: gate (c) sign-off for the hand-off stratum column; citation ledger (results/end-of-flight-references); section 8 effective-parent limits (smoke,
+    provisional); parent-count question'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 38316a859df588de2866637af340b66da94a5987
+      date: '2026-10-08T19:56:25-06:00'
+      subject: 'End of flight: gate (c) sign-off for the hand-off stratum column; citation ledger (results/end-of-flight-references); section 8 effective-parent limits
+        (smoke, provisional); parent-count question'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.end-of-flight-references_md
+  kind: note
+  module: end-of-flight
+  path: WORK:results/end-of-flight-references.md
+  note: 'End of flight: citation ledger'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 38316a859df588de2866637af340b66da94a5987
+      date: '2026-10-08T19:56:25-06:00'
+      subject: 'End of flight: gate (c) sign-off for the hand-off stratum column; citation ledger (results/end-of-flight-references); section 8 effective-parent limits
+        (smoke, provisional); parent-count question'
+    last_changed:
+      commit: 26b42d7242d5267a771e882b569168ef38929af8
+      date: '2026-10-25T16:58:11-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.endurance_1_fuel_only
+  kind: product
+  module: end-of-flight
+  path: WORK:results/endurance_1_fuel_only
+  note: 'the evidence ladder: four rungs, and the proposal validated at full scale'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 6c8c650dccf8506da601ae9377ba0dbb23ff0f0c
+      date: '2026-10-02T07:18:27-07:00'
+      subject: 'the evidence ladder: four rungs, and the proposal validated at full scale'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.endurance_2_bto_0011
+  kind: product
+  module: end-of-flight
+  path: WORK:results/endurance_2_bto_0011
+  note: 'the evidence ladder: four rungs, and the proposal validated at full scale'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 6c8c650dccf8506da601ae9377ba0dbb23ff0f0c
+      date: '2026-10-02T07:18:27-07:00'
+      subject: 'the evidence ladder: four rungs, and the proposal validated at full scale'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.endurance_3_btobfo_0011
+  kind: product
+  module: end-of-flight
+  path: WORK:results/endurance_3_btobfo_0011
+  note: 'the evidence ladder: four rungs, and the proposal validated at full scale'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 6c8c650dccf8506da601ae9377ba0dbb23ff0f0c
+      date: '2026-10-02T07:18:27-07:00'
+      subject: 'the evidence ladder: four rungs, and the proposal validated at full scale'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.endurance_4_btobfo_0019
+  kind: product
+  module: end-of-flight
+  path: WORK:results/endurance_4_btobfo_0019
+  note: 'the evidence ladder: four rungs, and the proposal validated at full scale'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 6c8c650dccf8506da601ae9377ba0dbb23ff0f0c
+      date: '2026-10-02T07:18:27-07:00'
+      subject: 'the evidence ladder: four rungs, and the proposal validated at full scale'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-0019-startup-oct09
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-0019-startup-oct09
+  note: 'End of flight: the 00:19 start-up offset - what Holland''s curve rests on, the 18:25 in-flight test, and proposals (9 Oct 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 18914c2b1c34bc547c5394dd6ff6d49ee71ae20c
+      date: '2026-10-09T14:04:19-06:00'
+      subject: 'end-of-flight: 00:19 start-up offset - Holland''s calibration outages, the 18:25 in-flight test, proposals V-short and S (graded sources); coordination
+        reply'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-0019-two-factor-oct12
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-0019-two-factor-oct12
+  note: '00:19 two-factor table: data treatment D0-D5 x log-on cause (12 Oct 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 1e6fa335380f01bbc7c3dba61d2daac95e278ee8
+      date: '2026-10-11T19:54:59-06:00'
+      subject: 'end-of-flight: 00:19 two-factor table (D0-D5 x cause), tested on run D-he; D5 from stored columns'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-0019-two-factor-oct12/README.md:3
+    quote: '**TEST on the run D-he summary only (no new descents; architecture 01:45Z, 02:05Z, 02:15Z).** PROVISIONAL; core run D not'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_9ec8c2cc1d63
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.eof-2241-ab-oct11
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-2241-ab-oct11
+  note: '22:41 A-vs-B on core run C: SMOKE only so far (end of flight, 11 Oct 2026, ~00:30 UTC)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: dc2039fa29b8ffebc90727687a94c764cea9b9fb
+      date: '2026-10-10T18:21:32-06:00'
+      subject: 'End of flight: 22:41 A-vs-B arms, evidence/slim script, queued sweep; smoke on run C'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-2241-ab-oct11/README.md:3
+    quote: '**SMOKE. NOT CONVERGED. NOT TO BE QUOTED AS EVIDENCE.** Core run C `next-c-free` seed 1, m2241 hand-off (sha256 verified against core''s'
+- id: eof.res.eof-289-sweep-oct09
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-289-sweep-oct09
+  note: 'End of flight on reference-289: evidential sweep (00:11 hand-off)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: bbab9ae69312dc79bfb985938ad6bf048435e99a
+      date: '2026-10-09T09:15:19-06:00'
+      subject: 'end-of-flight: reference-289 sweep seed 1 impacts posted; sizing correction'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-6dof-refit-oct11
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-6dof-refit-oct11
+  note: '6-DOF refit with the 10 Oct objective: stationary, but the calibration gate FAILS (end of flight, 11 Oct 2026, ~02:35 UTC)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: c2e86a87c15840d512e9a83d3bc7d37e2a54568f
+      date: '2026-10-10T20:31:08-06:00'
+      subject: 'End of flight: 6-DOF refit result, gate fails (negative result)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_cbb7c50cbaac
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.eof-a-vs-b-2241-late-onset-n1_json
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-a-vs-b-2241-late-onset-n1.json
+  note: 'end-of-flight: 22:41 A-vs-B per B-onset window with late-onset proposal (N=1 smoke)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 96c23e248ed2c68ba6ea73fa80c0e1b308106b70
+      date: '2026-10-11T12:23:35-06:00'
+      subject: 'end-of-flight: 22:41 A-vs-B per B-onset window with late-onset proposal (N=1 smoke)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-a-vs-b-2241-late-onset-oct11_md
+  kind: note
+  module: end-of-flight
+  path: WORK:results/eof-a-vs-b-2241-late-onset-oct11.md
+  note: 22:41 family A against family B by B onset window, with the late-onset proposal and unnormalised weights (11 Oct 2026)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 96c23e248ed2c68ba6ea73fa80c0e1b308106b70
+      date: '2026-10-11T12:23:35-06:00'
+      subject: 'end-of-flight: 22:41 A-vs-B per B-onset window with late-onset proposal (N=1 smoke)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-a-vs-b-2241-late-onset-oct11.md:3
+    quote: '**SMOKE, PROVISIONAL, not evidence.** Core run D `next-d-free` seed 1, 22:41 hand-off, N = 1 child per parent, scored at the'
+- id: eof.res.eof-a-vs-b-2241-run-d-review_md
+  kind: note
+  module: end-of-flight
+  path: WORK:results/eof-a-vs-b-2241-run-d-review.md
+  note: Review of the 22:41 A-against-B stand-in on core run D (end of flight, 11 Oct 2026)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: ce4489fe7d36c32888c09fff3d8914ac2af98b58
+      date: '2026-10-11T10:27:07-06:00'
+      subject: 'End of flight: items 3 (trim at loss) and 4 (bounded push-over, piloted, sourced bounds) built and smoked; run D A-vs-B review'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-a-vs-b-2241-run-d-standin
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-a-vs-b-2241-run-d-standin
+  note: 'End of flight (stand-in): 22:41 A-vs-B on core run D, 4 strata x 4 seeds, with COVERAGE; review requested'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 913c6ec6b9a41f45fb7b77bad0726e2aa4574cb6
+      date: '2026-10-11T05:02:20-06:00'
+      subject: 'End of flight (stand-in): 22:41 A-vs-B on core run D, 4 strata x 4 seeds, with COVERAGE; review requested'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-a-vs-b-2241-run-d-standin_md
+  kind: note
+  module: end-of-flight
+  path: WORK:results/eof-a-vs-b-2241-run-d-standin.md
+  note: End of flight, 22:41 A-against-B on core run D — STAND-IN replay (architecture, 11 Oct 2026, 07:45–10:56 UTC)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 913c6ec6b9a41f45fb7b77bad0726e2aa4574cb6
+      date: '2026-10-11T05:02:20-06:00'
+      subject: 'End of flight (stand-in): 22:41 A-vs-B on core run D, 4 strata x 4 seeds, with COVERAGE; review requested'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-a-vs-b-2241-run-d-standin.md:3
+    quote: '**UNCONVERGED.** Core run D is not converged (split-half below the 4-seed floor in three strata; routes above it only on an incomplete'
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_24d660a89d54
+    - mem_d068f295b84e
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.eof-a-vs-b-2241-run-d-standin_png
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-a-vs-b-2241-run-d-standin.png
+  note: 'End of flight (stand-in): 22:41 A-vs-B on core run D, 4 strata x 4 seeds, with COVERAGE; review requested'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 913c6ec6b9a41f45fb7b77bad0726e2aa4574cb6
+      date: '2026-10-11T05:02:20-06:00'
+      subject: 'End of flight (stand-in): 22:41 A-vs-B on core run D, 4 strata x 4 seeds, with COVERAGE; review requested'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-a1-aimed-pitchdown-oct12
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-a1-aimed-pitchdown-oct12
+  note: 'A1 coverage fix for Holland H1/H2: aimed pitch-down, smoke (12 Oct 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: ef5ee0b78183b97e0bbba02c27e3ad4f7316003e
+      date: '2026-10-11T19:16:31-06:00'
+      subject: 'end-of-flight: A1 aimed pitch-down smoke; size of the full fix'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-a1-aimed-pitchdown-oct12/README.md:3
+    quote: '**SMOKE, PROVISIONAL, not evidence.** Core run D `next-d-free` seed 1, N = 8 x 4, the H1/H2 recipe (arm C) with and without'
+- id: eof.res.eof-a1-branch-oct18
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-a1-branch-oct18
+  note: 'Coverage gap closed: fuel exhaustion then no control (A1) under the both-frequency 00:19 treatments (18 Oct 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 4605cc2109ecea38c5bed2df1b716d3115d3ecc8
+      date: '2026-10-17T21:59:40-06:00'
+      subject: 'end of flight: A1-branch conditional pass closes the A1-under-D3 coverage gap (ESS 5,282); stratified estimator, figure, note'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-a1-branch-oct18/README.md:7
+    quote: '**Caveat (verbatim).** The uncontrolled-arm dynamics are not calibrated: the Boeing leave-one-out gate failed in all three rounds.'
+- id: eof.res.eof-arms-smoke-oct09
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-arms-smoke-oct09
+  note: 'End of flight: the three arms at smoke scale, dive class on (PROVISIONAL-OVERNIGHT)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 67ade9262b923e14855d69d910e9cc91f2a1dbfe
+      date: '2026-10-09T00:03:51-06:00'
+      subject: 'results: end of flight - the three-arm smoke note (the previous commit''s entry referenced it before it was written)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-boeing-calibration-oct09
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-boeing-calibration-oct09
+  note: 'End of flight, deliverable 1 (first pass): free dynamics against the ten Boeing simulator cases'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: ce6d744d26171f2caff2924c5ddebe8f784da601
+      date: '2026-10-08T20:25:53-06:00'
+      subject: 'results: end of flight deliverable 1 first pass - module free dynamics has no high-rate class (Boeing 5/10, module 0/60), phugoid too short and too
+        large; ledger entries for ATSB 2016, Iannello 2018, '
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-both-burst-oct16
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-both-burst-oct16
+  note: 'Both-burst 00:19 cells (D3, D4): the descent-sampling fix, smoke on seed 1 — 16 Oct 2026'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 09589b4ec31f8460619fd8adefff6b323e11786a
+      date: '2026-10-15T20:15:40-06:00'
+      subject: 'end of flight: both-burst fix smoke (seed 1) note and GO request; run-I hand-offs gone, seed 2 not assessed'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-both-burst-oct16/README.md:3
+    quote: '**Status: SMOKE (sections 1-4: run I repro seed 1; section 4b: run J waypoints seed 1). Not evidence; do not quote.** Answers core''s work request of
+      15 Oct 23:17Z'
+- id: eof.res.eof-calibration-tolerances-oct13
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-calibration-tolerances-oct13
+  note: Item 2 — proposed acceptance tolerances for the Boeing-trace calibration (for Pete's sign-off)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: f5bd9d173de8a4a2586e4935e2ce9b619e06442a
+      date: '2026-10-13T18:28:38-06:00'
+      subject: 'end-of-flight: scored candidate selection (defensive, exact; test 6 passes on the 22:41 pilot); item 2 tolerance proposal from 14 CFR Part 60 Table
+        A2A'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT
+  status_rank: ruling
+  status_evidence:
+  - rank: ruling
+    source: WORK:results/eof-calibration-tolerances-oct13/README.md:3
+    quote: '**Status: APPROVED by Pete, 14 Oct 2026 ("approve as written"). No fit has been run against these numbers yet.** Proposed 13 Oct 2026. Contract v7.1 §8
+      names four targets and no numbers;'
+  status_note: Approved by Pete 14 Oct 2026; no fit had been run against these numbers when the README was written.
+- id: eof.res.eof-completed-items-figures-oct16
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-completed-items-figures-oct16
+  note: 'End of flight: report on the items completed 14–16 Oct 2026'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 0d5415d4cd1b4604fe1e0bb5bc70555373fb5b01
+      date: '2026-10-15T22:30:24-06:00'
+      subject: 'end of flight: run-J waypoints three-arm both-burst check (children 64 passes prior recovery, D4 2,666); Pete''s approval of the supplementary pass
+        recorded; figures and report for completed items'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-descent-fuel-oct09
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-descent-fuel-oct09
+  note: 'End of flight: fuel burn in the descent (Pete, architecture ~21:00 UTC, 9 Oct 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: a370a5412d79080dcea2417bbaf57780ce8b80e4
+      date: '2026-10-09T16:40:18-06:00'
+      subject: 'end-of-flight: descent fuel burn - idle floor (off by default), endurance ratio vs cruise by profile (smoke, uncorrected fuel model); coordination'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-descent-fuel-oct09/README.md:3
+    quote: '**SMOKE SCALE, not evidence. Uses the UNCORRECTED core fuel model** (audit findings F1-F4 pending core request 16).'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_e7d3175a2eb8
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.eof-diagnostic-smokes-oct10
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-diagnostic-smokes-oct10
+  note: 'End of flight: the three diagnostic smokes for the 00:19 push-over (10 Oct 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: f1af30a185cc4aa00c237a9f00b316843a658dde
+      date: '2026-10-10T14:01:13-06:00'
+      subject: 'end of flight: diagnostic smokes 1-3 for the 00:19 push-over (SMOKE)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-displacement-oct09
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-displacement-oct09
+  note: Impact displacement from the 00:19:37 position, dive class on and off (for Pléiades)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 4ac7d43e2b787c1e0ad9b9ab0e2d5e0891702c02
+      date: '2026-10-09T00:24:39-06:00'
+      subject: 'end-of-flight: 00:19:37 displacement histograms dive on/off (Pleiades relay); ledger relay answered'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_4af208ce0e24
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.eof-dive-provisional-oct09
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-dive-provisional-oct09
+  note: 'End of flight: the dive class, PROVISIONAL-OVERNIGHT, first smoke'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: b77dd9ec137f57f854e039aaef0a0ea72b15cf0c
+      date: '2026-10-08T23:39:35-06:00'
+      subject: 'End of flight: PROVISIONAL-OVERNIGHT dive class - first smoke (R1200 effective parents x3-7; R1200 selects divergent 84-94%); question recorded in
+        inbox and architecture.md'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-dive-provisional-oct09/README.md:6
+    quote: '**PROVISIONAL-OVERNIGHT** (overnight rule, `architecture.md` ~06:00 UTC; Pete reviews in the morning).'
+- id: eof.res.eof-ess-limit-oct09
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-ess-limit-oct09
+  note: 'End of flight: how many effective parents could any terminal-stage proposal reach? (brief section 8)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 38316a859df588de2866637af340b66da94a5987
+      date: '2026-10-08T19:56:25-06:00'
+      subject: 'End of flight: gate (c) sign-off for the hand-off stratum column; citation ledger (results/end-of-flight-references); section 8 effective-parent limits
+        (smoke, provisional); parent-count question'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-evidence-sweep-oct18
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-evidence-sweep-oct18
+  note: 'End of flight: evidence-sweep items A6 (debris configuration) and B2 (emergency beacon non-detection), 18 Oct 2026'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: d6b9092e34540dff5359896f561a187fde350cf5
+      date: '2026-10-17T18:22:08-06:00'
+      subject: 'end of flight: evidence sweep A6 (debris configuration documented) and B2 (ELT non-detection sensitivity)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-evidence-sweep-oct18/README.md:8
+    quote: '**Caveat (verbatim).** The uncontrolled-arm dynamics are not calibrated: the Boeing leave-one-out gate failed in all three rounds.'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_3045b4aeb013
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.eof-family-evidence-oct10
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-family-evidence-oct10
+  note: 'End of flight: the 00:19 evidence factor per core family, and the re-weighted family mixture (core (b) `next-run`, 10 Oct 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: b2c2482554a2cf07da8dbd8027097d1f3c9f4bbd
+      date: '2026-10-10T14:29:37-06:00'
+      subject: 'end of flight: impact-time shares on next-run + late-tail attribution; 00:19 evidence per family; core request 11'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-fullscale-oct09
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-fullscale-oct09
+  note: 'End of flight: the full-scale 00:11 smoke contract and the children-per-parent pilot, 9 October'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: b7ed76ec3468fcc0f4f58840e81476d2213ec480
+      date: '2026-10-08T08:53:03-06:00'
+      subject: 'End of flight: full-scale 00:11 contract and children-per-parent pilot (pre core requests 2 and 3)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_3d5b57dd78c7
+    - mem_561e054dab8b
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.eof-gates-oct13
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-gates-oct13
+  note: End of flight — smoke gates and pilot runs before the 22:41 arm, 13 Oct 2026
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 665d8af329ad9e8c9cc7c3f643839f2f6cbdf6a3
+      date: '2026-10-13T17:21:24-06:00'
+      subject: 'end-of-flight: master prompt v7.1; smoke gate fix; gates 1-4 and 22:41 pilot (smoke scale); coverage overlay'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-gates-oct13/README.md:3
+    quote: '**Status: SMOKE AND PILOT SCALE. Nothing here is evidence for an impact distribution, a log-evidence, a Bayes factor or a family'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_ce9a572fae42
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.eof-glide-calibration-oct09
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-glide-calibration-oct09
+  note: Glide calibration against Boeing's published driftdown (brief section 8, deliverable 1)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 1c7855836bbbe3bf3bb27fb647d7101847c3e247
+      date: '2026-10-09T01:05:22-06:00'
+      subject: 'end-of-flight: glide calibration vs Boeing driftdown (provisional), question for Pete, correction to Pleiades relay entry'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-holland-estimable-oct11
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-holland-estimable-oct11
+  note: 'End of flight: making 00:19 Holland H1 and H2 estimable (architecture 10:50 -0600, 11 Oct 2026; Pete confirmed 11:00)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 1f567c875d08d59819ad8216f1c58b2862b027be
+      date: '2026-10-11T11:19:05-06:00'
+      subject: 'end-of-flight: make H1/H2 estimable - wider push-over (40,000 ft/min, VMO), interim pitch-down, targeted burst proposal; late B-onset proposal; N=1
+        smoke'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-holland-estimable-oct11/README.md:3
+    quote: '**SMOKE SCALE, PROVISIONAL. Not evidence.** Section 1 is N = 1 child x 4 descents on core run D `next-d-free` seed 1 (m0011'
+- id: eof.res.eof-holland-sweep-run-d-oct11
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-holland-sweep-run-d-oct11
+  note: 'End of flight on core run D, "make H1/H2 estimable" recipe: full sweep (11 Oct 2026, 21:51-23:14 UTC)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 1dfe6738670e7f1264ba9cdd3721ddb6464da8c6
+      date: '2026-10-11T17:16:09-06:00'
+      subject: 'end-of-flight: H1/H2 full sweep on core run D - results note, summary, consumer hand-off'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-holland-sweep-run-d-oct11/README.md:3
+    quote: '**PROVISIONAL. Not converged at the core stage** (core run D split-half below its 4-seed floor 0.896 in three of four strata, and'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_2d6c4ea8226e
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.eof-impact-energy-method_md
+  kind: note
+  module: end-of-flight
+  path: WORK:results/eof-impact-energy-method.md
+  note: How the end-of-flight module computes impact energy
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: c7318a5b78412223a441700c82f8652f1c64e7eb
+      date: '2026-10-07T18:11:42-06:00'
+      subject: 'results: withdraw the duplicate tau note, add the module-owned impact-energy method, and report that contact energy already exists'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-impact-speed-oct11
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-impact-speed-oct11
+  note: 'End of flight: G-H2 impact-speed defect quantified; tau ruling requested'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 0a1ac3cf3bd2fb9aed480fa2d7ea4b97e498045a
+      date: '2026-10-10T19:55:32-06:00'
+      subject: 'End of flight: G-H2 impact-speed defect quantified; tau ruling requested'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-impact-tau-method-oct11_md
+  kind: note
+  module: end-of-flight
+  path: WORK:results/eof-impact-tau-method-oct11.md
+  note: 'Impact energy-transfer duration (τ90): first-order water-entry model, `impact_tau_method = 1` (end of flight, 11 Oct 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 0cb4e71907007d33d2e969d0de76db71d8c7299e
+      date: '2026-10-10T21:32:11-06:00'
+      subject: 'End of flight: tau method note (impact_tau_method 1); coordination'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-impact-tau-method-oct11.md:3
+    quote: '**METHOD NOTE, posted before any column is written** (architecture ruling 20:35 -0600 10 Oct, item 2, delegated by Pete, provisional).'
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_b076398ced92
+    - mem_d99d39596926
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.eof-impact-time-next-run-oct10
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-impact-time-next-run-oct10
+  note: 'End of flight: impact times against 00:19:37 and 01:15:56 on core (b) `next-run`, and the late-tail attribution (10 Oct 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: b2c2482554a2cf07da8dbd8027097d1f3c9f4bbd
+      date: '2026-10-10T14:29:37-06:00'
+      subject: 'end of flight: impact-time shares on next-run + late-tail attribution; 00:19 evidence per family; core request 11'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-impact-time-oct10
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-impact-time-oct10
+  note: 'End of flight: impact times against the 00:19:37 burst and the unanswered 01:15:56 handshake (10 Oct 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 15ba9151e0e2a2902779a03ea319d88ff59a5089
+      date: '2026-10-09T21:53:38-06:00'
+      subject: 'end-of-flight: impact-time answer (+alive/+silent constraints, PROVISIONAL-OVERNIGHT); routed to consumers'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-item1-asym-oct14
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-item1-asym-oct14
+  note: 'Item 1 — thrust asymmetry: rule-11 before/after on the 00:11 arm (14 Oct 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: abaa9f03e2f62848fe12976c1e3e51bf3ac5fa01
+      date: '2026-10-14T10:28:10-06:00'
+      subject: 'end-of-flight item 1: rule-11 before/after on the 00:11 arm (asymmetry moves nothing material there)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_c17c01945bf7
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.eof-item2-fit-oct14
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-item2-fit-oct14
+  note: 'Item 2 — Boeing-trace calibration of the free-flight parameters: leave-one-out result (14 Oct 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: b244a1e2e727f66ae96278f962bfe747573ba8d9
+      date: '2026-10-14T04:07:12-06:00'
+      subject: 'end-of-flight item 2: leave-one-out calibration result (gate fails; structural reach gaps), primary + post-hoc free-cap sensitivity'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_30a3e7293110
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.eof-item2-smoke-oct11
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-item2-smoke-oct11
+  note: 'Physics item 2, Boeing''s system sequence on the point mass: smoke results (end of flight, 11 Oct 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: a1af2d34d9697ac61d0d3f3aa56495d1c01e3c68
+      date: '2026-10-11T10:42:12-06:00'
+      subject: 'End of flight: item 2 Boeing system sequence (alternative autopilot-loss configuration, appended families), smoke; items 2-4 sweep script'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-item2-smoke-oct11/README.md:3
+    quote: '**SMOKE (N = 1 child x 4 descents, one seed). NOT EVIDENCE.** Core run C `next-c-free` seed 1, m0011 hand-off, run C module recipe + trim at loss + bounded
+      push-over (items 3 and 4), constraint `unpowered`. Binary `/tmp/mh370-eof-item2` (sha256 f3b5c321...). With the sequence off it equals the item-4 run in every
+      existing column (byte-identical; one new latent). Labels: G13 (no structural limit); '
+- id: eof.res.eof-item7-dive-prob-oct15
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-item7-dive-prob-oct15
+  note: 'Item 7 — the dive probability: what is implemented, and the exact sweep over p (15 Oct 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: ed3a5a656581aee4ed4f5b5c217b647f52b94a24
+      date: '2026-10-14T22:42:32-06:00'
+      subject: 'Item 7 Task A: dive-probability sweep by exact re-weighting; the three readings of the prior are identical; config comment corrected'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_2c2daef9dfaf
+    - mem_433a390b9d9d
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.eof-item8-round3-oct15
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-item8-round3-oct15
+  note: Item 8 — the round-3 laws as a labelled sensitivity on the uncontrolled arm (15 Oct 2026)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 97a78908fbebb3a552a0efcf980b94075889975b
+      date: '2026-10-15T01:51:41-06:00'
+      subject: 'Item 8 Task B: round-3 laws as a labelled sensitivity at run-I scale - rule 11 before/after, gate stays failed, stop condition not tripped; posted
+        to architecture'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_9d73b1c1be55
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.eof-items-3-4-smoke-oct11
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-items-3-4-smoke-oct11
+  note: 'Physics items 3 and 4: smoke results (end of flight, 11 Oct 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: ce4489fe7d36c32888c09fff3d8914ac2af98b58
+      date: '2026-10-11T10:27:07-06:00'
+      subject: 'End of flight: items 3 (trim at loss) and 4 (bounded push-over, piloted, sourced bounds) built and smoked; run D A-vs-B review'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-items-3-4-smoke-oct11/README.md:3
+    quote: '**SMOKE (N = 1 child x 4 descents, one seed). NOT EVIDENCE.** Core run C `next-c-free` seed 1, m0011 hand-off (100,000 parents, sha256 verified), run
+      C module recipe (reference-289, idle floor, v2-broad, family-b-ditching, residual-bank-boeing), constraint `unpowered`. Plan accepted 01:45 -0600 11 Oct (5e8f13ea).
+      Labels: no structural limit (G13; share above 212 m/s shown); Holland H1/H2 not estim'
+- id: eof.res.eof-joined-v2-oct14
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-joined-v2-oct14
+  note: Joined V2 at 00:11 — production run, core run I, waypoints stratum (14 Oct 2026)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 5fffb6e42bebbf30d779cc52105d68e82dad9115
+      date: '2026-10-14T03:41:05-06:00'
+      subject: 'end-of-flight: joined V2 production results (8 seeds), summary driver seed fix, results note with COVERAGE'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-order-b-oct15
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-order-b-oct15
+  note: End-of-flight work order (b), 15 Oct 2026 — results
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 2f6038ac05263f8ad2563e46ce629fb9a46e4016
+      date: '2026-10-15T14:10:03-06:00'
+      subject: 'EoF order (b) items 1-4: D0 transmission imposed (13.0% not 32.8%; loudness D4/D0 1.93x), sampled bank limit (code, smoke, predictions), uniform-onset
+        U1 exact vs binned; ruling requested on item 4'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_51f05eb5c431
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.eof-overnight-oct17
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-overnight-oct17
+  note: 'End of flight: overnight summary, 16–17 Oct 2026 (run J)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 842b97e001f231db381292996a06a4ce0bbea197
+      date: '2026-10-17T07:41:29-06:00'
+      subject: 'end of flight: overnight summary 16-17 Oct (run J set complete; joined V2 16 seeds; supplementary D3/D4; corrections)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-postpred-0019-oct10
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-postpred-0019-oct10
+  note: 'End of flight: are the two 00:19 BFOs consistent with the trajectories the other evidence selects? (posterior-predictive check, core (b), 10 Oct 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 85149f57ba71927d5d909b5ac929269bac5a815a
+      date: '2026-10-10T15:29:47-06:00'
+      subject: 'end of flight: posterior-predictive check of the 00:19 BFOs (core (b))'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-rapid-descent-oct10
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-rapid-descent-oct10
+  note: 'Rapid commanded descents and a load-factor floor: capability built, default off (end of flight, 10 Oct 2026, ~23:15 UTC)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 9da32585c0a754c12e09d5852933abb35af7b167
+      date: '2026-10-10T17:10:41-06:00'
+      subject: 'End of flight: rapid commanded descents + load-factor floor (default off), smoke note'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-rapid-descent-oct10/README.md:3
+    quote: '**SMOKE SCALE. NOT IN RUN C. H1/H2 NOT CONVERGED** (about 2 effective parents; within-parent sampling, smoke 2). Seed 1, N = 1 child'
+- id: eof.res.eof-residual-bank-oct10
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-residual-bank-oct10
+  note: 'Residual roll direction of free flight: defect found and corrected (end of flight, 10 Oct 2026, ~22:40 UTC)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: ba26890816b4325208a75345720bb648b9d92733
+      date: '2026-10-10T16:32:51-06:00'
+      subject: 'End of flight: residual roll direction switch (Boeing P(left)=0.8 overlay, sign latent), ruling 6 four-family mapping, +unpowered/+silent family-evidence
+        keys'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-residual-bank-oct10/README.md:3
+    quote: '**SMOKE SCALE. PROVISIONAL.** Seed 1, N = 1 child x 4 descents, core next-run (b) `next-free` hand-off at 00:11 (seed 1,'
+- id: eof.res.eof-run-c-oct11
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-run-c-oct11
+  note: 'End of flight on core run C: impact samples and 00:19 evidence (11 Oct 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 48df72127eab7e533a38e86912cef26ef61083c0
+      date: '2026-10-11T00:03:51-06:00'
+      subject: 'End of flight: run C READY, summaries and note with COVERAGE'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-run-c-oct11/README.md:3
+    quote: '**PROVISIONAL. Core run C NOT converged** (8-seed split-half floor 0.924: free 0.918, Davey dynamics + radar 0.910, descent-climb 0.892, routes 0.850;
+      core ~00:12 UTC).'
+- id: eof.res.eof-run-h-routes-oct12
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-run-h-routes-oct12
+  note: Run H routes (fly-by turns + leg tracking) carried to impact (12 Oct 2026)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 163b749a713cc8ba3a6d5ccc5a333210cb16a03b
+      date: '2026-10-11T19:31:42-06:00'
+      subject: 'end-of-flight: run H routes carried to impact - per-route readout'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-run-h-routes-oct12/README.md:3
+    quote: '**PROVISIONAL; per route, conditional on the route.** Core''s caveat applies: the 6-route family is a data-selected subset'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_da8458993744
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.eof-run-i-dive-oct13
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-run-i-dive-oct13
+  note: End of flight on core run I with the dive branch (run-i-dive), 13 Oct 2026
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 9335424bb9a70c3bc98caced9038a9f89a71fddc
+      date: '2026-10-12T22:07:38-06:00'
+      subject: 'end-of-flight: run-i-dive done (all strata); results/eof-run-i-dive-oct13 with COVERAGE; open items posted'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-run-i-dive-oct13/README.md
+    quote: null
+    read_by_hand: PROVISIONAL physics, core not converged; 'Supersedes' refers to eof-run-i-oct12
+- id: eof.res.eof-run-i-oct12
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-run-i-oct12
+  note: End of flight on core run I — 00:19 two-factor table, H1/H2 and coverage (12 Oct 2026)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 038b59c281e02d5c04a899e93dfae44778107b2b
+      date: '2026-10-12T12:52:48-06:00'
+      subject: 'end-of-flight: run I sweep done; results/eof-run-i-oct12 (two-factor table, H1/H2, COVERAGE)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: eof.res.eof-run-i-dive-oct13
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: SUPERSEDED
+  status_rank: explicit
+  status_evidence:
+  - rank: explicit
+    source: WORK:results/eof-run-i-dive-oct13/README.md:3
+    quote: '**Status: FULL SWEEP, PROVISIONAL physics, core not converged. Supersedes `eof-run-i-oct12` (which is conditional on "piloted'
+  - rank: explicit
+    source: WORK:threads/master-prompts/end-of-flight.md:279
+    quote: '| The EoF **model** | **built and run at full scale twice.** Run I (12 Oct, binary `mh370-eof-ri1`) and run-i-dive (13 Oct, `mh370-eof-ri3`), each 8 seeds
+      × 4 strata × 100,000 m0011 hand-off rows, 6.40 M descents per stratum-seed. Run-i-dive supersedes run I. Notes: `results/eof-run-i-oct12.md`, `results/eof-run-i-dive-oct13.md`
+      |'
+- id: eof.res.eof-run-j-joined-v2-oct17
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-run-j-joined-v2-oct17
+  note: 'End of flight on core run J: joined V2 with the 22:41 onset proposal window — 17 Oct 2026'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: cde7df46dff593e7351f723b202ae0778d33a8bc
+      date: '2026-10-17T01:05:29-06:00'
+      subject: 'end of flight: run J joined V2 with the 22:41 onset window (B under D0'' 0.194, U1 0.168; pre-00:11 parent-limited, diagnosed)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-run-j-joined-v2-oct17/README.md:125
+    quote: '> The uncontrolled-arm dynamics are not calibrated: the Boeing leave-one-out gate failed in all'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_bdb451e51569
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.eof-run-j-maps-oct17
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-run-j-maps-oct17
+  note: 'End of flight on core run J: impact maps, latitude densities, family maps, loudness and energy maps (17 Oct 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 81b1761aef54144ed9914252e8a2b7e0179a76a8
+      date: '2026-10-17T08:17:07-06:00'
+      subject: 'end of flight: run J standard figure set (impact maps by treatment and family, latitude density, loudness and energy maps)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-run-j-maps-oct17/README.md:12
+    quote: '**Caveat (verbatim).** The uncontrolled-arm dynamics are not calibrated: the Boeing leave-one-out gate failed in all three rounds.'
+  memory_notes:
+    n_rows: 3
+    mem_ids:
+    - mem_2e70303e87ff
+    - mem_674131533a5e
+    - mem_d77dc7597bab
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.eof-run-j-oct17
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-run-j-oct17
+  note: 'End of flight on core run J: all four strata — the run-J end-of-flight set — 17 Oct 2026'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 79f28bf757b97089e237b251473f5844362ee69e
+      date: '2026-10-17T03:56:33-06:00'
+      subject: 'end of flight: run J end-of-flight set complete (four strata READY, summaries, consumer products); note and post'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-run-j-oct17/README.md:74
+    quote: '> The uncontrolled-arm dynamics are not calibrated: the Boeing leave-one-out gate failed in all'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_e6f1cc216ac5
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.eof-run-j-supplement-oct19
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-run-j-supplement-oct19
+  note: End of flight on the run J northern supplement, combined with run J production by rule B (19 Oct 2026)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: f4fa6cf056412371b67c1a3683623fb33788fa96
+      date: '2026-10-19T05:18:05-06:00'
+      subject: 'end of flight: overnight order A - run J northern supplement flown (k=2, production recipe), extra descents for D2-D5, A1-branch pass on the supplement;
+        rule B combination, band ESS, P5, bootstrap mas'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-run-j-supplement-oct19/README.md:7
+    quote: '**Caveat (verbatim).** The uncontrolled-arm dynamics are not calibrated: the Boeing leave-one-out gate failed in all three rounds.'
+- id: eof.res.eof-run-j-supplement-oct20
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-run-j-supplement-oct20
+  note: 'End of flight completes the run J northern supplement: all rows, extra descents, and the second A1 conditional pass (20 Oct 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 45ea4af06d5b6ae55a6101f59b149c67b5dc5f1d
+      date: '2026-10-20T04:08:02-06:00'
+      subject: 'end of flight: overnight order A (20 Oct) - other half of the run J northern supplement, extra descents on it, second A1 conditional pass (recovery
+        attempted); full rule-B combine, band ESS before/aft'
+    last_changed:
+      commit: 9ba7ab6b64136cca8e7bb7bdca072ad433625bbe
+      date: '2026-10-20T04:11:58-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-run-j-supplement-oct20/README.md:6
+    quote: '**Caveat (verbatim).** The uncontrolled-arm dynamics are not calibrated: the Boeing leave-one-out gate failed in all three rounds.'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_da9a6cb0edc1
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.eof-run-j-waypoints-oct16
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-run-j-waypoints-oct16
+  note: 'End of flight on core run J, waypoints stratum: production pass — 16 Oct 2026'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: fa1af06929d66110e54ec1ca49cfc9f76779f4a4
+      date: '2026-10-16T15:18:25-06:00'
+      subject: 'end of flight: run J waypoints production set READY; two-factor table and bank-limit prior variants; note and architecture post'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-same-data-bf-oct10
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-same-data-bf-oct10
+  note: 'End of flight: Bayes factors for the five core 00:19 options on the SAME data (core (b), 10 Oct 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 1d1c331f6a3231692b3ab9f32e76458486f7e710
+      date: '2026-10-10T15:56:15-06:00'
+      subject: 'end of flight: B as ruled; run C recipe; same-data Bayes factors with COVERAGE'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-simulator-oct09
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-simulator-oct09
+  note: End-of-flight 6-DOF simulator, checked against Boeing's ten cases
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 209bfd3d1ae2ad8ac5e89d944b4cda6134807a23
+      date: '2026-10-09T11:53:06-06:00'
+      subject: 'end-of-flight: simulator phase 1 notes; coordination'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-single-engine-design-oct10
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-single-engine-design-oct10
+  note: 'End of flight: the single-engine phase from the right engine''s flame-out, design (10 Oct 2026, overnight item 3)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: b4aaf846299df80479d7abae984b78a4d6105db9
+      date: '2026-10-09T23:29:48-06:00'
+      subject: 'end of flight: V2 envelope broadened + V2u arm (SMOKE, PROVISIONAL-OVERNIGHT); single-engine phase design; reply to hydroacoustics'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-single-engine-design-oct10/README.md:3
+    quote: '**DESIGN ONLY; no smoke run yet.** Architecture ~23:55 UTC 9 Oct and ~02:25 UTC 10 Oct (Pete''s C-7 decision (b)).'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_bfee4a1d25af
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.eof-smoke-3b-oct09
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-smoke-3b-oct09
+  note: 'End of flight: smoke on the 3b code (00:11 contract, 8 seeds) and the 22:41 BTO-only arms'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: e91fa61d700c008820e025aa48b04e335aa8d9b2
+      date: '2026-10-08T23:08:43-06:00'
+      subject: 'End of flight: N=16 prediction test (R600 and R1200/other stand; fuel-exhaustion R1200 and both withdrawn, limits lower); 3b 8-seed contract (dry
+        share 50.2% -> 3.1-3.9%); 22:41 BTO-only V1b/V2 (not t'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-smoke-enablement_md
+  kind: note
+  module: end-of-flight
+  path: WORK:results/eof-smoke-enablement.md
+  note: 'Enabling an end-of-flight smoke run: one scoped core change'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: b1907464353fc2c4448b316f62d374bbae243737
+      date: '2026-10-07T11:06:43-06:00'
+      subject: 'Architecture: the minimal core change that makes an end-of-flight smoke run meaningful'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-smoke-oct09
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-smoke-oct09
+  note: 'End of flight: first smoke run on real dynamics, 9 October'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: a3949c803034572163d92752d1da0df563de5dc5
+      date: '2026-10-07T20:40:15-06:00'
+      subject: 'End of flight: night summary 8-9 Oct; first smoke run on real dynamics and the mechanism defect it found'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-smoke-oct09/README.md:3
+    quote: '**SMOKE SCALE. PLUMBING, NOT EVIDENCE.** Every number below comes from one seed, a hand-off rebuilt at'
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_00c64a529383
+    - mem_4654ecb2688a
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.eof-spiral-weight-oct09
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-spiral-weight-oct09
+  note: 'Dive-class weight sensitivity: 0.25 / 0.50 / 0.75 against glide-only'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 5d19234ddcfb4bab0dee721a87b82a9c789e920e
+      date: '2026-10-09T00:39:43-06:00'
+      subject: 'end-of-flight: dive-class weight sensitivity results'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_e93952f22a58
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.eof-two-burst-oct09
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-two-burst-oct09
+  note: 'End of flight: the two 00:19 bursts - evidence, survivors, and the stopgap proposal (9 Oct 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: d5a2f98b05df4b69967df0cc309b9daae9b5ca9f
+      date: '2026-10-09T13:47:53-06:00'
+      subject: 'end-of-flight results: two-burst evidence and survivor diagnosis on reference-289; regenerated 24-arm sweep summary and displacement histograms; coordination
+        reply (fixes 1-3, proposed core requests)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-two-tank-plumbing-oct10
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-two-tank-plumbing-oct10
+  note: 'end of flight: two-tank plumbing smoke; INOP-flow trap for run C'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: beb553d6776dcd71b163d69e8eba90c7c7d773fe
+      date: '2026-10-10T14:56:55-06:00'
+      subject: 'end of flight: two-tank plumbing smoke; INOP-flow trap for run C'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-two-tank-takeover-oct10
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-two-tank-takeover-oct10
+  note: 'end of flight: request 11 adoption smoke'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 32aa6ce0c1630956652d3440f186e7e96e30dd4d
+      date: '2026-10-10T16:15:21-06:00'
+      subject: 'end of flight: request 11 adoption smoke'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.eof-v2-2241-oct10
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-v2-2241-oct10
+  note: 'End of flight: the planned-descent arm V2 against V1b, from the 22:41 hand-off, with the 00:11 BFO (10 Oct 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: cd5f591471882cbdedea35ddc7461bf2089218ec
+      date: '2026-10-09T20:38:19-06:00'
+      subject: 'end-of-flight: V2 vs V1b from 22:41 with in-stage 00:11 BFO (smoke, uncorrected fuel, provisional sampler); maps; coordination'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-v2-2241-oct10/README.md:3
+    quote: '**SMOKE. UNCORRECTED FUEL. PROVISIONAL SAMPLER.**'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_b38cc4117c31
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.eof-v2-broad-oct10
+  kind: product
+  module: end-of-flight
+  path: WORK:results/eof-v2-broad-oct10
+  note: 'End of flight: the V2 descent envelope at 22:41, broadened, and a uniform-onset arm V2u (10 Oct 2026)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: b4aaf846299df80479d7abae984b78a4d6105db9
+      date: '2026-10-09T23:29:48-06:00'
+      subject: 'end of flight: V2 envelope broadened + V2u arm (SMOKE, PROVISIONAL-OVERNIGHT); single-engine phase design; reply to hydroacoustics'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/eof-v2-broad-oct10/README.md:3
+    quote: '**SMOKE, PROVISIONAL-OVERNIGHT.** The run conditions:'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_fc1a14bef9d5
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.fig-gain-37s-vs-26s_png
+  kind: product
+  module: end-of-flight
+  path: WORK:results/fig-gain-37s-vs-26s.png
+  note: 'Answers 15 Oct (b) corrections: planned-descent map v2 (22:41 positions from hand-off; v1 mislabelled descent start), loudness by both measures with burst
+    labels, gain 37S vs 26S; EoF order b loudness'
+  assignment_basis: override from commit subject (read by hand)
+  git:
+    first_added:
+      commit: 90469c10265667940c1ef7c66ef2a159a5c45466
+      date: '2026-10-15T14:24:43-06:00'
+      subject: 'Answers 15 Oct (b) corrections: planned-descent map v2 (22:41 positions from hand-off; v1 mislabelled descent start), loudness by both measures with
+        burst labels, gain 37S vs 26S; EoF order b loudness'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_b356d2d6a3d9
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.fig-impact-loudness-maps_png
+  kind: product
+  module: end-of-flight
+  path: WORK:results/fig-impact-loudness-maps.png
+  note: 'Answers 15 Oct (b) corrections: planned-descent map v2 (22:41 positions from hand-off; v1 mislabelled descent start), loudness by both measures with burst
+    labels, gain 37S vs 26S; EoF order b loudness'
+  assignment_basis: override from commit subject (read by hand)
+  git:
+    first_added:
+      commit: 90469c10265667940c1ef7c66ef2a159a5c45466
+      date: '2026-10-15T14:24:43-06:00'
+      subject: 'Answers 15 Oct (b) corrections: planned-descent map v2 (22:41 positions from hand-off; v1 mislabelled descent start), loudness by both measures with
+        burst labels, gain 37S vs 26S; EoF order b loudness'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.fig-planned-descent-map_png
+  kind: product
+  module: end-of-flight
+  path: WORK:results/fig-planned-descent-map.png
+  note: 'Coordination 15 Oct (b): answers to Pete''s nine questions; core order b (gates B/C, scripts, fuel feasibility, item 10 Phase 1); EoF order b (D0 transmission
+    imposed, sampled bank limit, uniform onset'
+  assignment_basis: override from commit subject (read by hand)
+  git:
+    first_added:
+      commit: 5eeda142446282b33113e5b768b15f5c6fc9167f
+      date: '2026-10-15T12:41:21-06:00'
+      subject: 'Coordination 15 Oct (b): answers to Pete''s nine questions; core order b (gates B/C, scripts, fuel feasibility, item 10 Phase 1); EoF order b (D0
+        transmission imposed, sampled bank limit, uniform onset'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.res.impact-interface-requirements_md
+  kind: note
+  module: end-of-flight
+  path: WORK:results/impact-interface-requirements.md
+  note: What each consumer needs from an impact sample
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 8c4599b9b0e9b7d988397f49a9ec805aed83d0ce
+      date: '2026-10-06T22:36:04-06:00'
+      subject: 'Architecture: interface-requirements pass over the four impact-sample consumers'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_3dc318ddb9ab
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: eof.res.planned-descent-run-plan_md
+  kind: note
+  module: end-of-flight
+  path: WORK:results/planned-descent-run-plan.md
+  note: 'The planned-descent run: what is planned, and what I must ask you'
+  assignment_basis: override from commit subject (read by hand)
+  git:
+    first_added:
+      commit: 3308d56f84b51b5a09b9cb5a7b9b81d5df408199
+      date: '2026-10-07T14:52:17-06:00'
+      subject: 'results: the planned-descent run plan, and the hand-off finding that changes its cost'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.xd.end-of-flight-run-j-supplement-north-k2
+  kind: archive
+  module: end-of-flight
+  path: XDRIVE:mh370-exchange/end-of-flight/run-j-supplement/north-k2
+  note: 'Listed for copy to the external drive in archive-tools/archive-to-porsche.sh line 14 (destination /Volumes/Porsche 1TB Backup/mh370-archive). Source folder
+    in ~/Downloads now: absent. The VERIFIED-*.txt list is on the drive; it was not readable from this session, so the copy is not confirmed here.'
+  assignment_basis: archive script item list
+  hash: false
+  hash_note: external drive not mounted in this session
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.xd.end-of-flight-run-j-supplement-north-k2-a1branch
+  kind: archive
+  module: end-of-flight
+  path: XDRIVE:mh370-exchange/end-of-flight/run-j-supplement/north-k2-a1branch
+  note: 'Listed for copy to the external drive in archive-tools/archive-to-porsche.sh line 18 (destination /Volumes/Porsche 1TB Backup/mh370-archive). Source folder
+    in ~/Downloads now: absent. The VERIFIED-*.txt list is on the drive; it was not readable from this session, so the copy is not confirmed here.'
+  assignment_basis: archive script item list
+  hash: false
+  hash_note: external drive not mounted in this session
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.xd.end-of-flight-run-j-supplement-north-k2-xd256
+  kind: archive
+  module: end-of-flight
+  path: XDRIVE:mh370-exchange/end-of-flight/run-j-supplement/north-k2-xd256
+  note: 'Listed for copy to the external drive in archive-tools/archive-to-porsche.sh line 16 (destination /Volumes/Porsche 1TB Backup/mh370-archive). Source folder
+    in ~/Downloads now: absent. The VERIFIED-*.txt list is on the drive; it was not readable from this session, so the copy is not confirmed here.'
+  assignment_basis: archive script item list
+  hash: false
+  hash_note: external drive not mounted in this session
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.xd.end-of-flight-run-j-supplement-north-k2b
+  kind: archive
+  module: end-of-flight
+  path: XDRIVE:mh370-exchange/end-of-flight/run-j-supplement/north-k2b
+  note: 'Listed for copy to the external drive in archive-tools/archive-to-porsche.sh line 15 (destination /Volumes/Porsche 1TB Backup/mh370-archive). Source folder
+    in ~/Downloads now: absent. The VERIFIED-*.txt list is on the drive; it was not readable from this session, so the copy is not confirmed here.'
+  assignment_basis: archive script item list
+  hash: false
+  hash_note: external drive not mounted in this session
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: eof.xd.end-of-flight-run-j-supplement-north-k2b-xd256
+  kind: archive
+  module: end-of-flight
+  path: XDRIVE:mh370-exchange/end-of-flight/run-j-supplement/north-k2b-xd256
+  note: 'Listed for copy to the external drive in archive-tools/archive-to-porsche.sh line 17 (destination /Volumes/Porsche 1TB Backup/mh370-archive). Source folder
+    in ~/Downloads now: absent. The VERIFIED-*.txt list is on the drive; it was not readable from this session, so the copy is not confirmed here.'
+  assignment_basis: archive script item list
+  hash: false
+  hash_note: external drive not mounted in this session
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []

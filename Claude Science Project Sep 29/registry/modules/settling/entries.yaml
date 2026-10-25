@@ -1,0 +1,1013 @@
+registry_version: settling registry v1 (2026-10-25)
+module: settling
+generated_by: registry/backfill_registry.py (do not edit by hand; correct status_records.yaml and rebuild)
+entries:
+- id: settling.code.branch-hypothesis-settling
+  kind: code
+  module: settling
+  path: GIT:hypothesis/settling@9330d4c082b291b04d0ee92d8702c2645aa1046b
+  git:
+    branch: hypothesis/settling
+    commit: 9330d4c082b291b04d0ee92d8702c2645aa1046b
+    date: '2026-10-10T21:35:04Z'
+    subject: 'settling: OSCAR v2.0 Final as a surface-current comparison variant in report_real (SETTLING_REPORT_VARIANTS filter); surface-current label taken from
+      the product, unknown products refused (OSCAR had f'
+    tree: 41ef45a6e9718a95c7cfb37e609b59c45e957719
+    n_files: 7763
+    bytes: 1670012908
+    commits_not_in_working_branch: 18
+    compared_with_working_head: a0f25c19fb5cd9d1c0d340167507260ceb6e2b86
+  note: Code on branch hypothesis/settling at 9330d4c082b2 (2026-10-10). 18 commits are not in the working branch. Not merged (Pete's rule).
+  assignment_basis: branch name
+  hash: false
+  hash_note: git objects are content-addressed; tree sha recorded
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: settling.ex.settling-_top-files
+  kind: product
+  module: settling
+  path: EX:settling/
+  exchange_prefix: settling/
+  exchange_top_files_only: true
+  note: 'Exchange folder settling/_top-files: 1 files, 0.00 GB; SHA-256 from SHA256SUMS 0, computed 1, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_5d75bb9c1f56
+    - mem_d7d2f09cd14d
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: settling.ex.settling-run-j
+  kind: product
+  module: settling
+  path: EX:settling/run-j
+  exchange_prefix: settling/run-j
+  exchange_top_files_only: false
+  note: 'Exchange folder settling/run-j: 88 files, 10.36 GB; SHA-256 from SHA256SUMS 75, computed 13, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: settling.ex.settling-run-j-a1branch
+  kind: product
+  module: settling
+  path: EX:settling/run-j-a1branch
+  exchange_prefix: settling/run-j-a1branch
+  exchange_top_files_only: false
+  note: 'Exchange folder settling/run-j-a1branch: 21 files, 1.26 GB; SHA-256 from SHA256SUMS 17, computed 4, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: settling.ex.settling-run-j-supplement
+  kind: product
+  module: settling
+  path: EX:settling/run-j-supplement
+  exchange_prefix: settling/run-j-supplement
+  exchange_top_files_only: false
+  note: 'Exchange folder settling/run-j-supplement: 41 files, 3.11 GB; SHA-256 from SHA256SUMS 35, computed 6, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_e616d983752b
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: settling.home.mh370-settling-work
+  kind: data_home
+  module: settling
+  path: DL:mh370-settling-work
+  note: Settling work folder.
+  assignment_basis: data home
+  hash: stat
+  hash_note: file list and sizes only; SHA-256 taken from SHA256SUMS files where present
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: settling.home.mh370-settling-work-j
+  kind: data_home
+  module: settling
+  path: DL:mh370-settling-work-j
+  note: Settling work folder for run J.
+  assignment_basis: data home
+  hash: stat
+  hash_note: file list and sizes only; SHA-256 taken from SHA256SUMS files where present
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: settling.note.coordination-ocean_settling_md
+  kind: note
+  module: settling
+  path: WORK:coordination/OCEAN_SETTLING.md
+  note: OCEAN_SETTLING inbox
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 6a2f9377af93daed81de316e8868d3b53dc2c869
+      date: '2026-10-07T12:52:38-06:00'
+      subject: 'Architecture: ocean drift master prompt, and the coordination inboxes'
+    last_changed:
+      commit: 8cae711638062921fe02ab4c153420a473b0596a
+      date: '2026-10-22T10:18:07-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: settling.note.threads-master-prompts-settling_md
+  kind: note
+  module: settling
+  path: WORK:threads/master-prompts/settling.md
+  note: Settling — impact to seabed. Mission and master prompt
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 8b10651888136dec05fedd22b03c847189372571
+      date: '2026-10-06T22:28:56-06:00'
+      subject: 'Architecture: rule the four open decisions; revise end-of-flight prompt for the three-arm design; add settling master prompt'
+    last_changed:
+      commit: 8cae711638062921fe02ab4c153420a473b0596a
+      date: '2026-10-22T10:18:07-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: settling.res.breakup-field-candidate_md
+  kind: note
+  module: settling
+  path: WORK:results/breakup-field-candidate.md
+  note: Breakup field — candidate definitions (settling, 2026-10-09)
+  assignment_basis: override from commit subject (read by hand)
+  git:
+    first_added:
+      commit: 38b0ba5969ecd44f9a49498adf9a9670025fa350
+      date: '2026-10-07T19:39:18-06:00'
+      subject: 'results: breakup-field candidate from settling - three families with selection rule and fixtures, six element classes, sink-vs-float ownership'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/breakup-field-candidate.md:3
+    quote: '**Status: candidate for the shared breakup-field freeze, PROVISIONAL.** Written by ocean settling at'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_e2dfe2c04134
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: settling.res.settling-aimed-resample
+  kind: product
+  module: settling
+  path: WORK:results/settling-aimed-resample
+  note: 'Settling: aimed resample from per-row weights (composer pass 1 request)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 5dabdd95bfbd313df2a79ed45787f330107a7c13
+      date: '2026-10-10T17:25:09-06:00'
+      subject: 'Settling: aimed resample from composed per-row weights (wf_aimed.py, contract README); request for row weights; constraint alignment'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_c7229b5206ca
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: settling.res.settling-core-set-next-run-b
+  kind: product
+  module: settling
+  path: WORK:results/settling-core-set-next-run-b
+  note: Where the wreckage is on the seabed, for each use of the 00:19 satellite data (core run (b))
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 670b66c98cc129015b7a36475320c00e0c0c9726
+      date: '2026-10-10T15:19:19-06:00'
+      subject: 'settling: core 00:19 option set on core (b) (plain names, unpowered, re-weighted and fixed mixtures, two-footnote charts); wider ocean window; H1/H2
+        note corrected; run C columns OK'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/settling-core-set-next-run-b/README.md:12
+    quote: '**Labels.** core (b) split-half NOT converged; two-tank bookkeeping only; internal-v1 one-engine flow 2x; dive class (b) and Boeing glide'
+- id: settling.res.settling-d6
+  kind: product
+  module: settling
+  path: WORK:results/settling-d6
+  note: 'results: settling D6 page (resting offsets by class and family at 7th-arc depths, variable importance; PROVISIONAL); settling entry - steps 1-5 done, items
+    3-4 adopted'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 1f74510452ce789b6514a69995e968e9e0e835e4
+      date: '2026-10-08T20:01:37-06:00'
+      subject: 'results: settling D6 page (resting offsets by class and family at 7th-arc depths, variable importance; PROVISIONAL); settling entry - steps 1-5 done,
+        items 3-4 adopted'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_fe151ba41363
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: settling.res.settling-d6-289
+  kind: product
+  module: settling
+  path: WORK:results/settling-d6-289
+  note: 'results: settling D6 re-pointed at reference-289 (seabed depth percentiles from end of flight''s 4-seed impacts, with run provenance; provisional page at
+    3,360/3,850/4,340/5,800 m; real-ocean page at f'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 210d1d2733372b065f4fa024a58d0f29fc20ef96
+      date: '2026-10-09T11:31:16-06:00'
+      subject: 'results: settling D6 re-pointed at reference-289 (seabed depth percentiles from end of flight''s 4-seed impacts, with run provenance; provisional
+        page at 3,360/3,850/4,340/5,800 m; real-ocean page at f'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_1fab482c4960
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: settling.res.settling-d6-real
+  kind: product
+  module: settling
+  path: WORK:results/settling-d6-real
+  note: 'results: settling D6 on the real ocean (GLORYS12 column, ERA5, AusSeabed; Monte Carlo halves); ledger pages from primary copies (BEA, Metron, NTSB, Stone);
+    methods draft updated; settling entry'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: b54b302453163483078193667b0a6656cacc708c
+      date: '2026-10-08T23:47:47-06:00'
+      subject: 'results: settling D6 on the real ocean (GLORYS12 column, ERA5, AusSeabed; Monte Carlo halves); ledger pages from primary copies (BEA, Metron, NTSB,
+        Stone); methods draft updated; settling entry'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_2c3c451c0993
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: settling.res.settling-d6-real-289
+  kind: product
+  module: settling
+  path: WORK:results/settling-d6-real-289
+  note: 'results: settling D6 re-pointed at reference-289 (seabed depth percentiles from end of flight''s 4-seed impacts, with run provenance; provisional page at
+    3,360/3,850/4,340/5,800 m; real-ocean page at f'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 210d1d2733372b065f4fa024a58d0f29fc20ef96
+      date: '2026-10-09T11:31:16-06:00'
+      subject: 'results: settling D6 re-pointed at reference-289 (seabed depth percentiles from end of flight''s 4-seed impacts, with run provenance; provisional
+        page at 3,360/3,850/4,340/5,800 m; real-ocean page at f'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_47c3c1d20a93
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: settling.res.settling-family-next-run-b
+  kind: product
+  module: settling
+  path: WORK:results/settling-family-next-run-b
+  note: Where the wreckage is on the seabed, by type of flight end (core run (b))
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 13adbf367a48851770be145ab28ddcc4f3521595
+      date: '2026-10-10T16:05:35-06:00'
+      subject: 'settling: seabed wreckage PDF by hypothesis family (A1/A2/B) x core 00:19 options on core (b); routed'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: settling.res.settling-field-extent-289
+  kind: product
+  module: settling
+  path: WORK:results/settling-field-extent-289
+  note: Seabed field extent per wreckage draw (reference-289, held out)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 033938c9cdb1e378dc17cb01e8bf618148a9d92a
+      date: '2026-10-09T22:06:11-06:00'
+      subject: 'settling: field extent per wreckage draw for searched areas; samples in the exchange directory'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_7a84c489367d
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: settling.res.settling-first-pass
+  kind: product
+  module: settling
+  path: WORK:results/settling-first-pass
+  note: 'Coordination: settling overnight entry; transport addendum (stub matched to 311e481, float phase needs the integrator); results/settling-first-pass report
+    page'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 40bfbda7d08788021217b7f2fafec181643ee3d0
+      date: '2026-10-07T19:51:40-06:00'
+      subject: 'Coordination: settling overnight entry; transport addendum (stub matched to 311e481, float phase needs the integrator); results/settling-first-pass
+        report page'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_8b9ff2d18475
+    - mem_982216d79c51
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: settling.res.settling-h1h2-estimability_md
+  kind: note
+  module: settling
+  path: WORK:results/settling-h1h2-estimability.md
+  note: Why Holland H1 and H2 are not estimable, and what fixes it
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: b27d07fed0b6dc0ec9358b4454bb42eab9e648f4
+      date: '2026-10-10T09:31:06-06:00'
+      subject: 'settling: H1/H2 estimability diagnosis and request to end of flight; stand-in reviewed; GLORYS column request to ocean transport'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_7ec68df8d8bd
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: settling.res.settling-implosion-events
+  kind: product
+  module: settling
+  path: WORK:results/settling-implosion-events
+  note: 'results: settling D6 real-ocean regenerated (windowed fields, GlobCurrent); implosion events for hydroacoustics; provisional D6 refresh; settling entry'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: c365d0601e436ea28d647322954eb18f1db5d764
+      date: '2026-10-09T08:15:15-06:00'
+      subject: 'results: settling D6 real-ocean regenerated (windowed fields, GlobCurrent); implosion events for hydroacoustics; provisional D6 refresh; settling
+        entry'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: settling.res.settling-methods-draft_md
+  kind: note
+  module: settling
+  path: WORK:results/settling-methods-draft.md
+  note: 'Methods draft: wreckage settling'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: dd857d872c70a6d72b1458204068fdaa67afa12c
+      date: '2026-10-08T23:13:50-06:00'
+      subject: 'results: settling citation ledger (backfill), methods draft, D6 occupants variant; settling entry'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: settling.res.settling-next-run-b-standin
+  kind: product
+  module: settling
+  path: WORK:results/settling-next-run-b-standin
+  note: 'Settling (architecture stand-in): seabed wreckage field on EoF next-run (core (b)) impacts, per stratum + P(family) mixture, plain and +alive; settling adds
+    <0.5% to 90% area; H1/H2 not estimable - PR'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 015cb8a2b8cf4b1a65dc391cff7e37f2b0082a2b
+      date: '2026-10-10T04:23:26-06:00'
+      subject: 'Settling (architecture stand-in): seabed wreckage field on EoF next-run (core (b)) impacts, per stratum + P(family) mixture, plain and +alive; settling
+        adds <0.5% to 90% area; H1/H2 not estimable - PR'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: settling.res.settling-next-run-b-standin_md
+  kind: note
+  module: settling
+  path: WORK:results/settling-next-run-b-standin.md
+  note: 'Ocean settling: seabed wreckage field on end of flight''s next-run (core (b)) impacts — stand-in re-run'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 015cb8a2b8cf4b1a65dc391cff7e37f2b0082a2b
+      date: '2026-10-10T04:23:26-06:00'
+      subject: 'Settling (architecture stand-in): seabed wreckage field on EoF next-run (core (b)) impacts, per stratum + P(family) mixture, plain and +alive; settling
+        adds <0.5% to 90% area; H1/H2 not estimable - PR'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: settling.res.settling-core-set-next-run-b
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: SUPERSEDED
+  status_rank: explicit
+  status_evidence:
+  - rank: explicit
+    source: WORK:results/settling-core-set-next-run-b/README.md:10
+    quote: It replaces the stand-in's four-option result for this run (`results/settling-next-run-b-standin.md`), which used the earlier option set.
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_4caf8ebadea8
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+  status_note: Statement covers the four-option result of this run.
+- id: settling.res.settling-next-run-b-wider-profile-standin
+  kind: product
+  module: settling
+  path: WORK:results/settling-next-run-b-wider-profile-standin
+  note: 'settling stand-in (wider GLORYS12 profile, core (b)): stopped as superseded by settling ~21:50; input reproduction, smoke, weight share outside old window,
+    coverage'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: bc8740bb545031afd481396a5b4a6cbf80cc35f1
+      date: '2026-10-10T15:47:40-06:00'
+      subject: 'settling stand-in (wider GLORYS12 profile, core (b)): stopped as superseded by settling ~21:50; input reproduction, smoke, weight share outside old
+        window, coverage'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: settling.res.settling-next-run-b-wider-profile-standin_md
+  kind: note
+  module: settling
+  path: WORK:results/settling-next-run-b-wider-profile-standin.md
+  note: Ocean settling on the wider GLORYS12V1 profile column, core (b) impacts — stand-in STOPPED as superseded
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: bc8740bb545031afd481396a5b4a6cbf80cc35f1
+      date: '2026-10-10T15:47:40-06:00'
+      subject: 'settling stand-in (wider GLORYS12 profile, core (b)): stopped as superseded by settling ~21:50; input reproduction, smoke, weight share outside old
+        window, coverage'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/settling-next-run-b-wider-profile-standin.md:3
+    quote: '**Labels:** `UNCONVERGED` (core (b) split-half NOT converged) · two-tank bookkeeping only · PROVISIONAL-OVERNIGHT · run by an architecture stand-in on
+      settling''s behalf; settling to review.'
+- id: settling.res.settling-references_bib
+  kind: product
+  module: settling
+  path: WORK:results/settling-references.bib
+  note: 'results: settling citation ledger (backfill), methods draft, D6 occupants variant; settling entry'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: dd857d872c70a6d72b1458204068fdaa67afa12c
+      date: '2026-10-08T23:13:50-06:00'
+      subject: 'results: settling citation ledger (backfill), methods draft, D6 occupants variant; settling entry'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: settling.res.settling-references_md
+  kind: note
+  module: settling
+  path: WORK:results/settling-references.md
+  note: 'Ocean settling: citation ledger'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: dd857d872c70a6d72b1458204068fdaa67afa12c
+      date: '2026-10-08T23:13:50-06:00'
+      subject: 'results: settling citation ledger (backfill), methods draft, D6 occupants variant; settling entry'
+    last_changed:
+      commit: 26b42d7242d5267a771e882b569168ef38929af8
+      date: '2026-10-25T16:58:11-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: settling.res.settling-run-c
+  kind: product
+  module: settling
+  path: WORK:results/settling-run-c
+  note: 'Where the wreckage is on the seabed: run C (core run C, 4 strata × 8 seeds)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 34d40ce15471a1cf3c366194a6ac898f70794dd3
+      date: '2026-10-11T01:04:23-06:00'
+      subject: 'Settling: run C seabed results (core set, by family, speed-capped, aimed at composed G/Ga) with COVERAGE; samples READY on the exchange'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/settling-run-c/README.md:9
+    quote: '**UNCONVERGED.** Core run C fails split-half in every stratum: the minimum is 0.82-0.86 against a floor of 0.924. Every number here'
+- id: settling.res.settling-run-c-scripts
+  kind: product
+  module: settling
+  path: WORK:results/settling-run-c-scripts
+  note: 'Settling: G12 exporter for composed row weights; run C trigger on per-stratum READY with format check; pitch (G6) coverage statement'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 307d8294a4dd785bc3a106eb34dd9f001301edf9
+      date: '2026-10-10T19:22:17-06:00'
+      subject: 'Settling: G12 exporter for composed row weights; run C trigger on per-stratum READY with format check; pitch (G6) coverage statement'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: settling.res.settling-run-d-holland
+  kind: product
+  module: settling
+  path: WORK:results/settling-run-d-holland
+  note: 'Where the wreckage is on the seabed under the Holland readings: end of flight''s H1/H2 sweep on core run D'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: a3c786bda45fc8b283a48fef2f00b7b4fea1c806
+      date: '2026-10-11T19:28:43-06:00'
+      subject: 'Settling: H1/H2 sweep (next-run-d-he) seabed samples and note with COVERAGE; READY on the exchange'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/settling-run-d-holland/README.md:7
+    quote: '**PROVISIONAL, NOT CONVERGED.** Core run D''s split-half is below its floor in 3 of 4 strata.'
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_4f60b98b13e0
+    - mem_7309b6ced434
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: settling.res.settling-run-h
+  kind: product
+  module: settling
+  path: WORK:results/settling-run-h
+  note: 'Where the wreckage is on the seabed: end of flight''s run H (core run H, six routes)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 17bb8eabe7dd5e81c4e58526987269c740f56be2
+      date: '2026-10-11T20:02:14-06:00'
+      subject: 'Settling: run H seabed samples (by route) and note with COVERAGE; H1/H2 not estimable on run H'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/settling-run-h/README.md:6
+    quote: '**PROVISIONAL.**'
+- id: settling.res.settling-run-i
+  kind: product
+  module: settling
+  path: WORK:results/settling-run-i
+  note: Ocean settling on end of flight's run I — seabed wreckage per stratum (PROVISIONAL, NOT CONVERGED)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 7e62dbea4eeee6768c3cd3f37d4b767a12253e65
+      date: '2026-10-12T13:59:33-06:00'
+      subject: 'settling: run I seabed wreckage, 4 strata (results/settling-run-i)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/settling-run-i/README.md:5
+    quote: '**Labels (carry on every result):** core run I split-half NOT converged (waypoints 0.916 against floor 0.924); piloted-turn model and INTERIM pitch-down
+      PROVISIONAL; in-flight structural outcome PROVISIONAL; breakup rows settled from the intact impact point (gap G-bf); P(left) = 0.8 PROVISIONAL; D4/D5 "Holland
+      transient bias added". Each stratum is CONDITIONAL on itself.'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_97673e85fcb2
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: settling.res.settling-run-j
+  kind: product
+  module: settling
+  path: WORK:results/settling-run-j
+  note: Ocean settling on end of flight's run J — seabed wreckage per stratum
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 6f2805263926f96a7deb602a4d2ca04079155391
+      date: '2026-10-18T00:01:14-06:00'
+      subject: 'settling: run J seabed wreckage samples (4 strata + both-burst D3/D4 supplement) on the exchange; results note, scripts, figures; SEARCHED_AREAS /
+        OCEAN_SETTLING / architecture entries'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/settling-run-j/README.md:5
+    quote: '**Labels (carry on every result):** core run J split-half **accepted as a pass by project ruling, 16 Oct 2026** (free flight 0.840 single split, 0.873
+      all-partition mean; waypoints 0.934 all-partition); the thin northern detail north of 33 S is a tail-shape limitation (core prediction 5), not non-convergence.
+      Piloted rapid descent to 40,000 ft/min with unloading; piloted-turn model and INTERIM pit'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_1fa75ca56f8f
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: settling.res.settling-run-j-a1branch
+  kind: product
+  module: settling
+  path: WORK:results/settling-run-j-a1branch
+  note: Ocean settling on end of flight's A1-branch conditional pass (work order overnight-2026-10-19, B1)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: f04577fc286d83b6eb18fffcca95a6ee9bc368b7
+      date: '2026-10-18T22:48:08-06:00'
+      subject: 'settling: A1-branch seabed samples (order B1) - stratified estimator, D3 x A1 row ESS 368 -> 5,283; note, figures, scripts, inbox + architecture +
+        SEARCHED_AREAS entries'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/settling-run-j-a1branch/README.md:7
+    quote: '**Labels (carry):** core run J split-half accepted as a pass by project ruling, 16 Oct 2026. End of flight''s caveat: the uncontrolled-arm dynamics are'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_59e8770edf81
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: settling.res.settling-run-j-supplement
+  kind: product
+  module: settling
+  path: WORK:results/settling-run-j-supplement
+  note: Ocean settling on the run J northern supplement, full rule-B set (work order overnight-2026-10-20, B1)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: d0660ec26901ab97391944f77bb44b22a614c03f
+      date: '2026-10-20T04:36:37-06:00'
+      subject: 'settling: run J northern supplement seabed samples (order 20 Oct B1) - rule-B set and A1 strata; note, figures, scripts, inbox + architecture + SEARCHED_AREAS
+        entries'
+    last_changed:
+      commit: d0660ec26901ab97391944f77bb44b22a614c03f
+      date: '2026-10-20T04:36:37-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: settling.res.settling-wreckage-field-289
+  kind: product
+  module: settling
+  path: WORK:results/settling-wreckage-field-289
+  note: Where the wreckage rests on the seabed, under four impact PDFs (reference-289)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 0a664158760ddc5c57014170ea859bef1ca2353d
+      date: '2026-10-09T13:43:26-06:00'
+      subject: 'settling: seabed wreckage-field PDF under four reference-289 impact PDFs (greyscale 50/90/99, impact PDFs for reference)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_1b1070343bb7
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: settling.res.settling-wreckage-field-289-priorities
+  kind: product
+  module: settling
+  path: WORK:results/settling-wreckage-field-289-priorities
+  note: Seabed wreckage PDF under the four 00:19 priority hypotheses (reference-289)
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 438b5c06628f7c3d899d311415b22c3186d652f3
+      date: '2026-10-09T16:49:20-06:00'
+      subject: 'settling: seabed wreckage PDF under the four 00:19 priority hypotheses (H1/H2 stamped not estimable)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 3
+    mem_ids:
+    - mem_5b10b6bc6489
+    - mem_a116dc298c9c
+    - mem_c9ea21a8e481
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: settling.xd.settling-next-run-d-he
+  kind: archive
+  module: settling
+  path: XDRIVE:mh370-exchange/settling/next-run-d-he
+  note: 'Listed for copy to the external drive in archive-tools/archive-to-porsche.v3.sh line 20 (destination /Volumes/Porsche 1TB Backup/mh370-archive). Source folder
+    in ~/Downloads now: absent. The VERIFIED-*.txt list is on the drive; it was not readable from this session, so the copy is not confirmed here.'
+  assignment_basis: archive script item list
+  hash: false
+  hash_note: external drive not mounted in this session
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: settling.xd.settling-run-i
+  kind: archive
+  module: settling
+  path: XDRIVE:mh370-exchange/settling/run-i
+  note: 'Listed for copy to the external drive in archive-tools/archive-to-porsche.v3.sh line 14 (destination /Volumes/Porsche 1TB Backup/mh370-archive). Source folder
+    in ~/Downloads now: absent. The VERIFIED-*.txt list is on the drive; it was not readable from this session, so the copy is not confirmed here.'
+  assignment_basis: archive script item list
+  hash: false
+  hash_note: external drive not mounted in this session
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []

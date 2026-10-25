@@ -1,0 +1,5 @@
+#!/bin/sh
+# Project pre-push check: registry/check_project.py (rules for new work, clean-up proposal of 23 Oct 2026, section 5.6).
+# Installed by registry/install_hooks.sh. Git gives the pushed refs on standard input; the check reads them.
+top=$(git rev-parse --show-toplevel) || exit 1
+exec python3 "$top/Claude Science Project Sep 29/registry/check_project.py" --pre-push "$@"

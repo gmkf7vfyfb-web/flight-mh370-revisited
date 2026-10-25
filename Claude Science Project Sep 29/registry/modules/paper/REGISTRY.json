@@ -1,0 +1,893 @@
+{
+ "registry_version": "paper registry v1 (2026-10-25)",
+ "module": "paper",
+ "built_utc": "2026-10-25T22:59:15Z",
+ "hashing": true,
+ "work_branch_head_at_build": "26b42d7242d5267a771e882b569168ef38929af8 2026-10-25T16:58:11-06:00",
+ "roots": {
+  "REPO": "(repository)",
+  "WORK": "(repository)",
+  "EX": "/Users/pete/Downloads/mh370-exchange",
+  "DL": "/Users/pete/Downloads",
+  "XDRIVE": "/Volumes/Porsche 1TB Backup/mh370-archive",
+  "GIT": "<branch>@<commit>",
+  "DRIVE": "<google drive file id>"
+ },
+ "status_values": {
+  "CURRENT": "No known defect in the records. Not re-verified in this run unless verified_this_run is true.",
+  "CURRENT_WITH_CAVEATS": "Usable with the listed limitations stated beside every number taken from it.",
+  "KNOWN_DEFECT": "A record states a defect that changes a reported number or claim. Do not use the affected parts.",
+  "SUPERSEDED": "Replaced by the entry named in superseded_by. Kept for history.",
+  "WITHDRAWN": "Withdrawn at Pete's instruction. Do not use.",
+  "PENDING_RULING": "Its adoption waits for a ruling by Pete.",
+  "UNCHECKED": "No status record found. Means only: not yet used in a result that we quote. It is not a review queue; check on use."
+ },
+ "entries": [
+  {
+   "id": "paper.code.paper-build_citation_library_py",
+   "kind": "code",
+   "module": "paper",
+   "path": "WORK:paper/build_citation_library.py",
+   "note": "---------------------------------------------------------------- bib parsing",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "d856870af02dcbe3d28813ddb3789c7315795085",
+     "date": "2026-10-12T12:13:32-06:00",
+     "subject": "paper: verified JON author rules; master citation ledger and references.bib (96 entries, CrossRef-checked); PAPER.md status and four recommendations"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 17984,
+   "manifest": "modules/paper/manifests/paper.code.paper-build_citation_library_py.tsv.gz",
+   "manifest_sha256": "8f5850bb4dcb1df3835e67a608eae86fcca8bcd7baaf29f4b020ca57abadcb86"
+  },
+  {
+   "id": "paper.code.paper-build_reference_draft_py",
+   "kind": "code",
+   "module": "paper",
+   "path": "WORK:paper/build_reference_draft.py",
+   "note": "--------------------------------------------------------------- parse extracts",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "ec389d4df7a7b7d1e5b44bcf231055f085fe037f",
+     "date": "2026-10-12T14:26:28-06:00",
+     "subject": "paper: first reference draft (17 elements, 48 equations, 69 labelled results, G1-G26) + LaTeX companion + survey of nine Journal of Navigation papers; recommendation 1 superseded, recommendation 7 fil"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_b91b94fb8af8"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
+   "n_files": 1,
+   "bytes": 31248,
+   "manifest": "modules/paper/manifests/paper.code.paper-build_reference_draft_py.tsv.gz",
+   "manifest_sha256": "e9b8109c2e7a1163f5d6d38dbb5f2b07e76f91c4b54f775d776c442286fc2944"
+  },
+  {
+   "id": "paper.code.paper-proposed-draft-build_draft_v2_py",
+   "kind": "code",
+   "module": "paper",
+   "path": "WORK:paper/proposed-draft/build_draft_v2.py",
+   "note": "---------------------------------------------------------------- block helpers",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "12155bd415962b15fb194415cf12054c0200f636",
+     "date": "2026-10-12T17:50:46-06:00",
+     "subject": "paper: STYLE-NOTES.md measured from the dissertation; PROPOSED draft v2 in Word and LaTeX from one source - new notation, build-up from the true unknowns, results reported"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_0246054e2bc3"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
+   "n_files": 1,
+   "bytes": 70241,
+   "manifest": "modules/paper/manifests/paper.code.paper-proposed-draft-build_draft_v2_py.tsv.gz",
+   "manifest_sha256": "0874a9e3b3ea5dc4c4bfebea1f4b33e5debe8e6071c888a0662adfdc85e9b5bd"
+  },
+  {
+   "id": "paper.code.paper-write_citation_outputs_py",
+   "kind": "code",
+   "module": "paper",
+   "path": "WORK:paper/write_citation_outputs.py",
+   "note": "Davey et al. (2016) chapter-level DOIs and printed page ranges, retrieved from",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "d856870af02dcbe3d28813ddb3789c7315795085",
+     "date": "2026-10-12T12:13:32-06:00",
+     "subject": "paper: verified JON author rules; master citation ledger and references.bib (96 entries, CrossRef-checked); PAPER.md status and four recommendations"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 27779,
+   "manifest": "modules/paper/manifests/paper.code.paper-write_citation_outputs_py.tsv.gz",
+   "manifest_sha256": "b07f97c399154894a70ecc84f7a4ec7856e8e7263b0ea9dd3a0675b41ee6faea"
+  },
+  {
+   "id": "paper.memnote.paper",
+   "kind": "note",
+   "module": "paper",
+   "path": "WORK:registry/memory-notes/paper.jsonl",
+   "note": "Memory rows on topic 'paper' moved to the registry on 25 Oct 2026 (23 rows; 14 have no other entry). Records of what memory said, not verified facts; each row has its verification status.",
+   "assignment_basis": "memory track topic",
+   "memory_notes": {
+    "file": "WORK:registry/memory-notes/paper.jsonl",
+    "n_rows": 23
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 28033,
+   "manifest": "modules/paper/manifests/paper.memnote.paper.tsv.gz",
+   "manifest_sha256": "abc6ef7f984f710136d0ef2623180587cf9d60a51bbb8d1367e5a0bd0a403efe"
+  },
+  {
+   "id": "paper.note.coordination-paper_md",
+   "kind": "note",
+   "module": "paper",
+   "path": "WORK:coordination/PAPER.md",
+   "note": "PAPER inbox (paper drafting and citations assistant)",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "4c437c52de87d30747b7bc17f6a270066ff9edd4",
+     "date": "2026-10-12T08:47:16-06:00",
+     "subject": "architecture: paper drafting and citations assistant master prompt v0 (draft for Pete); PAPER inbox"
+    },
+    "last_changed": {
+     "commit": "8cae711638062921fe02ab4c153420a473b0596a",
+     "date": "2026-10-22T10:18:07-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_5142ed13b545"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
+   "n_files": 1,
+   "bytes": 78997,
+   "manifest": "modules/paper/manifests/paper.note.coordination-paper_md.tsv.gz",
+   "manifest_sha256": "2e1db7444433f08f38b511de2a0530bd23b70b73e12d5414dc0143532561e06a"
+  },
+  {
+   "id": "paper.note.paper-citations-ledger_md",
+   "kind": "note",
+   "module": "paper",
+   "path": "WORK:paper/CITATIONS-LEDGER.md",
+   "note": "Master citation ledger — MH370 paper",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "d856870af02dcbe3d28813ddb3789c7315795085",
+     "date": "2026-10-12T12:13:32-06:00",
+     "subject": "paper: verified JON author rules; master citation ledger and references.bib (96 entries, CrossRef-checked); PAPER.md status and four recommendations"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 49844,
+   "manifest": "modules/paper/manifests/paper.note.paper-citations-ledger_md.tsv.gz",
+   "manifest_sha256": "bcbf9ee075eba86e29830a3c1619fc7ce83fe7ae8150894e68e812c87abffb92"
+  },
+  {
+   "id": "paper.note.paper-holland-audit_md",
+   "kind": "note",
+   "module": "paper",
+   "path": "WORK:paper/HOLLAND-AUDIT.md",
+   "note": "HOLLAND-AUDIT.md — every place Holland (2018) enters the method or the calibration",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "0560d9c8d32eb25acb83a3550f1d1482e9631a8a",
+     "date": "2026-10-12T18:43:08-06:00",
+     "subject": "paper: HOLLAND-AUDIT.md - six entry points, one deliberate non-dependency, three defects; RECOMMENDATION 10 (run the two 18:25 sensitivity configs); query on the Boeing 8-s window attribution"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 3,
+    "mem_ids": [
+     "mem_3e63185198c1",
+     "mem_a38bd2d6afc0",
+     "mem_b69a10cb97b5"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
+   "n_files": 1,
+   "bytes": 26663,
+   "manifest": "modules/paper/manifests/paper.note.paper-holland-audit_md.tsv.gz",
+   "manifest_sha256": "21b2f7bfb6e2edab89b11a458d0b186702e398a1fd4dfb72769187d633470d1a"
+  },
+  {
+   "id": "paper.note.paper-jon-model-papers_md",
+   "kind": "note",
+   "module": "paper",
+   "path": "WORK:paper/JON-MODEL-PAPERS.md",
+   "note": "Model papers in *The Journal of Navigation*: format evidence",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "ec389d4df7a7b7d1e5b44bcf231055f085fe037f",
+     "date": "2026-10-12T14:26:28-06:00",
+     "subject": "paper: first reference draft (17 elements, 48 equations, 69 labelled results, G1-G26) + LaTeX companion + survey of nine Journal of Navigation papers; recommendation 1 superseded, recommendation 7 fil"
+    },
+    "last_changed": {
+     "commit": "8cae711638062921fe02ab4c153420a473b0596a",
+     "date": "2026-10-22T10:18:07-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 39213,
+   "manifest": "modules/paper/manifests/paper.note.paper-jon-model-papers_md.tsv.gz",
+   "manifest_sha256": "c4715f2845d0c0fc7d48b60a450eac72a768dfa8b65565e77402f062e8a22c6e"
+  },
+  {
+   "id": "paper.note.paper-jon-rules_md",
+   "kind": "note",
+   "module": "paper",
+   "path": "WORK:paper/JON-RULES.md",
+   "note": "The Journal of Navigation — verified author rules",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "d856870af02dcbe3d28813ddb3789c7315795085",
+     "date": "2026-10-12T12:13:32-06:00",
+     "subject": "paper: verified JON author rules; master citation ledger and references.bib (96 entries, CrossRef-checked); PAPER.md status and four recommendations"
+    },
+    "last_changed": {
+     "commit": "26b42d7242d5267a771e882b569168ef38929af8",
+     "date": "2026-10-25T16:58:11-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 28794,
+   "manifest": "modules/paper/manifests/paper.note.paper-jon-rules_md.tsv.gz",
+   "manifest_sha256": "6096296363fb90655653ba1d3f2a8427343180e895023b219943d41b7a53a3a2"
+  },
+  {
+   "id": "paper.note.paper-paper-budget_md",
+   "kind": "note",
+   "module": "paper",
+   "path": "WORK:paper/PAPER-BUDGET.md",
+   "note": "PAPER-BUDGET.md — section budget, ranked results, figure and table list",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "ebbb4f85337c2ccc168f059cd0a81e01b0c57223",
+     "date": "2026-10-12T18:40:21-06:00",
+     "subject": "paper: add PAPER-BUDGET.md (section budget, ranked results in three tiers, 10-figure and 3-table list); fix duplicate section 3.7 numbering in draft v2"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 12251,
+   "manifest": "modules/paper/manifests/paper.note.paper-paper-budget_md.tsv.gz",
+   "manifest_sha256": "aa21ad248aa7884a8e4b6a20e5bca551fc511ecbea0383858ffd2e4c82cbb1ed"
+  },
+  {
+   "id": "paper.note.paper-proposed-draft-fig1-impact-latitude_png",
+   "kind": "product",
+   "module": "paper",
+   "path": "WORK:paper/proposed-draft/fig1-impact-latitude.png",
+   "note": "paper: format audit against JON-RULES - fix five failures (keywords on manuscript, paragraph spacing, bold headings, missing reference list, no figures); embed five figures with captions below and alt",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "6712df33c5848118f50fb29f7b95d87042a86ca1",
+     "date": "2026-10-12T18:37:01-06:00",
+     "subject": "paper: format audit against JON-RULES - fix five failures (keywords on manuscript, paragraph spacing, bold headings, missing reference list, no figures); embed five figures with captions below and alt"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 654085,
+   "manifest": "modules/paper/manifests/paper.note.paper-proposed-draft-fig1-impact-latitude_png.tsv.gz",
+   "manifest_sha256": "d8208e3984635f6c4185f966671afbedc621263d2a060917f6d1c39e2b33355c"
+  },
+  {
+   "id": "paper.note.paper-proposed-draft-fig2-impact-regions_png",
+   "kind": "product",
+   "module": "paper",
+   "path": "WORK:paper/proposed-draft/fig2-impact-regions.png",
+   "note": "paper: format audit against JON-RULES - fix five failures (keywords on manuscript, paragraph spacing, bold headings, missing reference list, no figures); embed five figures with captions below and alt",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "6712df33c5848118f50fb29f7b95d87042a86ca1",
+     "date": "2026-10-12T18:37:01-06:00",
+     "subject": "paper: format audit against JON-RULES - fix five failures (keywords on manuscript, paragraph spacing, bold headings, missing reference list, no figures); embed five figures with captions below and alt"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 398252,
+   "manifest": "modules/paper/manifests/paper.note.paper-proposed-draft-fig2-impact-regions_png.tsv.gz",
+   "manifest_sha256": "d23bbb76db3c4bada4edf8944b5f3a8b9f779ce3507d934eeb42e2216d09cc58"
+  },
+  {
+   "id": "paper.note.paper-proposed-draft-fig3-ocean-models_png",
+   "kind": "product",
+   "module": "paper",
+   "path": "WORK:paper/proposed-draft/fig3-ocean-models.png",
+   "note": "paper: format audit against JON-RULES - fix five failures (keywords on manuscript, paragraph spacing, bold headings, missing reference list, no figures); embed five figures with captions below and alt",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "6712df33c5848118f50fb29f7b95d87042a86ca1",
+     "date": "2026-10-12T18:37:01-06:00",
+     "subject": "paper: format audit against JON-RULES - fix five failures (keywords on manuscript, paragraph spacing, bold headings, missing reference list, no figures); embed five figures with captions below and alt"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 373990,
+   "manifest": "modules/paper/manifests/paper.note.paper-proposed-draft-fig3-ocean-models_png.tsv.gz",
+   "manifest_sha256": "4cf3527c1efca40f4024315d424021197f13e5a733905b5a03f1c30ed0159ba8"
+  },
+  {
+   "id": "paper.note.paper-proposed-draft-fig4-coverage-ess_png",
+   "kind": "product",
+   "module": "paper",
+   "path": "WORK:paper/proposed-draft/fig4-coverage-ess.png",
+   "note": "paper: format audit against JON-RULES - fix five failures (keywords on manuscript, paragraph spacing, bold headings, missing reference list, no figures); embed five figures with captions below and alt",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "6712df33c5848118f50fb29f7b95d87042a86ca1",
+     "date": "2026-10-12T18:37:01-06:00",
+     "subject": "paper: format audit against JON-RULES - fix five failures (keywords on manuscript, paragraph spacing, bold headings, missing reference list, no figures); embed five figures with captions below and alt"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 688875,
+   "manifest": "modules/paper/manifests/paper.note.paper-proposed-draft-fig4-coverage-ess_png.tsv.gz",
+   "manifest_sha256": "830f3331a790525a5966a2100e2275da75dd43adb152cce2943807542009fdab"
+  },
+  {
+   "id": "paper.note.paper-proposed-draft-fig5-seabed_png",
+   "kind": "product",
+   "module": "paper",
+   "path": "WORK:paper/proposed-draft/fig5-seabed.png",
+   "note": "paper: format audit against JON-RULES - fix five failures (keywords on manuscript, paragraph spacing, bold headings, missing reference list, no figures); embed five figures with captions below and alt",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "6712df33c5848118f50fb29f7b95d87042a86ca1",
+     "date": "2026-10-12T18:37:01-06:00",
+     "subject": "paper: format audit against JON-RULES - fix five failures (keywords on manuscript, paragraph spacing, bold headings, missing reference list, no figures); embed five figures with captions below and alt"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 462516,
+   "manifest": "modules/paper/manifests/paper.note.paper-proposed-draft-fig5-seabed_png.tsv.gz",
+   "manifest_sha256": "f8e550ecd221585f987865b4fdc86c1d517420046797d060a2b4d6183f3787e4"
+  },
+  {
+   "id": "paper.note.paper-proposed-draft-proposed-draft-v2_docx",
+   "kind": "product",
+   "module": "paper",
+   "path": "WORK:paper/proposed-draft/proposed-draft-v2.docx",
+   "note": "paper: STYLE-NOTES.md measured from the dissertation; PROPOSED draft v2 in Word and LaTeX from one source - new notation, build-up from the true unknowns, results reported",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "12155bd415962b15fb194415cf12054c0200f636",
+     "date": "2026-10-12T17:50:46-06:00",
+     "subject": "paper: STYLE-NOTES.md measured from the dissertation; PROPOSED draft v2 in Word and LaTeX from one source - new notation, build-up from the true unknowns, results reported"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 2518344,
+   "manifest": "modules/paper/manifests/paper.note.paper-proposed-draft-proposed-draft-v2_docx.tsv.gz",
+   "manifest_sha256": "3f26b47042542bc65b324fb62319644b76527cdf499f6f0fc8d61b8b3fb0cef0"
+  },
+  {
+   "id": "paper.note.paper-proposed-draft-proposed-draft-v2_tex",
+   "kind": "note",
+   "module": "paper",
+   "path": "WORK:paper/proposed-draft/proposed-draft-v2.tex",
+   "note": "paper: STYLE-NOTES.md measured from the dissertation; PROPOSED draft v2 in Word and LaTeX from one source - new notation, build-up from the true unknowns, results reported",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "12155bd415962b15fb194415cf12054c0200f636",
+     "date": "2026-10-12T17:50:46-06:00",
+     "subject": "paper: STYLE-NOTES.md measured from the dissertation; PROPOSED draft v2 in Word and LaTeX from one source - new notation, build-up from the true unknowns, results reported"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 59043,
+   "manifest": "modules/paper/manifests/paper.note.paper-proposed-draft-proposed-draft-v2_tex.tsv.gz",
+   "manifest_sha256": "d0c5af05b0d4d7ded6d3ac7f1c2576ed6184c7ec1d3e9bdc87d9c96b61226ed4"
+  },
+  {
+   "id": "paper.note.paper-proposed-draft-proposed-draft_tex",
+   "kind": "note",
+   "module": "paper",
+   "path": "WORK:paper/proposed-draft/proposed-draft.tex",
+   "note": "paper: PROPOSED full draft (6,221 words, 13 equations, 3 tables, 27 refs, 9-figure list) with an end-to-end formulation of the integrated estimator; recommendation 8 filed",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "a174803ac89a31f374b3bf81533eac150fa43b44",
+     "date": "2026-10-12T14:58:57-06:00",
+     "subject": "paper: PROPOSED full draft (6,221 words, 13 equations, 3 tables, 27 refs, 9-figure list) with an end-to-end formulation of the integrated estimator; recommendation 8 filed"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": "paper.note.paper-proposed-draft-proposed-draft-v2_tex",
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "SUPERSEDED",
+   "status_rank": "chain",
+   "status_evidence": [
+    {
+     "rank": "chain",
+     "source": "name chain",
+     "quote": null,
+     "rule": "paper/proposed-draft/proposed-draft.tex -> paper/proposed-draft/proposed-draft-v2.tex (same stem, higher version number)"
+    }
+   ],
+   "n_files": 1,
+   "bytes": 61219,
+   "manifest": "modules/paper/manifests/paper.note.paper-proposed-draft-proposed-draft_tex.tsv.gz",
+   "manifest_sha256": "6893c943b879a83672edeefb0f86daea919259cbb998ff526a3c4ff4805ef389"
+  },
+  {
+   "id": "paper.note.paper-proposed-draft-readme_md",
+   "kind": "note",
+   "module": "paper",
+   "path": "WORK:paper/proposed-draft/README.md",
+   "note": "PROPOSED full draft — assistant draft, not Pete's paper",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "a174803ac89a31f374b3bf81533eac150fa43b44",
+     "date": "2026-10-12T14:58:57-06:00",
+     "subject": "paper: PROPOSED full draft (6,221 words, 13 equations, 3 tables, 27 refs, 9-figure list) with an end-to-end formulation of the integrated estimator; recommendation 8 filed"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 9580,
+   "manifest": "modules/paper/manifests/paper.note.paper-proposed-draft-readme_md.tsv.gz",
+   "manifest_sha256": "f08a9d24c2e068145d1484e6a882accc336800857400a84584894e991ee2d9e0"
+  },
+  {
+   "id": "paper.note.paper-reference-draft_md",
+   "kind": "note",
+   "module": "paper",
+   "path": "WORK:paper/REFERENCE-DRAFT.md",
+   "note": "Reference draft — MH370 Bayesian reconstruction",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "ec389d4df7a7b7d1e5b44bcf231055f085fe037f",
+     "date": "2026-10-12T14:26:28-06:00",
+     "subject": "paper: first reference draft (17 elements, 48 equations, 69 labelled results, G1-G26) + LaTeX companion + survey of nine Journal of Navigation papers; recommendation 1 superseded, recommendation 7 fil"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 113031,
+   "manifest": "modules/paper/manifests/paper.note.paper-reference-draft_md.tsv.gz",
+   "manifest_sha256": "81276e4a5f72ee5e6dfe30b0a5e2b57785beaeedee66cd30b762dd62d8508dbd"
+  },
+  {
+   "id": "paper.note.paper-reference-draft_tex",
+   "kind": "note",
+   "module": "paper",
+   "path": "WORK:paper/reference-draft.tex",
+   "note": "paper: first reference draft (17 elements, 48 equations, 69 labelled results, G1-G26) + LaTeX companion + survey of nine Journal of Navigation papers; recommendation 1 superseded, recommendation 7 fil",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "ec389d4df7a7b7d1e5b44bcf231055f085fe037f",
+     "date": "2026-10-12T14:26:28-06:00",
+     "subject": "paper: first reference draft (17 elements, 48 equations, 69 labelled results, G1-G26) + LaTeX companion + survey of nine Journal of Navigation papers; recommendation 1 superseded, recommendation 7 fil"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 23437,
+   "manifest": "modules/paper/manifests/paper.note.paper-reference-draft_tex.tsv.gz",
+   "manifest_sha256": "f3f62e2d0a2de39c0fb62a1b363224b7647dd72bb5d11cd61db588d10ca249bf"
+  },
+  {
+   "id": "paper.note.paper-references-paper-added_bib",
+   "kind": "note",
+   "module": "paper",
+   "path": "WORK:paper/references-paper-added.bib",
+   "note": "paper: restore regenerated ledger (97 entries, Davey chapter DOIs, copies-held provenance) and add paper-owned references-paper-added.bib",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "d9d241393461a87674dae0a7a88dd0bf34389b45",
+     "date": "2026-10-12T12:20:18-06:00",
+     "subject": "paper: restore regenerated ledger (97 entries, Davey chapter DOIs, copies-held provenance) and add paper-owned references-paper-added.bib"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 2,
+    "mem_ids": [
+     "mem_2219a7569a00",
+     "mem_8ce2ef8b436d"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
+   "n_files": 1,
+   "bytes": 3556,
+   "manifest": "modules/paper/manifests/paper.note.paper-references-paper-added_bib.tsv.gz",
+   "manifest_sha256": "fa5622effaac2bbba19cd2cf5df6d8eea02034d8b9a283ce6e4312429ef69d0d"
+  },
+  {
+   "id": "paper.note.paper-references_bib",
+   "kind": "note",
+   "module": "paper",
+   "path": "WORK:paper/references.bib",
+   "note": "paper: verified JON author rules; master citation ledger and references.bib (96 entries, CrossRef-checked); PAPER.md status and four recommendations",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "d856870af02dcbe3d28813ddb3789c7315795085",
+     "date": "2026-10-12T12:13:32-06:00",
+     "subject": "paper: verified JON author rules; master citation ledger and references.bib (96 entries, CrossRef-checked); PAPER.md status and four recommendations"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 39420,
+   "manifest": "modules/paper/manifests/paper.note.paper-references_bib.tsv.gz",
+   "manifest_sha256": "513bf2a6e57a2cbd51e7159e178635d74d4e46c972c4622a78ba0fc6a8d00d46"
+  },
+  {
+   "id": "paper.note.paper-style-notes_md",
+   "kind": "note",
+   "module": "paper",
+   "path": "WORK:paper/STYLE-NOTES.md",
+   "note": "Pete's style, measured from the dissertation",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "12155bd415962b15fb194415cf12054c0200f636",
+     "date": "2026-10-12T17:50:46-06:00",
+     "subject": "paper: STYLE-NOTES.md measured from the dissertation; PROPOSED draft v2 in Word and LaTeX from one source - new notation, build-up from the true unknowns, results reported"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_5b9429a9f091"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
+   "n_files": 1,
+   "bytes": 8066,
+   "manifest": "modules/paper/manifests/paper.note.paper-style-notes_md.tsv.gz",
+   "manifest_sha256": "71849aac5d0af83aa321e8b6827444352882a109f1625b21a8a24df2909bf8e9"
+  },
+  {
+   "id": "paper.note.threads-master-prompts-paper-drafting_md",
+   "kind": "note",
+   "module": "paper",
+   "path": "WORK:threads/master-prompts/paper-drafting.md",
+   "note": "Master prompt: MH370 paper drafting and citations assistant (v3, 12 Oct 2026: approved by Pete in outline; adds proposed full draft, optional book, adversarial review, recommendations channel)",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "4c437c52de87d30747b7bc17f6a270066ff9edd4",
+     "date": "2026-10-12T08:47:16-06:00",
+     "subject": "architecture: paper drafting and citations assistant master prompt v0 (draft for Pete); PAPER inbox"
+    },
+    "last_changed": {
+     "commit": "8cae711638062921fe02ab4c153420a473b0596a",
+     "date": "2026-10-22T10:18:07-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 2,
+    "mem_ids": [
+     "mem_41265244df06",
+     "mem_aa80d5e8fb75"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
+   "n_files": 1,
+   "bytes": 22300,
+   "manifest": "modules/paper/manifests/paper.note.threads-master-prompts-paper-drafting_md.tsv.gz",
+   "manifest_sha256": "dfe1db54d4761312bf6e1655e8be17898908a1557dc665f755004a5425b725f4"
+  }
+ ]
+}

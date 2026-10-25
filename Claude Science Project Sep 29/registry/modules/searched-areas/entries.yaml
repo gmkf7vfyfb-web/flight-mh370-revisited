@@ -1,0 +1,1413 @@
+registry_version: searched-areas registry v1 (2026-10-25)
+module: searched-areas
+generated_by: registry/backfill_registry.py (do not edit by hand; correct status_records.yaml and rebuild)
+entries:
+- id: searched.code.branch-hypothesis-seabed-search
+  kind: code
+  module: searched-areas
+  path: GIT:hypothesis/seabed-search@c6501cd11dab9edfb406705fc8ec6c873359dd61
+  git:
+    branch: hypothesis/seabed-search
+    commit: c6501cd11dab9edfb406705fc8ec6c873359dd61
+    date: '2026-10-09T01:49:36Z'
+    subject: 'seabed-search: residual-PDF views with Davey eq. 11.2, and the OI 2025-26 inferred variant (steps 6 and 7)'
+    tree: addc9d6760659b12dad491311ff4d32b9d35db09
+    n_files: 7545
+    bytes: 1649076921
+    commits_not_in_working_branch: 1
+    compared_with_working_head: a0f25c19fb5cd9d1c0d340167507260ceb6e2b86
+  note: Code on branch hypothesis/seabed-search at c6501cd11dab (2026-10-09). 1 commits are not in the working branch. Not merged (Pete's rule).
+  assignment_basis: branch name
+  hash: false
+  hash_note: git objects are content-addressed; tree sha recorded
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.code.engine-hypotheses-seabed-search
+  kind: code
+  module: searched-areas
+  path: WORK:engine/hypotheses/seabed-search
+  file_list: null
+  note: 'Engine code on the working branch: engine/hypotheses/seabed-search (50 files). Code source of record is git.'
+  assignment_basis: engine folder map
+  git:
+    first_added:
+      commit: 83e58356b1f4bece5576072662b68f6d62004d10
+      date: '2026-10-08T19:24:45-06:00'
+      subject: 'seabed-search: port the M3 impact module onto Claude Science Sep 29 engine'
+    last_changed:
+      commit: 66185853a4cae88b216b75461124de349228df53
+      date: '2026-10-20T13:11:40-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 16
+    mem_ids:
+    - mem_17f1e386ea0f
+    - mem_2417a4823575
+    - mem_3ef952285275
+    - mem_4a911978762a
+    - mem_528dc28cf6f2
+    - mem_54608ecb3ace
+    - mem_6106a8f4a841
+    - mem_645f59440d71
+    - mem_713c83a66d4b
+    - mem_93e428b46911
+    - mem_983294549f12
+    - mem_be9c7929df2b
+    - mem_c991462e701d
+    - mem_d335d28974de
+    - mem_d57ba8199b39
+    - mem_ead98a03ab31
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: searched.ex.searched-areas-_top-files
+  kind: product
+  module: searched-areas
+  path: EX:searched-areas/
+  exchange_prefix: searched-areas/
+  exchange_top_files_only: true
+  note: 'Exchange folder searched-areas/_top-files: 1 files, 0.00 GB; SHA-256 from SHA256SUMS 0, computed 1, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_d6ac83fa3ced
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: searched.ex.searched-areas-kadri-haixun-2026-10-18
+  kind: product
+  module: searched-areas
+  path: EX:searched-areas/kadri-haixun-2026-10-18
+  exchange_prefix: searched-areas/kadri-haixun-2026-10-18
+  exchange_top_files_only: false
+  note: 'Exchange folder searched-areas/kadri-haixun-2026-10-18: 86 files, 0.55 GB; SHA-256 from SHA256SUMS 85, computed 1, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_e0b4093a983e
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: searched.ex.searched-areas-run-h
+  kind: product
+  module: searched-areas
+  path: EX:searched-areas/run-h
+  exchange_prefix: searched-areas/run-h
+  exchange_top_files_only: false
+  note: 'Exchange folder searched-areas/run-h: 27 files, 0.05 GB; SHA-256 from SHA256SUMS 24, computed 3, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.ex.searched-areas-run-j
+  kind: product
+  module: searched-areas
+  path: EX:searched-areas/run-j
+  exchange_prefix: searched-areas/run-j
+  exchange_top_files_only: false
+  note: 'Exchange folder searched-areas/run-j: 607 files, 9.09 GB; SHA-256 from SHA256SUMS 518, computed 89, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.ex.searched-areas-run-j-a1branch
+  kind: product
+  module: searched-areas
+  path: EX:searched-areas/run-j-a1branch
+  exchange_prefix: searched-areas/run-j-a1branch
+  exchange_top_files_only: false
+  note: 'Exchange folder searched-areas/run-j-a1branch: 63 files, 0.40 GB; SHA-256 from SHA256SUMS 53, computed 10, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.ex.searched-areas-run-j-both-burst
+  kind: product
+  module: searched-areas
+  path: EX:searched-areas/run-j-both-burst
+  exchange_prefix: searched-areas/run-j-both-burst
+  exchange_top_files_only: false
+  note: 'Exchange folder searched-areas/run-j-both-burst: 70 files, 0.23 GB; SHA-256 from SHA256SUMS 56, computed 14, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.ex.searched-areas-run-j-settled
+  kind: product
+  module: searched-areas
+  path: EX:searched-areas/run-j-settled
+  exchange_prefix: searched-areas/run-j-settled
+  exchange_top_files_only: false
+  note: 'Exchange folder searched-areas/run-j-settled: 29 files, 0.27 GB; SHA-256 from SHA256SUMS 22, computed 7, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.ex.searched-areas-run-j-spatial
+  kind: product
+  module: searched-areas
+  path: EX:searched-areas/run-j-spatial
+  exchange_prefix: searched-areas/run-j-spatial
+  exchange_top_files_only: false
+  note: 'Exchange folder searched-areas/run-j-spatial: 20 files, 0.10 GB; SHA-256 from SHA256SUMS 11, computed 9, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_bbdc602d9c5e
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: searched.ex.searched-areas-run-j-spatial-v2
+  kind: product
+  module: searched-areas
+  path: EX:searched-areas/run-j-spatial-v2
+  exchange_prefix: searched-areas/run-j-spatial-v2
+  exchange_top_files_only: false
+  note: 'Exchange folder searched-areas/run-j-spatial-v2: 19 files, 0.10 GB; SHA-256 from SHA256SUMS 12, computed 7, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.ex.searched-areas-run-j-supplement
+  kind: product
+  module: searched-areas
+  path: EX:searched-areas/run-j-supplement
+  exchange_prefix: searched-areas/run-j-supplement
+  exchange_top_files_only: false
+  note: 'Exchange folder searched-areas/run-j-supplement: 172 files, 0.67 GB; SHA-256 from SHA256SUMS 138, computed 34, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.ex.searched-areas-spatial-fields
+  kind: product
+  module: searched-areas
+  path: EX:searched-areas/spatial-fields
+  exchange_prefix: searched-areas/spatial-fields
+  exchange_top_files_only: false
+  note: 'Exchange folder searched-areas/spatial-fields: 3 files, 0.01 GB; SHA-256 from SHA256SUMS 0, computed 3, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.ex.searched-areas-spatial-fields-v2
+  kind: product
+  module: searched-areas
+  path: EX:searched-areas/spatial-fields-v2
+  exchange_prefix: searched-areas/spatial-fields-v2
+  exchange_top_files_only: false
+  note: 'Exchange folder searched-areas/spatial-fields-v2: 5 files, 0.01 GB; SHA-256 from SHA256SUMS 3, computed 2, not hashed 0.'
+  assignment_basis: exchange folder name
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.memnote.seabed-search
+  kind: note
+  module: searched-areas
+  path: WORK:registry/memory-notes/seabed-search.jsonl
+  note: Memory rows on topic 'seabed-search' moved to the registry on 25 Oct 2026 (127 rows; 76 have no other entry). Records of what memory said, not verified facts;
+    each row has its verification status.
+  assignment_basis: memory track topic
+  memory_notes:
+    file: WORK:registry/memory-notes/seabed-search.jsonl
+    n_rows: 127
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.note.coordination-searched_areas_md
+  kind: note
+  module: searched-areas
+  path: WORK:coordination/SEARCHED_AREAS.md
+  note: SEARCHED_AREAS inbox
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 6a2f9377af93daed81de316e8868d3b53dc2c869
+      date: '2026-10-07T12:52:38-06:00'
+      subject: 'Architecture: ocean drift master prompt, and the coordination inboxes'
+    last_changed:
+      commit: 8cae711638062921fe02ab4c153420a473b0596a
+      date: '2026-10-22T10:18:07-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.note.threads-master-prompts-searched-areas_md
+  kind: note
+  module: searched-areas
+  path: WORK:threads/master-prompts/searched-areas.md
+  note: Searched areas — mission and master prompt
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: 24d8429a85a22cbe1dde1efca44722adcd3e7049
+      date: '2026-10-07T18:39:00-06:00'
+      subject: 'Searched areas: align the brief and seed the inbox'
+    last_changed:
+      commit: 8cae711638062921fe02ab4c153420a473b0596a
+      date: '2026-10-22T10:18:07-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: explicit
+  status_evidence:
+  - rank: explicit
+    source: memory:mem_be40f81c24dc
+    memory_evidence_tag: observed
+    quote: The searched-areas brief (threads/master-prompts/searched-areas.md) and the SEARCHED_AREAS_MODULE profile prompt contain superseded instructions.
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_be40f81c24dc
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+  status_note: A memory record states that the brief contains superseded instructions.
+- id: searched.note.threads-work-orders-searched-areas-spatial-detection-2026-10-18_md
+  kind: note
+  module: searched-areas
+  path: WORK:threads/work-orders/searched-areas-spatial-detection-2026-10-18.md
+  note: 'Work order — searched areas: a per-cell detection model (q and ρ as fields)'
+  assignment_basis: folder and file name map
+  git:
+    first_added:
+      commit: a6360d4b81a6663a4973c68992e877dadb851873
+      date: '2026-10-18T08:03:07-06:00'
+      subject: 'searched areas: work order for the per-cell detection model; inbox seeded; PROVENANCE.md brought in line with the 13 Oct base ruling'
+    last_changed:
+      commit: a6360d4b81a6663a4973c68992e877dadb851873
+      date: '2026-10-18T08:03:07-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.res.seabed-bluefin21-area_md
+  kind: note
+  module: searched-areas
+  path: WORK:results/seabed-bluefin21-area.md
+  note: 'Bluefin-21, 2014: 771.4 km² measured against ATSB''s 860 km²'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 96aecbbef36b69e689bb82db68d0ad2fb671d5b5
+      date: '2026-10-08T23:36:13-06:00'
+      subject: 'searched areas: Bluefin-21 area reconciled or reported (brief section 4)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_294ad15e6751
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: searched.res.seabed-detectable-target_md
+  kind: note
+  module: searched-areas
+  path: WORK:results/seabed-detectable-target.md
+  note: The detectable target for the seabed search
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 23050e7585d91fed49eb4c22c0a55668030fc0d7
+      date: '2026-10-08T19:17:49-06:00'
+      subject: 'searched areas: detectable-target definition (brief step 2), written before code'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_29d6542494d6
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: searched.res.seabed-field-coverage-289
+  kind: product
+  module: searched-areas
+  path: WORK:results/seabed-field-coverage-289
+  note: Does the point target matter? Coverage read over settling's real wreckage fields
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 47fc1570828c88c17b9533e1838c2737a01c0c0f
+      date: '2026-10-09T22:27:35-06:00'
+      subject: 'seabed-search: measure the point target against settling''s real wreckage fields'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_baefc728aa13
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: searched.res.seabed-repeat-search-dependence_md
+  kind: note
+  module: searched-areas
+  path: WORK:results/seabed-repeat-search-dependence.md
+  note: 'Repeat search: dependent and independent misses'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: eeaed8cdc5e2062539b62746bcdc795be7c3dadf
+      date: '2026-10-08T19:34:14-06:00'
+      subject: 'results: seabed repeat-search dependence - 17,391 km2 of Phase 2 swept twice; dependent vs independent is 0.9% in Z'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/seabed-repeat-search-dependence.md:6
+    quote: '**All numbers below are from the arc-kernel placeholder fixture — plumbing, not evidence.** What is'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_fbec3e56361c
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: searched.res.seabed-residual-views-and-oi2025_md
+  kind: note
+  module: searched-areas
+  path: WORK:results/seabed-residual-views-and-oi2025.md
+  note: Residual-PDF views, Davey eq. 11.2, and the Ocean Infinity 2025–26 variant
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 4d18745b1c91d2508fe65f3e32f917fecfad4970
+      date: '2026-10-08T19:50:17-06:00'
+      subject: 'results + coordination: searched-areas residual views and OI 2025-26; sequence steps 1-7 reported to architecture with four items (OI tracing licence,
+        compose dev-dependency, ledger location, ATSB 201'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.res.seabed-search-0019-h1h2
+  kind: product
+  module: searched-areas
+  path: WORK:results/seabed-search-0019-h1h2
+  note: The 00:19 interpretation, held out against Holland's two hypotheses — and a convergence wall
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: d41d20a289183f40ac42bff90f609abc1d0ed4dd
+      date: '2026-10-09T12:49:29-06:00'
+      subject: 'seabed-search: Pete''s four 00:19 panels, and the convergence wall behind two of them'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.res.seabed-search-0019-h1h2-alive
+  kind: product
+  module: searched-areas
+  path: WORK:results/seabed-search-0019-h1h2-alive
+  note: The standard result under end of flight's `+alive` reference
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 632af0beae59745afe9ad0a90405961032f78374
+      date: '2026-10-09T22:12:46-06:00'
+      subject: 'seabed-search: standard result under end of flight''s +alive reference (PROVISIONAL-OVERNIGHT)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.res.seabed-search-0019-options
+  kind: product
+  module: searched-areas
+  path: WORK:results/seabed-search-0019-options
+  note: The impact PDF and the seabed search across every 00:19 interpretation
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 550c5c810c93dd401deaa529f5801570c1e69a4b
+      date: '2026-10-09T12:07:11-06:00'
+      subject: 'searched areas: impact PDF and search evidence across every 00:19 interpretation, greyscale 50/90/99'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_539304041c43
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: searched.res.seabed-search-289-fullscale
+  kind: product
+  module: searched-areas
+  path: WORK:results/seabed-search-289-fullscale
+  note: The seabed search on full-scale reference-289 impacts
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 118d61e780192e223eba688e203c36fec712fc3f
+      date: '2026-10-09T11:27:50-06:00'
+      subject: 'searched areas: FULL SCALE on reference-289 - searches remove 32.0% of the probability, the shift reverses to north, OI 2018 becomes a four-point
+        effect'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_d39ba40c1734
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: searched.res.seabed-search-289-fullscale-alive
+  kind: product
+  module: searched-areas
+  path: WORK:results/seabed-search-289-fullscale-alive
+  note: Full-scale rho sweep, variants and Davey eq. (11.2) planning, under `+alive`
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: ffda63423b4da91c0be5b4fbeaac42085ba12aae
+      date: '2026-10-09T23:09:18-06:00'
+      subject: 'seabed-search: full-scale rho sweep, variants and Davey eq. 11.2 planning under +alive'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.res.seabed-search-b
+  kind: product
+  module: searched-areas
+  path: WORK:results/seabed-search-b
+  note: 'The seabed searches on core (b): the pre-approved overnight re-run'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: ccd65c07c8222703bb3e2278c9ae43176243e7b0
+      date: '2026-10-10T05:12:50-06:00'
+      subject: 'seabed-search: the pre-approved re-run on core (b), all four strata and the mixture'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/seabed-search-b/README.md:12
+    quote: '**Labels, required of every number here:** core (b) split-half NOT converged; two-tank bookkeeping'
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_09b2a3ce0535
+    - mem_df64e6121ae4
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: searched.res.seabed-search-c
+  kind: product
+  module: searched-areas
+  path: WORK:results/seabed-search-c
+  note: 'searched areas stand-in: run C chain (run_release.sh tag c) + rulings (speed <=212 re-weighted, 00:19 re-weighted mixture, H1/H2 not estimable); compact-layout
+    STAND-IN edits for module review. UNCONV'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 2f33685658a4af061dcf872e7fc971fcc6e0070c
+      date: '2026-10-11T00:02:34-06:00'
+      subject: 'searched areas stand-in: run C chain (run_release.sh tag c) + rulings (speed <=212 re-weighted, 00:19 re-weighted mixture, H1/H2 not estimable); compact-layout
+        STAND-IN edits for module review. UNCONV'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.res.seabed-search-c-review_md
+  kind: note
+  module: searched-areas
+  path: WORK:results/seabed-search-c-review.md
+  note: 'Searched areas: review of the run C stand-in, and the wreckage-field check on run C'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 0bc1436a7a3b48669efa7c7c3e5d942e40579581
+      date: '2026-10-11T10:28:42-06:00'
+      subject: 'seabed-search: review run C stand-in and both compact-layout STAND-IN edits (accepted, verified bit-identical, one amendment); widen the outcome key
+        to settling''s declared row*2^20+draw with a key-ord'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.res.seabed-search-d-he
+  kind: product
+  module: searched-areas
+  path: WORK:results/seabed-search-d-he
+  note: 'seabed-search: score run D-he - Holland H1 and H2 estimable for the first time (ESS 4,537 and 3,307); both survival-factor arms; columns published on the
+    exchange; fix split-half on four-seed releases'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: f1329295f605c94526f0016d2764473c586bd90e
+      date: '2026-10-11T19:45:27-06:00'
+      subject: 'seabed-search: score run D-he - Holland H1 and H2 estimable for the first time (ESS 4,537 and 3,307); both survival-factor arms; columns published
+        on the exchange; fix split-half on four-seed releases'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.res.seabed-search-d-he_md
+  kind: note
+  module: searched-areas
+  path: WORK:results/seabed-search-d-he.md
+  note: 'Searched areas on end of flight''s run D-he: Holland H1 and H2 become estimable'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: f1329295f605c94526f0016d2764473c586bd90e
+      date: '2026-10-11T19:45:27-06:00'
+      subject: 'seabed-search: score run D-he - Holland H1 and H2 estimable for the first time (ESS 4,537 and 3,307); both survival-factor arms; columns published
+        on the exchange; fix split-half on four-seed releases'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.res.seabed-search-eof-smoke
+  kind: product
+  module: searched-areas
+  path: WORK:results/seabed-search-eof-smoke
+  note: Seabed search on end-of-flight impacts — smoke scale, 295.66° prior
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 3912037a99c480ca5fc17e76d9a9ef399d58463e
+      date: '2026-10-08T19:39:42-06:00'
+      subject: 'results: seabed search on end-of-flight impacts, smoke scale, 295.66 deg prior (step 5, first arm)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: searched.res.seabed-search-eof-smoke8
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: SUPERSEDED
+  status_rank: explicit
+  status_evidence:
+  - rank: explicit
+    source: WORK:results/seabed-search-eof-smoke/README.md:3
+    quote: '> **SUPERSEDED 9 October by `results/seabed-search-eof-smoke8/`**, the same measurement on eight'
+  - rank: explicit
+    source: WORK:results/seabed-search-eof-smoke8/README.md:82
+    quote: '*Searched areas, 9 October 2026. Supersedes `results/seabed-search-eof-smoke/`, which stays as the'
+- id: searched.res.seabed-search-eof-smoke8
+  kind: product
+  module: searched-areas
+  path: WORK:results/seabed-search-eof-smoke8
+  note: 'Convergence: the same measurement on eight replicates'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 65a4131b16807a0bc8410a8ac1ca09de513895db
+      date: '2026-10-08T23:45:04-06:00'
+      subject: 'searched areas: convergence on eight replicates (composition rule 6)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/seabed-search-eof-smoke8/README.md:6
+    quote: '> it up on its next fetch, so `runs/eof-smoke-4` is 295.66 and `runs/eof-smoke8-4` is 289.7. The'
+- id: searched.res.seabed-search-eof-smoke8-29566
+  kind: product
+  module: searched-areas
+  path: WORK:results/seabed-search-eof-smoke8-29566
+  note: 'searched areas: separate the prior change from convergence; last night''s tail claim withdrawn'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 350c5000c745e8402077eb28d399dc63131d0e6d
+      date: '2026-10-09T08:53:37-06:00'
+      subject: 'searched areas: separate the prior change from convergence; last night''s tail claim withdrawn'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.res.seabed-search-h
+  kind: product
+  module: searched-areas
+  path: WORK:results/seabed-search-h
+  note: 'seabed-search: correct the run D-he reading - 1-Z is the share of each option''s TOTAL probability removed, not the fall in its on-Phase-2 share (which is
+    69.2/71.3 percent for H1/H2, SMALLER than the '
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: d6905b5b2a76c1bb50c60e0d57325b20406c22a8
+      date: '2026-10-11T19:51:51-06:00'
+      subject: 'seabed-search: correct the run D-he reading - 1-Z is the share of each option''s TOTAL probability removed, not the fall in its on-Phase-2 share (which
+        is 69.2/71.3 percent for H1/H2, SMALLER than the '
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.res.seabed-search-h_md
+  kind: note
+  module: searched-areas
+  path: WORK:results/seabed-search-h.md
+  note: 'Searched areas on end of flight''s run H: the routes stratum, against run D-he''s'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: b1f5a912cb17a137e7767374a2d0972e8dc24db1
+      date: '2026-10-11T19:57:48-06:00'
+      subject: 'seabed-search: score run H routes against run D-he routes; wreckage-field check on run D-he for all five options at step 1 (closes the field gap;
+        detection definition worth -0.056 under H1/H2)'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.res.seabed-search-i
+  kind: product
+  module: searched-areas
+  path: WORK:results/seabed-search-i
+  note: 'seabed-search: score run I, all four strata (102,399,904 impacts) - posterior moves onto searched ground, searches now remove half the probability; every
+    option estimable per stratum; fix SHA256SUMS t'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 661b86887db0b82de7a964f0dc014a31ac9bbf8a
+      date: '2026-10-12T13:07:43-06:00'
+      subject: 'seabed-search: score run I, all four strata (102,399,904 impacts) - posterior moves onto searched ground, searches now remove half the probability;
+        every option estimable per stratum; fix SHA256SUMS t'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.res.seabed-search-i_md
+  kind: note
+  module: searched-areas
+  path: WORK:results/seabed-search-i.md
+  note: 'Searched areas on end of flight''s run I: the posterior moves onto searched ground'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 661b86887db0b82de7a964f0dc014a31ac9bbf8a
+      date: '2026-10-12T13:07:43-06:00'
+      subject: 'seabed-search: score run I, all four strata (102,399,904 impacts) - posterior moves onto searched ground, searches now remove half the probability;
+        every option estimable per stratum; fix SHA256SUMS t'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.res.seabed-search-index_md
+  kind: note
+  module: searched-areas
+  path: WORK:results/seabed-search-INDEX.md
+  note: 'Searched areas: what this module has produced, and what each thing concludes'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: afe3194d7f14dc5df383df02794dfc8cec025fbc
+      date: '2026-10-10T01:06:27-06:00'
+      subject: 'results: an index of the module''s dozen notes, with what each concludes'
+    last_changed:
+      commit: 8cae711638062921fe02ab4c153420a473b0596a
+      date: '2026-10-22T10:18:07-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.res.seabed-search-methods-draft_md
+  kind: note
+  module: searched-areas
+  path: WORK:results/seabed-search-methods-draft.md
+  note: Methods draft — the seabed searches as disconfirming evidence
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: a223c73c7b07dddbb75934100b085640238cadf3
+      date: '2026-10-09T21:52:17-06:00'
+      subject: 'seabed-search: methods draft for the paper, and lib.rs doc caught up with the OI ruling'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.res.seabed-search-prior-289-vs-29566_md
+  kind: note
+  module: searched-areas
+  path: WORK:results/seabed-search-prior-289-vs-29566.md
+  note: The 289.7 prior against 295.66, and a correction to last night's convergence note
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 350c5000c745e8402077eb28d399dc63131d0e6d
+      date: '2026-10-09T08:53:37-06:00'
+      subject: 'searched areas: separate the prior change from convergence; last night''s tail claim withdrawn'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_2198fe0b9e3f
+    - mem_940833f5e4a8
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: searched.res.seabed-search-references_bib
+  kind: product
+  module: searched-areas
+  path: WORK:results/seabed-search-references.bib
+  note: 'seabed-search: bibliography for the module, with the three Ocean Infinity press releases read in primary form (112,000 km2 searched 2018; 120,000 km2 GEBCO
+    data donation; search concluded 23 Jan 2026,'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 38045fdf73f5f304ff6668fcb053c70cb4a8d343
+      date: '2026-10-12T13:14:40-06:00'
+      subject: 'seabed-search: bibliography for the module, with the three Ocean Infinity press releases read in primary form (112,000 km2 searched 2018; 120,000
+        km2 GEBCO data donation; search concluded 23 Jan 2026,'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_51ccedcb99c2
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: searched.res.seabed-search-references_md
+  kind: note
+  module: searched-areas
+  path: WORK:results/seabed-search-references.md
+  note: Searched areas — reference ledger
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 6a00a776bf3bb80a5b5d63be13de4bb5244ae845
+      date: '2026-10-08T23:31:23-06:00'
+      subject: 'searched areas: ruling S3 (ledger renamed to results/seabed-search-references.md) and Pete''s dive-class caveat'
+    last_changed:
+      commit: 26b42d7242d5267a771e882b569168ef38929af8
+      date: '2026-10-25T16:58:11-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_0b8536019601
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: searched.res.seabed-search-why-wider_md
+  kind: note
+  module: searched-areas
+  path: WORK:results/seabed-search-why-wider.md
+  note: Why the 90 % region is larger after the searches than before
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 3faa4a704335be9132f999f6074a8b04c36faaff
+      date: '2026-10-10T15:39:29-06:00'
+      subject: 'results: why the 90% region grows after the searches, with the arithmetic'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_9395bcaacc57
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: searched.res.seabed-size-response_md
+  kind: note
+  module: searched-areas
+  path: WORK:results/seabed-size-response.md
+  note: 'The size response g_k(W): implemented, and where it changes anything'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 6482e7f62254929ede764bd4579fc0766d29726d
+      date: '2026-10-09T22:01:12-06:00'
+      subject: 'seabed-search: implement the size response g_k(W) and the field-coverage alternatives'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.res.searched-areas-coverage-sources-2026-10-20
+  kind: product
+  module: searched-areas
+  path: WORK:results/searched-areas-coverage-sources-2026-10-20
+  note: 'Searched areas: coverage sources and maps (seabed, aircraft and ships, beacon searches, sonobuoys) — posted 20 Oct 2026'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: b82f6d3f444f5762a1d6a9a996cc63253d26f66a
+      date: '2026-10-20T13:11:56-06:00'
+      subject: 'searched areas: add results/searched-areas-coverage-sources-2026-10-20 (overview map v3, beacon and sonobuoy chart, maps north of 33 S, source ledgers,
+        GA/AMSA polygons and tables) referenced by 66185'
+    last_changed:
+      commit: 3de9525db6d66aa1e98269c1a3201522be1725af
+      date: '2026-10-20T13:17:23-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_5c9e0c83e401
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: searched.res.searched-areas-next-run-b-rho-eq11-2-coverage-standin
+  kind: product
+  module: searched-areas
+  path: WORK:results/searched-areas-next-run-b-rho-eq11-2-coverage-standin
+  note: 'searched areas (architecture stand-in): rho sweep, Davey eq. 11.2 curve and field-coverage check on core (b), +unpowered with re-weighted and fixed mixtures;
+    COVERAGE section; UNCONVERGED'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 3b8130e1bab235418a3e35d78c23fa7541e346af
+      date: '2026-10-10T16:56:26-06:00'
+      subject: 'searched areas (architecture stand-in): rho sweep, Davey eq. 11.2 curve and field-coverage check on core (b), +unpowered with re-weighted and fixed
+        mixtures; COVERAGE section; UNCONVERGED'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.res.searched-areas-next-run-b-rho-eq11-2-coverage-standin_md
+  kind: note
+  module: searched-areas
+  path: WORK:results/searched-areas-next-run-b-rho-eq11-2-coverage-standin.md
+  note: 'Searched areas on core (b): the ρ sweep, the Davey eq. (11.2) curve, and the field-coverage check (architecture stand-in)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 3b8130e1bab235418a3e35d78c23fa7541e346af
+      date: '2026-10-10T16:56:26-06:00'
+      subject: 'searched areas (architecture stand-in): rho sweep, Davey eq. 11.2 curve and field-coverage check on core (b), +unpowered with re-weighted and fixed
+        mixtures; COVERAGE section; UNCONVERGED'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/searched-areas-next-run-b-rho-eq11-2-coverage-standin.md:4
+    quote: '**Every number here is UNCONVERGED** (core (b) split-half not converged). Charts and data in'
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_ec89ae5dee85
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: searched.res.searched-areas-next-run-c-standin
+  kind: product
+  module: searched-areas
+  path: WORK:results/searched-areas-next-run-c-standin
+  note: 'searched areas stand-in: run C chain (run_release.sh tag c) + rulings (speed <=212 re-weighted, 00:19 re-weighted mixture, H1/H2 not estimable); compact-layout
+    STAND-IN edits for module review. UNCONV'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 2f33685658a4af061dcf872e7fc971fcc6e0070c
+      date: '2026-10-11T00:02:34-06:00'
+      subject: 'searched areas stand-in: run C chain (run_release.sh tag c) + rulings (speed <=212 re-weighted, 00:19 re-weighted mixture, H1/H2 not estimable); compact-layout
+        STAND-IN edits for module review. UNCONV'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.res.searched-areas-next-run-c-standin_md
+  kind: note
+  module: searched-areas
+  path: WORK:results/searched-areas-next-run-c-standin.md
+  note: 'Searched areas on run C: the module''s run_release.sh chain, with the rulings applied (architecture stand-in)'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 2f33685658a4af061dcf872e7fc971fcc6e0070c
+      date: '2026-10-11T00:02:34-06:00'
+      subject: 'searched areas stand-in: run C chain (run_release.sh tag c) + rulings (speed <=212 re-weighted, 00:19 re-weighted mixture, H1/H2 not estimable); compact-layout
+        STAND-IN edits for module review. UNCONV'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/searched-areas-next-run-c-standin.md:4
+    quote: '**Every number here is labelled: run C NOT CONVERGED (free split-half 0.918 vs 0.924).** Module to review.'
+- id: searched.res.searched-areas-run-j
+  kind: product
+  module: searched-areas
+  path: WORK:results/searched-areas-run-j
+  note: Searched areas on run J, at the impact point — Ocean Infinity in the base
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 08fb80ba7c44aa65929f96bbadef08daa203066f
+      date: '2026-10-17T19:19:05-06:00'
+      subject: 'searched areas: run J scored with Ocean Infinity in the base (impact point); run.toml four-campaign base + base_guard; without-OI sensitivity override;
+        compact conversion via approved stub; D3/D4 both'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.res.searched-areas-run-j-a1branch
+  kind: product
+  module: searched-areas
+  path: WORK:results/searched-areas-run-j-a1branch
+  note: 'Searched areas on end of flight''s A1-branch conditional pass: the D3 × A1 gap is closed'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: a8e819f8f2a656c3e374858b3d87d8a97d63760a
+      date: '2026-10-18T23:18:29-06:00'
+      subject: 'searched areas: order B3 - A1-branch pass scored at impact point and settled (base + per-cell V0-V3); stratified estimator (settling''s single measure,
+        EoF form beside); D3 x A1 row ESS after searches '
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 1
+    mem_ids:
+    - mem_74b958f75b96
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: searched.res.searched-areas-run-j-settled
+  kind: product
+  module: searched-areas
+  path: WORK:results/searched-areas-run-j-settled
+  note: Searched areas on run J at the settled seabed positions, beside the impact point
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 4a23229cd54f1b7ae31110654efaae86eecc4c4b
+      date: '2026-10-18T00:23:22-06:00'
+      subject: 'searched areas: run J scored at settled seabed positions (5 sets, 133.1 M settled elements); impact-point vs settled tables; COVERAGE; SEARCHED_AREAS
+        / architecture entries'
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.res.searched-areas-run-j-supplement
+  kind: product
+  module: searched-areas
+  path: WORK:results/searched-areas-run-j-supplement
+  note: 'Searched areas on the full run J northern supplement (rule B): impact point, settled positions, per-cell field'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: a8e7e288dedd2a75b2b766f0e01b19f137f5441c
+      date: '2026-10-20T05:02:02-06:00'
+      subject: 'searched areas: order B3 (20 Oct) - full rule-B northern supplement scored at impact point (reduced table + A1 strata) and settled (ruleB-waypoints
+        + a1-stratified), base + per-cell V1-V3; end of flig'
+    last_changed:
+      commit: a8e7e288dedd2a75b2b766f0e01b19f137f5441c
+      date: '2026-10-20T05:02:02-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.res.searched-areas-spatial-detection
+  kind: product
+  module: searched-areas
+  path: WORK:results/searched-areas-spatial-detection
+  note: 'Searched areas: a per-cell detection model (q and ρ as fields) — run J, settled positions'
+  assignment_basis: name rule
+  git:
+    first_added:
+      commit: 237090ab2e20d92c60f594ca4082ca5dfa3eedd3
+      date: '2026-10-18T08:25:57-06:00'
+      subject: 'searched areas: per-cell detection model (q from ATSB Fig. 73, terrain-weighted rho, Ocean Infinity AIS density) scored on run J settled outcomes;
+        results note; replies'
+    last_changed:
+      commit: 3de9525db6d66aa1e98269c1a3201522be1725af
+      date: '2026-10-20T13:17:23-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  memory_notes:
+    n_rows: 2
+    mem_ids:
+    - mem_5c2e0dac3bc0
+    - mem_db8fcea91827
+    where: WORK:registry/memory-notes/<topic>.jsonl
+    nature: records of what memory said; not verified facts
+- id: searched.xd.searched-areas-next-run-d-he
+  kind: archive
+  module: searched-areas
+  path: XDRIVE:mh370-exchange/searched-areas/next-run-d-he
+  note: 'Listed for copy to the external drive in archive-tools/archive-to-porsche.v3.sh line 22 (destination /Volumes/Porsche 1TB Backup/mh370-archive). Source folder
+    in ~/Downloads now: absent. The VERIFIED-*.txt list is on the drive; it was not readable from this session, so the copy is not confirmed here.'
+  assignment_basis: archive script item list
+  hash: false
+  hash_note: external drive not mounted in this session
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+- id: searched.xd.searched-areas-run-i
+  kind: archive
+  module: searched-areas
+  path: XDRIVE:mh370-exchange/searched-areas/run-i
+  note: 'Listed for copy to the external drive in archive-tools/archive-to-porsche.v3.sh line 17 (destination /Volumes/Porsche 1TB Backup/mh370-archive). Source folder
+    in ~/Downloads now: absent. The VERIFIED-*.txt list is on the drive; it was not readable from this session, so the copy is not confirmed here.'
+  assignment_basis: archive script item list
+  hash: false
+  hash_note: external drive not mounted in this session
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []

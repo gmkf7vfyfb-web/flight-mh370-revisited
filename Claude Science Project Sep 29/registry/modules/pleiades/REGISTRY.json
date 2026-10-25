@@ -1,0 +1,713 @@
+{
+ "registry_version": "pleiades registry v1 (2026-10-25)",
+ "module": "pleiades",
+ "built_utc": "2026-10-25T22:59:15Z",
+ "hashing": true,
+ "work_branch_head_at_build": "26b42d7242d5267a771e882b569168ef38929af8 2026-10-25T16:58:11-06:00",
+ "roots": {
+  "REPO": "(repository)",
+  "WORK": "(repository)",
+  "EX": "/Users/pete/Downloads/mh370-exchange",
+  "DL": "/Users/pete/Downloads",
+  "XDRIVE": "/Volumes/Porsche 1TB Backup/mh370-archive",
+  "GIT": "<branch>@<commit>",
+  "DRIVE": "<google drive file id>"
+ },
+ "status_values": {
+  "CURRENT": "No known defect in the records. Not re-verified in this run unless verified_this_run is true.",
+  "CURRENT_WITH_CAVEATS": "Usable with the listed limitations stated beside every number taken from it.",
+  "KNOWN_DEFECT": "A record states a defect that changes a reported number or claim. Do not use the affected parts.",
+  "SUPERSEDED": "Replaced by the entry named in superseded_by. Kept for history.",
+  "WITHDRAWN": "Withdrawn at Pete's instruction. Do not use.",
+  "PENDING_RULING": "Its adoption waits for a ruling by Pete.",
+  "UNCHECKED": "No status record found. Means only: not yet used in a result that we quote. It is not a review queue; check on use."
+ },
+ "entries": [
+  {
+   "id": "pleiades.code.branch-hypothesis-pleiades",
+   "kind": "code",
+   "module": "pleiades",
+   "path": "GIT:hypothesis/pleiades@a1a54b51f3d53bf26310e38108d13de21e073343",
+   "git": {
+    "branch": "hypothesis/pleiades",
+    "commit": "a1a54b51f3d53bf26310e38108d13de21e073343",
+    "date": "2026-10-12T19:55:26Z",
+    "subject": "Pleiades: run I close-ups D0-D5 (colour + seabed) after official searches; note updated",
+    "tree": "f47f8eb2654d94f24034e2a6b89e9aa41732b03f",
+    "n_files": 9708,
+    "bytes": 2209797063,
+    "commits_not_in_working_branch": 0,
+    "compared_with_working_head": "a0f25c19fb5cd9d1c0d340167507260ceb6e2b86"
+   },
+   "note": "Code on branch hypothesis/pleiades at a1a54b51f3d5 (2026-10-12). 0 commits are not in the working branch. Not merged (Pete's rule).",
+   "assignment_basis": "branch name",
+   "hash": false,
+   "hash_note": "git objects are content-addressed; tree sha recorded",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null
+  },
+  {
+   "id": "pleiades.code.engine-hypotheses-pleiades",
+   "kind": "code",
+   "module": "pleiades",
+   "path": "WORK:engine/hypotheses/pleiades",
+   "note": "Engine code on the working branch: engine/hypotheses/pleiades (60 files). Code source of record is git.",
+   "assignment_basis": "engine folder map",
+   "git": {
+    "first_added": {
+     "commit": "fb4e9f5b26329aa75223a2b2f182048f48bbb368",
+     "date": "2026-10-07T18:59:29-06:00",
+     "subject": "Pleiades: scaffold hypotheses/pleiades and section 11 western-reach test (provisional)"
+    },
+    "last_changed": {
+     "commit": "e455705fdb5c3f280382e6defcac9135de824702",
+     "date": "2026-10-20T04:37:52-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 6,
+    "mem_ids": [
+     "mem_0737bbda566f",
+     "mem_7197b81ecbd6",
+     "mem_8e2f12876af3",
+     "mem_a8e461145c2d",
+     "mem_def8fcee88b2",
+     "mem_eb7bd0064cf0"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
+   "n_files": 60,
+   "bytes": 490694,
+   "manifest": "modules/pleiades/manifests/pleiades.code.engine-hypotheses-pleiades.tsv.gz",
+   "manifest_sha256": "54b26659b266beb3241be7e30dea631b67c48647baffefd53ed09213afc1bc71"
+  },
+  {
+   "id": "pleiades.ex.pleiades-_top-files",
+   "kind": "product",
+   "module": "pleiades",
+   "path": "EX:pleiades/",
+   "exchange_prefix": "pleiades/",
+   "exchange_top_files_only": true,
+   "note": "Exchange folder pleiades/_top-files: 1 files, 0.00 GB; SHA-256 from SHA256SUMS 0, computed 1, not hashed 0.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 7,
+    "mem_ids": [
+     "mem_43576fc475a7",
+     "mem_7d9c98d30abc",
+     "mem_9bb11f1ca7a3",
+     "mem_b10e85233840",
+     "mem_bf50be27474b",
+     "mem_d7bdef9a7a8a",
+     "mem_e8cee223f1bc"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
+   "not_hashed": [],
+   "n_files": 1,
+   "bytes": 6148,
+   "manifest": "modules/pleiades/manifests/pleiades.ex.pleiades-_top-files.tsv.gz",
+   "manifest_sha256": "17639dd29e3097d1122d586590d96c24eb1334dd8accb3431b0b893360acafc4"
+  },
+  {
+   "id": "pleiades.ex.pleiades-next-run-d-he",
+   "kind": "product",
+   "module": "pleiades",
+   "path": "EX:pleiades/next-run-d-he",
+   "exchange_prefix": "pleiades/next-run-d-he",
+   "exchange_top_files_only": false,
+   "note": "Exchange folder pleiades/next-run-d-he: 23 files, 0.09 GB; SHA-256 from SHA256SUMS 16, computed 7, not hashed 0. 16 files listed in a SHA256SUMS file here are not in the folder now.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_cb936d5402dd"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
+   "not_hashed": [],
+   "n_files": 23,
+   "bytes": 85279084,
+   "manifest": "modules/pleiades/manifests/pleiades.ex.pleiades-next-run-d-he.tsv.gz",
+   "manifest_sha256": "e1a31209d11d0b6f1f8d136165c124534977b887e4888a9ffa25665313806b6c"
+  },
+  {
+   "id": "pleiades.ex.pleiades-run-j",
+   "kind": "product",
+   "module": "pleiades",
+   "path": "EX:pleiades/run-j",
+   "exchange_prefix": "pleiades/run-j",
+   "exchange_top_files_only": false,
+   "note": "Exchange folder pleiades/run-j: 63 files, 8.98 GB; SHA-256 from SHA256SUMS 59, computed 4, not hashed 0.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "not_hashed": [],
+   "n_files": 63,
+   "bytes": 8978885712,
+   "manifest": "modules/pleiades/manifests/pleiades.ex.pleiades-run-j.tsv.gz",
+   "manifest_sha256": "ece5e100fab0b0df9452031b4f7d8add8741174cfd84f540018014569fbe6b6c"
+  },
+  {
+   "id": "pleiades.ex.pleiades-run-j-a1branch",
+   "kind": "product",
+   "module": "pleiades",
+   "path": "EX:pleiades/run-j-a1branch",
+   "exchange_prefix": "pleiades/run-j-a1branch",
+   "exchange_top_files_only": false,
+   "note": "Exchange folder pleiades/run-j-a1branch: 17 files, 0.74 GB; SHA-256 from SHA256SUMS 15, computed 2, not hashed 0.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "not_hashed": [],
+   "n_files": 17,
+   "bytes": 739432576,
+   "manifest": "modules/pleiades/manifests/pleiades.ex.pleiades-run-j-a1branch.tsv.gz",
+   "manifest_sha256": "54787952dcdb1238b3217210c8f3f8e4d64b813b7b910244774b7ed910e2d31d"
+  },
+  {
+   "id": "pleiades.ex.pleiades-run-j-supplement",
+   "kind": "product",
+   "module": "pleiades",
+   "path": "EX:pleiades/run-j-supplement",
+   "exchange_prefix": "pleiades/run-j-supplement",
+   "exchange_top_files_only": false,
+   "note": "Exchange folder pleiades/run-j-supplement: 30 files, 0.75 GB; SHA-256 from SHA256SUMS 28, computed 2, not hashed 0.",
+   "assignment_basis": "exchange folder name",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "not_hashed": [],
+   "n_files": 30,
+   "bytes": 749596795,
+   "manifest": "modules/pleiades/manifests/pleiades.ex.pleiades-run-j-supplement.tsv.gz",
+   "manifest_sha256": "a855dc4d73a8d8d14440428a7402116e6545951d56ddcb443f5835da0315d6cc"
+  },
+  {
+   "id": "pleiades.memnote.pleiades",
+   "kind": "note",
+   "module": "pleiades",
+   "path": "WORK:registry/memory-notes/pleiades.jsonl",
+   "note": "Memory rows on topic 'pleiades' moved to the registry on 25 Oct 2026 (120 rows; 77 have no other entry). Records of what memory said, not verified facts; each row has its verification status.",
+   "assignment_basis": "memory track topic",
+   "memory_notes": {
+    "file": "WORK:registry/memory-notes/pleiades.jsonl",
+    "n_rows": 120
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 143582,
+   "manifest": "modules/pleiades/manifests/pleiades.memnote.pleiades.tsv.gz",
+   "manifest_sha256": "684df8608a66afbce70f25940c21a57ce785e695018d3d37dd4ea5a1a13ef573"
+  },
+  {
+   "id": "pleiades.note.coordination-pleiades_md",
+   "kind": "note",
+   "module": "pleiades",
+   "path": "WORK:coordination/PLEIADES.md",
+   "note": "PLEIADES inbox",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "6a2f9377af93daed81de316e8868d3b53dc2c869",
+     "date": "2026-10-07T12:52:38-06:00",
+     "subject": "Architecture: ocean drift master prompt, and the coordination inboxes"
+    },
+    "last_changed": {
+     "commit": "fe5cdfd4bbf78b8e62ff559dbf46c986ba284b08",
+     "date": "2026-10-22T10:31:50-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_f10490bd9c48"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
+   "n_files": 1,
+   "bytes": 188443,
+   "manifest": "modules/pleiades/manifests/pleiades.note.coordination-pleiades_md.tsv.gz",
+   "manifest_sha256": "a4d5d9ce5c2ff5b9a287f1ba64ee3081d5315c5175077f7650376edd68aeb38f"
+  },
+  {
+   "id": "pleiades.note.threads-drafts-pleiades-v2-draft_md",
+   "kind": "note",
+   "module": "pleiades",
+   "path": "WORK:threads/drafts/pleiades-v2-DRAFT.md",
+   "note": "Pléiades and COSMO-SkyMed — mission and master prompt, version 2 (DRAFT, not adopted; awaiting Pete)",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "11ffa5766ccb1cdb77dcb1182dacc11f3c84e604",
+     "date": "2026-10-17T14:43:21-06:00",
+     "subject": "pleiades: DRAFT brief v2 (not adopted; awaiting Pete); finds-test aggregate.py (reproduces the table exactly); inbox entry"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_52d6e4302688"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
+   "n_files": 1,
+   "bytes": 11023,
+   "manifest": "modules/pleiades/manifests/pleiades.note.threads-drafts-pleiades-v2-draft_md.tsv.gz",
+   "manifest_sha256": "b5c4fff4f2bf95b4809540aad79644b72ff99176b142a5ee2df64439f6ac0b8a"
+  },
+  {
+   "id": "pleiades.note.threads-master-prompts-pleiades_md",
+   "kind": "note",
+   "module": "pleiades",
+   "path": "WORK:threads/master-prompts/pleiades.md",
+   "note": "Pléiades and COSMO-SkyMed — mission and master prompt, version 2",
+   "assignment_basis": "folder and file name map",
+   "git": {
+    "first_added": {
+     "commit": "0c6be96165853eac683f830f749915d97675c081",
+     "date": "2026-10-07T18:00:06-06:00",
+     "subject": "Pleiades: align the brief, and seed the inbox"
+    },
+    "last_changed": {
+     "commit": "8cae711638062921fe02ab4c153420a473b0596a",
+     "date": "2026-10-22T10:18:07-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "CURRENT",
+   "status_rank": "explicit",
+   "status_evidence": [
+    {
+     "rank": "explicit",
+     "source": "WORK:coordination/PLEIADES.md:32",
+     "quote": "`threads/master-prompts/pleiades.md` is authoritative and supersedes the September ISO `.txt`,"
+    }
+   ],
+   "memory_notes": {
+    "n_rows": 2,
+    "mem_ids": [
+     "mem_80dafb4dd7d2",
+     "mem_922990fe6b38"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
+   "n_files": 1,
+   "bytes": 12428,
+   "manifest": "modules/pleiades/manifests/pleiades.note.threads-master-prompts-pleiades_md.tsv.gz",
+   "manifest_sha256": "3acc70eb592a9e91850e707a0a515f33d8c1e79eecf2b9f50e0f488a0685ba36"
+  },
+  {
+   "id": "pleiades.res.pleiades",
+   "kind": "product",
+   "module": "pleiades",
+   "path": "WORK:results/pleiades",
+   "note": "Pleiades: results/pleiades notes and data, citation ledger, eighth entry (two-epoch negative result shown by injection), ocean-transport usage note",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "b4d551f30c7b2036a18ec2235be639eef605ad3d",
+     "date": "2026-10-08T19:48:54-06:00",
+     "subject": "Pleiades: results/pleiades notes and data, citation ledger, eighth entry (two-epoch negative result shown by injection), ocean-transport usage note"
+    },
+    "last_changed": {
+     "commit": "0f5b22f835da2af7cc8c1b257677bfa9c645d185",
+     "date": "2026-10-20T04:46:22-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 14,
+    "mem_ids": [
+     "mem_0b34314827b6",
+     "mem_18bdbc131ecc",
+     "mem_4257c617038a",
+     "mem_4f22f91f3ceb",
+     "mem_4f6c3bf56072",
+     "mem_7f6cff0da34b",
+     "mem_8b822bf1714a",
+     "mem_9c24d3a9d6d5",
+     "mem_a19f0a1b1b69",
+     "mem_cb2c78fa70aa",
+     "mem_d383198cea2d",
+     "mem_df37cf54b2b7",
+     "mem_f900891a7a95",
+     "mem_f9be3aa1894d"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
+   "n_files": 582,
+   "bytes": 308151316,
+   "manifest": "modules/pleiades/manifests/pleiades.res.pleiades.tsv.gz",
+   "manifest_sha256": "bd3250ed3c3b592a4b2e87789d3e9724b7652f6055e680b5546be7a087840cb5"
+  },
+  {
+   "id": "pleiades.res.pleiades-conditional-r600-raw-bfo-standin",
+   "kind": "product",
+   "module": "pleiades",
+   "path": "WORK:results/pleiades-conditional-r600-raw-bfo-standin",
+   "note": "stand-in: Pléiades-conditional impact PDF on core (b), R600 BTO + Raw BFO - tension, trace-back to 00:11 hand-off, searches under H (UNCONVERGED; for Pléiades and searched areas to review)",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "f7356ccbb238c5dd8945957416c683a3e3aaa808",
+     "date": "2026-10-10T16:01:33-06:00",
+     "subject": "stand-in: Pléiades-conditional impact PDF on core (b), R600 BTO + Raw BFO - tension, trace-back to 00:11 hand-off, searches under H (UNCONVERGED; for Pléiades and searched areas to review)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 21,
+   "bytes": 4088065,
+   "manifest": "modules/pleiades/manifests/pleiades.res.pleiades-conditional-r600-raw-bfo-standin.tsv.gz",
+   "manifest_sha256": "6ca7e38efa16d1331a62bf2509bad47d5742b52e7abefcb0407ff85feabef07a"
+  },
+  {
+   "id": "pleiades.res.pleiades-conditional-r600-raw-bfo-standin_md",
+   "kind": "note",
+   "module": "pleiades",
+   "path": "WORK:results/pleiades-conditional-r600-raw-bfo-standin.md",
+   "note": "Pléiades-conditional impact PDF on core (b), 00:19 R600 BTO + Raw BFO — trace-back and searches under H (stand-in)",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "f7356ccbb238c5dd8945957416c683a3e3aaa808",
+     "date": "2026-10-10T16:01:33-06:00",
+     "subject": "stand-in: Pléiades-conditional impact PDF on core (b), R600 BTO + Raw BFO - tension, trace-back to 00:11 hand-off, searches under H (UNCONVERGED; for Pléiades and searched areas to review)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "CURRENT_WITH_CAVEATS",
+   "status_rank": "readme",
+   "status_evidence": [
+    {
+     "rank": "readme",
+     "source": "WORK:results/pleiades-conditional-r600-raw-bfo-standin.md:7",
+     "quote": "**Labels (every number below):** **UNCONVERGED — core (b) split-half NOT converged** · end-of-flight physics PROVISIONAL"
+    }
+   ],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_4891992d3cd9"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
+   "n_files": 1,
+   "bytes": 36059,
+   "manifest": "modules/pleiades/manifests/pleiades.res.pleiades-conditional-r600-raw-bfo-standin_md.tsv.gz",
+   "manifest_sha256": "dabab5391d46747505e8b69d38036036756169412ee58c16df79cd47aa0a7312"
+  },
+  {
+   "id": "pleiades.res.pleiades-methods-draft_md",
+   "kind": "note",
+   "module": "pleiades",
+   "path": "WORK:results/pleiades-methods-draft.md",
+   "note": "Methods draft: the Pléiades / COSMO-SkyMed conditional hypothesis",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "e20adec2bbb2d919e08d9e6e155111037bdaacc9",
+     "date": "2026-10-09T00:05:58-06:00",
+     "subject": "Pleiades: methods draft; two-epoch at measured spread on daily GlobCurrent tracks (IG 0.001-0.07 bits; correction to tenth entry)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "CURRENT_WITH_CAVEATS",
+   "status_rank": "readme",
+   "status_evidence": [
+    {
+     "rank": "readme",
+     "source": "WORK:results/pleiades-methods-draft.md:7",
+     "quote": "**Status.** Every number is PROVISIONAL. Five things make it so:"
+    }
+   ],
+   "n_files": 1,
+   "bytes": 17630,
+   "manifest": "modules/pleiades/manifests/pleiades.res.pleiades-methods-draft_md.tsv.gz",
+   "manifest_sha256": "f8327bb94981993cc256bb42f44c03b65360f9b862237861981ce5707a0958e0"
+  },
+  {
+   "id": "pleiades.res.pleiades-next-run-b-standin_md",
+   "kind": "note",
+   "module": "pleiades",
+   "path": "WORK:results/pleiades-next-run-b-standin.md",
+   "note": "Pléiades / COSMO-SkyMed conditional branch on end of flight's next-run (core (b)) impacts: stand-in re-run",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "a26c6559dbed1aecd79376d6974f488f3aef1d2b",
+     "date": "2026-10-10T05:23:51-06:00",
+     "subject": "results: Pléiades conditional branch on EoF next-run (core (b)) impacts, every 00:19 option, plain and +alive (stand-in for Pléiades; PROVISIONAL-OVERNIGHT); posted to PLEIADES, architecture, SEARCHED"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "CURRENT_WITH_CAVEATS",
+   "status_rank": "readme",
+   "status_evidence": [
+    {
+     "rank": "readme",
+     "source": "WORK:results/pleiades-next-run-b-standin.md:5",
+     "quote": "**Labels:** `core (b) split-half NOT converged` · `two-tank bookkeeping only` · `PROVISIONAL-OVERNIGHT` · `EoF sweep run by a stand-in`."
+    }
+   ],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_770d0f355fab"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
+   "n_files": 1,
+   "bytes": 20714,
+   "manifest": "modules/pleiades/manifests/pleiades.res.pleiades-next-run-b-standin_md.tsv.gz",
+   "manifest_sha256": "2d96865fd096d4e9752dc8dc66f4244279e79636968cdfb7e66848775c90582c"
+  },
+  {
+   "id": "pleiades.res.pleiades-references_bib",
+   "kind": "product",
+   "module": "pleiades",
+   "path": "WORK:results/pleiades-references.bib",
+   "note": "Pleiades: results/pleiades notes and data, citation ledger, eighth entry (two-epoch negative result shown by injection), ocean-transport usage note",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "b4d551f30c7b2036a18ec2235be639eef605ad3d",
+     "date": "2026-10-08T19:48:54-06:00",
+     "subject": "Pleiades: results/pleiades notes and data, citation ledger, eighth entry (two-epoch negative result shown by injection), ocean-transport usage note"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": 1,
+   "bytes": 1489,
+   "manifest": "modules/pleiades/manifests/pleiades.res.pleiades-references_bib.tsv.gz",
+   "manifest_sha256": "20b276ce26401e6573f5fa1557c3e943ac5313c3b6dc19d733b7c18df922f03d"
+  },
+  {
+   "id": "pleiades.res.pleiades-references_md",
+   "kind": "note",
+   "module": "pleiades",
+   "path": "WORK:results/pleiades-references.md",
+   "note": "Pléiades module: citation ledger",
+   "assignment_basis": "name rule",
+   "git": {
+    "first_added": {
+     "commit": "b4d551f30c7b2036a18ec2235be639eef605ad3d",
+     "date": "2026-10-08T19:48:54-06:00",
+     "subject": "Pleiades: results/pleiades notes and data, citation ledger, eighth entry (two-epoch negative result shown by injection), ocean-transport usage note"
+    },
+    "last_changed": {
+     "commit": "26b42d7242d5267a771e882b569168ef38929af8",
+     "date": "2026-10-25T16:58:11-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "memory_notes": {
+    "n_rows": 1,
+    "mem_ids": [
+     "mem_cffafeea1f99"
+    ],
+    "where": "WORK:registry/memory-notes/<topic>.jsonl",
+    "nature": "records of what memory said; not verified facts"
+   },
+   "n_files": 1,
+   "bytes": 26513,
+   "manifest": "modules/pleiades/manifests/pleiades.res.pleiades-references_md.tsv.gz",
+   "manifest_sha256": "703df7f9973ccd1283b2cf3b0c482ffa09122883ea42b2b591a1f37ae152b01b"
+  },
+  {
+   "id": "pleiades.xd.pleiades-columns",
+   "kind": "archive",
+   "module": "pleiades",
+   "path": "XDRIVE:mh370-exchange/pleiades/columns",
+   "note": "Listed for copy to the external drive in archive-tools/archive-to-porsche.v3.sh line 19 (destination /Volumes/Porsche 1TB Backup/mh370-archive). Source folder in ~/Downloads now: absent. The VERIFIED-*.txt list is on the drive; it was not readable from this session, so the copy is not confirmed here.",
+   "assignment_basis": "archive script item list",
+   "hash": false,
+   "hash_note": "external drive not mounted in this session",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null
+  },
+  {
+   "id": "pleiades.xd.pleiades-run-i",
+   "kind": "archive",
+   "module": "pleiades",
+   "path": "XDRIVE:mh370-exchange/pleiades/run-i",
+   "note": "Listed for copy to the external drive in archive-tools/archive-to-porsche.v3.sh line 15 (destination /Volumes/Porsche 1TB Backup/mh370-archive). Source folder in ~/Downloads now: absent. The VERIFIED-*.txt list is on the drive; it was not readable from this session, so the copy is not confirmed here.",
+   "assignment_basis": "archive script item list",
+   "hash": false,
+   "hash_note": "external drive not mounted in this session",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null
+  }
+ ]
+}

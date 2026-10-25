@@ -1,0 +1,1893 @@
+{
+ "what": "Memory rows moved to the registry, 25 Oct 2026. Records of what memory said; not verified facts.",
+ "inputs": {
+  "export_artifact_version": "ba131e4c-350c-4db5-8b56-a61b3f2772f9",
+  "export_sha256": "efbc74bcfdafc91e97c920c1b2061053b1d02fd05d872961d2ae20a889056650"
+ },
+ "topics": {
+  "coordination": {
+   "module": "project",
+   "file": "memory-notes/coordination.jsonl",
+   "rows": 67,
+   "topic_note_entry": "project.memnote.coordination",
+   "rows_linked_to_topic_note": 24,
+   "status_counts": {
+    "UNVERIFIED": 29,
+    "PARTIAL": 25,
+    "VERIFIED": 13
+   }
+  },
+  "core-eof": {
+   "module": "core",
+   "file": "memory-notes/core-eof.jsonl",
+   "rows": 515,
+   "topic_note_entry": "core.memnote.core-eof",
+   "rows_linked_to_topic_note": 330,
+   "status_counts": {
+    "UNVERIFIED": 319,
+    "PARTIAL": 98,
+    "VERIFIED": 98
+   }
+  },
+  "debris-drift": {
+   "module": "drift",
+   "file": "memory-notes/debris-drift.jsonl",
+   "rows": 114,
+   "topic_note_entry": "drift.memnote.debris-drift",
+   "rows_linked_to_topic_note": 65,
+   "status_counts": {
+    "PARTIAL": 22,
+    "UNVERIFIED": 73,
+    "VERIFIED": 19
+   }
+  },
+  "descent-6dof": {
+   "module": "end-of-flight",
+   "file": "memory-notes/descent-6dof.jsonl",
+   "rows": 76,
+   "topic_note_entry": "eof.memnote.descent-6dof",
+   "rows_linked_to_topic_note": 58,
+   "status_counts": {
+    "UNVERIFIED": 49,
+    "PARTIAL": 13,
+    "VERIFIED": 14
+   }
+  },
+  "drive": {
+   "module": "project",
+   "file": "memory-notes/drive.jsonl",
+   "rows": 15,
+   "topic_note_entry": "project.memnote.drive",
+   "rows_linked_to_topic_note": 12,
+   "status_counts": {
+    "UNVERIFIED": 14,
+    "PARTIAL": 1
+   }
+  },
+  "figures-style": {
+   "module": "project",
+   "file": "memory-notes/figures-style.jsonl",
+   "rows": 39,
+   "topic_note_entry": "project.memnote.figures-style",
+   "rows_linked_to_topic_note": 30,
+   "status_counts": {
+    "UNVERIFIED": 25,
+    "VERIFIED": 5,
+    "PARTIAL": 9
+   }
+  },
+  "fuel": {
+   "module": "core",
+   "file": "memory-notes/fuel.jsonl",
+   "rows": 56,
+   "topic_note_entry": "core.memnote.fuel",
+   "rows_linked_to_topic_note": 43,
+   "status_counts": {
+    "VERIFIED": 9,
+    "UNVERIFIED": 41,
+    "PARTIAL": 6
+   }
+  },
+  "git-repo": {
+   "module": "project",
+   "file": "memory-notes/git-repo.jsonl",
+   "rows": 13,
+   "topic_note_entry": "project.memnote.git-repo",
+   "rows_linked_to_topic_note": 6,
+   "status_counts": {
+    "UNVERIFIED": 9,
+    "VERIFIED": 3,
+    "PARTIAL": 1
+   }
+  },
+  "literature": {
+   "module": "project",
+   "file": "memory-notes/literature.jsonl",
+   "rows": 6,
+   "topic_note_entry": "project.memnote.literature",
+   "rows_linked_to_topic_note": 4,
+   "status_counts": {
+    "PARTIAL": 2,
+    "UNVERIFIED": 2,
+    "VERIFIED": 2
+   }
+  },
+  "ocean-data": {
+   "module": "drift",
+   "file": "memory-notes/ocean-data.jsonl",
+   "rows": 17,
+   "topic_note_entry": "drift.memnote.ocean-data",
+   "rows_linked_to_topic_note": 12,
+   "status_counts": {
+    "UNVERIFIED": 8,
+    "VERIFIED": 4,
+    "PARTIAL": 5
+   }
+  },
+  "other": {
+   "module": "project",
+   "file": "memory-notes/other.jsonl",
+   "rows": 29,
+   "topic_note_entry": "project.memnote.other",
+   "rows_linked_to_topic_note": 16,
+   "status_counts": {
+    "UNVERIFIED": 22,
+    "PARTIAL": 5,
+    "VERIFIED": 2
+   }
+  },
+  "paper": {
+   "module": "paper",
+   "file": "memory-notes/paper.jsonl",
+   "rows": 23,
+   "topic_note_entry": "paper.memnote.paper",
+   "rows_linked_to_topic_note": 14,
+   "status_counts": {
+    "VERIFIED": 6,
+    "UNVERIFIED": 13,
+    "PARTIAL": 4
+   }
+  },
+  "platform": {
+   "module": "project",
+   "file": "memory-notes/platform.jsonl",
+   "rows": 13,
+   "topic_note_entry": "project.memnote.platform",
+   "rows_linked_to_topic_note": 9,
+   "status_counts": {
+    "UNVERIFIED": 10,
+    "PARTIAL": 2,
+    "VERIFIED": 1
+   }
+  },
+  "pleiades": {
+   "module": "pleiades",
+   "file": "memory-notes/pleiades.jsonl",
+   "rows": 120,
+   "topic_note_entry": "pleiades.memnote.pleiades",
+   "rows_linked_to_topic_note": 77,
+   "status_counts": {
+    "PARTIAL": 19,
+    "UNVERIFIED": 70,
+    "VERIFIED": 31
+   }
+  },
+  "seabed-search": {
+   "module": "searched-areas",
+   "file": "memory-notes/seabed-search.jsonl",
+   "rows": 127,
+   "topic_note_entry": "searched.memnote.seabed-search",
+   "rows_linked_to_topic_note": 76,
+   "status_counts": {
+    "PARTIAL": 25,
+    "UNVERIFIED": 78,
+    "VERIFIED": 24
+   }
+  }
+ },
+ "stats": {
+  "registry_rows_written": 1230,
+  "registry_rows_linked_topic_note": 776,
+  "registry_rows_linked_existing": 454,
+  "registry_withheld_restricted": 28,
+  "registry_rows_hydro_not_written": 216,
+  "registry_workspace_path_replaced": 6,
+  "registry_amounts_removed": 1,
+  "ledger_rows_written": 160,
+  "ledger_withheld_restricted": 5,
+  "ledger_rows_hydro_not_written": 45,
+  "ledger:Claude Science Project Sep 29/paper/JON-RULES.md": 11,
+  "ledger:Claude Science Project Sep 29/results/core-references.md": 46,
+  "ledger:Claude Science Project Sep 29/results/debris-drift-references.md": 13,
+  "ledger:Claude Science Project Sep 29/results/end-of-flight-references.md": 39,
+  "ledger:Claude Science Project Sep 29/results/ocean-references.md": 8,
+  "ledger:Claude Science Project Sep 29/results/pleiades-references.md": 15,
+  "ledger:Claude Science Project Sep 29/results/seabed-search-references.md": 25,
+  "ledger:Claude Science Project Sep 29/results/settling-references.md": 3
+ },
+ "links": {
+  "composer.code.engine-crates-compose": [
+   "mem_37b9aff1b216",
+   "mem_d22576ba7a4d",
+   "mem_d400d120e0e2"
+  ],
+  "composer.ex.composer-_top-files": [
+   "mem_c0e0df7e3649"
+  ],
+  "composer.ex.composer-run-j-views": [
+   "mem_c03b57704b31"
+  ],
+  "composer.ex.composer-run-j-views-v3_2-australia": [
+   "mem_126405feebb9"
+  ],
+  "composer.note.coordination-composer_md": [
+   "mem_58ac21216bd5"
+  ],
+  "composer.note.threads-master-prompts-composer_md": [
+   "mem_62858b168a80"
+  ],
+  "composer.note.threads-work-orders-e2e-calibration-protocol-2026-10-19_md": [
+   "mem_081f33dc2dd4",
+   "mem_dab7070b9cd6"
+  ],
+  "composer.res.composer-north-ess-run-i_md": [
+   "mem_c2fc589a06ae"
+  ],
+  "composer.res.composer-pass0-next-run-b_md": [
+   "mem_54fb60335a6c"
+  ],
+  "composer.res.composer-pass1-run-c_md": [
+   "mem_bf19e80bc6ab"
+  ],
+  "composer.res.composer-pass2-run-i": [
+   "mem_1c3c0c8f4128",
+   "mem_93ff348be72a"
+  ],
+  "composer.res.composer-pass2-run-i_md": [
+   "mem_fe03ff8a1cb3"
+  ],
+  "composer.res.composer-pass2b-run-i-ruling_md": [
+   "mem_cf5fb29abf2b",
+   "mem_ef4825152579"
+  ],
+  "composer.res.composer-summary-rs_patch": [
+   "mem_0e0ab2efd37d",
+   "mem_8e6402c51e35"
+  ],
+  "composer.res.composer-views-run-j": [
+   "mem_109941a00f7c",
+   "mem_2093512c9df7",
+   "mem_94514c70c95c",
+   "mem_b2eeb8f68d9b"
+  ],
+  "composer.res.composer-views-run-j_md": [
+   "mem_61a87ed347ce",
+   "mem_75537b636401"
+  ],
+  "composer.res.composer-views-v3-run-j_md": [
+   "mem_9ab3ef04109d"
+  ],
+  "composer.res.decision-2026-27-prelim": [
+   "mem_b2e3e8cad11a",
+   "mem_fcae9f73ee19"
+  ],
+  "composer.res.decision-2026-27-prelim-v2": [
+   "mem_26aeef297318"
+  ],
+  "composer.res.e2e-calibration-smoke-2026-10-19": [
+   "mem_24c909fdef82",
+   "mem_54a945a7ec1b"
+  ],
+  "composer.res.e2e-calibration-staged-2026-10-20": [
+   "mem_9ef90f9c7b48"
+  ],
+  "core.code.engine-_top-files": [
+   "mem_079da89156d3",
+   "mem_3f5d4cdc1fdb",
+   "mem_51f34793ffeb",
+   "mem_54a2a080716a",
+   "mem_66a12be72047",
+   "mem_7d8c4f689063",
+   "mem_b095d3b2f38f",
+   "mem_cdd5373f91db",
+   "mem_cf1e4f6f929e",
+   "mem_eb974073a5ea"
+  ],
+  "core.code.engine-config": [
+   "mem_04b877c3dbdf",
+   "mem_0650feded29b",
+   "mem_070144296901",
+   "mem_0db99a31a153",
+   "mem_18dfe0944cd3",
+   "mem_2693e5ca9d18",
+   "mem_3ce3053eb017",
+   "mem_3d61313e2998",
+   "mem_41ef14a76bd3",
+   "mem_6266296daad7",
+   "mem_66bafb44bfa4",
+   "mem_6e4d2dd3902e",
+   "mem_7baf719a26e6",
+   "mem_9c075ebbbf60",
+   "mem_9f3baa3f545d",
+   "mem_a03656dc4c98",
+   "mem_a36aa23000b8",
+   "mem_d649e061da72",
+   "mem_dcdac89d1ed2",
+   "mem_e47a60e8a0b1",
+   "mem_f69fe741af24",
+   "mem_ff8e2c437aba"
+  ],
+  "core.code.engine-crates-flight": [
+   "mem_5e6ab9313512",
+   "mem_7ee8a5274ec1",
+   "mem_b8e15910214f",
+   "mem_cf0b34454dd0",
+   "mem_d28168b844eb",
+   "mem_ff3ee2bd0dd7"
+  ],
+  "core.code.engine-crates-hypothesis": [
+   "mem_01eb957b9613",
+   "mem_145c1e78557f",
+   "mem_3f578ea0b13d",
+   "mem_4878c7521591",
+   "mem_bb013f1e0526",
+   "mem_e49d33d7ebcf",
+   "mem_f0e5857204ed",
+   "mem_f858b747ef16",
+   "mem_f996dc7acc21"
+  ],
+  "core.code.engine-crates-mh370": [
+   "mem_0c7442d56908",
+   "mem_2317eceeca32",
+   "mem_40687eeab82a",
+   "mem_4527311bb8b5",
+   "mem_5d46424ba39b",
+   "mem_5fac01608791",
+   "mem_661593bcf03f",
+   "mem_92e46c9be966",
+   "mem_c9124aeb54b4",
+   "mem_d1a78f50d2b5",
+   "mem_dc8526568ec3",
+   "mem_e79495153416",
+   "mem_f93efc6f2d5c",
+   "mem_fa189af3aed7"
+  ],
+  "core.code.engine-crates-satcom": [
+   "mem_6b55be9c4064",
+   "mem_9bee78c30357",
+   "mem_fc2f615c8801"
+  ],
+  "core.code.engine-hypotheses-_top-files": [
+   "mem_02c2598995e1",
+   "mem_1038a1845a90",
+   "mem_365109787421",
+   "mem_402ac2e5d208",
+   "mem_623a123b8631",
+   "mem_7724268be5f6",
+   "mem_82affbb4a952",
+   "mem_9ad9710d6f8f",
+   "mem_b56762af0410",
+   "mem_dd34b57cbff2",
+   "mem_e6c1deac7794"
+  ],
+  "core.code.engine-hypotheses-radar-fix": [
+   "mem_e0bf0178b2cc"
+  ],
+  "core.code.engine-report": [
+   "mem_35289d4cd6f2",
+   "mem_7e137efa786b",
+   "mem_f5bb6faba841"
+  ],
+  "core.code.engine-scripts": [
+   "mem_caeeccb91228",
+   "mem_da21a8c25a5f"
+  ],
+  "core.ex.core-_top-files": [
+   "mem_298d56653e57",
+   "mem_40b7f3fb02bc",
+   "mem_a98eeb9d2587",
+   "mem_b73d79e9b15f",
+   "mem_bd4bb90051e2",
+   "mem_ec0216d90ff9"
+  ],
+  "core.ex.core-run-j": [
+   "mem_55d2d8f93b0a",
+   "mem_64a394b6237d",
+   "mem_e50fdf3ae33c"
+  ],
+  "core.ex.core-run-j-supplement": [
+   "mem_2beb564ff1e6"
+  ],
+  "core.in.engine-data-mh371": [
+   "mem_57d5ea5fb007"
+  ],
+  "core.in.engine-data-sampling-region-phase3_csv": [
+   "mem_46a9bb3e8144",
+   "mem_a4eeb012d0fc"
+  ],
+  "core.in.engine-data-satcom-1825-sequence_csv": [
+   "mem_ecb6f27aee33"
+  ],
+  "core.in.engine-data-satcom-observations_csv": [
+   "mem_41cbe96f06c4",
+   "mem_6ed27ad5441f",
+   "mem_82ebb617feec"
+  ],
+  "core.in.engine-data-satellite-ephemeris-inmarsat_csv": [
+   "mem_8789591e1a19"
+  ],
+  "core.in.engine-data-satellite-ephemeris_csv": [
+   "mem_96191c716ba9",
+   "mem_fbc9a311460b"
+  ],
+  "core.in.engine-data-variants": [
+   "mem_91f4a80ae327",
+   "mem_ec45e59c85c3"
+  ],
+  "core.in.engine-data-waypoints-n877-northern_csv": [
+   "mem_e9953301b774"
+  ],
+  "core.in.engine-data-waypoints_csv": [
+   "mem_803e3cd79f8b"
+  ],
+  "core.memnote.core-eof": [
+   "mem_0005d12cd20b",
+   "mem_005d65e764ae",
+   "mem_00eacdccad52",
+   "mem_03fbe6b9b737",
+   "mem_04809ab0b734",
+   "mem_04fe687a7711",
+   "mem_0629e514641c",
+   "mem_06fed8124c13",
+   "mem_07aa246d7b97",
+   "mem_0918a953e883",
+   "mem_0957b4c649f5",
+   "mem_09d04deb9103",
+   "mem_0ae26e5df357",
+   "mem_0b4c5b3c021b",
+   "mem_0c4c5117619a",
+   "mem_0d4d530892bf",
+   "mem_109fd793c44d",
+   "mem_111f6b31fbc8",
+   "mem_11ecc5535970",
+   "mem_138716c085e2",
+   "mem_146fbd6aacdb",
+   "mem_16304a533e3f",
+   "mem_16f1c97f01fd",
+   "mem_17ae14900dde",
+   "mem_18d63f1dc3dc",
+   "mem_1992efd2e7cb",
+   "mem_1a7d2268537f",
+   "mem_1aea6be819ad",
+   "mem_1b9369679faa",
+   "mem_1be083dffef9",
+   "mem_1c3729cdd2ef",
+   "mem_1d31143ec6f0",
+   "mem_1e72f7faddd2",
+   "mem_1ec889dce0eb",
+   "mem_1fe868ac920c",
+   "mem_1ffff6a22e25",
+   "mem_20c1148ec529",
+   "mem_22a9c4e44906",
+   "mem_22bec808b159",
+   "mem_2413431ee21e",
+   "mem_2438896cbfbb",
+   "mem_247a0f873fc5",
+   "mem_257bcc0f41e3",
+   "mem_259fbef52be3",
+   "mem_25bc19063233",
+   "mem_2627fb0e603e",
+   "mem_27b8862f371f",
+   "mem_281f2eda7f6e",
+   "mem_2898ec0db460",
+   "mem_28c2cffc3013",
+   "mem_295e34497d00",
+   "mem_2aab68b6dab7",
+   "mem_2be5d1975519",
+   "mem_2c1a907f4260",
+   "mem_2d5c85980fdb",
+   "mem_2e1d5e6cf67a",
+   "mem_2e38911e5ca3",
+   "mem_2e657e4100fc",
+   "mem_30099c12c251",
+   "mem_308a604bee65",
+   "mem_3139e87a27fd",
+   "mem_316e1800499e",
+   "mem_3173e1fd3309",
+   "mem_335804350004",
+   "mem_33cd89fa81ee",
+   "mem_3432a0b0b30a",
+   "mem_345c77536eae",
+   "mem_346dd59f19ee",
+   "mem_354492ab95a5",
+   "mem_356a4e4f3ce4",
+   "mem_3781223032f2",
+   "mem_38f5f31e3f29",
+   "mem_39db0a016a2b",
+   "mem_3a2670828580",
+   "mem_3bb570e1b211",
+   "mem_3bd55ad8017e",
+   "mem_3c405bfccd86",
+   "mem_3e1dac7c7d06",
+   "mem_3e336ffe3979",
+   "mem_3eab075eea47",
+   "mem_40f1f323e42e",
+   "mem_412585c7673f",
+   "mem_4244b94e997d",
+   "mem_43927b70ed45",
+   "mem_44b469c8ff43",
+   "mem_458ee4d8dc14",
+   "mem_462583564ef9",
+   "mem_46c57fcd7d87",
+   "mem_477b94743564",
+   "mem_47c9e6470383",
+   "mem_4870ab591012",
+   "mem_4a1efa417842",
+   "mem_4ae1525b80e1",
+   "mem_4b3365fffd9d",
+   "mem_4c9015c1045a",
+   "mem_4cafd693b2b6",
+   "mem_4ea47c01d2e8",
+   "mem_501d7e12029e",
+   "mem_532142f8ec26",
+   "mem_5330b2963b85",
+   "mem_5484fdc086af",
+   "mem_562f94982f99",
+   "mem_56c43ec4cf01",
+   "mem_578bae424477",
+   "mem_5903c7c165d7",
+   "mem_592d1a94822a",
+   "mem_59c5925e601e",
+   "mem_5a9f2fa550e6",
+   "mem_5b203dea85e3",
+   "mem_5b8f19646425",
+   "mem_5c2f9878b2d9",
+   "mem_5c6f782091eb",
+   "mem_5cb014217cca",
+   "mem_5f3b5dd9d381",
+   "mem_600ec57583b1",
+   "mem_63496c2066f2",
+   "mem_634c135cd796",
+   "mem_64c8fb196aeb",
+   "mem_662790110aee",
+   "mem_66add29f37ce",
+   "mem_66ae31de73d2",
+   "mem_678ee40b077d",
+   "mem_6802588f2e9d",
+   "mem_68eb4bb35938",
+   "mem_69887c5b0732",
+   "mem_6acaae65a1ae",
+   "mem_6b2be631b00f",
+   "mem_6c9b94745715",
+   "mem_6da92b7af942",
+   "mem_6e2295c2dad3",
+   "mem_6f1bb17d4e1a",
+   "mem_706e475ad302",
+   "mem_70b76a4f2219",
+   "mem_70d248dc49c4",
+   "mem_71d71f7fead1",
+   "mem_726b40f88db9",
+   "mem_74444c942d1e",
+   "mem_74f12946fe89",
+   "mem_76a72e66eb27",
+   "mem_76abd7def42d",
+   "mem_76fe62628859",
+   "mem_797236e08640",
+   "mem_7a33476ba412",
+   "mem_7a948f4ddc5a",
+   "mem_7be05165fbff",
+   "mem_7c29e1eef347",
+   "mem_7c5f163ea82a",
+   "mem_7c715b2276ff",
+   "mem_7d86c5a1d9bb",
+   "mem_7e390b97c398",
+   "mem_7f07bcfd153c",
+   "mem_7f2bfa263dbd",
+   "mem_80a6533cf9fc",
+   "mem_8154e99a5a29",
+   "mem_824d3c4e7ae6",
+   "mem_8279582a5809",
+   "mem_82c04843be49",
+   "mem_8413f2e685d0",
+   "mem_85180da568f7",
+   "mem_853e9f6853a9",
+   "mem_8544b5f0dddc",
+   "mem_85569518ed7c",
+   "mem_85b07d34f898",
+   "mem_87d0e0bf7b14",
+   "mem_8873f6cb77ea",
+   "mem_88844bb1707a",
+   "mem_893310f07700",
+   "mem_893d60e5f7a9",
+   "mem_89b66dc6e755",
+   "mem_8a2d647aad86",
+   "mem_8a2dad29e76a",
+   "mem_8a3104f38657",
+   "mem_8aee692bc6a8",
+   "mem_8b0de04cc67c",
+   "mem_8c601ee65f5e",
+   "mem_8c6d4adfdc68",
+   "mem_8d09136c7161",
+   "mem_8d15786e8a6d",
+   "mem_8d691cd4a355",
+   "mem_8d79cb479889",
+   "mem_8e803793565a",
+   "mem_8f4a107b6319",
+   "mem_8f7cac7a5b8a",
+   "mem_90a94796c2e5",
+   "mem_93a8a1cdc17b",
+   "mem_93bcef439dd4",
+   "mem_9455685fdefe",
+   "mem_94ff7bb2a538",
+   "mem_967826561576",
+   "mem_9785115f6343",
+   "mem_991afa5554da",
+   "mem_996103ee83ac",
+   "mem_9a49c3e41305",
+   "mem_9ad431f1ba20",
+   "mem_9af690eed7f1",
+   "mem_9b4a679961cc",
+   "mem_9becb60a007c",
+   "mem_9c6ba28e1220",
+   "mem_9d7e87085f5e",
+   "mem_9dbe590b96eb",
+   "mem_9e1d27b10ea6",
+   "mem_a1875faacf43",
+   "mem_a1ab02105086",
+   "mem_a21e81af6667",
+   "mem_a2c2fb3f253e",
+   "mem_a34a3cbf4485",
+   "mem_a37fd8f8e053",
+   "mem_a3a1c94f949b",
+   "mem_a3a332b31fa1",
+   "mem_a3a7a2559b85",
+   "mem_a418a37557d6",
+   "mem_a4858e2bc26c",
+   "mem_a4e0c29e98d8",
+   "mem_a4fefe7b5498",
+   "mem_a55033ff76bd",
+   "mem_a61266ff2198",
+   "mem_a6cc74ed0d3e",
+   "mem_a6d209161536",
+   "mem_a78f16a1c56f",
+   "mem_a83d3e373e0d",
+   "mem_a86567b4e5d4",
+   "mem_a8c3d8672449",
+   "mem_a8f8f09154ed",
+   "mem_aa3bf4c72b92",
+   "mem_aa47cd5e9a6f",
+   "mem_ac2f3d5a92c5",
+   "mem_ac7de96add05",
+   "mem_ac95401a2d67",
+   "mem_ad2568f36f96",
+   "mem_ad43e5f77e9d",
+   "mem_ad8f13226b9e",
+   "mem_aee6048ede6d",
+   "mem_af5d2ebc036c",
+   "mem_afa0302d305a",
+   "mem_b1d755b8d393",
+   "mem_b20a5d45ae39",
+   "mem_b21e964805e1",
+   "mem_b32877010c75",
+   "mem_b3636180a63b",
+   "mem_b3f701e7c89b",
+   "mem_b3ff057c668a",
+   "mem_b5267f31b6d2",
+   "mem_b60c8fbab1a5",
+   "mem_b7a19d16ecc1",
+   "mem_b7f2b178c7fd",
+   "mem_b877a95f5889",
+   "mem_bd2276154c36",
+   "mem_bdbdba5fbc87",
+   "mem_be5b24bf177d",
+   "mem_bfb60b71005b",
+   "mem_c01583d44a6d",
+   "mem_c01c4e9a785c",
+   "mem_c08d69625ed1",
+   "mem_c36107396081",
+   "mem_c3c6719c5190",
+   "mem_c3db48edea36",
+   "mem_c3e35186c111",
+   "mem_c468597e7df4",
+   "mem_c57269baa176",
+   "mem_c6d760cc9806",
+   "mem_c72f11f6c627",
+   "mem_c7d7d7562c26",
+   "mem_c954f8b0e070",
+   "mem_ca3e5da4258f",
+   "mem_ca7ba7bf6052",
+   "mem_cb42599c6444",
+   "mem_cb7ce4523f80",
+   "mem_cc916012b014",
+   "mem_ce751effe379",
+   "mem_cfab2879a35c",
+   "mem_cfda5e6de90a",
+   "mem_d04020d4b5f0",
+   "mem_d08e05ee32e3",
+   "mem_d12fbea27950",
+   "mem_d1511aae0bc2",
+   "mem_d2886a9121ae",
+   "mem_d7469f328d16",
+   "mem_d7537381778e",
+   "mem_d82c28565b31",
+   "mem_d9b3b6616ef0",
+   "mem_dbc123a72acb",
+   "mem_dc13d58c90d2",
+   "mem_dc6125062a7c",
+   "mem_dca9be1989c4",
+   "mem_dccaa39b1c51",
+   "mem_dd06fd06567b",
+   "mem_dd92728760c4",
+   "mem_dec10a042b2b",
+   "mem_e0393a72f9f5",
+   "mem_e0c21f1155ec",
+   "mem_e1a72aff83e3",
+   "mem_e24cf9e47bbe",
+   "mem_e38eeadba8a0",
+   "mem_e438c2987959",
+   "mem_e462c709619c",
+   "mem_e64a3325fcab",
+   "mem_e6a1fc562e02",
+   "mem_e7548531e81e",
+   "mem_e820b35b1c96",
+   "mem_e96f2832e026",
+   "mem_eaa6f7ac995e",
+   "mem_ed31e43bc703",
+   "mem_ed7ea161c74a",
+   "mem_ee395ca886c1",
+   "mem_ee44df513f1b",
+   "mem_ee4d6e33edf8",
+   "mem_ee539042111a",
+   "mem_ef1df9c47b68",
+   "mem_f10208312585",
+   "mem_f1133cf751e3",
+   "mem_f19f4ce1e98c",
+   "mem_f2a66da4bab4",
+   "mem_f2b28dd0e4e8",
+   "mem_f2ee761bf63a",
+   "mem_f32bbd74e5e4",
+   "mem_f36b9868fe9a",
+   "mem_f438b30f04d8",
+   "mem_f575a013f583",
+   "mem_f6b09d549fd2",
+   "mem_f6f3858f3239",
+   "mem_f710971254fe",
+   "mem_f76162be743b",
+   "mem_f967162b4f66",
+   "mem_f9950d1879d9",
+   "mem_f9e424da1c0f",
+   "mem_fb802d152d58",
+   "mem_fbbc926c6e7a",
+   "mem_fea2ab0df01a",
+   "mem_ff30270eb83f",
+   "mem_ff31002ca063"
+  ],
+  "core.memnote.fuel": [
+   "mem_08a3a04b6cb7",
+   "mem_0d9bbf602b30",
+   "mem_178bdba6451a",
+   "mem_26d915f5f1d6",
+   "mem_303a9587c21f",
+   "mem_38e93824a3d6",
+   "mem_3f8bb987fc7c",
+   "mem_42334c1728fb",
+   "mem_46520f558f36",
+   "mem_471cfe631537",
+   "mem_47758321238f",
+   "mem_491ea450104c",
+   "mem_5610a7765e41",
+   "mem_5a130fb58aa3",
+   "mem_625fa4575ea8",
+   "mem_6606c90e31c2",
+   "mem_693586ef1ead",
+   "mem_6dad347fd353",
+   "mem_71b46f0005af",
+   "mem_72488bcac28a",
+   "mem_8c63a7383f77",
+   "mem_937dde04ad54",
+   "mem_9533d1ea3fcc",
+   "mem_99ab022322e4",
+   "mem_a1a478fbd388",
+   "mem_b03498b57b9b",
+   "mem_b53e8041fcf8",
+   "mem_b6a893082e92",
+   "mem_c32c46f4c9bb",
+   "mem_c9ad40bc51a2",
+   "mem_cb2fa3f0eff0",
+   "mem_d0eda36a053b",
+   "mem_d3f341ccb9a8",
+   "mem_d47f87e0e635",
+   "mem_e0cb6210acec",
+   "mem_e1de2f4ece2e",
+   "mem_e4cfd062722e",
+   "mem_eb0a16b3d7f1",
+   "mem_eea93d17d2df",
+   "mem_f01ee72901f2",
+   "mem_f28a9a3f88de",
+   "mem_f718c86d54da",
+   "mem_fe9aaa966635"
+  ],
+  "core.note.threads-master-prompts-filter-audit_md": [
+   "mem_311e8cd808af",
+   "mem_547dba093769",
+   "mem_70113dfb323f",
+   "mem_ac32296e31ff"
+  ],
+  "core.note.threads-master-prompts-fuel-audit_md": [
+   "mem_850cc319b1b3"
+  ],
+  "core.note.threads-master-prompts-fuel-model_md": [
+   "mem_454b41fc8b71"
+  ],
+  "core.note.threads-work-orders-core-handover-2026-10-15-draft_md": [
+   "mem_cfd8be443e23"
+  ],
+  "core.note.threads-work-orders-core-handover-2026-10-15_md": [
+   "mem_225f75d623dd",
+   "mem_432a9bb49540",
+   "mem_9036bb6da75e",
+   "mem_d18273643732"
+  ],
+  "core.note.threads-work-orders-core-order-2026-10-15b_md": [
+   "mem_03e16d5ae38c"
+  ],
+  "core.note.threads-work-orders-overnight-2026-10-19_md": [
+   "mem_90b763327f18"
+  ],
+  "core.note.threads-work-orders-ruling-composition-nan-2026-10-15_md": [
+   "mem_02efd2ebee54"
+  ],
+  "core.note.threads-work-orders-work-order-2026-10-15_md": [
+   "mem_b17bc3d68d16"
+  ],
+  "core.res.bfo-sd-check-2026-10-15": [
+   "mem_3ed1fe0bd6ff"
+  ],
+  "core.res.branching-resampler_md": [
+   "mem_4790256bafd9",
+   "mem_fe268d3e5e75"
+  ],
+  "core.res.davey-bto-only-2026-10-18": [
+   "mem_1eec14093ca7",
+   "mem_5e5ac0703ee1"
+  ],
+  "core.res.davey-ch11-alignment_md": [
+   "mem_b15c81d4ada2",
+   "mem_e2798dc029b8"
+  ],
+  "core.res.davey-ch11-reproduction_md": [
+   "mem_4884f4cb92a1"
+  ],
+  "core.res.evidence-sweep-2026-10-17": [
+   "mem_03c5e0223ece",
+   "mem_eeee80e90389"
+  ],
+  "core.res.filter-audit-architecture_md": [
+   "mem_2451c5b75cb6",
+   "mem_9bc33b9b6c3b",
+   "mem_b935f96d4cb6"
+  ],
+  "core.res.fuel-burn-gap_md": [
+   "mem_740e2a932766"
+  ],
+  "core.res.fuel-feasibility-2026-10-15": [
+   "mem_a3739b3c1a09"
+  ],
+  "core.res.fuel-model": [
+   "mem_34ba0de1a079",
+   "mem_644fd6682029"
+  ],
+  "core.res.fuel-model-audit-architecture_md": [
+   "mem_68839ad5aa86",
+   "mem_e2a19e1d5525"
+  ],
+  "core.res.gates-bc-2026-10-15_md": [
+   "mem_e11d204b9960"
+  ],
+  "core.res.islands-check-2026-10-15": [
+   "mem_a0380920a8ff",
+   "mem_fbb6a2bb7eee"
+  ],
+  "core.res.item10-phase1": [
+   "mem_ae822df6f3ea"
+  ],
+  "core.res.measurement-model-sensitivity_md": [
+   "mem_8bf6158dee96"
+  ],
+  "core.res.no-exhaustion-prior-run_json": [
+   "mem_83a449752e22"
+  ],
+  "core.res.prior-track-295-vs-290_md": [
+   "mem_f65371f78938"
+  ],
+  "core.res.routes-audit-arms-oct11": [
+   "mem_eea13db446bb"
+  ],
+  "core.res.routes-finding-audit-architecture_md": [
+   "mem_c62e23051bec"
+  ],
+  "core.res.run-a-b-family-summaries-oct11": [
+   "mem_77775db098c0"
+  ],
+  "core.res.run-h-oct11": [
+   "mem_bf0a4227f5ba"
+  ],
+  "core.res.run-i-oct12": [
+   "mem_1132cc282f7a",
+   "mem_57d54d748806"
+  ],
+  "core.res.run-i-proposal_md": [
+   "mem_7f5a12a21ba5"
+  ],
+  "core.res.run-j": [
+   "mem_0664bfc04f8c",
+   "mem_103c8ae30f9f",
+   "mem_56d9f44fc88f",
+   "mem_82639d766029",
+   "mem_c9af9ec33846",
+   "mem_ef8f68546cf2"
+  ],
+  "core.res.run-j-change-list_md": [
+   "mem_d3dd54441f3c"
+  ],
+  "core.res.run-j-proposal_md": [
+   "mem_07c389b67467"
+  ],
+  "core.res.run-j-supplement": [
+   "mem_d0968e24567b",
+   "mem_dae8684ce269"
+  ],
+  "core.res.satellite-coverage-2014-03": [
+   "mem_2639caa866fc",
+   "mem_2e0d21c07173"
+  ],
+  "core.res.shoulder-comparison_md": [
+   "mem_9d20b2cf76af"
+  ],
+  "core.res.split-half-threshold_md": [
+   "mem_40343955a186",
+   "mem_97a2a02d4149"
+  ],
+  "core.res.step-check-2026-10-15": [
+   "mem_24e5829923d0",
+   "mem_4a5ad2ede24d",
+   "mem_ec8553f0efc2"
+  ],
+  "core.res.turn-model-sensitivity-oct11": [
+   "mem_863f2233edfb"
+  ],
+  "core.res.vertical-rate-sensitivity_md": [
+   "mem_983f3b4320e8",
+   "mem_f3f5cad1ddd4"
+  ],
+  "core.res.waypoint-family-reset-proposal_md": [
+   "mem_007c47a456fd"
+  ],
+  "core.res.waypoint-stratum-spec_md": [
+   "mem_9c03d8cb7053"
+  ],
+  "core.res.waypoints-2014-epoch-oct11": [
+   "mem_25d74fea0298"
+  ],
+  "drift.code.engine-crates-ocean": [
+   "mem_1b45818fae07",
+   "mem_3599fc62f7e3",
+   "mem_5ea1a1eb1b5c",
+   "mem_8e4467d7177a",
+   "mem_9371dc8912df",
+   "mem_f2391d7b70b3"
+  ],
+  "drift.ex.debris-drift-_top-files": [
+   "mem_0732a754a208",
+   "mem_1ba984afa8df",
+   "mem_b0d00cf8662c",
+   "mem_b17cdce128fc"
+  ],
+  "drift.memnote.debris-drift": [
+   "mem_01edd24f4842",
+   "mem_04184724f3e6",
+   "mem_0deff0892f0e",
+   "mem_0eaaf4a574ef",
+   "mem_0ee98181ceae",
+   "mem_1375f491cc21",
+   "mem_19afcd7ed19f",
+   "mem_1dcdef25f702",
+   "mem_29ef2a4fd132",
+   "mem_2a63f0a3deef",
+   "mem_2b0ac6c311cf",
+   "mem_32b33b500bb2",
+   "mem_34ad08c44fcf",
+   "mem_35ededcf498a",
+   "mem_3ab8ef609c7e",
+   "mem_3ef447f7f735",
+   "mem_44fcbe259633",
+   "mem_4cf6166e9560",
+   "mem_4e806e8210b8",
+   "mem_509adfdf0de2",
+   "mem_5c87fda48122",
+   "mem_5d352a51a742",
+   "mem_5dd07ea87a74",
+   "mem_60b0db5113fa",
+   "mem_61bbef4629bf",
+   "mem_61f7a8b7a073",
+   "mem_6524ac5ee9d6",
+   "mem_67adaea8ebb5",
+   "mem_67d1df4446bd",
+   "mem_69f5fe613262",
+   "mem_6e03f812745c",
+   "mem_72294e61c58e",
+   "mem_783d6916a2b1",
+   "mem_795cd7a80cf2",
+   "mem_79cb263aeaf4",
+   "mem_8199750bb3cb",
+   "mem_89ab225a38b1",
+   "mem_89d2ad3547c0",
+   "mem_8d5fb268f148",
+   "mem_8d7d4e0837a0",
+   "mem_8fc7a234e7c4",
+   "mem_903abc42ba41",
+   "mem_91aca525f22e",
+   "mem_947a5c277b52",
+   "mem_9b5a8e504d85",
+   "mem_a7be8cd2f198",
+   "mem_afc51f72ef09",
+   "mem_bf4e7f0b0146",
+   "mem_c0f3024ddbe6",
+   "mem_c5c1d49e8dbc",
+   "mem_c83ce29ade6c",
+   "mem_cb9656b4a6b5",
+   "mem_d5d9ca0c8a42",
+   "mem_db98f08508fb",
+   "mem_ed20d63ed9a5",
+   "mem_eecdb6e58956",
+   "mem_f0ab782e4cdc",
+   "mem_f1db6dab081a",
+   "mem_f513b4f758f6",
+   "mem_f5d766707e56",
+   "mem_f6a9d4b0dcda",
+   "mem_f9fa64e4d1b0",
+   "mem_fa4246635ecc",
+   "mem_fa96fb834755",
+   "mem_ffebc473e3c6"
+  ],
+  "drift.memnote.ocean-data": [
+   "mem_315437562ce6",
+   "mem_3bf9cc84ebd4",
+   "mem_3cb1aa487330",
+   "mem_5b66293155fe",
+   "mem_66eab7a0cd3e",
+   "mem_83973325426c",
+   "mem_885f533f3db9",
+   "mem_ab2d151ec171",
+   "mem_db12b392c4c8",
+   "mem_dc36360d6cbd",
+   "mem_ebc9360cc14f",
+   "mem_edaf97113564"
+  ],
+  "drift.note.coordination-ocean_transport_md": [
+   "mem_01f083b910a0",
+   "mem_7df9b6636bee",
+   "mem_fbba6aac9fe1"
+  ],
+  "drift.note.threads-master-prompts-ocean-drift_md": [
+   "mem_cb4fda21c9c2",
+   "mem_d72f569465b9"
+  ],
+  "drift.res.debris-drift-australia-pilot-nodes_csv": [
+   "mem_5f24cf7db9cf",
+   "mem_b7f662e1ec8f"
+  ],
+  "drift.res.debris-drift-pilot-scoring-289_md": [
+   "mem_31ea0b1f81e9"
+  ],
+  "drift.res.debris-drift-pilot-sizing_md": [
+   "mem_8044d7366f13"
+  ],
+  "drift.res.debris-drift-pilot_md": [
+   "mem_691327441d4e"
+  ],
+  "drift.res.debris-drift-review_md": [
+   "mem_692d50a8cc9e",
+   "mem_8e23c6faf12d"
+  ],
+  "drift.res.debris-drift-runa-rebuilt": [
+   "mem_4fe652fb4e12",
+   "mem_f2f6a14d47aa"
+  ],
+  "drift.res.debris-drift-two-model-nodes-relwind_csv": [
+   "mem_ee67f41c772e"
+  ],
+  "drift.res.debris-drift-two-model-nodes_csv": [
+   "mem_b53567ca4aff",
+   "mem_c72873c0d325"
+  ],
+  "drift.res.drift-items-2026-10-17": [
+   "mem_1a7b98ac379c",
+   "mem_744877c813ab",
+   "mem_b573c14dac1d",
+   "mem_bd0c1e531df0",
+   "mem_cec068d9ec09"
+  ],
+  "drift.res.drift-model-audit-architecture_md": [
+   "mem_ba0d45e35a0b"
+  ],
+  "drift.res.drift-runj-2026-10-17": [
+   "mem_060471bc437e",
+   "mem_153e555444e1",
+   "mem_154493941b45",
+   "mem_3d25093a4145",
+   "mem_49224dea722a",
+   "mem_7023b5ffc9fa",
+   "mem_7901748f7138",
+   "mem_862a7d4518eb"
+  ],
+  "drift.res.kadri-haixun-conditional-2026-10-18": [
+   "mem_8f9ee3ba249d",
+   "mem_97846ad97c81",
+   "mem_b1e21e7d226c",
+   "mem_fc9cf75132a1"
+  ],
+  "drift.res.ocean-data-manifest_md": [
+   "mem_dd538c80d9b3"
+  ],
+  "drift.res.ocean-transport-error-gdp-replay_md": [
+   "mem_e7f63f519a9c"
+  ],
+  "eof.code.engine-hypotheses-end-of-flight": [
+   "mem_06ebe453a542",
+   "mem_0f0ee0210aa5",
+   "mem_163a67ae8cee",
+   "mem_394bb772819a",
+   "mem_42ee5122bc3e",
+   "mem_57f0ac5522e3",
+   "mem_65624d253752",
+   "mem_78ea85193b22",
+   "mem_8073e66ebd2c",
+   "mem_9283b5941da6",
+   "mem_96ea508096a1",
+   "mem_a75de911c136",
+   "mem_afb559166173",
+   "mem_b01134841791",
+   "mem_ba3363351c1c",
+   "mem_d4b39827c9d3",
+   "mem_dc1c3d0623ac",
+   "mem_eae59867a71f"
+  ],
+  "eof.ex.end-of-flight-_top-files": [
+   "mem_96902e2bb568"
+  ],
+  "eof.ex.end-of-flight-bin": [
+   "mem_51e780a9184f",
+   "mem_6bd94900cc24",
+   "mem_6cb233862087"
+  ],
+  "eof.ex.end-of-flight-run-i-asym-joined": [
+   "mem_d852eccb6093"
+  ],
+  "eof.ex.end-of-flight-run-i-dive": [
+   "mem_3ef84437b35c",
+   "mem_67b90e1392e1"
+  ],
+  "eof.ex.end-of-flight-run-j": [
+   "mem_005628327136",
+   "mem_198dc6979cc3",
+   "mem_565a4d3be93e",
+   "mem_9e0ffb871ddb",
+   "mem_b502c35b3765",
+   "mem_c44a0984a933"
+  ],
+  "eof.ex.end-of-flight-run-j-a1branch": [
+   "mem_fdaae0fae003"
+  ],
+  "eof.ex.end-of-flight-run-j-supplement": [
+   "mem_00205ffec96b",
+   "mem_2a9524226390",
+   "mem_7f1ead2309fb"
+  ],
+  "eof.memnote.descent-6dof": [
+   "mem_01876fd10caf",
+   "mem_01d4ead88a52",
+   "mem_0569e7f4bde8",
+   "mem_09432968c827",
+   "mem_102a5d3e151f",
+   "mem_133c3d64a737",
+   "mem_1c77ee2ef184",
+   "mem_232efa258b0d",
+   "mem_3417bb758712",
+   "mem_363bed28f3ad",
+   "mem_3975bf78dfd5",
+   "mem_3a5b494f3399",
+   "mem_3af3cbbb03a4",
+   "mem_43ce70dfa1db",
+   "mem_50bd4a8b211e",
+   "mem_51cde2773bad",
+   "mem_5241fce7f587",
+   "mem_59f7477e9fda",
+   "mem_5b478385f4b6",
+   "mem_5c9ad6ee56db",
+   "mem_5e6af8881ec8",
+   "mem_6344deac9e1e",
+   "mem_639142d91aa8",
+   "mem_6a2c8bea93d2",
+   "mem_6e996c7382b8",
+   "mem_74721f51db0c",
+   "mem_74e8ca53358a",
+   "mem_76b6dcf01d3c",
+   "mem_7721534c6070",
+   "mem_78b23efa9e1b",
+   "mem_8082bfac7049",
+   "mem_885406573af5",
+   "mem_8acfe1b2c913",
+   "mem_8b5605d27f8d",
+   "mem_95ab34caa99e",
+   "mem_9aec7b997fd5",
+   "mem_9ca7c47a2f65",
+   "mem_a2df0b2517bf",
+   "mem_a4c61b381ed1",
+   "mem_a8a338b9a70b",
+   "mem_b45a72fa413d",
+   "mem_b7d7e0a39c2f",
+   "mem_ba4c50186301",
+   "mem_bdf40a525a7e",
+   "mem_c1a349864365",
+   "mem_c43ece6a6010",
+   "mem_c7b193819b43",
+   "mem_cbb9634a7efd",
+   "mem_d1f5a19f8ddf",
+   "mem_e01b9658b55f",
+   "mem_e18a2f8cd506",
+   "mem_e4ae52f341a5",
+   "mem_e52bf65ce2fc",
+   "mem_f10277319222",
+   "mem_f2cc5ea96a34",
+   "mem_f85b7bba52e5",
+   "mem_fa87e19ae29e",
+   "mem_fbbfe0e0a458"
+  ],
+  "eof.note.coordination-end_of_flight_md": [
+   "mem_21c53142871d",
+   "mem_a59836e48cf8"
+  ],
+  "eof.note.threads-master-prompts-end-of-flight_md": [
+   "mem_06853d38b72a",
+   "mem_a40fa55f1291",
+   "mem_b7c8d89e83c3",
+   "mem_cd6052de7cdf",
+   "mem_ed69784a4856",
+   "mem_f7126cddc3fb",
+   "mem_fd3797c92991"
+  ],
+  "eof.note.threads-work-orders-mode-allocation-test-2026-10-15_md": [
+   "mem_fa4ec183f64a"
+  ],
+  "eof.res.burst-0019-plausibility-architecture_md": [
+   "mem_145375725a92"
+  ],
+  "eof.res.eof-0019-two-factor-oct12": [
+   "mem_9ec8c2cc1d63"
+  ],
+  "eof.res.eof-6dof-refit-oct11": [
+   "mem_cbb7c50cbaac"
+  ],
+  "eof.res.eof-a-vs-b-2241-run-d-standin_md": [
+   "mem_24d660a89d54",
+   "mem_d068f295b84e"
+  ],
+  "eof.res.eof-descent-fuel-oct09": [
+   "mem_e7d3175a2eb8"
+  ],
+  "eof.res.eof-displacement-oct09": [
+   "mem_4af208ce0e24"
+  ],
+  "eof.res.eof-evidence-sweep-oct18": [
+   "mem_3045b4aeb013"
+  ],
+  "eof.res.eof-fullscale-oct09": [
+   "mem_3d5b57dd78c7",
+   "mem_561e054dab8b"
+  ],
+  "eof.res.eof-gates-oct13": [
+   "mem_ce9a572fae42"
+  ],
+  "eof.res.eof-holland-sweep-run-d-oct11": [
+   "mem_2d6c4ea8226e"
+  ],
+  "eof.res.eof-impact-tau-method-oct11_md": [
+   "mem_b076398ced92",
+   "mem_d99d39596926"
+  ],
+  "eof.res.eof-item1-asym-oct14": [
+   "mem_c17c01945bf7"
+  ],
+  "eof.res.eof-item2-fit-oct14": [
+   "mem_30a3e7293110"
+  ],
+  "eof.res.eof-item7-dive-prob-oct15": [
+   "mem_2c2daef9dfaf",
+   "mem_433a390b9d9d"
+  ],
+  "eof.res.eof-item8-round3-oct15": [
+   "mem_9d73b1c1be55"
+  ],
+  "eof.res.eof-order-b-oct15": [
+   "mem_51f05eb5c431"
+  ],
+  "eof.res.eof-run-h-routes-oct12": [
+   "mem_da8458993744"
+  ],
+  "eof.res.eof-run-j-joined-v2-oct17": [
+   "mem_bdb451e51569"
+  ],
+  "eof.res.eof-run-j-maps-oct17": [
+   "mem_2e70303e87ff",
+   "mem_674131533a5e",
+   "mem_d77dc7597bab"
+  ],
+  "eof.res.eof-run-j-oct17": [
+   "mem_e6f1cc216ac5"
+  ],
+  "eof.res.eof-run-j-supplement-oct20": [
+   "mem_da9a6cb0edc1"
+  ],
+  "eof.res.eof-single-engine-design-oct10": [
+   "mem_bfee4a1d25af"
+  ],
+  "eof.res.eof-smoke-oct09": [
+   "mem_00c64a529383",
+   "mem_4654ecb2688a"
+  ],
+  "eof.res.eof-spiral-weight-oct09": [
+   "mem_e93952f22a58"
+  ],
+  "eof.res.eof-v2-2241-oct10": [
+   "mem_b38cc4117c31"
+  ],
+  "eof.res.eof-v2-broad-oct10": [
+   "mem_fc1a14bef9d5"
+  ],
+  "eof.res.fig-gain-37s-vs-26s_png": [
+   "mem_b356d2d6a3d9"
+  ],
+  "eof.res.impact-interface-requirements_md": [
+   "mem_3dc318ddb9ab"
+  ],
+  "paper.code.paper-build_reference_draft_py": [
+   "mem_b91b94fb8af8"
+  ],
+  "paper.code.paper-proposed-draft-build_draft_v2_py": [
+   "mem_0246054e2bc3"
+  ],
+  "paper.memnote.paper": [
+   "mem_075572101ca0",
+   "mem_6f6612a182ea",
+   "mem_72f12631a86b",
+   "mem_88107d823476",
+   "mem_9c62593a1238",
+   "mem_a275f3b3c47e",
+   "mem_abd345fb387d",
+   "mem_c660b0cdae3b",
+   "mem_c6fd774c07ba",
+   "mem_cb70cd1ca85a",
+   "mem_d22b0c0305b7",
+   "mem_d3f34ebf7abd",
+   "mem_f43e62dc7a39",
+   "mem_f72cd7917623"
+  ],
+  "paper.note.coordination-paper_md": [
+   "mem_5142ed13b545"
+  ],
+  "paper.note.paper-holland-audit_md": [
+   "mem_3e63185198c1",
+   "mem_a38bd2d6afc0",
+   "mem_b69a10cb97b5"
+  ],
+  "paper.note.paper-references-paper-added_bib": [
+   "mem_2219a7569a00",
+   "mem_8ce2ef8b436d"
+  ],
+  "paper.note.paper-style-notes_md": [
+   "mem_5b9429a9f091"
+  ],
+  "paper.note.threads-master-prompts-paper-drafting_md": [
+   "mem_41265244df06",
+   "mem_aa80d5e8fb75"
+  ],
+  "pleiades.code.engine-hypotheses-pleiades": [
+   "mem_0737bbda566f",
+   "mem_7197b81ecbd6",
+   "mem_8e2f12876af3",
+   "mem_a8e461145c2d",
+   "mem_def8fcee88b2",
+   "mem_eb7bd0064cf0"
+  ],
+  "pleiades.ex.pleiades-_top-files": [
+   "mem_43576fc475a7",
+   "mem_7d9c98d30abc",
+   "mem_9bb11f1ca7a3",
+   "mem_b10e85233840",
+   "mem_bf50be27474b",
+   "mem_d7bdef9a7a8a",
+   "mem_e8cee223f1bc"
+  ],
+  "pleiades.ex.pleiades-next-run-d-he": [
+   "mem_cb936d5402dd"
+  ],
+  "pleiades.memnote.pleiades": [
+   "mem_06daaad9bc87",
+   "mem_0deec424fad9",
+   "mem_12e6d2fe4914",
+   "mem_1407820fe1db",
+   "mem_15a55bc08801",
+   "mem_1606ee646895",
+   "mem_168cab68deeb",
+   "mem_1e3dfa5f6922",
+   "mem_20162e0479ca",
+   "mem_240f89d97bc3",
+   "mem_25ae0d3ca330",
+   "mem_27ac932281d3",
+   "mem_285b9c807403",
+   "mem_291d29f41329",
+   "mem_2b11bc05f6f2",
+   "mem_322250875ac2",
+   "mem_37dbfb80bc3b",
+   "mem_402b9993c56a",
+   "mem_464f37917534",
+   "mem_4e3ddc4a3d4e",
+   "mem_4fdf46f7296e",
+   "mem_50e06b0b2684",
+   "mem_526589eb502a",
+   "mem_55f623ec023a",
+   "mem_56649ef4fcc3",
+   "mem_58d28305c973",
+   "mem_593df7932dd4",
+   "mem_5d2ca256c3dc",
+   "mem_5e784429de9c",
+   "mem_5f72ffdbbc01",
+   "mem_5fd9b592ec0e",
+   "mem_604bf490938e",
+   "mem_63ec24e38e5e",
+   "mem_66eadd9094c2",
+   "mem_683333a6b116",
+   "mem_691add4c4ef6",
+   "mem_6df0d8d9ec9a",
+   "mem_6e4e167209fd",
+   "mem_6f08b69c6fc0",
+   "mem_6f75baa1db0f",
+   "mem_7a42c96ec4d5",
+   "mem_7aa1f217a62b",
+   "mem_7ef551e3898c",
+   "mem_831766dfe54e",
+   "mem_8a246724b27d",
+   "mem_8a500d8d39f0",
+   "mem_8c60c5ece4dc",
+   "mem_963ade8b32c7",
+   "mem_96dcc39540d7",
+   "mem_9dc166b581f5",
+   "mem_9f46739438ea",
+   "mem_a10cfdc0a4cf",
+   "mem_a1a9b7294e92",
+   "mem_a38b42d1930c",
+   "mem_a590181fc230",
+   "mem_adffcc8957aa",
+   "mem_b04d4b6819d2",
+   "mem_b47320b274ca",
+   "mem_bb75119d699c",
+   "mem_c23322878dbc",
+   "mem_c421059cb790",
+   "mem_c77ff6bc8d7c",
+   "mem_c8a232fc4e95",
+   "mem_d0ec5bfc6a10",
+   "mem_d356b9d99187",
+   "mem_d44c37408305",
+   "mem_d6a22a56c91f",
+   "mem_d79fee40a606",
+   "mem_db114376d5d3",
+   "mem_dcff4adebe08",
+   "mem_ddcd51a3225e",
+   "mem_ded4bd8e811c",
+   "mem_e234630f2cd0",
+   "mem_e4a9925de66d",
+   "mem_e867845d0f7b",
+   "mem_f025c2b82e5d",
+   "mem_fd995ce3b459"
+  ],
+  "pleiades.note.coordination-pleiades_md": [
+   "mem_f10490bd9c48"
+  ],
+  "pleiades.note.threads-drafts-pleiades-v2-draft_md": [
+   "mem_52d6e4302688"
+  ],
+  "pleiades.note.threads-master-prompts-pleiades_md": [
+   "mem_80dafb4dd7d2",
+   "mem_922990fe6b38"
+  ],
+  "pleiades.res.pleiades": [
+   "mem_0b34314827b6",
+   "mem_18bdbc131ecc",
+   "mem_4257c617038a",
+   "mem_4f22f91f3ceb",
+   "mem_4f6c3bf56072",
+   "mem_7f6cff0da34b",
+   "mem_8b822bf1714a",
+   "mem_9c24d3a9d6d5",
+   "mem_a19f0a1b1b69",
+   "mem_cb2c78fa70aa",
+   "mem_d383198cea2d",
+   "mem_df37cf54b2b7",
+   "mem_f900891a7a95",
+   "mem_f9be3aa1894d"
+  ],
+  "pleiades.res.pleiades-conditional-r600-raw-bfo-standin_md": [
+   "mem_4891992d3cd9"
+  ],
+  "pleiades.res.pleiades-next-run-b-standin_md": [
+   "mem_770d0f355fab"
+  ],
+  "pleiades.res.pleiades-references_md": [
+   "mem_cffafeea1f99"
+  ],
+  "project.memnote.coordination": [
+   "mem_0a84dd8ddd3a",
+   "mem_0d49b90ab5d0",
+   "mem_1c522441a045",
+   "mem_2b3165cd4a52",
+   "mem_316b040cf247",
+   "mem_371edd7cd6e9",
+   "mem_4186374c3ef9",
+   "mem_4f9e27e0c6c9",
+   "mem_51c48d1bfd7f",
+   "mem_68cc74b3609a",
+   "mem_6ce1782c76c6",
+   "mem_6d2b9fe87eaa",
+   "mem_7255d07f730e",
+   "mem_87fb2dbbd74e",
+   "mem_8b8af51c7429",
+   "mem_90b4ff9fe669",
+   "mem_c160a43d0970",
+   "mem_cb73be010bb3",
+   "mem_d29a3937913b",
+   "mem_d39a81793b4b",
+   "mem_d5e1c2b89b3d",
+   "mem_e8165aab46b4",
+   "mem_f57124a36b01",
+   "mem_f74c33123093"
+  ],
+  "project.memnote.drive": [
+   "mem_26ccb6d35c69",
+   "mem_29faa235577f",
+   "mem_3ccfac373dc1",
+   "mem_4033ac7c12ee",
+   "mem_58e33aeecdb1",
+   "mem_5c75bad9ebf4",
+   "mem_657741b88773",
+   "mem_aa436b9ac0ea",
+   "mem_c1a620c6208e",
+   "mem_c2066217c97e",
+   "mem_d16bf602b15a",
+   "mem_d2421dfbab8d"
+  ],
+  "project.memnote.figures-style": [
+   "mem_04ca982560ee",
+   "mem_092182b83727",
+   "mem_0e774dcdf965",
+   "mem_0f935c545a09",
+   "mem_28b5b624537e",
+   "mem_3e936f98f65d",
+   "mem_3fde513c5f26",
+   "mem_468d68540259",
+   "mem_471eac0417f3",
+   "mem_47d6e3ee6390",
+   "mem_49da3cd1f220",
+   "mem_4d9e59cc1ed5",
+   "mem_588abad0d1b2",
+   "mem_5c16a78a33c5",
+   "mem_6e9e3715cf5e",
+   "mem_897ace8c0739",
+   "mem_8a85cb4fa17e",
+   "mem_8ade2cfc9052",
+   "mem_8c83e2dd9874",
+   "mem_b1b75d84c7fb",
+   "mem_b4ecdc36d4ac",
+   "mem_c73a0525b070",
+   "mem_c7535a77d9cb",
+   "mem_d80705c112ca",
+   "mem_dc2e5c2953fc",
+   "mem_dc3d2153d153",
+   "mem_dfced562bbed",
+   "mem_dfed9473b5d2",
+   "mem_e2a304e623fd",
+   "mem_fa76523dcef1"
+  ],
+  "project.memnote.git-repo": [
+   "mem_00817a031d9b",
+   "mem_386adc760456",
+   "mem_449483d71f55",
+   "mem_5650b79673b3",
+   "mem_9dc970bd212b",
+   "mem_cae2b57b1749"
+  ],
+  "project.memnote.literature": [
+   "mem_392c218bde0e",
+   "mem_570ff6800b11",
+   "mem_b3edc8736c9e",
+   "mem_e7a6c75a6d21"
+  ],
+  "project.memnote.other": [
+   "mem_17e6f433b29b",
+   "mem_3c75ec27b4f3",
+   "mem_44d084d568c9",
+   "mem_56edbe5eb98f",
+   "mem_5eadc9ef99b8",
+   "mem_84dd626e3c3b",
+   "mem_884c6339e5a0",
+   "mem_888f882f087c",
+   "mem_8e514d86a6b4",
+   "mem_903c4aa1a08a",
+   "mem_b2c77b6509f8",
+   "mem_b6d249c3e46b",
+   "mem_bbbc9fb57b8d",
+   "mem_ca1876d8fc2b",
+   "mem_cc0adb8f891f",
+   "mem_cf96650ab77e"
+  ],
+  "project.memnote.platform": [
+   "mem_1fda992633bc",
+   "mem_2f2a9b9bc23f",
+   "mem_30f57517812e",
+   "mem_4be4862c5e30",
+   "mem_4e5a43c73710",
+   "mem_86237465a070",
+   "mem_c419b2f54d3d",
+   "mem_c77094da64be",
+   "mem_cae54b686ea4"
+  ],
+  "project.note.coordination-architecture_md": [
+   "mem_0c1b35ff3cdb",
+   "mem_6539b60b0186",
+   "mem_ab76df27a7d8",
+   "mem_b218cc3602d1",
+   "mem_d08033674c4a"
+  ],
+  "project.note.coordination-overnight-2026-10-10_md": [
+   "mem_71262ebadf90"
+  ],
+  "project.res.project-assessment-2026-10-18_md": [
+   "mem_d17f16fb11e4"
+  ],
+  "project.res.restricted-sources-ledger_md": [
+   "mem_e4e5d9d7671f"
+  ],
+  "project.res.source-access-ledger-2026-10-22_csv": [
+   "mem_95c18c2787c9",
+   "mem_9e198266621c"
+  ],
+  "searched.code.engine-hypotheses-seabed-search": [
+   "mem_17f1e386ea0f",
+   "mem_2417a4823575",
+   "mem_3ef952285275",
+   "mem_4a911978762a",
+   "mem_528dc28cf6f2",
+   "mem_54608ecb3ace",
+   "mem_6106a8f4a841",
+   "mem_645f59440d71",
+   "mem_713c83a66d4b",
+   "mem_93e428b46911",
+   "mem_983294549f12",
+   "mem_be9c7929df2b",
+   "mem_c991462e701d",
+   "mem_d335d28974de",
+   "mem_d57ba8199b39",
+   "mem_ead98a03ab31"
+  ],
+  "searched.ex.searched-areas-_top-files": [
+   "mem_d6ac83fa3ced"
+  ],
+  "searched.ex.searched-areas-kadri-haixun-2026-10-18": [
+   "mem_e0b4093a983e"
+  ],
+  "searched.ex.searched-areas-run-j-spatial": [
+   "mem_bbdc602d9c5e"
+  ],
+  "searched.memnote.seabed-search": [
+   "mem_0047be538b38",
+   "mem_05578c4cc38a",
+   "mem_088361a171c6",
+   "mem_0ce5266ad7ef",
+   "mem_16609886fee9",
+   "mem_16e4227281b9",
+   "mem_1acfd81b46b3",
+   "mem_1e616795c12f",
+   "mem_20bbb3bbee11",
+   "mem_257aac848030",
+   "mem_2e44161cc790",
+   "mem_350912feead3",
+   "mem_36268e31bf8a",
+   "mem_37062e04a0f1",
+   "mem_38fab8f21c8f",
+   "mem_39960443b0ae",
+   "mem_3b2afb8c2322",
+   "mem_3d770e7a45f6",
+   "mem_3f5dfdc4a6b1",
+   "mem_417ae84c4d84",
+   "mem_4434e6396cc5",
+   "mem_45768358564f",
+   "mem_470897b6d1d4",
+   "mem_48fbe3dd9699",
+   "mem_4b6e49243638",
+   "mem_4bdf700de22b",
+   "mem_4cce0f4f2257",
+   "mem_5a30c9b53fa6",
+   "mem_5e700c2cef8b",
+   "mem_626a59b9ae20",
+   "mem_6479435a15db",
+   "mem_6b0f8659e226",
+   "mem_6d00d090dbe3",
+   "mem_6e206adfa26d",
+   "mem_6f80cca51aff",
+   "mem_794b8375937c",
+   "mem_7a5a5b2392fd",
+   "mem_81cf17f7093e",
+   "mem_84f0090ca19b",
+   "mem_88dc2c9f949c",
+   "mem_91f6cb6faaf3",
+   "mem_929cc97fbcc1",
+   "mem_9c1955a543a6",
+   "mem_9d905b25a7a2",
+   "mem_a147f7d04572",
+   "mem_a2fe844a851f",
+   "mem_a407f0482e74",
+   "mem_aa5fbb34f23a",
+   "mem_aa96c1fd6818",
+   "mem_acc39e707aef",
+   "mem_b85c4958b8c2",
+   "mem_b8ad377d9009",
+   "mem_bd75dcb05cf6",
+   "mem_c09d09375384",
+   "mem_c8c235e77fbb",
+   "mem_c97c36214efd",
+   "mem_c9de902931d6",
+   "mem_ca0a4b81cb79",
+   "mem_cac02d35efa7",
+   "mem_cb3b5d3c7bdd",
+   "mem_cd324fbbdc31",
+   "mem_d2c76454d63d",
+   "mem_d3ad289a8e95",
+   "mem_d5f26e5b6aa4",
+   "mem_d6e2a679f87f",
+   "mem_d8a01111f49e",
+   "mem_da851d2f9029",
+   "mem_e38386013d22",
+   "mem_e967828fcbef",
+   "mem_eccfb2d13f71",
+   "mem_eefab8087a61",
+   "mem_f00284084c3f",
+   "mem_f4804e343830",
+   "mem_f7a78b9e27a7",
+   "mem_f97c437aa15c",
+   "mem_fc5a3baf1c31"
+  ],
+  "searched.note.threads-master-prompts-searched-areas_md": [
+   "mem_be40f81c24dc"
+  ],
+  "searched.res.seabed-bluefin21-area_md": [
+   "mem_294ad15e6751"
+  ],
+  "searched.res.seabed-detectable-target_md": [
+   "mem_29d6542494d6"
+  ],
+  "searched.res.seabed-field-coverage-289": [
+   "mem_baefc728aa13"
+  ],
+  "searched.res.seabed-repeat-search-dependence_md": [
+   "mem_fbec3e56361c"
+  ],
+  "searched.res.seabed-search-0019-options": [
+   "mem_539304041c43"
+  ],
+  "searched.res.seabed-search-289-fullscale": [
+   "mem_d39ba40c1734"
+  ],
+  "searched.res.seabed-search-b": [
+   "mem_09b2a3ce0535",
+   "mem_df64e6121ae4"
+  ],
+  "searched.res.seabed-search-prior-289-vs-29566_md": [
+   "mem_2198fe0b9e3f",
+   "mem_940833f5e4a8"
+  ],
+  "searched.res.seabed-search-references_bib": [
+   "mem_51ccedcb99c2"
+  ],
+  "searched.res.seabed-search-references_md": [
+   "mem_0b8536019601"
+  ],
+  "searched.res.seabed-search-why-wider_md": [
+   "mem_9395bcaacc57"
+  ],
+  "searched.res.searched-areas-coverage-sources-2026-10-20": [
+   "mem_5c9e0c83e401"
+  ],
+  "searched.res.searched-areas-next-run-b-rho-eq11-2-coverage-standin_md": [
+   "mem_ec89ae5dee85"
+  ],
+  "searched.res.searched-areas-run-j-a1branch": [
+   "mem_74b958f75b96"
+  ],
+  "searched.res.searched-areas-spatial-detection": [
+   "mem_5c2e0dac3bc0",
+   "mem_db8fcea91827"
+  ],
+  "settling.ex.settling-_top-files": [
+   "mem_5d75bb9c1f56",
+   "mem_d7d2f09cd14d"
+  ],
+  "settling.ex.settling-run-j-supplement": [
+   "mem_e616d983752b"
+  ],
+  "settling.res.breakup-field-candidate_md": [
+   "mem_e2dfe2c04134"
+  ],
+  "settling.res.settling-aimed-resample": [
+   "mem_c7229b5206ca"
+  ],
+  "settling.res.settling-d6": [
+   "mem_fe151ba41363"
+  ],
+  "settling.res.settling-d6-289": [
+   "mem_1fab482c4960"
+  ],
+  "settling.res.settling-d6-real": [
+   "mem_2c3c451c0993"
+  ],
+  "settling.res.settling-d6-real-289": [
+   "mem_47c3c1d20a93"
+  ],
+  "settling.res.settling-field-extent-289": [
+   "mem_7a84c489367d"
+  ],
+  "settling.res.settling-first-pass": [
+   "mem_8b9ff2d18475",
+   "mem_982216d79c51"
+  ],
+  "settling.res.settling-h1h2-estimability_md": [
+   "mem_7ec68df8d8bd"
+  ],
+  "settling.res.settling-next-run-b-standin_md": [
+   "mem_4caf8ebadea8"
+  ],
+  "settling.res.settling-run-d-holland": [
+   "mem_4f60b98b13e0",
+   "mem_7309b6ced434"
+  ],
+  "settling.res.settling-run-i": [
+   "mem_97673e85fcb2"
+  ],
+  "settling.res.settling-run-j": [
+   "mem_1fa75ca56f8f"
+  ],
+  "settling.res.settling-run-j-a1branch": [
+   "mem_59e8770edf81"
+  ],
+  "settling.res.settling-wreckage-field-289": [
+   "mem_1b1070343bb7"
+  ],
+  "settling.res.settling-wreckage-field-289-priorities": [
+   "mem_5b10b6bc6489",
+   "mem_a116dc298c9c",
+   "mem_c9ea21a8e481"
+  ]
+ },
+ "citation_ledgers": {
+  "Claude Science Project Sep 29/paper/JON-RULES.md": 11,
+  "Claude Science Project Sep 29/results/core-references.md": 46,
+  "Claude Science Project Sep 29/results/debris-drift-references.md": 13,
+  "Claude Science Project Sep 29/results/end-of-flight-references.md": 39,
+  "Claude Science Project Sep 29/results/ocean-references.md": 8,
+  "Claude Science Project Sep 29/results/pleiades-references.md": 15,
+  "Claude Science Project Sep 29/results/seabed-search-references.md": 25,
+  "Claude Science Project Sep 29/results/settling-references.md": 3
+ },
+ "citation_ledgers_created": [
+  "Claude Science Project Sep 29/results/core-references.md"
+ ]
+}
