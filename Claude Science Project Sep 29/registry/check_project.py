@@ -63,15 +63,37 @@ class WorkTree:
 
 
 class CommitTree:
+    """Tree of one commit. Reads blobs through one 'git cat-file --batch' process."""
     def __init__(self, sha):
-        self.sha = sha; self.name = f"commit {sha[:12]}"; self._sizes = None
+        self.sha = sha; self.name = f"commit {sha[:12]}"; self._p = None; self._sizes = None
     def paths(self):
-        out = git("ls-tree", "-r", "-z", "--name-only", self.sha, cwd=TOP)
-        return sorted(p for p in out.split("\0") if p)
+        out = git("ls-tree", "-r", "-z", "-l", self.sha, cwd=TOP)
+        self._sizes = {}
+        for rec in out.split("\0"):
+            if not rec:
+                continue
+            meta, path = rec.split("\t", 1)
+            parts = meta.split()
+            if parts[1] == "blob":
+                self._sizes[path] = int(parts[3]) if parts[3] != "-" else 0
+        return sorted(self._sizes)
+    def _proc(self):
+        if self._p is None:
+            env = {**os.environ, "GIT_CONFIG_GLOBAL": os.environ.get("GIT_CONFIG_GLOBAL", "/dev/null")}
+            self._p = subprocess.Popen(["git", "cat-file", "--batch"], cwd=TOP, stdin=subprocess.PIPE, stdout=subprocess.PIPE, env=env)
+        return self._p
     def read(self, p):
-        return git("cat-file", "blob", f"{self.sha}:{p}", cwd=TOP, binary=True)
+        q = self._proc()
+        q.stdin.write(f"{self.sha}:{p}\n".encode()); q.stdin.flush()
+        head = q.stdout.readline().split()
+        if len(head) < 3 or head[1] == b"missing":
+            raise FileNotFoundError(p)
+        n = int(head[2]); data = q.stdout.read(n); q.stdout.read(1)
+        return data
     def size(self, p):
-        return int(git("cat-file", "-s", f"{self.sha}:{p}", cwd=TOP).strip())
+        if self._sizes is None:
+            self.paths()
+        return self._sizes[p]
 
 
 # ---------- baseline ----------
@@ -247,8 +269,14 @@ def scan_ws(p, data):
     return out
 
 
+MANIFEST_DIR = re.compile(r"^" + re.escape(PROJECT_DIR) + r"/registry/modules/[^/]+/manifests/")
+
+
 def version_names(path, new_dirs):
-    """C3 on the file name and on each NEW folder in the path."""
+    """C3 on the file name and on each NEW folder in the path. Registry manifest files are exempt: their names copy
+    registry ids, which copy the names of old items."""
+    if MANIFEST_DIR.match(path):
+        return []
     bad = []
     parts = path.split("/")
     for i, comp in enumerate(parts):
