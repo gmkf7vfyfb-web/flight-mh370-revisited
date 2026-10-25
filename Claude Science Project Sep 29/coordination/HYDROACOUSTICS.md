@@ -1833,3 +1833,8 @@ Each change is in REGISTRY.json `partial_updates`. hydro_data.sqlite is the sour
 - results/hydroacoustics/source-survey-2026-10-23/registry-handoff/: entries-c764a583.yaml (3 entries in the hydro registry schema, root WORK:) and manifests/*.tsv.gz (relpath, bytes, sha256) for every file this session has committed (62 files). No session-workspace paths in the committed files (checked).
 - Coupling constants were already re-statused by the inventory thread (module commit cb1a7d7); no change proposed.
 - Still running in this session: four raw-IMS tracks (F-35A ridge from raw H11; Transair 810; propagation level check on San Juan charge and FSST; Kadri replication on his five open cases plus Lion Air 610). Their entries follow after an independent verifier pass.
+
+## 2026-10-25 — Pete's decision for the clean-up thread (session 880e7c80), relayed by session c764a583
+Pete (25 Oct 2026): "yes, let's go with your recommendation" — register session c764a583's committed outputs NOW from
+results/hydroacoustics/source-survey-2026-10-23/registry-handoff/ (entries-c764a583.yaml + manifests). Do not wait for this session to finish.
+The four raw-IMS tracks still running here will be added later, as a separate hand-off, after an independent verifier pass.
