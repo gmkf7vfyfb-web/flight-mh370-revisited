@@ -32,6 +32,10 @@ entries:
   - rank: handoff
     source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:7
     quote: 'status: CURRENT_WITH_CAVEATS'
+  - rank: rule
+    source: WORK:coordination/HYDROACOUSTICS.md:1855
+    quote: '- RULE 4. A new result starts as UNCHECKED. Only an independent verifier sets CURRENT.'
+  status_note: Producer hand-off only; no independent verifier pass (RULE 4).
   producing_thread: c764a583 (Aircraft Impact Acoustic Source Survey)
   handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.source_survey_2026_10_23.tsv.gz
   superseded_by: null
@@ -94,13 +98,17 @@ entries:
   - rank: handoff
     source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:20
     quote: 'status: CURRENT_WITH_CAVEATS'
+  - rank: rule
+    source: WORK:coordination/HYDROACOUSTICS.md:1855
+    quote: '- RULE 4. A new result starts as UNCHECKED. Only an independent verifier sets CURRENT.'
+  status_note: Producer hand-off only; no independent verifier pass (RULE 4).
   producing_thread: c764a583 (Aircraft Impact Acoustic Source Survey)
   handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.next_steps_2026_10_24.tsv.gz
   superseded_by: null
 - id: res.coupling_db_package_2026_10_25
   kind: product
   path: WORK:results/hydroacoustics/source-survey-2026-10-23/coupling-db-package-2026-10-25
-  status: CURRENT
+  status: CURRENT_WITH_CAVEATS
   defects: []
   verified_this_run: false
   definition:
@@ -126,6 +134,10 @@ entries:
   - rank: handoff
     source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:33
     quote: 'status: CURRENT'
+  - rank: rule
+    source: WORK:coordination/HYDROACOUSTICS.md:1855
+    quote: '- RULE 4. A new result starts as UNCHECKED. Only an independent verifier sets CURRENT.'
+  status_note: Producer hand-off only; no independent verifier pass (RULE 4). The hand-off gives CURRENT; the registry gives CURRENT_WITH_CAVEATS.
   producing_thread: c764a583 (Aircraft Impact Acoustic Source Survey)
   handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.coupling_db_package_2026_10_25.tsv.gz
   superseded_by: null

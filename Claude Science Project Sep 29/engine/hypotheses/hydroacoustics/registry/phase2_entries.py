@@ -113,6 +113,16 @@ def main():
         if x.get("defects") and any(not str(d).startswith("D") for d in x["defects"]):
             e["defects"] = ["D28"]
             e["status_note"] = "Hand-off defect text: " + "; ".join(str(d) for d in x["defects"])
+        if not x["id"].startswith("res.raw_ims"):
+            # RULE 4 (coordination/HYDROACOUSTICS.md, 26 Oct 2026): only an independent verifier sets CURRENT. These three
+            # entries have the producer's hand-off only (independent verifier of 26 Oct 2026, hydro-verifier-failures-2026-10-26.csv).
+            r4 = ev_file("WORK", "coordination/HYDROACOUSTICS.md", "RULE 4. A new result starts as UNCHECKED", "rule")
+            if e["status"] == "CURRENT":
+                e["status"] = "CURRENT_WITH_CAVEATS"
+                e["status_note"] = "Producer hand-off only; no independent verifier pass (RULE 4). The hand-off gives CURRENT; the registry gives CURRENT_WITH_CAVEATS."
+            else:
+                e["status_note"] = "Producer hand-off only; no independent verifier pass (RULE 4)."
+            e["status_evidence"].append(r4)
         e["producing_thread"] = THREAD["c764a583"]
         e["handoff_manifest"] = f"WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/{x['manifest']}"
         add(e)
