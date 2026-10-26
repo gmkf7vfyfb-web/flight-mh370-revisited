@@ -518,6 +518,34 @@ entries:
   status: UNCHECKED
   status_rank: none
   status_evidence: []
+- id: project.code.branch-registry-project
+  kind: code
+  module: project
+  path: GIT:registry/project@adf00c6ceac16765152fd1a31e7957d210c99b72
+  git:
+    branch: registry/project
+    commit: adf00c6ceac16765152fd1a31e7957d210c99b72
+    date: '2026-10-25T17:00:02-06:00'
+    subject: 'registry: check_project.py permits module citation ledgers at the top of results/'
+    tree: 6991cfba941f45de4c6277457203b48e2195c370
+    n_files: 17341
+    bytes: null
+    commits_not_in_working_branch: 0
+    compared_with_working_head: b7b16d6e0b17c415e59236396f71405d23ab90c0
+  note: 'Code on branch registry/project at adf00c6ceac1 (2026-10-25). 0 commits are not in the working branch. Not merged (Pete''s rule). Marked SUPERSEDED in data_homes/branches.json:
+    Added 26 Oct 2026 after the independent verifier: the project registry and check_project.py live on claude-science-sep29. Do not use registry/ from this branch
+    (its check_project.py is older).'
+  assignment_basis: branch name
+  hash: false
+  hash_note: git objects are content-addressed; tree sha recorded
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
 - id: project.code.branch-sept-29-chatgpt-advances
   kind: code
   module: project
@@ -708,11 +736,13 @@ entries:
   kind: input
   module: project
   path: REPO:library_full_audit/MH370
+  file_list:
+  - library_full_audit/MH370/9M-MRO Fuel Model V5.X.xlsm
   status: CURRENT_WITH_CAVEATS
   status_rank: ruling
   restricted: true
-  note: 'MH371 ACARS and EHM reports (9M-MRO, 7 Mar 2014), the MH370 climb EHM report and Ulich''s fuel workbook (FPPM-confidential cells). Kept in place, not moved.
-    RESTRICTED: internal use only. Record every use in results/restricted-sources-ledger.md. Not for publication before review (Pete, 9-10 Oct 2026).'
+  note: 'Ulich''s fuel workbook (FPPM-confidential cells). Kept in place, not moved. RESTRICTED: internal use only. Record every use in results/restricted-sources-ledger.md.
+    Not for publication before review (Pete, 9-10 Oct 2026).'
   uses_recorded_in: WORK:results/restricted-sources-ledger.md
   assignment_basis: restricted-sources ledger
   git:
@@ -730,10 +760,6 @@ entries:
   verified_this_run: false
   status_evidence:
   - rank: ruling
-    source: WORK:results/restricted-sources-ledger.md:30
-    quote: '| `library_full_audit/MH370/mh371-acars.xlsx`, `MH371_EHM_Export.xls` | 9M-MRO''s MH371 ACARS position reports and EHM engine reports, 7 Mar 2014 (the
-      export also holds the MH370 climb report) | in git (library) | provenance unverified; internal use only |'
-  - rank: ruling
     source: WORK:results/restricted-sources-ledger.md:34
     quote: '| `library_full_audit/MH370/9M-MRO Fuel Model V5.X.xlsm` | Ulich''s fuel workbook; it holds the FPPM-confidential cells named above | in git (library)
       | internal use only; kept in place (added 25 Oct 2026 by the registry track) |'
@@ -744,6 +770,41 @@ entries:
     source: memory:mem_77ee3e310c8e
     memory_evidence_tag: stated
     quote: Internal use is authorised in full.
+- id: project.in.library-full-audit-mh371
+  kind: input
+  module: project
+  path: REPO:library_full_audit/MH370
+  file_list:
+  - library_full_audit/MH370/MH371_EHM_Export.xls
+  - library_full_audit/MH370/mh371-acars.xlsx
+  status: CURRENT_WITH_CAVEATS
+  status_rank: ruling
+  note: MH371 ACARS and EHM reports (9M-MRO, 7 Mar 2014); the EHM export also holds the MH370 climb report. Kept in place, not moved. Not confidential (Pete, 26 Oct
+    2026); provenance not verified.
+  status_note: Split from project.in.library-full-audit-mh370 on 26 Oct 2026, when Pete ruled the MH371 items not confidential. Status unchanged.
+  assignment_basis: restricted-sources ledger (reclassified section)
+  git:
+    first_added:
+      commit: 7a1c50711b54712e64862e0ad844cf83e6bf3aed
+      date: '2026-08-14T15:05:46-04:00'
+      subject: Import Flight MH370 Revisited project snapshot (2026-08-14)
+    last_changed:
+      commit: 091528122654f193a7c4dda32b0fb45bea769ddd
+      date: '2026-10-19T21:55:56-06:00'
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: null
+  verified_this_run: false
+  status_evidence:
+  - rank: ruling
+    source: WORK:results/restricted-sources-ledger.md:51
+    quote: 'Pete ruled on 26 October 2026 that the MH371 items are NOT confidential: the MH371 ACARS reports (`library_full_audit/MH370/mh371-acars.xlsx`), the EHM
+      export (`library_full_audit/MH370/MH371_EHM_Export.xls`, which also holds the MH370 climb report), the MH371 SATCOM data (`engine/data/mh371/`) and any value
+      derived from them. Their uses need not be recorded here from now on. The files stay where '
+  - rank: ruling
+    source: WORK:results/restricted-sources-ledger.md:4
+    quote: '- Material in the repository whose redistribution status is uncertain stays where it is.'
 - id: project.in.tmp-avionics_min
   kind: input
   module: project
@@ -781,7 +842,7 @@ entries:
     memory_evidence_tag: stated
     quote: Internal use is authorised in full.
   - rank: ruling
-    source: WORK:results/restricted-sources-ledger.md:26
+    source: WORK:results/restricted-sources-ledger.md:27
     quote: '| `tmp/avionics_training_*.{pdf,bin}`, `tmp/avionics_try_*.bin`, `tmp/avionics_min-1.png` | avionics training document; one file name suggests it came
       from a document-sharing site | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |'
 - id: project.in.tmp-avionics_training
@@ -822,7 +883,7 @@ entries:
     memory_evidence_tag: stated
     quote: Internal use is authorised in full.
   - rank: ruling
-    source: WORK:results/restricted-sources-ledger.md:26
+    source: WORK:results/restricted-sources-ledger.md:27
     quote: '| `tmp/avionics_training_*.{pdf,bin}`, `tmp/avionics_try_*.bin`, `tmp/avionics_min-1.png` | avionics training document; one file name suggests it came
       from a document-sharing site | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |'
 - id: project.in.tmp-avionics_try
@@ -864,7 +925,7 @@ entries:
     memory_evidence_tag: stated
     quote: Internal use is authorised in full.
   - rank: ruling
-    source: WORK:results/restricted-sources-ledger.md:26
+    source: WORK:results/restricted-sources-ledger.md:27
     quote: '| `tmp/avionics_training_*.{pdf,bin}`, `tmp/avionics_try_*.bin`, `tmp/avionics_min-1.png` | avionics training document; one file name suggests it came
       from a document-sharing site | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |'
 - id: project.in.tmp-paperzz_airlink
@@ -1134,7 +1195,7 @@ entries:
     memory_evidence_tag: stated
     quote: Internal use is authorised in full.
   - rank: ruling
-    source: WORK:results/restricted-sources-ledger.md:27
+    source: WORK:results/restricted-sources-ledger.md:28
     quote: '| `tmp/slideshare_avionics/slide-*.jpg` and their OCR text | slide deck images from SlideShare | `ed40a72`, 29 Sep 2026 | provenance unverified; internal
       use only |'
 - id: project.memnote.coordination
@@ -1443,8 +1504,8 @@ entries:
       date: '2026-10-25T08:47:59-06:00'
       subject: 'registry: project registry (8 modules + project), rules-for-new-work check, archive of loose root folders'
     last_changed:
-      commit: 33612835bb076e1e3757af6bcb77220f6a02b2e4
-      date: '2026-10-25T16:59:37-06:00'
+      commit: 1ec339f92fc671c23e08d982cce28aeb1f8026d3
+      date: '2026-10-26T10:51:35-06:00'
   defects: []
   superseded_by: null
   inputs: []

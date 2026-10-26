@@ -1,9 +1,9 @@
 {
  "registry_version": "project registry v1 (2026-10-25)",
  "module": "project",
- "built_utc": "2026-10-26T16:51:16Z",
+ "built_utc": "2026-10-26T17:37:54Z",
  "hashing": true,
- "work_branch_head_at_build": "336044b0b74581ab9f0044fa3523b643c3851ddf 2026-10-26T10:49:54-06:00",
+ "work_branch_head_at_build": "988ec36f5821a00573116034266222c238cd8b5b 2026-10-26T10:52:18-06:00",
  "roots": {
   "REPO": "(repository)",
   "WORK": "(repository)",
@@ -679,6 +679,39 @@
    "manifest_sha256": null
   },
   {
+   "id": "project.code.branch-registry-project",
+   "kind": "code",
+   "module": "project",
+   "path": "GIT:registry/project@adf00c6ceac16765152fd1a31e7957d210c99b72",
+   "git": {
+    "branch": "registry/project",
+    "commit": "adf00c6ceac16765152fd1a31e7957d210c99b72",
+    "date": "2026-10-25T17:00:02-06:00",
+    "subject": "registry: check_project.py permits module citation ledgers at the top of results/",
+    "tree": "6991cfba941f45de4c6277457203b48e2195c370",
+    "n_files": 17341,
+    "bytes": null,
+    "commits_not_in_working_branch": 0,
+    "compared_with_working_head": "b7b16d6e0b17c415e59236396f71405d23ab90c0"
+   },
+   "note": "Code on branch registry/project at adf00c6ceac1 (2026-10-25). 0 commits are not in the working branch. Not merged (Pete's rule). Marked SUPERSEDED in data_homes/branches.json: Added 26 Oct 2026 after the independent verifier: the project registry and check_project.py live on claude-science-sep29. Do not use registry/ from this branch (its check_project.py is older).",
+   "assignment_basis": "branch name",
+   "hash": false,
+   "hash_note": "git objects are content-addressed; tree sha recorded",
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null
+  },
+  {
    "id": "project.code.branch-sept-29-chatgpt-advances",
    "kind": "code",
    "module": "project",
@@ -842,15 +875,16 @@
    "status_rank": "none",
    "status_evidence": [],
    "not_hashed": [
+    "archive-tools/archive-npy-to-porsche.sh",
     "archive-tools/archive-to-porsche.sh",
     "archive-tools/archive-to-porsche.v3.sh",
     "archive-tools/delete-archived-originals.sh",
     "archive-tools/delete-archived-originals.v3.sh"
    ],
-   "n_files": 4,
-   "bytes": 10208,
+   "n_files": 5,
+   "bytes": 12381,
    "manifest": "modules/project/manifests/project.home.archive-tools.tsv.gz",
-   "manifest_sha256": "c3045f5e46d4f372a22dfbec5b65b49500d8943fc625551461c6b185149089d2"
+   "manifest_sha256": "7ae733febbe7cd227e3fe06ce924a7fc91a55dccce4b6f454cf90a2d814855a2"
   },
   {
    "id": "project.home.exchange-folder",
@@ -1590,7 +1624,7 @@
    "status": "CURRENT_WITH_CAVEATS",
    "status_rank": "ruling",
    "restricted": true,
-   "note": "MH371 ACARS and EHM reports (9M-MRO, 7 Mar 2014), the MH370 climb EHM report and Ulich's fuel workbook (FPPM-confidential cells). Kept in place, not moved. RESTRICTED: internal use only. Record every use in results/restricted-sources-ledger.md. Not for publication before review (Pete, 9-10 Oct 2026).",
+   "note": "Ulich's fuel workbook (FPPM-confidential cells). Kept in place, not moved. RESTRICTED: internal use only. Record every use in results/restricted-sources-ledger.md. Not for publication before review (Pete, 9-10 Oct 2026).",
    "uses_recorded_in": "WORK:results/restricted-sources-ledger.md",
    "assignment_basis": "restricted-sources ledger",
    "git": {
@@ -1612,11 +1646,6 @@
    "status_evidence": [
     {
      "rank": "ruling",
-     "source": "WORK:results/restricted-sources-ledger.md:30",
-     "quote": "| `library_full_audit/MH370/mh371-acars.xlsx`, `MH371_EHM_Export.xls` | 9M-MRO's MH371 ACARS position reports and EHM engine reports, 7 Mar 2014 (the export also holds the MH370 climb report) | in git (library) | provenance unverified; internal use only |"
-    },
-    {
-     "rank": "ruling",
      "source": "WORK:results/restricted-sources-ledger.md:34",
      "quote": "| `library_full_audit/MH370/9M-MRO Fuel Model V5.X.xlsm` | Ulich's fuel workbook; it holds the FPPM-confidential cells named above | in git (library) | internal use only; kept in place (added 25 Oct 2026 by the registry track) |"
     },
@@ -1632,10 +1661,53 @@
      "quote": "Internal use is authorised in full."
     }
    ],
-   "n_files": 3,
-   "bytes": 2627620,
+   "n_files": 1,
+   "bytes": 2376741,
    "manifest": "modules/project/manifests/project.in.library-full-audit-mh370.tsv.gz",
-   "manifest_sha256": "5c4bc7639559a46fea42db26d48b995975f0abb4f1d03488dd61fd63ac4805f5"
+   "manifest_sha256": "a1177c6916cab578653c345f2de591262b0b0d259f8a5379e3aac5d4de299590"
+  },
+  {
+   "id": "project.in.library-full-audit-mh371",
+   "kind": "input",
+   "module": "project",
+   "path": "REPO:library_full_audit/MH370",
+   "status": "CURRENT_WITH_CAVEATS",
+   "status_rank": "ruling",
+   "note": "MH371 ACARS and EHM reports (9M-MRO, 7 Mar 2014); the EHM export also holds the MH370 climb report. Kept in place, not moved. Not confidential (Pete, 26 Oct 2026); provenance not verified.",
+   "status_note": "Split from project.in.library-full-audit-mh370 on 26 Oct 2026, when Pete ruled the MH371 items not confidential. Status unchanged.",
+   "assignment_basis": "restricted-sources ledger (reclassified section)",
+   "git": {
+    "first_added": {
+     "commit": "7a1c50711b54712e64862e0ad844cf83e6bf3aed",
+     "date": "2026-08-14T15:05:46-04:00",
+     "subject": "Import Flight MH370 Revisited project snapshot (2026-08-14)"
+    },
+    "last_changed": {
+     "commit": "091528122654f193a7c4dda32b0fb45bea769ddd",
+     "date": "2026-10-19T21:55:56-06:00"
+    }
+   },
+   "defects": [],
+   "superseded_by": null,
+   "inputs": [],
+   "producing_thread": null,
+   "verified_this_run": false,
+   "status_evidence": [
+    {
+     "rank": "ruling",
+     "source": "WORK:results/restricted-sources-ledger.md:51",
+     "quote": "Pete ruled on 26 October 2026 that the MH371 items are NOT confidential: the MH371 ACARS reports (`library_full_audit/MH370/mh371-acars.xlsx`), the EHM export (`library_full_audit/MH370/MH371_EHM_Export.xls`, which also holds the MH370 climb report), the MH371 SATCOM data (`engine/data/mh371/`) and any value derived from them. Their uses need not be recorded here from now on. The files stay where "
+    },
+    {
+     "rank": "ruling",
+     "source": "WORK:results/restricted-sources-ledger.md:4",
+     "quote": "- Material in the repository whose redistribution status is uncertain stays where it is."
+    }
+   ],
+   "n_files": 2,
+   "bytes": 250879,
+   "manifest": "modules/project/manifests/project.in.library-full-audit-mh371.tsv.gz",
+   "manifest_sha256": "16fb649b51a8e94e79f51b7483c7e96116128ca0139f1a7b031571eae5a718bf"
   },
   {
    "id": "project.in.tmp-avionics_min",
@@ -1679,7 +1751,7 @@
     },
     {
      "rank": "ruling",
-     "source": "WORK:results/restricted-sources-ledger.md:26",
+     "source": "WORK:results/restricted-sources-ledger.md:27",
      "quote": "| `tmp/avionics_training_*.{pdf,bin}`, `tmp/avionics_try_*.bin`, `tmp/avionics_min-1.png` | avionics training document; one file name suggests it came from a document-sharing site | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |"
     }
    ],
@@ -1730,7 +1802,7 @@
     },
     {
      "rank": "ruling",
-     "source": "WORK:results/restricted-sources-ledger.md:26",
+     "source": "WORK:results/restricted-sources-ledger.md:27",
      "quote": "| `tmp/avionics_training_*.{pdf,bin}`, `tmp/avionics_try_*.bin`, `tmp/avionics_min-1.png` | avionics training document; one file name suggests it came from a document-sharing site | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |"
     }
    ],
@@ -1781,7 +1853,7 @@
     },
     {
      "rank": "ruling",
-     "source": "WORK:results/restricted-sources-ledger.md:26",
+     "source": "WORK:results/restricted-sources-ledger.md:27",
      "quote": "| `tmp/avionics_training_*.{pdf,bin}`, `tmp/avionics_try_*.bin`, `tmp/avionics_min-1.png` | avionics training document; one file name suggests it came from a document-sharing site | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |"
     }
    ],
@@ -1985,7 +2057,7 @@
     },
     {
      "rank": "ruling",
-     "source": "WORK:results/restricted-sources-ledger.md:27",
+     "source": "WORK:results/restricted-sources-ledger.md:28",
      "quote": "| `tmp/slideshare_avionics/slide-*.jpg` and their OCR text | slide deck images from SlideShare | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |"
     }
    ],
@@ -2410,8 +2482,8 @@
      "subject": "registry: project registry (8 modules + project), rules-for-new-work check, archive of loose root folders"
     },
     "last_changed": {
-     "commit": "33612835bb076e1e3757af6bcb77220f6a02b2e4",
-     "date": "2026-10-25T16:59:37-06:00"
+     "commit": "1ec339f92fc671c23e08d982cce28aeb1f8026d3",
+     "date": "2026-10-26T10:51:35-06:00"
     }
    },
    "defects": [],
@@ -2423,9 +2495,9 @@
    "status_rank": "none",
    "status_evidence": [],
    "n_files": 1,
-   "bytes": 111634,
+   "bytes": 111647,
    "manifest": "modules/project/manifests/project.note.results-index.tsv.gz",
-   "manifest_sha256": "b6da78aa089b4dfb2bbdca116571b29db5b15b150990928940044ad26a183eb8"
+   "manifest_sha256": "2841418012c4aca5f9abad360f3a10e4ee0285510ecd8de22aae3c473dfa1e85"
   },
   {
    "id": "project.note.runbook_md",
@@ -2563,9 +2635,9 @@
     "nature": "records of what memory said; not verified facts"
    },
    "n_files": 1,
-   "bytes": 6766,
+   "bytes": 7920,
    "manifest": "modules/project/manifests/project.res.restricted-sources-ledger_md.tsv.gz",
-   "manifest_sha256": "aa1b4049df612e188302692d5b8588189748c905060b8e148b8423dad512d748"
+   "manifest_sha256": "b3112167d3676f1eab2135d3b592dbfca84d09ff4276a17e7078219f9c65eff0"
   },
   {
    "id": "project.res.source-access-ledger-2026-10-22_csv",

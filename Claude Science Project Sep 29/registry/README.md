@@ -104,13 +104,13 @@ These rules stop the errors from occurring again. `check_project.py` does a chec
 
 ## 7. Restricted material
 
-The tmp/ avionics files and three files in `library_full_audit/MH370/` (two MH371 files and Ulich's fuel workbook) are restricted. Their entries have `restricted: true` and status CURRENT_WITH_CAVEATS.
+The tmp/ avionics files and Ulich's fuel workbook in `library_full_audit/MH370/` are restricted. Their entries have `restricted: true` and status CURRENT_WITH_CAVEATS. The two MH371 files in that folder (ACARS reports and EHM export) are not restricted since 26 October 2026: Pete ruled the MH371 items (also the MH371 SATCOM data and values derived from them) not confidential. Their entry is `project.in.library-full-audit-mh371`. The files stay where they are.
 
 1. Use them internally only.
 2. Record each use in `results/restricted-sources-ledger.md`.
 3. Do not cite or publish them before the review.
 
-Source: Pete's decisions of 9 and 10 October 2026 (the ledger and memory records). The files stay where they are.
+Source: Pete's decisions of 9 and 10 October 2026, and of 26 October 2026 for MH371 (the ledger and memory records). The files stay where they are.
 
 ## 8. How to use the scripts
 

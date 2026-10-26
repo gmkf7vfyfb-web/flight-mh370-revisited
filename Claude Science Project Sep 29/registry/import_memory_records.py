@@ -14,7 +14,7 @@ Outputs:
 Rules:
   * Hydroacoustics rows are not written (phase 2): move-to-registry rows whose target is on hypothesis/hydroacoustics, and
     citation rows whose ledger is results/hydroacoustics-references.md.
-  * Text that names a restricted source (FPPM, internal-v1, fuel-tables.json, Ulich, MH371 ACARS/EHM, avionics training files,
+  * Text that names a restricted source (FPPM, internal-v1, fuel-tables.json, Ulich, avionics training files; MH371 not since 26 Oct 2026,
     'confidential') is withheld: the repository is public. The row keeps its mem_id and a pointer to the export row.
   * Session-workspace paths are replaced by '<session workspace path>'. Spending amounts are replaced by '<amount removed>'.
   * The independent verifier's six external-fact findings of 25 Oct 2026 are applied (VERIFIER_FIXES below).
@@ -29,10 +29,12 @@ WS = re.compile("/" + "workspaces/[^\\s`'\")]*" + "|" + "/" + r"\.claude-" + "sc
 MONEY_ROWS = {"mem_68cc74b3609a"}          # the user's spending amounts (verifier B4 rule)
 # Rows withheld by hand after the independent verifier of 26 Oct 2026 (hydro-verifier-failures-2026-10-26.csv, check 7):
 # the pattern below does not catch them, but they state content from a restricted holding.
-WITHHOLD_ROWS = {"mem_e4cfd062722e": "gives a value derived from the MH371 ACARS data (FAIL)",
-                 "mem_3a2670828580": "names the MH371 ACARS fuel-on-board reports (MINOR)"}
+# 26 Oct 2026: the two rows first listed here (mem_e4cfd062722e, mem_3a2670828580; MH371 content) are released, because Pete
+# ruled the same day that the MH371 items are not confidential. The list is kept for rows that the pattern does not catch.
+WITHHOLD_ROWS = {}
 MONEY = re.compile(r"\$\s?\d[\d,.]*(\s?/\s?h)?")
-RESTRICTED = re.compile(r"(?i)FPPM|confidential|internal-v1|fuel-tables\.json|LOCAL-ONLY|\bUlich\b|\bEHM\b|MH371[^.]{0,40}ACARS|ACARS[^.]{0,40}MH371|mh371-acars|avionics_training|avionics_try|slideshare_avionics|Avionics Handbook")
+# MH371 terms (EHM, MH371 ACARS, mh371-acars) removed 26 Oct 2026: Pete ruled the MH371 items not confidential.
+RESTRICTED = re.compile(r"(?i)FPPM|confidential|internal-v1|fuel-tables\.json|LOCAL-ONLY|\bUlich\b|avionics_training|avionics_try|slideshare_avionics|Avionics Handbook")
 TOPIC_MODULE = {"core-eof": "core", "seabed-search": "searched-areas", "pleiades": "pleiades", "debris-drift": "drift", "descent-6dof": "end-of-flight",
                 "coordination": "project", "fuel": "core", "figures-style": "project", "other": "project", "paper": "paper", "ocean-data": "drift",
                 "drive": "project", "git-repo": "project", "platform": "project", "literature": "project"}
@@ -72,7 +74,30 @@ def main():
     ap.add_argument("--export", required=True); ap.add_argument("--changes", required=True); ap.add_argument("--facts", required=True)
     ap.add_argument("--export-vid", default="ba131e4c-350c-4db5-8b56-a61b3f2772f9")
     ap.add_argument("--notes-only", action="store_true", help="write memory-notes/ only; do not rewrite the citation ledgers")
+    ap.add_argument("--release-ledger-rows", default="", help="comma-separated mem_ids: rewrite only the memory-text cell of these "
+                    "citation-ledger rows with the current withholding rule (26 Oct 2026); the other cells and rows are not changed")
     a = ap.parse_args()
+    if a.release_ledger_rows:
+        exp = {}
+        for l in open(a.export, "rb").read().decode().splitlines():
+            if l.strip():
+                d = json.loads(l); exp[d["id"]] = d
+        for mid in a.release_ledger_rows.split(","):
+            text, flags = clean(mid, exp[mid]["body"], a.export_vid)
+            if "withheld_restricted" in flags:
+                raise SystemExit(f"{mid}: still matches the withholding rule; not released")
+            hits = 0
+            for lp in sorted((WORK / "results").glob("*-references.md")) + [WORK / "paper" / "JON-RULES.md"]:
+                L = lp.read_text().split("\n")
+                for i, line in enumerate(L):
+                    if line.startswith(f"| `{mid}` |"):
+                        c = line.split(" | ")
+                        c[2] = cell(text)[:900]
+                        L[i] = " | ".join(c); hits += 1
+                        lp.write_text("\n".join(L)); print(f"released {mid} in {lp.name} line {i + 1} ({flags or 'no flags'})")
+            if hits != 1:
+                raise SystemExit(f"{mid}: {hits} ledger rows found, expected 1")
+        return
     exp = {}
     raw = open(a.export, "rb").read()
     for l in raw.decode().splitlines():

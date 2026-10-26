@@ -313,16 +313,27 @@ def main():
             add({"id": "project.note.archive-sep29-manifest", "kind": "note", "module": "project", "path": f"REPO:{ARCHIVE_DIR}/MANIFEST.tsv",
                  "note": "Path before, path after, bytes and SHA-256 of each file moved into the archive folder.", "assignment_basis": "root loose folder"})
             continue
-        if k == "library_full_audit":   # what stays in place (restricted holding)
+        if k == "library_full_audit":   # what stays in place
+            wb = [p for p in files if p.endswith("9M-MRO Fuel Model V5.X.xlsm")]
+            m371 = [p for p in files if p not in wb]
+            # Ulich's fuel workbook (FPPM-confidential cells): restricted holding (ledger, Pete 9-10 Oct 2026)
             add({"id": "project.in.library-full-audit-mh370", "kind": "input", "module": "project", "path": "REPO:library_full_audit/MH370",
-                 "status": "CURRENT_WITH_CAVEATS", "status_rank": "ruling", "restricted": True,
-                 "note": "MH371 ACARS and EHM reports (9M-MRO, 7 Mar 2014), the MH370 climb EHM report and Ulich's fuel workbook (FPPM-confidential cells). Kept in place, not moved. " + RESTRICTED_NOTE,
+                 "file_list": wb, "status": "CURRENT_WITH_CAVEATS", "status_rank": "ruling", "restricted": True,
+                 "note": "Ulich's fuel workbook (FPPM-confidential cells). Kept in place, not moved. " + RESTRICTED_NOTE,
                  "uses_recorded_in": "WORK:results/restricted-sources-ledger.md",
-                 "_evidence": [{"file": "WORK:results/restricted-sources-ledger.md", "must_contain": "library_full_audit/MH370/mh371-acars.xlsx"},
-                               {"file": "WORK:results/restricted-sources-ledger.md", "must_contain": "library_full_audit/MH370/9M-MRO Fuel Model V5.X.xlsm` | Ulich"},
+                 "_evidence": [{"file": "WORK:results/restricted-sources-ledger.md", "must_contain": "library_full_audit/MH370/9M-MRO Fuel Model V5.X.xlsm` | Ulich"},
                                {"file": "WORK:results/restricted-sources-ledger.md", "must_contain": "stays where it is"},
                                {"memory": "mem_77ee3e310c8e", "must_contain": "Internal use is authorised in full"}],
-                 "assignment_basis": "restricted-sources ledger", "git": gitinfo(files)})
+                 "assignment_basis": "restricted-sources ledger", "git": gitinfo(wb)})
+            # MH371 ACARS and EHM reports: not confidential (Pete, 26 Oct 2026); status unchanged; files stay in place
+            add({"id": "project.in.library-full-audit-mh371", "kind": "input", "module": "project", "path": "REPO:library_full_audit/MH370",
+                 "file_list": m371, "status": "CURRENT_WITH_CAVEATS", "status_rank": "ruling",
+                 "note": ("MH371 ACARS and EHM reports (9M-MRO, 7 Mar 2014); the EHM export also holds the MH370 climb report. Kept in place, not moved. "
+                          "Not confidential (Pete, 26 Oct 2026); provenance not verified."),
+                 "status_note": "Split from project.in.library-full-audit-mh370 on 26 Oct 2026, when Pete ruled the MH371 items not confidential. Status unchanged.",
+                 "_evidence": [{"file": "WORK:results/restricted-sources-ledger.md", "must_contain": "Pete ruled on 26 October 2026 that the MH371 items are NOT confidential"},
+                               {"file": "WORK:results/restricted-sources-ledger.md", "must_contain": "stays where it is"}],
+                 "assignment_basis": "restricted-sources ledger (reclassified section)", "git": gitinfo(m371)})
             continue
         if k in MOVED:
             report["moved_folder_still_at_root"].append(k)
@@ -450,7 +461,8 @@ def main():
              "git": {"branch": b, "commit": v["sha"], "date": v["date"], "subject": clean(v["subject"]), "tree": v["tree_sha"],
                      "n_files": v["n_files"], "bytes": v["bytes"], "commits_not_in_working_branch": vw.get("branch_commits_not_in_work"),
                      "compared_with_working_head": vw.get("work_head")},
-             "note": f"Code on branch {b} at {v['sha'][:12]} ({v['date'][:10]}). {vw.get('branch_commits_not_in_work')} commits are not in the working branch. Not merged (Pete's rule).",
+             "note": f"Code on branch {b} at {v['sha'][:12]} ({v['date'][:10]}). {vw.get('branch_commits_not_in_work')} commits are not in the working branch. Not merged (Pete's rule)."
+                     + (f" Marked {v['status']} in data_homes/branches.json: {v.get('note', '')}" if v.get("status") else ""),
              "assignment_basis": "branch name", "hash": False, "hash_note": "git objects are content-addressed; tree sha recorded"})
 
     # ---------- 10. memory notes (rows moved out of memory; records of what memory said) ----------

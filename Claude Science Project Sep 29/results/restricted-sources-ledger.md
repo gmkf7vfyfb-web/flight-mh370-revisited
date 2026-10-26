@@ -15,6 +15,7 @@ Pete Large, 10 October 2026 (~01:10 UTC): "we have authorization for all confide
   in `library_full_audit/MH370/`. As stated by Pete; the architecture session has not seen the
   authorisation document.
 - **Internal use is authorised in full.**
+- **Reclassified 26 October 2026 (Pete): the MH371 items are not confidential.** These are the MH371 ACARS reports, the EHM export, the MH371 SATCOM data and any value derived from them. They are no longer restricted holdings. Their rows are in the last section, for the record. The FPPM-confidential fuel cells (Ulich's workbook) and the `tmp/` avionics material stay restricted.
 - **Publication** of derived values or figures, and **redistribution** of the files in the public repo,
   are settled at the paper's provenance review. Until then the confidential tables stay git-ignored, and uses
   continue to be recorded below.
@@ -27,7 +28,6 @@ Pete Large, 10 October 2026 (~01:10 UTC): "we have authorization for all confide
 | `tmp/slideshare_avionics/slide-*.jpg` and their OCR text | slide deck images from SlideShare | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |
 | fuel tables: the FPPM-confidential cells in Ulich's workbook (`data/fuel-tables.json`, untracked) | flow values marked confidential | not in git | internal fuel model only (core request 16 C) |
 | `data/external/fuel-model/internal-v1.json` (untracked; git-ignored by `/data/external`) | dense flow grid and test vectors derived from all table classes, including the FPPM-confidential cells | not in git; ALSO held in the local Claude Science artifact store as `fuel-model-internal-v1-LOCAL-ONLY.json` (version `2ee08c24…`), saved 10 Oct by the fuel session; deletion was offered and Pete declined it, so it stays (as the engine-data artifact holding `fuel-tables.json` does) | internal fuel model only; never commit to git, never upload to a third-party service |
-| `library_full_audit/MH370/mh371-acars.xlsx`, `MH371_EHM_Export.xls` | 9M-MRO's MH371 ACARS position reports and EHM engine reports, 7 Mar 2014 (the export also holds the MH370 climb report) | in git (library) | provenance unverified; internal use only |
 | `tmp/scribd_satcom.html` | saved web page 'Overview of Satcom in Aviation' from Scribd (1,138,900 bytes) | `7a1c5071`, 14 Aug 2026 | provenance unverified; internal use only (added 25 Oct 2026 by the registry track) |
 | `tmp/slideshare_airlink.html` | saved SlideShare web page, title 'Avionics Training Systems Installation And Troubleshooting 2nd Len Buckwalter | PDF' (1,529,120 bytes) | `7a1c5071`, 14 Aug 2026 | provenance unverified; internal use only (added 25 Oct 2026 by the registry track) |
 | `tmp/paperzz_airlink.html` | saved paperzz web page (6,085 bytes; the saved page is a 'Just a moment...' access check, no document text) | `7a1c5071`, 14 Aug 2026 | provenance unverified; internal use only (added 25 Oct 2026 by the registry track) |
@@ -42,8 +42,19 @@ the result went.
 |---|---|---|---|---|
 | 2026-10-10 | fuel model | `data/fuel-tables.json` (all classes, incl. the FPPM-confidential cells — about 22 % of flow corners used, audit F14 — and the INOP tables) | the internal-v1 table lookup and dense grid | `data/external/fuel-model/internal-v1.json` (local only); committed results are model outputs only (integrated burns, endurances, exhaustion times, implied factors); no cell is reproduced |
 | 2026-10-10 | fuel model | `library_full_audit/MH370/9M-MRO Fuel Model V5.X.xlsm` (Ulich), *Fuel Flow Model* and *Endurance Model* sheets | text notes on the temperature physics (θ^0.68, Reynolds term); tank estimate L 21.973 / R 21.827 t at 17:06:43; R/L cruise flow ratio 1.021; flight-plan climb/descent coefficients | `results/fuel-model/internal-model.md` §§1, 4, 5 and `engine-imbalance-180149.csv` |
-| 2026-10-10 | fuel model | `library_full_audit/MH370/mh371-acars.xlsx` | 5-min ACARS states of MH371 (pressure altitude, Mach, SAT, GWT, FQIS fuel): measured cruise burn at measured temperature | calibration group "MH371" in `results/fuel-model/internal-calibration*.{csv,json}`, Fig. 1 |
-| 2026-10-10 | fuel model | `library_full_audit/MH370/MH371_EHM_Export.xls` | per-engine fuel flow WF-L/WF-R: MH371 05:06:41 (6,607 / 6,839 lb/h), MH370 climb 16:52:21 (15,583 / 15,786) | R/L flow ratio in `results/fuel-model/internal-model.md` §4 and `engine-imbalance-180149.csv` |
 | 2026-10-10 | fuel model | (status note) FPPM-confidential cells, `tmp/` material, MH371 ACARS/EHM data | Pete (via Modular Architecture, 10 Oct): the project holds authorisation for these items; **internal use authorised in full**. Publication and redistribution scope **not yet confirmed**: the tables stay git-ignored, no cell is committed, every use is still recorded here. internal-v1 already uses every cell of every class with no penalty or down-weighting (filler cells, which are Ulich's non-Boeing placeholders, are excluded as `extract.py` directs); MH371 enters the calibration at full weight | no change to the model |
 | 2026-10-10 | fuel model | `data/fuel-tables.json` (LRC INOP Mach/flow) and the workbook sheet *Holding INOP Mach* (KIAS and Mach blocks), *Endurance Model* C36-C41 | one-engine ceiling (table frontier), speed schedule, Ulich INOP-phase notes | `results/fuel-model/one-engine*.{md,csv}` (derived values only); node grids in `data/external/fuel-model/one-engine-v1.json` (local only) |
 | 2026-10-10 | fuel model | `data/fuel-tables.json` (LRC INOP and holding INOP flow) | rebuilt `grid_inop` without the twin-engine ×2 → `engine/data/external/fuel-model/internal-v1.1.json` (git-ignored; sha256 bbb64773…); test `test_internal.py` compares it with `lrc_inop_ff` at 215 tabulated states | local only; no cell values committed; only ratios and two example flows quoted (internal-model.md §4) |
+
+## Reclassified 26 Oct 2026: not confidential (Pete)
+
+Pete ruled on 26 October 2026 that the MH371 items are NOT confidential: the MH371 ACARS reports (`library_full_audit/MH370/mh371-acars.xlsx`), the EHM export (`library_full_audit/MH370/MH371_EHM_Export.xls`, which also holds the MH370 climb report), the MH371 SATCOM data (`engine/data/mh371/`) and any value derived from them. Their uses need not be recorded here from now on. The files stay where they are. The rows below were removed from the holdings and uses tables above; they are kept here for the record.
+
+| path | what it is | committed | status before 26 Oct 2026 |
+|---|---|---|---|
+| `library_full_audit/MH370/mh371-acars.xlsx`, `MH371_EHM_Export.xls` | 9M-MRO's MH371 ACARS position reports and EHM engine reports, 7 Mar 2014 (the export also holds the MH370 climb report) | in git (library) | provenance unverified; internal use only (now: not confidential, Pete 26 Oct 2026) |
+
+| date | session | file | what was used | where it went |
+|---|---|---|---|---|
+| 2026-10-10 | fuel model | `library_full_audit/MH370/mh371-acars.xlsx` | 5-min ACARS states of MH371 (pressure altitude, Mach, SAT, GWT, FQIS fuel): measured cruise burn at measured temperature | calibration group "MH371" in `results/fuel-model/internal-calibration*.{csv,json}`, Fig. 1 |
+| 2026-10-10 | fuel model | `library_full_audit/MH370/MH371_EHM_Export.xls` | per-engine fuel flow WF-L/WF-R: MH371 05:06:41 (6,607 / 6,839 lb/h), MH370 climb 16:52:21 (15,583 / 15,786) | R/L flow ratio in `results/fuel-model/internal-model.md` §4 and `engine-imbalance-180149.csv` |
