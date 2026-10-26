@@ -1,0 +1,66 @@
+{
+ "manifest_version": 1,
+ "run_id": "kadri-independent-review-2026-10-26",
+ "module": "hydroacoustics",
+ "commit": {
+  "branch": "claude-science-sep29",
+  "sha": "114bebc805582ce95d3472a599d1c1b09b0f41cc",
+  "dirty": false
+ },
+ "configuration": {
+  "values": {
+   "method": "copy of platform artifacts (byte-identical; SHA-256 checked)",
+   "source_session": "880dfd82-e98b-46e6-ae6d-daf2f8f01917",
+   "selection": "PART A inventory action=commit (repository-import-2026-10-26/inventory.csv)"
+  }
+ },
+ "inputs": [
+  {
+   "registry_id": "hydro.res.raw_ims_2026_10_25.kadri_2024_replication",
+   "role": "context: entry of the producing work"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "kadri_review_checks.py",
+   "bytes": 5717,
+   "sha256": "4015405974c944a19890544baeb495978de3690637364c600671568d53ec831b",
+   "artifact_version_id": "295d9491-8dd9-4a7b-a13a-a3ed8128e925"
+  },
+  {
+   "path": "review_geometry.csv",
+   "bytes": 761,
+   "sha256": "5c103a659a3a81dadebf795156b20a986e4e173722a4820b97956d2d37934790",
+   "artifact_version_id": "067af740-3145-44c1-955c-b1e82cd79926"
+  },
+  {
+   "path": "review_mixed_path.csv",
+   "bytes": 1650,
+   "sha256": "29e3c73e0b9e13cb9176ca4b6588eebabaef373ff93352b80e60bffde0501294",
+   "artifact_version_id": "607d277e-49f4-4030-b7d2-0fa2002ddbc3"
+  },
+  {
+   "path": "review_inter_triad.csv",
+   "bytes": 124,
+   "sha256": "4ce7eb6ec089c5003882849610f3c58f360660b20b35dd4f01991368839ce823",
+   "artifact_version_id": "be2e04f9-5c55-4202-8124-73b158231269"
+  },
+  {
+   "path": "kadri-comparison-independent-review-2026-10-26.md",
+   "bytes": 14728,
+   "sha256": "12154062ce4fc50ac8c44fc59d85c5714124761f85c688fd353cf356c4914733",
+   "artifact_version_id": "74f8bbbf-a984-4f89-b830-8e0482fd6387"
+  },
+  {
+   "path": "README.md",
+   "bytes": 1111,
+   "sha256": "6a81634e951f30bd45874afa40e656ab1f9e972b90272e29d713beb19565c34f"
+  }
+ ],
+ "thread_id": "880dfd82-e98b-46e6-ae6d-daf2f8f01917",
+ "status": "UNCHECKED",
+ "created_utc": "2026-10-26T21:19:58Z",
+ "description": "Independent review of the Kadri 2024 discrepancies (session 880dfd82): report, check script and three check tables. Copied from the artifact store; content unchanged.",
+ "supersedes": [],
+ "defects": []
+}

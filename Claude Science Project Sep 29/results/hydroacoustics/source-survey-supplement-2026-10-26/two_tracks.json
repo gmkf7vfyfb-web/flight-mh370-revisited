@@ -1,0 +1,120 @@
+[
+ {
+  "frame_id": "aa69846d-370b-4b45-935c-661c3e1b9126",
+  "name": "Impact source",
+  "status": "completed",
+  "deviations": null,
+  "artifacts_created": [
+   {
+    "artifact_id": "549a4adf-db6e-4e81-82a9-d05fb1a8e059",
+    "version_id": "a6b63631-503d-4062-bcf5-23df185df08d",
+    "filename": "impact-source-parameters.csv",
+    "content_type": "text/csv",
+    "size_bytes": 38111
+   },
+   {
+    "artifact_id": "61ca3a95-da36-468a-8de6-e3d22c1a1be9",
+    "version_id": "35689107-d55a-499e-8c18-19fe34ccfcc4",
+    "filename": "impact-source-review.md",
+    "content_type": "text/markdown",
+    "size_bytes": 32423
+   },
+   {
+    "artifact_id": "ee371387-e5c2-4a2c-96af-6d0913675a46",
+    "version_id": "4f11fa03-27a1-4736-ab27-2a58ec9a0d3c",
+    "filename": "metz_p4.png",
+    "content_type": "image/png",
+    "size_bytes": 344675
+   },
+   {
+    "artifact_id": "1fff5129-98d8-486e-9a1c-a4837f503585",
+    "version_id": "694f3132-dbb6-43a0-8388-ada9cfbc3cb3",
+    "filename": "metz_p5.png",
+    "content_type": "image/png",
+    "size_bytes": 284000
+   },
+   {
+    "artifact_id": "e5dad0de-ed01-4bc4-8f7a-c47469b4ff4f",
+    "version_id": "d4aaee6c-d72c-41a1-820e-313cacfa0691",
+    "filename": "swissair.txt",
+    "content_type": "text/plain",
+    "size_bytes": 923578
+   },
+   {
+    "artifact_id": "a8297afb-6ed9-4063-9d92-6be71008045f",
+    "version_id": "53e68590-0862-49af-8220-182fdd992943",
+    "filename": "duncan-fig5.png",
+    "content_type": "image/png",
+    "size_bytes": 98045
+   },
+   {
+    "artifact_id": "289257f1-b415-49af-aa84-2399f0971f6b",
+    "version_id": "7b100c07-6fa4-4e14-8c96-efbb77ef3d9e",
+    "filename": "kadri2017.pdf",
+    "content_type": "application/pdf",
+    "size_bytes": 2740681
+   },
+   {
+    "artifact_id": "c9858108-a58c-40bc-af54-159dceaba782",
+    "version_id": "5c7c1a01-85b1-4391-a4c6-22829e58e350",
+    "filename": "kadri_atsb2017.txt",
+    "content_type": "text/plain",
+    "size_bytes": 17265
+   },
+   {
+    "artifact_id": "fc46ef6c-1ff1-4574-a878-b1f90a3cbdc1",
+    "version_id": "a870f9ae-d779-4889-8287-54c016b64cfb",
+    "filename": "gt_view.txt",
+    "content_type": "text/plain",
+    "size_bytes": 25579
+   },
+   {
+    "artifact_id": "549a4adf-db6e-4e81-82a9-d05fb1a8e059",
+    "version_id": "8eea74d5-7197-4449-b80d-36c2de3b5e61",
+    "filename": "impact-source-parameters.csv",
+    "content_type": "text/csv",
+    "size_bytes": 39527
+   },
+   {
+    "artifact_id": "06f87d79-87be-421d-bbcb-f1bc922145f9",
+    "version_id": "56e7a807-0844-4e46-a57e-a4355c70753a",
+    "filename": "coupling-prior-range.csv",
+    "content_type": "text/csv",
+    "size_bytes": 7531
+   },
+   {
+    "artifact_id": "61ca3a95-da36-468a-8de6-e3d22c1a1be9",
+    "version_id": "3c9965ef-dbcc-4199-9726-6a37c9c3303d",
+    "filename": "impact-source-review.md",
+    "content_type": "text/markdown",
+    "size_bytes": 38879
+   }
+  ],
+  "structured_output": null,
+  "response": "I've added the coupling prior range you asked for (new table plus section 4b of the note) and checked your three points against the held texts and project notes. One correction comes back to you: the project's own inversion gives 3.4 \u00d7 10\u207b\u2074 at 30 m, not the ~10\u207b\u2074 your point 3 quotes (see below).\n\n**Deviations added in this pass:**\n- **Leslie 1964 is still not read.** I found no legitimate free copy: ASA is paywalled, and DTIC/NOL reports, Drive, the artifact store and ~/Downloads have none. Its value comes from the abstract plus Brown's paraphrase; it needs a purchased or inter-library copy.\n- **The priors are provisional.** Their bounds rest on one aircraft case plus abstract-level or partial reads.\n- I did no new propagation modelling. The prior-B lower bound is my own arithmetic from the Duncan & Dall'Osto modelled levels.\n\n**Checks of your three points:**\n1. **Brown et al. 2026 is confirmed as peer-reviewed:** *Icarus* 455, 117106 (1 Sep 2026), doi 10.1016/j.icarus.2026.117106, accepted 14 April 2026. The repo copy is the author accepted manuscript, and its footnote states the acceptance. All Brown citations in the note and both tables now use the Icarus reference.\n   - The held text confirms the ~10\u207b\u2074 highlight, the 900 \u00b1 200 MJ, the 0.7 Pa peak, the 3,300 km range and the Arons (1954) relation.\n   - It also confirms the warning that the sound channel near Japan is only 500\u2013700 m deep, so the value \"should be taken as an upper bound\".\n   - My reproduction: 0.0447 kg TNT gives 2.08 \u00d7 10\u207b\u2074 (1.7\u20132.7 \u00d7 10\u207b\u2074 for 700\u20131100 MJ), matching your 0.045 kg \u2192 2.1 \u00d7 10\u207b\u2074.\n   - This value is sensitive to the peak definition. Using the digitised 1-s RMS peaks (0.31\u20130.37 Pa) in the same relation gives 2.4\u20133.8 \u00d7 10\u207b\u2075, nearly ten times lower.\n2. **Leslie is near-field.** The abstract says \"on the order of 1 %\" of kinetic energy became acoustic energy; Brown paraphrases this as 0.1\u20131 %. It is acoustic energy at the impact site, not coupling into the deep sound channel. It is now tagged that way.\n3. **Your point 3 needs correcting.** The 2.26 \u00d7 10\u207b\u00b3 is not published; it is the project's own inversion at an assumed 10 m source depth, and it depends mainly on that depth. But the two project calibrations give different values at 30 m:\n\n   | project calibration | 2 m | 10 m | 30 m |\n   |---|---|---|---|\n   | 9 Oct (KRAKEN only) | 2 \u00d7 10\u207b\u00b2 | 8 \u00d7 10\u207b\u2074 | 1 \u00d7 10\u207b\u2074 |\n   | 22 Oct (measured exposure, RAM-corrected) | 5.4 \u00d7 10\u207b\u00b2 | 2.26 \u00d7 10\u207b\u00b3 | 3.4 \u00d7 10\u207b\u2074 |\n\n   Your \"about 10\u207b\u2074 at 30 m\" is the 9 Oct value. The current 22 Oct re-derivation, which is still awaiting your ruling, gives about three times more at 30 m.\n\n**Recommended priors.** Every contributing value in the table carries a definition class (D1 inverted through the project's own propagation model; D2 Arons-equivalent; D3 measured near the source; D4 in one frequency band). Each is also tagged with the propagation relation it must be paired with. All three priors below are log-uniform.\n\n| prior | use | range | pair only with |\n|---|---|---|---|\n| PRIOR-A | the hydroacoustics module's likelihood | 10\u207b\u2076 to 10\u207b\u00b2 (4 decades), at the 10 m source-depth convention | the module's own propagation chain |\n| PRIOR-B | Arons-only screening, such as your per-degree check | 10\u207b\u2078 to 2 \u00d7 10\u207b\u2074 (about 4.3 decades) | Arons (1954) peak pressure at range R |\n| Implosion branch | trapped air collapsing during sinking | 2 \u00d7 10\u207b\u00b3 to 0.18 of P\u00b7V | a propagation model for a deep source |\n\n- **PRIOR-A bounds.**\n  - Top: Leslie's ~1 % and the 0.1\u20132 % found for pile driving. The F-35A anchor sits about 0.65 decades below it.\n  - Bottom: slow, blunt impacts (raindrops ~10\u207b\u2075, iceberg blocks ~8 \u00d7 10\u207b\u2077).\n  - If source depth is sampled rather than fixed, scale both bounds by the F-35A value at that depth divided by 2.26 \u00d7 10\u207b\u00b3 (\u00d724 at 2 m, \u00d70.15 at 30 m). Efficiency and source depth must never be sampled independently.\n- **PRIOR-B bounds.** The top is the F-35A at its favourable site. For the bottom, Duncan & Dall'Osto model the MH370 path 20\u201330 dB weaker than the F-35A path. Under the Arons relation that is a factor of 450\u20139,600 in equivalent yield, or 2.2 \u00d7 10\u207b\u2078 to 4.7 \u00d7 10\u207b\u2077. I rounded down to 10\u207b\u2078 to allow slower or blunter impacts.\n- **Never cross-pair.** The Arons relation ignores the path, so the 7th-arc site penalty has to sit inside the PRIOR-B efficiency. Using PRIOR-B with a propagation model, or PRIOR-A with Arons, would count the path twice.\n  - The iceberg studies show how large this effect is. The same kind of event gives 5 \u00d7 10\u207b\u00b9\u2070 with simple cylindrical spreading (2015) and 8 \u00d7 10\u207b\u2077 with ray-traced propagation (2020): about 3 decades from the propagation relation alone.\n\nFiles are in your workspace:\n- [coupling-prior-range.csv]({{artifact:56e7a807-0844-4e46-a57e-a4355c70753a}}) \u2014 new, 16 rows: the three priors and every contributing value with its definition and pairing\n- [impact-source-review.md]({{artifact:3c9965ef-dbcc-4199-9726-6a37c9c3303d}}) \u2014 version 2, with section 4b added and the citations updated\n- [impact-source-parameters.csv]({{artifact:8eea74d5-7197-4449-b80d-36c2de3b5e61}}) \u2014 version 2, Brown and Leslie rows updated"
+ },
+ {
+  "frame_id": "c1c7757b-f4c0-4586-9dcd-09b7fa1a2752",
+  "name": "Other sources",
+  "status": "completed",
+  "deviations": null,
+  "artifacts_created": [
+   {
+    "artifact_id": "dbdb61eb-5339-430a-8f8e-7bae803feb97",
+    "version_id": "46f64144-9ba1-4d9a-8f95-dab690399fae",
+    "filename": "other-source-characteristics.csv",
+    "content_type": "text/csv",
+    "size_bytes": 34745
+   },
+   {
+    "artifact_id": "f5351443-4898-4248-9567-a5561a4e080b",
+    "version_id": "3ddc0456-e901-468e-86cf-c2e70a821d69",
+    "filename": "hydroacoustics-other-sources-review.md",
+    "content_type": "text/markdown",
+    "size_bytes": 22101
+   }
+  ],
+  "structured_output": null,
+  "response": "I've written the review note and the comparison table. The main result is that both arrival windows on 8 March 2014 already hold documented non-impact transients, and these set the real false-alarm background for any impact search.\n\n**Deliverables**\n- [hydroacoustics-other-sources-review.md]({{artifact:3ddc0456-e901-468e-86cf-c2e70a821d69}}), version id `3ddc0456-e901-468e-86cf-c2e70a821d69`\n- [other-source-characteristics.csv]({{artifact:46f64144-9ba1-4d9a-8f95-dab690399fae}}), version id `46f64144-9ba1-4d9a-8f95-dab690399fae`. It has 41 rows (17 biological, 6 cryogenic, 7 geophysical, 6 anthropogenic, 5 environmental), in the columns you specified.\n\n**Deviations**\n- **Read in full:** Samaran 2013, Leroy 2021, Matsumoto 2014, Royer 2016 (held), CMST 2014-30 (held), Brown 2026 (held) and Raumer 2026. All other values come from abstracts or search extracts, and the `read_in_primary` column marks which.\n- **Not retrieved \u2014 ask Pete:** Royer 2015 GJI, Chapp 2005 (both returned HTTP 403), Erbe 2015, Okal 2008, Hanson & Bowman 2005/2006, Li & Gavrilov 2006/2008, Talandier 2002/2006, MacAyeal 2008, Sousa & Harris 2015, Stafford 2011, Gavrilov & McCauley 2013, McKenna 2012, Hanson 2001 and Fauvel 2026. Before writing that, I searched the repo papers folder, the artifact store (by title and DOI fragment), the Drive (39 terms) and ~/Downloads.\n- **Empty cells:** about 25 cells have no value (mostly source levels for the regional songs, sonar, drilling, surf and lightning). I found no primary value, so I wrote \"not retrieved this session\" rather than guess.\n- **Removed identifiers:** I took out several DOIs and author names that I had not seen in a retrieved record. Those references now give only verified titles or URLs.\n- **Provisional numbers:** the predicted T-phase arrival times assume a straight great-circle path at 1.48 km/s, with no blockage check.\n- **No waveforms processed:** every \"likely present\" call rests on published seasonality and the held reports. None is a detection.\n\n**Main findings**\n1. **Royer's located events:** Royer 2016 (Table 4) locates 20 events between 23:45 and 02:05 UTC using OHASISBIO plus H01W: 6 icequakes (51\u201358 S), 2 earthquakes and 12 \"uncertain\". From his Table 5, I count about 12 distinct H01W arrivals inside 00:25\u201302:20 UTC, roughly 6 per hour. Four of these are icequakes and one is the Java earthquake at 01:50. Royer states that the association between stations is not unique.\n2. **H01W bearings:** CMST 2014 puts most H01W detections in the 158\u2013209\u00b0 Antarctic sector and calls them \"likely ice cracking\". LANL gave about 190\u00b0 and an ice-like signature for the 00:52 event.\n3. **H08S airguns:** two airgun surveys were firing about every 10 s for 0\u20133 h. One was at a constant 35\u00b0 (Bay of Bengal / off Sri Lanka; Royer places it off Myanmar). The other was TGS Huzzas off NW Australia at about 113\u00b0. H01W is shadowed from the Bay of Bengal survey.\n4. **Earthquakes:**\n   - Royer's Java event (01:15:48) arrives at H01W at 01:50:01 and matches CMST's \"small earthquake in the Java Trench\" at H08S, 01:59\u201302:00 (my prediction: 01:59).\n   - My ISC query found an mb 4.0 event south of Java at 23:52:17. Its predicted arrivals are about 00:24 at H01W and 00:36 at H08S (provisional).\n   - An IDC mb 3.7 event in the Mauritius\u2013R\u00e9union region (23:07) and Royer event 20 (02:02) are also in or near the windows.\n5. **Iceberg noise peaks in March.** Matsumoto 2014 finds that iceberg-related ocean noise is at its seasonal maximum in March. This makes ice the main natural false-alarm class at H01W.\n6. **Whales:**\n   - The SE Indian Ocean pygmy blue whale is in season at Cape Leeuwin and Perth Canyon (peak March\u2013June).\n   - The Sri Lankan pygmy blue whale song is in season at Diego Garcia.\n   - Fin whales, humpbacks and minke \"bio-duck\" are out of season at the Australian sites.\n   - All the whale songs are tonal or pulsed-tonal and repeat at fixed intervals of 7\u2013200 s, so their shape separates them from a single impulsive impact.\n7. **Logger 3250 location:** the \"Scott Reef\" logger is actually at 15\u00b029\u2032S 121\u00b015\u2032E, in 216 m of water. That is Leroy 2021's Kimberley site, where the Chagos song peaks in March and Omura's whale was recorded in March 2013. CMST reports the 3250 records are dominated by Bryde's whale calls.\n8. **No bolide:** the CNEOS fireball list has no event on 7\u20138 March 2014.\n9. **IDC categories:** the IDC classes each detection as H (in-water source), T (earthquake, converted at the seabed) or N (noise). Only H phases help to build Reviewed Event Bulletin events. An impact would be an H phase with no bubble pulse. The nearest published discriminants are:\n   - cepstral bubble-pulse detection;\n   - the Talandier\u2013Okal duration\u2013amplitude criterion;\n   - spectral fall-off and dispersion features;\n   - recent machine-learning catalogues (Fauvel 2026; Raumer 2026).\n10. **Open IMS data for other years:** EarthScope serves IMS waveforms without a login for 8 March 2015 and 2017 at H01W1, and 2015\u20132018 at H08S1. Every 2014 date I tried returned no data, so the 2014 records stay request-only through the CTBTO. The other-year records could give a same-season false-alarm rate without any request; nothing has been run on them.\n\n**Highest false-alarm risk in the windows**\n- **H01W:** ice events from the south, Java and ridge T-phases, and Royer's uncertain events near the Ninety East Ridge.\n- **H08S:** the two airgun trains, then the Java and Rodrigues-area T-phases.\n- **IMOS loggers:** whale song (pygmy blue at Perth Canyon; Bryde's, Chagos and Omura's at 3250) and shipping.\n\nI added two project memory rows: the IMS open-data availability, and the Royer/CMST 8 March event summary."
+ }
+]

@@ -1,0 +1,46 @@
+{
+ "manifest_version": 1,
+ "run_id": "repository-import-2026-10-26",
+ "module": "hydroacoustics",
+ "commit": {
+  "branch": "claude-science-sep29",
+  "sha": "114bebc805582ce95d3472a599d1c1b09b0f41cc",
+  "dirty": false
+ },
+ "configuration": {
+  "values": {
+   "method": "git blob match of every artifact against both branches; rule-based classification (README)",
+   "sep29_commit": "114bebc805582ce95d3472a599d1c1b09b0f41cc",
+   "module_commit": "53db6372b7862be5760bb583b16176896d9aa9f2",
+   "c764a583_phase1_dispatch_utc": "2026-10-26T19:03:40Z"
+  }
+ },
+ "inputs": [
+  {
+   "registry_id": "hydro.in.hydro_data_db",
+   "role": "target database"
+  },
+  {
+   "registry_id": "hydro.res.source_survey_2026_10_23",
+   "role": "source files"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "README.md",
+   "bytes": 5850,
+   "sha256": "833e711bbe662cfd42fdad8fc1ae96dd09548202e871b8b818f473081d3803b5"
+  },
+  {
+   "path": "inventory.csv",
+   "bytes": 489997,
+   "sha256": "e93c4933919fbdbf1cc3dbb4f2c4b8bad4e31e54a85f37530214d7e529eef425"
+  }
+ ],
+ "thread_id": "d8445a3f-b0fa-438e-b007-86833275177d",
+ "status": "UNCHECKED",
+ "created_utc": "2026-10-26T21:19:58Z",
+ "description": "Inventory of hydroacoustic data items and results made since 23 Oct 2026, with SHA-256 and the action taken; import report for hydro_data.sqlite stage 3 and the artifact run folders. UNCHECKED.",
+ "supersedes": [],
+ "defects": []
+}

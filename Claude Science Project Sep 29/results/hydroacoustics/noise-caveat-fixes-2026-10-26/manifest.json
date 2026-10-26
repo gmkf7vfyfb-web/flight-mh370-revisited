@@ -1,0 +1,70 @@
+{
+ "manifest_version": 1,
+ "run_id": "noise-caveat-fixes-2026-10-26",
+ "module": "hydroacoustics",
+ "commit": {
+  "branch": "claude-science-sep29",
+  "sha": "114bebc805582ce95d3472a599d1c1b09b0f41cc",
+  "dirty": false
+ },
+ "configuration": {
+  "values": {
+   "preregistration": "PREREGISTRATION.md",
+   "stage": "hydro_data.sqlite stage 4 build_noise_fixes.py",
+   "module_commit": "53db6372b7862be5760bb583b16176896d9aa9f2"
+  }
+ },
+ "inputs": [
+  {
+   "registry_id": "hydro.in.hydro_data_db",
+   "role": "inputs and target"
+  },
+  {
+   "registry_id": "hydro.res.noise_caveat_fixes_2026_10_26",
+   "role": "ratio k and gain check (module results-data)"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "PREREGISTRATION.md",
+   "bytes": 5698,
+   "sha256": "39121cef3483e8a472ffedcf36e4ff514d99f693dd5b5cba72137266c6d14933"
+  },
+  {
+   "path": "README.md",
+   "bytes": 9546,
+   "sha256": "cbf421a87211f7fcf13eaf403d230716b7fafea975e765cce89cd24fe12f294f"
+  },
+  {
+   "path": "absolute_level_check.csv",
+   "bytes": 1239,
+   "sha256": "58a296b416899b5d6d9cf43688861599db4a673ad061bdac6e0772a704391f83"
+  },
+  {
+   "path": "noise_compare_5_40.csv",
+   "bytes": 2682,
+   "sha256": "9d4af2d9df51e1f53728ddfdfe7b8fde725cfc2481e68243341918746533eeaf"
+  },
+  {
+   "path": "noise_fix_input.csv",
+   "bytes": 2385,
+   "sha256": "5530f4365130075257fb1f9283d210aa52c0a6d3a04eb6035b465e3429f574ca"
+  },
+  {
+   "path": "noise_fix_result.csv",
+   "bytes": 8372,
+   "sha256": "947f7d52593c03b7eb49f29320c2ba7cde3acddb9bee43ea64a02d7cf399722d"
+  },
+  {
+   "path": "noise_preference.csv",
+   "bytes": 18155,
+   "sha256": "e81bc612b6e7052be9ab01fe065ff395266c904e5253311ea2d40ff6f9020c5a"
+  }
+ ],
+ "thread_id": "d8445a3f-b0fa-438e-b007-86833275177d",
+ "status": "UNCHECKED",
+ "created_utc": "2026-10-26T21:19:58Z",
+ "description": "Noise caveat fixes C1-C3 (26 Oct 2026): 8 Mar 2014 IMS levels from the Kadri traces, IMOS logger-gain check, absolute level checks and OHASISBIO transfer calibration. UNCHECKED: no independent verifier.",
+ "supersedes": [],
+ "defects": []
+}

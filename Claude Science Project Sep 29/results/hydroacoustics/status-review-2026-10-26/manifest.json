@@ -1,0 +1,60 @@
+{
+ "manifest_version": 1,
+ "run_id": "status-review-2026-10-26",
+ "module": "hydroacoustics",
+ "commit": {
+  "branch": "claude-science-sep29",
+  "sha": "114bebc805582ce95d3472a599d1c1b09b0f41cc",
+  "dirty": false
+ },
+ "configuration": {
+  "values": {
+   "method": "copy of platform artifacts (byte-identical; SHA-256 checked)",
+   "source_session": "8b907e71-5795-4192-8e00-0ba9737b67f2",
+   "selection": "PART A inventory action=commit (repository-import-2026-10-26/inventory.csv)"
+  }
+ },
+ "inputs": [
+  {
+   "registry_id": "hydro.in.hydro_data_db",
+   "role": "context: entry of the producing work"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "hydro_recording_opportunity_map.png",
+   "bytes": 571664,
+   "sha256": "5888c28c5bfc2805ad99d83096b3766884dd0f8dfbc0be8d101e06a7059a5e0b",
+   "artifact_version_id": "077cc6a3-2265-4ed6-8361-5ff58569a1cd"
+  },
+  {
+   "path": "hydro_site_opportunity_summary.csv",
+   "bytes": 1617,
+   "sha256": "4f7c88b21f6d77512b65d474458613333583b08336a968a75c860af733b6a8e3",
+   "artifact_version_id": "eae883a7-a0c6-40f8-9ed6-5eddaa625c7b"
+  },
+  {
+   "path": "hydro_noise_calibration_status.csv",
+   "bytes": 3789,
+   "sha256": "1438e60be5f29e631e3420714df1bdc5254003595940ce33fc63a70e31ebc2cb",
+   "artifact_version_id": "1b2772f6-6727-4cda-b660-1dbdacd2540c"
+  },
+  {
+   "path": "hydro_known_events_summary.csv",
+   "bytes": 2311,
+   "sha256": "b9ddee5a123651c07675e3e52afeff80afb547318205381aa41d874e477b5a1c",
+   "artifact_version_id": "8b39db13-f1a1-4c58-8f1d-d8cc3bb7bd01"
+  },
+  {
+   "path": "README.md",
+   "bytes": 1034,
+   "sha256": "5c7d278c9f958da66b618927fe1ec4d046333bdbe90ea94d082667b461172dfd"
+  }
+ ],
+ "thread_id": "8b907e71-5795-4192-8e00-0ba9737b67f2",
+ "status": "UNCHECKED",
+ "created_utc": "2026-10-26T21:19:58Z",
+ "description": "Hydroacoustics status review of 26 Oct 2026 (session 8b907e71): site opportunity, noise calibration status and known-event summary tables and the recording opportunity map. Copied unchanged.",
+ "supersedes": [],
+ "defects": []
+}

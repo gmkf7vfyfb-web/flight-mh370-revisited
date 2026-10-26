@@ -1,0 +1,980 @@
+{
+ "manifest_version": 1,
+ "run_id": "source-survey-supplement-2026-10-26",
+ "module": "hydroacoustics",
+ "commit": {
+  "branch": "claude-science-sep29",
+  "sha": "114bebc805582ce95d3472a599d1c1b09b0f41cc",
+  "dirty": false
+ },
+ "configuration": {
+  "values": {
+   "method": "copy of platform artifacts (byte-identical; SHA-256 checked)",
+   "source_session": "c764a583-f184-4087-b4ce-19c3b8a19483",
+   "selection": "PART A inventory action=commit (repository-import-2026-10-26/inventory.csv)"
+  }
+ },
+ "inputs": [
+  {
+   "registry_id": "hydro.res.source_survey_2026_10_23",
+   "role": "context: entry of the producing work"
+  },
+  {
+   "registry_id": "hydro.res.next_steps_2026_10_24",
+   "role": "context: entry of the producing work"
+  },
+  {
+   "registry_id": "hydro.res.raw_ims_2026_10_25",
+   "role": "context: entry of the producing work"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "obis_cetacea_marapr.csv",
+   "bytes": 111685,
+   "sha256": "66a606f0c7290af697271cd43f3245f13c93dadd70979d49cd1c8762a4aef850",
+   "artifact_version_id": "c1ba9cb7-656f-4498-a6d2-ce8bec355cd3"
+  },
+  {
+   "path": "gbif_cetacea_marapr.csv",
+   "bytes": 587230,
+   "sha256": "c86d113abf1e5edad62c49064d4902f02eda4d37089bc274037df6312ca4e1df",
+   "artifact_version_id": "de7dafab-bd2e-45b3-a87f-78325d64faee"
+  },
+  {
+   "path": "gbif_cetacea_ext.csv",
+   "bytes": 32074,
+   "sha256": "f905387397ae2393088dcd2626e2ef78b03e49b4b8434ed4ec3ec2acfcb5c063",
+   "artifact_version_id": "f1232fc7-f48f-4613-987d-d7d5bf4272f6"
+  },
+  {
+   "path": "gvp_20140305.txt",
+   "bytes": 4392,
+   "sha256": "2d3292be985ab2c494cbb73fd75e8aba8db884a1e6abfb66c6af535f1dc7ad8b",
+   "artifact_version_id": "0a3f860a-5551-4b6a-abc1-ea655b8121d7"
+  },
+  {
+   "path": "gvp_eruptions_since2000.csv",
+   "bytes": 124501,
+   "sha256": "3ae6f66cb05f38eabad3aac24884d896a7f7e35b85dfd3b89fdc8ee20c7c7ed5",
+   "artifact_version_id": "de4c4fd3-8c7a-4d08-931a-77cf44314b9d"
+  },
+  {
+   "path": "gcmt_mar_apr2014.csv",
+   "bytes": 4220,
+   "sha256": "bfd37856f62e732f5942c3be258e3610a6ce29f46367ab98f3c1dc33b0082072",
+   "artifact_version_id": "c418704d-7158-4ab5-8a9e-76d74a559980"
+  },
+  {
+   "path": "nopta_surveys_marapr2014.csv",
+   "bytes": 2046,
+   "sha256": "4afd25dbdbc36186de74afe2226b026916df3d9ca1b946d24458d067621315af",
+   "artifact_version_id": "1156ab75-1aab-4b16-9368-6fb34e6d09f7"
+  },
+  {
+   "path": "ohasisbio_zcall_6-10mar2014.csv",
+   "bytes": 272373,
+   "sha256": "792dbeaea7f3eaf8ea5523845937b830a10d2b5a78c6bf5c232e557a1ea24355",
+   "artifact_version_id": "745868fe-7cfd-4145-939c-25255bce0643"
+  },
+  {
+   "path": "altiberg_sector_6-10mar2014.csv",
+   "bytes": 8643,
+   "sha256": "b022b51a7caaebdfdf341bab283ff34500b7695d6549983d4e8165d10bb05841",
+   "artifact_version_id": "0a61976a-6ade-4be5-8b5d-6fa2811954a9"
+  },
+  {
+   "path": "ims_stations.txt",
+   "bytes": 1440,
+   "sha256": "318a13e289a23fd9fdf361b2e3ff73b758040eabb7b96729df3b548910d80117",
+   "artifact_version_id": "f63916b4-44da-4cbe-8bd9-8c040addf79c"
+  },
+  {
+   "path": "gvp_active_6-10mar2014_region.csv",
+   "bytes": 2177,
+   "sha256": "954be067b81870bbc34c73df310acc945fdfcaf8377cba453cf22152631a9e8e",
+   "artifact_version_id": "c54b61a8-bd2c-4067-b7ee-de43ed282d76"
+  },
+  {
+   "path": "usgs_global_7-8mar.txt",
+   "bytes": 28354,
+   "sha256": "64998b321146568d5eae4080b97fce890267312d6335608248542198e04bbae8",
+   "artifact_version_id": "1de9106b-c1ed-4ae7-8b68-8037bd566e36"
+  },
+  {
+   "path": "isc_global_7-8mar.txt",
+   "bytes": 111144,
+   "sha256": "b458d188cf1258dcad821c1f1ce26ec9993f531f30dd507822b9722d4c17f483",
+   "artifact_version_id": "67095690-b903-438d-8ac7-946aa9d88a03"
+  },
+  {
+   "path": "emsc_global_7-8mar.txt",
+   "bytes": 10185,
+   "sha256": "6d67a0838adbf8b7c409cf5ac1fc44d5cc9ca18a467a3a7c817220211693b754",
+   "artifact_version_id": "81da1ac6-dcf4-4d57-a87e-935726e7a161"
+  },
+  {
+   "path": "geofon_global_7-8mar.txt",
+   "bytes": 1623,
+   "sha256": "b721c31fc01ee9598b32bd9232fe17f66b645d45367aba0c26519ba5850c2652",
+   "artifact_version_id": "3cb82f03-a00a-4635-b253-262de56de163"
+  },
+  {
+   "path": "isc_ehb_region_marapr2014.csv",
+   "bytes": 9214,
+   "sha256": "97bd8f0a3a15e1c34f67b5fc7ac6ee04a1a20e15ea4e92801de4b936486664cd",
+   "artifact_version_id": "d35a8207-5aed-4937-b322-f5930fef160d"
+  },
+  {
+   "path": "byu_icebergs_sector_6-10mar2014.csv",
+   "bytes": 9478,
+   "sha256": "f07790705b442eb4c991368b9c8c35ef74fed9a52fa7d5b31ddd1c1d15f066e5",
+   "artifact_version_id": "d0ffdb51-06a5-4e73-8ea6-1368c27b6450"
+  },
+  {
+   "path": "isc_arr2_H01W1.txt",
+   "bytes": 2950,
+   "sha256": "ade9ee48820d9e8856289e8d6722f1b84b9aecf7b25928e441a3d57857a1e707",
+   "artifact_version_id": "4b99645d-ff59-4dde-8f7d-dea4e028bb58"
+  },
+  {
+   "path": "isc_ehb_marapr2014.txt",
+   "bytes": 17689,
+   "sha256": "5502c4b3699ebd140b1d589c414d2972a5b653ec37dfd80be6f53f962f8ed886",
+   "artifact_version_id": "62a09e48-0e5c-4d00-8858-97e204efaa6e"
+  },
+  {
+   "path": "isc_idc_T_validation.csv",
+   "bytes": 4539,
+   "sha256": "502ed53b50d9845b379560659f56596422aedbfdba4688c6c4879a8c1c6cd660",
+   "artifact_version_id": "39177561-a867-49e9-8293-2fcee75cec04"
+  },
+  {
+   "path": "cneos_2014H1.csv",
+   "bytes": 811,
+   "sha256": "76baddc8723d89156abd04e1027139c486dbb8f63b44863548f8a6fbe6fde945",
+   "artifact_version_id": "d21969b8-70b6-45c9-acb3-71266b5cf3f2"
+  },
+  {
+   "path": "ioc_stations_region.csv",
+   "bytes": 47465,
+   "sha256": "206dd8c8fa9ea0e3d19a1af9a259919b3e604ddead49e56aa3366be8c60089bb",
+   "artifact_version_id": "e66ef617-35e7-4b57-b4bc-bb34b27c5a62"
+  },
+  {
+   "path": "ioc_sealevel_primary_window.csv",
+   "bytes": 402309,
+   "sha256": "d6416bb4cb279b16e95328753fd2733e44ea636574e61db3b52908da6f8cc38e",
+   "artifact_version_id": "28d6fb00-81cd-4399-bc16-4bc5fde5db12"
+  },
+  {
+   "path": "era5_wind_waves_primary_window.csv",
+   "bytes": 2207,
+   "sha256": "06d9e76dfdac1903e86f91a69812d7db8f54c856b273f168d99cdef68aefa636",
+   "artifact_version_id": "b0eb3488-a858-4f71-9129-9c0aeca75b99"
+  },
+  {
+   "path": "nsidc_south_extent_mar2014.csv",
+   "bytes": 666,
+   "sha256": "c8ec495785272bef4a57440b70784e91085078559d2d936d0960dd2ff01b8635",
+   "artifact_version_id": "ab802332-5569-41a7-8e65-58735dfa302a"
+  },
+  {
+   "path": "earthscope_channels_8mar2014.csv",
+   "bytes": 24495,
+   "sha256": "05727d3df9e96c9b6d1675ed4ee07f3165f5b8ae263b93649c46361b26ee11ed",
+   "artifact_version_id": "b6023fa4-bef7-4352-848e-4ed673dffd24"
+  },
+  {
+   "path": "geofon_channels_8mar2014.csv",
+   "bytes": 10689,
+   "sha256": "3c7d7951bcd4f5887934e532fbbd3e8386422a6e8fb360766a4aabdc7ca478c2",
+   "artifact_version_id": "7219dfe2-1ccc-4409-a97b-a9fc134a8ee8"
+  },
+  {
+   "path": "iscarr_H01W1_2014-03-01_2014-03-16.txt",
+   "bytes": 485,
+   "sha256": "4a42819f8e48f3d101c04c0f6f36931b53594793b50a896cd7a47bed9cee3198",
+   "artifact_version_id": "590f68ea-1aba-4967-b164-752038c04dc8"
+  },
+  {
+   "path": "two_tracks.json",
+   "bytes": 15112,
+   "sha256": "aa13be76e4ff3c627c662337239b28911e6fb080c23e3c9aa3df9009e50df73a",
+   "artifact_version_id": "d2f4f2c3-a69d-4783-b45d-b442a0e06e80"
+  },
+  {
+   "path": "aadc-arc-path-geometry.csv",
+   "bytes": 8640,
+   "sha256": "2cacbfc3e06bf2707d879915926d38e264a9bb25676a7d074cd966e27aed6a5a",
+   "artifact_version_id": "718c1a6b-01af-4296-877a-7317f1770071"
+  },
+  {
+   "path": "aadc-receiver-depth-screening.csv",
+   "bytes": 3126,
+   "sha256": "a2e2bc2911061ccdba625698bf95681547f6a2b6c1839d23d2de425fe2e758ab",
+   "artifact_version_id": "0a17e32e-d18c-4d91-8890-015ecc39d047"
+  },
+  {
+   "path": "aadc-extra-loss-vs-H01W.csv",
+   "bytes": 885,
+   "sha256": "0a15fbab771c6c340bea3234da16a21a6755a797f0674da598f66d79c0d1e975",
+   "artifact_version_id": "200a9c68-fe35-44ef-976b-adef0bba3034"
+  },
+  {
+   "path": "aadc-predicted-arrivals-known-events.csv",
+   "bytes": 35799,
+   "sha256": "763d1715a743c65290fde561b7ed146920faaeb7faa21b7ec8b75655064d1c1f",
+   "artifact_version_id": "19c05eb8-d3af-4e2c-b16e-3d791ac05a34"
+  },
+  {
+   "path": "aadc-royer-southern-events-ranges.csv",
+   "bytes": 1949,
+   "sha256": "0856dfee39e3a31a4aa3c41cf592b1faf32d14a025bfc51e267f68c5ca128303",
+   "artifact_version_id": "8a8cb6a4-ca49-4ec9-b81c-8749d5b44be1"
+  },
+  {
+   "path": "aadc-moorings-map.png",
+   "bytes": 835750,
+   "sha256": "33295c1295f269424897dac2c30b4b158b50c3b6da3c4a97df0510797ba21979",
+   "artifact_version_id": "f311186a-c1d8-405c-8797-c429b4a92dbe"
+  },
+  {
+   "path": "aadc-path-sections.png",
+   "bytes": 281364,
+   "sha256": "49a83f79118b06d16c56fcf132d981ac3b0f82d7bee15acbb9ae88c6c9a32a4a",
+   "artifact_version_id": "562bea9a-caf7-45f9-a93c-cfd8969dbdce"
+  },
+  {
+   "path": "aadc-predicted-arrival-timeline.png",
+   "bytes": 115802,
+   "sha256": "ed809da23b975bac73e40e57df6a075c2bdd7c91ae597186245ce4b9cfa59a68",
+   "artifact_version_id": "85188830-bc5c-48d3-972f-f3d2d11b7d84"
+  },
+  {
+   "path": "aadc_access_table.py",
+   "bytes": 4732,
+   "sha256": "0321411871f22d5084bff60d9cdd66583050b5661ec4a76aad6bd4efb7ed9aa4",
+   "artifact_version_id": "d4dc458d-76b6-467d-b621-1c14566a186b"
+  },
+  {
+   "path": "aadc_royer_check.py",
+   "bytes": 2206,
+   "sha256": "2ae3805d4457ff6668034145f9a79e70cdfa365d2a879c1ffcd716270f7d3690",
+   "artifact_version_id": "75c143af-7e98-4899-8160-0cfb506a1531"
+  },
+  {
+   "path": "aadc_figures.py",
+   "bytes": 10152,
+   "sha256": "5755cbe93e11c19f737805e3a91ec92809947f4981ee507b3b87469a0cee7b9d",
+   "artifact_version_id": "b0b5de16-bf16-4e57-bdb7-7ab2fd742942"
+  },
+  {
+   "path": "ds4501.json",
+   "bytes": 2507,
+   "sha256": "fc8487fee3206dbde7debf20fb0c8b75f548a2fdeb8539c97d7e865a44367a96",
+   "artifact_version_id": "1262e77d-2ee8-4f7f-9307-b6c70d906bde"
+  },
+  {
+   "path": "ds4502.json",
+   "bytes": 2558,
+   "sha256": "fc3aeb94be1f011cc538e7eeeca3fe8f7b9ae8cc82a657e95431b3ccbbc78568",
+   "artifact_version_id": "5ff25cf4-09e2-45f4-9cca-465a74022165"
+  },
+  {
+   "path": "ds5091.json",
+   "bytes": 1527,
+   "sha256": "8f05e0ad2452140bfdac8c10f608b0b8275b4a1db196f50431c81105bc00f45e",
+   "artifact_version_id": "af8f935a-a733-4219-8ad7-a7b24ccc0fbe"
+  },
+  {
+   "path": "island-impact-windows.csv",
+   "bytes": 6129,
+   "sha256": "ed74793e390f00af1c4a60157bfb7b39df1ba8b59e0b4c9b22b15d03ebd914e9",
+   "artifact_version_id": "cc8a4401-945f-4cca-b1fa-8a4360c91c72"
+  },
+  {
+   "path": "island-impact-arc-paths.csv",
+   "bytes": 46692,
+   "sha256": "485c6c30cbe8f274ab1e145c287b774f0bd66ea25005c25f948b277c83dabbd9",
+   "artifact_version_id": "87231983-178a-48d0-a15e-9f5aebd36806"
+  },
+  {
+   "path": "island-seismic-detection-levels.csv",
+   "bytes": 20427,
+   "sha256": "aa195aa8056699e520f77825315d09cf4e928c6f1bf11367f9094e0612526970",
+   "artifact_version_id": "58341fe1-96c0-479b-8b66-4143bc04d0d8"
+  },
+  {
+   "path": "royer-events-island-check-summary.csv",
+   "bytes": 5704,
+   "sha256": "78fa6de3d43e020659b8ea301a4e3511e8e8b7ec41905cd7534eb7fa22f1528e",
+   "artifact_version_id": "680f3215-aacb-4343-b274-faa38af1795d"
+  },
+  {
+   "path": "island-seismic-cmst-summary.csv",
+   "bytes": 1955,
+   "sha256": "e14de53869355ce2a97dff2d027575f0a740d02ff0c2c2dac27cf2b35cc06776",
+   "artifact_version_id": "ac694836-7a4c-4d10-bbd8-a7e30d17dd44"
+  },
+  {
+   "path": "fig1-station-and-royer-map.png",
+   "bytes": 326812,
+   "sha256": "556677fa0f5c741e235f92173a337d137f64da3662555fc5be5cf2ac6a7f1572",
+   "artifact_version_id": "847c0c69-045b-444f-a263-a9dfa9bd8f3d"
+  },
+  {
+   "path": "fig2-t-phase-detection-level.png",
+   "bytes": 200063,
+   "sha256": "bbe729ef038fd440800be5709b52f01940cd1852bfdfad9aebc1e19e2fc09267",
+   "artifact_version_id": "cc601eec-3c89-4179-bc7f-dc657752e9c3"
+  },
+  {
+   "path": "fig3-royer-event16-seismic.png",
+   "bytes": 221978,
+   "sha256": "1d8523e65a806894f496dc897d4a0e86ab012dc94c8e9aae0f5c12c116552f48",
+   "artifact_version_id": "bd1ff318-5cb2-479d-b059-78e422bbeb73"
+  },
+  {
+   "path": "fig4-impact-window-arrivals.png",
+   "bytes": 356134,
+   "sha256": "b821f4899e5b57b9a0dbe501fd1acf2a59441b1fdb3af3912e341ba4c5b5a407",
+   "artifact_version_id": "5876ed85-71ff-4bf2-afef-1aca2a38f308"
+  },
+  {
+   "path": "geom.py",
+   "bytes": 3932,
+   "sha256": "f3eea41d5bf163aee801683c60bae59811fc98677db7cb68d455791bbb5b9e6d",
+   "artifact_version_id": "e306fb7e-e553-4451-b04f-2b80490d581d"
+  },
+  {
+   "path": "detect.py",
+   "bytes": 4942,
+   "sha256": "668c10a49d2fce19fe88202f0545c52371e24fee7c267348103a4dc30d2c6060",
+   "artifact_version_id": "66fb56ff-7dab-40d6-92be-5587bd39139b"
+  },
+  {
+   "path": "01_download.py",
+   "bytes": 2193,
+   "sha256": "586028a2deacfe9aed6680ec3a23ed6e46f8c6c02b032f26b6252f8f8ba34a51",
+   "artifact_version_id": "97bc9719-11dd-48c9-8d5b-efcf9ba4b5d8"
+  },
+  {
+   "path": "01b_download_pass2.py",
+   "bytes": 2497,
+   "sha256": "94535f5bbac08abaff33a1797ec18d2027629d78bff16e918f28a1a811b7948c",
+   "artifact_version_id": "b9d8829f-c650-43e9-ab21-32fb05679fa3"
+  },
+  {
+   "path": "01c_download_nwao.py",
+   "bytes": 2309,
+   "sha256": "f9072266f70b0043b5cea1efacfe62e0ed78e57e541e66c8c2e305ddcb76b1ef",
+   "artifact_version_id": "446d9bf5-4f76-4b06-855d-1f5779a8ee56"
+  },
+  {
+   "path": "02_predict.py",
+   "bytes": 4884,
+   "sha256": "905dd6345c256f03053dda91b2d1f21273d6481d6c4e03b54dfe07c502103be7",
+   "artifact_version_id": "4202e16b-afe3-4445-98ad-c04a3217d29b"
+  },
+  {
+   "path": "02b_add_roy16_seismic.py",
+   "bytes": 2135,
+   "sha256": "ed1106bf5d855d27958ee50b5a2d553b05541eb16bdfdb5a8e365620e99e9975",
+   "artifact_version_id": "142f23d0-b695-40da-9517-7f182ce85447"
+  },
+  {
+   "path": "03_run_detect.py",
+   "bytes": 1756,
+   "sha256": "78beb6cc22844292dca6e6e6858d368007e86f4b7db26e4431932215f0ce971d",
+   "artifact_version_id": "bcf6df9c-c848-4a10-a51c-746dab2d7225"
+  },
+  {
+   "path": "04_associate.py",
+   "bytes": 5809,
+   "sha256": "ca20fa1a3aa4ed074307323b024f8dcf74e7d2348d94a2b83fa6587be3265efe",
+   "artifact_version_id": "64a27ada-5db6-408a-bf4c-f3f5c0207f6d"
+  },
+  {
+   "path": "05_tables.py",
+   "bytes": 5895,
+   "sha256": "f3db6c60955fa42822265c11bb5dade7931857c0a377a0573dfc233f11692fbd",
+   "artifact_version_id": "766338a5-5807-4ffa-ad30-a2fe82295660"
+  },
+  {
+   "path": "06_roy16_relocate.py",
+   "bytes": 4064,
+   "sha256": "83a856187eb25fe360c7737d1038cc795edde4dab8b8813b47b8a3011b258eeb",
+   "artifact_version_id": "7a02932d-bb7e-4600-8882-e1c841e50078"
+  },
+  {
+   "path": "07_reunion_array.py",
+   "bytes": 2810,
+   "sha256": "c89c9d002f13849a965eaacf59e2a5f47492d1876d930967bcff64e3938d5bd3",
+   "artifact_version_id": "26b48d05-5fe2-4104-8214-c4aacebdc51d"
+  },
+  {
+   "path": "08_royer_set.py",
+   "bytes": 7844,
+   "sha256": "4ced4aa11b5a8391b1adee195322220f0e6850733f5755c2683d039941b93f73",
+   "artifact_version_id": "84419723-65ac-48a7-aba7-5deb5694c685"
+  },
+  {
+   "path": "09_cmst_scan.py",
+   "bytes": 5474,
+   "sha256": "c3ea12f5984e4b1429932eb950bdc56da4ed5eceeac0e44a05f65521ddae4c8e",
+   "artifact_version_id": "721e9d8c-5e1d-4615-b94f-abcbf6f4bf9b"
+  },
+  {
+   "path": "10_impact_windows.py",
+   "bytes": 7790,
+   "sha256": "7f46b66612fa3b9443396ce4f986e5db3c48af56fca7e9fa342a02d850655ac6",
+   "artifact_version_id": "c00eb688-d15d-4214-9901-1f8ebb59c648"
+  },
+  {
+   "path": "11_figures.py",
+   "bytes": 14590,
+   "sha256": "a78d4512ac197f27adf19ea7b0466515cf4153e715087c36def9c6f14aae5ae1",
+   "artifact_version_id": "cbf20113-7886-444d-b4d5-db70ec42d435"
+  },
+  {
+   "path": "station_T_calibration.csv",
+   "bytes": 1657,
+   "sha256": "3eee9c52269fce4f98e85d9249f3140af8defc68177832f248328795e95d329b",
+   "artifact_version_id": "8cc6a821-6168-4ffe-84ef-49a448871d94"
+  },
+  {
+   "path": "roy16_relocation.json",
+   "bytes": 2448,
+   "sha256": "fba4555d1d298f2c245b778266ec7dc1bd266c7893aac971bee698c13bdb24d9",
+   "artifact_version_id": "16e2856a-a0a7-4189-a6ec-98ff5e9d871f"
+  },
+  {
+   "path": "reunion_array.json",
+   "bytes": 350,
+   "sha256": "20505045930602f779eab4f17cf32bbfcd87e7ba1955c3d1af8cda5e00a1d083",
+   "artifact_version_id": "836af34b-cda6-4a99-af98-55e569cc5f16"
+  },
+  {
+   "path": "reunion_array_lags.csv",
+   "bytes": 1896,
+   "sha256": "7fb8a057a4c5220a0a8bbd6e0fe93a4d3369f61def0e6f40398523f631d11121",
+   "artifact_version_id": "6e7b435a-0faf-4a5e-95e9-5bfbc37a7743"
+  },
+  {
+   "path": "fullresponse_time_shift_check.csv",
+   "bytes": 464,
+   "sha256": "765c098096c1cb08736ec0e9c0966cae1f6c379db4bc7f129a7b11b46e5839e2",
+   "artifact_version_id": "503f5fe5-c044-456e-b41b-c2d36ec9be37"
+  },
+  {
+   "path": "second_sensor_check.csv",
+   "bytes": 162,
+   "sha256": "c1fd689d60f7264ac36c907d267559f3ce603fa3a1fbdccfc022110ecb1a6b47",
+   "artifact_version_id": "5e49de7c-63bb-4312-a4f5-ab1673ef48f2"
+  },
+  {
+   "path": "events_all.csv",
+   "bytes": 30419,
+   "sha256": "b507dba777b06a72a08cc694870778b8ebb7aa1418ce6e096cc84f42a6d5f62b",
+   "artifact_version_id": "f1296512-27ae-47b9-a3c3-4bf0e38671c3"
+  },
+  {
+   "path": "pred_arrivals.csv",
+   "bytes": 2071324,
+   "sha256": "39168ad4f406c1710d16b704a1e3e44c570aded75f7d9fad5efda6c4195946e8",
+   "artifact_version_id": "bec08bcf-6e50-4cda-8414-beac81da0cfc"
+  },
+  {
+   "path": "download_log.txt",
+   "bytes": 11018,
+   "sha256": "f2427e555be9d257ab3cb8da4f30a9fb9b10a11751034552c55e7411e80fe48d",
+   "artifact_version_id": "3720857c-7af7-494a-83c9-ab4e4b760628"
+  },
+  {
+   "path": "usgs_global_M4.5_20140305T12_20140311.csv",
+   "bytes": 10705,
+   "sha256": "e582b1d4243e77c9f23578a1ff3f750a75e04bd46b73a143e1f1a07ded7d5457",
+   "artifact_version_id": "1b3d4bb6-b628-4af0-8349-1923fe66b24d"
+  },
+  {
+   "path": "assoc_all.csv",
+   "bytes": 3141306,
+   "sha256": "b0ca10a5aa2e7982a39364857554abf71519990c428c5e8d74821989b6e98475",
+   "artifact_version_id": "d7e50668-7b16-47b3-88e3-e143b37bc623"
+  },
+  {
+   "path": "II.COCO.csv",
+   "bytes": 546507,
+   "sha256": "41db3f9d95f4228d54c9ba15f54d08a335076c542224cacc1b7be93417da23e3",
+   "artifact_version_id": "07ea8da0-3c1f-403f-9a8e-0b9da0b699ca"
+  },
+  {
+   "path": "ims-march-detections.csv",
+   "bytes": 5803589,
+   "sha256": "9c37642461631fb8515eca5e71c8a98675b9210054ba28bb4dda2026fb7aec1f",
+   "artifact_version_id": "06cb7199-6852-4efd-b6b4-dc12bb1ea67f"
+  },
+  {
+   "path": "ims-march-detections-screen-level.csv.gz",
+   "bytes": 3606558,
+   "sha256": "ad30eb86bb949f4cf7c414ef5bc0137703df9b6dc9089d0efbfc05bbcd96beb6",
+   "artifact_version_id": "c8a699a1-95c5-4220-9180-060c478b2eeb"
+  },
+  {
+   "path": "bearing-sectors.csv",
+   "bytes": 2383,
+   "sha256": "c4ecd3770d3deaf168870b7e0b45d1ee17cf33ea51312f0345885a31c1ddf90e",
+   "artifact_version_id": "dbaf8a48-93ea-4a79-99be-ce0c045ddeb4"
+  },
+  {
+   "path": "catalogue-association-control.csv",
+   "bytes": 558,
+   "sha256": "8200c121d46786b20fa335e1db5c3325bd3b2ef1cb02f755f0b25dafc2bcb54e",
+   "artifact_version_id": "9ebb7e7c-e9b1-4db6-a944-1151751b04b4"
+  },
+  {
+   "path": "catalogue-events-march-2015-2019-m3.csv",
+   "bytes": 2913885,
+   "sha256": "9b83ed3ece2d390166123fee7ed033681f5b6215f9434aeac86706a0c4b001a5",
+   "artifact_version_id": "6940f49f-ba3c-4b0c-a5e2-de4cdf9d9e27"
+  },
+  {
+   "path": "processed-coverage.csv",
+   "bytes": 414,
+   "sha256": "428c26a137cad4cdf76b49b98a9c926a56e3c9374662f1e0e18c2bd252c61a27",
+   "artifact_version_id": "3a84ca01-81c6-4e19-97d5-598d28c476c8"
+  },
+  {
+   "path": "ims-open-availability-probes.csv",
+   "bytes": 206644,
+   "sha256": "30c26a6e30b5be146954b4d6a7685c9c0ab9a5270a3e88a31653045b3ec91116",
+   "artifact_version_id": "e52057dc-1829-4176-9cee-e964921ade80"
+  },
+  {
+   "path": "elements.json",
+   "bytes": 364,
+   "sha256": "7d4111a117a8cd435366e2383e17e45a16e439b167ed5520c6ebc52a2a7c7570",
+   "artifact_version_id": "da3c3b42-f62e-4505-86ac-3704976dc55c"
+  },
+  {
+   "path": "IM_hydro_channels.txt",
+   "bytes": 1784,
+   "sha256": "19efeb82ec059806a879ff35fee321a6b809f401d9d6b429070a485788adb127",
+   "artifact_version_id": "f82661eb-30ff-40ec-ae3d-1edf5941f52d"
+  },
+  {
+   "path": "array_cal.py",
+   "bytes": 1965,
+   "sha256": "bfd6e9233d7659da767edfef5bd76ab63503d81747fb9082f3db6f02baf8bed8",
+   "artifact_version_id": "b2fbc373-9705-4c1c-be7f-aa4ebf4f5085"
+  },
+  {
+   "path": "ims_proc.py",
+   "bytes": 13153,
+   "sha256": "5970305e0abac7d1f3af21bbd4dcc6f52280e94960f159376beb03a734d36a39",
+   "artifact_version_id": "40a3a194-42b1-4d19-882a-1da60e5c03aa"
+  },
+  {
+   "path": "m1b_bank.py",
+   "bytes": 2416,
+   "sha256": "a9b865e2990ee4d5aa454b47582e5e17c320d88645e767e323747577ad6bf1b0",
+   "artifact_version_id": "6baa5549-4593-41bf-bf8c-2ae5a1e069de"
+  },
+  {
+   "path": "run_days.py",
+   "bytes": 4383,
+   "sha256": "aa6e870ffbda9683765f39ad5169a5840ac4e46ce1813795b20e60f41b702617",
+   "artifact_version_id": "7c4ee287-e6a9-4270-9232-253a9d160670"
+  },
+  {
+   "path": "catalogues.py",
+   "bytes": 2530,
+   "sha256": "cf6563e48a43342c54c194e8b37fba2eda7377d3d75370521a118e97c7d475f4",
+   "artifact_version_id": "a6e59442-53d2-4799-b82e-44bbf49ad569"
+  },
+  {
+   "path": "sectors.py",
+   "bytes": 2577,
+   "sha256": "eb55be0705f6b31abb8f5a122a1b5543cf0b741f759f6d5e39b3daaa7418c5ac",
+   "artifact_version_id": "914a0940-0b12-4789-aab3-6199437d8d16"
+  },
+  {
+   "path": "probe_availability.py",
+   "bytes": 1725,
+   "sha256": "d43079921a70723846102b7452d237e8d03a4e7620e0b836d36199f58be98f11",
+   "artifact_version_id": "22fcaea9-bd02-484a-86de-ff6ac1209a22"
+  },
+  {
+   "path": "f1.png",
+   "bytes": 217892,
+   "sha256": "7b0cbd926b6bd288650eb90d13495d8043ec3b8ffcf6806a92a3aa87d3374fce",
+   "artifact_version_id": "7f9d8dc7-49db-4516-bbf1-5344a6d0ff4f"
+  },
+  {
+   "path": "f3.png",
+   "bytes": 65180,
+   "sha256": "45cb140407179bfa0904c838948ae4b14970482c731871cd1d3dcfb45aff3966",
+   "artifact_version_id": "134d99a4-8411-43aa-8689-a998e2475c85"
+  },
+  {
+   "path": "f4.png",
+   "bytes": 97907,
+   "sha256": "42d831fdc90a9988b6d3cb039b27686471ea911bd17c65f35848099297a26272",
+   "artifact_version_id": "4d9905c0-627b-4131-8895-d05f89e5d1ea"
+  },
+  {
+   "path": "f2.png",
+   "bytes": 144359,
+   "sha256": "c3bb6043767a7b3ba7fc196e74fbc9564fbb8c79196f7e8c604929bb1df27fd8",
+   "artifact_version_id": "1a465040-e4a3-45da-b608-32013fb222b3"
+  },
+  {
+   "path": "availability_probes_raw.csv",
+   "bytes": 311146,
+   "sha256": "8206ff5a2c9cf08e0ef994eb468452553a2e0dbe2039ad4e8d9ba4fdc23d479f",
+   "artifact_version_id": "22d95246-fdfe-4c6d-b9b8-765b7a1d4795"
+  },
+  {
+   "path": "swissair111-reference-events-lmn.csv",
+   "bytes": 1064,
+   "sha256": "7cd2fcd43d9fa20e1001d7b00b24b8616fb8f1134bd399c2094997fb9bf72d61",
+   "artifact_version_id": "f3b18064-5e71-437a-9eb4-9c93aebef428"
+  },
+  {
+   "path": "swissair111-lmn-band-snr.csv",
+   "bytes": 282,
+   "sha256": "90f46c5edde23354fe2519da1bc6a7ede94878782710ceb44d52b50478119ffe",
+   "artifact_version_id": "3348427a-cca4-400c-9a4b-80c1c9df052f"
+  },
+  {
+   "path": "swissair111-detection-tests.csv",
+   "bytes": 1581,
+   "sha256": "c9580af1d4507f5d04eba0add052b920598871e92d935b71e7504f12b6829579",
+   "artifact_version_id": "7675d778-8c4e-4c9e-b5b4-87a26a074120"
+  },
+  {
+   "path": "swissair111_seismic.py",
+   "bytes": 18170,
+   "sha256": "fce8d526c7e67a26029bb43f487ba6c86e5ce89ea9e962627d11642df6c9c330",
+   "artifact_version_id": "f2e9c277-40f8-46c5-aa90-e4af232deb67"
+  },
+  {
+   "path": "airliner_archive_scan.py",
+   "bytes": 9667,
+   "sha256": "fb3bff52f7052bfc5c7a063ae54f9d504f2a928923b5ab3a7120cdfaf44bd73e",
+   "artifact_version_id": "a0f71f23-81e9-43b6-9a29-4a74e57e59f8"
+  },
+  {
+   "path": "airliner_cases_scan.csv",
+   "bytes": 2655,
+   "sha256": "8a66c9e0b94c4bc5d33b7742f0b99ec50eb6384201a9761a098cd8a63866d8b7",
+   "artifact_version_id": "d2aac01e-fd6c-4ea8-a0c3-8d9373076c5c"
+  },
+  {
+   "path": "scan_results_raw.csv",
+   "bytes": 7856,
+   "sha256": "e18bc92ba9647fa7777fed64daeb5903c0eb0e4b67cdb3c8d5f731c5193014ec",
+   "artifact_version_id": "b5f21fa9-da74-458f-9337-c3e50d8880e6"
+  },
+  {
+   "path": "metz-fig2-vertices.csv",
+   "bytes": 521234,
+   "sha256": "643a8c35473d72e8142270ade6725e8f22d86527e50a3dca47409cc9e9d06618",
+   "artifact_version_id": "f4565054-4560-40bf-84ef-ec443f7f0e23"
+  },
+  {
+   "path": "digitise_fig2_checks.json",
+   "bytes": 5220,
+   "sha256": "5314b9d21a4f81f208e4a8645144c24db30d8db39418d8c4b58e02c082c7fdcd",
+   "artifact_version_id": "823f4e50-bef7-4a6b-bfd8-52121c44814d"
+  },
+  {
+   "path": "metz-band-spectra.csv",
+   "bytes": 9162,
+   "sha256": "5541fd1971587522b683b0e52a0e8bafe8653182ac9d407396c369a2330ff2a5",
+   "artifact_version_id": "0e36b9a2-cdc9-492a-afdd-d9374c6f943b"
+  },
+  {
+   "path": "metz-band-timing.json",
+   "bytes": 8833,
+   "sha256": "e2f9d55b2bbe42da436c283293b91752eba73d2b60de5ffed51cd04d1904e2a6",
+   "artifact_version_id": "7d624a71-c8c0-4d94-ba51-6ce49c0700fa"
+  },
+  {
+   "path": "metz-source-slope-5-16Hz.csv",
+   "bytes": 1463,
+   "sha256": "99fa35675378e9e14ce0fa4baf4944c3ff598b4e446d2009b8d0b90b0d3b6e99",
+   "artifact_version_id": "aaca7cad-fd23-4e8b-ac04-ff757a39a126"
+  },
+  {
+   "path": "metz-source-implications.json",
+   "bytes": 5084,
+   "sha256": "efff3fd4ca27b84c277f3d7a5c95491d7da4a6b8ee7c91bc19d77ae6836c1faf",
+   "artifact_version_id": "91b658bc-8aab-4d29-8530-a83087c0b81e"
+  },
+  {
+   "path": "metz-nearfield-tl.csv",
+   "bytes": 68643,
+   "sha256": "8fde7b55cee3ab1eca58469ab678696a3722efb65c7c9a13d9c5b6849deac6ed",
+   "artifact_version_id": "da968925-ff5e-4666-86dc-fdd94168da75"
+  },
+  {
+   "path": "metz-nearfield-arrivals.csv",
+   "bytes": 42509,
+   "sha256": "1ca6740c1a391fe0309c7c911f2114ae86b988e7d490286085071ab3b5ec0e9f",
+   "artifact_version_id": "d77636fa-327a-4888-89c2-522d33ebe7ef"
+  },
+  {
+   "path": "metz-nearfield-impulse-response.csv",
+   "bytes": 12918,
+   "sha256": "6b3c6ce04c2443ced36d670249237387412375e2c7b84a51ba6ddc23b2d8b9b6",
+   "artifact_version_id": "693435f8-2f82-4a83-9f12-0110eb3fb6cd"
+  },
+  {
+   "path": "metz-nearfield-arrivals-meta.json",
+   "bytes": 1005,
+   "sha256": "980bb3118c10d525971aac95cbf729d67bc11514aa1167b719767e2e95f078bd",
+   "artifact_version_id": "c47ba55f-acd5-4a02-9456-c9479f02664f"
+  },
+  {
+   "path": "metz-nearfield-duration-fit.csv",
+   "bytes": 58652,
+   "sha256": "bca409ff3418003eb5fc39b413c6b7f06d0f904868f28db008fa9e3965bfafd8",
+   "artifact_version_id": "d9e65af0-9c28-48ee-a141-072c53c29b53"
+  },
+  {
+   "path": "metz-nearfield-pred-envelopes.csv",
+   "bytes": 2702708,
+   "sha256": "9d25bc12f286a2f1ffb33d8f96a5a3a046a69d0f0ce9116f0f02ef7719cb77dd",
+   "artifact_version_id": "21e4ab2f-8a12-49c0-9558-074b0fef05fc"
+  },
+  {
+   "path": "digitise_metz_fig2.py",
+   "bytes": 7791,
+   "sha256": "997f7ed09e66e2805a21d29ef250dd477c0d9c137d8f51e3cbeba532f3ccf98b",
+   "artifact_version_id": "7e5c43f1-8ccb-499b-9bf0-b620e6efab8e"
+  },
+  {
+   "path": "derive_nearfield.py",
+   "bytes": 9677,
+   "sha256": "2d9cd8438983aabcd3c3400c6136795b9beff6673c2284ca19849af3635914fa",
+   "artifact_version_id": "07ac961b-5565-4554-aadf-7b0040109414"
+  },
+  {
+   "path": "nearfield_tl.py",
+   "bytes": 4700,
+   "sha256": "6e8002bacb09fb5f684a96f99ce51ba8cbfa3e4f88d35b0140e95c3ce89bb009",
+   "artifact_version_id": "1f5b749d-eed9-4157-a39b-74723ecc26ff"
+  },
+  {
+   "path": "source_implications.py",
+   "bytes": 10075,
+   "sha256": "61787a59589e44b518286fb866ed51d0f7e377eb0c0e2ecfe0b3c7e805c87942",
+   "artifact_version_id": "ee680eef-0687-410a-835c-6eb8fd5e08bc"
+  },
+  {
+   "path": "nearfield_arrivals.py",
+   "bytes": 5430,
+   "sha256": "ab41d55b473cee471c7660398fd5cbc203f536bc23bf01e59225a0a99e1610cc",
+   "artifact_version_id": "465cde08-6516-4ad5-bd97-79ae78803b26"
+  },
+  {
+   "path": "nearfield_duration_fit.py",
+   "bytes": 4855,
+   "sha256": "2979a853134eb51728eceb1df78b95022a91f92678265f9f3001122b12b2fe18",
+   "artifact_version_id": "0ec651c9-1583-4e58-bb0b-ddae535e03c1"
+  },
+  {
+   "path": "vertices_DSOH.csv",
+   "bytes": 134997,
+   "sha256": "81df131a7589c073193ad7b4090c981a4362ce3b22b4e3fd0cc0ce21c8f7c5a1",
+   "artifact_version_id": "639ea6f1-b6c8-4eb1-80ea-fe0ae74f4693"
+  },
+  {
+   "path": "vertices_KSP1.csv",
+   "bytes": 130221,
+   "sha256": "fef0756f572582fcd80a20d4f22ec387ae68cde7f6be718467c8d29a0a7d391d",
+   "artifact_version_id": "37092465-9110-4117-9dd7-c0aa18747f79"
+  },
+  {
+   "path": "vertices_KSP2.csv",
+   "bytes": 128525,
+   "sha256": "47d59ab4bdd5b5d08ceff7fc8e5d12adb17f42dff8ad7788b9e0ee77382cc589",
+   "artifact_version_id": "20ee66b3-a3a8-48ad-82b4-b64174456536"
+  },
+  {
+   "path": "vertices_KSP3.csv",
+   "bytes": 129094,
+   "sha256": "1eee343b1dab6dc3f3af1ba269149b4820b4f94208559e21f45aa5b804986d95",
+   "artifact_version_id": "e40c3bce-1a1d-4097-bf2e-048d24f07539"
+  },
+  {
+   "path": "seismometers-near-7th-arc-2014.csv",
+   "bytes": 2275,
+   "sha256": "5624b8129d254fb1cf3226ca04c0d8790ac7ee924b6441d288615b04be5551e8",
+   "artifact_version_id": "83e73137-a663-4c2e-9185-9ecc26a9b920"
+  },
+  {
+   "path": "ims_probe_historical.csv",
+   "bytes": 1809,
+   "sha256": "c67c3bee212a696d8c94c314a2d94e4f3904b0f1827b26819866be7643e66e4b",
+   "artifact_version_id": "e0ab78eb-5cb4-446c-bf65-50e20aaefb95"
+  },
+  {
+   "path": "predicted_windows.csv",
+   "bytes": 1910,
+   "sha256": "814e2be72c188bfa5aa3d8eb9da0970d04e9a841c6a249613012ebbc3a181caa",
+   "artifact_version_id": "c776ab57-73d2-44dc-a88b-4af7b03dbea0"
+  },
+  {
+   "path": "geometry_paths.csv",
+   "bytes": 1284,
+   "sha256": "4f8d8cde2b06c0faf4c6206416a6bffc64fb1810eaaee7c2f2d68f6368c5074b",
+   "artifact_version_id": "2f804617-6500-4806-8620-d42104814fc0"
+  },
+  {
+   "path": "water_routes.csv",
+   "bytes": 1687,
+   "sha256": "930e80358ae637aef94fa51b5a19b0570d52fd469e070babd2caf3e545a8bbe8",
+   "artifact_version_id": "a29958dd-60a5-43f7-bdf7-5be5587b8cd0"
+  },
+  {
+   "path": "fig1_event_day_record_bearing.png",
+   "bytes": 281191,
+   "sha256": "f5bc92d20099e894dab31a83d247163054be425c8e32f8fd870a9592991465b7",
+   "artifact_version_id": "e9d2b845-5abb-44bc-81d6-a249dbfeaab5"
+  },
+  {
+   "path": "fig2_detection_probability.png",
+   "bytes": 241211,
+   "sha256": "0819b9dac60f7f56b9a7dd2fbbdaf4ed4913f59465bc6f44676025139a2f679e",
+   "artifact_version_id": "466fbfc9-a9b3-44ed-bff9-435c6bc20483"
+  },
+  {
+   "path": "fig4_path_depth_profile.png",
+   "bytes": 243636,
+   "sha256": "be38b96824015b7815d83b5ec290420390a88399204f57ee9b0059abe9db2dd4",
+   "artifact_version_id": "d2224130-ad47-49d2-95f4-e1025b51ca8c"
+  },
+  {
+   "path": "fig1_event_day_record_bearing.pdf",
+   "bytes": 56764,
+   "sha256": "74341a323e5a93ec6af08aa7f120dc7823cc2bc4b33510c35ad3ffacd94fa1cc",
+   "artifact_version_id": "c732f000-0686-4f99-b324-e5957b01a6d6"
+  },
+  {
+   "path": "fig2_detection_probability.pdf",
+   "bytes": 32628,
+   "sha256": "b69b9c79846d7553b1dcc8d7b7ed67f02451d20ba0209528fcad8014c5735849",
+   "artifact_version_id": "cee90ff8-274b-434e-bb8e-158e2a53ec30"
+  },
+  {
+   "path": "fig4_path_depth_profile.pdf",
+   "bytes": 78511,
+   "sha256": "fd88b33a3322c55d685de71fb97b7da7f8cd0ea830ef7eabd56b1abf5cead1fd",
+   "artifact_version_id": "cf6cb09d-3d76-4209-98f1-a8afae7b4ca6"
+  },
+  {
+   "path": "detection_probability_curve.csv",
+   "bytes": 3122,
+   "sha256": "dc7f2efb7e118a383d5004d422279a6da0f468477a3f01b94d181036bcb40fc3",
+   "artifact_version_id": "ff7bf440-77b0-4bca-ba4e-125641585b7d"
+  },
+  {
+   "path": "usgs_20210702.csv",
+   "bytes": 1284,
+   "sha256": "abd5ef94f04d7395591a00fbb7ae49e8f904a2f0b6b7c8d3c428bfe918f992f2",
+   "artifact_version_id": "80985e2a-3429-4b30-bf76-af474502c1d2"
+  },
+  {
+   "path": "injection_meta.json",
+   "bytes": 503,
+   "sha256": "75c92050393b4696ae1f5a9c0906296dcd470f90af21d8781de9b6fa45261406",
+   "artifact_version_id": "88c467da-e778-492b-bce0-d3813fc11f3d"
+  },
+  {
+   "path": "ssp_ta810-H11S.csv",
+   "bytes": 1644854,
+   "sha256": "76723d7df0d16469417458797634ee3c7ba1f8a5196210f154ac2e018329bef1",
+   "artifact_version_id": "b4d8f714-b7b3-4bda-981f-518b97b6bd28"
+  },
+  {
+   "path": "fig_reproduced_panels_pacific.png",
+   "bytes": 1289607,
+   "sha256": "39d9da3b0bc63bb3353ded216f10b50b178a671b1c34e3e3846926878b458cc6",
+   "artifact_version_id": "d0653932-94f4-418e-9897-f777016608af"
+  },
+  {
+   "path": "fig_reproduced_panels_indian.png",
+   "bytes": 1086631,
+   "sha256": "473a84ffde991f467f2930fb6ad94fa8d1f71d5da431e86219b9e4d22c64568f",
+   "artifact_version_id": "16d85475-c7ec-46bd-919f-e7c64f5a4d34"
+  },
+  {
+   "path": "reproduction_filter_diagnosis.csv",
+   "bytes": 3535,
+   "sha256": "eddd263542ce6b77e5a6e4ec4212c3a74146066df07f354fb011beb31da2ba8c",
+   "artifact_version_id": "2f683444-86b3-4379-a027-07330e74a7a2"
+  },
+  {
+   "path": "reproduction_filter_sweep.csv",
+   "bytes": 4608,
+   "sha256": "604239e8d6fb4d0db95157c77bab6b6791943a36e5d788ae16dda4f0a75766d8",
+   "artifact_version_id": "64ea311a-ef21-4f2f-a806-473aca60355d"
+  },
+  {
+   "path": "usgs_candidate_sources_EXPLORATORY.csv",
+   "bytes": 7328,
+   "sha256": "2a615c4d243eb2dcb1893989faf914f4ccf2dd7b409a19bab90b6e21a2dc9620",
+   "artifact_version_id": "b543fd63-7458-4055-b775-13ffd33ded15"
+  },
+  {
+   "path": "qz8501_h01w_full_record_match.csv",
+   "bytes": 295,
+   "sha256": "83a7607ed132beedf5df1dcec8ac5a47c29de1d05dbe48524477f19f2d2d2210",
+   "artifact_version_id": "b76cedbe-0455-4fc7-806f-71e5e5aba2ca"
+  },
+  {
+   "path": "digitised_panel_calibration.json",
+   "bytes": 2603,
+   "sha256": "ed4771f396a82f50b105dbe6b7438ceb44e6bdc9d3377b89e82abbab91afa403",
+   "artifact_version_id": "ef2da099-bf3b-4d6f-9b5d-ebcc9bbb3a6f"
+  },
+  {
+   "path": "fig_residuals_slopes.png",
+   "bytes": 261223,
+   "sha256": "a6fbb745bbd56cea1779b3c086ef226632344ad8e58941c291d876cedb1aea45",
+   "artifact_version_id": "2209d217-353f-4615-9466-2e0eff3c067f"
+  },
+  {
+   "path": "fig_m1b_real_arrival.png",
+   "bytes": 209156,
+   "sha256": "4dbba968643833f3388f7114722dfbe62ea0179ca79902a1f575467e09297bdc",
+   "artifact_version_id": "60427cdc-4930-472a-aea8-c30e731c1c4c"
+  },
+  {
+   "path": "fig_sanjuan_event_source.png",
+   "bytes": 212779,
+   "sha256": "654137b98669ebc90052a7da97835113c94000a8ceb03d9c06ea4ac6fc0056d4",
+   "artifact_version_id": "00ad1a5c-bf1b-42ae-a0e6-185d03f42be4"
+  },
+  {
+   "path": "air9-observed-minus-calculated.png",
+   "bytes": 241774,
+   "sha256": "c7d89968933fd26e2c0c2b3b420c9f01a5f6c9a594e2f88c7a8227ac9b11e15d",
+   "artifact_version_id": "4da3e664-336f-412b-9742-2e51d6f91ac6"
+  },
+  {
+   "path": "README.md",
+   "bytes": 18819,
+   "sha256": "08eaed57d0b6d688e8eed8977414e265c0292273dcf39213adcb8be2a6b13c5f"
+  }
+ ],
+ "thread_id": "c764a583-f184-4087-b4ce-19c3b8a19483",
+ "status": "UNCHECKED",
+ "created_utc": "2026-10-26T21:19:58Z",
+ "description": "Deliverables of session c764a583 made before 19:03:40Z on 26 Oct 2026 that were not yet in the repository: catalogue downloads, scripts, tables and figures of the source survey and raw IMS tracks. Copied unchanged.",
+ "supersedes": [],
+ "defects": []
+}

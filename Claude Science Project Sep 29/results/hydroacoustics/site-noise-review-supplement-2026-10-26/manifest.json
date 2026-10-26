@@ -1,0 +1,124 @@
+{
+ "manifest_version": 1,
+ "run_id": "site-noise-review-supplement-2026-10-26",
+ "module": "hydroacoustics",
+ "commit": {
+  "branch": "claude-science-sep29",
+  "sha": "114bebc805582ce95d3472a599d1c1b09b0f41cc",
+  "dirty": false
+ },
+ "configuration": {
+  "values": {
+   "method": "copy of platform artifacts (byte-identical; SHA-256 checked)",
+   "source_session": "c0b15646-883a-4dcf-811b-7a832a957069",
+   "selection": "PART A inventory action=commit (repository-import-2026-10-26/inventory.csv)"
+  }
+ },
+ "inputs": [
+  {
+   "registry_id": "hydro.res.back_to_basics_2026_10_23.airgun_surveys",
+   "role": "context: entry of the producing work"
+  },
+  {
+   "registry_id": "hydro.res.back_to_basics_2026_10_23.whale_calls",
+   "role": "context: entry of the producing work"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "noise-H01W-2003-vs-2014.png",
+   "bytes": 548172,
+   "sha256": "0feb301601d8e2a21cc0a3fce0ba0704809a387db0ad7d571f2157f4fb1d3c9b",
+   "artifact_version_id": "8b7e7f38-c6bf-4e79-a22c-5f44d9e2704d"
+  },
+  {
+   "path": "noise-H01W-2003-vs-2014.pdf",
+   "bytes": 80681,
+   "sha256": "2b177d0864be1ebfebc0a8e52346ea13ef4187d00c4d0a1d38932bbba0c79b9a",
+   "artifact_version_id": "1ea217c6-642b-4ef2-902b-d16928248277"
+  },
+  {
+   "path": "noise-H08S-2003-vs-2014.png",
+   "bytes": 403443,
+   "sha256": "8a6d9159ffafceec9df594ef51e658a3e0c82ecbd286c60d4af686cdea1f28ee",
+   "artifact_version_id": "501eae4d-b11d-401f-8a94-914d724cbec2"
+  },
+  {
+   "path": "noise-H08S-2003-vs-2014.pdf",
+   "bytes": 47396,
+   "sha256": "c398d88a1dd467cf3e7e6fbd2004122082f176343be485a42b2a721c6219e82c",
+   "artifact_version_id": "75413218-93d3-409e-8282-11ef609e0780"
+  },
+  {
+   "path": "noise-2003-vs-2014-tests.csv",
+   "bytes": 615,
+   "sha256": "5661c710a0dbd05fe3241c04ee570b7f178f0bd2f7d167f521ece4254465c293",
+   "artifact_version_id": "abc960f2-678b-4a5f-bc23-ad55789b3823"
+  },
+  {
+   "path": "arc-paths-scott-reef-h08n.png",
+   "bytes": 332465,
+   "sha256": "3f47c89b46eef987c93e6564efa5855ea920fae0fd0189da729ebce6721cd40c",
+   "artifact_version_id": "1881c045-9415-4adf-bfe8-d63e25125102"
+  },
+  {
+   "path": "arc-paths-scott-reef-h08n.pdf",
+   "bytes": 28903,
+   "sha256": "8ee2d82fb8fe76c362f686ee2f6cbb00dc31f8b13b6072e25c9e627bcb0a2cc4",
+   "artifact_version_id": "ba549f97-8715-4ff7-abff-6c3a4eb2a97e"
+  },
+  {
+   "path": "arc_path_obstacles_20S_40S.csv",
+   "bytes": 70755,
+   "sha256": "be31f8d3b9af56ef48dd22388e85073426cc4448b069c8e3aac04d9d0a4e1440",
+   "artifact_version_id": "6b64085e-153a-4918-85e6-43121d1a0391"
+  },
+  {
+   "path": "royer-figure-noise-levels.csv",
+   "bytes": 1108,
+   "sha256": "cea05ef0a5b70845d87366a4e9854d1e232557d5d7cf5e75d41286975adb9a8e",
+   "artifact_version_id": "58b562d4-f305-4cd9-860e-fc729abd5f00"
+  },
+  {
+   "path": "detections_SSEIR_2014.csv",
+   "bytes": 2530719,
+   "sha256": "f8429f32295ade2f71d7af186b79ab204c6881fa109fe5c497e68a5bb4460e48",
+   "artifact_version_id": "b5bdb5d4-9a20-47d9-b2a7-8ea1b9e912a0"
+  },
+  {
+   "path": "daily_average_frequency_Z-call.csv",
+   "bytes": 175203,
+   "sha256": "a5d70d265f5f4d043d8fe180cbb9d0ae7661a8e7c447405f814a987961266b98",
+   "artifact_version_id": "f836e2eb-451f-4825-9f4a-53742a97aecd"
+  },
+  {
+   "path": "Readme.txt",
+   "bytes": 2205,
+   "sha256": "c79b5a86be9ec46162310c1b78cb1bb5f5b49cd420aa0edbe8da9f961837489e",
+   "artifact_version_id": "fafb6e43-e2a1-440c-a49e-33d87015f2b3"
+  },
+  {
+   "path": "airgun_surveys_note_artifact.md",
+   "bytes": 20311,
+   "sha256": "4d386f5bc3152df5eeb86c75b7f4cadd74dcb7f87664ea3d52f6ed3c0fe0d3f1",
+   "artifact_version_id": "04476b9a-88cd-438f-ac22-0943c974a84e"
+  },
+  {
+   "path": "survey_to_station_paths_gebco.csv",
+   "bytes": 9780,
+   "sha256": "a8a682ab288d0d5bb0e66adbaa6866991a00fb1d58126050556cb3b0d6cf2a96",
+   "artifact_version_id": "99d7cc4a-73da-4147-acf6-7b23b565ede6"
+  },
+  {
+   "path": "README.md",
+   "bytes": 2304,
+   "sha256": "c172f1557faf892e346b49508b52322bacfa5305912bf8d0a2cd6e75b96e32b2"
+  }
+ ],
+ "thread_id": "c0b15646-883a-4dcf-811b-7a832a957069",
+ "status": "UNCHECKED",
+ "created_utc": "2026-10-26T21:19:58Z",
+ "description": "Deliverables of session c0b15646 (site noise review, 23-24 Oct 2026) not yet in the repository: noise 2003 vs 2014 tests and charts, Royer figure noise levels, arc path obstacles, airgun survey note, OHASISBIO whale-call downloads. Copied unchanged.",
+ "supersedes": [],
+ "defects": []
+}

@@ -1,7 +1,7 @@
-registry_version: hydroacoustics registry v1 phase 2 (2026-10-26), from hypothesis/hydroacoustics@d988be918bcd
+registry_version: hydroacoustics registry v1 phase 2 (2026-10-26), from hypothesis/hydroacoustics@4452f265c92e
 module: hydroacoustics
 generated_by: registry/import_hydro_registry.py (do not edit by hand; change the hydro registry and run again)
-hydro_registry_commit: d988be918bcd47a88ae9e3f746fb20aae5362c45
+hydro_registry_commit: 4452f265c92e91d4f29c526b16cd6d22b670bd3f
 entries:
 - id: hydro.art.candidates_A_F
   module_registry_id: art.candidates_A_F
@@ -23,7 +23,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:372
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:372
     quote: 'status: WITHDRAWN'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -44,7 +44,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:361
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:361
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -76,7 +76,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:381
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:381
     quote: 'status: WITHDRAWN'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -97,7 +97,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:390
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:390
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -119,7 +119,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:348
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:348
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -138,8 +138,9 @@ entries:
   module_registry_id: code.hydro_data_db
   kind: code
   module: hydroacoustics
-  note: Builders and derived scripts for hydro_data.sqlite (build_hydro_data_db.py, build_noise_coupling.py, arc_line_of_sight.py, arc_station_count.py, make_sites_map.py,
-    arc_recording_opportunity.py) with their outputs, inputs/coupling (coupling-thread files with MANIFEST.tsv) and NOISE_COUPLING_RECORD.md (generated).
+  note: Builders and derived scripts for hydro_data.sqlite (build_hydro_data_db.py, build_noise_coupling.py, build_imports.py with imports.yaml, build_noise_fixes.py,
+    rebuild_all.sh, arc_line_of_sight.py, arc_station_count.py, make_sites_map.py, arc_recording_opportunity.py) with their outputs, inputs/coupling (coupling-thread
+    files with MANIFEST.tsv) and NOISE_COUPLING_RECORD.md (generated). Stages 3-4 added 26 Oct 2026 (UNCHECKED by an independent verifier).
   assignment_basis: hydro module registry (phase 2)
   defects: []
   superseded_by: null
@@ -147,30 +148,26 @@ entries:
   producing_thread: null
   verified_this_run: true
   status: CURRENT
-  module_registry_manifest_sha256: 4e92bd827f217c31ddca9dfdaa5e82d60c5d88846b8ce5cd6ea852122f4cd3e0
-  path: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45
+  module_registry_manifest_sha256: 29eb9bf52b8c6153c52a9ecb85bda6f742173b94456d084a44d388d11419e7b8
+  path: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f
   git_path: Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/data_db
   hash: git
   hash_note: files of the module branch at the commit; SHA-256 of each blob
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:1084
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:1084
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
   definition:
-    file: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/data_db/README.md
+    file: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/data_db/README.md
     lines:
     - 90
     - 90
-    quote: 'Run order: `build_hydro_data_db.py` → `build_noise_coupling.py --db hydro_data.sqlite --mod <module root> --coupling inputs/coupling --record NOISE_COUPLING_RECORD.md`
-      → `arc_line_of_sight.py --db hydro_data.sqlite --gebco <gebco grid dir>` → `arc_station_count.py --db hydro_data.sqlite --out arc_los_station_count` → `make_sites_map.py`
-      / `arc_recording_opportunity.py`.'
-  platform_artifacts:
-    n: 45
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
+    quote: 'Run order (since 26 Oct 2026; `rebuild_all.sh` runs it): `build_hydro_data_db.py` → `build_noise_coupling.py --db hydro_data.sqlite --mod <module root>
+      --coupling inputs/coupling --record NOISE_COUPLING_RECORD.md` → `build_imports.py --db hydro_data.sqlite --mod <module root> --work <''Claude Science Project
+      Sep 29'' on claude-science-sep29>` → `build_noise_fixes.py --db hydro_data.sqlite --mod <mod'
 - id: hydro.code.module_engine
   module_registry_id: code.module_engine
   kind: code
@@ -184,19 +181,19 @@ entries:
   verified_this_run: false
   status: CURRENT
   module_registry_manifest_sha256: 6a730a33da108c56e223a00c08500face537aafd67984a3aef43d0495c2ca00d
-  path: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45
+  path: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f
   git_path: Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/lib.rs
   hash: git
   hash_note: files of the module branch at the commit; SHA-256 of each blob
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:912
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:912
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
   definition:
-    file: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/lib.rs
+    file: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/lib.rs
     lines:
     - 1
     - 12
@@ -225,22 +222,18 @@ entries:
   producing_thread: null
   verified_this_run: false
   status: CURRENT
-  module_registry_manifest_sha256: 0a93a6c1e7a40b43317f22289eb1c0aa2c15c25326676c1f7e4d1258f82df46c
-  path: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45
+  module_registry_manifest_sha256: ecbd6996d52713fd4f7d9cab5c143e8ee0dffcb1c12b7b7935e9b564bcdd8b4d
+  path: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f
   git_path: Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare
   hash: git
   hash_note: files of the module branch at the commit; SHA-256 of each blob
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:905
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:905
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
-  platform_artifacts:
-    n: 9
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
 - id: hydro.ex.arc_line_of_sight
   module_registry_id: ex.arc_line_of_sight
   kind: product
@@ -255,19 +248,19 @@ entries:
   verified_this_run: true
   status: CURRENT_WITH_CAVEATS
   module_registry_manifest_sha256: 67d1cf68904e7f70305bcda2b5253f21e6d1275a5f0311d35a3f33c7c934201a
-  path: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45
+  path: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f
   git_path: Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/data_db/arc_los_station_count.csv
   hash: git
   hash_note: files of the module branch at the commit; SHA-256 of each blob
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:1096
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:1096
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
   definition:
-    file: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/data_db/arc_line_of_sight.py
+    file: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/data_db/arc_line_of_sight.py
     lines:
     - 8
     - 16
@@ -296,7 +289,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:128
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:128
     quote: 'status: KNOWN_DEFECT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -332,7 +325,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:307
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:307
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -349,10 +342,6 @@ entries:
       (Refresh v2 §4: no raw data from Kadri or Royer is expected, so every dataset rendered in the publications is
 
       extracted and recorded). Work order: `threads/work-orders/hydroacoustics-order-2026-10-21.md`, bl'
-  platform_artifacts:
-    n: 8
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
 - id: hydro.ex.handover_2026_10_23
   module_registry_id: ex.handover_2026_10_23
   kind: archive
@@ -372,10 +361,6 @@ entries:
   exchange_top_files_only: false
   status_rank: none
   status_evidence: []
-  platform_artifacts:
-    n: 1
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
 - id: hydro.ex.imos_ram_grid
   module_registry_id: ex.imos_ram_grid
   kind: product
@@ -395,7 +380,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:193
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:193
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -434,7 +419,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:205
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:205
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -470,7 +455,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:143
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:143
     quote: 'status: KNOWN_DEFECT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -508,7 +493,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:923
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:923
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -544,7 +529,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:219
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:219
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -577,7 +562,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:233
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:233
     quote: 'status: PENDING_RULING'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -593,10 +578,6 @@ entries:
       *Hydroacoustic Module, track "metz-f35a", 22 October 2026 (Pete''s correction list items 1, 2 F-35A part, 4, 5). Every number
 
       carries caveats C1 (propagation slope) and C2 (coupling effici'
-  platform_artifacts:
-    n: 3
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
 - id: hydro.ex.potential_signals_2026_10_23
   module_registry_id: ex.potential_signals_2026_10_23
   kind: product
@@ -617,7 +598,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:1001
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:1001
     quote: 'status: SUPERSEDED'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -652,7 +633,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:1015
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:1015
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -669,10 +650,6 @@ entries:
       *Version 3 (05:30 UTC) corrects two errors that the independent verifier found in version 2 (round 3): the silence test did not
 
       use all detections, and it treated Diego Garcia H08S as silent alt'
-  platform_artifacts:
-    n: 2
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
 - id: hydro.ex.potential_signals_graphics
   module_registry_id: ex.potential_signals_graphics
   kind: product
@@ -695,7 +672,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:1032
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:1032
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -733,7 +710,7 @@ entries:
   status_rank: explicit
   status_evidence:
   - rank: explicit
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:1043
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:1043
     quote: 'note: Charts 1-4 for 26 rows (table 1 M001-M010 + 6 airgun-free rows; table 2 S001-S010). FINAL-v2, FINAL and PREVIEW in the same parent folder are SUPERSEDED.'
 - id: hydro.ex.potential_signals_graphics_preview
   module_registry_id: ex.potential_signals_graphics_preview
@@ -754,7 +731,7 @@ entries:
   status_rank: explicit
   status_evidence:
   - rank: explicit
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:1043
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:1043
     quote: 'note: Charts 1-4 for 26 rows (table 1 M001-M010 + 6 airgun-free rows; table 2 S001-S010). FINAL-v2, FINAL and PREVIEW in the same parent folder are SUPERSEDED.'
 - id: hydro.ex.potential_signals_graphics_second_set
   module_registry_id: ex.potential_signals_graphics_second_set
@@ -775,7 +752,7 @@ entries:
   status_rank: explicit
   status_evidence:
   - rank: explicit
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:1043
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:1043
     quote: 'note: Charts 1-4 for 26 rows (table 1 M001-M010 + 6 airgun-free rows; table 2 S001-S010). FINAL-v2, FINAL and PREVIEW in the same parent folder are SUPERSEDED.'
 - id: hydro.ex.potential_signals_graphics_top
   module_registry_id: ex.potential_signals_graphics_top
@@ -846,7 +823,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:109
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:109
     quote: 'status: KNOWN_DEFECT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -858,10 +835,6 @@ entries:
     quote: "Ranked hydroacoustic candidates (graphics track, 22 Oct 2026). EXPLORATORY; PREDICTIVE, NOT CALIBRATED; caveats C1, C2.\nPre-registration: module branch\
       \ hypothesis/hydroacoustics commit 9f47cf7, prepare/ranked_candidates/prereg.py (formula and inputs).\nFiles:\n  ranked_singles.csv    184 one-recorder candidates\
       \ (imos_candidates.csv 133 + panel_candidates.csv 51), ranked by approximate ln LR (D0', p "
-  platform_artifacts:
-    n: 1
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
 - id: hydro.ex.ranked_2026_10_23_prior
   module_registry_id: ex.ranked_2026_10_23_prior
   kind: product
@@ -885,7 +858,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:968
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:968
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -922,7 +895,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:887
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:887
     quote: 'status: SUPERSEDED'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -940,7 +913,7 @@ entries:
     n_rows: 1
     mem_ids:
     - mem_b85312892e6a
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
 - id: hydro.ex.register_2026_10_23_v2
   module_registry_id: ex.register_2026_10_23_v2
@@ -966,7 +939,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:984
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:984
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -999,7 +972,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:159
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:159
     quote: 'status: SUPERSEDED'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -1014,10 +987,6 @@ entries:
       *** WARNING (23 Oct 2026, amendment A4): THE COLUMNS IN THIS DIRECTORY ARE ON THE OLD IMOS TL TABLE (imos_tl_ramcorr_arc.csv, constant
 
       *** rule-2 RAM correction, gap G-TL1). The RAM-along-grid track has since issued the corrected table imos_tl_ram_'
-  platform_artifacts:
-    n: 1
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
 - id: hydro.ex.run_j_gated_v2
   module_registry_id: ex.run_j_gated_v2
   kind: product
@@ -1043,7 +1012,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:173
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:173
     quote: 'status: SUPERSEDED'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -1063,7 +1032,7 @@ entries:
     mem_ids:
     - mem_b55910e8ca6f
     - mem_cb7c728da67e
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
 - id: hydro.ex.run_j_gated_v3
   module_registry_id: ex.run_j_gated_v3
@@ -1088,7 +1057,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:937
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:937
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -1158,7 +1127,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:318
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:318
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -1194,7 +1163,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:330
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:330
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -1230,7 +1199,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:244
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:244
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -1248,7 +1217,7 @@ entries:
     n_rows: 1
     mem_ids:
     - mem_3ce181d72beb
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
 - id: hydro.ex.session_staging_1012
   module_registry_id: ex.session_staging_1012
@@ -1272,7 +1241,7 @@ entries:
     n_rows: 1
     mem_ids:
     - mem_8e6ee9a9a58c
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
 - id: hydro.ex.tl_grid
   module_registry_id: ex.tl_grid
@@ -1293,7 +1262,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:266
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:266
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -1348,7 +1317,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:284
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:284
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -1383,7 +1352,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:296
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:296
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -1435,7 +1404,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:35
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:35
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -1466,7 +1435,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:90
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:90
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -1489,14 +1458,14 @@ entries:
   verified_this_run: false
   status: CURRENT
   module_registry_manifest_sha256: 6e387432fd1b04bc2d74c37f1bab6371ff02801e2db02899c95598b2fa9b3af0
-  path: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45
+  path: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f
   git_path: Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data/h08s_template/h08s_template_shots.csv
   hash: git
   hash_note: files of the module branch at the commit; SHA-256 of each blob
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:75
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:75
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -1505,7 +1474,7 @@ entries:
     mem_ids:
     - mem_808788c10f3e
     - mem_82c5963dc0be
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
 - id: hydro.in.h08s_shots_v1
   module_registry_id: in.h08s_shots_v1
@@ -1520,14 +1489,14 @@ entries:
   verified_this_run: false
   status: SUPERSEDED
   module_registry_manifest_sha256: 22d84c7a543b8840fe7906641a12362b84f01703cd499b20169bb99a5ac39745
-  path: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45
+  path: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f
   git_path: Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data/h08s_template/v1_defective
   hash: git
   hash_note: files of the module branch at the commit; SHA-256 of each blob
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:82
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:82
     quote: 'status: SUPERSEDED'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -1535,32 +1504,35 @@ entries:
   module_registry_id: in.hydro_data_db
   kind: input
   module: hydroacoustics
-  note: 'DATA SOURCE OF RECORD for hydroacoustic data (raw IMOS records and digitised published data, stage 1, 23 Oct 2026) and for background noise and acoustic
-    coupling (stage 2, 25 Oct 2026): site, sensor, dataset, segment, pick, event, attribute, arc_path, noise_estimate, noise_condition, coupling_definition, coupling_value,
-    coupling_evidence, coupling_curve tables; 4,572 raw files SHA-256 verified; stage 1 36/36 checks, stage 2 20 checks (18 PASS, 2 REVIEW listed for Pete: K09 restrictive
-    wording, K11 coupling-curve rows above 1); coupling tables are the coupling thread''s package of 25 Oct 2026, validated by its own script in every build. Rebuild
-    with the data_db scripts; never edit by hand. Results stay in this registry.'
+  note: 'DATA SOURCE OF RECORD for hydroacoustic data (raw IMOS records and digitised published data, stage 1, 23 Oct 2026), background noise and acoustic coupling
+    (stage 2, 25 Oct 2026), the data imports declared in imports.yaml (stage 3, 26 Oct 2026: open raw IMS March 2015-2019 noise and false-alarm tables, H01W array
+    calibration, island seismic tables, Royer labelled set, known events, source types and catalogues, Swissair 111 and airliner seismic cases, Metz near-field tables,
+    wave-3 coupling rows CV26-CV123 / OB07-OB81 / E18 with AC05 and R3 updates, explosion radiated fractions in their own table) and the noise caveat fixes C1-C3
+    (stage 4, 26 Oct 2026). Full rebuild 26 Oct 2026 with rebuild_all.sh: 182 checks, 179 PASS, 3 REVIEW (K09 restrictive wording, K11 coupling-curve rows above 1,
+    I08c base-package wording of erratum 1, all listed for Pete or the coupling thread); the 56 earlier checks are unchanged in result and detail. Caveat: stages
+    3-4 are not yet checked by an independent verifier (RULE 4); the stage-4 rows and the stage-3 rows carry their own registry status in the row. Rebuild with rebuild_all.sh;
+    never edit by hand. Results stay in this registry.'
   assignment_basis: hydro module registry (phase 2)
   defects: []
   superseded_by: null
   inputs: []
   producing_thread: null
-  verified_this_run: true
-  status: CURRENT
-  module_registry_manifest_sha256: 93c434bafa1e7422d9bee3bc35dc84301731d913ceb1a1868132b2bd969c64c6
-  path: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45
+  verified_this_run: false
+  status: CURRENT_WITH_CAVEATS
+  module_registry_manifest_sha256: 5a368566172783045a76680e602d445dae9ba84735ce47e3c4cbba07ea939b8a
+  path: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f
   git_path: Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/data_db/hydro_data.sqlite
   hash: git
   hash_note: files of the module branch at the commit; SHA-256 of each blob
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:1072
-    quote: 'status: CURRENT'
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:1072
+    quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
   definition:
-    file: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/data_db/README.md
+    file: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/data_db/README.md
     lines:
     - 1
     - 5
@@ -1580,12 +1552,8 @@ entries:
     - mem_7591b4733cf1
     - mem_e653e85a1bc4
     - mem_e7c175d61641
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
-  platform_artifacts:
-    n: 1
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
 - id: hydro.in.imos_raw
   module_registry_id: in.imos_raw
   kind: input
@@ -1605,7 +1573,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:23
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:23
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -1617,10 +1585,6 @@ entries:
     quote: "Curtin ID                               3315\nSet details                             IMOS PerthCanyon 2013-2014 E09\nSet success                    \
       \         OK                         \nGBytes                                   43.000\nLatitude (WGS84)                        31 deg 52.033' S\nLongitude\
       \ (WGS84)                       115 deg  0.068' E\nwater depth (m)                         not noted\nrec"
-  platform_artifacts:
-    n: 4
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
 - id: hydro.in.module_data
   module_registry_id: in.module_data
   kind: input
@@ -1634,21 +1598,17 @@ entries:
   verified_this_run: false
   status: CURRENT
   module_registry_manifest_sha256: deb2c28b15879d0a38ba54b8f2ca77c76d69a17cb74ff82174702ddc130b325c
-  path: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45
+  path: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f
   git_path: Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/data
   hash: git
   hash_note: files of the module branch at the commit; SHA-256 of each blob
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:61
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:61
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
-  platform_artifacts:
-    n: 3
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
 - id: hydro.in.royer_2016_digitised
   module_registry_id: in.royer_2016_digitised
   kind: input
@@ -1662,21 +1622,17 @@ entries:
   verified_this_run: false
   status: CURRENT
   module_registry_manifest_sha256: ffa709ac1c71b6700ee2713de1d871c6c43fe45624475995ef57b5b05e6bccd6
-  path: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45
+  path: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f
   git_path: Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data/digitised/royer-2016
   hash: git
   hash_note: files of the module branch at the commit; SHA-256 of each blob
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:68
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:68
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
-  platform_artifacts:
-    n: 53
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
 - id: hydro.in.run_j_impacts
   module_registry_id: in.run_j_impacts
   kind: input
@@ -1696,7 +1652,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:53
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:53
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -1719,7 +1675,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:102
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:102
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -1742,7 +1698,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:46
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:46
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -1762,19 +1718,19 @@ entries:
   verified_this_run: false
   status: CURRENT_WITH_CAVEATS
   module_registry_manifest_sha256: 16b227a8dd69ef3bf18be796c302e98ac763052f81e34b104bfa9507fce4e414
-  path: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45
+  path: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f
   git_path: Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data/composition_run_j/v3
   hash: git
   hash_note: files of the module branch at the commit; SHA-256 of each blob
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:953
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:953
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
   definition:
-    file: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data/composition_run_j/v3/README.md
+    file: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data/composition_run_j/v3/README.md
     lines:
     - 1
     - 8
@@ -1802,19 +1758,19 @@ entries:
   verified_this_run: true
   status: CURRENT_WITH_CAVEATS
   module_registry_manifest_sha256: e94e319c19c9f20a8bfbe67228fb6ff57f2611e7796718874867b123bdde3aa8
-  path: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45
+  path: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f
   git_path: Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data/real_arrival_test_x06
   hash: git
   hash_note: files of the module branch at the commit; SHA-256 of each blob
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:1059
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:1059
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
   definition:
-    file: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/real_arrival_test_x06.py
+    file: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/real_arrival_test_x06.py
     lines:
     - 1
     - 4
@@ -1837,19 +1793,19 @@ entries:
   verified_this_run: true
   status: CURRENT_WITH_CAVEATS
   module_registry_manifest_sha256: cd6182796010afc6bb0570be90198222f6906a4ac0c721ea69ad185a6dcea547
-  path: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45
+  path: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f
   git_path: Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data/tolerances_x04_x05
   hash: git
   hash_note: files of the module branch at the commit; SHA-256 of each blob
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:1047
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:1047
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
   definition:
-    file: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/gates/estimate_tolerances.py
+    file: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/gates/estimate_tolerances.py
     lines:
     - 1
     - 5
@@ -1873,7 +1829,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:397
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:397
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -1894,7 +1850,7 @@ entries:
     n_rows: 1
     mem_ids:
     - mem_02043c16f970
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
 - id: hydro.note.air9_ew0112_source_reference
   module_registry_id: note.air9_ew0112_source_reference
@@ -1913,7 +1869,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:408
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:408
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -1942,7 +1898,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:419
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:419
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -1964,7 +1920,7 @@ entries:
     mem_ids:
     - mem_22227d003fff
     - mem_ab9eb013ac06
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
 - id: hydro.note.audit_sus_absolute
   module_registry_id: note.audit_sus_absolute
@@ -1983,7 +1939,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:430
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:430
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -2017,7 +1973,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:441
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:441
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -2039,7 +1995,7 @@ entries:
     mem_ids:
     - mem_cd8e9798fe29
     - mem_de48b9cc4a9b
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
 - id: hydro.note.calibration_events_stage1_standin
   module_registry_id: note.calibration_events_stage1_standin
@@ -2058,7 +2014,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:452
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:452
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -2093,7 +2049,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:463
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:463
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -2131,7 +2087,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:475
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:475
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -2155,7 +2111,7 @@ entries:
   producing_thread: null
   verified_this_run: false
   status: UNCHECKED
-  module_registry_manifest_sha256: 3685924b0a6e5fe25a9175e54b1c5974e591dfcc499bb6f6a1d3619987fb3bb1
+  module_registry_manifest_sha256: 9dbd035083fc8a59d1fce192a976d3e8b7902e30cc4d6175843787700bafa37d
   path: WORK:coordination/HYDROACOUSTICS.md
   status_rank: none
   status_evidence: []
@@ -2163,7 +2119,7 @@ entries:
     n_rows: 1
     mem_ids:
     - mem_38a0d30c39f2
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
 - id: hydro.note.core_set_windows
   module_registry_id: note.core_set_windows
@@ -2182,7 +2138,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:490
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:490
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -2218,7 +2174,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:501
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:501
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -2250,7 +2206,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:512
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:512
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -2285,7 +2241,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:523
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:523
     quote: 'status: SUPERSEDED'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -2309,7 +2265,7 @@ entries:
   producing_thread: null
   verified_this_run: false
   status: UNCHECKED
-  module_registry_manifest_sha256: 15a0f7277fdde9ec4640f7b48e8e04b93dc8096950596bb7796cb848ff648675
+  module_registry_manifest_sha256: 46fd4dd81b42a16953f00e4b486a51fe8925eb9de53eaa4095971a688400acb9
   path: WORK:results/hydroacoustics/decisions.md
   status_rank: none
   status_evidence: []
@@ -2362,7 +2318,7 @@ entries:
   status_rank: explicit
   status_evidence:
   - rank: explicit
-    source: WORK:coordination/HYDROACOUSTICS.md:1746
+    source: WORK:coordination/archive/HYDROACOUSTICS-2026-10-07-to-2026-10-26.md:1746
     quote: '**Read first, every hydroacoustic session:** `results/hydroacoustics/INDEX.md` (generated from the registry), `results/hydroacoustics/decisions.md` (Pete''s
       rulings, his words, each quote checked as an exact substring of his message), `results/hydroacoustics/proposals.md` (not rules). The HYDROACOUSTIC_MODULE profile
       prompt was replaced (old and new text in `results/hydroacoustics/profile-prompt-*`'
@@ -2399,7 +2355,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:536
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:536
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -2433,7 +2389,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:547
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:547
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -2466,7 +2422,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:558
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:558
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -2495,7 +2451,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:570
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:570
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -2533,7 +2489,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:581
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:581
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -2563,7 +2519,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:596
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:596
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -2579,7 +2535,7 @@ entries:
     n_rows: 1
     mem_ids:
     - mem_56d226ed688c
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
 - id: hydro.note.kadri_package_v2
   module_registry_id: note.kadri_package_v2
@@ -2601,7 +2557,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:608
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:608
     quote: 'status: KNOWN_DEFECT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -2630,7 +2586,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:622
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:622
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -2649,7 +2605,7 @@ entries:
     n_rows: 1
     mem_ids:
     - mem_17c4c84d0bdf
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
 - id: hydro.note.literature_review
   module_registry_id: note.literature_review
@@ -2668,7 +2624,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:633
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:633
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -2697,7 +2653,7 @@ entries:
   verified_this_run: false
   status: UNCHECKED
   module_registry_manifest_sha256: 0b4860fe575a485343d8615c7fc07979484c313c8fb33e1f7e92a4fcd866d76a
-  path: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45
+  path: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f
   git_path: Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes
   hash: git
   hash_note: files of the module branch at the commit; SHA-256 of each blob
@@ -2888,7 +2844,7 @@ entries:
     - mem_fd57f3515643
     - mem_fe98296442d0
     - mem_fec21ad3b6f3
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
 - id: hydro.note.methods_draft
   module_registry_id: note.methods_draft
@@ -2907,7 +2863,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:644
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:644
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -2943,7 +2899,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:655
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:655
     quote: 'status: PENDING_RULING'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -2963,7 +2919,7 @@ entries:
     mem_ids:
     - mem_4943c40816b0
     - mem_8b868291ced6
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
 - id: hydro.note.near_limits_planning
   module_registry_id: note.near_limits_planning
@@ -2982,7 +2938,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:666
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:666
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -3003,7 +2959,7 @@ entries:
     n_rows: 1
     mem_ids:
     - mem_7fdb871a839b
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
 - id: hydro.note.next_run_b_standin
   module_registry_id: note.next_run_b_standin
@@ -3022,7 +2978,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:677
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:677
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -3056,7 +3012,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:688
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:688
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -3089,7 +3045,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:699
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:699
     quote: 'status: KNOWN_DEFECT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -3118,7 +3074,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:714
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:714
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -3138,7 +3094,7 @@ entries:
     mem_ids:
     - mem_e67695c1cb11
     - mem_f6dc95347ca3
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
 - id: hydro.note.pleiades_test_preregistration
   module_registry_id: note.pleiades_test_preregistration
@@ -3157,7 +3113,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:725
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:725
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -3191,7 +3147,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:736
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:736
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -3225,7 +3181,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:747
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:747
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -3255,7 +3211,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:758
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:758
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -3274,7 +3230,7 @@ entries:
     n_rows: 1
     mem_ids:
     - mem_b75d82bda754
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
 - id: hydro.note.references
   module_registry_id: note.references
@@ -3293,7 +3249,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:769
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:769
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -3341,7 +3297,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:780
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:780
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -3358,7 +3314,7 @@ entries:
     n_rows: 1
     mem_ids:
     - mem_8ad2cef1cbc0
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
 - id: hydro.note.run_j_levels
   module_registry_id: note.run_j_levels
@@ -3380,7 +3336,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:791
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:791
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -3409,7 +3365,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:805
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:805
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -3440,7 +3396,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:816
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:816
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -3479,7 +3435,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:827
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:827
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -3513,7 +3469,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:876
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:876
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -3545,7 +3501,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:841
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:841
     quote: 'status: CURRENT'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -3585,7 +3541,7 @@ entries:
     - mem_e8c9ee9aac59
     - mem_eabe97f69add
     - mem_f971d3fb5fee
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
 - id: hydro.note.threads_work_orders_hydroacoustics_order_2026_10_21
   module_registry_id: note.threads_work_orders_hydroacoustics_order_2026_10_21
@@ -3621,7 +3577,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:852
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:852
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -3651,7 +3607,7 @@ entries:
   status_rank: module_registry
   status_evidence:
   - rank: module_registry
-    source: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:864
+    source: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/entries.yaml:864
     quote: 'status: CURRENT_WITH_CAVEATS'
     basis: status set in the hydro registry of the 23 Oct 2026 hydro clean-up run (Pete approved the run) and later sessions; the hydro registry quotes the defining
       lines and lists the defects
@@ -3725,12 +3681,8 @@ entries:
     n_rows: 1
     mem_ids:
     - mem_a995d76f9be6
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
-  platform_artifacts:
-    n: 21
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
 - id: hydro.res.back_to_basics_2026_10_23.imos_full_deployment_noise
   module_registry_id: res.back_to_basics_2026_10_23.imos_full_deployment_noise
   kind: product
@@ -3766,12 +3718,8 @@ entries:
     n_rows: 1
     mem_ids:
     - mem_16127d262072
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
-  platform_artifacts:
-    n: 22
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
 - id: hydro.res.back_to_basics_2026_10_23.noise_vs_levels_corrected
   module_registry_id: res.back_to_basics_2026_10_23.noise_vs_levels_corrected
   kind: product
@@ -3803,10 +3751,6 @@ entries:
 
       - Cape Leeuwin (H01W): the "2014 noise 6 dB quieter" case is withdrawn. It came from reading Kadri''s JPEG spectrogram colours (64 dB colour floor). Two better
       2014 sources agree wit'
-  platform_artifacts:
-    n: 21
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
 - id: hydro.res.back_to_basics_2026_10_23.whale_calls
   module_registry_id: res.back_to_basics_2026_10_23.whale_calls
   kind: product
@@ -3837,10 +3781,6 @@ entries:
 
 
       | File | Contents |'
-  platform_artifacts:
-    n: 33
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
 - id: hydro.res.calibration_events_stage1_standin
   module_registry_id: res.calibration_events_stage1_standin
   kind: product
@@ -3873,10 +3813,6 @@ entries:
   path: WORK:coordination/hydro-protected-paths-2026-10-25.csv
   status_rank: none
   status_evidence: []
-  platform_artifacts:
-    n: 1
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
 - id: hydro.res.coupling_db_package_2026_10_25
   module_registry_id: res.coupling_db_package_2026_10_25
   kind: product
@@ -3909,7 +3845,7 @@ entries:
     source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:33
     quote: 'status: CURRENT'
   - rank: rule
-    source: WORK:coordination/HYDROACOUSTICS.md:1855
+    source: WORK:coordination/archive/HYDROACOUSTICS-2026-10-07-to-2026-10-26.md:1855
     quote: '- RULE 4. A new result starts as UNCHECKED. Only an independent verifier sets CURRENT.'
   status_note: Producer hand-off only; no independent verifier pass (RULE 4). The hand-off gives CURRENT; the registry gives CURRENT_WITH_CAVEATS.
   handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.coupling_db_package_2026_10_25.tsv.gz
@@ -4198,10 +4134,6 @@ entries:
   path: WORK:results/hydroacoustics-bibliography.csv
   status_rank: none
   status_evidence: []
-  platform_artifacts:
-    n: 1
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
 - id: hydro.res.file.hydroacoustics_blackman_validation_pdf
   module_registry_id: res.file.hydroacoustics_blackman_validation_pdf
   kind: product
@@ -4358,12 +4290,8 @@ entries:
     n_rows: 1
     mem_ids:
     - mem_9ef501dda739
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
-  platform_artifacts:
-    n: 1
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
 - id: hydro.res.file.hydroacoustics_h08s_outlier_sources_pdf
   module_registry_id: res.file.hydroacoustics_h08s_outlier_sources_pdf
   kind: product
@@ -4732,7 +4660,7 @@ entries:
     n_rows: 1
     mem_ids:
     - mem_930450c8b406
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
 - id: hydro.res.file.hydroacoustics_pleiades_test_standin_power_held_out_png
   module_registry_id: res.file.hydroacoustics_pleiades_test_standin_power_held_out_png
@@ -4875,7 +4803,7 @@ entries:
     mem_ids:
     - mem_54fca2055ac8
     - mem_c9a3bfb8cc8a
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
 - id: hydro.res.file.hydroacoustics_run_c_tau_sensitivity_standin_pdf
   module_registry_id: res.file.hydroacoustics_run_c_tau_sensitivity_standin_pdf
@@ -5690,10 +5618,36 @@ entries:
   producing_thread: null
   verified_this_run: false
   status: UNCHECKED
-  module_registry_manifest_sha256: 6ff6c21e93d4951960942c9c6df6f0498fa65df35a59a231a8f8890eb1e8e7d1
+  module_registry_manifest_sha256: 835bf0dd297c6ea42af090eefff4873ebfb0d374f5cc18ca8055d284ea1243ec
   path: WORK:results/hydroacoustics/decisions.json
   status_rank: none
   status_evidence: []
+- id: hydro.res.kadri_independent_review_2026_10_26
+  module_registry_id: res.kadri_independent_review_2026_10_26
+  kind: product
+  module: hydroacoustics
+  note: Independent review of the Kadri 2024 discrepancies (session 880dfd82), copied from the artifact store. UNCHECKED.
+  assignment_basis: hydro module registry (phase 2)
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: d8445a3f (repository import and noise caveat fixes, sub-agent of 8b907e71)
+  verified_this_run: false
+  status: UNCHECKED
+  module_registry_manifest_sha256: d9ab969662809732f4e2348817acaf7abbd060afbacb59583da7266062153ca9
+  path: WORK:results/hydroacoustics/kadri-independent-review-2026-10-26
+  status_rank: none
+  status_evidence: []
+  definition:
+    file: WORK:results/hydroacoustics/kadri-independent-review-2026-10-26/README.md
+    lines:
+    - 1
+    - 3
+    quote: '# kadri-independent-review-2026-10-26
+
+
+      Independent review of the Kadri 2024 discrepancies (session 880dfd82): report, check script and three check tables. Copied from the artifact store; content
+      unchanged.'
 - id: hydro.res.next_run_b_standin
   module_registry_id: res.next_run_b_standin
   kind: product
@@ -5714,7 +5668,7 @@ entries:
     n_rows: 1
     mem_ids:
     - mem_7de457e2041a
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
 - id: hydro.res.next_steps_2026_10_24
   module_registry_id: res.next_steps_2026_10_24
@@ -5778,7 +5732,7 @@ entries:
     source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:20
     quote: 'status: CURRENT_WITH_CAVEATS'
   - rank: rule
-    source: WORK:coordination/HYDROACOUSTICS.md:1855
+    source: WORK:coordination/archive/HYDROACOUSTICS-2026-10-07-to-2026-10-26.md:1855
     quote: '- RULE 4. A new result starts as UNCHECKED. Only an independent verifier sets CURRENT.'
   status_note: Producer hand-off only; no independent verifier pass (RULE 4).
   handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.next_steps_2026_10_24.tsv.gz
@@ -5795,10 +5749,70 @@ entries:
 
 
       1. The propagation model fails the frequency-slope check against the 2001 airguns (+10 dB/'
-  platform_artifacts:
-    n: 39
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
+- id: hydro.res.noise_caveat_fixes_2026_10_26
+  module_registry_id: res.noise_caveat_fixes_2026_10_26
+  kind: product
+  module: hydroacoustics
+  note: 'Noise caveat fixes C1-C3 (26 Oct 2026, Pete): shape ratio k (1-s peak-to-peak / RMS) from raw IMS records of 8 March 2015-2019 and held records, IMOS logger-gain
+    recompute; the rows are in hydro_data.sqlite stage 4 (registry_entry_id of the rows). UNCHECKED: no independent verifier.'
+  assignment_basis: hydro module registry (phase 2)
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: d8445a3f (repository import and noise caveat fixes, sub-agent of 8b907e71)
+  verified_this_run: false
+  status: UNCHECKED
+  module_registry_manifest_sha256: 76ebd223819debcf5bf468c04ca3da5ffed9ce15d97ac3bc662f741bcc42906c
+  path: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f
+  git_path: Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/results-data/noise-caveat-fixes-2026-10-26
+  hash: git
+  hash_note: files of the module branch at the commit; SHA-256 of each blob
+  status_rank: none
+  status_evidence: []
+  definition:
+    file: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/data_db/build_noise_fixes.py
+    lines:
+    - 2
+    - 17
+    quote: '"""
+
+      build_noise_fixes.py - stage 4 of hydro_data.sqlite: fixes of three noise caveats (C1-C3), 26 Oct 2026.
+
+
+      Pete, 26 Oct 2026: "(3) please check on and fix the items noted in caveats". Pre-registration (with amendment 1):
+
+      results/hydroacoustics/noise-caveat-fixes-2026-10-26/PREREGISTRATION.md on claude-science-sep29. This stage adds rows; it
+
+      deletes no earlier row. Run after build_imports.py (sta'
+- id: hydro.res.noise_caveat_fixes_note_2026_10_26
+  module_registry_id: res.noise_caveat_fixes_note_2026_10_26
+  kind: product
+  module: hydroacoustics
+  note: Results note, pre-registration (with amendment 1) and result tables of the noise caveat fixes C1-C3. UNCHECKED.
+  assignment_basis: hydro module registry (phase 2)
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: d8445a3f (repository import and noise caveat fixes, sub-agent of 8b907e71)
+  verified_this_run: false
+  status: UNCHECKED
+  module_registry_manifest_sha256: 9e796c2e34fe0df870a06188504ee51daa2f6a4310aebc600ce9dbcc02592697
+  path: WORK:results/hydroacoustics/noise-caveat-fixes-2026-10-26
+  status_rank: none
+  status_evidence: []
+  definition:
+    file: WORK:results/hydroacoustics/noise-caveat-fixes-2026-10-26/README.md
+    lines:
+    - 1
+    - 12
+    quote: '# Noise caveat fixes C1-C3 (26 October 2026)
+
+
+      Status: UNCHECKED. No independent verifier has checked these numbers yet (RULE 4). Do not quote them as CURRENT.
+
+      Instruction: Pete, 26 Oct 2026, "(3) please check on and fix the items noted in caveats" (relayed by the coordinating session 8b907e71).
+
+      Pre-registration: [PREREGISTRATION.md](PREREGISTRATION.md) (written before the final numbers; amendment '
 - id: hydro.res.pleiades_test_standin
   module_registry_id: res.pleiades_test_standin
   kind: product
@@ -5838,7 +5852,7 @@ entries:
     source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:48
     quote: 'status: CURRENT_WITH_CAVEATS'
   - rank: verifier
-    source: WORK:coordination/HYDROACOUSTICS.md:1844
+    source: WORK:coordination/archive/HYDROACOUSTICS-2026-10-07-to-2026-10-26.md:1844
     quote: '- Independent verifier: 12 headline items recomputed from raw data, 9 AGREE, 3 MINOR, 0 DISAGREE. Errata (7, README) apply; notes are not edited.'
   handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.raw_ims_2026_10_25.tsv.gz
   definition:
@@ -5859,10 +5873,6 @@ entries:
       |---|---|---|
 
       | `f35a-raw-r'
-  platform_artifacts:
-    n: 1
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
 - id: hydro.res.raw_ims_2026_10_25.db_rows_merged
   module_registry_id: res.raw_ims_2026_10_25.db_rows_merged
   kind: product
@@ -5891,7 +5901,7 @@ entries:
     source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:113
     quote: 'status: CURRENT'
   - rank: verifier
-    source: WORK:coordination/HYDROACOUSTICS.md:1844
+    source: WORK:coordination/archive/HYDROACOUSTICS-2026-10-07-to-2026-10-26.md:1844
     quote: '- Independent verifier: 12 headline items recomputed from raw data, 9 AGREE, 3 MINOR, 0 DISAGREE. Errata (7, README) apply; notes are not edited.'
   handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.raw_ims_2026_10_25.db_rows_merged.tsv.gz
   definition:
@@ -5966,7 +5976,7 @@ entries:
     source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:61
     quote: 'status: CURRENT_WITH_CAVEATS'
   - rank: verifier
-    source: WORK:coordination/HYDROACOUSTICS.md:1844
+    source: WORK:coordination/archive/HYDROACOUSTICS-2026-10-07-to-2026-10-26.md:1844
     quote: '- Independent verifier: 12 headline items recomputed from raw data, 9 AGREE, 3 MINOR, 0 DISAGREE. Errata (7, README) apply; notes are not edited.'
   handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.raw_ims_2026_10_25.f35a_raw_ridge.tsv.gz
   definition:
@@ -5979,10 +5989,6 @@ entries:
 
       Hydroacoustics module, track 1, 25 Oct 2026. **EXPLORATORY** calibration of the source model on another event (F-35A, 9 Apr 2019). Nothing here returns to end
       of flight; no received duration is used for MH370. The measurements, the 20 Hz gap test and the ridge were **pre-registered** before computation ([f35a-ra'
-  platform_artifacts:
-    n: 32
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
 - id: hydro.res.raw_ims_2026_10_25.independent_verification
   module_registry_id: res.raw_ims_2026_10_25.independent_verification
   kind: product
@@ -6008,7 +6014,7 @@ entries:
     source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:126
     quote: 'status: CURRENT'
   - rank: verifier
-    source: WORK:coordination/HYDROACOUSTICS.md:1844
+    source: WORK:coordination/archive/HYDROACOUSTICS-2026-10-07-to-2026-10-26.md:1844
     quote: '- Independent verifier: 12 headline items recomputed from raw data, 9 AGREE, 3 MINOR, 0 DISAGREE. Errata (7, README) apply; notes are not edited.'
   handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.raw_ims_2026_10_25.independent_verification.tsv.gz
   definition:
@@ -6027,10 +6033,6 @@ entries:
 
       1. Independence: I opened track scripts only after I had my own number, and only to diagnose a difference. F4: f35a_raw_analysis.py, plus the module files prereg.py
       and imos'
-  platform_artifacts:
-    n: 3
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
 - id: hydro.res.raw_ims_2026_10_25.kadri_2024_replication
   module_registry_id: res.raw_ims_2026_10_25.kadri_2024_replication
   kind: product
@@ -6071,7 +6073,7 @@ entries:
     source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:87
     quote: 'status: CURRENT_WITH_CAVEATS'
   - rank: verifier
-    source: WORK:coordination/HYDROACOUSTICS.md:1844
+    source: WORK:coordination/archive/HYDROACOUSTICS-2026-10-07-to-2026-10-26.md:1844
     quote: '- Independent verifier: 12 headline items recomputed from raw data, 9 AGREE, 3 MINOR, 0 DISAGREE. Errata (7, README) apply; notes are not edited.'
   status_note: 'Hand-off defect text: route length overstated 1-4 %: Sriwijaya/AB1103 offsets too negative by ~26/84 s (README erratum 2)'
   handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.raw_ims_2026_10_25.kadri_2024_replication.tsv.gz
@@ -6087,10 +6089,6 @@ entries:
       downloaded).
 
       Parts marked EXPLORATORY or POST-HOC were not pre-registered. No MH370 quantity is inferred from anything here. No coupling value is'
-  platform_artifacts:
-    n: 15
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
 - id: hydro.res.raw_ims_2026_10_25.propagation_level_check
   module_registry_id: res.raw_ims_2026_10_25.propagation_level_check
   kind: product
@@ -6172,7 +6170,7 @@ entries:
     source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:100
     quote: 'status: CURRENT_WITH_CAVEATS'
   - rank: verifier
-    source: WORK:coordination/HYDROACOUSTICS.md:1844
+    source: WORK:coordination/archive/HYDROACOUSTICS-2026-10-07-to-2026-10-26.md:1844
     quote: '- Independent verifier: 12 headline items recomputed from raw data, 9 AGREE, 3 MINOR, 0 DISAGREE. Errata (7, README) apply; notes are not edited.'
   handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.raw_ims_2026_10_25.propagation_level_check.tsv.gz
   definition:
@@ -6188,10 +6186,6 @@ entries:
       (section 1; timestamp 2026-10-25T01:45:53Z). Nothing here is a likelihood and nothing moves the posterior. Standing caveats:
 
       (1) frequency-slope failure of t'
-  platform_artifacts:
-    n: 40
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
 - id: hydro.res.raw_ims_2026_10_25.transair_810
   module_registry_id: res.raw_ims_2026_10_25.transair_810
   kind: product
@@ -6255,7 +6249,7 @@ entries:
     source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:74
     quote: 'status: CURRENT_WITH_CAVEATS'
   - rank: verifier
-    source: WORK:coordination/HYDROACOUSTICS.md:1844
+    source: WORK:coordination/archive/HYDROACOUSTICS-2026-10-07-to-2026-10-26.md:1844
     quote: '- Independent verifier: 12 headline items recomputed from raw data, 9 AGREE, 3 MINOR, 0 DISAGREE. Errata (7, README) apply; notes are not edited.'
   handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.raw_ims_2026_10_25.transair_810.tsv.gz
   definition:
@@ -6271,10 +6265,63 @@ entries:
       Pre-registration written and saved before any statistic was computed on the hydrophone data:
 
       [transair810-preregistration.md]({{artifact:986504a4-4ccc-4c75-82d1-144325a8a08c}}) (SHA-256 360'
-  platform_artifacts:
-    n: 41
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
+- id: hydro.res.repository_import_2026_10_26
+  module_registry_id: res.repository_import_2026_10_26
+  kind: product
+  module: hydroacoustics
+  note: Inventory of every hydro data item and result made since 23 Oct 2026 (repo files and platform artifacts of sessions 880dfd82, c764a583, c0b15646, 9e0bf4fe,
+    8b907e71) with SHA-256 and action; import report. UNCHECKED.
+  assignment_basis: hydro module registry (phase 2)
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: d8445a3f (repository import and noise caveat fixes, sub-agent of 8b907e71)
+  verified_this_run: false
+  status: UNCHECKED
+  module_registry_manifest_sha256: 6adeda1abf36b56ec0f7d4ec7a58c09dfd2b8fd7e6bf3b0efc30e357087a855d
+  path: WORK:results/hydroacoustics/repository-import-2026-10-26
+  status_rank: none
+  status_evidence: []
+  definition:
+    file: WORK:results/hydroacoustics/repository-import-2026-10-26/README.md
+    lines:
+    - 1
+    - 10
+    quote: '# Hydroacoustics repository import, 26 October 2026
+
+
+      Status: UNCHECKED (RULE 4). Made by session d8445a3f (sub-agent of the coordinating session 8b907e71).
+
+      Instruction (Pete, 26 Oct 2026): "please pull everything in and instruct all modules and threads to update the respository going forward".
+
+      Scope: every hydroacoustic data item and result made since 23 Oct 2026. Data go to hydro_data.sqlite thro'
+- id: hydro.res.site_noise_review_supplement_2026_10_26
+  module_registry_id: res.site_noise_review_supplement_2026_10_26
+  kind: product
+  module: hydroacoustics
+  note: 'Deliverables of session c0b15646 (23-24 Oct 2026) not yet committed: noise 2003 vs 2014 tests and charts, Royer figure noise levels, arc path obstacles,
+    airgun survey note, whale-call downloads. UNCHECKED.'
+  assignment_basis: hydro module registry (phase 2)
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: d8445a3f (repository import and noise caveat fixes, sub-agent of 8b907e71)
+  verified_this_run: false
+  status: UNCHECKED
+  module_registry_manifest_sha256: 8fc065f54bddffb46db77f0d9f4fae3c9a22ea366c6a92240cab4268e56a2357
+  path: WORK:results/hydroacoustics/site-noise-review-supplement-2026-10-26
+  status_rank: none
+  status_evidence: []
+  definition:
+    file: WORK:results/hydroacoustics/site-noise-review-supplement-2026-10-26/README.md
+    lines:
+    - 1
+    - 3
+    quote: '# site-noise-review-supplement-2026-10-26
+
+
+      Deliverables of session c0b15646 (site noise review, 23-24 Oct 2026) not yet in the repository: noise 2003 vs 2014 tests and charts, Royer figure noise levels,
+      arc path obstacles, airgun survey note, OHASISBIO whale-call downloads. Copied unchanged.'
 - id: hydro.res.source_survey_2026_10_23
   module_registry_id: res.source_survey_2026_10_23
   kind: product
@@ -6309,7 +6356,7 @@ entries:
     source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:7
     quote: 'status: CURRENT_WITH_CAVEATS'
   - rank: rule
-    source: WORK:coordination/HYDROACOUSTICS.md:1855
+    source: WORK:coordination/archive/HYDROACOUSTICS-2026-10-07-to-2026-10-26.md:1855
     quote: '- RULE 4. A new result starts as UNCHECKED. Only an independent verifier sets CURRENT.'
   status_note: Producer hand-off only; no independent verifier pass (RULE 4).
   handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.source_survey_2026_10_23.tsv.gz
@@ -6333,10 +6380,59 @@ entries:
       |---|---|---|
 
       | Impact source and couplin'
-  platform_artifacts:
-    n: 7
-    where: registry/modules/hydroacoustics/platform_artifacts.tsv
-    note: latest artifact versions of the 23-25 Oct hydro threads with the same SHA-256 as a file of this entry
+- id: hydro.res.source_survey_supplement_2026_10_26
+  module_registry_id: res.source_survey_supplement_2026_10_26
+  kind: product
+  module: hydroacoustics
+  note: 'Deliverables of session c764a583 made before its Phase 1 dispatch (26 Oct 2026 19:03:40Z) and not yet committed: catalogue downloads, scripts, tables, figures.
+    UNCHECKED.'
+  assignment_basis: hydro module registry (phase 2)
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: d8445a3f (repository import and noise caveat fixes, sub-agent of 8b907e71)
+  verified_this_run: false
+  status: UNCHECKED
+  module_registry_manifest_sha256: 6b7e115c44f7aeabc038d2251b69f2b855cec64e8de491574b0d0fb4abc3393b
+  path: WORK:results/hydroacoustics/source-survey-supplement-2026-10-26
+  status_rank: none
+  status_evidence: []
+  definition:
+    file: WORK:results/hydroacoustics/source-survey-supplement-2026-10-26/README.md
+    lines:
+    - 1
+    - 3
+    quote: '# source-survey-supplement-2026-10-26
+
+
+      Deliverables of session c764a583 made before 19:03:40Z on 26 Oct 2026 that were not yet in the repository: catalogue downloads, scripts, tables and figures
+      of the source survey and raw IMS tracks. Copied unchanged.'
+- id: hydro.res.status_review_2026_10_26
+  module_registry_id: res.status_review_2026_10_26
+  kind: product
+  module: hydroacoustics
+  note: Hydroacoustics status review tables and map of 26 Oct 2026 (session 8b907e71), copied from the artifact store. UNCHECKED.
+  assignment_basis: hydro module registry (phase 2)
+  defects: []
+  superseded_by: null
+  inputs: []
+  producing_thread: d8445a3f (repository import and noise caveat fixes, sub-agent of 8b907e71)
+  verified_this_run: false
+  status: UNCHECKED
+  module_registry_manifest_sha256: 52567af36223fcd0ab8ba6cccbe48c6429a36297b6446ed3623df6b62fb7416a
+  path: WORK:results/hydroacoustics/status-review-2026-10-26
+  status_rank: none
+  status_evidence: []
+  definition:
+    file: WORK:results/hydroacoustics/status-review-2026-10-26/README.md
+    lines:
+    - 1
+    - 3
+    quote: '# status-review-2026-10-26
+
+
+      Hydroacoustics status review of 26 Oct 2026 (session 8b907e71): site opportunity, noise calibration status and known-event summary tables and the recording
+      opportunity map. Copied unchanged.'
 - id: hydro.xd.imos_mh370_zip_inputs
   module_registry_id: xd.imos_mh370_zip_inputs
   kind: archive
@@ -6382,7 +6478,7 @@ entries:
     mem_ids:
     - mem_be12aaa208c7
     - mem_c1691d47bbe5
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
 - id: hydro.xd.next_run_d_he
   module_registry_id: xd.next_run_d_he
@@ -6409,7 +6505,7 @@ entries:
     mem_ids:
     - mem_a03a679808e0
     - mem_f951a13847b0
-    where: GIT:hypothesis/hydroacoustics@d988be918bcd47a88ae9e3f746fb20aae5362c45:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
+    where: GIT:hypothesis/hydroacoustics@4452f265c92e91d4f29c526b16cd6d22b670bd3f:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/memory-notes/
     nature: records of what memory said; not verified facts
 - id: hydro.xd.run_i
   module_registry_id: xd.run_i

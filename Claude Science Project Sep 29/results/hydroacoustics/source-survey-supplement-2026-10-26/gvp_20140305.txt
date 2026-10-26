@@ -1,0 +1,216 @@
+
+Smithsonian site temporarily unavailable
+:root {
+  color-scheme: light;
+  --si-blue: #009ade;
+  --si-yellow: #ffcd00;
+  --ink: #101820;
+  --muted: #4d5965;
+  --line: #d7dde3;
+  --surface: #ffffff;
+  --page: #f5f7f8;
+  --focus: #005ea8;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  min-height: 100%;
+}
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.5;
+}
+.site-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.brand-bar {
+  border-top: 8px solid var(--si-yellow);
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+.brand-inner,
+.content,
+.footer-inner {
+  width: min(100% - 32px, 960px);
+  margin: 0 auto;
+}
+.brand-inner {
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+}
+.logo {
+  width: min(260px, 72vw);
+  max-height: 40px;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  object-position: left center;
+}
+.logo.logo-on-dark {
+  max-height: 48px;
+  border-radius: 4px;
+  padding: 6px 10px;
+  background: var(--ink);
+}
+.logo.logo-wide {
+  width: min(520px, 82vw);
+  max-height: 56px;
+}
+.content {
+  flex: 1;
+  padding: clamp(40px, 8vw, 88px) 0;
+}
+.status {
+  max-width: 760px;
+}
+.eyebrow {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+h1 {
+  max-width: 720px;
+  margin: 0;
+  font-size: clamp(2rem, 6vw, 4rem);
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+.lede {
+  max-width: 660px;
+  margin: 24px 0 0;
+  color: #24313d;
+  font-size: clamp(1.125rem, 2vw, 1.35rem);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+}
+.retry-form {
+  margin: 0;
+}
+.button {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  padding: 12px 18px;
+  background: var(--ink);
+  color: #ffffff;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+}
+.button.secondary {
+  background: transparent;
+  color: var(--ink);
+}
+.button:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+.details {
+  max-width: 760px;
+  margin-top: 40px;
+  border-top: 1px solid var(--line);
+  padding-top: 24px;
+}
+summary {
+  width: fit-content;
+  cursor: pointer;
+  color: var(--ink);
+  font-weight: 700;
+}
+.detail-copy {
+  max-width: 640px;
+  margin: 16px 0;
+  color: var(--muted);
+}
+.vendor-error-box {
+  margin-top: 18px;
+}
+.challenge-status {
+  max-width: 820px;
+}
+.challenge-box {
+  margin-top: 32px;
+}
+.cloudflare-token {
+  display: none;
+}
+.template-note {
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.footer {
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  align-items: center;
+  padding: 18px 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+}
+.footer a {
+  color: var(--ink);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+@media (max-width: 560px) {
+  .brand-inner {
+    min-height: 52px;
+  }
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .button {
+    width: 100%;
+  }
+}
+@media (min-width: 900px) {
+  .content {
+    padding-top: 56px;
+  }
+}
+Temporary service interruption
+This Smithsonian site is temporarily unavailable.
+The Smithsonian service needed to complete this request is not responding right now. Please try again in a few minutes.
+Try again
+Visit si.edu
+Technical details
+The details below can help Smithsonian staff identify the affected request.
+Error details appear when this page is served for an active site error.
+              ::CLOUDFLARE_ERROR_500S_BOX::
+Smithsonian Institution
+Privacy
+Terms of Use
+window.__CF$cv$params={r:'a4f3d909b9f58014',t:'MTc5Mjc5MTA3Nw==',u:'01a16aace220714280bb738417f5b3b1',ut:'9HulkEaE_OmTHHfI7RsMFVD5Zjg8P6z7KUXwh0nmhBU-1792791077-1.2.1.1-de_iWnhV2qSWExDNUApqYND2mnW06RpmxKieFRqCINBWIdQ3f9BN4l9CfktAOKRBRiF.peq3qbno8H0rIqxisuc2_uNSQALM_LkH8L4JCGY',i:60};(function(){if(!document.body)return;var s=document.createElement('script');s.src='/cdn-cgi/challenge-platform/scripts/precursor/main.js';document.head.appendChild(s);})();
