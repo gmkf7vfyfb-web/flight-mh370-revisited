@@ -1845,3 +1845,13 @@ The four raw-IMS tracks still running here will be added later, as a separate ha
 - Registry: 7 entries appended to `registry-handoff/entries-c764a583.yaml` (ids `res.raw_ims_2026_10_25*`), manifests in `registry-handoff/manifests/`. No workspace or host paths in committed files; local inputs via `MH370_OCEAN_DATA`, `MH370_EXCHANGE`, `MH370_HYDRO_ENV_LIB`.
 - For the data-inventory thread: `db-rows-merged/` holds CV26-CV123, OB07-OB81, E18, AC05 and R3 updates with unique ids (the three tracks' own ids collided; `id-map.csv`). Validator PASS on base package + rows. Import is yours (one writer). Explosion radiated fractions deliberately not written as coupling rows (would enter v_module_chain) — your decision.
 - For Pete (open): replacement wording for the propagation slope caveat; provisional sigma_model (~5 dB level + ~4 dB source + >=6 dB ridge path, slope ~1.5 dB/oct); f^-4 source family not supported by the raw F-35A data.
+
+## 2026-10-26 — Hydro registry merged into the project registry (phase 2) — rules for all future hydroacoustic threads (from session 880e7c80, registry track)
+- The hydro registry (`engine/hypotheses/hydroacoustics/registry/` on `hypothesis/hydroacoustics`) now holds the work of 23-25 Oct 2026 (sessions c764a583, 9e0bf4fe, c0b15646), the 143 hydro items in `results/`, the exchange folder `mh370-exchange/hydroacoustics` and the hydro memory rows (`registry/memory-notes/`). The project registry (`registry/REGISTRY.json` on this branch) holds the same entries as module `hydroacoustics`, ids `hydro.<hydro id>`.
+- The registry roots point to the repository and the exchange folder only (and the data homes in ~/Downloads). The old roots ART and MOD into session workspace a6559afa are removed.
+- RULE 1. Install the pre-push check once in each clone before you push: `make -C "Claude Science Project Sep 29/registry" install-hooks`. Do not use `git push --no-verify`.
+- RULE 2. Write each new run to `results/hydroacoustics/<run id>/`. Put `manifest.json` in that folder. The manifest must agree with `registry/manifest.schema.json`. Do not write new loose files at the top of `results/`.
+- RULE 3. Do not use version names (`-v2`, `-FINAL`) in new names. Give a new run id and set `supersedes` in the manifest.
+- RULE 4. A new result starts as UNCHECKED. Only an independent verifier sets CURRENT.
+- RULE 5. Read the registry, not memory, to find the current inputs and products. The memory rows in `memory-notes/` are records of what memory said. They are not verified facts.
+-- registry track, session 880e7c80 (for Pete and all hydroacoustic threads)

@@ -1,0 +1,237 @@
+{
+ "from": "hypothesis/hydroacoustics@6ebfc70d4d4f4b46ac57f2330eba4ffdf3df87df:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/REGISTRY.json",
+ "constant_status_values": {
+  "CURRENT": "Value in use; source located and quoted.",
+  "PENDING_RULING": "Value computed from its source; its adoption waits for a ruling by Pete.",
+  "RETIRED_AS_ANCHOR": "Kept only for comparison with older products. Do not use it as the F-35A point under the module definition.",
+  "AGENT_CHOICE_NOT_RULED": "Chosen by an agent, not ruled by Pete. Open proposal; state it as an assumption.",
+  "CONVENTION_NO_LOCATED_SOURCE": "Module convention in code; no published source located.",
+  "EXTERNAL_STANDARD": "Value from an external standard (cited in the note); the standard document is not in the repo.",
+  "EVIDENCE": "Measured or derived value that enters only through its measurement model (a point on a curve, a consistency check); not a parameter and not awaiting a ruling. Use it with the propagation chain of its definition class.",
+  "SUPERSEDED": "Replaced; kept for provenance. The note names the replacement."
+ },
+ "constants": [
+  {
+   "id": "eta_F35A_metz",
+   "value": 0.00226,
+   "units": "fraction of impact kinetic energy radiated as sound (module definition)",
+   "status": "EVIDENCE",
+   "note": "EVIDENCE (CV02 in hydro_data.sqlite coupling_value): the 10 m point on the F-35A ridge over (coupling, source depth, spectrum) from one recording; 5.4e-2 at 2 m, 3.4e-4 at 30 m (CV01, CV03); full curve in coupling_curve E01_far_field_H11. Not a parameter and no ruling is needed (Pete, 24 Oct 2026: 'The F35 ruling was a red herring'). Use only with the module chain (MODULE_KRAKEN_RAM). Pete, 25 Oct 2026: 'yes on the decisions, apply them' (proposal in coupling-db-package-2026-10-25/README.md, session c764a583).",
+   "source": {
+    "file": "WORK:results/hydroacoustics-metz-f35a-anchor.md",
+    "lines": [
+     64,
+     73
+    ],
+    "must_contain": [
+     "2.26 × 10⁻³",
+     "2.8 × 10⁻⁴",
+     "5.4 × 10⁻²",
+     "1.3 × 10⁻¹"
+    ],
+    "quote": "|---|---|\n| **pre-registered anchor** (geometric mean of the triads, RAM-corrected TL, τ_5 = 10 s; identical at the 3.30 s fallback and for every τ ≥ 1.1 s) | **2.26 × 10⁻³** |\n| by triad, H11N / H11S | 3.3 × 10⁻³ / 1.5 × 10⁻³ |\n| at τ = 0.05 s (the physical entry time of a 16 m jet at 300 m/s) | 2.8 × 10⁻⁴ |\n| E = 700 / 1,100 MJ | 2.9 × 10⁻³ / 1.8 × 10⁻³ |\n| source depth 2 / 30 m | 5.4 × 10⁻² / 3.4 × 10⁻⁴ |\n| f⁻⁴ roll-off | 1.3 × 10⁻¹ |\n| KRAKEN without RAM | 1.05 × 10⁻³ |\n| source ± 8 km in range | 2.2 / 2.4 × 10⁻³ |\n| full range over all cases at τ_5 / at every τ | 8.6 × 10⁻⁵ – 6.3 / 1.1 × 10⁻⁵ – 6.3 |"
+   }
+  },
+  {
+   "id": "eta_brown_arons",
+   "value": 0.00021,
+   "units": "Arons-equivalent coupling (different quantity)",
+   "status": "EVIDENCE",
+   "note": "EVIDENCE as a consistency check (CV14/CV15, definition class D2, chain ARONS_1954): the same F-35A recording read through the Arons relation, so not independent of eta_F35A_metz. Never use with the module transmission-loss chain; the module-chain view excludes it. Pete, 25 Oct 2026: 'yes on the decisions, apply them' (proposal in coupling-db-package-2026-10-25/README.md, session c764a583).",
+   "source": {
+    "file": "WORK:results/hydroacoustics-metz-f35a-anchor.md",
+    "lines": [
+     171,
+     171
+    ],
+    "must_contain": [
+     "2.1 × 10⁻⁴",
+     "10.3 dB"
+    ],
+    "quote": "| F-35A coupling anchor quoted in C2 | 2.1 × 10⁻⁴ (Brown/Arons) | **2.26 × 10⁻³** (single-factor spread 2.8 × 10⁻⁴ at τ 0.05 s to 5.4 × 10⁻² at a 2 m source) | every \"at the anchor\" statement moves +10.3 dB in received level |"
+   }
+  },
+  {
+   "id": "eta_prior_bounds",
+   "value": [
+    1e-06,
+    0.01
+   ],
+   "units": "log-uniform, 41 points",
+   "status": "SUPERSEDED",
+   "note": "SUPERSEDED by the coupling families in hydro_data.sqlite (coupling_family R1, R2, R3, I, X; status PROPOSED_STRUCTURE, awaiting Pete's approval of the structure) and coupling_family_element_evidence. Kept for provenance of products that marginalised over [1e-6, 1e-2]. Pete, 25 Oct 2026: 'yes on the decisions, apply them' (proposal in coupling-db-package-2026-10-25/README.md, session c764a583).",
+   "source": {
+    "file": "EX:run-j-gated-v2/README.txt",
+    "lines": [
+     13,
+     13
+    ],
+    "must_contain": [
+     "[1e-6, 1e-2]"
+    ],
+    "quote": "  hydro-lnL-imos-margeta.npy      ... marginalised over a log-uniform prior on eta in [1e-6, 1e-2] (41 points, equal weights)  <- PROPOSED DEFAULT"
+   }
+  },
+  {
+   "id": "c_sofar",
+   "value": [
+    1.482,
+    0.006
+   ],
+   "units": "km/s, mean and sd",
+   "status": "CURRENT",
+   "source": {
+    "file": "WORK:results/hydroacoustics-searches-run-j.md",
+    "lines": [
+     91,
+     91
+    ],
+    "must_contain": [
+     "1.482 ± 0.006 km/s"
+    ],
+    "quote": "- **Parameter bounds with sources:** c 1.482 ± 0.006 km/s and AGW 1.40–1.50 km/s (windows note); lag intervals from `geometry/lags.csv`; bearing error t₃ sd 3.3° demonstrated / Gaussian 0.4° claimed (kadri_table1_test); thresholds 0.3/0.1/0.05 (ruling 13 Oct); H08S shot rules (weak-signal test set c); window 55 s from 32 s (this pre-registration)."
+   }
+  },
+  {
+   "id": "pick_sd",
+   "value": 10,
+   "units": "s",
+   "status": "CONVENTION_NO_LOCATED_SOURCE",
+   "note": "Module convention; no published source located.",
+   "source": {
+    "file": "MOD:prepare/imos_detectors.py",
+    "lines": [
+     23,
+     23
+    ],
+    "must_contain": [
+     "pick sd 10 s"
+    ],
+    "quote": "     windows), pick sd 10 s each."
+   }
+  },
+  {
+   "id": "imos_hw_corner",
+   "value": 8,
+   "units": "Hz (IMOS hardware high-pass corner)",
+   "status": "CURRENT",
+   "source": {
+    "file": "WORK:results/hydroacoustics-searches-run-j.md",
+    "lines": [
+     90,
+     90
+    ],
+    "must_contain": [
+     "8 Hz hardware corner"
+    ],
+    "quote": "- **Gaps and status:** (G-S1) AGW branch unsearchable with the data held — open, needs a sub-2 Hz detector and unfiltered data. (G-S2) digitised panels only at H01W/H08S — open until Kadri's derived products arrive; the raw-data request stands. (G-S3) no IMOS bearing — permanent. (G-S4) 3315 and 3275 nulls are stand-ins from the paired logger — open (no bucket data). (G-S5) `eta_needed` uses pass-A TL at one source latitude and the median E (the upper anchor) — interim until the TL grid note lands; the column is a label, not a gate. (G-S6) the time-slide null is schedule-biased (amendment A1) — replaced by the held-span permutation null; both reported. (G-S7) the geometry sample omits the free/descent-climb/repro strata (0.2 % of the mixture, windows note G-W4) and keeps the supplement at p = 0.5 only (G-W1). (G-S8) the 2–5 Hz IMOS band is below the 8 Hz hardware corner (labelled). (G-S9) H08S raw-panel rows are null-mismatch artefacts of the airgun survey; only the residual rows are candidates."
+   }
+  },
+  {
+   "id": "kadri_highpass",
+   "value": 5,
+   "units": "Hz (Kadri 2017 chain high-pass; 2024 adds 2-40 Hz band-pass)",
+   "status": "CURRENT",
+   "source": {
+    "file": "WORK:results/hydroacoustics-digitised-sources.md",
+    "lines": [
+     212,
+     217
+    ],
+    "must_contain": [
+     "5 Hz",
+     "2–40 Hz"
+    ],
+    "quote": "  p. 7) high-passes below 5 Hz with a Butterworth IIR and detects by windowed entropy (window 4 s, step 0.5 s, threshold\n  2.3·10⁴, peaks within 2 s across the three channels); the **2–40 Hz band-pass is added in Kadri 2024** (p. 11: \"in\n  addition to the CTBTO high pass filter\"; filter order not stated; log-energy entropy, \"a few seconds\" window, same\n  threshold, TOA cross-correlation bearing ±0.4° at 99.5 %). The SnT 2025 poster (held as text) states the same chain.\n  Kadri 2019 (Sci. Rep. 9:912) is a theory paper with no processing chain. So \"Kadri (2017, 2019, 2024) high-passes at\n  5 Hz and band-passes 2–40 Hz\" should read \"Kadri 2017 high-passes at 5 Hz; Kadri 2024 adds a 2–40 Hz band-pass\"; the"
+   }
+  },
+  {
+   "id": "imos_duty_cycle",
+   "value": [
+    307,
+    900
+   ],
+   "units": "s recorded per s (about 34 %)",
+   "status": "CURRENT",
+   "source": {
+    "file": "WORK:results/hydroacoustics-imos-noise.md",
+    "lines": [
+     18,
+     18
+    ],
+    "must_contain": [
+     "307 s every 15 min"
+    ],
+    "quote": "All loggers sample at 6 kHz, recording about 307 s every 15 min (a 34% duty cycle). The analogue"
+   }
+  },
+  {
+   "id": "gps_utc_2014",
+   "value": 16,
+   "units": "s (GPS minus UTC, July 2012 to June 2015)",
+   "status": "EXTERNAL_STANDARD",
+   "note": "IERS Bulletin C; not in the repo. IMOS hex filenames are 16 s earlier than Portland rec_times.txt (session record).",
+   "source": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "external source; no file in the registry roots"
+   }
+  },
+  {
+   "id": "shot_window",
+   "value": 1.5,
+   "units": "s (H08S airgun coincidence label)",
+   "status": "AGENT_CHOICE_NOT_RULED",
+   "note": "Used by the Take 2 review; chance rate taken as 3/10 for a 10 s shot cadence.",
+   "source": {
+    "file": "WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
+    "lines": [
+     159,
+     159
+    ],
+    "must_contain": [
+     "1.5 s"
+    ],
+    "quote": "1. **Airgun shots were ranked as candidates.** The module holds the times of 110 airgun shots in the Diego Garcia panels (`h08s_template_shots.csv`). 44 of 47 Diego Garcia candidates lie within 1.5 s of a shot; chance gives 30 %. Every top-5 pair and the \"strongest pair\" use one of them. The 01:12:49 candidate is 0.14 s from a shot. The shot suppression (−5 to −8 dB) was measured, but the candidates were not gated."
+   }
+  },
+  {
+   "id": "los_block_depth_m",
+   "value": 200,
+   "units": "m (blocked if water shallower than min(receiver depth, this) > 20 km from receiver)",
+   "status": "AGENT_CHOICE_NOT_RULED",
+   "note": "Line-of-sight screen threshold, 23 Oct 2026. Not ruled by Pete.",
+   "source": {
+    "file": "MOD:registry/data_db/arc_line_of_sight.py",
+    "lines": [
+     12,
+     12
+    ],
+    "must_contain": [
+     "200 m"
+    ],
+    "quote": "  blocked            land, or water shallower than min(receiver depth, 200 m), more than 20 km from the receiver"
+   }
+  },
+  {
+   "id": "los_large_attenuation",
+   "value": "10 km shallower than 1,000 m",
+   "units": "km, m (> 100 km from receiver)",
+   "status": "AGENT_CHOICE_NOT_RULED",
+   "note": "Line-of-sight screen threshold for 'large attenuation', 23 Oct 2026. Not ruled by Pete.",
+   "source": {
+    "file": "MOD:registry/data_db/arc_line_of_sight.py",
+    "lines": [
+     13,
+     13
+    ],
+    "must_contain": [
+     "10 km",
+     "1,000 m"
+    ],
+    "quote": "  large attenuation  >= 10 km of water shallower than 1,000 m (above the deep sound-channel axis), more than 100 km from the receiver"
+   }
+  }
+ ]
+}

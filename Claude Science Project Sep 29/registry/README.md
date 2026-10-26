@@ -22,11 +22,11 @@ The registry has these parts:
 | `check_project.py` | The check of the rules for new work. |
 | `data_homes/` | The inventory of the exchange folder and the record of the module branches. |
 
-The hydroacoustics module has its own registry on branch `hypothesis/hydroacoustics`. Phase 2 merges it into this registry.
+The hydroacoustics module has its own registry on branch `hypothesis/hydroacoustics` (`engine/hypotheses/hydroacoustics/registry/`). Phase 2 (26 October 2026) merged it into this registry as module `hydroacoustics`: `import_hydro_registry.py` reads the hydro registry at one commit and writes `modules/hydroacoustics/entries.yaml`, `constants.json` and `platform_artifacts.tsv`. The ids are `hydro.<hydro id>`; `module_registry_id` gives the hydro id. The hydro registry stays the module's own record. Change it there, then run `import_hydro_registry.py` and `make build index` here.
 
 ## 2. Modules
 
-The modules are: core, end-of-flight, drift (ocean drift, debris drift and ocean transport), settling, searched-areas, pleiades, composer, paper and project.
+The modules are: core, end-of-flight, drift (ocean drift, debris drift and ocean transport), settling, searched-areas, pleiades, composer, paper, project and (since phase 2) hydroacoustics.
 The module "project" holds items for all modules: archives, data homes, tmp/, coordination notes and the restricted holdings.
 
 ## 3. Entries
@@ -140,7 +140,8 @@ Do these steps from this folder.
 2. The external drive was not connected to the session. The entries for the drive come from the item lists in `~/Downloads/archive-tools/`. The `VERIFIED-*.txt` lists are on the drive, so the registry does not confirm the copies.
 3. Code on module branches is recorded by branch, commit and tree. The registry does not merge branches.
 4. `check_project.py` (working tree, `--commit`, `--pre-push`) and `--make-baseline` work in a blobless sparse clone. They read only new paths and the registry files. `--report-existing` reads every file: use a full clone for it.
-5. Platform artifacts are not in this registry yet.
+5. Platform artifacts are not in this registry. The roots do not include the artifact store. For the three hydro threads of 23-25 Oct 2026, `modules/hydroacoustics/platform_artifacts.tsv` lists each latest artifact version and the registered file with the same SHA-256, or "no copy".
+6. Hydroacoustics (phase 2): a GIT entry with `git_path` lists the files of the module branch at the commit and hashes each blob. A DL entry with hash `stat+lt1g` hashes each file < 1 GB that has no SHA256SUMS entry. The hydro exchange inventory is `data_homes/exchange_inventory_hydroacoustics.json.gz` (`exchange_inventory.py --only hydroacoustics`, 26 October 2026).
 
 ## 11. Memory notes
 
@@ -159,4 +160,4 @@ The repository is public. Thus we changed the text in these cases, and the row t
 2. We replaced each session-workspace path with `<session workspace path>`.
 3. We removed spending amounts.
 
-`import_memory_records.py` makes these files. Do not edit them by hand. Hydroacoustics rows are not here (phase 2).
+`import_memory_records.py` makes these files. Do not edit them by hand. The hydroacoustics rows (216 moved rows and 11 deferred rows) are in the hydro registry: `engine/hypotheses/hydroacoustics/registry/memory-notes/` on `hypothesis/hydroacoustics`. `import_hydro_memory_records.py` makes them and the generated section of `results/hydroacoustics-references.md` (45 rows).

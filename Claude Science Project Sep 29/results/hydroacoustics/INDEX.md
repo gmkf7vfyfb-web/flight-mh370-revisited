@@ -1,10 +1,10 @@
 # Hydroacoustics: index of data, products, notes and defects (generated from the registry)
 
-*Generated from `engine/hypotheses/hydroacoustics/registry/REGISTRY.json` on `hypothesis/hydroacoustics` (hydro-registry v1 (2026-10-23); built 2026-10-23T05:58:35Z; module b005b3587147; work branch 43d8b1b5ee67; sha256 manifests: yes). Do not edit by hand: change `entries.yaml`, rebuild, regenerate.*
+*Generated from `engine/hypotheses/hydroacoustics/registry/REGISTRY.json` on `hypothesis/hydroacoustics` (hydro-registry v1 (2026-10-23); built 2026-10-26T15:55:41Z; module d2779102d3da; work branch beb7696808f6; sha256 manifests: yes). Do not edit by hand: change `entries.yaml`, rebuild, regenerate.*
 
 **How to use.** Find the item below. Read its status and defects. Read its definition (quoted in REGISTRY.json from the cited lines). Use only CURRENT or CURRENT_WITH_CAVEATS items for results, and state the listed defects beside every number. Pete's rulings: `decisions.md`. Proposals that are not yet rules: `proposals.md`.
 
-**Status counts:** CURRENT 44, CURRENT_WITH_CAVEATS 30, KNOWN_DEFECT 5, PENDING_RULING 2, SUPERSEDED 6, UNCHECKED 3, WITHDRAWN 2
+**Status counts:** CURRENT 47, CURRENT_WITH_CAVEATS 39, KNOWN_DEFECT 5, PENDING_RULING 2, SUPERSEDED 11, UNCHECKED 129, WITHDRAWN 2
 
 ## Status values
 
@@ -57,11 +57,11 @@
 | ex.run_j_tau_eof | CURRENT_WITH_CAVEATS | D23 | `EX:run-j/primary-tau-eof` | 373 | 15.367 | EX:run-j/primary-tau-eof/README.txt L[1, 6] |
 | ex.run_j_tau_scenario | CURRENT_WITH_CAVEATS | D23 | `EX:run-j/sensitivity-tau-scenario` | 373 | 15.367 | EX:run-j/sensitivity-tau-scenario/README.txt L[1, 6] |
 | ex.session_staging_1012 | UNCHECKED |  | `EX:session-staging-2026-10-12` | 32 | 0.000 | NO DEFINITION LOCATED |
-| art.take2_review | CURRENT_WITH_CAVEATS | D10 | `ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md` | 1 | 0.000 | ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md L[1, 24] |
-| art.candidates_withdrawal | CURRENT |  | `ART:a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md` | 1 | 0.000 | ART:a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md L[1, 3] |
-| art.candidates_A_F | WITHDRAWN | D10, D04, D09 | `ART:a35831fe/b5497699_candidates-A-F-summary.csv` | 1 | 0.000 | NO DEFINITION LOCATED |
-| art.feasibility_tables | WITHDRAWN | D10 | `ART:a35831fe` | 10 | 0.005 | NO DEFINITION LOCATED |
-| art.royer_crossid | CURRENT_WITH_CAVEATS |  | `ART:a35831fe/239646ad_royer-events-crossid-all-sites.csv` | 1 | 0.000 | NO DEFINITION LOCATED |
+| art.take2_review | CURRENT_WITH_CAVEATS | D10 | `WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md` | 1 | 0.000 | WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md L[1, 24] |
+| art.candidates_withdrawal | CURRENT |  | `WORK:Hydroacoustic Handover/artifacts/a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md` | 1 | 0.000 | WORK:Hydroacoustic Handover/artifacts/a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md L[1, 3] |
+| art.candidates_A_F | WITHDRAWN | D10, D04, D09 | `WORK:Hydroacoustic Handover/artifacts/a35831fe/b5497699_candidates-A-F-summary.csv` | 1 | 0.000 | NO DEFINITION LOCATED |
+| art.feasibility_tables | WITHDRAWN | D10 | `WORK:Hydroacoustic Handover/artifacts/a35831fe` | 10 | 0.005 | NO DEFINITION LOCATED |
+| art.royer_crossid | CURRENT_WITH_CAVEATS |  | `WORK:Hydroacoustic Handover/artifacts/a35831fe/239646ad_royer-events-crossid-all-sites.csv` | 1 | 0.000 | NO DEFINITION LOCATED |
 | ex.register_2026_10_23 | SUPERSEDED -> ex.register_2026_10_23_v2 | D05, D06, D24, D25, D26 | `EX:register-2026-10-23` | 6 | 0.011 | EX:register-2026-10-23/README.txt L[1, 4] |
 | ex.kadri_predictions_v3 | CURRENT_WITH_CAVEATS | D05, D25 | `EX:kadri-package-v3-draft-predictions` | 5 | 0.002 | EX:kadri-package-v3-draft-predictions/README.txt L[1, 6] |
 | ex.run_j_gated_v3 | CURRENT_WITH_CAVEATS | D05, D06, D25 | `EX:run-j-gated-v3` | 1045 | 9.541 | EX:run-j-gated-v3/README.txt L[1, 3] |
@@ -74,6 +74,131 @@
 | mod.tolerances_x04_x05 | CURRENT_WITH_CAVEATS |  | `MOD:results-data/tolerances_x04_x05` | 4 | 0.000 | MOD:prepare/gates/estimate_tolerances.py L[1, 5] |
 | mod.real_arrival_test_x06 | CURRENT_WITH_CAVEATS | D05 | `MOD:results-data/real_arrival_test_x06` | 4 | 0.000 | MOD:prepare/real_arrival_test_x06.py L[1, 4] |
 | ex.arc_line_of_sight | CURRENT_WITH_CAVEATS |  | `MOD:registry/data_db/arc_los_station_count.csv` | 1 | 0.000 | MOD:registry/data_db/arc_line_of_sight.py L[8, 16] |
+| res.source_survey_2026_10_23 | CURRENT_WITH_CAVEATS |  | `WORK:results/hydroacoustics/source-survey-2026-10-23` | 12 | 0.000 | WORK:results/hydroacoustics/source-survey-2026-10-23/impact-and-other-sources-synthesis-2026-10-23.md L[1, 30] |
+| res.next_steps_2026_10_24 | CURRENT_WITH_CAVEATS |  | `WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24` | 40 | 0.012 | WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/next-steps-results-2026-10-24.md L[1, 30] |
+| res.coupling_db_package_2026_10_25 | CURRENT |  | `WORK:results/hydroacoustics/source-survey-2026-10-23/coupling-db-package-2026-10-25` | 10 | 0.000 | WORK:results/hydroacoustics/source-survey-2026-10-23/coupling-db-package-2026-10-25/README.md L[1, 30] |
+| res.raw_ims_2026_10_25 | CURRENT_WITH_CAVEATS |  | `WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25` | 1 | 0.000 | WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/README.md L[1, 25] |
+| res.raw_ims_2026_10_25.f35a_raw_ridge | CURRENT_WITH_CAVEATS |  | `WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/f35a-raw-ridge` | 32 | 0.003 | WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/f35a-raw-ridge/f35a-raw-ridge-note.md L[1, 30] |
+| res.raw_ims_2026_10_25.transair_810 | CURRENT_WITH_CAVEATS |  | `WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/transair-810` | 41 | 0.005 | WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/transair-810/transair810-note.md L[1, 30] |
+| res.raw_ims_2026_10_25.kadri_2024_replication | CURRENT_WITH_CAVEATS | D28 | `WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/kadri-2024-replication` | 16 | 0.001 | WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/kadri-2024-replication/kadri-replication-note.md L[1, 30] |
+| res.raw_ims_2026_10_25.propagation_level_check | CURRENT_WITH_CAVEATS |  | `WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/propagation-level-check` | 57 | 0.006 | WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/propagation-level-check/propagation-level-check-note.md L[1, 30] |
+| res.raw_ims_2026_10_25.db_rows_merged | CURRENT |  | `WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/db-rows-merged` | 6 | 0.000 | WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/db-rows-merged/merge_wave3_rows.py L[1, 30] |
+| res.raw_ims_2026_10_25.independent_verification | CURRENT |  | `WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/independent-verification` | 3 | 0.000 | WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/independent-verification/wave3-verifier-report.md L[1, 30] |
+| res.hydro_decisions_json | UNCHECKED |  | `WORK:results/hydroacoustics/decisions.json` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.audit | UNCHECKED |  | `WORK:results/hydroacoustics-audit` | 75 | 0.009 | NO DEFINITION LOCATED |
+| res.back_to_basics_2026_10_23.airgun_surveys | CURRENT_WITH_CAVEATS |  | `WORK:results/hydroacoustics-back-to-basics-2026-10-23/airgun-surveys` | 22 | 0.007 | WORK:results/hydroacoustics-back-to-basics-2026-10-23/airgun-surveys/README_airgun_surveys.md L[1, 6] |
+| res.back_to_basics_2026_10_23.imos_full_deployment_noise | UNCHECKED |  | `WORK:results/hydroacoustics-back-to-basics-2026-10-23/imos-full-deployment-noise` | 23 | 0.030 | WORK:results/hydroacoustics-back-to-basics-2026-10-23/imos-full-deployment-noise/NOTE_imos_deployment_noise.md L[1, 6] |
+| res.back_to_basics_2026_10_23.noise_vs_levels_corrected | UNCHECKED |  | `WORK:results/hydroacoustics-back-to-basics-2026-10-23/noise-vs-levels-corrected` | 26 | 0.008 | WORK:results/hydroacoustics-back-to-basics-2026-10-23/noise-vs-levels-corrected/README.md L[1, 6] |
+| res.back_to_basics_2026_10_23.whale_calls | UNCHECKED |  | `WORK:results/hydroacoustics-back-to-basics-2026-10-23/whale-calls` | 30 | 0.019 | WORK:results/hydroacoustics-back-to-basics-2026-10-23/whale-calls/README.md L[1, 6] |
+| res.calibration_events_stage1_standin | UNCHECKED |  | `WORK:results/hydroacoustics-calibration-events-stage1-standin` | 13 | 0.000 | NO DEFINITION LOCATED |
+| res.graphics_2026_10_22.arrival_windows | CURRENT_WITH_CAVEATS |  | `WORK:results/hydroacoustics-graphics-2026-10-22/arrival-windows` | 52 | 0.057 | WORK:results/hydroacoustics-graphics-2026-10-22/arrival-windows/README.md L[1, 6] |
+| res.graphics_2026_10_22.metz_f35a | UNCHECKED |  | `WORK:results/hydroacoustics-graphics-2026-10-22/metz-f35a` | 10 | 0.001 | NO DEFINITION LOCATED |
+| res.graphics_2026_10_22.pair_g | UNCHECKED |  | `WORK:results/hydroacoustics-graphics-2026-10-22/pair-g` | 21 | 0.004 | WORK:results/hydroacoustics-graphics-2026-10-22/pair-g/README.md L[1, 6] |
+| res.graphics_2026_10_22.ranking_energy | UNCHECKED |  | `WORK:results/hydroacoustics-graphics-2026-10-22/ranking-energy` | 11 | 0.006 | WORK:results/hydroacoustics-graphics-2026-10-22/ranking-energy/README.md L[1, 6] |
+| res.graphics_2026_10_22.sources_correction | UNCHECKED |  | `WORK:results/hydroacoustics-graphics-2026-10-22/sources-correction` | 10 | 0.001 | NO DEFINITION LOCATED |
+| res.graphics_2026_10_22.updated_examples | UNCHECKED |  | `WORK:results/hydroacoustics-graphics-2026-10-22/updated-examples` | 26 | 0.005 | WORK:results/hydroacoustics-graphics-2026-10-22/updated-examples/README.md L[1, 6] |
+| res.next_run_b_standin | UNCHECKED |  | `WORK:results/hydroacoustics-next-run-b-standin` | 21 | 0.002 | NO DEFINITION LOCATED |
+| res.pleiades_test_standin | UNCHECKED |  | `WORK:results/hydroacoustics-pleiades-test-standin` | 11 | 0.002 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_agw_scenarios_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-agw-scenarios.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_agw_scenarios_png | UNCHECKED |  | `WORK:results/hydroacoustics-agw-scenarios.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_air7_corridor_sensitivity_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-air7-corridor-sensitivity.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_air7_corridor_sensitivity_png | UNCHECKED |  | `WORK:results/hydroacoustics-air7-corridor-sensitivity.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_air8_control_verdict_json | UNCHECKED |  | `WORK:results/hydroacoustics-air8-control-verdict.json` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_air9_ew0112_predicted_vs_measured_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-air9-ew0112-predicted-vs-measured.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_air9_ew0112_predicted_vs_measured_png | UNCHECKED |  | `WORK:results/hydroacoustics-air9-ew0112-predicted-vs-measured.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_air9_ew0112_residual_vs_frequency_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-air9-ew0112-residual-vs-frequency.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_air9_ew0112_residual_vs_frequency_png | UNCHECKED |  | `WORK:results/hydroacoustics-air9-ew0112-residual-vs-frequency.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_air9_predicted_vs_measured_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-air9-predicted-vs-measured.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_air9_predicted_vs_measured_png | UNCHECKED |  | `WORK:results/hydroacoustics-air9-predicted-vs-measured.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_air9_residual_vs_frequency_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-air9-residual-vs-frequency.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_air9_residual_vs_frequency_png | UNCHECKED |  | `WORK:results/hydroacoustics-air9-residual-vs-frequency.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_air9_source_reference_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-air9-source-reference.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_air9_source_reference_png | UNCHECKED |  | `WORK:results/hydroacoustics-air9-source-reference.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_air9_tl_verdicts_csv | UNCHECKED |  | `WORK:results/hydroacoustics-air9-tl-verdicts.csv` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_bibliography_csv | UNCHECKED |  | `WORK:results/hydroacoustics-bibliography.csv` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_blackman_validation_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-blackman-validation.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_blackman_validation_png | UNCHECKED |  | `WORK:results/hydroacoustics-blackman-validation.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_calibration_events_stage1_standin_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-calibration-events-stage1-standin.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_calibration_events_stage1_standin_png | UNCHECKED |  | `WORK:results/hydroacoustics-calibration-events-stage1-standin.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_composition_run_j_evidence_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-composition-run-j-evidence.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_composition_run_j_evidence_png | UNCHECKED |  | `WORK:results/hydroacoustics-composition-run-j-evidence.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_composition_run_j_limits_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-composition-run-j-limits.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_composition_run_j_limits_png | UNCHECKED |  | `WORK:results/hydroacoustics-composition-run-j-limits.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_ground_truth_cases_csv | UNCHECKED |  | `WORK:results/hydroacoustics-ground-truth-cases.csv` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_h08s_outlier_sources_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-h08s-outlier-sources.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_h08s_outlier_sources_png | UNCHECKED |  | `WORK:results/hydroacoustics-h08s-outlier-sources.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_h08s_pulse_energy_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-h08s-pulse-energy.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_h08s_pulse_energy_png | UNCHECKED |  | `WORK:results/hydroacoustics-h08s-pulse-energy.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_h08s_shot_gather_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-h08s-shot-gather.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_h08s_shot_gather_png | UNCHECKED |  | `WORK:results/hydroacoustics-h08s-shot-gather.png` | 1 | 0.001 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_imos_noise_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-imos-noise.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_imos_noise_png | UNCHECKED |  | `WORK:results/hydroacoustics-imos-noise.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_imos_ram_grid_old_vs_new_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-imos-ram-grid-old-vs-new.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_imos_ram_grid_old_vs_new_png | UNCHECKED |  | `WORK:results/hydroacoustics-imos-ram-grid-old-vs-new.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_ims_noise_blackman_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-ims-noise-blackman.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_ims_noise_blackman_png | UNCHECKED |  | `WORK:results/hydroacoustics-ims-noise-blackman.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_injection_recovery_run_j_eta_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-injection-recovery-run-j-eta.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_injection_recovery_run_j_eta_png | UNCHECKED |  | `WORK:results/hydroacoustics-injection-recovery-run-j-eta.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_injection_recovery_run_j_pd_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-injection-recovery-run-j-pd.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_injection_recovery_run_j_pd_png | UNCHECKED |  | `WORK:results/hydroacoustics-injection-recovery-run-j-pd.png` | 1 | 0.001 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_item3_pd_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-item3-pd.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_item3_pd_png | UNCHECKED |  | `WORK:results/hydroacoustics-item3-pd.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_nx2d_corridor_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-nx2d-corridor.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_nx2d_corridor_png | UNCHECKED |  | `WORK:results/hydroacoustics-nx2d-corridor.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_pair_sources_map_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-pair-sources-map.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_pair_sources_map_png | UNCHECKED |  | `WORK:results/hydroacoustics-pair-sources-map.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_pleiades_test_standin_power_held_out_png | UNCHECKED |  | `WORK:results/hydroacoustics-pleiades-test-standin-power-held-out.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_pleiades_test_standin_power_r600_bto_only_png | UNCHECKED |  | `WORK:results/hydroacoustics-pleiades-test-standin-power-r600-bto-only.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_pleiades_test_standin_power_r600_bto_raw_bfo_png | UNCHECKED |  | `WORK:results/hydroacoustics-pleiades-test-standin-power-r600-bto-raw-bfo.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_pleiades_test_standin_result_png | UNCHECKED |  | `WORK:results/hydroacoustics-pleiades-test-standin-result.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_pleiades_test_standin_windows_held_out_png | UNCHECKED |  | `WORK:results/hydroacoustics-pleiades-test-standin-windows-held-out.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_pleiades_test_standin_windows_r600_bto_only_png | UNCHECKED |  | `WORK:results/hydroacoustics-pleiades-test-standin-windows-r600-bto-only.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_pleiades_test_standin_windows_r600_bto_raw_bfo_png | UNCHECKED |  | `WORK:results/hydroacoustics-pleiades-test-standin-windows-r600-bto-raw-bfo.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_references_bib | UNCHECKED |  | `WORK:results/hydroacoustics-references.bib` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_run_c_tau_sensitivity_standin_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-run-c-tau-sensitivity-standin.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_run_c_tau_sensitivity_standin_png | UNCHECKED |  | `WORK:results/hydroacoustics-run-c-tau-sensitivity-standin.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_run_j_levels_detectable_vs_eta_baseline_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-run-j-levels-detectable-vs-eta-baseline.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_run_j_levels_detectable_vs_eta_baseline_png | UNCHECKED |  | `WORK:results/hydroacoustics-run-j-levels-detectable-vs-eta-baseline.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_run_j_levels_detectable_vs_eta_matched_filter_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-run-j-levels-detectable-vs-eta-matched_filter.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_run_j_levels_detectable_vs_eta_matched_filter_png | UNCHECKED |  | `WORK:results/hydroacoustics-run-j-levels-detectable-vs-eta-matched_filter.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_run_j_levels_illustrative_traces_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-run-j-levels-illustrative-traces.pdf` | 1 | 0.001 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_run_j_levels_illustrative_traces_png | UNCHECKED |  | `WORK:results/hydroacoustics-run-j-levels-illustrative-traces.png` | 1 | 0.001 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_run_j_levels_snr_maps_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-run-j-levels-snr-maps.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_run_j_levels_snr_maps_png | UNCHECKED |  | `WORK:results/hydroacoustics-run-j-levels-snr-maps.png` | 1 | 0.001 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_run_j_publication_coverage_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-run-j-publication-coverage.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_run_j_publication_coverage_png | UNCHECKED |  | `WORK:results/hydroacoustics-run-j-publication-coverage.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_run_j_request_windows_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-run-j-request-windows.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_run_j_request_windows_png | UNCHECKED |  | `WORK:results/hydroacoustics-run-j-request-windows.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_run_j_timelines_ohasisbio_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-run-j-timelines-ohasisbio.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_run_j_timelines_ohasisbio_png | UNCHECKED |  | `WORK:results/hydroacoustics-run-j-timelines-ohasisbio.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_run_j_timelines_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-run-j-timelines.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_run_j_timelines_png | UNCHECKED |  | `WORK:results/hydroacoustics-run-j-timelines.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_search_windows_next_run_b_standin_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-search-windows-next-run-b-standin.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_search_windows_next_run_b_standin_png | UNCHECKED |  | `WORK:results/hydroacoustics-search-windows-next-run-b-standin.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_search_windows_ref289_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-search-windows-ref289.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_search_windows_ref289_png | UNCHECKED |  | `WORK:results/hydroacoustics-search-windows-ref289.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_searches_run_j_table1_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-searches-run-j-table1.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_searches_run_j_table1_png | UNCHECKED |  | `WORK:results/hydroacoustics-searches-run-j-table1.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_searches_run_j_timeline_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-searches-run-j-timeline.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_searches_run_j_timeline_png | UNCHECKED |  | `WORK:results/hydroacoustics-searches-run-j-timeline.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_synthetic_composer_test_csv | UNCHECKED |  | `WORK:results/hydroacoustics-synthetic-composer-test.csv` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_synthetic_composer_test_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-synthetic-composer-test.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_synthetic_composer_test_png | UNCHECKED |  | `WORK:results/hydroacoustics-synthetic-composer-test.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_tl_grid_run_j_detectable_fraction_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-tl-grid-run-j-detectable-fraction.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_tl_grid_run_j_detectable_fraction_png | UNCHECKED |  | `WORK:results/hydroacoustics-tl-grid-run-j-detectable-fraction.png` | 1 | 0.001 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_tl_grid_run_j_tl_vs_latitude_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-tl-grid-run-j-tl-vs-latitude.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_tl_grid_run_j_tl_vs_latitude_png | UNCHECKED |  | `WORK:results/hydroacoustics-tl-grid-run-j-tl-vs-latitude.png` | 1 | 0.001 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_weak_signal_h08s_suppression_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-weak-signal-h08s-suppression.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_weak_signal_h08s_suppression_png | UNCHECKED |  | `WORK:results/hydroacoustics-weak-signal-h08s-suppression.png` | 1 | 0.001 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_weak_signal_kadri_panels_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-weak-signal-kadri-panels.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_weak_signal_kadri_panels_png | UNCHECKED |  | `WORK:results/hydroacoustics-weak-signal-kadri-panels.png` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_weak_signal_pd_vs_snr_pdf | UNCHECKED |  | `WORK:results/hydroacoustics-weak-signal-pd-vs-snr.pdf` | 1 | 0.000 | NO DEFINITION LOCATED |
+| res.file.hydroacoustics_weak_signal_pd_vs_snr_png | UNCHECKED |  | `WORK:results/hydroacoustics-weak-signal-pd-vs-snr.png` | 1 | 0.001 | NO DEFINITION LOCATED |
+| res.coordination_hydro_protected_paths_2026_10_25 | UNCHECKED |  | `WORK:coordination/hydro-protected-paths-2026-10-25.csv` | 1 | 0.001 | NO DEFINITION LOCATED |
+| ex.potential_signals_preview_2026_10_23 | SUPERSEDED -> ex.potential_signals_2026_10_23 |  | `EX:potential-signals-PREVIEW-2026-10-23` | 5 | 0.000 | NO DEFINITION LOCATED |
+| ex.potential_signals_graphics_first_set | SUPERSEDED -> ex.potential_signals_graphics |  | `EX:potential-signals-graphics-2026-10-23/FINAL` | 116 | 0.044 | NO DEFINITION LOCATED |
+| ex.potential_signals_graphics_second_set | SUPERSEDED -> ex.potential_signals_graphics |  | `EX:potential-signals-graphics-2026-10-23/FINAL-v2` | 108 | 0.045 | NO DEFINITION LOCATED |
+| ex.potential_signals_graphics_preview | SUPERSEDED -> ex.potential_signals_graphics |  | `EX:potential-signals-graphics-2026-10-23/PREVIEW` | 83 | 0.031 | NO DEFINITION LOCATED |
 
 ## Results notes (claude-science-sep29)
 
@@ -121,6 +246,17 @@
 | note.tl_grid_run_j | CURRENT_WITH_CAVEATS | D01 | `WORK:results/hydroacoustics-tl-grid-run-j.md` | 1 | 0.000 | WORK:results/hydroacoustics-tl-grid-run-j.md L[1, 9] |
 | note.weak_signal_methods | CURRENT_WITH_CAVEATS | D05 | `WORK:results/hydroacoustics-weak-signal-methods.md` | 1 | 0.000 | WORK:results/hydroacoustics-weak-signal-methods.md L[1, 9] |
 | note.source_access_ledger_2026_10_22 | CURRENT |  | `WORK:results/source-access-ledger-2026-10-22.md` | 1 | 0.000 | WORK:results/source-access-ledger-2026-10-22.md L[1, 3] |
+| note.registry_handoff_c764a583 | UNCHECKED |  | `WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff` | 11 | 0.000 | NO DEFINITION LOCATED |
+| note.hydro_index | UNCHECKED |  | `WORK:results/hydroacoustics/INDEX.md` |  |  | NO DEFINITION LOCATED |
+| note.hydro_decisions | UNCHECKED |  | `WORK:results/hydroacoustics/decisions.md` | 1 | 0.000 | NO DEFINITION LOCATED |
+| note.hydro_profile_prompt_hydroacoustic_module_after_2026_10_23 | UNCHECKED |  | `WORK:results/hydroacoustics/profile-prompt-HYDROACOUSTIC_MODULE-after-2026-10-23.txt` | 1 | 0.000 | NO DEFINITION LOCATED |
+| note.hydro_profile_prompt_hydroacoustic_module_before_2026_10_23 | SUPERSEDED -> note.hydro_profile_prompt_hydroacoustic_module_after_2026_10_23 |  | `WORK:results/hydroacoustics/profile-prompt-HYDROACOUSTIC_MODULE-before-2026-10-23.txt` | 1 | 0.000 | NO DEFINITION LOCATED |
+| note.hydro_proposals | UNCHECKED |  | `WORK:results/hydroacoustics/proposals.md` | 1 | 0.000 | NO DEFINITION LOCATED |
+| note.coordination_hydroacoustics | UNCHECKED |  | `WORK:coordination/HYDROACOUSTICS.md` | 1 | 0.000 | NO DEFINITION LOCATED |
+| note.threads_master_prompts_hydroacoustics | UNCHECKED |  | `WORK:threads/master-prompts/hydroacoustics.md` | 1 | 0.000 | NO DEFINITION LOCATED |
+| note.threads_work_orders_hydroacoustics_order_2026_10_21 | UNCHECKED |  | `WORK:threads/work-orders/hydroacoustics-order-2026-10-21.md` | 1 | 0.000 | NO DEFINITION LOCATED |
+| ex.potential_signals_graphics_top | UNCHECKED |  | `EX:potential-signals-graphics-2026-10-23` | 2 | 0.000 | NO DEFINITION LOCATED |
+| note.memnote_hydroacoustics | UNCHECKED |  | `MOD:registry/memory-notes` | 4 | 0.000 | NO DEFINITION LOCATED |
 
 ## Code
 
@@ -154,6 +290,7 @@
 | D25 | Source depth fixed at 10 m in the MH370 chain | At the F-35A, 2 m or 30 m moves eta by more than two decades. | no (labelled) | ex.kadri_predictions_v3, ex.levels, ex.potential_signals_2026_10_23_v3, ex.ranked_2026_10_23_prior, ex.register_2026_10_23, ex.register_2026_10_23_v2, ex.run_j_gated_v2, ex.run_j_gated_v3, mod.composition_run_j_v3, note.run_j_levels |
 | D26 | Cape Leeuwin and Diego Garcia p-values are not calibrated | Digitised plots at about 14.5 points per second with an emulated IMOS noise reference. | no (labelled) | ex.potential_signals_2026_10_23_v3, ex.potential_signals_graphics, ex.ranked, ex.ranked_2026_10_23_prior, ex.register_2026_10_23, ex.register_2026_10_23_v2, ex.searches, note.searches_run_j |
 | D27 | run-j-gated-v2 README states 3275 matches need coupling 30 / 19 (wrong) | The text used the uncorrected pass-A IMOS TL. Corrected RAM-grid TL gives about 0.022 (01:20:35) and 0.014 (01:07:47) at the q99 run J energy (possible). README kept (hashed); erratum file beside it. The v3 README was corrected after generation. | yes (erratum; driver text corrected in module 441feb2) | ex.run_j_gated_v2 |
+| D28 | Kadri replication: route lengths 1-4 % too long (erratum 2 of the wave-3 verifier) | water_route.py sums 8-neighbour grid steps without smoothing. The Sriwijaya 182 and AB Aviation 1103 offsets are too negative by about 26 s and 84 s. The conclusions do not change (README). | no (erratum in README; notes not edited) | res.raw_ims_2026_10_25.kadri_2024_replication |
 
 ## Constants
 
@@ -168,7 +305,7 @@
 | kadri_highpass | 5 | Hz (Kadri 2017 chain high-pass; 2024 adds 2-40 Hz band-pass) | CURRENT |  | WORK:results/hydroacoustics-digitised-sources.md L[212, 217] |
 | imos_duty_cycle | [307, 900] | s recorded per s (about 34 %) | CURRENT |  | WORK:results/hydroacoustics-imos-noise.md L[18, 18] |
 | gps_utc_2014 | 16 | s (GPS minus UTC, July 2012 to June 2015) | EXTERNAL_STANDARD | IERS Bulletin C; not in the repo. IMOS hex filenames are 16 s earlier than Portland rec_times.txt (session record). |  LNone |
-| shot_window | 1.5 | s (H08S airgun coincidence label) | AGENT_CHOICE_NOT_RULED | Used by the Take 2 review; chance rate taken as 3/10 for a 10 s shot cadence. | ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md L[159, 159] |
+| shot_window | 1.5 | s (H08S airgun coincidence label) | AGENT_CHOICE_NOT_RULED | Used by the Take 2 review; chance rate taken as 3/10 for a 10 s shot cadence. | WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md L[159, 159] |
 | los_block_depth_m | 200 | m (blocked if water shallower than min(receiver depth, this) > 20 km from receiver) | AGENT_CHOICE_NOT_RULED | Line-of-sight screen threshold, 23 Oct 2026. Not ruled by Pete. | MOD:registry/data_db/arc_line_of_sight.py L[12, 12] |
 | los_large_attenuation | 10 km shallower than 1,000 m | km, m (> 100 km from receiver) | AGENT_CHOICE_NOT_RULED | Line-of-sight screen threshold for 'large attenuation', 23 Oct 2026. Not ruled by Pete. | MOD:registry/data_db/arc_line_of_sight.py L[13, 13] |
 

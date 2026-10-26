@@ -8,6 +8,10 @@
   * Exchange-folder files are not hashed again: bytes and SHA-256 come from data_homes/exchange_inventory.json.gz
     (SHA256SUMS files, or a hash of each file < 1 GB that has no SHA256SUMS entry). Files >= 1 GB with no checksum are listed, not hashed.
   * Roots point only to the repository, the exchange folder, ~/Downloads data homes, the external drive, git or a Drive id.
+  * Phase 2 (26 Oct 2026), module hydroacoustics: the hydro exchange inventory (data_homes/exchange_inventory_hydroacoustics.json.gz)
+    is read too; an EX entry can name one file or give exchange_file_list; a DL entry with hash "stat+lt1g" also hashes files < 1 GB
+    that have no SHA256SUMS entry; a GIT entry with git_path lists the files of that path at the commit and hashes each blob;
+    modules/<module>/constants.json is copied to module_constants in the merged registry.
 Usage: python3 build_registry.py [--no-hash] [--repo <repo top>]
 """
 import argparse, collections, gzip, hashlib, json, os, re, subprocess, sys, time
@@ -46,6 +50,10 @@ def main():
     defect_ids = {d["id"] for d in spec["defects"]}
     tracked = [p for p in git(top, "ls-files", "-z").split("\0") if p]
     inv = json.load(gzip.open(HERE / "data_homes" / "exchange_inventory.json.gz", "rt"))
+    hinv = HERE / "data_homes" / "exchange_inventory_hydroacoustics.json.gz"
+    if hinv.exists():
+        inv["files"] = inv["files"] + json.load(gzip.open(hinv, "rt"))["files"]
+    module_constants = {}
     errors, merged, covered = [], [], set()
     t0 = time.time()
     for mod in spec["modules"]:
@@ -79,13 +87,34 @@ def main():
                         covered.add(f)
                 elif root == "EX":
                     pre = e.get("exchange_prefix")
-                    sel = [x for x in inv["files"] if "bytes" in x and (x["rel"].startswith(pre + "/") if not e.get("exchange_top_files_only") else (x["rel"].startswith(pre) and x["rel"].count("/") == 1))] if pre else []
+                    if pre and e.get("exchange_file_list"):
+                        want = {pre + "/" + f for f in e["exchange_file_list"]}
+                        sel = [x for x in inv["files"] if "bytes" in x and x["rel"] in want]
+                        if len(sel) != len(want):
+                            raise FileNotFoundError(f"{e['path']}: {len(want) - len(sel)} listed files not in the exchange inventory")
+                    else:
+                        sel = [x for x in inv["files"] if "bytes" in x and (x["rel"] == pre or x["rel"].startswith(pre + "/") if not e.get("exchange_top_files_only") else (x["rel"].startswith(pre) and x["rel"].count("/") == 1))] if pre else []
                     if pre and not sel:
                         raise FileNotFoundError(f"{e['path']}: no file in the exchange inventory")
                     rows = [(x["rel"], x["bytes"], x.get("sha256") or "", x.get("sha_source", "")) for x in sel] if pre else None
                     if rows is not None:
                         r["not_hashed"] = [x["rel"] for x in sel if not x.get("sha256")]
-                elif root == "DL" and e.get("hash") == "stat":
+                    else:
+                        note = e.get("hash_note", "not hashed")
+                elif root == "GIT" and e.get("git_path"):
+                    ref = rel.split("@", 1)[1]
+                    ls = git(top, "ls-tree", "-r", "-z", "--full-tree", ref, "--", e["git_path"]).split("\0")
+                    blobs = [(l.split("\t", 1)[1], l.split()[2]) for l in ls if l and l.split()[1] == "blob"]
+                    if not blobs:
+                        raise FileNotFoundError(f"{e['git_path']}: no file at {ref}")
+                    env = {**os.environ, "GIT_CONFIG_GLOBAL": "/dev/null"}
+                    pr = subprocess.run(["git", "cat-file", "--batch"], cwd=top, input="".join(o + "\n" for _, o in blobs).encode(), capture_output=True, env=env).stdout
+                    rows, pos = [], 0
+                    for f, o in blobs:
+                        hdr_end = pr.index(b"\n", pos); size = int(pr[pos:hdr_end].split()[2]); data = pr[hdr_end + 1: hdr_end + 1 + size]
+                        pos = hdr_end + 1 + size + 1
+                        rows.append((f, size, "" if a.no_hash else hashlib.sha256(data).hexdigest()))
+                elif root == "DL" and e.get("hash") in ("stat", "stat+lt1g"):
                     p = rpath["DL"] / rel
                     if not p.exists():
                         raise FileNotFoundError(str(p))
@@ -96,7 +125,10 @@ def main():
                             if len(q) == 2 and len(q[0]) == 64:
                                 sums[str((s.parent / q[1].lstrip("*").strip()).resolve())] = q[0]
                     rows = [(str(f.relative_to(rpath["DL"])), f.stat().st_size, sums.get(str(f.resolve()), ""), "SHA256SUMS" if str(f.resolve()) in sums else "not hashed")
-                            for f in sorted(p.rglob("*")) if f.is_file()]
+                            for f in (sorted(p.rglob("*")) if p.is_dir() else [p]) if f.is_file()]
+                    if e.get("hash") == "stat+lt1g" and not a.no_hash:
+                        rows = [(x[0], x[1], sha256(rpath["DL"] / x[0]), "computed " + time.strftime("%Y-%m-%d")) if not x[2] and x[1] < (1 << 30) else x for x in rows]
+                    r["not_hashed"] = [x[0] for x in rows if not x[2]]
                 else:
                     note = e.get("hash_note", "not hashed")
                 if rows is not None:
@@ -134,6 +166,9 @@ def main():
                "hashing": not a.no_hash, "work_branch_head_at_build": git(top, "log", "-1", "--format=%H %cI").strip(),
                "roots": {k: roots.get(k, "(repository)") for k in ("REPO", "WORK", "EX", "DL", "XDRIVE", "GIT", "DRIVE")},
                "status_values": spec["status_values"], "entries": out}
+        if (mdir / "constants.json").exists():
+            module_constants[mod] = json.load(open(mdir / "constants.json"))
+            reg["constants"] = module_constants[mod]
         json.dump(reg, open(mdir / "REGISTRY.json", "w"), indent=1, ensure_ascii=False)
         merged += out
         print(f"{mod:16s} {len(out):5d} entries  {time.time() - t0:.0f}s", flush=True)
@@ -143,11 +178,11 @@ def main():
     for e in merged:
         if e.get("superseded_by") and e["superseded_by"] not in known:
             errors.append(f"{e['id']}: superseded_by {e['superseded_by']} is not a registry id")
-    reg = {"registry_version": "project registry v1 (2026-10-25)", "built_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+    reg = {"registry_version": "project registry v1 (2026-10-25), phase 2 with hydroacoustics (2026-10-26)", "built_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
            "hashing": not a.no_hash, "work_branch_head_at_build": git(top, "log", "-1", "--format=%H %cI").strip(),
            "roots": {k: roots.get(k, "(repository)") for k in ("REPO", "WORK", "EX", "DL", "XDRIVE", "GIT", "DRIVE")},
            "status_values": spec["status_values"], "kind_values": spec["kind_values"], "modules": spec["modules"],
-           "external_registries": spec["external_registries"], "defects": spec["defects"], "entries": merged, "build_errors": errors}
+           "external_registries": spec["external_registries"], "defects": spec["defects"], "module_constants": module_constants, "entries": merged, "build_errors": errors}
     json.dump(reg, open(HERE / "REGISTRY.json", "w"), indent=1, ensure_ascii=False)
     nr = [p for p in tracked if p not in covered]
     json.dump({"tracked": len(tracked), "covered": len(covered), "not_covered": nr}, open(HERE / "coverage_files.json", "w"), indent=0)

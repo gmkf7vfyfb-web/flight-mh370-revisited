@@ -8,7 +8,8 @@
   "pleiades",
   "composer",
   "paper",
-  "project"
+  "project",
+  "hydroacoustics"
  ],
  "status_values": {
   "CURRENT": "No known defect in the records. Not re-verified in this run unless verified_this_run is true.",
@@ -32,7 +33,7 @@
   {
    "module": "hydroacoustics",
    "where": "branch hypothesis/hydroacoustics: Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/REGISTRY.json",
-   "note": "Not merged here. Phase 2 merges it, with the hand-off of session c764a583 (coordination/HYDROACOUSTICS.md, 25 Oct 2026) and the root fix (its ART root points to a session workspace)."
+   "note": "Merged here as module hydroacoustics (phase 2, 26 Oct 2026) from commit 6ebfc70d4d4f4b46ac57f2330eba4ffdf3df87df. The hydro registry stays the module's own record; its loader registry.py reads it."
   }
  ],
  "defects": [
@@ -43,6 +44,195 @@
     "file": "WORK:results/fuel-model-audit-architecture.md",
     "line": 361
    }
+  },
+  {
+   "id": "hydro.D01",
+   "statement": "Old coupling value 2.1e-4 used as the F-35A \"upper anchor\". 2.1e-4 is Brown 2026's Arons-equivalent coupling, a different quantity. Under the module definition the F-35A value from Metz 2023 is 2.26e-3 (pending ruling). Every \"x F-35A\" multiple on 2.1e-4 is 10.8 times too high.",
+   "evidence": {
+    "file": "WORK:results/hydroacoustics-metz-f35a-anchor.md",
+    "line": 171
+   },
+   "module_registry": "GIT:hypothesis/hydroacoustics@6ebfc70d4d4f4b46ac57f2330eba4ffdf3df87df:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/REGISTRY.json"
+  },
+  {
+   "id": "hydro.D02",
+   "statement": "Diego Garcia (H08S) detections that coincide with airgun shots were ranked as candidates. 44 of 47 H08S single candidates lie within 1.5 s of a shot in h08s_template_shots.csv (chance about 30 %). The searches note itself said only residual rows are candidates (G-S9). Pete (23 Oct): a shot coincidence is not an exclusion; constructive interference and waveform distortion can still carry a detection.",
+   "evidence": {
+    "file": "WORK:results/hydroacoustics-searches-run-j.md",
+    "line": 90
+   },
+   "module_registry": "GIT:hypothesis/hydroacoustics@6ebfc70d4d4f4b46ac57f2330eba4ffdf3df87df:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/REGISTRY.json"
+  },
+  {
+   "id": "hydro.D03",
+   "statement": "Scott Reef 3250 used in pairs and triples although its path is blocked. 3250 carries no information (blocked path), but it is in most pairs and triples.",
+   "evidence": {
+    "file": "EX:hydroacoustics/graphics-2026-10-22/ranked/README.txt",
+    "line": 6
+   },
+   "module_registry": "GIT:hypothesis/hydroacoustics@6ebfc70d4d4f4b46ac57f2330eba4ffdf3df87df:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/REGISTRY.json"
+  },
+  {
+   "id": "hydro.D04",
+   "statement": "Detections in bands below the receiver pass band. 2-5 Hz members at IMOS (hardware corner 8 Hz) and on Kadri panels (5 Hz high-pass) lie where the recording chain strongly attenuates; a detection there is unlikely to be impact sound in that band (a corner attenuates, it does not remove all energy). Labelled G-S8 in the searches note but kept in the ranking.",
+   "evidence": {
+    "file": "WORK:results/hydroacoustics-searches-run-j.md",
+    "line": 90
+   },
+   "module_registry": "GIT:hypothesis/hydroacoustics@6ebfc70d4d4f4b46ac57f2330eba4ffdf3df87df:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/REGISTRY.json"
+  },
+  {
+   "id": "hydro.D05",
+   "statement": "Detection power measured only on model-matched templates. On the real F-35A arrival the M1b matched filter keeps only 0-3.4 dB of its model-matched gain; every P_D, eta50 and upper limit built on it is optimistic by about 4-10 dB.",
+   "evidence": {
+    "file": "WORK:results/hydroacoustics-metz-f35a-anchor.md",
+    "line": 120
+   },
+   "module_registry": "GIT:hypothesis/hydroacoustics@6ebfc70d4d4f4b46ac57f2330eba4ffdf3df87df:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/REGISTRY.json"
+  },
+  {
+   "id": "hydro.D06",
+   "statement": "Stand-in noise backgrounds used without approval. H01W/H08S use IMOS 3376 noise shaped to Blackman medians (proxy); 3315 and 3275 nulls come from the paired logger. Declared, but Pete requires approval for stand-ins.",
+   "evidence": {
+    "file": "WORK:results/hydroacoustics-searches-run-j.md",
+    "line": 90
+   },
+   "module_registry": "GIT:hypothesis/hydroacoustics@6ebfc70d4d4f4b46ac57f2330eba4ffdf3df87df:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/REGISTRY.json"
+  },
+  {
+   "id": "hydro.D07",
+   "statement": "Known events (Royer 2016) not removed from candidates. By the DIGITISED Royer marks, Kadri text time 00:52:03 lies inside the H01W-2 pick bar of icequake A (00:51:56.77-00:52:04.52) and caption time 00:54:30 is 5.9 s from the arrow for event 5 (00:54:24.06); Royer events 6 and 9 predict IMOS 3315 rows. Sensitivity: every digitised H01W-2 mark sits +7.7 to +16.6 s after Royer's Table 5 time for that event (other stations within about +/-5 s); against Table 5 the text time is +20 s from icequake A (00:51:42.99) and the caption time +17.6 s from event 5 (00:54:12.44). The figure-versus-table offset is an open question for Royer. \"Time-consistent\" is not identification.",
+   "evidence": {
+    "file": "WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
+    "line": 160
+   },
+   "module_registry": "GIT:hypothesis/hydroacoustics@6ebfc70d4d4f4b46ac57f2330eba4ffdf3df87df:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/REGISTRY.json"
+  },
+  {
+   "id": "hydro.D08",
+   "statement": "Coincidences whose direct path to the receiver crosses land. Example: Kadri 00:40:34 row x Portland 3275; 201 of 2,000 path points above sea level in GEBCO 2026.",
+   "evidence": {
+    "file": "WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
+    "line": 171
+   },
+   "module_registry": "GIT:hypothesis/hydroacoustics@6ebfc70d4d4f4b46ac57f2330eba4ffdf3df87df:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/REGISTRY.json"
+  },
+  {
+   "id": "hydro.D09",
+   "statement": "Flight-only Pleiades layer used as if conditional on the Pleiades objects. Early candidate maps used the \"post\" layer, which is flight-only.",
+   "evidence": {
+    "file": "WORK:Hydroacoustic Handover/artifacts/a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md",
+    "line": 12
+   },
+   "module_registry": "GIT:hypothesis/hydroacoustics@6ebfc70d4d4f4b46ac57f2330eba4ffdf3df87df:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/REGISTRY.json"
+  },
+  {
+   "id": "hydro.D10",
+   "statement": "Candidates A-F withdrawn. Withdrawn at Pete's instruction, 23 Oct 2026, for six stated reasons.",
+   "evidence": {
+    "file": "WORK:Hydroacoustic Handover/artifacts/a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md",
+    "line": 1
+   },
+   "module_registry": "GIT:hypothesis/hydroacoustics@6ebfc70d4d4f4b46ac57f2330eba4ffdf3df87df:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/REGISTRY.json"
+  },
+  {
+   "id": "hydro.D12",
+   "statement": "False \"closed access / not held\" labels on held sources (Metz 2023, Kadri 2019). Corrected on 22 Oct; the source-access ledger keeps the old label as an audit trail.",
+   "evidence": {
+    "file": "WORK:results/source-access-ledger-2026-10-22.md",
+    "line": 1
+   },
+   "module_registry": "GIT:hypothesis/hydroacoustics@6ebfc70d4d4f4b46ac57f2330eba4ffdf3df87df:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/REGISTRY.json"
+  },
+  {
+   "id": "hydro.D13",
+   "statement": "Kadri crash-panel timing check is exploratory with an incomplete model. Straight geodesic, one speed, no seismic (T-phase) path, inputs not from primary reports, H10S position not from the IMS station file, two events with assumed times. It is NOT evidence that Kadri's panel times are wrong.",
+   "evidence": {
+    "file": "GIT:hypothesis/hydroacoustics@6ebfc70d4d4f4b46ac57f2330eba4ffdf3df87df:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/prepare/kadri_crash_timing.py",
+    "line": 1
+   },
+   "module_registry": "GIT:hypothesis/hydroacoustics@6ebfc70d4d4f4b46ac57f2330eba4ffdf3df87df:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/REGISTRY.json"
+  },
+  {
+   "id": "hydro.D18",
+   "statement": "Brief says the F-35A coupling is an \"upper bound\" because of a shallow channel. The Metz work found the shallow-channel effect +2.9 dB, NOT SUPPORTED at the 3 dB rule.",
+   "evidence": {
+    "file": "WORK:results/hydroacoustics-metz-f35a-anchor.md",
+    "line": 176
+   },
+   "module_registry": "GIT:hypothesis/hydroacoustics@6ebfc70d4d4f4b46ac57f2330eba4ffdf3df87df:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/REGISTRY.json"
+  },
+  {
+   "id": "hydro.D20",
+   "statement": "Coupling prior bounds 1e-6..1e-2 were an agent choice, not a ruling. Pete ruled 23 Oct that coupling is a prior range with its sources and the F-35A value is one point in it; the bounds are open. The agent-chosen upper bound 1e-2 lies below some F-35A one-factor values in the Metz note (2 m source 5.4e-2; f^-4 roll-off 1.3e-1), so the current prior truncates part of that range.",
+   "evidence": {
+    "file": "EX:hydroacoustics/run-j-gated-v2/README.txt",
+    "line": 13
+   },
+   "module_registry": "GIT:hypothesis/hydroacoustics@6ebfc70d4d4f4b46ac57f2330eba4ffdf3df87df:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/REGISTRY.json"
+  },
+  {
+   "id": "hydro.D22",
+   "statement": "Old IMOS transmission-loss table (constant RAM correction, gap G-TL1) still used. Superseded by imos_tl_ram_arc.csv (RAM along the grid).",
+   "evidence": {
+    "file": "EX:hydroacoustics/run-j-gated/README.txt",
+    "line": 3
+   },
+   "module_registry": "GIT:hypothesis/hydroacoustics@6ebfc70d4d4f4b46ac57f2330eba4ffdf3df87df:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/REGISTRY.json"
+  },
+  {
+   "id": "hydro.D23",
+   "statement": "TL clamped at the table edge for rows outside the TL latitude span. 11-16 % of run J rows by stratum (17 Oct columns).",
+   "evidence": {
+    "file": "EX:hydroacoustics/run-j/primary-tau-eof/README.txt",
+    "line": 6
+   },
+   "module_registry": "GIT:hypothesis/hydroacoustics@6ebfc70d4d4f4b46ac57f2330eba4ffdf3df87df:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/REGISTRY.json"
+  },
+  {
+   "id": "hydro.D24",
+   "statement": "Searches covered only the pre-registered windows. Held IMOS records outside the windows (for example the CMST 01:34 event) were not searched; free known-event checks were lost.",
+   "evidence": {
+    "file": "WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
+    "line": 172
+   },
+   "module_registry": "GIT:hypothesis/hydroacoustics@6ebfc70d4d4f4b46ac57f2330eba4ffdf3df87df:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/REGISTRY.json"
+  },
+  {
+   "id": "hydro.D25",
+   "statement": "Source depth fixed at 10 m in the MH370 chain. At the F-35A, 2 m or 30 m moves eta by more than two decades.",
+   "evidence": {
+    "file": "WORK:results/hydroacoustics-metz-f35a-anchor.md",
+    "line": 69
+   },
+   "module_registry": "GIT:hypothesis/hydroacoustics@6ebfc70d4d4f4b46ac57f2330eba4ffdf3df87df:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/REGISTRY.json"
+  },
+  {
+   "id": "hydro.D26",
+   "statement": "Cape Leeuwin and Diego Garcia p-values are not calibrated. Digitised plots at about 14.5 points per second with an emulated IMOS noise reference.",
+   "evidence": {
+    "file": "WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
+    "line": 166
+   },
+   "module_registry": "GIT:hypothesis/hydroacoustics@6ebfc70d4d4f4b46ac57f2330eba4ffdf3df87df:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/REGISTRY.json"
+  },
+  {
+   "id": "hydro.D27",
+   "statement": "run-j-gated-v2 README states 3275 matches need coupling 30 / 19 (wrong). The text used the uncorrected pass-A IMOS TL. Corrected RAM-grid TL gives about 0.022 (01:20:35) and 0.014 (01:07:47) at the q99 run J energy (possible). README kept (hashed); erratum file beside it. The v3 README was corrected after generation.",
+   "evidence": {
+    "file": "EX:hydroacoustics/run-j-gated-v2/README.txt",
+    "line": 23
+   },
+   "module_registry": "GIT:hypothesis/hydroacoustics@6ebfc70d4d4f4b46ac57f2330eba4ffdf3df87df:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/REGISTRY.json"
+  },
+  {
+   "id": "hydro.D28",
+   "statement": "Kadri replication: route lengths 1-4 % too long (erratum 2 of the wave-3 verifier). water_route.py sums 8-neighbour grid steps without smoothing. The Sriwijaya 182 and AB Aviation 1103 offsets are too negative by about 26 s and 84 s. The conclusions do not change (README).",
+   "evidence": {
+    "file": "WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/README.md",
+    "line": 30
+   },
+   "module_registry": "GIT:hypothesis/hydroacoustics@6ebfc70d4d4f4b46ac57f2330eba4ffdf3df87df:Claude Science Project Sep 29/engine/hypotheses/hydroacoustics/registry/REGISTRY.json"
   }
  ],
  "field_definitions": {

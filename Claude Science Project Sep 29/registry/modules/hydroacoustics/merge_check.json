@@ -1,0 +1,66 @@
+{
+ "hydro_registry_commit": "6ebfc70d4d4f4b46ac57f2330eba4ffdf3df87df",
+ "entries": 235,
+ "counts": {
+  "same files, bytes and SHA-256": 224,
+  "differ": 4,
+  "no manifest in one or both": 7
+ },
+ "differences": [
+  {
+   "id": "hydro.ex.run_j_gated",
+   "project_files": 1725,
+   "hydro_files": 1725,
+   "only_in_project": 1,
+   "only_in_hydro": 1,
+   "project_not_hashed": []
+  },
+  {
+   "id": "hydro.ex.session_staging_1012",
+   "project_files": 41,
+   "hydro_files": 32,
+   "only_in_project": 9,
+   "only_in_hydro": 0,
+   "project_not_hashed": []
+  },
+  {
+   "id": "hydro.ex.weak_signal",
+   "project_files": 37,
+   "hydro_files": 37,
+   "only_in_project": 1,
+   "only_in_hydro": 1,
+   "project_not_hashed": []
+  },
+  {
+   "id": "hydro.in.gebco_2026",
+   "project_files": 9,
+   "hydro_files": 9,
+   "only_in_project": 1,
+   "only_in_hydro": 1,
+   "project_not_hashed": [
+    "mh370-ocean-data/gebco/grid/gebco_2026_elevation.i16"
+   ]
+  },
+  {
+   "id": "hydro.note.hydro_index",
+   "project_manifest": true,
+   "hydro_manifest": false
+  }
+ ],
+ "sha256sums_entries_that_differ_from_the_file": [
+  {
+   "file": "hydroacoustics/run-j-gated/README.txt",
+   "sha256_in_SHA256SUMS": "1630b4780eea8803fd561f2f582be27a04789beaee2339c1dde44fee97e5ea85",
+   "sha256_of_file": "441e1c94c32481b0f3769a16b0f040692021c71d74d465dc2b74bf27742d456a",
+   "sums_file": "hydroacoustics/run-j-gated/SHA256SUMS"
+  },
+  {
+   "file": "hydroacoustics/run-j-weak-signal/SHA256SUMS",
+   "sha256_in_SHA256SUMS": "a11dbc098b1afade17048f80c51dacea6f9462daade137a7cf599442090c5326",
+   "sha256_of_file": "93119a00d9803cba0dc10dc0507fdfed5990453e27e704988e25567c20a8992c",
+   "sums_file": "hydroacoustics/run-j-weak-signal/SHA256SUMS"
+  }
+ ],
+ "hydro_tracked_files": 726,
+ "hydro_tracked_files_not_in_a_manifest": []
+}

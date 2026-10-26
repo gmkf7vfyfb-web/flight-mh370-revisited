@@ -17,7 +17,9 @@ on the existing tree. Existing violations go to a report (--report-existing), th
 Usage
   python3 check_project.py                       check the working tree (tracked + untracked, not ignored files)
   python3 check_project.py --commit <sha>        check the tree of one commit
-  python3 check_project.py --pre-push <remote> <url>   (git pre-push hook; reads ref lines on stdin)
+  python3 check_project.py --pre-push <remote> <url>   (git pre-push hook; reads ref lines on stdin). For a module branch, the
+                                                 paths already on the remote branch also count as old.
+  python3 check_project.py --commit <sha> --base <sha>   check one commit; paths in the tree of --base also count as old
   python3 check_project.py --report-existing <out.tsv> list every violation in the tree at HEAD (C1-C4), exit 0.
                                                  It reads every blob: use a full clone, not a blobless clone.
   python3 check_project.py --make-baseline       write baseline/ from HEAD (only at a registry rebuild; commit the result).
@@ -30,6 +32,7 @@ from pathlib import Path, PurePosixPath
 
 HERE = Path(__file__).resolve().parent
 PROJECT_DIR = "Claude Science Project Sep 29"
+WORK_BRANCH = "claude-science-sep29"
 RESULTS = PROJECT_DIR + "/results/"
 BASE = HERE / "baseline"
 STATUS = {"CURRENT", "CURRENT_WITH_CAVEATS", "KNOWN_DEFECT", "SUPERSEDED", "WITHDRAWN", "PENDING_RULING", "UNCHECKED"}
@@ -345,8 +348,10 @@ def load_modules():
     return set(json.load(open(HERE / "modules.json"))["modules"])
 
 
-def run_checks(view, added_lines=None):
+def run_checks(view, added_lines=None, extra_base=None):
     base, known = load_baseline()
+    if extra_base:
+        base = set(base) | set(extra_base)   # module branch push: paths already on the remote branch count as old
     modules = load_modules()
     paths = view.paths()
     pset = set(paths)
@@ -458,7 +463,10 @@ def pre_push():
         added = added_lines_in_range(rsha, lsha) if have_remote else None
         if added is None:
             print(f"check_project: no local copy of the remote head for {rref}; added lines in old files are not scanned (new files are)")
-        r = run_checks(CommitTree(lsha), added)
+        # A module branch (any ref other than the working branch) has its own tree. The baseline of the working branch does not
+        # describe it, so the paths already on the remote branch also count as old (phase 2, 26 Oct 2026).
+        extra = CommitTree(rsha).paths() if have_remote and rref != "refs/heads/" + WORK_BRANCH else None
+        r = run_checks(CommitTree(lsha), added, extra)
         print_result(r)
         worst |= bool(r["fails"])
     if worst:
@@ -532,7 +540,8 @@ def main():
         print(f"existing violations in {view.name}: {dict(Counter(r[0] for r in rows))}; written to {out}")
         return
     view = CommitTree(a[a.index("--commit") + 1]) if "--commit" in a else WorkTree()
-    r = run_checks(view)
+    extra = CommitTree(a[a.index("--base") + 1]).paths() if "--base" in a else None
+    r = run_checks(view, None, extra)
     print_result(r)
     sys.exit(1 if r["fails"] else 0)
 
