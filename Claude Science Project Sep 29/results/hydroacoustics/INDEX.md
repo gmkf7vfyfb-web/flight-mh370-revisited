@@ -1,10 +1,10 @@
 # Hydroacoustics: index of data, products, notes and defects (generated from the registry)
 
-*Generated from `engine/hypotheses/hydroacoustics/registry/REGISTRY.json` on `hypothesis/hydroacoustics` (hydro-registry v1 (2026-10-23); built 2026-10-26T15:55:41Z; module d2779102d3da; work branch beb7696808f6; sha256 manifests: yes). Do not edit by hand: change `entries.yaml`, rebuild, regenerate.*
+*Generated from `engine/hypotheses/hydroacoustics/registry/REGISTRY.json` on `hypothesis/hydroacoustics` (hydro-registry v1 (2026-10-23); built 2026-10-26T16:50:51Z; module 99d31191c37d; work branch 336044b0b745; sha256 manifests: yes). Do not edit by hand: change `entries.yaml`, rebuild, regenerate.*
 
 **How to use.** Find the item below. Read its status and defects. Read its definition (quoted in REGISTRY.json from the cited lines). Use only CURRENT or CURRENT_WITH_CAVEATS items for results, and state the listed defects beside every number. Pete's rulings: `decisions.md`. Proposals that are not yet rules: `proposals.md`.
 
-**Status counts:** CURRENT 47, CURRENT_WITH_CAVEATS 39, KNOWN_DEFECT 5, PENDING_RULING 2, SUPERSEDED 11, UNCHECKED 129, WITHDRAWN 2
+**Status counts:** CURRENT 46, CURRENT_WITH_CAVEATS 40, KNOWN_DEFECT 5, PENDING_RULING 2, SUPERSEDED 11, UNCHECKED 129, WITHDRAWN 2
 
 ## Status values
 
@@ -76,7 +76,7 @@
 | ex.arc_line_of_sight | CURRENT_WITH_CAVEATS |  | `MOD:registry/data_db/arc_los_station_count.csv` | 1 | 0.000 | MOD:registry/data_db/arc_line_of_sight.py L[8, 16] |
 | res.source_survey_2026_10_23 | CURRENT_WITH_CAVEATS |  | `WORK:results/hydroacoustics/source-survey-2026-10-23` | 12 | 0.000 | WORK:results/hydroacoustics/source-survey-2026-10-23/impact-and-other-sources-synthesis-2026-10-23.md L[1, 30] |
 | res.next_steps_2026_10_24 | CURRENT_WITH_CAVEATS |  | `WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24` | 40 | 0.012 | WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/next-steps-results-2026-10-24.md L[1, 30] |
-| res.coupling_db_package_2026_10_25 | CURRENT |  | `WORK:results/hydroacoustics/source-survey-2026-10-23/coupling-db-package-2026-10-25` | 10 | 0.000 | WORK:results/hydroacoustics/source-survey-2026-10-23/coupling-db-package-2026-10-25/README.md L[1, 30] |
+| res.coupling_db_package_2026_10_25 | CURRENT_WITH_CAVEATS |  | `WORK:results/hydroacoustics/source-survey-2026-10-23/coupling-db-package-2026-10-25` | 10 | 0.000 | WORK:results/hydroacoustics/source-survey-2026-10-23/coupling-db-package-2026-10-25/README.md L[1, 30] |
 | res.raw_ims_2026_10_25 | CURRENT_WITH_CAVEATS |  | `WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25` | 1 | 0.000 | WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/README.md L[1, 25] |
 | res.raw_ims_2026_10_25.f35a_raw_ridge | CURRENT_WITH_CAVEATS |  | `WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/f35a-raw-ridge` | 32 | 0.003 | WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/f35a-raw-ridge/f35a-raw-ridge-note.md L[1, 30] |
 | res.raw_ims_2026_10_25.transair_810 | CURRENT_WITH_CAVEATS |  | `WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/transair-810` | 41 | 0.005 | WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/transair-810/transair810-note.md L[1, 30] |
