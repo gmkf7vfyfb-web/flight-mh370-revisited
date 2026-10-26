@@ -1,9 +1,9 @@
 {
  "registry_version": "project registry v1 (2026-10-25)",
  "module": "project",
- "built_utc": "2026-10-26T17:37:54Z",
+ "built_utc": "2026-10-26T18:34:53Z",
  "hashing": true,
- "work_branch_head_at_build": "988ec36f5821a00573116034266222c238cd8b5b 2026-10-26T10:52:18-06:00",
+ "work_branch_head_at_build": "856c3e9f02c635317e9c15a25610c32ee358e777 2026-10-26T12:33:25-06:00",
  "roots": {
   "REPO": "(repository)",
   "WORK": "(repository)",
@@ -833,29 +833,48 @@
    "id": "project.ex.archive-artifact-store-npy",
    "kind": "archive",
    "module": "project",
-   "path": "EX:archive/artifact-store-npy",
-   "exchange_prefix": "archive/artifact-store-npy",
-   "exchange_top_files_only": false,
-   "note": "Exchange folder archive/artifact-store-npy: 96 files, 39.03 GB; SHA-256 from SHA256SUMS 0, computed 92, not hashed 4.",
-   "assignment_basis": "exchange folder name",
+   "path": "XDRIVE:artifact-store-npy",
+   "holder": "Porsche drive (available on request from Pete)",
+   "note": "single copy; platform artifacts deleted 26 Oct 2026; cited-versions.csv maps all 346 version ids to the 96 files. The drive folder also holds README.md, SHA256SUMS and cited-versions.csv; they are not listed here (their sizes and SHA-256 cannot be read from the Mac). The 3 platform artifacts (346 versions) were deleted from the platform on 26 Oct 2026 after Pete's approval; the SSD folder ~/Downloads/mh370-exchange/archive/artifact-store-npy was moved to the Trash. Moved from the exchange folder (archive/artifact-store-npy) on 2026-10-26.",
+   "status": "CURRENT",
+   "status_rank": "verified",
+   "status_evidence": [
+    {
+     "rank": "verified",
+     "source": "DL:archive-tools/VERIFIED-npy-20261026-1129.txt:1-5",
+     "quote": "archive-npy-to-porsche.sh run 20261026-1129\nsource: /Users/pete/Downloads/mh370-exchange/archive/artifact-store-npy\ndrive copy: /Volumes/Porsche 1TB Backup/mh370-archive/artifact-store-npy\nfiles OK: 96 of 96; other lines: 0\ndrive free after copy (KB): 635777936"
+    }
+   ],
+   "hash": "rows",
+   "hash_note": "SHA-256 per file: cited-versions.csv (artifact version 14dda0a3, SHA-256 353baffbb0fee0d8f4a9ffaad1a8298a68c2ebaa2320d01d22646e1c4a11097f), column checksum = SHA-256 of the artifact version that each file holds",
+   "platform_artifacts_deleted": [
+    {
+     "artifact_id": "0e583859-b6bf-4b39-8fb6-83ba81691d85",
+     "filename": "final.npy",
+     "versions": 325
+    },
+    {
+     "artifact_id": "c2894a16-b508-47d9-ad42-fcd6af62e300",
+     "filename": "final.npy",
+     "versions": 5
+    },
+    {
+     "artifact_id": "4304181a-4aac-46d6-a4a6-b3f600ce118d",
+     "filename": "evaluate.npy",
+     "versions": 16
+    }
+   ],
+   "assignment_basis": "data_homes/moved_to_xdrive.json",
    "defects": [],
    "superseded_by": null,
    "inputs": [],
    "producing_thread": null,
    "verified_this_run": false,
-   "status": "UNCHECKED",
-   "status_rank": "none",
-   "status_evidence": [],
-   "not_hashed": [
-    "archive/artifact-store-npy/4304181a-4aac-46d6-a4a6-b3f600ce118d/0fb2faa6-4549-41fc-93a4-695bbe723d29.npy",
-    "archive/artifact-store-npy/4304181a-4aac-46d6-a4a6-b3f600ce118d/b70f7537-0442-43fd-8fb3-2b7e7ddd47bb.npy",
-    "archive/artifact-store-npy/4304181a-4aac-46d6-a4a6-b3f600ce118d/a241ea22-dfb7-4c07-9986-3cb8ee96081b.npy",
-    "archive/artifact-store-npy/4304181a-4aac-46d6-a4a6-b3f600ce118d/66f57904-f9ac-4879-8ee1-76177b19155d.npy"
-   ],
+   "not_hashed": [],
    "n_files": 96,
    "bytes": 39028399232,
    "manifest": "modules/project/manifests/project.ex.archive-artifact-store-npy.tsv.gz",
-   "manifest_sha256": "72429412a2e1d928e3b47ae893898db48747cee0907758ce93e5ee29c2ba02f3"
+   "manifest_sha256": "17414456db6fa122011fc703076a9aba6093262d57e5c36b65bd55e92cfab289"
   },
   {
    "id": "project.home.archive-tools",
@@ -875,16 +894,17 @@
    "status_rank": "none",
    "status_evidence": [],
    "not_hashed": [
+    "archive-tools/VERIFIED-npy-20261026-1129.txt",
     "archive-tools/archive-npy-to-porsche.sh",
     "archive-tools/archive-to-porsche.sh",
     "archive-tools/archive-to-porsche.v3.sh",
     "archive-tools/delete-archived-originals.sh",
     "archive-tools/delete-archived-originals.v3.sh"
    ],
-   "n_files": 5,
-   "bytes": 12381,
+   "n_files": 6,
+   "bytes": 20519,
    "manifest": "modules/project/manifests/project.home.archive-tools.tsv.gz",
-   "manifest_sha256": "7ae733febbe7cd227e3fe06ce924a7fc91a55dccce4b6f454cf90a2d814855a2"
+   "manifest_sha256": "6333b73970326486b3fce5b4f013a4af70c3cd0a2017ec55ea41bc09342ac58b"
   },
   {
    "id": "project.home.exchange-folder",
@@ -913,6 +933,7 @@
    "kind": "data_home",
    "module": "project",
    "path": "XDRIVE:",
+   "holder": "Porsche drive (available on request from Pete)",
    "note": "External drive 'Porsche 1TB Backup', folder mh370-archive (DEST in archive-tools scripts). Single copy; Time Machine does not include it.",
    "assignment_basis": "data home",
    "hash": false,
@@ -1646,7 +1667,7 @@
    "status_evidence": [
     {
      "rank": "ruling",
-     "source": "WORK:results/restricted-sources-ledger.md:34",
+     "source": "WORK:results/restricted-sources-ledger.md:35",
      "quote": "| `library_full_audit/MH370/9M-MRO Fuel Model V5.X.xlsm` | Ulich's fuel workbook; it holds the FPPM-confidential cells named above | in git (library) | internal use only; kept in place (added 25 Oct 2026 by the registry track) |"
     },
     {
@@ -1695,7 +1716,7 @@
    "status_evidence": [
     {
      "rank": "ruling",
-     "source": "WORK:results/restricted-sources-ledger.md:51",
+     "source": "WORK:results/restricted-sources-ledger.md:52",
      "quote": "Pete ruled on 26 October 2026 that the MH371 items are NOT confidential: the MH371 ACARS reports (`library_full_audit/MH370/mh371-acars.xlsx`), the EHM export (`library_full_audit/MH370/MH371_EHM_Export.xls`, which also holds the MH370 climb report), the MH371 SATCOM data (`engine/data/mh371/`) and any value derived from them. Their uses need not be recorded here from now on. The files stay where "
     },
     {
@@ -1751,7 +1772,7 @@
     },
     {
      "rank": "ruling",
-     "source": "WORK:results/restricted-sources-ledger.md:27",
+     "source": "WORK:results/restricted-sources-ledger.md:28",
      "quote": "| `tmp/avionics_training_*.{pdf,bin}`, `tmp/avionics_try_*.bin`, `tmp/avionics_min-1.png` | avionics training document; one file name suggests it came from a document-sharing site | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |"
     }
    ],
@@ -1802,7 +1823,7 @@
     },
     {
      "rank": "ruling",
-     "source": "WORK:results/restricted-sources-ledger.md:27",
+     "source": "WORK:results/restricted-sources-ledger.md:28",
      "quote": "| `tmp/avionics_training_*.{pdf,bin}`, `tmp/avionics_try_*.bin`, `tmp/avionics_min-1.png` | avionics training document; one file name suggests it came from a document-sharing site | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |"
     }
    ],
@@ -1853,7 +1874,7 @@
     },
     {
      "rank": "ruling",
-     "source": "WORK:results/restricted-sources-ledger.md:27",
+     "source": "WORK:results/restricted-sources-ledger.md:28",
      "quote": "| `tmp/avionics_training_*.{pdf,bin}`, `tmp/avionics_try_*.bin`, `tmp/avionics_min-1.png` | avionics training document; one file name suggests it came from a document-sharing site | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |"
     }
    ],
@@ -1904,7 +1925,7 @@
     },
     {
      "rank": "ruling",
-     "source": "WORK:results/restricted-sources-ledger.md:33",
+     "source": "WORK:results/restricted-sources-ledger.md:34",
      "quote": "| `tmp/paperzz_airlink.html` | saved paperzz web page (6,085 bytes; the saved page is a 'Just a moment...' access check, no document text) | `7a1c5071`, 14 Aug 2026 | provenance unverified; internal use only (added 25 Oct 2026 by the registry track) |"
     }
    ],
@@ -1955,7 +1976,7 @@
     },
     {
      "rank": "ruling",
-     "source": "WORK:results/restricted-sources-ledger.md:31",
+     "source": "WORK:results/restricted-sources-ledger.md:32",
      "quote": "| `tmp/scribd_satcom.html` | saved web page 'Overview of Satcom in Aviation' from Scribd (1,138,900 bytes) | `7a1c5071`, 14 Aug 2026 | provenance unverified; internal use only (added 25 Oct 2026 by the registry track) |"
     }
    ],
@@ -2006,7 +2027,7 @@
     },
     {
      "rank": "ruling",
-     "source": "WORK:results/restricted-sources-ledger.md:32",
+     "source": "WORK:results/restricted-sources-ledger.md:33",
      "quote": "| `tmp/slideshare_airlink.html` | saved SlideShare web page, title 'Avionics Training Systems Installation And Troubleshooting 2nd Len Buckwalter | PDF' (1,529,120 bytes) | `7a1c5071`, 14 Aug 2026 | provenance unverified; internal use only (added 25 Oct 2026 by the registry track) |"
     }
    ],
@@ -2057,7 +2078,7 @@
     },
     {
      "rank": "ruling",
-     "source": "WORK:results/restricted-sources-ledger.md:28",
+     "source": "WORK:results/restricted-sources-ledger.md:29",
      "quote": "| `tmp/slideshare_avionics/slide-*.jpg` and their OCR text | slide deck images from SlideShare | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |"
     }
    ],
@@ -2433,9 +2454,9 @@
    "status_rank": "none",
    "status_evidence": [],
    "n_files": 1,
-   "bytes": 2085,
+   "bytes": 4876,
    "manifest": "modules/project/manifests/project.note.coordination-readme_md.tsv.gz",
-   "manifest_sha256": "7bd3e42d36a0da0a163584ce84380c2b69326c7589a24c4e95a8c4e15583c617"
+   "manifest_sha256": "a849547cfae2ea593cf6dbba9a21f557b27259be1dcc758af7e3ba0d516e8a11"
   },
   {
    "id": "project.note.readme_md",
@@ -2482,8 +2503,8 @@
      "subject": "registry: project registry (8 modules + project), rules-for-new-work check, archive of loose root folders"
     },
     "last_changed": {
-     "commit": "1ec339f92fc671c23e08d982cce28aeb1f8026d3",
-     "date": "2026-10-26T10:51:35-06:00"
+     "commit": "1465419bd70aafbff99e3fd84615b8070e072be2",
+     "date": "2026-10-26T11:39:08-06:00"
     }
    },
    "defects": [],
@@ -2497,7 +2518,7 @@
    "n_files": 1,
    "bytes": 111647,
    "manifest": "modules/project/manifests/project.note.results-index.tsv.gz",
-   "manifest_sha256": "2841418012c4aca5f9abad360f3a10e4ee0285510ecd8de22aae3c473dfa1e85"
+   "manifest_sha256": "6aa822a8cc021d83a845d50d48b195afd3c43355df784af6cedcfe574a852677"
   },
   {
    "id": "project.note.runbook_md",
@@ -2557,9 +2578,9 @@
    "status_rank": "none",
    "status_evidence": [],
    "n_files": 1,
-   "bytes": 5979,
+   "bytes": 6205,
    "manifest": "modules/project/manifests/project.note.threads-drafts-shared-contract-draft_md.tsv.gz",
-   "manifest_sha256": "f0c6389ee847f07a5d6d84212285b232aa60d51a617e1d8508ae99b13a935c4a"
+   "manifest_sha256": "e01392ac708f5a5a3bdffb34c27721239c4fc053ffedb8f7c3af25e77abfe742"
   },
   {
    "id": "project.res.project-assessment-2026-10-18_md",
@@ -2614,8 +2635,8 @@
      "subject": "Coordination: core briefing on filter audit and merged sequence; EoF early V2 look; Davey PDF licence notice; restricted-source ledger"
     },
     "last_changed": {
-     "commit": "26b42d7242d5267a771e882b569168ef38929af8",
-     "date": "2026-10-25T16:58:11-06:00"
+     "commit": "1465419bd70aafbff99e3fd84615b8070e072be2",
+     "date": "2026-10-26T11:39:08-06:00"
     }
    },
    "defects": [],
@@ -2635,9 +2656,9 @@
     "nature": "records of what memory said; not verified facts"
    },
    "n_files": 1,
-   "bytes": 7920,
+   "bytes": 8125,
    "manifest": "modules/project/manifests/project.res.restricted-sources-ledger_md.tsv.gz",
-   "manifest_sha256": "b3112167d3676f1eab2135d3b592dbfca84d09ff4276a17e7078219f9c65eff0"
+   "manifest_sha256": "349c5d78ad09cab38813125fd7bb77aa01a86f5782fed36c14da066cbc86103c"
   },
   {
    "id": "project.res.source-access-ledger-2026-10-22_csv",
