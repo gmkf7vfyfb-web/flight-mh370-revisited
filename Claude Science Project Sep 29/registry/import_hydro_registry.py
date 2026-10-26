@@ -104,6 +104,7 @@ def main():
             r["hash_note"] = "files of the module branch at the commit; SHA-256 of each blob"
         elif root == "XDRIVE":
             r["path"] = e["path"]; r["hash"] = False; r["hash_note"] = e.get("hash_note", "external drive not mounted in this session")
+            r["holder"] = "Porsche drive (available on request from Pete)"
         else:
             raise ValueError(f"{e['id']}: unknown root {root}")
         if e.get("status_evidence"):

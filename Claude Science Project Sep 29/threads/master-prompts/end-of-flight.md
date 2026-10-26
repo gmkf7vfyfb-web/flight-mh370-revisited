@@ -841,3 +841,5 @@ code.
 **Both deferred items above are to be put back in front of Pete once a stable first pass exists.**
 That is an instruction, not a note: he asked to be reminded rather than to have them quietly
 dropped.
+
+**Files held off the Mac (Porsche drive):** some project files are only on Pete's external drive. Read `coordination/README.md`, section "Files held off the Mac (Porsche drive)", before you take a file as lost. (26 Oct 2026)

@@ -639,19 +639,430 @@ entries:
 - id: project.ex.archive-artifact-store-npy
   kind: archive
   module: project
-  path: EX:archive/artifact-store-npy
-  exchange_prefix: archive/artifact-store-npy
-  exchange_top_files_only: false
-  note: 'Exchange folder archive/artifact-store-npy: 96 files, 39.03 GB; SHA-256 from SHA256SUMS 0, computed 92, not hashed 4.'
-  assignment_basis: exchange folder name
+  path: XDRIVE:artifact-store-npy
+  holder: Porsche drive (available on request from Pete)
+  note: single copy; platform artifacts deleted 26 Oct 2026; cited-versions.csv maps all 346 version ids to the 96 files. The drive folder also holds README.md, SHA256SUMS
+    and cited-versions.csv; they are not listed here (their sizes and SHA-256 cannot be read from the Mac). The 3 platform artifacts (346 versions) were deleted from
+    the platform on 26 Oct 2026 after Pete's approval; the SSD folder ~/Downloads/mh370-exchange/archive/artifact-store-npy was moved to the Trash. Moved from the
+    exchange folder (archive/artifact-store-npy) on 2026-10-26.
+  status: CURRENT
+  status_rank: verified
+  status_evidence:
+  - rank: verified
+    source: DL:archive-tools/VERIFIED-npy-20261026-1129.txt:1-5
+    quote: 'archive-npy-to-porsche.sh run 20261026-1129
+
+      source: /Users/pete/Downloads/mh370-exchange/archive/artifact-store-npy
+
+      drive copy: /Volumes/Porsche 1TB Backup/mh370-archive/artifact-store-npy
+
+      files OK: 96 of 96; other lines: 0
+
+      drive free after copy (KB): 635777936'
+  file_rows:
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/010d90ed-1337-41f7-b339-120292f7a459.npy
+    - 280000128
+    - c90a673aa4154e2a62c12a468424b81fd69a51355e157570969d3d1577d0d261
+    - cited-versions.csv (artifact store checksum of version 010d90ed-1337-41f7-b339-120292f7a459)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/02ccb014-a3d3-4856-b5a7-ea88b0c45796.npy
+    - 504000128
+    - ba662897dab92dbd785a3b3950a47c0a96eb09c8b5696aa6f8bdeb31340b9b55
+    - cited-versions.csv (artifact store checksum of version 02ccb014-a3d3-4856-b5a7-ea88b0c45796)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/032ee406-6a5a-46a3-8e1c-dcfef31e51aa.npy
+    - 560000128
+    - a2af51933ec135d7678efb1d96c4ea412c512aaea590febefe85ea3ed8ebf884
+    - cited-versions.csv (artifact store checksum of version 032ee406-6a5a-46a3-8e1c-dcfef31e51aa)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/08252be3-51d5-495e-aefd-106d07d4cf23.npy
+    - 280000128
+    - cd6a2415b0a3e6a9e1997b09e67b0b88c836d1e4e8678a5ad7079d9c26594272
+    - cited-versions.csv (artifact store checksum of version 08252be3-51d5-495e-aefd-106d07d4cf23)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/0c07c023-c34d-4992-8e4a-a69d2794fabb.npy
+    - 280000128
+    - 82287072e59c20081b97138d0402f892ff95bec7792895eed4bd08d28d3b19d4
+    - cited-versions.csv (artifact store checksum of version 0c07c023-c34d-4992-8e4a-a69d2794fabb)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/0f847d47-8bf0-4a2e-b7a4-a4061e86e5d7.npy
+    - 504000128
+    - 918888048b66fd0360ceaa817ca0ef1ed2dac1a572783f31ee159afdc86c675e
+    - cited-versions.csv (artifact store checksum of version 0f847d47-8bf0-4a2e-b7a4-a4061e86e5d7)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/112fded3-cfe5-410e-8b2c-40b7aba3353e.npy
+    - 504000128
+    - 5b8c40da3220542d3411d14f10a1df7f269d34679e09c36c0dc62ece7a89100d
+    - cited-versions.csv (artifact store checksum of version 112fded3-cfe5-410e-8b2c-40b7aba3353e)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/134d1a23-0ab4-48d2-91a5-f9105eaadb8e.npy
+    - 560000128
+    - 69b3e3946e79bb5c5a584b9a51da22ec71d20a9c47d7c9bdbeffc095d5d6a6a1
+    - cited-versions.csv (artifact store checksum of version 134d1a23-0ab4-48d2-91a5-f9105eaadb8e)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/1bb42cde-14df-461e-96f2-cfa6ef08aae3.npy
+    - 280000128
+    - 5a541243653078535554479ecf4a7c6a02291a2a54fdd3fa26712a4d911d80c5
+    - cited-versions.csv (artifact store checksum of version 1bb42cde-14df-461e-96f2-cfa6ef08aae3)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/1dc10bd8-e464-4928-a6be-8b8d6422a6f9.npy
+    - 40000128
+    - 0370706647fd15e5e17842cb238fd33080b407a2e3e015e84bc6fd1481c08ccf
+    - cited-versions.csv (artifact store checksum of version 1dc10bd8-e464-4928-a6be-8b8d6422a6f9)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/25933b69-df34-4516-9243-9ff156b43f99.npy
+    - 40000128
+    - 7cbaa7481368d03745144debbcfc2c24b331cb9d8e2f94427e532895e27dbd5b
+    - cited-versions.csv (artifact store checksum of version 25933b69-df34-4516-9243-9ff156b43f99)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/2a2e3123-13c7-44ab-a95c-e62e45fa7aa4.npy
+    - 280000128
+    - 7f8b236232c5247808ffa87b3cbbbdf1d6801bf8f1f7f12cfba130750827cbc6
+    - cited-versions.csv (artifact store checksum of version 2a2e3123-13c7-44ab-a95c-e62e45fa7aa4)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/2b955780-c2b4-46a2-8ca7-f42742613040.npy
+    - 1008000128
+    - 02165647c39f08c358ca5bfe398065297e1e6a9b4465997d781a125f184d3bca
+    - cited-versions.csv (artifact store checksum of version 2b955780-c2b4-46a2-8ca7-f42742613040)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/2ef0da6d-9a3a-4fda-8dc4-dbe1cd3f662c.npy
+    - 280000128
+    - 85bb77201973883141c771f5b8692d25949fe4c08bef3d7e783a5074d3b87d62
+    - cited-versions.csv (artifact store checksum of version 2ef0da6d-9a3a-4fda-8dc4-dbe1cd3f662c)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/30c2e85f-60ea-4428-8ee3-ed6d65297825.npy
+    - 40000128
+    - afaa1ab386edb2166f280b3732369c15bf194647c8416a4e0ee1413c088f4f23
+    - cited-versions.csv (artifact store checksum of version 30c2e85f-60ea-4428-8ee3-ed6d65297825)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/3182036e-098d-4490-bb72-218d65f0a24e.npy
+    - 560000128
+    - 86c1f3a44feca0679378237e94b4f3de645cde8b064cc3320ae6f27669c56289
+    - cited-versions.csv (artifact store checksum of version 3182036e-098d-4490-bb72-218d65f0a24e)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/34b305d5-cccb-4ad8-b8f4-0f9ab58c4d59.npy
+    - 560000128
+    - ebe6f1c0ba70801157d348be667b9f9b51ddfa34f5c333a44479281bc3ef0246
+    - cited-versions.csv (artifact store checksum of version 34b305d5-cccb-4ad8-b8f4-0f9ab58c4d59)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/3677338c-a440-45c6-8a20-f1378c73bf39.npy
+    - 504000128
+    - e0ce63a93d1aaf99539b624e3e6df678719083732211425ee59e88001f8813c2
+    - cited-versions.csv (artifact store checksum of version 3677338c-a440-45c6-8a20-f1378c73bf39)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/384af16d-53e5-44bc-9aef-0b968531c1ec.npy
+    - 40000128
+    - 9d67268b09cccaf25f90abdd08cad8fcfaab557bd91199a004bf72ecd58adb09
+    - cited-versions.csv (artifact store checksum of version 384af16d-53e5-44bc-9aef-0b968531c1ec)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/3a80a9c1-9877-4345-9766-6df61724e3d8.npy
+    - 40000128
+    - 0bd94316f8b7b75b6af29cb1eb3abf26c529e89e2edde9342d3ff8a4b626eeb1
+    - cited-versions.csv (artifact store checksum of version 3a80a9c1-9877-4345-9766-6df61724e3d8)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/3d8eaefb-e6ef-4a89-8465-b77ca38b2bfb.npy
+    - 280000128
+    - a342627dcc4ac3950af2e115ac818dbd76e0ec25bc2a43816eb2909d581ec8fc
+    - cited-versions.csv (artifact store checksum of version 3d8eaefb-e6ef-4a89-8465-b77ca38b2bfb)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/3e04478d-c663-43e6-ba1d-4950b0ec5b1e.npy
+    - 280000128
+    - 6ecb664559eb5f9558ab5c28be540e4dc0c653f12d79b9e38f1ea8865a207afe
+    - cited-versions.csv (artifact store checksum of version 3e04478d-c663-43e6-ba1d-4950b0ec5b1e)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/42b2d5a0-c056-4296-bd34-10c3c52bc0c0.npy
+    - 40000128
+    - 9fcef71d27cd954e76baf583841347929cd46f0e0c145093e5457a8c20389670
+    - cited-versions.csv (artifact store checksum of version 42b2d5a0-c056-4296-bd34-10c3c52bc0c0)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/452cf437-1e8e-4195-9bbf-c536c8ddc379.npy
+    - 280000128
+    - 26a70131f70ba41f043f61a1a4d5b81c0e161d42e7733224681fd71f49f6e08f
+    - cited-versions.csv (artifact store checksum of version 452cf437-1e8e-4195-9bbf-c536c8ddc379)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/4b6c905e-5aec-455d-8013-816b5f31e342.npy
+    - 280000128
+    - d8925f7a617e15789cdd71d02529f33d21b222a355203a3a2fe7d998fe3c0df8
+    - cited-versions.csv (artifact store checksum of version 4b6c905e-5aec-455d-8013-816b5f31e342)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/4bf98ad7-1283-49e6-967b-d54d5d6a22cc.npy
+    - 280000128
+    - c75d96032755bf59dfcfb1f7ebbf1bfd174c1e9bdb6025ef40b35b7ea5eb7602
+    - cited-versions.csv (artifact store checksum of version 4bf98ad7-1283-49e6-967b-d54d5d6a22cc)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/4c64fd63-7e8d-448a-a0c2-a269ae3d2cec.npy
+    - 560000128
+    - c933ce1a04a409f49329c07df0f0b2686ecbd73ea66c1835a73fa34832233140
+    - cited-versions.csv (artifact store checksum of version 4c64fd63-7e8d-448a-a0c2-a269ae3d2cec)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/4c9375db-b097-44bc-a999-b76e4014ebb6.npy
+    - 504000128
+    - 8404d98fde71420e79a2a78716aad6589048293e212623695e911b52612abc3c
+    - cited-versions.csv (artifact store checksum of version 4c9375db-b097-44bc-a999-b76e4014ebb6)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/4ec8596d-870c-4dcc-b958-281e2daf88aa.npy
+    - 504000128
+    - c1fac6b4f20e0a2b987f70978a58166a873f132781098c262689f95918116a0f
+    - cited-versions.csv (artifact store checksum of version 4ec8596d-870c-4dcc-b958-281e2daf88aa)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/551f1102-9d31-4fd5-9721-1f5df462dd28.npy
+    - 504000128
+    - e456a96635053a1ea4844c28a053485cef2f5db3d8a40e112661b659e9e4939e
+    - cited-versions.csv (artifact store checksum of version 551f1102-9d31-4fd5-9721-1f5df462dd28)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/55a61bc2-0c5f-468e-8090-5786846daf46.npy
+    - 1008000128
+    - 089c13dfa5f318eaa6099af5a194fda5c8c9582024847b0cd698683fd9b1de01
+    - cited-versions.csv (artifact store checksum of version 55a61bc2-0c5f-468e-8090-5786846daf46)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/55c3bfda-f546-46ac-8c0f-9df4bc07a90a.npy
+    - 280000128
+    - 0eb97d9be95bbf6c823aa53bc01b3a4f974f11c7cc7ec7794c863d9ed9537fd7
+    - cited-versions.csv (artifact store checksum of version 55c3bfda-f546-46ac-8c0f-9df4bc07a90a)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/59de41f8-6ffd-4882-8103-6c8c4d3a7d86.npy
+    - 504000128
+    - 282905f2bf5bb7649333ef9b8c4b92e96921687050817c24707d2a3f8ed1884c
+    - cited-versions.csv (artifact store checksum of version 59de41f8-6ffd-4882-8103-6c8c4d3a7d86)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/5a8950c3-038b-4980-a1a2-93b0c66413c0.npy
+    - 560000128
+    - aa0a0c81cf75994fc4891483722e1ffbb9ad690f0d8f04dcf44f8271ea71e2fc
+    - cited-versions.csv (artifact store checksum of version 5a8950c3-038b-4980-a1a2-93b0c66413c0)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/5bb6a977-f4fe-4c3f-a0e4-622289fb0130.npy
+    - 280000128
+    - 5a34c776aaaa52d6f7225c5b9126f9842b6eec2c5a2441478b0c26a69af66b67
+    - cited-versions.csv (artifact store checksum of version 5bb6a977-f4fe-4c3f-a0e4-622289fb0130)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/5bbacfcb-916f-4f10-b3d7-dbec7b2e3ac9.npy
+    - 560000128
+    - d874608084b23ed0235cf11c5d15bb1ddfe7f9b72d494d91d0f714143168744d
+    - cited-versions.csv (artifact store checksum of version 5bbacfcb-916f-4f10-b3d7-dbec7b2e3ac9)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/602f2036-68fa-4644-8d54-078746d52473.npy
+    - 560000128
+    - ee91a484a7766f19f7aea460624000f5cf55e928aa5ae419a8bfd01fd2ff0325
+    - cited-versions.csv (artifact store checksum of version 602f2036-68fa-4644-8d54-078746d52473)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/759bbe40-97f0-4b5a-b616-5ed208e249d3.npy
+    - 504000128
+    - db5a3f7d569c06ac9a1d8ea54ac5c5674b37dd38f9f3a027d1cd4e00b0397c5e
+    - cited-versions.csv (artifact store checksum of version 759bbe40-97f0-4b5a-b616-5ed208e249d3)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/80ce5b0c-e179-451c-bdfb-79c3358bcd06.npy
+    - 504000128
+    - 3eb4b6a92dae1eb16d1429fb8a0e47459273e43c9fc7284f8e18317f1ede00cc
+    - cited-versions.csv (artifact store checksum of version 80ce5b0c-e179-451c-bdfb-79c3358bcd06)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/839351ad-5617-45cb-aad3-0b3e7dba68ed.npy
+    - 280000128
+    - b3575aa2294ac609ffac8de9741e98b5a5819ab3ca6275f27a3a7c2a8d815afb
+    - cited-versions.csv (artifact store checksum of version 839351ad-5617-45cb-aad3-0b3e7dba68ed)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/89501619-7795-4a22-8826-7548d0821759.npy
+    - 560000128
+    - 1350825ba22c9a0bdaa2561412d69ac0d51e013cc174bc03551ea6126e8753b7
+    - cited-versions.csv (artifact store checksum of version 89501619-7795-4a22-8826-7548d0821759)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/944572b1-dad1-4d6d-94ef-a15acc169442.npy
+    - 504000128
+    - b543e14ebcff25455d3360a16742637ce670fe34bddbe0f189feda47735927a8
+    - cited-versions.csv (artifact store checksum of version 944572b1-dad1-4d6d-94ef-a15acc169442)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/94699291-3f52-4ca3-b1de-0315445057bc.npy
+    - 560000128
+    - 43618cee1bb3541fa1ea055acac9a6b41d5d44b939e4ecaa52ce51780d94d49a
+    - cited-versions.csv (artifact store checksum of version 94699291-3f52-4ca3-b1de-0315445057bc)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/9603a043-1960-4bad-ab76-fbd9b8e62d58.npy
+    - 40000128
+    - 233e3847eb98cddaeddc2910bd51f720b69b41276829530e11493751b2469103
+    - cited-versions.csv (artifact store checksum of version 9603a043-1960-4bad-ab76-fbd9b8e62d58)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/98ca0624-04ff-4722-910f-bd62aa32a0a5.npy
+    - 40000128
+    - 80b0778b23bc4ee419d9666ee5b90e2389b326b709104fd656eaebfc979c4587
+    - cited-versions.csv (artifact store checksum of version 98ca0624-04ff-4722-910f-bd62aa32a0a5)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/9bbb67a6-912f-439f-a7ea-856332f49ed3.npy
+    - 504000128
+    - b424ae82852156a9d543adc64474e9a6addcda9a7bd887765a7e572738ee2090
+    - cited-versions.csv (artifact store checksum of version 9bbb67a6-912f-439f-a7ea-856332f49ed3)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/9be069df-9cca-47e7-89cb-a51e597013b8.npy
+    - 504000128
+    - f7543a1ceec333a8f3689677f544172c44bb550b4a1322b0f4500c2f6e9d7788
+    - cited-versions.csv (artifact store checksum of version 9be069df-9cca-47e7-89cb-a51e597013b8)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/9c698965-e77e-4173-9762-2d7047f460a3.npy
+    - 280000128
+    - fbc6877b1740bb8460104c62eaac8ad8a52eb54fe817d5acfa58beb29bef5a1b
+    - cited-versions.csv (artifact store checksum of version 9c698965-e77e-4173-9762-2d7047f460a3)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/9e349664-d6d8-463b-949c-965c64b2fada.npy
+    - 40000128
+    - 51b7678b549203cbf549f955380c72198dbc7a2f4a474bb585516d7a526889ee
+    - cited-versions.csv (artifact store checksum of version 9e349664-d6d8-463b-949c-965c64b2fada)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/9f91388f-3623-4a44-b72e-13368f49c109.npy
+    - 1008000128
+    - 5f51576287716c43855618f24f640947ba299ae0ca53f282ae8290c7f840f496
+    - cited-versions.csv (artifact store checksum of version 9f91388f-3623-4a44-b72e-13368f49c109)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/ad141a9f-532a-487c-bc5b-2a03032ac3c6.npy
+    - 40000128
+    - cbbd061364b8b9c91853db63375849487f65f152994f9e97c61fb66951b1df92
+    - cited-versions.csv (artifact store checksum of version ad141a9f-532a-487c-bc5b-2a03032ac3c6)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/ad5b8eaa-f2b1-44a3-b61e-cc1283ae2ba3.npy
+    - 1008000128
+    - 24706552ceb4f9f756698b7787bc5ebacf9021aabe6d414e8eadd84cd335f27e
+    - cited-versions.csv (artifact store checksum of version ad5b8eaa-f2b1-44a3-b61e-cc1283ae2ba3)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/ae81e6f8-79ce-4457-8c9a-361a14766ea5.npy
+    - 40000128
+    - 2e46d29863050753c8084a20cdebf4d0a5d7d54695dfa215d8d96e0f07e1390e
+    - cited-versions.csv (artifact store checksum of version ae81e6f8-79ce-4457-8c9a-361a14766ea5)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/af216425-d91d-45f0-a08a-96c5ed340d7f.npy
+    - 40000128
+    - 6ead2a1ba9036460ffa9de4655cedcb8ae034cc9187fd54716217cb337bd6406
+    - cited-versions.csv (artifact store checksum of version af216425-d91d-45f0-a08a-96c5ed340d7f)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/b4d1f3be-dbfe-456b-8287-dda1cabec9df.npy
+    - 280000128
+    - 31906de0d5f625d361f34e593b2b5cc2ec54a8fcd046c9ba040ec11eef270e00
+    - cited-versions.csv (artifact store checksum of version b4d1f3be-dbfe-456b-8287-dda1cabec9df)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/b75fd809-c840-4c92-aaaf-0cd0ea9b61af.npy
+    - 560000128
+    - a2e3c4640f1715dfe1d22b39d3dc9e8c994f1e2147989ca3f88ca61a26fe37c3
+    - cited-versions.csv (artifact store checksum of version b75fd809-c840-4c92-aaaf-0cd0ea9b61af)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/b7e21275-dd55-41b0-8731-a1a9690fd431.npy
+    - 280000128
+    - 2f1072382b2fc68afdeeca102f89715e725edc26bcfade4f428cfc51b9928f8f
+    - cited-versions.csv (artifact store checksum of version b7e21275-dd55-41b0-8731-a1a9690fd431)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/bc7da197-02c3-40c1-93b2-026f5c63b105.npy
+    - 504000128
+    - 0031cece03e419f2db34e7aa27e0839a0b07a13f36fdc5e6df2f035f2a76388a
+    - cited-versions.csv (artifact store checksum of version bc7da197-02c3-40c1-93b2-026f5c63b105)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/bcb914e2-5f6d-49c1-8554-68d0d1e0eb75.npy
+    - 40000128
+    - 5817fab37d7bb82c769a9543301c4b4cc1892d15b57ec090924ec6f85880e220
+    - cited-versions.csv (artifact store checksum of version bcb914e2-5f6d-49c1-8554-68d0d1e0eb75)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/bd3153e2-4dcf-4cb0-931d-5e52931f0e1d.npy
+    - 504000128
+    - 29f6abf4460239669ae12983024e36623f0c9f0c5b72f289cf3a19ba28c99a81
+    - cited-versions.csv (artifact store checksum of version bd3153e2-4dcf-4cb0-931d-5e52931f0e1d)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/c0c1ca06-6bcb-441a-b551-2261f60a31ef.npy
+    - 40000128
+    - e73c689ead373d2a7b6d10435c0e6b059dd965f7b2bf9b70104efa88ea84cb4f
+    - cited-versions.csv (artifact store checksum of version c0c1ca06-6bcb-441a-b551-2261f60a31ef)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/c97faea3-5487-401e-9ebe-a1316e5ffe27.npy
+    - 504000128
+    - 8077fe6ff99d6b996f132b101678e864ddba9dd0a172971086ad691f60a3fa2d
+    - cited-versions.csv (artifact store checksum of version c97faea3-5487-401e-9ebe-a1316e5ffe27)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/cbafedeb-1a8a-4182-9ecd-be2e131acb62.npy
+    - 560000128
+    - 8f32d9cc5aa56cf60222a5b7973f199938528c7a4225a4eae719b81be3835981
+    - cited-versions.csv (artifact store checksum of version cbafedeb-1a8a-4182-9ecd-be2e131acb62)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/cc12fe24-7dc6-4585-9df0-340181d0fcca.npy
+    - 280000128
+    - 4888a8719b1238b0374ee3e1af0fd4ae337975049cb582c665017520d06c6f01
+    - cited-versions.csv (artifact store checksum of version cc12fe24-7dc6-4585-9df0-340181d0fcca)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/cc73f6e1-428a-4965-b86d-672ba6600ccb.npy
+    - 504000128
+    - c1269454f93d29d98f14dee49734cdbd7c9bcf0ecf75eb64382aa13258568048
+    - cited-versions.csv (artifact store checksum of version cc73f6e1-428a-4965-b86d-672ba6600ccb)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/cd053fdb-d66c-4988-addc-4d1fd1c4ea26.npy
+    - 504000128
+    - 0df6220cd5b4e7257289810309962b3860b94d27cd7fb3db6210e71298f36e28
+    - cited-versions.csv (artifact store checksum of version cd053fdb-d66c-4988-addc-4d1fd1c4ea26)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/cd687b56-6ce7-4709-91dd-a4612c583d82.npy
+    - 280000128
+    - ead8738c5f5b5a9251cfc8fefd08bcd72c6faeb1f517e629cea5ed9c2606e7b5
+    - cited-versions.csv (artifact store checksum of version cd687b56-6ce7-4709-91dd-a4612c583d82)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/d5e9e507-36f6-4012-893e-7e82b3f92f9b.npy
+    - 280000128
+    - f5c3cf45c21c3ba7140e49934ced42daa1bdbcfc8474b8a30c88e98be087120c
+    - cited-versions.csv (artifact store checksum of version d5e9e507-36f6-4012-893e-7e82b3f92f9b)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/d8f0c9ba-efe2-45ba-993b-22c282b25f01.npy
+    - 560000128
+    - 647691192e6b3592051afcca801e79c2eb1b8b3b251153099a0ba714ed7a4540
+    - cited-versions.csv (artifact store checksum of version d8f0c9ba-efe2-45ba-993b-22c282b25f01)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/dce46c87-2671-4ccc-b62b-78546f6d0bbd.npy
+    - 504000128
+    - 5e3701c92ccafce08c7d2855d4b2c0939350afe769b203edbe8cb6ae4a5cd271
+    - cited-versions.csv (artifact store checksum of version dce46c87-2671-4ccc-b62b-78546f6d0bbd)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/df1355b0-fff8-401d-b018-a28ce071c63f.npy
+    - 280000128
+    - 3035e7039b407d8ed219c18c3103124bff5cb9d11f0ccc9bbef39aed822d5583
+    - cited-versions.csv (artifact store checksum of version df1355b0-fff8-401d-b018-a28ce071c63f)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/e0062f53-ea73-433f-871e-c05db88b5c09.npy
+    - 504000128
+    - 9a9f11e9ca592db1202de06f5153ba6d33f0507c33130f81dc96a25a2b066163
+    - cited-versions.csv (artifact store checksum of version e0062f53-ea73-433f-871e-c05db88b5c09)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/e1559a61-c73a-46cc-afd7-cd33936fd815.npy
+    - 280000128
+    - af93d83dcef0bafcc4346b1f2a22ac3c8cb9b3759930db9a090dc8336fbea930
+    - cited-versions.csv (artifact store checksum of version e1559a61-c73a-46cc-afd7-cd33936fd815)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/e34df3aa-ca45-456d-b373-e9fb6243c42d.npy
+    - 504000128
+    - bdc8155b020389b381d53a6b666371b7bf0380dd57628262fd6a0312fb85742d
+    - cited-versions.csv (artifact store checksum of version e34df3aa-ca45-456d-b373-e9fb6243c42d)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/e617f776-8361-4288-88e6-da5660bf40da.npy
+    - 560000128
+    - 574541ae0216dda832fd5d91f726671f42c4fa8ca95c7db8f0fa50fe20e36fff
+    - cited-versions.csv (artifact store checksum of version e617f776-8361-4288-88e6-da5660bf40da)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/e6f10ffe-4a2e-46a7-b97c-914c5c727f96.npy
+    - 560000128
+    - 43b9137cf0074387c2a30dd774976aa5b823ff80c62a61f495de65b0c2b53ba4
+    - cited-versions.csv (artifact store checksum of version e6f10ffe-4a2e-46a7-b97c-914c5c727f96)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/ea2d4241-0694-436f-9a1d-b30d48c7fd42.npy
+    - 504000128
+    - 814b097fb287d80302d6da538fe63aed881bd9862721a13f4e14c963de101bfa
+    - cited-versions.csv (artifact store checksum of version ea2d4241-0694-436f-9a1d-b30d48c7fd42)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/ec0f46d7-3195-423d-8c92-3c2d1642f5f1.npy
+    - 280000128
+    - 84ae4594659e4e3bf2702bc2d9653589db78b7944c2d95d5d2ae100a31de5e01
+    - cited-versions.csv (artifact store checksum of version ec0f46d7-3195-423d-8c92-3c2d1642f5f1)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/ed8c085a-ab13-4e10-88b8-179fbc541f1c.npy
+    - 560000128
+    - 186a24d9db33b61787960678515232b521d7e53cf17890828c198fa023b2a9c5
+    - cited-versions.csv (artifact store checksum of version ed8c085a-ab13-4e10-88b8-179fbc541f1c)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/f40f9b8c-9a2b-4ea1-8364-7da72a2ad1dc.npy
+    - 280000128
+    - acd22d5f9fa9e876bad29ca1aad045e0a46cf9c0b89b1e6f8bd41a39fc5b4395
+    - cited-versions.csv (artifact store checksum of version f40f9b8c-9a2b-4ea1-8364-7da72a2ad1dc)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/f4706325-8fda-4c14-b590-5a97e878be48.npy
+    - 280000128
+    - 27ffa83e29b58495d0c95ab869ecb903e66e77b2c0386a47b31b3238b7ad86d0
+    - cited-versions.csv (artifact store checksum of version f4706325-8fda-4c14-b590-5a97e878be48)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/f5df89a1-97e6-4e39-9b89-84bf1469701f.npy
+    - 40000128
+    - 325c9c079a937b0db74f26ce4010d0ee88df44aa6b084df7beaeb3178770ce32
+    - cited-versions.csv (artifact store checksum of version f5df89a1-97e6-4e39-9b89-84bf1469701f)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/f6e2f402-9cf0-42ac-a2e8-5e2a627d31ce.npy
+    - 504000128
+    - 94cd0355e1d0ce4822c8c0c48caed8cc64965bc1e28e67ec283f91f3e64cb0dd
+    - cited-versions.csv (artifact store checksum of version f6e2f402-9cf0-42ac-a2e8-5e2a627d31ce)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/f6f5381d-aeaa-4cb1-8bc5-62b5999d2588.npy
+    - 280000128
+    - 409db03deb6bb4d17e296df647ce2c6f90218edd3d822aae001968e3d90d4946
+    - cited-versions.csv (artifact store checksum of version f6f5381d-aeaa-4cb1-8bc5-62b5999d2588)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/f8609542-70c3-4261-b1ac-dd49ce8a468d.npy
+    - 504000128
+    - 9e50f0cf9c217648cc65b9ebaf19e640a5bbaf8eef61277ccf1b3afd322c49b5
+    - cited-versions.csv (artifact store checksum of version f8609542-70c3-4261-b1ac-dd49ce8a468d)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/fbc95744-d918-4936-b68a-a53c4a9e655a.npy
+    - 504000128
+    - 084c78dc5645ed4ff36540d27a387a62cc40c5b50a437cd528ca375ca564106b
+    - cited-versions.csv (artifact store checksum of version fbc95744-d918-4936-b68a-a53c4a9e655a)
+  - - artifact-store-npy/0e583859-b6bf-4b39-8fb6-83ba81691d85/fc6dca19-369c-4c93-8612-7faf48deef59.npy
+    - 40000128
+    - 0bb711d755fc31cb4268560c797119e5fd8e264659a14886cd759ccfc05ee095
+    - cited-versions.csv (artifact store checksum of version fc6dca19-369c-4c93-8612-7faf48deef59)
+  - - artifact-store-npy/4304181a-4aac-46d6-a4a6-b3f600ce118d/0fb2faa6-4549-41fc-93a4-695bbe723d29.npy
+    - 1305600128
+    - 92f3d13d6ea81771453f02905d06f93bcceada12f2129905657f132274daab3b
+    - cited-versions.csv (artifact store checksum of version 0fb2faa6-4549-41fc-93a4-695bbe723d29)
+  - - artifact-store-npy/4304181a-4aac-46d6-a4a6-b3f600ce118d/66f57904-f9ac-4879-8ee1-76177b19155d.npy
+    - 1305600128
+    - 7585dbea4508126c4a50239534eded1c80ead8e4721802969aee0e2dd2f1dbfd
+    - cited-versions.csv (artifact store checksum of version 66f57904-f9ac-4879-8ee1-76177b19155d)
+  - - artifact-store-npy/4304181a-4aac-46d6-a4a6-b3f600ce118d/a241ea22-dfb7-4c07-9986-3cb8ee96081b.npy
+    - 1305587072
+    - a50b3f2ebad13b4e2a02470621901ed73d0035945dfc598812bf5a4de8c85b14
+    - cited-versions.csv (artifact store checksum of version a241ea22-dfb7-4c07-9986-3cb8ee96081b)
+  - - artifact-store-npy/4304181a-4aac-46d6-a4a6-b3f600ce118d/b70f7537-0442-43fd-8fb3-2b7e7ddd47bb.npy
+    - 1305600128
+    - 10904d0b5b69dd6f63e61d653f318a6df853ac979632b2d1f7cb20dff4828058
+    - cited-versions.csv (artifact store checksum of version b70f7537-0442-43fd-8fb3-2b7e7ddd47bb)
+  - - artifact-store-npy/c2894a16-b508-47d9-ad42-fcd6af62e300/173b9ad3-047f-4d1b-b9f4-e620f8ab0cc8.npy
+    - 58800128
+    - a9550d019b9acff34fae5e9bf34587938e13415a0cf9a10ce378b78a3a959807
+    - cited-versions.csv (artifact store checksum of version 173b9ad3-047f-4d1b-b9f4-e620f8ab0cc8)
+  - - artifact-store-npy/c2894a16-b508-47d9-ad42-fcd6af62e300/4eb6a475-130a-47cc-96f3-802cbd88c1ee.npy
+    - 58800128
+    - 5c6cb8831f473a605f6d065a2e2a2d7a11697a84d37fda4289b479d1b8b33a54
+    - cited-versions.csv (artifact store checksum of version 4eb6a475-130a-47cc-96f3-802cbd88c1ee)
+  - - artifact-store-npy/c2894a16-b508-47d9-ad42-fcd6af62e300/ab4966d6-beb0-41f0-b8ea-bab138da912c.npy
+    - 58800128
+    - 81ec0019c78c1a2282069a1b0b09ec55841b1e39816212357c9cdb5314d4dff4
+    - cited-versions.csv (artifact store checksum of version ab4966d6-beb0-41f0-b8ea-bab138da912c)
+  - - artifact-store-npy/c2894a16-b508-47d9-ad42-fcd6af62e300/b2aa31a8-58ce-4f5d-824f-0ebc67ebe91e.npy
+    - 58800128
+    - 9c15de75b316230fb1971662fcb2feb7066234d529deb77d97a083c02e58ded2
+    - cited-versions.csv (artifact store checksum of version b2aa31a8-58ce-4f5d-824f-0ebc67ebe91e)
+  - - artifact-store-npy/c2894a16-b508-47d9-ad42-fcd6af62e300/d0d398ed-5f5c-4b68-b74b-1396e50ca10d.npy
+    - 58800128
+    - 390109b05c67427aa864e8b5d6363805d400d6a66f8782f08065599b144dd42a
+    - cited-versions.csv (artifact store checksum of version d0d398ed-5f5c-4b68-b74b-1396e50ca10d)
+  hash: rows
+  hash_note: 'SHA-256 per file: cited-versions.csv (artifact version 14dda0a3, SHA-256 353baffbb0fee0d8f4a9ffaad1a8298a68c2ebaa2320d01d22646e1c4a11097f), column checksum
+    = SHA-256 of the artifact version that each file holds'
+  platform_artifacts_deleted:
+  - artifact_id: 0e583859-b6bf-4b39-8fb6-83ba81691d85
+    filename: final.npy
+    versions: 325
+  - artifact_id: c2894a16-b508-47d9-ad42-fcd6af62e300
+    filename: final.npy
+    versions: 5
+  - artifact_id: 4304181a-4aac-46d6-a4a6-b3f600ce118d
+    filename: evaluate.npy
+    versions: 16
+  assignment_basis: data_homes/moved_to_xdrive.json
   defects: []
   superseded_by: null
   inputs: []
   producing_thread: null
   verified_this_run: false
-  status: UNCHECKED
-  status_rank: none
-  status_evidence: []
 - id: project.home.archive-tools
   kind: data_home
   module: project
@@ -688,6 +1099,7 @@ entries:
   kind: data_home
   module: project
   path: 'XDRIVE:'
+  holder: Porsche drive (available on request from Pete)
   note: External drive 'Porsche 1TB Backup', folder mh370-archive (DEST in archive-tools scripts). Single copy; Time Machine does not include it.
   assignment_basis: data home
   hash: false
@@ -760,7 +1172,7 @@ entries:
   verified_this_run: false
   status_evidence:
   - rank: ruling
-    source: WORK:results/restricted-sources-ledger.md:34
+    source: WORK:results/restricted-sources-ledger.md:35
     quote: '| `library_full_audit/MH370/9M-MRO Fuel Model V5.X.xlsm` | Ulich''s fuel workbook; it holds the FPPM-confidential cells named above | in git (library)
       | internal use only; kept in place (added 25 Oct 2026 by the registry track) |'
   - rank: ruling
@@ -798,7 +1210,7 @@ entries:
   verified_this_run: false
   status_evidence:
   - rank: ruling
-    source: WORK:results/restricted-sources-ledger.md:51
+    source: WORK:results/restricted-sources-ledger.md:52
     quote: 'Pete ruled on 26 October 2026 that the MH371 items are NOT confidential: the MH371 ACARS reports (`library_full_audit/MH370/mh371-acars.xlsx`), the EHM
       export (`library_full_audit/MH370/MH371_EHM_Export.xls`, which also holds the MH370 climb report), the MH371 SATCOM data (`engine/data/mh371/`) and any value
       derived from them. Their uses need not be recorded here from now on. The files stay where '
@@ -842,7 +1254,7 @@ entries:
     memory_evidence_tag: stated
     quote: Internal use is authorised in full.
   - rank: ruling
-    source: WORK:results/restricted-sources-ledger.md:27
+    source: WORK:results/restricted-sources-ledger.md:28
     quote: '| `tmp/avionics_training_*.{pdf,bin}`, `tmp/avionics_try_*.bin`, `tmp/avionics_min-1.png` | avionics training document; one file name suggests it came
       from a document-sharing site | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |'
 - id: project.in.tmp-avionics_training
@@ -883,7 +1295,7 @@ entries:
     memory_evidence_tag: stated
     quote: Internal use is authorised in full.
   - rank: ruling
-    source: WORK:results/restricted-sources-ledger.md:27
+    source: WORK:results/restricted-sources-ledger.md:28
     quote: '| `tmp/avionics_training_*.{pdf,bin}`, `tmp/avionics_try_*.bin`, `tmp/avionics_min-1.png` | avionics training document; one file name suggests it came
       from a document-sharing site | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |'
 - id: project.in.tmp-avionics_try
@@ -925,7 +1337,7 @@ entries:
     memory_evidence_tag: stated
     quote: Internal use is authorised in full.
   - rank: ruling
-    source: WORK:results/restricted-sources-ledger.md:27
+    source: WORK:results/restricted-sources-ledger.md:28
     quote: '| `tmp/avionics_training_*.{pdf,bin}`, `tmp/avionics_try_*.bin`, `tmp/avionics_min-1.png` | avionics training document; one file name suggests it came
       from a document-sharing site | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |'
 - id: project.in.tmp-paperzz_airlink
@@ -965,7 +1377,7 @@ entries:
     memory_evidence_tag: stated
     quote: Internal use is authorised in full.
   - rank: ruling
-    source: WORK:results/restricted-sources-ledger.md:33
+    source: WORK:results/restricted-sources-ledger.md:34
     quote: '| `tmp/paperzz_airlink.html` | saved paperzz web page (6,085 bytes; the saved page is a ''Just a moment...'' access check, no document text) | `7a1c5071`,
       14 Aug 2026 | provenance unverified; internal use only (added 25 Oct 2026 by the registry track) |'
 - id: project.in.tmp-scribd_satcom
@@ -1005,7 +1417,7 @@ entries:
     memory_evidence_tag: stated
     quote: Internal use is authorised in full.
   - rank: ruling
-    source: WORK:results/restricted-sources-ledger.md:31
+    source: WORK:results/restricted-sources-ledger.md:32
     quote: '| `tmp/scribd_satcom.html` | saved web page ''Overview of Satcom in Aviation'' from Scribd (1,138,900 bytes) | `7a1c5071`, 14 Aug 2026 | provenance unverified;
       internal use only (added 25 Oct 2026 by the registry track) |'
 - id: project.in.tmp-slideshare_airlink
@@ -1045,7 +1457,7 @@ entries:
     memory_evidence_tag: stated
     quote: Internal use is authorised in full.
   - rank: ruling
-    source: WORK:results/restricted-sources-ledger.md:32
+    source: WORK:results/restricted-sources-ledger.md:33
     quote: '| `tmp/slideshare_airlink.html` | saved SlideShare web page, title ''Avionics Training Systems Installation And Troubleshooting 2nd Len Buckwalter | PDF''
       (1,529,120 bytes) | `7a1c5071`, 14 Aug 2026 | provenance unverified; internal use only (added 25 Oct 2026 by the registry track) |'
 - id: project.in.tmp-slideshare_avionics
@@ -1195,7 +1607,7 @@ entries:
     memory_evidence_tag: stated
     quote: Internal use is authorised in full.
   - rank: ruling
-    source: WORK:results/restricted-sources-ledger.md:28
+    source: WORK:results/restricted-sources-ledger.md:29
     quote: '| `tmp/slideshare_avionics/slide-*.jpg` and their OCR text | slide deck images from SlideShare | `ed40a72`, 29 Sep 2026 | provenance unverified; internal
       use only |'
 - id: project.memnote.coordination
@@ -1504,8 +1916,8 @@ entries:
       date: '2026-10-25T08:47:59-06:00'
       subject: 'registry: project registry (8 modules + project), rules-for-new-work check, archive of loose root folders'
     last_changed:
-      commit: 1ec339f92fc671c23e08d982cce28aeb1f8026d3
-      date: '2026-10-26T10:51:35-06:00'
+      commit: 1465419bd70aafbff99e3fd84615b8070e072be2
+      date: '2026-10-26T11:39:08-06:00'
   defects: []
   superseded_by: null
   inputs: []
@@ -1598,8 +2010,8 @@ entries:
       date: '2026-10-09T16:48:34-06:00'
       subject: 'Coordination: core briefing on filter audit and merged sequence; EoF early V2 look; Davey PDF licence notice; restricted-source ledger'
     last_changed:
-      commit: 26b42d7242d5267a771e882b569168ef38929af8
-      date: '2026-10-25T16:58:11-06:00'
+      commit: 1465419bd70aafbff99e3fd84615b8070e072be2
+      date: '2026-10-26T11:39:08-06:00'
   defects: []
   superseded_by: null
   inputs: []

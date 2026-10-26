@@ -258,3 +258,5 @@ The paper should leave a reader convinced that further hydroacoustic research wo
 - **CONTINUITY:** after answering Pete, keep working through your task list in the same turn. Before ending a turn, pull and re-read `coordination/PAPER.md`. End only when nothing can run, and name the blocker.
 - **SIDE QUESTIONS:** answer Pete's side questions, then return to the backlog.
 - **Credits:** the project runs on paid credits. Print short outputs, keep large text in files, and end your turn when idle.
+
+**Files held off the Mac (Porsche drive):** some project files are only on Pete's external drive. Read `coordination/README.md`, section "Files held off the Mac (Porsche drive)", before you take a file as lost. (26 Oct 2026)

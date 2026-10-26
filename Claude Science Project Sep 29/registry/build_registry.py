@@ -101,6 +101,10 @@ def main():
                         r["not_hashed"] = [x["rel"] for x in sel if not x.get("sha256")]
                     else:
                         note = e.get("hash_note", "not hashed")
+                elif root == "XDRIVE" and e.get("file_rows"):   # external drive (not mounted): rows from the registry record
+                    rows = [(f, b or 0, sh or "", src) for f, b, sh, src in e["file_rows"]]
+                    r["not_hashed"] = [x[0] for x in rows if not x[2]]
+                    r.pop("file_rows", None)
                 elif root == "GIT" and e.get("git_path"):
                     ref = rel.split("@", 1)[1]
                     ls = git(top, "ls-tree", "-r", "-z", "--full-tree", ref, "--", e["git_path"]).split("\0")

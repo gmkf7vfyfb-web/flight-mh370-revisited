@@ -15,6 +15,7 @@ Pete Large, 10 October 2026 (~01:10 UTC): "we have authorization for all confide
   in `library_full_audit/MH370/`. As stated by Pete; the architecture session has not seen the
   authorisation document.
 - **Internal use is authorised in full.**
+- **26 October 2026 (Pete): Ulich's fuel workbook and the `tmp/` avionics files may stay public in the repository.** They are not removed and git history is not rewritten. Record each use below as before.
 - **Reclassified 26 October 2026 (Pete): the MH371 items are not confidential.** These are the MH371 ACARS reports, the EHM export, the MH371 SATCOM data and any value derived from them. They are no longer restricted holdings. Their rows are in the last section, for the record. The FPPM-confidential fuel cells (Ulich's workbook) and the `tmp/` avionics material stay restricted.
 - **Publication** of derived values or figures, and **redistribution** of the files in the public repo,
   are settled at the paper's provenance review. Until then the confidential tables stay git-ignored, and uses

@@ -52,6 +52,16 @@ for m in mods:
     for e in rs:
         lines.append(f"| `{e['id']}` | {cell(e['path'][len('WORK:results/'):])} | {e['status']} | {('`' + e['superseded_by'] + '`') if e.get('superseded_by') else ''} | {cell(e.get('note'))} |")
     lines.append("")
+XD = sorted((e for e in E if e["path"].startswith("XDRIVE:")), key=lambda e: e["path"])
+lines += ["## Files held on the external drive - ask Pete", "",
+          "These items are not on the Mac. Sessions cannot read the drive. To use one, ask Pete to copy it back to "
+          "`~/Downloads/mh370-exchange/`, then check each file against the SHA-256 in the registry manifest. "
+          "Do not take an item as lost because it is not on the Mac: look here and in the registry first.", "",
+          "| registry id | path on the drive | holder | status | files | description |", "|---|---|---|---|---|---|"]
+for e in XD:
+    lines.append(f"| `{e['id']}` | {cell(e['path'][len('XDRIVE:'):]) or '(drive folder)'} | held on external drive - ask Pete ({cell(e.get('holder') or '')}) | "
+                 f"{e['status']} | {e.get('n_files') if e.get('n_files') is not None else '-'} | {cell(e.get('note'))} |")
+lines.append("")
 (WORK / "results" / "INDEX.md").write_text("\n".join(lines) + "\n")
 
 # coverage report

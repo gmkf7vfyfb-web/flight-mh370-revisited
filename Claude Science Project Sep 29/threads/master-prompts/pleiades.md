@@ -129,3 +129,5 @@ Side questions (Pete, 10 Oct): answer, then return to the work; end a turn only 
 blocked and on what. Sampling coverage (Pete, 10 Oct): every results note has a COVERAGE section (feasible set, model reach, proposal
 coverage, gaps, ESS per option). Charts: footnoted with run, parameters and assumptions in two short versions; no project codes in titles,
 axes or legends; standard statistical terms used as such.
+
+**Files held off the Mac (Porsche drive):** some project files are only on Pete's external drive. Read `coordination/README.md`, section "Files held off the Mac (Porsche drive)", before you take a file as lost. (26 Oct 2026)

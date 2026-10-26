@@ -83,3 +83,5 @@ The current run is named in each status file (17 Oct 2026: core run J; end of fl
   bottom quarter, stating the key parameters and assumptions.
 - Decisions that are Pete's (detection levels, priors, which evidence is primary) are asked, not assumed. Until he
   rules, the result is a labelled sensitivity.
+
+**Files held off the Mac (Porsche drive):** some project files are only on Pete's external drive. Read `coordination/README.md`, section "Files held off the Mac (Porsche drive)", before you take a file as lost. (26 Oct 2026)

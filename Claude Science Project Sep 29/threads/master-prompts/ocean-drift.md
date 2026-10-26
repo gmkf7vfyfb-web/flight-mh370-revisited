@@ -116,3 +116,5 @@ tail (drift cannot add mass where the core has few samples). State which compone
 Forcing beyond 30 Jan 2017 (5-year extension; GlobCurrent multi-year product retires 24 Nov 2026); sinking and
 break-up physics; the five-class Australian segments (needs regenerated segments and a transport run); OSCAR
 (comparison only, Pete 9-12 Oct).
+
+**Files held off the Mac (Porsche drive):** some project files are only on Pete's external drive. Read `coordination/README.md`, section "Files held off the Mac (Porsche drive)", before you take a file as lost. (26 Oct 2026)

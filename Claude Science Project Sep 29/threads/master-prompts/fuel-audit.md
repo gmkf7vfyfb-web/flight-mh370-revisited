@@ -104,3 +104,5 @@ A report, `results/fuel-model-audit-<auditor>.md`. The architecture sub-agent us
 5. What you did not check, and why.
 
 Every chart carries a footnote stating the run, the parameters and the assumptions it uses.
+
+**Files held off the Mac (Porsche drive):** some project files are only on Pete's external drive. Read `coordination/README.md`, section "Files held off the Mac (Porsche drive)", before you take a file as lost. (26 Oct 2026)

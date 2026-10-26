@@ -692,3 +692,5 @@ files stop causing errors and omissions. It is on `hypothesis/hydroacoustics` at
 Superseded by this section: §4 "Data held" and Refresh v2 §4 as inventories (the database is the inventory; their
 descriptions stay as background). Refresh v2 §4's "Scott Reef's path to the arc crosses land" is refined by the
 line-of-sight screen: large attenuation 20.0–29.5° S (Exmouth Plateau / North West Shelf edge), blocked 29.6–43.9° S.
+
+**Files held off the Mac (Porsche drive):** some project files are only on Pete's external drive. Read `coordination/README.md`, section "Files held off the Mac (Porsche drive)", before you take a file as lost. (26 Oct 2026)

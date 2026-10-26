@@ -76,6 +76,7 @@ AVIONICS = [("avionics_training", r"^tmp/avionics_training_"), ("avionics_try", 
             ("slideshare_avionics", r"^tmp/slideshare_avionics"), ("scribd_satcom", r"^tmp/scribd_satcom\.html$"),
             ("paperzz_airlink", r"^tmp/paperzz_airlink\.html$"), ("slideshare_airlink", r"^tmp/slideshare_airlink\.html$"),
             ("avionics_min", r"^tmp/avionics_min-1\.png$")]
+XHOLDER = "Porsche drive (available on request from Pete)"
 RESTRICTED_NOTE = ("RESTRICTED: internal use only. Record every use in results/restricted-sources-ledger.md. "
                    "Not for publication before review (Pete, 9-10 Oct 2026).")
 DATA_HOMES = [("drift", "mh370-ocean-data", "Ocean model and observation data (GLORYS12, ERA5, GlobCurrent, OSCAR, WAVERYS, GDP, BRAN2016, GEBCO, GSHHG, WOA23, AusSeabed, products)."),
@@ -372,7 +373,10 @@ def main():
     for r in inv["files"]:
         parts = r["rel"].split("/")
         exg[(parts[0], parts[1] if len(parts) > 2 else "_top-files")].append(r)
+    mvx = json.load(open(HERE / "data_homes" / "moved_to_xdrive.json"))["moves"] if (HERE / "data_homes" / "moved_to_xdrive.json").exists() else {}
     for (top_, sub), rows in sorted(exg.items()):
+        if f"{top_}/{sub}" in mvx:   # moved to the external drive (only copy): entry made in section 6
+            continue
         mod = EX_MOD.get(top_)
         if mod is None:
             report["exchange_unmapped"].append(top_); continue
@@ -412,7 +416,15 @@ def main():
                  "note": (f"Listed for copy to the external drive in archive-tools/{script} line {i} (destination {dest}). "
                           f"Source folder in ~/Downloads now: {'present' if present else 'absent'}. The VERIFIED-*.txt list is on the drive; "
                           f"it was not readable from this session, so the copy is not confirmed here."),
-                 "assignment_basis": "archive script item list", "hash": False, "hash_note": "external drive not mounted in this session"})
+                 "assignment_basis": "archive script item list", "hash": False, "hash_note": "external drive not mounted in this session",
+                 "holder": XHOLDER})
+    for pre, m in sorted(mvx.items()):   # exchange folders moved to the external drive; per-file SHA-256 from the record
+        ev = m["status_evidence"]
+        add({"id": m["entry_id"], "kind": "archive", "module": "project", "path": f"XDRIVE:{m['xdrive_path']}", "holder": m["holder"],
+             "note": m["note"] + ". " + m["deleted_note"] + f" Moved from the exchange folder ({pre}) on {m['date']}.",
+             "status": m["status"], "status_rank": "verified", "status_evidence": [{"rank": "verified", "source": ev["source"], "quote": ev["quote"]}],
+             "file_rows": m["file_rows"], "hash": "rows", "hash_note": "SHA-256 per file: " + m["sha256_source"],
+             "platform_artifacts_deleted": m["platform_artifacts_deleted"], "assignment_basis": "data_homes/moved_to_xdrive.json"})
 
     # ---------- 7. Drive file ids ----------
     DPAT = re.compile(r"(?:drive\.google\.com/(?:file/d/|open\?id=|drive/folders/)|[Dd]rive (?:file )?id[:\s`]*)([A-Za-z0-9_-]{20,})")
@@ -449,7 +461,7 @@ def main():
     add({"id": "project.home.exchange-folder", "kind": "data_home", "module": "project", "path": "EX:",
          "note": f"Exchange folder: run outputs of all modules. {inv['n_files']} files, {inv['bytes'] / 1e9:.1f} GB without hydroacoustics. Hydroacoustics part is registered in phase 2.",
          "assignment_basis": "data home", "hash": False, "hash_note": "see the ex.* entries"})
-    add({"id": "project.home.external-drive", "kind": "data_home", "module": "project", "path": "XDRIVE:",
+    add({"id": "project.home.external-drive", "kind": "data_home", "module": "project", "path": "XDRIVE:", "holder": XHOLDER,
          "note": "External drive 'Porsche 1TB Backup', folder mh370-archive (DEST in archive-tools scripts). Single copy; Time Machine does not include it.",
          "assignment_basis": "data home", "hash": False, "hash_note": "drive not mounted in this session"})
 
