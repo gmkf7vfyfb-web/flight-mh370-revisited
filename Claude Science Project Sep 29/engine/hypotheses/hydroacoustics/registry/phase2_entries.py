@@ -244,6 +244,7 @@ def main():
         present = (Path("/Users/pete/Downloads") / rel).exists()
         add({"id": "xd." + slug(rel.split("/hydroacoustics/", 1)[1]) + ("_inputs" if rel.startswith("mh370-inputs") else ""), "kind": "archive", "path": f"XDRIVE:{rel}",
              "hash": False, "hash_note": "external drive not mounted in this session",
+             "holder": "Porsche drive (available on request from Pete)",
              "note": (f"Listed for copy to the external drive in {'; '.join(where)}. Source in ~/Downloads now: {'present' if present else 'absent'}. "
                       "The VERIFIED-*.txt list is on the drive; it was not readable from this session, so the copy is not confirmed here.")})
     # ---------- 8. memory notes (rows moved out of memory; records of what memory said) ----------
