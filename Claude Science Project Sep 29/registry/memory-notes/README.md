@@ -41,7 +41,7 @@ The memory track (25 October 2026) moved 1446 rows out of memory with the action
 
 The repository is public. We changed the text in these cases only, and `text_flags` tells you which:
 
-1. `withheld_restricted` (28 rows): the text names a restricted source (see results/restricted-sources-ledger.md). The row gives the export row that holds the text.
+1. `withheld_restricted` (30 rows): the text names a restricted source or states content from one (see results/restricted-sources-ledger.md). The row gives the export row that holds the text. 28 rows match the pattern in `import_memory_records.py`; 2 rows (mem_e4cfd062722e, mem_3a2670828580) are withheld by name (`WITHHOLD_ROWS`) after the independent verifier of 26 October 2026.
 2. `workspace_path_replaced` (6 rows): a session-workspace path is replaced by `<session workspace path>`.
 3. `amounts_removed` (1 row): spending amounts are removed.
 

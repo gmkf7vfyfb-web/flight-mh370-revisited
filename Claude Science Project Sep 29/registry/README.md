@@ -119,20 +119,21 @@ Do these steps from this folder.
 1. Install the pre-push check once in each clone: `make install-hooks`.
 2. Do the check before you commit: `make check`. A FAIL stops the push. Correct the FAIL item. Do not use `git push --no-verify`.
 3. Make the registry again after records change: `make registry MEMORIES=<memory export JSON>`. This runs `backfill`, `build` and `index`.
-4. After a registry rebuild that Pete accepts, record the new baseline: `make baseline`. Then commit the baseline files.
+4. After a registry rebuild that Pete accepts, record the new baseline: `make baseline`. Then commit the baseline files. `make baseline-modules` freezes the baseline of each module branch (paths and known C4 keys at the remote head).
 5. To see the violations that existed before the rules: `make report`. This writes `existing_violations.tsv`. We list these violations; we do not correct them.
 
 ## 9. What the check does
 
 | Check | What it looks for | Result |
 |---|---|---|
-| C1 | A new result folder without a valid `manifest.json`; a new loose file at the top of `results/` or in `results/<module>/`. Permitted at the top of `results/`: `INDEX.md`, `README.md`, `restricted-sources-ledger.md` and the module citation ledgers `<module>-references.md` / `.bib` | FAIL |
+| C1 | A new result folder without a valid `manifest.json`; a new loose file at the top of `results/` or in `results/<module>/`. Permitted at the top of `results/`: `INDEX.md`, `README.md`, `restricted-sources-ledger.md` and the citation ledgers `<name>-references.md` / `.bib`, where `<name>` is a module name in `modules.json` or one of the phase-1 ledger names `debris-drift`, `ocean`, `seabed-search` | FAIL |
+| C1 | On a module branch: a new run folder `engine/hypotheses/<module>/results-data/<run id>/` without a valid `manifest.json`, or a new loose file directly in `results-data/` | FAIL |
 | C1 | A new file in an old result folder that has no manifest | WARN |
 | C2 | A session-workspace path in a new path, in a new text file or in a new line of an old file | FAIL |
 | C3 | A version suffix in a new file name or a new folder name | FAIL |
 | C4 | A registry id that occurs two times, a `superseded_by` target that does not exist, an unknown status, or a root in a session workspace | FAIL, or KNOWN if it is in the baseline |
 
-"New" means: not in `baseline/tracked_paths.txt.gz`. Thus the check does not fail on the old tree.
+"New" means: not in `baseline/tracked_paths.txt.gz`. Thus the check does not fail on the old tree. For a push of a module branch, the paths in the frozen baseline of that branch (`baseline/module_branches.json.gz`, made by `make baseline-modules` at a registry build) also count as old. If a branch has no frozen baseline, every path that is not in the working-branch baseline is new. Push a module branch from a `claude-science-sep29` checkout; the module branches do not hold `registry/`, so in a checkout of a module branch only the hook stops the push.
 
 ## 10. Limits
 
@@ -156,7 +157,7 @@ On 25 October 2026 the memory track moved rows out of project memory. The folder
 
 The repository is public. Thus we changed the text in these cases, and the row tells you so in `text_flags`:
 
-1. If the text names a restricted source, we do not show the text. The row gives the export row to read instead.
+1. If the text names a restricted source or states content from one, we do not show the text. The row gives the export row to read instead. (`WITHHOLD_ROWS` in `import_memory_records.py` lists the rows that the pattern does not catch.)
 2. We replaced each session-workspace path with `<session workspace path>`.
 3. We removed spending amounts.
 

@@ -2,7 +2,7 @@
 """Project check for the rules for new work (clean-up proposal of 23 Oct 2026, section 5.6). Standard library only.
 
 Checks
-  C1  Each NEW result folder results/<module>/<run id>/ has manifest.json that agrees with manifest.schema.json.
+  C1  Each NEW result folder results/<module>/<run id>/ (and, on a module branch, engine/hypotheses/<module>/results-data/<run id>/) has manifest.json that agrees with manifest.schema.json.
       Its outputs exist with the stated bytes and SHA-256, and its inputs are registry ids that exist.
       A NEW loose file at the top of results/ or directly in results/<module>/ is a FAIL.
       A NEW file in an old (baseline) result folder that has no manifest is a WARN (old folders are closed; use a new run folder).
@@ -18,8 +18,11 @@ Usage
   python3 check_project.py                       check the working tree (tracked + untracked, not ignored files)
   python3 check_project.py --commit <sha>        check the tree of one commit
   python3 check_project.py --pre-push <remote> <url>   (git pre-push hook; reads ref lines on stdin). For a module branch, the
-                                                 paths already on the remote branch also count as old.
-  python3 check_project.py --commit <sha> --base <sha>   check one commit; paths in the tree of --base also count as old
+                                                 paths of its frozen baseline (baseline/module_branches.json.gz) also count as old.
+  python3 check_project.py --commit <sha> [--base <sha>] [--branch <module branch>]   check one commit; paths in the tree of
+                                                 --base, or in the frozen baseline of --branch, also count as old
+  python3 check_project.py --make-module-baseline  at a registry build: freeze the paths and known C4 keys of every remote
+                                                 branch other than the working branch (commit the result)
   python3 check_project.py --report-existing <out.tsv> list every violation in the tree at HEAD (C1-C4), exit 0.
                                                  It reads every blob: use a full clone, not a blobless clone.
   python3 check_project.py --make-baseline       write baseline/ from HEAD (only at a registry rebuild; commit the result).
@@ -40,7 +43,14 @@ STATUS = {"CURRENT", "CURRENT_WITH_CAVEATS", "KNOWN_DEFECT", "SUPERSEDED", "WITH
 WS_PAT = re.compile("/" + "workspaces/" + "|" + "/" + r"\.claude-" + "science/")
 VERSION_PAT = re.compile(r"(?i)[-_ .](v[0-9]+|final|rev[0-9]+)(?=$|[-_ .()])")
 RESULTS_TOP_OK = {"INDEX.md", "README.md", "restricted-sources-ledger.md"}
-LEDGER_OK = re.compile(r"^[a-z0-9-]+-references\.(md|bib)$")   # module citation ledgers live at the top of results/
+LEDGER_NAMES = {"debris-drift", "ocean", "seabed-search"}   # phase-1 ledgers whose name is a topic, not a module name (checked 26 Oct 2026)
+MODRES = re.compile(r"^" + re.escape(PROJECT_DIR) + r"/engine/hypotheses/([a-z0-9-]+)/results-data/(.+)$")
+
+
+def ledger_ok(name):
+    """Module citation ledgers at the top of results/: <module>-references.md|bib for a name in modules.json (or LEDGER_NAMES)."""
+    m = re.match(r"^([a-z0-9-]+)-references\.(md|bib)$", name)
+    return bool(m) and (m.group(1) in load_modules() or m.group(1) in LEDGER_NAMES)
 TEXT_EXT = {".md", ".txt", ".csv", ".tsv", ".json", ".yaml", ".yml", ".py", ".rs", ".toml", ".sh", ".r", ".R", ".ipynb",
             ".html", ".tex", ".bib", ".cfg", ".ini", ".log", ".jl", ".m", ".js", ".ts", ""}
 MAX_SCAN = 20_000_000
@@ -112,6 +122,33 @@ def load_baseline():
     kv = BASE / "known_violations.json"
     known = set(json.load(open(kv))["keys"]) if kv.exists() else set()
     return paths, known
+
+
+MODBASE = BASE / "module_branches.json.gz"
+
+
+def load_module_baseline(branch):
+    """Frozen baseline of one module branch (made by --make-module-baseline at a registry build), or None."""
+    if not MODBASE.exists():
+        return None
+    return json.load(gzip.open(MODBASE, "rt")).get("branches", {}).get(branch)
+
+
+def make_module_baseline():
+    """At a registry build: freeze, for each remote branch other than the working branch, its paths and its known C4 keys."""
+    refs = [l.split() for l in git("for-each-ref", "--format=%(refname:short) %(objectname)", "refs/remotes/origin", cwd=TOP).splitlines()]
+    out = {}
+    for name, sha in refs:
+        b = name.split("/", 1)[1] if "/" in name else name
+        if b in ("HEAD", WORK_BRANCH) or name == "origin":
+            continue
+        view = CommitTree(sha)
+        paths = view.paths()
+        keys = sorted({k for k, _ in check_registries(load_registries(view, paths))})
+        out[b] = {"commit": sha, "n_paths": len(paths), "paths": paths, "known": keys}
+    with gzip.GzipFile(MODBASE, "wb", mtime=0) as fh:
+        fh.write(json.dumps({"made_from_working_head": git("rev-parse", "HEAD", cwd=TOP).strip(), "branches": out}).encode())
+    print(f"module baseline written: {len(out)} branches: " + ", ".join(f"{b}@{v['commit'][:8]}" for b, v in sorted(out.items())))
 
 
 def dirs_of(paths):
@@ -297,8 +334,9 @@ def version_names(path, new_dirs):
     return bad
 
 
-def check_result_folder(view, run_dir, files_in_dir, modules, reg_ids):
-    """C1 for one new run folder. Returns list of messages."""
+def check_result_folder(view, run_dir, files_in_dir, modules, reg_ids, module=None):
+    """C1 for one new run folder. Returns list of messages. module: the module of a run folder under
+    engine/hypotheses/<module>/results-data/ (there the parent folder is results-data)."""
     errs = []
     mpath = run_dir + "/manifest.json"
     if mpath not in files_in_dir:
@@ -308,7 +346,7 @@ def check_result_folder(view, run_dir, files_in_dir, modules, reg_ids):
     except Exception as ex:
         return [f"{mpath}: not valid JSON: {ex}"]
     errs += [f"{mpath}: {e}" for e in schema_errors(m)]
-    module, run_id = run_dir.split("/")[-2], run_dir.split("/")[-1]
+    module, run_id = (module or run_dir.split("/")[-2]), run_dir.split("/")[-1]
     if m.get("run_id") != run_id:
         errs.append(f"{mpath}: run_id {m.get('run_id')!r} differs from folder name {run_id!r}")
     if m.get("module") != module:
@@ -348,10 +386,12 @@ def load_modules():
     return set(json.load(open(HERE / "modules.json"))["modules"])
 
 
-def run_checks(view, added_lines=None, extra_base=None):
+def run_checks(view, added_lines=None, extra_base=None, extra_known=None):
     base, known = load_baseline()
     if extra_base:
-        base = set(base) | set(extra_base)   # module branch push: paths already on the remote branch count as old
+        base = set(base) | set(extra_base)   # module branch: paths in its frozen baseline (module_branches.json.gz) count as old
+    if extra_known:
+        known = set(known) | set(extra_known)
     modules = load_modules()
     paths = view.paths()
     pset = set(paths)
@@ -368,7 +408,7 @@ def run_checks(view, added_lines=None, extra_base=None):
             continue
         rel = p[len(RESULTS):].split("/")
         if len(rel) == 1:
-            if rel[0] not in RESULTS_TOP_OK and not LEDGER_OK.match(rel[0]):
+            if rel[0] not in RESULTS_TOP_OK and not ledger_ok(rel[0]):
                 fails.append(f"C1 {p}: new loose file at the top of results/. Put it in results/<module>/<run id>/ with manifest.json")
             continue
         top = RESULTS + rel[0]
@@ -387,9 +427,29 @@ def run_checks(view, added_lines=None, extra_base=None):
                 warns.append(f"C1 {p}: new file in old result folder {folder}/ that has a manifest; update its outputs list")
             else:
                 warns.append(f"C1 {p}: new file in old result folder {folder}/ (no manifest). Old folders are closed; use results/<module>/<run id>/")
+    # C1 for module run outputs: engine/hypotheses/<module>/results-data/<run id>/ (independent verifier, 26 Oct 2026)
+    mod_runs = {}
+    for p in new:
+        m = MODRES.match(p)
+        if not m:
+            continue
+        rel = m.group(2).split("/")
+        if len(rel) == 1:
+            fails.append(f"C1 {p}: new loose file directly in results-data/. Put it in a run folder results-data/<run id>/ with manifest.json"); continue
+        d = p[: len(p) - len(m.group(2))] + rel[0]
+        if d in new_dirs:
+            mod_runs[d] = m.group(1)
+        elif d + "/manifest.json" in pset:
+            warns.append(f"C1 {p}: new file in old module run folder {d}/ that has a manifest; update its outputs list")
+        else:
+            warns.append(f"C1 {p}: new file in old module run folder {d}/ (no manifest). Old folders are closed; use a new run folder")
     for d in sorted(run_dirs):
         inside = [p for p in paths if p.startswith(d + "/")]
         for e in check_result_folder(view, d, set(inside), modules, reg_ids):
+            fails.append("C1 " + e)
+    for d, mod in sorted(mod_runs.items()):
+        inside = [p for p in paths if p.startswith(d + "/")]
+        for e in check_result_folder(view, d, set(inside), modules, reg_ids, module=mod):
             fails.append("C1 " + e)
     # C2 and C3
     for p in new:
@@ -463,10 +523,17 @@ def pre_push():
         added = added_lines_in_range(rsha, lsha) if have_remote else None
         if added is None:
             print(f"check_project: no local copy of the remote head for {rref}; added lines in old files are not scanned (new files are)")
-        # A module branch (any ref other than the working branch) has its own tree. The baseline of the working branch does not
-        # describe it, so the paths already on the remote branch also count as old (phase 2, 26 Oct 2026).
-        extra = CommitTree(rsha).paths() if have_remote and rref != "refs/heads/" + WORK_BRANCH else None
-        r = run_checks(CommitTree(lsha), added, extra)
+        # A module branch (any ref other than the working branch) has its own tree. Its old paths are the paths of its frozen
+        # baseline (baseline/module_branches.json.gz, made at a registry build), not the moving remote tree (verifier, 26 Oct 2026).
+        extra = known_m = None
+        if rref != "refs/heads/" + WORK_BRANCH:
+            mb = load_module_baseline(rref[len("refs/heads/"):])
+            if mb is None:
+                print(f"check_project: no frozen baseline for {rref}; every path that is not in the working-branch baseline is new")
+            else:
+                extra, known_m = mb["paths"], mb["known"]
+                print(f"check_project: module baseline for {rref}: {mb['commit'][:12]} ({mb['n_paths']} paths)")
+        r = run_checks(CommitTree(lsha), added, extra, known_m)
         print_result(r)
         worst |= bool(r["fails"])
     if worst:
@@ -486,7 +553,7 @@ def existing_violations(view):
         if f + "/manifest.json" not in pset:
             rows.append(("C1", f + "/", "result folder has no manifest.json"))
     for p in paths:
-        if p.startswith(RESULTS) and "/" not in p[len(RESULTS):] and PurePosixPath(p).name not in RESULTS_TOP_OK and not LEDGER_OK.match(PurePosixPath(p).name):
+        if p.startswith(RESULTS) and "/" not in p[len(RESULTS):] and PurePosixPath(p).name not in RESULTS_TOP_OK and not ledger_ok(PurePosixPath(p).name):
             rows.append(("C1", p, "loose file at the top of results/"))
     all_dirs = dirs_of(paths)
     for p in paths:
@@ -515,6 +582,9 @@ def main():
     a = sys.argv[1:]
     if a[:1] == ["--pre-push"]:
         sys.exit(pre_push())
+    if a[:1] == ["--make-module-baseline"]:
+        make_module_baseline()
+        return
     if a[:1] == ["--make-baseline"]:
         BASE.mkdir(exist_ok=True)
         head = git("rev-parse", "HEAD", cwd=TOP).strip()
@@ -541,7 +611,12 @@ def main():
         return
     view = CommitTree(a[a.index("--commit") + 1]) if "--commit" in a else WorkTree()
     extra = CommitTree(a[a.index("--base") + 1]).paths() if "--base" in a else None
-    r = run_checks(view, None, extra)
+    known_m = None
+    if "--branch" in a:
+        mb = load_module_baseline(a[a.index("--branch") + 1])
+        if mb:
+            extra, known_m = (extra or []) + mb["paths"], mb["known"]
+    r = run_checks(view, None, extra, known_m)
     print_result(r)
     sys.exit(1 if r["fails"] else 0)
 

@@ -25,6 +25,15 @@ import import_memory_records as P1  # noqa: E402
 HERE = Path(__file__).resolve().parent
 WORK = HERE.parent
 LEDGER = "Claude Science Project Sep 29/results/hydroacoustics-references.md"
+# Independent verifier of 26 Oct 2026 (hydro-verifier-failures-2026-10-26.csv, check 6): facts found that the memory track did not find.
+HYDRO_VERIFIER_FIXES = {
+    "mem_e89bb8698858": {"status": "VERIFIED",
+                         "append_source": "CMST 2014-30 PDF p. 21 table: arrival 1.98-2.00 h after 00:00 UTC, bearing 92.5-93.5 deg, 'Small earthquake in the Java Trench'. CMST gives the time as a range; the exact time 01:58:55 is not printed.",
+                         "finding": "MINOR fixed 26 Oct 2026: item 1 (CMST) VERIFIED at PDF p. 21 (time is a range in CMST); item 2 was VERIFIED; status PARTIAL -> VERIFIED."},
+    "mem_bac90d8699b2": {"status": "VERIFIED",
+                         "append_source": "Arons relation Eq. 2 (Ppeak = 52.4e6 (R/W^1/3)^-1.13): arXiv 2604.12723 PDF p. 10. Leslie 1964, JASA 36:1138-1144 (Crossref 10.1121/1.1919174).",
+                         "finding": "MINOR fixed 26 Oct 2026: items 3 (Arons Eq. 2, arXiv 2604.12723 PDF p. 10) and 4 (Leslie 1964, Crossref 10.1121/1.1919174) found; items 1-2 were VERIFIED; status PARTIAL -> VERIFIED."},
+}
 TOPIC_NOTE = "note.memnote_hydroacoustics"
 
 
@@ -97,7 +106,7 @@ def main():
     for r in ch:
         if r["action"] != "move-to-citation-ledger" or "hydroacoustics-references" not in r["ledger_target"]:
             continue
-        mid = r["mem_id"]; f = facts.get(mid, {}); fx = P1.VERIFIER_FIXES.get(mid, {})
+        mid = r["mem_id"]; f = facts.get(mid, {}); fx = {**P1.VERIFIER_FIXES.get(mid, {}), **HYDRO_VERIFIER_FIXES.get(mid, {})}
         text, flags = P1.clean(mid, exp[mid]["body"], a.export_vid)
         if fx.get("corrected_text"):
             text = "[SUPERSEDED WORDING - the independent verifier found this text wrong; use the corrected text column] " + text

@@ -253,5 +253,21 @@
    "branch_commits_not_in_work": 0,
    "work_commits_not_in_branch": 1560
   }
+ },
+ "registry/project": {
+  "sha": "adf00c6ceac16765152fd1a31e7957d210c99b72",
+  "date": "2026-10-25T17:00:02-06:00",
+  "subject": "registry: check_project.py permits module citation ledgers at the top of results/",
+  "tree_sha": "6991cfba941f45de4c6277457203b48e2195c370",
+  "n_files": 17341,
+  "bytes": null,
+  "truncated": false,
+  "vs_work": {
+   "work_head": "b7b16d6e0b17c415e59236396f71405d23ab90c0",
+   "status": "merged"
+  },
+  "status": "SUPERSEDED",
+  "superseded_by": "claude-science-sep29 (merge commit e284c1877026d0f23b45a55e18f033b2192185ee and later)",
+  "note": "Added 26 Oct 2026 after the independent verifier: the project registry and check_project.py live on claude-science-sep29. Do not use registry/ from this branch (its check_project.py is older)."
  }
 }

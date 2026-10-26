@@ -2,7 +2,7 @@
 PY ?= python3
 MEMORIES ?= memories_export.json
 
-.PHONY: check report registry backfill build index baseline install-hooks
+.PHONY: check report registry backfill build index baseline baseline-modules install-hooks
 check:          ## rules for new work (C1-C4); fails on a new violation only
 	$(PY) check_project.py
 report:         ## list every existing violation (not fixed) in existing_violations.tsv
@@ -16,5 +16,7 @@ index:          ## results/INDEX.md and COVERAGE.md from REGISTRY.json
 registry: backfill build index
 baseline:       ## only at a registry rebuild: record the tracked paths that count as old
 	$(PY) check_project.py --make-baseline
+baseline-modules: ## at a registry build: freeze the paths and known C4 keys of each module branch (remote heads)
+	$(PY) check_project.py --make-module-baseline
 install-hooks:  ## install the pre-push check in this clone
 	sh install_hooks.sh

@@ -1,5 +1,12 @@
 #!/bin/sh
 # Project pre-push check: registry/check_project.py (rules for new work, clean-up proposal of 23 Oct 2026, section 5.6).
 # Installed by registry/install_hooks.sh. Git gives the pushed refs on standard input; the check reads them.
+# Push a module branch (hypothesis/<module>) from a claude-science-sep29 checkout: git push origin <local branch>:hypothesis/<module>.
+# A module branch does not hold registry/, so in a checkout of that branch the check script is not there and the push stops.
 top=$(git rev-parse --show-toplevel) || exit 1
-exec python3 "$top/Claude Science Project Sep 29/registry/check_project.py" --pre-push "$@"
+chk="$top/Claude Science Project Sep 29/registry/check_project.py"
+if [ ! -f "$chk" ]; then
+  echo "pre-push: $chk is not in this checkout. Push from a claude-science-sep29 checkout (RULE 1 in coordination/HYDROACOUSTICS.md)."
+  exit 1
+fi
+exec python3 "$chk" --pre-push "$@"
