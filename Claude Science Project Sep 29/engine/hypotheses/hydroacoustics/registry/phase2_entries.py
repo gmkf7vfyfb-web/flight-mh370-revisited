@@ -109,14 +109,14 @@ def main():
         e["status_evidence"] = [{"rank": "handoff", "source": f"WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:{sl}",
                                  "quote": hlines[sl - 1].strip()}]
         if x["id"].startswith("res.raw_ims"):
-            e["status_evidence"].append(ev_file("WORK", "coordination/HYDROACOUSTICS.md", "Independent verifier: 12 headline items", "verifier"))
+            e["status_evidence"].append(ev_file("WORK", "coordination/archive/HYDROACOUSTICS-2026-10-07-to-2026-10-26.md", "Independent verifier: 12 headline items", "verifier"))
         if x.get("defects") and any(not str(d).startswith("D") for d in x["defects"]):
             e["defects"] = ["D28"]
             e["status_note"] = "Hand-off defect text: " + "; ".join(str(d) for d in x["defects"])
         if not x["id"].startswith("res.raw_ims"):
-            # RULE 4 (coordination/HYDROACOUSTICS.md, 26 Oct 2026): only an independent verifier sets CURRENT. These three
+            # RULE 4 (coordination/HYDROACOUSTICS.md, 26 Oct 2026; inbox archived the same day to coordination/archive/HYDROACOUSTICS-2026-10-07-to-2026-10-26.md): only an independent verifier sets CURRENT. These three
             # entries have the producer's hand-off only (independent verifier of 26 Oct 2026, hydro-verifier-failures-2026-10-26.csv).
-            r4 = ev_file("WORK", "coordination/HYDROACOUSTICS.md", "RULE 4. A new result starts as UNCHECKED", "rule")
+            r4 = ev_file("WORK", "coordination/archive/HYDROACOUSTICS-2026-10-07-to-2026-10-26.md", "RULE 4. A new result starts as UNCHECKED", "rule")
             if e["status"] == "CURRENT":
                 e["status"] = "CURRENT_WITH_CAVEATS"
                 e["status_note"] = "Producer hand-off only; no independent verifier pass (RULE 4). The hand-off gives CURRENT; the registry gives CURRENT_WITH_CAVEATS."
@@ -150,7 +150,7 @@ def main():
     by = {x["path"]: x for x in E}
     bef, aft = by["WORK:results/hydroacoustics/profile-prompt-HYDROACOUSTIC_MODULE-before-2026-10-23.txt"], by["WORK:results/hydroacoustics/profile-prompt-HYDROACOUSTIC_MODULE-after-2026-10-23.txt"]
     bef.update(status="SUPERSEDED", status_rank="explicit", superseded_by=aft["id"],
-               status_evidence=[ev_file("WORK", "coordination/HYDROACOUSTICS.md", "The HYDROACOUSTIC_MODULE profile prompt was replaced", "explicit")])
+               status_evidence=[ev_file("WORK", "coordination/archive/HYDROACOUSTICS-2026-10-07-to-2026-10-26.md", "The HYDROACOUSTIC_MODULE profile prompt was replaced", "explicit")])
 
     # ---------- 3. back-to-basics (session c0b15646) and the other results folders ----------
     folders = collections.defaultdict(list)
