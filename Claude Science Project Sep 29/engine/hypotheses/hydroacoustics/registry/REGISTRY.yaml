@@ -4,6 +4,14 @@ hashing: true
 git:
   module_branch: '99d31191c37dd020239808af8e7f8e98eda73e34 2026-10-26T10:50:09-06:00 (head at build time; uncommitted changes in scope: yes)'
   work_branch: '336044b0b74581ab9f0044fa3523b643c3851ddf 2026-10-26T10:49:54-06:00 (head at build time; uncommitted changes in scope: no)'
+  pushed:
+    commit_with_this_build: 709926e1ca521a862ff38d85b585215de87fabb9
+    branch: hypothesis/hydroacoustics
+    sources_commit: 99d31191c37dd020239808af8e7f8e98eda73e34
+    work_branch_commit_read: 336044b0b74581ab9f0044fa3523b643c3851ddf
+    merged_into: claude-science-sep29 1ec339f92fc671c23e08d982cce28aeb1f8026d3
+    note: 'Added in the commit after the build (26 Oct 2026). Only this field changed; the manifests and entries are those of commit_with_this_build.
+      ''uncommitted changes in scope: yes'' in module_branch means the build had written its own manifests when it read the head.'
 roots:
   EX: /Users/pete/Downloads/mh370-exchange/hydroacoustics
   EOF: /Users/pete/Downloads/mh370-exchange/end-of-flight
