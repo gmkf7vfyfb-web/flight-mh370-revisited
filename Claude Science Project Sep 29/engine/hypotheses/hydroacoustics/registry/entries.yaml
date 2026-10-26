@@ -344,31 +344,31 @@ entries:
   verified_this_run: false
 - id: art.take2_review
   kind: product
-  path: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+  path: WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
   status: CURRENT_WITH_CAVEATS
   defects:
   - D10
   verified_this_run: false
   definition:
-    file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+    file: WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
     lines:
     - 1
     - 24
   note: Withdrawn in part (header lists what is kept). Exploratory; not pre-registered.
 - id: art.candidates_withdrawal
   kind: product
-  path: ART:a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md
+  path: WORK:Hydroacoustic Handover/artifacts/a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md
   status: CURRENT
   defects: []
   verified_this_run: false
   definition:
-    file: ART:a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md
+    file: WORK:Hydroacoustic Handover/artifacts/a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md
     lines:
     - 1
     - 3
 - id: art.candidates_A_F
   kind: product
-  path: ART:a35831fe/b5497699_candidates-A-F-summary.csv
+  path: WORK:Hydroacoustic Handover/artifacts/a35831fe/b5497699_candidates-A-F-summary.csv
   status: WITHDRAWN
   defects:
   - D10
@@ -377,7 +377,7 @@ entries:
   verified_this_run: false
 - id: art.feasibility_tables
   kind: product
-  path: ART:a35831fe
+  path: WORK:Hydroacoustic Handover/artifacts/a35831fe
   status: WITHDRAWN
   defects:
   - D10
@@ -386,7 +386,7 @@ entries:
     and candA_raw_panel_checks.csv are not.
 - id: art.royer_crossid
   kind: product
-  path: ART:a35831fe/239646ad_royer-events-crossid-all-sites.csv
+  path: WORK:Hydroacoustic Handover/artifacts/a35831fe/239646ad_royer-events-crossid-all-sites.csv
   status: CURRENT_WITH_CAVEATS
   defects: []
   verified_this_run: false
@@ -1221,7 +1221,7 @@ constants:
   status: AGENT_CHOICE_NOT_RULED
   note: Used by the Take 2 review; chance rate taken as 3/10 for a 10 s shot cadence.
   source:
-    file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+    file: WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
     lines:
     - 159
     - 159
@@ -1273,7 +1273,7 @@ defects:
     lines:
     - 90
     - 90
-  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+  - file: WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
     lines:
     - 159
     - 159
@@ -1286,7 +1286,7 @@ defects:
     lines:
     - 6
     - 7
-  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+  - file: WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
     lines:
     - 164
     - 164
@@ -1301,7 +1301,7 @@ defects:
     lines:
     - 90
     - 90
-  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+  - file: WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
     lines:
     - 165
     - 165
@@ -1325,7 +1325,7 @@ defects:
     lines:
     - 90
     - 90
-  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+  - file: WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
     lines:
     - 168
     - 168
@@ -1338,7 +1338,7 @@ defects:
     time is +20 s from icequake A (00:51:42.99) and the caption time +17.6 s from event 5 (00:54:12.44). The figure-versus-table offset is an
     open question for Royer. "Time-consistent" is not identification.'
   evidence:
-  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+  - file: WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
     lines:
     - 160
     - 160
@@ -1349,7 +1349,7 @@ defects:
   title: Coincidences whose direct path to the receiver crosses land
   what: 'Example: Kadri 00:40:34 row x Portland 3275; 201 of 2,000 path points above sea level in GEBCO 2026.'
   evidence:
-  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+  - file: WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
     lines:
     - 171
     - 171
@@ -1358,7 +1358,7 @@ defects:
   title: Flight-only Pleiades layer used as if conditional on the Pleiades objects
   what: Early candidate maps used the "post" layer, which is flight-only.
   evidence:
-  - file: ART:a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md
+  - file: WORK:Hydroacoustic Handover/artifacts/a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md
     lines:
     - 12
     - 12
@@ -1367,7 +1367,7 @@ defects:
   title: Candidates A-F withdrawn
   what: Withdrawn at Pete's instruction, 23 Oct 2026, for six stated reasons.
   evidence:
-  - file: ART:a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md
+  - file: WORK:Hydroacoustic Handover/artifacts/a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md
     lines:
     - 1
     - 12
@@ -1447,7 +1447,7 @@ defects:
   title: Searches covered only the pre-registered windows
   what: Held IMOS records outside the windows (for example the CMST 01:34 event) were not searched; free known-event checks were lost.
   evidence:
-  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+  - file: WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
     lines:
     - 172
     - 172
@@ -1460,7 +1460,7 @@ defects:
     lines:
     - 69
     - 69
-  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+  - file: WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
     lines:
     - 169
     - 169
@@ -1469,7 +1469,7 @@ defects:
   title: Cape Leeuwin and Diego Garcia p-values are not calibrated
   what: Digitised plots at about 14.5 points per second with an emulated IMOS noise reference.
   evidence:
-  - file: ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
+  - file: WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md
     lines:
     - 166
     - 166

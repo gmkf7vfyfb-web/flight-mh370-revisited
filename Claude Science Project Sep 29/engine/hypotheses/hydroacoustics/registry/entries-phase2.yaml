@@ -1,0 +1,1958 @@
+registry_version: hydro-registry v1, phase 2 (2026-10-26)
+generated_by: registry/phase2_entries.py (do not edit by hand)
+entries:
+- id: res.source_survey_2026_10_23
+  kind: product
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23
+  status: CURRENT_WITH_CAVEATS
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/impact-and-other-sources-synthesis-2026-10-23.md
+    lines:
+    - 1
+    - 30
+  note: Literature and catalogue survey of impact acoustic sources, other sources and 45 online catalogues. Review, not a measurement. Several primaries read at abstract
+    level only (stated in each note). (12 files)
+  file_list:
+  - README.md
+  - coupling-evidence-register.csv
+  - coupling-prior-range.csv
+  - coupling-structure-proposal-2026-10-24.md
+  - hydro-known-sources-catalogue-review.md
+  - hydroacoustics-other-sources-review.md
+  - impact-and-other-sources-synthesis-2026-10-23.md
+  - impact-source-parameters.csv
+  - impact-source-review.md
+  - known-events-6-10mar2014.csv
+  - other-source-characteristics.csv
+  - source-catalogues.csv
+  status_rank: handoff
+  status_evidence:
+  - rank: handoff
+    source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:7
+    quote: 'status: CURRENT_WITH_CAVEATS'
+  producing_thread: c764a583 (Aircraft Impact Acoustic Source Survey)
+  handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.source_survey_2026_10_23.tsv.gz
+  superseded_by: null
+- id: res.next_steps_2026_10_24
+  kind: product
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24
+  status: CURRENT_WITH_CAVEATS
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/next-steps-results-2026-10-24.md
+    lines:
+    - 1
+    - 30
+  note: 'Exploratory: open IMS March background 2015-2019 (proxy for 2014), island seismometers, Royer labelled set, AADC access, Metz near field re-digitised, Swissair
+    111 seismic. Nothing returns a likelihood. 4.2x near/far wording corrected 24 Oct (2.0x against KRAKEN+RAM). (40 files)'
+  file_list:
+  - aadc-2014-access.csv
+  - aadc-moorings-note.md
+  - airliner-ocean-impacts-archive-check.png
+  - airliner-ocean-impacts-seismic-cases.csv
+  - airliner-ocean-impacts-station-tests.csv
+  - airliner-seismic-cases-note.md
+  - fig1-ims-march-noise-spectra.png
+  - fig2-ims-time-of-day-noise.png
+  - fig3-ims-arrival-bearings.png
+  - fig4-ims-arc-direction-rates.png
+  - h01w-array-calibration.json
+  - ims-march-false-alarm-rates.csv
+  - ims-march-noise-percentiles.csv
+  - ims-march-noise-vs-references.csv
+  - ims-march-scripts.zip
+  - ims-open-availability.csv
+  - ims-open-march-background-note.md
+  - island-impact-window-unexplained.csv
+  - island-seismic-associations.csv
+  - island-seismic-check-note.md
+  - island-seismic-detections.csv
+  - metz-fig1-digitisation-check.png
+  - metz-fig2-digitised-DSOH.csv
+  - metz-fig2-digitised-KSP1.csv
+  - metz-fig2-digitised-KSP2.csv
+  - metz-fig2-digitised-KSP3.csv
+  - metz-fig2-envelopes-near-far.png
+  - metz-fig3-spectra-near-far.png
+  - metz-fig4-band-timing.png
+  - metz-fig5-coupling-near-far.png
+  - metz-geometry.csv
+  - metz-nearfield-derived.csv
+  - metz-nearfield-eta.csv
+  - metz-nearfield-note.md
+  - metz-source-slope.csv
+  - next-steps-results-2026-10-24.md
+  - royer-events-labelled-set.csv
+  - swissair111-energy-sensitivity.csv
+  - swissair111-lmn-record.png
+  - swissair111-seismic.csv
+  status_rank: handoff
+  status_evidence:
+  - rank: handoff
+    source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:20
+    quote: 'status: CURRENT_WITH_CAVEATS'
+  producing_thread: c764a583 (Aircraft Impact Acoustic Source Survey)
+  handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.next_steps_2026_10_24.tsv.gz
+  superseded_by: null
+- id: res.coupling_db_package_2026_10_25
+  kind: product
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/coupling-db-package-2026-10-25
+  status: CURRENT
+  defects: []
+  verified_this_run: false
+  definition:
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/coupling-db-package-2026-10-25/README.md
+    lines:
+    - 1
+    - 30
+  note: Coupling import package for hydro_data.sqlite; validator passes 17/17 checks and the negative test fails as intended. Family priors are PROPOSED_STRUCTURE
+    (structure awaits Pete), values are EVIDENCE. (10 files)
+  file_list:
+  - README.md
+  - db_coupling_evidence.csv
+  - db_coupling_family.csv
+  - db_coupling_value.csv
+  - db_data_availability_probe.csv
+  - db_family_element_evidence.csv
+  - db_impact_case.csv
+  - db_received_observation.csv
+  - db_reference_event.csv
+  - validate_coupling_tables.py
+  status_rank: handoff
+  status_evidence:
+  - rank: handoff
+    source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:33
+    quote: 'status: CURRENT'
+  producing_thread: c764a583 (Aircraft Impact Acoustic Source Survey)
+  handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.coupling_db_package_2026_10_25.tsv.gz
+  superseded_by: null
+- id: res.raw_ims_2026_10_25
+  kind: product
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25
+  status: CURRENT_WITH_CAVEATS
+  defects: []
+  verified_this_run: true
+  definition:
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/README.md
+    lines:
+    - 1
+    - 25
+  note: Four exploratory raw-IMS analyses (25 Oct 2026) with independent verifier pass (9 AGREE, 3 MINOR, 0 DISAGREE); errata listed in README apply. Nothing is a
+    likelihood. (1 top-level files)
+  file_list:
+  - README.md
+  status_rank: handoff
+  status_evidence:
+  - rank: handoff
+    source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:48
+    quote: 'status: CURRENT_WITH_CAVEATS'
+  - rank: verifier
+    source: WORK:coordination/HYDROACOUSTICS.md:1844
+    quote: '- Independent verifier: 12 headline items recomputed from raw data, 9 AGREE, 3 MINOR, 0 DISAGREE. Errata (7, README) apply; notes are not edited.'
+  producing_thread: c764a583 (Aircraft Impact Acoustic Source Survey)
+  handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.raw_ims_2026_10_25.tsv.gz
+  superseded_by: null
+- id: res.raw_ims_2026_10_25.f35a_raw_ridge
+  kind: product
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/f35a-raw-ridge
+  status: CURRENT_WITH_CAVEATS
+  defects: []
+  verified_this_run: true
+  definition:
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/f35a-raw-ridge/f35a-raw-ridge-note.md
+    lines:
+    - 1
+    - 30
+  note: 'F-35A raw H11 re-derivation: raw exposure +0.22-0.29 dB over digitised; 20 Hz gap at 6/6 elements; D1 ridge (f^-2 module form, KRAKEN+RAM, 900 MJ) 2.40e-3
+    at 10 m (1.06x CV02), sigma_ln 0.61; f^-4 family not supported; per-triad coupled-mode sensitivity 1.81e-3; Arons D2 5.4e-4 (4-64 Hz); back-azimuth 3-4 deg off
+    Metz (unresolved). Verifier: F1 F3 F4 AGREE, F2 MINOR. Erratum 1 (wording) and 4 apply. (32 files)'
+  file_list:
+  - f35a-raw-band-exposure.csv
+  - f35a-raw-bazimuth-windows.csv
+  - f35a-raw-bazimuth.csv
+  - f35a-raw-corner-fit.csv
+  - f35a-raw-coupling-rows.csv
+  - f35a-raw-d2-elements.csv
+  - f35a-raw-d2.csv
+  - f35a-raw-d4.csv
+  - f35a-raw-envelopes.png
+  - f35a-raw-gap-test.csv
+  - f35a-raw-lowfreq-check.csv
+  - f35a-raw-measurements.csv
+  - f35a-raw-prereg.md
+  - f35a-raw-ram-delta.csv
+  - f35a-raw-received-observation-rows.csv
+  - f35a-raw-ridge-note.md
+  - f35a-raw-ridge.csv
+  - f35a-raw-ridge.png
+  - f35a-raw-source-slope.csv
+  - f35a-raw-source-spectrum.csv
+  - f35a-raw-source-spectrum.png
+  - f35a-raw-spectra.csv
+  - f35a-raw-spectra.png
+  - f35a-raw-tl-kraken.csv
+  - f35a_raw_analysis.py
+  - fetch_raw.py
+  - make_db_rows.py
+  - make_figures.py
+  - ram_ridge.py
+  - raw_lib.py
+  - tl_ridge.py
+  - validator_output.txt
+  status_rank: handoff
+  status_evidence:
+  - rank: handoff
+    source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:61
+    quote: 'status: CURRENT_WITH_CAVEATS'
+  - rank: verifier
+    source: WORK:coordination/HYDROACOUSTICS.md:1844
+    quote: '- Independent verifier: 12 headline items recomputed from raw data, 9 AGREE, 3 MINOR, 0 DISAGREE. Errata (7, README) apply; notes are not edited.'
+  producing_thread: c764a583 (Aircraft Impact Acoustic Source Survey)
+  handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.raw_ims_2026_10_25.f35a_raw_ridge.tsv.gz
+  superseded_by: null
+- id: res.raw_ims_2026_10_25.transair_810
+  kind: product
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/transair-810
+  status: CURRENT_WITH_CAVEATS
+  defects: []
+  verified_this_run: true
+  definition:
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/transair-810/transair810-note.md
+    lines:
+    - 1
+    - 30
+  note: 'Transair 810 ditching at Wake: no significant detection in the predicted window (module M1b p 0.079/0.095, not re-verified); Kadri''s boxed burst real but
+    from 152.6 deg (expected 79.2); R3 upper limit eta_rad <= ~0.14x F-35A ridge (H11S). Verifier: T1 T2 AGREE. Erratum 7 applies. (41 files)'
+  file_list:
+  - arrival_geometry.csv
+  - bearing_check_f35a.txt
+  - db_coupling_evidence_new_rows.csv
+  - db_coupling_value_new_rows.csv
+  - db_data_availability_probe_new_rows.csv
+  - db_family_element_evidence_R3_update.csv
+  - db_impact_case_AC05_update.csv
+  - db_received_observation_new_rows.csv
+  - detection_probability_L50.csv
+  - download_log.csv
+  - eta_rad_upper_limit_grid.csv
+  - eta_rad_upper_limit_primary.csv
+  - f35a_templates.json
+  - fdr_attach1.csv
+  - fig3_coupling_upper_limit.pdf
+  - fig3_coupling_upper_limit.png
+  - injection_results.csv
+  - kadri_fig5b_digitised_columns.csv
+  - likelihood_ratio_pw.csv
+  - likelihood_ratio_pw_amplitude_EXPLORATORY.csv
+  - ntsb_primary_facts.csv
+  - null_window_scores.csv
+  - observed_windows_prereg.csv
+  - ram_vs_kraken_transair.csv
+  - summary.json
+  - ta810_bearing_check_f35a.py
+  - ta810_common.py
+  - ta810_db_rows.py
+  - ta810_detect.py
+  - ta810_download.py
+  - ta810_facts_tables.py
+  - ta810_inject.py
+  - ta810_ram.py
+  - ta810_results.py
+  - ta810_template.py
+  - ta810_tl.csv
+  - ta810_tl.py
+  - transair810-note.md
+  - transair810-preregistration.md
+  - transair_H11_resp.xml
+  - validator_output.txt
+  status_rank: handoff
+  status_evidence:
+  - rank: handoff
+    source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:74
+    quote: 'status: CURRENT_WITH_CAVEATS'
+  - rank: verifier
+    source: WORK:coordination/HYDROACOUSTICS.md:1844
+    quote: '- Independent verifier: 12 headline items recomputed from raw data, 9 AGREE, 3 MINOR, 0 DISAGREE. Errata (7, README) apply; notes are not edited.'
+  producing_thread: c764a583 (Aircraft Impact Acoustic Source Survey)
+  handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.raw_ims_2026_10_25.transair_810.tsv.gz
+  superseded_by: null
+- id: res.raw_ims_2026_10_25.kadri_2024_replication
+  kind: product
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/kadri-2024-replication
+  status: CURRENT_WITH_CAVEATS
+  defects:
+  - D28
+  verified_this_run: true
+  definition:
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/kadri-2024-replication/kadri-replication-note.md
+    lines:
+    - 1
+    - 30
+  note: 'Kadri 2024 (Sci. Rep. 14:10102) is a COMPARISON SET: F-35A reproduced and consistent; Transair, Sriwijaya, AB1103, AirAsia boxed signals real but not consistent
+    with the crash sites under the project path model; Lion Air 610 no detection. Not evidence that Kadri erred. Verifier: K2 K3 AGREE, K1 MINOR. Errata 2 and 3 apply.
+    (16 files)'
+  file_list:
+  - analyse.py
+  - cases.py
+  - digitise_panels.py
+  - download.py
+  - fig_timelines_predicted_vs_kadri.png
+  - figures.py
+  - geometry.py
+  - kadri-preregistration.md
+  - kadri-reconciliation.csv
+  - kadri-replication-note.md
+  - kadri_box_bearing_robustness_POSTHOC.csv
+  - kadri_timing_checks.csv
+  - measure.py
+  - reproduction_match.csv
+  - water_route.py
+  - window_statistics.csv
+  status_rank: handoff
+  status_evidence:
+  - rank: handoff
+    source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:87
+    quote: 'status: CURRENT_WITH_CAVEATS'
+  - rank: verifier
+    source: WORK:coordination/HYDROACOUSTICS.md:1844
+    quote: '- Independent verifier: 12 headline items recomputed from raw data, 9 AGREE, 3 MINOR, 0 DISAGREE. Errata (7, README) apply; notes are not edited.'
+  status_note: 'Hand-off defect text: route length overstated 1-4 %: Sriwijaya/AB1103 offsets too negative by ~26/84 s (README erratum 2)'
+  producing_thread: c764a583 (Aircraft Impact Acoustic Source Survey)
+  handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.raw_ims_2026_10_25.kadri_2024_replication.tsv.gz
+  superseded_by: null
+- id: res.raw_ims_2026_10_25.propagation_level_check
+  kind: product
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/propagation-level-check
+  status: CURRENT_WITH_CAVEATS
+  defects: []
+  verified_this_run: true
+  definition:
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/propagation-level-check/propagation-level-check-note.md
+    lines:
+    - 1
+    - 30
+  note: 'Known-energy explosions at Ascension (San Juan charge and event, FSST 2016/2021): stage-1b -14.4 dB level FAIL mostly a PSD-to-energy unit conversion (~7
+    dB); residual slope -3.7 to +2.9 dB/oct over 17 pairs (airgun misfit attributed to airgun source term, caveat wording awaits Pete); provisional sigma_model ~5
+    dB + ~4 dB source + >=6 dB ridge path; M1b detects real San Juan arrival at p floor but weak at 16-24 dB SNR. Verifier: P1 P3 AGREE, P2 MINOR. Errata 5 and 6
+    apply. (57 files)'
+  file_list:
+  - arrivals_levels_by_element.csv
+  - backazimuth_by_triad.csv
+  - bathy_sjcV-H10N.csv
+  - d2_arons.csv
+  - db_coupling_value_new_rows.csv
+  - db_received_observation.csv
+  - download_log.json
+  - explosion_radiated_fraction.csv
+  - fig_charge_spectra.png
+  - fr2008_e8.pdf
+  - m1b_real_arrival.csv
+  - meas_bands.csv
+  - meas_baz.csv
+  - meas_elements.csv
+  - nielsen_fig5c_vs_raw.csv
+  - peaks_by_band.csv
+  - prereg.md
+  - propagation-level-check-note.md
+  - residuals.csv
+  - sanjuan_event_energy_vs_depth.csv
+  - sanjuan_event_tnt_equivalent.csv
+  - scores.csv
+  - scores_primary.csv
+  - scripts/collect_ram.py
+  - scripts/fig_charge_spectra.py
+  - scripts/fig_m1b.py
+  - scripts/fig_residuals.py
+  - scripts/fig_sanjuan_event.py
+  - scripts/footnotes.py
+  - scripts/meas.py
+  - scripts/s01_download.py
+  - scripts/s02_measure.py
+  - scripts/s03_paths.py
+  - scripts/s04_tl.py
+  - scripts/s05_source.py
+  - scripts/s06_score.py
+  - scripts/s07_m1b.py
+  - scripts/s08_published.py
+  - scripts/s09_d2_source.py
+  - scripts/s10_db_obs.py
+  - scripts/s11_sigma.py
+  - scripts/s12_db_rows.py
+  - scripts/s13_energy.py
+  - scripts/s14_event_weq.py
+  - sigma_model_pooled_by_band.csv
+  - sigma_model_summary.csv
+  - sigma_model_table.csv
+  - sj_charge_resp.xml
+  - sj_event_resp.xml
+  - source_inversion.csv
+  - source_levels.csv
+  - ssp_sjcV-H10N.csv
+  - station_difference.csv
+  - tl_kraken.csv
+  - tl_ram.csv
+  - triad_bands.csv
+  - validator_output.txt
+  status_rank: handoff
+  status_evidence:
+  - rank: handoff
+    source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:100
+    quote: 'status: CURRENT_WITH_CAVEATS'
+  - rank: verifier
+    source: WORK:coordination/HYDROACOUSTICS.md:1844
+    quote: '- Independent verifier: 12 headline items recomputed from raw data, 9 AGREE, 3 MINOR, 0 DISAGREE. Errata (7, README) apply; notes are not edited.'
+  producing_thread: c764a583 (Aircraft Impact Acoustic Source Survey)
+  handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.raw_ims_2026_10_25.propagation_level_check.tsv.gz
+  superseded_by: null
+- id: res.raw_ims_2026_10_25.db_rows_merged
+  kind: product
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/db-rows-merged
+  status: CURRENT
+  defects: []
+  verified_this_run: true
+  definition:
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/db-rows-merged/merge_wave3_rows.py
+    lines:
+    - 1
+    - 30
+  note: All wave-3 DB rows with unique ids (CV26-CV123, OB07-OB81, E18, AC05/R3 updates); id-map.csv keeps track ids; validator PASS 0 failures on base package +
+    rows. For the data-inventory thread to import (one writer). (6 files)
+  file_list:
+  - db_coupling_value_wave3.csv
+  - db_impact_case_AC05_update.csv
+  - db_received_observation_wave3.csv
+  - id-map.csv
+  - merge_wave3_rows.py
+  - validator_output.txt
+  status_rank: handoff
+  status_evidence:
+  - rank: handoff
+    source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:113
+    quote: 'status: CURRENT'
+  - rank: verifier
+    source: WORK:coordination/HYDROACOUSTICS.md:1844
+    quote: '- Independent verifier: 12 headline items recomputed from raw data, 9 AGREE, 3 MINOR, 0 DISAGREE. Errata (7, README) apply; notes are not edited.'
+  producing_thread: c764a583 (Aircraft Impact Acoustic Source Survey)
+  handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.raw_ims_2026_10_25.db_rows_merged.tsv.gz
+  superseded_by: null
+- id: res.raw_ims_2026_10_25.independent_verification
+  kind: product
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/independent-verification
+  status: CURRENT
+  defects: []
+  verified_this_run: true
+  definition:
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/independent-verification/wave3-verifier-report.md
+    lines:
+    - 1
+    - 30
+  note: 'Independent recomputation of 12 headline items from raw data: 9 AGREE, 3 MINOR, 0 DISAGREE, 0 NOT VERIFIED. Not re-verified: module M1b p-values, KRAKEN/RAM
+    runs. (3 files)'
+  file_list:
+  - wave3-verifier-checks.csv
+  - wave3-verifier-report.md
+  - wave3-verifier-scripts.tar.gz
+  status_rank: handoff
+  status_evidence:
+  - rank: handoff
+    source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:126
+    quote: 'status: CURRENT'
+  - rank: verifier
+    source: WORK:coordination/HYDROACOUSTICS.md:1844
+    quote: '- Independent verifier: 12 headline items recomputed from raw data, 9 AGREE, 3 MINOR, 0 DISAGREE. Errata (7, README) apply; notes are not edited.'
+  producing_thread: c764a583 (Aircraft Impact Acoustic Source Survey)
+  handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.raw_ims_2026_10_25.independent_verification.tsv.gz
+  superseded_by: null
+- id: note.registry_handoff_c764a583
+  kind: note
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff
+  note: 'Registry hand-off of session c764a583: entries-c764a583.yaml and 10 manifests (record of what that session proposed).'
+  producing_thread: c764a583 (Aircraft Impact Acoustic Source Survey)
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: note.hydro_index
+  kind: note
+  path: WORK:results/hydroacoustics/INDEX.md
+  note: Hydroacoustics index, generated from the hydro registry on hypothesis/hydroacoustics (make_index.py). Do not edit by hand.
+  hash: false
+  hash_note: generated from this registry after each build (make_index.py), so a hash in the registry would always be one build old; not hashed
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.hydro_decisions_json
+  kind: product
+  path: WORK:results/hydroacoustics/decisions.json
+  note: decisions.json
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: note.hydro_decisions
+  kind: note
+  path: WORK:results/hydroacoustics/decisions.md
+  note: 'Hydroacoustics: Pete''s rulings and standards, in his own words'
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: note.hydro_profile_prompt_hydroacoustic_module_after_2026_10_23
+  kind: note
+  path: WORK:results/hydroacoustics/profile-prompt-HYDROACOUSTIC_MODULE-after-2026-10-23.txt
+  note: profile-prompt-HYDROACOUSTIC_MODULE-after-2026-10-23.txt
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: note.hydro_profile_prompt_hydroacoustic_module_before_2026_10_23
+  kind: note
+  path: WORK:results/hydroacoustics/profile-prompt-HYDROACOUSTIC_MODULE-before-2026-10-23.txt
+  note: profile-prompt-HYDROACOUSTIC_MODULE-before-2026-10-23.txt
+  defects: []
+  verified_this_run: false
+  status: SUPERSEDED
+  status_rank: explicit
+  status_evidence:
+  - rank: explicit
+    source: WORK:coordination/HYDROACOUSTICS.md:1746
+    quote: '**Read first, every hydroacoustic session:** `results/hydroacoustics/INDEX.md` (generated from the registry), `results/hydroacoustics/decisions.md` (Pete''s
+      rulings, his words, each quote checked as an exact substring of his message), `results/hydroacoustics/proposals.md` (not rules). The HYDROACOUSTIC_MODULE profile
+      prompt was replaced (old and new text in `results/hydroacoustics/profile-prompt-*`'
+  superseded_by: note.hydro_profile_prompt_hydroacoustic_module_after_2026_10_23
+- id: note.hydro_proposals
+  kind: note
+  path: WORK:results/hydroacoustics/proposals.md
+  note: 'Hydroacoustics: agent proposals waiting for Pete'
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.audit
+  kind: product
+  path: WORK:results/hydroacoustics-audit
+  note: hydroacoustics-audit (75 files)
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.back_to_basics_2026_10_23.airgun_surveys
+  kind: product
+  path: WORK:results/hydroacoustics-back-to-basics-2026-10-23/airgun-surveys
+  note: 'Seismic airgun surveys heard on 8 March 2014: identification, location and removal'
+  producing_thread: c0b15646 (Hydroacoustic Site Noise Characterization Review)
+  definition:
+    file: WORK:results/hydroacoustics-back-to-basics-2026-10-23/airgun-surveys/README_airgun_surveys.md
+    lines:
+    - 1
+    - 6
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/hydroacoustics-back-to-basics-2026-10-23/airgun-surveys/README_airgun_surveys.md:4
+    quote: 'Status: **predictive and diagnostic, not a likelihood.** All Diego Garcia (H08S), Cape Leeuwin (H01W) and OHASISBIO inputs are digitised from published
+      figures. Every number that rests on them is **provisional**.'
+  defects: []
+  verified_this_run: false
+  superseded_by: null
+- id: res.back_to_basics_2026_10_23.imos_full_deployment_noise
+  kind: product
+  path: WORK:results/hydroacoustics-back-to-basics-2026-10-23/imos-full-deployment-noise
+  note: IMOS full-deployment noise statistics and the place of 8 March 2014 in them
+  producing_thread: c0b15646 (Hydroacoustic Site Noise Characterization Review)
+  definition:
+    file: WORK:results/hydroacoustics-back-to-basics-2026-10-23/imos-full-deployment-noise/NOTE_imos_deployment_noise.md
+    lines:
+    - 1
+    - 6
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.back_to_basics_2026_10_23.noise_vs_levels_corrected
+  kind: product
+  path: WORK:results/hydroacoustics-back-to-basics-2026-10-23/noise-vs-levels-corrected
+  note: Noise against predicted levels, corrected 23 Oct 2026
+  producing_thread: c0b15646 (Hydroacoustic Site Noise Characterization Review)
+  definition:
+    file: WORK:results/hydroacoustics-back-to-basics-2026-10-23/noise-vs-levels-corrected/README.md
+    lines:
+    - 1
+    - 6
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.back_to_basics_2026_10_23.whale_calls
+  kind: product
+  path: WORK:results/hydroacoustics-back-to-basics-2026-10-23/whale-calls
+  note: 'Whale calls in the 8 March 2014 hydroacoustic data (track: whale calls, 23 Oct 2026)'
+  producing_thread: c0b15646 (Hydroacoustic Site Noise Characterization Review)
+  definition:
+    file: WORK:results/hydroacoustics-back-to-basics-2026-10-23/whale-calls/README.md
+    lines:
+    - 1
+    - 6
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.calibration_events_stage1_standin
+  kind: product
+  path: WORK:results/hydroacoustics-calibration-events-stage1-standin
+  note: hydroacoustics-calibration-events-stage1-standin (13 files)
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.graphics_2026_10_22.arrival_windows
+  kind: product
+  path: WORK:results/hydroacoustics-graphics-2026-10-22/arrival-windows
+  note: 'Hydroacoustics graphics 22 Oct 2026, track "arrival-windows": what the data hold at every receiver when each candidate''s sound should arrive'
+  definition:
+    file: WORK:results/hydroacoustics-graphics-2026-10-22/arrival-windows/README.md
+    lines:
+    - 1
+    - 6
+  status: CURRENT_WITH_CAVEATS
+  status_rank: readme
+  status_evidence:
+  - rank: readme
+    source: WORK:results/hydroacoustics-graphics-2026-10-22/arrival-windows/README.md:5
+    quote: '**Status: PREDICTIVE, NOT CALIBRATED. No detection is claimed.** Caveats C1 (sound-loss slope misfit, +10.4/+7.4 dB per octave at H01W/H08S) and C2 (coupling
+      efficiency not calibrated; F-35A upper anchor 2.1e-4) apply to every expected level. Data marked digitised (Kadri 2024 Fig. 9 panels; Royer 2016 spectrograms,
+      picks and figure marks) are copies of published figures, not recordings. Kadri time'
+  defects: []
+  verified_this_run: false
+  superseded_by: null
+- id: res.graphics_2026_10_22.metz_f35a
+  kind: product
+  path: WORK:results/hydroacoustics-graphics-2026-10-22/metz-f35a
+  note: hydroacoustics-graphics-2026-10-22/metz-f35a (10 files)
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.graphics_2026_10_22.pair_g
+  kind: product
+  path: WORK:results/hydroacoustics-graphics-2026-10-22/pair-g
+  note: Pair G updates of the seven example charts (22 Oct 2026)
+  definition:
+    file: WORK:results/hydroacoustics-graphics-2026-10-22/pair-g/README.md
+    lines:
+    - 1
+    - 6
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.graphics_2026_10_22.ranking_energy
+  kind: product
+  path: WORK:results/hydroacoustics-graphics-2026-10-22/ranking-energy
+  note: 'Hydroacoustics graphics 22 Oct 2026 — track: ranked candidates and impact energy / coupling'
+  definition:
+    file: WORK:results/hydroacoustics-graphics-2026-10-22/ranking-energy/README.md
+    lines:
+    - 1
+    - 6
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.graphics_2026_10_22.sources_correction
+  kind: product
+  path: WORK:results/hydroacoustics-graphics-2026-10-22/sources-correction
+  note: hydroacoustics-graphics-2026-10-22/sources-correction (10 files)
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.graphics_2026_10_22.updated_examples
+  kind: product
+  path: WORK:results/hydroacoustics-graphics-2026-10-22/updated-examples
+  note: Updated example charts 1–10 (graphics track "updated-examples", 22 Oct 2026)
+  definition:
+    file: WORK:results/hydroacoustics-graphics-2026-10-22/updated-examples/README.md
+    lines:
+    - 1
+    - 6
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+  status_note: 'Charts 1-3 and their companions of this folder are replaced by res.back_to_basics_2026_10_23.noise_vs_levels_corrected and are no longer in the repo
+    (WORK:results/hydroacoustics-back-to-basics-2026-10-23/noise-vs-levels-corrected/README.md:3). The remaining charts 4-10 have no status record. The README names
+    the coupling value 2.1e-4 (registry defect D01 is about that value; not applied here: no record links them).'
+- id: res.next_run_b_standin
+  kind: product
+  path: WORK:results/hydroacoustics-next-run-b-standin
+  note: hydroacoustics-next-run-b-standin (21 files)
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.pleiades_test_standin
+  kind: product
+  path: WORK:results/hydroacoustics-pleiades-test-standin
+  note: hydroacoustics-pleiades-test-standin (11 files)
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_agw_scenarios_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-agw-scenarios.pdf
+  note: hydroacoustics-agw-scenarios.pdf
+  companion_of: note.agw_scenarios
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_agw_scenarios_png
+  kind: product
+  path: WORK:results/hydroacoustics-agw-scenarios.png
+  note: hydroacoustics-agw-scenarios.png
+  companion_of: note.agw_scenarios
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_air7_corridor_sensitivity_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-air7-corridor-sensitivity.pdf
+  note: hydroacoustics-air7-corridor-sensitivity.pdf
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_air7_corridor_sensitivity_png
+  kind: product
+  path: WORK:results/hydroacoustics-air7-corridor-sensitivity.png
+  note: hydroacoustics-air7-corridor-sensitivity.png
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_air8_control_verdict_json
+  kind: product
+  path: WORK:results/hydroacoustics-air8-control-verdict.json
+  note: hydroacoustics-air8-control-verdict.json
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_air9_ew0112_predicted_vs_measured_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-air9-ew0112-predicted-vs-measured.pdf
+  note: hydroacoustics-air9-ew0112-predicted-vs-measured.pdf
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_air9_ew0112_predicted_vs_measured_png
+  kind: product
+  path: WORK:results/hydroacoustics-air9-ew0112-predicted-vs-measured.png
+  note: hydroacoustics-air9-ew0112-predicted-vs-measured.png
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_air9_ew0112_residual_vs_frequency_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-air9-ew0112-residual-vs-frequency.pdf
+  note: hydroacoustics-air9-ew0112-residual-vs-frequency.pdf
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_air9_ew0112_residual_vs_frequency_png
+  kind: product
+  path: WORK:results/hydroacoustics-air9-ew0112-residual-vs-frequency.png
+  note: hydroacoustics-air9-ew0112-residual-vs-frequency.png
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_air9_predicted_vs_measured_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-air9-predicted-vs-measured.pdf
+  note: hydroacoustics-air9-predicted-vs-measured.pdf
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_air9_predicted_vs_measured_png
+  kind: product
+  path: WORK:results/hydroacoustics-air9-predicted-vs-measured.png
+  note: hydroacoustics-air9-predicted-vs-measured.png
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_air9_residual_vs_frequency_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-air9-residual-vs-frequency.pdf
+  note: hydroacoustics-air9-residual-vs-frequency.pdf
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_air9_residual_vs_frequency_png
+  kind: product
+  path: WORK:results/hydroacoustics-air9-residual-vs-frequency.png
+  note: hydroacoustics-air9-residual-vs-frequency.png
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_air9_source_reference_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-air9-source-reference.pdf
+  note: hydroacoustics-air9-source-reference.pdf
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_air9_source_reference_png
+  kind: product
+  path: WORK:results/hydroacoustics-air9-source-reference.png
+  note: hydroacoustics-air9-source-reference.png
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_air9_tl_verdicts_csv
+  kind: product
+  path: WORK:results/hydroacoustics-air9-tl-verdicts.csv
+  note: hydroacoustics-air9-tl-verdicts.csv
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_bibliography_csv
+  kind: product
+  path: WORK:results/hydroacoustics-bibliography.csv
+  note: hydroacoustics-bibliography.csv
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_blackman_validation_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-blackman-validation.pdf
+  note: hydroacoustics-blackman-validation.pdf
+  companion_of: note.blackman_validation
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_blackman_validation_png
+  kind: product
+  path: WORK:results/hydroacoustics-blackman-validation.png
+  note: hydroacoustics-blackman-validation.png
+  companion_of: note.blackman_validation
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_calibration_events_stage1_standin_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-calibration-events-stage1-standin.pdf
+  note: hydroacoustics-calibration-events-stage1-standin.pdf
+  companion_of: note.calibration_events_stage1_standin
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_calibration_events_stage1_standin_png
+  kind: product
+  path: WORK:results/hydroacoustics-calibration-events-stage1-standin.png
+  note: hydroacoustics-calibration-events-stage1-standin.png
+  companion_of: note.calibration_events_stage1_standin
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_composition_run_j_evidence_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-composition-run-j-evidence.pdf
+  note: hydroacoustics-composition-run-j-evidence.pdf
+  companion_of: note.composition_run_j
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_composition_run_j_evidence_png
+  kind: product
+  path: WORK:results/hydroacoustics-composition-run-j-evidence.png
+  note: hydroacoustics-composition-run-j-evidence.png
+  companion_of: note.composition_run_j
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_composition_run_j_limits_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-composition-run-j-limits.pdf
+  note: hydroacoustics-composition-run-j-limits.pdf
+  companion_of: note.composition_run_j
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_composition_run_j_limits_png
+  kind: product
+  path: WORK:results/hydroacoustics-composition-run-j-limits.png
+  note: hydroacoustics-composition-run-j-limits.png
+  companion_of: note.composition_run_j
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_ground_truth_cases_csv
+  kind: product
+  path: WORK:results/hydroacoustics-ground-truth-cases.csv
+  note: hydroacoustics-ground-truth-cases.csv
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_h08s_outlier_sources_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-h08s-outlier-sources.pdf
+  note: hydroacoustics-h08s-outlier-sources.pdf
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_h08s_outlier_sources_png
+  kind: product
+  path: WORK:results/hydroacoustics-h08s-outlier-sources.png
+  note: hydroacoustics-h08s-outlier-sources.png
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_h08s_pulse_energy_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-h08s-pulse-energy.pdf
+  note: hydroacoustics-h08s-pulse-energy.pdf
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_h08s_pulse_energy_png
+  kind: product
+  path: WORK:results/hydroacoustics-h08s-pulse-energy.png
+  note: hydroacoustics-h08s-pulse-energy.png
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_h08s_shot_gather_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-h08s-shot-gather.pdf
+  note: hydroacoustics-h08s-shot-gather.pdf
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_h08s_shot_gather_png
+  kind: product
+  path: WORK:results/hydroacoustics-h08s-shot-gather.png
+  note: hydroacoustics-h08s-shot-gather.png
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_imos_noise_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-imos-noise.pdf
+  note: hydroacoustics-imos-noise.pdf
+  companion_of: note.imos_noise
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_imos_noise_png
+  kind: product
+  path: WORK:results/hydroacoustics-imos-noise.png
+  note: hydroacoustics-imos-noise.png
+  companion_of: note.imos_noise
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_imos_ram_grid_old_vs_new_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-imos-ram-grid-old-vs-new.pdf
+  note: hydroacoustics-imos-ram-grid-old-vs-new.pdf
+  companion_of: note.imos_ram_grid
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_imos_ram_grid_old_vs_new_png
+  kind: product
+  path: WORK:results/hydroacoustics-imos-ram-grid-old-vs-new.png
+  note: hydroacoustics-imos-ram-grid-old-vs-new.png
+  companion_of: note.imos_ram_grid
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_ims_noise_blackman_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-ims-noise-blackman.pdf
+  note: hydroacoustics-ims-noise-blackman.pdf
+  companion_of: note.ims_noise_blackman
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_ims_noise_blackman_png
+  kind: product
+  path: WORK:results/hydroacoustics-ims-noise-blackman.png
+  note: hydroacoustics-ims-noise-blackman.png
+  companion_of: note.ims_noise_blackman
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_injection_recovery_run_j_eta_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-injection-recovery-run-j-eta.pdf
+  note: hydroacoustics-injection-recovery-run-j-eta.pdf
+  companion_of: note.injection_recovery_run_j
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_injection_recovery_run_j_eta_png
+  kind: product
+  path: WORK:results/hydroacoustics-injection-recovery-run-j-eta.png
+  note: hydroacoustics-injection-recovery-run-j-eta.png
+  companion_of: note.injection_recovery_run_j
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_injection_recovery_run_j_pd_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-injection-recovery-run-j-pd.pdf
+  note: hydroacoustics-injection-recovery-run-j-pd.pdf
+  companion_of: note.injection_recovery_run_j
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_injection_recovery_run_j_pd_png
+  kind: product
+  path: WORK:results/hydroacoustics-injection-recovery-run-j-pd.png
+  note: hydroacoustics-injection-recovery-run-j-pd.png
+  companion_of: note.injection_recovery_run_j
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_item3_pd_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-item3-pd.pdf
+  note: hydroacoustics-item3-pd.pdf
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_item3_pd_png
+  kind: product
+  path: WORK:results/hydroacoustics-item3-pd.png
+  note: hydroacoustics-item3-pd.png
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_nx2d_corridor_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-nx2d-corridor.pdf
+  note: hydroacoustics-nx2d-corridor.pdf
+  companion_of: note.nx2d_corridor
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_nx2d_corridor_png
+  kind: product
+  path: WORK:results/hydroacoustics-nx2d-corridor.png
+  note: hydroacoustics-nx2d-corridor.png
+  companion_of: note.nx2d_corridor
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_pair_sources_map_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-pair-sources-map.pdf
+  note: hydroacoustics-pair-sources-map.pdf
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_pair_sources_map_png
+  kind: product
+  path: WORK:results/hydroacoustics-pair-sources-map.png
+  note: hydroacoustics-pair-sources-map.png
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_pleiades_test_standin_power_held_out_png
+  kind: product
+  path: WORK:results/hydroacoustics-pleiades-test-standin-power-held-out.png
+  note: hydroacoustics-pleiades-test-standin-power-held-out.png
+  companion_of: note.pleiades_test_standin
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_pleiades_test_standin_power_r600_bto_only_png
+  kind: product
+  path: WORK:results/hydroacoustics-pleiades-test-standin-power-r600-bto-only.png
+  note: hydroacoustics-pleiades-test-standin-power-r600-bto-only.png
+  companion_of: note.pleiades_test_standin
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_pleiades_test_standin_power_r600_bto_raw_bfo_png
+  kind: product
+  path: WORK:results/hydroacoustics-pleiades-test-standin-power-r600-bto-raw-bfo.png
+  note: hydroacoustics-pleiades-test-standin-power-r600-bto-raw-bfo.png
+  companion_of: note.pleiades_test_standin
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_pleiades_test_standin_result_png
+  kind: product
+  path: WORK:results/hydroacoustics-pleiades-test-standin-result.png
+  note: hydroacoustics-pleiades-test-standin-result.png
+  companion_of: note.pleiades_test_standin
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_pleiades_test_standin_windows_held_out_png
+  kind: product
+  path: WORK:results/hydroacoustics-pleiades-test-standin-windows-held-out.png
+  note: hydroacoustics-pleiades-test-standin-windows-held-out.png
+  companion_of: note.pleiades_test_standin
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_pleiades_test_standin_windows_r600_bto_only_png
+  kind: product
+  path: WORK:results/hydroacoustics-pleiades-test-standin-windows-r600-bto-only.png
+  note: hydroacoustics-pleiades-test-standin-windows-r600-bto-only.png
+  companion_of: note.pleiades_test_standin
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_pleiades_test_standin_windows_r600_bto_raw_bfo_png
+  kind: product
+  path: WORK:results/hydroacoustics-pleiades-test-standin-windows-r600-bto-raw-bfo.png
+  note: hydroacoustics-pleiades-test-standin-windows-r600-bto-raw-bfo.png
+  companion_of: note.pleiades_test_standin
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_references_bib
+  kind: product
+  path: WORK:results/hydroacoustics-references.bib
+  note: hydroacoustics-references.bib
+  companion_of: note.references
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_run_c_tau_sensitivity_standin_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-run-c-tau-sensitivity-standin.pdf
+  note: hydroacoustics-run-c-tau-sensitivity-standin.pdf
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_run_c_tau_sensitivity_standin_png
+  kind: product
+  path: WORK:results/hydroacoustics-run-c-tau-sensitivity-standin.png
+  note: hydroacoustics-run-c-tau-sensitivity-standin.png
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_run_j_levels_detectable_vs_eta_baseline_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-run-j-levels-detectable-vs-eta-baseline.pdf
+  note: hydroacoustics-run-j-levels-detectable-vs-eta-baseline.pdf
+  companion_of: note.run_j_levels
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_run_j_levels_detectable_vs_eta_baseline_png
+  kind: product
+  path: WORK:results/hydroacoustics-run-j-levels-detectable-vs-eta-baseline.png
+  note: hydroacoustics-run-j-levels-detectable-vs-eta-baseline.png
+  companion_of: note.run_j_levels
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_run_j_levels_detectable_vs_eta_matched_filter_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-run-j-levels-detectable-vs-eta-matched_filter.pdf
+  note: hydroacoustics-run-j-levels-detectable-vs-eta-matched_filter.pdf
+  companion_of: note.run_j_levels
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_run_j_levels_detectable_vs_eta_matched_filter_png
+  kind: product
+  path: WORK:results/hydroacoustics-run-j-levels-detectable-vs-eta-matched_filter.png
+  note: hydroacoustics-run-j-levels-detectable-vs-eta-matched_filter.png
+  companion_of: note.run_j_levels
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_run_j_levels_illustrative_traces_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-run-j-levels-illustrative-traces.pdf
+  note: hydroacoustics-run-j-levels-illustrative-traces.pdf
+  companion_of: note.run_j_levels
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_run_j_levels_illustrative_traces_png
+  kind: product
+  path: WORK:results/hydroacoustics-run-j-levels-illustrative-traces.png
+  note: hydroacoustics-run-j-levels-illustrative-traces.png
+  companion_of: note.run_j_levels
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_run_j_levels_snr_maps_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-run-j-levels-snr-maps.pdf
+  note: hydroacoustics-run-j-levels-snr-maps.pdf
+  companion_of: note.run_j_levels
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_run_j_levels_snr_maps_png
+  kind: product
+  path: WORK:results/hydroacoustics-run-j-levels-snr-maps.png
+  note: hydroacoustics-run-j-levels-snr-maps.png
+  companion_of: note.run_j_levels
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_run_j_publication_coverage_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-run-j-publication-coverage.pdf
+  note: hydroacoustics-run-j-publication-coverage.pdf
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_run_j_publication_coverage_png
+  kind: product
+  path: WORK:results/hydroacoustics-run-j-publication-coverage.png
+  note: hydroacoustics-run-j-publication-coverage.png
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_run_j_request_windows_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-run-j-request-windows.pdf
+  note: hydroacoustics-run-j-request-windows.pdf
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_run_j_request_windows_png
+  kind: product
+  path: WORK:results/hydroacoustics-run-j-request-windows.png
+  note: hydroacoustics-run-j-request-windows.png
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_run_j_timelines_ohasisbio_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-run-j-timelines-ohasisbio.pdf
+  note: hydroacoustics-run-j-timelines-ohasisbio.pdf
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_run_j_timelines_ohasisbio_png
+  kind: product
+  path: WORK:results/hydroacoustics-run-j-timelines-ohasisbio.png
+  note: hydroacoustics-run-j-timelines-ohasisbio.png
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_run_j_timelines_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-run-j-timelines.pdf
+  note: hydroacoustics-run-j-timelines.pdf
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_run_j_timelines_png
+  kind: product
+  path: WORK:results/hydroacoustics-run-j-timelines.png
+  note: hydroacoustics-run-j-timelines.png
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_search_windows_next_run_b_standin_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-search-windows-next-run-b-standin.pdf
+  note: hydroacoustics-search-windows-next-run-b-standin.pdf
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_search_windows_next_run_b_standin_png
+  kind: product
+  path: WORK:results/hydroacoustics-search-windows-next-run-b-standin.png
+  note: hydroacoustics-search-windows-next-run-b-standin.png
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_search_windows_ref289_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-search-windows-ref289.pdf
+  note: hydroacoustics-search-windows-ref289.pdf
+  companion_of: note.search_windows_ref289
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_search_windows_ref289_png
+  kind: product
+  path: WORK:results/hydroacoustics-search-windows-ref289.png
+  note: hydroacoustics-search-windows-ref289.png
+  companion_of: note.search_windows_ref289
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_searches_run_j_table1_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-searches-run-j-table1.pdf
+  note: hydroacoustics-searches-run-j-table1.pdf
+  companion_of: note.searches_run_j
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_searches_run_j_table1_png
+  kind: product
+  path: WORK:results/hydroacoustics-searches-run-j-table1.png
+  note: hydroacoustics-searches-run-j-table1.png
+  companion_of: note.searches_run_j
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_searches_run_j_timeline_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-searches-run-j-timeline.pdf
+  note: hydroacoustics-searches-run-j-timeline.pdf
+  companion_of: note.searches_run_j
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_searches_run_j_timeline_png
+  kind: product
+  path: WORK:results/hydroacoustics-searches-run-j-timeline.png
+  note: hydroacoustics-searches-run-j-timeline.png
+  companion_of: note.searches_run_j
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_synthetic_composer_test_csv
+  kind: product
+  path: WORK:results/hydroacoustics-synthetic-composer-test.csv
+  note: hydroacoustics-synthetic-composer-test.csv
+  companion_of: note.synthetic_composer_test
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_synthetic_composer_test_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-synthetic-composer-test.pdf
+  note: hydroacoustics-synthetic-composer-test.pdf
+  companion_of: note.synthetic_composer_test
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_synthetic_composer_test_png
+  kind: product
+  path: WORK:results/hydroacoustics-synthetic-composer-test.png
+  note: hydroacoustics-synthetic-composer-test.png
+  companion_of: note.synthetic_composer_test
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_tl_grid_run_j_detectable_fraction_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-tl-grid-run-j-detectable-fraction.pdf
+  note: hydroacoustics-tl-grid-run-j-detectable-fraction.pdf
+  companion_of: note.tl_grid_run_j
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_tl_grid_run_j_detectable_fraction_png
+  kind: product
+  path: WORK:results/hydroacoustics-tl-grid-run-j-detectable-fraction.png
+  note: hydroacoustics-tl-grid-run-j-detectable-fraction.png
+  companion_of: note.tl_grid_run_j
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_tl_grid_run_j_tl_vs_latitude_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-tl-grid-run-j-tl-vs-latitude.pdf
+  note: hydroacoustics-tl-grid-run-j-tl-vs-latitude.pdf
+  companion_of: note.tl_grid_run_j
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_tl_grid_run_j_tl_vs_latitude_png
+  kind: product
+  path: WORK:results/hydroacoustics-tl-grid-run-j-tl-vs-latitude.png
+  note: hydroacoustics-tl-grid-run-j-tl-vs-latitude.png
+  companion_of: note.tl_grid_run_j
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_weak_signal_h08s_suppression_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-weak-signal-h08s-suppression.pdf
+  note: hydroacoustics-weak-signal-h08s-suppression.pdf
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_weak_signal_h08s_suppression_png
+  kind: product
+  path: WORK:results/hydroacoustics-weak-signal-h08s-suppression.png
+  note: hydroacoustics-weak-signal-h08s-suppression.png
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_weak_signal_kadri_panels_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-weak-signal-kadri-panels.pdf
+  note: hydroacoustics-weak-signal-kadri-panels.pdf
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_weak_signal_kadri_panels_png
+  kind: product
+  path: WORK:results/hydroacoustics-weak-signal-kadri-panels.png
+  note: hydroacoustics-weak-signal-kadri-panels.png
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_weak_signal_pd_vs_snr_pdf
+  kind: product
+  path: WORK:results/hydroacoustics-weak-signal-pd-vs-snr.pdf
+  note: hydroacoustics-weak-signal-pd-vs-snr.pdf
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.file.hydroacoustics_weak_signal_pd_vs_snr_png
+  kind: product
+  path: WORK:results/hydroacoustics-weak-signal-pd-vs-snr.png
+  note: hydroacoustics-weak-signal-pd-vs-snr.png
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: note.coordination_hydroacoustics
+  kind: note
+  path: WORK:coordination/HYDROACOUSTICS.md
+  note: HYDROACOUSTICS inbox
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: res.coordination_hydro_protected_paths_2026_10_25
+  kind: product
+  path: WORK:coordination/hydro-protected-paths-2026-10-25.csv
+  note: Hydro input files cited by hydro_data.sqlite with SHA-256 (keep out of any deletion manifest), plus two folders.
+  producing_thread: 9e0bf4fe (Hydroacoustic Data Inventory Review)
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: note.threads_master_prompts_hydroacoustics
+  kind: note
+  path: WORK:threads/master-prompts/hydroacoustics.md
+  note: Hydroacoustics — mission and master prompt
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: note.threads_work_orders_hydroacoustics_order_2026_10_21
+  kind: note
+  path: WORK:threads/work-orders/hydroacoustics-order-2026-10-21.md
+  note: Hydroacoustics work order — 21 October 2026
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: ex.handover_2026_10_23
+  kind: archive
+  path: EX:handover-2026-10-23
+  note: Hand-over package of the 23 Oct hydro clean-up (artifacts of 10 sessions, tool results, transcripts, memory rows, Pete's hydro messages, final error register).
+    Registered in place as a read-only archive; do not move or edit.
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: ex.potential_signals_preview_2026_10_23
+  kind: product
+  path: EX:potential-signals-PREVIEW-2026-10-23
+  status: SUPERSEDED
+  status_rank: explicit
+  superseded_by: ex.potential_signals_2026_10_23
+  status_evidence:
+  - rank: explicit
+    source: EX:potential-signals-PREVIEW-2026-10-23/README.txt:1
+    quote: PREVIEW ONLY (23 Oct 2026 ~03:45 UTC). Built from register v2 preview (old 22 Oct ranking, new X04/X05 tolerances). The final tables (re-ranked under the
+      [1e-6, 1] coupling prior) replace these. For building and testing the graphics code only. Not results.
+  note: Preview tables for graphics code tests only. Not results.
+  defects: []
+  verified_this_run: false
+- id: ex.potential_signals_graphics_first_set
+  kind: product
+  path: EX:potential-signals-graphics-2026-10-23/FINAL
+  status: SUPERSEDED
+  status_rank: explicit
+  superseded_by: ex.potential_signals_graphics
+  status_evidence:
+  - rank: explicit
+    source: MOD:registry/entries.yaml:1043
+    quote: 'note: Charts 1-4 for 26 rows (table 1 M001-M010 + 6 airgun-free rows; table 2 S001-S010). FINAL-v2, FINAL and PREVIEW in the same parent folder are SUPERSEDED.'
+  note: Charts of the potential-signal tables, folder FINAL.
+  defects: []
+  verified_this_run: false
+- id: ex.potential_signals_graphics_second_set
+  kind: product
+  path: EX:potential-signals-graphics-2026-10-23/FINAL-v2
+  status: SUPERSEDED
+  status_rank: explicit
+  superseded_by: ex.potential_signals_graphics
+  status_evidence:
+  - rank: explicit
+    source: MOD:registry/entries.yaml:1043
+    quote: 'note: Charts 1-4 for 26 rows (table 1 M001-M010 + 6 airgun-free rows; table 2 S001-S010). FINAL-v2, FINAL and PREVIEW in the same parent folder are SUPERSEDED.'
+  note: Charts of the potential-signal tables, folder FINAL-v2.
+  defects: []
+  verified_this_run: false
+- id: ex.potential_signals_graphics_preview
+  kind: product
+  path: EX:potential-signals-graphics-2026-10-23/PREVIEW
+  status: SUPERSEDED
+  status_rank: explicit
+  superseded_by: ex.potential_signals_graphics
+  status_evidence:
+  - rank: explicit
+    source: MOD:registry/entries.yaml:1043
+    quote: 'note: Charts 1-4 for 26 rows (table 1 M001-M010 + 6 airgun-free rows; table 2 S001-S010). FINAL-v2, FINAL and PREVIEW in the same parent folder are SUPERSEDED.'
+  note: Charts of the potential-signal tables, folder PREVIEW.
+  defects: []
+  verified_this_run: false
+- id: ex.potential_signals_graphics_top
+  kind: note
+  path: EX:potential-signals-graphics-2026-10-23
+  file_list:
+  - README.md
+  - code/charts.py
+  note: README (FINAL-v2 text) and code/charts.py at the top of potential-signals-graphics-2026-10-23.
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: ex.run_j_smoke_log
+  kind: scratch
+  path: EX:run-j-smoke.log
+  note: Log of the run J smoke test (17 Oct 2026).
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: home.exchange_hydroacoustics
+  kind: data_home
+  path: 'EX:'
+  hash: false
+  hash_note: 'See the ex.* entries. Inventory 2026-10-26T15:34:13Z: 7999 files, 60216275218 bytes; SHA-256 from SHA256SUMS 1775, computed 6224, not hashed 0 (registry/data_homes/exchange_inventory_hydroacoustics.json.gz
+    on claude-science-sep29).'
+  note: 'Exchange folder, hydroacoustics part: run outputs of the hydroacoustic module.'
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: xd.next_run_d_he
+  kind: archive
+  path: XDRIVE:mh370-exchange/hydroacoustics/next-run-d-he
+  hash: false
+  hash_note: external drive not mounted in this session
+  note: 'Listed for copy to the external drive in archive-tools/archive-to-porsche.v3.sh line 21. Source in ~/Downloads now: absent. The VERIFIED-*.txt list is on
+    the drive; it was not readable from this session, so the copy is not confirmed here.'
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: xd.run_i
+  kind: archive
+  path: XDRIVE:mh370-exchange/hydroacoustics/run-i
+  hash: false
+  hash_note: external drive not mounted in this session
+  note: 'Listed for copy to the external drive in archive-tools/archive-to-porsche.v3.sh line 16. Source in ~/Downloads now: absent. The VERIFIED-*.txt list is on
+    the drive; it was not readable from this session, so the copy is not confirmed here.'
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: xd.imos_mh370_zip_inputs
+  kind: archive
+  path: XDRIVE:mh370-inputs/hydroacoustics/imos/MH370.zip
+  hash: false
+  hash_note: external drive not mounted in this session
+  note: 'Listed for copy to the external drive in archive-tools/archive-to-porsche.v3.sh line 35. Source in ~/Downloads now: absent. The VERIFIED-*.txt list is on
+    the drive; it was not readable from this session, so the copy is not confirmed here.'
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: xd.imos_portland_mh370_zip_inputs
+  kind: archive
+  path: XDRIVE:mh370-inputs/hydroacoustics/imos/Portland_MH370.zip
+  hash: false
+  hash_note: external drive not mounted in this session
+  note: 'Listed for copy to the external drive in archive-tools/archive-to-porsche.v3.sh line 36; archive-tools/archive-to-porsche.sh line 20. Source in ~/Downloads
+    now: present. The VERIFIED-*.txt list is on the drive; it was not readable from this session, so the copy is not confirmed here.'
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+- id: note.memnote_hydroacoustics
+  kind: note
+  path: MOD:registry/memory-notes
+  note: Hydroacoustics memory rows moved to the registry (216 move-to-registry rows, 11 defer-hydro rows). RECORDS OF WHAT MEMORY SAID, not verified facts; each row
+    gives its verification status. Made by registry/import_hydro_memory_records.py on claude-science-sep29.
+  defects: []
+  verified_this_run: false
+  status: UNCHECKED
+  status_rank: none
+  status_evidence: []
+  superseded_by: null
+defects:
+- id: D28
+  title: 'Kadri replication: route lengths 1-4 % too long (erratum 2 of the wave-3 verifier)'
+  what: water_route.py sums 8-neighbour grid steps without smoothing. The Sriwijaya 182 and AB Aviation 1103 offsets are too negative by about 26 s and 84 s. The
+    conclusions do not change (README).
+  evidence:
+  - file: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/README.md
+    lines:
+    - 30
+    - 30
+  fixed_this_run: no (erratum in README; notes not edited)

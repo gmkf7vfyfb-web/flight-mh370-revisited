@@ -6,6 +6,9 @@ Written 23 Oct 2026 (hydro clean-up run, proposal v6). Rules:
   * This script resolves every path, lists every file with size and sha256 (manifests/<id>.tsv.gz),
     and extracts the definition text from the cited lines. A missing file, an empty line range, or a constant
     whose value text does not appear in its cited lines is an ERROR, and the build fails.
+  * Phase 2 (26 Oct 2026): entries-phase2.yaml (made by phase2_entries.py) adds entries and defects; an entry can give
+    file_list (paths relative to its path) so that it lists only those files; an entry with hash: false is listed, not hashed.
+    MOD and WORK are written to REGISTRY.json as repository roots, not as local paths.
 Usage:
   python build_registry.py --mod <module dir> --work <'Claude Science Project Sep 29' dir on claude-science-sep29>
                            [--roots roots.yaml] [--no-hash]
@@ -55,10 +58,16 @@ def quote(path, lines):
     return q
 
 
-def manifest(path, do_hash):
+def manifest(path, do_hash, file_list=None):
     p = Path(path)
     skip = ("__pycache__", ".pytest_cache")
-    files = [p] if p.is_file() else sorted(x for x in p.rglob("*") if x.is_file() and not any(s in x.parts for s in skip))
+    if file_list:
+        files = sorted(p / f for f in file_list)
+        missing = [str(f) for f in files if not f.is_file()]
+        if missing:
+            raise FileNotFoundError(f"file_list: {missing[:3]}")
+    else:
+        files = [p] if p.is_file() else sorted(x for x in p.rglob("*") if x.is_file() and not any(s in x.parts for s in skip))
     rows, total = [], 0
     for f in files:
         s = f.stat().st_size
@@ -75,8 +84,13 @@ def main():
     ap.add_argument("--no-hash", action="store_true")
     a = ap.parse_args()
     roots = yaml.safe_load(open(a.roots))
+    shown_roots = dict(roots)
     roots["MOD"], roots["WORK"] = str(Path(a.mod).resolve()), str(Path(a.work).resolve())
     spec = yaml.safe_load(open(HERE / "entries.yaml"))
+    if (HERE / "entries-phase2.yaml").exists():
+        ph2 = yaml.safe_load(open(HERE / "entries-phase2.yaml"))
+        spec["entries"] += ph2.get("entries", [])
+        spec["defects"] += ph2.get("defects", [])
     errors, out_entries = [], []
     (HERE / "manifests").mkdir(exist_ok=True)
     defect_ids = {d["id"] for d in spec["defects"]}
@@ -85,10 +99,10 @@ def main():
         r = dict(e)
         try:
             p = resolve(roots, e["path"])
-            if not p.exists():
-                raise FileNotFoundError(str(p))
+            if not (e.get("hash", True) is False and e["path"].startswith("XDRIVE:")) and not p.exists():
+                raise FileNotFoundError(str(p))   # XDRIVE entries are listed, not hashed (drive not mounted)
             if e.get("hash", True):
-                rows, total = manifest(p, not a.no_hash)
+                rows, total = manifest(p, not a.no_hash, e.get("file_list"))
                 mf = HERE / "manifests" / f"{e['id']}.tsv.gz"
                 with gzip.open(mf, "wt") as fh:
                     fh.write("relpath\tbytes\tsha256\n")
@@ -110,6 +124,7 @@ def main():
                 raise ValueError(f"unknown defect ids {bad}")
         except Exception as ex:
             errors.append(f"{e['id']}: {type(ex).__name__}: {ex}")
+        r.pop("file_list", None)
         out_entries.append(r)
         print(f"{e['id']:48s} {r.get('n_files')} files {r.get('bytes')} B  {time.time()-t0:.0f}s", flush=True)
     out_consts = []
@@ -160,7 +175,7 @@ def main():
         "built_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "hashing": not a.no_hash,
         "git": {"module_branch": git_head(a.mod), "work_branch": git_head(a.work)},
-        "roots": {k: v for k, v in roots.items()},
+        "roots": {k: v for k, v in shown_roots.items()},
         "status_values": spec["status_values"], "constant_status_values": spec["constant_status_values"],
         "entries": out_entries, "constants": out_consts, "defects": out_defects,
         "build_errors": errors,

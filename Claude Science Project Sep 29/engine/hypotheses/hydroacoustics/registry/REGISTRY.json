@@ -1,19 +1,19 @@
 {
  "registry_version": "hydro-registry v1 (2026-10-23)",
- "built_utc": "2026-10-23T05:58:35Z",
+ "built_utc": "2026-10-26T15:55:41Z",
  "hashing": true,
  "git": {
-  "module_branch": "b005b3587147012575293dff5f669cf9b7a323e3 2026-10-22T23:53:53-06:00 (head at build time; uncommitted changes in scope: yes)",
-  "work_branch": "43d8b1b5ee678b9ff8d684c26f9612fc87c54f5f 2026-10-22T23:57:24-06:00 (head at build time; uncommitted changes in scope: yes)"
+  "module_branch": "d2779102d3dac1a7ee4bcabcfe25c845d1e16bb2 2026-10-26T09:52:57-06:00 (head at build time; uncommitted changes in scope: yes)",
+  "work_branch": "beb7696808f6f1c278a729ef1546f12cacff3242 2026-10-25T17:22:07-06:00 (head at build time; uncommitted changes in scope: yes)"
  },
  "roots": {
   "EX": "/Users/pete/Downloads/mh370-exchange/hydroacoustics",
   "EOF": "/Users/pete/Downloads/mh370-exchange/end-of-flight",
   "INPUTS": "/Users/pete/Downloads/mh370-inputs/hydroacoustics",
   "OCEAN": "/Users/pete/Downloads/mh370-ocean-data",
-  "ART": "/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/a6559afa-0c43-4302-86d9-0e2798dcb1c7/handover/artifacts",
-  "MOD": "/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/a6559afa-0c43-4302-86d9-0e2798dcb1c7/src/mod/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics",
-  "WORK": "/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/a6559afa-0c43-4302-86d9-0e2798dcb1c7/src/work/Claude Science Project Sep 29"
+  "MOD": "(repository) Claude Science Project Sep 29/engine/hypotheses/hydroacoustics on branch hypothesis/hydroacoustics",
+  "WORK": "(repository) Claude Science Project Sep 29/ on branch claude-science-sep29",
+  "XDRIVE": "/Volumes/Porsche 1TB Backup/mh370-archive"
  },
  "status_values": {
   "CURRENT": "No known defect. Not re-verified in this run unless verified_this_run is true.",
@@ -664,14 +664,14 @@
   {
    "id": "art.take2_review",
    "kind": "product",
-   "path": "ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
+   "path": "WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
    "status": "CURRENT_WITH_CAVEATS",
    "defects": [
     "D10"
    ],
    "verified_this_run": false,
    "definition": {
-    "file": "ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
+    "file": "WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
     "lines": [
      1,
      24
@@ -687,12 +687,12 @@
   {
    "id": "art.candidates_withdrawal",
    "kind": "product",
-   "path": "ART:a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md",
+   "path": "WORK:Hydroacoustic Handover/artifacts/a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md",
    "status": "CURRENT",
    "defects": [],
    "verified_this_run": false,
    "definition": {
-    "file": "ART:a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md",
+    "file": "WORK:Hydroacoustic Handover/artifacts/a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md",
     "lines": [
      1,
      3
@@ -707,7 +707,7 @@
   {
    "id": "art.candidates_A_F",
    "kind": "product",
-   "path": "ART:a35831fe/b5497699_candidates-A-F-summary.csv",
+   "path": "WORK:Hydroacoustic Handover/artifacts/a35831fe/b5497699_candidates-A-F-summary.csv",
    "status": "WITHDRAWN",
    "defects": [
     "D10",
@@ -729,7 +729,7 @@
   {
    "id": "art.feasibility_tables",
    "kind": "product",
-   "path": "ART:a35831fe",
+   "path": "WORK:Hydroacoustic Handover/artifacts/a35831fe",
    "status": "WITHDRAWN",
    "defects": [
     "D10"
@@ -750,7 +750,7 @@
   {
    "id": "art.royer_crossid",
    "kind": "product",
-   "path": "ART:a35831fe/239646ad_royer-events-crossid-all-sites.csv",
+   "path": "WORK:Hydroacoustic Handover/artifacts/a35831fe/239646ad_royer-events-crossid-all-sites.csv",
    "status": "CURRENT_WITH_CAVEATS",
    "defects": [],
    "verified_this_run": false,
@@ -1450,9 +1450,9 @@
     "quote": "# Hydroacoustics module: citation ledger\n\n**Standing rule ~01:20 UTC, 9 Oct, with the ~02:25 correction:** this ledger and\n`hydroacoustics-references.bib` (same keys) both live in `results/`."
    },
    "n_files": 1,
-   "bytes": 18032,
+   "bytes": 66047,
    "manifest": "manifests/note.references.tsv.gz",
-   "manifest_sha256": "d29d481229d7b9dca6651500ec827bf062484c32fcb4e3e5b813543ab49cd3c6"
+   "manifest_sha256": "59614c92225f7dfe0e94fd064f3ab7283c703d3b62242ab7d8022f4a65e2b979"
   },
   {
    "id": "note.run_c_windows",
@@ -2022,6 +2022,3418 @@
    "bytes": 8095,
    "manifest": "manifests/ex.arc_line_of_sight.tsv.gz",
    "manifest_sha256": "67d1cf68904e7f70305bcda2b5253f21e6d1275a5f0311d35a3f33c7c934201a"
+  },
+  {
+   "id": "res.source_survey_2026_10_23",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics/source-survey-2026-10-23",
+   "status": "CURRENT_WITH_CAVEATS",
+   "defects": [],
+   "verified_this_run": false,
+   "definition": {
+    "file": "WORK:results/hydroacoustics/source-survey-2026-10-23/impact-and-other-sources-synthesis-2026-10-23.md",
+    "lines": [
+     1,
+     30
+    ],
+    "quote": "# Aircraft ocean-impact sound, other underwater sound sources, and online catalogues: synthesis\n\nHydroacoustics module. 23 October 2026. Status: literature and held-data review, plus catalogue queries run in code. No hydrophone waveform was processed. All values carry their source in the companion files.\n\n## Companion files\n\n| topic | review note | table |\n|---|---|---|\n| Impact source and coupling | [impact-source-review.md]({{artifact:3c9965ef-dbcc-4199-9726-6a37c9c3303d}}) | [impact-source-parameters.csv]({{artifact:8eea74d5-7197-4449-b80d-36c2de3b5e61}}) (56 rows); [coupling-prior-range.csv]({{artifact:56e7a807-0844-4e46-a57e-a4355c70753a}}) (16 rows) |\n| Other sources | [hydroacoustics-other-sources-review.md]({{artifact:454fe998-d67f-4b92-9363-d7bac28d15d8}}) (v2, Brown citation corrected) | [other-source-characteristics.csv]({{artifact:46f64144-9ba1-4d9a-8f95-dab690399fae}}) (41 rows) |\n| Catalogues | [hydro-known-sources-catalogue-review.md]({{artifact:7970a3be-d55f-4973-8614-908bdb96b7dc}}) | [source-catalogues.csv]({{artifact:d02397a5-874c-4d63-86bc-8574a9e1e151}}) (45 databases); [known-events-6-10mar2014.csv]({{artifact:df0f8673-f306-41ef-9b41-11e2230e3f70}}) (298 rows) |\n| Raw returns | [returned-records-catalogues.zip]({{artifact:a67afdbc-0eaf-42c2-9f2b-99fa59c88386}}); [returned-waveforms-12h.zip]({{artifact:fe96bfde-27f9-40c8-8a61-d211e76deccf}}) (island seismic stations, primary window) | |\n\n## 1. Impact source: what is known\n\n1. **Only one aircraft ocean impact has a peer-reviewed long-range record with ground truth.** It is the F-35A off Misawa, 9 April 2019 (Metz, Obana & Fukao 2023). At H11N and H11S, 3,249-3,341 km away, the arrivals are 6-8 s transients. The onset is emergent and the end is clear. The energy is mostly below 15-25 Hz, with no energy near 20 Hz at any station, near or far. Peak 1-s RMS is 0.31-0.37 Pa (H11N), 12-16 dB above background. The 5-95 % energy span is 3.4-4.8 s. Metz give no energy, source level or coupling.\n2. **Metz also give near-field records (180-255 km, cabled seabed stations).** These are the only near-field records of an aircraft ocean impact that were found. The project has not digitised them. They are the best available test of source spectrum and duration with little path distortion.\n3. **The 20 Hz spectral gap is in both near and far records.** It is therefore a source or site feature, not a long-path effect (track interpretation).\n4. **Kadri 2024 claims of other aircraft are weak evidence.** Six of the eight cases checked are 4-12 min off the water-path time in an exploratory straight-path, one-speed check (registry D13: this is not evidence that Kadri erred), and AF447 and Yemenia 626 have SNR below 2 on Kadri's own figures. No other group has reproduced them. Kadri's energy argument treats kinetic energy as if it were radiated sound.\n5. **Swissair 111 (MD-11, 1998, about 2.7 GJ, 55 m water) is a new airliner-energy case.** Land seismographs recorded the impact. No hydroacoustic record was found.\n6. **The physics of water entry puts most of the sound in the cavity and bubble phase, not the first slam.** Leslie 1964 (bullets) and Li et al. 2021 (steel balls) agree on this; Kadri's model emphasises the entry phase. Minnaert arithmetic gives 0.5-6.5 Hz resonance for air pockets of 0.5-5 m radius. Airliner-scale cavities may therefore radiate largely below the 4-64 Hz band used for the F-35A, and near the IMS response roll-off. This is provisional.\n7. **Implosions of trapped volumes while the wreck sinks are a separate source.** The radiated fraction of P·V is about 18 % for glass spheres and 0.2-0.6 % for ductile metal shells. One deep (more than 1 km) implosion of about 1 m³ could match the F-35A impact in radiated energy. Whether any sealed volume survives an airliner impact is unknown.\n8. **Duncan & Dall'Osto 2023 model the MH370 path 20-30 dB weaker than the F-35A path.** Their path is the Curtin 301.6° bearing, not the core region near 37 S.\n\n**Coupling efficiency.** Published and project values span 10⁻¹⁰ to 1. Most of that spread comes from different definitions, not from physics. The track sorted every value into four definition classes:\n\n- D1: inverted through the project's propagation model at a stated source depth.\n- D2: Arons-equivalent yield in the sound channel, path-blind.\n- D3: measured near the source.\n- D4: in one frequency band."
+   },
+   "note": "Literature and catalogue survey of impact acoustic sources, other sources and 45 online catalogues. Review, not a measurement. Several primaries read at abstract level only (stated in each note). (12 files)",
+   "status_rank": "handoff",
+   "status_evidence": [
+    {
+     "rank": "handoff",
+     "source": "WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:7",
+     "quote": "status: CURRENT_WITH_CAVEATS"
+    }
+   ],
+   "producing_thread": "c764a583 (Aircraft Impact Acoustic Source Survey)",
+   "handoff_manifest": "WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.source_survey_2026_10_23.tsv.gz",
+   "superseded_by": null,
+   "n_files": 12,
+   "bytes": 319255,
+   "manifest": "manifests/res.source_survey_2026_10_23.tsv.gz",
+   "manifest_sha256": "dffbda9c2e91383fbc90f0761f60ae56b7c068f5d147619161098b0ca4cc31ed"
+  },
+  {
+   "id": "res.next_steps_2026_10_24",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24",
+   "status": "CURRENT_WITH_CAVEATS",
+   "defects": [],
+   "verified_this_run": false,
+   "definition": {
+    "file": "WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/next-steps-results-2026-10-24.md",
+    "lines": [
+     1,
+     30
+    ],
+    "quote": "# Next steps from the source survey: results (24 October 2026)\n\nFollows [impact-and-other-sources-synthesis-2026-10-23.md]({{artifact:48dfdd44-634e-41de-b4e4-aa73cc442e08}}). Status: exploratory. Nothing here returns a likelihood to the composer. Every rejection or upper limit carries both standing caveats:\n\n1. The propagation model fails the frequency-slope check against the 2001 airguns (+10 dB/octave at H01W, +7 dB/octave at H08S), although levels pass.\n2. Detection probability is a proxy unless it is measured on real data.\n\n## 1. Open IMS hydrophone background for March (2015-2019 as a stand-in for 2014)\n\nNote: [ims-open-march-background-note.md]({{artifact:e9733f9c-2599-488e-b0ae-29ceff0d1564}}). Tables: [ims-march-false-alarm-rates.csv]({{artifact:da30fe9e-42df-4120-a725-af8b348d18fd}}), [ims-march-noise-percentiles.csv]({{artifact:5934eb83-a597-4e84-b6e2-68eb0b60e8b2}}), [ims-march-noise-vs-references.csv]({{artifact:59ff8cbc-7e16-452a-9072-65ea9adc2d5f}}), [ims-open-availability.csv]({{artifact:648befdb-52d8-49c7-8e23-00b209984bf2}}), [h01w-array-calibration.json]({{artifact:076cefbe-3cb6-4831-8495-2149f256d05a}}).\n\n- **Data used.** EarthScope serves IMS hydrophone data openly from 2015, not for 2014, and none for H08N. The track used the 00:00-04:00 UTC block of every open March day: 115 station-days at H01W and 153 at H08S, 2015-2019. The sandbox link speed (about 1.1 MB/s) forced this cut.\n- **Noise (5-40 Hz median in the arrival-window hours).**\n  - H01W: 103.6 dB re 1 µPa. That is +2.0 dB above Blackman 2003 and **+7.4 dB above the stand-in the module has used** (registry D06).\n  - H08S: 98.0 dB re 1 µPa. That is +2.5 dB above Blackman 2003 and +1.8 dB above the stand-in.\n  - **Consequence:** detection estimates at H01W built on the stand-in are optimistic by about 7 dB.\n  - **Corroboration from 2014:** the H01W levels digitised earlier from Royer's 2014 spectrogram (about 101.7 dB) and from Kadri's Fig. 9 trace (103.1 dB) agree with the proxy to within about 2 dB. The stand-in, which is the IMOS 3376 5-40 Hz level of 96.2 dB, is therefore the outlier.\n- **H01W bearing bias.** Bearings computed from the published element positions are biased by a median of +5.2°, and by up to +12° inside the arc sector. An array calibration on 41 catalogue earthquakes corrects this: left-out error -0.04°, robust standard deviation 0.66°. Any project bearing at H01W computed from element positions needs this check.\n- **False-alarm background.** The rate counts coherent arrivals from the 7th-arc sector (20-40 S) in the 2014 clock-time windows that pass the registered 5-40 Hz detector, per hour, with day-bootstrap 90 % intervals.\n\n  | | screen (p < 0.3) | mark (p < 0.1) | report (p < 0.05) |\n  |---|---|---|---|\n  | H01W | 0.139 (0.086-0.194) | 0.125 | 0.086 |\n  | H08S | 1.00 (0.72-1.32) | 0.43 | 0.36 |\n\n  The p floors are 1/27,850 (H01W) and 1/39,173 (H08S). The expected count in one arrival window at the screen level is about 0.27 at H01W and about 2.1 at H08S.\n  - At H08S, 298 of the 316 arc-direction passes come from 148-163.5°. That is the 35-40 S part of the arc, which is also the direction of Antarctic ice and the ridge to the south. Bearing alone cannot separate an impact there from those sources.\n- **8 March 2014 was worse than a typical proxy day at H08S.** In the proxy years, airgun trains fill 30 % or more of the window on 49 of 153 days, all from 108-114°. The 35° train seen on 8 March 2014 never appears.\n- **Declared limits:**\n  - The class rules were tuned on the 8 March full days."
+   },
+   "note": "Exploratory: open IMS March background 2015-2019 (proxy for 2014), island seismometers, Royer labelled set, AADC access, Metz near field re-digitised, Swissair 111 seismic. Nothing returns a likelihood. 4.2x near/far wording corrected 24 Oct (2.0x against KRAKEN+RAM). (40 files)",
+   "status_rank": "handoff",
+   "status_evidence": [
+    {
+     "rank": "handoff",
+     "source": "WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:20",
+     "quote": "status: CURRENT_WITH_CAVEATS"
+    }
+   ],
+   "producing_thread": "c764a583 (Aircraft Impact Acoustic Source Survey)",
+   "handoff_manifest": "WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.next_steps_2026_10_24.tsv.gz",
+   "superseded_by": null,
+   "n_files": 40,
+   "bytes": 12252719,
+   "manifest": "manifests/res.next_steps_2026_10_24.tsv.gz",
+   "manifest_sha256": "9a154cfe85e003e0f1625166e84734f0f460d52a3404335120c1b4649abd9ed7"
+  },
+  {
+   "id": "res.coupling_db_package_2026_10_25",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics/source-survey-2026-10-23/coupling-db-package-2026-10-25",
+   "status": "CURRENT",
+   "defects": [],
+   "verified_this_run": false,
+   "definition": {
+    "file": "WORK:results/hydroacoustics/source-survey-2026-10-23/coupling-db-package-2026-10-25/README.md",
+    "lines": [
+     1,
+     30
+    ],
+    "quote": "# Coupling tables for hydro_data.sqlite (import package, 25 October 2026)\n\nThis package follows the data-inventory thread's proposal (session 9e0bf4fe, 24 Oct 2026). Coupling goes into the existing `hydro_data.sqlite`: the definition class and the required propagation chain are mandatory, views give each chain only its valid values, and the build fails on a wrong pairing. The inventory thread stays the single writer. Import these CSVs with its builder and call `validate_coupling_tables.py` from the build; do not edit the database by hand.\n\n## Change from the proposal, from Pete's statement of 24 Oct 2026\n\nNo coupling value is an \"anchor\" and none awaits a ruling. The F-35A figure 2.26e-3 is one estimate from our model, a point on a ridge over (eta_rad, z_eff, S). It is stored as `EVIDENCE`. The validator rejects any `ANCHOR` status or role. Ranges come from the family structure (`coupling_family`, status `PROPOSED_STRUCTURE`, awaiting Pete's approval of the structure, not of a number).\n\nRegistry constants affected (the registry stays the authority; these are proposed status changes for its owner):\n\n| registry constant | present status | proposed status |\n|---|---|---|\n| eta_F35A_metz (2.26e-3) | PENDING_RULING | EVIDENCE (CV02, a ridge point; not a parameter) |\n| eta_brown_arons (2.1e-4) | RETIRED_AS_ANCHOR | EVIDENCE (CV14/CV15, consistency check, same recording as E01) |\n| eta_prior_bounds [1e-6, 1e-2] | AGENT_CHOICE_NOT_RULED | superseded by coupling_family (PROPOSED_STRUCTURE) |\n\n## Tables\n\n| table | file | rows | key | content |\n|---|---|---|---|---|\n| coupling_evidence | db_coupling_evidence.csv | 17 | evidence_id | each source, what it measures, its observation operator, its use, its independence group and status |\n| coupling_value | db_coupling_value.csv | 25 | value_id | every numeric coupling-type value: definition_class (D1, D2, D3, D4, S1), numerator, denominator, band, source depth, peak definition, propagation_chain_required, independence group, role, status, registry_id |\n| coupling_family | db_coupling_family.csv | 5 | family_id | R1, R2, R3, I, X with the selection rule from end of flight and how each prior is built |\n| family_element_evidence | db_family_element_evidence.csv | 18 | (family, element) | which evidence informs each element (eta_rad, z_eff, S, tau, E_t, propagation) of each family, and how strongly |\n| impact_case | db_impact_case.csv | 18 | case_id | historical aircraft impacts: regime, energy, data held, raw IMS availability, seismic search, search gaps, role, coupling treatment, Kadri claim |\n| reference_event | db_reference_event.csv | 16 | ref_id | non-aircraft reference events (explosions, implosions, airguns, ice, analogs, earthquakes, background) |\n| received_observation | db_received_observation.csv | 6 | obs_id | received levels measured from raw records (first: F-35A at H11, 25 Oct 2026) |\n| data_availability_probe | db_data_availability_probe.csv | 35 | (case, station) | EarthScope probe results (HTTP 200 / 204) |\n\n## Vocabularies"
+   },
+   "note": "Coupling import package for hydro_data.sqlite; validator passes 17/17 checks and the negative test fails as intended. Family priors are PROPOSED_STRUCTURE (structure awaits Pete), values are EVIDENCE. (10 files)",
+   "status_rank": "handoff",
+   "status_evidence": [
+    {
+     "rank": "handoff",
+     "source": "WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:33",
+     "quote": "status: CURRENT"
+    }
+   ],
+   "producing_thread": "c764a583 (Aircraft Impact Acoustic Source Survey)",
+   "handoff_manifest": "WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.coupling_db_package_2026_10_25.tsv.gz",
+   "superseded_by": null,
+   "n_files": 10,
+   "bytes": 48927,
+   "manifest": "manifests/res.coupling_db_package_2026_10_25.tsv.gz",
+   "manifest_sha256": "4ab4be3401f0d6c091a6e2e3afe9b29e57216185ad9ee87049587c2c69c5dcba"
+  },
+  {
+   "id": "res.raw_ims_2026_10_25",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25",
+   "status": "CURRENT_WITH_CAVEATS",
+   "defects": [],
+   "verified_this_run": true,
+   "definition": {
+    "file": "WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/README.md",
+    "lines": [
+     1,
+     25
+    ],
+    "quote": "# Raw IMS hydrophone analyses, 25 October 2026 (session c764a583)\n\nFour exploratory analyses on raw IMS hydrophone records (EarthScope FDSN, network IM, channel EDH, StationXML response removed to Pa).\nEach analysis has a protocol written before computation. Nothing here is a likelihood. Nothing here changes the end-of-flight posterior.\n\n| folder | what it does | note |\n|---|---|---|\n| `f35a-raw-ridge/` | F-35A (Misawa, 9 Apr 2019) at Wake (H11N, H11S): raw against digitised levels, the 20 Hz gap, the source spectrum, the coupling ridge (D1, KRAKEN+RAM), the Arons (D2) value, back-azimuth | `f35a-raw-ridge-note.md` |\n| `transair-810/` | Transair 810 ditching (2 Jul 2021): detection test in the predicted window, check of Kadri's boxed signal, upper limit on ditching coupling (R3) | `transair810-note.md` |\n| `kadri-2024-replication/` | Kadri 2024 (Sci. Rep. 14:10102) panels against raw data; timing and bearing against the crash sites (comparison set, not excluded) | `kadri-replication-note.md` |\n| `propagation-level-check/` | ARA San Juan charge and event, and FSST 2016/2021 shots at Ascension (H10N, H10S): absolute level and frequency slope of the propagation chain, sigma_model, real-arrival test of the M1b detector | `propagation-level-check-note.md` |\n| `db-rows-merged/` | all new database rows in one import set with unique ids (see below) | `merge_wave3_rows.py`, `id-map.csv` |\n| `independent-verification/` | independent recomputation of 12 headline numbers | `wave3-verifier-report.md` |\n\n## Independent verification (clean-up rule: verifier before CURRENT)\nA separate agent recomputed 12 headline items from the raw data with its own code. It opened the track scripts only after it had its own number, and only to diagnose a difference.\nResult: **9 AGREE, 3 MINOR, 0 DISAGREE, 0 NOT VERIFIED.**\n\n- MINOR F2: the 20 Hz notch is −12.56 to −7.19 dB; the track gives −12.0 to −7.2 dB. It is \"present\" at 6 of 6 elements in both.\n- MINOR K1: the offsets of the Kadri-boxed bursts from the water-path centre depend on route length (see erratum 2).\n- MINOR P2: the median effective window is 47.9 s; the track gives 49.6 s. The conclusion of about 7 dB holds.\n\nThe verifier did not recompute these items, and they stay as the tracks report them:\n- the module M1b p-values for Transair 810 (0.079, 0.095);\n- the KRAKEN and RAM runs (F4 is arithmetic from the track's transmission-loss table);"
+   },
+   "note": "Four exploratory raw-IMS analyses (25 Oct 2026) with independent verifier pass (9 AGREE, 3 MINOR, 0 DISAGREE); errata listed in README apply. Nothing is a likelihood. (1 top-level files)",
+   "status_rank": "handoff",
+   "status_evidence": [
+    {
+     "rank": "handoff",
+     "source": "WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:48",
+     "quote": "status: CURRENT_WITH_CAVEATS"
+    },
+    {
+     "rank": "verifier",
+     "source": "WORK:coordination/HYDROACOUSTICS.md:1844",
+     "quote": "- Independent verifier: 12 headline items recomputed from raw data, 9 AGREE, 3 MINOR, 0 DISAGREE. Errata (7, README) apply; notes are not edited."
+    }
+   ],
+   "producing_thread": "c764a583 (Aircraft Impact Acoustic Source Survey)",
+   "handoff_manifest": "WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.raw_ims_2026_10_25.tsv.gz",
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 7193,
+   "manifest": "manifests/res.raw_ims_2026_10_25.tsv.gz",
+   "manifest_sha256": "fac4385ed733a775a1e311b0495dfdfd63ac0a7f06b276aba8dc5b6e0a70c822"
+  },
+  {
+   "id": "res.raw_ims_2026_10_25.f35a_raw_ridge",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/f35a-raw-ridge",
+   "status": "CURRENT_WITH_CAVEATS",
+   "defects": [],
+   "verified_this_run": true,
+   "definition": {
+    "file": "WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/f35a-raw-ridge/f35a-raw-ridge-note.md",
+    "lines": [
+     1,
+     30
+    ],
+    "quote": "# F-35A coupling ridge re-derived from the raw Wake Island records (H11N1-3, H11S1-3)\n\nHydroacoustics module, track 1, 25 Oct 2026. **EXPLORATORY** calibration of the source model on another event (F-35A, 9 Apr 2019). Nothing here returns to end of flight; no received duration is used for MH370. The measurements, the 20 Hz gap test and the ridge were **pre-registered** before computation ([f35a-raw-prereg.md]({{artifact:493a290e-9620-430a-85fe-b6f0ae751a8d}})); the corner-frequency family (Ffit_c), the per-triad RAM delta used as a sensitivity row and the pre-event-only noise σ are **post hoc** and labelled. No detection statistic or p-value is computed here.\n\n## 1. Main findings\n\n1. **The raw records reproduce the digitised Metz numbers.** Exposure 4-64 Hz is +0.22 to +0.29 dB higher than digitised at every element (triads H11N 0.284 vs 0.270 Pa² s, H11S 0.0955 vs 0.0896 Pa² s); 1-s RMS peaks +0.44 to +0.76 dB; noise +0.13 to +0.17 dB; −6 dB widths 0.05-0.30 s shorter; 5-95 % spans 0.08-0.27 s shorter; peak times within ±0.24 s. The N/S exposure split stays at 4.7 dB.\n2. **The ~20 Hz gap is real in the raw data at all six elements** (pre-registered G1: \"present\" at 6/6). Excess-energy notch 18-24 Hz is −7.2 to −12.0 dB (95 % upper bounds −4.99 to −9.43 dB). It is not the instrument (response feature +0.10 dB, smooth through 12-34 Hz), not a noise peak (the noise has a slight dip, −0.2 to −1.7 dB, not a 20 Hz fin-whale-type peak), not noise subtraction (the arrival PSD itself drops 5.0-7.3 dB before subtraction), not Metz filtering (our own processing), and not the modelled TL (KRAKEN TL is smooth through 16-25 Hz). No 60 Hz notch is resolved (2 elements \"absent\", 4 \"unresolved\"); the 25-ms two-pulse explanation is therefore not supported where the data have power, but the 60 Hz SNR is low (window/noise 1-2 dB). The received shape matches the digitised shape: received ESD slope 5-40 Hz −4.48 to −5.10 dB/octave (digitised −4.4/−4.8).\n3. **Implied source slope agrees with the digitised result; the raw 2-4 Hz bands add a corner.** Source ESD slope 5-40 Hz −10.2 ± 0.7 dB/octave at 10 m (KRAKEN only; digitised far field −10.1 ± 0.5), −9.45 ± 0.8 with RAM, i.e. exponent n ≈ 3.1-3.4. The pre-registered cavity branch is **not supported**: at 2-4 Hz the implied source lies 0 to −10 dB *below* the power-law extrapolation, not ≥3 dB above it. A post hoc fit puts a corner at 4.5-5.75 Hz (1σ 3.5-6.25 Hz) with n 2.65-3.5 above it.\n4. **The ridge (D1).** f⁻², KRAKEN+RAM (module convention), 900 MJ: 0.229 / 0.0572 / 0.00925 / 0.00240 / 6.84e-4 / 3.64e-4 / 1.86e-4 at 1/2/5/10/20/30/50 m, 1.06-1.07 × the digitised CV01-CV03. With the data-supported corner (Ffit_c) η is 0.6-1.0 × the f⁻² value at every depth on KRAKEN+RAM. The f⁻⁴ and fitted-no-corner families give 37-61 × and 3-13 × the f⁻² value because they put most energy below 4 Hz, where the raw data show none; they exceed η = 1 (energy limit) at z_eff ≤ 2 m (f⁻⁴) and 1 m (fitted, no corner). Across families η falls by about 1,200-6,400 × from 1 m to 50 m.\n5. **The 68 % error budget is dominated by station spread and location**, σ_ln ≈ 0.61 in total (factor 1.84): energy ±200 MJ σ_ln 0.23, element 0.13, station 0.38-0.45, location (module point W vs Metz-consistent point P, 21.4 km apart) 0.30-0.41. The location term is larger than the project's earlier ±8 km test (≤8 %) because P is farther away and on a different TL path.\n6. **A new pyram run (per triad) removes most of the H11N/H11S split (gap G-F2).** The module applied the H11S RAM delta to both triads. The H11N delta is smaller at 10-40 Hz (0.36-1.91 dB vs 2.83-3.90 dB at H11S). With each triad's own delta, η_N/η_S at 10 m falls from 2.16 to 1.26 (σ_ln station 0.39 → 0.11) and pooled η at 10 m becomes 1.81e-3 (0.75-0.78 × the module-convention value). The new H11S delta reproduces the module delta to within 0.7 dB.\n7. **Near field.** The digitised near-field values are 3.95-4.0 × the raw KRAKEN-only far field and 1.85-1.86 × the raw KRAKEN+RAM far field (previously 4.2 × and ~2.0 ×).\n8. **Brown's D2 recomputed.** Raw instantaneous peaks are 0.69-1.29 Pa (4-40 / 4-64 Hz) and 0.93-1.28 Pa (2-100 Hz). Arons D2 (900 MJ) = 5.4e-4 geometric mean in 4-64 Hz (element range 2.9e-4 to 1.0e-3), 4.6e-4 in 4-40 Hz, 7.6e-4 in 2-100 Hz, 2.1e-5 from the 1-s RMS peak. Brown's 0.7 Pa (band not stated) equals our lowest element peak (H11S3, 4-40 Hz, 0.689 Pa) and gives 2.08e-4, 2.2-2.6 × below our geometric means.\n9. **Back-azimuth disagrees with Metz by 3-4°.** Plane-wave fits with the FDSN element coordinates give 323.7° (H11N) and 325.7° (H11S), SD ≤ 0.03°, apparent velocity 1452-1456 m/s; the geodesic from W is 320.8° / 322.3° and Metz give 320.6° / 321.7°, 1473 / 1463 m/s. The back-azimuth is not used in the coupling ridge.\n\n## 2. Method (as pre-registered unless stated)\n\nRaw IM.H11N1-3/H11S1-3 EDH, 250 Hz, EarthScope FDSN dataselect (anonymous): event window 10:30-11:40 UTC plus seven 30-min backgrounds (01, 04, 07, 14, 17, 20, 23 h UTC) the same day; StationXML response for 9 Apr 2019 (one channel epoch, 2007-open; coordinates identical to module data/stations.csv). Full response removed to Pa (pre-filt 0.5/1/110/120 Hz). Envelope: 4-pole zero-phase 4-64 Hz, 1-s boxcar mean square, 0.02-s step; module observation operator obs.py unchanged (Metz frames H11N 11:02:55-11:03:25, H11S 11:03:55-11:04:25; noise = median outside peak ±8 s; arrival window L > L_n + 1 dB). Third-octave bands 2-100 Hz over the arrival window ±2 s, noise 10:45-11:01 UTC; a band is \"measured\" if excess ≥ 2σ (σ from all background windows) and window/noise ≥ 3 dB. TL: module KRAKEN chain unchanged (tl_grid_run_j.run_path + step2_tl loaders; GEBCO_2026, WOA23 B5C2 April, hard bottom, Francois-Garrison), extended to depths 1-50 m and bands 2-100 Hz; it reproduces module step2_tl.csv to < 1e-6 dB on the shared grid. D1 = SE_obs / [E ρc/2π Σ W_b S_b 10^(−TL_b/10)], bands 5-63 Hz, W63 0.54, τ 3.30 s, geometric mean of triads (step2_invert.py relation). D4 = route-B in-band energy / E. D2 = Arons (P = 52.4e6 (R/W^1/3)^−1.13 Pa, R 3248.8 / 3341.5 km, 4.184 MJ/kg).\n\n## 3. Raw versus digitised (per element)\n\n| element | 1-s peak UTC (raw − dig., s) | onset UTC | peak 1-s RMS dB re 1 µPa (Δ dB) | noise dB re 1 µPa (Δ) | SNR dB | exposure 4-64 Hz, Pa² s raw / dig. (Δ dB) | −6 dB width s raw / dig. | 5-95 % span s raw / dig. | inst. peak Pa 4-64 / 2-100 Hz |\n|---|---|---|---|---|---|---|---|---|---|\n| H11N1 | 11:03:05.38 (+0.23) | 11:03:00.22 | 111.35 (+0.76) | 95.58 (+0.17) | 15.8 | 0.2577 / 0.2427 (+0.26) | 2.96 / 3.15 | 4.80 / 4.92 | 0.950 / 1.235 |\n| H11N2 | 11:03:04.10 (-0.20) | 11:02:59.00 | 110.46 (+0.56) | 96.39 (+0.15) | 14.1 | 0.2859 / 0.2720 (+0.22) | 3.60 / 3.90 | 4.29 / 4.56 | 1.141 / 1.268 |\n| H11N3 | 11:03:05.48 (-0.17) | 11:03:00.34 | 111.91 (+0.65) | 95.49 (+0.15) | 16.4 | 0.3095 / 0.2944 (+0.22) | 3.20 / 3.50 | 4.77 / 5.03 | 1.287 / 1.283 |\n| H11S1 | 11:04:06.88 (+0.18) | 11:04:04.34 | 109.28 (+0.55) | 94.28 (+0.14) | 15.0 | 0.1299 / 0.1214 (+0.29) | 2.10 / 2.30 | 3.14 / 3.26 | 1.070 / 1.253 |\n| H11S2 | 11:04:07.76 (-0.24) | 11:04:05.54 | 106.51 (+0.44) | 93.57 (+0.13) | 12.9 | 0.0788 / 0.0742 (+0.26) | 2.80 / 2.85 | 3.24 / 3.33 | 0.893 / 0.930 |\n| H11S3 | 11:04:06.72 (-0.18) | 11:04:04.64 | 107.05 (+0.54) | 94.41 (+0.14) | 12.6 | 0.0779 / 0.0733 (+0.26) | 2.14 / 2.45 | 3.52 / 3.60 | 0.780 / 0.941 |"
+   },
+   "note": "F-35A raw H11 re-derivation: raw exposure +0.22-0.29 dB over digitised; 20 Hz gap at 6/6 elements; D1 ridge (f^-2 module form, KRAKEN+RAM, 900 MJ) 2.40e-3 at 10 m (1.06x CV02), sigma_ln 0.61; f^-4 family not supported; per-triad coupled-mode sensitivity 1.81e-3; Arons D2 5.4e-4 (4-64 Hz); back-azimuth 3-4 deg off Metz (unresolved). Verifier: F1 F3 F4 AGREE, F2 MINOR. Erratum 1 (wording) and 4 apply. (32 files)",
+   "status_rank": "handoff",
+   "status_evidence": [
+    {
+     "rank": "handoff",
+     "source": "WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:61",
+     "quote": "status: CURRENT_WITH_CAVEATS"
+    },
+    {
+     "rank": "verifier",
+     "source": "WORK:coordination/HYDROACOUSTICS.md:1844",
+     "quote": "- Independent verifier: 12 headline items recomputed from raw data, 9 AGREE, 3 MINOR, 0 DISAGREE. Errata (7, README) apply; notes are not edited."
+    }
+   ],
+   "producing_thread": "c764a583 (Aircraft Impact Acoustic Source Survey)",
+   "handoff_manifest": "WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.raw_ims_2026_10_25.f35a_raw_ridge.tsv.gz",
+   "superseded_by": null,
+   "n_files": 32,
+   "bytes": 2712915,
+   "manifest": "manifests/res.raw_ims_2026_10_25.f35a_raw_ridge.tsv.gz",
+   "manifest_sha256": "585d8da0bc4a484e7cae6e24f0dbc7fa6a260b11eb503092f5dcb06b887243db"
+  },
+  {
+   "id": "res.raw_ims_2026_10_25.transair_810",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/transair-810",
+   "status": "CURRENT_WITH_CAVEATS",
+   "defects": [],
+   "verified_this_run": true,
+   "definition": {
+    "file": "WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/transair-810/transair810-note.md",
+    "lines": [
+     1,
+     30
+    ],
+    "quote": "# Transair 810 (B737-200 ditching off Oahu, 2 July 2021) at Wake Island: first ditching-family (R3) case\n\nHydroacoustics module, track 2. 25 Oct 2026. Raw IMS records, EarthScope FDSN (net IM, cha EDH, 250 Hz).\nPre-registration written and saved before any statistic was computed on the hydrophone data:\n[transair810-preregistration.md]({{artifact:986504a4-4ccc-4c75-82d1-144325a8a08c}}) (SHA-256 360cf299…).\nEverything marked EXPLORATORY was added after the first run.\n\n## Summary\n\n1. **NTSB facts (DCA21FA174).** Water impact was at 11:45:17 UTC, at 21.27616 N, 158.02565 W. Groundspeed was 114.6 kt (58.96 m/s), descent rate about 4–6 m/s, pitch +12.3°, bank −14.9°, mass 42.0 t. Kinetic energy is **73.6 MJ (90 % 69.4–77.9)** and vertical kinetic energy 0.56 MJ (0.33–0.85). The project's ~86 MJ was an assumption and is 17 % high. The fuselage broke in two at BS 540. The wreck lies at 104–111 m depth.\n2. **Path.** The paths to H11N (3,655 km) and H11S (3,700 km) are clear in deep water: the minimum depth beyond 30 km is 1,329 m, and there is no land on the ±2 km corridor. The only obstacle is the Oahu shelf at the source. Water stays under 200 m for the first 9 km, and the module KRAKEN chain finds no propagating modes at ≤ 40 Hz on the great circle from the NTSB point.\n3. **Predicted window (ditching site).** Arrivals are predicted at 12:26:24 UTC (H11N) and 12:26:53 UTC (H11S), with 1σ ≈ 10 s. Neither triad gives a matched-filter p below 0.05: H11N p = 0.079 (mark), H11S p = 0.095 (mark), with n = 1,244 / 1,246 and p floor 0.0008. The bearings at the coherence maxima are 35° and 94° off the expected direction. **No significant detection with limited power.**\n4. **Kadri's box.** A signal is present at his time and roughly his level. It does not come from the ditching site.\n   - Matched filter: p = 0.0088 at H11N (report) and 0.057 at H11S. At H11S, D1 and coherence are also at mark level.\n   - Bearing at H11S: two coherent pulses 42 s apart (12:31:42 and 12:32:24) from **152.6°**, apparent speed 1.44 km/s. The expected bearing is 79.2°.\n   - Inter-triad timing: H11N receives both pulses 72–73 s after H11S. A plane wave from 152.6° predicts +74.5 s; a source at the ditching site predicts −29.7 s.\n   - Time of flight from 11:45:17 would be 1.30–1.32 km/s, not a deep-channel speed.\n   - The source is unidentified and EXPLORATORY: the bearing points toward the Tonga–Kermadec arc, and no USGS (M ≥ 3) or ISC event fits.\n5. **Coupling, measured detection probability.** Injecting the real F-35A arrival into 14 days of H11 background gives a 50 % detection level (M1b p < 0.05) of 0.065 Pa (H11N) and 0.048 Pa (H11S), as 1-s RMS in 5–40 Hz.\n6. **Coupling upper limit (R3).** Through the module chain (KRAKEN + RAM, source 3 km seaward, f⁻², total KE), η_rad,UL50 at H11S is 3.2e-4 / 1.2e-3 / 7.4e-3 / 3.0e-2 / 0.12 for z_eff = 10 / 5 / 2 / 1 / 0.5 m. H11N is 2.3× looser.\n   - This is **0.14× (H11S) and 0.31–0.32× (H11N) the F-35A ridge at the same depth**, measured at 2–10 m and on the extended ridge below 2 m.\n   - It is 30–30,000× above the slow-blunt analogs (raindrops ~1e-5, ice blocks ~8e-7). The data therefore exclude an F-35A-like coupling for the ditching but cannot test a slow-blunt one.\n\nStanding caveats on every limit and ratio here:\n- (C1) The propagation model failed the frequency-slope check against the 2001 airguns (+10 dB/octave at H01W, +7 at H08S) although levels passed. This work does not test or change that. The upper limit weights 5–63 Hz through the same model, so an unresolved slope error passes into it, unquantified.\n- (C2) The detection probability is measured on real background but with a borrowed arrival shape (the F-35A). A longer ditching arrival would make the matched filter less efficient, which would make the limits optimistic.\n\n## 1. Primary facts (NTSB) and kinetic energy\n\nSources: the NTSB docket at data.ntsb.gov, read in this session. They are the final report (CAROL, 45 pp.), the Aircraft Performance Group (APG) study with Table 4, the FDR specialist's report and its data attachment (CSV), the EGPWS specialist's report, the Search and Recovery factual, the Structures factual and the Survival factual. Second sources are Wikipedia, Aviation Safety Network, Kadri S1 and GEBCO 2026. Table: [ntsb_primary_facts.csv]({{artifact:96e05656-1298-4a2a-932b-4ebeb0a17608}})."
+   },
+   "note": "Transair 810 ditching at Wake: no significant detection in the predicted window (module M1b p 0.079/0.095, not re-verified); Kadri's boxed burst real but from 152.6 deg (expected 79.2); R3 upper limit eta_rad <= ~0.14x F-35A ridge (H11S). Verifier: T1 T2 AGREE. Erratum 7 applies. (41 files)",
+   "status_rank": "handoff",
+   "status_evidence": [
+    {
+     "rank": "handoff",
+     "source": "WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:74",
+     "quote": "status: CURRENT_WITH_CAVEATS"
+    },
+    {
+     "rank": "verifier",
+     "source": "WORK:coordination/HYDROACOUSTICS.md:1844",
+     "quote": "- Independent verifier: 12 headline items recomputed from raw data, 9 AGREE, 3 MINOR, 0 DISAGREE. Errata (7, README) apply; notes are not edited."
+    }
+   ],
+   "producing_thread": "c764a583 (Aircraft Impact Acoustic Source Survey)",
+   "handoff_manifest": "WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.raw_ims_2026_10_25.transair_810.tsv.gz",
+   "superseded_by": null,
+   "n_files": 41,
+   "bytes": 5356093,
+   "manifest": "manifests/res.raw_ims_2026_10_25.transair_810.tsv.gz",
+   "manifest_sha256": "19826423413bd51a9b30046c832901e8c4031a40afeb8103f46001e2e820d731"
+  },
+  {
+   "id": "res.raw_ims_2026_10_25.kadri_2024_replication",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/kadri-2024-replication",
+   "status": "CURRENT_WITH_CAVEATS",
+   "defects": [
+    "D28"
+   ],
+   "verified_this_run": true,
+   "definition": {
+    "file": "WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/kadri-2024-replication/kadri-replication-note.md",
+    "lines": [
+     1,
+     30
+    ],
+    "quote": "# Replication of Kadri (2024) aircraft-crash panels on raw IMS data, and reconciliation (track 4)\n\nHydroacoustics module, 25 Oct 2026. Pre-registered windows and statistics: {{artifact:0e9cad65-8030-4b8a-8f04-6528e5abbbfd}} (saved before any waveform was downloaded).\nParts marked EXPLORATORY or POST-HOC were not pre-registered. No MH370 quantity is inferred from anything here. No coupling value is derived in this track (no energy or transmission-loss inversion), so no `db_coupling_value.csv` rows are written.\n\n## Deviations and limits (read first)\n1. **Citation.** The paper is *Sci. Rep.* **14:10102** (2024), doi 10.1038/s41598-024-60529-1 (not 14:10178; checked in the repo text and PMC copy).\n2. **AirAsia 8501, H01W:** open EarthScope data cover only 2014-12-27 22:00:00 – 2014-12-28 00:00:00 UTC (probes: 204 at 21:00, 00:05, 00:30, 02:00, 06:00, 12:00 on 28 Dec; 200 from 29 Dec). The pre-registered water window (00:02:58–00:06:28) is **not testable**; the last minute of Kadri's panel (00:00–00:01) is missing.\n3. **AB Aviation 1103:** no official accident report found; impact time 09:30–09:40 UTC from ASN/press (12:30/12:40 EAT); position from Kadri S1 (not verified).\n4. **Transair 810:** ditching position from Wikipedia (NTSB final-report coordinates not read); time 11:45:18 ± 60 s from the NTSB docket (ADS-B end 11:45:17.902; 'about 0145 HST').\n5. **F-35A:** impact time 10:26:30 UTC from Kadri S1 / JASDF and position from the module working point (Metz 2023); not re-verified (track 1 owns F-35A).\n6. **Processing deviation (declared):** the pre-registered 5 % cosine taper (and obspy's default 5 % response-removal taper) damped up to 6 min at the end of the 2-h H01W record and 18 min at the ends of 6-h records; both were capped at 30 s and the edge exclusion widened from 20 s to 60 s; 1-sample chunk-join holes are interpolated instead of zero-filled (zero fill made spikes). Results after the fix differ from the first run by ≤ 0.04 in p except QZ8501 H01W Kadri box (p 0.109 → 0.047, because the box lay inside the damped end).\n7. **D1 STA/LTA** is computed on the triad-mean energy (module definition STA 2 s / LTA 30 s otherwise unchanged). **M1b matched filter not run** (its template bank is built for the MH370 ranges; not adapted). **Likelihood ratios not defined** (no calibrated per-case signal model).\n8. **Reproduction figure** uses the single element with the highest zero-lag envelope correlation (display choice, not pre-registered).\n9. **Bearings at H08S (SJ182, Jan 2021):** elements H08S1/H08S2 are 15–20 dB noisier than H08S3 at 2–20 Hz; triad bearing unreliable. AB1103 box: element delays incoherent; no bearing.\n10. **Kadri's panel boxes, traces and levels** are digitised from the publisher's full-resolution PNGs (≈0.78 s/px; trace clipped at the frame). Kadri's Lion Air 904, Yemenia, AF447, Asiana panels are pre-2015 (no open data) and not in scope.\n11. Three script artifacts (cases.py, geometry.py, water_route.py) were saved as version 2 of existing same-name project artifacts (likely another track's); earlier versions are retained.\n\n## 1. What Kadri reports (quoted)\nMethods: \"a high pass Butterworth IIR filter was used (in addition to the CTBTO high pass filter) below 5 Hz. Moreover, a 2–40 [Hz] band-pass filter was applied in general.\" Panels: \"Signals from past aircraft crashes were presented around the middle of a 10 min time window\". S1 speed range (MH370 section): \"an average speed between 1,450 m/s and 1,570 m/s\".\nFor the crash panels Kadri gives **no numeric signal time, amplitude or bearing**; the claim is the box in each figure. Per case (full quotes in {{artifact:41d9a266-fbed-4cb9-ac7e-4f8e9bd84c42}}, column `kadri_claim`):\n* **F-35A** (Fig. 4a; H11N after 10:58, H11S after 10:59): \"a distinctive, sharp, and rapid (6 s) signal following the supersonic impact\"; S1 impact \"10:26:30 UTC\", \"about 3, 340 km\".\n* **Sriwijaya 182** (Fig. 4c; H08S after 08:06): \"the signal of interest is sharp and clear\"; S1 \"07:40 UTC\", range \"4, 694 km\" — Fig. 2 map gives \"3,772 km, 89.32°\".\n* **Transair 810** (Fig. 5b; H11N after 12:28, H11S after 12:27): \"there appears to be a double signal, potentially indicating a ditching event, an engine that was detached, or signal arrival from different locations\"; S1 \"around 11:46 UTC\".\n* **AB Aviation 1103** (Fig. 6a; H08S after 09:36): Fig. 6 \"signal dispersion is most pronounced\"; S1 \"around 09:30 UTC\"; Fig. 2 \"3,186 km, 258.47°\".\n* **AirAsia 8501** (Fig. 6b; H01W only, after 23:51): \"distorted with noise (possibly due to airgun shots ...), and the magnitude of the pressure induced by the aircraft crash is not clear\"; S1 \"December 28, 2014 ... around 07:37 UTC\"; Fig. 2 \"3,523 km, 351.52°\".\nDigitised box limits (min after panel start): F-35A H11N 4.26–5.69, H11S 4.38–5.81; SJ182 4.58–6.01; TA810 H11N 4.24–5.68, H11S 4.20–5.65; AB1103 4.62–6.09; QZ8501 4.10–5.73 ({{artifact:ef2da099-bf3b-4d6f-9b5d-ebcc9bbb3a6f}}); agree with the project's earlier 669-px reads within 0.06 min.\n\n## 2. Impact times and positions (primary sources) vs Kadri\n* QZ8501: KNKT final report \"The last data recorded by FDR was at 2320:35 UTC\" (27 Dec), radio altitude 118 ft. The project table's \"2014-12-28 ~07:37\" (from Kadri S1) is **not supported**; Kadri's own panel (23:51) implies he used a ~23:2x time. Kadri's S1 position is 286.6 km from the KNKT site; his Fig. 2 range (3,523 km) is close to our KNKT-site range (3,492.1 km)."
+   },
+   "note": "Kadri 2024 (Sci. Rep. 14:10102) is a COMPARISON SET: F-35A reproduced and consistent; Transair, Sriwijaya, AB1103, AirAsia boxed signals real but not consistent with the crash sites under the project path model; Lion Air 610 no detection. Not evidence that Kadri erred. Verifier: K2 K3 AGREE, K1 MINOR. Errata 2 and 3 apply. (16 files)",
+   "status_rank": "handoff",
+   "status_evidence": [
+    {
+     "rank": "handoff",
+     "source": "WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:87",
+     "quote": "status: CURRENT_WITH_CAVEATS"
+    },
+    {
+     "rank": "verifier",
+     "source": "WORK:coordination/HYDROACOUSTICS.md:1844",
+     "quote": "- Independent verifier: 12 headline items recomputed from raw data, 9 AGREE, 3 MINOR, 0 DISAGREE. Errata (7, README) apply; notes are not edited."
+    }
+   ],
+   "status_note": "Hand-off defect text: route length overstated 1-4 %: Sriwijaya/AB1103 offsets too negative by ~26/84 s (README erratum 2)",
+   "producing_thread": "c764a583 (Aircraft Impact Acoustic Source Survey)",
+   "handoff_manifest": "WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.raw_ims_2026_10_25.kadri_2024_replication.tsv.gz",
+   "superseded_by": null,
+   "n_files": 16,
+   "bytes": 762064,
+   "manifest": "manifests/res.raw_ims_2026_10_25.kadri_2024_replication.tsv.gz",
+   "manifest_sha256": "3a4502e88fd7bfe8ea3d4ea2e3f4f8c6a64a1df41ca362e691ca32a5e45355d3"
+  },
+  {
+   "id": "res.raw_ims_2026_10_25.propagation_level_check",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/propagation-level-check",
+   "status": "CURRENT_WITH_CAVEATS",
+   "defects": [],
+   "verified_this_run": true,
+   "definition": {
+    "file": "WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/propagation-level-check/propagation-level-check-note.md",
+    "lines": [
+     1,
+     30
+    ],
+    "quote": "# Absolute level check of the propagation chain on known-energy explosions, and the ARA San Juan event, from raw IMS data\n\nHydroacoustics module, track 3, 25 October 2026. Exploratory, with a protocol written before any statistic was computed\n(section 1; timestamp 2026-10-25T01:45:53Z). Nothing here is a likelihood and nothing moves the posterior. Standing caveats:\n(1) frequency-slope failure of the propagation model on the 2001 airguns (+10 dB/oct H01W, +7 dB/oct H08S) — section 5 says how\nthis result changes it; (2) detection probability is a proxy unless measured on real data — section 6 gives the first real-data\nmeasurement for M1b. Units: Pa, Pa^2 s, dB re 1 uPa (peak), dB re 1 uPa^2 s/Hz (band-average energy spectral density, ESD).\n\n## Results in one paragraph\nRaw IMS records at Ascension (H10N, H10S; EarthScope, anonymous) were downloaded for the San Juan calibration charge, the San Juan\nloss event and all eight US Navy shock-trial shots (2016 x 5, 2021 x 3). The raw data reproduce the published levels: San Juan\npeaks at H10N 138.2 dB re 1 uPa (Vergoz: 139), charge 128.5 dB (Vergoz: 130); the digitised Nielsen Fig. 5c PSD is matched by a\nraw 60 s Welch PSD within 1.7 dB. **The stage-1b level FAIL (-14.4 dB) was mostly a unit conversion.** The digitised PSD was\nconverted to energy with a 10 s signal duration; the raw data show that the averaging window was about 50 s (39-71 s by band),\nso that step understated the measured energy by about 7 dB. On raw data the charge at H10N is -2.8 to -8.2 dB (model too loud,\nspread set by the source model), and at H10S it is -0.9 to +5.7 dB. Across 17 explosion-station pairs, 2 chains and 3 declared\nsource models, **the residual frequency slope is -3.7 to +2.9 dB/octave; none shows the airgun-type +7 to +13 dB/octave.**\nAbsolute level scatters by about 4-5 dB (SD over pairs, KRAKEN-only) about a bias that depends on the source model and, for the\nshock trials, on a charge depth that no primary source gives. The model does not reproduce the H10S-H10N station difference for\nthe South American sources (measured +5.4 dB, predicted -1 to -2 dB), consistent with unmodelled Rio Grande Rise blockage on\nthe H10N path. The module's M1b matched filter detects the real San Juan arrival at p = 0.0026 (the floor, n = 379) at all five\nusable elements, and the charge at p = 0.0027-0.0082; but background windows reach 0.93-0.98 on the same statistic. Through the\nsame chain the San Juan event is a 9-918 kg TNT-equivalent source for depths 200-900 m (G&S construction and 800 ft reference; up to 2,059 kg with the 300 ft reference; Heyburn et al. 2020: 428 kg lies inside\nthe range only for depths of about 800-900 m).\n\n## 1. Pre-registration (written before computing; full text `prereg.md`)\nDisclosure: the charge result at H10N was not blind (stage 1b digitised result known). Raw measurements, H10S, the FSST shots,\nthe second source model and the San Juan event were blind. Measurement (M1-M8): full StationXML response removed (input unit\nPA, checked); arrival = 1-s RMS envelope peak (2-40 Hz) in [d/1.500 - 60 s, d/1.460 + 60 s]; signal window 60 s centred on the peak\n(20 s and 120 s sensitivity); noise = median of 10 equal windows ending 60 s before; FFT ESD in base-2 third octaves, noise"
+   },
+   "note": "Known-energy explosions at Ascension (San Juan charge and event, FSST 2016/2021): stage-1b -14.4 dB level FAIL mostly a PSD-to-energy unit conversion (~7 dB); residual slope -3.7 to +2.9 dB/oct over 17 pairs (airgun misfit attributed to airgun source term, caveat wording awaits Pete); provisional sigma_model ~5 dB + ~4 dB source + >=6 dB ridge path; M1b detects real San Juan arrival at p floor but weak at 16-24 dB SNR. Verifier: P1 P3 AGREE, P2 MINOR. Errata 5 and 6 apply. (57 files)",
+   "status_rank": "handoff",
+   "status_evidence": [
+    {
+     "rank": "handoff",
+     "source": "WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:100",
+     "quote": "status: CURRENT_WITH_CAVEATS"
+    },
+    {
+     "rank": "verifier",
+     "source": "WORK:coordination/HYDROACOUSTICS.md:1844",
+     "quote": "- Independent verifier: 12 headline items recomputed from raw data, 9 AGREE, 3 MINOR, 0 DISAGREE. Errata (7, README) apply; notes are not edited."
+    }
+   ],
+   "producing_thread": "c764a583 (Aircraft Impact Acoustic Source Survey)",
+   "handoff_manifest": "WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.raw_ims_2026_10_25.propagation_level_check.tsv.gz",
+   "superseded_by": null,
+   "n_files": 57,
+   "bytes": 6314046,
+   "manifest": "manifests/res.raw_ims_2026_10_25.propagation_level_check.tsv.gz",
+   "manifest_sha256": "3f7314d3ef1efaa4f4ab7cf12e7530a9321fc94b8c5327c776c51dc61ac2e57d"
+  },
+  {
+   "id": "res.raw_ims_2026_10_25.db_rows_merged",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/db-rows-merged",
+   "status": "CURRENT",
+   "defects": [],
+   "verified_this_run": true,
+   "definition": {
+    "file": "WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/db-rows-merged/merge_wave3_rows.py",
+    "lines": [
+     1,
+     30
+    ],
+    "quote": "\"\"\"Merge the wave-3 DB rows from three tracks into one import set with unique ids.\n\nEach track numbered its new rows from CV26 / OB07, so the ids collide. This script\ngives every row a unique id that follows the base package (CV01-CV25, OB01-OB06),\nkeeps the track's own id in column `track_local_id`, and remaps id references in\ndb_impact_case_AC05_update.csv. Values are not changed.\nOrder: propagation check (keeps CV26-CV31, OB07-OB63), then Transair 810, then F-35A raw ridge.\n\"\"\"\nimport re, sys\nfrom pathlib import Path\nimport pandas as pd\n\nroot = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).resolve().parents[1]\npkg = Path(sys.argv[2]) if len(sys.argv) > 2 else None\nout = root / \"db-rows-merged\"\n\ncv_src = [(\"propagation-level-check\", \"propagation-level-check/db_coupling_value_new_rows.csv\"),\n          (\"transair-810\", \"transair-810/db_coupling_value_new_rows.csv\"),\n          (\"f35a-raw-ridge\", \"f35a-raw-ridge/f35a-raw-coupling-rows.csv\")]\nob_src = [(\"propagation-level-check\", \"propagation-level-check/db_received_observation.csv\"),\n          (\"f35a-raw-ridge\", \"f35a-raw-ridge/f35a-raw-received-observation-rows.csv\"),\n          (\"transair-810\", \"transair-810/db_received_observation_new_rows.csv\")]\n\ndef merge(src, idcol, prefix, start, width, skip_ids=()):\n    rows, maps, n = [], {}, start\n    for track, rel in src:\n        d = pd.read_csv(root / rel)\n        d = d[~d[idcol].isin(skip_ids)].copy()      # base rows repeated by a track\n        m = {}\n        for old in d[idcol]:"
+   },
+   "note": "All wave-3 DB rows with unique ids (CV26-CV123, OB07-OB81, E18, AC05/R3 updates); id-map.csv keeps track ids; validator PASS 0 failures on base package + rows. For the data-inventory thread to import (one writer). (6 files)",
+   "status_rank": "handoff",
+   "status_evidence": [
+    {
+     "rank": "handoff",
+     "source": "WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:113",
+     "quote": "status: CURRENT"
+    },
+    {
+     "rank": "verifier",
+     "source": "WORK:coordination/HYDROACOUSTICS.md:1844",
+     "quote": "- Independent verifier: 12 headline items recomputed from raw data, 9 AGREE, 3 MINOR, 0 DISAGREE. Errata (7, README) apply; notes are not edited."
+    }
+   ],
+   "producing_thread": "c764a583 (Aircraft Impact Acoustic Source Survey)",
+   "handoff_manifest": "WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.raw_ims_2026_10_25.db_rows_merged.tsv.gz",
+   "superseded_by": null,
+   "n_files": 6,
+   "bytes": 129183,
+   "manifest": "manifests/res.raw_ims_2026_10_25.db_rows_merged.tsv.gz",
+   "manifest_sha256": "d078ecf0b54536f976743cff80fa2228214108b7293cf35fe8a92b4078184e6b"
+  },
+  {
+   "id": "res.raw_ims_2026_10_25.independent_verification",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/independent-verification",
+   "status": "CURRENT",
+   "defects": [],
+   "verified_this_run": true,
+   "definition": {
+    "file": "WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/independent-verification/wave3-verifier-report.md",
+    "lines": [
+     1,
+     30
+    ],
+    "quote": "# Wave-3 raw IMS analyses: independent verifier report\n\nVerifier session c764a583, 25 Oct 2026. Exploratory checks only. Nothing here enters any posterior. I did not edit or re-save any track file.\n\n## Deviations (read first)\n\n1. Independence: I opened track scripts only after I had my own number, and only to diagnose a difference. F4: f35a_raw_analysis.py, plus the module files prereg.py and imos_stageB_map.py fetched from GitHub (branch hypothesis/hydroacoustics). K1: water_route.py. P2: track3-scripts.tar.gz (s08_published.py). I did not open measure.py, analyse.py or any ta810_*.py.\n2. P2 definition changed from the task text. The task describes the window as raw Welch PSD against band exposure. The track defines it as the raw 60-s band ESD divided by Nielsen Fig. 5c digitised PSD. I report both. The verdict uses the track definition, with the digitised Nielsen bands (nielsen_fig5cd_bands.csv, repo results-data) as input.\n3. F4 is arithmetic from the track's TL table (f35a-raw-tl-kraken.csv) and the note's module RAM delta (section 6 table), with my own F1 exposures. I did not re-run KRAKEN or RAM.\n4. K1, AB1103: Kadri's S1 position is not available to me. I used the published crash location instead: 2.5 km NW of Moheli Bandar Es Eslam airport (Aviation Safety Network), taken as 12.282 S 43.750 E. Impact time 09:30:00 UTC, as in the track.\n5. K1: I computed my own all-water routes on GEBCO_2026 (0.05 deg blocks, deepest cell; 8- and 16-neighbour Dijkstra, then string-pulling on geodesics). They are not the track's routes. My maximin depth for SJ182 is 40 m (thresholds tested: 40 and 44 m; the track gives 44 m).\n6. K2: the expected bearing uses an approximate KNKT wreck-area position (3.62 S 109.71 E).\n7. T1: I used a simple envelope SNR with an empirical p against 54 other 90-s windows of the same 100-min record. I did not recompute the module M1b p-values (0.079 / 0.095).\n8. F2: noise PSD from 10:45-11:01 UTC only. The seven background windows were not downloaded, so I did not recompute the sigma_b band 'measured' flags. The G1 statistic does not use them.\n9. Compute: local, at most 4 download threads. Data from the EarthScope FDSN (anonymous). No mirror was used.\n\nVerdict rule. AGREE: the difference is within the rounding of the claim, or below 0.5 dB, 5 %, 0.1 deg and 0.5 s, with the same qualitative conclusion. MINOR: the difference is at most 1 dB, 10 %, 1 deg or 2 s (any one of these). DISAGREE: larger than that. NOT VERIFIED: not recomputed.\n\n## Summary\n\nOf 12 items, 9 AGREE, 3 MINOR, 0 DISAGREE and 0 NOT VERIFIED. No finding is reversed. The MINOR items are as follows. F2: the gap depth agrees to within 0.7 dB. K1: the route-length method moves the offsets by 26 s and 84 s, and both bursts stay far too early for a water path. P2: the median window is 47.9 s against 49.6 s.\n\n## Checks\n\n| item | claimed | recomputed | difference | verdict | reason |\n|---|---|---|---|---|---|\n| F1 | Exposure 4-64 Hz, noise-subtracted: H11N 0.284, H11S 0.0955 Pa^2 s. 1-s RMS peaks 0.31-0.38 Pa (H11N), 0.20-0.27 Pa (H11S). | Linear triad mean H11N 0.2842, H11S 0.0955 Pa^2 s (median 0.2855 / 0.0789). 1-s RMS peaks 4-40 Hz: H11N 0.308-0.375, H11S 0.197-0.274 Pa; 4-64 Hz: 0.334-0.394 / 0.211-0.291 Pa. | Exposure < 0.1 %. Peaks within rounding (4-40 Hz). | AGREE | Claimed triad values are the linear mean of three elements (pre-registration R4), not the median; the median would be 0.2855 / 0.0789. The claimed peak ranges are the 4-40 Hz values; the note's own table is 4-64 Hz (0.333-0.394 / 0.211-0.291 Pa), which I also reproduce. |\n| F2 | 18-24 Hz notch -7.2 to -12.0 dB; present at 6 of 6 elements. | D20 -12.56 to -7.19 dB; H11N1 -12.33 (95 % upper -9.46), H11N2 -9.31 (95 % upper -6.32), H11N3 -9.52 (95 % upper -7.62), H11S1 -8.15 (95 % upper -5.63), H11S2 -12.56 (95 % upper -6.96), H11S3 -7.19 (95 % upper -5.00); present at 6 of 6. | Per element /diff/ <= 0.66 dB (largest at H11S2). | MINOR | Pre-registered G1 statistic (1-s Hann Welch over arrival window +/-2 s, noise PSD 10:45-11:01 subtracted; 18-24 Hz against 12-17 and 26-34 Hz). Verdict \"present\" at all six elements agrees. Values agree within 0.7 dB. |\n| F3 | Back-azimuth 323.7 deg (H11N), 325.7 deg (H11S); apparent velocity 1452-1456 m/s. | 4-64 Hz: H11N 323.72 deg (1452 m/s), H11S 325.72 deg (1455 m/s); 5-40 Hz: 323.69 / 325.74 deg. | < 0.05 deg; < 1 m/s. | AGREE | FDSN element coordinates, 6-s windows, 1-s step, closure <= 16 ms and 1430-1530 m/s gates, energy-weighted circular mean. |\n| F4 | eta(z = 10 m) = 2.40e-3; ratio 1.06 to 2.26e-3 (CV02). | First pass (true one-pole spectrum 1/(1+(f/fc)^2)): 2.315e-03, ratio 1.025. Module piecewise form (flat to fc, f^-2 above, 4000-point log grid): 2.3956e-03, ratio 1.060. | Piecewise form: < 0.1 %. One-pole form: -3.4 %. | AGREE | Arithmetic from the track TL table (W path, 10 m), the note's module H11S RAM delta, my F1 exposures, E 900 MJ, rho c 1025 x 1500, W63 0.54. My first number was 3.4 % low; I then opened f35a_raw_analysis.py and the module band_fraction (GitHub) to diagnose. The difference is the spectrum form, not the data. |"
+   },
+   "note": "Independent recomputation of 12 headline items from raw data: 9 AGREE, 3 MINOR, 0 DISAGREE, 0 NOT VERIFIED. Not re-verified: module M1b p-values, KRAKEN/RAM runs. (3 files)",
+   "status_rank": "handoff",
+   "status_evidence": [
+    {
+     "rank": "handoff",
+     "source": "WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:126",
+     "quote": "status: CURRENT"
+    },
+    {
+     "rank": "verifier",
+     "source": "WORK:coordination/HYDROACOUSTICS.md:1844",
+     "quote": "- Independent verifier: 12 headline items recomputed from raw data, 9 AGREE, 3 MINOR, 0 DISAGREE. Errata (7, README) apply; notes are not edited."
+    }
+   ],
+   "producing_thread": "c764a583 (Aircraft Impact Acoustic Source Survey)",
+   "handoff_manifest": "WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.raw_ims_2026_10_25.independent_verification.tsv.gz",
+   "superseded_by": null,
+   "n_files": 3,
+   "bytes": 47612,
+   "manifest": "manifests/res.raw_ims_2026_10_25.independent_verification.tsv.gz",
+   "manifest_sha256": "e4d87d72f520b4078db7c5086241db737df0b8dab0ca0f9420c11d87ccea4d7a"
+  },
+  {
+   "id": "note.registry_handoff_c764a583",
+   "kind": "note",
+   "path": "WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff",
+   "note": "Registry hand-off of session c764a583: entries-c764a583.yaml and 10 manifests (record of what that session proposed).",
+   "producing_thread": "c764a583 (Aircraft Impact Acoustic Source Survey)",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 11,
+   "bytes": 20712,
+   "manifest": "manifests/note.registry_handoff_c764a583.tsv.gz",
+   "manifest_sha256": "dce1087bd8ec4c1b5ef24b67e6da6c0bfbcd01519e0c02fd4e44ccd523b05cd4",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "note.hydro_index",
+   "kind": "note",
+   "path": "WORK:results/hydroacoustics/INDEX.md",
+   "note": "Hydroacoustics index, generated from the hydro registry on hypothesis/hydroacoustics (make_index.py). Do not edit by hand.",
+   "hash": false,
+   "hash_note": "generated from this registry after each build (make_index.py), so a hash in the registry would always be one build old; not hashed",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null,
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.hydro_decisions_json",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics/decisions.json",
+   "note": "decisions.json",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 18438,
+   "manifest": "manifests/res.hydro_decisions_json.tsv.gz",
+   "manifest_sha256": "6ff6c21e93d4951960942c9c6df6f0498fa65df35a59a231a8f8890eb1e8e7d1",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "note.hydro_decisions",
+   "kind": "note",
+   "path": "WORK:results/hydroacoustics/decisions.md",
+   "note": "Hydroacoustics: Pete's rulings and standards, in his own words",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 11254,
+   "manifest": "manifests/note.hydro_decisions.tsv.gz",
+   "manifest_sha256": "15a0f7277fdde9ec4640f7b48e8e04b93dc8096950596bb7796cb848ff648675",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "note.hydro_profile_prompt_hydroacoustic_module_after_2026_10_23",
+   "kind": "note",
+   "path": "WORK:results/hydroacoustics/profile-prompt-HYDROACOUSTIC_MODULE-after-2026-10-23.txt",
+   "note": "profile-prompt-HYDROACOUSTIC_MODULE-after-2026-10-23.txt",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 4806,
+   "manifest": "manifests/note.hydro_profile_prompt_hydroacoustic_module_after_2026_10_23.tsv.gz",
+   "manifest_sha256": "604c7f4f54a9ace92bc07c82561e067ee8bd126f60f144f43689deb983d1507b",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "note.hydro_profile_prompt_hydroacoustic_module_before_2026_10_23",
+   "kind": "note",
+   "path": "WORK:results/hydroacoustics/profile-prompt-HYDROACOUSTIC_MODULE-before-2026-10-23.txt",
+   "note": "profile-prompt-HYDROACOUSTIC_MODULE-before-2026-10-23.txt",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "SUPERSEDED",
+   "status_rank": "explicit",
+   "status_evidence": [
+    {
+     "rank": "explicit",
+     "source": "WORK:coordination/HYDROACOUSTICS.md:1746",
+     "quote": "**Read first, every hydroacoustic session:** `results/hydroacoustics/INDEX.md` (generated from the registry), `results/hydroacoustics/decisions.md` (Pete's rulings, his words, each quote checked as an exact substring of his message), `results/hydroacoustics/proposals.md` (not rules). The HYDROACOUSTIC_MODULE profile prompt was replaced (old and new text in `results/hydroacoustics/profile-prompt-*`"
+    }
+   ],
+   "superseded_by": "note.hydro_profile_prompt_hydroacoustic_module_after_2026_10_23",
+   "n_files": 1,
+   "bytes": 8390,
+   "manifest": "manifests/note.hydro_profile_prompt_hydroacoustic_module_before_2026_10_23.tsv.gz",
+   "manifest_sha256": "e74717e654c382d7046054c25b00258e12d37ac0c2a2ad7232f06626e0a6da3a",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "note.hydro_proposals",
+   "kind": "note",
+   "path": "WORK:results/hydroacoustics/proposals.md",
+   "note": "Hydroacoustics: agent proposals waiting for Pete",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 4590,
+   "manifest": "manifests/note.hydro_proposals.tsv.gz",
+   "manifest_sha256": "9759f20df11038301bd62b4536eb91c1ca8d59c56fabf36bd786dd17eb6e0aa0",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.audit",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-audit",
+   "note": "hydroacoustics-audit (75 files)",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 75,
+   "bytes": 8923251,
+   "manifest": "manifests/res.audit.tsv.gz",
+   "manifest_sha256": "f20b0fbd3a8ab053c67e633b759a10a48a1e891f28ec428106fa6e27a05b3c7b",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.back_to_basics_2026_10_23.airgun_surveys",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-back-to-basics-2026-10-23/airgun-surveys",
+   "note": "Seismic airgun surveys heard on 8 March 2014: identification, location and removal",
+   "producing_thread": "c0b15646 (Hydroacoustic Site Noise Characterization Review)",
+   "definition": {
+    "file": "WORK:results/hydroacoustics-back-to-basics-2026-10-23/airgun-surveys/README_airgun_surveys.md",
+    "lines": [
+     1,
+     6
+    ],
+    "quote": "# Seismic airgun surveys heard on 8 March 2014: identification, location and removal\n\nHydroacoustics module, back-to-basics track, 23 October 2026. Branch claude-science-sep29.\nStatus: **predictive and diagnostic, not a likelihood.** All Diego Garcia (H08S), Cape Leeuwin (H01W) and OHASISBIO inputs are digitised from published figures. Every number that rests on them is **provisional**.\n\n## 1. Summary of findings"
+   },
+   "status": "CURRENT_WITH_CAVEATS",
+   "status_rank": "readme",
+   "status_evidence": [
+    {
+     "rank": "readme",
+     "source": "WORK:results/hydroacoustics-back-to-basics-2026-10-23/airgun-surveys/README_airgun_surveys.md:4",
+     "quote": "Status: **predictive and diagnostic, not a likelihood.** All Diego Garcia (H08S), Cape Leeuwin (H01W) and OHASISBIO inputs are digitised from published figures. Every number that rests on them is **provisional**."
+    }
+   ],
+   "defects": [],
+   "verified_this_run": false,
+   "superseded_by": null,
+   "n_files": 22,
+   "bytes": 7177888,
+   "manifest": "manifests/res.back_to_basics_2026_10_23.airgun_surveys.tsv.gz",
+   "manifest_sha256": "35b75f31d87764eff3c03d1621904b1b4ef39de9a14abf0a1dc3753d2d713bf9"
+  },
+  {
+   "id": "res.back_to_basics_2026_10_23.imos_full_deployment_noise",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-back-to-basics-2026-10-23/imos-full-deployment-noise",
+   "note": "IMOS full-deployment noise statistics and the place of 8 March 2014 in them",
+   "producing_thread": "c0b15646 (Hydroacoustic Site Noise Characterization Review)",
+   "definition": {
+    "file": "WORK:results/hydroacoustics-back-to-basics-2026-10-23/imos-full-deployment-noise/NOTE_imos_deployment_noise.md",
+    "lines": [
+     1,
+     6
+    ],
+    "quote": "# IMOS full-deployment noise statistics and the place of 8 March 2014 in them\n\nDate: 23 Oct 2026. Track: IMOS full deployments, noise statistics (stream-processed on deskstar).\n\n## Deviations and scope (read first)\n- **Data processed: all records of the three deployments that are in the IMOS bucket** (948 logger-days, 90,577 records, 334 GB raw). Nothing was subsampled. Loggers 3315 and 3275 are not in the bucket and were not processed."
+   },
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 23,
+   "bytes": 29868990,
+   "manifest": "manifests/res.back_to_basics_2026_10_23.imos_full_deployment_noise.tsv.gz",
+   "manifest_sha256": "6734e8a6eb685fde380cbc68e3ec8a8f81d3619825f2a57f345f3797eaa98704"
+  },
+  {
+   "id": "res.back_to_basics_2026_10_23.noise_vs_levels_corrected",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-back-to-basics-2026-10-23/noise-vs-levels-corrected",
+   "note": "Noise against predicted levels, corrected 23 Oct 2026",
+   "producing_thread": "c0b15646 (Hydroacoustic Site Noise Characterization Review)",
+   "definition": {
+    "file": "WORK:results/hydroacoustics-back-to-basics-2026-10-23/noise-vs-levels-corrected/README.md",
+    "lines": [
+     1,
+     6
+    ],
+    "quote": "# Noise against predicted levels, corrected 23 Oct 2026\n\nReplaces the 22 Oct charts 1-3 and their companions, and the earlier noise-vs-impact / run-j-levels noise charts, which are deleted from the repo.\n\nWhat changed:\n- Cape Leeuwin (H01W): the \"2014 noise 6 dB quieter\" case is withdrawn. It came from reading Kadri's JPEG spectrogram colours (64 dB colour floor). Two better 2014 sources agree with Blackman 2003 within about 1.5 dB: the Royer 2016 spectrogram, 101.7 dB after a raster-smoothing correction, and the Kadri 2024 trace, 103.1 dB, against 101.7 dB. Blackman stays the noise reference."
+   },
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 26,
+   "bytes": 8141179,
+   "manifest": "manifests/res.back_to_basics_2026_10_23.noise_vs_levels_corrected.tsv.gz",
+   "manifest_sha256": "a5aff4b57bc90685b9216d93d984c66a35729a5428d1896fa1a373fb62d6cac2"
+  },
+  {
+   "id": "res.back_to_basics_2026_10_23.whale_calls",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-back-to-basics-2026-10-23/whale-calls",
+   "note": "Whale calls in the 8 March 2014 hydroacoustic data (track: whale calls, 23 Oct 2026)",
+   "producing_thread": "c0b15646 (Hydroacoustic Site Noise Characterization Review)",
+   "definition": {
+    "file": "WORK:results/hydroacoustics-back-to-basics-2026-10-23/whale-calls/README.md",
+    "lines": [
+     1,
+     6
+    ],
+    "quote": "# Whale calls in the 8 March 2014 hydroacoustic data (track: whale calls, 23 Oct 2026)\n\nEXPLORATORY. Purpose: identify whale calls in every 8 March 2014 source held, so that they can be separated from potential impact signals.\nRead `METHODS.md` first (deviations and limits at the top).\n\n| File | Contents |"
+   },
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 30,
+   "bytes": 18815342,
+   "manifest": "manifests/res.back_to_basics_2026_10_23.whale_calls.tsv.gz",
+   "manifest_sha256": "935283bd0f6c9863cbba35c7dc448cb27fdf9b321a3e8b5953b56b0e11622cf1"
+  },
+  {
+   "id": "res.calibration_events_stage1_standin",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-calibration-events-stage1-standin",
+   "note": "hydroacoustics-calibration-events-stage1-standin (13 files)",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 13,
+   "bytes": 122785,
+   "manifest": "manifests/res.calibration_events_stage1_standin.tsv.gz",
+   "manifest_sha256": "b436ccd8e58f99113f578410eac4a7233d17a5af6cd790d8f5924d7b3b75b3de",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.graphics_2026_10_22.arrival_windows",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-graphics-2026-10-22/arrival-windows",
+   "note": "Hydroacoustics graphics 22 Oct 2026, track \"arrival-windows\": what the data hold at every receiver when each candidate's sound should arrive",
+   "definition": {
+    "file": "WORK:results/hydroacoustics-graphics-2026-10-22/arrival-windows/README.md",
+    "lines": [
+     1,
+     6
+    ],
+    "quote": "# Hydroacoustics graphics 22 Oct 2026, track \"arrival-windows\": what the data hold at every receiver when each candidate's sound should arrive\n\n*Hydroacoustic Module (arrival-windows track), 22 Oct 2026. Answers Pete's question: \"was there absolutely nothing at the other sites, including the Australian coast loggers and Royer, at the corresponding arrival times?\"*\n\n**Status: PREDICTIVE, NOT CALIBRATED. No detection is claimed.** Caveats C1 (sound-loss slope misfit, +10.4/+7.4 dB per octave at H01W/H08S) and C2 (coupling efficiency not calibrated; F-35A upper anchor 2.1e-4) apply to every expected level. Data marked digitised (Kadri 2024 Fig. 9 panels; Royer 2016 spectrograms, picks and figure marks) are copies of published figures, not recordings. Kadri times: text time 00:52:03, caption time 00:54:30.\n"
+   },
+   "status": "CURRENT_WITH_CAVEATS",
+   "status_rank": "readme",
+   "status_evidence": [
+    {
+     "rank": "readme",
+     "source": "WORK:results/hydroacoustics-graphics-2026-10-22/arrival-windows/README.md:5",
+     "quote": "**Status: PREDICTIVE, NOT CALIBRATED. No detection is claimed.** Caveats C1 (sound-loss slope misfit, +10.4/+7.4 dB per octave at H01W/H08S) and C2 (coupling efficiency not calibrated; F-35A upper anchor 2.1e-4) apply to every expected level. Data marked digitised (Kadri 2024 Fig. 9 panels; Royer 2016 spectrograms, picks and figure marks) are copies of published figures, not recordings. Kadri time"
+    }
+   ],
+   "defects": [],
+   "verified_this_run": false,
+   "superseded_by": null,
+   "n_files": 52,
+   "bytes": 57320870,
+   "manifest": "manifests/res.graphics_2026_10_22.arrival_windows.tsv.gz",
+   "manifest_sha256": "26a1fecfacd9713debbb6eb83f68ff3c24655dfff552a3c41b377d853371ffa4"
+  },
+  {
+   "id": "res.graphics_2026_10_22.metz_f35a",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-graphics-2026-10-22/metz-f35a",
+   "note": "hydroacoustics-graphics-2026-10-22/metz-f35a (10 files)",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 10,
+   "bytes": 1249368,
+   "manifest": "manifests/res.graphics_2026_10_22.metz_f35a.tsv.gz",
+   "manifest_sha256": "fdc18d830ae368d114a98e4e9fda5e46ec2231db063fbd149755c3ea3366b267",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.graphics_2026_10_22.pair_g",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-graphics-2026-10-22/pair-g",
+   "note": "Pair G updates of the seven example charts (22 Oct 2026)",
+   "definition": {
+    "file": "WORK:results/hydroacoustics-graphics-2026-10-22/pair-g/README.md",
+    "lines": [
+     1,
+     6
+    ],
+    "quote": "# Pair G updates of the seven example charts (22 Oct 2026)\n\nHydroacoustic Module, graphics track \"pair-g\". PREDICTIVE, NOT CALIBRATED; caveats C1 (propagation slope misfit, +10.4/+7.4 dB per\noctave at H01W/H08S) and C2 (coupling efficiency not calibrated; eta swept over four decades, F-35A upper anchor) apply to every number.\nSource posterior: run J, 00:19 Held Out (D0'), dive probability p 0.5. Digitised data are labelled DIGITISED.\n"
+   },
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 21,
+   "bytes": 4114519,
+   "manifest": "manifests/res.graphics_2026_10_22.pair_g.tsv.gz",
+   "manifest_sha256": "70c233b85cbf88d17d82fdfa2fb460fa02acb97c55252c7147050786f81f7681"
+  },
+  {
+   "id": "res.graphics_2026_10_22.ranking_energy",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-graphics-2026-10-22/ranking-energy",
+   "note": "Hydroacoustics graphics 22 Oct 2026 — track: ranked candidates and impact energy / coupling",
+   "definition": {
+    "file": "WORK:results/hydroacoustics-graphics-2026-10-22/ranking-energy/README.md",
+    "lines": [
+     1,
+     6
+    ],
+    "quote": "# Hydroacoustics graphics 22 Oct 2026 — track: ranked candidates and impact energy / coupling\n\n*Hydroacoustic Module (graphics track 3 of 4). EXPLORATORY ranking, pre-registered on the module branch at `9f47cf7`\n(`prepare/ranked_candidates/prereg.py`) before any score was computed; not part of the frozen searches (block 5) or the composition (block 11).\n**PREDICTIVE, NOT CALIBRATED. No detection is claimed.** Caveats C1 (propagation slope misfit, +10.4/+7.4 dB per octave at H01W/H08S) and C2\n(coupling efficiency not calibrated; η swept over four decades). F-35A anchor η = 2.1 × 10⁻⁴: **provisional - from Brown 2026's quote of Metz 2023; re-derivation from Metz pending**. H01W/H08S rows are from the DIGITISED"
+   },
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 11,
+   "bytes": 5740094,
+   "manifest": "manifests/res.graphics_2026_10_22.ranking_energy.tsv.gz",
+   "manifest_sha256": "c9bff3ee472e5e05d5fcb8c07c4b4eb27cd3d4fd222b1102c8c381e38a37f67b"
+  },
+  {
+   "id": "res.graphics_2026_10_22.sources_correction",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-graphics-2026-10-22/sources-correction",
+   "note": "hydroacoustics-graphics-2026-10-22/sources-correction (10 files)",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 10,
+   "bytes": 1470122,
+   "manifest": "manifests/res.graphics_2026_10_22.sources_correction.tsv.gz",
+   "manifest_sha256": "5374c53cb947ca8d56133f833651701bcec82e36f17707ed699d4082b18e4e07",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.graphics_2026_10_22.updated_examples",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-graphics-2026-10-22/updated-examples",
+   "note": "Updated example charts 1–10 (graphics track \"updated-examples\", 22 Oct 2026)",
+   "definition": {
+    "file": "WORK:results/hydroacoustics-graphics-2026-10-22/updated-examples/README.md",
+    "lines": [
+     1,
+     6
+    ],
+    "quote": "# Updated example charts 1–10 (graphics track \"updated-examples\", 22 Oct 2026)\n\nHydroacoustic Module, graphics track. PREDICTIVE, NOT CALIBRATED: caveats C1 (propagation slope misfit +10.4 / +7.4 dB per\noctave at H01W / H08S; after EW0112 a source-term caveat; air9 verdict NOT EXPLAINED, gap G23) and C2 (coupling efficiency\nnot calibrated; F-35A anchor η = 2.1e-4 **provisional — from Brown 2026's quote of Metz 2023; re-derivation from Metz\npending**). No detection is claimed. Smoke runs are not used. Digitised data are labelled as digitised."
+   },
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "status_note": "Charts 1-3 and their companions of this folder are replaced by res.back_to_basics_2026_10_23.noise_vs_levels_corrected and are no longer in the repo (WORK:results/hydroacoustics-back-to-basics-2026-10-23/noise-vs-levels-corrected/README.md:3). The remaining charts 4-10 have no status record. The README names the coupling value 2.1e-4 (registry defect D01 is about that value; not applied here: no record links them).",
+   "n_files": 26,
+   "bytes": 5142868,
+   "manifest": "manifests/res.graphics_2026_10_22.updated_examples.tsv.gz",
+   "manifest_sha256": "458a2463a01fda42c20c2733ac76a9c31f7b829b408331b56de16221469c34e1"
+  },
+  {
+   "id": "res.next_run_b_standin",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-next-run-b-standin",
+   "note": "hydroacoustics-next-run-b-standin (21 files)",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 21,
+   "bytes": 2054372,
+   "manifest": "manifests/res.next_run_b_standin.tsv.gz",
+   "manifest_sha256": "4a0a1f56bad6a318984cc34af76360d68b8ec16f47408373466caea376bcba5f",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.pleiades_test_standin",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-pleiades-test-standin",
+   "note": "hydroacoustics-pleiades-test-standin (11 files)",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 11,
+   "bytes": 2315853,
+   "manifest": "manifests/res.pleiades_test_standin.tsv.gz",
+   "manifest_sha256": "20ff2ae2fd5fffb906b88c73513fbf4f33babdff909bbe8a193fdadc8eec3c90",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_agw_scenarios_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-agw-scenarios.pdf",
+   "note": "hydroacoustics-agw-scenarios.pdf",
+   "companion_of": "note.agw_scenarios",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 181285,
+   "manifest": "manifests/res.file.hydroacoustics_agw_scenarios_pdf.tsv.gz",
+   "manifest_sha256": "b808be95466e025204e5e419ade620645f326df5e6e959a6d530c6d63f3b1736",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_agw_scenarios_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-agw-scenarios.png",
+   "note": "hydroacoustics-agw-scenarios.png",
+   "companion_of": "note.agw_scenarios",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 365562,
+   "manifest": "manifests/res.file.hydroacoustics_agw_scenarios_png.tsv.gz",
+   "manifest_sha256": "d6bb1da5601822160787e78b22a4637f82352a5a6d4c07a7ad474c20a11e6155",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_air7_corridor_sensitivity_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-air7-corridor-sensitivity.pdf",
+   "note": "hydroacoustics-air7-corridor-sensitivity.pdf",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 37830,
+   "manifest": "manifests/res.file.hydroacoustics_air7_corridor_sensitivity_pdf.tsv.gz",
+   "manifest_sha256": "44a292116220de9e554a90db51e8c953324b6a34dc4f3f791a33398265b25901",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_air7_corridor_sensitivity_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-air7-corridor-sensitivity.png",
+   "note": "hydroacoustics-air7-corridor-sensitivity.png",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 434825,
+   "manifest": "manifests/res.file.hydroacoustics_air7_corridor_sensitivity_png.tsv.gz",
+   "manifest_sha256": "e01f639f1a48eaacfc24cef51da206b206d900d2ffdffd23fdfab4f8e02c5e14",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_air8_control_verdict_json",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-air8-control-verdict.json",
+   "note": "hydroacoustics-air8-control-verdict.json",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 1557,
+   "manifest": "manifests/res.file.hydroacoustics_air8_control_verdict_json.tsv.gz",
+   "manifest_sha256": "109b17cf379e3b6bd6150ba6a513e7bebbf569329f6f71ccdf336245a5021393",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_air9_ew0112_predicted_vs_measured_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-air9-ew0112-predicted-vs-measured.pdf",
+   "note": "hydroacoustics-air9-ew0112-predicted-vs-measured.pdf",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 33258,
+   "manifest": "manifests/res.file.hydroacoustics_air9_ew0112_predicted_vs_measured_pdf.tsv.gz",
+   "manifest_sha256": "26a3a3aed41ad64a857836fa24168c78b7df976a258586cbc005b0e586fc0039",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_air9_ew0112_predicted_vs_measured_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-air9-ew0112-predicted-vs-measured.png",
+   "note": "hydroacoustics-air9-ew0112-predicted-vs-measured.png",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 286674,
+   "manifest": "manifests/res.file.hydroacoustics_air9_ew0112_predicted_vs_measured_png.tsv.gz",
+   "manifest_sha256": "485bfee8d2a3521082029f91e2b5a729a765cd5ffd889a197981c806d1a366e7",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_air9_ew0112_residual_vs_frequency_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-air9-ew0112-residual-vs-frequency.pdf",
+   "note": "hydroacoustics-air9-ew0112-residual-vs-frequency.pdf",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 36226,
+   "manifest": "manifests/res.file.hydroacoustics_air9_ew0112_residual_vs_frequency_pdf.tsv.gz",
+   "manifest_sha256": "b55624144433e1f96df3f981c098987968345c33243b5012226028e0147de858",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_air9_ew0112_residual_vs_frequency_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-air9-ew0112-residual-vs-frequency.png",
+   "note": "hydroacoustics-air9-ew0112-residual-vs-frequency.png",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 345214,
+   "manifest": "manifests/res.file.hydroacoustics_air9_ew0112_residual_vs_frequency_png.tsv.gz",
+   "manifest_sha256": "0dd0806f5f6d050982ab98c372430f34e62a43bc9c51624cec604d7428458dd9",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_air9_predicted_vs_measured_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-air9-predicted-vs-measured.pdf",
+   "note": "hydroacoustics-air9-predicted-vs-measured.pdf",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 34169,
+   "manifest": "manifests/res.file.hydroacoustics_air9_predicted_vs_measured_pdf.tsv.gz",
+   "manifest_sha256": "1f2e77431c0be22c66f45f4eac1826beb2236df8b109a43b4edc0d72619744a9",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_air9_predicted_vs_measured_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-air9-predicted-vs-measured.png",
+   "note": "hydroacoustics-air9-predicted-vs-measured.png",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 284227,
+   "manifest": "manifests/res.file.hydroacoustics_air9_predicted_vs_measured_png.tsv.gz",
+   "manifest_sha256": "af11b2f3d3495e6fef5496857d03331abdef2fe733ea52b52c15c9c423b5a589",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_air9_residual_vs_frequency_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-air9-residual-vs-frequency.pdf",
+   "note": "hydroacoustics-air9-residual-vs-frequency.pdf",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 24883,
+   "manifest": "manifests/res.file.hydroacoustics_air9_residual_vs_frequency_pdf.tsv.gz",
+   "manifest_sha256": "e74e36bf40b259dad11d3a336c4855e976d1853f958ec5bd258a7780c6ef40cb",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_air9_residual_vs_frequency_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-air9-residual-vs-frequency.png",
+   "note": "hydroacoustics-air9-residual-vs-frequency.png",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 247722,
+   "manifest": "manifests/res.file.hydroacoustics_air9_residual_vs_frequency_png.tsv.gz",
+   "manifest_sha256": "2ea94eb10a8ec39db5afed445765653581e65bcc24a02569278a0ed2d3a04129",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_air9_source_reference_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-air9-source-reference.pdf",
+   "note": "hydroacoustics-air9-source-reference.pdf",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 37213,
+   "manifest": "manifests/res.file.hydroacoustics_air9_source_reference_pdf.tsv.gz",
+   "manifest_sha256": "995c90575754d5eb965b087cedac1d73f3eff841b448daa6784dc96395e29144",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_air9_source_reference_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-air9-source-reference.png",
+   "note": "hydroacoustics-air9-source-reference.png",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 369861,
+   "manifest": "manifests/res.file.hydroacoustics_air9_source_reference_png.tsv.gz",
+   "manifest_sha256": "633650e339b706b62191dc5b3a5f405fd91623f6fca6fbc3f33eb1dbd4af453e",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_air9_tl_verdicts_csv",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-air9-tl-verdicts.csv",
+   "note": "hydroacoustics-air9-tl-verdicts.csv",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 1681,
+   "manifest": "manifests/res.file.hydroacoustics_air9_tl_verdicts_csv.tsv.gz",
+   "manifest_sha256": "781c956f4424472b0fd2451fffda0ec3fc22d5259510ad98ae28e17e920b42ff",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_bibliography_csv",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-bibliography.csv",
+   "note": "hydroacoustics-bibliography.csv",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 23247,
+   "manifest": "manifests/res.file.hydroacoustics_bibliography_csv.tsv.gz",
+   "manifest_sha256": "53ae814861256680729533a981f653f7401e212250a15f6d536fa8484bb18771",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_blackman_validation_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-blackman-validation.pdf",
+   "note": "hydroacoustics-blackman-validation.pdf",
+   "companion_of": "note.blackman_validation",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 26692,
+   "manifest": "manifests/res.file.hydroacoustics_blackman_validation_pdf.tsv.gz",
+   "manifest_sha256": "b4439ab19b54ffb161954d9f8446f09840385c66a8852b2294d35be40da44eba",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_blackman_validation_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-blackman-validation.png",
+   "note": "hydroacoustics-blackman-validation.png",
+   "companion_of": "note.blackman_validation",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 183939,
+   "manifest": "manifests/res.file.hydroacoustics_blackman_validation_png.tsv.gz",
+   "manifest_sha256": "c9f94f4132baef567198da01ad5b9bcf7fae9c5b7145b853875eed3a54deb22f",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_calibration_events_stage1_standin_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-calibration-events-stage1-standin.pdf",
+   "note": "hydroacoustics-calibration-events-stage1-standin.pdf",
+   "companion_of": "note.calibration_events_stage1_standin",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 52346,
+   "manifest": "manifests/res.file.hydroacoustics_calibration_events_stage1_standin_pdf.tsv.gz",
+   "manifest_sha256": "f527164cbf3d79f7fd1ad01a7c85f1f64a584e5cd27ddc6c0e13fd8e2e50b876",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_calibration_events_stage1_standin_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-calibration-events-stage1-standin.png",
+   "note": "hydroacoustics-calibration-events-stage1-standin.png",
+   "companion_of": "note.calibration_events_stage1_standin",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 314621,
+   "manifest": "manifests/res.file.hydroacoustics_calibration_events_stage1_standin_png.tsv.gz",
+   "manifest_sha256": "89f8027cd9902b547b335153a6cc7237ddbf6388cfa336a175b6ca4e46bb0d07",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_composition_run_j_evidence_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-composition-run-j-evidence.pdf",
+   "note": "hydroacoustics-composition-run-j-evidence.pdf",
+   "companion_of": "note.composition_run_j",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 40627,
+   "manifest": "manifests/res.file.hydroacoustics_composition_run_j_evidence_pdf.tsv.gz",
+   "manifest_sha256": "b8487c7f5a48bef9192f1068471f0ae6f5ec0e99260cdac9cdb52082fb4a5352",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_composition_run_j_evidence_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-composition-run-j-evidence.png",
+   "note": "hydroacoustics-composition-run-j-evidence.png",
+   "companion_of": "note.composition_run_j",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 278366,
+   "manifest": "manifests/res.file.hydroacoustics_composition_run_j_evidence_png.tsv.gz",
+   "manifest_sha256": "ddb12c13f1d4ad004b96b7232f5587f38ea66d13dbf5e843c4b71ffe2d1e42ea",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_composition_run_j_limits_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-composition-run-j-limits.pdf",
+   "note": "hydroacoustics-composition-run-j-limits.pdf",
+   "companion_of": "note.composition_run_j",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 35155,
+   "manifest": "manifests/res.file.hydroacoustics_composition_run_j_limits_pdf.tsv.gz",
+   "manifest_sha256": "94b341e98e38a0a2921078ff226f8c896071a21deb6d568421517d85c217ca15",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_composition_run_j_limits_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-composition-run-j-limits.png",
+   "note": "hydroacoustics-composition-run-j-limits.png",
+   "companion_of": "note.composition_run_j",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 253101,
+   "manifest": "manifests/res.file.hydroacoustics_composition_run_j_limits_png.tsv.gz",
+   "manifest_sha256": "36b1dd5230a269503fc816a59e61905eeee05339857aeacba63e06d06f079b4c",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_ground_truth_cases_csv",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-ground-truth-cases.csv",
+   "note": "hydroacoustics-ground-truth-cases.csv",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 15086,
+   "manifest": "manifests/res.file.hydroacoustics_ground_truth_cases_csv.tsv.gz",
+   "manifest_sha256": "fd1604836cdbb6c57ca90557afc932e900d3c83561cae5aef92afa9228128b11",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_h08s_outlier_sources_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-h08s-outlier-sources.pdf",
+   "note": "hydroacoustics-h08s-outlier-sources.pdf",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 65477,
+   "manifest": "manifests/res.file.hydroacoustics_h08s_outlier_sources_pdf.tsv.gz",
+   "manifest_sha256": "4e2e19a3dfbfe7f3743f7c92507fc29565a927c73bb5ea61ddef9e6744d5b1e3",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_h08s_outlier_sources_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-h08s-outlier-sources.png",
+   "note": "hydroacoustics-h08s-outlier-sources.png",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 335468,
+   "manifest": "manifests/res.file.hydroacoustics_h08s_outlier_sources_png.tsv.gz",
+   "manifest_sha256": "7bfa82df9caff8ccad639fdca17d432a2a65801177697b24577e121d7b48c828",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_h08s_pulse_energy_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-h08s-pulse-energy.pdf",
+   "note": "hydroacoustics-h08s-pulse-energy.pdf",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 35517,
+   "manifest": "manifests/res.file.hydroacoustics_h08s_pulse_energy_pdf.tsv.gz",
+   "manifest_sha256": "33566cbf23d1ffe6ba06fb4e99edbc0796bf0a5c35162a538f8e0f8bae630749",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_h08s_pulse_energy_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-h08s-pulse-energy.png",
+   "note": "hydroacoustics-h08s-pulse-energy.png",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 222292,
+   "manifest": "manifests/res.file.hydroacoustics_h08s_pulse_energy_png.tsv.gz",
+   "manifest_sha256": "4561434185beab70e24fb958742a5e76f732265331e2c0934dcba8b87c8a92f5",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_h08s_shot_gather_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-h08s-shot-gather.pdf",
+   "note": "hydroacoustics-h08s-shot-gather.pdf",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 170168,
+   "manifest": "manifests/res.file.hydroacoustics_h08s_shot_gather_pdf.tsv.gz",
+   "manifest_sha256": "548a5ae1d3e7a51594983c793c403abdfda0436dc93f987d75ea854f11f0e23d",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_h08s_shot_gather_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-h08s-shot-gather.png",
+   "note": "hydroacoustics-h08s-shot-gather.png",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 539935,
+   "manifest": "manifests/res.file.hydroacoustics_h08s_shot_gather_png.tsv.gz",
+   "manifest_sha256": "6eff6ef38ce4a5d30a03c3ee433515038f3fcdc0eee52fa864035662c10d4a49",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_imos_noise_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-imos-noise.pdf",
+   "note": "hydroacoustics-imos-noise.pdf",
+   "companion_of": "note.imos_noise",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 25009,
+   "manifest": "manifests/res.file.hydroacoustics_imos_noise_pdf.tsv.gz",
+   "manifest_sha256": "9ff37e6ec5a8940505f45504922384fea966a672036c875b6ee5c4878068fe20",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_imos_noise_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-imos-noise.png",
+   "note": "hydroacoustics-imos-noise.png",
+   "companion_of": "note.imos_noise",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 203945,
+   "manifest": "manifests/res.file.hydroacoustics_imos_noise_png.tsv.gz",
+   "manifest_sha256": "f3176e7c74513af575488a01f486eb59a84b640ca2536ff78d9bbe66ca7d62b2",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_imos_ram_grid_old_vs_new_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-imos-ram-grid-old-vs-new.pdf",
+   "note": "hydroacoustics-imos-ram-grid-old-vs-new.pdf",
+   "companion_of": "note.imos_ram_grid",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 47538,
+   "manifest": "manifests/res.file.hydroacoustics_imos_ram_grid_old_vs_new_pdf.tsv.gz",
+   "manifest_sha256": "ed5d97a0200cd9b92102491f84f4584f45e749b556ee47af38729296b1c98c5e",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_imos_ram_grid_old_vs_new_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-imos-ram-grid-old-vs-new.png",
+   "note": "hydroacoustics-imos-ram-grid-old-vs-new.png",
+   "companion_of": "note.imos_ram_grid",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 469712,
+   "manifest": "manifests/res.file.hydroacoustics_imos_ram_grid_old_vs_new_png.tsv.gz",
+   "manifest_sha256": "003bca3403d751fc9e14c8b5997f8c2585f8f76bf251ffe3784f576e4435a839",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_ims_noise_blackman_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-ims-noise-blackman.pdf",
+   "note": "hydroacoustics-ims-noise-blackman.pdf",
+   "companion_of": "note.ims_noise_blackman",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 40407,
+   "manifest": "manifests/res.file.hydroacoustics_ims_noise_blackman_pdf.tsv.gz",
+   "manifest_sha256": "41ed93948ed5e9cbec0ee31cf75168d1fba551ea8d06877bd6aaa1d7d526ed08",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_ims_noise_blackman_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-ims-noise-blackman.png",
+   "note": "hydroacoustics-ims-noise-blackman.png",
+   "companion_of": "note.ims_noise_blackman",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 399677,
+   "manifest": "manifests/res.file.hydroacoustics_ims_noise_blackman_png.tsv.gz",
+   "manifest_sha256": "caaed29bd4a428bcb526f97b8436d6af33a239f390f6dd0801f3a42bb74f1557",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_injection_recovery_run_j_eta_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-injection-recovery-run-j-eta.pdf",
+   "note": "hydroacoustics-injection-recovery-run-j-eta.pdf",
+   "companion_of": "note.injection_recovery_run_j",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 39194,
+   "manifest": "manifests/res.file.hydroacoustics_injection_recovery_run_j_eta_pdf.tsv.gz",
+   "manifest_sha256": "5897989dca2d4625abc51b2b8ac7f840ed0a0d4492a2c879baf53cfc2e35950d",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_injection_recovery_run_j_eta_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-injection-recovery-run-j-eta.png",
+   "note": "hydroacoustics-injection-recovery-run-j-eta.png",
+   "companion_of": "note.injection_recovery_run_j",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 339450,
+   "manifest": "manifests/res.file.hydroacoustics_injection_recovery_run_j_eta_png.tsv.gz",
+   "manifest_sha256": "512be70e10eb64b31813a62054a3d8e22eece147a67cde6b9081a1f2d49bd2fb",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_injection_recovery_run_j_pd_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-injection-recovery-run-j-pd.pdf",
+   "note": "hydroacoustics-injection-recovery-run-j-pd.pdf",
+   "companion_of": "note.injection_recovery_run_j",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 44734,
+   "manifest": "manifests/res.file.hydroacoustics_injection_recovery_run_j_pd_pdf.tsv.gz",
+   "manifest_sha256": "410052664e13bdda9e20caaf1cca1f4249eb46fd6bd3bd15122628b958e7e915",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_injection_recovery_run_j_pd_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-injection-recovery-run-j-pd.png",
+   "note": "hydroacoustics-injection-recovery-run-j-pd.png",
+   "companion_of": "note.injection_recovery_run_j",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 620566,
+   "manifest": "manifests/res.file.hydroacoustics_injection_recovery_run_j_pd_png.tsv.gz",
+   "manifest_sha256": "09e92aef37a6100f06650ed4107942e90643d9ebba1324eca7b75927ca1b9e4a",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_item3_pd_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-item3-pd.pdf",
+   "note": "hydroacoustics-item3-pd.pdf",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 30190,
+   "manifest": "manifests/res.file.hydroacoustics_item3_pd_pdf.tsv.gz",
+   "manifest_sha256": "a175f1559c309de85b29ace59319e6f2d460a157c199bdb771be0aa47c06df59",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_item3_pd_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-item3-pd.png",
+   "note": "hydroacoustics-item3-pd.png",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 186072,
+   "manifest": "manifests/res.file.hydroacoustics_item3_pd_png.tsv.gz",
+   "manifest_sha256": "97c5205ef5984177e441b023235b56aacbf7a2aa3656850c1c0d5eec88906660",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_nx2d_corridor_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-nx2d-corridor.pdf",
+   "note": "hydroacoustics-nx2d-corridor.pdf",
+   "companion_of": "note.nx2d_corridor",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 36459,
+   "manifest": "manifests/res.file.hydroacoustics_nx2d_corridor_pdf.tsv.gz",
+   "manifest_sha256": "347e01e3ce203483d0e0cc20d0b1da73763cb580558180d2e93d9eb1680784e6",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_nx2d_corridor_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-nx2d-corridor.png",
+   "note": "hydroacoustics-nx2d-corridor.png",
+   "companion_of": "note.nx2d_corridor",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 373672,
+   "manifest": "manifests/res.file.hydroacoustics_nx2d_corridor_png.tsv.gz",
+   "manifest_sha256": "59883aaa3a173276d0fff30df526524e87087a7cf538bb5032af1be673c7215c",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_pair_sources_map_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-pair-sources-map.pdf",
+   "note": "hydroacoustics-pair-sources-map.pdf",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 163817,
+   "manifest": "manifests/res.file.hydroacoustics_pair_sources_map_pdf.tsv.gz",
+   "manifest_sha256": "ce2dcd08a6231ef149861cbc93e5eedb4043d418935762771457552b03f84318",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_pair_sources_map_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-pair-sources-map.png",
+   "note": "hydroacoustics-pair-sources-map.png",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 329042,
+   "manifest": "manifests/res.file.hydroacoustics_pair_sources_map_png.tsv.gz",
+   "manifest_sha256": "68457773f890f176eaca682aa267f50cb1cf0585b0d2d5f4f32fc694262bd759",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_pleiades_test_standin_power_held_out_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-pleiades-test-standin-power-held-out.png",
+   "note": "hydroacoustics-pleiades-test-standin-power-held-out.png",
+   "companion_of": "note.pleiades_test_standin",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 233670,
+   "manifest": "manifests/res.file.hydroacoustics_pleiades_test_standin_power_held_out_png.tsv.gz",
+   "manifest_sha256": "1131f02c823dbd9a33565aa60ef937c175a25e9b5a0f93f62ada3cb5df3c206b",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_pleiades_test_standin_power_r600_bto_only_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-pleiades-test-standin-power-r600-bto-only.png",
+   "note": "hydroacoustics-pleiades-test-standin-power-r600-bto-only.png",
+   "companion_of": "note.pleiades_test_standin",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 236490,
+   "manifest": "manifests/res.file.hydroacoustics_pleiades_test_standin_power_r600_bto_only_png.tsv.gz",
+   "manifest_sha256": "a452223813307815e93b6e85d7ecc1aa7c4436ba2fc32f645d8dd318ed8ba1a4",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_pleiades_test_standin_power_r600_bto_raw_bfo_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-pleiades-test-standin-power-r600-bto-raw-bfo.png",
+   "note": "hydroacoustics-pleiades-test-standin-power-r600-bto-raw-bfo.png",
+   "companion_of": "note.pleiades_test_standin",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 236986,
+   "manifest": "manifests/res.file.hydroacoustics_pleiades_test_standin_power_r600_bto_raw_bfo_png.tsv.gz",
+   "manifest_sha256": "024eba4201aea80da12e3ee62523997643f25e3d428136f6dc6b1794f0a65d24",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_pleiades_test_standin_result_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-pleiades-test-standin-result.png",
+   "note": "hydroacoustics-pleiades-test-standin-result.png",
+   "companion_of": "note.pleiades_test_standin",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 151931,
+   "manifest": "manifests/res.file.hydroacoustics_pleiades_test_standin_result_png.tsv.gz",
+   "manifest_sha256": "81f70def593e8f8cf0d7bfa71bfe1b77371b68a5183d7b96f21de9208c58a887",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_pleiades_test_standin_windows_held_out_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-pleiades-test-standin-windows-held-out.png",
+   "note": "hydroacoustics-pleiades-test-standin-windows-held-out.png",
+   "companion_of": "note.pleiades_test_standin",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 224655,
+   "manifest": "manifests/res.file.hydroacoustics_pleiades_test_standin_windows_held_out_png.tsv.gz",
+   "manifest_sha256": "94d76e1bb8874fd934c1ab9cbb08d4a512fd95dd6b870efcd2e55f902a893c83",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_pleiades_test_standin_windows_r600_bto_only_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-pleiades-test-standin-windows-r600-bto-only.png",
+   "note": "hydroacoustics-pleiades-test-standin-windows-r600-bto-only.png",
+   "companion_of": "note.pleiades_test_standin",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 225596,
+   "manifest": "manifests/res.file.hydroacoustics_pleiades_test_standin_windows_r600_bto_only_png.tsv.gz",
+   "manifest_sha256": "83516c7913f6fdd244fe2c1714b0df0c866711ba117f140ea3e694a70bfaa1b0",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_pleiades_test_standin_windows_r600_bto_raw_bfo_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-pleiades-test-standin-windows-r600-bto-raw-bfo.png",
+   "note": "hydroacoustics-pleiades-test-standin-windows-r600-bto-raw-bfo.png",
+   "companion_of": "note.pleiades_test_standin",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 221960,
+   "manifest": "manifests/res.file.hydroacoustics_pleiades_test_standin_windows_r600_bto_raw_bfo_png.tsv.gz",
+   "manifest_sha256": "ec5ca1c0de6da0f9ebc10225031c2466a4f23cfb8aec208a9b5bfe6d8c7075de",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_references_bib",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-references.bib",
+   "note": "hydroacoustics-references.bib",
+   "companion_of": "note.references",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 8987,
+   "manifest": "manifests/res.file.hydroacoustics_references_bib.tsv.gz",
+   "manifest_sha256": "246f2c5332d35e070297916d91b6b8014679d6c191d56808c941ffc73b03d20b",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_run_c_tau_sensitivity_standin_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-run-c-tau-sensitivity-standin.pdf",
+   "note": "hydroacoustics-run-c-tau-sensitivity-standin.pdf",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 54552,
+   "manifest": "manifests/res.file.hydroacoustics_run_c_tau_sensitivity_standin_pdf.tsv.gz",
+   "manifest_sha256": "be16c0382262a7bfb579d1c6808810a915a1b634b06466f4688efb4c31ba16aa",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_run_c_tau_sensitivity_standin_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-run-c-tau-sensitivity-standin.png",
+   "note": "hydroacoustics-run-c-tau-sensitivity-standin.png",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 257241,
+   "manifest": "manifests/res.file.hydroacoustics_run_c_tau_sensitivity_standin_png.tsv.gz",
+   "manifest_sha256": "dbbb7b99ac8d6b7ac1dc0674c3d7dd40e2ed25549410e2c0ca0d578462fa1d53",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_run_j_levels_detectable_vs_eta_baseline_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-run-j-levels-detectable-vs-eta-baseline.pdf",
+   "note": "hydroacoustics-run-j-levels-detectable-vs-eta-baseline.pdf",
+   "companion_of": "note.run_j_levels",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 48595,
+   "manifest": "manifests/res.file.hydroacoustics_run_j_levels_detectable_vs_eta_baseline_pdf.tsv.gz",
+   "manifest_sha256": "cbc947e2431de565d70277b33f9d4162c2a438c1fef300e7f45b5be5e55d73cd",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_run_j_levels_detectable_vs_eta_baseline_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-run-j-levels-detectable-vs-eta-baseline.png",
+   "note": "hydroacoustics-run-j-levels-detectable-vs-eta-baseline.png",
+   "companion_of": "note.run_j_levels",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 361162,
+   "manifest": "manifests/res.file.hydroacoustics_run_j_levels_detectable_vs_eta_baseline_png.tsv.gz",
+   "manifest_sha256": "6c256c431e755c625e2d85daa0699b8ff3b33fbea65e971ccb1d75707f0e50c3",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_run_j_levels_detectable_vs_eta_matched_filter_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-run-j-levels-detectable-vs-eta-matched_filter.pdf",
+   "note": "hydroacoustics-run-j-levels-detectable-vs-eta-matched_filter.pdf",
+   "companion_of": "note.run_j_levels",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 64320,
+   "manifest": "manifests/res.file.hydroacoustics_run_j_levels_detectable_vs_eta_matched_filter_pdf.tsv.gz",
+   "manifest_sha256": "e6b4fb3e958656ee939960c56b2637336ffcec738f6bf058c9e1582dc7758f60",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_run_j_levels_detectable_vs_eta_matched_filter_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-run-j-levels-detectable-vs-eta-matched_filter.png",
+   "note": "hydroacoustics-run-j-levels-detectable-vs-eta-matched_filter.png",
+   "companion_of": "note.run_j_levels",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 484292,
+   "manifest": "manifests/res.file.hydroacoustics_run_j_levels_detectable_vs_eta_matched_filter_png.tsv.gz",
+   "manifest_sha256": "29ef5b7cd16e6fe32a27460529b43c6c73201f6b274661b19aa79e75b61a5d93",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_run_j_levels_illustrative_traces_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-run-j-levels-illustrative-traces.pdf",
+   "note": "hydroacoustics-run-j-levels-illustrative-traces.pdf",
+   "companion_of": "note.run_j_levels",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 1090712,
+   "manifest": "manifests/res.file.hydroacoustics_run_j_levels_illustrative_traces_pdf.tsv.gz",
+   "manifest_sha256": "0e2a6ba52cba92b81754cdafd5f83a64c8a4a127694f073befdca84ef991496f",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_run_j_levels_illustrative_traces_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-run-j-levels-illustrative-traces.png",
+   "note": "hydroacoustics-run-j-levels-illustrative-traces.png",
+   "companion_of": "note.run_j_levels",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 965539,
+   "manifest": "manifests/res.file.hydroacoustics_run_j_levels_illustrative_traces_png.tsv.gz",
+   "manifest_sha256": "d638ffa7b4d7c3056483bbde1660c5c7232ef09d237d0f1f1b96bba132ab1a47",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_run_j_levels_snr_maps_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-run-j-levels-snr-maps.pdf",
+   "note": "hydroacoustics-run-j-levels-snr-maps.pdf",
+   "companion_of": "note.run_j_levels",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 289407,
+   "manifest": "manifests/res.file.hydroacoustics_run_j_levels_snr_maps_pdf.tsv.gz",
+   "manifest_sha256": "0a867007e3861d8c4ca927f28e9c2609ae04b4d530937bd67c38337de631e837",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_run_j_levels_snr_maps_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-run-j-levels-snr-maps.png",
+   "note": "hydroacoustics-run-j-levels-snr-maps.png",
+   "companion_of": "note.run_j_levels",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 573037,
+   "manifest": "manifests/res.file.hydroacoustics_run_j_levels_snr_maps_png.tsv.gz",
+   "manifest_sha256": "5d357cd9fafcb023b0c0ee04dcfd7c42e9e47c3f1dc247cac4be865c27ad4639",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_run_j_publication_coverage_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-run-j-publication-coverage.pdf",
+   "note": "hydroacoustics-run-j-publication-coverage.pdf",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 32650,
+   "manifest": "manifests/res.file.hydroacoustics_run_j_publication_coverage_pdf.tsv.gz",
+   "manifest_sha256": "162aa2b327202482993066a1b7f194c74882900c06ba504d995342db02e061a8",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_run_j_publication_coverage_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-run-j-publication-coverage.png",
+   "note": "hydroacoustics-run-j-publication-coverage.png",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 248297,
+   "manifest": "manifests/res.file.hydroacoustics_run_j_publication_coverage_png.tsv.gz",
+   "manifest_sha256": "ce445a12455718913f82b51d0648c803fc119e7ac73071a8887dfc5cff37a898",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_run_j_request_windows_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-run-j-request-windows.pdf",
+   "note": "hydroacoustics-run-j-request-windows.pdf",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 28757,
+   "manifest": "manifests/res.file.hydroacoustics_run_j_request_windows_pdf.tsv.gz",
+   "manifest_sha256": "6b2293db8285427151fed4e4a856011314a2c3b97987891f941e585eb72e99d0",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_run_j_request_windows_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-run-j-request-windows.png",
+   "note": "hydroacoustics-run-j-request-windows.png",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 157895,
+   "manifest": "manifests/res.file.hydroacoustics_run_j_request_windows_png.tsv.gz",
+   "manifest_sha256": "f92b09198af6971a21162374d29d24eceeefbe3d0bef49c5833e46fe11c144c0",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_run_j_timelines_ohasisbio_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-run-j-timelines-ohasisbio.pdf",
+   "note": "hydroacoustics-run-j-timelines-ohasisbio.pdf",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 51778,
+   "manifest": "manifests/res.file.hydroacoustics_run_j_timelines_ohasisbio_pdf.tsv.gz",
+   "manifest_sha256": "9923cd1bf881bbbe3559d7a3594da83622ebd2657d68584aa94c74395b7c6aff",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_run_j_timelines_ohasisbio_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-run-j-timelines-ohasisbio.png",
+   "note": "hydroacoustics-run-j-timelines-ohasisbio.png",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 375791,
+   "manifest": "manifests/res.file.hydroacoustics_run_j_timelines_ohasisbio_png.tsv.gz",
+   "manifest_sha256": "6384d3408e99db27ef3b510ad3d8ebb98c7a60a182546bac01c52cd623798584",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_run_j_timelines_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-run-j-timelines.pdf",
+   "note": "hydroacoustics-run-j-timelines.pdf",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 75163,
+   "manifest": "manifests/res.file.hydroacoustics_run_j_timelines_pdf.tsv.gz",
+   "manifest_sha256": "acf7a21b6590d158a4d2ae55a86b8af36097d87676affdce1e2981c1eec32d91",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_run_j_timelines_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-run-j-timelines.png",
+   "note": "hydroacoustics-run-j-timelines.png",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 472332,
+   "manifest": "manifests/res.file.hydroacoustics_run_j_timelines_png.tsv.gz",
+   "manifest_sha256": "f27c6668703ed08a3f3633bf3894e310eeaaebecbd2f17c3a1c5724e92078c97",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_search_windows_next_run_b_standin_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-search-windows-next-run-b-standin.pdf",
+   "note": "hydroacoustics-search-windows-next-run-b-standin.pdf",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 53830,
+   "manifest": "manifests/res.file.hydroacoustics_search_windows_next_run_b_standin_pdf.tsv.gz",
+   "manifest_sha256": "c1726ec8f613df6c7a558b3c2514b7f56ddc0572eba148b70e1b2ca35a183287",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_search_windows_next_run_b_standin_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-search-windows-next-run-b-standin.png",
+   "note": "hydroacoustics-search-windows-next-run-b-standin.png",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 490159,
+   "manifest": "manifests/res.file.hydroacoustics_search_windows_next_run_b_standin_png.tsv.gz",
+   "manifest_sha256": "5fdd970b0e5d261031608720260511221f16fb661ddcbf605ddfcf4cbb97e690",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_search_windows_ref289_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-search-windows-ref289.pdf",
+   "note": "hydroacoustics-search-windows-ref289.pdf",
+   "companion_of": "note.search_windows_ref289",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 50028,
+   "manifest": "manifests/res.file.hydroacoustics_search_windows_ref289_pdf.tsv.gz",
+   "manifest_sha256": "0ed9ee3cb93a94b13476c6e78c855d57b47f65baae225ccebee2e81c27bca9bc",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_search_windows_ref289_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-search-windows-ref289.png",
+   "note": "hydroacoustics-search-windows-ref289.png",
+   "companion_of": "note.search_windows_ref289",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 411433,
+   "manifest": "manifests/res.file.hydroacoustics_search_windows_ref289_png.tsv.gz",
+   "manifest_sha256": "a7d4c2e901686c6690c32464cf4e4c08a81dea551946931005d641131155bf1b",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_searches_run_j_table1_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-searches-run-j-table1.pdf",
+   "note": "hydroacoustics-searches-run-j-table1.pdf",
+   "companion_of": "note.searches_run_j",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 33224,
+   "manifest": "manifests/res.file.hydroacoustics_searches_run_j_table1_pdf.tsv.gz",
+   "manifest_sha256": "edc40e74fcfad1d27baec1042087672bb297bc39e9f55e53f6c13836d9fe60fe",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_searches_run_j_table1_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-searches-run-j-table1.png",
+   "note": "hydroacoustics-searches-run-j-table1.png",
+   "companion_of": "note.searches_run_j",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 295097,
+   "manifest": "manifests/res.file.hydroacoustics_searches_run_j_table1_png.tsv.gz",
+   "manifest_sha256": "b32b4123d8765fa36e8b770ac5b9d79448ad2aaefe6bd98b42614202242ddf79",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_searches_run_j_timeline_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-searches-run-j-timeline.pdf",
+   "note": "hydroacoustics-searches-run-j-timeline.pdf",
+   "companion_of": "note.searches_run_j",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 41748,
+   "manifest": "manifests/res.file.hydroacoustics_searches_run_j_timeline_pdf.tsv.gz",
+   "manifest_sha256": "69e1577947a59f7dea75eea1756029584516c7b9b5ec71790a36b066ee884288",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_searches_run_j_timeline_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-searches-run-j-timeline.png",
+   "note": "hydroacoustics-searches-run-j-timeline.png",
+   "companion_of": "note.searches_run_j",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 381382,
+   "manifest": "manifests/res.file.hydroacoustics_searches_run_j_timeline_png.tsv.gz",
+   "manifest_sha256": "4dbceaa0c80c202630ce04c5afe9570b9a24adb5176ddcac9d50ffb9343d9633",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_synthetic_composer_test_csv",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-synthetic-composer-test.csv",
+   "note": "hydroacoustics-synthetic-composer-test.csv",
+   "companion_of": "note.synthetic_composer_test",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 18458,
+   "manifest": "manifests/res.file.hydroacoustics_synthetic_composer_test_csv.tsv.gz",
+   "manifest_sha256": "e65b07175765270bc727d57e239880982e6526a7d3452a4bb4e10cd30554c8e5",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_synthetic_composer_test_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-synthetic-composer-test.pdf",
+   "note": "hydroacoustics-synthetic-composer-test.pdf",
+   "companion_of": "note.synthetic_composer_test",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 22691,
+   "manifest": "manifests/res.file.hydroacoustics_synthetic_composer_test_pdf.tsv.gz",
+   "manifest_sha256": "49c99b7c47193ef862ab70287887162dc8e83c440bfa5250aeaf876d2a946365",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_synthetic_composer_test_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-synthetic-composer-test.png",
+   "note": "hydroacoustics-synthetic-composer-test.png",
+   "companion_of": "note.synthetic_composer_test",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 133816,
+   "manifest": "manifests/res.file.hydroacoustics_synthetic_composer_test_png.tsv.gz",
+   "manifest_sha256": "41e8b118496bb4174eb042e322ead19f8530d558fee12e2e6cb0c602c5077f15",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_tl_grid_run_j_detectable_fraction_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-tl-grid-run-j-detectable-fraction.pdf",
+   "note": "hydroacoustics-tl-grid-run-j-detectable-fraction.pdf",
+   "companion_of": "note.tl_grid_run_j",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 47290,
+   "manifest": "manifests/res.file.hydroacoustics_tl_grid_run_j_detectable_fraction_pdf.tsv.gz",
+   "manifest_sha256": "a3d07996c15277337c1b1c868b5338dd5f190e3bd03658249fa49c7ac664c13b",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_tl_grid_run_j_detectable_fraction_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-tl-grid-run-j-detectable-fraction.png",
+   "note": "hydroacoustics-tl-grid-run-j-detectable-fraction.png",
+   "companion_of": "note.tl_grid_run_j",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 513576,
+   "manifest": "manifests/res.file.hydroacoustics_tl_grid_run_j_detectable_fraction_png.tsv.gz",
+   "manifest_sha256": "f9722d2fb4927d880b02889bedf4eaf42d22000ae36f70c27f7124292abba816",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_tl_grid_run_j_tl_vs_latitude_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-tl-grid-run-j-tl-vs-latitude.pdf",
+   "note": "hydroacoustics-tl-grid-run-j-tl-vs-latitude.pdf",
+   "companion_of": "note.tl_grid_run_j",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 72977,
+   "manifest": "manifests/res.file.hydroacoustics_tl_grid_run_j_tl_vs_latitude_pdf.tsv.gz",
+   "manifest_sha256": "feb1845a96617bb36b4159ae083d5b5e2242edf5d56e5b55c71adeabe46f30ef",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_tl_grid_run_j_tl_vs_latitude_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-tl-grid-run-j-tl-vs-latitude.png",
+   "note": "hydroacoustics-tl-grid-run-j-tl-vs-latitude.png",
+   "companion_of": "note.tl_grid_run_j",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 619661,
+   "manifest": "manifests/res.file.hydroacoustics_tl_grid_run_j_tl_vs_latitude_png.tsv.gz",
+   "manifest_sha256": "38e18ae7ccca1e4f8b373e56efb48d655eff3828f263fea05438db773a2bfffc",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_weak_signal_h08s_suppression_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-weak-signal-h08s-suppression.pdf",
+   "note": "hydroacoustics-weak-signal-h08s-suppression.pdf",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 391578,
+   "manifest": "manifests/res.file.hydroacoustics_weak_signal_h08s_suppression_pdf.tsv.gz",
+   "manifest_sha256": "2d627792b32d6e49cd38dfd3db0fcd548333d9a466547a0e1c059a40d10e6a7a",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_weak_signal_h08s_suppression_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-weak-signal-h08s-suppression.png",
+   "note": "hydroacoustics-weak-signal-h08s-suppression.png",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 611619,
+   "manifest": "manifests/res.file.hydroacoustics_weak_signal_h08s_suppression_png.tsv.gz",
+   "manifest_sha256": "0ccdc857e1137bd8e5b43baf755c4b59045d643d672521affc216fe059a8eaab",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_weak_signal_kadri_panels_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-weak-signal-kadri-panels.pdf",
+   "note": "hydroacoustics-weak-signal-kadri-panels.pdf",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 173267,
+   "manifest": "manifests/res.file.hydroacoustics_weak_signal_kadri_panels_pdf.tsv.gz",
+   "manifest_sha256": "1f4834aac15f458e27939d7d9cbe347ddcd70e293b10cf3dd5d25d5b3acd8aa4",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_weak_signal_kadri_panels_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-weak-signal-kadri-panels.png",
+   "note": "hydroacoustics-weak-signal-kadri-panels.png",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 448241,
+   "manifest": "manifests/res.file.hydroacoustics_weak_signal_kadri_panels_png.tsv.gz",
+   "manifest_sha256": "533fae499c8dda3014e57b995db9de6d797e486a5f4d92ca10f819165fcdd5c8",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_weak_signal_pd_vs_snr_pdf",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-weak-signal-pd-vs-snr.pdf",
+   "note": "hydroacoustics-weak-signal-pd-vs-snr.pdf",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 76195,
+   "manifest": "manifests/res.file.hydroacoustics_weak_signal_pd_vs_snr_pdf.tsv.gz",
+   "manifest_sha256": "683e877042cbfd37a545bb4ad4c8c7c474e30ecc56a5efabb217ed6264e49d38",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.file.hydroacoustics_weak_signal_pd_vs_snr_png",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics-weak-signal-pd-vs-snr.png",
+   "note": "hydroacoustics-weak-signal-pd-vs-snr.png",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 506416,
+   "manifest": "manifests/res.file.hydroacoustics_weak_signal_pd_vs_snr_png.tsv.gz",
+   "manifest_sha256": "d89fb7af74a40827a80fbb6dd5537e6fd2c74739ff17395092bcd7d7534681ee",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "note.coordination_hydroacoustics",
+   "kind": "note",
+   "path": "WORK:coordination/HYDROACOUSTICS.md",
+   "note": "HYDROACOUSTICS inbox",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 163831,
+   "manifest": "manifests/note.coordination_hydroacoustics.tsv.gz",
+   "manifest_sha256": "e94e55bb07278c7667ea1cb4ae66eeb16dbe7eb5a1c09d85e081887b399eb8d6",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "res.coordination_hydro_protected_paths_2026_10_25",
+   "kind": "product",
+   "path": "WORK:coordination/hydro-protected-paths-2026-10-25.csv",
+   "note": "Hydro input files cited by hydro_data.sqlite with SHA-256 (keep out of any deletion manifest), plus two folders.",
+   "producing_thread": "9e0bf4fe (Hydroacoustic Data Inventory Review)",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 1167055,
+   "manifest": "manifests/res.coordination_hydro_protected_paths_2026_10_25.tsv.gz",
+   "manifest_sha256": "10b80bf88d664333111666dc3ee7cfe59940c28b685d1137a28cf1248698b3d0",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "note.threads_master_prompts_hydroacoustics",
+   "kind": "note",
+   "path": "WORK:threads/master-prompts/hydroacoustics.md",
+   "note": "Hydroacoustics — mission and master prompt",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 52347,
+   "manifest": "manifests/note.threads_master_prompts_hydroacoustics.tsv.gz",
+   "manifest_sha256": "be923cbb703a479fb9c923cc216764ade958ea91b31f3f1eb638aa5046d812ba",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "note.threads_work_orders_hydroacoustics_order_2026_10_21",
+   "kind": "note",
+   "path": "WORK:threads/work-orders/hydroacoustics-order-2026-10-21.md",
+   "note": "Hydroacoustics work order — 21 October 2026",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 6819,
+   "manifest": "manifests/note.threads_work_orders_hydroacoustics_order_2026_10_21.tsv.gz",
+   "manifest_sha256": "53ff0655335c43204711a43ecaf0239a39e14fb0a6c5abc598d6591f175ebb26",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "ex.handover_2026_10_23",
+   "kind": "archive",
+   "path": "EX:handover-2026-10-23",
+   "note": "Hand-over package of the 23 Oct hydro clean-up (artifacts of 10 sessions, tool results, transcripts, memory rows, Pete's hydro messages, final error register). Registered in place as a read-only archive; do not move or edit.",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1500,
+   "bytes": 474311575,
+   "manifest": "manifests/ex.handover_2026_10_23.tsv.gz",
+   "manifest_sha256": "a7613103786e022f7cb6c3c95164b05c3e4f368bc0669111f7910cb059d1def6",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "ex.potential_signals_preview_2026_10_23",
+   "kind": "product",
+   "path": "EX:potential-signals-PREVIEW-2026-10-23",
+   "status": "SUPERSEDED",
+   "status_rank": "explicit",
+   "superseded_by": "ex.potential_signals_2026_10_23",
+   "status_evidence": [
+    {
+     "rank": "explicit",
+     "source": "EX:potential-signals-PREVIEW-2026-10-23/README.txt:1",
+     "quote": "PREVIEW ONLY (23 Oct 2026 ~03:45 UTC). Built from register v2 preview (old 22 Oct ranking, new X04/X05 tolerances). The final tables (re-ranked under the [1e-6, 1] coupling prior) replace these. For building and testing the graphics code only. Not results."
+    }
+   ],
+   "note": "Preview tables for graphics code tests only. Not results.",
+   "defects": [],
+   "verified_this_run": false,
+   "n_files": 5,
+   "bytes": 224043,
+   "manifest": "manifests/ex.potential_signals_preview_2026_10_23.tsv.gz",
+   "manifest_sha256": "5034c90faecf489bb68f13ad6e095757291e294373fe43804129a011b6613b65",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "ex.potential_signals_graphics_first_set",
+   "kind": "product",
+   "path": "EX:potential-signals-graphics-2026-10-23/FINAL",
+   "status": "SUPERSEDED",
+   "status_rank": "explicit",
+   "superseded_by": "ex.potential_signals_graphics",
+   "status_evidence": [
+    {
+     "rank": "explicit",
+     "source": "MOD:registry/entries.yaml:1043",
+     "quote": "note: Charts 1-4 for 26 rows (table 1 M001-M010 + 6 airgun-free rows; table 2 S001-S010). FINAL-v2, FINAL and PREVIEW in the same parent folder are SUPERSEDED."
+    }
+   ],
+   "note": "Charts of the potential-signal tables, folder FINAL.",
+   "defects": [],
+   "verified_this_run": false,
+   "n_files": 116,
+   "bytes": 43910158,
+   "manifest": "manifests/ex.potential_signals_graphics_first_set.tsv.gz",
+   "manifest_sha256": "31d963f933e3c6a91b3f84dec7f15eeb667044283805bcf4c0e5986adf035e57",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "ex.potential_signals_graphics_second_set",
+   "kind": "product",
+   "path": "EX:potential-signals-graphics-2026-10-23/FINAL-v2",
+   "status": "SUPERSEDED",
+   "status_rank": "explicit",
+   "superseded_by": "ex.potential_signals_graphics",
+   "status_evidence": [
+    {
+     "rank": "explicit",
+     "source": "MOD:registry/entries.yaml:1043",
+     "quote": "note: Charts 1-4 for 26 rows (table 1 M001-M010 + 6 airgun-free rows; table 2 S001-S010). FINAL-v2, FINAL and PREVIEW in the same parent folder are SUPERSEDED."
+    }
+   ],
+   "note": "Charts of the potential-signal tables, folder FINAL-v2.",
+   "defects": [],
+   "verified_this_run": false,
+   "n_files": 108,
+   "bytes": 45075568,
+   "manifest": "manifests/ex.potential_signals_graphics_second_set.tsv.gz",
+   "manifest_sha256": "4371e60c2ca2bc5e214fe973a8fbeaf6d17c50eaac562b1ea9b70ef47e37028b",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "ex.potential_signals_graphics_preview",
+   "kind": "product",
+   "path": "EX:potential-signals-graphics-2026-10-23/PREVIEW",
+   "status": "SUPERSEDED",
+   "status_rank": "explicit",
+   "superseded_by": "ex.potential_signals_graphics",
+   "status_evidence": [
+    {
+     "rank": "explicit",
+     "source": "MOD:registry/entries.yaml:1043",
+     "quote": "note: Charts 1-4 for 26 rows (table 1 M001-M010 + 6 airgun-free rows; table 2 S001-S010). FINAL-v2, FINAL and PREVIEW in the same parent folder are SUPERSEDED."
+    }
+   ],
+   "note": "Charts of the potential-signal tables, folder PREVIEW.",
+   "defects": [],
+   "verified_this_run": false,
+   "n_files": 83,
+   "bytes": 30860606,
+   "manifest": "manifests/ex.potential_signals_graphics_preview.tsv.gz",
+   "manifest_sha256": "7e7099e0f12d73014748e5f7de58ba4664dc9d9b6ffa0d6182a3672ba26d4b3c",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "ex.potential_signals_graphics_top",
+   "kind": "note",
+   "path": "EX:potential-signals-graphics-2026-10-23",
+   "note": "README (FINAL-v2 text) and code/charts.py at the top of potential-signals-graphics-2026-10-23.",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 2,
+   "bytes": 77263,
+   "manifest": "manifests/ex.potential_signals_graphics_top.tsv.gz",
+   "manifest_sha256": "0ea3c1840c4f8d562c95b848c7b10452d1b9f8bfca8a0c5eb478db3ff298e4cb",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "ex.run_j_smoke_log",
+   "kind": "scratch",
+   "path": "EX:run-j-smoke.log",
+   "note": "Log of the run J smoke test (17 Oct 2026).",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 1,
+   "bytes": 341,
+   "manifest": "manifests/ex.run_j_smoke_log.tsv.gz",
+   "manifest_sha256": "eb556d8e3e1bf2e2adea707d280821d2ee1532fd5e9cdfb3cea131fa17bf7f39",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "home.exchange_hydroacoustics",
+   "kind": "data_home",
+   "path": "EX:",
+   "hash": false,
+   "hash_note": "See the ex.* entries. Inventory 2026-10-26T15:34:13Z: 7999 files, 60216275218 bytes; SHA-256 from SHA256SUMS 1775, computed 6224, not hashed 0 (registry/data_homes/exchange_inventory_hydroacoustics.json.gz on claude-science-sep29).",
+   "note": "Exchange folder, hydroacoustics part: run outputs of the hydroacoustic module.",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null,
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "xd.next_run_d_he",
+   "kind": "archive",
+   "path": "XDRIVE:mh370-exchange/hydroacoustics/next-run-d-he",
+   "hash": false,
+   "hash_note": "external drive not mounted in this session",
+   "note": "Listed for copy to the external drive in archive-tools/archive-to-porsche.v3.sh line 21. Source in ~/Downloads now: absent. The VERIFIED-*.txt list is on the drive; it was not readable from this session, so the copy is not confirmed here.",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null,
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "xd.run_i",
+   "kind": "archive",
+   "path": "XDRIVE:mh370-exchange/hydroacoustics/run-i",
+   "hash": false,
+   "hash_note": "external drive not mounted in this session",
+   "note": "Listed for copy to the external drive in archive-tools/archive-to-porsche.v3.sh line 16. Source in ~/Downloads now: absent. The VERIFIED-*.txt list is on the drive; it was not readable from this session, so the copy is not confirmed here.",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null,
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "xd.imos_mh370_zip_inputs",
+   "kind": "archive",
+   "path": "XDRIVE:mh370-inputs/hydroacoustics/imos/MH370.zip",
+   "hash": false,
+   "hash_note": "external drive not mounted in this session",
+   "note": "Listed for copy to the external drive in archive-tools/archive-to-porsche.v3.sh line 35. Source in ~/Downloads now: absent. The VERIFIED-*.txt list is on the drive; it was not readable from this session, so the copy is not confirmed here.",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null,
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "xd.imos_portland_mh370_zip_inputs",
+   "kind": "archive",
+   "path": "XDRIVE:mh370-inputs/hydroacoustics/imos/Portland_MH370.zip",
+   "hash": false,
+   "hash_note": "external drive not mounted in this session",
+   "note": "Listed for copy to the external drive in archive-tools/archive-to-porsche.v3.sh line 36; archive-tools/archive-to-porsche.sh line 20. Source in ~/Downloads now: present. The VERIFIED-*.txt list is on the drive; it was not readable from this session, so the copy is not confirmed here.",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": null,
+   "bytes": null,
+   "manifest": null,
+   "manifest_sha256": null,
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
+  },
+  {
+   "id": "note.memnote_hydroacoustics",
+   "kind": "note",
+   "path": "MOD:registry/memory-notes",
+   "note": "Hydroacoustics memory rows moved to the registry (216 move-to-registry rows, 11 defer-hydro rows). RECORDS OF WHAT MEMORY SAID, not verified facts; each row gives its verification status. Made by registry/import_hydro_memory_records.py on claude-science-sep29.",
+   "defects": [],
+   "verified_this_run": false,
+   "status": "UNCHECKED",
+   "status_rank": "none",
+   "status_evidence": [],
+   "superseded_by": null,
+   "n_files": 4,
+   "bytes": 294956,
+   "manifest": "manifests/note.memnote_hydroacoustics.tsv.gz",
+   "manifest_sha256": "c84d8fb1cbed9eab4d5f3727cfc10ca2b79aea677d9f8c8d95ab9a33ea7be7b7",
+   "definition": {
+    "file": null,
+    "lines": null,
+    "quote": null,
+    "note": "NO DEFINITION LOCATED"
+   }
   }
  ],
  "constants": [
@@ -2199,7 +5611,7 @@
    "status": "AGENT_CHOICE_NOT_RULED",
    "note": "Used by the Take 2 review; chance rate taken as 3/10 for a 10 s shot cadence.",
    "source": {
-    "file": "ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
+    "file": "WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
     "lines": [
      159,
      159
@@ -2296,7 +5708,7 @@
      "quote": "- **Gaps and status:** (G-S1) AGW branch unsearchable with the data held — open, needs a sub-2 Hz detector and unfiltered data. (G-S2) digitised panels only at H01W/H08S — open until Kadri's derived products arrive; the raw-data request stands. (G-S3) no IMOS bearing — permanent. (G-S4) 3315 and 3275 nulls are stand-ins from the paired logger — open (no bucket data). (G-S5) `eta_needed` uses pass-A TL at one source latitude and the median E (the upper anchor) — interim until the TL grid note lands; the column is a label, not a gate. (G-S6) the time-slide null is schedule-biased (amendment A1) — replaced by the held-span permutation null; both reported. (G-S7) the geometry sample omits the free/descent-climb/repro strata (0.2 % of the mixture, windows note G-W4) and keeps the supplement at p = 0.5 only (G-W1). (G-S8) the 2–5 Hz IMOS band is below the 8 Hz hardware corner (labelled). (G-S9) H08S raw-panel rows are null-mismatch artefacts of the airgun survey; only the residual rows are candidates."
     },
     {
-     "file": "ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
+     "file": "WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
      "lines": [
       159,
       159
@@ -2325,7 +5737,7 @@
      "quote": "  ranked_triples.csv    12,331 three-recorder sets whose three pairwise combinations are all lag-consistent rows of pairs.csv; 11,067 contain blocked Scott Reef 3250 and 63 more have no\n                        simulated impact matching all three times (ln LR -inf); 1,201 scored. No IMOS x IMOS x IMOS set without Scott Reef exists."
     },
     {
-     "file": "ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
+     "file": "WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
      "lines": [
       164,
       164
@@ -2352,7 +5764,7 @@
      "quote": "- **Gaps and status:** (G-S1) AGW branch unsearchable with the data held — open, needs a sub-2 Hz detector and unfiltered data. (G-S2) digitised panels only at H01W/H08S — open until Kadri's derived products arrive; the raw-data request stands. (G-S3) no IMOS bearing — permanent. (G-S4) 3315 and 3275 nulls are stand-ins from the paired logger — open (no bucket data). (G-S5) `eta_needed` uses pass-A TL at one source latitude and the median E (the upper anchor) — interim until the TL grid note lands; the column is a label, not a gate. (G-S6) the time-slide null is schedule-biased (amendment A1) — replaced by the held-span permutation null; both reported. (G-S7) the geometry sample omits the free/descent-climb/repro strata (0.2 % of the mixture, windows note G-W4) and keeps the supplement at p = 0.5 only (G-W1). (G-S8) the 2–5 Hz IMOS band is below the 8 Hz hardware corner (labelled). (G-S9) H08S raw-panel rows are null-mismatch artefacts of the airgun survey; only the residual rows are candidates."
     },
     {
-     "file": "ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
+     "file": "WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
      "lines": [
       165,
       165
@@ -2417,7 +5829,7 @@
      "quote": "- **Gaps and status:** (G-S1) AGW branch unsearchable with the data held — open, needs a sub-2 Hz detector and unfiltered data. (G-S2) digitised panels only at H01W/H08S — open until Kadri's derived products arrive; the raw-data request stands. (G-S3) no IMOS bearing — permanent. (G-S4) 3315 and 3275 nulls are stand-ins from the paired logger — open (no bucket data). (G-S5) `eta_needed` uses pass-A TL at one source latitude and the median E (the upper anchor) — interim until the TL grid note lands; the column is a label, not a gate. (G-S6) the time-slide null is schedule-biased (amendment A1) — replaced by the held-span permutation null; both reported. (G-S7) the geometry sample omits the free/descent-climb/repro strata (0.2 % of the mixture, windows note G-W4) and keeps the supplement at p = 0.5 only (G-W1). (G-S8) the 2–5 Hz IMOS band is below the 8 Hz hardware corner (labelled). (G-S9) H08S raw-panel rows are null-mismatch artefacts of the airgun survey; only the residual rows are candidates."
     },
     {
-     "file": "ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
+     "file": "WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
      "lines": [
       168,
       168
@@ -2448,7 +5860,7 @@
    "what": "By the DIGITISED Royer marks, Kadri text time 00:52:03 lies inside the H01W-2 pick bar of icequake A (00:51:56.77-00:52:04.52) and caption time 00:54:30 is 5.9 s from the arrow for event 5 (00:54:24.06); Royer events 6 and 9 predict IMOS 3315 rows. Sensitivity: every digitised H01W-2 mark sits +7.7 to +16.6 s after Royer's Table 5 time for that event (other stations within about +/-5 s); against Table 5 the text time is +20 s from icequake A (00:51:42.99) and the caption time +17.6 s from event 5 (00:54:12.44). The figure-versus-table offset is an open question for Royer. \"Time-consistent\" is not identification.",
    "evidence": [
     {
-     "file": "ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
+     "file": "WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
      "lines": [
       160,
       160
@@ -2471,7 +5883,7 @@
    "what": "Example: Kadri 00:40:34 row x Portland 3275; 201 of 2,000 path points above sea level in GEBCO 2026.",
    "evidence": [
     {
-     "file": "ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
+     "file": "WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
      "lines": [
       171,
       171
@@ -2490,7 +5902,7 @@
    "what": "Early candidate maps used the \"post\" layer, which is flight-only.",
    "evidence": [
     {
-     "file": "ART:a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md",
+     "file": "WORK:Hydroacoustic Handover/artifacts/a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md",
      "lines": [
       12,
       12
@@ -2509,7 +5921,7 @@
    "what": "Withdrawn at Pete's instruction, 23 Oct 2026, for six stated reasons.",
    "evidence": [
     {
-     "file": "ART:a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md",
+     "file": "WORK:Hydroacoustic Handover/artifacts/a35831fe/269947b9_hydroacoustics-candidates-withdrawal-2026-10-23.md",
      "lines": [
       1,
       12
@@ -2671,7 +6083,7 @@
    "what": "Held IMOS records outside the windows (for example the CMST 01:34 event) were not searched; free known-event checks were lost.",
    "evidence": [
     {
-     "file": "ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
+     "file": "WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
      "lines": [
       172,
       172
@@ -2702,7 +6114,7 @@
      "quote": "| source depth 2 / 30 m | 5.4 × 10⁻² / 3.4 × 10⁻⁴ |"
     },
     {
-     "file": "ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
+     "file": "WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
      "lines": [
       169,
       169
@@ -2730,7 +6142,7 @@
    "what": "Digitised plots at about 14.5 points per second with an emulated IMOS noise reference.",
    "evidence": [
     {
-     "file": "ART:a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
+     "file": "WORK:Hydroacoustic Handover/artifacts/a35831fe/d28aa25a_hydroacoustics-take2-critical-review-2026-10-22.md",
      "lines": [
       166,
       166
@@ -2776,62 +6188,26 @@
    "affects": [
     "ex.run_j_gated_v2"
    ]
+  },
+  {
+   "id": "D28",
+   "title": "Kadri replication: route lengths 1-4 % too long (erratum 2 of the wave-3 verifier)",
+   "what": "water_route.py sums 8-neighbour grid steps without smoothing. The Sriwijaya 182 and AB Aviation 1103 offsets are too negative by about 26 s and 84 s. The conclusions do not change (README).",
+   "evidence": [
+    {
+     "file": "WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/README.md",
+     "lines": [
+      30,
+      30
+     ],
+     "quote": "2. **Route lengths in the Kadri replication.** `water_route.py` sums 8-neighbour grid steps without smoothing. This makes the routes 1–4 % too long. The reported offsets are therefore too negative by about 26 s (Sriwijaya 182: about −716 s, not −742 s) and about 84 s (AB Aviation 1103: about −1,510 s, not −1,594 s). The conclusions do not change."
+    }
+   ],
+   "fixed_this_run": "no (erratum in README; notes not edited)",
+   "affects": [
+    "res.raw_ims_2026_10_25.kadri_2024_replication"
+   ]
   }
  ],
- "build_errors": [],
- "partial_updates": [
-  {
-   "utc": "2026-10-23T21:41:21Z",
-   "added_entries": [
-    "in.hydro_data_db",
-    "code.hydro_data_db",
-    "ex.arc_line_of_sight"
-   ],
-   "added_constants": [
-    "los_block_depth_m",
-    "los_large_attenuation"
-   ],
-   "method": "build_registry.py functions (manifest, quote, resolve) applied to the new entries only; all other entries, manifests and built_utc unchanged. A full rebuild needs the ART root (workspace a6559afa, no longer on disk) and a full claude-science-sep29 checkout.",
-   "module_head_before": "16a9532"
-  },
-  {
-   "utc": "2026-10-25T01:06:39Z",
-   "updated_entries": [
-    "in.hydro_data_db",
-    "code.hydro_data_db"
-   ],
-   "added_entries": [],
-   "added_constants": [],
-   "method": "build_registry.py functions (manifest, quote, resolve) applied to these two entries only (stage 2 noise and coupling added to hydro_data.sqlite); all other entries, manifests and built_utc unchanged.",
-   "module_head_before": "d88d48e"
-  },
-  {
-   "utc": "2026-10-25T01:13:26Z",
-   "updated_entries": [
-    "in.hydro_data_db",
-    "code.hydro_data_db"
-   ],
-   "added_entries": [],
-   "added_constants": [],
-   "method": "build_registry.py functions (manifest, quote, resolve) applied to these two entries only (stage 2 coupling tables replaced by the coupling thread's package of 25 Oct 2026, commit 7e5859d); all other entries, manifests and built_utc unchanged.",
-   "module_head_before": "9a777b9"
-  },
-  {
-   "utc": "2026-10-25T01:18:19Z",
-   "updated_constants": {
-    "eta_F35A_metz": "PENDING_RULING -> EVIDENCE",
-    "eta_brown_arons": "RETIRED_AS_ANCHOR -> EVIDENCE",
-    "eta_prior_bounds": "AGENT_CHOICE_NOT_RULED -> SUPERSEDED"
-   },
-   "added_constant_status_values": [
-    "EVIDENCE",
-    "SUPERSEDED"
-   ],
-   "updated_entries": [],
-   "added_entries": [],
-   "added_constants": [],
-   "method": "entries.yaml constants edited (status and note only; values and source quotes unchanged); same fields written to REGISTRY.json/yaml. Pete, 25 Oct 2026: 'yes on the decisions, apply them' (proposal in coupling-db-package-2026-10-25/README.md, session c764a583).",
-   "module_head_before": "a813401"
-  }
- ]
+ "build_errors": []
 }

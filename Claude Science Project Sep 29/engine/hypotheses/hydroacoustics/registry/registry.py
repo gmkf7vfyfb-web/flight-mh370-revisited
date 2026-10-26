@@ -26,6 +26,11 @@ class Registry:
     def __init__(self, path=HERE / "REGISTRY.json", roots: dict | None = None):
         self.reg = json.load(open(path))
         self.roots = {**self.reg["roots"], **(roots or {})}
+        # phase 2 (26 Oct 2026): MOD and WORK are repository roots; find them from this file (registry/ is in MOD).
+        rep = {"MOD": HERE.parent, "WORK": HERE.parents[3]}
+        for k, v in list(self.roots.items()):
+            if isinstance(v, str) and v.startswith("(repository)"):
+                self.roots[k] = str(rep.get(k, v))
         for k in list(self.roots):
             env = os.environ.get(f"HYDRO_ROOT_{k}")
             if env:

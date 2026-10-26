@@ -1,0 +1,335 @@
+{
+ "what": "Hydroacoustics memory rows moved to the registry (phase 2, 26 Oct 2026). Records of what memory said; not verified facts.",
+ "inputs": {
+  "export_artifact_version": "ba131e4c-350c-4db5-8b56-a61b3f2772f9",
+  "export_sha256": "efbc74bcfdafc91e97c920c1b2061053b1d02fd05d872961d2ae20a889056650",
+  "changes_artifact_version_prefix": "49868988",
+  "changes_sha256": "92d99fc884d5dcb0bbb6e2a5430586f36b0cb1c578c0bdee24a57a57ef05c6c3",
+  "facts_artifact_version_prefix": "fdfbc300",
+  "facts_sha256": "2513e2d90f85dc48f7e178a63371e67e41ac23f2229854886c7687d5fc57aea3"
+ },
+ "topics": {
+  "hydroacoustics": {
+   "module": "hydroacoustics",
+   "file": "memory-notes/hydroacoustics.jsonl",
+   "rows": 216,
+   "topic_note_entry": "note.memnote_hydroacoustics",
+   "rows_linked_to_topic_note": 171,
+   "rows_linked_by_name_match": 45,
+   "status_counts": {
+    "UNVERIFIED": 153,
+    "PARTIAL": 30,
+    "VERIFIED": 33
+   },
+   "text_flags": {}
+  },
+  "deferred-hydro": {
+   "module": "hydroacoustics",
+   "file": "memory-notes/deferred-hydro.jsonl",
+   "rows": 11,
+   "topic_note_entry": "note.memnote_hydroacoustics",
+   "rows_linked_to_topic_note": 11,
+   "rows_linked_by_name_match": 0,
+   "status_counts": {
+    "UNVERIFIED": 11
+   },
+   "text_flags": {}
+  }
+ },
+ "links": {
+  "ex.register_2026_10_23": [
+   "mem_b85312892e6a"
+  ],
+  "ex.run_j_gated_v2": [
+   "mem_b55910e8ca6f",
+   "mem_cb7c728da67e"
+  ],
+  "ex.searches": [
+   "mem_3ce181d72beb"
+  ],
+  "ex.session_staging_1012": [
+   "mem_8e6ee9a9a58c"
+  ],
+  "in.h08s_shots": [
+   "mem_808788c10f3e",
+   "mem_82c5963dc0be"
+  ],
+  "in.hydro_data_db": [
+   "mem_22d3c2a6af1a",
+   "mem_2bb46a71c4b5",
+   "mem_2c6b44b7fe58",
+   "mem_57e62fc5664e",
+   "mem_5fd5f7fcd458",
+   "mem_7591b4733cf1",
+   "mem_e653e85a1bc4",
+   "mem_e7c175d61641"
+  ],
+  "note.agw_scenarios": [
+   "mem_02043c16f970"
+  ],
+  "note.audit_architecture": [
+   "mem_22227d003fff",
+   "mem_ab9eb013ac06"
+  ],
+  "note.blackman_validation": [
+   "mem_cd8e9798fe29",
+   "mem_de48b9cc4a9b"
+  ],
+  "note.coordination_hydroacoustics": [
+   "mem_38a0d30c39f2"
+  ],
+  "note.item3_injection_recovery": [
+   "mem_56d226ed688c"
+  ],
+  "note.kadri_table1_test": [
+   "mem_17c4c84d0bdf"
+  ],
+  "note.memnote_hydroacoustics": [
+   "mem_00e673b3c669",
+   "mem_01dad20e7e0f",
+   "mem_03763cec4c25",
+   "mem_041c71a93941",
+   "mem_04bc8205e66d",
+   "mem_04dc51d7540c",
+   "mem_08740964a346",
+   "mem_0888891a6f96",
+   "mem_09cbb0d27f83",
+   "mem_0c09af567dfe",
+   "mem_0d3757c60e92",
+   "mem_11c337fa84b6",
+   "mem_12b6deb56dc1",
+   "mem_132a961b8cc7",
+   "mem_13b941878e9b",
+   "mem_1694e65f80c4",
+   "mem_16b5dbcc5447",
+   "mem_16df2afcc40c",
+   "mem_18df1e40ecb0",
+   "mem_1edfb631a0cd",
+   "mem_217a73cf74e1",
+   "mem_21a9f09a83b0",
+   "mem_22ab734e3636",
+   "mem_2361ba362ab5",
+   "mem_242b66cc42ca",
+   "mem_246805f75b29",
+   "mem_24a7e84ad1c0",
+   "mem_26c4484f2df9",
+   "mem_28d84fc228a7",
+   "mem_28e568d69c06",
+   "mem_2a8959fe1d83",
+   "mem_2eadfa840f72",
+   "mem_2ecf7b87bd23",
+   "mem_3012aa9e7ea1",
+   "mem_31cecf93f424",
+   "mem_320b4bd369e9",
+   "mem_32599d5ab82b",
+   "mem_32b8df2ceb15",
+   "mem_336bd3ad1641",
+   "mem_339325aebefe",
+   "mem_3457e9c0f41f",
+   "mem_345da1ff63a9",
+   "mem_34d693ad0c35",
+   "mem_3514962855df",
+   "mem_358f709b3bdf",
+   "mem_3650c3ff73c4",
+   "mem_391971821fed",
+   "mem_3aaeb4461804",
+   "mem_3b89bb1f2de8",
+   "mem_3bb5110a0f33",
+   "mem_3d40bfac764e",
+   "mem_3db642f1bb43",
+   "mem_3e8d9eccd695",
+   "mem_3f41f66feed3",
+   "mem_3fac55fb228e",
+   "mem_40225d97d552",
+   "mem_407a43029a13",
+   "mem_4291d1e3ac31",
+   "mem_42d9b59eb744",
+   "mem_44bffa53b225",
+   "mem_44c1625bddcd",
+   "mem_45237e770732",
+   "mem_45f771c30f79",
+   "mem_4933f34cf174",
+   "mem_49e8507045f5",
+   "mem_4aba6efdb522",
+   "mem_4af5746c8ade",
+   "mem_4b021ee5e91b",
+   "mem_4b99d890b4b9",
+   "mem_4c65cc147ae8",
+   "mem_4d817e09fffa",
+   "mem_4e2090ab8dfa",
+   "mem_5030d1494bde",
+   "mem_503b0dbfa50c",
+   "mem_5059bb789fa5",
+   "mem_56ff508261f0",
+   "mem_583607146f98",
+   "mem_58ac8ff79018",
+   "mem_595e0698b56d",
+   "mem_5ec5a4257068",
+   "mem_62bad5b228f9",
+   "mem_6443f3738eb4",
+   "mem_68d84b03786a",
+   "mem_68e3e0f76b2d",
+   "mem_69b86327f1fa",
+   "mem_6b9dc509ab29",
+   "mem_6dd46cf2f53c",
+   "mem_6f2899b05386",
+   "mem_7090302f8585",
+   "mem_72900433eb30",
+   "mem_73a8b61cd64c",
+   "mem_73f2c7c170c0",
+   "mem_765331354233",
+   "mem_7ae2cd161b0c",
+   "mem_7d3716de6ffd",
+   "mem_7ec590acc51e",
+   "mem_80042271af60",
+   "mem_81149b0f7b48",
+   "mem_81b97237c6dd",
+   "mem_82d09dd81211",
+   "mem_842d46da7a94",
+   "mem_86349a3ef546",
+   "mem_8a22edbf687f",
+   "mem_8b256aa4c8f4",
+   "mem_8c8aa79f5326",
+   "mem_8f8e36144494",
+   "mem_8fe7fdf2d7ac",
+   "mem_945fc2846f74",
+   "mem_95a5d22663b4",
+   "mem_99daba325ec1",
+   "mem_9b167ae79d61",
+   "mem_9cae12f61467",
+   "mem_9e86bb8ff075",
+   "mem_9f19b02f7824",
+   "mem_a0d364284a9a",
+   "mem_a15f049e60e3",
+   "mem_a228f92b1380",
+   "mem_a46ec557e204",
+   "mem_a50e215b9f82",
+   "mem_a51613d98890",
+   "mem_a588966e351b",
+   "mem_aa6620c6c2b7",
+   "mem_abe1e81571f2",
+   "mem_acb6f1ca1275",
+   "mem_adf6332464f7",
+   "mem_adf6e0cf1746",
+   "mem_aef089b2e194",
+   "mem_af3326aad51f",
+   "mem_af9d3b796767",
+   "mem_b14551be66d1",
+   "mem_b1e164695d2f",
+   "mem_b31d0924ed09",
+   "mem_b3be44c927cc",
+   "mem_b5109c13a4d7",
+   "mem_b52c68761a47",
+   "mem_c128caf6f655",
+   "mem_c1c61f23d463",
+   "mem_c2a4fc7fa280",
+   "mem_c307c1c731a0",
+   "mem_c70e28e0e25d",
+   "mem_c84ea0d0c674",
+   "mem_c872fbf2d5bb",
+   "mem_c8eab041c152",
+   "mem_c9263faef085",
+   "mem_c952c197a497",
+   "mem_c9e1c3c87875",
+   "mem_cb1e2bbe8bf7",
+   "mem_cbf99ac90b41",
+   "mem_d097e2b49822",
+   "mem_d21e2dcf1020",
+   "mem_d236469895f1",
+   "mem_d23e127693f1",
+   "mem_d34b1ada80b6",
+   "mem_d6b1f7983665",
+   "mem_d710234023dc",
+   "mem_d983e3504233",
+   "mem_ddeb95d5cdb8",
+   "mem_debfef835c20",
+   "mem_e1efc0c2e9cf",
+   "mem_e1fc765ccb99",
+   "mem_e39317400f21",
+   "mem_e4e33bd36c89",
+   "mem_e586edc82fd8",
+   "mem_e8a6eff54748",
+   "mem_e90006ea3fd4",
+   "mem_e9d437957a23",
+   "mem_ea61e03d8bf8",
+   "mem_eafed062c92b",
+   "mem_eb3299cf1282",
+   "mem_eb99a683ceed",
+   "mem_ec41aaa893dd",
+   "mem_eff36dc8db09",
+   "mem_f24d07aa860c",
+   "mem_f4858849a3c4",
+   "mem_f5576cfd02bb",
+   "mem_f63265e2547f",
+   "mem_fb3e17d86ad7",
+   "mem_fc0f3d7dd3a3",
+   "mem_fce7744cc1b8",
+   "mem_fd57f3515643",
+   "mem_fe98296442d0",
+   "mem_fec21ad3b6f3"
+  ],
+  "note.metz_f35a_anchor": [
+   "mem_4943c40816b0",
+   "mem_8b868291ced6"
+  ],
+  "note.near_limits_planning": [
+   "mem_7fdb871a839b"
+  ],
+  "note.pair_tests_oct09": [
+   "mem_e67695c1cb11",
+   "mem_f6dc95347ca3"
+  ],
+  "note.ram_tl_check": [
+   "mem_b75d82bda754"
+  ],
+  "note.run_c_windows": [
+   "mem_8ad2cef1cbc0"
+  ],
+  "note.threads_master_prompts_hydroacoustics": [
+   "mem_c6d74fc0dba2",
+   "mem_e8c9ee9aac59",
+   "mem_eabe97f69add",
+   "mem_f971d3fb5fee"
+  ],
+  "res.back_to_basics_2026_10_23.airgun_surveys": [
+   "mem_a995d76f9be6"
+  ],
+  "res.back_to_basics_2026_10_23.imos_full_deployment_noise": [
+   "mem_16127d262072"
+  ],
+  "res.file.hydroacoustics_ground_truth_cases_csv": [
+   "mem_9ef501dda739"
+  ],
+  "res.file.hydroacoustics_pair_sources_map_png": [
+   "mem_930450c8b406"
+  ],
+  "res.file.hydroacoustics_references_bib": [
+   "mem_54fca2055ac8",
+   "mem_c9a3bfb8cc8a"
+  ],
+  "res.next_run_b_standin": [
+   "mem_7de457e2041a"
+  ],
+  "xd.imos_portland_mh370_zip_inputs": [
+   "mem_be12aaa208c7",
+   "mem_c1691d47bbe5"
+  ],
+  "xd.next_run_d_he": [
+   "mem_a03a679808e0",
+   "mem_f951a13847b0"
+  ]
+ },
+ "citation_ledger": {
+  "Claude Science Project Sep 29/results/hydroacoustics-references.md": 45,
+  "status_counts": {
+   "PARTIAL": 24,
+   "UNVERIFIABLE": 10,
+   "VERIFIED": 10,
+   "CORRECTED": 1
+  }
+ },
+ "stats": {
+  "ledger_rows_written": 45,
+  "ledger_no_flags": 45
+ }
+}
