@@ -1,9 +1,9 @@
 registry_version: hydro-registry v1 (2026-10-23)
-built_utc: '2026-10-26T15:55:41Z'
+built_utc: '2026-10-26T16:50:51Z'
 hashing: true
 git:
-  module_branch: 'd2779102d3dac1a7ee4bcabcfe25c845d1e16bb2 2026-10-26T09:52:57-06:00 (head at build time; uncommitted changes in scope: yes)'
-  work_branch: 'beb7696808f6f1c278a729ef1546f12cacff3242 2026-10-25T17:22:07-06:00 (head at build time; uncommitted changes in scope: yes)'
+  module_branch: '99d31191c37dd020239808af8e7f8e98eda73e34 2026-10-26T10:50:09-06:00 (head at build time; uncommitted changes in scope: yes)'
+  work_branch: '336044b0b74581ab9f0044fa3523b643c3851ddf 2026-10-26T10:49:54-06:00 (head at build time; uncommitted changes in scope: no)'
 roots:
   EX: /Users/pete/Downloads/mh370-exchange/hydroacoustics
   EOF: /Users/pete/Downloads/mh370-exchange/end-of-flight
@@ -1729,9 +1729,9 @@ entries:
 
       `hydroacoustics-references.bib` (same keys) both live in `results/`.'
   n_files: 1
-  bytes: 66047
+  bytes: 66710
   manifest: manifests/note.references.tsv.gz
-  manifest_sha256: 59614c92225f7dfe0e94fd064f3ab7283c703d3b62242ab7d8022f4a65e2b979
+  manifest_sha256: 37609ee4c532b6b59021a1431fa4afc7163e50e723d74be6f4e2468d17fe9854
 - id: note.run_c_windows
   kind: note
   path: WORK:results/hydroacoustics-run-c-windows.md
@@ -2499,6 +2499,10 @@ entries:
   - rank: handoff
     source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:7
     quote: 'status: CURRENT_WITH_CAVEATS'
+  - rank: rule
+    source: WORK:coordination/HYDROACOUSTICS.md:1855
+    quote: '- RULE 4. A new result starts as UNCHECKED. Only an independent verifier sets CURRENT.'
+  status_note: Producer hand-off only; no independent verifier pass (RULE 4).
   producing_thread: c764a583 (Aircraft Impact Acoustic Source Survey)
   handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.source_survey_2026_10_23.tsv.gz
   superseded_by: null
@@ -2550,6 +2554,10 @@ entries:
   - rank: handoff
     source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:20
     quote: 'status: CURRENT_WITH_CAVEATS'
+  - rank: rule
+    source: WORK:coordination/HYDROACOUSTICS.md:1855
+    quote: '- RULE 4. A new result starts as UNCHECKED. Only an independent verifier sets CURRENT.'
+  status_note: Producer hand-off only; no independent verifier pass (RULE 4).
   producing_thread: c764a583 (Aircraft Impact Acoustic Source Survey)
   handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.next_steps_2026_10_24.tsv.gz
   superseded_by: null
@@ -2560,7 +2568,7 @@ entries:
 - id: res.coupling_db_package_2026_10_25
   kind: product
   path: WORK:results/hydroacoustics/source-survey-2026-10-23/coupling-db-package-2026-10-25
-  status: CURRENT
+  status: CURRENT_WITH_CAVEATS
   defects: []
   verified_this_run: false
   definition:
@@ -2638,6 +2646,10 @@ entries:
   - rank: handoff
     source: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/entries-c764a583.yaml:33
     quote: 'status: CURRENT'
+  - rank: rule
+    source: WORK:coordination/HYDROACOUSTICS.md:1855
+    quote: '- RULE 4. A new result starts as UNCHECKED. Only an independent verifier sets CURRENT.'
+  status_note: Producer hand-off only; no independent verifier pass (RULE 4). The hand-off gives CURRENT; the registry gives CURRENT_WITH_CAVEATS.
   producing_thread: c764a583 (Aircraft Impact Acoustic Source Survey)
   handoff_manifest: WORK:results/hydroacoustics/source-survey-2026-10-23/registry-handoff/manifests/res.coupling_db_package_2026_10_25.tsv.gz
   superseded_by: null
@@ -5646,9 +5658,9 @@ entries:
   status_evidence: []
   superseded_by: null
   n_files: 1
-  bytes: 163831
+  bytes: 164329
   manifest: manifests/note.coordination_hydroacoustics.tsv.gz
-  manifest_sha256: e94e55bb07278c7667ea1cb4ae66eeb16dbe7eb5a1c09d85e081887b399eb8d6
+  manifest_sha256: 3685924b0a6e5fe25a9175e54b1c5974e591dfcc499bb6f6a1d3619987fb3bb1
   definition:
     file: null
     lines: null
@@ -5987,7 +5999,7 @@ entries:
   n_files: 4
   bytes: 294956
   manifest: manifests/note.memnote_hydroacoustics.tsv.gz
-  manifest_sha256: c84d8fb1cbed9eab4d5f3727cfc10ca2b79aea677d9f8c8d95ab9a33ea7be7b7
+  manifest_sha256: 0b4860fe575a485343d8615c7fc07979484c313c8fb33e1f7e92a4fcd866d76a
   definition:
     file: null
     lines: null
