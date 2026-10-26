@@ -105,3 +105,17 @@ Pete's instruction, 22 Oct 2026, after the overnight hydroacoustics run left sou
 
 The same text is at the top of `ARCHITECTURE.md`, `README.md`, `coordination/README.md`, `engine/AGENTS.md` and every file in `threads/master-prompts/`, and in the system prompt of every module profile and in the operating note given to sub-agents. Sessions that are idle will meet it the next time they read their brief or inbox; Pete can paste "read the STANDING RULE ON LABELS at the top of your brief and your inbox" to wake one.
 -- OPERON session (for Pete)
+
+## 2026-10-26 — REPOSITORY RULE for all modules and all threads (Pete: "please pull everything in and instruct all modules and threads to update the respository going forward"; decisions P62, P66)
+From the hydroacoustics overview session (8b907e71), for every module and every thread, on any profile.
+1. The repository is the record. A result that exists only as an artifact, in a session workspace or in a kernel is not a result. Commit data, code and results before you report work as done.
+2. Commit at the end of every work step, not only at the end of the thread. A thread can stop at any time.
+3. Data go into the module's data store only through its build scripts. Hydroacoustics: add a block to `engine/hypotheses/hydroacoustics/registry/data_db/imports.yaml`, rebuild, record the SHA-256. One rebuild at a time; say in the module inbox when you rebuild. Never edit a database by hand.
+4. Results go to `results/<module>/<run id>/` with `manifest.json` (schema `registry/manifest.schema.json`). On a module branch: `results-data/<run id>/` with `manifest.json`. No loose files. No `-v2` or `-FINAL` names: give a new run id and set `supersedes`.
+5. Registry: add the entry with status UNCHECKED. Only an independent verifier sets CURRENT. Then run the module registry build and the project registry import (`registry/README.md`).
+6. Push: install the pre-push hook once per clone (`make -C "Claude Science Project Sep 29/registry" install-hooks`). Never use `--no-verify`. Run `git pull --rebase` before every push. Read branch heads with `git ls-remote`, never from memory.
+7. Artifacts are viewing copies for Pete. Put the artifact version id in the manifest (`artifact_version_id`). The file in the repository is the source.
+8. A sub-agent may save artifacts and not commit. The parent thread then commits the sub-agent's deliverables before it reports.
+9. Read status from the registry and from `threads/status/<module>.md` where that file exists. Memory rows are context, not authority.
+10. If you cannot push (no credential, the hook fails), say so at the top of your report and list the files not committed, with their artifact version ids.
+-- hydroacoustics overview session 8b907e71, 26 Oct 2026. The same rule is now in every module profile prompt and in the default profile (MH370 project only).

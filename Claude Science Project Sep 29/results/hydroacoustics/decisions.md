@@ -61,3 +61,22 @@
 | P53 | Data source of record | “1. Yes on wiring into the module and brief.” | Hydroacoustic data inventory (9e0bf4fe, 23 Oct 2026) |
 | P54 | Coupling and noise in one database; F-35A | “Bring it into one database. The F35 ruling was a red herring, see the aircraft impact acoustic coupling thread's output.” | Hydroacoustic data inventory (9e0bf4fe, 24-25 Oct 2026) |
 | P55 | Registry coupling constants | “yes on the decisions, apply them” | Hydroacoustic data inventory (9e0bf4fe, 25 Oct 2026); applies eta_F35A_metz -> EVIDENCE, eta_brown_arons -> EVIDENCE, eta_prior_bounds -> SUPERSEDED (module commit cb1a7d7) |
+| P56 | Approach | “Do not race ahead.” | Hydroacoustic MH370 First-Principles Review (8b907e71, msg 2) |
+| P57 | Detection model | “I think I want to clean sheet that part” | Hydroacoustic MH370 First-Principles Review (8b907e71, msg 2) |
+| P58 | Airgun level; Blackman noise | “A. yes, A1 but also see the question about Blackman noise as well” | Aircraft Impact Acoustic Source Survey (c764a583, msg 759) |
+| P59 | Coupling crash-type families | “H. yes H1 but how have we calibrated it for impact events other than F35 type?” | Aircraft Impact Acoustic Source Survey (c764a583, msg 759) |
+| P60 | Swissair 111 | “G. was there no hydroacoustics associated? OK to use as a seismic as well.” | Aircraft Impact Acoustic Source Survey (c764a583, msg 759) |
+| P61 | Noise model | “I want one integrated noise model” | Aircraft Impact Acoustic Source Survey (c764a583, msg 802) |
+| P62 | Repository | “One updated repository as well.” | Aircraft Impact Acoustic Source Survey (c764a583, msg 802) |
+| P63 | Old results | “I don't want to be using old model results.” | Aircraft Impact Acoustic Source Survey (c764a583, msg 802) |
+| P64 | Glass spheres | “10 use the glass spheres as well” | Aircraft Impact Acoustic Source Survey (c764a583, msg 802) |
+| P65 | Lettered decisions A-G (list re-issued in that thread: A airgun level error, B caveat text, C model error from both oceans, D spectrum for each crash type, E Cape Leeuwin direction correction, F order of crash-type calibration, G no data requests) | “A: A1, fnd the problem and fix the model B: B1, C: C1 but also improve the model based on all the data we have D: D1 but I want it informed by the physics including estimation for the 777-200ER type and tested where we can E: E1 although we can also widen the uncertainty for direction and this the error eelipse at the arc, and we need to cross check this with other source types. F: F1 OK G: G1” | Aircraft Impact Acoustic Source Survey (c764a583, msg 802) |
+| P66 | Repository rule, all modules | “On (1) please pull everything in and instruct all modules and threads to update the respository going forward” | Hydroacoustic MH370 First-Principles Review (8b907e71, msg 82) |
+| P67 | Noise caveats | “(3) please check on and fix the items noted in caveats” | Hydroacoustic MH370 First-Principles Review (8b907e71, msg 82) |
+| P68 | Known events in the detector | “(4) this should be part of the detection algortim, i.e. check potential events against these known non-MH370 events (for the known events, the unexplained ones are themselves test candidates)” | Hydroacoustic MH370 First-Principles Review (8b907e71, msg 82) |
+| P69 | Detection specification | “(6) yes ,please start the specification” | Hydroacoustic MH370 First-Principles Review (8b907e71, msg 82) |
+| P70 | Kadri package | “I would like to be able to send Kadri code plus data files (of the simulations) so he could run the tests using the raw data, that code would also need to be able to read those raw data files” | Hydroacoustic MH370 First-Principles Review (8b907e71, msg 82) |
+| P71 | Known-event match | “the detector should be able to reference known events to check any detection for an approximate match to those” | Hydroacoustic MH370 First-Principles Review (8b907e71, msg 82) |
+| P72 | Overview thread | “I'd like this thread to keep the overview for me.” | Hydroacoustic MH370 First-Principles Review (8b907e71, msg 82) |
+
+*P56-P72 added 26 Oct 2026 by the hydroacoustics overview session (8b907e71). Each quote was checked by code as an exact substring of the cited message. P65 uses the letters of the list that was re-issued in session c764a583 before msg 802; that list replaces the earlier A-I list.*
