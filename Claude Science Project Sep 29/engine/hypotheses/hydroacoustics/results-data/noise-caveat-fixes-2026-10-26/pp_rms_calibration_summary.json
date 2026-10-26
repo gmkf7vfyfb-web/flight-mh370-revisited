@@ -1,0 +1,35 @@
+{
+ "vertex_rate_per_s": 14.5,
+ "edge_s": 30.0,
+ "variants": [
+  "zero-phase 4-pole 5-40 Hz",
+  "causal 4-pole 5-40 Hz",
+  "causal 2-pole HP 5 Hz + 4-pole 2-40 Hz (Kadri Methods)"
+ ],
+ "stations": {
+  "H01W": {
+   "primary_set": "march",
+   "k": 5.176122982187648,
+   "k_min": 5.170439980200619,
+   "k_max": 5.208160205263976,
+   "k_sigma_db": 0.031568337613418596,
+   "k_dec80": 4.792778217835312,
+   "plot_rate_sigma_db": 0.33417253600725777,
+   "pp_retention": 1.0,
+   "vrms_ratio": 1.8662241016841492,
+   "vertex_kurtosis": 0.177485128990846
+  },
+  "H08S": {
+   "primary_set": "march",
+   "k": 5.144572106019189,
+   "k_min": 5.144572106019189,
+   "k_max": 5.230142577789643,
+   "k_sigma_db": 0.07164269589916111,
+   "k_dec80": 4.767936682819489,
+   "plot_rate_sigma_db": 0.3301877921447011,
+   "pp_retention": 1.0,
+   "vrms_ratio": 1.8474538558555622,
+   "vertex_kurtosis": -0.6183974770665813
+  }
+ }
+}

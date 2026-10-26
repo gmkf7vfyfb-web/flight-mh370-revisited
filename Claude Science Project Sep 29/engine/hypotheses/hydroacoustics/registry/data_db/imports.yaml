@@ -1,0 +1,663 @@
+manifest_version: 1
+purpose: Declarative import manifest for hydro_data.sqlite (stage 3, build_imports.py). From 26 Oct 2026 a thread adds data by adding one block here and rebuilding; never by editing the database.
+roots:
+  WORK: '''Claude Science Project Sep 29'' folder of a claude-science-sep29 checkout (--work)'
+  MOD: module root on hypothesis/hydroacoustics (--mod)
+kinds:
+  table: 'CSV copied verbatim to a new table; checks: rows, SHA-256, units for every numeric column, unique key'
+  table_concat: several CSV files with the same columns into one table
+  noise_percentiles: verbatim table plus one noise_estimate row per percentile column (quantity and unit from noise.quantity_map)
+  array_calibration: 'JSON array calibration: table array_calibration (parameters), array_calibration_event (events), attribute rows on the site'
+  coupling_package_append: rows appended to the coupling package tables after the package validator passes on base plus new rows; updates keep the old row in package_row_history
+blocks:
+- id: imp_ims_march_noise_percentiles
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/ims-march-noise-percentiles.csv
+  branch: claude-science-sep29
+  commit: 114bebc805582ce95d3472a599d1c1b09b0f41cc
+  sha256: 1b36c6c2755f0185a5dd4287733b9f5a728b942539a5b5080ec08fd79006075b
+  kind: noise_percentiles
+  table: ims_march_noise_percentile
+  registry_id: res.next_steps_2026_10_24
+  role: background (same-season proxy, open raw IMS 2015-2019)
+  caveat: 'Other years (March 2015-2019) are a proxy for 8 March 2014; the 2014 IMS records are not open at EarthScope (producer note ims-open-march-background-note.md). Exploratory: no likelihood.'
+  units:
+    freq_hz: Hz
+    n_minutes: count
+    p5: from column quantity
+    p25: from column quantity
+    p50: from column quantity
+    p75: from column quantity
+    p95: from column quantity
+  key:
+  - source
+  - station
+  - element
+  - subset
+  - quantity
+  - freq_hz
+  noise:
+    context: IMS March 2015-2019 open raw (proxy for 8 Mar 2014)
+    method: measured from raw recording (EarthScope, response removed)
+    source_id: earthscope_ims_open
+    averaging: Welch PSD per UTC minute (Hann, 4 s, 50 % overlap); percentile over element-minutes
+    quantity_map:
+      psd_1hz_db_re_1uPa2_per_Hz:
+      - band_mean_psd
+      - 1 Hz bin
+      third_octave_mean_psd_db_re_1uPa2_per_Hz:
+      - band_mean_psd
+      - 1/3 octave
+      third_octave_spl_db_re_1uPa:
+      - rms_level
+      - 1/3 octave
+      band_spl_5_40Hz_db_re_1uPa:
+      - rms_level
+      - 5-40 Hz
+    stat_map:
+      p5: p5
+      p25: p25
+      p50: median
+      p75: p75
+      p95: p95
+    quantities_to_noise_estimate:
+    - third_octave_mean_psd_db_re_1uPa2_per_Hz
+    - third_octave_spl_db_re_1uPa
+    - band_spl_5_40Hz_db_re_1uPa
+    note: The 1-Hz PSD percentiles stay in the verbatim table ims_march_noise_percentile only (database size); band quantities go to noise_estimate.
+- id: imp_ims_march_false_alarm_rates
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/ims-march-false-alarm-rates.csv
+  branch: claude-science-sep29
+  commit: 114bebc805582ce95d3472a599d1c1b09b0f41cc
+  sha256: 928cdcfe375aa429158dadcc7736bc06373adad8c07d5a7c9ea989d21a2ee4b2
+  kind: table
+  table: ims_false_alarm_rate
+  registry_id: res.next_steps_2026_10_24
+  role: false-alarm background (same-season proxy, open raw IMS 2015-2019)
+  caveat: 'Other years (March 2015-2019) are a proxy for 8 March 2014; the 2014 IMS records are not open at EarthScope (producer note ims-open-march-background-note.md). Exploratory: no likelihood.'
+  units:
+    p_threshold: '1'
+    n_days: count
+    n_years: count
+    n_windows: count
+    hours: h
+    n_pass: count
+    rate_per_h: 1/h
+    rate_daybootstrap90_lo: 1/h
+    rate_daybootstrap90_hi: 1/h
+    rate_poisson90_lo: 1/h
+    rate_poisson90_hi: 1/h
+    daily_rate_p5: 1/h
+    daily_rate_median: 1/h
+    daily_rate_p95: 1/h
+    yearly_rate_min: 1/h
+    yearly_rate_max: 1/h
+    fraction_of_windows: '1'
+    p_floor: '1'
+  key:
+  - source
+  - station
+  - statistic
+  - p_basis
+  - level
+  - time_subset
+  - bearing_condition
+- id: imp_ims_march_noise_vs_references
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/ims-march-noise-vs-references.csv
+  branch: claude-science-sep29
+  commit: 114bebc805582ce95d3472a599d1c1b09b0f41cc
+  sha256: b4c98b72127b17e9e1dacef4cb8e1e8d8f7f998721eb41926be0bc3676955f94
+  kind: table
+  table: ims_noise_vs_reference
+  registry_id: res.next_steps_2026_10_24
+  role: comparison of the open raw March levels with Blackman 2003 and the IMOS 3376 stand-in
+  caveat: 'Other years (March 2015-2019) are a proxy for 8 March 2014; the 2014 IMS records are not open at EarthScope (producer note ims-open-march-background-note.md). Exploratory: no likelihood.'
+  units:
+    march_p5: dB (see quantity)
+    march_p25: dB (see quantity)
+    march_p50: dB (see quantity)
+    march_p75: dB (see quantity)
+    march_p95: dB (see quantity)
+    blackman2003_median: dB (see quantity)
+    standin_imos3376: dB re 1 uPa (5-40 Hz SPL)
+    diff_march_minus_blackman: dB
+    diff_march_minus_standin: dB
+  key:
+  - source
+  - station
+  - element
+  - subset
+  - quantity
+  - band
+- id: imp_ims_open_availability
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/ims-open-availability.csv
+  branch: claude-science-sep29
+  commit: 114bebc805582ce95d3472a599d1c1b09b0f41cc
+  sha256: 266c6ad9548f388ed0df55ee04dbe4ef4ea8cccd835cb2c77f92941ccea495a4
+  kind: table
+  table: ims_open_availability
+  registry_id: res.next_steps_2026_10_24
+  role: EarthScope availability probes of IMS hydrophone data, March 2010-2019
+  caveat: Probe results on the probe date; availability can change.
+  units:
+    y: year
+    m: month
+    http_0030: HTTP status
+    http_1200: HTTP status
+    hours_downloaded_00_04: h
+    hours_downloaded_full_day: h
+  key:
+  - network
+  - triad
+  - element
+  - channel
+  - date
+- id: imp_h01w_array_calibration
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/h01w-array-calibration.json
+  branch: claude-science-sep29
+  commit: 114bebc805582ce95d3472a599d1c1b09b0f41cc
+  sha256: 2081e7761079fc86682f4597a8593913f71058c8e56cd0b90b625233e864367d
+  kind: array_calibration
+  table: array_calibration
+  registry_id: res.next_steps_2026_10_24
+  role: empirical H01W array calibration for bearings (41 catalogue T-phases)
+  caveat: Fitted element offsets are absorbed jointly with timing and scale; not a survey result (producer note, section 3.3).
+  units:
+    c_kms: km/s
+    dt2_s: s
+    dt3_s: s
+    dE2_m: m
+    dN2_m: m
+    dE3_m: m
+    dN3_m: m
+    baz_true_deg: deg
+    baz_raw_deg: deg
+    res_deg: deg
+- id: imp_island_seismic_detection
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/island-seismic-detections.csv
+  branch: claude-science-sep29
+  commit: 114bebc805582ce95d3472a599d1c1b09b0f41cc
+  sha256: d95cb74b8592f0fdaf6fbd41f81b70a82114deef98fae0523179248b59f9960a
+  kind: table
+  table: island_seismic_detection
+  registry_id: res.next_steps_2026_10_24
+  role: data table from the next-steps survey (24 Oct 2026)
+  caveat: Exploratory; no likelihood (producer note island-seismic-check-note.md).
+  units:
+    fs_hz: Hz
+    duration_s: s
+    peak_snr: '1'
+    peak_freq_hz: Hz
+    rms_band_nm_s: nm/s
+    hf_lf_rel: '1'
+    assigned_p_chance: '1'
+  key:
+  - det_id
+- id: imp_island_seismic_association
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/island-seismic-associations.csv
+  branch: claude-science-sep29
+  commit: 114bebc805582ce95d3472a599d1c1b09b0f41cc
+  sha256: 054bc75b7de5f58917d70e0c4e55f53be3c390e5582c3b8af6caea6204160ef9
+  kind: table
+  table: island_seismic_association
+  registry_id: res.next_steps_2026_10_24
+  role: data table from the next-steps survey (24 Oct 2026)
+  caveat: Exploratory; no likelihood (producer note island-seismic-check-note.md).
+  units:
+    mag: magnitude
+    depth_km: km
+    dist_km: km
+    baz_deg: deg
+    seis_leg_km: km
+    water_leg_km: km
+    shallow_km: km
+    T_offset_s: s
+    T_spread_s: s
+    T_win_s: s
+    T_resid_s: s
+    T_snr: '1'
+    T_dur_s: s
+    T_fpk_hz: Hz
+    T_p_chance: '1'
+    P_resid_s: s
+    P_snr: '1'
+    P_p_chance: '1'
+    S_resid_s: s
+    S_snr: '1'
+    S_p_chance: '1'
+  key:
+  - event_id
+  - station
+- id: imp_island_impact_window_unexplained
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/island-impact-window-unexplained.csv
+  branch: claude-science-sep29
+  commit: 114bebc805582ce95d3472a599d1c1b09b0f41cc
+  sha256: 5a6b12f67bf0bdb4c98cc22da3124996c08a0165aa197c9ffe35323ee7dac348
+  kind: table
+  table: island_impact_window_unexplained
+  registry_id: res.next_steps_2026_10_24
+  role: data table from the next-steps survey (24 Oct 2026)
+  caveat: Exploratory; no likelihood (producer note island-seismic-check-note.md).
+  units:
+    rank_in_window: rank
+    duration_s: s
+    peak_snr: '1'
+    peak_freq_hz: Hz
+    hf_lf_rel: '1'
+    p_value: '1'
+    p_floor: '1'
+    n_background_windows: count
+    likelihood_ratio: '1'
+    n_consistent_arc_points: count
+    partner_max_snr_pm30s: '1'
+  key:
+  - station
+  - case
+  - rank_in_window
+- id: imp_royer_event_labelled
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/royer-events-labelled-set.csv
+  branch: claude-science-sep29
+  commit: 114bebc805582ce95d3472a599d1c1b09b0f41cc
+  sha256: 00fcaa5e9ea5d41f79dce88de51d42e2071d81713d2ebbaf62b4ebfe0aea0ade
+  kind: table
+  table: royer_event_labelled
+  registry_id: res.next_steps_2026_10_24
+  role: data table from the next-steps survey (24 Oct 2026)
+  caveat: Labels are a comparison set; they are not exclusions.
+  units:
+    royer_event: id
+    lat: deg
+    lon: deg
+    err_lat_deg: deg
+    err_lon_deg: deg
+    err_time_s: s
+    n_royer_hydrophones: count
+    dist_km: km
+    baz_at_receiver_deg: deg
+    shallow_km: km
+    resid_obs_minus_pred_s: s
+    island_snr: '1'
+    island_p_chance: '1'
+    island_max_snr_in_window: '1'
+  key:
+  - royer_event
+  - receiver
+- id: imp_airliner_seismic_case
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/airliner-ocean-impacts-seismic-cases.csv
+  branch: claude-science-sep29
+  commit: 114bebc805582ce95d3472a599d1c1b09b0f41cc
+  sha256: b5a6a719f21f79f341a59bc7a766a7c1d19e651b2263b30d96d544c7def802bf
+  kind: table
+  table: airliner_seismic_case
+  registry_id: res.next_steps_2026_10_24
+  role: data table from the next-steps survey (24 Oct 2026)
+  caveat: Exploratory; no likelihood (producer note airliner-seismic-cases-note.md).
+  units:
+    time_uncertainty_s: s
+    lat: deg
+    lon: deg
+    n_open_stations_le_340km: count
+    nearest_open_station_km: km
+    n_stations_tested: count
+    best_station_km: km
+    min_p: '1'
+    p_floor_at_min: '1'
+    snr_at_min: '1'
+    bonferroni_min_p: '1'
+  key:
+  - case
+- id: imp_airliner_seismic_station_test
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/airliner-ocean-impacts-station-tests.csv
+  branch: claude-science-sep29
+  commit: 114bebc805582ce95d3472a599d1c1b09b0f41cc
+  sha256: 1d7212b8bb3126c003e48f2b54971dd8eebf0a46ed8486b5a1372485b305d71a
+  kind: table
+  table: airliner_seismic_station_test
+  registry_id: res.next_steps_2026_10_24
+  role: data table from the next-steps survey (24 Oct 2026)
+  caveat: Exploratory; no likelihood (producer note airliner-seismic-cases-note.md).
+  units:
+    dist_km: km
+    search_window_s: s
+    max_sta_lta: '1'
+    t_of_max_s: s
+    snr_peak: '1'
+    n_null: count
+    k_null_ge: count
+    p: '1'
+    p_floor: '1'
+    noise_rms: see amp_unit
+    rank_by_p_within_case: rank
+  key:
+  - case
+  - station
+  - band
+- id: imp_swissair111_seismic
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/swissair111-seismic.csv
+  branch: claude-science-sep29
+  commit: 114bebc805582ce95d3472a599d1c1b09b0f41cc
+  sha256: ea39f16dba56683caa24df5d8bcfe33ea4e93702af668b7136feab3d8f5c7233
+  kind: table
+  table: swissair111_seismic
+  registry_id: res.next_steps_2026_10_24
+  role: data table from the next-steps survey (24 Oct 2026)
+  caveat: Exploratory; no likelihood (producer note airliner-seismic-cases-note.md).
+  units:
+    value: see column unit
+  key:
+  - item
+- id: imp_swissair111_energy_sensitivity
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/swissair111-energy-sensitivity.csv
+  branch: claude-science-sep29
+  commit: 114bebc805582ce95d3472a599d1c1b09b0f41cc
+  sha256: b0980190860af00c2491286152c4ea96bb568c4865c47899862ad6bbf4632c23
+  kind: table
+  table: swissair111_energy_sensitivity
+  registry_id: res.next_steps_2026_10_24
+  role: data table from the next-steps survey (24 Oct 2026)
+  caveat: Exploratory; no likelihood.
+  units:
+    free_surface_energy_factor: '1'
+    Es_J: J
+  key:
+  - spreading
+  - Q
+  - free_surface_energy_factor
+- id: imp_metz_geometry
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/metz-geometry.csv
+  branch: claude-science-sep29
+  commit: 114bebc805582ce95d3472a599d1c1b09b0f41cc
+  sha256: c5f6d39cda1e9824365d28da3bfd6ac221f0d61903c44bf360c99ed61560c4f9
+  kind: table
+  table: metz_geometry
+  registry_id: res.next_steps_2026_10_24
+  role: data table from the next-steps survey (24 Oct 2026)
+  caveat: Positions read from Metz Fig. 1A, about +/-2 km (producer note metz-nearfield-note.md).
+  units:
+    lat: deg
+    lon: deg
+    gebco_depth_m: m
+    metz_depth_m: m
+    range_from_P_km: km
+    range_from_W_km: km
+    range_from_P_km_check: km
+    range_from_W_km_check: km
+  key:
+  - item
+- id: imp_metz_source_slope
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/metz-source-slope.csv
+  branch: claude-science-sep29
+  commit: 114bebc805582ce95d3472a599d1c1b09b0f41cc
+  sha256: 6e3402f86fd1701afa4f7cd02124cc69c5ae35a5bf1be9f9e16a9702272dc643
+  kind: table
+  table: metz_source_slope
+  registry_id: res.next_steps_2026_10_24
+  role: data table from the next-steps survey (24 Oct 2026)
+  caveat: Exploratory; propagation frequency-slope caveat applies (producer note metz-nearfield-note.md).
+  units:
+    floor_fill_db: dB re 1 uPa^2/Hz
+    src_depth_m: m
+    n_bands: count
+    rx_excess_esd_slope: dB/octave
+    tl_gain_slope: dB/octave
+    src_esd_slope_db_oct: dB/octave
+    src_esd_slope_se: dB/octave
+    src_band_energy_slope_db_oct: dB/octave
+    minus_f2_offset_db_oct: dB/octave
+    minus_f4_offset_db_oct: dB/octave
+  key:
+  - station
+  - field
+  - source_point
+  - bottom
+  - floor_fill_db
+  - src_depth_m
+- id: imp_aadc_2014_access
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/aadc-2014-access.csv
+  branch: claude-science-sep29
+  commit: 114bebc805582ce95d3472a599d1c1b09b0f41cc
+  sha256: 80a3443657adf47fec47105f28c919a518e7293fe57503500528c1cd9423ce33
+  kind: table
+  table: aadc_2014_access
+  registry_id: res.next_steps_2026_10_24
+  role: data table from the next-steps survey (24 Oct 2026)
+  caveat: Access probe results on the probe date.
+  units:
+    n_wav: count
+    wav_size_bytes_typical: bytes
+    sample_rate_hz: Hz
+    files_7Mar18_8Mar06: count
+    total_size_GB: GB
+    lat: deg
+    lon: deg
+    recorder_depth_m: m
+    eds_id: id (AADC EDS number)
+  key:
+  - dataset
+- id: imp_metz_nearfield_derived
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/metz-nearfield-derived.csv
+  branch: claude-science-sep29
+  commit: 114bebc805582ce95d3472a599d1c1b09b0f41cc
+  sha256: 899e00182adf0fbdcf3563a7f93b44a5ccd94d97ec493b046eac96352e60f067
+  kind: table
+  table: metz_nearfield_derived
+  registry_id: res.next_steps_2026_10_24
+  role: Metz 2023 near-field (Fig. 2) and far-field envelope measures
+  caveat: Digitised published envelopes; exploratory (producer note metz-nearfield-note.md).
+  units:
+    range_km: km
+    floor_fill_db: dB re 1 uPa
+    peak_db: dB re 1 uPa
+    peak_utc_s: s
+    noise_db: dB re 1 uPa
+    noise_pre_onset_db: dB re 1 uPa
+    snr_peak_db: dB re 1 uPa
+    snr_peak_pre_onset_db: dB re 1 uPa
+    onset_utc_s: s
+    arr_len_s: s
+    above3_len_s: s
+    w3_s: s
+    w6_s: s
+    w10_s: s
+    span_5_95_s: s
+    t05_rel_onset_s: s
+    t95_rel_onset_s: s
+    se_pa2s: Pa^2 s
+    sel_db: dB re 1 uPa
+    rise_onset_to_peak3_s: s
+    rise_10_90_s: s
+    peak_rel_onset_s: s
+    decay_db_per_s: dB/s
+    n_subpeaks_2db: see producer note metz-nearfield-note.md
+    slope_sig_db_oct: dB/octave
+    slope_sig_se: dB/octave
+    slope_sig_n: count
+    slope_excess_db_oct: dB/octave
+    slope_excess_se: dB/octave
+    slope_excess_n: count
+    slope_sig_4_17_db_oct: dB/octave
+    slope_sig_4_17_se: dB/octave
+    se_spec_4_40_pa2s: Pa^2 s
+    psd_12_17: see producer note metz-nearfield-note.md
+    psd_18_24: see producer note metz-nearfield-note.md
+    psd_26_34: see producer note metz-nearfield-note.md
+    psd_34_40: see producer note metz-nearfield-note.md
+    gap_depth_db: dB re 1 uPa
+    se_spec_minus_env_db: dB re 1 uPa
+  key:
+  - station
+  - field
+  - floor_fill_db
+- id: imp_metz_fig2_digitised
+  paths:
+  - WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/metz-fig2-digitised-DSOH.csv
+  - WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/metz-fig2-digitised-KSP1.csv
+  - WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/metz-fig2-digitised-KSP2.csv
+  - WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/metz-fig2-digitised-KSP3.csv
+  sha256:
+  - 037c1d476015e9e6e894060c29e4afc6e4d999ef234adaa8e56a2dfdc20f645d
+  - 281b79d8928fd858b7d8f4cffe3beac069ed2fd4c53d9d2dd89066a0f68a5a8e
+  - dc9cc34d78f652622e087f8871de936a808a8ba72507f125f8e683744620cd18
+  - 8dcd5046174b4ca18e927641bbedaf55714f1eaf752c4676ef741dad9b5e17e1
+  branch: claude-science-sep29
+  commit: 114bebc805582ce95d3472a599d1c1b09b0f41cc
+  kind: table_concat
+  table: metz_fig2_digitised
+  registry_id: res.next_steps_2026_10_24
+  role: digitised published near-field envelopes (Metz 2023 Fig. 2E-H)
+  caveat: DIGITISED data, not waveforms.
+  units:
+    utc_s_of_day: s
+    rms_db_re_1uPa: dB re 1 uPa
+  key:
+  - station
+  - utc_s_of_day
+- id: imp_known_event
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/known-events-6-10mar2014.csv
+  branch: claude-science-sep29
+  commit: 114bebc805582ce95d3472a599d1c1b09b0f41cc
+  sha256: 78a25136f541006acaa46f6171916e2df2410f94ce53a9f56eda54fb500f87cb
+  kind: table
+  table: known_event
+  registry_id: res.source_survey_2026_10_23
+  role: known sound sources 6-10 Mar 2014 with arrival-window screens (in_window_*, coda_may_enter_window_*)
+  caveat: A screen flag is a label, not an exclusion.
+  units: auto
+  key:
+  - database
+  - event_id
+- id: imp_source_type
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/other-source-characteristics.csv
+  branch: claude-science-sep29
+  commit: 114bebc805582ce95d3472a599d1c1b09b0f41cc
+  sha256: b66db206b1ced36a7d164cf6f6cb34fb4c3a5937e782527843e404a63b3176dc
+  kind: table
+  table: source_type
+  registry_id: res.source_survey_2026_10_23
+  role: characteristics of 41 non-impact source types (literature review)
+  caveat: Review values; several primaries read at abstract level (stated per row in read_in_primary).
+  units: auto
+  key:
+  - source_class
+  - sub_type
+- id: imp_source_catalogue
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/source-catalogues.csv
+  branch: claude-science-sep29
+  commit: 114bebc805582ce95d3472a599d1c1b09b0f41cc
+  sha256: eda136f8c2e64feb8ae6427b3a3b46be2bef067971bb3300b066a6266330ad60
+  kind: table
+  table: source_catalogue
+  registry_id: res.source_survey_2026_10_23
+  role: 45 online catalogues of sound sources (survey)
+  caveat: Survey table; access tested on 23 Oct 2026.
+  units: auto
+  key:
+  - name
+- id: imp_explosion_radiated_fraction
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/propagation-level-check/explosion_radiated_fraction.csv
+  branch: claude-science-sep29
+  commit: 114bebc805582ce95d3472a599d1c1b09b0f41cc
+  sha256: 0fed285916e5ed28650adae9f5f0503651f53003754e50250fe9d0cad2258f3f
+  kind: table
+  table: explosion_radiated_fraction
+  registry_id: res.raw_ims_2026_10_25.propagation_level_check
+  role: radiated acoustic fraction of the San Juan charge and FSST explosions (model-inverted)
+  caveat: 'Held in its own table on purpose: these are explosion values, not impact coupling values, and are not in coupling_value, so v_module_chain cannot mix them with impact values (importer decision,
+    26 Oct 2026).'
+  units:
+    W_kg: kg TNT
+    z_m: m
+    n_bands: count
+    E_rad_inverted_J: J
+    frac_inverted: '1'
+    frac_pred_GS_construction: '1'
+    n_pred_bands_GS_construction: count
+    frac_pred_GS_table3_3lb_60ft: '1'
+    n_pred_bands_GS_table3_3lb_60ft: count
+    frac_pred_GS_table3_1p8lb_300ft: '1'
+    n_pred_bands_GS_table3_1p8lb_300ft: count
+  key:
+  - event
+  - triad
+  - chain
+- id: imp_coupling_wave3
+  kind: coupling_package_append
+  branch: claude-science-sep29
+  commit: 114bebc805582ce95d3472a599d1c1b09b0f41cc
+  registry_id: res.raw_ims_2026_10_25.db_rows_merged
+  role: wave-3 coupling rows (raw IMS analyses of 25 Oct 2026, session c764a583), validated with the 25 Oct package validator on base package plus rows
+  caveat: Producer verifier errata 1-7 (raw-data-2026-10-25/README.md) recorded in table import_erratum; values unchanged.
+  append:
+  - table: coupling_value
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/db-rows-merged/db_coupling_value_wave3.csv
+    sha256: f79d5d3dae9d81954ca1f2314c860cc47ecd6537f851fb33da81157d4fc6b14c
+    key: value_id
+    expect_ids: CV26-CV123
+  - table: received_observation
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/db-rows-merged/db_received_observation_wave3.csv
+    sha256: ba144f143912eb4abab8839f6c088ef58737dccb1f4414af51ef90682f1dfaee
+    key: obs_id
+    expect_ids: OB07-OB81
+  - table: coupling_evidence
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/transair-810/db_coupling_evidence_new_rows.csv
+    sha256: 1ead78f3ad7c1fe4ed1d6ac044f37ef395421fd61a3f86946228bc9d0f117a84
+    key: evidence_id
+    expect_ids: E18
+  - table: data_availability_probe
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/transair-810/db_data_availability_probe_new_rows.csv
+    sha256: 4ddc30268b217b8a7ab74cba75519f398974e5806fb49297aa7f275fbc3b5806
+    key:
+    - case
+    - station
+    - probe_start
+  update:
+  - table: impact_case
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/db-rows-merged/db_impact_case_AC05_update.csv
+    sha256: f30065b7ea657a426713443bb7f694a7751026adfc71057d66308e14c3d10e30
+    key:
+    - case_id
+  - table: coupling_family_element_evidence
+    file: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/transair-810/db_family_element_evidence_R3_update.csv
+    sha256: 9da64080d627146be3b0d862d2ca561b1a6cd90866b94bdc9a9523e9f268b710
+    key:
+    - family
+    - element
+  errata: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/README.md
+  errata_sha256: 9832dfe3c4632f2b020f12921d59443a4772bad19aaf0e54f95e23d32eda90bc
+  validator_output: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/db-rows-merged/validator_output.txt
+- id: imp_coupling_wave3_id_map
+  path: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/db-rows-merged/id-map.csv
+  branch: claude-science-sep29
+  commit: 114bebc805582ce95d3472a599d1c1b09b0f41cc
+  sha256: 1f0d9842d7aa3d4759fb3710ccaccd2eae1ec8ae032374d9274d8433a6dc228b
+  kind: table
+  table: coupling_wave3_id_map
+  registry_id: res.raw_ims_2026_10_25.db_rows_merged
+  role: map from each track-local id to the merged unique id of the wave-3 rows (CV, OB)
+  caveat: Ids of the three tracks collided; the merged id is the database id.
+  units: {}
+  key:
+  - track
+  - column
+  - track_local_id
+not_imported:
+- path: WORK:results/hydroacoustics/source-survey-2026-10-23/impact-source-parameters.csv
+  reason: 'already imported: table cp_impact_source_parameters (same SHA-256, stage 2)'
+  sha256: 76901d1e7028f4701a0a95ecc13639b8e2b1576d16f2f2179500ec1d1ef105f7
+- path: WORK:results/hydroacoustics/source-survey-2026-10-23/coupling-prior-range.csv
+  reason: 'already imported: table cp_coupling_prior_range_2026_10_23 (same SHA-256, stage 2; superseded by the package)'
+  sha256: ece64009b1521a6ac980160e307bed3c1cae31316249706b498dd70966ae1c7c
+- path: WORK:results/hydroacoustics/source-survey-2026-10-23/coupling-evidence-register.csv
+  reason: superseded by db_coupling_evidence.csv (stage 2 MANIFEST.tsv); same SHA-256 as inputs/coupling copy
+  sha256: 003af2d1555bef9c7c03122df3f3c59fd56cec64a51b01ef59694ff40f991634
+- path: WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/metz-nearfield-eta.csv
+  reason: 'already imported: coupling_curve E02_near_field_cabled (same SHA-256 as inputs/coupling/metz-nearfield-eta.csv, stage 2)'
+  sha256: 6e7badc97ca01f742fc52fb14cd44b9895fb74b61109a18571bb4aaee4f99d82
+- path: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/transair-810/db_coupling_value_new_rows.csv
+  reason: track-local file; its rows are imported from the merged file in db-rows-merged/ (unique ids, id-map.csv)
+  sha256: f7b45a9a8e7654616528299f84351828676531a35e094b7c130db8f5ce18f19c
+- path: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/transair-810/db_impact_case_AC05_update.csv
+  reason: track-local file; its rows are imported from the merged file in db-rows-merged/ (unique ids, id-map.csv)
+  sha256: 9dc362073ace7ca944f2429bbd05438d01978a7017bc5dcbd2353a9e5cb7761d
+- path: WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/transair-810/db_received_observation_new_rows.csv
+  reason: track-local file; its rows are imported from the merged file in db-rows-merged/ (unique ids, id-map.csv)
+  sha256: 4628c1ece6939948748c2e502dd8841c8b936bf1e4c90d8dfbb7e20dd93f4301

@@ -1,6 +1,6 @@
 # Noise and acoustic coupling: generated record
 
-Generated from `hydro_data.sqlite` by `build_noise_coupling.py` on 2026-10-25T01:12:49Z. Do not edit by hand; rebuild instead.
+Generated from `hydro_data.sqlite` by `build_noise_coupling.py` on 2026-10-26T21:46:43Z. Do not edit by hand; rebuild instead.
 
 **Rules.** Every value carries its definition, unit, source file and SHA-256. Coupling values are used only with the propagation chain of their definition class (views `v_module_chain`, `v_arons_screen`, `v_envelope`, `v_cross_check`, `v_coupling_curve_module`; rules from the coupling thread's `validate_coupling_tables.py`, run in every build). The F-35A values are points on one (coupling, source depth, spectrum) curve from one recording; no ruling is needed (Pete, 24 Oct 2026). Status and defects stay in the registry.
 
@@ -150,11 +150,11 @@ Generated from `hydro_data.sqlite` by `build_noise_coupling.py` on 2026-10-25T01
 | RE07     | Royer 2016 located events (20), 7-8 Mar 2014                                                      | timing and false-alarm calibration on the MH370 night        | NO raw IMS (2014); OHASISBIO request-onl |
 | RE08     | Catalogued earthquakes 6-10 Mar 2014 (T-phases)                                                   | timing (1.48 km/s rule), island-station sensitivity          | island seismometers open; IMS 2014 not o |
 | RE09     | Open IMS March background 2015-2019                                                               | noise and false-alarm background (proxy for 2014)            | YES (downloaded 00-04 UTC blocks)        |
-| RE10     | Bullet water entry (Leslie 1964)                                                                  | eta_rad scaling (upper)                                      |                                          |
-| RE11     | Pile driving                                                                                      | eta_rad envelope (upper)                                     |                                          |
-| RE12     | Raindrops (Liu 2021)                                                                              | eta_rad scaling (lower)                                      |                                          |
-| RE13     | Iceberg block impacts (Glowacki & Deane 2020)                                                     | eta_rad scaling (lower); closest in size to an airliner      |                                          |
-| RE14     | Implosions: glass spheres (Orr & Schoenberg 1976), metal shells (Shukla 2018), Harben 2000 flasks | implosion branch I                                           |                                          |
+| RE10     | Bullet water entry (Leslie 1964)                                                                  | eta_rad scaling (upper)                                      | nan                                      |
+| RE11     | Pile driving                                                                                      | eta_rad envelope (upper)                                     | nan                                      |
+| RE12     | Raindrops (Liu 2021)                                                                              | eta_rad scaling (lower)                                      | nan                                      |
+| RE13     | Iceberg block impacts (Glowacki & Deane 2020)                                                     | eta_rad scaling (lower); closest in size to an airliner      | nan                                      |
+| RE14     | Implosions: glass spheres (Orr & Schoenberg 1976), metal shells (Shukla 2018), Harben 2000 flasks | implosion branch I                                           | nan                                      |
 | RE15     | Bolides / fireballs (Brown 2026: 30 events)                                                       | excluded from impact eta (different mechanism); IMS detectio | post-Dec-2014 cases open on EarthScope ( |
 | RE16     | Titan (2023), USS Scorpion (1968), Kursk (2000)                                                   | implosion branch I (qualitative)                             | no public quantitative acoustic data     |
 

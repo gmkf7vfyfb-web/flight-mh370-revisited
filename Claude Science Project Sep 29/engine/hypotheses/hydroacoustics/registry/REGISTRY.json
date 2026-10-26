@@ -1,18 +1,10 @@
 {
  "registry_version": "hydro-registry v1 (2026-10-23)",
- "built_utc": "2026-10-26T18:34:23Z",
+ "built_utc": "2026-10-26T22:00:01Z",
  "hashing": true,
  "git": {
-  "module_branch": "8cf977772113d42284c22e374d548d4beede1bbb 2026-10-26T12:33:37-06:00 (head at build time; uncommitted changes in scope: yes)",
-  "work_branch": "856c3e9f02c635317e9c15a25610c32ee358e777 2026-10-26T12:33:25-06:00 (head at build time; uncommitted changes in scope: no)",
-  "pushed": {
-   "commit_with_this_build": "d988be918bcd47a88ae9e3f746fb20aae5362c45",
-   "branch": "hypothesis/hydroacoustics",
-   "sources_commit": "8cf977772113d42284c22e374d548d4beede1bbb",
-   "work_branch_commit_read": "856c3e9f02c635317e9c15a25610c32ee358e777",
-   "merged_into": "claude-science-sep29 0ed59b83557d7ae8ebe5e9fafac2ff544d2b06c5",
-   "note": "Added in the commit after the build (26 Oct 2026). Only this field changed."
-  }
+  "module_branch": "6c344810aa8f1e67e8ff310da13f90151242aa87 2026-10-26T15:53:34-06:00 (head at build time; uncommitted changes in scope: yes)",
+  "work_branch": "114bebc805582ce95d3472a599d1c1b09b0f41cc 2026-10-26T12:35:36-06:00 (head at build time; uncommitted changes in scope: no)"
  },
  "roots": {
   "EX": "/Users/pete/Downloads/mh370-exchange/hydroacoustics",
@@ -1690,10 +1682,10 @@
    "defects": [],
    "verified_this_run": false,
    "note": "All module scripts (pre-registrations, workers, checks). Version is the module branch commit in git.module_branch.",
-   "n_files": 168,
-   "bytes": 3778578,
+   "n_files": 171,
+   "bytes": 3792154,
    "manifest": "manifests/code.module_prepare.tsv.gz",
-   "manifest_sha256": "0a93a6c1e7a40b43317f22289eb1c0aa2c15c25326676c1f7e4d1258f82df46c",
+   "manifest_sha256": "ecbd6996d52713fd4f7d9cab5c143e8ee0dffcb1c12b7b7935e9b564bcdd8b4d",
    "definition": {
     "file": null,
     "lines": null,
@@ -1972,22 +1964,22 @@
    "id": "in.hydro_data_db",
    "kind": "input",
    "path": "MOD:registry/data_db/hydro_data.sqlite",
-   "status": "CURRENT",
+   "status": "CURRENT_WITH_CAVEATS",
    "defects": [],
-   "verified_this_run": true,
+   "verified_this_run": false,
    "definition": {
     "file": "MOD:registry/data_db/README.md",
     "lines": [
      1,
      5
     ],
-    "quote": "# hydro_data.sqlite — hydroacoustic data held by the project (raw and digitised data, background noise, acoustic coupling)\n\nOne SQLite file that lists every hydroacoustic **data** item the project holds: raw IMOS seabed-logger records and the values digitised from publications (Kadri, Royer, CMST, Blackman, Metz, Brown, Nielsen, Vergoz, Duncan & Dall'Osto) (stage 1), and every background-noise level and acoustic-coupling value with its definition, unit, source file and SHA-256 (stage 2, from 25 Oct 2026). Analysis **results** (detections, likelihoods, detectability) are not in this file. They stay in the module registry `registry/REGISTRY.json`, and every row here carries the registry entry id that covers its files.\n\nBuilt 2026-10-23T21:00:42Z from module branch `hypothesis/hydroacoustics` at 131e520 and `~/Downloads/mh370-inputs/hydroacoustics/imos`. Schema `hydro-data-db v1`."
+    "quote": "# hydro_data.sqlite — hydroacoustic data held by the project (raw and digitised data, background noise, acoustic coupling)\n\nOne SQLite file that lists every hydroacoustic **data** item the project holds: raw IMOS seabed-logger records and the values digitised from publications (Kadri, Royer, CMST, Blackman, Metz, Brown, Nielsen, Vergoz, Duncan & Dall'Osto) (stage 1), and every background-noise level and acoustic-coupling value with its definition, unit, source file and SHA-256 (stage 2, from 25 Oct 2026). Analysis **results** (detections, likelihoods, detectability) are not in this file. They stay in the module registry `registry/REGISTRY.json`, and every row here carries the registry entry id that covers its files.\n\nStage 1 first built 2026-10-23T21:00:42Z (module 131e520). Full rebuild of all stages on 2026-10-26 with `rebuild_all.sh` (module 53db637 plus the new stage scripts; claude-science-sep29 114bebc for the imports). Schema `hydro-data-db v1`; stage 3 `imports v1`; stage 4 `noise-fixes v1`."
    },
-   "note": "DATA SOURCE OF RECORD for hydroacoustic data (raw IMOS records and digitised published data, stage 1, 23 Oct 2026) and for background noise and acoustic coupling (stage 2, 25 Oct 2026): site, sensor, dataset, segment, pick, event, attribute, arc_path, noise_estimate, noise_condition, coupling_definition, coupling_value, coupling_evidence, coupling_curve tables; 4,572 raw files SHA-256 verified; stage 1 36/36 checks, stage 2 20 checks (18 PASS, 2 REVIEW listed for Pete: K09 restrictive wording, K11 coupling-curve rows above 1); coupling tables are the coupling thread's package of 25 Oct 2026, validated by its own script in every build. Rebuild with the data_db scripts; never edit by hand. Results stay in this registry.",
+   "note": "DATA SOURCE OF RECORD for hydroacoustic data (raw IMOS records and digitised published data, stage 1, 23 Oct 2026), background noise and acoustic coupling (stage 2, 25 Oct 2026), the data imports declared in imports.yaml (stage 3, 26 Oct 2026: open raw IMS March 2015-2019 noise and false-alarm tables, H01W array calibration, island seismic tables, Royer labelled set, known events, source types and catalogues, Swissair 111 and airliner seismic cases, Metz near-field tables, wave-3 coupling rows CV26-CV123 / OB07-OB81 / E18 with AC05 and R3 updates, explosion radiated fractions in their own table) and the noise caveat fixes C1-C3 (stage 4, 26 Oct 2026). Full rebuild 26 Oct 2026 with rebuild_all.sh: 182 checks, 179 PASS, 3 REVIEW (K09 restrictive wording, K11 coupling-curve rows above 1, I08c base-package wording of erratum 1, all listed for Pete or the coupling thread); the 56 earlier checks are unchanged in result and detail. Caveat: stages 3-4 are not yet checked by an independent verifier (RULE 4); the stage-4 rows and the stage-3 rows carry their own registry status in the row. Rebuild with rebuild_all.sh; never edit by hand. Results stay in this registry.",
    "n_files": 1,
-   "bytes": 22269952,
+   "bytes": 41349120,
    "manifest": "manifests/in.hydro_data_db.tsv.gz",
-   "manifest_sha256": "93c434bafa1e7422d9bee3bc35dc84301731d913ceb1a1868132b2bd969c64c6"
+   "manifest_sha256": "5a368566172783045a76680e602d445dae9ba84735ce47e3c4cbba07ea939b8a"
   },
   {
    "id": "code.hydro_data_db",
@@ -2002,13 +1994,13 @@
      90,
      90
     ],
-    "quote": "Run order: `build_hydro_data_db.py` → `build_noise_coupling.py --db hydro_data.sqlite --mod <module root> --coupling inputs/coupling --record NOISE_COUPLING_RECORD.md` → `arc_line_of_sight.py --db hydro_data.sqlite --gebco <gebco grid dir>` → `arc_station_count.py --db hydro_data.sqlite --out arc_los_station_count` → `make_sites_map.py` / `arc_recording_opportunity.py`."
+    "quote": "Run order (since 26 Oct 2026; `rebuild_all.sh` runs it): `build_hydro_data_db.py` → `build_noise_coupling.py --db hydro_data.sqlite --mod <module root> --coupling inputs/coupling --record NOISE_COUPLING_RECORD.md` → `build_imports.py --db hydro_data.sqlite --mod <module root> --work <'Claude Science Project Sep 29' on claude-science-sep29>` → `build_noise_fixes.py --db hydro_data.sqlite --mod <module root>` → `arc_line_of_sight.py --db hydro_data.sqlite --gebco <gebco grid dir>` → `arc_station_count.py --db hydro_data.sqlite --out arc_los_station_count` → VACUUM; then `make_sites_map.py` / `arc_recording_opportunity.py` (charts; they read the database only)."
    },
-   "note": "Builders and derived scripts for hydro_data.sqlite (build_hydro_data_db.py, build_noise_coupling.py, arc_line_of_sight.py, arc_station_count.py, make_sites_map.py, arc_recording_opportunity.py) with their outputs, inputs/coupling (coupling-thread files with MANIFEST.tsv) and NOISE_COUPLING_RECORD.md (generated).",
-   "n_files": 47,
-   "bytes": 35901487,
+   "note": "Builders and derived scripts for hydro_data.sqlite (build_hydro_data_db.py, build_noise_coupling.py, build_imports.py with imports.yaml, build_noise_fixes.py, rebuild_all.sh, arc_line_of_sight.py, arc_station_count.py, make_sites_map.py, arc_recording_opportunity.py) with their outputs, inputs/coupling (coupling-thread files with MANIFEST.tsv) and NOISE_COUPLING_RECORD.md (generated). Stages 3-4 added 26 Oct 2026 (UNCHECKED by an independent verifier).",
+   "n_files": 51,
+   "bytes": 55113674,
    "manifest": "manifests/code.hydro_data_db.tsv.gz",
-   "manifest_sha256": "4e92bd827f217c31ddca9dfdaa5e82d60c5d88846b8ce5cd6ea852122f4cd3e0"
+   "manifest_sha256": "29eb9bf52b8c6153c52a9ecb85bda6f742173b94456d084a44d388d11419e7b8"
   },
   {
    "id": "ex.arc_line_of_sight",
@@ -2030,6 +2022,160 @@
    "bytes": 8095,
    "manifest": "manifests/ex.arc_line_of_sight.tsv.gz",
    "manifest_sha256": "67d1cf68904e7f70305bcda2b5253f21e6d1275a5f0311d35a3f33c7c934201a"
+  },
+  {
+   "id": "res.noise_caveat_fixes_2026_10_26",
+   "kind": "product",
+   "path": "MOD:results-data/noise-caveat-fixes-2026-10-26",
+   "status": "UNCHECKED",
+   "defects": [],
+   "verified_this_run": false,
+   "definition": {
+    "file": "MOD:registry/data_db/build_noise_fixes.py",
+    "lines": [
+     2,
+     17
+    ],
+    "quote": "\"\"\"\nbuild_noise_fixes.py - stage 4 of hydro_data.sqlite: fixes of three noise caveats (C1-C3), 26 Oct 2026.\n\nPete, 26 Oct 2026: \"(3) please check on and fix the items noted in caveats\". Pre-registration (with amendment 1):\nresults/hydroacoustics/noise-caveat-fixes-2026-10-26/PREREGISTRATION.md on claude-science-sep29. This stage adds rows; it\ndeletes no earlier row. Run after build_imports.py (stage 3). It re-creates only its own tables and its own noise rows\n(noise_estimate.import_block LIKE 'fix_C%'), and re-creates the views v_noise_summary and v_noise_8mar2014 with two\nextra columns: preferred_8mar2014 and preference_reason (Pete's instruction, 26 Oct 2026, via the coordinating session).\n\nC1  8 Mar 2014 H01W and H08S 5-40 Hz levels from the digitised Kadri 2024 Fig. 9 pressure traces (1-s peak-to-peak of the\n    vertices / k; k measured on raw IMS records by prepare/noise_caveat_calibration.py).\nC2  IMOS logger gain: result of prepare/noise_caveat_imos_gain_check.py and the quoted code lines (no correction needed\n    if the per-bin recompute equals the module file).\nC3  (i) IMOS 3315 against CMST 2014 Fig. 1 (absolute level); (ii) one table of H01W/H08S 5-40 Hz levels from every held\n    source; (iii) OHASISBIO SSEIR and SWAMS3 by transfer calibration via H01W2 (Royer 2016 spectrograms).\n"
+   },
+   "note": "Noise caveat fixes C1-C3 (26 Oct 2026, Pete): shape ratio k (1-s peak-to-peak / RMS) from raw IMS records of 8 March 2015-2019 and held records, IMOS logger-gain recompute; the rows are in hydro_data.sqlite stage 4 (registry_entry_id of the rows). UNCHECKED: no independent verifier.",
+   "producing_thread": "d8445a3f (repository import and noise caveat fixes, sub-agent of 8b907e71)",
+   "n_files": 8,
+   "bytes": 87365,
+   "manifest": "manifests/res.noise_caveat_fixes_2026_10_26.tsv.gz",
+   "manifest_sha256": "76ebd223819debcf5bf468c04ca3da5ffed9ce15d97ac3bc662f741bcc42906c"
+  },
+  {
+   "id": "res.noise_caveat_fixes_note_2026_10_26",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics/noise-caveat-fixes-2026-10-26",
+   "status": "UNCHECKED",
+   "defects": [],
+   "verified_this_run": false,
+   "definition": {
+    "file": "WORK:results/hydroacoustics/noise-caveat-fixes-2026-10-26/README.md",
+    "lines": [
+     1,
+     12
+    ],
+    "quote": "# Noise caveat fixes C1-C3 (26 October 2026)\n\nStatus: UNCHECKED. No independent verifier has checked these numbers yet (RULE 4). Do not quote them as CURRENT.\nInstruction: Pete, 26 Oct 2026, \"(3) please check on and fix the items noted in caveats\" (relayed by the coordinating session 8b907e71).\nPre-registration: [PREREGISTRATION.md](PREREGISTRATION.md) (written before the final numbers; amendment 1 before any C1 row).\nDatabase: hydro_data.sqlite stage 4 (`build_noise_fixes.py`) on `hypothesis/hydroacoustics`. Rows are added. No row is deleted.\nCode and ratio tables: module `results-data/noise-caveat-fixes-2026-10-26/` and `prepare/noise_caveat_*.py`.\nTables here are exports of the database tables of the same name.\n\n## Check table (each input, its registry id, its definition as quoted from its source, and a second source)\n\n| input | registry id | definition (quoted) | second source |"
+   },
+   "note": "Results note, pre-registration (with amendment 1) and result tables of the noise caveat fixes C1-C3. UNCHECKED.",
+   "producing_thread": "d8445a3f (repository import and noise caveat fixes, sub-agent of 8b907e71)",
+   "n_files": 8,
+   "bytes": 50117,
+   "manifest": "manifests/res.noise_caveat_fixes_note_2026_10_26.tsv.gz",
+   "manifest_sha256": "9e796c2e34fe0df870a06188504ee51daa2f6a4310aebc600ce9dbcc02592697"
+  },
+  {
+   "id": "res.repository_import_2026_10_26",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics/repository-import-2026-10-26",
+   "status": "UNCHECKED",
+   "defects": [],
+   "verified_this_run": false,
+   "definition": {
+    "file": "WORK:results/hydroacoustics/repository-import-2026-10-26/README.md",
+    "lines": [
+     1,
+     10
+    ],
+    "quote": "# Hydroacoustics repository import, 26 October 2026\n\nStatus: UNCHECKED (RULE 4). Made by session d8445a3f (sub-agent of the coordinating session 8b907e71).\nInstruction (Pete, 26 Oct 2026): \"please pull everything in and instruct all modules and threads to update the respository going forward\".\nScope: every hydroacoustic data item and result made since 23 Oct 2026. Data go to hydro_data.sqlite through its build scripts. Results go to registered run folders.\nInventory: [inventory.csv](inventory.csv) (1399 rows: item, source, sha256, in_repo, action, reason). Data-readiness rule: each item is listed with its location and SHA-256 before import; no stand-ins.\n\n## How the repository is updated from now on\n- Data: add ONE block to `engine/hypotheses/hydroacoustics/registry/data_db/imports.yaml` on `hypothesis/hydroacoustics`, then run `rebuild_all.sh`. See that folder's README.md (\"Adding data\").\n- Results: a run folder `results/hydroacoustics/<run id>/` with `manifest.json` (registry/manifest.schema.json), status UNCHECKED until an independent verifier passes, then a module registry entry."
+   },
+   "note": "Inventory of every hydro data item and result made since 23 Oct 2026 (repo files and platform artifacts of sessions 880dfd82, c764a583, c0b15646, 9e0bf4fe, 8b907e71) with SHA-256 and action; import report. UNCHECKED.",
+   "producing_thread": "d8445a3f (repository import and noise caveat fixes, sub-agent of 8b907e71)",
+   "n_files": 3,
+   "bytes": 497242,
+   "manifest": "manifests/res.repository_import_2026_10_26.tsv.gz",
+   "manifest_sha256": "6adeda1abf36b56ec0f7d4ec7a58c09dfd2b8fd7e6bf3b0efc30e357087a855d"
+  },
+  {
+   "id": "res.kadri_independent_review_2026_10_26",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics/kadri-independent-review-2026-10-26",
+   "status": "UNCHECKED",
+   "defects": [],
+   "verified_this_run": false,
+   "definition": {
+    "file": "WORK:results/hydroacoustics/kadri-independent-review-2026-10-26/README.md",
+    "lines": [
+     1,
+     3
+    ],
+    "quote": "# kadri-independent-review-2026-10-26\n\nIndependent review of the Kadri 2024 discrepancies (session 880dfd82): report, check script and three check tables. Copied from the artifact store; content unchanged."
+   },
+   "note": "Independent review of the Kadri 2024 discrepancies (session 880dfd82), copied from the artifact store. UNCHECKED.",
+   "producing_thread": "d8445a3f (repository import and noise caveat fixes, sub-agent of 8b907e71)",
+   "n_files": 7,
+   "bytes": 26300,
+   "manifest": "manifests/res.kadri_independent_review_2026_10_26.tsv.gz",
+   "manifest_sha256": "d9ab969662809732f4e2348817acaf7abbd060afbacb59583da7266062153ca9"
+  },
+  {
+   "id": "res.status_review_2026_10_26",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics/status-review-2026-10-26",
+   "status": "UNCHECKED",
+   "defects": [],
+   "verified_this_run": false,
+   "definition": {
+    "file": "WORK:results/hydroacoustics/status-review-2026-10-26/README.md",
+    "lines": [
+     1,
+     3
+    ],
+    "quote": "# status-review-2026-10-26\n\nHydroacoustics status review of 26 Oct 2026 (session 8b907e71): site opportunity, noise calibration status and known-event summary tables and the recording opportunity map. Copied unchanged."
+   },
+   "note": "Hydroacoustics status review tables and map of 26 Oct 2026 (session 8b907e71), copied from the artifact store. UNCHECKED.",
+   "producing_thread": "d8445a3f (repository import and noise caveat fixes, sub-agent of 8b907e71)",
+   "n_files": 6,
+   "bytes": 582423,
+   "manifest": "manifests/res.status_review_2026_10_26.tsv.gz",
+   "manifest_sha256": "52567af36223fcd0ab8ba6cccbe48c6429a36297b6446ed3623df6b62fb7416a"
+  },
+  {
+   "id": "res.source_survey_supplement_2026_10_26",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics/source-survey-supplement-2026-10-26",
+   "status": "UNCHECKED",
+   "defects": [],
+   "verified_this_run": false,
+   "definition": {
+    "file": "WORK:results/hydroacoustics/source-survey-supplement-2026-10-26/README.md",
+    "lines": [
+     1,
+     3
+    ],
+    "quote": "# source-survey-supplement-2026-10-26\n\nDeliverables of session c764a583 made before 19:03:40Z on 26 Oct 2026 that were not yet in the repository: catalogue downloads, scripts, tables and figures of the source survey and raw IMS tracks. Copied unchanged."
+   },
+   "note": "Deliverables of session c764a583 made before its Phase 1 dispatch (26 Oct 2026 19:03:40Z) and not yet committed: catalogue downloads, scripts, tables, figures. UNCHECKED.",
+   "producing_thread": "d8445a3f (repository import and noise caveat fixes, sub-agent of 8b907e71)",
+   "n_files": 158,
+   "bytes": 33651244,
+   "manifest": "manifests/res.source_survey_supplement_2026_10_26.tsv.gz",
+   "manifest_sha256": "6b7e115c44f7aeabc038d2251b69f2b855cec64e8de491574b0d0fb4abc3393b"
+  },
+  {
+   "id": "res.site_noise_review_supplement_2026_10_26",
+   "kind": "product",
+   "path": "WORK:results/hydroacoustics/site-noise-review-supplement-2026-10-26",
+   "status": "UNCHECKED",
+   "defects": [],
+   "verified_this_run": false,
+   "definition": {
+    "file": "WORK:results/hydroacoustics/site-noise-review-supplement-2026-10-26/README.md",
+    "lines": [
+     1,
+     3
+    ],
+    "quote": "# site-noise-review-supplement-2026-10-26\n\nDeliverables of session c0b15646 (site noise review, 23-24 Oct 2026) not yet in the repository: noise 2003 vs 2014 tests and charts, Royer figure noise levels, arc path obstacles, airgun survey note, OHASISBIO whale-call downloads. Copied unchanged."
+   },
+   "note": "Deliverables of session c0b15646 (23-24 Oct 2026) not yet committed: noise 2003 vs 2014 tests and charts, Royer figure noise levels, arc path obstacles, airgun survey note, whale-call downloads. UNCHECKED.",
+   "producing_thread": "d8445a3f (repository import and noise caveat fixes, sub-agent of 8b907e71)",
+   "n_files": 16,
+   "bytes": 4258444,
+   "manifest": "manifests/res.site_noise_review_supplement_2026_10_26.tsv.gz",
+   "manifest_sha256": "8fc065f54bddffb46db77f0d9f4fae3c9a22ea366c6a92240cab4268e56a2357"
   },
   {
    "id": "res.source_survey_2026_10_23",

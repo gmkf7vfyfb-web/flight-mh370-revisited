@@ -2,7 +2,7 @@
 
 One SQLite file that lists every hydroacoustic **data** item the project holds: raw IMOS seabed-logger records and the values digitised from publications (Kadri, Royer, CMST, Blackman, Metz, Brown, Nielsen, Vergoz, Duncan & Dall'Osto) (stage 1), and every background-noise level and acoustic-coupling value with its definition, unit, source file and SHA-256 (stage 2, from 25 Oct 2026). Analysis **results** (detections, likelihoods, detectability) are not in this file. They stay in the module registry `registry/REGISTRY.json`, and every row here carries the registry entry id that covers its files.
 
-Built 2026-10-23T21:00:42Z from module branch `hypothesis/hydroacoustics` at 131e520 and `~/Downloads/mh370-inputs/hydroacoustics/imos`. Schema `hydro-data-db v1`.
+Stage 1 first built 2026-10-23T21:00:42Z (module 131e520). Full rebuild of all stages on 2026-10-26 with `rebuild_all.sh` (module 53db637 plus the new stage scripts; claude-science-sep29 114bebc for the imports). Schema `hydro-data-db v1`; stage 3 `imports v1`; stage 4 `noise-fixes v1`.
 
 ## Contents
 
@@ -17,7 +17,7 @@ Built 2026-10-23T21:00:42Z from module branch `hypothesis/hydroacoustics` at 131
 | attribute / attribute_key | 250 / 33 | open-ended properties (sensitivity, clock sets and drift, gain file, filters, author processing, timing and amplitude caveats); add new keys here |
 | imported_table + `dg_*` tables | 142 | every digitised and module data CSV imported verbatim, with source path, SHA-256 and header comments |
 | file_ref | 276 | every non-CSV digitised file (npz grids, rasters, json, xml) with SHA-256 and dataset link |
-| check_log | 36 | build checks with result and detail |
+| check_log | 182 | build checks with result and detail (stage 1 C, arc L, stage 2 N/K, stage 3 I, stage 4 F) |
 
 Views: `v_dataset_summary`, `v_site_holdings`, `v_picks_by_site`, `v_arc_los_by_location`. Table `arc_path`: see the line-of-sight section.
 
@@ -87,7 +87,7 @@ SELECT site_id, band_label, statistic, value, unit, method FROM v_noise_8mar2014
 SELECT value_id, quantity, value, definition_class, propagation_chain_required, role FROM v_module_chain WHERE role != 'SUPERSEDED';
 ```
 
-Run order: `build_hydro_data_db.py` → `build_noise_coupling.py --db hydro_data.sqlite --mod <module root> --coupling inputs/coupling --record NOISE_COUPLING_RECORD.md` → `arc_line_of_sight.py --db hydro_data.sqlite --gebco <gebco grid dir>` → `arc_station_count.py --db hydro_data.sqlite --out arc_los_station_count` → `make_sites_map.py` / `arc_recording_opportunity.py`.
+Run order (since 26 Oct 2026; `rebuild_all.sh` runs it): `build_hydro_data_db.py` → `build_noise_coupling.py --db hydro_data.sqlite --mod <module root> --coupling inputs/coupling --record NOISE_COUPLING_RECORD.md` → `build_imports.py --db hydro_data.sqlite --mod <module root> --work <'Claude Science Project Sep 29' on claude-science-sep29>` → `build_noise_fixes.py --db hydro_data.sqlite --mod <module root>` → `arc_line_of_sight.py --db hydro_data.sqlite --gebco <gebco grid dir>` → `arc_station_count.py --db hydro_data.sqlite --out arc_los_station_count` → VACUUM; then `make_sites_map.py` / `arc_recording_opportunity.py` (charts; they read the database only).
 
 ```sql
 -- stations with clear line of sight to the arc point at 37.0 S
@@ -110,14 +110,68 @@ WHERE abs(julianday(t_utc) - julianday('2014-03-08T00:52:03Z')) * 86400 <= 60;
 SELECT key, value_text, value_num, unit, evidence FROM attribute WHERE entity_id = 'IMOS3376';
 ```
 
-## Adding attributes or data
+## Adding data (from 26 Oct 2026): one block in imports.yaml, then rebuild
 
-1. New property: insert a row in `attribute_key` (key, entity_type, datatype, unit, description), then insert rows in `attribute` (entity_type, entity_id, key, value, unit, source_id, evidence, note).
-2. New data: add the source in the builder (`SOURCES`), one `dataset` row, and its `segment` or `pick` rows; then re-run the builder so the checks run again.
-3. Re-build (about 5 s; SHA-256 over 16 GB is threaded):
-   `python build_hydro_data_db.py --mod "<clone>/Claude Science Project Sep 29/engine/hypotheses/hydroacoustics" --imos ~/Downloads/mh370-inputs/hydroacoustics/imos --fdsn ims_stations_all.txt --out hydro_data.sqlite --git-head <sha>`
+Pete, 26 Oct 2026: "please pull everything in and instruct all modules and threads to update the respository going forward". Every thread adds data this way. Nobody edits `hydro_data.sqlite` by hand.
 
-## Build checks (36 of 36 PASS)
+1. Commit the source file (CSV or JSON) to the repository first (a result folder with `manifest.json` on `claude-science-sep29`, or the module branch).
+2. Add ONE block to `imports.yaml`: `id` (imp_<name>), `path` (root `WORK:` = 'Claude Science Project Sep 29' on claude-science-sep29, or `MOD:` = module root), `branch`, `commit`, `sha256` of the file, `kind`, `table` (new table name), `units` (column → unit for every numeric column, or `auto` for name-suffix rules), `key` (columns that must be unique), `registry_id` (module registry entry that covers the file), `role`, `caveat` (copy the producer's caveat; do not add a new limiting label).
+   Kinds: `table` (verbatim copy), `table_concat` (several files, same columns), `noise_percentiles` (verbatim table plus `noise_estimate` rows), `array_calibration` (JSON calibration to tables and site attributes), `coupling_package_append` (rows appended to the coupling package tables after the package validator passes on base + new rows; an update keeps the old row in `package_row_history`).
+3. Rebuild: `sh rebuild_all.sh <module root> <'Claude Science Project Sep 29' folder> hydro_data.sqlite build_log.txt` (about 1 min; reads `~/Downloads/mh370-inputs/hydroacoustics/imos` and the GEBCO grid read-only). Every block gets checks I01-I09 (SHA-256 equals the manifest, rows equal the source, units declared, key unique; for coupling rows the validator passes). A FAIL stops the build.
+4. Commit the database, `imports.yaml` and `build_log.txt` together; record the new SHA-256 in the registry (`in.hydro_data_db`).
+5. Files that duplicate an imported table go to `not_imported` with the reason (check I09).
+
+Stage-1 properties (`attribute` / `attribute_key`) and new stage-1 sources (`SOURCES`, dataset, segment, pick rows in `build_hydro_data_db.py`) work as before.
+
+## Stage 3: imports of 26 Oct 2026 (build_imports.py, imports.yaml)
+
+| block | kind | target table(s) | rows | registry entry |
+|---|---|---|---|---|
+| imp_ims_march_noise_percentiles | noise_percentiles | ims_march_noise_percentile | 9520 | res.next_steps_2026_10_24 |
+| imp_ims_march_false_alarm_rates | table | ims_false_alarm_rate | 900 | res.next_steps_2026_10_24 |
+| imp_ims_march_noise_vs_references | table | ims_noise_vs_reference | 280 | res.next_steps_2026_10_24 |
+| imp_ims_open_availability | table | ims_open_availability | 4311 | res.next_steps_2026_10_24 |
+| imp_h01w_array_calibration | array_calibration | array_calibration, array_calibration_event | 41 | res.next_steps_2026_10_24 |
+| imp_island_seismic_detection | table | island_seismic_detection | 20484 | res.next_steps_2026_10_24 |
+| imp_island_seismic_association | table | island_seismic_association | 6648 | res.next_steps_2026_10_24 |
+| imp_island_impact_window_unexplained | table | island_impact_window_unexplained | 312 | res.next_steps_2026_10_24 |
+| imp_royer_event_labelled | table | royer_event_labelled | 840 | res.next_steps_2026_10_24 |
+| imp_airliner_seismic_case | table | airliner_seismic_case | 10 | res.next_steps_2026_10_24 |
+| imp_airliner_seismic_station_test | table | airliner_seismic_station_test | 72 | res.next_steps_2026_10_24 |
+| imp_swissair111_seismic | table | swissair111_seismic | 57 | res.next_steps_2026_10_24 |
+| imp_swissair111_energy_sensitivity | table | swissair111_energy_sensitivity | 12 | res.next_steps_2026_10_24 |
+| imp_metz_geometry | table | metz_geometry | 8 | res.next_steps_2026_10_24 |
+| imp_metz_source_slope | table | metz_source_slope | 84 | res.next_steps_2026_10_24 |
+| imp_aadc_2014_access | table | aadc_2014_access | 4 | res.next_steps_2026_10_24 |
+| imp_metz_nearfield_derived | table | metz_nearfield_derived | 16 | res.next_steps_2026_10_24 |
+| imp_metz_fig2_digitised | table_concat | metz_fig2_digitised | 5999 | res.next_steps_2026_10_24 |
+| imp_known_event | table | known_event | 298 | res.source_survey_2026_10_23 |
+| imp_source_type | table | source_type | 41 | res.source_survey_2026_10_23 |
+| imp_source_catalogue | table | source_catalogue | 45 | res.source_survey_2026_10_23 |
+| imp_explosion_radiated_fraction | table | explosion_radiated_fraction | 23 | res.raw_ims_2026_10_25.propagation_level_check |
+| imp_coupling_wave3 | coupling_package_append | coupling_value, received_observation, coupling_evidence, data_availability_probe (+ updates of impact_case AC05, coupling_family_element_evidence R3) | 182 | res.raw_ims_2026_10_25.db_rows_merged |
+| imp_coupling_wave3_id_map | table | coupling_wave3_id_map | 173 | res.raw_ims_2026_10_25.db_rows_merged |
+
+Bookkeeping tables: `import_block` (one row per block: path, branch, commit, SHA-256, role, caveat, rows), `import_table`, `import_not_imported`, `package_row_history` (rows replaced by an update), `import_erratum` (the 7 verifier errata of raw-data-2026-10-25/README.md and how each reaches the database; values are not changed). Shared tables carry the column `import_block`.
+- Noise: the March 2015-2019 open raw IMS percentiles add 9520 `noise_estimate` rows (1/3-octave PSD, 1/3-octave SPL and 5-40 Hz SPL; context 'IMS March 2015-2019 open raw (proxy for 8 Mar 2014)'). The 1-Hz PSD percentiles stay in the verbatim table `ims_march_noise_percentile` only.
+- Coupling: wave-3 rows CV26-CV123 and OB07-OB81, evidence E18 and 6 probes; AC05 and R3 updated (old rows in `package_row_history`). The explosion radiated fractions are in their own table `explosion_radiated_fraction`, not in `coupling_value`, so `v_module_chain` cannot mix them with impact values (importer decision, 26 Oct 2026).
+
+## Stage 4: noise caveat fixes of 26 Oct 2026 (build_noise_fixes.py)
+
+Pete, 26 Oct 2026: "(3) please check on and fix the items noted in caveats". Rows are added; no row is deleted. Status UNCHECKED (no independent verifier yet). Note: `results/hydroacoustics/noise-caveat-fixes-2026-10-26/README.md` on claude-science-sep29.
+- C1: `noise_estimate` rows with method 'digitised from published pressure trace' (Kadri 2024 Fig. 9, 5-40 Hz, median 1-s RMS from the 1-s peak-to-peak of the vertices / k; k from raw IMS records of 8 March 2015-2019, `results-data/noise-caveat-fixes-2026-10-26/`). Column `uncertainty_db` (1 sigma) and `uncertainty_note`.
+- Views `v_noise_summary` and `v_noise_8mar2014` now carry `noise_id`, `uncertainty_db`, `preferred_8mar2014` and `preference_reason` (table `noise_preference`): which 8 Mar 2014 row is preferred at H01W and H08S, and why.
+- C2: table `imos_gain_check`; checks F05-F07 (the IMOS band levels already include the per-bin logger gain; no correction).
+- C3: table `absolute_level_check` (IMOS 3315 against CMST Fig. 1), view `v_ims_noise_5_40_compare` (table `noise_compare_5_40`: H01W and H08S 5-40 Hz levels from every held source), and SSEIR/SWAMS3 rows with method 'transfer calibration via H01W2 (Royer 2016 spectrograms)'. Summary table `noise_fix_result`; inputs and quoted definitions in `noise_fix_input`.
+
+```sql
+-- the preferred 8 March 2014 level at each IMS station, with its uncertainty and the reason
+SELECT site_id, band_label, statistic, value, uncertainty_db, method, preference_reason FROM v_noise_8mar2014 WHERE preferred_8mar2014 = 1;
+-- all 5-40 Hz levels at H01W and H08S side by side
+SELECT * FROM v_ims_noise_5_40_compare;
+```
+
+## Build checks (182 on 26 Oct 2026: 179 PASS, 3 REVIEW; the 36 stage-1 checks below and the 20 stage-2 checks are unchanged in result and detail; stage 3 and 4 checks are in build_log.txt and check_log)
 
 - C01 PASS: IMS element positions: module stations.csv against FDSN station list
 - C02 PASS: IMS element positions: Royer 2016 Table 1 against FDSN (recorded; FDSN used)

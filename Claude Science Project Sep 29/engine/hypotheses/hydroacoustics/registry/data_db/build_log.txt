@@ -31,3 +31,200 @@ PASS C16 | h08s_airgun_shots times lie inside the kadri2024_fig9_h08s panels | 1
 PASS C18 | Every dataset has at least one segment, pick, imported table or file reference | 0 empty datasets
 PASS C19 | Digitised traces: every UTC value parses (ISO 8601) | 43 files; failures: []
 PASS C20 | Records held in two IMOS sets (byte-identical files; marked in segment.same_file_in, counted once for coverage) | 4 records in both imos3250_background and imos3250_mh370_day (2014-03-08T23:59 to 2014-03-09T00:44); 48 records in both imos3274_background and imos3274_mh370_day (2014-03-07T12:00 to 2014-03-07T23:44); 4 records in both
+# stage 2
+N01 PASS   Every noise value uses a declared quantity and its unit | 0 mismatches
+N02 PASS   Every noise band has lower edge < upper edge | 0 bad bands
+N03 PASS   Noise PSD values inside 40-140 dB re 1 uPa^2/Hz (plausibility) | 0 outside
+N04 PASS   IMOS band statistics in the database equal noise_bands.csv (round trip) | 245 values, 0 mismatches
+N05 PASS   Blackman medians 5-40 Hz inside the pre-registered 55-105 dB gate | 0 outside
+N06 PASS   Every stage-2 input file still matches its SHA-256 | 24 files, 0 changed
+N07 PASS   Every IMOS per-record noise row links to a raw record in table segment | 153 records, 0 unmatched
+N08 PASS   Every noise row names a site in table site | unknown: []
+K01 PASS   Coupling package validator (validate_coupling_tables.py, coupling thread) passes | PASS coupling_value.definition_class present; PASS coupling_value.propagation_chain_required present; PASS coupling_value.status present; PASS couplin
+K02 PASS   Module-chain view holds no Arons-equivalent (D2) or land-seismic (S1) value | 0 wrong rows
+K03 PASS   Arons view holds only D2 values | 0 wrong rows
+K04 PASS   Every coupling-curve row uses an allowed (definition class, chain) pair | []
+K05 PASS   The 10 m F-35A ridge point recomputed from the curve (geometric mean H11N/H11S, slope 2, mid energy, KRAKEN+RAM, tau 10 s) equals step2_summary and the package value | recomputed 0.00225923; step2_summary 0.00225923; package [0.00226]
+K06 PASS   Evidence E02/E01 ridge ratio is about 2.0 at 2, 10 and 30 m (same KRAKEN+RAM chain) | ratios [1.963, 1.96, 1.997]
+K10 PASS   Module curve view holds no model-error curve (E02) and no superseded curve | 0 wrong rows
+K11 REVIEW Coupling curve rows above 1 (more acoustic energy than kinetic energy: physically impossible) - listed; such parameter combinations are ruled out by the data | 1420 of 10260 rows: E01_far_field_9oct z=2 m slope 4: 167 rows, tau 0.455-10 s, max 6.61; E01_far_field_H11 z=2 m slope 4: 572 rows, tau 0.455-10 s, m
+K12 PASS   Module-chain view rows whose role is SUPERSEDED or EXCLUDED while status is EVIDENCE - listed for the coupling thread (package data, not edited here) | none
+K07 PASS   Coupling inputs match MANIFEST.tsv SHA-256 | [('db_coupling_evidence.csv', True), ('db_coupling_value.csv', True), ('db_coupling_family.csv', True), ('db_family_element_evidence.csv', True), ('db
+N09 PASS   Pa to dB conversion of the raw H11 background round-trips (20 log10(p / 1 uPa)) | 0.0435 Pa -> 92.770 dB re 1 uPa
+K09 REVIEW Text that limits or discounts a source, listed for Pete (label rule 22 Oct 2026); nothing is excluded by it | cp_impact_source_parameters.copy_location [ARA San Juan loss]: 'not held'; cp_impact_source_parameters.copy_location [Arons 1954 relation]: 'not held'
+# stage 3
+I01_ims_march_noise_percentiles PASS   imp_ims_march_noise_percentiles: source SHA-256 equals imports.yaml | WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/ims-march-noise-percentiles.csv 1b36c6c2755f0185
+I02_ims_march_noise_percentiles PASS   imp_ims_march_noise_percentiles: rows in table ims_march_noise_percentile equal rows in the source | 6704 rows
+I03_ims_march_noise_percentiles PASS   imp_ims_march_noise_percentiles: a unit is declared for every numeric column | 7 numeric columns; missing: []
+I04_ims_march_noise_percentiles PASS   imp_ims_march_noise_percentiles: declared key ['source', 'station', 'element', 'subset', 'quantity', 'freq_hz'] is unique | 0 duplicate keys
+I05_ims_march_noise_percentiles PASS   imp_ims_march_noise_percentiles: noise rows equal selected source rows x 5 statistics | 9520 rows from 1904 x 5 (quantities ['band_spl_5_40Hz_db_re_1uPa', 'third_octave_mean_psd_db_re_1uPa2_per_Hz', 'third_octave_spl_db_re_1uPa'
+I06_ims_march_noise_percentiles PASS   imp_ims_march_noise_percentiles: sum of imported values equals sum of source percentiles (round trip) | source 857668.482630, db 857668.482630
+I01_ims_march_false_alarm_rates PASS   imp_ims_march_false_alarm_rates: source SHA-256 equals imports.yaml | WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/ims-march-false-alarm-rates.csv 928cdcfe375aa429
+I02_ims_march_false_alarm_rates PASS   imp_ims_march_false_alarm_rates: rows in table ims_false_alarm_rate equal rows in the source | 900 rows
+I03_ims_march_false_alarm_rates PASS   imp_ims_march_false_alarm_rates: a unit is declared for every numeric column | 18 numeric columns; missing: []
+I04_ims_march_false_alarm_rates PASS   imp_ims_march_false_alarm_rates: declared key ['source', 'station', 'statistic', 'p_basis', 'level', 'time_subset', 'bearing_condition'] is unique | 0 duplicate keys
+I01_ims_march_noise_vs_references PASS   imp_ims_march_noise_vs_references: source SHA-256 equals imports.yaml | WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/ims-march-noise-vs-references.csv b4c98b72127b17e9
+I02_ims_march_noise_vs_references PASS   imp_ims_march_noise_vs_references: rows in table ims_noise_vs_reference equal rows in the source | 280 rows
+I03_ims_march_noise_vs_references PASS   imp_ims_march_noise_vs_references: a unit is declared for every numeric column | 9 numeric columns; missing: []
+I04_ims_march_noise_vs_references PASS   imp_ims_march_noise_vs_references: declared key ['source', 'station', 'element', 'subset', 'quantity', 'band'] is unique | 0 duplicate keys
+I01_ims_open_availability PASS   imp_ims_open_availability: source SHA-256 equals imports.yaml | WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/ims-open-availability.csv 266c6ad9548f388e
+I02_ims_open_availability PASS   imp_ims_open_availability: rows in table ims_open_availability equal rows in the source | 4311 rows
+I03_ims_open_availability PASS   imp_ims_open_availability: a unit is declared for every numeric column | 6 numeric columns; missing: []
+I04_ims_open_availability PASS   imp_ims_open_availability: declared key ['network', 'triad', 'element', 'channel', 'date'] is unique | 0 duplicate keys
+I01_h01w_array_calibration PASS   imp_h01w_array_calibration: source SHA-256 equals imports.yaml | WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/h01w-array-calibration.json 2081e7761079fc86
+I02_h01w_array_calibration PASS   imp_h01w_array_calibration: event rows equal the JSON event list; parameter rows equal 7 + 5 per station | 41 events, 12 parameters
+I03_h01w_array_calibration PASS   imp_h01w_array_calibration: a unit is declared for every parameter | missing: []
+I04_h01w_array_calibration PASS   imp_h01w_array_calibration: event ids unique per station | 0 duplicates
+I05_h01w_array_calibration PASS   imp_h01w_array_calibration: calibration station exists in table site | ['H01W']
+I01_island_seismic_detection PASS   imp_island_seismic_detection: source SHA-256 equals imports.yaml | WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/island-seismic-detections.csv d95cb74b8592f0fd
+I02_island_seismic_detection PASS   imp_island_seismic_detection: rows in table island_seismic_detection equal rows in the source | 20484 rows
+I03_island_seismic_detection PASS   imp_island_seismic_detection: a unit is declared for every numeric column | 7 numeric columns; missing: []
+I04_island_seismic_detection PASS   imp_island_seismic_detection: declared key ['det_id'] is unique | 0 duplicate keys
+I01_island_seismic_association PASS   imp_island_seismic_association: source SHA-256 equals imports.yaml | WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/island-seismic-associations.csv 054bc75b7de5f589
+I02_island_seismic_association PASS   imp_island_seismic_association: rows in table island_seismic_association equal rows in the source | 6648 rows
+I03_island_seismic_association PASS   imp_island_seismic_association: a unit is declared for every numeric column | 21 numeric columns; missing: []
+I04_island_seismic_association PASS   imp_island_seismic_association: declared key ['event_id', 'station'] is unique | 0 duplicate keys
+I01_island_impact_window_unexplained PASS   imp_island_impact_window_unexplained: source SHA-256 equals imports.yaml | WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/island-impact-window-unexplained.csv 5a6b12f67bf0bdb4
+I02_island_impact_window_unexplained PASS   imp_island_impact_window_unexplained: rows in table island_impact_window_unexplained equal rows in the source | 312 rows
+I03_island_impact_window_unexplained PASS   imp_island_impact_window_unexplained: a unit is declared for every numeric column | 10 numeric columns; missing: []
+I04_island_impact_window_unexplained PASS   imp_island_impact_window_unexplained: declared key ['station', 'case', 'rank_in_window'] is unique | 0 duplicate keys
+I01_royer_event_labelled PASS   imp_royer_event_labelled: source SHA-256 equals imports.yaml | WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/royer-events-labelled-set.csv 00fcaa5e9ea5d41f
+I02_royer_event_labelled PASS   imp_royer_event_labelled: rows in table royer_event_labelled equal rows in the source | 840 rows
+I03_royer_event_labelled PASS   imp_royer_event_labelled: a unit is declared for every numeric column | 14 numeric columns; missing: []
+I04_royer_event_labelled PASS   imp_royer_event_labelled: declared key ['royer_event', 'receiver'] is unique | 0 duplicate keys
+I01_airliner_seismic_case PASS   imp_airliner_seismic_case: source SHA-256 equals imports.yaml | WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/airliner-ocean-impacts-seismic-cases.csv b5a6a719f21f79f3
+I02_airliner_seismic_case PASS   imp_airliner_seismic_case: rows in table airliner_seismic_case equal rows in the source | 10 rows
+I03_airliner_seismic_case PASS   imp_airliner_seismic_case: a unit is declared for every numeric column | 10 numeric columns; missing: []
+I04_airliner_seismic_case PASS   imp_airliner_seismic_case: declared key ['case'] is unique | 0 duplicate keys
+I01_airliner_seismic_station_test PASS   imp_airliner_seismic_station_test: source SHA-256 equals imports.yaml | WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/airliner-ocean-impacts-station-tests.csv 1d7212b8bb3126c0
+I02_airliner_seismic_station_test PASS   imp_airliner_seismic_station_test: rows in table airliner_seismic_station_test equal rows in the source | 72 rows
+I03_airliner_seismic_station_test PASS   imp_airliner_seismic_station_test: a unit is declared for every numeric column | 10 numeric columns; missing: []
+I04_airliner_seismic_station_test PASS   imp_airliner_seismic_station_test: declared key ['case', 'station', 'band'] is unique | 0 duplicate keys
+I01_swissair111_seismic PASS   imp_swissair111_seismic: source SHA-256 equals imports.yaml | WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/swissair111-seismic.csv ea39f16dba56683c
+I02_swissair111_seismic PASS   imp_swissair111_seismic: rows in table swissair111_seismic equal rows in the source | 57 rows
+I03_swissair111_seismic PASS   imp_swissair111_seismic: a unit is declared for every numeric column | 0 numeric columns; missing: []
+I04_swissair111_seismic PASS   imp_swissair111_seismic: declared key ['item'] is unique | 0 duplicate keys
+I01_swissair111_energy_sensitivity PASS   imp_swissair111_energy_sensitivity: source SHA-256 equals imports.yaml | WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/swissair111-energy-sensitivity.csv b0980190860af00c
+I02_swissair111_energy_sensitivity PASS   imp_swissair111_energy_sensitivity: rows in table swissair111_energy_sensitivity equal rows in the source | 12 rows
+I03_swissair111_energy_sensitivity PASS   imp_swissair111_energy_sensitivity: a unit is declared for every numeric column | 2 numeric columns; missing: []
+I04_swissair111_energy_sensitivity PASS   imp_swissair111_energy_sensitivity: declared key ['spreading', 'Q', 'free_surface_energy_factor'] is unique | 0 duplicate keys
+I01_metz_geometry PASS   imp_metz_geometry: source SHA-256 equals imports.yaml | WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/metz-geometry.csv c5f6d39cda1e9824
+I02_metz_geometry PASS   imp_metz_geometry: rows in table metz_geometry equal rows in the source | 8 rows
+I03_metz_geometry PASS   imp_metz_geometry: a unit is declared for every numeric column | 8 numeric columns; missing: []
+I04_metz_geometry PASS   imp_metz_geometry: declared key ['item'] is unique | 0 duplicate keys
+I01_metz_source_slope PASS   imp_metz_source_slope: source SHA-256 equals imports.yaml | WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/metz-source-slope.csv 6e3402f86fd1701a
+I02_metz_source_slope PASS   imp_metz_source_slope: rows in table metz_source_slope equal rows in the source | 84 rows
+I03_metz_source_slope PASS   imp_metz_source_slope: a unit is declared for every numeric column | 10 numeric columns; missing: []
+I04_metz_source_slope PASS   imp_metz_source_slope: declared key ['station', 'field', 'source_point', 'bottom', 'floor_fill_db', 'src_depth_m'] is unique | 0 duplicate keys
+I01_aadc_2014_access PASS   imp_aadc_2014_access: source SHA-256 equals imports.yaml | WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/aadc-2014-access.csv 80a3443657adf47f
+I02_aadc_2014_access PASS   imp_aadc_2014_access: rows in table aadc_2014_access equal rows in the source | 4 rows
+I03_aadc_2014_access PASS   imp_aadc_2014_access: a unit is declared for every numeric column | 7 numeric columns; missing: []
+I04_aadc_2014_access PASS   imp_aadc_2014_access: declared key ['dataset'] is unique | 0 duplicate keys
+I01_metz_nearfield_derived PASS   imp_metz_nearfield_derived: source SHA-256 equals imports.yaml | WORK:results/hydroacoustics/source-survey-2026-10-23/next-steps-2026-10-24/metz-nearfield-derived.csv 899e00182adf0fbd
+I02_metz_nearfield_derived PASS   imp_metz_nearfield_derived: rows in table metz_nearfield_derived equal rows in the source | 16 rows
+I03_metz_nearfield_derived PASS   imp_metz_nearfield_derived: a unit is declared for every numeric column | 39 numeric columns; missing: []
+I04_metz_nearfield_derived PASS   imp_metz_nearfield_derived: declared key ['station', 'field', 'floor_fill_db'] is unique | 0 duplicate keys
+I01_metz_fig2_digitised PASS   imp_metz_fig2_digitised: every source SHA-256 equals imports.yaml | 4 of 4 files
+I02_metz_fig2_digitised PASS   imp_metz_fig2_digitised: rows in table metz_fig2_digitised equal rows in the sources | 5999 rows
+I03_metz_fig2_digitised PASS   imp_metz_fig2_digitised: a unit is declared for every numeric column | missing: []
+I04_metz_fig2_digitised PASS   imp_metz_fig2_digitised: declared key ['station', 'utc_s_of_day'] is unique | 0 duplicate keys
+I01_known_event PASS   imp_known_event: source SHA-256 equals imports.yaml | WORK:results/hydroacoustics/source-survey-2026-10-23/known-events-6-10mar2014.csv 78a25136f541006a
+I02_known_event PASS   imp_known_event: rows in table known_event equal rows in the source | 298 rows
+I03_known_event PASS   imp_known_event: a unit is declared for every numeric column | 9 numeric columns; missing: []
+I04_known_event PASS   imp_known_event: declared key ['database', 'event_id'] is unique | 0 duplicate keys
+I01_source_type PASS   imp_source_type: source SHA-256 equals imports.yaml | WORK:results/hydroacoustics/source-survey-2026-10-23/other-source-characteristics.csv b66db206b1ced36a
+I02_source_type PASS   imp_source_type: rows in table source_type equal rows in the source | 41 rows
+I03_source_type PASS   imp_source_type: a unit is declared for every numeric column | 0 numeric columns; missing: []
+I04_source_type PASS   imp_source_type: declared key ['source_class', 'sub_type'] is unique | 0 duplicate keys
+I01_source_catalogue PASS   imp_source_catalogue: source SHA-256 equals imports.yaml | WORK:results/hydroacoustics/source-survey-2026-10-23/source-catalogues.csv eda136f8c2e64feb
+I02_source_catalogue PASS   imp_source_catalogue: rows in table source_catalogue equal rows in the source | 45 rows
+I03_source_catalogue PASS   imp_source_catalogue: a unit is declared for every numeric column | 0 numeric columns; missing: []
+I04_source_catalogue PASS   imp_source_catalogue: declared key ['name'] is unique | 0 duplicate keys
+I01_explosion_radiated_fraction PASS   imp_explosion_radiated_fraction: source SHA-256 equals imports.yaml | WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/propagation-level-check/explosion_radiated_fraction.csv 0fed285916e
+I02_explosion_radiated_fraction PASS   imp_explosion_radiated_fraction: rows in table explosion_radiated_fraction equal rows in the source | 23 rows
+I03_explosion_radiated_fraction PASS   imp_explosion_radiated_fraction: a unit is declared for every numeric column | 11 numeric columns; missing: []
+I04_explosion_radiated_fraction PASS   imp_explosion_radiated_fraction: declared key ['event', 'triad', 'chain'] is unique | 0 duplicate keys
+I01_coupling_wave3 PASS   imp_coupling_wave3: every source SHA-256 equals imports.yaml | [('db_coupling_value_wave3.csv', True), ('db_received_observation_wave3.csv', True), ('db_coupling_evidence_new_rows.csv', True), ('db_data_
+I05_coupling_wave3 PASS   imp_coupling_wave3: coupling package validator (validate_coupling_tables.py, 25 Oct 2026) passes on base package plus wave-3 rows | v_module_chain: 100 rows; v_arons_screen: 13 rows; v_envelope: 4 rows; v_cross_check: 1 rows; RESULT: PASS (0 failures)
+I06_coupling_wave3_coupling_value PASS   imp_coupling_wave3: coupling_value: rows added equal source rows; ids unique in the table after the append | 98 of 98 rows; 0 duplicate keys; ids CV26-CV123 complete: True
+I06_coupling_wave3_received_observation PASS   imp_coupling_wave3: received_observation: rows added equal source rows; ids unique in the table after the append | 75 of 75 rows; 0 duplicate keys; ids OB07-OB81 complete: True
+I06_coupling_wave3_coupling_evidence PASS   imp_coupling_wave3: coupling_evidence: rows added equal source rows; ids unique in the table after the append | 1 of 1 rows; 0 duplicate keys
+I06_coupling_wave3_data_availability_probe PASS   imp_coupling_wave3: data_availability_probe: rows added equal source rows; ids unique in the table after the append | 6 of 6 rows; 0 duplicate keys
+I07_coupling_wave3_impact_case PASS   imp_coupling_wave3: impact_case: each update replaced one row and kept the old row in package_row_history | 1 of 1
+I07_coupling_wave3_coupling_family_element_evidence PASS   imp_coupling_wave3: coupling_family_element_evidence: each update replaced one row and kept the old row in package_row_history | 1 of 1
+I08_coupling_wave3 PASS   imp_coupling_wave3: errata source SHA-256 equals imports.yaml and holds 7 errata | 7 errata
+I08b_coupling_wave3 PASS   imp_coupling_wave3: erratum 1 holds in the wave-3 rows (no cell says 'one-pole f^-2') | 0 cells
+I08c_coupling_wave3 REVIEW Base package rows (stage 2) that still use the 'one-pole f^-2' wording of erratum 1 - listed for the coupling thread; the base package is not edited here | CV01
+I01_coupling_wave3_id_map PASS   imp_coupling_wave3_id_map: source SHA-256 equals imports.yaml | WORK:results/hydroacoustics/source-survey-2026-10-23/raw-data-2026-10-25/db-rows-merged/id-map.csv 1f0d9842d7aa3d47
+I02_coupling_wave3_id_map PASS   imp_coupling_wave3_id_map: rows in table coupling_wave3_id_map equal rows in the source | 173 rows
+I03_coupling_wave3_id_map PASS   imp_coupling_wave3_id_map: a unit is declared for every numeric column | 0 numeric columns; missing: []
+I04_coupling_wave3_id_map PASS   imp_coupling_wave3_id_map: declared key ['track', 'column', 'track_local_id'] is unique | 0 duplicate keys
+I09_impact-source-parameters PASS   not imported by design: impact-source-parameters.csv (duplicate of an existing table) | already imported: table cp_impact_source_parameters (same SHA-256, stage 2)
+I09_coupling-prior-range PASS   not imported by design: coupling-prior-range.csv (duplicate of an existing table) | already imported: table cp_coupling_prior_range_2026_10_23 (same SHA-256, stage 2; superseded by the package)
+I09_coupling-evidence-register PASS   not imported by design: coupling-evidence-register.csv (duplicate of an existing table) | superseded by db_coupling_evidence.csv (stage 2 MANIFEST.tsv); same SHA-256 as inputs/coupling copy
+I09_metz-nearfield-eta PASS   not imported by design: metz-nearfield-eta.csv (duplicate of an existing table) | already imported: coupling_curve E02_near_field_cabled (same SHA-256 as inputs/coupling/metz-nearfield-eta.csv, stage 2)
+I09_db_coupling_value_new_rows PASS   not imported by design: db_coupling_value_new_rows.csv (duplicate of an existing table) | track-local file; its rows are imported from the merged file in db-rows-merged/ (unique ids, id-map.csv)
+I09_db_impact_case_AC05_update PASS   not imported by design: db_impact_case_AC05_update.csv (duplicate of an existing table) | track-local file; its rows are imported from the merged file in db-rows-merged/ (unique ids, id-map.csv)
+I09_db_received_observation_new_ro PASS   not imported by design: db_received_observation_new_rows.csv (duplicate of an existing table) | track-local file; its rows are imported from the merged file in db-rows-merged/ (unique ids, id-map.csv)
+I90 PASS   Every block in imports.yaml has one import_block row | 24 of 24
+I91 PASS   Every imported noise row names a site in table site | unknown: []
+# stage 4
+F01 PASS   C1 inputs: 19 Kadri Table 1 transients and 110 H08S airgun shots in table pick | 19 transients, 110 shots
+F02 PASS   C1 H01W trace level (panels a-c, quiet seconds) compared with the expected order 102-103 dB (task); |difference| > 2 dB  | 104.28 +/- 0.34 dB re 1 uPa (n=1692 s); second estimator 103.49 dB
+F03 PASS   C1 panel-to-panel consistency at H01W (axis-scale check): range of the three panel medians <= 2 dB | panels a/b/c 104.55 / 104.38 / 103.85 dB
+F04 PASS   C1 second estimator (vertex RMS / min-max decimation ratio) within 2 dB of the peak-to-peak estimator, H01W and H08S pan | H01W 103.49 vs 104.28; H08S 99.27 vs 100.43
+F05 PASS   C2: imos_noise.py applies the logger gain per frequency bin before band averaging (code lines found) | line 117: cal = 10 ** ((Gi(f) + L["sens_db"]) / 10)    # V^2/Hz -> uPa^2/Hz divisor | line 118: pu = p / cal | line 127: p1u = p1 / (10 ** ((Gi(f1) + L["sens_db"]) / 10))
+F06 PASS   C2: per-bin recompute of IMOS band levels equals noise_per_recording.csv within 0.05 dB (pre-registered) | 6 records x 7 bands, max |diff| 0.005 dB; a flat 100 Hz gain would change 10-20 Hz by 3250 -5.32, 3274 -2.63, 3275 -4.40, 3315 -4.42, 3376 -3.23 dB
+F07 PASS   C2: build_noise_coupling.py copies the IMOS band values from the module files unchanged (no second gain step) | line 180 | line 197 | line 198
+F08 PASS   C3(i) absolute level: IMOS 3315 (module calibration incl. per-bin logger gain, 1-120 Hz) against the digitised CMST 2014 | peak 1.310 vs 1.418 Pa (-0.69 dB); noise p99 0.628 vs 0.660 Pa (-0.42 dB)
+F09 PASS   C3(iii) pre-registered decision: Royer colour scale calibrated at every station (A: |H01W2 offset| <= 6 dB) or counts (B | offset +5.81 dB (C1 104.28 minus Royer H01W2 98.48); per-panel offsets +6.01/+6.12/+5.24; hypothesis A; under B an OHASISBIO station would need -19.08 dB more (Table 3: H01 52.6, OHASISBIO 33.5 dB re 1 uPa per count)
+F10 PASS   Every 8 Mar 2014 H01W/H08S row in v_noise_8mar2014 carries a preference mark; one preferred median row per station (plus | unmarked 0; preferred median rows [('H01W', 1), ('H08S', 1)]
+F11 PASS   The Kadri spectrogram-colour rows are kept (not deleted; caveat unchanged) | 60 rows kept
+# arc
+H01W | Line of sight to 7th arc 20° S–43.9° S (southern end of the arc): clear
+H08S | Line of sight to 7th arc (20° S–43.9° S) limited at 28.6–29.3° S: ridge above hydrophone depth (partial loss) at 75 % of latitudes (ridge near 28.5° S 98.6° E); 28.8–28.9° S: large attenuation (ridge near 28.5° S 98.6° E); 32.0–36.9° S: ridge above hydrophone depth (partial loss) at 54 % of latitudes (Ninety East Ridge, Broken Ridge); 38.4–38.5° S: large attenuation (rise near 33° S 83° E); 39.2–39.4° S: ridge above hydrophone depth (partial loss) at 67 % of latitudes (rise near 33° S 83° E); 41.5–42.0° S: large attenuation at 33 % of latitudes (Amsterdam-St Paul plateau, Amsterdam Island); 41.6–41.9° S: ridge above hydrophone depth (partial loss) at 50 % of latitudes (Amsterdam-St Paul plateau, Amsterdam Island); 42.1° S: blocked (St Paul Island); clear elsewhere
+H08N | Line of sight to 7th arc (20° S–43.9° S) limited at 20.0–32.1° S: blocked (Chagos Bank); 32.0–33.1° S: large attenuation at 92 % of latitudes (Chagos Bank); 33.2–43.9° S: blocked (Chagos Bank, near 8.3° S 70.7° E); clear elsewhere
+IMOS3315 | Line of sight to 7th arc 20° S–43.9° S (southern end of the arc): clear
+IMOS3376 | Line of sight to 7th arc 20° S–43.9° S (southern end of the arc): clear
+IMOS3250 | Line of sight to 7th arc (20° S–43.9° S) limited at 20.0–29.5° S: large attenuation (Exmouth Plateau / North West Shelf edge, North West Shelf and islands); 29.6–43.9° S: blocked (North West Shelf and islands, Exmouth Plateau / North West Shelf edge); clear elsewhere
+IMOS3274 | Line of sight to 7th arc (20° S–43.9° S) limited at 20.0–29.4° S: blocked (Australian continent, Cape Leeuwin shelf); 29.5–29.6° S: large attenuation (Cape Leeuwin shelf); clear elsewhere
+IMOS3275 | Line of sight to 7th arc (20° S–43.9° S) limited at 20.0–29.4° S: blocked (Australian continent, Cape Leeuwin shelf); 29.5–29.6° S: large attenuation (Cape Leeuwin shelf); clear elsewhere
+MAD | Line of sight to 7th arc (20° S–43.9° S) limited at 25.3–25.6° S: ridge above hydrophone depth (partial loss) at 75 % of latitudes (Ninety East Ridge); 25.7° S: large attenuation (Ninety East Ridge); 28.0–29.2° S: ridge above hydrophone depth (partial loss) at 62 % of latitudes (ridge near 28.5° S 98.6° E, Ninety East Ridge); 28.4–28.6° S: large attenuation (ridge near 28.5° S 98.6° E); 30.1° S: large attenuation (Ninety East Ridge); 30.7–31.7° S: ridge above hydrophone depth (partial loss) (Broken Ridge, Ninety East Ridge); 31.8–32.0° S: large attenuation (Broken Ridge, Ninety East Ridge); 33.4–33.9° S: large attenuation at 50 % of latitudes (rise near 33° S 83° E); 33.5–34.0° S: ridge above hydrophone depth (partial loss) at 50 % of latitudes (rise near 33° S 83° E); 35.2° S: large attenuation (rise near 33° S 83° E); 40.0–40.6° S: ridge above hydrophone depth (partial loss) at 86 % of latitudes (Amsterdam-St Paul plateau, Amsterdam Island); 40.3–40.9° S: blocked at 29 % of latitudes (Amsterdam Island, St Paul Island); 40.7–40.8° S: large attenuation (St Paul Island); clear elsewhere
+NCRO | Line of sight to 7th arc (20° S–43.9° S) limited at 20.0–21.6° S: large attenuation at 47 % of latitudes (rise near 33° S 83° E, Ninety East Ridge); 20.6–21.1° S: ridge above hydrophone depth (partial loss) at 33 % of latitudes (Ninety East Ridge, rise near 33° S 83° E); 22.7–24.4° S: large attenuation at 33 % of latitudes (rise near 33° S 83° E); 27.4–28.0° S: ridge above hydrophone depth (partial loss) at 29 % of latitudes (Amsterdam-St Paul plateau, ridge near 28.5° S 98.6° E); 27.5–27.9° S: large attenuation (Amsterdam-St Paul plateau, ridge near 28.5° S 98.6° E); 29.8–31.1° S: ridge above hydrophone depth (partial loss) at 29 % of latitudes (Amsterdam Island, Amsterdam-St Paul plateau); 30.0–30.7° S: large attenuation at 38 % of latitudes (Amsterdam Island, Broken Ridge); 30.1–30.5° S: blocked (Amsterdam Island); 31.9–34.6° S: large attenuation at 43 % of latitudes (St Paul Island, Amsterdam-St Paul plateau); 32.7° S: ridge above hydrophone depth (partial loss) (Amsterdam-St Paul plateau); 33.2–34.5° S: blocked at 43 % of latitudes (St Paul Island, Amsterdam-St Paul plateau); 34.1° S: ridge above hydrophone depth (partial loss) (St Paul Island); clear elsewhere
+WKER | Line of sight to 7th arc (20° S–43.9° S) limited at 26.5–27.2° S: large attenuation (ridge near 28.5° S 98.6° E); clear elsewhere
+SWAMS1 | Line of sight to 7th arc (20° S–43.9° S) limited at 20.8–22.8° S: ridge above hydrophone depth (partial loss) (Broken Ridge); 25.2–29.5° S: ridge above hydrophone depth (partial loss) at 70 % of latitudes (Broken Ridge, ridge near 28.5° S 98.6° E); 26.2–27.0° S: large attenuation (ridge near 28.5° S 98.6° E, Broken Ridge); 31.8° S: ridge above hydrophone depth (partial loss) (Broken Ridge); clear elsewhere
+SWAMS2 | Line of sight to 7th arc (20° S–43.9° S) limited at 20.9–23.2° S: ridge above hydrophone depth (partial loss) (Broken Ridge); 25.2–29.6° S: ridge above hydrophone depth (partial loss) at 73 % of latitudes (Broken Ridge, ridge near 28.5° S 98.6° E); 26.3–27.0° S: large attenuation (ridge near 28.5° S 98.6° E, Broken Ridge); 31.8° S: ridge above hydrophone depth (partial loss) (Broken Ridge); clear elsewhere
+SWAMS3 | Line of sight to 7th arc (20° S–43.9° S) limited at 20.9–22.9° S: ridge above hydrophone depth (partial loss) (Broken Ridge); 25.2–29.5° S: ridge above hydrophone depth (partial loss) at 68 % of latitudes (Broken Ridge, ridge near 28.5° S 98.6° E); 26.3–27.0° S: large attenuation (ridge near 28.5° S 98.6° E, Broken Ridge); 31.8° S: ridge above hydrophone depth (partial loss) (Broken Ridge); clear elsewhere
+SSEIR | Line of sight to 7th arc (20° S–43.9° S) limited at 25.3–25.4° S: large attenuation (Ninety East Ridge); 27.6–32.0° S: ridge above hydrophone depth (partial loss) at 53 % of latitudes (Broken Ridge, rise near 33° S 83° E); 28.0–31.5° S: large attenuation at 36 % of latitudes (rise near 33° S 83° E, ridge near 28.5° S 98.6° E); 32.7–32.8° S: large attenuation (rise near 33° S 83° E); 33.6° S: ridge above hydrophone depth (partial loss) (rise near 33° S 83° E); 39.0° S: ridge above hydrophone depth (partial loss) (Amsterdam-St Paul plateau); 40.4–40.9° S: ridge above hydrophone depth (partial loss) at 33 % of latitudes (Amsterdam Island, Amsterdam-St Paul plateau); 40.6–41.2° S: blocked at 29 % of latitudes (Amsterdam Island, St Paul Island); 40.7–41.1° S: large attenuation at 60 % of latitudes (St Paul Island, Amsterdam Island); clear elsewhere
+NEAMS | Line of sight to 7th arc (20° S–43.9° S) limited at 23.5–24.0° S: ridge above hydrophone depth (partial loss) at 33 % of latitudes (Ninety East Ridge); 23.6–23.9° S: large attenuation (Ninety East Ridge); 27.8–28.5° S: ridge above hydrophone depth (partial loss) at 50 % of latitudes (ridge near 28.5° S 98.6° E); 28.1–28.4° S: large attenuation (ridge near 28.5° S 98.6° E); 30.4–31.6° S: ridge above hydrophone depth (partial loss) at 38 % of latitudes (Broken Ridge, near 31.7° S 85.3° E); 30.5–32.0° S: large attenuation at 31 % of latitudes (Ninety East Ridge, Broken Ridge); 37.4° S: ridge above hydrophone depth (partial loss) (rise near 33° S 83° E); 37.5–38.4° S: large attenuation (rise near 33° S 83° E); 41.0° S: ridge above hydrophone depth (partial loss) (rise near 33° S 83° E); 41.1° S: large attenuation (rise near 33° S 83° E); 43.0° S: ridge above hydrophone depth (partial loss) (Amsterdam-St Paul plateau); 43.2–43.5° S: blocked at 50 % of latitudes (St Paul Island, Amsterdam Island); 43.4–43.6° S: large attenuation at 67 % of latitudes (Amsterdam-St Paul plateau, rise near 33° S 83° E); clear elsewhere
+L01 PASS 230 of 241 blocked; 11 large attenuation (32.0–33.1° S, shallowest 295 m)
+L02 PASS first blocked arc latitude -29.6
+L03 PASS 241 arc points; southern end -43.93 S
+TITLE: South of 33° S, 8–10 of the 12 recording station locations have clear line of sight at 98 % of 7th-arc points; north of 33° S, mid-ocean ridges cut this to 5–9
+text overlaps: []
+ arc_lat_deg  arc_lon_deg  n_clear  n_clear_or_partial  n_large_attenuation  n_blocked  n_clear_throughout_pm0p5deg  n_clear_with_raw_data
+       -20.0       104.55        8                   8                    2          2                            8                      1
+       -21.0       104.09        8                   9                    1          2                            7                      1
+       -22.0       103.60        8                   9                    1          2                            7                      1
+       -23.0       103.07        9                   9                    1          2                            6                      1
+       -24.0       102.51        7                   8                    2          2                            7                      1
+       -25.0       101.91        9                   9                    1          2                            6                      1
+       -26.0       101.27        8                   9                    1          2                            6                      1
+       -27.0       100.58        7                   7                    3          2                            6                      1
+       -28.0        99.85        5                   8                    2          2                            4                      1
+       -29.0        99.06        6                   8                    2          2                            4                      1
+       -30.0        98.22        8                   9                    1          2                            4                      2
+       -31.0        97.31        9                  10                    0          2                            6                      2
+       -32.0        96.33        5                   7                    4          1                            4                      2
+       -33.0        95.28        9                   9                    2          1                            6                      2
+       -34.0        94.13        8                  10                    0          2                            6                      2
+       -35.0        92.88        9                  10                    0          2                            7                      2
+       -36.0        91.52        9                  10                    0          2                            9                      2
+       -37.0        90.01       10                  10                    0          2                            8                      2
+       -38.0        88.34        9                   9                    1          2                            8                      2
+       -39.0        86.45        9                  10                    0          2                            8                      2
+       -40.0        84.29        9                  10                    0          2                            8                      2
+       -41.0        81.75        8                   9                    1          2                            6                      2
+       -42.0        78.61        9                   9                    1          2                            9                      2
+       -43.0        74.33        9                  10                    0          2                            9                      2
+       -43.9        64.25       10                  10                    0          2                            9                      2

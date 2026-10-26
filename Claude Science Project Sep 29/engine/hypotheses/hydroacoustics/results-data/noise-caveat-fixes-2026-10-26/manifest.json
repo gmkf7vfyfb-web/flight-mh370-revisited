@@ -1,0 +1,91 @@
+{
+ "manifest_version": 1,
+ "run_id": "noise-caveat-fixes-2026-10-26",
+ "module": "hydroacoustics",
+ "commit": {
+  "branch": "hypothesis/hydroacoustics",
+  "sha": "53db6372b7862be5760bb583b16176896d9aa9f2",
+  "dirty": true
+ },
+ "configuration": {
+  "values": {
+   "scripts": [
+    "prepare/noise_caveat_calibration.py",
+    "prepare/noise_caveat_fetch_march.py",
+    "prepare/noise_caveat_imos_gain_check.py",
+    "registry/data_db/build_noise_fixes.py"
+   ],
+   "band_hz": [
+    5,
+    40
+   ],
+   "window_s": 1.0,
+   "vertex_rate_per_s": 14.5,
+   "filter_primary": "zero-phase 4-pole Butterworth 5-40 Hz",
+   "bootstrap": {
+    "n": 2000,
+    "block_s": 30,
+    "seed": 20261026
+   },
+   "preregistration": "claude-science-sep29: results/hydroacoustics/noise-caveat-fixes-2026-10-26/PREREGISTRATION.md (with amendment 1)",
+   "raw_records": "EarthScope FDSN IM H01W1-3 8 Mar 2015/2017/2019 00:27-00:57, H08S1-3 8 Mar 2015-2019 01:00-01:20 (march_fetch_log.csv; not committed, re-fetch with noise_caveat_fetch_march.py); held: QZ8501_H01W, QZ8501/JT610/SJ182/AB1103_H08S (artifacts of session c764a583, sha256 in pp_rms_calibration_records.csv)"
+  }
+ },
+ "inputs": [
+  {
+   "registry_id": "in.hydro_data_db",
+   "role": "Kadri Fig. 9 vertex tables, picks, Royer spectrogram bands, CMST Fig. 1 tables"
+  },
+  {
+   "registry_id": "note.imos_noise",
+   "role": "IMOS band levels checked in C2"
+  },
+  {
+   "registry_id": "res.raw_ims_2026_10_25",
+   "role": "held raw H01W/H08S records used for the shape ratio variants"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "imos_gain_check.csv",
+   "bytes": 6463,
+   "sha256": "c590ac52ea1ff19e9c1fe1630bce1044a6697ede97d54a7b1fa669b0859c6a88"
+  },
+  {
+   "path": "imos_gain_check.json",
+   "bytes": 986,
+   "sha256": "efebc2235cc66dc7cc62ebad47bcf87671995c1328694f2ddc553f8e48d3167f"
+  },
+  {
+   "path": "march_fetch_log.csv",
+   "bytes": 4990,
+   "sha256": "42304f78b88227b53cdb0baa007168fc6684ed8fe0f91adb8238107c0342a94c"
+  },
+  {
+   "path": "pp_rms_calibration.csv",
+   "bytes": 2157,
+   "sha256": "d527fc908149d7f36fcfb6610a289cf527c2e294e7fd3fe84e2c717b8e31013c"
+  },
+  {
+   "path": "pp_rms_calibration_records.csv",
+   "bytes": 3761,
+   "sha256": "44c0561e31388ca273a2059e5db817393dc2b84321906b341c310cc8f7a6c68c"
+  },
+  {
+   "path": "pp_rms_calibration_segments.csv",
+   "bytes": 65153,
+   "sha256": "0e9a97a050a482344e76ff5f608beb4e788821ff1bffe8d8e7baf9d703285a78"
+  },
+  {
+   "path": "pp_rms_calibration_summary.json",
+   "bytes": 905,
+   "sha256": "4a0bbbdc3b037f78a97fb58961b6b6093b8514ea5cd5095be3b1c1d2842f460d"
+  }
+ ],
+ "thread_id": "d8445a3f-b0fa-438e-b007-86833275177d",
+ "status": "UNCHECKED",
+ "created_utc": "2026-10-26T21:19:58Z",
+ "description": "Noise caveat fixes C1-C3 (26 Oct 2026): shape ratio k for reading 1-s RMS from digitised IMS traces, measured on raw March 2015-2019 records; IMOS logger-gain recompute. UNCHECKED: no independent verifier yet.",
+ "supersedes": [],
+ "defects": []
+}
