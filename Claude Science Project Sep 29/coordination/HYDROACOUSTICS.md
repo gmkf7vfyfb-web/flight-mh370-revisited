@@ -36,3 +36,29 @@ From the hydroacoustics overview session (8b907e71), for every module and every 
 - Note: the inbox restart of 26 Oct broke 11 phase-2 status-evidence paths in the project build. The import repointed them to the archived inbox (module commit 4452f265). If you cite an old inbox line, cite `coordination/archive/HYDROACOUSTICS-2026-10-07-to-2026-10-26.md`.
 - Status file `threads/status/hydroacoustics.md` updated (sections 2, 3, 6).
 -- hydroacoustics overview session 8b907e71
+
+## 2026-10-27 — ON HOLD: add the OHASISBIO sites to the transmission-loss grid (for the forward-model thread; Pete asked for the requirement and the run-time estimate, and wants to close out other work first)
+From session 2ed32de0 (seafloor-path sheets for Pete). **Do not start until Pete approves in this inbox or in your thread.**
+
+**Finding (27 Oct 2026).** The run J transmission-loss grid (`prepare/tl_grid_run_j.py`, `results-data/tl_grid_run_j/`, module commit 4452f265) has receivers H01W, H08S, H08N and IMOS 3315, 3376, 3250, 3274, 3275 only. No OHASISBIO site has a transmission loss in the model. For the model receivers, paths rebuilt with `tl_grid_run_j.build_path` at 20, 25, 30, 35 and 40 S (offset 0) agree exactly with the stored grid: range, minimum track depth, minimum corridor depth, km shallower than 1,000 m, shallowest point outside the last 100 km, end depth and minimum profile depth (245 values, 0 differ). Artifacts: sheets `seafloor_paths_arc_{20,25,30,35,40}S.png` (versions c783e3a0, 593226c2, 8d4b6b5a, 8daac1cc, cf1419ab), check table `seafloor_paths_model_check.csv` (6a97566b), path summary `seafloor_paths_summary.csv` (3d2db978), profiles `seafloor_paths_bathy_500m.csv.gz` (142e8b29), script `seafloor_paths_rebuild.py` (a991aad2). These artifacts are not yet committed; the forward-model thread commits the ones it uses.
+
+**Requirement.**
+1. Receivers: SWAMS1, SWAMS2, SWAMS3, SSEIR, MAD, NCRO, WKER. Leave out NEAMS (data lost on recovery). Read positions and hydrophone depths from the `site` table of the current `hydro_data.sqlite` (Royer 2016 Table 1). Record the DB SHA-256 in the manifest. `run_j_windows.py` has its own OHASISBIO position list: compare it with the DB and report any difference.
+2. Method: no change. Use the run J grid code as it is: same source points (`arc_sources`, 41.0 S to 20.0 S every 0.5 deg, offsets -60, -30, 0, +30, +60 NM), WGS84 paths every 250 m, GEBCO_2026 3 x 3 median, WOA23 March 2005-2014, KRAKEN adiabatic incoherent modes, profiles every 5 km, hard bottom, Francois-Garrison, spherical correction, source depths 2, 10, 30 m, ten third-octave bands 5-40 Hz, same blockage rule. The receiver depth is the hydrophone depth (moored in deep water, as the IMS triads). Add an `ohasisbio` receiver kind to `receivers()`; change nothing else.
+3. Outputs: a new run folder `results-data/<run id>/` with `manifest.json`, rows in the `tl_grid.csv` schema, and a drop-in table in the `ims_tl_kraken_arc.csv` schema with the `ridge_source` and `adiabatic_suspect` flags computed as for the IMS rows. Deep-channel travel time per path as the grid records it (c = 1.482 +/- 0.006 km/s). Registry status UNCHECKED until an independent verifier passes.
+4. RAM: no RAM delta exists for these sites. Pete chooses one of: (a) compute a RAM delta at one arc point per site (the run J median point, as `ims_ram_delta.csv`), 10 bands, 10 m source; or (b) carry raw KRAKEN with the label 'no RAM delta: upper bound on loss', as H08N. Recommended: (a), because it puts these sites on the same footing as H01W and H08S.
+5. Acceptance: (i) rebuild the offset-0 paths at 20, 25, 30, 35 and 40 S and match `seafloor_paths_summary.csv` exactly; (ii) time 3 paths first and compare with the estimate below; stop and report if the real time is more than 2 x the estimate; (iii) no land or 'no_modes_shallow' rows are expected at offset 0 (the shallowest point on the 25 sampled paths is 728 m, NCRO from 30 S). Any such row is a finding to report, not an error to fix.
+6. Out of scope (separate items, not estimated here): a noise level for the OHASISBIO sites (no calibrated level exists; the Royer 2016 spectrograms in the DB are digitised, not calibrated), and any use of these sites in detection. The data held for these sites are digitised figures only.
+
+**Run-time estimate.** Measured from the 22 Oct grid run (1,760 paths, all 10 bands and 3 source depths per path, 4 processes, parallel efficiency 3.97 of 4): wall time per path = 0.0050 s/km x range - 0.7 s (residual SD 3.6 s). The multiprocessing pool of `tl_grid_run_j.py` works in the mh370-hydro environment (tested 27 Oct 2026). OHASISBIO path ranges come from the 25 rebuilt paths, interpolated over latitude.
+
+| Item | Paths or jobs | CPU time | Elapsed, 4 processes | Elapsed, 2 processes (outside the heavy lock) | Elapsed, 12 processes (heavy lock) |
+|---|---|---|---|---|---|
+| A. KRAKEN grid, 7 sites, offset 0 only | 301 paths | 1.2 h | 18 min | 36 min | about 6 min (not measured above 6 processes) |
+| B. KRAKEN grid, 7 sites, all 5 offsets (full requirement) | 1,505 paths | 6.0 h | 1.5 h | 3.0 h | about 30 min (not measured above 6 processes) |
+| B'. As B with SWAMS2 only for the SWAMS group (SWAMS1-3 lie within about 10 km) | 1,075 paths | 4.7 h | 1.2 h | 2.3 h | about 25 min |
+| C. RAM delta, 5 site groups, 1 point, 10 bands (option 4a) | 50 jobs | about 1.8 h (+/- 50 %: RAM cost measured only at 31.5 and 40 Hz, 0.058 and 0.094 s/km, scaled linearly in frequency) | about 30 min | about 55 min | about 10 min |
+| D. Drop-in table, flags, checks | 1 | < 5 min | < 5 min | < 5 min | < 5 min |
+
+Development: about 2 h (receiver kind, table output, manifest, DB import block, registry entry), plus about 1 h for the independent verifier. Recommended order: A first (18 min), check acceptance (i) and (iii), then B and C.
+-- session 2ed32de0, 27 Oct 2026
