@@ -17,13 +17,15 @@ Owner of this file: the hydroacoustics overview session. Threads do not edit it;
 - Results: `results/hydroacoustics/<run id>/` on `claude-science-sep29`, and `results-data/<run id>/` on the module branch, each with `manifest.json`.
 - Status of every item: the project registry (`registry/REGISTRY.json`, module `hydroacoustics`, ids `hydro.<id>`) and the module registry. Read the registry, not memory.
 - Repository rule for all threads: `coordination/architecture.md`, entry of 2026-10-26 (P62, P66).
-- The import of 26 Oct 2026 (sub-agent of 8b907e71) brings in the work of 23-26 Oct that was not yet in the data store. When it is done, its run folder and commits are listed here.
+- Import of 26 Oct 2026 (done; sub-agent d8445a3f): 24 import blocks in `imports.yaml` (stage 3, `build_imports.py`) and the noise caveat fixes C1-C3 (stage 4, `build_noise_fixes.py`); one command rebuilds all stages (`rebuild_all.sh`, about 1 min). Data store SHA-256 e0442acebc6c112e4b062a97349dda80af70f4b2253f7b56f19bba40645caf91, 182 checks (179 PASS, 3 REVIEW: K09, K11, I08c). Commits: module branch 8a65657 and 4452f265; project branch 573a4588. Run folders: `repository-import-2026-10-26` (inventory of 1,399 items), `noise-caveat-fixes-2026-10-26`, `kadri-independent-review-2026-10-26`, `status-review-2026-10-26`, `source-survey-supplement-2026-10-26`, `site-noise-review-supplement-2026-10-26`. Not imported: 248 c764a583 artifacts made after its Phase 1 dispatch (19:03:40Z), which that session commits itself.
+- Independent verification (session bfafba88, run folder `import-verification-2026-10-26`): V1-V6 AGREE; one MINOR: the C1 1-sigma (0.34 / 0.40 dB) is too small; use about 1 dB. Status changes to CURRENT wait for Pete (section 6).
+- 8 March 2014 IMS noise, 5-40 Hz, from the Kadri traces (preferred row): Cape Leeuwin 104.3 dB re 1 uPa, Diego Garcia South 100.4 dB between airgun shots (100.3-101.2 dB with other shot guards), each about +-1 dB. IMOS levels already include the logger gain (C2). IMOS 3315 agrees with CMST Fig. 1 within 0.7 dB (C3 i). OHASISBIO SSEIR and SWAMS3 by transfer from Cape Leeuwin: about 104.0-104.8 dB +-1.6 dB, with the caveat that the transfer assumes the same colour bias at both sites (C3 iii).
 
 ## 3. Active threads and work orders (overview kept by session 8b907e71, P72)
 | Thread | Profile | Work order | State on 26 Oct 2026 |
 |---|---|---|---|
 | c764a583 "Aircraft Impact Acoustic Source Survey" | default | its own plan of 26 Oct (phases 1-5, under P58-P65) | Phase 1 running: one noise model, airgun level unit audit, bearing check, 777 source physics. It commits its Phase 1 outputs under the repository rule, then hands over to the forward-model thread. |
-| Repository import (sub-agent of 8b907e71) | default | task text in session 8b907e71 | Running. Data store import, noise caveat fixes C1-C3, verifier, push. |
+| Repository import (sub-agent d8445a3f) and verifier (bfafba88) | default | task text in session 8b907e71 | Done 26-27 Oct. See section 2. |
 | Forward model (new) | Hydroacoustic Module | `threads/work-orders/hydroacoustics-forward-model-order-2026-10-26.md` | Not started. Starts when c764a583 Phase 1 is committed. |
 | Detection model (new) | Hydroacoustic Module | `threads/work-orders/hydroacoustics-detection-order-2026-10-26.md`, spec `threads/specs/hydro-detection-model-spec-2026-10-26.md` | Not started. Can start now (steps D0-D2 need no forward-model output). |
 
@@ -63,5 +65,7 @@ Ownership, so that two threads do not write the same files:
 
 ## 6. Open items for Pete (lettered questions are put to him by the thread that owns the item)
 - Detection model specification: review of the draft (questions A and B in the spec).
+- Decision C (put to Pete 26 Oct): c764a583 commits Phase 1 and stops, the forward-model thread takes phases 2-5 and the detection thread takes the detection test (recommended); or c764a583 continues to phase 5.
+- Import follow-ups (from the import and its verifier): accept the trace rows as the preferred 8 March 2014 level with about 1 dB uncertainty; set the verified import items to CURRENT; whether the OHASISBIO transfer needs a second calibration point; whether hydro_data.sqlite (now 41 MB, a new git blob at every rebuild) moves to the large-file host; check the 1-s start-time anomaly of IMOS record 531A728A and the 3315 160-240 Hz gain-table row; base-package coupling row CV01 still says 'one-pole f^-2' (check I08c, for the forward-model thread).
 - c764a583 Phase 1 results: to be reported by that session.
 - Brief consolidation: the brief has layered amendments (8 Oct, 9 Oct, 21 Oct, 23 Oct). The overview session proposes one consolidated brief after the two new threads start. Not yet approved.

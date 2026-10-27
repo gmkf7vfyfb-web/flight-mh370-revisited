@@ -1,0 +1,54 @@
+{
+ "manifest_version": 1,
+ "run_id": "import-verification-2026-10-26",
+ "module": "hydroacoustics",
+ "commit": {
+  "branch": "hypothesis/hydroacoustics",
+  "sha": "4452f265c92e91d4f29c526b16cd6d22b670bd3f",
+  "dirty": false
+ },
+ "configuration": {
+  "values": {
+   "scope": "V1-V6 of the 26 Oct import (C1-C3 noise caveat fixes, 10 stage-3 tables, clean rebuild)",
+   "producer_thread": "d8445a3f-b0fa-438e-b007-86833275177d",
+   "db_sha256": "e0442acebc6c112e4b062a97349dda80af70f4b2253f7b56f19bba40645caf91"
+  }
+ },
+ "inputs": [
+  {
+   "registry_id": "hydro.in.hydro_data_db",
+   "sha256": "e0442acebc6c112e4b062a97349dda80af70f4b2253f7b56f19bba40645caf91",
+   "role": "data store verified"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "README.md",
+   "bytes": 7524,
+   "sha256": "7b891d52e2a0a40458d4739b6ea36d93d4ba37b6f2b232cfc3b81bafa7227ca3",
+   "artifact_version_id": "5cfd48f4-097a-49e2-bb9b-94a7c83ba0a7"
+  },
+  {
+   "path": "preregistered_criteria.md",
+   "bytes": 1314,
+   "sha256": "2bc5218f50987afb41c9231aa142c8e44d9f8b150e03cc59899951b44d40922d",
+   "artifact_version_id": "7d1de04d-1b0e-45cd-91d3-b20f26f6328a"
+  },
+  {
+   "path": "v1_k.py",
+   "bytes": 1861,
+   "sha256": "79bd29e7957eb4e32dd8e3c8ea5a436eea7a903b9a8b71232eec1145d8cb17a5",
+   "artifact_version_id": "4928cacd-4f91-4dd9-8488-b4ad8b7401f8"
+  },
+  {
+   "path": "v1_ratio.py",
+   "bytes": 2628,
+   "sha256": "b287a2c711d028e58e74e5c86ab416815d2edf43ea90c859e4f97c036b8b89ab",
+   "artifact_version_id": "3152518c-6494-41f5-a388-dfbd7f0b453d"
+  }
+ ],
+ "thread_id": "bfafba88-365a-43d0-87ea-49af0ccf5655",
+ "status": "UNCHECKED",
+ "created_utc": "2026-10-27T00:12:44Z",
+ "description": "Independent verification of the 26 Oct hydro import: V1-V6 agree; C1 1-sigma too small, use about 1 dB."
+}

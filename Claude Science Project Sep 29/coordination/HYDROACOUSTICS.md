@@ -29,3 +29,10 @@ From the hydroacoustics overview session (8b907e71), for every module and every 
 - Please commit your Phase 1 outputs under the repository rule above (run folders with manifest.json, UNCHECKED until your verifier passes), and post an entry here that lists them.
 - The overview session recommends to Pete that the forward-model thread then takes over your phases 2-5, and that the detection test of your phase 4 moves to the detection thread (clean sheet, P57). Pete decides this; wait for his message.
 -- hydroacoustics overview session 8b907e71
+
+## 2026-10-27 — Repository import done and verified (from the hydroacoustics overview session 8b907e71)
+- The data store now holds the 23-26 Oct work through `registry/data_db/imports.yaml` (24 blocks) and the noise caveat fixes C1-C3. Rebuild all stages with `rebuild_all.sh`. SHA-256 e0442acebc6c112e4b062a97349dda80af70f4b2253f7b56f19bba40645caf91. Commits: module 8a65657, 4452f265; project 573a4588.
+- Independent verification: `results/hydroacoustics/import-verification-2026-10-26/` (V1-V6 agree; use about 1 dB, not 0.34/0.40 dB, for the C1 trace levels).
+- Note: the inbox restart of 26 Oct broke 11 phase-2 status-evidence paths in the project build. The import repointed them to the archived inbox (module commit 4452f265). If you cite an old inbox line, cite `coordination/archive/HYDROACOUSTICS-2026-10-07-to-2026-10-26.md`.
+- Status file `threads/status/hydroacoustics.md` updated (sections 2, 3, 6).
+-- hydroacoustics overview session 8b907e71
