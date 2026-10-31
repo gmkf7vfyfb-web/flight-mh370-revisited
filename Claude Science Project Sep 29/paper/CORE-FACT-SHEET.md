@@ -56,3 +56,14 @@ Present: `davey2016`, `ashton2015`, `holland2018`, `era5` (Hersbach et al. 2020)
 Added 31 Oct 2026 (CrossRef-verified): `gordon1993` (bootstrap filter), `kitagawa1996` (systematic resampling),
 `gilks2001` (resample–move), `neal2001` (annealed importance sampling), `delmoral2006` (SMC samplers).
 Still needed: IGRF-14 generation paper (not yet found in CrossRef; special-issue record only); internal-v1 fuel model source (fuel session).
+
+
+## D. Whole-method elements beyond core (source: `results/davey-ch11-alignment.md`, 8–9 Oct 2026; `ARCHITECTURE.md` status of 18 Oct 2026)
+
+| Element | Davey et al. (2016) | This project | Label |
+|---|---|---|---|
+| Debris drift | §11.2, pp. 103–109: applied to ONE item (Réunion flaperon). Per-particle re-weighting (eq. 11.4); likelihood a kernel-density ratio from 30 years of undrogued GDP drifters, 1° kernel, ε = 10⁻⁴ (eq. 11.9). Result: shift "negligible". | Same update form, many items. p(y \| x) by forward simulation through the 2014–16 ocean (GLORYS12 and GlobCurrent, marginalised once outside the product over items; windage marginalised). No density denominator, no ε. Davey's own method kept as a reproduction (reproduced: +2.75 NM north). | U (more items) + M (how p(y \| x) is obtained) |
+| Debris not found | Poisson model eqs. 11.5–11.6 set out, NOT run (λ and P_I "cannot be adequately specified", p. 104); absence treated qualitatively. | λ removed exactly under p(λ) ∝ 1/λ; absence enters through Q(x). Australian non-recovery term built; at 18 Oct it is carried as a LABELLED SENSITIVITY, not the headline. 2014 aerial surface search term NOT built. | E |
+| Searched areas | §11.1, p. 101: eq. 11.1, p(x \| S, Z) ∝ [1 − P_D(x)] p(x \| Z); eq. 11.2, probability of success per area; AF447 P_D 0.9 cap (Stone et al.). NOT applied. | Applied: scored where the wreck rests (settled field, not the impact point); each campaign explicit with dependent misses; ρ = 0.05 for missed detection (Davey ≈ 0); settling draws averaged. Reduces exactly to eq. 11.1 with ρ = 0, point target, one campaign (required test). | M (of a method Davey proposed, not applied) |
+| End of flight, settling, hydroacoustics, Pléiades | — | New stages. Hydroacoustics compares predictions with records; it adds no factor to the composed PDF (18 Oct status). Pléiades enters only as a conditional hypothesis. | E |
+| Combination | — | Composer: one likelihood per impact sample per module; each evidence type shown alone, with core, and left out; no hand down-weighting. | E |
