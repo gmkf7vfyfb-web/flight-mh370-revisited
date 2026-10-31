@@ -1,0 +1,106 @@
+Word: put the cursor in the left cell, Control+= (Mac) or Alt+= (Windows), choose LaTeX in the Equation tab,
+paste ONE equation line, then Convert > Professional. Core estimator equations (14)-(22), version 1, 31 Oct 2026.
+Numbers continue the 13-equation set; renumber to your manuscript order.
+
+(14) Core posterior for one model configuration H (the master equation).
+p\left(x_{0:K},\, a,\, \theta_{\mathrm{Core}} \mid z_{\mathrm{Core}},\, H\right) \propto p\left(x_{0}\right) P\left(a \mid H\right) p\left(\theta_{\mathrm{Core}} \mid H\right) \prod_{k=1}^{K} p\left(x_{k} \mid x_{k-1},\, a,\, \theta_{\mathrm{Core}},\, H\right)\, L\left(z_{\mathrm{Core}} \mid x_{0:K}\right)
+  where:
+    x_{k}  —  Aircraft state at time t_k: latitude, longitude, altitude, Mach, control angle, wind error and, with the fuel model, the fuel in each tank [—]; Particle state (crates/flight)
+    x_{0:K}  —  The whole path, from t_0 to t_K [—]; One particle
+    t_{0},\ t_{K}  —  Start and end times of the core estimate [UTC]; 18:01:49 and 00:19:37 UTC
+    k  —  Index of the observation times (satellite and radar) [—]; Propagation between them in 10 s steps (5 s in manoeuvres)
+    a  —  Autopilot mode: true heading, magnetic heading, true track, magnetic track or lateral navigation (LNAV) [—]; One filter per mode; LNAV can revert to heading hold
+    \theta_{\mathrm{Core}}  —  Fixed values for each path: manoeuvre time constant τ; with the fuel model also κ, κ_x, r, δ and the one-engine drift-down values [—]; Drawn once per path; τ refreshed after each resampling
+    H  —  Model configuration or conditional hypothesis (e.g. Davey model; Davey model + fuel + radar; waypoint routes) [—]; Table of configurations
+    z_{\mathrm{Core}}  —  Evidence used by the core: BTO, BFO and radar [—]; Satellite log and radar fixes
+    p(x_{0})  —  Prior at 18:01:49 UTC: position σ 0.5 NM, track σ 1° [—]; Davey et al. (2016), ch. 4
+    P(a \mid H)  —  Prior probability of each autopilot mode [—]; Equal, 1/5, in every configuration
+    p(x_{k} \mid x_{k-1},\, \ldots)  —  Dynamics: how the state moves from one time to the next [—]; Davey ch. 6–8 (Ornstein–Uhlenbeck cruise, manoeuvres), plus fuel burn when used
+    L(z_{\mathrm{Core}} \mid x_{0:K})  —  Likelihood of all core evidence along the path [—]; Equation (15)
+    \propto  —  Is proportional to; the right side is normalised to integrate to one [—]; —
+  One-sentence replacement: The posterior of each path is its prior, times its dynamics, times the likelihood of the evidence along it, normalised over all paths.
+
+(15) Core likelihood: the factors that each configuration switches on or off.
+L\left(z_{\mathrm{Core}} \mid x_{0:K}\right) = L_{\mathrm{BTO}}\, L_{\mathrm{BFO}}\, L_{\mathrm{Radar}}\, I_{\mathrm{Power}}
+  where:
+    L_{\mathrm{BTO}}  —  Likelihood of the burst timing offsets [—]; Equation (16); all configurations
+    L_{\mathrm{BFO}}  —  Likelihood of the burst frequency offsets, with the unknown bias integrated out [—]; Equation (17); all configurations
+    L_{\mathrm{Radar}}  —  Likelihood of the radar plots after 18:01:49 UTC [—]; Equation (18); set to 1 in the Davey reproduction
+    I_{\mathrm{Power}}  —  Engine power at 00:10:59 UTC: 1 if at least one engine runs, else 0 [—]; Equation (19); set to 1 in the Davey reproduction
+  One-sentence replacement: The core likelihood is the product of the BTO, BFO and radar likelihoods and the requirement for engine power at 00:10:59 UTC.
+
+(16) BTO likelihood.
+L_{\mathrm{BTO}} = \prod_{j=1}^{10} \mathcal{N}\left(z_{\mathrm{BTO},j};\ F_{\mathrm{BTO}}\left(x_{j}\right),\ \sigma_{\mathrm{BTO},j}^{2}\right)
+  where:
+    z_{\mathrm{BTO},j}  —  Measured burst timing offset j: 18:25:34, 18:28:05, 18:28:14, 19:41, 20:41, 21:41, 22:41, 00:10:59, 00:19:29 and 00:19:37 UTC [μs]; 18:25:34 and 00:19:37 values: R1200 BTO, empirical offset applied (−5 and −4 × 7,820 μs)
+    F_{\mathrm{BTO}}(x)  —  Functional model: round-trip delay ground station–satellite–aircraft, minus the fixed offset [μs]; Davey ch. 5; fixed offset 495,679 μs
+    \sigma_{\mathrm{BTO},j}  —  Standard deviation of BTO j [μs]; 29 (R1200), 43 (R1200 log-on acknowledge), 63 (R600 log-on request)
+    \mathcal{N}(z;\ \mu,\ \sigma^{2})  —  Normal density of z with mean μ and variance σ² [—]; —
+  One-sentence replacement: Each of the ten BTOs is normally distributed about the value the path predicts, with standard deviations of 29 to 63 μs.
+
+(17) BFO likelihood with the bias integrated out, written as a product of one-step prediction errors.
+L_{\mathrm{BFO}} = \int \prod_{i=1}^{9} \mathcal{N}\left(z_{\mathrm{BFO},i};\ F_{\mathrm{BFO}}\left(x_{i}\right) + b,\ \sigma_{\mathrm{BFO}}^{2}\right) \mathcal{N}\left(b;\ \bar{b}_{0},\ P_{0}\right) \mathrm{d}b = \prod_{i=1}^{9} \mathcal{N}\left(\nu_{i};\ 0,\ s_{i}^{2}\right)
+  where:
+    z_{\mathrm{BFO},i}  —  Measured burst frequency offset i: 18:28:05, 18:28:14, 18:39:55*, 19:41, 20:41, 21:41, 22:41, 23:15:02*, 00:10:59 UTC (*mean of the C-channel values) [Hz]; No 00:19 BFO is used in the core
+    F_{\mathrm{BFO}}(x)  —  Functional model: uplink and downlink Doppler, aircraft compensation, satellite and EAFC terms [Hz]; Davey ch. 5; vertical rate included except in the Davey reproduction
+    b  —  Unknown constant BFO bias of the aircraft terminal [Hz]; Integrated out exactly, for each path
+    \bar{b}_{0},\ P_{0}  —  Prior mean and variance of b [Hz, Hz²]; 150 Hz and (25 Hz)²
+    \sigma_{\mathrm{BFO}}  —  BFO measurement standard deviation [Hz]; 7 Hz in the Davey reproduction; 4.32 Hz (Davey Table 5.1) otherwise
+    \nu_{i}  —  Prediction error: z_BFO,i − F_BFO(x_i) − b̂_{i−1}, with b̂ the scalar Kalman estimate of b [Hz]; Davey §8.1
+    s_{i}^{2}  —  Variance of ν_i: σ²_BFO + P_{i−1} [Hz²]; The same for every path
+  One-sentence replacement: The BFO bias is integrated out with a scalar Kalman filter, so each BFO enters through its prediction error.
+
+(18) Radar likelihood after 18:01:49 UTC.
+L_{\mathrm{Radar}} = \prod_{r=1}^{5} \left[ (1-\epsilon)\, \mathcal{N}_{2}\left(d_{r};\ \sigma_{r}\right) + \epsilon\, \mathcal{N}_{2}\left(d_{r};\ \sigma_{\mathrm{Outlier}}\right) \right] \prod_{c=1}^{4} \mathcal{N}\left(e_{c};\ 0,\ \sigma_{c}^{2}\right)
+  where:
+    d_{r}  —  Great-circle distance from the path to radar fix r (18:04:14, 18:05:15, 18:07:16, 18:13:36, 18:22:12 UTC) [NM]; Plot at 18:07:06 excluded
+    \mathcal{N}_{2}(d;\ \sigma)  —  Isotropic two-dimensional normal density at distance d: (2πσ²)⁻¹ exp(−d²/2σ²) [NM⁻²]; —
+    \sigma_{r}  —  Standard deviation of fix r [NM]; 3 NM at 18:07:16; 5 NM otherwise
+    \epsilon,\ \sigma_{\mathrm{Outlier}}  —  Share and spread of the outlier component [—, NM]; 0.1 and 50 NM
+    e_{c}  —  Across-track distance from the VAMPI–MEKAR line at 18:15, 18:17, 18:19, 18:21 UTC [NM]; Dense radar band
+    \sigma_{c}  —  Standard deviation across track [NM]; 1.5 NM
+  One-sentence replacement: The five radar fixes are scored as two-dimensional normal densities with a 10% outlier component, and four times on the VAMPI–MEKAR line by their across-track distance.
+
+(19) Engine power at 00:10:59 UTC.
+I_{\mathrm{Power}} = \begin{cases} 1, & m_{\mathrm{Left}}\left(t_{0011}\right) > 0 \ \text{or}\ m_{\mathrm{Right}}\left(t_{0011}\right) > 0 \\ 0, & \text{otherwise} \end{cases}
+  where:
+    m_{\mathrm{Left}},\ m_{\mathrm{Right}}  —  Fuel mass in the left and right tanks [kg]; Equation (20)
+    t_{0011}  —  Time of the 00:10:59 UTC transmission [UTC]; 00:10:59
+    I_{\mathrm{Power}}  —  Indicator: a path with both tanks empty before 00:10:59 gets weight zero [—]; No prior on the time of fuel exhaustion is used
+  One-sentence replacement: A path is given zero weight if both tanks are empty before 00:10:59 UTC; results are therefore conditional on engine power at 00:11.
+
+(20) Fuel burn by tank (both engines running; one engine after the first tank is empty).
+\dot{m}_{\mathrm{Left}} = -\frac{\kappa\, \kappa_{x}^{\delta_{x}}\, f_{T}\, Q_{\mathrm{Twin}}}{1+r}, \qquad \dot{m}_{\mathrm{Right}} = -\frac{r\, \kappa\, \kappa_{x}^{\delta_{x}}\, f_{T}\, Q_{\mathrm{Twin}}}{1+r}, \qquad \dot{m}_{\mathrm{Live}} = -\kappa\, f_{T}\, Q_{\mathrm{One}}
+  where:
+    Q_{\mathrm{Twin}},\ Q_{\mathrm{One}}  —  Fuel flow with two engines, and of the live engine with one engine inoperative, from flight level, gross weight and Mach; levels capped at the weight-dependent ceiling [kg/h]; Boeing-derived performance grid; one-engine grid × 0.5 (unit correction)
+    f_{T}  —  Temperature factor 1 + 0.003 ΔT_ISA (1 + 0.2 M²) [—]; ΔT_ISA from ERA5 at the aircraft
+    \kappa  —  Fuel-flow factor of the path [—]; N(1.0004, 0.0196²); fuel at 18:01:49 = 43,800 − 7,228κ kg
+    \kappa_{x},\ \delta_{x}  —  Extra factor on extrapolated flow; δ_x = 1 on such steps, else 0 [—]; N(1.0, 0.046²), provisional
+    r  —  Right-to-left flow ratio [—]; N(1.021, 0.008²)
+    \delta  —  Left minus right fuel at 18:01:49 UTC (in θ_Core) [kg]; N(221, 120²)
+    \dot{m}_{\mathrm{Live}}  —  Burn of the remaining engine after the first tank is empty; the aircraft drifts down to its one-engine ceiling [kg/h]; Drift-down profile provisional
+  One-sentence replacement: Fuel is burned from two tanks at the performance-grid flow, scaled by a per-path factor and a temperature term; after the first tank empties, the other engine burns at the one-engine flow while the aircraft drifts down.
+
+(21) Combination over autopilot modes within one configuration H.
+p\left(x_{K} \mid z_{\mathrm{Core}},\, H\right) = \sum_{a} P\left(a \mid z_{\mathrm{Core}},\, H\right) p\left(x_{K} \mid z_{\mathrm{Core}},\, a,\, H\right), \qquad P\left(a \mid z_{\mathrm{Core}},\, H\right) \propto P\left(a \mid H\right) p\left(z_{\mathrm{Core}} \mid a,\, H\right)
+  where:
+    x_{K}  —  State at 00:19:37 UTC; its latitude gives the 00:19 PDF [—]; Final particle state
+    p(z_{\mathrm{Core}} \mid a,\, H)  —  Marginal likelihood of mode a (the Bayesian evidence): the likelihood averaged over the prior and the dynamics [—]; Estimated by the filter as the product of its mean incremental weights
+    P(a \mid z_{\mathrm{Core}},\, H)  —  Posterior probability of mode a [—]; Normalised over the five modes
+  One-sentence replacement: Each autopilot mode is filtered separately, and the modes are combined in proportion to their prior probability times their marginal likelihood.
+
+(22) Goodness-of-fit statistic for one path, and its smallest value in a latitude band.
+\chi^{2}\left(x_{0:K}\right) = \sum_{j=1}^{10} \left(\frac{z_{\mathrm{BTO},j} - F_{\mathrm{BTO}}\left(x_{j}\right)}{\sigma_{\mathrm{BTO},j}}\right)^{2} + \sum_{i=1}^{9} \frac{\nu_{i}^{2}}{s_{i}^{2}}, \qquad \chi_{\min}^{2}(\Phi) = \min_{n:\ \varphi_{K}^{(n)} \in \Phi} \chi^{2}\left(x_{0:K}^{(n)}\right)
+  where:
+    \chi^{2}  —  Sum of squared, standardised BTO and BFO residuals along one path (19 values) [—]; Radar and fuel not included
+    \Phi  —  A 0.5° band of latitude at 00:19:37 UTC [deg]; —
+    n,\ \varphi_{K}^{(n)}  —  Path index and its latitude at 00:19:37 UTC [—, deg]; All paths of all filter runs of the configuration
+    \chi_{\min}^{2}(\Phi)  —  Best fit found in band Φ [—]; Depends on the sampled paths, not on their weights
+  One-sentence replacement: For each path, χ² is the sum of squared standardised BTO and BFO residuals; since s_i² is the same for all paths, differences in χ² equal −2 times differences in log-likelihood.
+
+Model configurations used in the Results (internal run name in brackets: for Pete only, not for the paper):
+  - Davey model reproduced [complex-manoeuvres (25 Sep 2026)]: Davey dynamics; τ 0.1–1 h (Davey 0.1–10 h); prior track 295.66° (Davey Fig. 4.2: 289.7°); Mach 0.73–0.84; FL250–430; BFO sd 7 Hz; vertical rate in BFO: No; L_Radar: 1; I_Power: 1; fuel: None; paths: 4 × 7 M
+  - Davey model, fuel recorded only (with and without the 00:11 condition) [ff-internal fuel-feasibility rebuild (30 Oct 2026) / 7 M run 9f63b1ef]: Davey dynamics; τ 0.1–10 h; track 289.7°; Inmarsat satellite states; fuel burned by eq. (20) but not used in the weights; I_Power applied after the run for the conditioned curve; BFO sd 7 Hz; vertical rate in BFO: No; L_Radar: 1; I_Power: 1 or eq. (19); fuel: Recorded; paths: 4 × 1.75 M (χ²); 4 × 7 M (PDF)
+  - Davey model + fuel model with staggered engine exhaustion + radar observations + BFO noise 4.32 Hz [run-j-repro-radar]: Davey dynamics; τ 0.1–10 h; track 289.7°; Inmarsat satellite states; ceiling cap; one-engine drift-down; BFO sd 4.32 Hz; vertical rate in BFO: Yes; L_Radar: Eq. (18); I_Power: Eq. (19); fuel: Eq. (20); paths: 16 × 3.5 M
+  - Waypoint/airway conditional hypothesis (sensitivity) [run-j-waypoints]: As above, plus routes through named fixes after MEKAR (1–8 legs), then an autopilot mode west of 96° E; Mach 0.45–0.87 to 18:40, then 0.70–0.87; 210–330 KCAS; BFO sd 4.32 Hz; vertical rate in BFO: Yes; L_Radar: Eq. (18); I_Power: Eq. (19); fuel: Eq. (20); paths: 24 × 7 M
+  - Free-flight model (sensitivity) [run-j-free]: As the fuel + radar configuration, plus a turn at 18:22:12 UTC (half the paths) to 270–340°; speeds as the waypoint configuration; BFO sd 4.32 Hz; vertical rate in BFO: Yes; L_Radar: Eq. (18); I_Power: Eq. (19); fuel: Eq. (20); paths: 18 × 7 M
