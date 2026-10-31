@@ -1,0 +1,35 @@
+Section 3.1 equations. Paste ONE line per Word equation box (Control+= on Mac, LaTeX mode, Convert > Professional).
+
+Version A:
+(3) p\left(x_{0:K} \mid z,\, H\right) \propto p\left(x_{0}\right) \prod_{k=1}^{K} p\left(x_{k} \mid x_{k-1},\, H\right)\, L_{\mathrm{BTO}}\, L_{\mathrm{BFO}}\, L_{\mathrm{Radar}}\, I_{\mathrm{Power}}
+(4) P\left(a \mid z,\, H\right) = \frac{P\left(a \mid H\right) p\left(z \mid a,\, H\right)}{\sum_{a'} P\left(a' \mid H\right) p\left(z \mid a',\, H\right)}
+(5) \chi^{2}\left(x_{0:K}\right) = \sum_{j=1}^{10} \left(\frac{z_{\mathrm{BTO},j} - F_{\mathrm{BTO}}\left(x_{j}\right)}{\sigma_{\mathrm{BTO},j}}\right)^{2} + \sum_{i=1}^{9} \frac{\nu_{i}^{2}}{s_{i}^{2}}
+
+Version B:
+(3) p\left(x_{0:K} \mid z,\, H\right) \propto p\left(x_{0}\right) \prod_{k=1}^{K} p\left(x_{k} \mid x_{k-1},\, H\right)\, L_{\mathrm{BTO}}\, L_{\mathrm{BFO}}\, L_{\mathrm{Radar}}\, I_{\mathrm{Power}}
+(4) \chi^{2}\left(x_{0:K}\right) = \sum_{j=1}^{10} \left(\frac{z_{\mathrm{BTO},j} - F_{\mathrm{BTO}}\left(x_{j}\right)}{\sigma_{\mathrm{BTO},j}}\right)^{2} + \sum_{i=1}^{9} \frac{\nu_{i}^{2}}{s_{i}^{2}}
+
+Terms:
+  [EQ3]
+    x_{k}  —  State of one path at time t_k: position, altitude, speed and direction, autopilot mode, fixed path parameters, fuel in each tank (when modelled) [—]; One particle
+    x_{0:K}  —  Whole path from t_0 (18:01:49 UTC) to t_K (00:19:37 UTC) [—]; —
+    z  —  Evidence used by the core: 10 BTOs, 9 BFOs and the radar plots [—]; Satellite log; radar
+    H  —  Model configuration or conditional hypothesis [—]; Davey model; + fuel and radar; waypoints; free flight
+    p(x_{0})  —  Prior at 18:01:49 UTC: σ 0.5 NM in position, 1° in track [—]; Davey et al. (2016), ch. 4
+    p(x_{k} \mid x_{k-1},\, H)  —  Aircraft dynamics between observation times [—]; Davey chs. 6–8; plus fuel burn when modelled
+    L_{\mathrm{BTO}},\ L_{\mathrm{BFO}}  —  Likelihoods of the BTOs and of the BFOs (bias integrated out) [—]; Davey ch. 5, §8.1
+    L_{\mathrm{Radar}}  —  Likelihood of the radar plots after 18:01:49 UTC [—]; 1 in the Davey reproduction
+    I_{\mathrm{Power}}  —  1 if at least one engine runs at 00:10:59 UTC, else 0 [—]; 1 in the Davey reproduction
+    \propto  —  Is proportional to (normalised over all paths) [—]; —
+  [EQM]
+    a,\ a'  —  Autopilot mode (true or magnetic heading, true or magnetic track, LNAV); a' is the summation index [—]; One filter per mode
+    P(a \mid H)  —  Prior probability of mode a [—]; 1/5 for each mode
+    p(z \mid a,\, H)  —  Marginal likelihood of mode a: the likelihood averaged over the prior and dynamics [—]; Estimated by the filter
+    P(a \mid z,\, H)  —  Posterior probability of mode a [—]; —
+  [EQC]
+    \chi^{2}(x_{0:K})  —  Goodness of fit of one path to the 19 satellite values [—]; Radar and fuel not included
+    z_{\mathrm{BTO},j}  —  Measured BTO j [μs]; 10 values, 18:25:34 to 00:19:37 UTC
+    F_{\mathrm{BTO}}(x_{j})  —  BTO predicted by the path at time t_j [μs]; Davey ch. 5
+    \sigma_{\mathrm{BTO},j}  —  Standard deviation of BTO j [μs]; 29, 43 or 63
+    \nu_{i}  —  BFO prediction error: measured minus predicted BFO, with the bias estimate from the earlier BFOs [Hz]; Kalman filter for the bias
+    s_{i}^{2}  —  Variance of ν_i [Hz²]; Same for every path

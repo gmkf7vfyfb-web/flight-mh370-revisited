@@ -1,0 +1,58 @@
+% Section 3.1 drafts for nav.cls, 31 Oct 2026. Not compiled. Two alternative versions; use one.
+% Version A
+\setcounter{equation}{2}
+The core estimator is a Bayesian particle filter which reproduces that of Davey et al. (2016) and then updates, modifies and extends it, estimating the state of the aircraft from the penultimate primary radar point at 18:01:49 UTC to the final satellite log-on at 00:19:37 UTC. Each particle is one candidate path, whose state $x_k$ at time $t_k$ comprises position, altitude, speed and direction, the autopilot mode and fixed parameters of the path and, where modelled, the fuel in each tank. For a model configuration or conditional hypothesis $H$, given the evidence $z$, the posterior of a path is
+
+\begin{equation}
+p\left(x_{0:K} \mid z,\, H\right) \propto p\left(x_{0}\right) \prod_{k=1}^{K} p\left(x_{k} \mid x_{k-1},\, H\right)\, L_{\mathrm{BTO}}\, L_{\mathrm{BFO}}\, L_{\mathrm{Radar}}\, I_{\mathrm{Power}}
+\label{eq:31A-3}
+\end{equation}
+where $p(x_0)$ is the prior at 18:01:49 UTC and $p(x_k \mid x_{k-1}, H)$ the aircraft dynamics.
+
+The prior, dynamics and satellite measurement models are those of Davey et al. (2016, chs. 4--8), to which the reader is referred. $L_{\mathrm{BTO}}$ treats ten burst timing offsets (BTO) as normally distributed about the value each path predicts, and $L_{\mathrm{BFO}}$ does the same for nine burst frequency offsets (BFO), the unknown BFO bias being integrated out by a scalar Kalman filter. Both 00:19 BTOs are used, the R1200 value with its empirical offset applied; the 00:19 BFOs are left to the end-of-flight stage.
+
+Wind, temperature and magnetic declination are updated to ERA5 and IGRF-14, and the satellite states to those of Ashton et al. (2015). The BFO standard deviation is modified to the measured in-flight value of 4.32 Hz (Davey et al., 2016, Table 5.1), in place of the 7 Hz used in their filter, and the vertical rate of the aircraft is included in the predicted BFO. Each autopilot mode $a$ is filtered separately and the modes are combined by
+
+\begin{equation}
+P\left(a \mid z,\, H\right) = \frac{P\left(a \mid H\right) p\left(z \mid a,\, H\right)}{\sum_{a'} P\left(a' \mid H\right) p\left(z \mid a',\, H\right)}
+\label{eq:31A-4}
+\end{equation}
+where $p(z \mid a, H)$ is the marginal likelihood of mode $a$ and the five modes have equal prior probability.
+
+Three extensions are made. $L_{\mathrm{Radar}}$ scores five primary radar plots after 18:01:49 UTC as two-dimensional normal densities with a 10\% outlier component, and four further times on the VAMPI--MEKAR line by their across-track distance. A fuel model burns fuel from the left and right tanks at a Boeing-derived flow for the flight level, weight and Mach number of each path, scaled by a per-path factor and an air-temperature term, so that the engines run dry in turn, the aircraft drifting down on one engine after the first. $I_{\mathrm{Power}}$ is one if at least one engine is running at 00:10:59 UTC and zero otherwise. No prior is placed on the time of fuel exhaustion, so the results are conditional on engine power at 00:11 UTC and the cause of the 00:19 log-on is tested rather than assumed. Routes through named waypoints, and a free turn after 18:22 UTC, are treated as conditional hypotheses $H$ and reported as sensitivities.
+
+The fit of individual paths to the satellite data, independently of their prior weight, is measured by
+
+\begin{equation}
+\chi^{2}\left(x_{0:K}\right) = \sum_{j=1}^{10} \left(\frac{z_{\mathrm{BTO},j} - F_{\mathrm{BTO}}\left(x_{j}\right)}{\sigma_{\mathrm{BTO},j}}\right)^{2} + \sum_{i=1}^{9} \frac{\nu_{i}^{2}}{s_{i}^{2}}
+\label{eq:31A-5}
+\end{equation}
+where $F_{\mathrm{BTO}}$ is the predicted BTO, $\sigma_{\mathrm{BTO},j}$ its standard deviation (29 to 63 $\mu$s), and $\nu_i$ and $s_i^2$ the BFO prediction errors and their variances. As $s_i^2$ is the same for every path, $\chi^2$ differences equal $-2$ times log-likelihood differences; the minimum in each 0.5$^{\circ}$ band of latitude at 00:19 UTC is reported. Convergence is judged by agreement between [n] independent filters of [N] particles.
+
+
+% =================
+% Version B
+\setcounter{equation}{2}
+The core stage estimates the state of 9M-MRO from the penultimate primary radar point at 18:01:49 UTC to the final satellite log-on at 00:19:37 UTC. A large ensemble of candidate paths, generated from the prior and constrained by the performance of the aircraft, is weighted by the satellite and radar evidence $z$. With $x_k$ the state of a path at time $t_k$ and $H$ the model configuration or conditional hypothesis, the posterior is
+
+\begin{equation}
+p\left(x_{0:K} \mid z,\, H\right) \propto p\left(x_{0}\right) \prod_{k=1}^{K} p\left(x_{k} \mid x_{k-1},\, H\right)\, L_{\mathrm{BTO}}\, L_{\mathrm{BFO}}\, L_{\mathrm{Radar}}\, I_{\mathrm{Power}}
+\label{eq:31B-3}
+\end{equation}
+where $p(x_0)$ is the prior at 18:01:49 UTC and $p(x_k \mid x_{k-1}, H)$ the aircraft dynamics. Table [n] lists what is reproduced, updated, modified and extended.
+
+Reproduced. The prior, the dynamics of the five autopilot modes, and the BTO and BFO measurement models follow Davey et al. (2016, chs. 4--8), to which the reader is referred. $L_{\mathrm{BTO}}$ treats ten BTOs as normally distributed about the value each path predicts; $L_{\mathrm{BFO}}$ does the same for nine BFOs, with the constant BFO bias integrated out by a scalar Kalman filter. Both 00:19 BTOs are used, the R1200 value with its empirical offset applied, and the 00:19 BFOs are not. The R600 burst at 18:25:27 UTC is held out as a predictive check.
+
+Updated. Wind and temperature are taken from ERA5, magnetic declination from IGRF-14, and the satellite states from Ashton et al. (2015).
+
+Modified. The BFO standard deviation is the measured in-flight value of 4.32 Hz (Davey et al., 2016, Table 5.1), not the 7 Hz used in their filter, and the predicted BFO includes the vertical rate of the aircraft. In place of variable-rate branching, each autopilot mode is filtered separately and the modes are combined in proportion to prior probability times marginal likelihood, the manoeuvre time constant of each path being refreshed after every resampling (Gilks and Berzuini, 2001).
+
+Extended. $L_{\mathrm{Radar}}$ scores five primary radar plots between 18:04 and 18:22 UTC, with a 10\% outlier component, and the across-track position on the VAMPI--MEKAR line at four times. A fuel model burns fuel from two tanks at a Boeing-derived flow, scaled by a per-path factor and an air-temperature term, so that one engine runs dry before the other and the aircraft drifts down on the remaining engine. $I_{\mathrm{Power}}$ gives zero weight to any path with no engine running at 00:10:59 UTC. Because no prior is placed on the time of fuel exhaustion, the results are conditional on engine power at 00:11 UTC, and fuel exhaustion as the cause of the 00:19 log-on is tested rather than assumed. Routes through named waypoints, and a free turn after 18:22 UTC, are conditional hypotheses $H$, reported as sensitivities rather than combined.
+
+Goodness of fit. For each path the BTO and BFO residuals give
+
+\begin{equation}
+\chi^{2}\left(x_{0:K}\right) = \sum_{j=1}^{10} \left(\frac{z_{\mathrm{BTO},j} - F_{\mathrm{BTO}}\left(x_{j}\right)}{\sigma_{\mathrm{BTO},j}}\right)^{2} + \sum_{i=1}^{9} \frac{\nu_{i}^{2}}{s_{i}^{2}}
+\label{eq:31B-4}
+\end{equation}
+where $F_{\mathrm{BTO}}$ is the predicted BTO, $\sigma_{\mathrm{BTO},j}$ its standard deviation (29 to 63 $\mu$s), and $\nu_i$ and $s_i^2$ the BFO prediction errors and their variances. Because $s_i^2$ is the same for every path, $\chi^2$ differences are $-2$ times log-likelihood differences, so the band minimum of $\chi^2$ shows where the data alone are, or are not, decisive. Convergence is judged by agreement between [n] independent filters of [N] particles.
