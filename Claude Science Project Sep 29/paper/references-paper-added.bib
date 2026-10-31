@@ -36,3 +36,67 @@
   note = {PROVENANCE RECORD, not a separate citation: this is the legitimate green open-access copy of holland2018 that the project holds, retrieved via Unpaywall on 12 Oct 2026. Cite holland2018 (the printed IEEE article). IMPORTANT: this copy is paginated 1--10 and does NOT carry the printed pagination 33(2), 24--33, so quotations from it must be located by section, not by printed page, unless the published version is obtained.}
 }
 
+
+
+% ---- Core-estimator methods sources, added 31 Oct 2026 by the Methodology-Core thread.
+% ---- Each entry checked against its CrossRef record (title, authors, year, journal, volume, issue, DOI).
+
+@article{gordon1993,
+  author = {Gordon, N. J. and Salmond, D. J. and Smith, A. F. M.},
+  title = {Novel approach to nonlinear/non-{G}aussian {B}ayesian state estimation},
+  journal = {IEE Proceedings F (Radar and Signal Processing)},
+  volume = {140},
+  number = {2},
+  pages = {107--113},
+  year = {1993},
+  doi = {10.1049/ip-f-2.1993.0015},
+  note = {CrossRef-verified 31 Oct 2026 (CrossRef gives first page 107 only; end page 113 to confirm on the publisher page). The bootstrap particle filter; Gordon is a co-author of davey2016.}
+}
+
+@article{kitagawa1996,
+  author = {Kitagawa, Genshiro},
+  title = {Monte {C}arlo filter and smoother for non-{G}aussian nonlinear state space models},
+  journal = {Journal of Computational and Graphical Statistics},
+  volume = {5},
+  number = {1},
+  pages = {1--25},
+  year = {1996},
+  doi = {10.1080/10618600.1996.10474692},
+  note = {CrossRef-verified 31 Oct 2026. Source of systematic (stratified) resampling as used in the core filter.}
+}
+
+@article{gilks2001,
+  author = {Gilks, Walter R. and Berzuini, Carlo},
+  title = {Following a moving target---{M}onte {C}arlo inference for dynamic {B}ayesian models},
+  journal = {Journal of the Royal Statistical Society Series B: Statistical Methodology},
+  volume = {63},
+  number = {1},
+  pages = {127--146},
+  year = {2001},
+  doi = {10.1111/1467-9868.00280},
+  note = {CrossRef-verified 31 Oct 2026. Resample-move: the core filter Gibbs-refreshes the manoeuvre time constant tau after each resampling.}
+}
+
+@article{neal2001,
+  author = {Neal, Radford M.},
+  title = {Annealed importance sampling},
+  journal = {Statistics and Computing},
+  volume = {11},
+  number = {2},
+  pages = {125--139},
+  year = {2001},
+  doi = {10.1023/A:1008923215028},
+  note = {CrossRef-verified 31 Oct 2026. Likelihood tempering in stages whose exponents sum to one (core filter, six tempered epochs, 16 stages).}
+}
+
+@article{delmoral2006,
+  author = {Del Moral, Pierre and Doucet, Arnaud and Jasra, Ajay},
+  title = {Sequential {M}onte {C}arlo samplers},
+  journal = {Journal of the Royal Statistical Society Series B: Statistical Methodology},
+  volume = {68},
+  number = {3},
+  pages = {411--436},
+  year = {2006},
+  doi = {10.1111/j.1467-9868.2006.00553.x},
+  note = {CrossRef-verified 31 Oct 2026. General framework for tempered SMC with resampling between stages.}
+}
