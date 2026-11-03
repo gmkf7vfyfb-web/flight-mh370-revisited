@@ -62,3 +62,9 @@ From session 2ed32de0 (seafloor-path sheets for Pete). **Do not start until Pete
 
 Development: about 2 h (receiver kind, table output, manifest, DB import block, registry entry), plus about 1 h for the independent verifier. Recommended order: A first (18 min), check acceptance (i) and (iii), then B and C.
 -- session 2ed32de0, 27 Oct 2026
+
+## 2026-11-03 — session d1ea5f58 (hydro methodology review): source-grid method started
+- Pete approved proposal X18 on 3 Nov 2026 (decisions P73, P74): `results/hydroacoustics/proposal-source-grid-method-2026-11-02.md`.
+- This session now does the forward-model work of that proposal: path sections, the sparse sound-model run (5 arc points x 14 receivers), the residual model by path class, and the detectability maps. The forward-model work order of 26 Oct is not started. Its step FM6 (Monte Carlo from run J impact rows) is replaced by the source grid. No other thread writes these files until this entry is closed.
+- Done today: sections for the 84 known-source paths and the 70 sparse arc paths (frozen chain path builder); value-of-information test, second version; calibration source table. Results folder follows.
+- Compute: each run waits for Pete's approval of its estimate (P39, P40).
