@@ -1,0 +1,76 @@
+{
+ "manifest_version": 1,
+ "run_id": "sparse-tl-2026-11-03",
+ "module": "hydroacoustics",
+ "commit": {
+  "branch": "hypothesis/hydroacoustics",
+  "sha": "4452f265c92e91d4f29c526b16cd6d22b670bd3f",
+  "dirty": false
+ },
+ "configuration": {
+  "values": {
+   "scope": "X18 step 3: sparse RAM sound model, 64 arc paths x 10 bands x 7 source depths",
+   "producer_thread": "d1ea5f58-fde8-4011-9b99-34ce1fdd110c",
+   "tl_chain": "tl-chain-2026-10-27 (artifact 9ba75304)"
+  }
+ },
+ "inputs": [
+  {
+   "registry_id": "ext.globsed_v3",
+   "sha256": "86f61493dc41c47e6fcb0089058150e0963bd6f0379943fd80d1d09a66d77ca4",
+   "role": "sediment thickness"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "README.md",
+   "bytes": 1982,
+   "sha256": "6d8c37fca1ceea71c89dc6018ca0a3ee27bdcc215d53929ed72bdaa320948073"
+  },
+  {
+   "path": "assemble_sparse.py",
+   "bytes": 1412,
+   "sha256": "19a1654905c0342be25d7ece41098f98ec8c614fd9b139ff228efb83193e5c4e"
+  },
+  {
+   "path": "launch.py",
+   "bytes": 283,
+   "sha256": "6f2a2ba37f2843c566d9a4e0e145543e026926d7a77cb3491fe0aa9e7c9c9ff3"
+  },
+  {
+   "path": "make_jobs.py",
+   "bytes": 1538,
+   "sha256": "ae4fc0a01845670c1bdc895a6c12870fec6b72dcfc99d990cb370fd8aacc7e7f"
+  },
+  {
+   "path": "paths.csv",
+   "bytes": 5127,
+   "sha256": "9633f2e1ddebf795f8a16ad8cb52ebb7a345414319de1ee3944427ce92491901"
+  },
+  {
+   "path": "per_frequency_runs.jsonl.gz",
+   "bytes": 1475675,
+   "sha256": "52f0d98421344e87bc0aefffb45ad85b9973bd1ad2e282e512593fdcbeecbe2b"
+  },
+  {
+   "path": "run.log",
+   "bytes": 73304,
+   "sha256": "ba065a8be86b53599e4da9e8c0000f2a644c95d707d2550b7da39e7a98fa1287"
+  },
+  {
+   "path": "sparse-sound-model-results.png",
+   "bytes": 403056,
+   "sha256": "b3721e2d62d0ba26215e6320d15b3195685e77b387a918b175bd1de3b2445826"
+  },
+  {
+   "path": "subsample_error.csv",
+   "bytes": 422801,
+   "sha256": "2b76e28a201456aa234ffda539802ad9bc5d9fb932ba7bcf9fe058621b19c026"
+  },
+  {
+   "path": "tl_sparse_bands.csv",
+   "bytes": 379613,
+   "sha256": "c39dced18339a5b5b8855020e90f3686de452efa50e58a286e77e60e90d3d9c2"
+  }
+ ]
+}
