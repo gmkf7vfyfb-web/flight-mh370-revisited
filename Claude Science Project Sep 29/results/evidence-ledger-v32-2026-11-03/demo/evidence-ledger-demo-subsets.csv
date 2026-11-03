@@ -1,0 +1,129 @@
+scenario,subset,n_types,bits,A_eff_km2,A90_km2,truth_in_90,P_best5000km2,lnZ
+all evidence correct,(prior only),0,-0.0,663903.0,597513.0,True,0.0075,0.0
+all evidence correct,arc,1,1.867,182005.4888,144945.0,True,0.0453,-1.7941
+all evidence correct,perf,1,0.4516,485456.3568,401490.0,True,0.014,-0.6198
+all evidence correct,drift,1,0.7334,399336.1232,344526.0,True,0.0248,-1.1338
+all evidence correct,coast,1,0.3923,505849.8893,419850.0,True,0.0136,-0.5875
+all evidence correct,search,1,0.0868,625148.4035,547302.0,True,0.0082,-0.0878
+all evidence correct,hydro,1,4.6588,26282.8547,20922.0,True,0.3058,-3.7292
+all evidence correct,arc + perf,2,2.3186,133085.2874,108633.0,True,0.0812,-2.4139
+all evidence correct,arc + drift,2,2.6004,109475.8817,107016.0,True,0.1374,-2.9279
+all evidence correct,arc + coast,2,2.2593,138676.0662,124032.0,True,0.081,-2.3816
+all evidence correct,arc + search,2,2.0835,156637.7927,135216.0,True,0.0672,-2.1905
+all evidence correct,arc + hydro,2,6.5258,7205.3053,6105.0,True,0.8484,-5.5233
+all evidence correct,perf + drift,2,1.0574,318993.1568,264783.0,True,0.0346,-1.4763
+all evidence correct,perf + coast,2,0.769,389604.6221,309210.0,True,0.018,-0.8776
+all evidence correct,perf + search,2,0.5627,449498.7138,361095.0,True,0.016,-0.7507
+all evidence correct,perf + hydro,2,4.6603,26254.816,20904.0,True,0.3067,-3.7619
+all evidence correct,drift + coast,2,1.102,309293.6253,302004.0,True,0.0422,-1.6709
+all evidence correct,drift + search,2,0.8142,377587.3021,346545.0,True,0.0282,-1.2634
+all evidence correct,drift + hydro,2,4.7161,25258.1907,20382.0,True,0.3427,-3.8767
+all evidence correct,coast + search,2,0.4799,476026.4063,425244.0,True,0.0155,-0.7212
+all evidence correct,coast + hydro,2,4.6589,26280.0728,20922.0,True,0.3058,-3.7322
+all evidence correct,search + hydro,2,4.8433,23128.0427,18360.0,True,0.3634,-3.9171
+all evidence correct,arc + perf + drift,3,2.9244,87450.2833,78834.0,True,0.1749,-3.2704
+all evidence correct,arc + perf + coast,3,2.636,106808.0423,86820.0,True,0.1035,-2.6717
+all evidence correct,arc + perf + search,3,2.4771,119240.4866,114372.0,True,0.1363,-3.0607
+all evidence correct,arc + perf + hydro,3,6.5273,7197.6825,6099.0,True,0.8487,-5.5505
+all evidence correct,arc + drift + coast,3,2.969,84791.2082,86976.0,True,0.2144,-3.465
+all evidence correct,arc + drift + search,3,2.2931,135456.7337,125010.0,True,0.1335,-3.6801
+all evidence correct,arc + drift + hydro,3,6.5602,7035.1547,5961.0,True,0.8552,-5.567
+all evidence correct,arc + coast + search,3,2.3349,131589.9742,133440.0,True,0.1403,-3.0052
+all evidence correct,arc + coast + hydro,3,6.5259,7204.47,6105.0,True,0.8485,-5.5256
+all evidence correct,arc + search + hydro,3,6.5775,6951.7212,6531.0,True,0.8355,-6.6786
+all evidence correct,perf + drift + coast,3,1.4264,247015.3032,244521.0,True,0.0481,-1.8102
+all evidence correct,perf + drift + search,3,1.1719,294667.0027,253344.0,True,0.0399,-1.6211
+all evidence correct,perf + drift + hydro,3,4.7237,25126.6601,20325.0,True,0.3472,-3.9035
+all evidence correct,perf + coast + search,3,0.8923,357672.5704,276075.0,True,0.0209,-1.028
+all evidence correct,perf + coast + hydro,3,4.6604,26253.2635,20904.0,True,0.3066,-3.765
+all evidence correct,perf + search + hydro,3,4.8444,23109.5066,18351.0,True,0.3641,-3.9499
+all evidence correct,drift + coast + search,3,1.2121,286576.3047,291639.0,True,0.0493,-1.8248
+all evidence correct,drift + coast + hydro,3,4.7159,25262.146,20382.0,True,0.3424,-3.88
+all evidence correct,drift + search + hydro,3,4.8959,22299.1283,18096.0,True,0.4034,-4.0775
+all evidence correct,coast + search + hydro,3,4.8433,23126.7182,18360.0,True,0.3634,-3.9203
+all evidence correct,arc + perf + drift + coast,4,3.2934,67717.9362,70533.0,True,0.2431,-3.6043
+all evidence correct,arc + perf + drift + search,4,2.7125,101291.3762,92103.0,True,0.1827,-4.1366
+all evidence correct,arc + perf + drift + hydro,4,6.5617,7028.0244,5955.0,True,0.8555,-5.5933
+all evidence correct,arc + perf + coast + search,4,2.7828,96474.6407,91380.0,True,0.1602,-3.4152
+all evidence correct,arc + perf + coast + hydro,4,6.5275,7196.8472,6099.0,True,0.8488,-5.5529
+all evidence correct,arc + perf + search + hydro,4,6.5813,6933.3158,6513.0,True,0.8364,-6.7017
+all evidence correct,arc + drift + coast + search,4,2.6671,104525.0582,106479.0,True,0.2235,-4.3627
+all evidence correct,arc + drift + coast + hydro,4,6.5604,7034.3601,5961.0,True,0.8552,-5.5694
+all evidence correct,arc + drift + search + hydro,4,6.6291,6707.1372,6270.0,True,0.8466,-6.6909
+all evidence correct,arc + coast + search + hydro,4,6.5775,6951.6385,6531.0,True,0.8355,-6.6812
+all evidence correct,perf + drift + coast + search,4,1.5605,225090.7023,232035.0,True,0.0563,-1.9694
+all evidence correct,perf + drift + coast + hydro,4,4.7234,25131.4221,20325.0,True,0.3469,-3.9069
+all evidence correct,perf + drift + search + hydro,4,4.9049,22161.3242,18042.0,True,0.4092,-4.1034
+all evidence correct,perf + coast + search + hydro,4,4.8444,23109.5623,18351.0,True,0.364,-3.9531
+all evidence correct,drift + coast + search + hydro,4,4.8955,22305.8059,18099.0,True,0.403,-4.0811
+all evidence correct,arc + perf + drift + coast + search,5,3.0898,77977.6135,82233.0,True,0.2679,-4.5531
+all evidence correct,arc + perf + drift + coast + hydro,5,6.5619,7027.2298,5955.0,True,0.8555,-5.5957
+all evidence correct,arc + perf + drift + search + hydro,5,6.6325,6691.6879,6252.0,True,0.8473,-6.7133
+all evidence correct,arc + perf + coast + search + hydro,5,6.5813,6933.2261,6513.0,True,0.8364,-6.7043
+all evidence correct,arc + drift + coast + search + hydro,5,6.6292,6706.9945,6270.0,True,0.8466,-6.6935
+all evidence correct,perf + drift + coast + search + hydro,5,4.9044,22168.8492,18045.0,True,0.4088,-4.107
+all evidence correct,arc + perf + drift + coast + search + hydro,6,6.6325,6691.54,6252.0,True,0.8473,-6.716
+hydrophone direction wrong by 6 deg,(prior only),0,-0.0,663903.0,597513.0,True,0.0075,0.0
+hydrophone direction wrong by 6 deg,arc,1,1.867,182005.4888,144945.0,True,0.0453,-1.7941
+hydrophone direction wrong by 6 deg,perf,1,0.4516,485456.3568,401490.0,True,0.014,-0.6198
+hydrophone direction wrong by 6 deg,drift,1,0.7334,399336.1232,344526.0,True,0.0248,-1.1338
+hydrophone direction wrong by 6 deg,coast,1,0.3923,505849.8893,419850.0,True,0.0136,-0.5875
+hydrophone direction wrong by 6 deg,search,1,0.0868,625148.4035,547302.0,True,0.0082,-0.0878
+hydrophone direction wrong by 6 deg,hydro,1,4.6588,26282.8547,20922.0,False,0.3058,-3.7292
+hydrophone direction wrong by 6 deg,arc + perf,2,2.3186,133085.2874,108633.0,True,0.0812,-2.4139
+hydrophone direction wrong by 6 deg,arc + drift,2,2.6004,109475.8817,107016.0,True,0.1374,-2.9279
+hydrophone direction wrong by 6 deg,arc + coast,2,2.2593,138676.0662,124032.0,True,0.081,-2.3816
+hydrophone direction wrong by 6 deg,arc + search,2,2.0835,156637.7927,135216.0,True,0.0672,-2.1905
+hydrophone direction wrong by 6 deg,arc + hydro,2,6.5258,7205.3053,6105.0,False,0.8484,-5.5233
+hydrophone direction wrong by 6 deg,perf + drift,2,1.0574,318993.1568,264783.0,True,0.0346,-1.4763
+hydrophone direction wrong by 6 deg,perf + coast,2,0.769,389604.6221,309210.0,True,0.018,-0.8776
+hydrophone direction wrong by 6 deg,perf + search,2,0.5627,449498.7138,361095.0,True,0.016,-0.7507
+hydrophone direction wrong by 6 deg,perf + hydro,2,4.6627,26211.7892,20892.0,False,0.3101,-3.8956
+hydrophone direction wrong by 6 deg,drift + coast,2,1.102,309293.6253,302004.0,True,0.0422,-1.6709
+hydrophone direction wrong by 6 deg,drift + search,2,0.8142,377587.3021,346545.0,True,0.0282,-1.2634
+hydrophone direction wrong by 6 deg,drift + hydro,2,4.953,21434.6042,19203.0,False,0.4724,-5.2183
+hydrophone direction wrong by 6 deg,coast + search,2,0.4799,476026.4063,425244.0,True,0.0155,-0.7212
+hydrophone direction wrong by 6 deg,coast + hydro,2,4.6588,26282.5874,20922.0,False,0.3058,-3.7295
+hydrophone direction wrong by 6 deg,search + hydro,2,4.9803,21031.9198,16614.0,False,0.4097,-4.0482
+hydrophone direction wrong by 6 deg,arc + perf + drift,3,2.9244,87450.2833,78834.0,True,0.1749,-3.2704
+hydrophone direction wrong by 6 deg,arc + perf + coast,3,2.636,106808.0423,86820.0,True,0.1035,-2.6717
+hydrophone direction wrong by 6 deg,arc + perf + search,3,2.4771,119240.4866,114372.0,True,0.1363,-3.0607
+hydrophone direction wrong by 6 deg,arc + perf + hydro,3,6.5273,7197.6828,6099.0,False,0.8487,-5.6857
+hydrophone direction wrong by 6 deg,arc + drift + coast,3,2.969,84791.2082,86976.0,True,0.2144,-3.465
+hydrophone direction wrong by 6 deg,arc + drift + search,3,2.2931,135456.7337,125010.0,True,0.1335,-3.6801
+hydrophone direction wrong by 6 deg,arc + drift + hydro,3,6.5152,7258.3202,6150.0,False,0.8463,-7.2592
+hydrophone direction wrong by 6 deg,arc + coast + search,3,2.3349,131589.9742,133440.0,True,0.1403,-3.0052
+hydrophone direction wrong by 6 deg,arc + coast + hydro,3,6.5258,7205.224,6105.0,False,0.8484,-5.5235
+hydrophone direction wrong by 6 deg,arc + search + hydro,3,6.1552,9315.2942,8082.0,False,0.7603,-7.6442
+hydrophone direction wrong by 6 deg,perf + drift + coast,3,1.4264,247015.3032,244521.0,True,0.0481,-1.8102
+hydrophone direction wrong by 6 deg,perf + drift + search,3,1.1719,294667.0027,253344.0,True,0.0399,-1.6211
+hydrophone direction wrong by 6 deg,perf + drift + hydro,3,5.0013,20728.1586,18813.0,False,0.4887,-5.3431
+hydrophone direction wrong by 6 deg,perf + coast + search,3,0.8923,357672.5704,276075.0,True,0.0209,-1.028
+hydrophone direction wrong by 6 deg,perf + coast + hydro,3,4.6627,26211.8347,20892.0,False,0.3101,-3.8959
+hydrophone direction wrong by 6 deg,perf + search + hydro,3,4.9845,20971.4206,16602.0,False,0.4131,-4.216
+hydrophone direction wrong by 6 deg,drift + coast + search,3,1.2121,286576.3047,291639.0,True,0.0493,-1.8248
+hydrophone direction wrong by 6 deg,drift + coast + hydro,3,4.9528,21437.2655,19203.0,False,0.4723,-5.2188
+hydrophone direction wrong by 6 deg,drift + search + hydro,3,5.3688,16066.595,14490.0,False,0.6,-5.4618
+hydrophone direction wrong by 6 deg,coast + search + hydro,3,4.9803,21031.8668,16614.0,False,0.4097,-4.0485
+hydrophone direction wrong by 6 deg,arc + perf + drift + coast,4,3.2934,67717.9362,70533.0,True,0.2431,-3.6043
+hydrophone direction wrong by 6 deg,arc + perf + drift + search,4,2.7125,101291.3762,92103.0,True,0.1827,-4.1366
+hydrophone direction wrong by 6 deg,arc + perf + drift + hydro,4,6.5172,7248.4552,6141.0,False,0.8467,-7.4137
+hydrophone direction wrong by 6 deg,arc + perf + coast + search,4,2.7828,96474.6407,91380.0,True,0.1602,-3.4152
+hydrophone direction wrong by 6 deg,arc + perf + coast + hydro,4,6.5273,7197.601,6099.0,False,0.8487,-5.686
+hydrophone direction wrong by 6 deg,arc + perf + search + hydro,4,6.1571,9303.4795,8073.0,False,0.7608,-7.8069
+hydrophone direction wrong by 6 deg,arc + drift + coast + search,4,2.6671,104525.0582,106479.0,True,0.2235,-4.3627
+hydrophone direction wrong by 6 deg,arc + drift + coast + hydro,4,6.5152,7258.2353,6150.0,False,0.8463,-7.2594
+hydrophone direction wrong by 6 deg,arc + drift + search + hydro,4,6.1547,9318.9014,8067.0,False,0.7609,-9.3638
+hydrophone direction wrong by 6 deg,arc + coast + search + hydro,4,6.1552,9315.172,8082.0,False,0.7603,-7.6445
+hydrophone direction wrong by 6 deg,perf + drift + coast + search,4,1.5605,225090.7023,232035.0,True,0.0563,-1.9694
+hydrophone direction wrong by 6 deg,perf + drift + coast + hydro,4,5.0011,20730.873,18816.0,False,0.4887,-5.3436
+hydrophone direction wrong by 6 deg,perf + drift + search + hydro,4,5.4256,15447.1282,14103.0,False,0.6168,-5.5789
+hydrophone direction wrong by 6 deg,perf + coast + search + hydro,4,4.9845,20971.7393,16602.0,False,0.4131,-4.2163
+hydrophone direction wrong by 6 deg,drift + coast + search + hydro,4,5.3686,16068.9377,14493.0,False,0.5999,-5.4623
+hydrophone direction wrong by 6 deg,arc + perf + drift + coast + search,5,3.0898,77977.6135,82233.0,True,0.2679,-4.5531
+hydrophone direction wrong by 6 deg,arc + perf + drift + coast + hydro,5,6.5172,7248.3699,6141.0,False,0.8467,-7.414
+hydrophone direction wrong by 6 deg,arc + perf + drift + search + hydro,5,6.1589,9291.7123,8043.0,False,0.762,-9.5162
+hydrophone direction wrong by 6 deg,arc + perf + coast + search + hydro,5,6.1571,9303.3593,8073.0,False,0.7608,-7.8071
+hydrophone direction wrong by 6 deg,arc + drift + coast + search + hydro,5,6.1547,9318.814,8067.0,False,0.7609,-9.364
+hydrophone direction wrong by 6 deg,perf + drift + coast + search + hydro,5,5.4253,15449.4279,14103.0,False,0.6167,-5.5794
+hydrophone direction wrong by 6 deg,arc + perf + drift + coast + search + hydro,6,6.1589,9291.6281,8043.0,False,0.762,-9.5165
