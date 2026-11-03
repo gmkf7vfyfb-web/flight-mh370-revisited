@@ -78,5 +78,9 @@
 | P70 | Kadri package | “I would like to be able to send Kadri code plus data files (of the simulations) so he could run the tests using the raw data, that code would also need to be able to read those raw data files” | Hydroacoustic MH370 First-Principles Review (8b907e71, msg 82) |
 | P71 | Known-event match | “the detector should be able to reference known events to check any detection for an approximate match to those” | Hydroacoustic MH370 First-Principles Review (8b907e71, msg 82) |
 | P72 | Overview thread | “I'd like this thread to keep the overview for me.” | Hydroacoustic MH370 First-Principles Review (8b907e71, msg 82) |
+| P73 | Hydro method proposal (source grid) | “you can commit the proposal to the repository” | Hydroacoustics methodology review (d1ea5f58, msg 46) |
+| P74 | Hydro method proposal (source grid) | “Let's commence as per your proposal” | Hydroacoustics methodology review (d1ea5f58, msg 46) |
 
 *P56-P72 added 26 Oct 2026 by the hydroacoustics overview session (8b907e71). Each quote was checked by code as an exact substring of the cited message. P65 uses the letters of the list that was re-issued in session c764a583 before msg 802; that list replaces the earlier A-I list.*
+
+*P73-P74 added 3 Nov 2026 by session d1ea5f58. Each quote was checked by code as an exact substring of the cited message.*
