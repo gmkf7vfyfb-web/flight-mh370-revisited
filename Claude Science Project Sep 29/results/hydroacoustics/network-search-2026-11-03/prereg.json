@@ -1,0 +1,80 @@
+{
+ "title": "First network detection search on the 8 March 2014 data held - pre-registration",
+ "version": "ns-prereg-2026-11-03a",
+ "written_before": "any statistic in a predicted arrival window of 8 March 2014 is computed. Reader tests used only 'pre-registered background' IMOS records and whole-panel medians already in the data store.",
+ "source_grid": {
+  "arc_points": "43 points of the dense sound-model grid, 41.0-20.0 S every 0.5 deg, on the 7th-arc line (tl_dense_bands.csv, src_lat/src_lon). Cross-arc offsets are NOT sampled anywhere.",
+  "impact_time_utc": ["00:19:30", "00:45:00", 30],
+  "impact_time_basis": "Window starts at the 00:19:29 log-on. Alternate-configuration dives reach the sea about 00:20-00:22:20; normal-configuration glides can last to about 00:40. 00:45 gives margin.",
+  "log10_Ea_J": [1.0, 10.0, 0.05],
+  "Ea_prior": "log-uniform on 10^1-10^10 J (used only for the credible limit and the Bayes factor)",
+  "corner_hz": [5.0, 1.0, 0.2],
+  "spectrum_slope_n": 3.1,
+  "source_depth_m": 10,
+  "SEL_src": "170.8 + 10 log10(Ea / 1 J) dB re 1 uPa^2 s at 1 m",
+  "band_fraction": "integral of S(f) over the part of each third-octave band (edges fc*2^(+-1/6)) inside the station band, divided by fc*n/(n-1); S=1 below the corner, (f/fc)^-n above"
+ },
+ "timing": {
+  "rule": "Royer rule: onset = impact time + range_km / 1.480 km/s - 3.1 s; sd 8.6 s",
+  "why": "Calibrated on 143 hydrophone picks of 20 events on 7-8 Mar 2014 in the same ocean (median -3.1 s, sd 8.6 s; reproduced in reader test). The IDC rule (+10 s, sd 46 s) comes from earthquake T-phases with seismic legs; it does not apply to a water-borne source and would widen windows about five times. The IDC rule is used only for the earthquake association (section known_events).",
+  "range": "range_km of the RAM section (tl_dense_bands.csv)"
+ },
+ "window": {"window_s": 60.0, "start_rel_onset_s": -20.0, "end_rel_onset_s": 40.0,
+   "coverage_rule": "bins whose centre lies in the window are used; the window is OBSERVED if they cover >= 90 % of 60 s, else MISSING",
+   "note": "If the final pd_curves.json gives a different window_s, the real run uses window_s with the same -1/3 : +2/3 split around the onset."},
+ "statistic_T1": {
+  "R": "E_window / (W_eff * P_ref)",
+  "P_ref": "upper-5%-trimmed mean of bin power (energy/bin length) over bins in the SAME block (record or panel) with centre within 300 s of the window centre, excluding bins within 30 s of the window; at least 60 s of reference bins, else MISSING",
+  "SNR_obs_db": "10 log10(max(R - 1, 1e-3))",
+  "bands": {"IMOS loggers": [10, 40], "others": [5, 40]},
+  "why_IMOS_10_40": "8 Hz hardware high-pass on the IMOS loggers"
+ },
+ "stations_primary": {
+  "H01W": {"data": "Kadri 2024 Fig. 9 trace 00:27-00:57; Royer 2016 H01W2 appendix spectrogram elsewhere in 00:01-02:03 (never both)", "noise_level_db": 104.28},
+  "H08S": {"data": "Kadri 2024 Fig. 9 trace 01:00-01:20", "noise_level_db": 100.43},
+  "SSEIR": {"data": "Royer appendix spectrogram 00:00-01:54", "noise_level_db": 104.62},
+  "SWAMS3": {"data": "Royer appendix spectrogram 00:00-02:03", "noise_level_db": 104.09},
+  "IMOS3315": {"data": "raw, 307 s per 15 min", "noise_level_db": 96.7},
+  "IMOS3376": {"data": "raw, 307 s per 15 min", "noise_level_db": 95.1},
+  "IMOS3250": {"data": "raw, 307 s per 15 min", "noise_level_db": 97.6},
+  "IMOS3274": {"data": "raw, 307 s per 15 min", "noise_level_db": 99.1},
+  "IMOS3275": {"data": "raw, 307 s per 15 min", "noise_level_db": 93.5}
+ },
+ "stations_excluded": {"SWAMS1": "no recording or panel held", "SWAMS2, MAD, NCRO, WKER": "only 3-min Royer event panels; no noise level held", "H08N": "blocked from every arc point (Pete ruling)"},
+ "noise_note": "noise_level_db is the level in the station band, dB re 1 uPa (median-based values from the data store). Noise energy in the window = noise_level_db + 10 log10(window_s). Replaced by pd_curves.json noise_level_db in the real run.",
+ "provisional_inputs": {"level_correction": "bias 0 dB, slope 0, sd 6 dB for every class", "pd_curves": "snr50 = 10 dB, sigma = 3 dB, threshold_snr_db = 10 dB (1/day) for every station; 1/hour row not run in dry mode", "label": "PROVISIONAL - every output of the dry run carries this label"},
+ "prediction": {
+  "SNR_pred_db": "10 log10(sum over bands of Ea-received band energy, with bias_db + slope_db_per_oct*log2(fc_band/10) added per band) - (noise_level_db + 10 log10(window_s))",
+  "P_D": "Phi((SNR_pred - snr50) / sqrt(sigma^2 + sd_db^2))",
+  "p_fa_per_window": "window_s / 86400 (1/day); window_s / 3600 (1/hour)",
+  "P_detect": "p_fa + (1 - p_fa) * P_D",
+  "land_paths": "MISSING (no section)",
+  "path_class_dense": "the class of the nearest sparse arc point (20, 25, 30, 35, 40 S) for the same station, unless the lead supplies a class for each dense path"
+ },
+ "network_likelihood": {
+  "binary_primary": "log LR(E) = sum over OBSERVED stations of D*log(P_detect/p_fa) + (1-D)*log((1-P_detect)/(1-p_fa)); D = 1 if SNR_obs >= threshold_snr_db",
+  "graded_secondary": "log LR(E) = sum log[ integral g0(R - 10^(u/10)) N(u; SNR_pred_nobias_sd, sd_db) du / g0(R) ]; g0 = Gaussian KDE (Scott) of ln R over all window positions of that station's own coverage at 30-s steps, mixed with weight 1/(n+1) log-uniform on R in [0.05, 1e4]",
+  "missing": "a MISSING station contributes factor 1 (no evidence). Missing is never a non-detection.",
+  "cell_statistic": "S(cell) = max over the Ea grid of log LR (>= 0); also Bayes factor = prior mean of LR",
+  "best_cell": "S_best = max over 43 points x 52 times x 3 corners",
+  "independence": "stations are combined as independent. Co-located loggers (Perth Canyon 3315/3376, Portland 3274/3275) are NOT independent: stated as a caveat; the time-slide null shifts each pair together so the null carries the same dependence."
+ },
+ "upper_limits": {
+  "exclusion90": "smallest Ea with product over OBSERVED non-detecting stations of (1 - P_D) <= 0.10; detecting stations left out; '>1e10' if none",
+  "credible90": "Ea where the posterior CDF (binary likelihood x log-uniform prior 10^1-10^10 J) reaches 0.90; prior-dependent, stated",
+  "graded_credible90": "same with the graded likelihood (sensitivity)"
+ },
+ "nulls": {
+  "A_time_slide_primary": {"n": 500, "seed": 20261103, "groups": {"G1": ["H01W"], "G2": ["H08S"], "G3": ["SSEIR"], "G4": ["SWAMS3"], "G5": ["IMOS3315", "IMOS3376"], "G6": ["IMOS3250"], "G7": ["IMOS3274", "IMOS3275"]},
+     "offsets": "independent per group. Digitised series: multiples of 30 s, |offset| >= 300 s, cyclic within the station's own data span. IMOS: multiples of 900 s (keeps the duty-cycle pattern), |offset| >= 3600 s, cyclic within the event-day dataset span. A window that crosses the wrap point is MISSING.",
+     "why": "a coherent arrival pattern from one cell cannot survive independent offsets >= 5 min (>> 8.6 s timing sd); single-station transients stay in the null (they are part of H0)",
+     "p": "empirical p of S_best = (1 + #null S_best >= observed) / (1 + n); per-cell local p from the null S of the same cell"},
+  "B_common_shift_IMOS": {"offsets": "all IMOS loggers shifted together by multiples of 900 s, |offset| >= 3 h, into the 8 Mar day and the 14-day background (3376, 3274, 3250); a logger with no data at the shifted time is MISSING", "statistic": "S_best over the IMOS-only network, compared with the observed IMOS-only S_best", "why": "offsets that cannot contain the event at all (strict version of the null)"}
+ },
+ "known_events": {
+  "catalogue": ["Royer 2016 picks (dg_royer_2016_royer_arrivals) and predicted arrivals of his 20 events (royer_event_labelled), sd 8.6 s", "known_event table: pred_T_H01W / pred_T_H08S (IDC rule, sd 46 s)", "Diego Garcia South airgun shots (h08s_airgun_shots)", "Kadri 2024 Table 1 transients at Cape Leeuwin", "CMST 2014 Fig. 5 / Fig. 7 detections and the 01:34:50 Cape Leeuwin event", "Kadri 2019 Table 3 signals at Diego Garcia South"],
+  "match": "for each station window of a listed cell: every catalogue time within the window +- 3 sd; match likelihood exp(-0.5 (dt/sd)^2), dt = 0 inside the window; chance-match rate = fraction of null-A windows of that station with a match",
+  "rule": "Royer's events B, C1-C4, D1, D2 and 'uncertain' events, the CMST 01:34:50 event and Kadri's transients are candidates, never explanations. An association is a label with a probability, never an exclusion."
+ },
+ "outputs": ["per cell: Ea exclusion90 / credible90 per corner", "best cells with empirical p and known-event matches", "candidate list with no threshold (empirical p as a label)", "per-station window list SNR_obs >= 3 dB with station empirical p", "charts: upper-limit map (arc latitude x impact time, per corner); null distribution with observed best value"]
+}

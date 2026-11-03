@@ -1,0 +1,42 @@
+{
+ "version": "level-correction-2026-11-03-tl-chain-2026-10-27-L1-provisional",
+ "definition": "corrected predicted band level = model level + bias_db + slope_db_per_oct*log2(fc_hz/10); predictive sd = sd_db",
+ "classes": {
+  "clear deep path": {
+   "bias_db": -12.76,
+   "slope_db_per_oct": 5.06,
+   "sd_db": 8.67,
+   "n_sources": 7,
+   "n_bands": 41
+  },
+  "ridge near the channel axis": {
+   "bias_db": 0.15,
+   "slope_db_per_oct": 2.2,
+   "sd_db": 8.44,
+   "n_sources": 6,
+   "n_bands": 56
+  },
+  "ridge above the channel axis": {
+   "bias_db": 0.88,
+   "slope_db_per_oct": 8.23,
+   "sd_db": 6.21,
+   "n_sources": 9,
+   "n_bands": 178
+  },
+  "blocked": {
+   "bias_db": -5.76,
+   "slope_db_per_oct": 8.01,
+   "sd_db": 5.93,
+   "n_sources": 0,
+   "n_bands": 0
+  }
+ },
+ "global": {
+  "bias_db": -5.76,
+  "slope_db_per_oct": 8.01,
+  "sd_db": 5.93,
+  "n_sources": 24,
+  "n_bands": 275
+ },
+ "notes": "PROVISIONAL. HELD-OUT TEST FAILED (prereg bba2e3a7 v a8543449): pooled held-out z mean 0.82, sd 1.59, 90 % interval coverage 46 % (275 bands, 5-40 Hz); CRPS corrected 10.38 vs uncorrected 7.26 (lower in 1 of 6 hold-out units). Do not use the class biases as a point correction for the 7th-arc grid without Pete's ruling. Royer 2016 station differences are NOT included (Royer TL table not received). Fit: GLS with REML variance terms on the frozen chain tl-chain-2026-10-27, L1 seabed. Path offset tau 4.5 dB (same for all bands of one path) and band term 2.75 dB; sd_db = sqrt(tau^2 + band^2 + bias variance at 10 Hz). sd_db excludes the TL table band sd and the 1.2 dB reciprocity term; add those per band. For a 5-40 Hz band-summed level, the path offset (tau) does not average down; the band term does. Class values: 'blocked' has no data and carries the global values. 'clear deep path' 10 Hz bias is extrapolated from SUS bands 16-40 Hz (bias se 6.9 dB). 'ridge above the channel axis' is Atlantic only (Ascension H10, ship shock trials and San Juan charge); its +8.2 dB/oct slope is the known L1 sediment slope error of those paths and did not transfer to Indian Ocean SUS paths. No class is testable out-of-source: after its own family is held out, clear deep path and ridge near the axis keep 2 source events each, ridge above the axis keeps 1. POST HOC option (not pre-registered): bias 0, slope 0, extra per-path sd 12.6 dB gives held-out z sd 1.0 (coverage 90%) over the 207 held-out rows with known source or station differences."
+}

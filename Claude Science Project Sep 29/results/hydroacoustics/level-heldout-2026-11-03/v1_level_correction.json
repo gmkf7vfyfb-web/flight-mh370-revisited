@@ -1,0 +1,90 @@
+{
+ "version": "level-correction-2026-11-03-v2-indian-ocean-posthoc-inflated",
+ "definition": "corrected predicted band level = model level + bias_db + slope_db_per_oct*log2(fc_hz/10); predictive sd = sd_db",
+ "classes": {
+  "clear deep path": {
+   "bias_db": -14.01,
+   "slope_db_per_oct": 4.98,
+   "sd_db": 22.06,
+   "n_sources": 8,
+   "n_bands": 43
+  },
+  "ridge near the channel axis": {
+   "bias_db": -1.42,
+   "slope_db_per_oct": 2.26,
+   "sd_db": 21.58,
+   "n_sources": 6,
+   "n_bands": 48
+  },
+  "ridge above the channel axis": {
+   "bias_db": -8.49,
+   "slope_db_per_oct": 3.51,
+   "sd_db": 21.19,
+   "n_sources": 1,
+   "n_bands": 1
+  },
+  "blocked": {
+   "bias_db": -8.49,
+   "slope_db_per_oct": 3.51,
+   "sd_db": 21.19,
+   "n_sources": 0,
+   "n_bands": 0
+  }
+ },
+ "global": {
+  "bias_db": -8.49,
+  "slope_db_per_oct": 3.51,
+  "sd_db": 21.19,
+  "n_sources": 15,
+  "n_bands": 91
+ },
+ "alternatives": {
+  "zero_bias_wide": {
+   "bias_db": 0.0,
+   "slope_db_per_oct": 0.0,
+   "sd_db": 12.58,
+   "basis": "POST HOC: extra per-path sd that makes the all-ocean held-out z sd 1.0 (Royer A1 set included), 212 rows, coverage 91 %"
+  },
+  "all_ocean_class_fit": {
+   "status": "FAILED pre-registered held-out test (v1: mean z 0.82, sd z 1.59, coverage 46 %; CRPS worse than uncorrected)",
+   "classes": {
+    "clear deep path": {
+     "bias_db": -12.76,
+     "slope_db_per_oct": 5.06,
+     "sd_db": 8.67,
+     "n_sources": 7,
+     "n_bands": 41
+    },
+    "ridge near the channel axis": {
+     "bias_db": 0.15,
+     "slope_db_per_oct": 2.2,
+     "sd_db": 8.44,
+     "n_sources": 6,
+     "n_bands": 56
+    },
+    "ridge above the channel axis": {
+     "bias_db": 0.88,
+     "slope_db_per_oct": 8.23,
+     "sd_db": 6.21,
+     "n_sources": 9,
+     "n_bands": 178
+    },
+    "blocked": {
+     "bias_db": -5.76,
+     "slope_db_per_oct": 8.01,
+     "sd_db": 5.93,
+     "n_sources": 0,
+     "n_bands": 0
+    }
+   },
+   "global": {
+    "bias_db": -5.76,
+    "slope_db_per_oct": 8.01,
+    "sd_db": 5.93,
+    "n_sources": 24,
+    "n_bands": 275
+   }
+  }
+ },
+ "notes": "PRIMARY = Indian Ocean fit, chosen POST HOC by the lead after the pre-registered all-ocean test failed. Sources: Blackman 2003 SUS route B (only absolute anchor), Blackman 2001 airgun Fig. 23 shapes (level free per site), Royer 2016 station differences restricted to stations where Royer reports an arrival (POST HOC set A2: event A MAD-SWAMS3, event 10 SWAMS3-Cape Leeuwin). Atlantic and Pacific excluded; F-35A kept as a check (mean z -0.13, all 8 bands inside 90 %). Frozen chain tl-chain-2026-10-27, L1 seabed. REML: path offset tau 7.25 dB, band term 3.25 dB. Own class values where >= 3 Indian Ocean source events (clear deep path 8, ridge near the axis 6); ridge above the axis (1) and blocked (0) carry the global values. sd_db = 1.98 x sqrt(tau^2 + band^2 + bias variance at 10 Hz). Factor 1.98 is the smallest that gives held-out 90 % coverage >= 80 % (80.2 %, 91 bands; then mean z -0.09, sd z 1.22). Before inflation: mean z -0.11, sd z 1.59, coverage 73 %. The 10 Hz bias is extrapolated: SUS data lie at 16-40 Hz. At 25 Hz the un-inflated sd is clear deep path 10.0 dB, ridge near the channel axis 10.1 dB, ridge above the channel axis 9.9 dB, blocked 9.9 dB, global 9.9 dB (multiply by 1.98). The inflation is driven by airgun rows (air7 to Cape Leeuwin over-blocked by about 20 dB); SUS rows are over-covered. tau is common to all bands of one path and does not average down in a 5-40 Hz band sum. sd_db excludes the TL table band sd and the 1.2 dB reciprocity term. UNCHECKED."
+}

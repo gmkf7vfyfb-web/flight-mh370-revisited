@@ -1,0 +1,3233 @@
+[
+ {
+  "rank": 1,
+  "arc_lat": -39.5,
+  "impact_utc": "00:44:30.0",
+  "corner_hz": 1.0,
+  "S_graded": 7.003710104307566,
+  "log10E_at_max": 9.5,
+  "global_p_graded": 0.3333333333333333,
+  "local_p_graded": 0.001996007984031936,
+  "stations": [
+   {
+    "station": "H01W",
+    "status": "observed",
+    "data_form": "Royer spectrogram",
+    "path_class": "clear deep path",
+    "window_utc": "01:13:28.9",
+    "window_end_utc": "01:13:58.9",
+    "T1_db": 5.602523870711302,
+    "snr_pred_db_at_best_E": -4.970151673541309,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4392.04,
+      "dt_s": 16.898222443176564,
+      "match_likelihood": 0.1450850957594169
+     },
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4392.04,
+      "dt_s": 16.898222443176564,
+      "match_likelihood": 0.1450850957594169
+     },
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4390.05,
+      "dt_s": 18.888222443176346,
+      "match_likelihood": 0.08964680803473425
+     },
+     {
+      "source": "Royer 2016 event 6 (uncertain) predicted arrival",
+      "t_s": 4383.3,
+      "dt_s": 25.638222443176346,
+      "match_likelihood": 0.01183078352793986
+     },
+     {
+      "source": "catalogued earthquake EV081 Talaud Islands mb 3.37 (blocked: crosses land) (IDC rule)",
+      "t_s": 4415.0,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 0.5378151260504201,
+    "graded_log_lr": 7.354365828695589,
+    "station_p": 0.0055248618784530384
+   },
+   {
+    "station": "H08S",
+    "status": "no data in window (missing)",
+    "window_utc": "01:26:35.5"
+   },
+   {
+    "station": "IMOS3315",
+    "status": "observed",
+    "data_form": "IMOS3315",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:15:47.1",
+    "window_end_utc": "01:16:17.1",
+    "T1_db": 1.202647381025099,
+    "snr_pred_db_at_best_E": -15.186668652683267,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 event 6 (uncertain) predicted arrival",
+      "t_s": 4598.3,
+      "dt_s": 21.223991170244517,
+      "match_likelihood": 0.047801726380058175
+     }
+    ],
+    "chance_match_rate": 0.017034068136272545,
+    "graded_log_lr": 0.02064577281123291,
+    "station_p": 0.26426426426426425
+   },
+   {
+    "station": "IMOS3376",
+    "status": "no data in window (missing)",
+    "window_utc": "01:15:48.6"
+   },
+   {
+    "station": "IMOS3250",
+    "status": "land path (missing)"
+   },
+   {
+    "station": "IMOS3274",
+    "status": "no data in window (missing)",
+    "window_utc": "01:37:52.7"
+   },
+   {
+    "station": "IMOS3275",
+    "status": "observed",
+    "data_form": "IMOS3275",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:37:51.4",
+    "window_end_utc": "01:38:21.4",
+    "T1_db": -0.19832376931963422,
+    "snr_pred_db_at_best_E": -12.54260031815707,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [],
+    "chance_match_rate": 0.024033437826541274,
+    "graded_log_lr": -0.37130149719925587,
+    "station_p": 0.5876826722338204
+   }
+  ],
+  "run": "primary: zero bias, wide spread (sd 12.58 dB); stations: level data only (Cape Leeuwin, Diego Garcia South, 5 IMOS loggers)"
+ },
+ {
+  "rank": 2,
+  "arc_lat": -40.5,
+  "impact_utc": "00:42:00.0",
+  "corner_hz": 5.0,
+  "S_graded": 6.89682641745135,
+  "log10E_at_max": 8.15,
+  "global_p_graded": 0.33532934131736525,
+  "local_p_graded": 0.001996007984031936,
+  "stations": [
+   {
+    "station": "H01W",
+    "status": "observed",
+    "data_form": "Royer spectrogram",
+    "path_class": "clear deep path",
+    "window_utc": "01:13:06.2",
+    "window_end_utc": "01:13:36.2",
+    "T1_db": 5.69460939364451,
+    "snr_pred_db_at_best_E": -5.1583549785848675,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4392.04,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4392.04,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4390.05,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Royer 2016 event 6 (uncertain) predicted arrival",
+      "t_s": 4383.3,
+      "dt_s": 2.9438670151776023,
+      "match_likelihood": 0.94317836167804
+     },
+     {
+      "source": "catalogued earthquake EV081 Talaud Islands mb 3.37 (blocked: crosses land) (IDC rule)",
+      "t_s": 4415.0,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 0.5378151260504201,
+    "graded_log_lr": 7.522837428036307,
+    "station_p": 0.0055248618784530384
+   },
+   {
+    "station": "H08S",
+    "status": "no data in window (missing)",
+    "window_utc": "01:24:30.2"
+   },
+   {
+    "station": "IMOS3315",
+    "status": "observed",
+    "data_form": "IMOS3315",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:15:30.7",
+    "window_end_utc": "01:16:00.7",
+    "T1_db": 0.4781984137873261,
+    "snr_pred_db_at_best_E": -17.300515520016717,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [],
+    "chance_match_rate": 0.017034068136272545,
+    "graded_log_lr": -0.06929198605567508,
+    "station_p": 0.3683683683683684
+   },
+   {
+    "station": "IMOS3376",
+    "status": "no data in window (missing)",
+    "window_utc": "01:15:32.3"
+   },
+   {
+    "station": "IMOS3250",
+    "status": "land path (missing)"
+   },
+   {
+    "station": "IMOS3274",
+    "status": "no data in window (missing)",
+    "window_utc": "01:36:59.0"
+   },
+   {
+    "station": "IMOS3275",
+    "status": "observed",
+    "data_form": "IMOS3275",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:36:57.6",
+    "window_end_utc": "01:37:27.6",
+    "T1_db": -0.3776641964837728,
+    "snr_pred_db_at_best_E": -10.22161912043525,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [],
+    "chance_match_rate": 0.024033437826541274,
+    "graded_log_lr": -0.556719024529282,
+    "station_p": 0.6722338204592901
+   }
+  ],
+  "run": "primary: zero bias, wide spread (sd 12.58 dB); stations: level data only (Cape Leeuwin, Diego Garcia South, 5 IMOS loggers)"
+ },
+ {
+  "rank": 3,
+  "arc_lat": -41.0,
+  "impact_utc": "00:41:00.0",
+  "corner_hz": 5.0,
+  "S_graded": 6.80735560495781,
+  "log10E_at_max": 8.75,
+  "global_p_graded": 0.3373253493013972,
+  "local_p_graded": 0.001996007984031936,
+  "stations": [
+   {
+    "station": "H01W",
+    "status": "observed",
+    "data_form": "Royer spectrogram",
+    "path_class": "clear deep path",
+    "window_utc": "01:13:16.2",
+    "window_end_utc": "01:13:46.2",
+    "T1_db": 6.215409184562687,
+    "snr_pred_db_at_best_E": 1.7919195446168885,
+    "detected_1day": false,
+    "detected_1hour": true,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4392.04,
+      "dt_s": 4.114384232426346,
+      "match_likelihood": 0.8918642862040074
+     },
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4392.04,
+      "dt_s": 4.114384232426346,
+      "match_likelihood": 0.8918642862040074
+     },
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4390.05,
+      "dt_s": 6.104384232426128,
+      "match_likelihood": 0.7773095451948301
+     },
+     {
+      "source": "Royer 2016 event 6 (uncertain) predicted arrival",
+      "t_s": 4383.3,
+      "dt_s": 12.854384232426128,
+      "match_likelihood": 0.32779217784562076
+     },
+     {
+      "source": "catalogued earthquake EV081 Talaud Islands mb 3.37 (blocked: crosses land) (IDC rule)",
+      "t_s": 4415.0,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 0.5378151260504201,
+    "graded_log_lr": 7.765082810056684,
+    "station_p": 0.0055248618784530384
+   },
+   {
+    "station": "H08S",
+    "status": "no data in window (missing)",
+    "window_utc": "01:23:44.7"
+   },
+   {
+    "station": "IMOS3315",
+    "status": "observed",
+    "data_form": "IMOS3315",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:15:43.5",
+    "window_end_utc": "01:16:13.5",
+    "T1_db": 1.0863389218328483,
+    "snr_pred_db_at_best_E": -11.32218080978356,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 event 6 (uncertain) predicted arrival",
+      "t_s": 4598.3,
+      "dt_s": 24.756750544062925,
+      "match_likelihood": 0.015967604182630966
+     }
+    ],
+    "chance_match_rate": 0.017034068136272545,
+    "graded_log_lr": -0.003046461552521837,
+    "station_p": 0.27427427427427425
+   },
+   {
+    "station": "IMOS3376",
+    "status": "no data in window (missing)",
+    "window_utc": "01:15:45.1"
+   },
+   {
+    "station": "IMOS3250",
+    "status": "land path (missing)"
+   },
+   {
+    "station": "IMOS3274",
+    "status": "no data in window (missing)",
+    "window_utc": "01:36:52.9"
+   },
+   {
+    "station": "IMOS3275",
+    "status": "observed",
+    "data_form": "IMOS3275",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:36:51.5",
+    "window_end_utc": "01:37:21.5",
+    "T1_db": -0.51688684607615,
+    "snr_pred_db_at_best_E": -4.86383168976009,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [],
+    "chance_match_rate": 0.024033437826541274,
+    "graded_log_lr": -0.9546807435463519,
+    "station_p": 0.7286012526096033
+   }
+  ],
+  "run": "primary: zero bias, wide spread (sd 12.58 dB); stations: level data only (Cape Leeuwin, Diego Garcia South, 5 IMOS loggers)"
+ },
+ {
+  "rank": 4,
+  "arc_lat": -40.5,
+  "impact_utc": "00:42:00.0",
+  "corner_hz": 0.2,
+  "S_graded": 6.6965050272469,
+  "log10E_at_max": 9.85,
+  "global_p_graded": 0.34331337325349304,
+  "local_p_graded": 0.001996007984031936,
+  "stations": [
+   {
+    "station": "H01W",
+    "status": "observed",
+    "data_form": "Royer spectrogram",
+    "path_class": "clear deep path",
+    "window_utc": "01:13:06.2",
+    "window_end_utc": "01:13:36.2",
+    "T1_db": 5.69460939364451,
+    "snr_pred_db_at_best_E": -17.515095160706124,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4392.04,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4392.04,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4390.05,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Royer 2016 event 6 (uncertain) predicted arrival",
+      "t_s": 4383.3,
+      "dt_s": 2.9438670151776023,
+      "match_likelihood": 0.94317836167804
+     },
+     {
+      "source": "catalogued earthquake EV081 Talaud Islands mb 3.37 (blocked: crosses land) (IDC rule)",
+      "t_s": 4415.0,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 0.5378151260504201,
+    "graded_log_lr": 6.8289961120868705,
+    "station_p": 0.0055248618784530384
+   },
+   {
+    "station": "H08S",
+    "status": "no data in window (missing)",
+    "window_utc": "01:24:30.2"
+   },
+   {
+    "station": "IMOS3315",
+    "status": "observed",
+    "data_form": "IMOS3315",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:15:30.7",
+    "window_end_utc": "01:16:00.7",
+    "T1_db": 0.4781984137873261,
+    "snr_pred_db_at_best_E": -29.6572557021303,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [],
+    "chance_match_rate": 0.017034068136272545,
+    "graded_log_lr": 0.005758522345764517,
+    "station_p": 0.3683683683683684
+   },
+   {
+    "station": "IMOS3376",
+    "status": "no data in window (missing)",
+    "window_utc": "01:15:32.3"
+   },
+   {
+    "station": "IMOS3250",
+    "status": "land path (missing)"
+   },
+   {
+    "station": "IMOS3274",
+    "status": "no data in window (missing)",
+    "window_utc": "01:36:59.0"
+   },
+   {
+    "station": "IMOS3275",
+    "status": "observed",
+    "data_form": "IMOS3275",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:36:57.6",
+    "window_end_utc": "01:37:27.6",
+    "T1_db": -0.3776641964837728,
+    "snr_pred_db_at_best_E": -22.578359302551803,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [],
+    "chance_match_rate": 0.024033437826541274,
+    "graded_log_lr": -0.1382496071857349,
+    "station_p": 0.6722338204592901
+   }
+  ],
+  "run": "primary: zero bias, wide spread (sd 12.58 dB); stations: level data only (Cape Leeuwin, Diego Garcia South, 5 IMOS loggers)"
+ },
+ {
+  "rank": 5,
+  "arc_lat": -39.5,
+  "impact_utc": "00:44:30.0",
+  "corner_hz": 5.0,
+  "S_graded": 6.646492228991565,
+  "log10E_at_max": 8.0,
+  "global_p_graded": 0.34530938123752497,
+  "local_p_graded": 0.001996007984031936,
+  "stations": [
+   {
+    "station": "H01W",
+    "status": "observed",
+    "data_form": "Royer spectrogram",
+    "path_class": "clear deep path",
+    "window_utc": "01:13:28.9",
+    "window_end_utc": "01:13:58.9",
+    "T1_db": 5.602523870711302,
+    "snr_pred_db_at_best_E": -5.291781582484518,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4392.04,
+      "dt_s": 16.898222443176564,
+      "match_likelihood": 0.1450850957594169
+     },
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4392.04,
+      "dt_s": 16.898222443176564,
+      "match_likelihood": 0.1450850957594169
+     },
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4390.05,
+      "dt_s": 18.888222443176346,
+      "match_likelihood": 0.08964680803473425
+     },
+     {
+      "source": "Royer 2016 event 6 (uncertain) predicted arrival",
+      "t_s": 4383.3,
+      "dt_s": 25.638222443176346,
+      "match_likelihood": 0.01183078352793986
+     },
+     {
+      "source": "catalogued earthquake EV081 Talaud Islands mb 3.37 (blocked: crosses land) (IDC rule)",
+      "t_s": 4415.0,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 0.5378151260504201,
+    "graded_log_lr": 6.995353689877906,
+    "station_p": 0.0055248618784530384
+   },
+   {
+    "station": "H08S",
+    "status": "no data in window (missing)",
+    "window_utc": "01:26:35.5"
+   },
+   {
+    "station": "IMOS3315",
+    "status": "observed",
+    "data_form": "IMOS3315",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:15:47.1",
+    "window_end_utc": "01:16:17.1",
+    "T1_db": 1.202647381025099,
+    "snr_pred_db_at_best_E": -15.508298561625708,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 event 6 (uncertain) predicted arrival",
+      "t_s": 4598.3,
+      "dt_s": 21.223991170244517,
+      "match_likelihood": 0.047801726380058175
+     }
+    ],
+    "chance_match_rate": 0.017034068136272545,
+    "graded_log_lr": 0.01490705386529846,
+    "station_p": 0.26426426426426425
+   },
+   {
+    "station": "IMOS3376",
+    "status": "no data in window (missing)",
+    "window_utc": "01:15:48.6"
+   },
+   {
+    "station": "IMOS3250",
+    "status": "land path (missing)"
+   },
+   {
+    "station": "IMOS3274",
+    "status": "no data in window (missing)",
+    "window_utc": "01:37:52.7"
+   },
+   {
+    "station": "IMOS3275",
+    "status": "observed",
+    "data_form": "IMOS3275",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:37:51.4",
+    "window_end_utc": "01:38:21.4",
+    "T1_db": -0.19832376931963422,
+    "snr_pred_db_at_best_E": -12.864230227099398,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [],
+    "chance_match_rate": 0.024033437826541274,
+    "graded_log_lr": -0.36376851475163985,
+    "station_p": 0.5876826722338204
+   }
+  ],
+  "run": "primary: zero bias, wide spread (sd 12.58 dB); stations: level data only (Cape Leeuwin, Diego Garcia South, 5 IMOS loggers)"
+ },
+ {
+  "rank": 6,
+  "arc_lat": -41.0,
+  "impact_utc": "00:41:00.0",
+  "corner_hz": 1.0,
+  "S_graded": 6.5547205296055395,
+  "log10E_at_max": 9.6,
+  "global_p_graded": 0.3473053892215569,
+  "local_p_graded": 0.001996007984031936,
+  "stations": [
+   {
+    "station": "H01W",
+    "status": "observed",
+    "data_form": "Royer spectrogram",
+    "path_class": "clear deep path",
+    "window_utc": "01:13:16.2",
+    "window_end_utc": "01:13:46.2",
+    "T1_db": 6.215409184562687,
+    "snr_pred_db_at_best_E": -4.386450546439818,
+    "detected_1day": false,
+    "detected_1hour": true,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4392.04,
+      "dt_s": 4.114384232426346,
+      "match_likelihood": 0.8918642862040074
+     },
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4392.04,
+      "dt_s": 4.114384232426346,
+      "match_likelihood": 0.8918642862040074
+     },
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4390.05,
+      "dt_s": 6.104384232426128,
+      "match_likelihood": 0.7773095451948301
+     },
+     {
+      "source": "Royer 2016 event 6 (uncertain) predicted arrival",
+      "t_s": 4383.3,
+      "dt_s": 12.854384232426128,
+      "match_likelihood": 0.32779217784562076
+     },
+     {
+      "source": "catalogued earthquake EV081 Talaud Islands mb 3.37 (blocked: crosses land) (IDC rule)",
+      "t_s": 4415.0,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 0.5378151260504201,
+    "graded_log_lr": 7.073661901939573,
+    "station_p": 0.0055248618784530384
+   },
+   {
+    "station": "H08S",
+    "status": "no data in window (missing)",
+    "window_utc": "01:23:44.7"
+   },
+   {
+    "station": "IMOS3315",
+    "status": "observed",
+    "data_form": "IMOS3315",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:15:43.5",
+    "window_end_utc": "01:16:13.5",
+    "T1_db": 1.0863389218328483,
+    "snr_pred_db_at_best_E": -17.50055090084126,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 event 6 (uncertain) predicted arrival",
+      "t_s": 4598.3,
+      "dt_s": 24.756750544062925,
+      "match_likelihood": 0.015967604182630966
+     }
+    ],
+    "chance_match_rate": 0.017034068136272545,
+    "graded_log_lr": 0.04284929821018421,
+    "station_p": 0.27427427427427425
+   },
+   {
+    "station": "IMOS3376",
+    "status": "no data in window (missing)",
+    "window_utc": "01:15:45.1"
+   },
+   {
+    "station": "IMOS3250",
+    "status": "land path (missing)"
+   },
+   {
+    "station": "IMOS3274",
+    "status": "no data in window (missing)",
+    "window_utc": "01:36:52.9"
+   },
+   {
+    "station": "IMOS3275",
+    "status": "observed",
+    "data_form": "IMOS3275",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:36:51.5",
+    "window_end_utc": "01:37:21.5",
+    "T1_db": -0.51688684607615,
+    "snr_pred_db_at_best_E": -11.042201780817322,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [],
+    "chance_match_rate": 0.024033437826541274,
+    "graded_log_lr": -0.5617906705442173,
+    "station_p": 0.7286012526096033
+   }
+  ],
+  "run": "primary: zero bias, wide spread (sd 12.58 dB); stations: level data only (Cape Leeuwin, Diego Garcia South, 5 IMOS loggers)"
+ },
+ {
+  "rank": 7,
+  "arc_lat": -40.5,
+  "impact_utc": "00:42:00.0",
+  "corner_hz": 1.0,
+  "S_graded": 6.3000917679341715,
+  "log10E_at_max": 9.0,
+  "global_p_graded": 0.3592814371257485,
+  "local_p_graded": 0.001996007984031936,
+  "stations": [
+   {
+    "station": "H01W",
+    "status": "observed",
+    "data_form": "Royer spectrogram",
+    "path_class": "clear deep path",
+    "window_utc": "01:13:06.2",
+    "window_end_utc": "01:13:36.2",
+    "T1_db": 5.69460939364451,
+    "snr_pred_db_at_best_E": -11.336725069641886,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4392.04,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4392.04,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4390.05,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Royer 2016 event 6 (uncertain) predicted arrival",
+      "t_s": 4383.3,
+      "dt_s": 2.9438670151776023,
+      "match_likelihood": 0.94317836167804
+     },
+     {
+      "source": "catalogued earthquake EV081 Talaud Islands mb 3.37 (blocked: crosses land) (IDC rule)",
+      "t_s": 4415.0,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 0.5378151260504201,
+    "graded_log_lr": 6.60783434478928,
+    "station_p": 0.0055248618784530384
+   },
+   {
+    "station": "H08S",
+    "status": "no data in window (missing)",
+    "window_utc": "01:24:30.2"
+   },
+   {
+    "station": "IMOS3315",
+    "status": "observed",
+    "data_form": "IMOS3315",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:15:30.7",
+    "window_end_utc": "01:16:00.7",
+    "T1_db": 0.4781984137873261,
+    "snr_pred_db_at_best_E": -23.478885611074148,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [],
+    "chance_match_rate": 0.017034068136272545,
+    "graded_log_lr": -0.012857762510677408,
+    "station_p": 0.3683683683683684
+   },
+   {
+    "station": "IMOS3376",
+    "status": "no data in window (missing)",
+    "window_utc": "01:15:32.3"
+   },
+   {
+    "station": "IMOS3250",
+    "status": "land path (missing)"
+   },
+   {
+    "station": "IMOS3274",
+    "status": "no data in window (missing)",
+    "window_utc": "01:36:59.0"
+   },
+   {
+    "station": "IMOS3275",
+    "status": "observed",
+    "data_form": "IMOS3275",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:36:57.6",
+    "window_end_utc": "01:37:27.6",
+    "T1_db": -0.3776641964837728,
+    "snr_pred_db_at_best_E": -16.39998921149251,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [],
+    "chance_match_rate": 0.024033437826541274,
+    "graded_log_lr": -0.2948848143444315,
+    "station_p": 0.6722338204592901
+   }
+  ],
+  "run": "primary: zero bias, wide spread (sd 12.58 dB); stations: level data only (Cape Leeuwin, Diego Garcia South, 5 IMOS loggers)"
+ },
+ {
+  "rank": 8,
+  "arc_lat": -41.0,
+  "impact_utc": "00:41:00.0",
+  "corner_hz": 0.2,
+  "S_graded": 6.164444532769171,
+  "log10E_at_max": 9.8,
+  "global_p_graded": 0.37325349301397204,
+  "local_p_graded": 0.001996007984031936,
+  "stations": [
+   {
+    "station": "H01W",
+    "status": "observed",
+    "data_form": "Royer spectrogram",
+    "path_class": "clear deep path",
+    "window_utc": "01:13:16.2",
+    "window_end_utc": "01:13:46.2",
+    "T1_db": 6.215409184562687,
+    "snr_pred_db_at_best_E": -17.064820637500233,
+    "detected_1day": false,
+    "detected_1hour": true,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4392.04,
+      "dt_s": 4.114384232426346,
+      "match_likelihood": 0.8918642862040074
+     },
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4392.04,
+      "dt_s": 4.114384232426346,
+      "match_likelihood": 0.8918642862040074
+     },
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4390.05,
+      "dt_s": 6.104384232426128,
+      "match_likelihood": 0.7773095451948301
+     },
+     {
+      "source": "Royer 2016 event 6 (uncertain) predicted arrival",
+      "t_s": 4383.3,
+      "dt_s": 12.854384232426128,
+      "match_likelihood": 0.32779217784562076
+     },
+     {
+      "source": "catalogued earthquake EV081 Talaud Islands mb 3.37 (blocked: crosses land) (IDC rule)",
+      "t_s": 4415.0,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 0.5378151260504201,
+    "graded_log_lr": 6.272826463522087,
+    "station_p": 0.0055248618784530384
+   },
+   {
+    "station": "H08S",
+    "status": "no data in window (missing)",
+    "window_utc": "01:23:44.7"
+   },
+   {
+    "station": "IMOS3315",
+    "status": "observed",
+    "data_form": "IMOS3315",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:15:43.5",
+    "window_end_utc": "01:16:13.5",
+    "T1_db": 1.0863389218328483,
+    "snr_pred_db_at_best_E": -30.178920991906068,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 event 6 (uncertain) predicted arrival",
+      "t_s": 4598.3,
+      "dt_s": 24.756750544062925,
+      "match_likelihood": 0.015967604182630966
+     }
+    ],
+    "chance_match_rate": 0.017034068136272545,
+    "graded_log_lr": 0.028480465092969757,
+    "station_p": 0.27427427427427425
+   },
+   {
+    "station": "IMOS3376",
+    "status": "no data in window (missing)",
+    "window_utc": "01:15:45.1"
+   },
+   {
+    "station": "IMOS3250",
+    "status": "land path (missing)"
+   },
+   {
+    "station": "IMOS3274",
+    "status": "no data in window (missing)",
+    "window_utc": "01:36:52.9"
+   },
+   {
+    "station": "IMOS3275",
+    "status": "observed",
+    "data_form": "IMOS3275",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:36:51.5",
+    "window_end_utc": "01:37:21.5",
+    "T1_db": -0.51688684607615,
+    "snr_pred_db_at_best_E": -23.720571871878803,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [],
+    "chance_match_rate": 0.024033437826541274,
+    "graded_log_lr": -0.13686239584588591,
+    "station_p": 0.7286012526096033
+   }
+  ],
+  "run": "primary: zero bias, wide spread (sd 12.58 dB); stations: level data only (Cape Leeuwin, Diego Garcia South, 5 IMOS loggers)"
+ },
+ {
+  "rank": 9,
+  "arc_lat": -39.5,
+  "impact_utc": "00:44:30.0",
+  "corner_hz": 0.2,
+  "S_graded": 5.965300720035493,
+  "log10E_at_max": 9.7,
+  "global_p_graded": 0.37924151696606784,
+  "local_p_graded": 0.001996007984031936,
+  "stations": [
+   {
+    "station": "H01W",
+    "status": "observed",
+    "data_form": "Royer spectrogram",
+    "path_class": "clear deep path",
+    "window_utc": "01:13:28.9",
+    "window_end_utc": "01:13:58.9",
+    "T1_db": 5.602523870711302,
+    "snr_pred_db_at_best_E": -17.648521764603856,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4392.04,
+      "dt_s": 16.898222443176564,
+      "match_likelihood": 0.1450850957594169
+     },
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4392.04,
+      "dt_s": 16.898222443176564,
+      "match_likelihood": 0.1450850957594169
+     },
+     {
+      "source": "Royer 2016 pick, event 6 (uncertain)",
+      "t_s": 4390.05,
+      "dt_s": 18.888222443176346,
+      "match_likelihood": 0.08964680803473425
+     },
+     {
+      "source": "Royer 2016 event 6 (uncertain) predicted arrival",
+      "t_s": 4383.3,
+      "dt_s": 25.638222443176346,
+      "match_likelihood": 0.01183078352793986
+     },
+     {
+      "source": "catalogued earthquake EV081 Talaud Islands mb 3.37 (blocked: crosses land) (IDC rule)",
+      "t_s": 4415.0,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 0.5378151260504201,
+    "graded_log_lr": 5.995171388980135,
+    "station_p": 0.0055248618784530384
+   },
+   {
+    "station": "H08S",
+    "status": "no data in window (missing)",
+    "window_utc": "01:26:35.5"
+   },
+   {
+    "station": "IMOS3315",
+    "status": "observed",
+    "data_form": "IMOS3315",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:15:47.1",
+    "window_end_utc": "01:16:17.1",
+    "T1_db": 1.202647381025099,
+    "snr_pred_db_at_best_E": -27.865038743746993,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 event 6 (uncertain) predicted arrival",
+      "t_s": 4598.3,
+      "dt_s": 21.223991170244517,
+      "match_likelihood": 0.047801726380058175
+     }
+    ],
+    "chance_match_rate": 0.017034068136272545,
+    "graded_log_lr": 0.03736762246444282,
+    "station_p": 0.26426426426426425
+   },
+   {
+    "station": "IMOS3376",
+    "status": "no data in window (missing)",
+    "window_utc": "01:15:48.6"
+   },
+   {
+    "station": "IMOS3250",
+    "status": "land path (missing)"
+   },
+   {
+    "station": "IMOS3274",
+    "status": "no data in window (missing)",
+    "window_utc": "01:37:52.7"
+   },
+   {
+    "station": "IMOS3275",
+    "status": "observed",
+    "data_form": "IMOS3275",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:37:51.4",
+    "window_end_utc": "01:38:21.4",
+    "T1_db": -0.19832376931963422,
+    "snr_pred_db_at_best_E": -25.220970409226027,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [],
+    "chance_match_rate": 0.024033437826541274,
+    "graded_log_lr": -0.06723829140908555,
+    "station_p": 0.5876826722338204
+   }
+  ],
+  "run": "primary: zero bias, wide spread (sd 12.58 dB); stations: level data only (Cape Leeuwin, Diego Garcia South, 5 IMOS loggers)"
+ },
+ {
+  "rank": 10,
+  "arc_lat": -23.5,
+  "impact_utc": "00:33:00.0",
+  "corner_hz": 5.0,
+  "S_graded": 3.7548653089750204,
+  "log10E_at_max": 9.1,
+  "global_p_graded": 0.8882235528942116,
+  "local_p_graded": 0.003992015968063872,
+  "stations": [
+   {
+    "station": "H01W",
+    "status": "observed",
+    "data_form": "H01W_envelope",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "00:51:41.1",
+    "window_end_utc": "00:52:11.1",
+    "T1_db": 1.6582003650672612,
+    "snr_pred_db_at_best_E": 0.5967898293488787,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 2.5233835967928826,
+      "match_likelihood": 0.9578666766425672
+     },
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 2.5233835967928826,
+      "match_likelihood": 0.9578666766425672
+     },
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 2.5233835967928826,
+      "match_likelihood": 0.9578666766425672
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3102.99,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3100.99,
+      "dt_s": 0.15338359679299174,
+      "match_likelihood": 0.9998409636497498
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3102.99,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Royer 2016 event 2 (uncertain) predicted arrival",
+      "t_s": 3092.0,
+      "dt_s": 9.143383596792773,
+      "match_likelihood": 0.9579896306925778
+     },
+     {
+      "source": "Royer 2016 event 3 A (icequake) predicted arrival",
+      "t_s": 3099.9,
+      "dt_s": 1.2433835967926825,
+      "match_likelihood": 0.9908760179922309
+     },
+     {
+      "source": "Royer 2016 event 5 (uncertain) predicted arrival",
+      "t_s": 3259.4,
+      "dt_s": 128.25661640320732,
+      "match_likelihood": 0.115594838523063
+     },
+     {
+      "source": "Kadri 2024 Table 1 transient event_005150 (candidate, not an explanation)",
+      "t_s": 3110.0,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 191.3 deg",
+      "t_s": 3115.8,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 0.5378151260504201,
+    "graded_log_lr": 2.5719443871012624,
+    "station_p": 0.03389830508474576
+   },
+   {
+    "station": "H08S",
+    "status": "observed",
+    "data_form": "H08S_envelope",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:14:09.6",
+    "window_end_utc": "01:14:39.6",
+    "T1_db": 4.76037154313964,
+    "snr_pred_db_at_best_E": -0.22403508413954398,
+    "detected_1day": false,
+    "detected_1hour": true,
+    "known_event_matches": [
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4448.885999996379,
+      "dt_s": 0.7193882783703884,
+      "match_likelihood": 0.7720084777097406
+     },
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4458.885999996233,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4468.935999996087,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4478.860999995943,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4438.3,
+      "dt_s": 11.30538827474902,
+      "match_likelihood": 0.0775962575149068
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4458.4,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4478.6,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 1.0,
+    "graded_log_lr": 1.182920921873758,
+    "station_p": 0.075
+   },
+   {
+    "station": "IMOS3315",
+    "status": "no data in window (missing)",
+    "window_utc": "00:49:56.1"
+   },
+   {
+    "station": "IMOS3376",
+    "status": "no data in window (missing)",
+    "window_utc": "00:49:55.7"
+   },
+   {
+    "station": "IMOS3250",
+    "status": "no data in window (missing)",
+    "window_utc": "00:56:49.3"
+   },
+   {
+    "station": "IMOS3274",
+    "status": "land path (missing)"
+   },
+   {
+    "station": "IMOS3275",
+    "status": "land path (missing)"
+   }
+  ],
+  "run": "primary: zero bias, wide spread (sd 12.58 dB); stations: level data only (Cape Leeuwin, Diego Garcia South, 5 IMOS loggers)"
+ },
+ {
+  "rank": 11,
+  "arc_lat": -22.5,
+  "impact_utc": "00:32:30.0",
+  "corner_hz": 5.0,
+  "S_graded": 3.7430351920352796,
+  "log10E_at_max": 8.5,
+  "global_p_graded": 0.8922155688622755,
+  "local_p_graded": 0.003992015968063872,
+  "stations": [
+   {
+    "station": "H01W",
+    "status": "observed",
+    "data_form": "H01W_envelope",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "00:51:48.3",
+    "window_end_utc": "00:52:18.3",
+    "T1_db": 1.7139573927286824,
+    "snr_pred_db_at_best_E": -0.14853719915143415,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 9.64591978252929,
+      "match_likelihood": 0.53311713217216
+     },
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 9.64591978252929,
+      "match_likelihood": 0.53311713217216
+     },
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 9.64591978252929,
+      "match_likelihood": 0.53311713217216
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3102.99,
+      "dt_s": 5.2759197825293995,
+      "match_likelihood": 0.8284670040765252
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3100.99,
+      "dt_s": 7.2759197825293995,
+      "match_likelihood": 0.6991503559563883
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3102.99,
+      "dt_s": 5.2759197825293995,
+      "match_likelihood": 0.8284670040765252
+     },
+     {
+      "source": "Royer 2016 event 2 (uncertain) predicted arrival",
+      "t_s": 3092.0,
+      "dt_s": 16.26591978252918,
+      "match_likelihood": 0.8729936399175944
+     },
+     {
+      "source": "Royer 2016 event 3 A (icequake) predicted arrival",
+      "t_s": 3099.9,
+      "dt_s": 8.36591978252909,
+      "match_likelihood": 0.6603767076558461
+     },
+     {
+      "source": "Royer 2016 event 5 (uncertain) predicted arrival",
+      "t_s": 3259.4,
+      "dt_s": 121.13408021747091,
+      "match_likelihood": 0.14592347155473667
+     },
+     {
+      "source": "Kadri 2024 Table 1 transient event_005150 (candidate, not an explanation)",
+      "t_s": 3110.0,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 191.3 deg",
+      "t_s": 3115.8,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 0.5378151260504201,
+    "graded_log_lr": 2.971105414749343,
+    "station_p": 0.03389830508474576
+   },
+   {
+    "station": "H08S",
+    "status": "observed",
+    "data_form": "H08S_envelope",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:13:45.7",
+    "window_end_utc": "01:14:15.7",
+    "T1_db": 3.7947250030344963,
+    "snr_pred_db_at_best_E": -6.581419594247322,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4429.085999996667,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4439.260999996519,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4448.885999996379,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 35.3 deg",
+      "t_s": 4418.1,
+      "dt_s": 7.567504379838283,
+      "match_likelihood": 0.3181149604197072
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4418.1,
+      "dt_s": 7.567504379838283,
+      "match_likelihood": 0.3181149604197072
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4438.3,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4458.4,
+      "dt_s": 2.7324956201609893,
+      "match_likelihood": 0.8612842873639032
+     }
+    ],
+    "chance_match_rate": 1.0,
+    "graded_log_lr": 0.7719297772859366,
+    "station_p": 0.1
+   },
+   {
+    "station": "IMOS3315",
+    "status": "no data in window (missing)",
+    "window_utc": "00:49:48.5"
+   },
+   {
+    "station": "IMOS3376",
+    "status": "no data in window (missing)",
+    "window_utc": "00:49:47.9"
+   },
+   {
+    "station": "IMOS3250",
+    "status": "no data in window (missing)",
+    "window_utc": "00:55:18.1"
+   },
+   {
+    "station": "IMOS3274",
+    "status": "land path (missing)"
+   },
+   {
+    "station": "IMOS3275",
+    "status": "land path (missing)"
+   }
+  ],
+  "run": "primary: zero bias, wide spread (sd 12.58 dB); stations: level data only (Cape Leeuwin, Diego Garcia South, 5 IMOS loggers)"
+ },
+ {
+  "rank": 12,
+  "arc_lat": -23.5,
+  "impact_utc": "00:33:00.0",
+  "corner_hz": 1.0,
+  "S_graded": 3.7086133790216156,
+  "log10E_at_max": 9.9,
+  "global_p_graded": 0.8982035928143712,
+  "local_p_graded": 0.003992015968063872,
+  "stations": [
+   {
+    "station": "H01W",
+    "status": "observed",
+    "data_form": "H01W_envelope",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "00:51:41.1",
+    "window_end_utc": "00:52:11.1",
+    "T1_db": 1.6582003650672612,
+    "snr_pred_db_at_best_E": -6.081580261707671,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 2.5233835967928826,
+      "match_likelihood": 0.9578666766425672
+     },
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 2.5233835967928826,
+      "match_likelihood": 0.9578666766425672
+     },
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 2.5233835967928826,
+      "match_likelihood": 0.9578666766425672
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3102.99,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3100.99,
+      "dt_s": 0.15338359679299174,
+      "match_likelihood": 0.9998409636497498
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3102.99,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Royer 2016 event 2 (uncertain) predicted arrival",
+      "t_s": 3092.0,
+      "dt_s": 9.143383596792773,
+      "match_likelihood": 0.9579896306925778
+     },
+     {
+      "source": "Royer 2016 event 3 A (icequake) predicted arrival",
+      "t_s": 3099.9,
+      "dt_s": 1.2433835967926825,
+      "match_likelihood": 0.9908760179922309
+     },
+     {
+      "source": "Royer 2016 event 5 (uncertain) predicted arrival",
+      "t_s": 3259.4,
+      "dt_s": 128.25661640320732,
+      "match_likelihood": 0.115594838523063
+     },
+     {
+      "source": "Kadri 2024 Table 1 transient event_005150 (candidate, not an explanation)",
+      "t_s": 3110.0,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 191.3 deg",
+      "t_s": 3115.8,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 0.5378151260504201,
+    "graded_log_lr": 2.789850860521848,
+    "station_p": 0.03389830508474576
+   },
+   {
+    "station": "H08S",
+    "status": "observed",
+    "data_form": "H08S_envelope",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:14:09.6",
+    "window_end_utc": "01:14:39.6",
+    "T1_db": 4.76037154313964,
+    "snr_pred_db_at_best_E": -6.902405175196165,
+    "detected_1day": false,
+    "detected_1hour": true,
+    "known_event_matches": [
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4448.885999996379,
+      "dt_s": 0.7193882783703884,
+      "match_likelihood": 0.7720084777097406
+     },
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4458.885999996233,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4468.935999996087,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4478.860999995943,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4438.3,
+      "dt_s": 11.30538827474902,
+      "match_likelihood": 0.0775962575149068
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4458.4,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4478.6,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 1.0,
+    "graded_log_lr": 0.9187625184997679,
+    "station_p": 0.075
+   },
+   {
+    "station": "IMOS3315",
+    "status": "no data in window (missing)",
+    "window_utc": "00:49:56.1"
+   },
+   {
+    "station": "IMOS3376",
+    "status": "no data in window (missing)",
+    "window_utc": "00:49:55.7"
+   },
+   {
+    "station": "IMOS3250",
+    "status": "no data in window (missing)",
+    "window_utc": "00:56:49.3"
+   },
+   {
+    "station": "IMOS3274",
+    "status": "land path (missing)"
+   },
+   {
+    "station": "IMOS3275",
+    "status": "land path (missing)"
+   }
+  ],
+  "run": "primary: zero bias, wide spread (sd 12.58 dB); stations: level data only (Cape Leeuwin, Diego Garcia South, 5 IMOS loggers)"
+ },
+ {
+  "rank": 13,
+  "arc_lat": -22.5,
+  "impact_utc": "00:32:30.0",
+  "corner_hz": 1.0,
+  "S_graded": 3.6734009569653363,
+  "log10E_at_max": 9.95,
+  "global_p_graded": 0.908183632734531,
+  "local_p_graded": 0.003992015968063872,
+  "stations": [
+   {
+    "station": "H01W",
+    "status": "observed",
+    "data_form": "H01W_envelope",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "00:51:48.3",
+    "window_end_utc": "00:52:18.3",
+    "T1_db": 1.7139573927286824,
+    "snr_pred_db_at_best_E": -0.32690729020814047,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 9.64591978252929,
+      "match_likelihood": 0.53311713217216
+     },
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 9.64591978252929,
+      "match_likelihood": 0.53311713217216
+     },
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 9.64591978252929,
+      "match_likelihood": 0.53311713217216
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3102.99,
+      "dt_s": 5.2759197825293995,
+      "match_likelihood": 0.8284670040765252
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3100.99,
+      "dt_s": 7.2759197825293995,
+      "match_likelihood": 0.6991503559563883
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3102.99,
+      "dt_s": 5.2759197825293995,
+      "match_likelihood": 0.8284670040765252
+     },
+     {
+      "source": "Royer 2016 event 2 (uncertain) predicted arrival",
+      "t_s": 3092.0,
+      "dt_s": 16.26591978252918,
+      "match_likelihood": 0.8729936399175944
+     },
+     {
+      "source": "Royer 2016 event 3 A (icequake) predicted arrival",
+      "t_s": 3099.9,
+      "dt_s": 8.36591978252909,
+      "match_likelihood": 0.6603767076558461
+     },
+     {
+      "source": "Royer 2016 event 5 (uncertain) predicted arrival",
+      "t_s": 3259.4,
+      "dt_s": 121.13408021747091,
+      "match_likelihood": 0.14592347155473667
+     },
+     {
+      "source": "Kadri 2024 Table 1 transient event_005150 (candidate, not an explanation)",
+      "t_s": 3110.0,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 191.3 deg",
+      "t_s": 3115.8,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 0.5378151260504201,
+    "graded_log_lr": 2.8895909892772758,
+    "station_p": 0.03389830508474576
+   },
+   {
+    "station": "H08S",
+    "status": "observed",
+    "data_form": "H08S_envelope",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:13:45.7",
+    "window_end_utc": "01:14:15.7",
+    "T1_db": 3.7947250030344963,
+    "snr_pred_db_at_best_E": -6.759789685303886,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4429.085999996667,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4439.260999996519,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4448.885999996379,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 35.3 deg",
+      "t_s": 4418.1,
+      "dt_s": 7.567504379838283,
+      "match_likelihood": 0.3181149604197072
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4418.1,
+      "dt_s": 7.567504379838283,
+      "match_likelihood": 0.3181149604197072
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4438.3,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4458.4,
+      "dt_s": 2.7324956201609893,
+      "match_likelihood": 0.8612842873639032
+     }
+    ],
+    "chance_match_rate": 1.0,
+    "graded_log_lr": 0.7838099676880605,
+    "station_p": 0.1
+   },
+   {
+    "station": "IMOS3315",
+    "status": "no data in window (missing)",
+    "window_utc": "00:49:48.5"
+   },
+   {
+    "station": "IMOS3376",
+    "status": "no data in window (missing)",
+    "window_utc": "00:49:47.9"
+   },
+   {
+    "station": "IMOS3250",
+    "status": "no data in window (missing)",
+    "window_utc": "00:55:18.1"
+   },
+   {
+    "station": "IMOS3274",
+    "status": "land path (missing)"
+   },
+   {
+    "station": "IMOS3275",
+    "status": "land path (missing)"
+   }
+  ],
+  "run": "primary: zero bias, wide spread (sd 12.58 dB); stations: level data only (Cape Leeuwin, Diego Garcia South, 5 IMOS loggers)"
+ },
+ {
+  "rank": 14,
+  "arc_lat": -33.0,
+  "impact_utc": "00:32:00.0",
+  "corner_hz": 1.0,
+  "S_graded": 3.5369667021931983,
+  "log10E_at_max": 9.1,
+  "global_p_graded": 0.936127744510978,
+  "local_p_graded": 0.015968063872255488,
+  "stations": [
+   {
+    "station": "H01W",
+    "status": "observed",
+    "data_form": "H01W_envelope",
+    "path_class": "clear deep path",
+    "window_utc": "00:51:39.6",
+    "window_end_utc": "00:52:09.6",
+    "T1_db": 1.7106807513266844,
+    "snr_pred_db_at_best_E": -6.076388719339377,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 1.0124636610262314,
+      "match_likelihood": 0.9930939767826658
+     },
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 1.0124636610262314,
+      "match_likelihood": 0.9930939767826658
+     },
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 1.0124636610262314,
+      "match_likelihood": 0.9930939767826658
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3102.99,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3100.99,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3102.99,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Royer 2016 event 2 (uncertain) predicted arrival",
+      "t_s": 3092.0,
+      "dt_s": 7.632463661026122,
+      "match_likelihood": 0.9705367567183563
+     },
+     {
+      "source": "Royer 2016 event 3 A (icequake) predicted arrival",
+      "t_s": 3099.9,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Royer 2016 event 5 (uncertain) predicted arrival",
+      "t_s": 3259.4,
+      "dt_s": 129.76753633897397,
+      "match_likelihood": 0.10983238014841902
+     },
+     {
+      "source": "Kadri 2024 Table 1 transient event_005150 (candidate, not an explanation)",
+      "t_s": 3110.0,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 191.3 deg",
+      "t_s": 3115.8,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 0.5378151260504201,
+    "graded_log_lr": 3.09868314165841,
+    "station_p": 0.03389830508474576
+   },
+   {
+    "station": "H08S",
+    "status": "observed",
+    "data_form": "H08S_envelope",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:12:55.7",
+    "window_end_utc": "01:13:25.7",
+    "T1_db": 1.9302759650387018,
+    "snr_pred_db_at_best_E": -8.877390848223968,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4379.235999997392,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4399.110999997103,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4377.8,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4397.9,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 35.3 deg",
+      "t_s": 4397.9,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 35.3 deg",
+      "t_s": 4418.1,
+      "dt_s": 12.396759784338428,
+      "match_likelihood": 0.04625466001529899
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4418.1,
+      "dt_s": 12.396759784338428,
+      "match_likelihood": 0.04625466001529899
+     }
+    ],
+    "chance_match_rate": 1.0,
+    "graded_log_lr": 0.19351615801313987,
+    "station_p": 0.175
+   },
+   {
+    "station": "IMOS3315",
+    "status": "no data in window (missing)",
+    "window_utc": "00:52:49.1"
+   },
+   {
+    "station": "IMOS3376",
+    "status": "observed",
+    "data_form": "IMOS3376",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "00:52:50.2",
+    "window_end_utc": "00:53:20.2",
+    "T1_db": 2.0432673143365077,
+    "snr_pred_db_at_best_E": -11.031659997507887,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [],
+    "chance_match_rate": 0.031155778894472363,
+    "graded_log_lr": 0.27778465782585415,
+    "station_p": 0.19678714859437751
+   },
+   {
+    "station": "IMOS3250",
+    "status": "no data in window (missing)",
+    "window_utc": "01:08:35.1"
+   },
+   {
+    "station": "IMOS3274",
+    "status": "observed",
+    "data_form": "IMOS3274",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:18:44.1",
+    "window_end_utc": "01:19:14.1",
+    "T1_db": -0.03369640988005821,
+    "snr_pred_db_at_best_E": -28.0850204882489,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 event 9 (uncertain) predicted arrival",
+      "t_s": 4740.2,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 0.022284122562674095,
+    "graded_log_lr": -0.03301725530420577,
+    "station_p": 0.5073068893528184
+   },
+   {
+    "station": "IMOS3275",
+    "status": "no data in window (missing)",
+    "window_utc": "01:18:42.8"
+   }
+  ],
+  "run": "primary: zero bias, wide spread (sd 12.58 dB); stations: level data only (Cape Leeuwin, Diego Garcia South, 5 IMOS loggers)"
+ },
+ {
+  "rank": 15,
+  "arc_lat": -32.5,
+  "impact_utc": "00:32:30.0",
+  "corner_hz": 5.0,
+  "S_graded": 3.5099794178018664,
+  "log10E_at_max": 8.0,
+  "global_p_graded": 0.93812375249501,
+  "local_p_graded": 0.017964071856287425,
+  "stations": [
+   {
+    "station": "H01W",
+    "status": "observed",
+    "data_form": "H01W_envelope",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "00:51:44.4",
+    "window_end_utc": "00:52:14.4",
+    "T1_db": 1.6950045460585017,
+    "snr_pred_db_at_best_E": -5.956579121883351,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 5.7941173081208035,
+      "match_likelihood": 0.7969533484171817
+     },
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 5.7941173081208035,
+      "match_likelihood": 0.7969533484171817
+     },
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 5.7941173081208035,
+      "match_likelihood": 0.7969533484171817
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3102.99,
+      "dt_s": 1.4241173081209126,
+      "match_likelihood": 0.9863827077571988
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3100.99,
+      "dt_s": 3.4241173081209126,
+      "match_likelihood": 0.9237969565088259
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3102.99,
+      "dt_s": 1.4241173081209126,
+      "match_likelihood": 0.9863827077571988
+     },
+     {
+      "source": "Royer 2016 event 2 (uncertain) predicted arrival",
+      "t_s": 3092.0,
+      "dt_s": 12.414117308120694,
+      "match_likelihood": 0.9239333729586573
+     },
+     {
+      "source": "Royer 2016 event 3 A (icequake) predicted arrival",
+      "t_s": 3099.9,
+      "dt_s": 4.514117308120603,
+      "match_likelihood": 0.8862008992956117
+     },
+     {
+      "source": "Royer 2016 event 5 (uncertain) predicted arrival",
+      "t_s": 3259.4,
+      "dt_s": 124.9858826918794,
+      "match_likelihood": 0.12886113825268472
+     },
+     {
+      "source": "Kadri 2024 Table 1 transient event_005150 (candidate, not an explanation)",
+      "t_s": 3110.0,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 191.3 deg",
+      "t_s": 3115.8,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 0.5378151260504201,
+    "graded_log_lr": 3.0284276430828476,
+    "station_p": 0.03389830508474576
+   },
+   {
+    "station": "H08S",
+    "status": "observed",
+    "data_form": "H08S_envelope",
+    "path_class": "ridge above the channel axis",
+    "window_utc": "01:13:24.1",
+    "window_end_utc": "01:13:54.1",
+    "T1_db": 3.4283672285246753,
+    "snr_pred_db_at_best_E": -9.661622646073681,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4409.035999996959,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4419.110999996812,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4429.085999996667,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4397.9,
+      "dt_s": 6.153076499771487,
+      "match_likelihood": 0.4689744412728331
+     },
+     {
+      "source": "CMST 2014 detection, bearing 35.3 deg",
+      "t_s": 4397.9,
+      "dt_s": 6.153076499771487,
+      "match_likelihood": 0.4689744412728331
+     },
+     {
+      "source": "CMST 2014 detection, bearing 35.3 deg",
+      "t_s": 4418.1,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4418.1,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4438.3,
+      "dt_s": 4.246923500229059,
+      "match_likelihood": 0.6971691711950336
+     }
+    ],
+    "chance_match_rate": 1.0,
+    "graded_log_lr": 0.4054740961538261,
+    "station_p": 0.1
+   },
+   {
+    "station": "IMOS3315",
+    "status": "no data in window (missing)",
+    "window_utc": "00:52:46.1"
+   },
+   {
+    "station": "IMOS3376",
+    "status": "observed",
+    "data_form": "IMOS3376",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "00:52:47.1",
+    "window_end_utc": "00:53:17.1",
+    "T1_db": 1.995290624313425,
+    "snr_pred_db_at_best_E": -5.953341791618058,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [],
+    "chance_match_rate": 0.031155778894472363,
+    "graded_log_lr": 0.11235513567752517,
+    "station_p": 0.19979919678714858
+   },
+   {
+    "station": "IMOS3250",
+    "status": "no data in window (missing)",
+    "window_utc": "01:08:16.4"
+   },
+   {
+    "station": "IMOS3274",
+    "status": "observed",
+    "data_form": "IMOS3274",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:18:56.3",
+    "window_end_utc": "01:19:26.3",
+    "T1_db": 0.1861802546585606,
+    "snr_pred_db_at_best_E": -22.108813905094365,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 event 9 (uncertain) predicted arrival",
+      "t_s": 4740.2,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 0.022284122562674095,
+    "graded_log_lr": -0.03627745711233254,
+    "station_p": 0.41196938065414057
+   },
+   {
+    "station": "IMOS3275",
+    "status": "no data in window (missing)",
+    "window_utc": "01:18:55.0"
+   }
+  ],
+  "run": "primary: zero bias, wide spread (sd 12.58 dB); stations: level data only (Cape Leeuwin, Diego Garcia South, 5 IMOS loggers)"
+ },
+ {
+  "rank": 16,
+  "arc_lat": -33.0,
+  "impact_utc": "00:32:00.0",
+  "corner_hz": 5.0,
+  "S_graded": 3.5064584552421407,
+  "log10E_at_max": 7.65,
+  "global_p_graded": 0.93812375249501,
+  "local_p_graded": 0.005988023952095809,
+  "stations": [
+   {
+    "station": "H01W",
+    "status": "observed",
+    "data_form": "H01W_envelope",
+    "path_class": "clear deep path",
+    "window_utc": "00:51:39.6",
+    "window_end_utc": "00:52:09.6",
+    "T1_db": 1.7106807513266844,
+    "snr_pred_db_at_best_E": -5.898018628282614,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 1.0124636610262314,
+      "match_likelihood": 0.9930939767826658
+     },
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 1.0124636610262314,
+      "match_likelihood": 0.9930939767826658
+     },
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 1.0124636610262314,
+      "match_likelihood": 0.9930939767826658
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3102.99,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3100.99,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3102.99,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Royer 2016 event 2 (uncertain) predicted arrival",
+      "t_s": 3092.0,
+      "dt_s": 7.632463661026122,
+      "match_likelihood": 0.9705367567183563
+     },
+     {
+      "source": "Royer 2016 event 3 A (icequake) predicted arrival",
+      "t_s": 3099.9,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Royer 2016 event 5 (uncertain) predicted arrival",
+      "t_s": 3259.4,
+      "dt_s": 129.76753633897397,
+      "match_likelihood": 0.10983238014841902
+     },
+     {
+      "source": "Kadri 2024 Table 1 transient event_005150 (candidate, not an explanation)",
+      "t_s": 3110.0,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 191.3 deg",
+      "t_s": 3115.8,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 0.5378151260504201,
+    "graded_log_lr": 3.100115616086693,
+    "station_p": 0.03389830508474576
+   },
+   {
+    "station": "H08S",
+    "status": "observed",
+    "data_form": "H08S_envelope",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:12:55.7",
+    "window_end_utc": "01:13:25.7",
+    "T1_db": 1.9302759650387018,
+    "snr_pred_db_at_best_E": -8.699020757167403,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4379.235999997392,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4399.110999997103,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4377.8,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4397.9,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 35.3 deg",
+      "t_s": 4397.9,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 35.3 deg",
+      "t_s": 4418.1,
+      "dt_s": 12.396759784338428,
+      "match_likelihood": 0.04625466001529899
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4418.1,
+      "dt_s": 12.396759784338428,
+      "match_likelihood": 0.04625466001529899
+     }
+    ],
+    "chance_match_rate": 1.0,
+    "graded_log_lr": 0.16156261649729348,
+    "station_p": 0.175
+   },
+   {
+    "station": "IMOS3315",
+    "status": "no data in window (missing)",
+    "window_utc": "00:52:49.1"
+   },
+   {
+    "station": "IMOS3376",
+    "status": "observed",
+    "data_form": "IMOS3376",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "00:52:50.2",
+    "window_end_utc": "00:53:20.2",
+    "T1_db": 2.0432673143365077,
+    "snr_pred_db_at_best_E": -10.853289906450499,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [],
+    "chance_match_rate": 0.031155778894472363,
+    "graded_log_lr": 0.27976690523154274,
+    "station_p": 0.19678714859437751
+   },
+   {
+    "station": "IMOS3250",
+    "status": "no data in window (missing)",
+    "window_utc": "01:08:35.1"
+   },
+   {
+    "station": "IMOS3274",
+    "status": "observed",
+    "data_form": "IMOS3274",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:18:44.1",
+    "window_end_utc": "01:19:14.1",
+    "T1_db": -0.03369640988005821,
+    "snr_pred_db_at_best_E": -27.906650397191484,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 event 9 (uncertain) predicted arrival",
+      "t_s": 4740.2,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 0.022284122562674095,
+    "graded_log_lr": -0.03498668257338823,
+    "station_p": 0.5073068893528184
+   },
+   {
+    "station": "IMOS3275",
+    "status": "no data in window (missing)",
+    "window_utc": "01:18:42.8"
+   }
+  ],
+  "run": "primary: zero bias, wide spread (sd 12.58 dB); stations: level data only (Cape Leeuwin, Diego Garcia South, 5 IMOS loggers)"
+ },
+ {
+  "rank": 17,
+  "arc_lat": -32.5,
+  "impact_utc": "00:32:30.0",
+  "corner_hz": 1.0,
+  "S_graded": 3.4791392693291243,
+  "log10E_at_max": 9.5,
+  "global_p_graded": 0.9481037924151696,
+  "local_p_graded": 0.013972055888223553,
+  "stations": [
+   {
+    "station": "H01W",
+    "status": "observed",
+    "data_form": "H01W_envelope",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "00:51:44.4",
+    "window_end_utc": "00:52:14.4",
+    "T1_db": 1.6950045460585017,
+    "snr_pred_db_at_best_E": -5.634949212939901,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 5.7941173081208035,
+      "match_likelihood": 0.7969533484171817
+     },
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 5.7941173081208035,
+      "match_likelihood": 0.7969533484171817
+     },
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 5.7941173081208035,
+      "match_likelihood": 0.7969533484171817
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3102.99,
+      "dt_s": 1.4241173081209126,
+      "match_likelihood": 0.9863827077571988
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3100.99,
+      "dt_s": 3.4241173081209126,
+      "match_likelihood": 0.9237969565088259
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3102.99,
+      "dt_s": 1.4241173081209126,
+      "match_likelihood": 0.9863827077571988
+     },
+     {
+      "source": "Royer 2016 event 2 (uncertain) predicted arrival",
+      "t_s": 3092.0,
+      "dt_s": 12.414117308120694,
+      "match_likelihood": 0.9239333729586573
+     },
+     {
+      "source": "Royer 2016 event 3 A (icequake) predicted arrival",
+      "t_s": 3099.9,
+      "dt_s": 4.514117308120603,
+      "match_likelihood": 0.8862008992956117
+     },
+     {
+      "source": "Royer 2016 event 5 (uncertain) predicted arrival",
+      "t_s": 3259.4,
+      "dt_s": 124.9858826918794,
+      "match_likelihood": 0.12886113825268472
+     },
+     {
+      "source": "Kadri 2024 Table 1 transient event_005150 (candidate, not an explanation)",
+      "t_s": 3110.0,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 191.3 deg",
+      "t_s": 3115.8,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 0.5378151260504201,
+    "graded_log_lr": 2.9079820176925115,
+    "station_p": 0.03389830508474576
+   },
+   {
+    "station": "H08S",
+    "status": "observed",
+    "data_form": "H08S_envelope",
+    "path_class": "ridge above the channel axis",
+    "window_utc": "01:13:24.1",
+    "window_end_utc": "01:13:54.1",
+    "T1_db": 3.4283672285246753,
+    "snr_pred_db_at_best_E": -9.339992737130402,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4409.035999996959,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4419.110999996812,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4429.085999996667,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4397.9,
+      "dt_s": 6.153076499771487,
+      "match_likelihood": 0.4689744412728331
+     },
+     {
+      "source": "CMST 2014 detection, bearing 35.3 deg",
+      "t_s": 4397.9,
+      "dt_s": 6.153076499771487,
+      "match_likelihood": 0.4689744412728331
+     },
+     {
+      "source": "CMST 2014 detection, bearing 35.3 deg",
+      "t_s": 4418.1,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4418.1,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4438.3,
+      "dt_s": 4.246923500229059,
+      "match_likelihood": 0.6971691711950336
+     }
+    ],
+    "chance_match_rate": 1.0,
+    "graded_log_lr": 0.4695454084638657,
+    "station_p": 0.1
+   },
+   {
+    "station": "IMOS3315",
+    "status": "no data in window (missing)",
+    "window_utc": "00:52:46.1"
+   },
+   {
+    "station": "IMOS3376",
+    "status": "observed",
+    "data_form": "IMOS3376",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "00:52:47.1",
+    "window_end_utc": "00:53:17.1",
+    "T1_db": 1.995290624313425,
+    "snr_pred_db_at_best_E": -5.63171188267529,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [],
+    "chance_match_rate": 0.031155778894472363,
+    "graded_log_lr": 0.1459525759127946,
+    "station_p": 0.19979919678714858
+   },
+   {
+    "station": "IMOS3250",
+    "status": "no data in window (missing)",
+    "window_utc": "01:08:16.4"
+   },
+   {
+    "station": "IMOS3274",
+    "status": "observed",
+    "data_form": "IMOS3274",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:18:56.3",
+    "window_end_utc": "01:19:26.3",
+    "T1_db": 0.1861802546585606,
+    "snr_pred_db_at_best_E": -21.787183996151597,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 event 9 (uncertain) predicted arrival",
+      "t_s": 4740.2,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 0.022284122562674095,
+    "graded_log_lr": -0.04434073274004758,
+    "station_p": 0.41196938065414057
+   },
+   {
+    "station": "IMOS3275",
+    "status": "no data in window (missing)",
+    "window_utc": "01:18:55.0"
+   }
+  ],
+  "run": "primary: zero bias, wide spread (sd 12.58 dB); stations: level data only (Cape Leeuwin, Diego Garcia South, 5 IMOS loggers)"
+ },
+ {
+  "rank": 18,
+  "arc_lat": -27.5,
+  "impact_utc": "00:34:30.0",
+  "corner_hz": 5.0,
+  "S_graded": 3.386719093301967,
+  "log10E_at_max": 8.3,
+  "global_p_graded": 0.9600798403193613,
+  "local_p_graded": 0.003992015968063872,
+  "stations": [
+   {
+    "station": "H01W",
+    "status": "observed",
+    "data_form": "H01W_envelope",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "00:51:53.3",
+    "window_end_utc": "00:52:23.3",
+    "T1_db": 1.7194128199849634,
+    "snr_pred_db_at_best_E": -5.963710266768558,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 14.716704059514996,
+      "match_likelihood": 0.2312677520512189
+     },
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 14.716704059514996,
+      "match_likelihood": 0.2312677520512189
+     },
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 14.716704059514996,
+      "match_likelihood": 0.2312677520512189
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3102.99,
+      "dt_s": 10.346704059515105,
+      "match_likelihood": 0.48493958212902133
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3100.99,
+      "dt_s": 12.346704059515105,
+      "match_likelihood": 0.35680548630381215
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3102.99,
+      "dt_s": 10.346704059515105,
+      "match_likelihood": 0.48493958212902133
+     },
+     {
+      "source": "Royer 2016 event 2 (uncertain) predicted arrival",
+      "t_s": 3092.0,
+      "dt_s": 21.336704059514886,
+      "match_likelihood": 0.7915886795189233
+     },
+     {
+      "source": "Royer 2016 event 3 A (icequake) predicted arrival",
+      "t_s": 3099.9,
+      "dt_s": 13.436704059514796,
+      "match_likelihood": 0.3428693322980183
+     },
+     {
+      "source": "Royer 2016 event 5 (uncertain) predicted arrival",
+      "t_s": 3259.4,
+      "dt_s": 116.0632959404852,
+      "match_likelihood": 0.17086039352069768
+     },
+     {
+      "source": "Kadri 2024 Table 1 transient event_005150 (candidate, not an explanation)",
+      "t_s": 3110.0,
+      "dt_s": 3.3367040595148865,
+      "match_likelihood": 0.8003774263625073
+     },
+     {
+      "source": "Kadri 2024 Table 1 transient event_005236a (candidate, not an explanation)",
+      "t_s": 3156.0,
+      "dt_s": 12.663295940485114,
+      "match_likelihood": 0.04047052767429624
+     },
+     {
+      "source": "Kadri 2024 Table 1 transient event_005236b (candidate, not an explanation)",
+      "t_s": 3156.0,
+      "dt_s": 12.663295940485114,
+      "match_likelihood": 0.04047052767429624
+     },
+     {
+      "source": "CMST 2014 detection, bearing 191.3 deg",
+      "t_s": 3115.8,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 0.5378151260504201,
+    "graded_log_lr": 3.167553817223203,
+    "station_p": 0.03389830508474576
+   },
+   {
+    "station": "H08S",
+    "status": "observed",
+    "data_form": "H08S_envelope",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:15:23.3",
+    "window_end_utc": "01:15:53.3",
+    "T1_db": 3.6745750224974465,
+    "snr_pred_db_at_best_E": -7.161652782695825,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4529.085999995212,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4539.085999995066,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4548.710999994926,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4518.9,
+      "dt_s": 4.393178835547587,
+      "match_likelihood": 0.6797702499504525
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4539.0,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4559.2,
+      "dt_s": 5.9068211644525945,
+      "match_likelihood": 0.49767365631198024
+     }
+    ],
+    "chance_match_rate": 1.0,
+    "graded_log_lr": 0.7633123727521532,
+    "station_p": 0.1
+   },
+   {
+    "station": "IMOS3315",
+    "status": "no data in window (missing)",
+    "window_utc": "00:51:21.2"
+   },
+   {
+    "station": "IMOS3376",
+    "status": "observed",
+    "data_form": "IMOS3376",
+    "path_class": "clear deep path",
+    "window_utc": "00:51:21.5",
+    "window_end_utc": "00:51:51.5",
+    "T1_db": -1.089908732954616,
+    "snr_pred_db_at_best_E": -8.546446278574123,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [],
+    "chance_match_rate": 0.031155778894472363,
+    "graded_log_lr": -0.5210644502780065,
+    "station_p": 0.7309236947791165
+   },
+   {
+    "station": "IMOS3250",
+    "status": "observed",
+    "data_form": "IMOS3250",
+    "path_class": "ridge above the channel axis",
+    "window_utc": "01:03:02.5",
+    "window_end_utc": "01:03:32.5",
+    "T1_db": -11.61149807412919,
+    "snr_pred_db_at_best_E": -68.92054315126936,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [],
+    "chance_match_rate": 0.025025025025025027,
+    "graded_log_lr": -0.023082646395383235,
+    "station_p": 0.944
+   },
+   {
+    "station": "IMOS3274",
+    "status": "land path (missing)"
+   },
+   {
+    "station": "IMOS3275",
+    "status": "land path (missing)"
+   }
+  ],
+  "run": "primary: zero bias, wide spread (sd 12.58 dB); stations: level data only (Cape Leeuwin, Diego Garcia South, 5 IMOS loggers)"
+ },
+ {
+  "rank": 19,
+  "arc_lat": -28.0,
+  "impact_utc": "00:34:30.0",
+  "corner_hz": 5.0,
+  "S_graded": 3.3733801145320292,
+  "log10E_at_max": 8.1,
+  "global_p_graded": 0.9620758483033932,
+  "local_p_graded": 0.005988023952095809,
+  "stations": [
+   {
+    "station": "H01W",
+    "status": "observed",
+    "data_form": "H01W_envelope",
+    "path_class": "clear deep path",
+    "window_utc": "00:51:53.2",
+    "window_end_utc": "00:52:23.2",
+    "T1_db": 1.7194128199849634,
+    "snr_pred_db_at_best_E": -6.011929867445545,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 14.565266180338767,
+      "match_likelihood": 0.23830574740738067
+     },
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 14.565266180338767,
+      "match_likelihood": 0.23830574740738067
+     },
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 14.565266180338767,
+      "match_likelihood": 0.23830574740738067
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3102.99,
+      "dt_s": 10.195266180338876,
+      "match_likelihood": 0.4952461025943038
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3100.99,
+      "dt_s": 12.195266180338876,
+      "match_likelihood": 0.36588402513236956
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3102.99,
+      "dt_s": 10.195266180338876,
+      "match_likelihood": 0.4952461025943038
+     },
+     {
+      "source": "Royer 2016 event 2 (uncertain) predicted arrival",
+      "t_s": 3092.0,
+      "dt_s": 21.185266180338658,
+      "match_likelihood": 0.7942098447563659
+     },
+     {
+      "source": "Royer 2016 event 3 A (icequake) predicted arrival",
+      "t_s": 3099.9,
+      "dt_s": 13.285266180338567,
+      "match_likelihood": 0.35119491841332123
+     },
+     {
+      "source": "Royer 2016 event 5 (uncertain) predicted arrival",
+      "t_s": 3259.4,
+      "dt_s": 116.21473381966143,
+      "match_likelihood": 0.170073878899358
+     },
+     {
+      "source": "Kadri 2024 Table 1 transient event_005150 (candidate, not an explanation)",
+      "t_s": 3110.0,
+      "dt_s": 3.185266180338658,
+      "match_likelihood": 0.816344842004969
+     },
+     {
+      "source": "Kadri 2024 Table 1 transient event_005236a (candidate, not an explanation)",
+      "t_s": 3156.0,
+      "dt_s": 12.814733819661342,
+      "match_likelihood": 0.037465002165118146
+     },
+     {
+      "source": "Kadri 2024 Table 1 transient event_005236b (candidate, not an explanation)",
+      "t_s": 3156.0,
+      "dt_s": 12.814733819661342,
+      "match_likelihood": 0.037465002165118146
+     },
+     {
+      "source": "CMST 2014 detection, bearing 191.3 deg",
+      "t_s": 3115.8,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 0.5378151260504201,
+    "graded_log_lr": 3.1711089281180636,
+    "station_p": 0.03389830508474576
+   },
+   {
+    "station": "H08S",
+    "status": "observed",
+    "data_form": "H08S_envelope",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:15:22.2",
+    "window_end_utc": "01:15:52.2",
+    "T1_db": 3.7012324824774163,
+    "snr_pred_db_at_best_E": -8.724923939104514,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4519.360999995353,
+      "dt_s": 2.856333313471623,
+      "match_likelihood": 0.016918966659139917
+     },
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4529.085999995212,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4539.085999995066,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4548.710999994926,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4518.9,
+      "dt_s": 3.317333308825255,
+      "match_likelihood": 0.80244336021765
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4539.0,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4559.2,
+      "dt_s": 6.982666691174927,
+      "match_likelihood": 0.3771347673253372
+     }
+    ],
+    "chance_match_rate": 1.0,
+    "graded_log_lr": 0.5650290451240998,
+    "station_p": 0.1
+   },
+   {
+    "station": "IMOS3315",
+    "status": "no data in window (missing)",
+    "window_utc": "00:51:31.1"
+   },
+   {
+    "station": "IMOS3376",
+    "status": "observed",
+    "data_form": "IMOS3376",
+    "path_class": "clear deep path",
+    "window_utc": "00:51:31.5",
+    "window_end_utc": "00:52:01.5",
+    "T1_db": -0.3275278212402405,
+    "snr_pred_db_at_best_E": -10.062728671847623,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [],
+    "chance_match_rate": 0.031155778894472363,
+    "graded_log_lr": -0.3676245304294981,
+    "station_p": 0.572289156626506
+   },
+   {
+    "station": "IMOS3250",
+    "status": "observed",
+    "data_form": "IMOS3250",
+    "path_class": "ridge above the channel axis",
+    "window_utc": "01:03:41.9",
+    "window_end_utc": "01:04:11.9",
+    "T1_db": 11.09470080992046,
+    "snr_pred_db_at_best_E": -80.25984304394518,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [],
+    "chance_match_rate": 0.025025025025025027,
+    "graded_log_lr": 0.004866671719363825,
+    "station_p": 0.12
+   },
+   {
+    "station": "IMOS3274",
+    "status": "land path (missing)"
+   },
+   {
+    "station": "IMOS3275",
+    "status": "land path (missing)"
+   }
+  ],
+  "run": "primary: zero bias, wide spread (sd 12.58 dB); stations: level data only (Cape Leeuwin, Diego Garcia South, 5 IMOS loggers)"
+ },
+ {
+  "rank": 20,
+  "arc_lat": -28.0,
+  "impact_utc": "00:34:30.0",
+  "corner_hz": 1.0,
+  "S_graded": 3.372362599668275,
+  "log10E_at_max": 9.6,
+  "global_p_graded": 0.9620758483033932,
+  "local_p_graded": 0.003992015968063872,
+  "stations": [
+   {
+    "station": "H01W",
+    "status": "observed",
+    "data_form": "H01W_envelope",
+    "path_class": "clear deep path",
+    "window_utc": "00:51:53.2",
+    "window_end_utc": "00:52:23.2",
+    "T1_db": 1.7194128199849634,
+    "snr_pred_db_at_best_E": -5.690299958502052,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 14.565266180338767,
+      "match_likelihood": 0.23830574740738067
+     },
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 14.565266180338767,
+      "match_likelihood": 0.23830574740738067
+     },
+     {
+      "source": "Royer 2016 pick, event 2 (uncertain)",
+      "t_s": 3098.62,
+      "dt_s": 14.565266180338767,
+      "match_likelihood": 0.23830574740738067
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3102.99,
+      "dt_s": 10.195266180338876,
+      "match_likelihood": 0.4952461025943038
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3100.99,
+      "dt_s": 12.195266180338876,
+      "match_likelihood": 0.36588402513236956
+     },
+     {
+      "source": "Royer 2016 pick, event 3 A (icequake)",
+      "t_s": 3102.99,
+      "dt_s": 10.195266180338876,
+      "match_likelihood": 0.4952461025943038
+     },
+     {
+      "source": "Royer 2016 event 2 (uncertain) predicted arrival",
+      "t_s": 3092.0,
+      "dt_s": 21.185266180338658,
+      "match_likelihood": 0.7942098447563659
+     },
+     {
+      "source": "Royer 2016 event 3 A (icequake) predicted arrival",
+      "t_s": 3099.9,
+      "dt_s": 13.285266180338567,
+      "match_likelihood": 0.35119491841332123
+     },
+     {
+      "source": "Royer 2016 event 5 (uncertain) predicted arrival",
+      "t_s": 3259.4,
+      "dt_s": 116.21473381966143,
+      "match_likelihood": 0.170073878899358
+     },
+     {
+      "source": "Kadri 2024 Table 1 transient event_005150 (candidate, not an explanation)",
+      "t_s": 3110.0,
+      "dt_s": 3.185266180338658,
+      "match_likelihood": 0.816344842004969
+     },
+     {
+      "source": "Kadri 2024 Table 1 transient event_005236a (candidate, not an explanation)",
+      "t_s": 3156.0,
+      "dt_s": 12.814733819661342,
+      "match_likelihood": 0.037465002165118146
+     },
+     {
+      "source": "Kadri 2024 Table 1 transient event_005236b (candidate, not an explanation)",
+      "t_s": 3156.0,
+      "dt_s": 12.814733819661342,
+      "match_likelihood": 0.037465002165118146
+     },
+     {
+      "source": "CMST 2014 detection, bearing 191.3 deg",
+      "t_s": 3115.8,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     }
+    ],
+    "chance_match_rate": 0.5378151260504201,
+    "graded_log_lr": 3.103914573348443,
+    "station_p": 0.03389830508474576
+   },
+   {
+    "station": "H08S",
+    "status": "observed",
+    "data_form": "H08S_envelope",
+    "path_class": "ridge near the channel axis",
+    "window_utc": "01:15:22.2",
+    "window_end_utc": "01:15:52.2",
+    "T1_db": 3.7012324824774163,
+    "snr_pred_db_at_best_E": -8.403294030161177,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4519.360999995353,
+      "dt_s": 2.856333313471623,
+      "match_likelihood": 0.016918966659139917
+     },
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4529.085999995212,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4539.085999995066,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "Diego Garcia South airgun shot (label only)",
+      "t_s": 4548.710999994926,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4518.9,
+      "dt_s": 3.317333308825255,
+      "match_likelihood": 0.80244336021765
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4539.0,
+      "dt_s": 0.0,
+      "match_likelihood": 1.0
+     },
+     {
+      "source": "CMST 2014 detection, bearing 36.4 deg",
+      "t_s": 4559.2,
+      "dt_s": 6.982666691174927,
+      "match_likelihood": 0.3771347673253372
+     }
+    ],
+    "chance_match_rate": 1.0,
+    "graded_log_lr": 0.6414108156810533,
+    "station_p": 0.1
+   },
+   {
+    "station": "IMOS3315",
+    "status": "no data in window (missing)",
+    "window_utc": "00:51:31.1"
+   },
+   {
+    "station": "IMOS3376",
+    "status": "observed",
+    "data_form": "IMOS3376",
+    "path_class": "clear deep path",
+    "window_utc": "00:51:31.5",
+    "window_end_utc": "00:52:01.5",
+    "T1_db": -0.3275278212402405,
+    "snr_pred_db_at_best_E": -9.741098762905025,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [],
+    "chance_match_rate": 0.031155778894472363,
+    "graded_log_lr": -0.37782946108058546,
+    "station_p": 0.572289156626506
+   },
+   {
+    "station": "IMOS3250",
+    "status": "observed",
+    "data_form": "IMOS3250",
+    "path_class": "ridge above the channel axis",
+    "window_utc": "01:03:41.9",
+    "window_end_utc": "01:04:11.9",
+    "T1_db": 11.09470080992046,
+    "snr_pred_db_at_best_E": -79.9382131350024,
+    "detected_1day": false,
+    "detected_1hour": false,
+    "known_event_matches": [],
+    "chance_match_rate": 0.025025025025025027,
+    "graded_log_lr": 0.004866671719363825,
+    "station_p": 0.12
+   },
+   {
+    "station": "IMOS3274",
+    "status": "land path (missing)"
+   },
+   {
+    "station": "IMOS3275",
+    "status": "land path (missing)"
+   }
+  ],
+  "run": "primary: zero bias, wide spread (sd 12.58 dB); stations: level data only (Cape Leeuwin, Diego Garcia South, 5 IMOS loggers)"
+ }
+]

@@ -1,0 +1,3940 @@
+{
+ "version": "pd-curves-2026-11-03-v2",
+ "detector": "T1 band-energy excess: 10 log10(E_W / median E_W), Butterworth 4-pole zero-phase 5-40 Hz, 1 s step; alarms declustered (runs closer than W are one alarm)",
+ "window_s": 30.0,
+ "band_hz": [
+  5,
+  40
+ ],
+ "stations": {
+  "H01W": {
+   "data_form": "raw_ims_single",
+   "noise_level_db": 103.68,
+   "noise_sd_db": 1.17,
+   "fa": {
+    "1/day": {
+     "threshold_snr_db": 17.0,
+     "snr50_db": 16.912,
+     "sigma_db": 0.12,
+     "pd_floor": 0.0,
+     "snr10_db": 16.758,
+     "snr90_db": 17.065,
+     "max_bin_gap": 0.01,
+     "n_injections": 632502
+    },
+    "1/hour": {
+     "threshold_snr_db": 5.95,
+     "snr50_db": 4.579,
+     "sigma_db": 0.286,
+     "pd_floor": 0.0237,
+     "snr10_db": 4.174,
+     "snr90_db": 4.942,
+     "max_bin_gap": 0.031,
+     "n_injections": 632502
+    }
+   },
+   "basis": "T1 band-energy excess 5-40 Hz, W 30 s, arrival 90 % duration 15 s. Thresholds from empirical alarm rates in open raw IMS data, March 2015-2019, 00:00-04:00 UTC (113 days). P_D from injection of the shared source-model signal into the same data (each injection alone). SNR is relative to the local median window energy, so sigma_db is the detector term only; the user adds noise_sd_db and the propagation sd. Noise level: 8 Mar 2014 preferred 5-40 Hz level 104.28 dB re 1 uPa (p10 102.88, p90 105.88), minus 0.60 dB to convert mean power to the median 30 s window energy (offset measured on March 2015-2019 Cape Leeuwin data, median 103.17 dB).",
+   "variants": {
+    "W10_D15": {
+     "1/day": {
+      "threshold_snr_db": 19.75,
+      "snr50_db": 20.679,
+      "sigma_db": 0.158,
+      "pd_floor": 0.0,
+      "snr10_db": 20.476,
+      "snr90_db": 20.881,
+      "max_bin_gap": 0.004,
+      "n_injections": 632502
+     },
+     "1/hour": {
+      "threshold_snr_db": 8.3,
+      "snr50_db": 8.527,
+      "sigma_db": 0.276,
+      "pd_floor": 0.0128,
+      "snr10_db": 8.155,
+      "snr90_db": 8.878,
+      "max_bin_gap": 0.016,
+      "n_injections": 632502
+     }
+    },
+    "W10_D60": {
+     "1/day": {
+      "threshold_snr_db": 19.75,
+      "snr50_db": 25.238,
+      "sigma_db": 0.315,
+      "pd_floor": 0.0011,
+      "snr10_db": 24.833,
+      "snr90_db": 25.641,
+      "max_bin_gap": 0.005,
+      "n_injections": 633555
+     },
+     "1/hour": {
+      "threshold_snr_db": 8.3,
+      "snr50_db": 13.052,
+      "sigma_db": 0.385,
+      "pd_floor": 0.0268,
+      "snr10_db": 12.498,
+      "snr90_db": 13.54,
+      "max_bin_gap": 0.022,
+      "n_injections": 633555
+     }
+    },
+    "W30_D15": {
+     "1/day": {
+      "threshold_snr_db": 17.0,
+      "snr50_db": 16.912,
+      "sigma_db": 0.12,
+      "pd_floor": 0.0,
+      "snr10_db": 16.758,
+      "snr90_db": 17.065,
+      "max_bin_gap": 0.01,
+      "n_injections": 632502
+     },
+     "1/hour": {
+      "threshold_snr_db": 5.95,
+      "snr50_db": 4.579,
+      "sigma_db": 0.286,
+      "pd_floor": 0.0237,
+      "snr10_db": 4.174,
+      "snr90_db": 4.942,
+      "max_bin_gap": 0.031,
+      "n_injections": 632502
+     }
+    },
+    "W30_D60": {
+     "1/day": {
+      "threshold_snr_db": 17.0,
+      "snr50_db": 18.578,
+      "sigma_db": 0.129,
+      "pd_floor": 0.0017,
+      "snr10_db": 18.411,
+      "snr90_db": 18.743,
+      "max_bin_gap": 0.003,
+      "n_injections": 633555
+     },
+     "1/hour": {
+      "threshold_snr_db": 5.95,
+      "snr50_db": 6.285,
+      "sigma_db": 0.275,
+      "pd_floor": 0.044,
+      "snr10_db": 5.855,
+      "snr90_db": 6.63,
+      "max_bin_gap": 0.029,
+      "n_injections": 633555
+     }
+    },
+    "W60_D15": {
+     "1/day": {
+      "threshold_snr_db": 14.85,
+      "snr50_db": 14.69,
+      "sigma_db": 0.054,
+      "pd_floor": 0.0013,
+      "snr10_db": 14.619,
+      "snr90_db": 14.759,
+      "max_bin_gap": 0.01,
+      "n_injections": 631098
+     },
+     "1/hour": {
+      "threshold_snr_db": 4.35,
+      "snr50_db": 2.135,
+      "sigma_db": 0.383,
+      "pd_floor": 0.041,
+      "snr10_db": 1.545,
+      "snr90_db": 2.617,
+      "max_bin_gap": 0.063,
+      "n_injections": 631098
+     }
+    },
+    "W60_D60": {
+     "1/day": {
+      "threshold_snr_db": 14.85,
+      "snr50_db": 14.969,
+      "sigma_db": 0.058,
+      "pd_floor": 0.002,
+      "snr10_db": 14.893,
+      "snr90_db": 15.044,
+      "max_bin_gap": 0.006,
+      "n_injections": 632853
+     },
+     "1/hour": {
+      "threshold_snr_db": 4.35,
+      "snr50_db": 2.571,
+      "sigma_db": 0.321,
+      "pd_floor": 0.059,
+      "snr10_db": 2.023,
+      "snr90_db": 2.971,
+      "max_bin_gap": 0.041,
+      "n_injections": 632853
+     }
+    }
+   }
+  },
+  "H01W_array": {
+   "data_form": "raw_ims_array_incoherent",
+   "noise_level_db": 103.68,
+   "noise_sd_db": 1.17,
+   "fa": {
+    "1/day": {
+     "threshold_snr_db": 17.4,
+     "snr50_db": 17.428,
+     "sigma_db": 0.13,
+     "pd_floor": 0.0,
+     "snr10_db": 17.261,
+     "snr90_db": 17.595,
+     "max_bin_gap": 0.011,
+     "n_injections": 210834
+    },
+    "1/hour": {
+     "threshold_snr_db": 6.0,
+     "snr50_db": 4.667,
+     "sigma_db": 0.287,
+     "pd_floor": 0.0239,
+     "snr10_db": 4.261,
+     "snr90_db": 5.031,
+     "max_bin_gap": 0.042,
+     "n_injections": 210834
+    }
+   },
+   "basis": "T1 band-energy excess 5-40 Hz, W 30 s, arrival 90 % duration 15 s. Thresholds from empirical alarm rates in open raw IMS data, March 2015-2019, 00:00-04:00 UTC (113 days). P_D from injection of the shared source-model signal into the same data (each injection alone). SNR is relative to the local median window energy, so sigma_db is the detector term only; the user adds noise_sd_db and the propagation sd. Noise level: 8 Mar 2014 preferred 5-40 Hz level 104.28 dB re 1 uPa (p10 102.88, p90 105.88), minus 0.60 dB to convert mean power to the median 30 s window energy (offset measured on March 2015-2019 Cape Leeuwin data, median 103.17 dB).",
+   "variants": {
+    "W10_D15": {
+     "1/day": {
+      "threshold_snr_db": 20.15,
+      "snr50_db": 21.08,
+      "sigma_db": 0.185,
+      "pd_floor": 0.0,
+      "snr10_db": 20.843,
+      "snr90_db": 21.317,
+      "max_bin_gap": 0.006,
+      "n_injections": 210834
+     },
+     "1/hour": {
+      "threshold_snr_db": 8.3,
+      "snr50_db": 8.532,
+      "sigma_db": 0.246,
+      "pd_floor": 0.0139,
+      "snr10_db": 8.198,
+      "snr90_db": 8.845,
+      "max_bin_gap": 0.016,
+      "n_injections": 210834
+     }
+    },
+    "W10_D60": {
+     "1/day": {
+      "threshold_snr_db": 20.15,
+      "snr50_db": 25.636,
+      "sigma_db": 0.318,
+      "pd_floor": 0.0011,
+      "snr10_db": 25.227,
+      "snr90_db": 26.044,
+      "max_bin_gap": 0.001,
+      "n_injections": 211185
+     },
+     "1/hour": {
+      "threshold_snr_db": 8.3,
+      "snr50_db": 13.075,
+      "sigma_db": 0.372,
+      "pd_floor": 0.0277,
+      "snr10_db": 12.538,
+      "snr90_db": 13.545,
+      "max_bin_gap": 0.02,
+      "n_injections": 211185
+     }
+    },
+    "W30_D15": {
+     "1/day": {
+      "threshold_snr_db": 17.4,
+      "snr50_db": 17.428,
+      "sigma_db": 0.13,
+      "pd_floor": 0.0,
+      "snr10_db": 17.261,
+      "snr90_db": 17.595,
+      "max_bin_gap": 0.011,
+      "n_injections": 210834
+     },
+     "1/hour": {
+      "threshold_snr_db": 6.0,
+      "snr50_db": 4.667,
+      "sigma_db": 0.287,
+      "pd_floor": 0.0239,
+      "snr10_db": 4.261,
+      "snr90_db": 5.031,
+      "max_bin_gap": 0.042,
+      "n_injections": 210834
+     }
+    },
+    "W30_D60": {
+     "1/day": {
+      "threshold_snr_db": 17.4,
+      "snr50_db": 18.983,
+      "sigma_db": 0.124,
+      "pd_floor": 0.0017,
+      "snr10_db": 18.824,
+      "snr90_db": 19.142,
+      "max_bin_gap": 0.004,
+      "n_injections": 211185
+     },
+     "1/hour": {
+      "threshold_snr_db": 6.0,
+      "snr50_db": 6.368,
+      "sigma_db": 0.201,
+      "pd_floor": 0.0443,
+      "snr10_db": 6.053,
+      "snr90_db": 6.621,
+      "max_bin_gap": 0.028,
+      "n_injections": 211185
+     }
+    },
+    "W60_D15": {
+     "1/day": {
+      "threshold_snr_db": 14.9,
+      "snr50_db": 14.817,
+      "sigma_db": 0.098,
+      "pd_floor": 0.0011,
+      "snr10_db": 14.69,
+      "snr90_db": 14.943,
+      "max_bin_gap": 0.009,
+      "n_injections": 210366
+     },
+     "1/hour": {
+      "threshold_snr_db": 4.35,
+      "snr50_db": 2.167,
+      "sigma_db": 0.343,
+      "pd_floor": 0.0423,
+      "snr10_db": 1.635,
+      "snr90_db": 2.598,
+      "max_bin_gap": 0.062,
+      "n_injections": 210366
+     }
+    },
+    "W60_D60": {
+     "1/day": {
+      "threshold_snr_db": 14.9,
+      "snr50_db": 14.925,
+      "sigma_db": 0.102,
+      "pd_floor": 0.0022,
+      "snr10_db": 14.793,
+      "snr90_db": 15.056,
+      "max_bin_gap": 0.005,
+      "n_injections": 210951
+     },
+     "1/hour": {
+      "threshold_snr_db": 4.35,
+      "snr50_db": 2.57,
+      "sigma_db": 0.306,
+      "pd_floor": 0.0593,
+      "snr10_db": 2.046,
+      "snr90_db": 2.951,
+      "max_bin_gap": 0.043,
+      "n_injections": 210951
+     }
+    }
+   }
+  },
+  "H01W_envelope": {
+   "data_form": "envelope_kadri",
+   "noise_level_db": 103.68,
+   "noise_sd_db": 1.17,
+   "fa": {
+    "1/day": {
+     "threshold_snr_db": 15.7,
+     "snr50_db": 16.632,
+     "sigma_db": 0.82,
+     "pd_floor": 0.0,
+     "snr10_db": 15.581,
+     "snr90_db": 17.683,
+     "max_bin_gap": 0.222,
+     "n_injections": 630045
+    },
+    "1/hour": {
+     "threshold_snr_db": 5.8,
+     "snr50_db": 5.242,
+     "sigma_db": 0.999,
+     "pd_floor": 0.0218,
+     "snr10_db": 3.837,
+     "snr90_db": 6.511,
+     "max_bin_gap": 0.182,
+     "n_injections": 630045
+    }
+   },
+   "basis": "T1 band-energy excess 5-40 Hz, W 30 s, arrival 90 % duration 15 s. Thresholds from empirical alarm rates in open raw IMS data, March 2015-2019, 00:00-04:00 UTC (113 days). P_D from injection of the shared source-model signal into the same data (each injection alone). SNR is relative to the local median window energy, so sigma_db is the detector term only; the user adds noise_sd_db and the propagation sd. Noise level: 8 Mar 2014 preferred 5-40 Hz level 104.28 dB re 1 uPa (p10 102.88, p90 105.88), minus 0.60 dB to convert mean power to the median 30 s window energy (offset measured on March 2015-2019 Cape Leeuwin data, median 103.17 dB). Envelope form: emulation of digitised Kadri traces (largest |p| per 0.0523 s bin, 10-min panel reference) on raw IMS data; the fit gap is large, so use empirical_pd_table [snr_bin_db, P_D, n]. Kadri-trace noise calibration (vertex emulator): Cape Leeuwin 104.45 +- 1.27, Diego Garcia South 105.36 +- 2.70 dB.",
+   "variants": {
+    "W10_D15": {
+     "1/day": {
+      "threshold_snr_db": 18.55,
+      "snr50_db": 20.508,
+      "sigma_db": 0.614,
+      "pd_floor": 0.0,
+      "snr10_db": 19.721,
+      "snr90_db": 21.294,
+      "max_bin_gap": 0.145,
+      "n_injections": 630045
+     },
+     "1/hour": {
+      "threshold_snr_db": 7.9,
+      "snr50_db": 8.931,
+      "sigma_db": 0.771,
+      "pd_floor": 0.0104,
+      "snr10_db": 7.9,
+      "snr90_db": 9.914,
+      "max_bin_gap": 0.084,
+      "n_injections": 630045
+     }
+    },
+    "W10_D60": {
+     "1/day": {
+      "threshold_snr_db": 18.55,
+      "snr50_db": 25.136,
+      "sigma_db": 0.764,
+      "pd_floor": 0.0017,
+      "snr10_db": 24.15,
+      "snr90_db": 26.114,
+      "max_bin_gap": 0.108,
+      "n_injections": 624429
+     },
+     "1/hour": {
+      "threshold_snr_db": 7.9,
+      "snr50_db": 13.477,
+      "sigma_db": 0.904,
+      "pd_floor": 0.0258,
+      "snr10_db": 12.183,
+      "snr90_db": 14.623,
+      "max_bin_gap": 0.134,
+      "n_injections": 624429
+     }
+    },
+    "W30_D15": {
+     "1/day": {
+      "threshold_snr_db": 15.7,
+      "snr50_db": 16.632,
+      "sigma_db": 0.82,
+      "pd_floor": 0.0,
+      "snr10_db": 15.581,
+      "snr90_db": 17.683,
+      "max_bin_gap": 0.222,
+      "n_injections": 630045
+     },
+     "1/hour": {
+      "threshold_snr_db": 5.8,
+      "snr50_db": 5.242,
+      "sigma_db": 0.999,
+      "pd_floor": 0.0218,
+      "snr10_db": 3.837,
+      "snr90_db": 6.511,
+      "max_bin_gap": 0.182,
+      "n_injections": 630045
+     }
+    },
+    "W30_D60": {
+     "1/day": {
+      "threshold_snr_db": 15.7,
+      "snr50_db": 18.458,
+      "sigma_db": 1.367,
+      "pd_floor": 0.0017,
+      "snr10_db": 16.694,
+      "snr90_db": 20.209,
+      "max_bin_gap": 0.305,
+      "n_injections": 624429
+     },
+     "1/hour": {
+      "threshold_snr_db": 5.8,
+      "snr50_db": 6.959,
+      "sigma_db": 1.581,
+      "pd_floor": 0.038,
+      "snr10_db": 4.559,
+      "snr90_db": 8.95,
+      "max_bin_gap": 0.217,
+      "n_injections": 624429
+     }
+    },
+    "W60_D15": {
+     "1/day": {
+      "threshold_snr_db": 13.85,
+      "snr50_db": 14.724,
+      "sigma_db": 0.803,
+      "pd_floor": 0.0006,
+      "snr10_db": 13.694,
+      "snr90_db": 15.753,
+      "max_bin_gap": 0.182,
+      "n_injections": 629694
+     },
+     "1/hour": {
+      "threshold_snr_db": 4.25,
+      "snr50_db": 2.829,
+      "sigma_db": 1.163,
+      "pd_floor": 0.0348,
+      "snr10_db": 1.091,
+      "snr90_db": 4.296,
+      "max_bin_gap": 0.137,
+      "n_injections": 629694
+     }
+    },
+    "W60_D60": {
+     "1/day": {
+      "threshold_snr_db": 13.85,
+      "snr50_db": 15.242,
+      "sigma_db": 1.648,
+      "pd_floor": 0.0013,
+      "snr10_db": 13.119,
+      "snr90_db": 17.353,
+      "max_bin_gap": 0.278,
+      "n_injections": 624429
+     },
+     "1/hour": {
+      "threshold_snr_db": 4.25,
+      "snr50_db": 3.259,
+      "sigma_db": 1.927,
+      "pd_floor": 0.0516,
+      "snr10_db": 0.108,
+      "snr90_db": 5.67,
+      "max_bin_gap": 0.258,
+      "n_injections": 624429
+     }
+    }
+   },
+   "empirical_pd_table": {
+    "1/day": [
+     [
+      -17.0,
+      0.0,
+      5385
+     ],
+     [
+      -16.0,
+      0.0,
+      10770
+     ],
+     [
+      -15.0,
+      0.0,
+      10770
+     ],
+     [
+      -14.0,
+      0.0,
+      10770
+     ],
+     [
+      -13.0,
+      0.0,
+      10770
+     ],
+     [
+      -12.0,
+      0.0,
+      10770
+     ],
+     [
+      -11.0,
+      0.0,
+      10770
+     ],
+     [
+      -10.0,
+      0.0,
+      10770
+     ],
+     [
+      -9.0,
+      0.0,
+      10770
+     ],
+     [
+      -8.0,
+      0.0,
+      10770
+     ],
+     [
+      -7.0,
+      0.0,
+      10770
+     ],
+     [
+      -6.0,
+      0.0,
+      10770
+     ],
+     [
+      -5.0,
+      0.0,
+      10770
+     ],
+     [
+      -4.0,
+      0.0,
+      10770
+     ],
+     [
+      -3.0,
+      0.0,
+      10770
+     ],
+     [
+      -2.0,
+      0.0,
+      10770
+     ],
+     [
+      -1.0,
+      0.0,
+      10770
+     ],
+     [
+      -0.0,
+      0.0,
+      10770
+     ],
+     [
+      1.0,
+      0.0,
+      10770
+     ],
+     [
+      2.0,
+      0.0,
+      10770
+     ],
+     [
+      3.0,
+      0.0001,
+      10770
+     ],
+     [
+      4.0,
+      0.0002,
+      10770
+     ],
+     [
+      5.0,
+      0.0002,
+      10770
+     ],
+     [
+      6.0,
+      0.0002,
+      10770
+     ],
+     [
+      7.0,
+      0.0002,
+      10770
+     ],
+     [
+      8.0,
+      0.0002,
+      10770
+     ],
+     [
+      9.0,
+      0.0005,
+      10770
+     ],
+     [
+      10.0,
+      0.0006,
+      10770
+     ],
+     [
+      11.0,
+      0.0007,
+      10770
+     ],
+     [
+      12.0,
+      0.0009,
+      10770
+     ],
+     [
+      13.0,
+      0.0017,
+      10770
+     ],
+     [
+      14.0,
+      0.0022,
+      10770
+     ],
+     [
+      15.0,
+      0.0028,
+      10770
+     ],
+     [
+      16.0,
+      0.0442,
+      10770
+     ],
+     [
+      17.0,
+      0.8753,
+      10770
+     ],
+     [
+      18.0,
+      0.9828,
+      10770
+     ],
+     [
+      19.0,
+      0.9887,
+      10770
+     ],
+     [
+      20.0,
+      0.9923,
+      10770
+     ],
+     [
+      21.0,
+      0.9953,
+      10770
+     ],
+     [
+      22.0,
+      0.9961,
+      10770
+     ],
+     [
+      23.0,
+      0.9972,
+      10770
+     ],
+     [
+      24.0,
+      0.9983,
+      10770
+     ],
+     [
+      25.0,
+      0.9991,
+      10770
+     ],
+     [
+      26.0,
+      1.0,
+      10770
+     ],
+     [
+      27.0,
+      1.0,
+      10770
+     ],
+     [
+      28.0,
+      1.0,
+      10770
+     ],
+     [
+      29.0,
+      1.0,
+      10770
+     ],
+     [
+      30.0,
+      1.0,
+      10770
+     ],
+     [
+      31.0,
+      1.0,
+      10770
+     ],
+     [
+      32.0,
+      1.0,
+      10770
+     ],
+     [
+      33.0,
+      1.0,
+      10770
+     ],
+     [
+      34.0,
+      1.0,
+      10770
+     ],
+     [
+      35.0,
+      1.0,
+      10770
+     ],
+     [
+      36.0,
+      1.0,
+      10770
+     ],
+     [
+      37.0,
+      1.0,
+      10770
+     ],
+     [
+      38.0,
+      1.0,
+      10770
+     ],
+     [
+      39.0,
+      1.0,
+      10770
+     ],
+     [
+      40.0,
+      1.0,
+      10770
+     ],
+     [
+      41.0,
+      1.0,
+      10715
+     ],
+     [
+      42.0,
+      1.0,
+      55
+     ]
+    ],
+    "1/hour": [
+     [
+      -17.0,
+      0.0215,
+      5385
+     ],
+     [
+      -16.0,
+      0.022,
+      10770
+     ],
+     [
+      -15.0,
+      0.0221,
+      10770
+     ],
+     [
+      -14.0,
+      0.0221,
+      10770
+     ],
+     [
+      -13.0,
+      0.0221,
+      10770
+     ],
+     [
+      -12.0,
+      0.0221,
+      10770
+     ],
+     [
+      -11.0,
+      0.0221,
+      10770
+     ],
+     [
+      -10.0,
+      0.0223,
+      10770
+     ],
+     [
+      -9.0,
+      0.0223,
+      10770
+     ],
+     [
+      -8.0,
+      0.0223,
+      10770
+     ],
+     [
+      -7.0,
+      0.0223,
+      10770
+     ],
+     [
+      -6.0,
+      0.0227,
+      10770
+     ],
+     [
+      -5.0,
+      0.0228,
+      10770
+     ],
+     [
+      -4.0,
+      0.0231,
+      10770
+     ],
+     [
+      -3.0,
+      0.0237,
+      10770
+     ],
+     [
+      -2.0,
+      0.0245,
+      10770
+     ],
+     [
+      -1.0,
+      0.0257,
+      10770
+     ],
+     [
+      -0.0,
+      0.028,
+      10770
+     ],
+     [
+      1.0,
+      0.0296,
+      10770
+     ],
+     [
+      2.0,
+      0.0334,
+      10770
+     ],
+     [
+      3.0,
+      0.0414,
+      10770
+     ],
+     [
+      4.0,
+      0.0609,
+      10770
+     ],
+     [
+      5.0,
+      0.3095,
+      10770
+     ],
+     [
+      6.0,
+      0.9473,
+      10770
+     ],
+     [
+      7.0,
+      0.9855,
+      10770
+     ],
+     [
+      8.0,
+      0.9897,
+      10770
+     ],
+     [
+      9.0,
+      0.9928,
+      10770
+     ],
+     [
+      10.0,
+      0.9954,
+      10770
+     ],
+     [
+      11.0,
+      0.9962,
+      10770
+     ],
+     [
+      12.0,
+      0.9971,
+      10770
+     ],
+     [
+      13.0,
+      0.9986,
+      10770
+     ],
+     [
+      14.0,
+      0.999,
+      10770
+     ],
+     [
+      15.0,
+      1.0,
+      10770
+     ],
+     [
+      16.0,
+      1.0,
+      10770
+     ],
+     [
+      17.0,
+      1.0,
+      10770
+     ],
+     [
+      18.0,
+      1.0,
+      10770
+     ],
+     [
+      19.0,
+      1.0,
+      10770
+     ],
+     [
+      20.0,
+      1.0,
+      10770
+     ],
+     [
+      21.0,
+      1.0,
+      10770
+     ],
+     [
+      22.0,
+      1.0,
+      10770
+     ],
+     [
+      23.0,
+      1.0,
+      10770
+     ],
+     [
+      24.0,
+      1.0,
+      10770
+     ],
+     [
+      25.0,
+      1.0,
+      10770
+     ],
+     [
+      26.0,
+      1.0,
+      10770
+     ],
+     [
+      27.0,
+      1.0,
+      10770
+     ],
+     [
+      28.0,
+      1.0,
+      10770
+     ],
+     [
+      29.0,
+      1.0,
+      10770
+     ],
+     [
+      30.0,
+      1.0,
+      10770
+     ],
+     [
+      31.0,
+      1.0,
+      10770
+     ],
+     [
+      32.0,
+      1.0,
+      10770
+     ],
+     [
+      33.0,
+      1.0,
+      10770
+     ],
+     [
+      34.0,
+      1.0,
+      10770
+     ],
+     [
+      35.0,
+      1.0,
+      10770
+     ],
+     [
+      36.0,
+      1.0,
+      10770
+     ],
+     [
+      37.0,
+      1.0,
+      10770
+     ],
+     [
+      38.0,
+      1.0,
+      10770
+     ],
+     [
+      39.0,
+      1.0,
+      10770
+     ],
+     [
+      40.0,
+      1.0,
+      10770
+     ],
+     [
+      41.0,
+      1.0,
+      10715
+     ],
+     [
+      42.0,
+      1.0,
+      55
+     ]
+    ]
+   }
+  },
+  "H08S": {
+   "data_form": "raw_ims_single",
+   "noise_level_db": 100.43,
+   "noise_sd_db": 2.42,
+   "fa": {
+    "1/day": {
+     "threshold_snr_db": 21.9,
+     "snr50_db": 21.874,
+     "sigma_db": 0.025,
+     "pd_floor": 0.0015,
+     "snr10_db": 21.842,
+     "snr90_db": 21.906,
+     "max_bin_gap": 0.001,
+     "n_injections": 859248
+    },
+    "1/hour": {
+     "threshold_snr_db": 4.5,
+     "snr50_db": 2.464,
+     "sigma_db": 0.387,
+     "pd_floor": 0.023,
+     "snr10_db": 1.917,
+     "snr90_db": 2.954,
+     "max_bin_gap": 0.037,
+     "n_injections": 859248
+    }
+   },
+   "basis": "T1 band-energy excess 5-40 Hz, W 30 s, arrival 90 % duration 15 s. Thresholds from empirical alarm rates in open raw IMS data, March 2015-2019, 00:00-04:00 UTC (153 days). P_D from injection of the shared source-model signal into the same data (each injection alone). SNR is relative to the local median window energy, so sigma_db is the detector term only; the user adds noise_sd_db and the propagation sd. Noise level: 8 Mar 2014 preferred 5-40 Hz level 100.43 dB re 1 uPa between airgun shots (p10 97.28, p90 103.47); no conversion applied (between-shot level is already close to a median); March 2015-2019 median 97.46 dB.",
+   "variants": {
+    "W10_D15": {
+     "1/day": {
+      "threshold_snr_db": 25.45,
+      "snr50_db": 26.412,
+      "sigma_db": 0.137,
+      "pd_floor": 0.0015,
+      "snr10_db": 26.235,
+      "snr90_db": 26.587,
+      "max_bin_gap": 0.002,
+      "n_injections": 859248
+     },
+     "1/hour": {
+      "threshold_snr_db": 6.85,
+      "snr50_db": 6.754,
+      "sigma_db": 0.337,
+      "pd_floor": 0.0108,
+      "snr10_db": 6.302,
+      "snr90_db": 7.184,
+      "max_bin_gap": 0.013,
+      "n_injections": 859248
+     }
+    },
+    "W10_D60": {
+     "1/day": {
+      "threshold_snr_db": 25.45,
+      "snr50_db": 30.967,
+      "sigma_db": 0.295,
+      "pd_floor": 0.001,
+      "snr10_db": 30.588,
+      "snr90_db": 31.345,
+      "max_bin_gap": 0.004,
+      "n_injections": 859248
+     },
+     "1/hour": {
+      "threshold_snr_db": 6.85,
+      "snr50_db": 11.243,
+      "sigma_db": 0.424,
+      "pd_floor": 0.024,
+      "snr10_db": 10.64,
+      "snr90_db": 11.78,
+      "max_bin_gap": 0.024,
+      "n_injections": 859248
+     }
+    },
+    "W30_D15": {
+     "1/day": {
+      "threshold_snr_db": 21.9,
+      "snr50_db": 21.874,
+      "sigma_db": 0.025,
+      "pd_floor": 0.0015,
+      "snr10_db": 21.842,
+      "snr90_db": 21.906,
+      "max_bin_gap": 0.001,
+      "n_injections": 859248
+     },
+     "1/hour": {
+      "threshold_snr_db": 4.5,
+      "snr50_db": 2.464,
+      "sigma_db": 0.387,
+      "pd_floor": 0.023,
+      "snr10_db": 1.917,
+      "snr90_db": 2.954,
+      "max_bin_gap": 0.037,
+      "n_injections": 859248
+     }
+    },
+    "W30_D60": {
+     "1/day": {
+      "threshold_snr_db": 21.9,
+      "snr50_db": 23.547,
+      "sigma_db": 0.118,
+      "pd_floor": 0.0016,
+      "snr10_db": 23.395,
+      "snr90_db": 23.698,
+      "max_bin_gap": 0.002,
+      "n_injections": 859248
+     },
+     "1/hour": {
+      "threshold_snr_db": 4.5,
+      "snr50_db": 4.166,
+      "sigma_db": 0.379,
+      "pd_floor": 0.0353,
+      "snr10_db": 3.598,
+      "snr90_db": 4.644,
+      "max_bin_gap": 0.035,
+      "n_injections": 859248
+     }
+    },
+    "W60_D15": {
+     "1/day": {
+      "threshold_snr_db": 19.55,
+      "snr50_db": 19.489,
+      "sigma_db": 0.03,
+      "pd_floor": 0.003,
+      "snr10_db": 19.45,
+      "snr90_db": 19.527,
+      "max_bin_gap": 0.003,
+      "n_injections": 859248
+     },
+     "1/hour": {
+      "threshold_snr_db": 3.1,
+      "snr50_db": -0.085,
+      "sigma_db": 0.534,
+      "pd_floor": 0.0387,
+      "snr10_db": -0.9,
+      "snr90_db": 0.587,
+      "max_bin_gap": 0.048,
+      "n_injections": 859248
+     }
+    },
+    "W60_D60": {
+     "1/day": {
+      "threshold_snr_db": 19.55,
+      "snr50_db": 19.785,
+      "sigma_db": 0.034,
+      "pd_floor": 0.002,
+      "snr10_db": 19.741,
+      "snr90_db": 19.828,
+      "max_bin_gap": 0.002,
+      "n_injections": 859248
+     },
+     "1/hour": {
+      "threshold_snr_db": 3.1,
+      "snr50_db": 0.357,
+      "sigma_db": 0.468,
+      "pd_floor": 0.0523,
+      "snr10_db": -0.411,
+      "snr90_db": 0.942,
+      "max_bin_gap": 0.052,
+      "n_injections": 859248
+     }
+    }
+   }
+  },
+  "H08S_array": {
+   "data_form": "raw_ims_array_incoherent",
+   "noise_level_db": 100.43,
+   "noise_sd_db": 2.42,
+   "fa": {
+    "1/day": {
+     "threshold_snr_db": 22.1,
+     "snr50_db": 21.933,
+     "sigma_db": 0.068,
+     "pd_floor": 0.0016,
+     "snr10_db": 21.845,
+     "snr90_db": 22.021,
+     "max_bin_gap": 0.001,
+     "n_injections": 286416
+    },
+    "1/hour": {
+     "threshold_snr_db": 4.45,
+     "snr50_db": 2.412,
+     "sigma_db": 0.315,
+     "pd_floor": 0.0245,
+     "snr10_db": 1.964,
+     "snr90_db": 2.811,
+     "max_bin_gap": 0.037,
+     "n_injections": 286416
+    }
+   },
+   "basis": "T1 band-energy excess 5-40 Hz, W 30 s, arrival 90 % duration 15 s. Thresholds from empirical alarm rates in open raw IMS data, March 2015-2019, 00:00-04:00 UTC (153 days). P_D from injection of the shared source-model signal into the same data (each injection alone). SNR is relative to the local median window energy, so sigma_db is the detector term only; the user adds noise_sd_db and the propagation sd. Noise level: 8 Mar 2014 preferred 5-40 Hz level 100.43 dB re 1 uPa between airgun shots (p10 97.28, p90 103.47); no conversion applied (between-shot level is already close to a median); March 2015-2019 median 97.46 dB.",
+   "variants": {
+    "W10_D15": {
+     "1/day": {
+      "threshold_snr_db": 27.0,
+      "snr50_db": 27.953,
+      "sigma_db": 0.145,
+      "pd_floor": 0.0016,
+      "snr10_db": 27.766,
+      "snr90_db": 28.139,
+      "max_bin_gap": 0.0,
+      "n_injections": 286416
+     },
+     "1/hour": {
+      "threshold_snr_db": 6.75,
+      "snr50_db": 6.648,
+      "sigma_db": 0.267,
+      "pd_floor": 0.0114,
+      "snr10_db": 6.29,
+      "snr90_db": 6.989,
+      "max_bin_gap": 0.017,
+      "n_injections": 286416
+     }
+    },
+    "W10_D60": {
+     "1/day": {
+      "threshold_snr_db": 27.0,
+      "snr50_db": 32.516,
+      "sigma_db": 0.297,
+      "pd_floor": 0.0008,
+      "snr10_db": 32.133,
+      "snr90_db": 32.896,
+      "max_bin_gap": 0.009,
+      "n_injections": 286416
+     },
+     "1/hour": {
+      "threshold_snr_db": 6.75,
+      "snr50_db": 11.163,
+      "sigma_db": 0.382,
+      "pd_floor": 0.0237,
+      "snr10_db": 10.622,
+      "snr90_db": 11.647,
+      "max_bin_gap": 0.022,
+      "n_injections": 286416
+     }
+    },
+    "W30_D15": {
+     "1/day": {
+      "threshold_snr_db": 22.1,
+      "snr50_db": 21.933,
+      "sigma_db": 0.068,
+      "pd_floor": 0.0016,
+      "snr10_db": 21.845,
+      "snr90_db": 22.021,
+      "max_bin_gap": 0.001,
+      "n_injections": 286416
+     },
+     "1/hour": {
+      "threshold_snr_db": 4.45,
+      "snr50_db": 2.412,
+      "sigma_db": 0.315,
+      "pd_floor": 0.0245,
+      "snr10_db": 1.964,
+      "snr90_db": 2.811,
+      "max_bin_gap": 0.037,
+      "n_injections": 286416
+     }
+    },
+    "W30_D60": {
+     "1/day": {
+      "threshold_snr_db": 22.1,
+      "snr50_db": 23.751,
+      "sigma_db": 0.165,
+      "pd_floor": 0.0016,
+      "snr10_db": 23.538,
+      "snr90_db": 23.962,
+      "max_bin_gap": 0.001,
+      "n_injections": 286416
+     },
+     "1/hour": {
+      "threshold_snr_db": 4.45,
+      "snr50_db": 4.114,
+      "sigma_db": 0.317,
+      "pd_floor": 0.0359,
+      "snr10_db": 3.637,
+      "snr90_db": 4.513,
+      "max_bin_gap": 0.036,
+      "n_injections": 286416
+     }
+    },
+    "W60_D15": {
+     "1/day": {
+      "threshold_snr_db": 19.35,
+      "snr50_db": 19.298,
+      "sigma_db": 0.042,
+      "pd_floor": 0.0029,
+      "snr10_db": 19.243,
+      "snr90_db": 19.352,
+      "max_bin_gap": 0.004,
+      "n_injections": 286416
+     },
+     "1/hour": {
+      "threshold_snr_db": 3.0,
+      "snr50_db": -0.25,
+      "sigma_db": 0.486,
+      "pd_floor": 0.0425,
+      "snr10_db": -1.005,
+      "snr90_db": 0.36,
+      "max_bin_gap": 0.051,
+      "n_injections": 286416
+     }
+    },
+    "W60_D60": {
+     "1/day": {
+      "threshold_snr_db": 19.35,
+      "snr50_db": 19.584,
+      "sigma_db": 0.027,
+      "pd_floor": 0.002,
+      "snr10_db": 19.549,
+      "snr90_db": 19.618,
+      "max_bin_gap": 0.003,
+      "n_injections": 286416
+     },
+     "1/hour": {
+      "threshold_snr_db": 3.0,
+      "snr50_db": 0.182,
+      "sigma_db": 0.418,
+      "pd_floor": 0.0527,
+      "snr10_db": -0.505,
+      "snr90_db": 0.704,
+      "max_bin_gap": 0.051,
+      "n_injections": 286416
+     }
+    }
+   }
+  },
+  "H08S_envelope": {
+   "data_form": "envelope_kadri",
+   "noise_level_db": 100.43,
+   "noise_sd_db": 2.42,
+   "fa": {
+    "1/day": {
+     "threshold_snr_db": 20.3,
+     "snr50_db": 21.384,
+     "sigma_db": 0.822,
+     "pd_floor": 0.0019,
+     "snr10_db": 20.322,
+     "snr90_db": 22.437,
+     "max_bin_gap": 0.162,
+     "n_injections": 857493
+    },
+    "1/hour": {
+     "threshold_snr_db": 4.35,
+     "snr50_db": 3.085,
+     "sigma_db": 1.023,
+     "pd_floor": 0.0218,
+     "snr10_db": 1.647,
+     "snr90_db": 4.383,
+     "max_bin_gap": 0.126,
+     "n_injections": 857493
+    }
+   },
+   "basis": "T1 band-energy excess 5-40 Hz, W 30 s, arrival 90 % duration 15 s. Thresholds from empirical alarm rates in open raw IMS data, March 2015-2019, 00:00-04:00 UTC (153 days). P_D from injection of the shared source-model signal into the same data (each injection alone). SNR is relative to the local median window energy, so sigma_db is the detector term only; the user adds noise_sd_db and the propagation sd. Noise level: 8 Mar 2014 preferred 5-40 Hz level 100.43 dB re 1 uPa between airgun shots (p10 97.28, p90 103.47); no conversion applied (between-shot level is already close to a median); March 2015-2019 median 97.46 dB. Envelope form: emulation of digitised Kadri traces (largest |p| per 0.0523 s bin, 10-min panel reference) on raw IMS data; the fit gap is large, so use empirical_pd_table [snr_bin_db, P_D, n]. Kadri-trace noise calibration (vertex emulator): Cape Leeuwin 104.45 +- 1.27, Diego Garcia South 105.36 +- 2.70 dB.",
+   "variants": {
+    "W10_D15": {
+     "1/day": {
+      "threshold_snr_db": 23.55,
+      "snr50_db": 25.6,
+      "sigma_db": 0.738,
+      "pd_floor": 0.0008,
+      "snr10_db": 24.651,
+      "snr90_db": 26.546,
+      "max_bin_gap": 0.131,
+      "n_injections": 857493
+     },
+     "1/hour": {
+      "threshold_snr_db": 6.45,
+      "snr50_db": 7.125,
+      "sigma_db": 0.827,
+      "pd_floor": 0.0116,
+      "snr10_db": 6.013,
+      "snr90_db": 8.18,
+      "max_bin_gap": 0.099,
+      "n_injections": 857493
+     }
+    },
+    "W10_D60": {
+     "1/day": {
+      "threshold_snr_db": 23.55,
+      "snr50_db": 30.209,
+      "sigma_db": 0.78,
+      "pd_floor": 0.0008,
+      "snr10_db": 29.206,
+      "snr90_db": 31.209,
+      "max_bin_gap": 0.105,
+      "n_injections": 853632
+     },
+     "1/hour": {
+      "threshold_snr_db": 6.45,
+      "snr50_db": 11.621,
+      "sigma_db": 0.925,
+      "pd_floor": 0.0211,
+      "snr10_db": 10.324,
+      "snr90_db": 12.795,
+      "max_bin_gap": 0.085,
+      "n_injections": 853632
+     }
+    },
+    "W30_D15": {
+     "1/day": {
+      "threshold_snr_db": 20.3,
+      "snr50_db": 21.384,
+      "sigma_db": 0.822,
+      "pd_floor": 0.0019,
+      "snr10_db": 20.322,
+      "snr90_db": 22.437,
+      "max_bin_gap": 0.162,
+      "n_injections": 857493
+     },
+     "1/hour": {
+      "threshold_snr_db": 4.35,
+      "snr50_db": 3.085,
+      "sigma_db": 1.023,
+      "pd_floor": 0.0218,
+      "snr10_db": 1.647,
+      "snr90_db": 4.383,
+      "max_bin_gap": 0.126,
+      "n_injections": 857493
+     }
+    },
+    "W30_D60": {
+     "1/day": {
+      "threshold_snr_db": 20.3,
+      "snr50_db": 23.175,
+      "sigma_db": 1.187,
+      "pd_floor": 0.0012,
+      "snr10_db": 21.646,
+      "snr90_db": 24.696,
+      "max_bin_gap": 0.192,
+      "n_injections": 853632
+     },
+     "1/hour": {
+      "threshold_snr_db": 4.35,
+      "snr50_db": 4.789,
+      "sigma_db": 1.427,
+      "pd_floor": 0.0308,
+      "snr10_db": 2.698,
+      "snr90_db": 6.592,
+      "max_bin_gap": 0.161,
+      "n_injections": 853632
+     }
+    },
+    "W60_D15": {
+     "1/day": {
+      "threshold_snr_db": 18.1,
+      "snr50_db": 19.154,
+      "sigma_db": 0.87,
+      "pd_floor": 0.0027,
+      "snr10_db": 18.027,
+      "snr90_db": 20.267,
+      "max_bin_gap": 0.134,
+      "n_injections": 857493
+     },
+     "1/hour": {
+      "threshold_snr_db": 3.15,
+      "snr50_db": 0.886,
+      "sigma_db": 1.184,
+      "pd_floor": 0.0329,
+      "snr10_db": -0.868,
+      "snr90_db": 2.381,
+      "max_bin_gap": 0.118,
+      "n_injections": 857493
+     }
+    },
+    "W60_D60": {
+     "1/day": {
+      "threshold_snr_db": 18.1,
+      "snr50_db": 19.663,
+      "sigma_db": 1.463,
+      "pd_floor": 0.0012,
+      "snr10_db": 17.779,
+      "snr90_db": 21.538,
+      "max_bin_gap": 0.276,
+      "n_injections": 853632
+     },
+     "1/hour": {
+      "threshold_snr_db": 3.15,
+      "snr50_db": 1.326,
+      "sigma_db": 1.823,
+      "pd_floor": 0.041,
+      "snr10_db": -1.484,
+      "snr90_db": 3.618,
+      "max_bin_gap": 0.217,
+      "n_injections": 853632
+     }
+    }
+   },
+   "empirical_pd_table": {
+    "1/day": [
+     [
+      -21.0,
+      0.0,
+      41
+     ],
+     [
+      -20.0,
+      0.0,
+      279
+     ],
+     [
+      -19.0,
+      0.0,
+      615
+     ],
+     [
+      -18.0,
+      0.0011,
+      1789
+     ],
+     [
+      -17.0,
+      0.0022,
+      7814
+     ],
+     [
+      -16.0,
+      0.002,
+      11113
+     ],
+     [
+      -15.0,
+      0.0019,
+      13340
+     ],
+     [
+      -14.0,
+      0.002,
+      14090
+     ],
+     [
+      -13.0,
+      0.002,
+      14330
+     ],
+     [
+      -12.0,
+      0.0019,
+      14418
+     ],
+     [
+      -11.0,
+      0.0019,
+      14485
+     ],
+     [
+      -10.0,
+      0.0019,
+      14529
+     ],
+     [
+      -9.0,
+      0.0019,
+      14566
+     ],
+     [
+      -8.0,
+      0.0019,
+      14601
+     ],
+     [
+      -7.0,
+      0.0019,
+      14627
+     ],
+     [
+      -6.0,
+      0.0019,
+      14654
+     ],
+     [
+      -5.0,
+      0.0019,
+      14658
+     ],
+     [
+      -4.0,
+      0.0019,
+      14658
+     ],
+     [
+      -3.0,
+      0.0019,
+      14658
+     ],
+     [
+      -2.0,
+      0.0019,
+      14658
+     ],
+     [
+      -1.0,
+      0.0019,
+      14658
+     ],
+     [
+      -0.0,
+      0.0019,
+      14658
+     ],
+     [
+      1.0,
+      0.0019,
+      14658
+     ],
+     [
+      2.0,
+      0.0019,
+      14658
+     ],
+     [
+      3.0,
+      0.0019,
+      14658
+     ],
+     [
+      4.0,
+      0.0019,
+      14658
+     ],
+     [
+      5.0,
+      0.0019,
+      14658
+     ],
+     [
+      6.0,
+      0.0019,
+      14658
+     ],
+     [
+      7.0,
+      0.0019,
+      14658
+     ],
+     [
+      8.0,
+      0.002,
+      14658
+     ],
+     [
+      9.0,
+      0.0022,
+      14658
+     ],
+     [
+      10.0,
+      0.0023,
+      14658
+     ],
+     [
+      11.0,
+      0.0025,
+      14658
+     ],
+     [
+      12.0,
+      0.0025,
+      14658
+     ],
+     [
+      13.0,
+      0.0026,
+      14658
+     ],
+     [
+      14.0,
+      0.0027,
+      14658
+     ],
+     [
+      15.0,
+      0.0027,
+      14658
+     ],
+     [
+      16.0,
+      0.0027,
+      14658
+     ],
+     [
+      17.0,
+      0.0027,
+      14658
+     ],
+     [
+      18.0,
+      0.0033,
+      14658
+     ],
+     [
+      19.0,
+      0.0049,
+      14658
+     ],
+     [
+      20.0,
+      0.0129,
+      14658
+     ],
+     [
+      21.0,
+      0.2695,
+      14658
+     ],
+     [
+      22.0,
+      0.9239,
+      14658
+     ],
+     [
+      23.0,
+      0.9806,
+      14658
+     ],
+     [
+      24.0,
+      0.9885,
+      14658
+     ],
+     [
+      25.0,
+      0.9935,
+      14658
+     ],
+     [
+      26.0,
+      0.9961,
+      14658
+     ],
+     [
+      27.0,
+      0.9972,
+      14658
+     ],
+     [
+      28.0,
+      0.9982,
+      14658
+     ],
+     [
+      29.0,
+      0.9987,
+      14658
+     ],
+     [
+      30.0,
+      0.9995,
+      14658
+     ],
+     [
+      31.0,
+      0.9997,
+      14658
+     ],
+     [
+      32.0,
+      0.9998,
+      14658
+     ],
+     [
+      33.0,
+      0.9999,
+      14658
+     ],
+     [
+      34.0,
+      1.0,
+      14658
+     ],
+     [
+      35.0,
+      1.0,
+      14658
+     ],
+     [
+      36.0,
+      1.0,
+      14658
+     ],
+     [
+      37.0,
+      1.0,
+      14658
+     ],
+     [
+      38.0,
+      1.0,
+      14509
+     ],
+     [
+      39.0,
+      1.0,
+      14232
+     ],
+     [
+      40.0,
+      1.0,
+      13707
+     ],
+     [
+      41.0,
+      1.0,
+      10114
+     ],
+     [
+      42.0,
+      1.0,
+      5054
+     ],
+     [
+      43.0,
+      1.0,
+      2200
+     ],
+     [
+      44.0,
+      1.0,
+      798
+     ],
+     [
+      45.0,
+      1.0,
+      423
+     ],
+     [
+      46.0,
+      1.0,
+      276
+     ],
+     [
+      47.0,
+      1.0,
+      202
+     ],
+     [
+      48.0,
+      1.0,
+      150
+     ],
+     [
+      49.0,
+      1.0,
+      108
+     ],
+     [
+      50.0,
+      1.0,
+      74
+     ],
+     [
+      51.0,
+      1.0,
+      44
+     ]
+    ],
+    "1/hour": [
+     [
+      -21.0,
+      0.0,
+      41
+     ],
+     [
+      -20.0,
+      0.0072,
+      279
+     ],
+     [
+      -19.0,
+      0.0065,
+      615
+     ],
+     [
+      -18.0,
+      0.0173,
+      1789
+     ],
+     [
+      -17.0,
+      0.0202,
+      7814
+     ],
+     [
+      -16.0,
+      0.0213,
+      11113
+     ],
+     [
+      -15.0,
+      0.0218,
+      13340
+     ],
+     [
+      -14.0,
+      0.0219,
+      14090
+     ],
+     [
+      -13.0,
+      0.0223,
+      14330
+     ],
+     [
+      -12.0,
+      0.0225,
+      14418
+     ],
+     [
+      -11.0,
+      0.0226,
+      14485
+     ],
+     [
+      -10.0,
+      0.0226,
+      14529
+     ],
+     [
+      -9.0,
+      0.0227,
+      14566
+     ],
+     [
+      -8.0,
+      0.0227,
+      14601
+     ],
+     [
+      -7.0,
+      0.0231,
+      14627
+     ],
+     [
+      -6.0,
+      0.0233,
+      14654
+     ],
+     [
+      -5.0,
+      0.0236,
+      14658
+     ],
+     [
+      -4.0,
+      0.0246,
+      14658
+     ],
+     [
+      -3.0,
+      0.0257,
+      14658
+     ],
+     [
+      -2.0,
+      0.0274,
+      14658
+     ],
+     [
+      -1.0,
+      0.03,
+      14658
+     ],
+     [
+      -0.0,
+      0.0353,
+      14658
+     ],
+     [
+      1.0,
+      0.0465,
+      14658
+     ],
+     [
+      2.0,
+      0.0894,
+      14658
+     ],
+     [
+      3.0,
+      0.4636,
+      14658
+     ],
+     [
+      4.0,
+      0.9369,
+      14658
+     ],
+     [
+      5.0,
+      0.9822,
+      14658
+     ],
+     [
+      6.0,
+      0.9888,
+      14658
+     ],
+     [
+      7.0,
+      0.9928,
+      14658
+     ],
+     [
+      8.0,
+      0.996,
+      14658
+     ],
+     [
+      9.0,
+      0.9975,
+      14658
+     ],
+     [
+      10.0,
+      0.9986,
+      14658
+     ],
+     [
+      11.0,
+      0.9993,
+      14658
+     ],
+     [
+      12.0,
+      0.9997,
+      14658
+     ],
+     [
+      13.0,
+      0.9997,
+      14658
+     ],
+     [
+      14.0,
+      0.9999,
+      14658
+     ],
+     [
+      15.0,
+      0.9999,
+      14658
+     ],
+     [
+      16.0,
+      0.9999,
+      14658
+     ],
+     [
+      17.0,
+      0.9999,
+      14658
+     ],
+     [
+      18.0,
+      1.0,
+      14658
+     ],
+     [
+      19.0,
+      1.0,
+      14658
+     ],
+     [
+      20.0,
+      1.0,
+      14658
+     ],
+     [
+      21.0,
+      1.0,
+      14658
+     ],
+     [
+      22.0,
+      1.0,
+      14658
+     ],
+     [
+      23.0,
+      1.0,
+      14658
+     ],
+     [
+      24.0,
+      1.0,
+      14658
+     ],
+     [
+      25.0,
+      1.0,
+      14658
+     ],
+     [
+      26.0,
+      1.0,
+      14658
+     ],
+     [
+      27.0,
+      1.0,
+      14658
+     ],
+     [
+      28.0,
+      1.0,
+      14658
+     ],
+     [
+      29.0,
+      1.0,
+      14658
+     ],
+     [
+      30.0,
+      1.0,
+      14658
+     ],
+     [
+      31.0,
+      1.0,
+      14658
+     ],
+     [
+      32.0,
+      1.0,
+      14658
+     ],
+     [
+      33.0,
+      1.0,
+      14658
+     ],
+     [
+      34.0,
+      1.0,
+      14658
+     ],
+     [
+      35.0,
+      1.0,
+      14658
+     ],
+     [
+      36.0,
+      1.0,
+      14658
+     ],
+     [
+      37.0,
+      1.0,
+      14658
+     ],
+     [
+      38.0,
+      1.0,
+      14509
+     ],
+     [
+      39.0,
+      1.0,
+      14232
+     ],
+     [
+      40.0,
+      1.0,
+      13707
+     ],
+     [
+      41.0,
+      1.0,
+      10114
+     ],
+     [
+      42.0,
+      1.0,
+      5054
+     ],
+     [
+      43.0,
+      1.0,
+      2200
+     ],
+     [
+      44.0,
+      1.0,
+      798
+     ],
+     [
+      45.0,
+      1.0,
+      423
+     ],
+     [
+      46.0,
+      1.0,
+      276
+     ],
+     [
+      47.0,
+      1.0,
+      202
+     ],
+     [
+      48.0,
+      1.0,
+      150
+     ],
+     [
+      49.0,
+      1.0,
+      108
+     ],
+     [
+      50.0,
+      1.0,
+      74
+     ],
+     [
+      51.0,
+      1.0,
+      44
+     ]
+    ]
+   }
+  },
+  "IMOS3250": {
+   "data_form": "raw_imos_duty_cycled",
+   "noise_level_db": 109.12,
+   "noise_sd_db": 8.3,
+   "fa": {
+    "1/day": {
+     "threshold_snr_db": 30.15,
+     "snr50_db": 29.943,
+     "sigma_db": 0.09,
+     "pd_floor": 0.0035,
+     "snr10_db": 29.826,
+     "snr90_db": 30.057,
+     "max_bin_gap": 0.001,
+     "n_injections": 164970
+    },
+    "1/hour": {
+     "threshold_snr_db": 13.05,
+     "snr50_db": 12.661,
+     "sigma_db": 0.366,
+     "pd_floor": 0.0574,
+     "snr10_db": 12.042,
+     "snr90_db": 13.117,
+     "max_bin_gap": 0.08,
+     "n_injections": 164970
+    }
+   },
+   "basis": "T1 in each 307 s record, noise reference = median window energy over the record and its neighbours (15 min either side). False-alarm rate per CLOCK day (recorded fraction 0.339). Null: IMOS background 1-15 Mar 2014 (no 8 Mar) + event-day files outside 7 Mar 23:00-8 Mar 07:30 UTC. Noise level = median 30 s window level of the same records (5-40 Hz, system gain and sensitivity applied; 8 Hz hardware high-pass inside the band). Missing records are missing data, not non-detections.",
+   "variants": {
+    "W10_D15": {
+     "1/day": {
+      "threshold_snr_db": 37.5,
+      "snr50_db": 38.466,
+      "sigma_db": 0.158,
+      "pd_floor": 0.0,
+      "snr10_db": 38.263,
+      "snr90_db": 38.669,
+      "max_bin_gap": 0.005,
+      "n_injections": 164970
+     },
+     "1/hour": {
+      "threshold_snr_db": 20.5,
+      "snr50_db": 21.366,
+      "sigma_db": 0.193,
+      "pd_floor": 0.0298,
+      "snr10_db": 21.085,
+      "snr90_db": 21.61,
+      "max_bin_gap": 0.022,
+      "n_injections": 164970
+     }
+    },
+    "W10_D60": {
+     "1/day": {
+      "threshold_snr_db": 37.5,
+      "snr50_db": 43.032,
+      "sigma_db": 0.311,
+      "pd_floor": 0.0021,
+      "snr10_db": 42.63,
+      "snr90_db": 43.429,
+      "max_bin_gap": 0.01,
+      "n_injections": 164970
+     },
+     "1/hour": {
+      "threshold_snr_db": 20.5,
+      "snr50_db": 25.901,
+      "sigma_db": 0.369,
+      "pd_floor": 0.0589,
+      "snr10_db": 25.271,
+      "snr90_db": 26.361,
+      "max_bin_gap": 0.031,
+      "n_injections": 164970
+     }
+    },
+    "W30_D15": {
+     "1/day": {
+      "threshold_snr_db": 30.15,
+      "snr50_db": 29.943,
+      "sigma_db": 0.09,
+      "pd_floor": 0.0035,
+      "snr10_db": 29.826,
+      "snr90_db": 30.057,
+      "max_bin_gap": 0.001,
+      "n_injections": 164970
+     },
+     "1/hour": {
+      "threshold_snr_db": 13.05,
+      "snr50_db": 12.661,
+      "sigma_db": 0.366,
+      "pd_floor": 0.0574,
+      "snr10_db": 12.042,
+      "snr90_db": 13.117,
+      "max_bin_gap": 0.08,
+      "n_injections": 164970
+     }
+    },
+    "W30_D60": {
+     "1/day": {
+      "threshold_snr_db": 30.15,
+      "snr50_db": 31.816,
+      "sigma_db": 0.13,
+      "pd_floor": 0.0057,
+      "snr10_db": 31.645,
+      "snr90_db": 31.981,
+      "max_bin_gap": 0.003,
+      "n_injections": 164970
+     },
+     "1/hour": {
+      "threshold_snr_db": 13.05,
+      "snr50_db": 14.358,
+      "sigma_db": 0.332,
+      "pd_floor": 0.0872,
+      "snr10_db": 13.629,
+      "snr90_db": 14.765,
+      "max_bin_gap": 0.07,
+      "n_injections": 164970
+     }
+    },
+    "W60_D15": {
+     "1/day": {
+      "threshold_snr_db": 26.4,
+      "snr50_db": 26.374,
+      "sigma_db": 0.033,
+      "pd_floor": 0.005,
+      "snr10_db": 26.331,
+      "snr90_db": 26.417,
+      "max_bin_gap": 0.012,
+      "n_injections": 164970
+     },
+     "1/hour": {
+      "threshold_snr_db": 9.35,
+      "snr50_db": 8.416,
+      "sigma_db": 0.637,
+      "pd_floor": 0.0844,
+      "snr10_db": 7.066,
+      "snr90_db": 9.201,
+      "max_bin_gap": 0.156,
+      "n_injections": 164970
+     }
+    },
+    "W60_D60": {
+     "1/day": {
+      "threshold_snr_db": 26.4,
+      "snr50_db": 26.669,
+      "sigma_db": 0.035,
+      "pd_floor": 0.0057,
+      "snr10_db": 26.623,
+      "snr90_db": 26.714,
+      "max_bin_gap": 0.012,
+      "n_injections": 164970
+     },
+     "1/hour": {
+      "threshold_snr_db": 9.35,
+      "snr50_db": 8.942,
+      "sigma_db": 0.494,
+      "pd_floor": 0.1284,
+      "snr10_db": -Infinity,
+      "snr90_db": 9.536,
+      "max_bin_gap": 0.112,
+      "n_injections": 164970
+     }
+    }
+   }
+  },
+  "IMOS3274": {
+   "data_form": "raw_imos_duty_cycled",
+   "noise_level_db": 104.4,
+   "noise_sd_db": 2.62,
+   "fa": {
+    "1/day": {
+     "threshold_snr_db": 14.2,
+     "snr50_db": 13.915,
+     "sigma_db": 0.105,
+     "pd_floor": 0.0021,
+     "snr10_db": 13.78,
+     "snr90_db": 14.049,
+     "max_bin_gap": 0.011,
+     "n_injections": 169650
+    },
+    "1/hour": {
+     "threshold_snr_db": 4.6,
+     "snr50_db": 2.569,
+     "sigma_db": 0.529,
+     "pd_floor": 0.0628,
+     "snr10_db": 1.642,
+     "snr90_db": 3.227,
+     "max_bin_gap": 0.056,
+     "n_injections": 169650
+    }
+   },
+   "basis": "T1 in each 307 s record, noise reference = median window energy over the record and its neighbours (15 min either side). False-alarm rate per CLOCK day (recorded fraction 0.339). Null: IMOS background 1-15 Mar 2014 (no 8 Mar) + event-day files outside 7 Mar 23:00-8 Mar 07:30 UTC. Noise level = median 30 s window level of the same records (5-40 Hz, system gain and sensitivity applied; 8 Hz hardware high-pass inside the band). Missing records are missing data, not non-detections.",
+   "variants": {
+    "W10_D15": {
+     "1/day": {
+      "threshold_snr_db": 17.55,
+      "snr50_db": 18.432,
+      "sigma_db": 0.155,
+      "pd_floor": 0.0014,
+      "snr10_db": 18.232,
+      "snr90_db": 18.63,
+      "max_bin_gap": 0.003,
+      "n_injections": 169650
+     },
+     "1/hour": {
+      "threshold_snr_db": 6.75,
+      "snr50_db": 6.614,
+      "sigma_db": 0.415,
+      "pd_floor": 0.0297,
+      "snr10_db": 6.008,
+      "snr90_db": 7.139,
+      "max_bin_gap": 0.027,
+      "n_injections": 169650
+     }
+    },
+    "W10_D60": {
+     "1/day": {
+      "threshold_snr_db": 17.55,
+      "snr50_db": 22.97,
+      "sigma_db": 0.319,
+      "pd_floor": 0.0028,
+      "snr10_db": 22.556,
+      "snr90_db": 23.378,
+      "max_bin_gap": 0.012,
+      "n_injections": 169650
+     },
+     "1/hour": {
+      "threshold_snr_db": 6.75,
+      "snr50_db": 11.055,
+      "sigma_db": 0.499,
+      "pd_floor": 0.0772,
+      "snr10_db": 10.073,
+      "snr90_db": 11.672,
+      "max_bin_gap": 0.047,
+      "n_injections": 169650
+     }
+    },
+    "W30_D15": {
+     "1/day": {
+      "threshold_snr_db": 14.2,
+      "snr50_db": 13.915,
+      "sigma_db": 0.105,
+      "pd_floor": 0.0021,
+      "snr10_db": 13.78,
+      "snr90_db": 14.049,
+      "max_bin_gap": 0.011,
+      "n_injections": 169650
+     },
+     "1/hour": {
+      "threshold_snr_db": 4.6,
+      "snr50_db": 2.569,
+      "sigma_db": 0.529,
+      "pd_floor": 0.0628,
+      "snr10_db": 1.642,
+      "snr90_db": 3.227,
+      "max_bin_gap": 0.056,
+      "n_injections": 169650
+     }
+    },
+    "W30_D60": {
+     "1/day": {
+      "threshold_snr_db": 14.2,
+      "snr50_db": 15.664,
+      "sigma_db": 0.214,
+      "pd_floor": 0.0041,
+      "snr10_db": 15.385,
+      "snr90_db": 15.939,
+      "max_bin_gap": 0.012,
+      "n_injections": 169650
+     },
+     "1/hour": {
+      "threshold_snr_db": 4.6,
+      "snr50_db": 4.274,
+      "sigma_db": 0.51,
+      "pd_floor": 0.1021,
+      "snr10_db": -Infinity,
+      "snr90_db": 4.896,
+      "max_bin_gap": 0.062,
+      "n_injections": 169650
+     }
+    },
+    "W60_D15": {
+     "1/day": {
+      "threshold_snr_db": 11.7,
+      "snr50_db": 11.333,
+      "sigma_db": 0.14,
+      "pd_floor": 0.0048,
+      "snr10_db": 11.149,
+      "snr90_db": 11.512,
+      "max_bin_gap": 0.019,
+      "n_injections": 169650
+     },
+     "1/hour": {
+      "threshold_snr_db": 3.35,
+      "snr50_db": 0.278,
+      "sigma_db": 0.713,
+      "pd_floor": 0.1034,
+      "snr10_db": -Infinity,
+      "snr90_db": 1.147,
+      "max_bin_gap": 0.065,
+      "n_injections": 169650
+     }
+    },
+    "W60_D60": {
+     "1/day": {
+      "threshold_snr_db": 11.7,
+      "snr50_db": 11.635,
+      "sigma_db": 0.166,
+      "pd_floor": 0.0069,
+      "snr10_db": 11.416,
+      "snr90_db": 11.847,
+      "max_bin_gap": 0.03,
+      "n_injections": 169650
+     },
+     "1/hour": {
+      "threshold_snr_db": 3.35,
+      "snr50_db": 0.749,
+      "sigma_db": 0.641,
+      "pd_floor": 0.1283,
+      "snr10_db": -Infinity,
+      "snr90_db": 1.519,
+      "max_bin_gap": 0.065,
+      "n_injections": 169650
+     }
+    }
+   }
+  },
+  "IMOS3275": {
+   "data_form": "raw_imos_duty_cycled",
+   "noise_level_db": 94.7,
+   "noise_sd_db": 1.34,
+   "fa": {
+    "1/day": {
+     "threshold_snr_db": 14.2,
+     "snr50_db": 13.915,
+     "sigma_db": 0.105,
+     "pd_floor": 0.0021,
+     "snr10_db": 13.78,
+     "snr90_db": 14.049,
+     "max_bin_gap": 0.011,
+     "n_injections": 169650
+    },
+    "1/hour": {
+     "threshold_snr_db": 4.6,
+     "snr50_db": 2.569,
+     "sigma_db": 0.529,
+     "pd_floor": 0.0628,
+     "snr10_db": 1.642,
+     "snr90_db": 3.227,
+     "max_bin_gap": 0.056,
+     "n_injections": 169650
+    }
+   },
+   "basis": "T1 in each 307 s record, noise reference = median window energy over the record and its neighbours (15 min either side). False-alarm rate per CLOCK day (recorded fraction 0.339). Null: IMOS event-day files outside 7 Mar 23:00-8 Mar 07:30 UTC only (5-6 recorded hours). Noise level = median 30 s window level of the same records (5-40 Hz, system gain and sensitivity applied; 8 Hz hardware high-pass inside the band). Missing records are missing data, not non-detections. PRIMARY curve and threshold are a PROXY from IMOS3274 (amendment A3); own short null gives a threshold lower bound of 20.05 dB (1/day).",
+   "variants": {
+    "W10_D15": {
+     "1/day": {
+      "threshold_snr_db": 17.55,
+      "snr50_db": 18.432,
+      "sigma_db": 0.155,
+      "pd_floor": 0.0014,
+      "snr10_db": 18.232,
+      "snr90_db": 18.63,
+      "max_bin_gap": 0.003,
+      "n_injections": 169650
+     },
+     "1/hour": {
+      "threshold_snr_db": 6.75,
+      "snr50_db": 6.614,
+      "sigma_db": 0.415,
+      "pd_floor": 0.0297,
+      "snr10_db": 6.008,
+      "snr90_db": 7.139,
+      "max_bin_gap": 0.027,
+      "n_injections": 169650
+     }
+    },
+    "W10_D60": {
+     "1/day": {
+      "threshold_snr_db": 17.55,
+      "snr50_db": 22.97,
+      "sigma_db": 0.319,
+      "pd_floor": 0.0028,
+      "snr10_db": 22.556,
+      "snr90_db": 23.378,
+      "max_bin_gap": 0.012,
+      "n_injections": 169650
+     },
+     "1/hour": {
+      "threshold_snr_db": 6.75,
+      "snr50_db": 11.055,
+      "sigma_db": 0.499,
+      "pd_floor": 0.0772,
+      "snr10_db": 10.073,
+      "snr90_db": 11.672,
+      "max_bin_gap": 0.047,
+      "n_injections": 169650
+     }
+    },
+    "W30_D15": {
+     "1/day": {
+      "threshold_snr_db": 14.2,
+      "snr50_db": 13.915,
+      "sigma_db": 0.105,
+      "pd_floor": 0.0021,
+      "snr10_db": 13.78,
+      "snr90_db": 14.049,
+      "max_bin_gap": 0.011,
+      "n_injections": 169650
+     },
+     "1/hour": {
+      "threshold_snr_db": 4.6,
+      "snr50_db": 2.569,
+      "sigma_db": 0.529,
+      "pd_floor": 0.0628,
+      "snr10_db": 1.642,
+      "snr90_db": 3.227,
+      "max_bin_gap": 0.056,
+      "n_injections": 169650
+     }
+    },
+    "W30_D60": {
+     "1/day": {
+      "threshold_snr_db": 14.2,
+      "snr50_db": 15.664,
+      "sigma_db": 0.214,
+      "pd_floor": 0.0041,
+      "snr10_db": 15.385,
+      "snr90_db": 15.939,
+      "max_bin_gap": 0.012,
+      "n_injections": 169650
+     },
+     "1/hour": {
+      "threshold_snr_db": 4.6,
+      "snr50_db": 4.274,
+      "sigma_db": 0.51,
+      "pd_floor": 0.1021,
+      "snr10_db": -Infinity,
+      "snr90_db": 4.896,
+      "max_bin_gap": 0.062,
+      "n_injections": 169650
+     }
+    },
+    "W60_D15": {
+     "1/day": {
+      "threshold_snr_db": 11.7,
+      "snr50_db": 11.333,
+      "sigma_db": 0.14,
+      "pd_floor": 0.0048,
+      "snr10_db": 11.149,
+      "snr90_db": 11.512,
+      "max_bin_gap": 0.019,
+      "n_injections": 169650
+     },
+     "1/hour": {
+      "threshold_snr_db": 3.35,
+      "snr50_db": 0.278,
+      "sigma_db": 0.713,
+      "pd_floor": 0.1034,
+      "snr10_db": -Infinity,
+      "snr90_db": 1.147,
+      "max_bin_gap": 0.065,
+      "n_injections": 169650
+     }
+    },
+    "W60_D60": {
+     "1/day": {
+      "threshold_snr_db": 11.7,
+      "snr50_db": 11.635,
+      "sigma_db": 0.166,
+      "pd_floor": 0.0069,
+      "snr10_db": 11.416,
+      "snr90_db": 11.847,
+      "max_bin_gap": 0.03,
+      "n_injections": 169650
+     },
+     "1/hour": {
+      "threshold_snr_db": 3.35,
+      "snr50_db": 0.749,
+      "sigma_db": 0.641,
+      "pd_floor": 0.1283,
+      "snr10_db": -Infinity,
+      "snr90_db": 1.519,
+      "max_bin_gap": 0.065,
+      "n_injections": 169650
+     }
+    }
+   },
+   "own_short_null": {
+    "1/day": {
+     "threshold_snr_db": 20.05,
+     "snr50_db": 20.02,
+     "sigma_db": 0.026,
+     "pd_floor": 0.0,
+     "snr10_db": 19.986,
+     "snr90_db": 20.053,
+     "max_bin_gap": 0.0,
+     "n_injections": 7722
+    },
+    "1/hour": {
+     "threshold_snr_db": 5.0,
+     "snr50_db": 3.037,
+     "sigma_db": 0.572,
+     "pd_floor": 0.0455,
+     "snr10_db": 2.134,
+     "snr90_db": 3.754,
+     "max_bin_gap": 0.063,
+     "n_injections": 7722
+    }
+   }
+  },
+  "IMOS3315": {
+   "data_form": "raw_imos_duty_cycled",
+   "noise_level_db": 101.55,
+   "noise_sd_db": 3.05,
+   "fa": {
+    "1/day": {
+     "threshold_snr_db": 19.15,
+     "snr50_db": 18.844,
+     "sigma_db": 0.055,
+     "pd_floor": 0.0021,
+     "snr10_db": 18.773,
+     "snr90_db": 18.914,
+     "max_bin_gap": 0.006,
+     "n_injections": 164736
+    },
+    "1/hour": {
+     "threshold_snr_db": 6.9,
+     "snr50_db": 5.726,
+     "sigma_db": 0.511,
+     "pd_floor": 0.0625,
+     "snr10_db": 4.831,
+     "snr90_db": 6.362,
+     "max_bin_gap": 0.072,
+     "n_injections": 164736
+    }
+   },
+   "basis": "T1 in each 307 s record, noise reference = median window energy over the record and its neighbours (15 min either side). False-alarm rate per CLOCK day (recorded fraction 0.339). Null: IMOS event-day files outside 7 Mar 23:00-8 Mar 07:30 UTC only (5-6 recorded hours). Noise level = median 30 s window level of the same records (5-40 Hz, system gain and sensitivity applied; 8 Hz hardware high-pass inside the band). Missing records are missing data, not non-detections. PRIMARY curve and threshold are a PROXY from IMOS3376 (amendment A3); own short null gives a threshold lower bound of 15.35 dB (1/day).",
+   "variants": {
+    "W10_D15": {
+     "1/day": {
+      "threshold_snr_db": 27.3,
+      "snr50_db": 28.252,
+      "sigma_db": 0.137,
+      "pd_floor": 0.0021,
+      "snr10_db": 28.075,
+      "snr90_db": 28.428,
+      "max_bin_gap": 0.004,
+      "n_injections": 164736
+     },
+     "1/hour": {
+      "threshold_snr_db": 11.55,
+      "snr50_db": 12.127,
+      "sigma_db": 0.271,
+      "pd_floor": 0.032,
+      "snr10_db": 11.728,
+      "snr90_db": 12.468,
+      "max_bin_gap": 0.04,
+      "n_injections": 164736
+     }
+    },
+    "W10_D60": {
+     "1/day": {
+      "threshold_snr_db": 27.3,
+      "snr50_db": 32.817,
+      "sigma_db": 0.302,
+      "pd_floor": 0.0028,
+      "snr10_db": 32.425,
+      "snr90_db": 33.204,
+      "max_bin_gap": 0.005,
+      "n_injections": 164736
+     },
+     "1/hour": {
+      "threshold_snr_db": 11.55,
+      "snr50_db": 16.639,
+      "sigma_db": 0.409,
+      "pd_floor": 0.0568,
+      "snr10_db": 15.949,
+      "snr90_db": 17.15,
+      "max_bin_gap": 0.033,
+      "n_injections": 164736
+     }
+    },
+    "W30_D15": {
+     "1/day": {
+      "threshold_snr_db": 19.15,
+      "snr50_db": 18.844,
+      "sigma_db": 0.055,
+      "pd_floor": 0.0021,
+      "snr10_db": 18.773,
+      "snr90_db": 18.914,
+      "max_bin_gap": 0.006,
+      "n_injections": 164736
+     },
+     "1/hour": {
+      "threshold_snr_db": 6.9,
+      "snr50_db": 5.726,
+      "sigma_db": 0.511,
+      "pd_floor": 0.0625,
+      "snr10_db": 4.831,
+      "snr90_db": 6.362,
+      "max_bin_gap": 0.072,
+      "n_injections": 164736
+     }
+    },
+    "W30_D60": {
+     "1/day": {
+      "threshold_snr_db": 19.15,
+      "snr50_db": 20.76,
+      "sigma_db": 0.182,
+      "pd_floor": 0.0028,
+      "snr10_db": 20.524,
+      "snr90_db": 20.993,
+      "max_bin_gap": 0.008,
+      "n_injections": 164736
+     },
+     "1/hour": {
+      "threshold_snr_db": 6.9,
+      "snr50_db": 7.473,
+      "sigma_db": 0.462,
+      "pd_floor": 0.0945,
+      "snr10_db": 6.315,
+      "snr90_db": 8.038,
+      "max_bin_gap": 0.068,
+      "n_injections": 164736
+     }
+    },
+    "W60_D15": {
+     "1/day": {
+      "threshold_snr_db": 16.45,
+      "snr50_db": 16.315,
+      "sigma_db": 0.079,
+      "pd_floor": 0.0036,
+      "snr10_db": 16.212,
+      "snr90_db": 16.416,
+      "max_bin_gap": 0.012,
+      "n_injections": 164736
+     },
+     "1/hour": {
+      "threshold_snr_db": 5.0,
+      "snr50_db": 2.966,
+      "sigma_db": 0.798,
+      "pd_floor": 0.0902,
+      "snr10_db": 1.131,
+      "snr90_db": 3.946,
+      "max_bin_gap": 0.279,
+      "n_injections": 164736
+     }
+    },
+    "W60_D60": {
+     "1/day": {
+      "threshold_snr_db": 16.45,
+      "snr50_db": 16.621,
+      "sigma_db": 0.07,
+      "pd_floor": 0.0036,
+      "snr10_db": 16.53,
+      "snr90_db": 16.711,
+      "max_bin_gap": 0.018,
+      "n_injections": 164736
+     },
+     "1/hour": {
+      "threshold_snr_db": 5.0,
+      "snr50_db": 3.498,
+      "sigma_db": 0.65,
+      "pd_floor": 0.1193,
+      "snr10_db": -Infinity,
+      "snr90_db": 4.283,
+      "max_bin_gap": 0.359,
+      "n_injections": 164736
+     }
+    }
+   },
+   "own_short_null": {
+    "1/day": {
+     "threshold_snr_db": 15.35,
+     "snr50_db": 15.117,
+     "sigma_db": 0.419,
+     "pd_floor": 0.0,
+     "snr10_db": 14.58,
+     "snr90_db": 15.653,
+     "max_bin_gap": 0.084,
+     "n_injections": 8190
+    },
+    "1/hour": {
+     "threshold_snr_db": 7.9,
+     "snr50_db": 6.878,
+     "sigma_db": 0.597,
+     "pd_floor": 0.0571,
+     "snr10_db": 5.869,
+     "snr90_db": 7.622,
+     "max_bin_gap": 0.087,
+     "n_injections": 8190
+    }
+   }
+  },
+  "IMOS3376": {
+   "data_form": "raw_imos_duty_cycled",
+   "noise_level_db": 100.03,
+   "noise_sd_db": 3.56,
+   "fa": {
+    "1/day": {
+     "threshold_snr_db": 19.15,
+     "snr50_db": 18.844,
+     "sigma_db": 0.055,
+     "pd_floor": 0.0021,
+     "snr10_db": 18.773,
+     "snr90_db": 18.914,
+     "max_bin_gap": 0.006,
+     "n_injections": 164736
+    },
+    "1/hour": {
+     "threshold_snr_db": 6.9,
+     "snr50_db": 5.726,
+     "sigma_db": 0.511,
+     "pd_floor": 0.0625,
+     "snr10_db": 4.831,
+     "snr90_db": 6.362,
+     "max_bin_gap": 0.072,
+     "n_injections": 164736
+    }
+   },
+   "basis": "T1 in each 307 s record, noise reference = median window energy over the record and its neighbours (15 min either side). False-alarm rate per CLOCK day (recorded fraction 0.339). Null: IMOS background 1-15 Mar 2014 (no 8 Mar) + event-day files outside 7 Mar 23:00-8 Mar 07:30 UTC. Noise level = median 30 s window level of the same records (5-40 Hz, system gain and sensitivity applied; 8 Hz hardware high-pass inside the band). Missing records are missing data, not non-detections.",
+   "variants": {
+    "W10_D15": {
+     "1/day": {
+      "threshold_snr_db": 27.3,
+      "snr50_db": 28.252,
+      "sigma_db": 0.137,
+      "pd_floor": 0.0021,
+      "snr10_db": 28.075,
+      "snr90_db": 28.428,
+      "max_bin_gap": 0.004,
+      "n_injections": 164736
+     },
+     "1/hour": {
+      "threshold_snr_db": 11.55,
+      "snr50_db": 12.127,
+      "sigma_db": 0.271,
+      "pd_floor": 0.032,
+      "snr10_db": 11.728,
+      "snr90_db": 12.468,
+      "max_bin_gap": 0.04,
+      "n_injections": 164736
+     }
+    },
+    "W10_D60": {
+     "1/day": {
+      "threshold_snr_db": 27.3,
+      "snr50_db": 32.817,
+      "sigma_db": 0.302,
+      "pd_floor": 0.0028,
+      "snr10_db": 32.425,
+      "snr90_db": 33.204,
+      "max_bin_gap": 0.005,
+      "n_injections": 164736
+     },
+     "1/hour": {
+      "threshold_snr_db": 11.55,
+      "snr50_db": 16.639,
+      "sigma_db": 0.409,
+      "pd_floor": 0.0568,
+      "snr10_db": 15.949,
+      "snr90_db": 17.15,
+      "max_bin_gap": 0.033,
+      "n_injections": 164736
+     }
+    },
+    "W30_D15": {
+     "1/day": {
+      "threshold_snr_db": 19.15,
+      "snr50_db": 18.844,
+      "sigma_db": 0.055,
+      "pd_floor": 0.0021,
+      "snr10_db": 18.773,
+      "snr90_db": 18.914,
+      "max_bin_gap": 0.006,
+      "n_injections": 164736
+     },
+     "1/hour": {
+      "threshold_snr_db": 6.9,
+      "snr50_db": 5.726,
+      "sigma_db": 0.511,
+      "pd_floor": 0.0625,
+      "snr10_db": 4.831,
+      "snr90_db": 6.362,
+      "max_bin_gap": 0.072,
+      "n_injections": 164736
+     }
+    },
+    "W30_D60": {
+     "1/day": {
+      "threshold_snr_db": 19.15,
+      "snr50_db": 20.76,
+      "sigma_db": 0.182,
+      "pd_floor": 0.0028,
+      "snr10_db": 20.524,
+      "snr90_db": 20.993,
+      "max_bin_gap": 0.008,
+      "n_injections": 164736
+     },
+     "1/hour": {
+      "threshold_snr_db": 6.9,
+      "snr50_db": 7.473,
+      "sigma_db": 0.462,
+      "pd_floor": 0.0945,
+      "snr10_db": 6.315,
+      "snr90_db": 8.038,
+      "max_bin_gap": 0.068,
+      "n_injections": 164736
+     }
+    },
+    "W60_D15": {
+     "1/day": {
+      "threshold_snr_db": 16.45,
+      "snr50_db": 16.315,
+      "sigma_db": 0.079,
+      "pd_floor": 0.0036,
+      "snr10_db": 16.212,
+      "snr90_db": 16.416,
+      "max_bin_gap": 0.012,
+      "n_injections": 164736
+     },
+     "1/hour": {
+      "threshold_snr_db": 5.0,
+      "snr50_db": 2.966,
+      "sigma_db": 0.798,
+      "pd_floor": 0.0902,
+      "snr10_db": 1.131,
+      "snr90_db": 3.946,
+      "max_bin_gap": 0.279,
+      "n_injections": 164736
+     }
+    },
+    "W60_D60": {
+     "1/day": {
+      "threshold_snr_db": 16.45,
+      "snr50_db": 16.621,
+      "sigma_db": 0.07,
+      "pd_floor": 0.0036,
+      "snr10_db": 16.53,
+      "snr90_db": 16.711,
+      "max_bin_gap": 0.018,
+      "n_injections": 164736
+     },
+     "1/hour": {
+      "threshold_snr_db": 5.0,
+      "snr50_db": 3.498,
+      "sigma_db": 0.65,
+      "pd_floor": 0.1193,
+      "snr10_db": -Infinity,
+      "snr90_db": 4.283,
+      "max_bin_gap": 0.359,
+      "n_injections": 164736
+     }
+    }
+   }
+  },
+  "H11N_F35A": {
+   "data_form": "raw_ims_single",
+   "noise_level_db": 93.77,
+   "noise_sd_db": 0.51,
+   "fa": {
+    "1/day": {
+     "threshold_snr_db": 27.0,
+     "snr50_db": 26.996,
+     "sigma_db": 0.009,
+     "pd_floor": 0.0,
+     "snr10_db": 26.985,
+     "snr90_db": 27.007,
+     "max_bin_gap": 0.0,
+     "n_injections": 78624
+    },
+    "1/hour": {
+     "threshold_snr_db": 4.25,
+     "snr50_db": 2.115,
+     "sigma_db": 0.282,
+     "pd_floor": 0.0089,
+     "snr10_db": 1.74,
+     "snr90_db": 2.475,
+     "max_bin_gap": 0.034,
+     "n_injections": 78624
+    }
+   },
+   "basis": "Wake test station (not an MH370 receiver). Null: 14 days around the event day, 08:00-14:00 UTC. Used for the held-out outcome tests only.",
+   "variants": {
+    "W10_D15": {
+     "1/day": {
+      "threshold_snr_db": 30.65,
+      "snr50_db": 31.628,
+      "sigma_db": 0.14,
+      "pd_floor": 0.0,
+      "snr10_db": 31.448,
+      "snr90_db": 31.808,
+      "max_bin_gap": 0.003,
+      "n_injections": 78624
+     },
+     "1/hour": {
+      "threshold_snr_db": 6.25,
+      "snr50_db": 6.006,
+      "sigma_db": 0.265,
+      "pd_floor": 0.003,
+      "snr10_db": 5.662,
+      "snr90_db": 6.345,
+      "max_bin_gap": 0.018,
+      "n_injections": 78624
+     }
+    },
+    "W10_D60": {
+     "1/day": {
+      "threshold_snr_db": 30.65,
+      "snr50_db": 36.201,
+      "sigma_db": 0.315,
+      "pd_floor": 0.0,
+      "snr10_db": 35.797,
+      "snr90_db": 36.605,
+      "max_bin_gap": 0.013,
+      "n_injections": 78624
+     },
+     "1/hour": {
+      "threshold_snr_db": 6.25,
+      "snr50_db": 10.559,
+      "sigma_db": 0.352,
+      "pd_floor": 0.0283,
+      "snr10_db": 10.049,
+      "snr90_db": 11.004,
+      "max_bin_gap": 0.012,
+      "n_injections": 78624
+     }
+    },
+    "W30_D15": {
+     "1/day": {
+      "threshold_snr_db": 27.0,
+      "snr50_db": 26.996,
+      "sigma_db": 0.009,
+      "pd_floor": 0.0,
+      "snr10_db": 26.985,
+      "snr90_db": 27.007,
+      "max_bin_gap": 0.0,
+      "n_injections": 78624
+     },
+     "1/hour": {
+      "threshold_snr_db": 4.25,
+      "snr50_db": 2.115,
+      "sigma_db": 0.282,
+      "pd_floor": 0.0089,
+      "snr10_db": 1.74,
+      "snr90_db": 2.475,
+      "max_bin_gap": 0.034,
+      "n_injections": 78624
+     }
+    },
+    "W30_D60": {
+     "1/day": {
+      "threshold_snr_db": 27.0,
+      "snr50_db": 28.667,
+      "sigma_db": 0.144,
+      "pd_floor": 0.0,
+      "snr10_db": 28.483,
+      "snr90_db": 28.851,
+      "max_bin_gap": 0.007,
+      "n_injections": 78624
+     },
+     "1/hour": {
+      "threshold_snr_db": 4.25,
+      "snr50_db": 3.822,
+      "sigma_db": 0.306,
+      "pd_floor": 0.0491,
+      "snr10_db": 3.329,
+      "snr90_db": 4.205,
+      "max_bin_gap": 0.021,
+      "n_injections": 78624
+     }
+    },
+    "W60_D15": {
+     "1/day": {
+      "threshold_snr_db": 24.15,
+      "snr50_db": 24.129,
+      "sigma_db": 0.009,
+      "pd_floor": 0.0,
+      "snr10_db": 24.118,
+      "snr90_db": 24.14,
+      "max_bin_gap": 0.0,
+      "n_injections": 78624
+     },
+     "1/hour": {
+      "threshold_snr_db": 3.05,
+      "snr50_db": -0.128,
+      "sigma_db": 0.382,
+      "pd_floor": 0.0268,
+      "snr10_db": -0.678,
+      "snr90_db": 0.356,
+      "max_bin_gap": 0.047,
+      "n_injections": 78624
+     }
+    },
+    "W60_D60": {
+     "1/day": {
+      "threshold_snr_db": 24.15,
+      "snr50_db": 24.42,
+      "sigma_db": 0.023,
+      "pd_floor": 0.003,
+      "snr10_db": 24.39,
+      "snr90_db": 24.449,
+      "max_bin_gap": 0.003,
+      "n_injections": 78624
+     },
+     "1/hour": {
+      "threshold_snr_db": 3.05,
+      "snr50_db": 0.287,
+      "sigma_db": 0.363,
+      "pd_floor": 0.0655,
+      "snr10_db": -0.361,
+      "snr90_db": 0.738,
+      "max_bin_gap": 0.032,
+      "n_injections": 78624
+     }
+    }
+   }
+  },
+  "H11S_F35A": {
+   "data_form": "raw_ims_single",
+   "noise_level_db": 92.4,
+   "noise_sd_db": 0.75,
+   "fa": {
+    "1/day": {
+     "threshold_snr_db": 27.15,
+     "snr50_db": 27.149,
+     "sigma_db": 0.01,
+     "pd_floor": 0.0045,
+     "snr10_db": 27.136,
+     "snr90_db": 27.161,
+     "max_bin_gap": 0.002,
+     "n_injections": 78624
+    },
+    "1/hour": {
+     "threshold_snr_db": 5.45,
+     "snr50_db": 3.929,
+     "sigma_db": 0.253,
+     "pd_floor": 0.0223,
+     "snr10_db": 3.573,
+     "snr90_db": 4.249,
+     "max_bin_gap": 0.035,
+     "n_injections": 78624
+    }
+   },
+   "basis": "Wake test station (not an MH370 receiver). Null: 14 days around the event day, 08:00-14:00 UTC. Used for the held-out outcome tests only.",
+   "variants": {
+    "W10_D15": {
+     "1/day": {
+      "threshold_snr_db": 29.1,
+      "snr50_db": 30.06,
+      "sigma_db": 0.155,
+      "pd_floor": 0.0,
+      "snr10_db": 29.861,
+      "snr90_db": 30.259,
+      "max_bin_gap": 0.001,
+      "n_injections": 78624
+     },
+     "1/hour": {
+      "threshold_snr_db": 8.8,
+      "snr50_db": 9.128,
+      "sigma_db": 0.193,
+      "pd_floor": 0.0089,
+      "snr10_db": 8.871,
+      "snr90_db": 9.374,
+      "max_bin_gap": 0.004,
+      "n_injections": 78624
+     }
+    },
+    "W10_D60": {
+     "1/day": {
+      "threshold_snr_db": 29.1,
+      "snr50_db": 34.641,
+      "sigma_db": 0.278,
+      "pd_floor": 0.0,
+      "snr10_db": 34.284,
+      "snr90_db": 34.998,
+      "max_bin_gap": 0.002,
+      "n_injections": 78624
+     },
+     "1/hour": {
+      "threshold_snr_db": 8.8,
+      "snr50_db": 13.717,
+      "sigma_db": 0.301,
+      "pd_floor": 0.0357,
+      "snr10_db": 13.265,
+      "snr90_db": 14.096,
+      "max_bin_gap": 0.009,
+      "n_injections": 78624
+     }
+    },
+    "W30_D15": {
+     "1/day": {
+      "threshold_snr_db": 27.15,
+      "snr50_db": 27.149,
+      "sigma_db": 0.01,
+      "pd_floor": 0.0045,
+      "snr10_db": 27.136,
+      "snr90_db": 27.161,
+      "max_bin_gap": 0.002,
+      "n_injections": 78624
+     },
+     "1/hour": {
+      "threshold_snr_db": 5.45,
+      "snr50_db": 3.929,
+      "sigma_db": 0.253,
+      "pd_floor": 0.0223,
+      "snr10_db": 3.573,
+      "snr90_db": 4.249,
+      "max_bin_gap": 0.035,
+      "n_injections": 78624
+     }
+    },
+    "W30_D60": {
+     "1/day": {
+      "threshold_snr_db": 27.15,
+      "snr50_db": 28.802,
+      "sigma_db": 0.102,
+      "pd_floor": 0.0,
+      "snr10_db": 28.671,
+      "snr90_db": 28.932,
+      "max_bin_gap": 0.0,
+      "n_injections": 78624
+     },
+     "1/hour": {
+      "threshold_snr_db": 5.45,
+      "snr50_db": 5.639,
+      "sigma_db": 0.206,
+      "pd_floor": 0.0417,
+      "snr10_db": 5.32,
+      "snr90_db": 5.898,
+      "max_bin_gap": 0.021,
+      "n_injections": 78624
+     }
+    },
+    "W60_D15": {
+     "1/day": {
+      "threshold_snr_db": 22.7,
+      "snr50_db": 22.669,
+      "sigma_db": 0.016,
+      "pd_floor": 0.0045,
+      "snr10_db": 22.648,
+      "snr90_db": 22.69,
+      "max_bin_gap": 0.007,
+      "n_injections": 78624
+     },
+     "1/hour": {
+      "threshold_snr_db": 3.8,
+      "snr50_db": 1.287,
+      "sigma_db": 0.346,
+      "pd_floor": 0.0402,
+      "snr10_db": 0.756,
+      "snr90_db": 1.723,
+      "max_bin_gap": 0.052,
+      "n_injections": 78624
+     }
+    },
+    "W60_D60": {
+     "1/day": {
+      "threshold_snr_db": 22.7,
+      "snr50_db": 22.959,
+      "sigma_db": 0.041,
+      "pd_floor": 0.0,
+      "snr10_db": 22.906,
+      "snr90_db": 23.011,
+      "max_bin_gap": 0.003,
+      "n_injections": 78624
+     },
+     "1/hour": {
+      "threshold_snr_db": 3.8,
+      "snr50_db": 1.71,
+      "sigma_db": 0.289,
+      "pd_floor": 0.0551,
+      "snr10_db": 1.227,
+      "snr90_db": 2.072,
+      "max_bin_gap": 0.033,
+      "n_injections": 78624
+     }
+    }
+   }
+  },
+  "H11N_TA810": {
+   "data_form": "raw_ims_single",
+   "noise_level_db": 93.99,
+   "noise_sd_db": 2.52,
+   "fa": {
+    "1/day": {
+     "threshold_snr_db": 23.8,
+     "snr50_db": 23.789,
+     "sigma_db": 0.023,
+     "pd_floor": 0.0,
+     "snr10_db": 23.76,
+     "snr90_db": 23.818,
+     "max_bin_gap": 0.0,
+     "n_injections": 78624
+    },
+    "1/hour": {
+     "threshold_snr_db": 3.15,
+     "snr50_db": 0.128,
+     "sigma_db": 0.504,
+     "pd_floor": 0.0253,
+     "snr10_db": -0.592,
+     "snr90_db": 0.767,
+     "max_bin_gap": 0.043,
+     "n_injections": 78624
+    }
+   },
+   "basis": "Wake test station (not an MH370 receiver). Null: 14 days around the event day, 08:00-14:00 UTC. Used for the held-out outcome tests only.",
+   "variants": {
+    "W10_D15": {
+     "1/day": {
+      "threshold_snr_db": 25.45,
+      "snr50_db": 26.433,
+      "sigma_db": 0.142,
+      "pd_floor": 0.0,
+      "snr10_db": 26.251,
+      "snr90_db": 26.615,
+      "max_bin_gap": 0.002,
+      "n_injections": 78624
+     },
+     "1/hour": {
+      "threshold_snr_db": 5.15,
+      "snr50_db": 4.498,
+      "sigma_db": 0.441,
+      "pd_floor": 0.0119,
+      "snr10_db": 3.905,
+      "snr90_db": 5.06,
+      "max_bin_gap": 0.018,
+      "n_injections": 78624
+     }
+    },
+    "W10_D60": {
+     "1/day": {
+      "threshold_snr_db": 25.45,
+      "snr50_db": 30.944,
+      "sigma_db": 0.295,
+      "pd_floor": 0.0,
+      "snr10_db": 30.566,
+      "snr90_db": 31.322,
+      "max_bin_gap": 0.005,
+      "n_injections": 78624
+     },
+     "1/hour": {
+      "threshold_snr_db": 5.15,
+      "snr50_db": 8.85,
+      "sigma_db": 0.531,
+      "pd_floor": 0.0193,
+      "snr10_db": 8.112,
+      "snr90_db": 9.525,
+      "max_bin_gap": 0.045,
+      "n_injections": 78624
+     }
+    },
+    "W30_D15": {
+     "1/day": {
+      "threshold_snr_db": 23.8,
+      "snr50_db": 23.789,
+      "sigma_db": 0.023,
+      "pd_floor": 0.0,
+      "snr10_db": 23.76,
+      "snr90_db": 23.818,
+      "max_bin_gap": 0.0,
+      "n_injections": 78624
+     },
+     "1/hour": {
+      "threshold_snr_db": 3.15,
+      "snr50_db": 0.128,
+      "sigma_db": 0.504,
+      "pd_floor": 0.0253,
+      "snr10_db": -0.592,
+      "snr90_db": 0.767,
+      "max_bin_gap": 0.043,
+      "n_injections": 78624
+     }
+    },
+    "W30_D60": {
+     "1/day": {
+      "threshold_snr_db": 23.8,
+      "snr50_db": 25.446,
+      "sigma_db": 0.107,
+      "pd_floor": 0.0,
+      "snr10_db": 25.308,
+      "snr90_db": 25.583,
+      "max_bin_gap": 0.001,
+      "n_injections": 78624
+     },
+     "1/hour": {
+      "threshold_snr_db": 3.15,
+      "snr50_db": 1.828,
+      "sigma_db": 0.402,
+      "pd_floor": 0.0253,
+      "snr10_db": 1.255,
+      "snr90_db": 2.337,
+      "max_bin_gap": 0.029,
+      "n_injections": 78624
+     }
+    },
+    "W60_D15": {
+     "1/day": {
+      "threshold_snr_db": 21.25,
+      "snr50_db": 21.213,
+      "sigma_db": 0.031,
+      "pd_floor": 0.0,
+      "snr10_db": 21.172,
+      "snr90_db": 21.253,
+      "max_bin_gap": 0.002,
+      "n_injections": 78624
+     },
+     "1/hour": {
+      "threshold_snr_db": 1.95,
+      "snr50_db": -2.759,
+      "sigma_db": 0.701,
+      "pd_floor": 0.0521,
+      "snr10_db": -3.908,
+      "snr90_db": -1.883,
+      "max_bin_gap": 0.054,
+      "n_injections": 78624
+     }
+    },
+    "W60_D60": {
+     "1/day": {
+      "threshold_snr_db": 21.25,
+      "snr50_db": 21.502,
+      "sigma_db": 0.041,
+      "pd_floor": 0.0,
+      "snr10_db": 21.449,
+      "snr90_db": 21.554,
+      "max_bin_gap": 0.004,
+      "n_injections": 78624
+     },
+     "1/hour": {
+      "threshold_snr_db": 1.95,
+      "snr50_db": -2.376,
+      "sigma_db": 0.598,
+      "pd_floor": 0.0357,
+      "snr10_db": -3.273,
+      "snr90_db": -1.622,
+      "max_bin_gap": 0.055,
+      "n_injections": 78624
+     }
+    }
+   }
+  },
+  "H11S_TA810": {
+   "data_form": "raw_ims_single",
+   "noise_level_db": 93.21,
+   "noise_sd_db": 1.52,
+   "fa": {
+    "1/day": {
+     "threshold_snr_db": 22.1,
+     "snr50_db": 22.079,
+     "sigma_db": 0.02,
+     "pd_floor": 0.0045,
+     "snr10_db": 22.053,
+     "snr90_db": 22.104,
+     "max_bin_gap": 0.001,
+     "n_injections": 78624
+    },
+    "1/hour": {
+     "threshold_snr_db": 4.45,
+     "snr50_db": 2.419,
+     "sigma_db": 0.313,
+     "pd_floor": 0.0253,
+     "snr10_db": 1.972,
+     "snr90_db": 2.815,
+     "max_bin_gap": 0.023,
+     "n_injections": 78624
+    }
+   },
+   "basis": "Wake test station (not an MH370 receiver). Null: 14 days around the event day, 08:00-14:00 UTC. Used for the held-out outcome tests only.",
+   "variants": {
+    "W10_D15": {
+     "1/day": {
+      "threshold_snr_db": 25.25,
+      "snr50_db": 26.189,
+      "sigma_db": 0.161,
+      "pd_floor": 0.0,
+      "snr10_db": 25.982,
+      "snr90_db": 26.396,
+      "max_bin_gap": 0.006,
+      "n_injections": 78624
+     },
+     "1/hour": {
+      "threshold_snr_db": 7.3,
+      "snr50_db": 7.309,
+      "sigma_db": 0.325,
+      "pd_floor": 0.0149,
+      "snr10_db": 6.867,
+      "snr90_db": 7.723,
+      "max_bin_gap": 0.03,
+      "n_injections": 78624
+     }
+    },
+    "W10_D60": {
+     "1/day": {
+      "threshold_snr_db": 25.25,
+      "snr50_db": 30.711,
+      "sigma_db": 0.357,
+      "pd_floor": 0.0,
+      "snr10_db": 30.253,
+      "snr90_db": 31.168,
+      "max_bin_gap": 0.029,
+      "n_injections": 78624
+     },
+     "1/hour": {
+      "threshold_snr_db": 7.3,
+      "snr50_db": 11.819,
+      "sigma_db": 0.398,
+      "pd_floor": 0.0312,
+      "snr10_db": 11.235,
+      "snr90_db": 12.322,
+      "max_bin_gap": 0.018,
+      "n_injections": 78624
+     }
+    },
+    "W30_D15": {
+     "1/day": {
+      "threshold_snr_db": 22.1,
+      "snr50_db": 22.079,
+      "sigma_db": 0.02,
+      "pd_floor": 0.0045,
+      "snr10_db": 22.053,
+      "snr90_db": 22.104,
+      "max_bin_gap": 0.001,
+      "n_injections": 78624
+     },
+     "1/hour": {
+      "threshold_snr_db": 4.45,
+      "snr50_db": 2.419,
+      "sigma_db": 0.313,
+      "pd_floor": 0.0253,
+      "snr10_db": 1.972,
+      "snr90_db": 2.815,
+      "max_bin_gap": 0.023,
+      "n_injections": 78624
+     }
+    },
+    "W30_D60": {
+     "1/day": {
+      "threshold_snr_db": 22.1,
+      "snr50_db": 23.715,
+      "sigma_db": 0.198,
+      "pd_floor": 0.0,
+      "snr10_db": 23.46,
+      "snr90_db": 23.969,
+      "max_bin_gap": 0.008,
+      "n_injections": 78624
+     },
+     "1/hour": {
+      "threshold_snr_db": 4.45,
+      "snr50_db": 4.106,
+      "sigma_db": 0.328,
+      "pd_floor": 0.0461,
+      "snr10_db": 3.587,
+      "snr90_db": 4.517,
+      "max_bin_gap": 0.032,
+      "n_injections": 78624
+     }
+    },
+    "W60_D15": {
+     "1/day": {
+      "threshold_snr_db": 19.4,
+      "snr50_db": 19.335,
+      "sigma_db": 0.028,
+      "pd_floor": 0.0045,
+      "snr10_db": 19.298,
+      "snr90_db": 19.371,
+      "max_bin_gap": 0.004,
+      "n_injections": 78624
+     },
+     "1/hour": {
+      "threshold_snr_db": 3.15,
+      "snr50_db": 0.064,
+      "sigma_db": 0.442,
+      "pd_floor": 0.0402,
+      "snr10_db": -0.614,
+      "snr90_db": 0.62,
+      "max_bin_gap": 0.047,
+      "n_injections": 78624
+     }
+    },
+    "W60_D60": {
+     "1/day": {
+      "threshold_snr_db": 19.4,
+      "snr50_db": 19.624,
+      "sigma_db": 0.115,
+      "pd_floor": 0.0,
+      "snr10_db": 19.477,
+      "snr90_db": 19.771,
+      "max_bin_gap": 0.004,
+      "n_injections": 78624
+     },
+     "1/hour": {
+      "threshold_snr_db": 3.15,
+      "snr50_db": 0.487,
+      "sigma_db": 0.372,
+      "pd_floor": 0.061,
+      "snr10_db": -0.158,
+      "snr90_db": 0.951,
+      "max_bin_gap": 0.031,
+      "n_injections": 78624
+     }
+    }
+   }
+  },
+  "OHASISBIO_MAD": {
+   "data_form": "picks_ohasisbio",
+   "noise_level_db": 91.9,
+   "noise_sd_db": 3.0,
+   "fa": {
+    "1/day": {
+     "threshold_snr_db": null,
+     "snr50_db": 15.92,
+     "sigma_db": 48.96,
+     "pd_floor": 0.0,
+     "status": "NOT IDENTIFIED: sigma reached the 50 dB numerical bound; the curve is nearly flat over the plausible SNR range"
+    }
+   },
+   "royer_detection_rate": 0.6,
+   "basis": "Published Royer 2016 Table 5 picks (detected = a pick is listed). One curve for all OHASISBIO sites, fitted with per-event source levels (prior sd 20 dB) and the Cape Leeuwin injection curve as the only absolute anchor; frozen-chain Royer loss table (10 m source, shared source shape). Noise level = Royer figure colour reading (not calibrated). The picks have no false-alarm rate. PROVISIONAL and not usable as a likelihood: post hoc refit without 9 paths of effective loss > 160 dB gives snr50 27.9 dB, sigma (incl. propagation) 20.0 dB. Royer events were selected by detection at 6 or more stations."
+  },
+  "OHASISBIO_NCRO": {
+   "data_form": "picks_ohasisbio",
+   "noise_level_db": 105.0,
+   "noise_sd_db": 3.0,
+   "fa": {
+    "1/day": {
+     "threshold_snr_db": null,
+     "snr50_db": 15.92,
+     "sigma_db": 48.96,
+     "pd_floor": 0.0,
+     "status": "NOT IDENTIFIED: sigma reached the 50 dB numerical bound; the curve is nearly flat over the plausible SNR range"
+    }
+   },
+   "royer_detection_rate": 0.35,
+   "basis": "Published Royer 2016 Table 5 picks (detected = a pick is listed). One curve for all OHASISBIO sites, fitted with per-event source levels (prior sd 20 dB) and the Cape Leeuwin injection curve as the only absolute anchor; frozen-chain Royer loss table (10 m source, shared source shape). Noise level = Royer figure colour reading (not calibrated). The picks have no false-alarm rate. PROVISIONAL and not usable as a likelihood: post hoc refit without 9 paths of effective loss > 160 dB gives snr50 27.9 dB, sigma (incl. propagation) 20.0 dB. Royer events were selected by detection at 6 or more stations."
+  },
+  "OHASISBIO_WKER": {
+   "data_form": "picks_ohasisbio",
+   "noise_level_db": 106.7,
+   "noise_sd_db": 3.0,
+   "fa": {
+    "1/day": {
+     "threshold_snr_db": null,
+     "snr50_db": 15.92,
+     "sigma_db": 48.96,
+     "pd_floor": 0.0,
+     "status": "NOT IDENTIFIED: sigma reached the 50 dB numerical bound; the curve is nearly flat over the plausible SNR range"
+    }
+   },
+   "royer_detection_rate": 0.1,
+   "basis": "Published Royer 2016 Table 5 picks (detected = a pick is listed). One curve for all OHASISBIO sites, fitted with per-event source levels (prior sd 20 dB) and the Cape Leeuwin injection curve as the only absolute anchor; frozen-chain Royer loss table (10 m source, shared source shape). Noise level = Royer figure colour reading (not calibrated). The picks have no false-alarm rate. PROVISIONAL and not usable as a likelihood: post hoc refit without 9 paths of effective loss > 160 dB gives snr50 27.9 dB, sigma (incl. propagation) 20.0 dB. Royer events were selected by detection at 6 or more stations."
+  },
+  "OHASISBIO_SWAMS1": {
+   "data_form": "picks_ohasisbio",
+   "noise_level_db": 103.3,
+   "noise_sd_db": 3.0,
+   "fa": {
+    "1/day": {
+     "threshold_snr_db": null,
+     "snr50_db": 15.92,
+     "sigma_db": 48.96,
+     "pd_floor": 0.0,
+     "status": "NOT IDENTIFIED: sigma reached the 50 dB numerical bound; the curve is nearly flat over the plausible SNR range"
+    }
+   },
+   "royer_detection_rate": 0.9,
+   "basis": "Published Royer 2016 Table 5 picks (detected = a pick is listed). One curve for all OHASISBIO sites, fitted with per-event source levels (prior sd 20 dB) and the Cape Leeuwin injection curve as the only absolute anchor; frozen-chain Royer loss table (10 m source, shared source shape). Noise level = Royer figure colour reading (not calibrated). The picks have no false-alarm rate. PROVISIONAL and not usable as a likelihood: post hoc refit without 9 paths of effective loss > 160 dB gives snr50 27.9 dB, sigma (incl. propagation) 20.0 dB. Royer events were selected by detection at 6 or more stations."
+  },
+  "OHASISBIO_SWAMS2": {
+   "data_form": "picks_ohasisbio",
+   "noise_level_db": 103.3,
+   "noise_sd_db": 3.0,
+   "fa": {
+    "1/day": {
+     "threshold_snr_db": null,
+     "snr50_db": 15.92,
+     "sigma_db": 48.96,
+     "pd_floor": 0.0,
+     "status": "NOT IDENTIFIED: sigma reached the 50 dB numerical bound; the curve is nearly flat over the plausible SNR range"
+    }
+   },
+   "royer_detection_rate": 0.9,
+   "basis": "Published Royer 2016 Table 5 picks (detected = a pick is listed). One curve for all OHASISBIO sites, fitted with per-event source levels (prior sd 20 dB) and the Cape Leeuwin injection curve as the only absolute anchor; frozen-chain Royer loss table (10 m source, shared source shape). Noise level = Royer figure colour reading (not calibrated). The picks have no false-alarm rate. PROVISIONAL and not usable as a likelihood: post hoc refit without 9 paths of effective loss > 160 dB gives snr50 27.9 dB, sigma (incl. propagation) 20.0 dB. Royer events were selected by detection at 6 or more stations."
+  },
+  "OHASISBIO_SWAMS3": {
+   "data_form": "picks_ohasisbio",
+   "noise_level_db": 101.8,
+   "noise_sd_db": 3.0,
+   "fa": {
+    "1/day": {
+     "threshold_snr_db": null,
+     "snr50_db": 15.92,
+     "sigma_db": 48.96,
+     "pd_floor": 0.0,
+     "status": "NOT IDENTIFIED: sigma reached the 50 dB numerical bound; the curve is nearly flat over the plausible SNR range"
+    }
+   },
+   "royer_detection_rate": 0.9,
+   "basis": "Published Royer 2016 Table 5 picks (detected = a pick is listed). One curve for all OHASISBIO sites, fitted with per-event source levels (prior sd 20 dB) and the Cape Leeuwin injection curve as the only absolute anchor; frozen-chain Royer loss table (10 m source, shared source shape). Noise level = Royer figure colour reading (not calibrated). The picks have no false-alarm rate. PROVISIONAL and not usable as a likelihood: post hoc refit without 9 paths of effective loss > 160 dB gives snr50 27.9 dB, sigma (incl. propagation) 20.0 dB. Royer events were selected by detection at 6 or more stations."
+  },
+  "OHASISBIO_SSEIR": {
+   "data_form": "picks_ohasisbio",
+   "noise_level_db": 102.6,
+   "noise_sd_db": 3.0,
+   "fa": {
+    "1/day": {
+     "threshold_snr_db": null,
+     "snr50_db": 15.92,
+     "sigma_db": 48.96,
+     "pd_floor": 0.0,
+     "status": "NOT IDENTIFIED: sigma reached the 50 dB numerical bound; the curve is nearly flat over the plausible SNR range"
+    }
+   },
+   "royer_detection_rate": 0.55,
+   "basis": "Published Royer 2016 Table 5 picks (detected = a pick is listed). One curve for all OHASISBIO sites, fitted with per-event source levels (prior sd 20 dB) and the Cape Leeuwin injection curve as the only absolute anchor; frozen-chain Royer loss table (10 m source, shared source shape). Noise level = Royer figure colour reading (not calibrated). The picks have no false-alarm rate. PROVISIONAL and not usable as a likelihood: post hoc refit without 9 paths of effective loss > 160 dB gives snr50 27.9 dB, sigma (incl. propagation) 20.0 dB. Royer events were selected by detection at 6 or more stations."
+  }
+ },
+ "notes": "P_D = pd_floor + (1 - pd_floor) Phi((SNR - snr50_db)/sigma_db). SNR_dB = 10 log10(E_s / N_W): E_s = total 5-40 Hz band energy of the arrival, N_W = noise energy level in a W-s window (median window energy). For a predicted SNR from a nominal noise level, use SNR = received band SEL - (noise_level_db + 10 log10 W) and add noise_sd_db and the propagation sd in quadrature to sigma_db. Primary: W 30 s, arrival 90 % duration 15 s; variants W10/30/60 x D15/60. Thresholds include all real transients (earthquake T-phases, ice, whales, airgun surveys); known-event association is not applied. OHASISBIO_* entries: picks data form from the Royer 2016 test; curve not identified (see basis)."
+}
