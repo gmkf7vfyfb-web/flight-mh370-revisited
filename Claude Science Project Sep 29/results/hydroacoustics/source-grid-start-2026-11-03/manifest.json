@@ -1,0 +1,156 @@
+{
+ "manifest_version": 1,
+ "run_id": "source-grid-start-2026-11-03",
+ "module": "hydroacoustics",
+ "commit": {
+  "branch": "hypothesis/hydroacoustics",
+  "sha": "4452f265c92e91d4f29c526b16cd6d22b670bd3f",
+  "dirty": false
+ },
+ "configuration": {
+  "values": {
+   "scope": "source-grid method X18: explainers, value-of-information test v2, calibration table, path sections, RAM timing",
+   "producer_thread": "d1ea5f58-fde8-4011-9b99-34ce1fdd110c",
+   "tl_chain": "tl-chain-2026-10-27 (artifact 9ba75304)"
+  }
+ },
+ "inputs": [
+  {
+   "registry_id": "hydro.in.hydro_data_db",
+   "sha256": "e0442acebc6c112e4b062a97349dda80af70f4b2253f7b56f19bba40645caf91",
+   "role": "site table, reference events, noise rows"
+  },
+  {
+   "registry_id": "ext.globsed_v3",
+   "sha256": "86f61493dc41c47e6fcb0089058150e0963bd6f0379943fd80d1d09a66d77ca4",
+   "role": "sediment thickness for RAM timing"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "README.md",
+   "bytes": 3292,
+   "sha256": "bfdaa2dd91c88270767a8ba3c0d6dc3e1c0667736fe8153e6720802b7d257e6c"
+  },
+  {
+   "path": "arc_ssp.json",
+   "bytes": 12783,
+   "sha256": "f0b1e66d8b12861efd2ba62c167b963b3d3167c5202f6705b28b4b8b66431434"
+  },
+  {
+   "path": "arc_ssp.py",
+   "bytes": 887,
+   "sha256": "abdbcfc9a4f28c574e7649ac5ab29dd9d7fb59136f100bd75a976ef9978d90bf"
+  },
+  {
+   "path": "build_sections_now.py",
+   "bytes": 3881,
+   "sha256": "c113d978594dcfbf01a2246c64767b71380a0bd1178d75cd2e4f0c750685fec7"
+  },
+  {
+   "path": "calibration-sources-and-data.csv",
+   "bytes": 5675,
+   "sha256": "009cb395e4be7684f35ac69cbf624f678e6d2026ea16f6849ed77a28530843e5"
+  },
+  {
+   "path": "calibration-sources-and-data.md",
+   "bytes": 14495,
+   "sha256": "4f53c7578cd39912f1e96b7474273006071ff346c82a7f024f30b8d963036d6d"
+  },
+  {
+   "path": "corner-frequency-explained.png",
+   "bytes": 315243,
+   "sha256": "d06f3a67c088f66cb2a108bb6bedbee1654cfc4483ea2d26fb5117fdb75ad9d1"
+  },
+  {
+   "path": "path-sections-index.csv",
+   "bytes": 38449,
+   "sha256": "ca465bd5496d0a171d9f8b83afcbbef2437806ea6397a828a7b1488fdfa99724"
+  },
+  {
+   "path": "profiles-airgun-2001.png",
+   "bytes": 654569,
+   "sha256": "4d258eddd4bc20c1d7ea5e4570f31d3cf6239ea5481660aa0d842ef62dcd2b83"
+  },
+  {
+   "path": "profiles-arc-20S.png",
+   "bytes": 340402,
+   "sha256": "4e8f0970b8d5d82d6ffaef7b0a2e25473c26460535c4d66d8fb259d28fec7348"
+  },
+  {
+   "path": "profiles-arc-25S.png",
+   "bytes": 324918,
+   "sha256": "3841b57fc40df3777b05e8eb167699aea58b62dca34026cca6b554619ad21a0e"
+  },
+  {
+   "path": "profiles-arc-30S.png",
+   "bytes": 334779,
+   "sha256": "aaa463e04a5dafd0909249e786744def51a90fefff629f49d0b1e82c6085653d"
+  },
+  {
+   "path": "profiles-arc-35S.png",
+   "bytes": 336409,
+   "sha256": "08b2443804a67b399466b3954c071c14830abffd8997c3064f80bbf2cc807eed"
+  },
+  {
+   "path": "profiles-arc-40S.png",
+   "bytes": 304297,
+   "sha256": "717431879938cce976e5feab8ba0de811c549d2a9fecb5032241d838e3987ad9"
+  },
+  {
+   "path": "profiles-atlantic-pacific.png",
+   "bytes": 793111,
+   "sha256": "ddfd17251141894cd014c0c76dc86b5607d43ac4f27becbd797b6acd4a2f2d41"
+  },
+  {
+   "path": "profiles-charges-2003.png",
+   "bytes": 812680,
+   "sha256": "c8d1d945f1210a057d1e477780628c8a664e4c8da464a950b2e35985d0532b3d"
+  },
+  {
+   "path": "ram_band_test.json",
+   "bytes": 4537,
+   "sha256": "69552a5005e306ba26d1b354b97ddc6b77f5fb6af8037ec75e739b8c95048dbd"
+  },
+  {
+   "path": "ram_band_test.py",
+   "bytes": 1063,
+   "sha256": "25ca72b94e823d5c9b513d78bc391b877d69d44f278ab8e68466c0693c3ed7ec"
+  },
+  {
+   "path": "ram_timing.json",
+   "bytes": 583,
+   "sha256": "27e6abdfd95c00ef50b9532f2f281d4be80f5134561123b63d6c2fe9582f0389"
+  },
+  {
+   "path": "ram_timing.py",
+   "bytes": 939,
+   "sha256": "737953f118e8bbed58e346e9647e54cb56894fab863838018f3adc602c21af35"
+  },
+  {
+   "path": "source-depth-and-sound-channel.png",
+   "bytes": 308247,
+   "sha256": "29c89f5c029ae259c01656b7c56ea8bdd6c46bd34b0a253e7b4f146bbd1891ac"
+  },
+  {
+   "path": "value-of-information-impact-time.csv",
+   "bytes": 1244,
+   "sha256": "265c7533f0f7cebb62febc071b60825733c9887b1b9f40662620880de1441a81"
+  },
+  {
+   "path": "value-of-information-test.csv",
+   "bytes": 2352,
+   "sha256": "37814fe38dea87707ea159757d575e92a0bfb5cf76e4b0b13fb05ed9af673039"
+  },
+  {
+   "path": "value-of-information-test.png",
+   "bytes": 310356,
+   "sha256": "74848d0bfa5b326464344678bfebaad9aee4c72c786b667f8b0052c6bbcd9209"
+  },
+  {
+   "path": "voi_v2.py",
+   "bytes": 4769,
+   "sha256": "7789396062e54eda2deee5c0a63a0c2e0a3cab27d459a67a58696114d468c0d5"
+  }
+ ]
+}
