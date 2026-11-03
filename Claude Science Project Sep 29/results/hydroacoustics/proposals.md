@@ -21,3 +21,4 @@
 | X15 | "One track in sequence" for re-runs | agent offer, thread 676a6e64 msg 429; repeated in a35831fe | NOT a rule. Pete, 23 Oct: "I didn't make a rule about one sequential track". |
 | X16 | Source-depth and pulse-duration sensitivity in the MH370 level chain (defect D25) | Take 2 review item 7 | open |
 | X17 | Ask Pete for the IMOS 3315 and 3275 March 2014 background (Curtin) to replace the paired-logger stand-in (defect D06) | Take 2 review item 12 | open |
+| X18 | Source-grid hydroacoustic method: results indexed on acoustic energy x corner frequency x source depth; sparse coupled-model sections; residual model by path class; detection probability by injection per data form; detectability maps; network Bayes-factor search with a time-shift null. File: `proposal-source-grid-method-2026-11-02.md` | session d1ea5f58, 2 Nov 2026, from Pete's four-point method | Pete 3 Nov 2026: commit and start approved (P73, P74). Compute per step still needs his approval. |
