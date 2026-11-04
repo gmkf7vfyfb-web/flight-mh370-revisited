@@ -1,0 +1,13 @@
+{
+ "imos3315_waveform_250hz.npz": "IMOS raw waveform, 250 Hz volts, per record",
+ "imos3250_waveform_250hz.npz": "IMOS raw waveform, 250 Hz volts, per record",
+ "imos3376_waveform_250hz.npz": "IMOS raw waveform, 250 Hz volts, per record",
+ "imos3274_waveform_250hz.npz": "IMOS raw waveform, 250 Hz volts, per record",
+ "imos3275_waveform_250hz.npz": "IMOS raw waveform, 250 Hz volts, per record",
+ "imos_band_power_1s.parquet": "IMOS calibrated band power, 1 s Hann windows, 0.5 s hop, 5-40 and 10-40 Hz (uPa^2)",
+ "kadri2024_fig9_vertices.parquet": "Kadri 2024 Fig. 9 digitised pressure vertices (5-40 Hz band-passed trace), Pa",
+ "royer2016_spectrogram_bands.parquet": "Royer 2016 spectrogram colour readings, band-mean PSD dB re 1 uPa^2/Hz (5-40, 10-15, 2-60 Hz); colour scale saturates; offset uncalibrated",
+ "cmst2014_digitised_traces.parquet": "CMST 2014 Figs 1-2 digitised traces, 01:31:40-01:35:50 (columns as imported)",
+ "picks_all.parquet": "All point picks held: Royer Table 5 + figure marks, Kadri tables, CMST detections, H08S airgun shots",
+ "coverage_blocks.csv": "one row per data block (record or figure panel): station, form, UTC start/end, rate, band, source"
+}
