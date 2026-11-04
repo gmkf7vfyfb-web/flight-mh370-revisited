@@ -47,7 +47,7 @@ Full table: {{artifact:d8747d99-6efb-41ea-9002-9e773bcf365a}}. Ranked network ca
 Sensitivities ({{artifact:b96bcfb7-164d-4e3b-84bc-a3da86a585cd}}):
 - Emergent-onset association term (lag 0-30 s after a Royer pick; P 0.725 for the Cape Leeuwin onsets at 00:36:07, 00:51:58, 00:54:27): primary p 0.080 becomes 0.099. Rank of the primary candidate does not change. The best-four (base geometry) changes from 0.66 to 0.50.
 - Royer figure pick-bar association: the rock-leg best four changes from 0.063 to 0.65 (dive sub-range 0.44).
-- Exclusion of a candidate's own transients from the background gives 0.004 (primary) and 0.001 (best four). We checked this on 20 noise realisations: 45 % of them gave 0.01 or less ({{artifact:26d42fb1-d970-47c3-b3ff-97ae149ce297}}). The exclusion value is therefore not informative here and is not used for labels.
+- Exclusion of a candidate's own transients from the background gives 0.004 (primary, 1,000 slides) and 0.001 (best four). We checked this on 20 noise realisations with 200 slides each (smallest possible p 0.005): 7 of 20 (35 %) reached that floor and 9 of 20 (45 %) gave 0.01 or less ({{artifact:26d42fb1-d970-47c3-b3ff-97ae149ce297}}). The exclusion value is therefore not informative here and is not used for labels.
 - Stacking with one station left out ({{artifact:635992a4-d391-48b3-bc13-6e7e6283bd1b}}): p 0.16-0.78; no station alone carries the result.
 
 ![Arc map]({{artifact:1fa76cd4-c10e-4d8d-9fa1-63ddd44960a4}})
@@ -97,7 +97,8 @@ Of 124 classifiable transients: 41 background noise only, 36 airgun shot (all at
 4. The change-point penalty reached its search limit (2,000) at Scott Reef and Perth Canyon; the false change-point rate there is above the one per 10 min target. The p-values are still empirical.
 5. The unique-transient null at Diego Garcia South is the rank inside the record (no off-window part).
 6. The exclusion p-value is not informative for this statistic (section 4.1).
-7. Several sensitivities (best-k statistics, rock-leg geometry, dive sub-range) were examined. Their smallest p (0.053) is not corrected for the number of sensitivities.
+7. The noise check of the exclusion p has a resolution floor of 0.005 (200 slides); a finer check (1,000 slides per realisation) was not run.
+8. Several sensitivities (best-k statistics, rock-leg geometry, dive sub-range) were examined. Their smallest p (0.053) is not corrected for the number of sensitivities.
 
 ## 6. Steps blocked by the platform safety check (not retried another way)
 
