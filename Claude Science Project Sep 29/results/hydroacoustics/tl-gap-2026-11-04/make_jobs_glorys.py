@@ -5,7 +5,7 @@ renormalised), TEOS-10 (SA from SP, CT from potential temperature), below the de
 increased to 11,000 m (the chain's WOA23 convention, tlchain.paths.sound_speed_profile).
 Variants (reciprocal RAM, frozen physics, layered seabed, 7 frequencies per band, outputs 10/2/30 m):
   G400_<date> : GLORYS on <date> for nodes r <= 400 km from the impact end, linear blend to WOA23 at 400-500 km
-  GALL_<date> : GLORYS on <date> at every node (arc paths only; the Misawa box covers only the first ~450 km)
+  GALL_<date> : GLORYS on <date> at every node (arc paths only; the Misawa box covers only the first 690-710 km of the 3,250-3,340 km Wake paths)
 Usage: python make_jobs_glorys.py <workdir>"""
 import json, os, pickle, sys
 import numpy as np, netCDF4 as nc, gsw

@@ -9,7 +9,7 @@ Addendum to [README.md](README.md) (step-1 note). EXPLORATORY and UNCHECKED. ASD
 3. **Gridded source.** The gridded profiles come from the GLORYS12V1 daily reanalysis.
    - Arc: the local file (fetched 10 Oct 2026) holds only 7-14 Mar 2014. So the arc window is −1 to +6 days, not ±10 days.
    - Misawa: downloaded today, 30 Mar-19 Apr 2019 (±10 days), box 141-149 E, 36-42 N.
-4. **Where the water changes.** Real water replaces climatology on the first 400 km of each path, blended to 500 km. On the arc paths it also replaces the whole path, as a sensitivity. On the Wake paths a whole-path run was not possible, because the download box covers only about 450 km.
+4. **Where the water changes.** Real water replaces climatology on the first 400 km of each path, blended to 500 km. On the arc paths it also replaces the whole path, as a sensitivity. On the Wake paths a whole-path run was not possible, because the download box covers only the first 690-710 km of paths 3,250-3,340 km long.
 5. **The full arc is not re-run.** The 43-point prediction is shifted by the mean change at the 3 run points (+0.26 dB). The bias (+7 dB, sd 3) and the error terms are unchanged, including the 2.5 dB water-column term.
 6. **Argo selection.** The ±10-day test uses calendar days, so some arc profiles are up to 10.8 days from the event. 5 of the 27 Misawa profiles lie outside the GLORYS box and have no reanalysis comparison.
 7. **Compute.** 1,260 RAM runs, 18.5 min on 6 processes, 0 errors. Only the sound-speed nodes changed: same seabed, bathymetry, bands, 7 frequencies per band, frozen chain tl-chain-2026-10-27.
