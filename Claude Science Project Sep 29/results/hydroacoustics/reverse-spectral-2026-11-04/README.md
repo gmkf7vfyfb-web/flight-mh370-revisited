@@ -1,6 +1,6 @@
 # Reverse-sensing spectral search (S10) and source classifier, 4 Nov 2026
 
-Folder: `Claude Science Project Sep 29/results/hydroacoustics/reverse-spectral-2026-11-04/`. Commit 1 (709b2da1) holds Amendment 2, fixed BEFORE the search ran. Commit 2 (this commit) holds the results, the module, the tests and the methods note.
+Folder: `Claude Science Project Sep 29/results/hydroacoustics/reverse-spectral-2026-11-04/`. Commit 1 (709b2da1) holds Amendment 2, fixed BEFORE the search ran. Commit 2 (b11c0ecd) holds the results, the module, the tests and the methods note. Commit 3 adds the null sensitivity check (deviation 13).
 
 S10 is post hoc in origin (it was added after the screening began), but its parameters were fixed before it ran. Propagation is used for travel time only. No result in this folder is a detection.
 
@@ -9,7 +9,7 @@ S10 is post hoc in origin (it was added after the screening began), but its para
 1. S10 searched all raw IMOS logger records that overlap the arrival windows: 13 records at five loggers. The recording covers 28-40 % of each window.
 2. S10 found 7 candidates at local p of 0.05 or less. There were none at Perth Canyon. All 7 are single-station candidates.
 3. The best candidate is Portland 3275 at 01:07:45.4 UTC: R 327, local p 0.0043, station-global p 0.19, method-global p 0.65. It is the same burst that the screening track called "the one spectrally impact-like item".
-4. No candidate reaches station-global p of 0.05. No candidate is significant after the look-elsewhere correction.
+4. No candidate reaches station-global p of 0.05. No candidate is significant after the look-elsewhere correction. This stays true when the nulls leave out their extreme records (deviation 13; the Scott Reef candidate moves from 0.60 to 0.52).
 5. The classifier labels that burst "impact-like" (probability 0.86-0.94). Its time also matches the predicted arrival of Royer event 6 (class uncertain; association probability 0.75), which is a strong natural explanation. The burst is kept and the conflict is flagged.
 6. No candidate was removed. Removal needs a known class with positive evidence and a combined probability of 0.95 or more.
 7. Sensitivity (injections into null records only). At local p of 0.05, 50 % of impact-like signals are found at a 10 s SNR of about -3 to 0 dB at Perth Canyon and Portland. At station-global p of 0.05, only Portland 3275 reaches 50 % (at about +8 dB). Scott Reef is effectively blind, because local sounds set its threshold.
@@ -28,6 +28,7 @@ S10 is post hoc in origin (it was added after the screening began), but its para
 | `tests/test_reverse_spectral.py` | 8 tests, all pass |
 | `pipeline_records.py`, `pipeline_injections.py` | Null-record and injection pipelines (multiprocessing) |
 | `s10_candidates.csv` | S10 candidate table (spec section 12 schema, plus impact time, predicted arrival window, template parameters and class probabilities) |
+| `s10_null_sensitivity_extreme_records_excluded.csv`, `s10_null_sensitivity_summary.csv` | Null sensitivity with extreme records left out (deviation 13) |
 | `s10_null_summary.csv` | Per logger: run window, coverage, null pools, thresholds, null candidate rate |
 | `s10_injections.csv`, `s10_injection_detection_vs_snr.csv`, `s10_injection_summary.csv` | 14,850 injections (inside family, Metz et al. member, outside family) |
 | `classifier_validation.csv`, `confusion_matrix_raw.csv`, `confusion_matrix_envelope.csv`, `classifier_training_set.csv` | Classifier validation and training data |
