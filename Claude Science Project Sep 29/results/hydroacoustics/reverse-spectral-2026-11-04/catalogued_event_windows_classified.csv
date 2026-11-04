@@ -1,0 +1,60 @@
+event_id,catalogue_class,magnitude,station,data_form,path_class,predicted_utc,interval_utc,inside_arrival_window,peak_utc,peak_z,association_prob,class_label,open_set_p,p_whale_call,p_ship,p_earthquake_sound_arrival,p_airgun_shot,p_impact_like,p_background_noise_only,evidence
+ROYER01,icequake,,IMOS3376,raw IMOS,large attenuation,00:25:14.6,00:23:43.3-00:25:09.5,False,00:24:51.5,3.0433,0.6015,background noise only,0.3778,0.0267,0.1912,0.0088,0.0051,0.1096,0.6587,ice event
+ROYER01,icequake,,IMOS3274,raw IMOS,clear,00:36:02.1,00:34:13.6-00:35:06.6,False,00:34:52.0,19.4943,0.1561,unclassified,0.3433,0.0013,0.0,0.9524,0.0003,0.046,0.0001,
+ROYER01,icequake,,IMOS3275,raw IMOS,clear,00:36:00.9,00:34:43.9-00:37:49.2,False,00:34:53.9,9.7745,0.2007,unclassified,0.6083,0.0006,0.0,0.881,0.0003,0.1179,0.0001,
+ROYER02,uncertain,,IMOS3274,raw IMOS,clear,00:47:04.5,00:44:58.5-00:50:05.6,False,00:47:36.0,3.9295,0.5013,background noise only,0.8526,0.0045,0.005,0.0014,0.0013,0.0575,0.9302,
+ROYER02,uncertain,,IMOS3275,raw IMOS,clear,00:47:03.8,00:49:42.9-00:50:29.2,False,00:50:23.9,1.5092,0.0086,background noise only,0.3679,0.008,0.0729,0.0017,0.0069,0.0367,0.874,
+ROYER03-A,icequake,,IMOS3376,raw IMOS,large attenuation,00:55:08.1,00:53:42.2-00:55:09.5,True,00:54:03.5,3.9722,0.0555,background noise only,0.4779,0.0764,0.1081,0.0,0.0187,0.033,0.7636,whale call
+ROYER03-A,icequake,,IMOS3274,raw IMOS,clear,01:04:23.6,01:02:41.7-01:05:06.6,True,01:04:01.0,3.4525,0.6477,background noise only,0.6558,0.0493,0.0013,0.0632,0.0189,0.1458,0.7216,ice event
+ROYER03-A,icequake,,IMOS3275,raw IMOS,clear,01:04:22.5,01:04:42.9-01:06:04.3,True,01:05:17.9,2.2115,0.3046,background noise only,0.6606,0.0018,0.0326,0.0001,0.0034,0.0114,0.9507,
+ROYER04-B,uncertain,,IMOS3376,raw IMOS,clear,00:37:42.1,00:36:54.3-00:38:29.8,True,00:37:56.5,2.9317,0.6889,whale call,0.1785,0.5702,0.1989,0.0966,0.0051,0.0141,0.115,whale call;ship
+ROYER04-B,uncertain,,IMOS3274,raw IMOS,clear,01:02:31.3,01:01:01.8-01:04:00.8,True,01:03:57.0,2.8343,0.6205,background noise only,0.6558,0.0493,0.0013,0.0632,0.0189,0.1458,0.7216,ice event
+ROYER05,uncertain,,IMOS3274,raw IMOS,clear,00:44:32.6,00:44:58.5-00:47:50.4,False,00:47:36.0,3.9295,0.5013,background noise only,0.8526,0.0045,0.005,0.0014,0.0013,0.0575,0.9302,
+ROYER06,uncertain,,IMOS3275,raw IMOS,large attenuation,01:07:38.9,01:06:05.6-01:09:12.3,True,01:07:46.4,44.6521,0.7442,impact-like,0.4142,0.0257,0.0004,0.0013,0.0024,0.8765,0.0936,
+ROYER07-C1,uncertain,,IMOS3315,raw IMOS,clear,01:32:59.8,01:30:56.2-01:34:43.2,False,01:33:44.2,43.7912,0.4505,unclassified,0.5714,0.0208,0.0001,0.2197,0.0014,0.7454,0.0126,whale call
+ROYER07-C1,uncertain,,IMOS3250,raw IMOS,clear,01:33:18.1,01:31:13.9-01:34:51.9,False,01:32:42.9,55.6395,0.516,unclassified,0.1623,0.2918,0.0,0.7059,0.0002,0.0015,0.0005,whale call
+ROYER08,uncertain,,IMOS3376,raw IMOS,large attenuation,01:23:11.2,01:21:20.3-01:25:02.0,False,01:24:07.5,4.2634,0.2772,unclassified,0.3226,0.2959,0.0137,0.1642,0.0063,0.1503,0.3695,whale call
+ROYER08,uncertain,,IMOS3274,raw IMOS,clear,01:31:27.8,01:29:59.5-01:33:31.6,True,01:32:35.0,23.7968,0.2628,impact-like,0.6216,0.1337,0.0004,0.2821,0.0054,0.3937,0.1846,
+ROYER09,uncertain,,IMOS3315,raw IMOS,clear,01:04:24.9,01:03:20.2-01:04:42.2,True,01:04:09.2,3.8012,0.7081,background noise only,0.9491,0.0388,0.0332,0.0015,0.0102,0.0349,0.8814,whale call
+ROYER09,uncertain,,IMOS3376,raw IMOS,clear,01:04:26.8,01:05:03.5-01:05:31.6,True,01:05:17.5,2.5181,0.0318,background noise only,0.9336,0.02,0.0312,0.0011,0.0065,0.0231,0.9181,whale call
+ROYER09,uncertain,,IMOS3274,raw IMOS,clear,01:18:40.3,01:17:11.2-01:20:06.6,True,01:17:35.0,2.9628,0.082,background noise only,0.3116,0.2603,0.0046,0.0604,0.0061,0.1242,0.5445,whale call
+ROYER09,uncertain,,IMOS3275,raw IMOS,clear,01:18:39.0,01:19:43.9-01:20:08.1,True,01:20:02.9,1.4558,0.0099,background noise only,0.8917,0.0071,0.008,0.0563,0.0113,0.051,0.8664,
+ROYER10,icequake,,IMOS3315,raw IMOS,large attenuation,01:34:32.9,01:32:43.3-01:34:43.2,False,01:33:44.2,43.7912,0.4505,unclassified,0.5714,0.0208,0.0001,0.2197,0.0014,0.7454,0.0126,whale call
+ROYER10,icequake,,IMOS3376,raw IMOS,large attenuation,01:34:34.9,01:35:21.5-01:36:24.6,False,01:35:34.5,2.4555,0.4413,background noise only,0.9021,0.0103,0.0198,0.0026,0.0019,0.0213,0.9441,
+ROYER11-C2,uncertain,,IMOS3315,raw IMOS,clear,01:34:58.9,01:33:35.4-01:34:43.2,False,01:33:44.2,43.7912,0.4505,unclassified,0.5714,0.0208,0.0001,0.2197,0.0014,0.7454,0.0126,whale call
+ROYER11-C2,uncertain,,IMOS3376,raw IMOS,clear,01:34:59.6,01:35:21.5-01:36:23.1,False,01:35:34.5,2.4555,0.4413,background noise only,0.9021,0.0103,0.0198,0.0026,0.0019,0.0213,0.9441,
+ROYER11-C2,uncertain,,IMOS3250,raw IMOS,large attenuation,01:46:03.4,01:44:44.9-01:47:46.1,False,01:46:17.9,55.623,0.652,unclassified,0.5606,0.0782,0.0,0.9193,0.0002,0.0015,0.0008,whale call
+ROYER11-C2,uncertain,,IMOS3274,raw IMOS,clear,02:01:25.6,01:59:59.5-02:03:35.2,False,02:01:24.0,7.9413,0.6538,background noise only,0.5376,0.0496,0.0016,0.1938,0.005,0.2223,0.5277,
+ROYER12-C3,uncertain,,IMOS3315,raw IMOS,clear,01:34:56.6,01:33:30.5-01:34:43.2,False,01:33:44.2,43.7912,0.4505,unclassified,0.5714,0.0208,0.0001,0.2197,0.0014,0.7454,0.0126,whale call
+ROYER12-C3,uncertain,,IMOS3376,raw IMOS,clear,01:34:57.4,01:35:21.5-01:36:23.6,False,01:35:34.5,2.4555,0.4413,background noise only,0.9021,0.0103,0.0198,0.0026,0.0019,0.0213,0.9441,
+ROYER12-C3,uncertain,,IMOS3250,raw IMOS,large attenuation,01:46:03.4,01:44:44.9-01:47:48.3,False,01:46:17.9,55.623,0.652,unclassified,0.5606,0.0782,0.0,0.9193,0.0002,0.0015,0.0008,whale call
+ROYER12-C3,uncertain,,IMOS3274,raw IMOS,clear,02:01:22.6,01:59:59.5-02:03:33.8,False,02:01:24.0,7.9413,0.6538,background noise only,0.5376,0.0496,0.0016,0.1938,0.005,0.2223,0.5277,
+ROYER13-C4,uncertain,,IMOS3376,raw IMOS,large attenuation,01:37:57.0,01:35:21.5-01:40:28.5,False,01:38:07.5,2.6432,0.5213,whale call,0.4273,0.8685,0.0048,0.0008,0.0022,0.0025,0.1212,whale call
+ROYER13-C4,uncertain,,IMOS3274,raw IMOS,clear,01:48:35.9,01:45:35.5-01:50:06.6,False,01:47:04.5,5.2269,0.249,background noise only,0.7765,0.0137,0.0021,0.0449,0.0019,0.149,0.7884,
+ROYER13-C4,uncertain,,IMOS3275,raw IMOS,clear,01:48:34.7,01:49:43.9-01:51:35.2,False,01:49:43.9,0.0966,0.3954,background noise only,0.9948,0.0009,0.0141,0.0034,0.012,0.0792,0.8903,airgun shot
+ROYER14-D1,uncertain,,IMOS3315,raw IMOS,clear,01:29:20.4,01:29:36.2-01:30:22.8,False,01:30:22.7,1.0036,0.2574,background noise only,0.9024,0.0164,0.0071,0.037,0.0222,0.0298,0.8875,
+ROYER15-D2,uncertain,,IMOS3315,raw IMOS,clear,01:29:49.2,01:29:36.2-01:30:49.2,False,01:30:26.7,2.0503,0.1556,background noise only,0.9305,0.0036,0.0076,0.0064,0.0173,0.0212,0.9439,
+ROYER16,earthquake,,IMOS3250,raw IMOS,large attenuation,01:34:45.1,01:33:50.7-01:34:51.9,False,01:34:31.9,19.5489,0.7397,unclassified,0.2088,0.0671,0.0001,0.4856,0.0008,0.4431,0.0033,earthquake sound arrival;whale call
+ROYER17,icequake,,IMOS3315,raw IMOS,large attenuation,02:14:04.6,02:14:35.2-02:15:26.8,False,02:15:06.7,2.2314,0.0568,background noise only,0.8957,0.0067,0.0152,0.0,0.0028,0.0166,0.9587,whale call
+ROYER17,icequake,,IMOS3274,raw IMOS,clear,02:21:29.5,02:19:54.6-02:20:06.6,False,02:20:05.5,-0.2873,0.0185,background noise only,0.9987,0.0008,0.0086,0.0004,0.005,0.006,0.9792,
+ROYER17,icequake,,IMOS3275,raw IMOS,clear,02:21:28.4,02:19:53.5-02:23:03.3,False,02:20:20.9,2.4765,0.107,background noise only,0.9546,0.0133,0.0195,0.0251,0.0095,0.0683,0.8643,whale call
+ROYER18,icequake,,IMOS3315,raw IMOS,clear,02:29:54.5,02:29:35.2-02:31:29.5,False,02:30:36.7,7.5839,0.4028,whale call,0.1168,0.6302,0.0033,0.0009,0.0135,0.0153,0.3368,whale call
+ROYER18,icequake,,IMOS3274,raw IMOS,clear,02:43:36.8,02:44:59.5-02:45:34.3,False,02:45:28.5,1.5198,0.0099,background noise only,0.8663,0.0039,0.0087,0.0014,0.001,0.0186,0.9664,
+ROYER19,icequake,,IMOS3275,raw IMOS,clear,02:24:24.2,02:22:16.2-02:24:49.9,False,02:22:33.9,0.6614,0.1262,background noise only,0.8295,0.0072,0.0269,0.01,0.0126,0.0327,0.9107,
+ROYER20,earthquake,,IMOS3376,raw IMOS,clear,02:54:07.3,02:52:18.9-02:55:08.5,False,02:54:42.5,4.3901,0.4955,unclassified,0.4491,0.142,0.0022,0.0024,0.017,0.4533,0.3831,whale call
+ROYER20,earthquake,,IMOS3250,raw IMOS,large attenuation,03:06:12.5,03:04:03.0-03:04:51.9,False,03:04:35.9,15.407,0.0617,unclassified,0.0012,0.0,0.0,0.0,0.0002,0.9991,0.0006,whale call
+ROYER20,earthquake,,IMOS3274,raw IMOS,clear,03:19:05.4,03:16:33.2-03:20:06.6,False,03:17:29.5,4.9269,0.1493,background noise only,0.8754,0.0774,0.0039,0.0187,0.0048,0.071,0.8242,
+ROYER20,earthquake,,IMOS3275,raw IMOS,clear,03:19:04.0,03:19:42.9-03:21:36.1,False,03:19:57.9,2.4866,0.4638,background noise only,0.7467,0.0074,0.0375,0.0269,0.0022,0.0252,0.9008,
+EQ-EV075,earthquake,3.7,IMOS3315,raw IMOS,clear,00:03:19.9,00:01:25.2-00:04:42.2,False,00:01:36.7,4.6331,0.015,unclassified,0.4554,0.0431,0.166,0.3138,0.0184,0.1001,0.3586,whale call
+EQ-EV075,earthquake,3.7,IMOS3376,raw IMOS,clear,00:03:20.6,00:05:03.5-00:05:15.4,False,00:05:11.0,1.2873,0.007,impact-like,0.9175,0.0004,0.5665,0.0002,0.0018,0.0061,0.425,
+EQ-EV075,earthquake,3.7,IMOS3274,raw IMOS,clear,00:29:39.7,00:29:59.5-00:32:20.7,False,00:31:16.5,19.5031,0.17,unclassified,0.2128,0.3793,0.0022,0.0405,0.0721,0.1081,0.3977,whale call
+EQ-EV080,earthquake,4.96,IMOS3274,raw IMOS,large attenuation,02:26:31.0,02:29:58.5-02:30:53.2,False,02:30:09.0,1.8483,0.0257,background noise only,0.6109,0.0012,0.0081,0.0002,0.0025,0.0419,0.9462,
+EQ-EV080,earthquake,4.96,IMOS3275,raw IMOS,large attenuation,02:26:31.2,02:22:09.1-02:24:49.9,False,02:22:33.9,0.6614,0.1262,background noise only,0.8295,0.0072,0.0269,0.01,0.0126,0.0327,0.9107,
+EQ-ISC-607012184,earthquake,1.0,IMOS3315,raw IMOS,large attenuation,00:16:17.8,00:14:35.2-00:19:18.7,False,00:16:07.7,2.7041,0.5279,background noise only,0.4983,0.0168,0.4206,0.0022,0.0053,0.0288,0.5263,earthquake sound arrival;whale call
+EQ-ISC-607012184,earthquake,1.0,IMOS3250,raw IMOS,large attenuation,00:31:22.5,00:29:45.9-00:34:50.0,True,00:34:28.9,1876.7013,0.014,unclassified,0.0,0.0002,0.0,0.0,0.0019,0.9969,0.001,whale call
+EQ-ISC-604647884,earthquake,2.5,IMOS3315,raw IMOS,clear,03:51:29.7,03:48:18.2-03:49:42.2,False,03:49:33.2,1.8708,0.1306,background noise only,0.6763,0.0065,0.0068,0.0009,0.0028,0.0072,0.9759,whale call
+EQ-ISC-604647884,earthquake,2.5,IMOS3376,raw IMOS,clear,03:51:31.0,03:50:01.5-03:54:42.6,False,03:54:15.0,5.7082,0.0199,background noise only,0.3831,0.4391,0.0064,0.0039,0.005,0.0085,0.5371,whale call
+EQ-ISC-604647884,earthquake,2.5,IMOS3274,raw IMOS,clear,04:13:09.6,04:14:59.5-04:16:59.4,False,04:15:58.0,2.2665,0.0596,background noise only,0.8402,0.0342,0.0055,0.093,0.0021,0.0525,0.8128,
+EQ-ISC-604647884,earthquake,2.5,IMOS3275,raw IMOS,clear,04:13:08.2,04:09:18.4-04:09:50.9,False,04:09:48.4,1.0868,0.022,background noise only,0.8585,0.0134,0.0079,0.0516,0.0235,0.0414,0.8622,
+EQ-ISC-607012229,earthquake,1.4,IMOS3315,raw IMOS,large attenuation,03:59:52.1,03:59:35.1-04:02:52.7,False,04:02:30.6,2.5575,0.018,background noise only,0.2697,0.2332,0.1152,0.0032,0.0128,0.0468,0.5888,
+EQ-ISC-607012229,earthquake,1.4,IMOS3250,raw IMOS,large attenuation,04:14:44.4,04:14:45.9-04:18:11.3,False,04:15:07.4,1406.4556,0.4757,impact-like,0.0429,0.0005,0.0,0.0004,0.0121,0.9674,0.0195,

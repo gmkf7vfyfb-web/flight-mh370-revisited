@@ -328,3 +328,339 @@ def random_impact_draw(rng):
 
 
 # ------------------------------------------------------------------ features
+
+# Amendment 2, A2.7. Nothing below this line changes the S10 statistic.
+RAW_FEATURES = ["slope_db_oct", "centroid_oct", "bandwidth_oct", "flatness", "tonality_db", "sweep_hz_s",
+                "harmonicity", "low_frac", "log_dur", "log_rise", "decay_db_s", "repeat_strength",
+                "log_repeat_lag", "env_kurtosis", "rec_level_db", "n_lines"]
+ENV_FEATURES = ["log_dur", "log_rise", "decay_db_s", "repeat_strength", "log_repeat_lag", "env_kurtosis"]
+CLASSES = ["whale call", "ship", "earthquake sound arrival", "ice event", "airgun shot", "impact-like",
+           "background noise only"]
+KNOWN = ["whale call", "ship", "earthquake sound arrival", "ice event", "airgun shot"]
+
+
+def broadband_excess(W: Whitened):
+    """Per-frame broadband excess ratio sum_f (P - N) / sum_f N."""
+    return ((W.P - W.N[None, :]).sum(1)) / W.N.sum()
+
+
+def time_features(E, dt, k0, k1, ctx=None):
+    """Time-shape features of excess series E (ratio to noise; frame step dt) in frames [k0, k1].
+    ctx: the whole-record series for the repeat features (default E)."""
+    E = np.asarray(E, float)
+    ctx = E if ctx is None else np.asarray(ctx, float)
+    k0, k1 = max(0, int(k0)), min(len(E) - 1, int(k1))
+    seg = E[k0:k1 + 1]
+    kp = k0 + int(np.argmax(seg))
+    pk = max(E[kp], 1e-6)
+    j0 = kp
+    while j0 > k0 and E[j0 - 1] >= 0.5 * pk:
+        j0 -= 1
+    j1 = kp
+    while j1 < k1 and E[j1 + 1] >= 0.5 * pk:
+        j1 += 1
+    dur = (j1 - j0 + 1) * dt
+    a = kp
+    lo = max(0, k0 - int(10 / dt))
+    while a > lo and E[a - 1] >= 0.1 * pk:
+        a -= 1
+    b = a
+    while b < kp and E[b] < 0.9 * pk:
+        b += 1
+    rise = max((b - a) * dt, dt)
+    tot = 10 * np.log10(np.maximum(1 + E[kp:k1 + 1], 1e-3))
+    decay = float(np.polyfit(np.arange(len(tot)) * dt, tot, 1)[0]) if len(tot) >= 3 else 0.0
+    w = E[max(0, k0 - int(10 / dt)):min(len(E), k1 + int(10 / dt) + 1)]
+    kurt = float(stats.kurtosis(w)) if len(w) > 4 and np.std(w) > 0 else 0.0
+    # repeat structure over the record
+    y = np.log1p(np.maximum(ctx, 0))
+    y = y - y.mean()
+    rs, rl = 0.0, np.nan
+    if np.std(y) > 0 and len(y) > int(8 / dt):
+        ac = signal.fftconvolve(y, y[::-1], mode="full")[len(y) - 1:]
+        ac = ac / ac[0]
+        L0, L1 = int(4 / dt), min(int(120 / dt), len(y) // 2)
+        if L1 > L0:
+            # normalise by overlap length
+            ac_n = ac[L0:L1] * len(y) / (len(y) - np.arange(L0, L1))
+            i = int(np.argmax(ac_n))
+            rs, rl = float(ac_n[i]), (L0 + i) * dt
+    return dict(log_dur=np.log10(dur), log_rise=np.log10(rise), decay_db_s=decay, repeat_strength=rs,
+                log_repeat_lag=np.log10(rl) if np.isfinite(rl) else np.nan, env_kurtosis=kurt,
+                t_peak_frame=kp, dur_s=dur, rise_s=rise)
+
+
+def _fine_psd(x, fs=FS, nper=1000):
+    f, p = signal.welch(x, fs=fs, window="hann", nperseg=nper, noverlap=3 * nper // 4, detrend="constant")
+    return f, p
+
+
+def features_raw(x, t_on, t_off, gain_f_hz, gain_db, W: Whitened | None = None, station_ref_db=np.nan,
+                 fs=FS):
+    """All A2.7.2 features for window [t_on, t_off] (s from the start of the record x, 250 Hz volts)."""
+    if W is None:
+        f, t, P = spectrogram(x, fs)
+        W = whiten(f, t, P)
+    f = W.f
+    tt = W.t - NPERSEG / fs / 2                                   # frame start times
+    E = broadband_excess(W)
+    k0 = int(np.searchsorted(tt, t_on)); k1 = max(k0, int(np.searchsorted(tt, t_off)) - 1)
+    k1 = min(k1, len(tt) - 1); k0 = min(k0, k1)
+    tf = time_features(E, DT, k0, k1)
+    kp = tf["t_peak_frame"]
+    j0, j1 = kp, kp
+    while j0 > k0 and E[j0 - 1] >= 0.5 * E[kp]:
+        j0 -= 1
+    while j1 < k1 and E[j1 + 1] >= 0.5 * E[kp]:
+        j1 += 1
+    exc = np.maximum((W.P[j0:j1 + 1] - W.N[None, :]).mean(0), 0)
+    r = exc / W.N
+    G = gain_lin(f, gain_f_hz, gain_db)
+    ep = exc / G
+    good = r > 0.25
+    if good.sum() >= 5:
+        slope = float(np.polyfit(np.log2(f[good]), 10 * np.log10(ep[good]), 1, w=np.sqrt(np.minimum(r[good], 10)))[0])
+    else:
+        slope = np.nan
+    e = np.where(good, ep, 0.0)
+    if e.sum() > 0:
+        cen = float(np.log2((f * e).sum() / e.sum() / 8.0))
+        low = float(e[f < 20].sum() / e.sum())
+        f1432 = float(e[(f >= 14) & (f <= 32)].sum() / e.sum())
+    else:
+        cen, low, f1432 = np.nan, np.nan, np.nan
+    rw = np.maximum(r, 0)
+    if rw.sum() > 0:
+        lf = np.log2(f)
+        mu = (rw * lf).sum() / rw.sum()
+        bw = float(np.sqrt((rw * (lf - mu) ** 2).sum() / rw.sum()))
+    else:
+        bw = 0.0
+    rp = np.maximum(r, 1e-3)
+    flat = float(np.exp(np.mean(np.log(rp))) / np.mean(rp))
+    # fine-resolution (0.25 Hz) spectrum over max(window, 16 s), against the record's trimmed noise
+    c = 0.5 * (tt[j0] + tt[j1] + 1.0)
+    span = max(16.0, (tt[k1] - tt[k0]) + 1.0)
+    a = int(max(0, (c - span / 2) * fs)); b = int(min(len(x), (c + span / 2) * fs))
+    ff, ps = _fine_psd(np.asarray(x[a:b], float))
+    # noise fine PSD from the kept (quiet) 16 s blocks of the record
+    nb = int(16 * fs)
+    blocks = [np.asarray(x[i:i + nb], float) for i in range(0, len(x) - nb + 1, nb)]
+    bp = np.array([np.mean(bk ** 2) for bk in blocks]) if blocks else np.array([1.0])
+    keep = [bk for bk, p_ in zip(blocks, bp) if p_ <= np.quantile(bp, 0.8)] or blocks
+    pn = np.mean([_fine_psd(bk)[1] for bk in keep], axis=0)
+    m = (ff >= 10) & (ff <= 100)
+    ratio = ps[m] / pn[m]
+    sm = signal.medfilt(ratio, 21)
+    ton = float(10 * np.log10(np.max(ratio / np.maximum(sm, 1e-12))))
+    ld = 10 * np.log10(np.maximum(ratio, 1e-6)); ld = ld - ld.mean()
+    ac = np.correlate(ld, ld, "full")[len(ld) - 1:]
+    ac = ac / max(ac[0], 1e-12)
+    df = ff[1] - ff[0]
+    L0, L1 = int(4 / df), int(40 / df)
+    harm = float(np.max(ac[L0:L1])) if L1 > L0 else 0.0
+    # sweep: peak frequency per signal frame
+    fr = np.arange(j0, j1 + 1)
+    if len(fr) >= 3:
+        pkf = f[np.argmax(W.Z[fr], axis=1)]
+        wts = np.maximum(E[fr], 1e-6)
+        sw = float(np.polyfit(fr * DT, pkf, 1, w=np.sqrt(wts))[0])
+    else:
+        sw = 0.0
+    # context: record level and persistent tonal lines
+    lev = float(10 * np.log10(np.median((W.P / G[None, :]).sum(1))))
+    fr_, prec = _fine_psd(np.asarray(x, float))
+    mm = (fr_ >= 10) & (fr_ <= 100)
+    rr = prec[mm] / signal.medfilt(prec[mm], 21)
+    pk_idx, _ = signal.find_peaks(10 * np.log10(rr), height=6.0, distance=4)
+    out = dict(slope_db_oct=slope, centroid_oct=cen, bandwidth_oct=bw, flatness=flat, tonality_db=ton,
+               sweep_hz_s=sw, harmonicity=harm, low_frac=low, frac_14_32=f1432, rec_level_db=lev - station_ref_db,
+               n_lines=float(len(pk_idx)), rec_level_abs_db=lev, peak_excess_db=float(10 * np.log10(1 + max(E[kp], 0))),
+               t_peak_s=float(tt[kp]), j0=int(j0), j1=int(j1))
+    out.update(tf)
+    return out
+
+
+def envelope_from_raw(x, fs=FS, band=(8.0, 40.0), fs_out=10.0):
+    """Kadri-form envelope: band-pass then max |x| per 0.1 s bin (as reverse_detectors.raw_to_envelope)."""
+    sos = signal.butter(4, [band[0], band[1]], btype="bandpass", fs=fs, output="sos")
+    y = np.abs(signal.sosfiltfilt(sos, np.asarray(x, float)))
+    k = int(round(fs / fs_out))
+    n = len(y) // k
+    return y[:n * k].reshape(n, k).max(1)
+
+
+def envelope_excess(env, keep=0.8):
+    p = np.asarray(env, float) ** 2
+    N = np.mean(p[p <= np.quantile(p, keep)])
+    return p / N - 1.0
+
+
+def features_envelope(env, fs_env, t_on, t_off):
+    """Envelope-only (time-shape) features of window [t_on, t_off] (s from the envelope start)."""
+    E = envelope_excess(env)
+    # 0.5 s smoothing to match the raw frame scale
+    k = max(1, int(round(0.5 * fs_env)))
+    Es = np.convolve(E, np.ones(k) / k, "same")
+    dt = 1.0 / fs_env
+    return time_features(Es, dt, int(t_on * fs_env), int(t_off * fs_env))
+
+
+def l0_transients(W: Whitened, z_thr=6.0, min_sep_s=20.0):
+    """Labelling transient finder: 5 s smoothed broadband excess; robust z >= z_thr; >= min_sep_s apart.
+    Returns list of (t_on, t_off, t_peak, z) in record seconds (half-peak extent +/- 2 s, max 60 s)."""
+    E = broadband_excess(W)
+    Es = np.convolve(E, np.ones(10) / 10, "same")
+    med = np.median(Es); mad = 1.4826 * np.median(np.abs(Es - med)) + 1e-12
+    z = (Es - med) / mad
+    tt = W.t - NPERSEG / FS / 2
+    pk, _ = signal.find_peaks(z, height=z_thr, distance=int(min_sep_s / DT))
+    out = []
+    for k in pk:
+        j0, j1 = k, k
+        while j0 > 0 and Es[j0 - 1] >= 0.5 * Es[k]:
+            j0 -= 1
+        while j1 < len(Es) - 1 and Es[j1 + 1] >= 0.5 * Es[k]:
+            j1 += 1
+        t_on = max(0.0, tt[j0] - 2.0); t_off = min(tt[-1] + 1.0, tt[j1] + 3.0, t_on + 60.0)
+        out.append((float(t_on), float(t_off), float(tt[k]), float(z[k])))
+    return out
+
+
+# ------------------------------------------------------------------ classifier
+class SourceClassifier:
+    """Robust-standardised multinomial logistic regression (L2, C = 1, balanced) with an open-set
+    Gaussian gate (shared Ledoit-Wolf covariance). Optional temperature (A2.7.4 item 3)."""
+
+    def __init__(self, features, C=1.0):
+        self.features = list(features)
+        self.C = C
+        self.T = 1.0
+
+    def _prep(self, X, fit=False):
+        X = np.asarray(X, float)
+        miss = ~np.isfinite(X)
+        if fit:
+            self.med = np.nanmedian(X, 0)
+            q75, q25 = np.nanpercentile(X, 75, 0), np.nanpercentile(X, 25, 0)
+            self.iqr = np.where((q75 - q25) > 1e-9, q75 - q25, 1.0)
+            self.miss_cols = np.where(miss.any(0))[0]
+        Xf = np.where(miss, self.med[None, :], X)
+        Xs = np.clip((Xf - self.med) / self.iqr, -8, 8)
+        return np.hstack([Xs, miss[:, self.miss_cols].astype(float)])
+
+    def fit(self, X, y):
+        from sklearn.linear_model import LogisticRegression
+        from sklearn.covariance import LedoitWolf
+        Xp = self._prep(X, fit=True)
+        self.classes_ = np.array(sorted(set(y), key=lambda c: CLASSES.index(c) if c in CLASSES else 99))
+        self.lr = LogisticRegression(C=self.C, class_weight="balanced", max_iter=5000)
+        self.lr.fit(Xp, y)
+        k = len(self.features)
+        Xs = Xp[:, :k]
+        self.means = {c: Xs[np.asarray(y) == c].mean(0) for c in self.classes_}
+        resid = np.vstack([Xs[np.asarray(y) == c] - self.means[c] for c in self.classes_])
+        self.cov_inv = np.linalg.pinv(LedoitWolf().fit(resid).covariance_)
+        self.k = k
+        return self
+
+    def predict_proba(self, X):
+        Xp = self._prep(X)
+        logit = self.lr.decision_function(Xp) / self.T
+        logit -= logit.max(1, keepdims=True)
+        p = np.exp(logit)
+        p /= p.sum(1, keepdims=True)
+        order = list(self.lr.classes_)
+        return p[:, [order.index(c) for c in self.classes_]]
+
+    def open_set_p(self, X):
+        Xs = self._prep(X)[:, :self.k]
+        d2 = np.min([np.einsum("ij,jk,ik->i", Xs - m, self.cov_inv, Xs - m) for m in self.means.values()], axis=0)
+        return stats.chi2.sf(d2, self.k), d2
+
+
+def decide(feat, probs, classes, open_p, timing_match=None):
+    """Asymmetry decision rule (Amendment 2, A2.7.5). timing_match: dict class -> association prob
+    from the catalogue (earthquake / ice), or None."""
+    p = dict(zip(classes, probs))
+    tm = timing_match or {}
+    g = lambda k, d=np.nan: feat.get(k, d)
+    ev = {
+        "earthquake sound arrival": tm.get("earthquake sound arrival", 0.0) >= 0.5,
+        "ice event": tm.get("ice event", 0.0) >= 0.5,
+        "whale call": (g("tonality_db", 0) >= 8) or (g("harmonicity", 0) >= 0.5)
+                      or (abs(g("sweep_hz_s", 0)) >= 0.2 and g("frac_14_32", 0) >= 0.6),
+        "ship": (g("rec_level_db", -99) >= 6) and (g("n_lines", 0) >= 3),
+        "airgun shot": (g("repeat_strength", 0) >= 0.5 and 5 <= 10 ** g("log_repeat_lag", 0) <= 30)
+                       or bool(g("shot_train", False)),
+    }
+    known = [c for c in KNOWN if c in p and p[c] >= 0.5 and ev[c]]
+    if open_p < 1e-3:
+        return "unclassified", ev
+    if known:
+        return max(known, key=lambda c: p[c]), ev
+    # A2.11 deviation 1 (clarification fixed before any arrival window was opened):
+    # a window that is most probably background noise is labelled so before the impact-like test.
+    if p.get("background noise only", 0) >= 0.5:
+        return "background noise only", ev
+    # A2.11 deviation 2 (4 Nov 2026, after the windows were opened): on envelope-only data the
+    # spectrum is unknown, so "broadband" cannot be shown and impact-like is not assigned.
+    if not np.isfinite(g("bandwidth_oct", np.nan)):
+        return "unclassified", ev
+    broadband = (g("bandwidth_oct", 0) >= 0.25) and (g("tonality_db", 99) < 8)
+    fast = 10 ** g("log_rise", 9) <= 3.0
+    norep = g("repeat_strength", 0) < 0.5
+    if broadband and fast and norep and not any(ev[c] for c in KNOWN):
+        return "impact-like", ev
+    if p.get("background noise only", 0) >= 0.5:
+        return "background noise only", ev
+    return "unclassified", ev
+
+
+# ------------------------------------------------------------------ classify() entry point
+_MODELS = None
+
+
+def load_models(path=None):
+    import pickle
+    global _MODELS
+    p = Path(path) if path else Path(__file__).with_name("classifier_models.pkl")
+    _MODELS = pickle.load(open(p, "rb"))
+    return _MODELS
+
+
+def classify(candidate_window, model_path=None):
+    """Classify one candidate window (Amendment 2, A2.7).
+
+    candidate_window: dict with
+      form       'raw' (IMOS waveform) or 'envelope' (Kadri-form envelope)
+      x          raw: record waveform, 250 Hz volts (whole 307 s record preferred, for context)
+      env        envelope: linear envelope samples; fs_env (default 10 Hz)
+      t_on, t_off  window, s from the start of x / env
+      station    e.g. 'IMOS3275' (raw; sets the gain reference and record-level reference)
+      gain       (gain_f_hz, gain_db) for raw
+      timing_match  optional dict {'earthquake sound arrival': P, 'ice event': P} from section 8
+    Returns dict: label (asymmetry rule A2.7.5), probabilities per class, open_set_p, features,
+    evidence flags. The label never removes a candidate on its own.
+    """
+    M = _MODELS or load_models(model_path)
+    cw = candidate_window
+    if cw.get("form", "raw") == "raw":
+        ref = M["station_ref_db"].get(cw.get("station"), np.nan)
+        ft = features_raw(np.asarray(cw["x"], float), cw["t_on"], cw["t_off"], *cw["gain"], station_ref_db=ref)
+        model, names = M["raw"], RAW_FEATURES
+        X = np.array([[ft.get(k, np.nan) for k in names]], float)
+    else:
+        ft = features_envelope(np.asarray(cw["env"], float), cw.get("fs_env", 10.0), cw["t_on"], cw["t_off"])
+        ft = {"env_" + k: v for k, v in ft.items()}
+        model, names = M["env"], ["env_" + k for k in ENV_FEATURES]
+        X = np.array([[ft.get(k, np.nan) for k in names]], float)
+    pr = model.predict_proba(X)[0]
+    op, d2 = model.open_set_p(X)
+    feats_for_rule = dict(ft)
+    if cw.get("form", "raw") != "raw":
+        feats_for_rule = {k[4:]: v for k, v in ft.items()}
+        feats_for_rule["shot_train"] = bool(cw.get("shot_train", False))
+    label, ev = decide(feats_for_rule, pr, list(model.classes_), float(op[0]), cw.get("timing_match"))
+    return dict(label=label, probs=dict(zip(model.classes_, map(float, pr))), open_set_p=float(op[0]),
+                mahalanobis2=float(d2[0]), evidence=ev, features=ft, form=cw.get("form", "raw"))

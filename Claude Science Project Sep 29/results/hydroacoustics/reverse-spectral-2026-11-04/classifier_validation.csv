@@ -1,0 +1,13 @@
+cls,n,recall,precision,model,brier_model,ece_model,temperature,label_note
+whale call,150,0.933,0.897,raw IMOS features,0.214,0.048,1.0,rule labels overlap features: optimistic
+ship,66,0.909,0.779,raw IMOS features,0.214,0.048,1.0,rule labels overlap features: optimistic
+earthquake sound arrival,37,0.892,0.733,raw IMOS features,0.214,0.048,1.0,about half of the 37 labels may be chance timing matches (shifted-catalogue test): provisional
+airgun shot,78,0.987,0.987,raw IMOS features,0.214,0.048,1.0,rule labels overlap features: optimistic
+impact-like,150,0.827,0.855,raw IMOS features,0.214,0.048,1.0,synthetic (loose family in real noise)
+background noise only,150,0.787,0.908,raw IMOS features,0.214,0.048,1.0,random off-event windows
+whale call,150,0.64,0.768,envelope-only features,0.534,0.057,1.0,rule labels overlap features: optimistic
+ship,66,0.348,0.24,envelope-only features,0.534,0.057,1.0,rule labels overlap features: optimistic
+earthquake sound arrival,37,0.649,0.258,envelope-only features,0.534,0.057,1.0,about half of the 37 labels may be chance timing matches (shifted-catalogue test): provisional
+airgun shot,99,0.909,0.796,envelope-only features,0.534,0.057,1.0,rule labels overlap features: optimistic
+impact-like,150,0.547,0.661,envelope-only features,0.534,0.057,1.0,synthetic (loose family in real noise)
+background noise only,150,0.36,0.535,envelope-only features,0.534,0.057,1.0,random off-event windows
