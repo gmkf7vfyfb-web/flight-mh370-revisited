@@ -29,7 +29,7 @@ Every node profile used (path, variant, date, latitude, longitude, blend weight)
 ## Results
 
 1. **Real water on the arc was close to climatology.**
-   - GLORYS12 on 8 Mar 2014 is within 0.1-2.0 m/s of WOA23 at the surface. The rms difference over 0-1,500 m is 2.0-2.6 m/s.
+   - GLORYS12 on 8 Mar 2014 is within 0.1-2.0 m/s of WOA23 at the surface at the source. The rms difference over 0-1,500 m is 0.6-3.1 m/s at the source and 2.0-2.2 m/s as a median over the replaced nodes of the first 400 km.
    - Argo agrees better with GLORYS12 than with climatology: median rms over 0-1,500 m is 0.99 m/s against 1.48 m/s (24 profiles).
 2. **Real water off Misawa was colder than climatology.**
    - At the source on 9 Apr 2019, GLORYS12 gives a surface sound speed of 1,467.9 m/s, against 1,474.8 m/s in WOA23 (1,460.7 m/s on 30 Mar).
