@@ -11,7 +11,7 @@ Purpose: give the hydroacoustic reverse search an impact (source) time window, c
 4. Runs 4 and 10 fit marginally with Holland transient bias added (misfit 21 and 27) and poorly as observed (32 and 35). Their impacts are 00:21:57 to 00:22:18, at a delay of 157 to 167 s.
 5. Run 6 fits poorly under both treatments (misfit 93 and 116). Its impacts are 00:20:08 to 00:21:06.
 6. Adding the log-on delay model to the misfit does not move any best delay or impact-time range (table rows marked 'gamma(8, 14.875 s) used').
-7. Run 5 (normal configuration, sensitivity) has no fit: misfit 296 to 356 under every treatment and every one-engine phase of 4 to 14 min, with the 00:19:37 point at the 19.5 S grid limit. Its 'best' impact, 00:29:12 to 00:29:15, is 29 s inside the window end. This number comes from a non-fit and has no weight.
+7. Run 5 (normal configuration, sensitivity) has no fit: misfit 308 to 332 under every treatment and every one-engine phase of 4 to 12 min (308 to 356 with the log-on delay model added), with the 00:19:37 point at the 19.5 S grid limit. Its 'best' impact, 00:29:12 to 00:29:15, is 29 s inside the window end. This number comes from a non-fit and has no weight.
 
 ## Impact time and offset per run and treatment (log-on delay model not used)
 
