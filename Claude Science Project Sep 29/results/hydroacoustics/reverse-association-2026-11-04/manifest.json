@@ -1,0 +1,197 @@
+{
+ "manifest_version": 1,
+ "run_id": "reverse-association-2026-11-04",
+ "module": "hydroacoustics",
+ "commit": {
+  "branch": "claude-science-sep29",
+  "parent": "3c4164a1b41e46c67536e53ace7ce046efa1a8af"
+ },
+ "configuration": {
+  "values": {
+   "specification": "reverse-methods-specification-2026-11-04.md v1.0 + Amendments 1-3",
+   "impact_window_utc": "00:19:38-00:29:44",
+   "dive_subrange_utc": "00:19:58-00:22:18",
+   "arc": "20-41 S, +/-50 NM",
+   "speeds_km_s": [
+    1.4,
+    1.56
+   ],
+   "detour": 0.05,
+   "rock_leg": "earliest_mixed300 branch (sensitivity)",
+   "grid_dense": "0.25 deg x 10 NM x 10 s",
+   "slides": {
+    "B1": 2000,
+    "C1": 500,
+    "C2-C4": 1000
+   },
+   "kadri_null": "stationary block bootstrap, mean block 80 s (20/40 s sensitivity)",
+   "z_cap": 4.26,
+   "reference_station": "Cape Leeuwin",
+   "label_rule": "potential only if inclusive network p <= 0.05"
+  }
+ },
+ "inputs": [
+  {
+   "registry_id": "hydroacoustics.reverse-screening-2026-11-04",
+   "role": "screening candidates, event groups, per-record statistics"
+  },
+  {
+   "registry_id": "hydroacoustics.reverse-spectral-2026-11-04",
+   "role": "S10 candidates, classifier models"
+  },
+  {
+   "registry_id": "hydroacoustics.reverse-windows-data-2026-11-04",
+   "role": "station data package, windows, grid, known events"
+  },
+  {
+   "registry_id": "bathymetry.gebco-2026",
+   "role": "Royer event 6 path check"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "arc-map-intersections.png",
+   "bytes": 178959,
+   "sha256": "29a273c84544d7a15e18025e27e8593e457b6dc4c52560dfe1f93d9182eb7f34"
+  },
+  {
+   "path": "association-sensitivities.csv",
+   "bytes": 1082,
+   "sha256": "39dfb1998d1633f370cacb90892e2991896f41d848567dee92b865926ed58daf"
+  },
+  {
+   "path": "c234.py",
+   "bytes": 4607,
+   "sha256": "6b8523b728980865101fcfd07a74bc860d3613411050c1e41f985699b066f117"
+  },
+  {
+   "path": "check-a-portland-0107-association.csv",
+   "bytes": 877,
+   "sha256": "3db78606a0ef5373b7459c30d6680eafffa4e8c69f167c3927a6a8e28d4d9352"
+  },
+  {
+   "path": "check-a-predicted-windows-test.csv",
+   "bytes": 564,
+   "sha256": "12a922af22f72aab2052829ae8189d0c8768f3ff91e5b47d8ef6ca5cebc02142"
+  },
+  {
+   "path": "check-a-royer-event6-gebco-paths.csv",
+   "bytes": 728,
+   "sha256": "135e2ea53dc48901220ff8c6d8c43ba1e33650d9d9fb83a5969177b65f548cc5"
+  },
+  {
+   "path": "check-b-cape-leeuwin-0047-bearing.csv",
+   "bytes": 392,
+   "sha256": "521927fc41dac73089043ddf0586196df5d461410cb5e7a3072b37f12380064f"
+  },
+  {
+   "path": "check-c-emergent-onset-and-royer-marks.csv",
+   "bytes": 1196,
+   "sha256": "5e91e41208f48e3f341441fd2929cba543648b808b7b975667a52fa1257fc26d"
+  },
+  {
+   "path": "detail-candidate-1.png",
+   "bytes": 627334,
+   "sha256": "ecaa9a7c1e7dafd5285863a94ef1d17f36b0043b578e41d9069cfd96ad8290a4"
+  },
+  {
+   "path": "detail-candidate-2.png",
+   "bytes": 622524,
+   "sha256": "efc0411faf28c92b4458b833a11688f22a8aa4dccdb054f3e04c6e2bc04297b1"
+  },
+  {
+   "path": "detail-candidate-3.png",
+   "bytes": 416697,
+   "sha256": "a58aedbda61f9cdf7159d7b81184948517c88451e0b35ddbbb66566c2ff4d640"
+  },
+  {
+   "path": "detail-candidate-4.png",
+   "bytes": 573418,
+   "sha256": "719e02268ff1485ff08aec8edb18c59f0ac46c141b130ff23332e484adb27996"
+  },
+  {
+   "path": "detail-candidate-5.png",
+   "bytes": 401650,
+   "sha256": "3f16a64a86a390310650bc92672156aa682ede5364a99e5da01db44e140f0b6e"
+  },
+  {
+   "path": "exclusion-p-null-calibration.csv",
+   "bytes": 483,
+   "sha256": "df1ef5c94dda9fa07d96f90fea33061df77d734caf602e47b83ffc48e20dd7c7"
+  },
+  {
+   "path": "impact-time-vs-arc-latitude-bands.png",
+   "bytes": 372285,
+   "sha256": "f8b40a34424275360a7fa8259b990f4a5b305aa003e7157797c92fb872972167"
+  },
+  {
+   "path": "kadri-form-matched-null-calibration.csv",
+   "bytes": 671,
+   "sha256": "5dea5a77985f0d1c59970c423447c015418cddf5fb3a14795c41229513e58c3f"
+  },
+  {
+   "path": "kadri-form-matched-null-candidate-pvalues.csv",
+   "bytes": 34133,
+   "sha256": "5a717fd1652550bce793362400f75907397c61d531fccd484f090f42b308da18"
+  },
+  {
+   "path": "kadri-form-matched-null-groups.csv",
+   "bytes": 4502,
+   "sha256": "75d66d4dcec111e57a246946bcfe5643126aebc9fde45096d1196dee719bfd82"
+  },
+  {
+   "path": "kadri_fm_null.py",
+   "bytes": 2665,
+   "sha256": "c82f2028d4c3c888121c430c5094435550c48bbbc80c48c6ed624932c9399433"
+  },
+  {
+   "path": "per-method-summary.csv",
+   "bytes": 3899,
+   "sha256": "59409f8310b525ca64d8ec3b67abb3c54568c2ed461075ae864cd85f76af0bf1"
+  },
+  {
+   "path": "ranked-network-candidates.csv",
+   "bytes": 8282,
+   "sha256": "d8bb4e4f0fa441d9cc19411d12896e05e7d3f05762ea52a2a87946e581666c59"
+  },
+  {
+   "path": "reverse-association-run-report-2026-11-04.md",
+   "bytes": 16900,
+   "sha256": "7e02c8b43412721115684778876f2463b4244830b09a19ac914f3fce8be38d26"
+  },
+  {
+   "path": "stacking-drop-one-station.csv",
+   "bytes": 475,
+   "sha256": "e1b825b24b411fedc1f38670c04b3591610b45b67cefad235ed5d8457bb94fed"
+  }
+ ],
+ "thread_id": "reverse-association",
+ "status": "weak candidates only; conditional on the dive hypothesis; P2 and single-station table blocked by platform safety check",
+ "created_utc": "2026-11-04T07:38:43Z",
+ "folder": "Claude Science Project Sep 29/results/hydroacoustics/reverse-association-2026-11-04/",
+ "sha256": {
+  "arc-map-intersections.png": "29a273c84544d7a15e18025e27e8593e457b6dc4c52560dfe1f93d9182eb7f34",
+  "association-sensitivities.csv": "39dfb1998d1633f370cacb90892e2991896f41d848567dee92b865926ed58daf",
+  "c234.py": "6b8523b728980865101fcfd07a74bc860d3613411050c1e41f985699b066f117",
+  "check-a-portland-0107-association.csv": "3db78606a0ef5373b7459c30d6680eafffa4e8c69f167c3927a6a8e28d4d9352",
+  "check-a-predicted-windows-test.csv": "12a922af22f72aab2052829ae8189d0c8768f3ff91e5b47d8ef6ca5cebc02142",
+  "check-a-royer-event6-gebco-paths.csv": "135e2ea53dc48901220ff8c6d8c43ba1e33650d9d9fb83a5969177b65f548cc5",
+  "check-b-cape-leeuwin-0047-bearing.csv": "521927fc41dac73089043ddf0586196df5d461410cb5e7a3072b37f12380064f",
+  "check-c-emergent-onset-and-royer-marks.csv": "5e91e41208f48e3f341441fd2929cba543648b808b7b975667a52fa1257fc26d",
+  "detail-candidate-1.png": "ecaa9a7c1e7dafd5285863a94ef1d17f36b0043b578e41d9069cfd96ad8290a4",
+  "detail-candidate-2.png": "efc0411faf28c92b4458b833a11688f22a8aa4dccdb054f3e04c6e2bc04297b1",
+  "detail-candidate-3.png": "a58aedbda61f9cdf7159d7b81184948517c88451e0b35ddbbb66566c2ff4d640",
+  "detail-candidate-4.png": "719e02268ff1485ff08aec8edb18c59f0ac46c141b130ff23332e484adb27996",
+  "detail-candidate-5.png": "3f16a64a86a390310650bc92672156aa682ede5364a99e5da01db44e140f0b6e",
+  "exclusion-p-null-calibration.csv": "df1ef5c94dda9fa07d96f90fea33061df77d734caf602e47b83ffc48e20dd7c7",
+  "impact-time-vs-arc-latitude-bands.png": "f8b40a34424275360a7fa8259b990f4a5b305aa003e7157797c92fb872972167",
+  "kadri-form-matched-null-calibration.csv": "5dea5a77985f0d1c59970c423447c015418cddf5fb3a14795c41229513e58c3f",
+  "kadri-form-matched-null-candidate-pvalues.csv": "5a717fd1652550bce793362400f75907397c61d531fccd484f090f42b308da18",
+  "kadri-form-matched-null-groups.csv": "75d66d4dcec111e57a246946bcfe5643126aebc9fde45096d1196dee719bfd82",
+  "kadri_fm_null.py": "c82f2028d4c3c888121c430c5094435550c48bbbc80c48c6ed624932c9399433",
+  "per-method-summary.csv": "59409f8310b525ca64d8ec3b67abb3c54568c2ed461075ae864cd85f76af0bf1",
+  "ranked-network-candidates.csv": "d8bb4e4f0fa441d9cc19411d12896e05e7d3f05762ea52a2a87946e581666c59",
+  "reverse-association-run-report-2026-11-04.md": "7e02c8b43412721115684778876f2463b4244830b09a19ac914f3fce8be38d26",
+  "stacking-drop-one-station.csv": "e1b825b24b411fedc1f38670c04b3591610b45b67cefad235ed5d8457bb94fed"
+ }
+}
