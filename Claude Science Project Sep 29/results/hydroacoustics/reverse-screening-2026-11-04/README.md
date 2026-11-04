@@ -39,7 +39,7 @@ Not run in this step (the next plan steps): cross-station time-shift coincidence
 
 **Form check of N3 failed** (pre-registered rule applied). The quiet parts of the Kadri trace have a lag-1 autocorrelation of 0.01-0.05. The open data converted to the plot form give 0.19. So N4 is the primary null at both Kadri stations, and N3 p-values are given as p_local_altnull.
 
-**Calibration warning (Kadri stations).** On real off-window noise, the persistence, combined and cumulative-sum tests exceed the station-level threshold in 15-19 % of 10 s looks at Cape Leeuwin. At Diego Garcia South the rate is 4-7 %. The design value is far below 5 %. The surrogates do not keep the real persistence of the envelope. Therefore the S2-S4 p-values at these stations are too small. The energy test (S1) is calibrated (0-5 %).
+**Calibration warning (Kadri stations).** Station-level false alarms per 10 s look, measured on real noise (design value far below 5 %): Cape Leeuwin 8 March off-window trace: energy 0 %, persistence 19 %, combined 16 %, cumulative sum 0 %. Cape Leeuwin open data in plot form: energy 4.8 %, persistence 15 %, combined 15 %, cumulative sum 18.5 %. Diego Garcia South open data: 4-7 % for all four. The surrogates do not keep the real persistence of the envelope. Therefore the persistence and combined p-values at Cape Leeuwin are too small. The cumulative-sum test is calibrated on the 8 March record itself but not on the open data, so its p-values are uncertain (the off-window part is only 380 s). The energy test is calibrated (0-5 %).
 
 ## 4. Results
 
@@ -76,7 +76,7 @@ All 51 removals are onsets at Royer 2016 located events or at a whale call: Roye
 | Portland 3275, raw | 01:21:40.0 | impulsiveness | 4.5e-4 | 0.026 | 0.049 | 0.76 | Royer 9 (0.46) |
 | Portland 3275, raw | 01:07:43.1 | impulsiveness | 8.4e-5 (energy, 5 s, 8-20 Hz) | 0.046 | 0.091 | 1.0 | Royer A (0.58) |
 
-The station-level and across-method p-values at Cape Leeuwin sit at the floor of 5,000 draws (0.0002). They rest on the N4 null, which is anti-conservative for S2-S4 (section 3). The four Cape Leeuwin groups with BH q 0.006 coincide in time with published arrivals of known or listed events. No kept group has network evidence yet (B1/C1 not run). Nothing here is a detection under section 10 (which needs a network p of 0.01 or less at two or more stations).
+The station-level and across-method p-values at Cape Leeuwin sit at the floor of 5,000 draws (0.0002). They rest on the N4 null, which is anti-conservative for persistence and combined tests and uncertain for the cumulative-sum test (section 3). The four Cape Leeuwin groups with BH q 0.006 coincide in time with published arrivals of known or listed events. No kept group has network evidence yet (B1/C1 not run). Nothing here is a detection under section 10 (which needs a network p of 0.01 or less at two or more stations).
 
 ### 4.4 Shot-population test at Diego Garcia South (S7)
 
@@ -90,7 +90,7 @@ Injection result: the test is weak on real shots. At +12 dB above the shot floor
 
 | Station (host) | SNR50 energy | SNR50 combined | SNR50 cumulative sum | Best other | False alarms per look (station level) |
 |---|---|---|---|---|---|
-| Cape Leeuwin (8 Mar off-window trace) | -0.1 dB | -5.6 dB | -3.7 dB | persistence -5.9 dB | energy 0 %, S2/S3 16-19 %, S4 0 % |
+| Cape Leeuwin (8 Mar off-window trace) | -0.1 dB | -5.6 dB | -3.7 dB | persistence -5.9 dB | energy 0 %, persistence 19 %, combined 16 %, cumulative sum 0 % (18.5 % on open data) |
 | Diego Garcia South (open data, plot form) | -1.8 dB | -3.8 dB | -1.6 dB | persistence +3.2 dB | 4-7 % |
 | Raw loggers, all five | > +12 dB | > +12 dB | > +12 dB | Portland 3275 time-frequency +12.4 dB | 0-1.5 % |
 
@@ -129,7 +129,7 @@ One timeline per station with data, arrival window, candidates (kept filled, rem
 
 ## 5. Limits
 
-1. Kadri stations: envelope only; S2-S4 p-values anti-conservative under N4 (measured 15-19 % per look at Cape Leeuwin). Treat their small p-values as ranks.
+1. Kadri stations: envelope only. Under N4, persistence and combined p-values are anti-conservative (15-19 % per look at Cape Leeuwin); cumulative-sum p-values are calibrated on the 8 March off-window trace (0 %) but not on open-data noise (18.5 %). Treat their small p-values as ranks; the energy test is calibrated.
 2. Raw loggers: 34 % duty cycle; station-level sensitivity weaker than +12 dB under the pre-registered SNR definition.
 3. Persistence (S2) has no power at Scott Reef and Perth Canyon 3376: the pre-registered thinning lag is 8-13 s, so a 10 s window holds 1 sample.
 4. Royer spectrogram bands: saturating colour scale, pooled small null.
