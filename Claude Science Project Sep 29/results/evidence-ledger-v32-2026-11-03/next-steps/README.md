@@ -47,12 +47,13 @@ What it shows (STE100):
    can make the result wider even when every model is correct. A negative value alone is not a sign of a conflict.
 3. With the real data the loss is −1.10 bits (−1.16 to −1.55 with the 00:19 data used). This is more than in any synthetic case.
    It agrees with the disagreement test (about 2 sigma).
-4. Limits: only 8 cases, from 4 different true flights (cases 3008, 3009, 3015, 3018, 3027 share one flight). No case is like the real one,
+4. Limits: only 8 cases, from 4 different flight paths to 00:11 (STATUS.txt 'distinct truth flights': cases 3008, 3009, 3015, 3018, 3027 share
+   one path to 00:11 from the truth pool; their end-of-flight family and descent differ, so their impact latitudes differ). No case is like the real one,
    where the satellite peak is on searched ground and the wreck is not found. So this is a weak check (about 1 in 9), not a proof.
 
-Coverage (does the method claim too much?): the true latitude was inside the 90 % region in 29/30 cases for core,
-29/30 for core + searched areas, 8/8 for core + drift and
-8/8 for all evidence. Provisional: calibration at reduced depth (30 cases, 16 distinct truth flights).
+Coverage (does the method claim too much?), measured on the true LATITUDE (HPD level on 0.05° latitude cells): the truth was inside the
+90 % region in 29/30 cases for core, 29/30 for core + searched areas (case 3013, level 0.923), 8/8 for core + drift and 8/8 for all evidence.
+On the 2-D map region (STATUS.txt) the counts are 29/30 for core and 30/30 for core + searched areas. Provisional: calibration at reduced depth (30 cases; 16 distinct flight paths to 00:11 in the truth pool).
 
 ## Step 3. Hydroacoustics
 
