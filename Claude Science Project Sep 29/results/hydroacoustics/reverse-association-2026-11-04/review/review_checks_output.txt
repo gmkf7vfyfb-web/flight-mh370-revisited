@@ -1,0 +1,44 @@
+Royer B to arc line: 492.5 km (arc lat -32.31)
+ROYER03-A->H08S: 5691.4 km, 01:19:26.6-01:21:08.2
+ROYER03-A->IMOS3275: 4286.8 km, 01:03:54.4-01:05:11.0
+ROYER03-A->IMOS3250: 5369.8 km, 01:15:53.1-01:17:29.0
+ROYER04-B->H08S: 4143.6 km, 01:07:20.6-01:08:34.6
+ROYER04-B->IMOS3275: 3669.6 km, 01:02:06.0-01:03:11.5
+ROYER04-B->IMOS3250: 3050.5 km, 00:55:15.1-00:56:09.6
+ROYER06->H08S: 7694.3 km, 01:57:55.6-02:00:13.1
+ROYER06->IMOS3275: 3196.4 km, 01:08:10.5-01:09:07.6
+ROYER06->IMOS3250: 5636.9 km, 01:35:10.2-01:36:50.9
+speed needed for Royer 6 to reach Portland 3275 at 01:07:43.1: 1.5265
+('blocked',) base H08S+IMOS3275 40 /110 30-38 S
+('blocked',) base H08S+IMOS3275+IMOS3250 0 /110 
+('blocked',) base H01W+H08S+IMOS3275 2 /110 30-31 S
+('blocked',) base H01W+H08S+IMOS3275+IMOS3250 0 /110 
+('blocked',) rock H08S+IMOS3275 49 /110 30-39 S
+('blocked',) rock H08S+IMOS3275+IMOS3250 2 /110 30-30 S
+('blocked',) rock H01W+H08S+IMOS3275 18 /110 30-34 S
+('blocked',) rock H01W+H08S+IMOS3275+IMOS3250 2 /110 30-30 S
+('blocked', 'large attenuation') base H08S+IMOS3275 37 /110 30-38 S
+('blocked', 'large attenuation') base H08S+IMOS3275+IMOS3250 0 /110 
+('blocked', 'large attenuation') base H01W+H08S+IMOS3275 2 /110 30-31 S
+('blocked', 'large attenuation') base H01W+H08S+IMOS3275+IMOS3250 0 /110 
+('blocked', 'large attenuation') rock H08S+IMOS3275 46 /110 30-39 S
+('blocked', 'large attenuation') rock H08S+IMOS3275+IMOS3250 0 /110 
+('blocked', 'large attenuation') rock H01W+H08S+IMOS3275 15 /110 30-34 S
+('blocked', 'large attenuation') rock H01W+H08S+IMOS3275+IMOS3250 0 /110 
+pair z sum 6.56 (compare observed best-pair maximum 8.026, p 0.92 base / 0.941 rock-leg)
+detector  window_s  false_alarm_per_look_at_0p05  looks  lo95  hi95
+      S1       2.0                         0.056    878 0.042 0.073
+      S1       5.0                         0.058    364 0.036 0.087
+      S1      10.0                         0.075    173 0.041 0.125
+      S1      30.0                         0.073     55 0.020 0.176
+      S2      10.0                         0.052    173 0.024 0.096
+      S2      30.0                         0.073     55 0.020 0.176
+      S3      10.0                         0.064    173 0.032 0.111
+      S3      30.0                         0.073     55 0.020 0.176
+      S4      10.0                         0.046    173 0.020 0.089
+      S4      30.0                         0.000     55 0.000 0.065
+dt 0.0 P 0.94
+dt 1.5 P 0.922
+dt 3.3 P 0.801
+dt 6.5 P 0.074
+largest possible P at sd 2 s: 0.94
