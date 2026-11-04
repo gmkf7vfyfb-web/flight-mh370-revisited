@@ -1,0 +1,279 @@
+{
+ "manifest_version": 1,
+ "run_id": "reverse-screening-2026-11-04",
+ "module": "hydroacoustics",
+ "commit": {
+  "branch": "claude-science-sep29",
+  "sha": "5b0def02d92c86b1dfb58f3928e54f63c96d538f",
+  "dirty": true
+ },
+ "configuration": {
+  "values": {
+   "specification": "reverse-methods-specification-2026-11-04.md v1.0 + Amendment 1",
+   "impact_window_utc": "00:19:38-00:29:44",
+   "arc": "20-41 S, +/-50 NM",
+   "speeds_km_s": [
+    1.4,
+    1.56
+   ],
+   "detour": 0.05,
+   "candidate_rule": "local p <= 0.05",
+   "removal_rule": "association probability >= 0.95; airgun shots at Diego Garcia South never removed",
+   "nulls": {
+    "IMOS3250/3274/3376": "N2",
+    "IMOS3315/3275": "N1",
+    "H01W/H08S": "N4 (N3 failed form check)",
+    "Royer bands": "pooled N1"
+   },
+   "pseudo_window_draws": 5000,
+   "s7_mc": 1000,
+   "injections": {
+    "raw_per_cell": 50,
+    "kadri_record_per_cell": 200,
+    "kadri_n3_per_cell": 100,
+    "s7_per_snr": 100
+   },
+   "deviations": "reverse-screening-deviations.csv"
+  }
+ },
+ "inputs": [
+  {
+   "registry_id": "hydroacoustics.reverse-windows-data-2026-11-04",
+   "role": "station data package, arrival windows, grid, known events, shots, persistent sources"
+  },
+  {
+   "registry_id": "hydroacoustics.reverse-methods-2026-11-04",
+   "role": "pre-registered specification, amendment 1, frozen detector code"
+  },
+  {
+   "registry_id": "hydroacoustics.imos-raw-mh370-day",
+   "role": "IMOS 6 kHz raw records 8 Mar 2014"
+  },
+  {
+   "registry_id": "hydroacoustics.imos-raw-background",
+   "role": "IMOS background days 1-14 Mar 2014"
+  },
+  {
+   "registry_id": "hydroacoustics.ims-open-march-2015-2019",
+   "role": "EarthScope open IMS H01W1/H08S1, downloaded 4 Nov 2026"
+  },
+  {
+   "registry_id": "hydroacoustics.zcall-detections-7-8mar2014",
+   "role": "per-call Z-call detections at OHASISBIO sites"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "README.md",
+   "bytes": 16879,
+   "sha256": "15571bd5e4d39f4d674efbba33c716bbc310b36a499be7aedcc652601c44e314"
+  },
+  {
+   "path": "reverse-screening-candidates.csv",
+   "bytes": 952297,
+   "sha256": "e43d70f7524dc88dd3d84f1ceae84598ba730225d589d8e89c7353ec68db0d11"
+  },
+  {
+   "path": "reverse-screening-event-groups-ranked.csv",
+   "bytes": 61198,
+   "sha256": "b37be8478aecf4ccb50775fc4fe16987df81f062f3537e3528c42f7544c0deaa"
+  },
+  {
+   "path": "reverse-screening-sensitivity.csv",
+   "bytes": 38741,
+   "sha256": "fc05c10de7fd8e078ec1944d4c52d9471072ef9bcfb6ef64472b5d3abd5ea75d"
+  },
+  {
+   "path": "reverse-screening-detection-curves.csv",
+   "bytes": 37270,
+   "sha256": "20657322e10705d1fe93c5403756abee1e49a466f84fb5e764e94fab53509827"
+  },
+  {
+   "path": "s7-shot-population-cycles.csv",
+   "bytes": 31539,
+   "sha256": "5ce9e1fc783acfe5ac11f08c362c8512fcb6d9f65b8678e7bf5a0499643581bb"
+  },
+  {
+   "path": "s7-shot-population-summary.csv",
+   "bytes": 468,
+   "sha256": "85b85d0f7a4cbb566e39a6c27bbb443438bb8b3cbaa01be2ca412a65679c2b72"
+  },
+  {
+   "path": "s7-injection-results.csv",
+   "bytes": 91896,
+   "sha256": "e6e1502acc3c508fa84bc2ed5e400c379b954f387bced6707df884e1c4fe5090"
+  },
+  {
+   "path": "reverse-screening-deviations.csv",
+   "bytes": 5784,
+   "sha256": "975921e7fd78fad5be7328033905703f064f62e7af34ee8662d3aff944650fd1"
+  },
+  {
+   "path": "w1-injection-check.csv",
+   "bytes": 52626,
+   "sha256": "917baf58a75ddc5958c7e21001059eebfdf55605f16c0ca2bc8e9add47c3585c"
+  },
+  {
+   "path": "reverse-methods-specification-2026-11-04.md",
+   "bytes": 32868,
+   "sha256": "72b70f87957745aba86f386fd381abd483f605c24961a96386a37328364495aa"
+  },
+  {
+   "path": "sensitivity-detection-probability-by-station.png",
+   "bytes": 334071,
+   "sha256": "a5ee235823b27c8b4d89fceb883efa96b6777954a2db1cef668138939d5da18f"
+  },
+  {
+   "path": "timeline-cape-leeuwin-hydrophone-array-west.png",
+   "bytes": 386411,
+   "sha256": "516ac2da8f21304ce67041f9df91fa13f436c81ecd383ee7005aa713337a4e86"
+  },
+  {
+   "path": "timeline-diego-garcia-south-hydrophone-array.png",
+   "bytes": 300060,
+   "sha256": "0f05956b2849522b5726ce8cb0df73316625ba830b4fe5fd9ba5b3e2fdb02aed"
+  },
+  {
+   "path": "timeline-perth-canyon-logger-3315.png",
+   "bytes": 248258,
+   "sha256": "df8c1f80aa47d3cf90f3c75b5cdb4e86a59d5dad59f6ca6fbb9d9a6bda86ff3b"
+  },
+  {
+   "path": "timeline-perth-canyon-logger-3376.png",
+   "bytes": 242829,
+   "sha256": "a587a0b9ad73cb0e54f0e13d9ba78bd39b7ac810b60b297a4628e5d3e17c3210"
+  },
+  {
+   "path": "timeline-scott-reef-logger-3250.png",
+   "bytes": 260176,
+   "sha256": "123104585cc2d096813ff868206d2a128c77199541f415274c891f55ada2f007"
+  },
+  {
+   "path": "timeline-portland-logger-3274.png",
+   "bytes": 239483,
+   "sha256": "adc90c158aa2f6842959a200583d98fb51285c94e18af3392f63d91a93c754ae"
+  },
+  {
+   "path": "timeline-portland-logger-3275.png",
+   "bytes": 231727,
+   "sha256": "6212943d5f5b519a673e7af7e265154e9959d5217d0bee604f93521a40d62a81"
+  },
+  {
+   "path": "timeline-mooring-south-west-of-amsterdam-island-site-1.png",
+   "bytes": 151772,
+   "sha256": "a7931626bc2c452ccadce8f7311d8b048fff5c305f689e12e1e1ff80aa8ca737"
+  },
+  {
+   "path": "timeline-mooring-south-west-of-amsterdam-island-site-2.png",
+   "bytes": 165513,
+   "sha256": "fcaaefae2f1df6f1142adc9230f8ea4398b06589b9b2f62975c041f3ccc645ec"
+  },
+  {
+   "path": "timeline-mooring-south-west-of-amsterdam-island-site-3.png",
+   "bytes": 345174,
+   "sha256": "887e8f10fe93b04bb7aede2cb9d5a5ea2df74eb0b1e6b350772a7b7b7de2830b"
+  },
+  {
+   "path": "timeline-mooring-on-the-south-east-indian-ridge.png",
+   "bytes": 351165,
+   "sha256": "6f14e87ec1e5c64d543d467ba7606b8b1e3b77a5447cb2ba611037a9b4f10ecb"
+  },
+  {
+   "path": "timeline-mooring-near-madagascar.png",
+   "bytes": 170511,
+   "sha256": "04ab9ab66ee5f4042e0af8560e5484c74e11c9abf273c81144d52be414c2a4f0"
+  },
+  {
+   "path": "timeline-mooring-north-of-the-crozet-islands.png",
+   "bytes": 172119,
+   "sha256": "fa319e1dd654ee035bea515ccfdd16fdf8c6d0bbb5b704df286eaf23b15feff3"
+  },
+  {
+   "path": "timeline-mooring-west-of-the-kerguelen-islands.png",
+   "bytes": 173727,
+   "sha256": "39aeea4988b6129217a68eee6d801814a87a1ef3e3f9760f95eaf2985f40945c"
+  },
+  {
+   "path": "screen_core.py",
+   "bytes": 10439,
+   "sha256": "31805514379bfe6ce38964f7b58bcb360b22fbdab1f96b825fc258a8985ef08f"
+  },
+  {
+   "path": "prep_imos.py",
+   "bytes": 2889,
+   "sha256": "3174f6bd14f1da379cdcce7fd4c005674b876e81e786b7b09bb067184040260d"
+  },
+  {
+   "path": "run_imos_stats.py",
+   "bytes": 1252,
+   "sha256": "f04c3279bebfc8df4903ac33ec390409205c703544d742d5f6d7bf01664a2eed"
+  },
+  {
+   "path": "run_s6.py",
+   "bytes": 587,
+   "sha256": "2da1b16e0dbb84b2006e46586573b6fb2d9bf7d78d1fb1e85e36019399dd5f69"
+  },
+  {
+   "path": "inj_imos.py",
+   "bytes": 5495,
+   "sha256": "5f1fe5693a6f92e6fd5dedf081c483380c3462b2c43105e69d0f94b885b951e4"
+  },
+  {
+   "path": "inj_all.py",
+   "bytes": 354,
+   "sha256": "9c47baa8e839c294d68f7793324b44385e73495f3e85cfa447fa2c005571b94c"
+  },
+  {
+   "path": "shard.py",
+   "bytes": 237,
+   "sha256": "3d41e5bb3962357701ae208c2c64464a80d90355f8b706042614aefb9736d966"
+  },
+  {
+   "path": "reverse_detectors.py",
+   "bytes": 40013,
+   "sha256": "65ba1583a5f2007ec5bc13e7cfb4abb1015c26f5651f82063785ab102fea3f07"
+  }
+ ],
+ "thread_id": "reverse-screening",
+ "status": "screening result (not a detection claim)",
+ "created_utc": "2026-11-04T05:22:58Z",
+ "description": "Single-station screening detectors S1-S8 on all hydroacoustic data held for 8 Mar 2014, known-event labels and removal, W1 weights, injection sensitivity.",
+ "folder": "Claude Science Project Sep 29/results/hydroacoustics/reverse-screening-2026-11-04/",
+ "created": "2026-11-04",
+ "sha256": {
+  "README.md": "15571bd5e4d39f4d674efbba33c716bbc310b36a499be7aedcc652601c44e314",
+  "reverse-screening-candidates.csv": "e43d70f7524dc88dd3d84f1ceae84598ba730225d589d8e89c7353ec68db0d11",
+  "reverse-screening-event-groups-ranked.csv": "b37be8478aecf4ccb50775fc4fe16987df81f062f3537e3528c42f7544c0deaa",
+  "reverse-screening-sensitivity.csv": "fc05c10de7fd8e078ec1944d4c52d9471072ef9bcfb6ef64472b5d3abd5ea75d",
+  "reverse-screening-detection-curves.csv": "20657322e10705d1fe93c5403756abee1e49a466f84fb5e764e94fab53509827",
+  "s7-shot-population-cycles.csv": "5ce9e1fc783acfe5ac11f08c362c8512fcb6d9f65b8678e7bf5a0499643581bb",
+  "s7-shot-population-summary.csv": "85b85d0f7a4cbb566e39a6c27bbb443438bb8b3cbaa01be2ca412a65679c2b72",
+  "s7-injection-results.csv": "e6e1502acc3c508fa84bc2ed5e400c379b954f387bced6707df884e1c4fe5090",
+  "reverse-screening-deviations.csv": "975921e7fd78fad5be7328033905703f064f62e7af34ee8662d3aff944650fd1",
+  "w1-injection-check.csv": "917baf58a75ddc5958c7e21001059eebfdf55605f16c0ca2bc8e9add47c3585c",
+  "reverse-methods-specification-2026-11-04.md": "72b70f87957745aba86f386fd381abd483f605c24961a96386a37328364495aa",
+  "sensitivity-detection-probability-by-station.png": "a5ee235823b27c8b4d89fceb883efa96b6777954a2db1cef668138939d5da18f",
+  "timeline-cape-leeuwin-hydrophone-array-west.png": "516ac2da8f21304ce67041f9df91fa13f436c81ecd383ee7005aa713337a4e86",
+  "timeline-diego-garcia-south-hydrophone-array.png": "0f05956b2849522b5726ce8cb0df73316625ba830b4fe5fd9ba5b3e2fdb02aed",
+  "timeline-perth-canyon-logger-3315.png": "df8c1f80aa47d3cf90f3c75b5cdb4e86a59d5dad59f6ca6fbb9d9a6bda86ff3b",
+  "timeline-perth-canyon-logger-3376.png": "a587a0b9ad73cb0e54f0e13d9ba78bd39b7ac810b60b297a4628e5d3e17c3210",
+  "timeline-scott-reef-logger-3250.png": "123104585cc2d096813ff868206d2a128c77199541f415274c891f55ada2f007",
+  "timeline-portland-logger-3274.png": "adc90c158aa2f6842959a200583d98fb51285c94e18af3392f63d91a93c754ae",
+  "timeline-portland-logger-3275.png": "6212943d5f5b519a673e7af7e265154e9959d5217d0bee604f93521a40d62a81",
+  "timeline-mooring-south-west-of-amsterdam-island-site-1.png": "a7931626bc2c452ccadce8f7311d8b048fff5c305f689e12e1e1ff80aa8ca737",
+  "timeline-mooring-south-west-of-amsterdam-island-site-2.png": "fcaaefae2f1df6f1142adc9230f8ea4398b06589b9b2f62975c041f3ccc645ec",
+  "timeline-mooring-south-west-of-amsterdam-island-site-3.png": "887e8f10fe93b04bb7aede2cb9d5a5ea2df74eb0b1e6b350772a7b7b7de2830b",
+  "timeline-mooring-on-the-south-east-indian-ridge.png": "6f14e87ec1e5c64d543d467ba7606b8b1e3b77a5447cb2ba611037a9b4f10ecb",
+  "timeline-mooring-near-madagascar.png": "04ab9ab66ee5f4042e0af8560e5484c74e11c9abf273c81144d52be414c2a4f0",
+  "timeline-mooring-north-of-the-crozet-islands.png": "fa319e1dd654ee035bea515ccfdd16fdf8c6d0bbb5b704df286eaf23b15feff3",
+  "timeline-mooring-west-of-the-kerguelen-islands.png": "39aeea4988b6129217a68eee6d801814a87a1ef3e3f9760f95eaf2985f40945c",
+  "screen_core.py": "31805514379bfe6ce38964f7b58bcb360b22fbdab1f96b825fc258a8985ef08f",
+  "prep_imos.py": "3174f6bd14f1da379cdcce7fd4c005674b876e81e786b7b09bb067184040260d",
+  "run_imos_stats.py": "f04c3279bebfc8df4903ac33ec390409205c703544d742d5f6d7bf01664a2eed",
+  "run_s6.py": "2da1b16e0dbb84b2006e46586573b6fb2d9bf7d78d1fb1e85e36019399dd5f69",
+  "inj_imos.py": "5f1fe5693a6f92e6fd5dedf081c483380c3462b2c43105e69d0f94b885b951e4",
+  "inj_all.py": "9c47baa8e839c294d68f7793324b44385e73495f3e85cfa447fa2c005571b94c",
+  "shard.py": "3d41e5bb3962357701ae208c2c64464a80d90355f8b706042614aefb9736d966",
+  "reverse_detectors.py": "65ba1583a5f2007ec5bc13e7cfb4abb1015c26f5651f82063785ab102fea3f07"
+ }
+}
