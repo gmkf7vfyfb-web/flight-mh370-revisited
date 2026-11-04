@@ -63,6 +63,8 @@ def assemble(out_jsonl, outdir, rev_depths=(10.0, 2.0, 5.0, 30.0, 100.0), krk_de
             rows.append(dict(path=path, kind=kind, seabed=sb, fc_hz=fc, src_depth_m=z, tl_db=float(tl[j]), nf=len(fs), range_km=L))
         # range curves on a common bin grid
         edges = np.arange(0.0, L + bin_km, bin_km); mid = 0.5 * (edges[1:] + edges[:-1])
+        if kind == "rev" and "rec_r" not in v[0][1]:
+            continue                                     # runs without a range record (addendum runs)
         if kind == "rev":
             acc = np.zeros(len(mid)); n = np.zeros(len(mid))
             for f, r in v:
