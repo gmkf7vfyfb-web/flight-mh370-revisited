@@ -76,7 +76,13 @@ Method: I read the code in the result packages and the thread transcript. I re-r
 ## 4. Method limits that cap what this design can find
 
 1. **The Cape Leeuwin and Diego Garcia South envelope null is built from the trace itself.** Window maxima are compared with random windows of the same 29.5-min (19.4-min) trace, which already contains the transients. The strongest point in the Cape Leeuwin trace scores only 0.046 for a 15-point window (0.032 at 10 points, 0.011 at 5). The median window has 13 points. These stations therefore cannot carry or confirm a candidate. They add degrees of freedom and so dilute the Fisher sum. Seeded tests from Kadri's transients are tested in one direction only, at the IMOS loggers.
-2. **Scott Reef is in an impulsive environment.** Its envelope repeats about every 8.6 s in 65 % of 8 March records (8.9 s in 42 % of background records). Its typical 30-s band energy sits 9–13 dB above the record median. A seismic airgun survey is likely; I have not confirmed this from survey records. Every Scott Reef path is "large attenuation" or blocked. Scott Reef evidence should not carry a candidate until the pulse train is labelled and handled. The Diego Garcia South airgun ruling (label plus an interference test, never exclude) is the natural model.
+2. **Scott Reef records an airgun shot train, and the project already knew the surveys.** Its envelope repeats about every 8.6 s in 65 % of 8 March records (8.9 s in 42 % of background records). Its typical 30-s band energy sits 9–13 dB above the record median. The project's known-event table (hydro_data.sqlite, from the NOPTA survey service) lists marine seismic surveys whose acquisition spans include 8 March 2014. Shot times are not in those records.
+   - Fortuna 3D, vessel Vespucci, 19.6° S 116.1° E: 710 km from Scott Reef.
+   - Huzzas 3D, vessel Geo Caspian, 21.2° S 114.7° E: 937 km.
+   - Centaurus 3D, vessel Polarcus Alima, 20.8° S 113.7° E: 992 km.
+   - Nerites 3D, Bight Basin: 2,409 km.
+
+   The pre-registration (B8) required every candidate to be labelled against this table. The thread skipped that step as "moot", so the Scott Reef shot train was never labelled. It then ranked candidates carried by Scott Reef. Every Scott Reef path is "large attenuation" or blocked. Scott Reef evidence should not carry a candidate until the shot train is labelled and handled under the Diego Garcia South airgun ruling (label plus an interference test, never exclude).
 3. **Each station gets its own full speed window.** A real arrival shares most of its speed error across stations. Relative timing between stations would cut each extra station's window from about 77–115 s to about 25–40 s for 2,000 and 3,000 km paths (the range depends on how much of the detour is shared). That is the structural analogue of Pete's PRN idea, and it is not used. Amplitude consistency across stations is not used either.
 4. **The strongest component is tested against its own model.** The impact-pattern correlation is matched to the same source and channel model that generates the synthetic signals. The recorded-earthquake control is the only model-free check, and there the gains are smaller.
 5. **The sensitivity figures understate the signal energy.** They use SNR in 8–40 Hz, while 58–63 % of the synthetic impact energy lies below 8 Hz. They are also relative to each record's own median, with no received-level model. The thread states correctly that nothing is excluded.
@@ -88,6 +94,12 @@ Method: I read the code in the result packages and the thread transcript. I re-r
 - **Interim numbers went out before review.** They were sent before the pre-registered review, and they included candidates later reported as "weak candidates". The thread acknowledged this itself.
 - **A requested deliverable did not reach Pete in a usable form.** The thread saved the candidate-views PDF at 19:44:31 UTC on 6 Nov (artifact 0f2bb084, 47 pages). Its message call was logged as "delivered" right after. Pete reports that he cannot see that message. The closing summary did not link the PDF, so for Pete it was not delivered. That PDF also uses uncorrected bearings and the pre-cleaning calibration. The thread later replaced it with candidate_views_cl_dg_corrected.pdf (5d4bd5b3, 22:21 UTC).
 - **A sensitivity run was not checked for its effect on candidates.** The A6 run was reported only as a global p.
+
+### Errors in earlier versions of this review (corrected here)
+
+- Version 1 said "no impact sound is detected in the 8 March 2014 data". That is wrong. The test shows only that nothing stands out in the records held (registry D10 wording).
+- Version 1 said Pete "likely missed" the candidate-views message. The log shows a delivery call. It does not show what Pete saw.
+- Versions 1–4 called the Scott Reef airgun source "not confirmed" without checking the project's known-event table. That table already listed the surveys (section 4, item 2).
 
 ## 6. How reliable each reported result is
 
