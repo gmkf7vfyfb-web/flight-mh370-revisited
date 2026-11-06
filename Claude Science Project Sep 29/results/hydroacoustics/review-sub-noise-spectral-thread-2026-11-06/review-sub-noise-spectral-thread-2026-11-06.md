@@ -10,7 +10,7 @@ Method: I read the code in the result packages and the thread transcript. I re-r
 
 ## 1. Verdict
 
-- **The headline null result holds.** No impact time and place has network evidence near any global false-alarm level. I reproduced the final run independently: best evidence 1.758 (reported 1.76) and 5 % level 3.567 (reported 3.57). My global chance is 0.855 from my own 1,000 time shifts (reported 0.875). It stays at 0.80–0.94 under every correction below.
+- **The network test result holds, in a limited form.** In the records held, no impact time and place has network evidence near any global false-alarm level (5, 20 or 50 %). This does NOT show that no impact sound is present. Section 4 lists what the test cannot see. The defensible wording is: "no impact signal is identifiable in the records held, with this test" (registry D10). I reproduced the final run independently: best evidence 1.758 (reported 1.76) and 5 % level 3.567 (reported 3.57). My global chance is 0.855 from my own 1,000 time shifts (reported 0.875). It stays at 0.80–0.94 under every correction below.
 - **Three reported results are not reliable as stated:**
   1. The Kadri seed positions and fit counts. They use published Cape Leeuwin bearings without the project's own array correction (ruling B1, 26 Oct).
   2. The ranked "weak candidates" at 00:53–00:55 UTC, 20–34° S. They come from a tail-fit artefact on a discrete statistic at Scott Reef and Perth Canyon 2.
@@ -86,7 +86,7 @@ Method: I read the code in the result packages and the thread transcript. I re-r
 
 - **A ruling was missed.** The bearing ruling (B1) and the 26 Oct crossing note were in project memory and the artifact store. The pre-registration did not use them. The thread found the note only when Pete asked on 6 Nov.
 - **Interim numbers went out before review.** They were sent before the pre-registered review, and they included candidates later reported as "weak candidates". The thread acknowledged this itself.
-- **A deliverable was not re-linked.** The candidate-views PDF that Pete asked for was delivered in a mid-turn message (artifact 0f2bb084, 47 pages, with spectrogram, band energy, correlation and combined score per site). The closing summary did not link it, and Pete later asked where it was. That PDF also uses uncorrected bearings and the pre-cleaning calibration.
+- **A requested deliverable did not reach Pete in a usable form.** The thread saved the candidate-views PDF at 19:44:31 UTC on 6 Nov (artifact 0f2bb084, 47 pages). Its message call was logged as "delivered" right after. Pete reports that he cannot see that message. The closing summary did not link the PDF, so for Pete it was not delivered. That PDF also uses uncorrected bearings and the pre-cleaning calibration. The thread later replaced it with candidate_views_cl_dg_corrected.pdf (5d4bd5b3, 22:21 UTC).
 - **A sensitivity run was not checked for its effect on candidates.** The A6 run was reported only as a global p.
 
 ## 6. How reliable each reported result is
