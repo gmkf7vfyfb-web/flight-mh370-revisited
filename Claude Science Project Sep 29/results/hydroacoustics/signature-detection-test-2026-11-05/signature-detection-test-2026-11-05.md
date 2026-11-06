@@ -104,9 +104,13 @@ did worse than band energy (Cape Leeuwin 1 gained, 11 lost; Diego Garcia South 8
 
 ### 5.4 Control: real weak earthquakes at their predicted times (earthquake-centred records)
 
-- Loose impact templates against band energy, each at 5 % per look: Diego Garcia South 23 found only by the templates,
-  4 only by band energy (McNemar p = 0.0003). Cape Leeuwin 3 against 2 (p = 1.0). For catalogue SNR < 10 dB at Diego
-  Garcia South: 16 % against 5 %; for 10-15 dB: 64 % against 33 %.
+- Loose impact templates ALONE against band energy ALONE, each at 5 % per look (known_events_p.csv): Diego Garcia
+  South 23 found only by the templates, 4 only by band energy (McNemar p = 0.0003). Cape Leeuwin 3 against 2 (p = 1.0).
+  For catalogue SNR < 10 dB at Diego Garcia South: 16 % against 5 %; for 10-15 dB: 64 % against 33 %.
+- This gain is NOT robust. A combined detector (band energy at 2.5 % OR templates at 2.5 %), compared with band energy
+  at 5 % (known_events_control.csv), loses: Diego Garcia South 6 gained, 21 lost (p = 0.0059); Cape Leeuwin 0 gained,
+  3 lost (p = 0.25). Many real arrivals sit just above the band-energy threshold, so halving its false-alarm budget
+  costs more than the templates add. The real-event control therefore does not establish a template gain.
 - Shape change only, combined with band energy (2.5 % each): no clear gain on the weak events (Cape Leeuwin 3/18
   against 2/18; Diego Garcia South 4/59 against 4/59). This does not confirm the 5 to 6 dB injection gain for real
   earthquake waveforms. Possible causes: active records, larger travel-time errors on weak paths, and weak events that
