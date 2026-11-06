@@ -45,6 +45,7 @@ Method: I read the code in the result packages and the thread transcript. I re-r
   - No seed is confirmed. The smallest corrected seed p is 0.46 (±3°) and 0.46 (±4.1°, 2σ).
 - **Affected outputs:** the seeded-test figure (panel b and its title), the top-10 table latitudes and windows, the candidate-views PDF, and report items 4–5.
 - **Not affected:** the conclusion that no seed is confirmed.
+- **Status at the end of this review.** The thread applied the correction itself after Pete's question (repo commit ca4eb652). It reports 13 of 19 Kadri seeds testable, with the smallest seeded p 0.43. This agrees with the independent re-run above (14 testable, one of them with only 2 hypotheses; smallest p 0.46). The top-10 table, the candidate-views PDF and the seeded-test figure still need to be redrawn.
 
 ### 3.2 Pareto tail fitted to a discrete statistic (creates the ranked candidates)
 
