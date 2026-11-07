@@ -1,0 +1,27 @@
+{
+ "folder": "leroy2016",
+ "created": "2026-11-07",
+ "task": "PDF vector recovery for all hydroacoustic sources (source-vector-extraction-2026-11-07)",
+ "tool": "PyMuPDF 1.28.0; RapidOCR (rapidocr-onnxruntime 1.4.4) for tick labels drawn as glyph outlines; extractor module vecx.py in the parent folder",
+ "method": "Vector panels: page.get_drawings() gives every path; panels are found from numeric tick-label rows and columns (text layer, or OCR of glyph outlines) anchored to the axis lines; each axis transform is a least-squares fit of label value against position (tick-mark positions where they lower the residual; linear or log10, whichever fits better); every vertex of every path inside the axes is written (border frame, tick and grid strokes on the border are dropped; Bezier control points are kept and marked); text words inside the axes are written as rows with item_type text; small closed paths also get a marker_centre row (bounding-box centre). Multipliers printed as glyph outlines (for example x10^6) were read from the rendered page and are stated in each header. Tables: page.find_tables() or a word/line dump of the text layer; no values typed by hand. Raster items: colour mask per pixel column, stated in the header.",
+ "acceptance": "calibration_status ok when both axes have relative residual (max abs residual / label span) <= 3e-3; flagged up to 2e-2; failed above that",
+ "statement_status": "re-run: every file in this folder was produced by code in this session; numbers in the note are read back from these files",
+ "files": [
+  {
+   "file": "leroy2016_p005_table1.csv",
+   "sha256": "a223eb26bcfd795c878c9f02545247e9fb8f81cfd397b7313c68f1a5c1173328",
+   "header": {
+    "source": "Leroy et al. 2016 PLoS ONE (Antarctic blue whale)",
+    "source_sha256": "1e7e620978f923ccdf57b1ac15767d8c7aa9f1f34bdf8d80b0771382024a92f6",
+    "source_files": "artifact:3795a880-ec36-40e8-b383-6b8417f7c361 (10.1371_journal.pone.0163587.pdf)",
+    "page": "5",
+    "table": "1",
+    "caption": "Table 1. OHASISBIO autonomous hydrophone network. The character \u201c-\u201d indicates continuous recordings without data recovering, \u201cx\u201d indicates that there is no avai",
+    "method": "PyMuPDF page.find_tables() on the text layer (lines strategy, or text strategy where the table has no rules). Cells are copied as printed; no values typed by hand. Column alignment of text-strategy tables must be checked against the page before use.",
+    "n_rows": "16",
+    "n_cols": "14",
+    "extracted": "2026-11-07, source-vector-extraction-2026-11-07"
+   }
+  }
+ ]
+}
