@@ -1,0 +1,50 @@
+# source: Kadri 2024 Supplementary S1
+# source_sha256: a152b944828e9a765752c41b2ef0ebe24bf510f84d7eed19200da3e7b94c3c0f
+# source_files: /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-digitisation/sources/PMC11065988/41598_2024_60529_MOESM1_ESM.pdf; artifact:5a516b02-02d0-493f-9ca8-c659e7079ccd (41598_2024_60529_MOESM1_ESM.pdf)
+# page: 5
+# figure: S1
+# panel: e spectrogram overlay (vectors only)
+# content: Fig. S1e H11S spectrogram panel: vector overlay only; spectrogram raster
+# time_span: 2014-03-07 19:41+10 min UTC
+# x_units: min after 19:41 UTC (7 Mar 2014)
+# y_units: Hz
+# axes_region_pt: [115.48, 529.916, 286.06, 590.037]
+# x_transform: -6.71001025 + 0.0583139521*x_pt
+# y_transform: 375.032221 + -0.632227065*y_pt
+# x_labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+# y_labels: ["40", "30", "20", "10"]
+# x_label_source: num
+# y_label_source: num
+# x_positions: label centres (tick snapping gave larger residual)
+# y_positions: tick marks where found, else label centres
+# x_residual_max_abs: 1.2259468675779317e-06
+# x_residual_rms: 5.836485716055102e-07
+# x_residual_relative: 1.5324335844724146e-07
+# y_residual_max_abs: 1.157642041604845e-05
+# y_residual_rms: 8.62855647993524e-06
+# y_residual_relative: 3.858806805349483e-07
+# x_units_per_pt: 0.05831395212349132
+# y_units_per_pt: 0.632227064596835
+# vertex_coordinate_quantum_pt: 0.5841000000000349
+# median_x_step_of_main_path: null
+# calibration_status: ok
+# n_vertices: 14
+# n_paths: 6
+# n_text_words: 0
+# method: PyMuPDF page.get_drawings(): every vertex of every path inside the axes (frame, tick and grid strokes on the border removed); Bezier control points kept as vertex_kind ctrl1/ctrl2. Axis transform: least squares on tick labels (text layer, or OCR of glyph-outline labels where marked), positions snapped to tick marks where that lowers the residual.
+# extracted: 2026-11-07, source-vector-extraction-2026-11-07
+path_id,item_idx,vertex_idx,item_type,vertex_kind,x_pt,y_pt,x_data,y_data,inside_axes,stroke,fill,width,path_type
+423,0,0,re,re_ul,189.5654,529.9157,4.344297411991655,40.00517354987022,1,#ffffff,,0.583939254283905,s
+423,0,1,re,re_lr,216.5428,588.2857,5.917456224007929,3.102079789352956,1,#ffffff,,0.583939254283905,s
+425,0,0,re,re_ul,95.0337,326.2043,-1.1682196159605898,168.79703399678192,0,#ff00ff,,1.16787850856781,s
+425,0,1,re,re_lr,528.494,416.6779,24.108563565673595,111.5971754452737,0,#ff00ff,,1.16787850856781,s
+425,1,0,re,re_ul,94.4495,519.9928,-1.2022866267911336,46.27869948915816,0,#ff00ff,,1.16787850856781,s
+425,1,1,re,re_lr,527.9099,610.4664,24.07450238623826,-10.921159062350057,0,#ff00ff,,1.16787850856781,s
+3122,0,0,l,l0,119.4353,599.7648,0.2547341181759961,-4.155317907860592,0,#262626,,0.3957742154598236,s
+3122,0,1,l,l1,119.4353,518.817,0.2547341181759961,47.022072071711136,0,#262626,,0.3957742154598236,s
+3123,0,0,l,l0,282.0127,599.7648,9.735264838137692,-4.155317907860592,0,#262626,,0.3957742154598236,s
+3123,0,1,l,l1,282.0127,518.817,9.735264838137692,47.022072071711136,0,#262626,,0.3957742154598236,s
+3477,0,0,re,re_ul,195.2233,524.8959,4.674231921711155,43.17882696873346,0,#ffffff,,0.7915484309196472,s
+3477,0,1,re,re_lr,218.8141,596.4981,6.049904703466015,-2.0900217559420753,0,#ffffff,,0.7915484309196472,s
+3479,0,0,re,re_ul,99.6864,505.4384,-0.8969022909156212,55.480385078126346,0,#808080,,1.5830968618392944,s
+3479,0,1,re,re_lr,513.5577,626.0724,23.237568882571487,-20.78769463244828,0,#808080,,1.5830968618392944,s
