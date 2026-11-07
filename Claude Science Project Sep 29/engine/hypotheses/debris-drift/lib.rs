@@ -154,6 +154,11 @@ struct RecoveryParams {
     /// Further bandwidths reported as sensitivity columns (`ln_l_h<km>`), same ensembles.
     #[serde(default)]
     extra_bandwidths_km: Vec<f64>,
+    /// Further arrival-to-discovery delay parameters (same `delay` kind: exponential mean or uniform maximum,
+    /// days), scored from the same ensembles at the primary bandwidth as extra coefficient sets and columns
+    /// `ln_l_d<days>`. Output only; default empty (node table byte-identical).
+    #[serde(default)]
+    extra_delay_days: Vec<f64>,
     /// Chainage edges on coast line 0 (analytic straight coast only); segments are then the
     /// intervals between consecutive edges.
     #[serde(default)]
@@ -225,6 +230,17 @@ struct DateOverride {
     discovery_end: String,
 }
 
+/// A second discovery date for a stringent find (a disputed date, e.g. Mossel Bay). The copy is written to the
+/// coefficient file only, with id `debris:<object_id>@<label>`; it never enters any ln_l column.
+#[derive(Deserialize, Clone, Debug)]
+#[serde(deny_unknown_fields)]
+struct ExtraFindDate {
+    object_id: String,
+    label: String,
+    discovery_start: String,
+    discovery_end: String,
+}
+
 #[derive(Deserialize, Clone, Debug)]
 #[serde(deny_unknown_fields)]
 pub(crate) struct Params {
@@ -277,6 +293,15 @@ pub(crate) struct Params {
     synthetic: Option<SyntheticParams>,
     #[serde(default)]
     date_overrides: Vec<DateOverride>,
+    /// Extra copies of stringent finds with other discovery dates, for offline scoring only (coefficient file);
+    /// excluded from every ln_l column. Default empty (byte-identical).
+    #[serde(default)]
+    extra_find_dates: Vec<ExtraFindDate>,
+    /// Write `arrival-lead.jsonl`: per node and find, the kernel-weighted histogram of (end of discovery interval
+    /// minus arrival day) over all particles beaching inside the find kernel, before and after the find date.
+    /// Diagnostic output only; default off (byte-identical).
+    #[serde(default)]
+    write_arrival_lead: bool,
     /// Restrict release to these node indices (smoke tests); empty means every active node.
     #[serde(default)]
     node_subset: Vec<usize>,
@@ -619,6 +644,14 @@ fn evidence_observations(p: &Params, rec: &Recovery, loc: &Locator) -> Result<Ve
         }
         out.push(Observation { id: format!("debris:{}", r.object_id), class, place: Place::at(at), segment, t_start_days: a, t_end_days: b });
     }
+    for x in &p.extra_find_dates {
+        let base = out.iter().find(|o| o.id == format!("debris:{}", x.object_id)).cloned().ok_or(format!("debris-drift: extra_find_dates: `{}` is not a stringent find", x.object_id))?;
+        let (a, b) = (day_of(p.release_unix_s, &x.discovery_start)?, day_of(p.release_unix_s, &x.discovery_end)? + 1.0);
+        if b > rec.window_end_days {
+            return Err(format!("debris-drift: extra find date `{}@{}` is after the window end", x.object_id, x.label));
+        }
+        out.push(Observation { id: format!("{}@{}", base.id, x.label), t_start_days: a, t_end_days: b, ..base });
+    }
     Ok(out)
 }
 
@@ -698,6 +731,32 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
     };
     let nc = p.classes.len();
     let by_class: Vec<Vec<usize>> = (0..nc).map(|c| (0..observations.len()).filter(|&j| observations[j].class == c).collect()).collect();
+    // Extra find dates sit at the end of `observations`, hence at the end of each class list: the primary
+    // likelihood uses only the leading entries (node_ln_likelihood indexes a[jj] by position).
+    let n_primary = if p.mode == "evidence" { observations.len() - p.extra_find_dates.len() } else { observations.len() };
+    let by_class_primary: Vec<Vec<usize>> = (0..nc).map(|c| (0..n_primary).filter(|&j| observations[j].class == c).collect()).collect();
+    let variants: Vec<(String, Recovery, f64)> = p
+        .recovery
+        .extra_bandwidths_km
+        .iter()
+        .map(|&h| (format!("h{h}"), Recovery { bandwidth_km: h, ..rec.clone() }, h))
+        .chain(p.recovery.extra_delay_days.iter().map(|&d| {
+            let delay = match rec.delay {
+                Delay::Uniform { .. } => Delay::Uniform { max_days: d },
+                Delay::Exponential { .. } => Delay::Exponential { mean_days: d },
+            };
+            (format!("d{d}"), Recovery { delay, ..rec.clone() }, rec.bandwidth_km)
+        }))
+        .collect();
+    const LEAD_LO_DAYS: f64 = -450.0;
+    const LEAD_BIN_DAYS: f64 = 15.0;
+    const LEAD_BINS: usize = 90;
+    let mut lead_out: Option<std::io::BufWriter<std::fs::File>> = None;
+    if p.write_arrival_lead {
+        let dir = p.output_dir.as_ref().ok_or("debris-drift: write_arrival_lead needs output_dir")?;
+        std::fs::create_dir_all(dir).map_err(|e| format!("debris-drift: {dir}: {e}"))?;
+        lead_out = Some(std::io::BufWriter::new(std::fs::File::create(format!("{dir}/arrival-lead.jsonl")).map_err(|e| e.to_string())?));
+    }
     let responses: Vec<Vec<ObjectResponse>> = (0..nc).map(|c| if by_class[c].is_empty() { Vec::new() } else { class_responses(p, c) }).collect();
     let segnames: Vec<String> = match &loc.map { Some(m) => m.segments.iter().map(|s| s.name.clone()).collect(), None => (0..rec.n_segments).map(|s| format!("edge-{s}")).collect() };
     let levels = LevelDraws::from_block_means(&block_means(&p.levels.ln_mean_by_period, &p.levels.segment_ln_mean_by_period, &segnames)?, p.levels.sigma, p.levels.draws, p.levels.seed);
@@ -722,8 +781,8 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
     let mut rows: Vec<String> = Vec::new();
     let ns = rec.n_segments;
     let mut header = "node,lat_deg,lon_deg,component,state,ln_l,ln_l_half_a,ln_l_half_b,min_n_eff,model_error_fraction,left_domain_fraction".to_string();
-    for h in &p.recovery.extra_bandwidths_km {
-        header += &format!(",ln_l_h{h}");
+    for (lab, _, _) in &variants {
+        header += &format!(",ln_l_{lab}");
     }
     for c in 0..nc {
         for s in 0..ns {
@@ -740,10 +799,10 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
         header += &format!(",hits_{}", observations[j].id.replace(':', "_"));
     }
     header += ",zero_env_fraction";
-    for h in &p.recovery.extra_bandwidths_km {
-        header += &format!(",ln_l_h{h}_half_a,ln_l_h{h}_half_b");
+    for (lab, _, _) in &variants {
+        header += &format!(",ln_l_{lab}_half_a,ln_l_{lab}_half_b");
         for j in 0..observations.len() {
-            header += &format!(",n_eff_h{h}_{}", observations[j].id.replace(':', "_"));
+            header += &format!(",n_eff_{lab}_{}", observations[j].id.replace(':', "_"));
         }
     }
     for (name, _) in &alt_levels {
@@ -764,7 +823,8 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
         let mut node_left = 0.0f64;
         let mut node_released = 0usize;
         let mut on_land = false;
-        let nh = p.recovery.extra_bandwidths_km.len();
+        let nh = variants.len();
+        let mut lead = vec![vec![0.0f64; LEAD_BINS]; observations.len()];
         let mut coef_h: Vec<Vec<Vec<Option<recovery::Coefficients>>>> = vec![Vec::new(); nh];
         let mut coef_ha: Vec<Vec<Vec<Option<recovery::Coefficients>>>> = vec![Vec::new(); nh];
         let mut coef_hb: Vec<Vec<Vec<Option<recovery::Coefficients>>>> = vec![Vec::new(); nh];
@@ -810,8 +870,23 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
                     n_eff[j] = if n_eff[j].is_nan() { kf.n_eff[jj] } else { n_eff[j].min(kf.n_eff[jj]) };
                     hits[j] += kf.hits[jj];
                 }
-                for (hi, &h) in p.recovery.extra_bandwidths_km.iter().enumerate() {
-                    let rh = Recovery { bandwidth_km: h, ..rec.clone() };
+                if lead_out.is_some() {
+                    let norm = (n * envs.len()) as f64;
+                    for &j in &by_class[c] {
+                        let o = &observations[j];
+                        for ar in &all {
+                            let z = recovery::coast_distance_km(&o.place, &ar.place) / rec.bandwidth_km;
+                            if !(z <= recovery::KERNEL_CUTOFF_SIGMA) {
+                                continue;
+                            }
+                            let b = ((o.t_end_days - ar.t_days - LEAD_LO_DAYS) / LEAD_BIN_DAYS).floor();
+                            if b >= 0.0 && (b as usize) < LEAD_BINS {
+                                lead[j][b as usize] += ar.w * (-0.5 * z * z).exp() / norm;
+                            }
+                        }
+                    }
+                }
+                for (hi, (_, rh, _)) in variants.iter().enumerate() {
                     let kh = rh.coefficients(&obs, &all, n);
                     for (jj, &j) in by_class[c].iter().enumerate() {
                         let v = &mut n_eff_h[hi][j];
@@ -841,7 +916,10 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
         if let Some(w) = coef_out.as_mut() {
             use std::io::Write;
             let mut line = format!("{{\"node\":{k},\"lat\":{la:e},\"lon\":{lo:e},\"land\":{on_land},\"bandwidths_km\":[{}",
-                std::iter::once(rec.bandwidth_km).chain(p.recovery.extra_bandwidths_km.iter().copied()).map(|h| format!("{h:e}")).collect::<Vec<_>>().join(","));
+                std::iter::once(rec.bandwidth_km).chain(variants.iter().map(|v| v.2)).map(|h| format!("{h:e}")).collect::<Vec<_>>().join(","));
+            if !p.recovery.extra_delay_days.is_empty() {
+                line += &format!("],\"set_labels\":[\"primary\",{}", variants.iter().map(|v| format!("\"{}\"", v.0)).collect::<Vec<_>>().join(","));
+            }
             line += "],\"sets\":[";
             let mut sets: Vec<[&Vec<Vec<Option<recovery::Coefficients>>>; 3]> = vec![[&coef_full, &coef_a, &coef_b]];
             for hi in 0..nh {
@@ -852,16 +930,27 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
             w.write_all(line.as_bytes()).map_err(|e| e.to_string())?;
             w.flush().map_err(|e| e.to_string())?;
         }
+        if let Some(w) = lead_out.as_mut() {
+            use std::io::Write;
+            let finds: Vec<String> = observations
+                .iter()
+                .enumerate()
+                .map(|(j, o)| format!("{{\"id\":\"{}\",\"hist\":[{}]}}", o.id, lead[j].iter().map(|x| format!("{x:e}")).collect::<Vec<_>>().join(",")))
+                .collect();
+            let line = format!("{{\"node\":{k},\"lat\":{la:e},\"lon\":{lo:e},\"land\":{on_land},\"lead_lo_days\":{LEAD_LO_DAYS:e},\"lead_bin_days\":{LEAD_BIN_DAYS:e},\"finds\":[{}]}}\n", finds.join(","));
+            w.write_all(line.as_bytes()).map_err(|e| e.to_string())?;
+            w.flush().map_err(|e| e.to_string())?;
+        }
         released += node_released;
         model_error += node_err;
         left_domain += node_left;
-        let node = if on_land { Node::Land } else { node_ln_likelihood(&coef_full, &by_class, &levels) };
+        let node = if on_land { Node::Land } else { node_ln_likelihood(&coef_full, &by_class_primary, &levels) };
         let val = |x: Node| match x { Node::Value(v) => format!("{v:.6}"), _ => "nan".into() };
-        let (na, nb) = if on_land { (Node::Land, Node::Land) } else { (node_ln_likelihood(&coef_a, &by_class, &levels), node_ln_likelihood(&coef_b, &by_class, &levels)) };
+        let (na, nb) = if on_land { (Node::Land, Node::Land) } else { (node_ln_likelihood(&coef_a, &by_class_primary, &levels), node_ln_likelihood(&coef_b, &by_class_primary, &levels)) };
         let state = match node { Node::Value(_) => "value", Node::Land => "land", Node::Unresolved => "unresolved", Node::NotComputed => "not-computed" };
         let mut row = format!("{k},{la:.5},{lo:.5},{},{state},{},{},{},{:.3},{:.5},{:.5}", grid.component[k], val(node), val(na), val(nb), n_eff.iter().copied().fold(f64::INFINITY, f64::min), node_err / node_released.max(1) as f64, node_left / node_released.max(1) as f64);
         for ch in &coef_h {
-            row += &format!(",{}", if on_land { "nan".into() } else { val(node_ln_likelihood(ch, &by_class, &levels)) });
+            row += &format!(",{}", if on_land { "nan".into() } else { val(node_ln_likelihood(ch, &by_class_primary, &levels)) });
         }
         for c in 0..nc {
             for s in 0..ns {
@@ -875,10 +964,10 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
         for v in &hits {
             row += &format!(",{v}");
         }
-        row += &format!(",{:.4}", if on_land { f64::NAN } else { node_ln_likelihood_zeros(&coef_full, &by_class, &levels).1 });
+        row += &format!(",{:.4}", if on_land { f64::NAN } else { node_ln_likelihood_zeros(&coef_full, &by_class_primary, &levels).1 });
         for hi in 0..nh {
             for ch in [&coef_ha[hi], &coef_hb[hi]] {
-                row += &format!(",{}", if on_land { "nan".into() } else { val(node_ln_likelihood(ch, &by_class, &levels)) });
+                row += &format!(",{}", if on_land { "nan".into() } else { val(node_ln_likelihood(ch, &by_class_primary, &levels)) });
             }
             for v in &n_eff_h[hi] {
                 row += &format!(",{v:.3}");
@@ -886,7 +975,7 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
         }
         for (_, lv) in &alt_levels {
             for ch in [&coef_full, &coef_a, &coef_b] {
-                row += &format!(",{}", if on_land { "nan".into() } else { val(node_ln_likelihood(ch, &by_class, lv)) });
+                row += &format!(",{}", if on_land { "nan".into() } else { val(node_ln_likelihood(ch, &by_class_primary, lv)) });
             }
         }
         rows.push(row);
@@ -926,6 +1015,13 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
         ("coverage_reached".into(), format!("{:.4}", grid.covered_mass)),
         ("label".into(), run_label(p)),
     ];
+    let mut summary = summary;
+    if !p.recovery.extra_delay_days.is_empty() {
+        summary.push(("extra_delay_days".into(), format!("{:?} ({} kind)", p.recovery.extra_delay_days, p.recovery.delay)));
+    }
+    if !p.extra_find_dates.is_empty() {
+        summary.push(("extra_find_dates".into(), p.extra_find_dates.iter().map(|x| format!("{}@{}:{}..{}", x.object_id, x.label, x.discovery_start, x.discovery_end)).collect::<Vec<_>>().join(";")));
+    }
     if let Some(dir) = &p.output_dir {
         std::fs::create_dir_all(dir).map_err(|e| format!("debris-drift: {dir}: {e}"))?;
         let mut csv = header + "\n";
@@ -936,6 +1032,7 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
         text += &format!("segments = {segnames:?}\nclasses = {:?}\ngrid = {{ lat0 = {}, lon0 = {}, dlat = {}, dlon = {}, nlat = {}, nlon = {} }}\n", p.classes.iter().map(|c| c.name.clone()).collect::<Vec<_>>(), grid.lat0, grid.lon0, grid.dlat, grid.dlon, grid.nlat, grid.nlon);
         std::fs::write(format!("{dir}/summary.toml"), text).map_err(|e| e.to_string())?;
     }
+    let observations = observations[..n_primary].to_vec();
     Ok(Built { grid, surface, observations, ocean_model: setup.ocean_model(), summary })
 }
 
