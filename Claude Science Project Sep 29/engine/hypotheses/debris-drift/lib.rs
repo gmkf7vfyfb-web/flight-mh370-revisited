@@ -303,6 +303,12 @@ pub(crate) struct Params {
     /// Write the node table and summary here (pilot and diagnostics).
     #[serde(default)]
     output_dir: Option<String>,
+    /// Also write the per-node, per-environment, per-class recovery coefficients (`coefficients.jsonl`)
+    /// and the level-draw matrix (`coefficients-meta.json`) to `output_dir`, so that any subset of finds,
+    /// any level prior and any detection scheme can be scored offline exactly. Output only; off by
+    /// default (node table byte-identical either way).
+    #[serde(default)]
+    write_coefficients: bool,
     /// Importance splitting for finds that forward release alone cannot resolve (off by default).
     #[serde(default)]
     splitting: Option<SplittingParams>,
@@ -704,6 +710,13 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
     let t_end = p.release_unix_s + rec.window_end_days * 86_400.0;
     let n = p.particles_per_class;
     let half = n / 2;
+    let mut coef_out: Option<std::io::BufWriter<std::fs::File>> = None;
+    if p.write_coefficients {
+        let dir = p.output_dir.as_ref().ok_or("debris-drift: write_coefficients needs output_dir")?;
+        std::fs::create_dir_all(dir).map_err(|e| format!("debris-drift: {dir}: {e}"))?;
+        coef_out = Some(std::io::BufWriter::new(std::fs::File::create(format!("{dir}/coefficients.jsonl")).map_err(|e| e.to_string())?));
+        std::fs::write(format!("{dir}/coefficients-meta.json"), coefficients_meta(p, &rec, &segnames, &observations, &envs)?).map_err(|e| e.to_string())?;
+    }
 
     let mut nodes = vec![Node::NotComputed; grid.nlat * grid.nlon];
     let mut rows: Vec<String> = Vec::new();
@@ -825,6 +838,20 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
             coef_a.push(ha);
             coef_b.push(hb);
         }
+        if let Some(w) = coef_out.as_mut() {
+            use std::io::Write;
+            let mut line = format!("{{\"node\":{k},\"lat\":{la:e},\"lon\":{lo:e},\"land\":{on_land},\"bandwidths_km\":[{}",
+                std::iter::once(rec.bandwidth_km).chain(p.recovery.extra_bandwidths_km.iter().copied()).map(|h| format!("{h:e}")).collect::<Vec<_>>().join(","));
+            line += "],\"sets\":[";
+            let mut sets: Vec<[&Vec<Vec<Option<recovery::Coefficients>>>; 3]> = vec![[&coef_full, &coef_a, &coef_b]];
+            for hi in 0..nh {
+                sets.push([&coef_h[hi], &coef_ha[hi], &coef_hb[hi]]);
+            }
+            line += &sets.iter().map(|s| format!("{{\"full\":{},\"half_a\":{},\"half_b\":{}}}", coef_json(s[0], &by_class, &observations, rec.n_periods()), coef_json(s[1], &by_class, &observations, rec.n_periods()), coef_json(s[2], &by_class, &observations, rec.n_periods()))).collect::<Vec<_>>().join(",");
+            line += "]}\n";
+            w.write_all(line.as_bytes()).map_err(|e| e.to_string())?;
+            w.flush().map_err(|e| e.to_string())?;
+        }
         released += node_released;
         model_error += node_err;
         left_domain += node_left;
@@ -910,6 +937,72 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
         std::fs::write(format!("{dir}/summary.toml"), text).map_err(|e| e.to_string())?;
     }
     Ok(Built { grid, surface, observations, ocean_model: setup.ocean_model(), summary })
+}
+
+/// JSON for one coefficient set `coef[env][class]`: per environment, per class, either null or
+/// {"a": [[own-segment values by period] per find of the class], "A": [recovery mass per block]}.
+/// `a[j]` is non-zero only in find j's own segment (see `Recovery::coefficients`), so only that slice is written.
+fn coef_json(coef: &[Vec<Option<recovery::Coefficients>>], by_class: &[Vec<usize>], obs: &[Observation], np: usize) -> String {
+    let f = |v: &[f64]| v.iter().map(|x| format!("{x:e}")).collect::<Vec<_>>().join(",");
+    let envs: Vec<String> = coef
+        .iter()
+        .map(|env| {
+            let cls: Vec<String> = env
+                .iter()
+                .enumerate()
+                .map(|(c, k)| match k {
+                    None => "null".to_string(),
+                    Some(k) => {
+                        let a: Vec<String> = by_class[c]
+                            .iter()
+                            .enumerate()
+                            .map(|(jj, &j)| {
+                                let s = obs[j].segment;
+                                debug_assert!(k.a[jj].iter().enumerate().all(|(b, &v)| b / np == s || v == 0.0));
+                                format!("[{}]", f(&k.a[jj][s * np..(s + 1) * np]))
+                            })
+                            .collect();
+                        format!("{{\"a\":[{}],\"A\":[{}]}}", a.join(","), f(&k.big_a))
+                    }
+                })
+                .collect();
+            format!("[{}]", cls.join(","))
+        })
+        .collect();
+    format!("[{}]", envs.join(","))
+}
+
+/// Metadata for `coefficients.jsonl`: block layout, finds, environments, level priors and the standard
+/// normal level draws z (draws x blocks), so that nu = exp(mu + sigma z) reproduces the module's draws exactly.
+fn coefficients_meta(p: &Params, rec: &Recovery, segnames: &[String], obs: &[Observation], envs: &[(u64, Diffusion)]) -> Result<String, String> {
+    let q = |s: &str| format!("\"{}\"", s.replace('\\', "\\\\").replace('"', "\\\""));
+    let f = |v: &[f64]| v.iter().map(|x| format!("{x:e}")).collect::<Vec<_>>().join(",");
+    let nb = rec.n_blocks();
+    let z = LevelDraws::from_block_means(&vec![0.0; nb], 1.0, p.levels.draws, p.levels.seed);
+    let zrows: Vec<String> = z.draws.iter().map(|d| format!("[{}]", f(&d.iter().map(|x| x.ln()).collect::<Vec<_>>()))).collect();
+    let mu = block_means(&p.levels.ln_mean_by_period, &p.levels.segment_ln_mean_by_period, segnames)?;
+    let mut alts = Vec::new();
+    for a in &p.levels.alternatives {
+        alts.push(format!("{{\"name\":{},\"mu\":[{}]}}", q(&a.name), f(&block_means(&p.levels.ln_mean_by_period, &a.segment_ln_mean_by_period, segnames)?)));
+    }
+    Ok(format!(
+        "{{\"segments\":[{}],\"n_periods\":{},\"period_breaks_days\":[{}],\"window_end_days\":{:e},\"classes\":[{}],\"finds\":[{}],\"envs\":[{}],\"particles_per_class\":{},\"levels\":{{\"ln_mean_by_period\":[{}],\"sigma\":{:e},\"draws\":{},\"seed\":{},\"mu_primary\":[{}],\"alternatives\":[{}],\"z\":[{}]}}}}\n",
+        segnames.iter().map(|s| q(s)).collect::<Vec<_>>().join(","),
+        rec.n_periods(),
+        f(&rec.breaks_days),
+        rec.window_end_days,
+        p.classes.iter().map(|c| q(&c.name)).collect::<Vec<_>>().join(","),
+        obs.iter().map(|o| format!("{{\"id\":{},\"class\":{},\"segment\":{},\"t_start_days\":{:e},\"t_end_days\":{:e}}}", q(&o.id), o.class, o.segment, o.t_start_days, o.t_end_days)).collect::<Vec<_>>().join(","),
+        envs.iter().map(|e| format!("{{\"seed\":{},\"diffusivity_m2_s\":{:e}}}", e.0, e.1.long_time_diffusivity_m2_s())).collect::<Vec<_>>().join(","),
+        p.particles_per_class,
+        f(&p.levels.ln_mean_by_period),
+        p.levels.sigma,
+        p.levels.draws,
+        p.levels.seed,
+        f(&mu),
+        alts.join(","),
+        zrows.join(",")
+    ))
 }
 
 /// Nodes a run releases: every `stride`-th active node from `offset`, or the named subset (active nodes
