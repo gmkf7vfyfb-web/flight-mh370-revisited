@@ -1,0 +1,17 @@
+# source: Kadri 2019 Sci Rep 9:912
+# source_sha256: 8f8117530c7ce6a140da425f965d5644633911c452bff2a66dc9a3760ab2ff30
+# source_files: /Users/pete/Downloads/mh370-exchange/hydroacoustics/sources/open-access-fetched-2026-10-22/Kadri_2019_Effect_of_sea-bottom_elasticity_SciRep9-912_s41598-018-37626-z.pdf; /Users/pete/Downloads/mh370-exchange/hydroacoustics/sources/open-access-fetched-2026-10-22/Kadri_2019_SciRep_9_912_s41598-018-37626-z.pdf; artifact:ae8c776d-9c31-4530-944c-3360affd1b62 (10.1038_s41598-018-37626-z.pdf); artifact:133c4968-4c14-4416-ace2-e44f16670a84 (Kadri_2019_Effect_of_sea-bottom_elasticity_SciRep9-912_s41598-018-37626-z.pdf)
+# page: 3
+# table: 3
+# caption: Table 3. Signals recorded at HA08s. The recording times are in UTC, and the bearings are relative to HA08s. Signals from military action are intermittent at two
+# method: PyMuPDF page.find_tables() on the text layer (lines strategy, or text strategy where the table has no rules). Cells are copied as printed; no values typed by hand. Column alignment of text-strategy tables must be checked against the page before use.
+# n_rows: 7
+# n_cols: 5
+# extracted: 2026-11-07, source-vector-extraction-2026-11-07
+Signal,Time [UTC],Bearing,Distance [km],Location
+HA 30 _,11:57,247.4°,585 ± 276,9°34′S 67°36′E
+HA 31 _,12:11,170.9°,"2,300 ± 250",28°08′S 76°20′E
+HA 32 _,01:58,241.3°,"2,860 ± 900",19°05′S 48°32′E
+HA 34a _,03:47,170.9°,—,—
+HA 34b _,03:50,173.0°,—,—
+HA 34c _,03:55,170.9°,—,—
