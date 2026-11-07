@@ -1,0 +1,27 @@
+{
+ "folder": "samaran2013",
+ "created": "2026-11-07",
+ "task": "PDF vector recovery for all hydroacoustic sources (source-vector-extraction-2026-11-07)",
+ "tool": "PyMuPDF 1.28.0; RapidOCR (rapidocr-onnxruntime 1.4.4) for tick labels drawn as glyph outlines; extractor module vecx.py in the parent folder",
+ "method": "Vector panels: page.get_drawings() gives every path; panels are found from numeric tick-label rows and columns (text layer, or OCR of glyph outlines) anchored to the axis lines; each axis transform is a least-squares fit of label value against position (tick-mark positions where they lower the residual; linear or log10, whichever fits better); every vertex of every path inside the axes is written (border frame, tick and grid strokes on the border are dropped; Bezier control points are kept and marked); text words inside the axes are written as rows with item_type text; small closed paths also get a marker_centre row (bounding-box centre). Multipliers printed as glyph outlines (for example x10^6) were read from the rendered page and are stated in each header. Tables: page.find_tables() or a word/line dump of the text layer; no values typed by hand. Raster items: colour mask per pixel column, stated in the header.",
+ "acceptance": "calibration_status ok when both axes have relative residual (max abs residual / label span) <= 3e-3; flagged up to 2e-2; failed above that",
+ "statement_status": "re-run: every file in this folder was produced by code in this session; numbers in the note are read back from these files",
+ "files": [
+  {
+   "file": "samaran2013_p004_table1.csv",
+   "sha256": "7af6ef471fd144d580cd5ebd0dc5a6eddb5da94321964f953c99077e7f114a5e",
+   "header": {
+    "source": "Samaran et al. 2013 PLoS ONE (blue whale)",
+    "source_sha256": "ce9fd7ddf037ff337e4917f40f39008e9efd3d3081cabbce8dce5b95ab2587e5",
+    "source_files": "artifact:bc0173fb-d2d4-4bdc-ba36-31898473cc8f (10.1371_journal.pone.0071561.pdf)",
+    "page": "4",
+    "table": "1",
+    "caption": "Table 1. Deployment location, dates and depth for hydrophone moorings.",
+    "method": "PyMuPDF page.find_tables() on the text layer (lines strategy, or text strategy where the table has no rules). Cells are copied as printed; no values typed by hand. Column alignment of text-strategy tables must be checked against the page before use.",
+    "n_rows": "12",
+    "n_cols": "6",
+    "extracted": "2026-11-07, source-vector-extraction-2026-11-07"
+   }
+  }
+ ]
+}
