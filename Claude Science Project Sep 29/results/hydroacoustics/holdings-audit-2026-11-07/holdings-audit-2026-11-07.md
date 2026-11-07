@@ -41,7 +41,7 @@ Statement labels: **[re-run]** = computed in this audit; **[record]** = taken fr
 
 **Calibration studies.**
 - H01W calibration, iteration 1: present and verified [re-run]. This is version 076cefbe, 41 events, also held in the DB tables `array_calibration` and `array_calibration_event`.
-- Bearing-check and refit-144 package: present and verified [re-run]. The note c71bc016 and all 24 versions it cites verify. This includes the calibration parameters 17cc43f3, the error model 77e38556, the scripts 3a409026 and the event data 3f3892b0.
+- Bearing-check and refit-144 package: present and verified [re-run]. The note c71bc016 and the 22 data and code files it cites verify (23 artifacts). The note cites 24 versions in total: these 22 and 2 figures, which also verify. This includes the calibration parameters 17cc43f3, the error model 77e38556, the scripts 3a409026 and the event data 3f3892b0.
 - The refit-144 package has no registry entry and is not in the DB [re-run]. It was made 2.5 h before the 26 Oct registry build and was not imported.
 - The raw waveforms behind these fits were not kept [re-run]. The event-data zip holds windows and measurements only. The held earthquake records (`ims_eq_records`, 5 Nov) cover:
   - 2 of the 41 calibration events;
