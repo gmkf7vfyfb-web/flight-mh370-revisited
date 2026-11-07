@@ -229,6 +229,12 @@ struct ShadowFind {
     discovery_start: Option<String>,
     #[serde(default)]
     discovery_end: Option<String>,
+    /// Freshness mark (biofouling, observed arrival): P(fresh | time ashore tau) = exp(-tau / fresh_days).
+    /// With the exponential delay of mean D this find's kernel uses an exponential delay of mean D F / (D + F);
+    /// the constant factor (D_eff / D) is the same at every node and cancels. The class total A is unchanged
+    /// (a mark does not change the expected number of finds). Needs the exponential delay.
+    #[serde(default)]
+    fresh_days: Option<f64>,
 }
 
 #[derive(Deserialize, Clone, Debug)]
@@ -663,9 +669,49 @@ fn shadow_observations(p: &Params, rec: &Recovery, loc: &Locator) -> Result<Vec<
         if b > rec.window_end_days {
             return Err(format!("debris-drift: shadow find `{}` is discovered after the window end", s.name));
         }
+        if let Some(f) = s.fresh_days {
+            if !(f > 0.0) || !matches!(rec.delay, Delay::Exponential { .. }) {
+                return Err(format!("debris-drift: shadow find `{}`: fresh_days needs a positive value and the exponential delay", s.name));
+            }
+        }
         out.push(Observation { id: format!("shadow:{}", s.name), class, place: Place::at(at), segment, t_start_days: a, t_end_days: b });
     }
     Ok(out)
+}
+
+/// Shadow coefficients for one class: shadows without a freshness mark in one call (the plain kernel),
+/// each marked shadow with its own shortened exponential delay. A is always the primary-delay class total.
+fn shadow_coefficients(rr: &Recovery, sobs: &[&Observation], fresh: &[Option<f64>], arr: &[Arrival], n: usize) -> recovery::Coefficients {
+    let plain: Vec<usize> = (0..sobs.len()).filter(|&k| fresh[k].is_none()).collect();
+    if plain.len() == sobs.len() {
+        return rr.coefficients(sobs, arr, n);
+    }
+    let m = sobs.len();
+    let (mut a, mut n_eff, mut hits) = (vec![Vec::new(); m], vec![0.0; m], vec![0usize; m]);
+    let big_a;
+    if plain.is_empty() {
+        big_a = rr.coefficients(&[], arr, n).big_a;
+    } else {
+        let po: Vec<&Observation> = plain.iter().map(|&k| sobs[k]).collect();
+        let k0 = rr.coefficients(&po, arr, n);
+        for (i, &k) in plain.iter().enumerate() {
+            a[k] = k0.a[i].clone();
+            n_eff[k] = k0.n_eff[i];
+            hits[k] = k0.hits[i];
+        }
+        big_a = k0.big_a;
+    }
+    for k in 0..m {
+        if let Some(f) = fresh[k] {
+            let d = match rr.delay { Delay::Exponential { mean_days } => mean_days, Delay::Uniform { .. } => unreachable!("checked in shadow_observations") };
+            let rf = Recovery { delay: Delay::Exponential { mean_days: d * f / (d + f) }, ..rr.clone() };
+            let kk = rf.coefficients(&[sobs[k]], arr, n);
+            a[k] = kk.a[0].clone();
+            n_eff[k] = kk.n_eff[0];
+            hits[k] = kk.hits[0];
+        }
+    }
+    recovery::Coefficients { a, big_a, n_eff, hits }
 }
 
 /// Synthetic finds from an INDEPENDENT ensemble at the declared source (no inverse crime): a
@@ -758,6 +804,7 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
     let half = n / 2;
     let shadows = if p.mode == "evidence" { shadow_observations(p, &rec, &loc)? } else { Vec::new() };
     let shadow_by_class: Vec<Vec<usize>> = (0..nc).map(|c| (0..shadows.len()).filter(|&j| shadows[j].class == c).collect()).collect();
+    let shadow_fresh: Vec<Option<f64>> = if shadows.is_empty() { Vec::new() } else { p.shadow_finds.iter().map(|s| s.fresh_days).collect() };
     if !shadows.is_empty() && !p.write_coefficients {
         return Err("debris-drift: shadow_finds need write_coefficients = true".into());
     }
@@ -885,10 +932,11 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
                     she.iter_mut().for_each(|v| v.push(None));
                 } else {
                     let sobs: Vec<&Observation> = shadow_by_class[c].iter().map(|&j| &shadows[j]).collect();
+                    let sfr: Vec<Option<f64>> = shadow_by_class[c].iter().map(|&j| shadow_fresh[j]).collect();
                     for (si, rr) in std::iter::once(rec.clone()).chain(p.recovery.extra_bandwidths_km.iter().map(|&h| Recovery { bandwidth_km: h, ..rec.clone() })).enumerate() {
-                        she[3 * si].push(Some(rr.coefficients(&sobs, &all, n)));
-                        she[3 * si + 1].push(Some(rr.coefficients(&sobs, &a_half, half)));
-                        she[3 * si + 2].push(Some(rr.coefficients(&sobs, &b_half, n - half)));
+                        she[3 * si].push(Some(shadow_coefficients(&rr, &sobs, &sfr, &all, n)));
+                        she[3 * si + 1].push(Some(shadow_coefficients(&rr, &sobs, &sfr, &a_half, half)));
+                        she[3 * si + 2].push(Some(shadow_coefficients(&rr, &sobs, &sfr, &b_half, n - half)));
                     }
                 }
                 full.push(Some(kf));
@@ -1066,7 +1114,7 @@ fn coefficients_meta(p: &Params, rec: &Recovery, segnames: &[String], obs: &[Obs
     }
     Ok(format!(
         "{{\"shadow_finds\":[{}],\"segments\":[{}],\"n_periods\":{},\"period_breaks_days\":[{}],\"window_end_days\":{:e},\"classes\":[{}],\"finds\":[{}],\"envs\":[{}],\"particles_per_class\":{},\"levels\":{{\"ln_mean_by_period\":[{}],\"sigma\":{:e},\"draws\":{},\"seed\":{},\"mu_primary\":[{}],\"alternatives\":[{}],\"z\":[{}]}}}}\n",
-        shadows.iter().map(|o| format!("{{\"id\":{},\"class\":{},\"segment\":{},\"t_start_days\":{:e},\"t_end_days\":{:e}}}", q(&o.id), o.class, o.segment, o.t_start_days, o.t_end_days)).collect::<Vec<_>>().join(","),
+        shadows.iter().enumerate().map(|(k, o)| format!("{{\"id\":{},\"class\":{},\"segment\":{},\"t_start_days\":{:e},\"t_end_days\":{:e},\"fresh_days\":{}}}", q(&o.id), o.class, o.segment, o.t_start_days, o.t_end_days, p.shadow_finds[k].fresh_days.map_or("null".to_string(), |f| format!("{f:e}")))).collect::<Vec<_>>().join(","),
         segnames.iter().map(|s| q(s)).collect::<Vec<_>>().join(","),
         rec.n_periods(),
         f(&rec.breaks_days),

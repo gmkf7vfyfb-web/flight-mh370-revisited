@@ -1,6 +1,7 @@
 # EXTENDED-WINDOW RUN, 7-8 Nov 2026 (ocean drift; Pete 7 Nov: use all usable data). Derived from conv2-glorys12-1.toml (run of 7 Nov) except:
 # window_end 2017-01-30 (forcing ends 2017-01-31; was 2016-06-30), new seeds (seed 22, env_seeds 217-232),
-# output_dir, and six shadow finds (alternative dates; Linga Linga; Nautilus Bay) written to the coefficient file only.
+# output_dir, and eleven shadow finds written to the coefficient file only: alternative dates (4), Linga Linga, Nautilus Bay,
+# and fresh-arrival marks (biofouling or observed arrival; time-ashore scale F) for the flaperon (3 d, 10 d), Mossel Bay (3 d, 10 d), Paindane (14 d).
 # The third detection period now runs 1 Mar 2016 to 30 Jan 2017 (assumption). Module ln_l (nine finds) is not the headline:
 # with the longer window the headline adds Linga Linga offline (else its non-find is implied).
 # SOUTHERN SUPPLEMENT to the 7 Nov 2026 convergence run: same as conv-glorys12-1.toml except seed 12, env_seeds 117-132, output_dir.
@@ -389,3 +390,28 @@ object_id = "linga-linga-vertical-stabilizer"
 name = "nautilus-bay-2016-12-23"
 object_id = "nautilus-bay-right-aileron"
 
+# Fresh-arrival marks (added 7 Nov 2026 after Pete asked about marine life on the finds; source: debris-find-freshness.md)
+[[hypotheses.debris-drift.shadow_finds]]
+name = "flaperon-fresh-3d"
+object_id = "reunion-right-flaperon"
+fresh_days = 3.0
+
+[[hypotheses.debris-drift.shadow_finds]]
+name = "mossel-bay-fresh-3d"
+object_id = "mossel-bay-engine-cowling-roy"
+fresh_days = 3.0
+
+[[hypotheses.debris-drift.shadow_finds]]
+name = "mossel-bay-fresh-10d"
+object_id = "mossel-bay-engine-cowling-roy"
+fresh_days = 10.0
+
+[[hypotheses.debris-drift.shadow_finds]]
+name = "paindane-fresh-14d"
+object_id = "paindane-right-flap-fairing"
+fresh_days = 14.0
+
+[[hypotheses.debris-drift.shadow_finds]]
+name = "flaperon-fresh-10d"
+object_id = "reunion-right-flaperon"
+fresh_days = 10.0

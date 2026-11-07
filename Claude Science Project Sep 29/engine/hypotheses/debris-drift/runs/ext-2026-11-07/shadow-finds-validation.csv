@@ -17,7 +17,7 @@ offline score with Mossel Bay March shadow = module run with Mossel Bay date ove
 offline score with Mossel Bay March shadow = module run with Mossel Bay date override,"ln L, half b",18173,,,0.0,pass (both undefined: no kernel hits at 100 particles)
 offline score with Mossel Bay March shadow = module run with Mossel Bay date override,"ln L, 25 km kernel",18173,,,0.0,pass (both undefined: no kernel hits at 100 particles)
 offline score with Mossel Bay March shadow = module run with Mossel Bay date override,"ln L, 100 km kernel",18173,,,0.0,pass (both undefined: no kernel hits at 100 particles)
-offline score with Mossel Bay March shadow = module run with Mossel Bay date override,"ln L, 200 km kernel",18173,-145.33084,-145.330839960444,3.955599936489307e-08,pass
+offline score with Mossel Bay March shadow = module run with Mossel Bay date override,"ln L, 200 km kernel",18173,-145.33084,-145.330839960444,3.9555999364893075e-08,pass
 offline score with Mossel Bay March shadow = module run with Mossel Bay date override,"ln L, level prior A",18173,,,0.0,pass (both undefined: no kernel hits at 100 particles)
 offline score with Mossel Bay March shadow = module run with Mossel Bay date override,"ln L, level prior C",18173,,,0.0,pass (both undefined: no kernel hits at 100 particles)
 offline score with Mossel Bay March shadow = module run with Mossel Bay date override,"ln L, level prior off",18173,,,0.0,pass (both undefined: no kernel hits at 100 particles)
@@ -26,11 +26,16 @@ offline score with Mossel Bay March shadow = module run with Mossel Bay date ove
 offline score with Mossel Bay March shadow = module run with Mossel Bay date override,"ln L, primary levels, full",38596,-147.230432,-147.2304322728556,2.7285560122436436e-07,pass
 offline score with Mossel Bay March shadow = module run with Mossel Bay date override,"ln L, half a",38596,-155.185103,-155.18510313938194,1.3938193887952366e-07,pass
 offline score with Mossel Bay March shadow = module run with Mossel Bay date override,"ln L, half b",38596,-153.6859,-153.68589987674684,1.2325315879024856e-07,pass
-offline score with Mossel Bay March shadow = module run with Mossel Bay date override,"ln L, 25 km kernel",38596,-147.848363,-147.84836315772907,1.5772906181155122e-07,pass
+offline score with Mossel Bay March shadow = module run with Mossel Bay date override,"ln L, 25 km kernel",38596,-147.848363,-147.84836315772907,1.5772906181155125e-07,pass
 offline score with Mossel Bay March shadow = module run with Mossel Bay date override,"ln L, 100 km kernel",38596,-143.91152,-143.91151960493562,3.950643758798833e-07,pass
-offline score with Mossel Bay March shadow = module run with Mossel Bay date override,"ln L, 200 km kernel",38596,-141.146259,-141.1462594076331,4.0763310948932485e-07,pass
+offline score with Mossel Bay March shadow = module run with Mossel Bay date override,"ln L, 200 km kernel",38596,-141.146259,-141.1462594076331,4.076331094893249e-07,pass
 offline score with Mossel Bay March shadow = module run with Mossel Bay date override,"ln L, level prior A",38596,-146.64459,-146.6445896422525,3.577474956273363e-07,pass
-offline score with Mossel Bay March shadow = module run with Mossel Bay date override,"ln L, level prior C",38596,-146.488148,-146.48814819640427,1.9640427240119607e-07,pass
+offline score with Mossel Bay March shadow = module run with Mossel Bay date override,"ln L, level prior C",38596,-146.488148,-146.48814819640427,1.964042724011961e-07,pass
 offline score with Mossel Bay March shadow = module run with Mossel Bay date override,"ln L, level prior off",38596,-145.562951,-145.5629514542952,4.542951899111358e-07,pass
 offline score with Mossel Bay March shadow = module run with Mossel Bay date override,"ln L, level prior searcher",38596,-146.4218,-146.42179985342088,1.46579111515166e-07,pass
 offline score with Mossel Bay March shadow = module run with Mossel Bay date override,"ln L, level prior populated",38596,-147.219338,-147.21933813985817,1.398581730427395e-07,pass
+node table identical with eight shadows incl. four fresh-arrival marks (md5 3b52c7cec6d238f7873ae9bedfcbc538),fresh,all,,,,pass
+plain shadow kernels unchanged by the freshness code (4 shadows x 3 nodes x 4 bandwidth sets x 3 parts x 4 environments),fresh vs dateshadow,all,,,0.0,pass
+"fresh 3-day shadow kernel = primary kernel of a module run with exponential delay 60*3/63 = 2.857 days (flaperon and Mossel Bay; 288 comparisons, 80 non-zero entries)",fresh vs delay run,all,,,0.0,pass
+class total A of fresh shadows = primary-delay class total,fresh,all,,,0.0,pass
+30 drift unit tests,build 19cd2d76e485e058,,,,,pass
