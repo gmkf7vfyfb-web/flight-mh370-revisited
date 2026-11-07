@@ -17,20 +17,34 @@ def cache(lg):
     z = np.load(f'{CACHE}/{lg.lower()}_mh370_day.npz', allow_pickle=True); return z['x'], z['n'], z['t_start_s']
 CA = {lg: cache(lg) for lg in N.LOGGERS}
 rows = []
+PBND = pd.read_csv('path_speed_bounds_woa23.csv').set_index(['station', 'point_id'])
+KMIN, KMAX = 1.45, 1.57            # Kadri (2024) speed window, used as given (no detour term)
+DETP = 0.05                        # path detour allowance on the physical bounds (slows only)
+def vphys(st, pts):
+    lo = np.array([PBND.v_lo_2sd.get((st, p), np.nan) for p in pts]) / 1000 / (1 + DETP)
+    hi = np.array([PBND.v_hi_2sd.get((st, p), np.nan) for p in pts]) / 1000
+    return np.where(np.isfinite(lo), lo, KMIN), np.where(np.isfinite(hi), hi, KMAX)
+def model_spans(r, st, pts):
+    """Arrival spans at site st for each point, for the physical bounds (p) and Kadri's window (k)."""
+    d0 = G.loc[r.station].loc[pts].dist_km.values; d = G.loc[st].loc[pts].dist_km.values
+    l0, h0 = vphys(r.station, pts); l1, h1 = vphys(st, pts)
+    lo_p = np.maximum(r.t_a - d0 / l0, N.H2[0]); hi_p = np.minimum(r.t_b - d0 / h0, N.H2[1])
+    lo_k = np.maximum(r.t_a - d0 / KMIN, N.H2[0]); hi_k = np.minimum(r.t_b - d0 / KMAX, N.H2[1])
+    okp = hi_p >= lo_p; okk = hi_k >= lo_k
+    return (lo_p + d / h1, hi_p + d / l1, okp), (lo_k + d / KMAX, hi_k + d / KMIN, okk)
 def site_windows(r):
     pts = r.points.split(';'); st0 = r.station; out = {}
-    g0 = G.loc[st0].loc[pts]
-    lo_imp = np.maximum(r.t_a - g0.dist_km.values * (1 + DET) / VMIN, N.H2[0]); hi_imp = np.minimum(r.t_b - g0.dist_km.values / VMAX, N.H2[1])
-    lo_c = np.maximum(r.t_a - g0.dist_km.values * (1 + DETc) / VMINc, N.H2[0]); hi_c = np.minimum(r.t_b - g0.dist_km.values / VMAXc, N.H2[1])
     for st in N.STATIONS:
         if st == st0: continue
         g = G.loc[st].loc[pts]; open_ = (g.path_class.values != 'blocked')
         if not open_.any(): out[st] = None; continue
-        d = g.dist_km.values
-        a = (lo_imp + d / VMAX)[open_].min(); b = (hi_imp + d * (1 + DET) / VMIN)[open_].max()
-        ac = (lo_c + d / VMAXc)[open_ & (hi_c >= lo_c)]; bc = (hi_c + d * (1 + DETc) / VMINc)[open_ & (hi_c >= lo_c)]
-        L = b - a; out[st] = dict(a=a - EXT * L, b=b + EXT * L, a0=a, b0=b, ac=ac.min() if len(ac) else np.nan, bc=bc.max() if len(bc) else np.nan,
-                                  classes=', '.join(sorted(set(g.path_class.values[open_]))), n_open=int(open_.sum()), n_pts=len(pts))
+        (ap, bp, okp), (ak, bk, okk) = model_spans(r, st, pts)
+        mp = open_ & okp; mk = open_ & okk
+        a0 = ap[mp].min() if mp.any() else np.nan; b0 = bp[mp].max() if mp.any() else np.nan
+        ac = ak[mk].min() if mk.any() else np.nan; bc = bk[mk].max() if mk.any() else np.nan
+        a = np.nanmin([a0, ac]); b = np.nanmax([b0, bc]); L = b - a
+        out[st] = dict(a=a - EXT * L, b=b + EXT * L, a0=a0, b0=b0, ac=ac, bc=bc,
+                       classes=', '.join(sorted(set(g.path_class.values[open_]))), n_open=int(open_.sum()), n_pts=len(pts))
     return out
 
 SOS = signal.butter(4, [8, 60], btype='band', fs=ID.FS, output='sos')
@@ -41,23 +55,23 @@ def raw_band_db(st, tmin, tmax):
         e = (x[:len(x) // n1 * n1].reshape(-1, n1) ** 2).mean(1); out.append((t0[j] + 0.5 + np.arange(len(e)), 10 * np.log10(e / np.median(e))))
     return out
 def lat_spans(r, st):
-    pts = r.points.split(';'); g0 = G.loc[r.station].loc[pts]; g = G.loc[st].loc[pts]
-    lo_imp = np.maximum(r.t_a - g0.dist_km.values * (1 + DET) / VMIN, N.H2[0]); hi_imp = np.minimum(r.t_b - g0.dist_km.values / VMAX, N.H2[1])
-    lo_c = np.maximum(r.t_a - g0.dist_km.values * (1 + DETc) / VMINc, N.H2[0]); hi_c = np.minimum(r.t_b - g0.dist_km.values / VMAXc, N.H2[1])
-    d = g.dist_km.values; op = g.path_class.values != 'blocked'
+    pts = r.points.split(';'); g = G.loc[st].loc[pts]; op = g.path_class.values != 'blocked'
+    (ap, bp, okp), (ak, bk, okk) = model_spans(r, st, pts)
     lat = np.array([float(p.split('S')[0]) for p in pts]); res = []
     for L in np.unique(lat):
         m = (lat == L) & op
         if not m.any(): continue
-        mc = m & (hi_c >= lo_c)
-        res.append((L, (lo_imp + d / VMAX)[m].min(), (hi_imp + d * (1 + DET) / VMIN)[m].max(),
-                    (lo_c + d / VMAXc)[mc].min() if mc.any() else np.nan, (hi_c + d * (1 + DETc) / VMINc)[mc].max() if mc.any() else np.nan))
+        mp = m & okp; mk = m & okk
+        res.append((L, ap[mp].min() if mp.any() else np.nan, bp[mp].max() if mp.any() else np.nan,
+                    ak[mk].min() if mk.any() else np.nan, bk[mk].max() if mk.any() else np.nan))
     return res
 def foot(fig, txt):
     fig.text(0.02, 0.01, "\n".join(textwrap.wrap(txt, 190)), fontsize=5.3, va='bottom', color='#374151')
-FOOT = ("Window: earliest arrival at 1.56 km/s to latest at 1.40 km/s with 5 % path detour, over every impact point and time consistent with the candidate "
-        "(corrected bearing within its tolerance when one is published; impact 00:19:38 to 00:55:00 UTC; 7th arc 15° S to 43° S within 150 NM, 20° S to 41° S when there is no bearing), then widened by 20 % of its length at each end (outer dotted lines mark the unwidened span). "
-        "Shaded: span for the primary sound speed 1.465 to 1.520 km/s with 2 % detour. Sites shown: every site with an unblocked path (GEBCO 2026 screen) from at least one consistent point. "
+FOOT = ("Speeds. Blue: Kadri (2024) window 1.45 to 1.57 km/s, as published. Grey and dotted lines: physical bounds for sound carried in the water on each path. "
+        "Slowest = path mean of the sound-channel axis speed minus 2 standard deviations, then 5 % longer path for detours; fastest = path mean of the fastest speed in the water column (surface or seabed) plus 2 standard deviations. "
+        "Sound speed: WOA23 March climatology 2005-2014, 1 degree, sampled every 25 km on the great circle. Above about 1.55 km/s only a leg through rock could explain an arrival. "
+        "Both spans cover every impact point and time consistent with the candidate (corrected bearing within its tolerance when one is published; impact 00:19:38 to 00:55:00 UTC; 7th arc 15° S to 43° S within 150 NM, 20° S to 41° S when there is no bearing; "
+        "arrival span from the onset minus 20 s to the envelope peak). Window shown: both spans together, widened by 20 % at each end. Sites shown: every site with an unblocked path (GEBCO 2026 screen) from at least one consistent point. "
         "IMOS loggers record 307 s in every 15 min; grey gaps have no data. Spectrogram: 2 s segments, power over the median of the same record at each frequency (dB). "
         "Lower panels: chance that noise alone scores this high at one 5 s look (−log10), from 14 days of noise (1 to 15 March 2014) or, for 3275 and 3315, 8 March records outside 00:15 to 02:00; "
         "band energy 8 to 40 Hz in 30 s; impact-pattern correlation from the whitened waveform; combined = Fisher sum of all five scores. Noise calibration with USGS M≥3.5 earthquake arrival windows and faulty records removed (14-19 % of records). "
@@ -77,7 +91,7 @@ with PdfPages(os.environ.get('PDFOUT', 'candidate_views_cl_dg.pdf')) as pdf:
     mtxt = '; '.join(f'{r.t_utc[:8]} (published {r.bearing_published:.1f}°, corrected {r.bearing:.1f}°; envelope p {r.envelope_p:.3f}): {r.exclusion_reason}' for r in miss.itertuples())
     foot(fig, "Ranking: envelope evidence at the station itself (band energy and persistence on the digitised Kadri (2024) Figure 9 envelope, smallest p within ±15 s; within-trace null). "
          "This is weak evidence: the p floor is about 1/355 and the 19 Kadri times are not corrected for multiple looks. Sources: Kadri Table 1; ours = combined-detector best looks on the envelopes and 4 Nov screening picks (merged within 30 s of a Kadri time, or 45 s of each other). "
-         f"Bearings: Kadri's published bearings corrected for the H01W array-position bias (calibration from 144 earthquakes, ruling B1; corrections -4.4 to -13.8°); tolerance ±1.645σ with σ = calibrated sector error and a 1.2° weak-signal term. Stronger candidates not shown: {mtxt}. Implied impact: arc points 15-43° S within the bearing tolerance (no bearing: 20-41° S), sound speed 1.40 to 1.56 km/s, 5 % detour, arrival span from the onset minus 20 s to the envelope peak, "
+         f"Bearings: Kadri's published bearings corrected for the H01W array-position bias (calibration from 144 earthquakes, ruling B1; corrections -4.4 to -13.8°); tolerance ±1.645σ with σ = calibrated sector error and a 1.2° weak-signal term. Stronger candidates not shown: {mtxt}. Implied impact: arc points 15-43° S within the bearing tolerance (no bearing: 20-41° S), sound speed: physical bounds per path (WOA23, 5 % detour) together with Kadri's 1.45 to 1.57 km/s, arrival span from the onset minus 20 s to the envelope peak, "
          "inside 00:19:38 to 00:55:00. Steep dive: impact 00:19:38 to 00:29:44 within 25 NM. Catalogue labels are associations below 0.95 probability (label only, not removed).")
     pdf.savefig(fig); plt.close(fig)
     for i, r in ok.iterrows():
@@ -127,13 +141,13 @@ with PdfPages(os.environ.get('PDFOUT', 'candidate_views_cl_dg.pdf')) as pdf:
             tmin, tmax = w['a'], w['b']
             LS = lat_spans(r, st)
             for L, a_, b_, ac_, bc_ in LS:
-                ax0.plot([a_, b_], [L, L], color='#9ca3af', lw=2.2, solid_capstyle='butt')
+                if np.isfinite(a_): ax0.plot([a_, b_], [L, L], color='#9ca3af', lw=2.2, solid_capstyle='butt')
                 if np.isfinite(ac_): ax0.plot([ac_, bc_], [L, L], color='#1d4ed8', lw=2.2, solid_capstyle='butt')
             ax0.set_ylabel('Arc latitude\n(° S)', fontsize=7); ax0.invert_yaxis()
             if len(LS) == 1: ax0.set_ylim(LS[0][0] + 1, LS[0][0] - 1)
             elif len(LS) > 1:
                 Ls = [x[0] for x in LS]; ax0.set_ylim(max(Ls) + 0.6, min(Ls) - 0.6); ax0.set_yticks(Ls if len(Ls) <= 8 else Ls[::2]); ax0.tick_params(axis='y', labelsize=6)
-            ax0.text(1.005, 0.95, 'grey: all allowed speeds\nblue: primary speeds', transform=ax0.transAxes, fontsize=6, va='top')
+            ax0.text(1.005, 0.95, 'grey: physical\nbounds\nblue: Kadri', transform=ax0.transAxes, fontsize=6, va='top')
             if st in N.LOGGERS:
                 X, nn, t0 = CA[st]
                 for j in np.where((t0 + 307 >= tmin) & (t0 <= tmax))[0]:
@@ -160,7 +174,7 @@ with PdfPages(os.environ.get('PDFOUT', 'candidate_views_cl_dg.pdf')) as pdf:
             for a_ in [ax0] + axs:
                 a_.set_xlim(tmin, tmax)
                 if np.isfinite(w['ac']): a_.axvspan(w['ac'], w['bc'], color='#bfdbfe', alpha=0.35, zorder=0)
-                a_.axvline(w['a0'], color='k', ls=':', lw=0.7); a_.axvline(w['b0'], color='k', ls=':', lw=0.7)
+                [a_.axvline(w[q], color='k', ls=':', lw=0.7) for q in ('a0', 'b0') if np.isfinite(w[q])]
             for a_ in axs[1:]:
                 a_.axhline(-np.log10(0.05), color='#9ca3af', ls='--', lw=0.6); a_.set_ylim(bottom=0)
             span = tmax - tmin; step = 60 if span < 1200 else (300 if span < 5400 else 900)
@@ -171,7 +185,7 @@ with PdfPages(os.environ.get('PDFOUT', 'candidate_views_cl_dg.pdf')) as pdf:
             fig.suptitle(f"Candidate {i + 1}: {NAMES[r.station]} {r.t_utc[:8]} ({src}). Implied impact {r.t_imp_first[:8]}–{r.t_imp_last[:8]} UTC, " + (f"arc {r.arc_lat_S_on_arc}° S" if np.isfinite(r.bearing) else "arc latitude from timing only"),
                          x=0.08, ha='left', fontsize=9)
             exp_c = f"{N.hms(w['ac'])[:8]}–{N.hms(w['bc'])[:8]}" if np.isfinite(w['ac']) else 'none'
-            ax0.set_title(f"{NAMES[st]}. Expected arrival: all allowed speeds {N.hms(w['a0'])[:8]}–{N.hms(w['b0'])[:8]} (dotted lines); primary speeds {exp_c} (shaded).\n"
+            ax0.set_title(f"{NAMES[st]}. Expected arrival: physical bounds {(N.hms(w['a0'])[:8] + '–' + N.hms(w['b0'])[:8]) if np.isfinite(w['a0']) else 'none'} (dotted lines, grey bars); Kadri 1.45–1.57 km/s {exp_c} (shaded, blue bars).\n"
                           f"Window shown {N.hms(tmin)[:8]}–{N.hms(tmax)[:8]} (20 % margin). Paths {w['classes']} ({w['n_open']} of {w['n_pts']} points); {wc_n} looks; window p (combined) = {pw:.3g}", loc='left', fontsize=7.5)
             foot(fig, FOOT); pdf.savefig(fig); plt.close(fig)
 R = pd.DataFrame(rows); R.to_csv(os.environ.get('SITESOUT', 'candidate_views_sites.csv'), index=False)

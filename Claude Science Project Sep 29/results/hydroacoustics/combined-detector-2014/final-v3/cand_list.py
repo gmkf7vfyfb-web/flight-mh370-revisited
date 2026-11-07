@@ -9,6 +9,7 @@ VMIN, VMAX, DET = N.V_MIN_S, N.V_MAX_S, N.DET_S
 T_IMP = (N.H2[0], N.H2[1])
 ser = pd.read_csv('run14/station_point_series.csv'); S = pd.read_csv('run14/seeds.csv')
 G = pd.read_csv(os.environ.get('GRID', 'grid_ext_paths_wide.csv'))
+PBND = pd.read_csv('path_speed_bounds_woa23.csv').set_index(['station', 'point_id'])
 CASE = os.environ.get('BEARINGS', 'corrected')     # corrected (ruling B1, primary) | published (sensitivity)
 KC = pd.read_csv('kadri_table1_bearings_corrected.csv')
 KB = {(r.time_utc, round(r.bearing_published, 2)): (r.bearing_corrected, 1.645 * r.sigma_deg) for r in KC.itertuples()}
@@ -81,7 +82,10 @@ for r in E.itertuples():
         d = np.abs(((g.baz_at_station_deg - r.bearing + 180) % 360) - 180); g = g[d <= r.tol]
     else:
         g = g[(g.arc_lat <= -20) & (g.arc_lat >= -41)]          # no bearing: ruled arc range only
-    g['t_imp_lo'] = r.t_a - g.dist_km * (1 + DET) / VMIN; g['t_imp_hi'] = r.t_b - g.dist_km / VMAX
+    # speeds (7 Nov 2026): union of per-path physical bounds (WOA23, 5 % detour) and Kadri's 1.45-1.57 km/s
+    pb = PBND.reindex(list(zip([r.station] * len(g), g.point_id)))
+    vlo = np.minimum(np.nan_to_num(pb.v_lo_2sd.values / 1000 / 1.05, nan=1.45), 1.45); vhi = np.maximum(np.nan_to_num(pb.v_hi_2sd.values / 1000, nan=1.57), 1.57)
+    g['t_imp_lo'] = r.t_a - g.dist_km.values / vlo; g['t_imp_hi'] = r.t_b - g.dist_km.values / vhi
     g = g[(g.t_imp_hi >= T_IMP[0]) & (g.t_imp_lo <= T_IMP[1])]
     if len(g) == 0:
         out.append(dict(n_points=0)); continue
