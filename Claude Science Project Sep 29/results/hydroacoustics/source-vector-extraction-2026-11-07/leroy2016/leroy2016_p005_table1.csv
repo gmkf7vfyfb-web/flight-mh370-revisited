@@ -1,0 +1,26 @@
+# source: Leroy et al. 2016 PLoS ONE (Antarctic blue whale)
+# source_sha256: 1e7e620978f923ccdf57b1ac15767d8c7aa9f1f34bdf8d80b0771382024a92f6
+# source_files: artifact:3795a880-ec36-40e8-b383-6b8417f7c361 (10.1371_journal.pone.0163587.pdf)
+# page: 5
+# table: 1
+# caption: Table 1. OHASISBIO autonomous hydrophone network. The character “-” indicates continuous recordings without data recovering, “x” indicates that there is no avai
+# method: PyMuPDF page.find_tables() on the text layer (lines strategy, or text strategy where the table has no rules). Cells are copied as printed; no values typed by hand. Column alignment of text-strategy tables must be checked against the page before use.
+# n_rows: 16
+# n_cols: 14
+# extracted: 2026-11-07, source-vector-extraction-2026-11-07
+Site,Geographic coordinates,2010,,2011,,2012,,2013,,2014,,2015,
+,,Start,Stop,Start,Stop,Start,Stop,Start,Stop,Start,Stop,Start,Stop
+RAMA,"03 50’S, 080 30’E",x,x,x,x,05/05/ 12,-,-,09/19/ 13,x,x,x,x
+MAD,"26 05’S, 058 08’E",12/20/ 09,02/19/ 11,02/19/ 11,03/09/ 12,03/10/ 12,03/09/ 13,03/09/ 13,02/16/ 14,16/02/ 14,01/18/ 15,02/08/ 15,01/28/ 16
+NEAMS,"31 35’S, 083 14’E",02/13/ 10,-,-,11/25/ 11,03/04/ 12,03/04/ 13,03/04/ 13,02/10/ 14,x,x,not yet recovered,
+SWAMS,"42 59’S, 074 35’E",01/17/ 10,11/21/ 10,x,x,02/29/ 12,02/27/ 13,02/28/ 13,02/07/ 14,x,x,x,x
+SWAMS 1,"42 02’S, 074 36’E",x,x,x,x,x,x,x,x,02/07/ 14,12/02/ 14,01/27/ 15,01/20/ 16
+SWAMS 2,"42 58’S, 074 31’E",x,x,x,x,x,x,x,x,02/07/ 14,01/27/ 15,01/27/ 15,01/20/ 16
+SWAMS 3,"42 57’S, 074 39’E",x,x,x,x,x,x,x,x,02/08/ 14,01/27/ 15,01/27/ 15,01/21/ 16
+NCRO 1,"41 00’S, 052 49’E",12/25/ 09,01/19/ 11,01/20/ 11,01/30/ 12,x,x,x,x,x,x,x,x
+NCRO 2,"41 00’S, 053 10’E",12/25/ 09,01/20/ 11,01/21/ 11,01/31/ 12,x,x,x,x,x,x,x,x
+NCRO 3,"41 14’S, 052 59’E",12/25/ 09,01/20/ 11,01/20/ 11,01/31/ 12,01/29/ 12,02/10/ 13,02/12/ 13,01/10/ 14,01/11/ 14,01/11/ 15,01/11/ 15,01/08/ 16
+WKER 1,"46 38’S, 060 07’E",12/28/ 09,01/24/ 11,01/25/ 11,02/03/ 12,02/04/ 12,02/14/ 13,02/15/ 13,01/15/ 14,x,x,x,x
+WKER 2,"46 34’S, 060 31’E",12/28/ 09,01/25/ 11,x,x,02/05/ 12,02/15/ 13,02/17/ 13,10/23/ 13,01/15/ 14,01/01/ 15,not yet recovered,
+WKER 3,"46 50’S, 060 24’E",12/28/ 09,01/25/ 11,01/25/ 11,03/10/ 12,02/03/ 12,02/16/ 13,02/16/ 13,01/16/ 14,x,x,x,x
+SSEIR,"33 30’S, 070 52’E",x,x,x,x,x,x,x,x,02/13/ 14,02/04/ 15,02/05/ 15,01/18/ 16
