@@ -1,0 +1,86 @@
+{
+ "folder": "tolstoy2004",
+ "created": "2026-11-07",
+ "task": "PDF vector recovery for all hydroacoustic sources (source-vector-extraction-2026-11-07)",
+ "tool": "PyMuPDF 1.28.0; RapidOCR (rapidocr-onnxruntime 1.4.4) for tick labels drawn as glyph outlines; extractor module vecx.py in the parent folder",
+ "method": "Vector panels: page.get_drawings() gives every path; panels are found from numeric tick-label rows and columns (text layer, or OCR of glyph outlines) anchored to the axis lines; each axis transform is a least-squares fit of label value against position (tick-mark positions where they lower the residual; linear or log10, whichever fits better); every vertex of every path inside the axes is written (border frame, tick and grid strokes on the border are dropped; Bezier control points are kept and marked); text words inside the axes are written as rows with item_type text; small closed paths also get a marker_centre row (bounding-box centre). Multipliers printed as glyph outlines (for example x10^6) were read from the rendered page and are stated in each header. Tables: page.find_tables() or a word/line dump of the text layer; no values typed by hand. Raster items: colour mask per pixel column, stated in the header.",
+ "acceptance": "calibration_status ok when both axes have relative residual (max abs residual / label span) <= 3e-3; flagged up to 2e-2; failed above that",
+ "statement_status": "re-run: every file in this folder was produced by code in this session; numbers in the note are read back from these files",
+ "files": [
+  {
+   "file": "tolstoy2004_p002_table1.csv",
+   "sha256": "04d0cf3d24733262b041c285f9615dbf26d0c47e20c0d40ccb2f5ccb8684c9c9",
+   "header": {
+    "source": "Tolstoy et al. 2004 GRL (Ewing source calibration)",
+    "source_sha256": "6cff015e4d51c1aa63099475efe3f95542abfeb913a3a0c3ac8050933b81ec27",
+    "source_files": "/Users/pete/Downloads/Geophysical Research Letters - 2004 - Tolstoy - Broadband calibration of R V Ewing seismic sources.pdf; artifact:17c096a0-69c0-4056-91c2-b816051f7c14 (Geophysical Research Letters - 2004 - Tolstoy - Broadband calibration of R V Ewing seismic sources.pdf)",
+    "page": "2",
+    "table": "1",
+    "caption": "Table 1. Measured Values for 160\u2013190 dB re 1 mPa (RMS) Radiia,b",
+    "region_pt": "[296.89, 66.01, 562.0, 328.01]",
+    "method": "Word-level dump of the text layer inside the table region (table has no ruling lines): one row per printed word with its PDF position; printed_row groups words on the same baseline (2 pt tolerance); columns follow from x0. No values typed by hand.",
+    "n_words": "225",
+    "n_printed_rows": "26",
+    "extracted": "2026-11-07, source-vector-extraction-2026-11-07"
+   }
+  },
+  {
+   "file": "tolstoy2004_p003_table2.csv",
+   "sha256": "81d431a3db6ece11bbcf1dce9f6fed14b3b817e764fabdf2a29bc065b69967a5",
+   "header": {
+    "source": "Tolstoy et al. 2004 GRL (Ewing source calibration)",
+    "source_sha256": "6cff015e4d51c1aa63099475efe3f95542abfeb913a3a0c3ac8050933b81ec27",
+    "source_files": "/Users/pete/Downloads/Geophysical Research Letters - 2004 - Tolstoy - Broadband calibration of R V Ewing seismic sources.pdf; artifact:17c096a0-69c0-4056-91c2-b816051f7c14 (Geophysical Research Letters - 2004 - Tolstoy - Broadband calibration of R V Ewing seismic sources.pdf)",
+    "page": "3",
+    "table": "2",
+    "caption": "Table 2. Predicted Values From Ray-Based Modeling for 160\u2013 190 dB re 1 mPa (RMS) Radiia",
+    "region_pt": "[296.89, 585.16, 562.0, 847.16]",
+    "method": "Word-level dump of the text layer inside the table region (table has no ruling lines): one row per printed word with its PDF position; printed_row groups words on the same baseline (2 pt tolerance); columns follow from x0. No values typed by hand.",
+    "n_words": "162",
+    "n_printed_rows": "18",
+    "extracted": "2026-11-07, source-vector-extraction-2026-11-07"
+   }
+  },
+  {
+   "file": "tolstoy2004_p004_fig4_panel1.csv",
+   "sha256": "1eaa69caf686537858161ff72c1832cce471fbee17f63a2015963926df829ec2",
+   "header": {
+    "source": "Tolstoy et al. 2004 GRL (Ewing source calibration)",
+    "source_sha256": "6cff015e4d51c1aa63099475efe3f95542abfeb913a3a0c3ac8050933b81ec27",
+    "source_files": "/Users/pete/Downloads/Geophysical Research Letters - 2004 - Tolstoy - Broadband calibration of R V Ewing seismic sources.pdf; artifact:17c096a0-69c0-4056-91c2-b816051f7c14 (Geophysical Research Letters - 2004 - Tolstoy - Broadband calibration of R V Ewing seismic sources.pdf)",
+    "page": "4",
+    "figure": "4",
+    "panel": "panel 1 on page (top-left to bottom-right detection order)",
+    "content": " | caption: Figure 4. Energy spectral density (solid lines) and 1/3-octave levels (lines with black dots) of a 20-gun shot at the deep site (gray) and shallow site (black) at ranges of 2.828 km and 3.716 km respe",
+    "time_span": "see caption",
+    "x_units": "log10(frequency in Hz); tick labels printed as powers of ten (10^1..10^4) were read as exponents, so frequency = 10^x_data",
+    "y_units": "dB (1/3-octave level, dB re 1 uPa^2 s, and energy spectral density as printed); path text glyphs of the in-panel annotations are included as paths",
+    "axes_region_pt": "[106.32, 70.341, 260.045, 191.532]",
+    "x_transform": "-2.32615576 + 0.0266609713*x_pt",
+    "y_transform": "272.40226 + -1.32017968*y_pt",
+    "x_labels": "[\"1\", \"2\", \"3\", \"4\"]",
+    "y_labels": "[\"180\", \"160\", \"140\", \"120\", \"100\", \"80\", \"60\", \"40\", \"20\"]",
+    "x_label_source": "ocr_num",
+    "y_label_source": "ocr_num",
+    "x_positions": "tick marks where found, else label centres",
+    "y_positions": "label centres (tick snapping gave larger residual)",
+    "x_residual_max_abs": "0.0010266465387966939",
+    "x_residual_rms": "0.0006179979312308004",
+    "x_residual_relative": "0.0003422155129322313",
+    "y_residual_max_abs": "0.03582360996369971",
+    "y_residual_rms": "0.01780560105827287",
+    "y_residual_relative": "0.0002238975622731232",
+    "x_units_per_pt": "0.02666097125737929",
+    "y_units_per_pt": "1.320179679675473",
+    "vertex_coordinate_quantum_pt": "0.0009999999999763531",
+    "median_x_step_of_main_path": "0.0007731681664635559",
+    "calibration_status": "ok",
+    "n_vertices": "20990",
+    "n_paths": "200",
+    "n_text_words": "0",
+    "method": "PyMuPDF page.get_drawings(): every vertex of every path inside the axes (frame, tick and grid strokes on the border removed); Bezier control points kept as vertex_kind ctrl1/ctrl2. Axis transform: least squares on tick labels (text layer, or OCR of glyph-outline labels where marked), positions snapped to tick marks where that lowers the residual. Rows with item_type marker_centre give the bounding-box centre of each small path (under 6 pt by 6 pt), for marker symbols.",
+    "extracted": "2026-11-07, source-vector-extraction-2026-11-07"
+   }
+  }
+ ]
+}
