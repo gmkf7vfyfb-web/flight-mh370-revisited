@@ -49,7 +49,7 @@ E['envelope_p'] = [env_p(r.station, r.t) for r in E.itertuples()]
 E['source'] = ['Kadri and ours' if s == {'Kadri', 'ours'} else ('Kadri' if s == {'Kadri'} else 'ours') for s in E.src]
 E['screening_known_label'] = ['; '.join(sorted({f'{lab[k][0]}: {lab[k][1]}' for m in mm for k in lab if m.startswith('Screening') and abs(k[1] - ts(m.split()[2])) < 0.2})) for mm in E.members]
 E = E.sort_values('envelope_p').reset_index(drop=True)
-# arrival-time span (7 Nov 2026): onset pick minus 20 s (emergent lag between Royer Table 5 picks and envelope onsets, 13.8-20 s)
+# arrival-time span (7 Nov 2026): onset pick minus 20 s (Royer's Cape Leeuwin figure pick bars sit 7.7-16.6 s after his Table 5 picks, up to 23.4 s for one element; envelope onsets match the figure bars)
 # to the envelope peak within onset-10 s ... onset+40 s
 LAG = 20.0
 def env_peak(st, t):
