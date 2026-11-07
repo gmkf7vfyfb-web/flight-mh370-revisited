@@ -1,0 +1,64 @@
+# source: Blackman et al. 2004 UCRL-TR-207323 (OSTI 15011808, text)
+# source_sha256: 34a735f76b3aef786035ee4d11f758b141fbfbea63303d31133292c77a549cfc
+# source_files: /Users/pete/Downloads/mh370-exchange/hydroacoustics/run-j-digitisation/sources/osti_15011808.pdf; /Users/pete/Documents/Blackman_2004_UNT.pdf; /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/17430b68-c20c-4581-a242-6201351dacac/sve/repopdf/ucrl-tr-207323.pdf; artifact:6e4b8fbb-e143-4e9e-9d09-4b202aeaefef (15011808.pdf); artifact:3b556efc-d3fb-4ce6-b233-bfdd66cf809c (ucrl-tr-207323.pdf)
+# page: 13
+# figure: 9
+# panel: panel 1 on page (top-left to bottom-right detection order)
+# content: a. | caption: Figure 9. IMS recordings of SUS shots at site A6. a) Sonograms for charge detonated at 915 m depth. Mean (background) spectral level for each time period shown has been subtracted, as a function of fr
+# time_span: see caption
+# x_units: 100
+# y_units: H08 S1 (Hz)
+# axes_region_pt: [100.04, 324.23, 213.143, 349.215]
+# x_transform: -78.6458617 + 0.79064327*x_pt
+# y_transform: 1429.95818 + -4.0244257*y_pt
+# x_labels: ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90"]
+# y_labels: ["100", "60", "20", "0"]
+# x_label_source: num
+# y_label_source: num
+# x_positions: tick marks where found, else label centres
+# y_positions: tick marks where found, else label centres
+# x_residual_max_abs: 0.5892502558667972
+# x_residual_rms: 0.23153550707778522
+# x_residual_relative: 0.006547225065186636
+# y_residual_max_abs: 0.20608548337843047
+# y_residual_rms: 0.13915405287846103
+# y_residual_relative: 0.0020608548337843046
+# x_units_per_pt: 0.7906432697088652
+# y_units_per_pt: 4.024425702825262
+# vertex_coordinate_quantum_pt: 113.25870000000002
+# median_x_step_of_main_path: 89.54722889097548
+# calibration_status: flagged (relative residual 6.5e-03)
+# n_vertices: 28
+# n_paths: 3
+# n_text_words: 0
+# method: PyMuPDF page.get_drawings(): every vertex of every path inside the axes (frame, tick and grid strokes on the border removed); Bezier control points kept as vertex_kind ctrl1/ctrl2. Axis transform: least squares on tick labels (text layer, or OCR of glyph-outline labels where marked), positions snapped to tick marks where that lowers the residual.
+# extracted: 2026-11-07, source-vector-extraction-2026-11-07
+path_id,item_idx,vertex_idx,item_type,vertex_kind,x_pt,y_pt,x_data,y_data,inside_axes,stroke,fill,width,path_type
+98,0,0,qu,qu_ul,100.0396,352.897,0.4497746972815122,9.750425681182605,0,#ffffff,,0.5,s
+98,0,1,qu,qu_ur,213.2983,352.897,89.99700358825699,9.750425681182605,0,#ffffff,,0.5,s
+98,0,2,qu,qu_lr,213.2983,324.23,89.99700358825699,125.11863730407413,1,#ffffff,,0.5,s
+98,0,3,qu,qu_ll,100.0396,324.23,0.4497746972815122,125.11863730407413,1,#ffffff,,0.5,s
+99,0,0,l,l0,100.0396,352.897,0.4497746972815122,9.750425681182605,0,#231f20,,0.5,s
+99,0,1,l,l1,213.2983,352.897,89.99700358825699,9.750425681182605,0,#231f20,,0.5,s
+99,1,0,l,l0,100.0396,324.23,0.4497746972815122,125.11863730407413,1,#231f20,,0.5,s
+99,1,1,l,l1,213.2983,324.23,89.99700358825699,125.11863730407413,1,#231f20,,0.5,s
+99,2,0,l,l0,100.0396,352.897,0.4497746972815122,9.750425681182605,0,#231f20,,0.5,s
+99,2,1,l,l1,100.0396,324.23,0.4497746972815122,125.11863730407413,1,#231f20,,0.5,s
+99,3,0,l,l0,213.2983,352.897,89.99700358825699,9.750425681182605,0,#231f20,,0.5,s
+99,3,1,l,l1,213.2983,324.23,89.99700358825699,125.11863730407413,1,#231f20,,0.5,s
+99,4,0,l,l0,100.0396,352.897,0.4497746972815122,9.750425681182605,0,#231f20,,0.5,s
+99,4,1,l,l1,213.2983,352.897,89.99700358825699,9.750425681182605,0,#231f20,,0.5,s
+99,5,0,l,l0,100.0396,352.897,0.4497746972815122,9.750425681182605,0,#231f20,,0.5,s
+99,5,1,l,l1,100.0396,324.23,0.4497746972815122,125.11863730407413,1,#231f20,,0.5,s
+99,6,0,l,l0,100.0396,352.897,0.4497746972815122,9.750425681182605,0,#231f20,,0.5,s
+99,6,1,l,l1,100.0396,351.7598,0.4497746972815122,14.327002590435313,0,#231f20,,0.5,s
+99,7,0,l,l0,100.0396,324.23,0.4497746972815122,125.11863730407413,1,#231f20,,0.5,s
+99,7,1,l,l1,100.0396,325.3418,0.4497746972815122,120.64428080767311,1,#231f20,,0.5,s
+115,0,0,l,l0,100.0396,352.897,0.4497746972815122,9.750425681182605,0,#231f20,,0.5,s
+115,0,1,l,l1,213.2983,352.897,89.99700358825699,9.750425681182605,0,#231f20,,0.5,s
+115,1,0,l,l0,100.0396,324.23,0.4497746972815122,125.11863730407413,1,#231f20,,0.5,s
+115,1,1,l,l1,213.2983,324.23,89.99700358825699,125.11863730407413,1,#231f20,,0.5,s
+115,2,0,l,l0,100.0396,352.897,0.4497746972815122,9.750425681182605,0,#231f20,,0.5,s
+115,2,1,l,l1,100.0396,324.23,0.4497746972815122,125.11863730407413,1,#231f20,,0.5,s
+115,3,0,l,l0,213.2983,352.897,89.99700358825699,9.750425681182605,0,#231f20,,0.5,s
+115,3,1,l,l1,213.2983,324.23,89.99700358825699,125.11863730407413,1,#231f20,,0.5,s
