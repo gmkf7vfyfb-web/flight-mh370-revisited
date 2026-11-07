@@ -1,0 +1,19 @@
+# source: Scott Reef IMOS logger analysis 8 Mar 2014 (CMST release)
+# source_sha256: b1005667072c6f5f0521131e99f54b5b7f1512cd8e7d5e74a1ca3c62529974ff
+# source_files: /Users/pete/Downloads/mh370-inputs/hydroacoustics/imos/MH370/Scott Reef IMOS logger data analysis for 2014_03_08_Release.pdf
+# page: 3
+# table: 1
+# caption: Table 1. Least squares fix results Estimated event position (WGS84)
+# method: PyMuPDF page.find_tables() on the text layer (lines strategy, or text strategy where the table has no rules). Cells are copied as printed; no values typed by hand. Column alignment of text-strategy tables must be checked against the page before use.
+# n_rows: 9
+# n_cols: 2
+# extracted: 2026-11-07, source-vector-extraction-2026-11-07
+Estimated event position (WGS84),"2.11°N, 69.31°E"
+"Standard deviation in estimated latitude, longitude","0.67°, 0.96°"
+Covariance between latitude and longitude estimates,-0.63 (°)2
+Estimated event time,00:25:13.3 UTC on 8th March 2014
+Standard deviation in estimated event time,85 s
+HA01 angle measurement residual,0.06°
+HA01 time measurement residual,-0.2 s
+Rottnest time measurement residual,1.7 s
+Scott Reef time measurement residual,-0.04 s
