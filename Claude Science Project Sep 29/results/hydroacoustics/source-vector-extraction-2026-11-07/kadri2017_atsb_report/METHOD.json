@@ -1,0 +1,55 @@
+{
+ "folder": "kadri2017_atsb_report",
+ "created": "2026-11-07",
+ "task": "PDF vector recovery for all hydroacoustic sources (source-vector-extraction-2026-11-07)",
+ "tool": "PyMuPDF 1.28.0; RapidOCR (rapidocr-onnxruntime 1.4.4) for tick labels drawn as glyph outlines; extractor module vecx.py in the parent folder",
+ "method": "Vector panels: page.get_drawings() gives every path; panels are found from numeric tick-label rows and columns (text layer, or OCR of glyph outlines) anchored to the axis lines; each axis transform is a least-squares fit of label value against position (tick-mark positions where they lower the residual; linear or log10, whichever fits better); every vertex of every path inside the axes is written (border frame, tick and grid strokes on the border are dropped; Bezier control points are kept and marked); text words inside the axes are written as rows with item_type text; small closed paths also get a marker_centre row (bounding-box centre). Multipliers printed as glyph outlines (for example x10^6) were read from the rendered page and are stated in each header. Tables: page.find_tables() or a word/line dump of the text layer; no values typed by hand. Raster items: colour mask per pixel column, stated in the header.",
+ "acceptance": "calibration_status ok when both axes have relative residual (max abs residual / label span) <= 3e-3; flagged up to 2e-2; failed above that",
+ "statement_status": "re-run: every file in this folder was produced by code in this session; numbers in the note are read back from these files",
+ "files": [
+  {
+   "file": "kadri2017_atsb_report_p003_table1.csv",
+   "sha256": "7324bb243ce2f6f6a57b54ed816147193c9f0bf3f7e2b9f3da061ab445603463",
+   "header": {
+    "source": "Kadri, Crivelli, Parsons 2017 report to ATSB (8 Feb 2017)",
+    "source_sha256": "6741ce229d1cc70a669e3ed39ad980b1aad3cd77f9c649e2880af9b84c67d887",
+    "source_files": "/Users/pete/Documents/ACADEMIC/OK State EdD/Dissertation/Ocean Drift and Debris Related & End of Flight Specific/Important Kadri_ATSB_8_Feb_2017.pdf",
+    "page": "3",
+    "table": "1",
+    "caption": "Table 1: Numerical validation at various distances",
+    "region_pt": "[77.67, 113.91, 531.23, 707.03]",
+    "method": "Word-level dump of the text layer inside the table region (table has no ruling lines): one row per printed word with its PDF position; printed_row groups words on the same baseline (2 pt tolerance); columns follow from x0. No values typed by hand.",
+    "n_words": "327",
+    "n_printed_rows": "33",
+    "extracted": "2026-11-07, source-vector-extraction-2026-11-07"
+   }
+  },
+  {
+   "file": "kadri2017_atsb_report_p011_fig4_raster_envelope.csv",
+   "sha256": "34bda904bce204079cf841dc621768b7297397e83e388c9eb7b56799953dcb12",
+   "header": {
+    "source": "Kadri, Crivelli, Parsons 2017 report to ATSB (8 Feb 2017)",
+    "source_sha256": "6741ce229d1cc70a669e3ed39ad980b1aad3cd77f9c649e2880af9b84c67d887",
+    "source_files": "/Users/pete/Documents/ACADEMIC/OK State EdD/Dissertation/Ocean Drift and Debris Related & End of Flight Specific/Important Kadri_ATSB_8_Feb_2017.pdf",
+    "page": "11",
+    "figure": "4",
+    "panel": "channels 1-3",
+    "content": "HA01 three-channel pressure time series (raster), per-pixel-column envelope of the plotted trace",
+    "caption": "Figure 4: Time series of the signal received on all three hydrophones at HA01, at 01:34:50 UTC",
+    "time_span": "2014-03-08; caption time 01:34:50 UTC; the caption does not state whether this is the start of the 200 s window or the arrival time",
+    "x_units": "s (Time [s] as printed)",
+    "y_units": "Pa",
+    "image": "embedded PNG xref 25, 6106 x 5244 px, displayed 453.6 x 389.5 pt (969 dpi)",
+    "x_transform": "time_s = (px_col - 794.0) / (5527.0 - 794.0) * 200 (axes frame = 0 and 200 s)",
+    "y_transform": "p_pa = 1 - 2 * (px_row - frame_top) / (frame_bottom - frame_top); frames (top, bottom) px: [(393.0, 1525.0), (1965.0, 3096.0), (3536.0, 4667.0)]",
+    "x_tick_check": "11 tick marks detected; max deviation from the fitted grid 0.50 px (0.0211 s)",
+    "y_tick_check": "ticks at +1, +0.5, -0.5, -1 Pa found at the expected rows (0 Pa tick hidden by the trace)",
+    "resolution": "0.0423 s per pixel column; 0.00177 Pa per pixel row; line width of the trace not removed",
+    "method": "Colour mask (Euclidean RGB distance < 60 from the series colour: ch1 (217,83,25), ch2 (237,177,32), ch3 (126,47,142)) inside each axes frame; for every pixel column the top and bottom masked pixel give p_max and p_min. Raster digitisation: an envelope, not samples.",
+    "calibration_status": "ok",
+    "n_rows": "14184",
+    "extracted": "2026-11-07, source-vector-extraction-2026-11-07"
+   }
+  }
+ ]
+}
