@@ -126,15 +126,16 @@ p\left(x_{K} \mid z_{\mathrm{Core}},\, H\right) = \sum_{a} P\left(a \mid z_{\mat
   Status: Equation unchanged. Results: profile flat 3.3–4.1 from 38.5 S to 28 S (job ba1648ce), UNCHECKED.
 
 (12) [Essential] End-of-flight path posterior, with a hand-off epoch s that depends on the descent family.
-p\left(x_{s:I} \mid z,\, H,\, H_{\mathrm{E}},\, D,\, K\right) \propto p\left(x_{s} \mid z_{\le s},\, H\right) P(K)\, p\left(x_{s:I} \mid x_{s},\, H_{\mathrm{E}},\, K\right) L_{>s}\left(z_{>s} \mid x_{s:I},\, D\right)
+p\left(x_{s:I},\, K \mid z,\, H,\, H_{\mathrm{E}},\, D\right) \propto p\left(x_{s} \mid z_{\le s},\, H\right) P(K)\, p\left(x_{s:I} \mid x_{s},\, H_{\mathrm{E}},\, K\right) L_{>s}\left(z_{>s} \mid x_{s:I},\, D\right)
   where:
-    s  —  Hand-off epoch from the core estimator [UTC]; 00:10:59 for A1 and A2; 22:41 for B
+    s  —  Hand-off epoch from the core estimator [UTC]; 00:10:59 UTC for the two families after fuel exhaustion; 22:41 UTC for the planned descent
     x_{s:I}  —  Path from the hand-off to impact I [—]; End-of-flight state
     z_{\le s}  —  Core evidence up to and including the hand-off [—]; Core estimator
+    H  —  Core model configuration (route model): Davey model with the fuel model, or waypoint routes. It is the same H as in equation (3). [—]; Two configurations in the final run. H enters through the core distribution at the hand-off. It also sets which descent families are used: the planned descent is used only with waypoint routes.
     H_{\mathrm{E}}  —  Descent family: no pilot after fuel exhaustion, piloted after fuel exhaustion, planned descent before fuel exhaustion (waypoint route only) [—]; Family prior from the onset model; descents begun before exhaustion with no intervention are excluded in the headline and included in a variant
-    K  —  Electrical configuration: normal or alternate [—]; P(alternate) = 0.5; bounds 0 and 1 reported
+    K  —  Electrical configuration: normal or alternate. The posterior is joint over the path and K [—]; P(alternate) = 0.5; bounds 0 and 1 reported
     D  —  Treatment of the 00:19 data: nine headline treatments and six sensitivities [—]; Table of treatments (final-run specification)
-    L_{>s}  —  Likelihood of the evidence after the hand-off [—]; Eq. (13); for B also the 23:15 BFO and the 00:10:59 BTO and BFO on the continued path
+    L_{>s}  —  Likelihood of the evidence after the hand-off [—]; Eq. (13); for the planned descent also the 23:15 BFO and the 00:10:59 BTO and BFO on the continued path
   One-sentence version: Each end-of-flight path is weighted by the core distribution at the hand-off, the configuration prior, the descent dynamics of its family and the likelihood of the later evidence.
   Status: Final run complete (16 + 24 seeds); results UNCHECKED pending independent verification.
 
