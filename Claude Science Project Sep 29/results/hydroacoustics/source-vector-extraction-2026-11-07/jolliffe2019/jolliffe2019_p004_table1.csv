@@ -1,0 +1,26 @@
+# source: Jolliffe et al. 2019 PLoS ONE (pygmy blue whale)
+# source_sha256: c6c82a6589fe36b17e007707101930ebb17970fb99cafca3d0f5b2255c80b4ec
+# source_files: artifact:66d92441-9fa5-42f5-bcec-b112e1e4cb39 (10.1371_journal.pone.0208619.pdf)
+# page: 4
+# table: 1
+# caption: Table 1. Details of sea noise logger primary deployments.
+# method: PyMuPDF page.find_tables() on the text layer (lines strategy, or text strategy where the table has no rules). Cells are copied as printed; no values typed by hand. Column alignment of text-strategy tables must be checked against the page before use.
+# n_rows: 16
+# n_cols: 6
+# extracted: 2026-11-07, source-vector-extraction-2026-11-07
+Set,Lat. (˚ ’ S),Lon. (˚ ’ E),Start,End,Len (s)
+2615,31˚ 53.77’,115˚ 1.00’,18-Feb-2003,07-Jun-2003,205.3
+2656,31˚ 50.86’,114˚ 59.92’,26-Feb-2004,14-Jun-2004,205.3
+2672,31˚ 52.12’,115˚ 0.04’,30-Dec-2004,08-Jul-2005,205.0
+2724,31˚ 54.08’,115˚ 1.14’,01-Jan-2007,25-Apr-2007,204.9
+2802,31˚ 53.86’,114˚ 59.73’,26-Feb-2008,21-Apr-2008,204.9
+2823,31˚ 54.47’,114˚ 59.08’,24-Feb-2009,11-Oct-2009,512.1
+2884,31˚ 55.04’,115˚ 1.86’,13-Nov-2009,22-Jul-2010,460.9
+2962,31˚ 54.14’,115˚ 1.61’,06-Aug-2010,08-May-2011,409.7
+3006,31˚ 51.98’,115˚ 0.05’,14-Jul-2011,18-Jun-2012,307.3
+3007,31˚ 53.07’,114˚ 59.96’,14-Jul-2011,16-Jun-2012,307.3
+3004,31˚ 54.35’,115˚ 1.54’,14-Jul-2011,19-Jun-2012,307.3
+3154,31˚ 53.05’,115˚ 0.81’,10-Aug-2012,14-Jun-2013,306.3
+3376,31˚ 50.53’,115˚ 0.82’,28-Nov-2013,03-Nov-2014,307.3
+3445,31˚ 52.66’,115˚ 0.66’,05-Jan-2016,30-Dec-2016,307.3
+3444,31˚ 51.77’,115˚ 1.74’,23-Sep-2016,26-Aug-2017,307.3
