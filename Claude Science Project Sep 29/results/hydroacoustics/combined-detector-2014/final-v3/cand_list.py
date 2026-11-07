@@ -49,6 +49,30 @@ E['envelope_p'] = [env_p(r.station, r.t) for r in E.itertuples()]
 E['source'] = ['Kadri and ours' if s == {'Kadri', 'ours'} else ('Kadri' if s == {'Kadri'} else 'ours') for s in E.src]
 E['screening_known_label'] = ['; '.join(sorted({f'{lab[k][0]}: {lab[k][1]}' for m in mm for k in lab if m.startswith('Screening') and abs(k[1] - ts(m.split()[2])) < 0.2})) for mm in E.members]
 E = E.sort_values('envelope_p').reset_index(drop=True)
+# arrival-time span (7 Nov 2026): onset pick minus 20 s (emergent lag between Royer Table 5 picks and envelope onsets, 13.8-20 s)
+# to the envelope peak within onset-10 s ... onset+40 s
+LAG = 20.0
+def env_peak(st, t):
+    h = ser[(ser.station == st) & (ser.t_s >= t - 10) & (ser.t_s <= t + 40)]
+    return float(h.loc[h.E.idxmax(), 't_s']) if len(h) else t
+E['t_peak'] = [env_peak(r.station, r.t) for r in E.itertuples()]
+E['t_a'] = E.t - LAG; E['t_b'] = np.maximum(E.t, E.t_peak)
+import sqlite3, glob
+_con = sqlite3.connect(glob.glob('/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/artifacts/proj_9cc1a5a85f63/b3b0fe8f-b907-4214-9c02-18f9a4bf778c/*.sqlite')[-1])
+_ra = pd.read_sql("select * from dg_royer_2016_royer_arrivals", _con); _fm = pd.read_sql("select * from dg_royer_2016_royer_figure_marks", _con)
+_ev = pd.read_sql("select * from dg_royer_2016_royer_events", _con) if 'dg_royer_2016_royer_events' in [t[0] for t in _con.execute("select name from sqlite_master")] else None
+def royer_match(st, t):
+    if st != 'H01W': return ''
+    out = []
+    for _, x in _ra[_ra.station.str.startswith('H01W') & _ra.arrival_utc.notna()].iterrows():
+        dt = ts(x.arrival_utc) - t
+        if -40 <= dt <= 10: out.append((abs(dt), f"Royer event {int(x['index'])}{' (' + x.label + ')' if isinstance(x.label, str) else ''}, {x.event_class}, table pick {x.arrival_utc[:8]} ({dt:+.0f} s)"))
+    for _, x in _fm[_fm.station.str.startswith('H01W') & _fm.figure.str.startswith('fig')].iterrows():
+        dt = x.t_utc_s - t
+        if abs(dt) <= 15: out.append((abs(dt) - 100, f"Royer {x.figure.replace('_', ' ')} pick bar {x.t_utc[:8]} ({dt:+.0f} s)"))
+    out = sorted(out)
+    return '; '.join(dict.fromkeys(o[1] for o in out[:2]))
+E['royer_match'] = [royer_match(r.station, r.t) for r in E.itertuples()]
 # implied impact
 out = []
 for r in E.itertuples():
@@ -57,7 +81,7 @@ for r in E.itertuples():
         d = np.abs(((g.baz_at_station_deg - r.bearing + 180) % 360) - 180); g = g[d <= r.tol]
     else:
         g = g[(g.arc_lat <= -20) & (g.arc_lat >= -41)]          # no bearing: ruled arc range only
-    g['t_imp_lo'] = r.t - g.dist_km * (1 + DET) / VMIN; g['t_imp_hi'] = r.t - g.dist_km / VMAX
+    g['t_imp_lo'] = r.t_a - g.dist_km * (1 + DET) / VMIN; g['t_imp_hi'] = r.t_b - g.dist_km / VMAX
     g = g[(g.t_imp_hi >= T_IMP[0]) & (g.t_imp_lo <= T_IMP[1])]
     if len(g) == 0:
         out.append(dict(n_points=0)); continue

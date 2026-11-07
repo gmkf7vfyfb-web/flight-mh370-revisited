@@ -11,7 +11,7 @@ VMINc, VMAXc, DETc = N.V_MIN, N.V_MAX, N.DET
 NAMES = {'H01W': 'Cape Leeuwin', 'H08S': 'Diego Garcia South', 'IMOS3250': 'Scott Reef (IMOS 3250)', 'IMOS3274': 'Portland 1 (IMOS 3274)',
          'IMOS3275': 'Portland 2 (IMOS 3275)', 'IMOS3315': 'Perth Canyon 2 (IMOS 3315)', 'IMOS3376': 'Perth Canyon 1 (IMOS 3376)'}
 ser = pd.read_csv(os.environ.get('SERIES', 'run14v5_final/station_point_series.csv')); G = pd.read_csv('grid_ext_paths_wide.csv').set_index(['station', 'point_id'])
-E = pd.read_csv('cand_all.csv'); CACHE = N.CACHE
+E = pd.read_csv(os.environ.get('CANDIN', 'cand_all_v2.csv')); CACHE = N.CACHE
 ok = E[E.n_points > 0].head(10).reset_index(drop=True); miss = E[(E.n_points == 0) & (E.index <= E[E.n_points > 0].index[min(9, (E.n_points > 0).sum() - 1)])]
 def cache(lg):
     z = np.load(f'{CACHE}/{lg.lower()}_mh370_day.npz', allow_pickle=True); return z['x'], z['n'], z['t_start_s']
@@ -20,8 +20,8 @@ rows = []
 def site_windows(r):
     pts = r.points.split(';'); st0 = r.station; out = {}
     g0 = G.loc[st0].loc[pts]
-    lo_imp = np.maximum(r.t - g0.dist_km.values * (1 + DET) / VMIN, N.H2[0]); hi_imp = np.minimum(r.t - g0.dist_km.values / VMAX, N.H2[1])
-    lo_c = np.maximum(r.t - g0.dist_km.values * (1 + DETc) / VMINc, N.H2[0]); hi_c = np.minimum(r.t - g0.dist_km.values / VMAXc, N.H2[1])
+    lo_imp = np.maximum(r.t_a - g0.dist_km.values * (1 + DET) / VMIN, N.H2[0]); hi_imp = np.minimum(r.t_b - g0.dist_km.values / VMAX, N.H2[1])
+    lo_c = np.maximum(r.t_a - g0.dist_km.values * (1 + DETc) / VMINc, N.H2[0]); hi_c = np.minimum(r.t_b - g0.dist_km.values / VMAXc, N.H2[1])
     for st in N.STATIONS:
         if st == st0: continue
         g = G.loc[st].loc[pts]; open_ = (g.path_class.values != 'blocked')
@@ -42,8 +42,8 @@ def raw_band_db(st, tmin, tmax):
     return out
 def lat_spans(r, st):
     pts = r.points.split(';'); g0 = G.loc[r.station].loc[pts]; g = G.loc[st].loc[pts]
-    lo_imp = np.maximum(r.t - g0.dist_km.values * (1 + DET) / VMIN, N.H2[0]); hi_imp = np.minimum(r.t - g0.dist_km.values / VMAX, N.H2[1])
-    lo_c = np.maximum(r.t - g0.dist_km.values * (1 + DETc) / VMINc, N.H2[0]); hi_c = np.minimum(r.t - g0.dist_km.values / VMAXc, N.H2[1])
+    lo_imp = np.maximum(r.t_a - g0.dist_km.values * (1 + DET) / VMIN, N.H2[0]); hi_imp = np.minimum(r.t_b - g0.dist_km.values / VMAX, N.H2[1])
+    lo_c = np.maximum(r.t_a - g0.dist_km.values * (1 + DETc) / VMINc, N.H2[0]); hi_c = np.minimum(r.t_b - g0.dist_km.values / VMAXc, N.H2[1])
     d = g.dist_km.values; op = g.path_class.values != 'blocked'
     lat = np.array([float(p.split('S')[0]) for p in pts]); res = []
     for L in np.unique(lat):
@@ -67,9 +67,9 @@ FOOT += (" Top strip: expected arrival time at this site for each arc latitude t
 with PdfPages(os.environ.get('PDFOUT', 'candidate_views_cl_dg.pdf')) as pdf:
     # summary page
     fig = plt.figure(figsize=(11, 8.5)); ax = fig.add_axes([0.02, 0.12, 0.96, 0.8]); ax.axis('off')
-    cols = ['Rank', 'Station', 'Arrival', 'Bearing, published / corrected', 'Found by', 'Envelope p', 'Arc latitude (° S)', 'Implied impact', 'Steep dive', 'Catalogue label (4 Nov)']
+    cols = ['Rank', 'Station', 'Arrival', 'Bearing, published / corrected', 'Found by', 'Envelope p', 'Arc latitude (° S)', 'Implied impact', 'Steep dive', 'Time coincidence (label only)']
     tab = [[i + 1, NAMES[r.station].split(' (')[0].replace('Diego Garcia South', 'Diego Garcia S.'), r.t_utc[:8], (f'{r.bearing_published:.1f}° / {r.bearing:.1f}° (±{r.tol:.1f}°)') if np.isfinite(r.bearing) else 'none', r.source, '%.3f' % r.envelope_p,
-            (r.arc_lat_S_on_arc + (' (outside 20-41)' if r.outside_ruled_arc_range is True or r.outside_ruled_arc_range == 'True' else '')), f'{r.t_imp_first[:8]}–{r.t_imp_last[:8]}', 'yes' if r.steep_dive_fits else 'no', (r.screening_known_label if isinstance(r.screening_known_label, str) else '')[:70]] for i, r in ok.iterrows()]
+            (r.arc_lat_S_on_arc + (' (outside 20-41)' if r.outside_ruled_arc_range is True or r.outside_ruled_arc_range == 'True' else '')), f'{r.t_imp_first[:8]}–{r.t_imp_last[:8]}', 'yes' if r.steep_dive_fits else 'no', (r.royer_short.split('; ')[0] if isinstance(r.royer_short, str) else '')] for i, r in ok.iterrows()]
     t = ax.table(cellText=tab, colLabels=cols, loc='upper center', cellLoc='left'); t.auto_set_font_size(False); t.set_fontsize(6.5); t.scale(1, 1.5)
     for (rr, cc), cell in t.get_celld().items():
         cell.set_width([0.035,0.085,0.06,0.155,0.085,0.05,0.135,0.105,0.05,0.24][cc])
@@ -77,7 +77,7 @@ with PdfPages(os.environ.get('PDFOUT', 'candidate_views_cl_dg.pdf')) as pdf:
     mtxt = '; '.join(f'{r.t_utc[:8]} (published {r.bearing_published:.1f}°, corrected {r.bearing:.1f}°; envelope p {r.envelope_p:.3f}): {r.exclusion_reason}' for r in miss.itertuples())
     foot(fig, "Ranking: envelope evidence at the station itself (band energy and persistence on the digitised Kadri (2024) Figure 9 envelope, smallest p within ±15 s; within-trace null). "
          "This is weak evidence: the p floor is about 1/355 and the 19 Kadri times are not corrected for multiple looks. Sources: Kadri Table 1; ours = combined-detector best looks on the envelopes and 4 Nov screening picks (merged within 30 s of a Kadri time, or 45 s of each other). "
-         f"Bearings: Kadri's published bearings corrected for the H01W array-position bias (calibration from 144 earthquakes, ruling B1; corrections -4.4 to -13.8°); tolerance ±1.645σ with σ = calibrated sector error and a 1.2° weak-signal term. Stronger candidates not shown: {mtxt}. Implied impact: arc points 15-43° S within the bearing tolerance (no bearing: 20-41° S), sound speed 1.40 to 1.56 km/s, 5 % detour, "
+         f"Bearings: Kadri's published bearings corrected for the H01W array-position bias (calibration from 144 earthquakes, ruling B1; corrections -4.4 to -13.8°); tolerance ±1.645σ with σ = calibrated sector error and a 1.2° weak-signal term. Stronger candidates not shown: {mtxt}. Implied impact: arc points 15-43° S within the bearing tolerance (no bearing: 20-41° S), sound speed 1.40 to 1.56 km/s, 5 % detour, arrival span from the onset minus 20 s to the envelope peak, "
          "inside 00:19:38 to 00:55:00. Steep dive: impact 00:19:38 to 00:29:44 within 25 NM. Catalogue labels are associations below 0.95 probability (label only, not removed).")
     pdf.savefig(fig); plt.close(fig)
     for i, r in ok.iterrows():
@@ -91,16 +91,16 @@ with PdfPages(os.environ.get('PDFOUT', 'candidate_views_cl_dg.pdf')) as pdf:
             a3[1].plot(s0.t_s, -np.log10(s0.p_E), color='#6b7280'); a3[1].set_ylabel('Band energy\n(−log10 p)', fontsize=7)
             a3[2].plot(s0.t_s, -np.log10(s0.p_F), color='#111827'); a3[2].set_ylabel('Combined\n(band energy +\npersistence)', fontsize=7)
             for a_ in a3:
-                a_.axvspan(r.t - 15, r.t + 15, color='#fecaca', alpha=0.6, zorder=0); a_.axvline(r.t, color='#b91c1c', lw=0.8); a_.set_xlim(tA, tB)
+                a_.axvspan(r.t_a, r.t_b, color='#fecaca', alpha=0.6, zorder=0); a_.axvline(r.t, color='#b91c1c', lw=0.9); a_.axvline(r.t_peak, color='#7f1d1d', lw=0.9, ls='--'); a_.set_xlim(tA, tB)
             for a_ in a3[1:]: a_.axhline(-np.log10(0.05), color='#9ca3af', ls='--', lw=0.6); a_.set_ylim(bottom=0)
             tk = np.arange(np.ceil(tA / 60) * 60, tB, 60)
             for a_ in a3: a_.set_xticks(tk); a_.set_xticklabels([])
             a3[-1].set_xticklabels([N.hms(x)[:8] for x in tk], fontsize=6); a3[-1].set_xlabel(f'Time at {NAMES[st0]} (UTC, 8 March 2014)')
             src = f"{r.source}; bearing {r.bearing:.1f}° corrected, {r.bearing_published:.1f}° published" if np.isfinite(r.bearing) else f"{r.source}; no bearing"
             fig.suptitle(f"Candidate {i + 1}: {NAMES[st0]} {r.t_utc[:8]} ({src}). Implied impact {r.t_imp_first[:8]}–{r.t_imp_last[:8]} UTC, " + (f"arc {r.arc_lat_S_on_arc}° S" if np.isfinite(r.bearing) else "arc latitude from timing only"), x=0.08, ha='left', fontsize=9)
-            a3[0].set_title(f"Primary site, {NAMES[st0]}: candidate arrival {r.t_utc[:8]} (red line; red band = ±15 s match tolerance). Envelope evidence p = {r.envelope_p:.3g} (within-trace null).", loc='left', fontsize=7.5)
+            a3[0].set_title(f"Primary site, {NAMES[st0]}. Solid red line: onset pick {r.t_utc[:8]}. Dashed line: envelope peak {N.hms(r.t_peak)[:8]}. Red band: arrival span used for timing, {N.hms(r.t_a)[:8]}–{N.hms(r.t_b)[:8]}.\nEnvelope evidence p = {r.envelope_p:.3g} (smallest within ±15 s of the onset; within-trace null)." + (f"\nCoincides in time with {r.royer_short} (label only, not removed; Royer's event locations rest on his own unverified pick association)." if isinstance(r.royer_short, str) and r.royer_short else ""), loc='left', fontsize=7)
             foot(fig, "Primary-site page. Data: digitised envelope of Kadri (2024) Figure 9 (no raw waveform is available for 8 March 2014). Band energy: level over the local background, scored against the rest of the same trace. "
-                      "Combined: band energy and persistence (Fisher). The p values are within-trace and not corrected for the number of looks; the p floor is about 1/355 at Cape Leeuwin and 1/234 at Diego Garcia South. Grey dashed line: p = 0.05.")
+                      "Combined: band energy and persistence (Fisher). Arrival span: onset pick minus 20 s (the measured lag of 13.8-20 s between Royer (2016) Table 5 picks and envelope onsets) to the envelope peak; implied impact times use the start of the span with the slowest speed and the end of the span with the fastest speed. The p values are within-trace and not corrected for the number of looks; the p floor is about 1/355 at Cape Leeuwin and 1/234 at Diego Garcia South. Grey dashed line: p = 0.05.")
             pdf.savefig(fig); plt.close(fig)
         for st, w in W.items():
             if w is None:
@@ -171,8 +171,8 @@ with PdfPages(os.environ.get('PDFOUT', 'candidate_views_cl_dg.pdf')) as pdf:
             fig.suptitle(f"Candidate {i + 1}: {NAMES[r.station]} {r.t_utc[:8]} ({src}). Implied impact {r.t_imp_first[:8]}–{r.t_imp_last[:8]} UTC, " + (f"arc {r.arc_lat_S_on_arc}° S" if np.isfinite(r.bearing) else "arc latitude from timing only"),
                          x=0.08, ha='left', fontsize=9)
             exp_c = f"{N.hms(w['ac'])[:8]}–{N.hms(w['bc'])[:8]}" if np.isfinite(w['ac']) else 'none'
-            ax0.set_title(f"{NAMES[st]}. Expected arrival: all allowed speeds {N.hms(w['a0'])[:8]}–{N.hms(w['b0'])[:8]} (dotted lines); primary speeds {exp_c} (shaded). "
-                          f"Window shown {N.hms(tmin)[:8]}–{N.hms(tmax)[:8]} (20 % margin).\nPaths {w['classes']} ({w['n_open']} of {w['n_pts']} points); {wc_n} looks; window p (combined) = {pw:.3g}", loc='left', fontsize=7.5)
+            ax0.set_title(f"{NAMES[st]}. Expected arrival: all allowed speeds {N.hms(w['a0'])[:8]}–{N.hms(w['b0'])[:8]} (dotted lines); primary speeds {exp_c} (shaded).\n"
+                          f"Window shown {N.hms(tmin)[:8]}–{N.hms(tmax)[:8]} (20 % margin). Paths {w['classes']} ({w['n_open']} of {w['n_pts']} points); {wc_n} looks; window p (combined) = {pw:.3g}", loc='left', fontsize=7.5)
             foot(fig, FOOT); pdf.savefig(fig); plt.close(fig)
 R = pd.DataFrame(rows); R.to_csv(os.environ.get('SITESOUT', 'candidate_views_sites.csv'), index=False)
 pd.set_option('display.width', 250); print(R.drop(columns=['cand_station']).to_string())
