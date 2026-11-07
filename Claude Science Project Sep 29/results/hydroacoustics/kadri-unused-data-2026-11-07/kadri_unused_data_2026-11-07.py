@@ -442,7 +442,7 @@ def figB(jon=False):
         add_footnote(fig,
           'The 6 November peak at 01:10:15 starts exactly where two panels of Kadri (2024) Fig. 9 join. The digitised pressure scale of both panels was wrong, so the background level stepped up by 8 dB at the join. '
           'With the scale read again from the tick labels, the step goes, and 01:10:15 is an ordinary look. The airgun shots on 8 March keep the level above the 7 March maximum for most of the trace, so the 7 March background is not fully comparable. The 7 March traces of Fig. S1 serve as an independent background. The trace is a digitised figure, not a raw recording.',
-          'Database table dg_data_kadri_fig9_* panels d, e used 16.33 and 8.16 pt/Pa with zero at 404.72 and 511.70 pt; the tick labels give 10.87 and 7.25 pt/Pa with zero at 404.61 and 508.00 pt (fit residual <= 0.007 Pa). '
+          'Database table dg_data_kadri_fig9_* panels d, e used 16.33 and 8.16 pt/Pa with zero at 404.72 and 511.70 pt; the tick labels give 10.87 and 7.25 pt/Pa with zero at 404.61 and 508.00 pt (fit residual <= 0.0075 Pa). '
           'Panel c (Cape Leeuwin) is also off: 32.65 against 29.63 pt/Pa and 1.8 pt zero offset. Fig. S1 a-c digitisation checked against its text labels: exact. Statistic: 6 Nov band energy E (30 s window over the median of a 180 s ring outside a 30 s guard) and envelope persistence, combined by Fisher; '
           'per-look p = (count of background F >= F + 1)/(N + 1); background N = 349-355 looks (30 min). Spectrogram median level 2-40 Hz: 72.3 dB before and 71.7 dB after the join (no step). Window p for 4-10 min windows: see dgs_envelope_null_rescore_0110.csv.')
     return fig
