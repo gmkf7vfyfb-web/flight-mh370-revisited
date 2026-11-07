@@ -170,8 +170,8 @@ All files are greyscale, 127 mm wide, with no title and no notes on the image; p
 | Data and evidence | Build-up of real dives and Boeing simulations against the 00:19 descent rates (your chosen chart, 7 Nov) | [PNG]({{artifact:9b6eed78-93b7-4c50-81a8-7ddcaa6bdd31}}) | [PDF]({{artifact:99babcdf-6299-4a4f-8c3b-0ecffbb6c10f}}) | Recommended: main text |
 | Data and evidence / Methodology | Case values and the fitted dive prior | [PNG]({{artifact:1d9a45d5-7a1c-4eef-9203-adb40b9ffd85}}) | [PDF]({{artifact:b366ef3c-de99-41cb-86ca-dcf7b71c0784}}) | Recommended: appendix or supplement |
 | Methodology | Leave-one-out check of the dive model against each Boeing alternate-power simulation | [PNG]({{artifact:9e98533f-c799-4db3-b6c8-a698fd59317c}}) | [PDF]({{artifact:81bc6a43-7076-4a03-a78a-1c1f1766304e}}) | Recommended: main text if space allows, else appendix |
-| Results | Impact regions 50/90/99 %, Davey model with the fuel model, six treatments | [PNG]({{artifact:8ae974db-62d2-48b3-b9ae-60cf1b5ddb23}}) | [PDF]({{artifact:864d5c1f-28f4-4863-bf80-df033b2f1a07}}) | Recommended: main results figure |
-| Results | Impact regions 50/90/99 %, waypoint model, six treatments | [PNG]({{artifact:1fffb7f1-6aa9-41ac-9419-373912eab2d4}}) | [PDF]({{artifact:3dc76bdc-775f-4afd-b15c-6266ad595872}}) | Supplement, or pair with the Davey map |
+| Results | Impact regions 50/90/99 %, Davey model with the fuel model, six treatments | [PNG]({{artifact:9070cdf3-925c-4fd5-be2e-c585b2ca169d}}) | [PDF]({{artifact:0104f13f-a38e-46a6-aaef-dc4a0a89c2e2}}) | Recommended: main results figure |
+| Results | Impact regions 50/90/99 %, waypoint model, six treatments | [PNG]({{artifact:ea149d53-cc44-41df-b49a-fce245071e6e}}) | [PDF]({{artifact:7d79f610-ddf7-43be-95b8-459b01dfb94b}}) | Supplement, or pair with the Davey map |
 | Results | Impact regions of three treatments overlaid, Davey model with the fuel model | [PNG]({{artifact:4b9c037e-3ad2-41dc-af75-ace7f70182ba}}) | [PDF]({{artifact:c2de879a-c7b9-4948-831c-6cf7348e45aa}}) | Alternative to the six-panel map when space is short |
 | Results | Impact regions of three treatments overlaid, waypoint model | [PNG]({{artifact:13794a15-9b14-44c3-9267-1fcac199dd2b}}) | [PDF]({{artifact:2542e1cf-38b7-42ab-88e1-2d808364e050}}) | Supplement |
 | Results | Distance from the 7th arc at impact (both route models) | [PNG]({{artifact:108c0401-2663-4e71-814f-2b4bc83126b4}}) | [PDF]({{artifact:8ac9ee68-0863-4073-844d-e815bdb05136}}) | Recommended: main text (search width, 25 NM) |
@@ -182,7 +182,7 @@ All files are greyscale, 127 mm wide, with no title and no notes on the image; p
 | Results | No-pilot and piloted shares under each assumption | [PNG]({{artifact:79d7e0c1-31fb-459d-94dd-72b8db43215f}}) | [PDF]({{artifact:77be046b-c99e-4b39-8eeb-a211ea1c02da}}) | Supplement (conditional result) |
 | Results | Impact kinetic energy and distance from the arc by energy | [PNG]({{artifact:ccdad021-a89b-4110-88d2-7f3b61149737}}) | [PDF]({{artifact:ce539771-ebcc-47ef-a7f4-b76230dd6cf4}}) | Supplement (declared sensitivity) |
 
-Impact maps for every scenario, one PDF each (18 files: 9 treatments × 2 route models), with an index of the 50/90/99 % areas: [eof-impact-hpd-all-scenarios.zip]({{artifact:344ab974-1aaf-4b9e-845c-22e5fc2e0994}}), [index]({{artifact:e64e1a38-8e3b-4298-8cf6-26ee72c5d9a4}}).
+Impact maps for every scenario, one PDF each (18 files: 9 treatments × 2 route models), with an index of the 50/90/99 % areas: [eof-impact-hpd-all-scenarios.zip]({{artifact:8942c7df-e88a-40ab-9f6d-5a8c15bdfa8b}}), [index]({{artifact:e64e1a38-8e3b-4298-8cf6-26ee72c5d9a4}}).
 
 Not offered: the earlier chart of power-loss timing against build-up time carries panel headings and a column heading on the image, so it does not meet the Journal rule; it needs letter-only labels before use.
 
