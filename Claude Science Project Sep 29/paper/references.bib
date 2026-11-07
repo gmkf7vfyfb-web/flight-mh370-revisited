@@ -5,8 +5,8 @@
 % DO NOT hand-edit: edit the module bibliography under results/ and regenerate,
 % so the module and the paper cannot disagree.
 %
-% 105 entries, deduplicated from 120 raw entries
-% across 8 module bibliographies.
+% 278 entries, deduplicated from 307 raw entries
+% across 10 module bibliographies.
 
 @techreport{minchin2017pleiades,
   author = {Minchin, S. and Mueller, N. and Lewis, A. and Byrne, G. and Tran, M.},
@@ -37,9 +37,93 @@
   howpublished = {arXiv:1702.02432v3 [stat.OT]},
 }
 
+@article{gordon1993,
+  author = {Gordon, N. J. and Salmond, D. J. and Smith, A. F. M.},
+  title = {Novel approach to nonlinear/non-{G}aussian {B}ayesian state estimation},
+  journal = {IEE Proceedings F (Radar and Signal Processing)},
+  volume = {140},
+  number = {2},
+  pages = {107--113},
+  year = {1993},
+  doi = {10.1049/ip-f-2.1993.0015},
+  note = {CrossRef-verified 31 Oct 2026 (CrossRef gives first page 107 only; end page 113 to confirm on the publisher page). The bootstrap particle filter; Gordon is a co-author of davey2016.},
+}
+
+@article{kitagawa1996,
+  author = {Kitagawa, Genshiro},
+  title = {Monte {C}arlo filter and smoother for non-{G}aussian nonlinear state space models},
+  journal = {Journal of Computational and Graphical Statistics},
+  volume = {5},
+  number = {1},
+  pages = {1--25},
+  year = {1996},
+  doi = {10.1080/10618600.1996.10474692},
+  note = {CrossRef-verified 31 Oct 2026. Source of systematic (stratified) resampling as used in the core filter.},
+}
+
+@article{gilks2001,
+  author = {Gilks, Walter R. and Berzuini, Carlo},
+  title = {Following a moving target---{M}onte {C}arlo inference for dynamic {B}ayesian models},
+  journal = {Journal of the Royal Statistical Society Series B: Statistical Methodology},
+  volume = {63},
+  number = {1},
+  pages = {127--146},
+  year = {2001},
+  doi = {10.1111/1467-9868.00280},
+  note = {CrossRef-verified 31 Oct 2026. Resample-move: the core filter Gibbs-refreshes the manoeuvre time constant tau after each resampling.},
+}
+
+@article{neal2001,
+  author = {Neal, Radford M.},
+  title = {Annealed importance sampling},
+  journal = {Statistics and Computing},
+  volume = {11},
+  number = {2},
+  pages = {125--139},
+  year = {2001},
+  doi = {10.1023/A:1008923215028},
+  note = {CrossRef-verified 31 Oct 2026. Likelihood tempering in stages whose exponents sum to one (core filter, six tempered epochs, 16 stages).},
+}
+
+@article{delmoral2006,
+  author = {Del Moral, Pierre and Doucet, Arnaud and Jasra, Ajay},
+  title = {Sequential {M}onte {C}arlo samplers},
+  journal = {Journal of the Royal Statistical Society Series B: Statistical Methodology},
+  volume = {68},
+  number = {3},
+  pages = {411--436},
+  year = {2006},
+  doi = {10.1111/j.1467-9868.2006.00553.x},
+  note = {CrossRef-verified 31 Oct 2026. General framework for tempered SMC with resampling between stages.},
+}
+
+@article{puri2013access,
+  author = {Puri, K. and Dietachmayer, G. and Steinle, P. and Dix, M. and others},
+  title = {Implementation of the initial {ACCESS} numerical weather prediction system},
+  journal = {Australian Meteorological and Oceanographic Journal},
+  volume = {63},
+  number = {2},
+  pages = {265--284},
+  year = {2013},
+  doi = {10.22499/2.6302.001},
+  note = {CrossRef-verified 31 Oct 2026 (27 authors; complete the author list from the publisher page before submission). ACCESS-G is the operational analysis Davey et al. (2016) used for wind and temperature.},
+}
+
+@article{beggan2026igrf14,
+  author = {Beggan, C. D. and Kloss, C. and Xiong, C. and Matsushima, M.},
+  title = {Special issue ``{International Geomagnetic Reference Field}: The Fourteenth Generation''},
+  journal = {Earth, Planets and Space},
+  volume = {78},
+  pages = {196},
+  year = {2026},
+  doi = {10.1186/s40623-026-02504-w},
+  note = {CrossRef-verified 31 Oct 2026. Editorial of the IGRF-14 special issue. The main IGRF-14 model paper has NOT yet been located; cite it in place of this entry once found. Still to verify: IGRF-11 (Finlay et al. 2010, GJI), MERRA-2 (Gelaro et al. 2017, J. Climate), NCEP FNL dataset (ds083.2).},
+}
+
 @book{davey2016,
   author = {Davey, Samuel and Gordon, Neil and Holland, Ian and Rutten, Mark and Williams, Jason},
   title = {Bayesian Methods in the Search for {MH370}},
+  journal = {SpringerBriefs in Electrical and Computer Engineering},
   publisher = {Springer},
   series = {SpringerBriefs in Electrical and Computer Engineering},
   year = {2016},
@@ -134,6 +218,17 @@
   note = {14 pp.},
 }
 
+@article{hinata2017,
+  author = {Hinata, Hirofumi and Mori, Keita and Ohno, Kazuki and Miyao, Yasuyuki and Kataoka, Tomoya},
+  title = {An estimation of the average residence times and onshore-offshore diffusivities of beached microplastics based on the population decay of tagged meso- and macrolitter},
+  journal = {Marine Pollution Bulletin},
+  volume = {122},
+  number = {1-2},
+  pages = {17--26},
+  year = {2017},
+  doi = {10.1016/j.marpolbul.2017.05.012},
+}
+
 @techreport{sir2018app16e,
   author = {{The Boeing Company}},
   title = {Performance Analysis -- Malaysian Airlines 777 9M-MRO Missing Occurrence},
@@ -202,7 +297,7 @@
   number = {T00001SE Rev. 48},
   year = {2025},
   address = {Washington, DC},
-  note = {Number and revision/date per Civil Aviation Authority of New Zealand, Type Acceptance Report TAR 5/21B/17 Rev. 4 (23 Feb 2026), p. 5; text of Rev. 48 not yet read in primary form. Used for VMO 330 KCAS / MMO 0.87},
+  note = {Number and revision/date per Civil Aviation Authority of New Zealand, Type Acceptance Report TAR 5/21B/17 Rev. 4 (23 Feb 2026), p. 5; text of Rev. 48 not yet read in primary form. VMO/MMO = 330 KIAS / 0.87 M (Model 777-200, Airspeed Limits) read in the Rev. 18 text (16 May 2005, as reproduced on Scribd, secondary copy). The module treats 330 kt as CAS},
 }
 
 @techreport{tcdstrent800,
@@ -224,7 +319,7 @@
   year = {2024},
   address = {Seattle, WA},
   url = {https://www.boeing.com/commercial/airports/plan-manuals},
-  note = {READ 12 Oct 2026. Section 2.2.1, p. 2-8: wing span 199 ft 11 in (60.93 m). The wing area 427.8 m2 is NOT in this document; its source is still open},
+  note = {READ 12 Oct 2026; re-read 14 Oct 2026 (copy fetched from boeing.com, 171 pp.; revision and date from the page footers, REV E December 2024). Section 2.2.1, p. 2-8: wing span 199 ft 11 in (60.93 m); engine centreline 31 ft 6.5 in (9.61 m) from the aircraft centreline (item 1 engine arm). The wing area 427.8 m2 is NOT in this document; its source is still open},
 }
 
 @standard{iso2533,
@@ -232,13 +327,6 @@
   organization = {International Organization for Standardization},
   number = {ISO 2533:1975},
   year = {1975},
-}
-
-@article{lock1964,
-  author = {Lock, R. C.},
-  title = {The prediction of the drag of aerofoils and wings at high subsonic speeds},
-  year = {1964},
-  note = {VERIFY full reference},
 }
 
 @techreport{esdu-windmill,
@@ -278,9 +366,10 @@
   author = {{Australian Transport Safety Bureau}},
   title = {{MH370} -- Search and debris examination update},
   institution = {ATSB},
+  number = {AE-2014-054},
   year = {2016},
   address = {Canberra},
-  note = {pp. 11--12: end-of-flight engineering-simulator scenarios (pages per the archive ledger; extract folios 7--8, VERIFY edition)},
+  note = {pp. 11--12: end-of-flight engineering-simulator scenarios (pages per the archive ledger; extract folios 7--8, VERIFY edition). Title, number AE-2014-054 and date 2 November 2016 VERIFIED 7 Nov 2026 against the indexed text of a copy of the ATSB PDF (cover: 'Final 2 November 2016'); page numbers still to reconcile. Citable published description of the Boeing simulator runs B1--B10 (boeingeofsims2016)},
 }
 
 @misc{iannello2018,
@@ -296,8 +385,678 @@
   note = {Via ATSB and Iannello; validation only; archive sha256 e400ac73478dff8698cd344a69d7969804f6adb0eb2121d5cacd3b58d63111db},
 }
 
-@techreport{Blackman2004UCRL,
-  author = {Blackman, D. K. and de Groot-Hedlin, C. and Orcutt, J. A. and Harben, P. E.},
+@techreport{heffley1972cr2144,
+  author = {Heffley, Robert K. and Jewell, Wayne F.},
+  title = {Aircraft Handling Qualities Data},
+  institution = {National Aeronautics and Space Administration},
+  number = {NASA CR-2144},
+  year = {1972},
+  address = {Washington, DC},
+  note = {NTRS 19730003312. Section IX, Boeing 747: Table IX-3 (p. 229), IX-4 (p. 230), IX-8 (p. 234). Used for the 747 lateral derivatives C_n_beta, C_Y_beta (item 1, declared type substitution) via sim/aero747.py},
+  type = {NASA Contractor Report},
+}
+
+@misc{faa2024part60,
+  author = {{Federal Aviation Administration}},
+  title = {14 {CFR} Part 60, Flight Simulation Training Device Initial and Continuing Qualification and Use, Appendix A, Attachment 2, Table A2A: Full Flight Simulator Objective Tests},
+  year = {2024},
+  note = {Item 2 acceptance tolerances (results/eof-calibration-tolerances-oct13). Rows 1.d.2, 1.d.4, 1.d.5, 2.c.9, 2.d.4, 2.d.5 read from the govinfo edition},
+  howpublished = {Code of Federal Regulations, Title 14, Chapter I, Subchapter D, Part 60 (edition of 1 January 2024)},
+}
+
+@techreport{ntsb2002egyptair990,
+  author = {{National Transportation Safety Board}},
+  title = {Aircraft Accident Brief: EgyptAir Flight 990, Boeing 767-366ER, SU-GAP, 60 Miles South of Nantucket, Massachusetts, October 31, 1999},
+  institution = {NTSB},
+  number = {NTSB/AAB-02/01},
+  year = {2002},
+  address = {Washington, DC},
+  url = {https://www.ntsb.gov/investigations/AccidentReports/Reports/AAB0201.pdf},
+  urldate = {2026-11-07},
+  note = {Date: adopted 13 March 2002. Dive case 1 (EgyptAir 990 (B767, 1999)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the NTSB report PDF (downloaded and read: cover and title pages; 'Adopted March 13, 2002')},
+  type = {Accident investigation report},
+}
+
+@techreport{ntsb2020atlas3591,
+  author = {{National Transportation Safety Board}},
+  title = {Rapid Descent and Crash into Water, Atlas Air Inc. Flight 3591, Boeing 767-375BCF, N1217A, Trinity Bay, Texas, February 23, 2019},
+  institution = {NTSB},
+  number = {Aircraft Accident Report NTSB/AAR-20/02},
+  year = {2020},
+  address = {Washington, DC},
+  url = {https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR2002.pdf},
+  urldate = {2026-11-07},
+  note = {Date: adopted 14 July 2020. Dive case 2 (Atlas Air 3591 (B767F, 2019)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the NTSB report PDF (downloaded and read: cover; 'Adopted July 14, 2020')},
+  type = {Accident investigation report},
+}
+
+@techreport{ntsc2000silkair185,
+  author = {{National Transportation Safety Committee, Department of Communications, Republic of Indonesia}},
+  title = {Aircraft Accident Report: SilkAir Flight MI 185, Boeing B737-300, 9V-TRF, Musi River, Palembang, Indonesia, 19 December 1997. Final Report},
+  institution = {NTSC},
+  year = {2000},
+  address = {Jakarta},
+  note = {Date: 14 December 2000. Dive case 3 (SilkAir 185 (B737, 1997)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the report PDF (downloaded and read: cover and title page, 'Jakarta, 14 December 2000', from a copy hosted by flightsafetydetectives.com; the NTSC (now KNKT) copy is no longer online). No report number is printed. The NTSB comments on the draft (11 December 2000) dissent from the findings.},
+  type = {Accident investigation report},
+}
+
+@techreport{iac2019flydubai981,
+  author = {{Interstate Aviation Committee, Air Accident Investigation Commission}},
+  title = {Final Report: Boeing 737-8KN A6-FDN, fatal accident at Rostov-on-Don aerodrome, Rostov Region, Russian Federation, 19 March 2016 (English translation; the Russian original is the text of reference)},
+  institution = {IAC},
+  year = {2019},
+  address = {Moscow},
+  url = {https://mak-iac.org/upload/iblock/1e8/report_a6-fdn_eng.pdf},
+  urldate = {2026-11-07},
+  note = {Date: November 2019. Dive case 4 (flydubai 981 (B737, 2016)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the IAC English-translation PDF (downloaded and read: cover and title page; investigation page mak-iac.org); month of publication from the SKYbrary bookshelf listing (26 November 2019), not printed on the cover},
+  type = {Accident investigation report},
+}
+
+@techreport{iac2015tatarstan363,
+  author = {{Interstate Aviation Committee, Air Accident Investigation Commission}},
+  title = {Okonchatel'nyi otchet po rezul'tatam rassledovaniya aviatsionnogo proisshestviya: Boeing 737-500 (53A) VQ-BBN, Kazan International Airdrome, 17.11.2013 [Final report on the results of the investigation of the aviation accident: Boeing 737-500 (53A) VQ-BBN, Kazan, 17 November 2013] (in Russian)},
+  institution = {IAC},
+  year = {2015},
+  address = {Moscow},
+  url = {https://mak-iac.org/upload/iblock/ba0/report_vq-bbn.pdf},
+  urldate = {2026-11-07},
+  note = {Date: investigation completed 23 December 2015. Dive case 5 (Tatarstan 363 (B737, 2013)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the IAC report PDF (Russian) (downloaded and read: title page; completion date 23.12.2015 on the IAC investigation page). An English translation is held by ICAO; the Russian text is the report of record.},
+  type = {Accident investigation report},
+}
+
+@techreport{shk2016westair294,
+  author = {{Statens haverikommission (Swedish Accident Investigation Authority)}},
+  title = {Final report RL 2016:11e: Accident in Oajevágge, Norrbotten County, Sweden on 8 January 2016 involving the aeroplane SE-DUX of the model CL-600-2B19, operated by West Atlantic Sweden AB},
+  institution = {SHK},
+  number = {RL 2016:11e (file no. L-01/16)},
+  year = {2016},
+  address = {Stockholm},
+  url = {https://shk.se/download/18.2d6f089b18faca29dc81cffa/1700491384504/RL-2016_11e.pdf},
+  urldate = {2026-11-07},
+  note = {Date: 12 December 2016. Dive case 6 (West Air Sweden 294 (CRJ200F, 2016)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the SHK report PDF (downloaded and read: cover page; 'File no. L-01/16 12/12/2016'). English translation; the Swedish text RL 2016:11 prevails.},
+  type = {Accident investigation report},
+}
+
+@techreport{iac2019saratov703,
+  author = {{Interstate Aviation Committee, Air Accident Investigation Commission}},
+  title = {Okonchatel'nyi otchet po rezul'tatam rassledovaniya aviatsionnogo proisshestviya: samolet An-148-100V RA-61704, Moskovskaya oblast', Ramenskii raion, 11.02.2018 [Final report on the results of the investigation of the aviation accident: An-148-100V RA-61704, Moscow Region, 11 February 2018] (in Russian)},
+  institution = {IAC},
+  year = {2019},
+  address = {Moscow},
+  url = {https://mak-iac.org/upload/iblock/560/report_ra-61704.pdf},
+  urldate = {2026-11-07},
+  note = {Date: investigation completed 11 June 2019. Dive case 7 (Saratov 703 (An-148, 2018)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the IAC report PDF (Russian) (downloaded and read: title page; completion date 11.06.2019 on the IAC investigation page)},
+  type = {Accident investigation report},
+}
+
+@techreport{knkt2019lionair610,
+  author = {{Komite Nasional Keselamatan Transportasi}},
+  title = {Final KNKT.18.10.35.04 Aircraft Accident Investigation Report: PT. Lion Mentari Airlines, Boeing 737-8 (MAX); PK-LQP, Tanjung Karawang, West Java, Republic of Indonesia, 29 October 2018},
+  institution = {KNKT},
+  number = {KNKT.18.10.35.04},
+  year = {2019},
+  address = {Jakarta},
+  note = {Date: October 2019. Dive case 8 (Lion Air 610 (B737 MAX, 2018)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the indexed text of the KNKT final report as hosted by the Irish AAIU (copy of the KNKT PDF) at aaiu.ie (title, number, 'FINAL'); the title wording also matches the US House committee citation; direct download failed (proxy gateway error or time-out), so the PDF itself was not opened. Exact release day not confirmed from the document (AAIU listing gives 30 October 2019). The current knkt.go.id file path was not found (404).},
+  type = {Accident investigation report},
+}
+
+@techreport{eaib2022et302,
+  author = {{Aircraft Accident Investigation Bureau, Federal Democratic Republic of Ethiopia}},
+  title = {Investigation Report on Accident to the B737-MAX8 Reg. ET-AVJ Operated by Ethiopian Airlines, 10 March 2019},
+  institution = {EAIB},
+  number = {AI-01/19},
+  year = {2022},
+  address = {Addis Ababa},
+  url = {https://bea.aero/fileadmin/user_upload/ET_302__B737-8MAX_ACCIDENT_FINAL_REPORT.pdf},
+  urldate = {2026-11-07},
+  note = {Date: 23 December 2022. Dive case 9 (Ethiopian 302 (B737 MAX, 2019)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the indexed text of the EAIB final report (copy hosted by the BEA) at bea.aero (cover text: 'Report No. AI-01/19', publication date December 23, 2022); direct download failed (proxy gateway error or time-out), so the PDF itself was not opened. The BEA (3 January 2023) and NTSB published comments that were not appended as requested.},
+  type = {Accident investigation report},
+}
+
+@techreport{atsb2011qf72,
+  author = {{Australian Transport Safety Bureau}},
+  title = {In-flight upset, 154 km west of Learmonth, WA, 7 October 2008, VH-QPA, Airbus A330-303. ATSB Transport Safety Report, Aviation Occurrence Investigation AO-2008-070, Final},
+  institution = {ATSB},
+  number = {AO-2008-070},
+  year = {2011},
+  address = {Canberra},
+  url = {https://www.atsb.gov.au/investigations/ao-2008-070},
+  urldate = {2026-11-07},
+  note = {Date: released 19 December 2011. Dive case 10 (Qantas 72 (A330, 2008)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the indexed text of the ATSB investigation page and final-report PDF at atsb.gov.au (report release date 19/12/2011; PDF cover 'AO-2008-070 Final', December 2011); direct download failed (proxy gateway error or time-out), so the PDF itself was not opened},
+  type = {Accident investigation report},
+}
+
+@techreport{ntsb1989psa1771,
+  author = {{National Transportation Safety Board}},
+  title = {Aviation Investigation Final Report: British Aerospace BAe-146-200, N350PS, Pacific Southwest Airlines, San Luis Obispo, California, December 7, 1987},
+  institution = {NTSB},
+  number = {Accident number DCA88MA008},
+  year = {1989},
+  address = {Washington, DC},
+  url = {https://data.ntsb.gov/carol-repgen/api/Aviation/ReportMain/GenerateNewestReport/15893/pdf},
+  urldate = {2026-11-07},
+  note = {Date: original publication 4 January 1989. Dive case 11 (PSA 1771 (BAe 146, 1987)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the NTSB CAROL final report PDF (downloaded and read: page 1 'Accident Number: DCA88MA008'; 'Original Publish Date: January 4, 1989'). The NTSB issued no full Aircraft Accident Report for this accident. NTSB/AAR-88/07 was checked and is a different accident.},
+  type = {Accident investigation report},
+}
+
+@techreport{bahrain2002gulfair072,
+  author = {{Civil Aviation Affairs, Kingdom of Bahrain}},
+  title = {Accident Investigation Report: Gulf Air Flight GF-072, Airbus A320-212, Reg. A40-EK, on 23 August 2000 at Bahrain},
+  institution = {Civil Aviation Affairs, Bahrain},
+  year = {2002},
+  address = {Manama},
+  url = {https://bea.aero/fileadmin/documents/docspa/2000/a40-ek000823a/htm/a40-ek000823a.html},
+  urldate = {2026-11-07},
+  note = {Dive case 12 (Gulf Air 072 (A320, 2000)) of the end-of-flight master case table. PARTLY VERIFIED 7 Nov 2026: title from the indexed text of the BEA-hosted HTML copy; the issuing body from the Irish AAIU foreign-report listing; the year (2002) from secondary listings only. Direct download failed (proxy gateway error)},
+  type = {Accident investigation report},
+}
+
+@techreport{ntsb1981twa841,
+  author = {{National Transportation Safety Board}},
+  title = {Aircraft Accident Report: Trans World Airlines, Inc., Boeing 727-31, N840TW, near Saginaw, Michigan, April 4, 1979},
+  institution = {NTSB},
+  number = {NTSB-AAR-81-8},
+  year = {1981},
+  address = {Washington, DC},
+  url = {https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR8108.pdf},
+  urldate = {2026-11-07},
+  note = {Date: 9 June 1981. Dive case 13 (TWA 841 (B727, 1979)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the NTSB report PDF (scanned) (downloaded and read: technical report documentation page: report no. NTSB-AAR-81-8, report date June 9, 1981)},
+  type = {Accident investigation report},
+}
+
+@techreport{ntsb1986ci006,
+  author = {{National Transportation Safety Board}},
+  title = {Aircraft Accident Report: China Airlines Boeing 747-SP, N4522V, 300 Nautical Miles Northwest of San Francisco, California, February 19, 1985},
+  institution = {NTSB},
+  number = {NTSB/AAR-86/03},
+  year = {1986},
+  address = {Washington, DC},
+  url = {https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR8603.pdf},
+  urldate = {2026-11-07},
+  note = {Date: 29 March 1986. Dive case 14 (China Airlines 006 (B747SP, 1985)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the NTSB report PDF (scanned) (downloaded and read: technical report documentation page: NTSB/AAR-86/03, report date March 29, 1986)},
+  type = {Accident investigation report},
+}
+
+@techreport{ntsc2008adamair574,
+  author = {{National Transportation Safety Committee, Republic of Indonesia}},
+  title = {Aircraft Accident Investigation Report: PT. Adam SkyConnection Airlines (AdamAir) Flight DHI 574, Boeing 737-4Q8, PK-KKW, Makassar Strait, Sulawesi, Republic of Indonesia, 1 January 2007},
+  institution = {NTSC},
+  number = {KNKT/07.01/08.01.36},
+  year = {2008},
+  address = {Jakarta},
+  note = {Date: released 25 March 2008. Dive case 15 (Adam Air 574 (B737, 2007)) of the end-of-flight master case table. PARTLY VERIFIED 7 Nov 2026: report number and issuing body from the indexed text of the Flight Safety Foundation copy of the NTSC PDF; full title wording and the release date (25 March 2008) from secondary listings. Direct download failed},
+  type = {Accident investigation report},
+}
+
+@techreport{knkt2015airasia8501,
+  author = {{Komite Nasional Keselamatan Transportasi}},
+  title = {Aircraft Accident Investigation Report: PT. Indonesia Air Asia, Airbus A320-216; PK-AXC, Karimata Strait, Coordinate 3°37'19"S - 109°42'41"E, Republic of Indonesia, 28 December 2014. Final},
+  institution = {KNKT},
+  number = {KNKT.14.12.29.04},
+  year = {2015},
+  address = {Jakarta},
+  url = {https://bea.aero/uploads/tx_elydbrapports/Final_Report_PK-AXC-reduite.pdf},
+  urldate = {2026-11-07},
+  note = {Date: December 2015. Dive case 16 (Indonesia AirAsia 8501 (A320, 2014)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the indexed text of the KNKT final report (copies hosted by the BEA and the Irish AAIU) at bea.aero and aaiu.ie (cover: 'FINAL KNKT.14.12.29.04', year 2015); SKYbrary gives publication 1 December 2015; direct download failed (proxy gateway error or time-out), so the PDF itself was not opened},
+  type = {Accident investigation report},
+}
+
+@techreport{caac2022mu5735,
+  author = {{Civil Aviation Administration of China, Office of Aviation Safety}},
+  title = {Guanyu '3·21' Donghang MU5735 hangkongqi feixing shigu diaocha chubu baogao de qingkuang tongbao [Notice on the preliminary report of the investigation into the '3·21' China Eastern MU5735 aircraft accident] (in Chinese)},
+  institution = {CAAC},
+  year = {2022},
+  address = {Beijing},
+  url = {https://www.caac.gov.cn/XXGK/XXGK/TZTG/202204/t20220420_212895.html},
+  urldate = {2026-11-07},
+  note = {Date: 20 April 2022. Dive case 17 (China Eastern 5735 (B737, 2022)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the CAAC notice web page (downloaded and read: page title and issuing office (航空安全办公室), date 2022-04-20). PRELIMINARY ONLY: no final report has been published (status checked 7 Nov 2026; CAAC issued anniversary statements in 2023 and 2024 only). NTSB investigation DCA22WA102 records released in May 2026 are reported in the press but were not retrieved; they are not a final report.},
+  type = {Accident investigation report},
+}
+
+@techreport{aaic1993lauda004,
+  author = {{Aircraft Accident Investigation Committee of Thailand}},
+  title = {Lauda Air Luftfahrt Aktiengesellschaft Boeing 767-300ER Registration OE-LAV, Dan Chang District, Suphan Buri Province, Thailand, 26 May B.E. 2534 (A.D. 1991)},
+  institution = {Aircraft Accident Investigation Committee, Thailand},
+  year = {1993},
+  address = {Bangkok},
+  url = {https://www.faa.gov/sites/faa.gov/files/LaudaAccidentReport_0.pdf},
+  urldate = {2026-11-07},
+  note = {Date: approved 21 July 1993. Dive case 18 (Lauda Air 004 (B767, 1991)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the FAA-hosted transcription of the report (prepared for the web at the University of Bielefeld) (downloaded and read: title block and 'CAB APPROVED JULY 21, 1993'); the original printed report was not seen},
+  type = {Accident investigation report},
+}
+
+@techreport{knkt2022sriwijaya182,
+  author = {{Komite Nasional Keselamatan Transportasi}},
+  title = {Final KNKT.21.01.01.04 Aircraft Accident Investigation Report: PT Sriwijaya Air, Boeing 737-500; PK-CLC, Kepulauan Seribu District, DKI Jakarta, Republic of Indonesia, 9 January 2021},
+  institution = {KNKT},
+  number = {KNKT.21.01.01.04},
+  year = {2022},
+  address = {Jakarta},
+  url = {https://knkt.go.id/Repo/Files/Laporan/Penerbangan/2021/KNKT.21.01.01.04-Final-Report.pdf},
+  urldate = {2026-11-07},
+  note = {Date: November 2022. Dive case 19 (Sriwijaya Air 182 (B737, 2021)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the KNKT report PDF (downloaded and read: cover: 'FINAL KNKT.21.01.01.04', year 2022); release month from secondary listings (10 November 2022)},
+  type = {Accident investigation report},
+}
+
+@techreport{cenipa2008gol1907,
+  author = {{Centro de Investigação e Prevenção de Acidentes Aeronáuticos (CENIPA), Command of Aeronautics, Brazil}},
+  title = {Final Report A-022/CENIPA/2008: PR-GTD and N600XL, B-737 8EH and EMB-135 BJ Legacy, 29 September 2006},
+  institution = {CENIPA},
+  number = {A-022/CENIPA/2008},
+  year = {2008},
+  address = {Brasília},
+  url = {https://sistema.cenipa.fab.mil.br/cenipa/paginas/relatorios/rf/en/RF_PR-GTD_N600XL_29_09_06_Eng..pdf},
+  urldate = {2026-11-07},
+  note = {Dive case 20 (Gol 1907 (B737, 2006)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the indexed text of the CENIPA English final report at sistema.cenipa.fab.mil.br (direct request refused, HTTP 403); direct download failed (proxy gateway error or time-out), so the PDF itself was not opened. The cover prints 'A-00X/CENIPA/2008'; the running footer of every page prints 'FR A-022/CENIPA/2008'. The Portuguese original is the text of reference.},
+  type = {Accident investigation report},
+}
+
+@techreport{ntsb1975nw6231,
+  author = {{National Transportation Safety Board}},
+  title = {Aircraft Accident Report: Northwest Airlines, Inc., Boeing 727-251, N274US, near Thiells, New York, December 1, 1974},
+  institution = {NTSB},
+  number = {NTSB-AAR-75-13},
+  year = {1975},
+  address = {Washington, DC},
+  url = {https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR7513.pdf},
+  urldate = {2026-11-07},
+  note = {Date: 13 August 1975. Dive case 21 (Northwest 6231 (B727, 1974)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the NTSB report PDF (scanned) (downloaded and read: technical report documentation page: title, report date August 13, 1975); the report number is partly illegible in the scan and is confirmed by the NTSB file name AAR7513},
+  type = {Accident investigation report},
+}
+
+@techreport{ntsb1999usair427,
+  author = {{National Transportation Safety Board}},
+  title = {Aircraft Accident Report: Uncontrolled Descent and Collision with Terrain, USAir Flight 427, Boeing 737-300, N513AU, near Aliquippa, Pennsylvania, September 8, 1994},
+  institution = {NTSB},
+  number = {NTSB/AAR-99/01},
+  year = {1999},
+  address = {Washington, DC},
+  url = {https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR9901.pdf},
+  urldate = {2026-11-07},
+  note = {Date: adopted 24 March 1999. Dive case 22 (USAir 427 (B737, 1994)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the NTSB report PDF (downloaded and read: cover; 'Adopted March 24, 1999')},
+  type = {Accident investigation report},
+}
+
+@techreport{jiaa1996birgenair301,
+  author = {{Junta Investigadora de Accidentes Aéreos, Dirección General de Aeronáutica Civil, Dominican Republic}},
+  title = {Final Aviation Accident Report: Birgenair Flight ALW-301, Puerto Plata, Dominican Republic, February 6, 1996},
+  institution = {JIAA},
+  year = {1996},
+  address = {Santo Domingo},
+  url = {https://www.faa.gov/sites/faa.gov/files/Birgenair301_Accident_Report.pdf},
+  urldate = {2026-11-07},
+  note = {Dive case 23 (Birgenair 301 (B757, 1996)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the FAA-hosted English translation by ALPA of the JIAA report (downloaded and read: cover page); the Spanish original (Reporte Final, 25 October 1996 per secondary listings) was not seen},
+  type = {Accident investigation report},
+}
+
+@techreport{romania2000tarom371,
+  author = {{Ministry of Transport, Romania, Administrative Investigation Commission}},
+  title = {[Final report on the accident to the Airbus A310-324 YR-LCC, TAROM flight ROT 371, Balotești, 31 March 1995]},
+  institution = {Ministry of Transport, Romania},
+  year = {2000},
+  address = {Bucharest},
+  note = {Dive case 24 (Tarom 371 (A310, 1995)) of the end-of-flight master case table. NOT VERIFIED: not retrieved - ask Pete. The CIAS (Romania) and Flight Safety Foundation copies could not be downloaded; title in brackets is descriptive, not the body's own title; the year 2000 rests on a secondary listing of report reference 'Nr.31/839/21/09/2000'},
+  type = {Accident investigation report},
+}
+
+@techreport{india1978airindia855,
+  author = {{Government of India, Court of Inquiry (Justice M. N. Chandurkar)}},
+  title = {[Report of the Court of Inquiry into the accident to Air India Boeing 747 VT-EBD 'Emperor Ashoka' off Bombay on 1 January 1978]},
+  institution = {Government of India},
+  address = {New Delhi},
+  note = {Dive case 25 (Air India 855 (B747, 1978)) of the end-of-flight master case table. NOT VERIFIED: not retrieved - ask Pete. Only the Lok Sabha answer of 24 February 1978 naming the Court of Inquiry (Justice M. N. Chandurkar) was located; title in brackets is descriptive; year of the report unknown},
+  type = {Accident investigation report},
+}
+
+@techreport{mca2006flash604,
+  author = {{Ministry of Civil Aviation, Arab Republic of Egypt}},
+  title = {Final Report of the Accident Investigation: Flash Airlines Flight 604, January 3, 2004, Boeing 737-300 SU-ZCF, Red Sea off Sharm El-Sheikh, Egypt},
+  institution = {Ministry of Civil Aviation, Egypt},
+  year = {2006},
+  address = {Cairo},
+  url = {https://bea.aero/docspa/2004/su-f040103a/pdf/su-f040103a.pdf},
+  urldate = {2026-11-07},
+  note = {Date: 25 March 2006. Dive case 26 (Flash Airlines 604 (B737, 2004)) of the end-of-flight master case table. PARTLY VERIFIED 7 Nov 2026: title from secondary listings that link the BEA-hosted copy; date 25 March 2006 from secondary listings; the BEA copy could not be downloaded (proxy gateway error)},
+  type = {Accident investigation report},
+}
+
+@techreport{ccaa2010kenya507,
+  author = {{Cameroon Civil Aviation Authority}},
+  title = {Technical Investigation into the Accident of the B737-800 Registration 5Y-KYA Operated by Kenya Airways that Occurred on the 5th of May 2007 in Douala},
+  institution = {CCAA},
+  year = {2010},
+  address = {Yaoundé},
+  note = {Date: released 28 April 2010. Dive case 27 (Kenya Airways 507 (B737, 2007)) of the end-of-flight master case table. PARTLY VERIFIED 7 Nov 2026: title from the SKYbrary listing of the CCAA report; release date from contemporary reports (Aviation Herald, CNN, 28 April 2010); the report itself was not retrieved},
+  type = {Accident investigation report},
+}
+
+@techreport{lebanon2012et409,
+  author = {{Republic of Lebanon, Ministry of Public Works \& Transport}},
+  title = {Investigation Report on the Accident to Ethiopian 409, Boeing 737-800, Registration ET-ANB, at Beirut, Lebanon, on 25th January 2010},
+  institution = {Ministry of Public Works \& Transport, Lebanon},
+  year = {2012},
+  address = {Beirut},
+  note = {Date: 17 January 2012. Dive case 28 (Ethiopian 409 (B737, 2010)) of the end-of-flight master case table. PARTLY VERIFIED 7 Nov 2026: title as cited by the Flight Safety Foundation (AeroSafety World) and the indexed text of the FSF copy (running head 'Investigation Report - ET 409'); release date 17 January 2012 from ASN news; the report was not downloaded},
+  type = {Accident investigation report},
+}
+
+@techreport{ciada1997austral2553,
+  author = {{Comisión Investigadora de Accidentes de Aviación, Dirección Nacional de Aviación Civil e Infraestructura Aeronáutica, Uruguay}},
+  title = {Informe final de accidente de aviación: McDonnell Douglas DC-9-32, Austral Líneas Aéreas Cielos del Sur S.A., LV-WEG, Nuevo Berlín, R.O.U., 10 de octubre de 1997 (in Spanish)},
+  institution = {CIADA},
+  address = {Montevideo},
+  note = {Dive case 29 (Austral 2553 (DC-9, 1997)) of the end-of-flight master case table. NOT VERIFIED: not retrieved - ask Pete. Title from the cover text of a Scribd copy (secondary); year not confirmed (secondary sources give 1998 or 1999); the JIAAC (Argentina) dissent is annexed to the report},
+  type = {Accident investigation report},
+}
+
+@techreport{dac1993copa201,
+  author = {{Dirección de Aeronáutica Civil, Republic of Panama}},
+  title = {[Final report, in Spanish:] Copa Flight 201 Boeing 737-204 Advanced - 6 June 1992 - near Tucuti, Darien - Republic of Panama},
+  institution = {Dirección de Aeronáutica Civil, Panama},
+  address = {Panama City},
+  url = {https://data.ntsb.gov/Docket?ProjectID=15961},
+  urldate = {2026-11-07},
+  note = {Dive case 30 (Copa 201 (B737, 1992)) of the end-of-flight master case table. PARTLY VERIFIED 7 Nov 2026: the final report and an English translation of its conclusions are items 1-2 of NTSB docket DCA92RA038 (docket index text); the docket page loads but its file list is script-generated and was not read; the report's own title page was not seen; no publication date confirmed},
+  type = {Accident investigation report},
+}
+
+@techreport{bea2016germanwings9525,
+  author = {{Bureau d'Enquêtes et d'Analyses pour la sécurité de l'aviation civile}},
+  title = {Final Report: Accident on 24 March 2015 at Prads-Haute-Bléone (Alpes-de-Haute-Provence, France) to the Airbus A320-211 registered D-AIPX operated by Germanwings},
+  institution = {BEA},
+  number = {BEA2015-0125},
+  year = {2016},
+  address = {Le Bourget},
+  url = {https://bea.aero/uploads/tx_elydbrapports/BEA2015-0125.en-LR.pdf},
+  urldate = {2026-11-07},
+  note = {Date: published 13 March 2016. Dive case 31 (Germanwings 9525 (A320, 2015)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the indexed text of the BEA English final report and BEA investigation page at bea.aero (cover: 'Published March 2016'; file number BEA2015-0125; final report dated 2016/03/13); direct download failed (proxy gateway error or time-out), so the PDF itself was not opened. Courtesy translation; the French text is the report of reference.},
+  type = {Accident investigation report},
+}
+
+@techreport{daai2016lam470,
+  author = {{Directorate of Aircraft Accident Investigations, Republic of Namibia}},
+  title = {Civil Aircraft Accident Report: Aircraft C9-EMC, Embraer 190, Bwabwata National Park, 29 November 2013},
+  institution = {DAAI},
+  year = {2016},
+  address = {Windhoek},
+  note = {Date: released 15 April 2016. Dive case 32 (LAM 470 (E190, 2013)) of the end-of-flight master case table. PARTLY VERIFIED 7 Nov 2026: title block from the indexed text of the Flight Safety Foundation copy; release date from secondary listings; report reference ACCID/112913/1-12 given by ASN only, so not entered},
+  type = {Accident investigation report},
+}
+
+@techreport{eaaid2024ms804,
+  author = {{Egyptian Aircraft Accident Investigation Directorate, Ministry of Civil Aviation}},
+  title = {[Final investigation report: accident to the Airbus A320-232 SU-GCC, EgyptAir flight MS804, Mediterranean Sea, 19 May 2016]},
+  institution = {EAAID},
+  year = {2024},
+  address = {Cairo},
+  url = {https://bea.aero/en/investigation-reports/notified-events/detail/accident-to-the-airbus-a320-registered-su-gcc-and-operated-by-egyptair-on-05-19-2016-in-cruise-off-the-egyptian-coast-investigation-led-by-aib-egypt/},
+  urldate = {2026-11-07},
+  note = {Date: published 29 October 2024. Dive case 33 (EgyptAir 804 (A320, 2016)) of the end-of-flight master case table. PARTLY VERIFIED 7 Nov 2026: existence, issuing body and publication date (29 October 2024) from the indexed BEA investigation page, which hosts the report; the report's own title page was not seen, so the title is descriptive (in brackets); ASN gives report number EGAI2016-01 (not entered). The BEA dissent is Annex F of the published report; the BEA also published the safety study 'Oxygen fire in cockpit study'.},
+  type = {Accident investigation report},
+}
+
+@techreport{ntsb2002alaska261,
+  author = {{National Transportation Safety Board}},
+  title = {Aircraft Accident Report: Loss of Control and Impact with Pacific Ocean, Alaska Airlines Flight 261, McDonnell Douglas MD-83, N963AS, about 2.7 Miles North of Anacapa Island, California, January 31, 2000},
+  institution = {NTSB},
+  number = {NTSB/AAR-02/01},
+  year = {2002},
+  address = {Washington, DC},
+  url = {https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR0201.pdf},
+  urldate = {2026-11-07},
+  note = {Date: adopted 30 December 2002. Dive case 34 (Alaska Airlines 261 (MD-83, 2000)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the NTSB report PDF (downloaded and read: cover; 'Adopted December 30, 2002')},
+  type = {Accident investigation report},
+}
+
+@techreport{aaiasb2006helios522,
+  author = {{Air Accident Investigation \& Aviation Safety Board, Hellenic Republic}},
+  title = {Aircraft Accident Report: Helios Airways Flight HCY522, Boeing 737-31S, at Grammatiko, Hellas, on 14 August 2005},
+  institution = {AAIASB},
+  number = {11/2006},
+  year = {2006},
+  address = {Athens},
+  url = {https://www.faa.gov/sites/faa.gov/files/2022-11/Helios737_AccidentReport.pdf},
+  urldate = {2026-11-07},
+  note = {Date: November 2006. Dive case 35 (Helios 522 (B737, 2005)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the report PDF hosted by the FAA (copy of the AAIASB English edition) (downloaded and read: cover: 'AIRCRAFT ACCIDENT REPORT ... 11 / 2006')},
+  type = {Accident investigation report},
+}
+
+@techreport{ntsb2007pinnacle3701,
+  author = {{National Transportation Safety Board}},
+  title = {Aircraft Accident Report: Crash of Pinnacle Airlines Flight 3701, Bombardier CL-600-2B19, N8396A, Jefferson City, Missouri, October 14, 2004},
+  institution = {NTSB},
+  number = {NTSB/AAR-07/01},
+  year = {2007},
+  address = {Washington, DC},
+  url = {https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR0701.pdf},
+  urldate = {2026-11-07},
+  note = {Date: adopted 9 January 2007. Dive case 37 (Pinnacle 3701 (CRJ200, 2004)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the NTSB report PDF (downloaded and read: cover; 'Adopted January 9, 2007')},
+  type = {Accident investigation report},
+}
+
+@techreport{iac2007pulkovo612,
+  author = {{Interstate Aviation Committee, Technical Commission}},
+  title = {Okonchatel'nyi otchet po rezul'tatam rassledovaniya aviatsionnogo proisshestviya s samoletom Tu-154M RA-85185 aviakompanii 'Pulkovo' 22.08.2006 v raione n.p. Sukhaya Balka Konstantinovskogo raiona Donetskoi oblasti, Ukraina [Final report on the investigation of the accident to Tu-154M RA-85185 of Pulkovo Airlines, 22 August 2006, Donetsk Region, Ukraine] (in Russian)},
+  institution = {IAC},
+  year = {2007},
+  address = {Moscow},
+  url = {https://mak-iac.org/rassledovaniya/tu-154-ra-85185-22-08-2006/},
+  urldate = {2026-11-07},
+  note = {Date: investigation completed 12 February 2007. Dive case 38 (Pulkovo 612 (Tu-154, 2006)) of the end-of-flight master case table. PARTLY VERIFIED 7 Nov 2026: completion date (12.02.2007) on the IAC investigation page, and the IAC technical-commission summary PDF (downloaded and read); the full final report is not on the IAC site and the Flight Safety Foundation copy could not be downloaded; title from library citations of the report},
+  type = {Accident investigation report},
+}
+
+@techreport{jiaac2010wca708,
+  author = {{Junta Investigadora de Accidentes de Aviación Civil, República Bolivariana de Venezuela}},
+  title = {Informe Final Caso West Caribbean HK4374X, vuelo WCW708, Machiques, Estado Zulia, 16 de agosto de 2005 (in Spanish)},
+  institution = {JIAAC},
+  number = {Expediente JIAAC-9-058-2005},
+  year = {2010},
+  address = {Caracas},
+  note = {Date: delivered 16 August 2010. Dive case 39 (West Caribbean 708 (MD-82, 2005)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the English translation of the main text (SKYbrary copy) (downloaded and read: title line with file number JIAAC-9-058-2005); the Spanish title from the indexed text of the official PDF; delivery date from the Venezuelan ministry press release as cited by secondary sources},
+  type = {Accident investigation report},
+}
+
+@techreport{france1976thy981,
+  author = {{Secrétariat d'État aux Transports, Commission d'enquête}},
+  title = {Turkish Airlines DC-10 TC-JAV: Report on the accident in the Ermenonville Forest, France on 3 March 1974. Translation of the report published by the French Secretariat of State for Transport. Accidents Investigation Branch, Department of Trade, Aircraft Accident Report 8/76},
+  institution = {Secrétariat d'État aux Transports},
+  number = {AIB Aircraft Accident Report 8/76},
+  year = {1976},
+  address = {London: HMSO},
+  url = {https://assets.publishing.service.gov.uk/media/5422eedde5274a1317000247/8-1976_TC-JAV.pdf},
+  urldate = {2026-11-07},
+  note = {Date: February 1976 (translation title page). Dive case 40 (Turkish Airlines 981 (DC-10, 1974)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the UK AIB English translation (scanned PDF) (downloaded and read: cover and title page: 'Translation of the report published by the French Secretariat of State for Transport', 'February 1976'); the number 8/76 is taken from the publisher's file name and secondary citations, not seen on the scan; the French original (Rapport final, 1976) was not downloaded},
+  type = {Accident investigation report},
+}
+
+@techreport{russia1994aeroflot593,
+  author = {{Aircraft Accident Investigation Commission (Russian Government Commission)}},
+  title = {Report on the investigation into the crash of A310-308, registration F-OGQS, on 22 March 1994 near the city of Mezhdurechensk (English translation)},
+  institution = {Aircraft Accident Investigation Commission, Russia},
+  address = {Moscow},
+  note = {Dive case 41 (Aeroflot 593 (A310, 1994)) of the end-of-flight master case table. PARTLY VERIFIED 7 Nov 2026: title and commission from page 1 of an English translation (copy from baaa-acro.com, downloaded and read); the issuing authority's original, its date and its archive location were not confirmed. The report uses the date 22 March 1994 (UTC); the accident was 23 March local time.},
+  type = {Accident investigation report},
+}
+
+@techreport{mali2016ah5017,
+  author = {{Commission d'enquête sur les accidents d'aviation civile, Ministère de l'Équipement, des Transports et du Désenclavement, République du Mali}},
+  title = {Final Report: Accident on 24 July 2014 near Gossi (Mali) to the McDonnell Douglas DC-9-83 (MD-83) registered EC-LTV operated by Swiftair S.A.},
+  institution = {Mali Commission of Inquiry},
+  year = {2016},
+  address = {Bamako},
+  url = {https://bea.aero/fileadmin/uploads/tx_elydbrapports/ec-v140724.pdf},
+  urldate = {2026-11-07},
+  note = {Date: 22 April 2016. Dive case 42 (Air Algerie 5017 (MD-83, 2014)) of the end-of-flight master case table. VERIFIED 7 Nov 2026 against the indexed text of the final report (English edition, Flight Safety Foundation copy; French edition, BEA copy) at asn.flightsafety.org and bea.aero ('FINAL REPORT', 'Investigation Final Report on 22 April 2016'); direct download failed (proxy gateway error or time-out), so the PDF itself was not opened. Investigation by the Malian Commission of Inquiry with technical support from the BEA.},
+  type = {Accident investigation report},
+}
+
+@book{gelman2013bda,
+  author = {Gelman, Andrew and Carlin, John B. and Stern, Hal S. and Dunson, David B. and Vehtari, Aki and Rubin, Donald B.},
+  title = {Bayesian Data Analysis},
+  publisher = {Chapman and Hall/CRC},
+  year = {2013},
+  address = {Boca Raton, FL},
+  doi = {10.1201/b16018},
+  note = {VERIFIED 7 Nov 2026 against CrossRef (DOI resolves; title, authors, year, venue match); the edition statement (third) is from the 2013 publication year, not from the CrossRef record (edition field empty). Used for: Hierarchical (partial-pooling) model for the case-informed dive prior},
+}
+
+@article{metropolis1953,
+  author = {Metropolis, Nicholas and Rosenbluth, Arianna W. and Rosenbluth, Marshall N. and Teller, Augusta H. and Teller, Edward},
+  title = {Equation of State Calculations by Fast Computing Machines},
+  journal = {The Journal of Chemical Physics},
+  volume = {21},
+  number = {6},
+  pages = {1087--1092},
+  year = {1953},
+  doi = {10.1063/1.1699114},
+  note = {VERIFIED 7 Nov 2026 against CrossRef (DOI resolves; title, authors, year, venue match). Used for: Random-walk Metropolis sampler (dive-model hyperparameters)},
+}
+
+@article{hastings1970,
+  author = {Hastings, W. K.},
+  title = {Monte Carlo sampling methods using Markov chains and their applications},
+  journal = {Biometrika},
+  volume = {57},
+  number = {1},
+  pages = {97--109},
+  year = {1970},
+  doi = {10.1093/biomet/57.1.97},
+  note = {VERIFIED 7 Nov 2026 against CrossRef (DOI resolves; title, authors, year, venue match). Used for: Metropolis-Hastings acceptance rule (random-walk sampler)},
+}
+
+@book{robert2004mcsm,
+  author = {Robert, Christian P. and Casella, George},
+  title = {Monte Carlo Statistical Methods},
+  publisher = {Springer},
+  series = {Springer Texts in Statistics},
+  year = {2004},
+  address = {New York},
+  doi = {10.1007/978-1-4757-4145-2},
+  note = {VERIFIED 7 Nov 2026 against CrossRef (DOI resolves; title, authors, year, venue match); edition statement (second) from the 2004 publication year, not from the CrossRef record. Used for: Importance sampling and importance weights (end-of-flight estimator)},
+}
+
+@article{kong1994,
+  author = {Kong, Augustine and Liu, Jun S. and Wong, Wing Hung},
+  title = {Sequential Imputations and Bayesian Missing Data Problems},
+  journal = {Journal of the American Statistical Association},
+  volume = {89},
+  number = {425},
+  pages = {278--288},
+  year = {1994},
+  doi = {10.1080/01621459.1994.10476469},
+  note = {VERIFIED 7 Nov 2026 against CrossRef (DOI resolves; title, authors, year, venue match). Used for: Effective sample size of importance weights (1/sum w^2 form)},
+}
+
+@book{kish1965,
+  author = {Kish, Leslie},
+  title = {Survey Sampling},
+  publisher = {John Wiley and Sons},
+  year = {1965},
+  address = {New York},
+  note = {NOT VERIFIED: not retrieved - ask Pete. No DOI; the book was not fetched; details are the standard bibliographic form. Used for: Kish effective sample size (named so in the engine reporting scripts)},
+}
+
+@article{dawid1984,
+  author = {Dawid, A. P.},
+  title = {Present Position and Potential Developments: Some Personal Views: Statistical Theory: The Prequential Approach},
+  journal = {Journal of the Royal Statistical Society. Series A (General)},
+  volume = {147},
+  number = {2},
+  pages = {278--290},
+  year = {1984},
+  doi = {10.2307/2981683},
+  note = {VERIFIED 7 Nov 2026 against CrossRef (DOI resolves; title, authors, year, venue match) (CrossRef gives the first page only); pages 278-290 from the publisher's (Wiley Online Library) record; the JSTOR item including the discussion runs to p. 292. Used for: Probability integral transform (prequential) calibration check},
+}
+
+@techreport{kahn1955,
+  author = {Kahn, Herman},
+  title = {Use of Different Monte Carlo Sampling Techniques},
+  institution = {RAND Corporation},
+  number = {P-766},
+  year = {1955},
+  address = {Santa Monica, CA},
+  url = {https://www.rand.org/pubs/papers/P766.html},
+  urldate = {2026-11-07},
+  note = {VERIFIED 7 Nov 2026 against the indexed text of the RAND publication page (title, author, P-766, 1955, 41 pp.; abstract names Russian roulette and splitting); direct request refused by the server (HTTP 403). Also printed in H. A. Meyer (ed.) (1956) Symposium on Monte Carlo Methods, Wiley, pp. 146-190 (secondary citations). Used for: Unbiased Russian-roulette thinning of low-weight descent particles},
+  type = {RAND Paper},
+}
+
+@misc{easa2023cs25,
+  author = {{European Union Aviation Safety Agency}},
+  title = {Certification Specifications and Acceptable Means of Compliance for Large Aeroplanes ({CS-25}), Amendment 28},
+  year = {2023},
+  url = {https://www.easa.europa.eu/en/document-library/certification-specifications/cs-25-amendment-28},
+  urldate = {2026-11-07},
+  note = {VERIFIED 7 Nov 2026 against the indexed text of the EASA document-library page (Amendment 28, 19 Dec 2023; file replaced 20/11/2025); the CS 25.337 text itself was read in the 14 CFR 25.337 counterpart, not in the EASA PDF. The ED Decision number is from a secondary listing. Used for: Limit manoeuvring load factors, CS 25.337 (negative load-factor floor)},
+  howpublished = {ED Decision 2023/021/R, 19 December 2023 (file corrected 20 November 2025)},
+}
+
+@misc{cfr14s25337,
+  author = {{Federal Aviation Administration}},
+  title = {14 {CFR} 25.337 Limit maneuvering load factors},
+  year = {2016},
+  url = {https://www.ecfr.gov/current/title-14/section-25.337},
+  urldate = {2026-11-07},
+  note = {VERIFIED 7 Nov 2026 against the eCFR versioner API (section text read: negative limit load factor not less than -1.0 at speeds up to V_C, varying linearly to zero at V_D; latest amendment date 2016-12-30). Used for: Limit manoeuvring load factors, 14 CFR 25.337 (n >= -1.0 up to V_C)},
+  howpublished = {Code of Federal Regulations, Title 14, Chapter I, Subchapter C, Part 25, Subpart C; electronic CFR, section last amended 30 December 2016},
+}
+
+@book{hull2007,
+  author = {Hull, David G.},
+  title = {Fundamentals of Airplane Flight Mechanics},
+  publisher = {Springer},
+  year = {2007},
+  address = {Berlin, Heidelberg},
+  doi = {10.1007/978-3-540-46573-7},
+  note = {VERIFIED 7 Nov 2026 against CrossRef (DOI resolves; title, authors, year, venue match) (CrossRef record carries no author); author from the Springer Nature Link book page (fetched). Used for: Point-mass equations of motion for the descent integrator},
+}
+
+@article{gur2010drag,
+  author = {Gur, Ohad and Mason, William H. and Schetz, Joseph A.},
+  title = {Full-Configuration Drag Estimation},
+  journal = {Journal of Aircraft},
+  volume = {47},
+  number = {4},
+  pages = {1356--1367},
+  year = {2010},
+  doi = {10.2514/1.47557},
+  note = {VERIFIED 7 Nov 2026 against CrossRef (DOI resolves; title, authors, year, venue match); that the paper states Lock's fourth-power law, Delta C_D = 20(M - M_cr)^4 for M > M_cr, with M_cr from the Korn equation, was confirmed from indexed text of the author's copy (wave-drag section, near printed p. 1360); the paper was not opened in full. Lock's own primary source was not identified. Used for: Fourth-power wave-drag rise 20(M - M_crit)^4 (Lock's fourth-power law), replaces lock1964},
+}
+
+@techreport{atsb2015searchareas,
+  author = {{Australian Transport Safety Bureau}},
+  title = {{MH370} -- Definition of Underwater Search Areas},
+  institution = {Australian Transport Safety Bureau},
+  number = {AE-2014-054},
+  year = {2015},
+  address = {Canberra},
+  url = {https://www.atsb.gov.au/sites/default/files/2022-12/AE-2014-054_MH370-Definition%20of%20Underwater%20Search%20Areas_3Dec2015.pdf},
+  urldate = {2026-11-07},
+  note = {VERIFIED 7 Nov 2026 against the indexed text of the ATSB report PDF and investigation page (title, AE-2014-054, 'Final 3 December 2015', release date 03/12/2015); direct download timed out. ATSB notes an updated version released 10 December 2015 clarifying p. 9. Used for: Search-area definition and end-of-flight simulator summary at December 2015},
+  type = {ATSB Transport Safety Report, External Aviation Investigation},
+}
+
+@article{blackman2004,
+  author = {Blackman and de Groot-Hedlin and Harben and others},
+  title = {Testing low/very low frequency acoustic sources for basin-wide propagation in the Indian Ocean},
+  journal = {The Journal of the Acoustical Society of America},
+  volume = {116},
+  pages = {2057--2066},
+  year = {2004},
+  doi = {10.1121/1.1786711},
+}
+
+@article{graeber2004,
+  author = {Graeber and Piserchia},
+  title = {Zones ofT-wave excitation in the NE Indian ocean mapped using variations in backazimuth over time obtained from multi-channel correlation of IMS hydrophone triplet data},
+  journal = {Geophysical Journal International},
+  year = {2004},
+  doi = {10.1111/j.1365-246x.2004.02301.x},
+}
+
+@techreport{blackman2004b,
+  author = {Blackman and de Groot-Hedlin and Orcutt and others},
   title = {Methods for Calibrating Basin-Wide Hydroacoustic Propagation in the Indian Ocean},
   institution = {Lawrence Livermore National Laboratory},
   number = {UCRL-TR-207323},
@@ -305,24 +1064,694 @@
   doi = {10.2172/15011808},
 }
 
-@article{Blackman2004JASA,
-  author = {Blackman, D. K. and de Groot-Hedlin, C. and Harben, P. and Sauter, A. and Orcutt, J. A.},
-  title = {Testing low/very low frequency acoustic sources for basin-wide propagation in the {Indian Ocean}},
-  journal = {J. Acoust. Soc. Am.},
-  volume = {116},
-  pages = {2057--2066},
+@article{tolstoy2004,
+  author = {Tolstoy and Diebold and Webb and others},
+  title = {Broadband calibration of R/V Ewing seismic sources},
+  journal = {Geophysical Research Letters},
   year = {2004},
-  doi = {10.1121/1.1786711},
+  doi = {10.1029/2004gl020234},
 }
 
-@article{Kadri2024,
-  author = {Kadri, U.},
-  title = {Underwater acoustic analysis reveals unique pressure signals associated with aircraft crashes in the sea: revisiting {MH370}},
+@article{talandier2006,
+  author = {Talandier and Hyvernaud and Reymond and others},
+  title = {Hydroacoustic signals generated by parked and drifting icebergs in the Southern Indian and Pacific Oceans},
+  journal = {Geophysical Journal International},
+  year = {2006},
+  doi = {10.1111/j.1365-246x.2006.02911.x},
+}
+
+@article{li2008,
+  author = {Li and Gavrilov},
+  title = {Localization of Antarctic ice breaking events by frequency dispersion of the signals received at a single hydroacoustic station in the Indian Ocean},
+  journal = {The Journal of the Acoustical Society of America},
+  year = {2008},
+  doi = {10.1121/1.2932527},
+}
+
+@article{royer2015,
+  author = {Royer and Chateau and Dziak and others},
+  title = {Seafloor seismicity, Antarctic ice-sounds, cetacean vocalizations and long-term ambient sound in the Indian Ocean basin},
+  journal = {Geophysical Journal International},
+  year = {2015},
+  doi = {10.1093/gji/ggv178},
+}
+
+@techreport{raumer2025,
+  author = {Raumer and Bazin and Royer and others},
+  title = {Hydroacoustic geophony automatic detection: an open benchmark dataset with an open model},
+  year = {2025},
+  doi = {10.5194/egusphere-egu24-5256},
+}
+
+@techreport{stead2014,
+  author = {Stead},
+  title = {Seismic and hydroacoustic analysis relevant to MH370},
+  year = {2014},
+  doi = {10.2172/1136454},
+}
+
+@article{kadri2017,
+  author = {Kadri and Crivelli and Parsons and others},
+  title = {Rewinding the waves: tracking underwater signals to their source},
+  journal = {Scientific Reports},
+  year = {2017},
+  doi = {10.1038/s41598-017-14177-3},
+}
+
+@article{kadri2019,
+  author = {Kadri},
+  title = {Effect of sea-bottom elasticity on the propagation of acoustic–gravity waves from impacting objects},
+  journal = {Scientific Reports},
+  volume = {9},
+  pages = {912},
+  year = {2019},
+  doi = {10.1038/s41598-018-37626-z},
+}
+
+@article{dallosto2023,
+  author = {Dall'Osto and Duncan},
+  title = {Revisiting acoustic detections made in the Indian Ocean at the time of the loss of MH370},
+  journal = {The Journal of the Acoustical Society of America},
+  year = {2023},
+  doi = {10.1121/10.0022760},
+}
+
+@article{duncan2023,
+  author = {Duncan and Dall'Osto},
+  title = {Long-range underwater acoustic detection of aircraft surface impacts—The influence of acoustic propagation conditions and impact parameters},
+  journal = {The Journal of the Acoustical Society of America},
+  volume = {154},
+  pages = {A49},
+  year = {2023},
+  doi = {10.1121/10.0022761},
+  note = {Abstract},
+}
+
+@article{kadri2024,
+  author = {Kadri},
+  title = {Underwater acoustic analysis reveals unique pressure signals associated with aircraft crashes in the sea: revisiting MH370},
   journal = {Scientific Reports},
   volume = {14},
   pages = {10102},
   year = {2024},
   doi = {10.1038/s41598-024-60529-1},
+}
+
+@article{prior2011,
+  author = {Prior and Meless and Bittner and others},
+  title = {Long-Range Detection and Location of Shallow Underwater Explosions Using Deep-Sound-Channel Hydrophones},
+  journal = {IEEE Journal of Oceanic Engineering},
+  year = {2011},
+  doi = {10.1109/joe.2011.2154390},
+}
+
+@article{dallosto2019,
+  author = {Dall'Osto},
+  title = {Source triangulation utilizing three-dimensional arrivals: Application to the search for the ARA San Juan submarine},
+  journal = {The Journal of the Acoustical Society of America},
+  year = {2019},
+  doi = {10.1121/1.5125251},
+}
+
+@article{nielsen2020,
+  author = {Nielsen and Zampolli and Le Bras and others},
+  title = {CTBTO’s Data and Analysis Pertaining to the Search for the Missing Argentine Submarine ARA San Juan},
+  journal = {Pure and Applied Geophysics},
+  year = {2020},
+  doi = {10.1007/s00024-020-02445-9},
+}
+
+@article{heyburn2020,
+  author = {Heyburn and Bowers and Green},
+  title = {Seismic and hydroacoustic observations from recent underwater events in the South Atlantic Ocean},
+  journal = {Geophysical Journal International},
+  year = {2020},
+  doi = {10.1093/gji/ggaa291},
+}
+
+@article{vergoz2021,
+  author = {Vergoz and Cansi and Cano and others},
+  title = {Analysis of Hydroacoustic Signals Associated to the Loss of the Argentinian ARA San Juan Submarine},
+  journal = {Pure and Applied Geophysics},
+  year = {2021},
+  doi = {10.1007/s00024-020-02625-7},
+}
+
+@article{metz2022,
+  author = {Metz and Obana and Fukao},
+  title = {Remote Hydroacoustic Detection of an Airplane Crash},
+  journal = {Pure and Applied Geophysics},
+  volume = {180},
+  pages = {1343--1351},
+  year = {2022},
+  doi = {10.1007/s00024-022-03117-6},
+  note = {Published online 2022},
+}
+
+@article{metz2022b,
+  author = {Metz},
+  title = {Analysis of International Monitoring System hydrophone triplet data: Identifying the August 2021 eruption at Fukutoku-Okanoba, 24.3°N Bonin Arc},
+  journal = {Acoustical Science and Technology},
+  year = {2022},
+  doi = {10.1250/ast.43.125},
+}
+
+@article{schwardt2022,
+  author = {Schwardt and Pilger and Gaebler and others},
+  title = {Natural and Anthropogenic Sources of Seismic, Hydroacoustic, and Infrasonic Waves: Waveforms and Spectral Characteristics (and Their Applicability for Sensor Calibration)},
+  journal = {Surveys in Geophysics},
+  year = {2022},
+  doi = {10.1007/s10712-022-09713-4},
+}
+
+@article{pasyanos2025,
+  author = {Pasyanos and Pilger and Wang},
+  title = {Advances in geophysical forensic event monitoring},
+  journal = {Nature Reviews Earth &amp; Environment},
+  year = {2025},
+  doi = {10.1038/s43017-025-00702-w},
+}
+
+@techreport{oliveira2025,
+  author = {Oliveira and Prior and Lin and others},
+  title = {Underwater explosions recorded at IMS hydroacoustic stations from well-defined experiments},
+  year = {2025},
+  doi = {10.5194/egusphere-egu24-7649},
+}
+
+@article{brown2026,
+  author = {Brown and McFadden and McCormack and others},
+  title = {A search for hydroacoustic signals from bolides},
+  journal = {Icarus},
+  year = {2026},
+  doi = {10.1016/j.icarus.2026.117106},
+}
+
+@article{wald1940,
+  author = {Wald and Wolfowitz},
+  title = {On a Test Whether Two Samples are from the Same Population},
+  journal = {The Annals of Mathematical Statistics},
+  year = {1940},
+  doi = {10.1214/aoms/1177731909},
+}
+
+@article{wald1945,
+  author = {Wald},
+  title = {Sequential Tests of Statistical Hypotheses},
+  journal = {The Annals of Mathematical Statistics},
+  year = {1945},
+  doi = {10.1214/aoms/1177731118},
+}
+
+@article{page1954,
+  author = {Page},
+  title = {CONTINUOUS INSPECTION SCHEMES},
+  journal = {Biometrika},
+  year = {1954},
+  doi = {10.1093/biomet/41.1-2.100},
+}
+
+@article{barton1958,
+  author = {Barton and David},
+  title = {Non-Randomness in a Sequence of Two Alternatives: II. Runs Test},
+  journal = {Biometrika},
+  year = {1958},
+  doi = {10.2307/2333062},
+}
+
+@article{naus1965,
+  author = {Naus},
+  title = {The Distribution of the Size of the Maximum Cluster of Points on a Line},
+  journal = {Journal of the American Statistical Association},
+  year = {1965},
+  doi = {10.1080/01621459.1965.10480810},
+}
+
+@article{urkowitz1967,
+  author = {Urkowitz},
+  title = {Energy detection of unknown deterministic signals},
+  journal = {Proceedings of the IEEE},
+  year = {1967},
+  doi = {10.1109/proc.1967.5573},
+}
+
+@article{neidell1971,
+  author = {Neidell and Taner},
+  title = {SEMBLANCE AND OTHER COHERENCY MEASURES FOR MULTICHANNEL DATA},
+  journal = {GEOPHYSICS},
+  year = {1971},
+  doi = {10.1190/1.1440186},
+}
+
+@article{lorden1971,
+  author = {Lorden},
+  title = {Procedures for Reacting to a Change in Distribution},
+  journal = {The Annals of Mathematical Statistics},
+  year = {1971},
+  doi = {10.1214/aoms/1177693055},
+}
+
+@article{pickands1975,
+  author = {Pickands III},
+  title = {Statistical Inference Using Extreme Order Statistics},
+  journal = {The Annals of Statistics},
+  year = {1975},
+  doi = {10.1214/aos/1176343003},
+}
+
+@article{brown1975,
+  author = {Brown},
+  title = {400: A Method for Combining Non-Independent, One-Sided Tests of Significance},
+  journal = {Biometrics},
+  year = {1975},
+  doi = {10.2307/2529826},
+}
+
+@article{allen1978,
+  author = {Allen},
+  title = {Automatic earthquake recognition and timing from single traces},
+  journal = {Bulletin of the Seismological Society of America},
+  year = {1978},
+  doi = {10.1785/bssa0680051521},
+}
+
+@article{ljung1978,
+  author = {Ljung and Box},
+  title = {On a measure of lack of fit in time series models},
+  journal = {Biometrika},
+  year = {1978},
+  doi = {10.1093/biomet/65.2.297},
+}
+
+@article{rohling1983,
+  author = {Rohling},
+  title = {Radar CFAR Thresholding in Clutter and Multiple Target Situations},
+  journal = {IEEE Transactions on Aerospace and Electronic Systems},
+  year = {1983},
+  doi = {10.1109/taes.1983.309350},
+}
+
+@article{barniv1985,
+  author = {Barniv},
+  title = {Dynamic Programming Solution for Detecting Dim Moving Targets},
+  journal = {IEEE Transactions on Aerospace and Electronic Systems},
+  year = {1985},
+  doi = {10.1109/taes.1985.310548},
+}
+
+@article{kunsch1989,
+  author = {Kunsch},
+  title = {The Jackknife and the Bootstrap for General Stationary Observations},
+  journal = {The Annals of Statistics},
+  year = {1989},
+  doi = {10.1214/aos/1176347265},
+}
+
+@article{kaiser1990,
+  author = {Kaiser},
+  title = {On a simple algorithm to calculate the 'energy' of a signal},
+  journal = {International Conference on Acoustics, Speech, and Signal Processing},
+  year = {1990},
+  doi = {10.1109/icassp.1990.115702},
+}
+
+@article{theiler1992,
+  author = {Theiler and Eubank and Longtin and others},
+  title = {Testing for nonlinearity in time series: the method of surrogate data},
+  journal = {Physica D: Nonlinear Phenomena},
+  year = {1992},
+  doi = {10.1016/0167-2789(92)90102-s},
+}
+
+@article{carlson1994,
+  author = {Carlson and Evans and Wilson},
+  title = {Search radar detection and track with the Hough transform. I. system concept},
+  journal = {IEEE Transactions on Aerospace and Electronic Systems},
+  year = {1994},
+  doi = {10.1109/7.250410},
+}
+
+@article{benjamini1995,
+  author = {Benjamini and Hochberg},
+  title = {Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing},
+  journal = {Journal of the Royal Statistical Society Series B: Statistical Methodology},
+  year = {1995},
+  doi = {10.1111/j.2517-6161.1995.tb02031.x},
+}
+
+@article{tonissen1996,
+  author = {Tonissen and Evans},
+  title = {Peformance of dynamic programming techniques for Track-Before-Detect},
+  journal = {IEEE Transactions on Aerospace and Electronic Systems},
+  year = {1996},
+  doi = {10.1109/7.543865},
+}
+
+@article{schreiber1996,
+  author = {Schreiber and Schmitz},
+  title = {Improved Surrogate Data for Nonlinearity Tests},
+  journal = {Physical Review Letters},
+  year = {1996},
+  doi = {10.1103/physrevlett.77.635},
+}
+
+@article{kulldorff1997,
+  author = {Kulldorff},
+  title = {A spatial scan statistic},
+  journal = {Communications in Statistics - Theory and Methods},
+  year = {1997},
+  doi = {10.1080/03610929708831995},
+}
+
+@article{withers1998,
+  author = {Withers and Aster and Young and others},
+  title = {A comparison of select trigger algorithms for automated global seismic phase and event detection},
+  journal = {Bulletin of the Seismological Society of America},
+  year = {1998},
+  doi = {10.1785/bssa0880010095},
+}
+
+@article{anderson2001,
+  author = {Anderson and Brady and Creighton and others},
+  title = {Excess power statistic for detection of burst sources of gravitational radiation},
+  journal = {Physical Review D},
+  year = {2001},
+  doi = {10.1103/physrevd.63.042003},
+}
+
+@article{coles2001,
+  author = {Coles},
+  title = {An Introduction to Statistical Modeling of Extreme Values},
+  journal = {Springer Series in Statistics},
+  year = {2001},
+  doi = {10.1007/978-1-4471-3675-0},
+}
+
+@article{rost2002,
+  author = {Rost and Thomas},
+  title = {ARRAY SEISMOLOGY: METHODS AND APPLICATIONS},
+  journal = {Reviews of Geophysics},
+  year = {2002},
+  doi = {10.1029/2000rg000100},
+}
+
+@article{saragiotis2002,
+  author = {Saragiotis and Hadjileontiadis and Panas},
+  title = {PAI-S/K: A robust automatic seismic P phase arrival identification scheme},
+  journal = {IEEE Transactions on Geoscience and Remote Sensing},
+  year = {2002},
+  doi = {10.1109/tgrs.2002.800438},
+}
+
+@article{kao2004,
+  author = {Kao and Shan},
+  title = {The Source-Scanning Algorithm: mapping the distribution of seismic sources in time and space},
+  journal = {Geophysical Journal International},
+  year = {2004},
+  doi = {10.1111/j.1365-246x.2004.02276.x},
+}
+
+@article{ishii2005,
+  author = {Ishii and Shearer and Houston and others},
+  title = {Extent, duration and speed of the 2004 Sumatra–Andaman earthquake imaged by the Hi-Net array},
+  journal = {Nature},
+  year = {2005},
+  doi = {10.1038/nature03675},
+}
+
+@article{antoni2006,
+  author = {Antoni},
+  title = {The spectral kurtosis: a useful tool for characterising non-stationary signals},
+  journal = {Mechanical Systems and Signal Processing},
+  year = {2006},
+  doi = {10.1016/j.ymssp.2004.09.001},
+}
+
+@article{gibbons2006,
+  author = {Gibbons and Ringdal},
+  title = {The detection of low magnitude seismic events using array-based waveform correlation},
+  journal = {Geophysical Journal International},
+  year = {2006},
+  doi = {10.1111/j.1365-246x.2006.02865.x},
+}
+
+@techreport{harris2006,
+  author = {Harris and Paik},
+  title = {Subspace Detectors: Efficient Implementation},
+  year = {2006},
+  doi = {10.2172/898451},
+}
+
+@article{antoni2007,
+  author = {Antoni},
+  title = {Fast computation of the kurtogram for the detection of transient faults},
+  journal = {Mechanical Systems and Signal Processing},
+  year = {2007},
+  doi = {10.1016/j.ymssp.2005.12.002},
+}
+
+@article{shelly2007,
+  author = {Shelly and Beroza and Ide},
+  title = {Non-volcanic tremor and low-frequency earthquake swarms},
+  journal = {Nature},
+  year = {2007},
+  doi = {10.1038/nature05666},
+}
+
+@article{davey2007,
+  author = {Davey and Rutten and Cheung},
+  title = {A Comparison of Detection Performance for Several Track-before-Detect Algorithms},
+  journal = {EURASIP Journal on Advances in Signal Processing},
+  year = {2007},
+  doi = {10.1155/2008/428036},
+}
+
+@article{brown2008,
+  author = {Brown and Beroza and Shelly},
+  title = {An autocorrelation method to detect low frequency earthquakes within tremor},
+  journal = {Geophysical Research Letters},
+  year = {2008},
+  doi = {10.1029/2008gl034560},
+}
+
+@article{peng2009,
+  author = {Peng and Zhao},
+  title = {Migration of early aftershocks following the 2004 Parkfield earthquake},
+  journal = {Nature Geoscience},
+  year = {2009},
+  doi = {10.1038/ngeo697},
+}
+
+@article{borio2009,
+  author = {Borio and Akos},
+  title = {Noncoherent Integrations for GNSS Detection: Analysis and Comparisons},
+  journal = {IEEE Transactions on Aerospace and Electronic Systems},
+  year = {2009},
+  doi = {10.1109/taes.2009.4805285},
+}
+
+@article{ws2009,
+  author = {Wąs and Bizouard and Brisson and others},
+  title = {On the background estimation by time slides in a network of gravitational wave detectors},
+  journal = {Classical and Quantum Gravity},
+  year = {2009},
+  doi = {10.1088/0264-9381/27/1/015005},
+}
+
+@article{knijnenburg2009,
+  author = {Knijnenburg and Wessels and Reinders and others},
+  title = {Fewer permutations, more accurate P -values},
+  journal = {Bioinformatics},
+  year = {2009},
+  doi = {10.1093/bioinformatics/btp211},
+}
+
+@article{gross2010,
+  author = {Gross and Vitells},
+  title = {Trial factors for the look elsewhere effect in high energy physics},
+  journal = {The European Physical Journal C},
+  year = {2010},
+  doi = {10.1140/epjc/s10052-010-1470-8},
+}
+
+@article{schaff2010,
+  author = {Schaff and Waldhauser},
+  title = {One Magnitude Unit Reduction in Detection Threshold by Cross Correlation Applied to Parkfield (California) and China Seismicity},
+  journal = {Bulletin of the Seismological Society of America},
+  year = {2010},
+  doi = {10.1785/0120100042},
+}
+
+@article{phipson2010,
+  author = {Phipson and Smyth},
+  title = {Permutation P-values Should Never Be Zero: Calculating Exact P-values When Permutations Are Randomly Drawn},
+  journal = {Statistical Applications in Genetics and Molecular Biology},
+  year = {2010},
+  doi = {10.2202/1544-6115.1585},
+}
+
+@article{harris2011,
+  author = {Harris and Dodge},
+  title = {An Autonomous System for Grouping Events in a Developing Aftershock Sequence},
+  journal = {Bulletin of the Seismological Society of America},
+  year = {2011},
+  doi = {10.1785/0120100103},
+}
+
+@article{killick2012,
+  author = {Killick and Fearnhead and Eckley},
+  title = {Optimal Detection of Changepoints With a Linear Computational Cost},
+  journal = {Journal of the American Statistical Association},
+  year = {2012},
+  doi = {10.1080/01621459.2012.737745},
+}
+
+@article{baillard2013,
+  author = {Baillard and Crawford and Ballu and others},
+  title = {An Automatic Kurtosis-Based P- and S-Phase Picker Designed for Local Seismic Networks},
+  journal = {Bulletin of the Seismological Society of America},
+  year = {2013},
+  doi = {10.1785/0120120347},
+}
+
+@article{barrett2014,
+  author = {Barrett and Beroza},
+  title = {An Empirical Approach to Subspace Detection},
+  journal = {Seismological Research Letters},
+  year = {2014},
+  doi = {10.1785/0220130152},
+}
+
+@article{yoon2015,
+  author = {Yoon and O’Reilly and Bergen and others},
+  title = {Earthquake detection through computationally efficient similarity search},
+  journal = {Science Advances},
+  year = {2015},
+  doi = {10.1126/sciadv.1501057},
+}
+
+@article{usman2016,
+  author = {Usman and Nitz and Harry and others},
+  title = {The PyCBC search for gravitational waves from compact binary coalescence},
+  journal = {Classical and Quantum Gravity},
+  year = {2016},
+  doi = {10.1088/0264-9381/33/21/215004},
+}
+
+@article{abbott2016,
+  author = {Abbott and Abbott and Abbott and others},
+  title = {Observation of Gravitational Waves from a Binary Black Hole Merger},
+  journal = {Physical Review Letters},
+  year = {2016},
+  doi = {10.1103/physrevlett.116.061102},
+}
+
+@article{yeh2016,
+  author = {Yeh and Zhu and Ulanova and others},
+  title = {Matrix Profile I: All Pairs Similarity Joins for Time Series: A Unifying View That Includes Motifs, Discords and Shapelets},
+  journal = {2016 IEEE 16th International Conference on Data Mining (ICDM)},
+  year = {2016},
+  doi = {10.1109/icdm.2016.0179},
+}
+
+@article{kiser2017,
+  author = {Kiser and Ishii},
+  title = {Back-Projection Imaging of Earthquakes},
+  journal = {Annual Review of Earth and Planetary Sciences},
+  year = {2017},
+  doi = {10.1146/annurev-earth-063016-015801},
+}
+
+@article{capano2017,
+  author = {Capano and Dent and Hanna and others},
+  title = {Systematic errors in estimation of gravitational-wave candidate significance},
+  journal = {Physical Review D},
+  year = {2017},
+  doi = {10.1103/physrevd.96.082002},
+}
+
+@article{wilson2019,
+  author = {Wilson},
+  title = {The harmonic mean p -value for combining dependent tests},
+  journal = {Proceedings of the National Academy of Sciences},
+  year = {2019},
+  doi = {10.1073/pnas.1814092116},
+}
+
+@article{mousavi2023,
+  author = {Mousavi and Beroza},
+  title = {Machine Learning in Earthquake Seismology},
+  journal = {Annual Review of Earth and Planetary Sciences},
+  year = {2023},
+  doi = {10.1146/annurev-earth-071822-100323},
+}
+
+@article{tolstoy1950,
+  author = {Tolstoy and Ewing},
+  title = {The T phase of shallow-focus earthquakes*},
+  journal = {Bulletin of the Seismological Society of America},
+  year = {1950},
+  doi = {10.1785/bssa0400010025},
+}
+
+@article{cansi1995,
+  author = {Cansi},
+  title = {An automatic seismic event processing for detection and location: The P.M.C.C. Method},
+  journal = {Geophysical Research Letters},
+  year = {1995},
+  doi = {10.1029/95gl00468},
+}
+
+@article{fox2001,
+  author = {Fox and Matsumoto and Lau},
+  title = {Monitoring Pacific Ocean seismicity from an autonomous hydrophone array},
+  journal = {Journal of Geophysical Research: Solid Earth},
+  year = {2001},
+  doi = {10.1029/2000jb900404},
+}
+
+@article{hanson2001,
+  author = {Hanson and Le Bras and Dysart and others},
+  title = {Operational Processing of Hydroacoustics at the Prototype International Data Center},
+  journal = {Pure and Applied Geophysics},
+  year = {2001},
+  doi = {10.1007/pl00001190},
+}
+
+@article{okal2001,
+  author = {Okal},
+  title = {T-phase Stations for the International Monitoring System of the Comprehensive Nuclear-Test Ban Treaty: A Global Perspective},
+  journal = {Seismological Research Letters},
+  year = {2001},
+  doi = {10.1785/gssrl.72.2.186},
+}
+
+@misc{royer2016report,
+  author = {Royer},
+  title = {OHASISBIO hydroacoustic analysis for MH370, report LDO-201608 (held as project artifact royer-2016-LDO-201608.pdf)},
+  year = {2016},
+  howpublished = {Laboratoire Domaines Océaniques report},
+}
+
+@misc{cmst2014report,
+  author = {Curtin University Centre for Marine Science and Technology},
+  title = {CMST report 2014-30: analysis of IMOS and IMS records for MH370 (held; pdf sha256 1c19b353562ff4cd...)},
+  year = {2014},
+  howpublished = {CMST report},
+}
+
+@misc{kadri2025snt,
+  author = {Kadri},
+  title = {CTBTO Science and Technology Conference 2025 poster on MH370 hydroacoustic signals (held as digitised source)},
+  year = {2025},
+  howpublished = {CTBTO SnT 2025},
+}
+
+@misc{blackman2004ucrl,
+  author = {Blackman and others},
+  title = {UCRL-TR-207323: 2001 airgun calibration shots at H01 and H08 (held as digitised source)},
+  year = {2004},
+  howpublished = {LLNL technical report},
 }
 
 @techreport{CMST2014,
@@ -332,17 +1761,6 @@
   number = {CMST 1308, Report 2014-30},
   year = {2014},
   note = {Prepared for the ATSB, 23 June 2014},
-}
-
-@article{DuncanDallOsto2023,
-  author = {Duncan, A. J. and Dall'Osto, D. R.},
-  title = {Long-range underwater acoustic detection of aircraft surface impacts---the influence of acoustic propagation conditions and impact parameters},
-  journal = {J. Acoust. Soc. Am.},
-  volume = {154},
-  pages = {A49},
-  year = {2023},
-  doi = {10.1121/10.0022761},
-  note = {Abstract},
 }
 
 @misc{DuncanDallOsto2023lay,
@@ -360,17 +1778,6 @@
   year = {2026},
   doi = {10.48550/arXiv.2604.12723},
   note = {Accepted 14 Apr 2026; arXiv:2604.12723},
-}
-
-@article{Metz2023,
-  author = {Metz, D. and Obana, K. and Fukao, Y.},
-  title = {Remote hydroacoustic detection of an airplane crash},
-  journal = {Pure Appl. Geophys.},
-  volume = {180},
-  pages = {1343--1351},
-  year = {2023},
-  doi = {10.1007/s00024-022-03117-6},
-  note = {Published online 2022},
 }
 
 @article{Arons1954,
@@ -548,16 +1955,6 @@
   note = {Cited for partial tunnelling; DOI to be confirmed},
 }
 
-@article{Kadri2019,
-  author = {Kadri, U.},
-  title = {Effect of sea-bottom elasticity on the propagation of acoustic--gravity waves from impacting objects},
-  journal = {Scientific Reports},
-  volume = {9},
-  pages = {912},
-  year = {2019},
-  doi = {10.1038/s41598-018-37626-z},
-}
-
 @techreport{GaspinShuler1971,
   author = {Gaspin, J. B. and Shuler, V. K.},
   title = {Source Levels of Shallow Underwater Explosions},
@@ -565,6 +1962,270 @@
   number = {NOLTR 71-160},
   year = {1971},
   note = {DTIC AD0734381; not yet read (automated download refused)},
+}
+
+@techreport{atsb2017operational,
+  author = {{Australian Transport Safety Bureau}},
+  title = {The Operational Search for {MH370}},
+  institution = {Australian Transport Safety Bureau},
+  number = {AE-2014-054},
+  year = {2017},
+  address = {Canberra},
+  note = {Read pp. 29--41 and 116--119 (printed = PDF - 9) from the project Drive text copy. Grade A},
+  type = {External Aviation Investigation Report},
+}
+
+@techreport{atsb2015searchareasa,
+  author = {{Australian Transport Safety Bureau}},
+  title = {{MH370} -- Definition of Underwater Search Areas},
+  institution = {Australian Transport Safety Bureau},
+  number = {AE-2014-054},
+  year = {2014},
+  address = {Canberra},
+  url = {https://www.atsb.gov.au/sites/default/files/media/5668327/ae2014054_mh370__search_areas_30jul2015.pdf},
+  note = {26 June 2014, updated 30 July 2015. Read pp. 11--13 (printed = PDF - 5), Drive copy. Grade A},
+}
+
+@techreport{mot2015factual,
+  author = {{Malaysian ICAO Annex 13 Safety Investigation Team for MH370}},
+  title = {Factual Information: Safety Investigation for {MH370}, Malaysia Airlines {MH370} Boeing {B777-200ER} (9M-MRO), 08 March 2014},
+  institution = {Ministry of Transport Malaysia},
+  number = {MH370/01/15},
+  year = {2015},
+  note = {Issued 8 March 2015. Read section 1.11.3, pp. 59--60. Grade A},
+}
+
+@techreport{mot2018mh370,
+  author = {{Malaysian ICAO Annex 13 Safety Investigation Team for MH370}},
+  title = {Safety Investigation Report, {Malaysia Airlines Boeing B777-200ER (9M-MRO)}, 08 March 2014},
+  institution = {Ministry of Transport Malaysia},
+  number = {MH370/01/2018},
+  year = {2018},
+  note = {Issued 02 July 2018. Read pp. 136--137, 364--365 (ULB). Grade A},
+}
+
+@misc{icao2014wp30,
+  author = {{Australia}},
+  title = {{MH370} Search and Rescue Response -- {JRCC} Australia},
+  year = {2014},
+  note = {Read paras 2.22--2.26. Grade A},
+  howpublished = {ICAO APANPIRG ATM Sub-Group, Second Meeting (ATM/SG/2), Hong Kong, 4--8 August 2014, Working Paper WP30},
+}
+
+@misc{jacc2014mr010,
+  author = {{Joint Agency Coordination Centre}},
+  title = {Media Reporting on Chinese Ship Detection of Electronic Pulse Signals},
+  year = {2014},
+  url = {http://web.archive.org/web/20140405191319/http://www.jacc.gov.au/media/releases/2014/april/mr010.aspx},
+  urldate = {2026-10-18},
+  note = {5--6 April 2014. White objects about 90 km from the detection area. Archived snapshot 20140405191319. Grade A (read via Internet Archive, 18 Oct 2026)},
+}
+
+@misc{jacc2014mr011,
+  author = {{Joint Agency Coordination Centre}},
+  title = {Search and recovery continues for Malaysian flight {MH370}},
+  year = {2014},
+  url = {http://web.archive.org/web/20140406022110/http://www.jacc.gov.au/media/releases/2014/april/mr011.aspx},
+  urldate = {2026-10-18},
+  note = {6 April 2014 am. Media release. Archived snapshot 20140406022110. Grade A (read via Internet Archive, 18 Oct 2026)},
+}
+
+@misc{jacc2014tr006,
+  author = {{Joint Agency Coordination Centre}},
+  title = {Transcript of Press Conference, 6 April 2014},
+  year = {2014},
+  url = {http://web.archive.org/web/20140408000655/http://www.jacc.gov.au/media/interviews/2014/april/tr006.aspx},
+  urldate = {2026-10-18},
+  note = {6 April 2014. Air Chief Marshal A. Houston (Ret'd). Archived snapshot 20140408000655. Grade A (read via Internet Archive, 18 Oct 2026)},
+}
+
+@misc{jacc2014tr007,
+  author = {{Joint Agency Coordination Centre}},
+  title = {Transcript of Press Conference, 7 April 2014},
+  year = {2014},
+  url = {http://web.archive.org/web/20140408153652/http://www.jacc.gov.au/media/interviews/2014/april/tr007.aspx},
+  urldate = {2026-10-18},
+  note = {7 April 2014. Air Chief Marshal A. Houston (Ret'd). Archived snapshot 20140408153652. Grade A (read via Internet Archive, 18 Oct 2026)},
+}
+
+@misc{jacc2014tr008,
+  author = {{Joint Agency Coordination Centre}},
+  title = {Transcript of Press Conference, 9 April 2014},
+  year = {2014},
+  url = {http://web.archive.org/web/20140412010244/http://www.jacc.gov.au/media/interviews/2014/april/tr008.aspx},
+  urldate = {2026-10-18},
+  note = {9 April 2014. Air Chief Marshal A. Houston (Ret'd). Archived snapshot 20140412010244. Grade A (read via Internet Archive, 18 Oct 2026)},
+}
+
+@misc{jacc2014tr009,
+  author = {{Joint Agency Coordination Centre}},
+  title = {Transcript of Press Conference, 14 April 2014},
+  year = {2014},
+  url = {http://web.archive.org/web/20140415082809/http://www.jacc.gov.au/media/interviews/2014/april/tr009.aspx},
+  urldate = {2026-10-18},
+  note = {14 April 2014. Air Chief Marshal A. Houston (Ret'd). Archived snapshot 20140415082809. Grade A (read via Internet Archive, 18 Oct 2026)},
+}
+
+@misc{jacc2014map012,
+  author = {{Joint Agency Coordination Centre}},
+  title = {Position of signals received by Hai Xun 01 (5 April 2014) and Ocean Shield (6 April 2014) [map]},
+  year = {2014},
+  url = {http://web.archive.org/web/20140407112329/http://www.jacc.gov.au/media/releases/2014/april/mr_012-1.jpg},
+  urldate = {2026-10-18},
+  note = {7 April 2014. AMSA map attached to mr012. Archived snapshot 20140407112329. Grade A (read via Internet Archive, 18 Oct 2026)},
+}
+
+@misc{jacc2014map013,
+  author = {{Joint Agency Coordination Centre}},
+  title = {Planned search areas 08 April 2014, sonobuoy search 250 sq km [map]},
+  year = {2014},
+  url = {http://web.archive.org/web/20150318144905/http://www.jacc.gov.au/media/releases/2014/april/mr_013-5.jpg},
+  urldate = {2026-10-18},
+  note = {8 April 2014. AMSA map attached to mr013. Archived snapshot 20150318144905. Grade A (read via Internet Archive, 18 Oct 2026)},
+}
+
+@misc{ukmod2014echo,
+  author = {{UK Ministry of Defence}},
+  title = {{HMS} Echo continues hunt for missing Malaysian airliner},
+  year = {2014},
+  url = {https://www.globalsecurity.org/military/library/news/2014/04/mil-140414-ukmod02.htm},
+  urldate = {2026-10-18},
+  note = {14 April 2014. Read as search extract only. Grade B},
+}
+
+@misc{ukmod2014tireless,
+  author = {{UK Ministry of Defence}},
+  title = {{HMS} Tireless stands down in search for missing aircraft},
+  year = {2014},
+  url = {https://www.gov.uk/government/news/hms-tireless-stands-down-in-search-for-missing-aircraft},
+  urldate = {2026-10-18},
+  note = {24 April 2014. Read as search extract only. Grade B},
+}
+
+@misc{xinhua2014pulse,
+  author = {{Xinhua}},
+  title = {Chinese ship searching for {MH370} detects pulse signal (as carried by CGTN America)},
+  year = {2014},
+  url = {https://america.cgtn.com/2014/04/05/chinese-ship-searching-for-missing-jet-detects-pulse-signal/},
+  urldate = {2026-10-18},
+  note = {5 April 2014; quotes China Maritime Search and Rescue Center. Grade C},
+}
+
+@misc{sina2014haixun,
+  author = {{Sina Military}},
+  title = {Zhongguo haixun chuan lianxu 2 tian faxian yisi {MH370} heixiazi xinhao [Chinese patrol ship detects suspected MH370 black-box signal on two consecutive days]},
+  year = {2014},
+  url = {https://mil.news.sina.com.cn/2014-04-06/0838772468.html},
+  urldate = {2026-10-18},
+  note = {6 April 2014; cites CCTV. In Chinese. Grade C},
+}
+
+@misc{xinmin2014haixun,
+  author = {{Xinmin Evening News}},
+  title = {Haixun 01 2 tian 2 ci tingdao heixiazi maichong xinhao [Haixun 01 hears black-box pulse twice in two days]},
+  year = {2014},
+  url = {https://www.chinanews.com.cn/gn/2014/04-05/6034302.shtml},
+  urldate = {2026-10-18},
+  note = {5 April 2014, via China News Service. In Chinese. Grade C},
+}
+
+@misc{people2014floating,
+  author = {{People's Daily / Xinhua}},
+  title = {Wo soujiu chuan tingdao yisi heixiazi xinhao [Our rescue ship hears suspected black-box signal]},
+  year = {2014},
+  url = {http://cpc.people.com.cn/n/2014/0406/c87228-24835605.html},
+  urldate = {2026-10-18},
+  note = {6 April 2014; PLAAF white floating objects from 11:05, photographed. In Chinese. Grade C},
+}
+
+@misc{cn12371_2014,
+  author = {{Xinhua / PLA Daily, via 12371.cn}},
+  title = {Zhongguo kongjun zai nan Yinduyang faxian piaofuwu [Chinese Air Force finds floating objects in the southern Indian Ocean]},
+  year = {2014},
+  url = {https://news.12371.cn/2014/04/06/ARTI1396738988082649.shtml},
+  urldate = {2026-10-18},
+  note = {6 April 2014; departure 06:04, task area more than 2,700 km from Perth, objects from 11:05 over 20 min; PLAN task area 20--26 S, 101--104 E from 4 April. In Chinese. Grade C},
+}
+
+@misc{globaltimes2014expanded,
+  author = {{Global Times}},
+  title = {Ships try to pick up suspicious signals detected by Haixun 01},
+  year = {2014},
+  url = {https://www.globaltimes.cn/content/853171.shtml},
+  urldate = {2026-10-18},
+  note = {8 April 2014; 432 sq km expanded area. Grade C},
+}
+
+@misc{pti2014deccan,
+  author = {{Press Trust of India}},
+  title = {Missing jet: Chinese ship detects pulse signal},
+  year = {2014},
+  url = {https://www.deccanherald.com/archives/missing-jet-chinese-ship-detects-2185601},
+  urldate = {2026-10-18},
+  note = {5 April 2014; Liberation Daily: signals not recorded. Grade C},
+  howpublished = {Deccan Herald},
+}
+
+@misc{ap2014handheld,
+  author = {{Associated Press}},
+  title = {Ships race to site of signal in jet search},
+  year = {2014},
+  url = {https://www.pressreader.com/usa/the-denver-post/20140407/281500749225589},
+  urldate = {2026-10-18},
+  note = {7 April 2014; CCTV footage of pole-mounted detector. Grade C},
+  howpublished = {The Denver Post},
+}
+
+@misc{ulich2018north25,
+  author = {Ulich, Bobby},
+  title = {Search for {MH370} north of 25S unlikely},
+  year = {2018},
+  note = {Independent analyst note, project Drive copy. Grade C},
+}
+
+@misc{nasacmr2026,
+  author = {{NASA Earthdata}},
+  title = {Common Metadata Repository granule search: MOD02QKM, MYD02QKM v6.1, VNP02IMG, ASTER L1T, EO-1, Sentinel-1A (ASF)},
+  year = {2026},
+  url = {https://cmr.earthdata.nasa.gov/search},
+  urldate = {2026-10-18},
+  note = {Queried 18 October 2026, box 100--102.5 E, 25--26.5 S, 8 March--30 April 2014},
+}
+
+@misc{nasacsda2026,
+  author = {{NASA Commercial SmallSat Data Acquisition Program}},
+  title = {{CSDA} Maxar {L1B} collections ({WV01}, {WV02}, {GE01}, {QB02}, {IKONOS}) in {CMR}},
+  year = {2026},
+  url = {https://cmr.earthdata.nasa.gov/search},
+  urldate = {2026-10-18},
+  note = {Queried 18 October 2026; a subset of the Maxar archive},
+}
+
+@misc{usgsstac2026,
+  author = {{U.S. Geological Survey}},
+  title = {Landsat Collection 2 Level-1 {STAC} catalogue (landsat-c2l1)},
+  year = {2026},
+  url = {https://landsatlook.usgs.gov/stac-server},
+  urldate = {2026-10-18},
+  note = {Queried 18 October 2026},
+}
+
+@misc{cdse2026,
+  author = {{European Space Agency}},
+  title = {Copernicus Data Space Ecosystem {OData} catalogue},
+  year = {2026},
+  url = {https://catalogue.dataspace.copernicus.eu/odata/v1},
+  urldate = {2026-10-18},
+  note = {Queried 18 October 2026},
+}
+
+@misc{celestrak2026,
+  author = {Kelso, T. S.},
+  title = {{CelesTrak} {SATCAT}},
+  year = {2026},
+  url = {https://celestrak.org/satcat/},
+  urldate = {2026-10-18},
+  note = {Launch and decay dates read 18 October 2026},
 }
 
 @article{lellouche2021glorys12,
@@ -759,17 +2420,6 @@
   doi = {10.1112/plms/s2-20.1.196},
 }
 
-@techreport{atsb2017operational,
-  author = {{Australian Transport Safety Bureau}},
-  title = {The Operational Search for {MH370}},
-  institution = {Australian Transport Safety Bureau},
-  number = {AE-2014-054},
-  year = {2017},
-  address = {Canberra},
-  note = {Grade: official. Source of the Phase 2 detection probability q = 0.945 (Figure 73, p. 96 - its three in-image percentages are NOT yet verified in primary form, ledger item A-8), the +/- 25 NM planning width (p. 76), the debris-field size floor >= 100 m x 100 m and very likely > 200 m x 200 m (p. 83), detectability at <= 200 m altitude (p. 89), and the Bluefin-21 operating parameters (p. 42)},
-  type = {External Aviation Investigation Report},
-}
-
 @misc{oceaninfinity2018conclusion,
   author = {{Ocean Infinity}},
   title = {Conclusion of current search for {Malaysian} {Airlines} flight {MH370}},
@@ -961,13 +2611,4 @@
   title = {Report on two shipwrecks found during the {MH370} search},
   institution = {Western Australian Museum, for the ATSB},
   year = {2018},
-}
-
-@techreport{mot2018mh370,
-  author = {{Malaysian ICAO Annex 13 Safety Investigation Team for MH370}},
-  title = {Safety Investigation Report, {Malaysia Airlines Boeing B777-200ER (9M-MRO)}, 08 March 2014},
-  institution = {Ministry of Transport Malaysia},
-  number = {MH370/01/2018},
-  year = {2018},
-  note = {Issued 02 July 2018},
 }
