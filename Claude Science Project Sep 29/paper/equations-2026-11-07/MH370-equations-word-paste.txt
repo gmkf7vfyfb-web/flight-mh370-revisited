@@ -1,0 +1,636 @@
+Word: put the cursor in the left cell, Control+= (Mac) or Alt+= (Windows), choose LaTeX in the Equation tab,
+paste ONE equation line, then Convert > Professional. Version 4, 7 Nov 2026, hybrid manuscript order.
+Appendix equations use the A prefix. Priority: Essential / Optional / Appendix.
+
+(1) [Essential] Seabed location of the wreckage (the quantity of interest).
+x_{\mathrm{Final}} = \left(\varphi_{\mathrm{Final}},\ \lambda_{\mathrm{Final}},\ d_{\mathrm{Final}}\right)
+  where:
+    x_{\mathrm{Final}}  —  True but unknown final location of the wreckage on the seabed (or the centroid of the debris field, as the draft says) [—]; Settling output, one position for each piece and draw
+    \varphi_{\mathrm{Final}}  —  Latitude of that location, WGS-84 [deg]; Settling output
+    \lambda_{\mathrm{Final}}  —  Longitude of that location, WGS-84, east positive [deg]; Settling output
+    d_{\mathrm{Final}}  —  Depth of the seabed at that location [m]; AusSeabed 150 m grid, else GEBCO; vertical datum not yet confirmed
+  Status: As used in the project; see source column.
+
+(2) [Essential] Surface impact location. The impact time t_Impact stays in the text.
+x_{\mathrm{Impact}} = \left(\varphi_{\mathrm{Impact}},\ \lambda_{\mathrm{Impact}}\right)
+  where:
+    x_{\mathrm{Impact}}  —  True but unknown location where the aircraft hit the sea surface [—]; End-of-flight output
+    \varphi_{\mathrm{Impact}}  —  Latitude of the impact, WGS-84 [deg]; End-of-flight output
+    \lambda_{\mathrm{Impact}}  —  Longitude of the impact, WGS-84, east positive [deg]; End-of-flight output
+    t_{\mathrm{Impact}}  —  Time of the impact (in the text, not in the equation) [UTC]; End-of-flight output
+  Status: As used in the project; see source column.
+
+(3) [Essential] Core posterior for one model configuration H (the master equation).
+p\left(x_{0:K},\, a,\, \theta_{\mathrm{Core}} \mid z_{\mathrm{Core}},\, H\right) \propto p\left(x_{0}\right) P\left(a \mid H\right) p\left(\theta_{\mathrm{Core}} \mid H\right) \prod_{k=1}^{K} p\left(x_{k} \mid x_{k-1},\, a,\, \theta_{\mathrm{Core}},\, H\right)\, L\left(z_{\mathrm{Core}} \mid x_{0:K}\right)
+  where:
+    x_{k}  —  Aircraft state at time t_k: latitude, longitude, altitude, Mach, control angle, wind error and, with the fuel model, the fuel in each tank [—]; Particle state (crates/flight)
+    x_{0:K}  —  The whole path, from t_0 to t_K [—]; One particle
+    t_{0},\ t_{K}  —  Start and end times of the core estimate [UTC]; 18:01:49 and 00:19:37 UTC
+    k  —  Index of the observation times (satellite and radar) [—]; Propagation between them in 10 s steps (5 s in manoeuvres)
+    a  —  Autopilot mode: true heading, magnetic heading, true track, magnetic track or lateral navigation (LNAV) [—]; One filter per mode; LNAV can revert to heading hold
+    \theta_{\mathrm{Core}}  —  Fixed values for each path: manoeuvre time constant τ; with the fuel model also κ, κ_x, r, δ and the one-engine drift-down values [—]; Drawn once per path; τ refreshed after each resampling
+    H  —  Model configuration or conditional hypothesis (e.g. Davey model; Davey model + fuel + radar; waypoint routes) [—]; Table of configurations
+    z_{\mathrm{Core}}  —  Evidence used by the core: BTO, BFO and radar [—]; Satellite log and radar fixes
+    p(x_{0})  —  Prior at 18:01:49 UTC: position σ 0.5 NM, track σ 1° [—]; Davey et al. (2016), ch. 4
+    P(a \mid H)  —  Prior probability of each autopilot mode [—]; Equal, 1/5, in every configuration
+    p(x_{k} \mid x_{k-1},\, \ldots)  —  Dynamics: how the state moves from one time to the next [—]; Davey ch. 6–8 (Ornstein–Uhlenbeck cruise, manoeuvres), plus fuel burn when used
+    L(z_{\mathrm{Core}} \mid x_{0:K})  —  Likelihood of all core evidence along the path [—]; Equation (4)
+    \propto  —  Is proportional to; the right side is normalised to integrate to one [—]; —
+  One-sentence version: The posterior of each path is its prior, times its dynamics, times the likelihood of the evidence along it, normalised over all paths.
+  Status: As used in the project; see source column.
+
+(4) [Essential] Core likelihood: the factors that each configuration switches on or off.
+L\left(z_{\mathrm{Core}} \mid x_{0:K}\right) = L_{\mathrm{BTO}}\, L_{\mathrm{BFO}}\, L_{\mathrm{Radar}}\, I_{\mathrm{Power}}
+  where:
+    L_{\mathrm{BTO}}  —  Likelihood of the burst timing offsets [—]; Equation (5); all configurations
+    L_{\mathrm{BFO}}  —  Likelihood of the burst frequency offsets, with the unknown bias integrated out [—]; Equation (6); all configurations
+    L_{\mathrm{Radar}}  —  Likelihood of the radar plots after 18:01:49 UTC [—]; Equation (7); set to 1 in the Davey reproduction
+    I_{\mathrm{Power}}  —  Engine power at 00:10:59 UTC: 1 if at least one engine runs, else 0 [—]; Equation (8); set to 1 in the Davey reproduction
+  One-sentence version: The core likelihood is the product of the BTO, BFO and radar likelihoods and the requirement for engine power at 00:10:59 UTC.
+  Status: As used in the project; see source column.
+
+(5) [Essential] BTO likelihood.
+L_{\mathrm{BTO}} = \prod_{j=1}^{10} \mathcal{N}\left(z_{\mathrm{BTO},j};\ F_{\mathrm{BTO}}\left(x_{j}\right),\ \sigma_{\mathrm{BTO},j}^{2}\right)
+  where:
+    z_{\mathrm{BTO},j}  —  Measured burst timing offset j: 18:25:34, 18:28:05, 18:28:14, 19:41, 20:41, 21:41, 22:41, 00:10:59, 00:19:29 and 00:19:37 UTC [μs]; 18:25:34 and 00:19:37 values: R1200 BTO, empirical offset applied (−5 and −4 × 7,820 μs)
+    F_{\mathrm{BTO}}(x)  —  Functional model: round-trip delay ground station–satellite–aircraft, minus the fixed offset [μs]; Davey ch. 5; fixed offset 495,679 μs
+    \sigma_{\mathrm{BTO},j}  —  Standard deviation of BTO j [μs]; 29 (R1200), 43 (R1200 log-on acknowledge), 63 (R600 log-on request)
+    \mathcal{N}(z;\ \mu,\ \sigma^{2})  —  Normal density of z with mean μ and variance σ² [—]; —
+  One-sentence version: Each of the ten BTOs is normally distributed about the value the path predicts, with standard deviations of 29 to 63 μs.
+  Status: As used in the project; see source column.
+
+(6) [Essential] BFO likelihood with the bias integrated out, written as a product of one-step prediction errors.
+L_{\mathrm{BFO}} = \int \prod_{i=1}^{9} \mathcal{N}\left(z_{\mathrm{BFO},i};\ F_{\mathrm{BFO}}\left(x_{i}\right) + b,\ \sigma_{\mathrm{BFO}}^{2}\right) \mathcal{N}\left(b;\ \bar{b}_{0},\ P_{0}\right) \mathrm{d}b = \prod_{i=1}^{9} \mathcal{N}\left(\nu_{i};\ 0,\ s_{i}^{2}\right)
+  where:
+    z_{\mathrm{BFO},i}  —  Measured burst frequency offset i: 18:28:05, 18:28:14, 18:39:55*, 19:41, 20:41, 21:41, 22:41, 23:15:02*, 00:10:59 UTC (*mean of the C-channel values) [Hz]; No 00:19 BFO is used in the core
+    F_{\mathrm{BFO}}(x)  —  Functional model: uplink and downlink Doppler, aircraft compensation, satellite and EAFC terms [Hz]; Davey ch. 5; vertical rate included except in the Davey reproduction
+    b  —  Unknown constant BFO bias of the aircraft terminal [Hz]; Integrated out exactly, for each path
+    \bar{b}_{0},\ P_{0}  —  Prior mean and variance of b [Hz, Hz²]; 150 Hz and (25 Hz)²
+    \sigma_{\mathrm{BFO}}  —  BFO measurement standard deviation [Hz]; 7 Hz in the Davey reproduction; 4.32 Hz (Davey Table 5.1) otherwise
+    \nu_{i}  —  Prediction error: z_BFO,i − F_BFO(x_i) − b̂_{i−1}, with b̂ the scalar Kalman estimate of b [Hz]; Davey §8.1
+    s_{i}^{2}  —  Variance of ν_i: σ²_BFO + P_{i−1} [Hz²]; The same for every path
+  One-sentence version: The BFO bias is integrated out with a scalar Kalman filter, so each BFO enters through its prediction error.
+  Status: As used in the project; see source column.
+
+(7) [Optional] Radar likelihood after 18:01:49 UTC.
+L_{\mathrm{Radar}} = \prod_{r=1}^{5} \left[ (1-\epsilon)\, \mathcal{N}_{2}\left(d_{r};\ \sigma_{r}\right) + \epsilon\, \mathcal{N}_{2}\left(d_{r};\ \sigma_{\mathrm{Outlier}}\right) \right] \prod_{c=1}^{4} \mathcal{N}\left(e_{c};\ 0,\ \sigma_{c}^{2}\right)
+  where:
+    d_{r}  —  Great-circle distance from the path to radar fix r (18:04:14, 18:05:15, 18:07:16, 18:13:36, 18:22:12 UTC) [NM]; Plot at 18:07:06 excluded
+    \mathcal{N}_{2}(d;\ \sigma)  —  Isotropic two-dimensional normal density at distance d: (2πσ²)⁻¹ exp(−d²/2σ²) [NM⁻²]; —
+    \sigma_{r}  —  Standard deviation of fix r [NM]; 3 NM at 18:07:16; 5 NM otherwise
+    \epsilon,\ \sigma_{\mathrm{Outlier}}  —  Share and spread of the outlier component [—, NM]; 0.1 and 50 NM
+    e_{c}  —  Across-track distance from the VAMPI–MEKAR line at 18:15, 18:17, 18:19, 18:21 UTC [NM]; Dense radar band
+    \sigma_{c}  —  Standard deviation across track [NM]; 1.5 NM
+  One-sentence version: The five radar fixes are scored as two-dimensional normal densities with a 10% outlier component, and four times on the VAMPI–MEKAR line by their across-track distance.
+  Status: As used in the project; see source column.
+
+(8) [Essential] Engine power at 00:10:59 UTC.
+I_{\mathrm{Power}} = \begin{cases} 1, & m_{\mathrm{Left}}\left(t_{0011}\right) > 0 \ \text{or}\ m_{\mathrm{Right}}\left(t_{0011}\right) > 0 \\ 0, & \text{otherwise} \end{cases}
+  where:
+    m_{\mathrm{Left}},\ m_{\mathrm{Right}}  —  Fuel mass in the left and right tanks [kg]; Equation (9)
+    t_{0011}  —  Time of the 00:10:59 UTC transmission [UTC]; 00:10:59
+    I_{\mathrm{Power}}  —  Indicator: a path with both tanks empty before 00:10:59 gets weight zero [—]; No prior on the time of fuel exhaustion is used
+  One-sentence version: A path is given zero weight if both tanks are empty before 00:10:59 UTC; results are therefore conditional on engine power at 00:11.
+  Status: As used in the project; see source column.
+
+(9) [Essential] Fuel burn by tank (both engines running; one engine after the first tank is empty).
+\dot{m}_{\mathrm{Left}} = -\frac{\kappa\, \kappa_{x}^{\delta_{x}}\, f_{T}\, Q_{\mathrm{Twin}}}{1+r}, \qquad \dot{m}_{\mathrm{Right}} = -\frac{r\, \kappa\, \kappa_{x}^{\delta_{x}}\, f_{T}\, Q_{\mathrm{Twin}}}{1+r}, \qquad \dot{m}_{\mathrm{Live}} = -\kappa\, f_{T}\, Q_{\mathrm{One}}
+  where:
+    Q_{\mathrm{Twin}},\ Q_{\mathrm{One}}  —  Fuel flow with two engines, and of the live engine with one engine inoperative, from flight level, gross weight and Mach; levels capped at the weight-dependent ceiling [kg/h]; Boeing-derived performance grid; one-engine grid × 0.5 (unit correction)
+    f_{T}  —  Temperature factor 1 + 0.003 ΔT_ISA (1 + 0.2 M²) [—]; ΔT_ISA from ERA5 at the aircraft
+    \kappa  —  Fuel-flow factor of the path [—]; N(1.0004, 0.0196²); fuel at 18:01:49 = 43,800 − 7,228κ kg
+    \kappa_{x},\ \delta_{x}  —  Extra factor on extrapolated flow; δ_x = 1 on such steps, else 0 [—]; N(1.0, 0.046²), provisional
+    r  —  Right-to-left flow ratio [—]; N(1.021, 0.008²)
+    \delta  —  Left minus right fuel at 18:01:49 UTC (in θ_Core) [kg]; N(221, 120²)
+    \dot{m}_{\mathrm{Live}}  —  Burn of the remaining engine after the first tank is empty; the aircraft drifts down to its one-engine ceiling [kg/h]; Drift-down profile provisional
+  One-sentence version: Fuel is burned from two tanks at the performance-grid flow, scaled by a per-path factor and a temperature term; after the first tank empties, the other engine burns at the one-engine flow while the aircraft drifts down.
+  Status: As used in the project; see source column.
+
+(10) [Optional] Combination over autopilot modes within one configuration H.
+p\left(x_{K} \mid z_{\mathrm{Core}},\, H\right) = \sum_{a} P\left(a \mid z_{\mathrm{Core}},\, H\right) p\left(x_{K} \mid z_{\mathrm{Core}},\, a,\, H\right), \qquad P\left(a \mid z_{\mathrm{Core}},\, H\right) \propto P\left(a \mid H\right) p\left(z_{\mathrm{Core}} \mid a,\, H\right)
+  where:
+    x_{K}  —  State at 00:19:37 UTC; its latitude gives the 00:19 PDF [—]; Final particle state
+    p(z_{\mathrm{Core}} \mid a,\, H)  —  Marginal likelihood of mode a (the Bayesian evidence): the likelihood averaged over the prior and the dynamics [—]; Estimated by the filter as the product of its mean incremental weights
+    P(a \mid z_{\mathrm{Core}},\, H)  —  Posterior probability of mode a [—]; Normalised over the five modes
+  One-sentence version: Each autopilot mode is filtered separately, and the modes are combined in proportion to their prior probability times their marginal likelihood.
+  Status: As used in the project; see source column.
+
+(11) [Essential] Goodness-of-fit statistic for one path, and its smallest value in a latitude band.
+\chi^{2}\left(x_{0:K}\right) = \sum_{j=1}^{10} \left(\frac{z_{\mathrm{BTO},j} - F_{\mathrm{BTO}}\left(x_{j}\right)}{\sigma_{\mathrm{BTO},j}}\right)^{2} + \sum_{i=1}^{9} \frac{\nu_{i}^{2}}{s_{i}^{2}}, \qquad \chi_{\min}^{2}(\Phi) = \min_{n:\ \varphi_{K}^{(n)} \in \Phi} \chi^{2}\left(x_{0:K}^{(n)}\right)
+  where:
+    \chi^{2}  —  Sum of squared, standardised BTO and BFO residuals along one path (19 values) [—]; Radar and fuel not included
+    \Phi  —  A 0.5° band of latitude at 00:19:37 UTC [deg]; —
+    n,\ \varphi_{K}^{(n)}  —  Path index and its latitude at 00:19:37 UTC [—, deg]; All paths of all filter runs of the configuration
+    \chi_{\min}^{2}(\Phi)  —  Best fit found in band Φ [—]; Depends on the sampled paths, not on their weights
+  One-sentence version: For each path, χ² is the sum of squared standardised BTO and BFO residuals; since s_i² is the same for all paths, differences in χ² equal −2 times differences in log-likelihood.
+  Status: Equation unchanged. Results: profile flat 3.3–4.1 from 38.5 S to 28 S (job ba1648ce), UNCHECKED.
+
+(12) [Essential] End-of-flight path posterior, with a hand-off epoch s that depends on the descent family.
+p\left(x_{s:I} \mid z,\, H,\, H_{\mathrm{E}},\, D,\, K\right) \propto p\left(x_{s} \mid z_{\le s},\, H\right) P(K)\, p\left(x_{s:I} \mid x_{s},\, H_{\mathrm{E}},\, K\right) L_{>s}\left(z_{>s} \mid x_{s:I},\, D\right)
+  where:
+    s  —  Hand-off epoch from the core estimator [UTC]; 00:10:59 for A1 and A2; 22:41 for B
+    x_{s:I}  —  Path from the hand-off to impact I [—]; End-of-flight state
+    z_{\le s}  —  Core evidence up to and including the hand-off [—]; Core estimator
+    H_{\mathrm{E}}  —  Descent family: no pilot after fuel exhaustion, piloted after fuel exhaustion, planned descent before fuel exhaustion (waypoint route only) [—]; Family prior from the onset model; descents begun before exhaustion with no intervention are excluded in the headline and included in a variant
+    K  —  Electrical configuration: normal or alternate [—]; P(alternate) = 0.5; bounds 0 and 1 reported
+    D  —  Treatment of the 00:19 data: nine headline treatments and six sensitivities [—]; Table of treatments (final-run specification)
+    L_{>s}  —  Likelihood of the evidence after the hand-off [—]; Eq. (13); for B also the 23:15 BFO and the 00:10:59 BTO and BFO on the continued path
+  One-sentence version: Each end-of-flight path is weighted by the core distribution at the hand-off, the configuration prior, the descent dynamics of its family and the likelihood of the later evidence.
+  Status: Final run complete (16 + 24 seeds); results UNCHECKED pending independent verification.
+
+(13) [Essential] Likelihood of the 00:19 log-on and transmissions for one path.
+L_{0019} = \ell_{D}\left(z_{0019} \mid x_{0019}\right) I_{\mathrm{Air}} \left[ f_{\mathrm{Lag}}\left(t_{\mathrm{Logon}} - t_{P}\right) + \frac{q}{W}\, I_{\mathrm{Silent}} \right]
+  where:
+    \ell_{D}  —  Likelihood of the 00:19 BTO and BFO values used by treatment D [—]; Eq. (15); unity under D0
+    I_{\mathrm{Air}}  —  1 if the aircraft is airborne at 00:19:37, else 0 [—]; Imposed in every treatment (Pete ruling 15 Oct)
+    f_{\mathrm{Lag}}  —  Probability density of the delay from loss of main AC power to the log-on request [s⁻¹]; Gamma(8, 14.875 s), mean 119 s (SIR 2018 pp. 372–373; ATSB 2015); variant: two-stage N(60, 15) + N(60, 10) s
+    t_{\mathrm{Logon}}  —  Time of the log-on request [UTC]; 00:19:29.416
+    t_{P}  —  Time main AC power is lost [UTC]; Eq. (14)
+    q  —  Prior weight of another cause of the log-on [—]; 1/3 (fuel-exhaustion prior 0.75); variant q = 1 (prior 0.5)
+    W  —  Width of the window for another cause [s]; 00:10:58–01:15:56, about 3,900 s
+    I_{\mathrm{Silent}}  —  1 if a later flame-out before impact would not have caused a second, unseen log-on [—]; End-of-flight state
+  One-sentence version: The 00:19 likelihood combines the 00:19 values kept by the data treatment, the condition that the aircraft is airborne at 00:19:37, and two competing causes of the log-on.
+  Status: Log-on model RULED by Pete 12 Oct; q = 1/3 agreed for section 3.2 (1 Nov); used in the final run.
+
+(14) [Essential] Time of loss of main AC power, by electrical configuration.
+t_{P} = \begin{cases} t_{\mathrm{FO1}} + \delta_{G}, & K = \text{alternate} \\ t_{\mathrm{FO2}} + \delta_{G}, & K = \text{normal} \end{cases}
+  where:
+    t_{\mathrm{FO1}},\ t_{\mathrm{FO2}}  —  First (right) and second (left) flame-out [UTC]; Per-tank fuel model; one-engine phase 4–14 min
+    \delta_{G}  —  Generator drop-off time during engine run-down [s]; A few seconds (not published)
+    K  —  Electrical configuration [—]; As in eq. (12)
+  One-sentence version: In the alternate configuration main AC power is lost at the first flame-out; in the normal configuration it is lost at the second.
+  Status: Used in the approved fast route; no separate explicit ruling found.
+
+(15) [Essential] Likelihood of the 00:19 values under data treatment D.
+\ell_{D} = \prod_{j \in J_{D}} \mathcal{N}\left(z_{j} - h_{j}\left(x_{j}\right) - \beta_{j}^{D};\ 0,\ \sigma_{j}^{2}\right)
+  where:
+    J_{D}  —  Set of 00:19 values used by treatment D [—]; Headline: none (log-on event only); both BTOs; both BTOs + R600 BFO; both BTOs + both BFOs (as recorded, Holland offset with 17 Hz or zero floor, or offset on the R1200 BFO only). Sensitivities: R600 BTO only, with the same BFO options
+    h_{j}  —  Project BTO or BFO model at the state, with vertical speed [μs or Hz]; Satellite model
+    \beta_{j}^{D}  —  Offset under treatment D [μs or Hz]; Holland offset: β₃₇ ~ U(17, 130) Hz, β₂₉ = β₃₇ + u, u ~ U(0, 6) Hz, marginalised by quadrature; zero-floor variant β₃₇ ~ U(0, 130) Hz; Ashton premise: offset on the R1200 BFO only. R1200 BTO 18,380 μs after the empirical correction
+    \sigma_{j}  —  Noise standard deviation [μs or Hz]; BTO 63 μs (R600), 43 μs (R1200); BFO 4.32 Hz (Pete ruling 6 Nov; 7 Hz is a whole-chain sensitivity, not run)
+  One-sentence version: Each 00:19 value kept by the treatment is scored as a normal residual about the value the path predicts, after any declared offset.
+  Status: Treatments RULED 12 Oct; both BTOs in every headline treatment (final run 7 Nov). Log evidence is compared only within one data group.
+
+(16) [Optional] Posterior probability of the electrical configuration, and its Bayes factor.
+P\left(K \mid z,\, D,\, H_{\mathrm{E}}\right) = \frac{P(K)\, \hat{Z}\left(K,\, D,\, H_{\mathrm{E}}\right)}{\sum_{K'} P(K')\, \hat{Z}\left(K',\, D,\, H_{\mathrm{E}}\right)}, \qquad B_{\mathrm{alt:norm}} = \frac{\hat{Z}\left(\mathrm{alt},\, D,\, H_{\mathrm{E}}\right)}{\hat{Z}\left(\mathrm{norm},\, D,\, H_{\mathrm{E}}\right)}
+  where:
+    \hat{Z}  —  Importance-sampling estimate of the evidence of the paths with configuration K [—]; Mean weight of those paths
+    B_{\mathrm{alt:norm}}  —  Bayes factor, alternate against normal [—]; Reported beside the bounds P(K) = 0 and 1
+  One-sentence version: The configuration is weighted by its prior times the evidence of its paths; the 18:25 log-on is not scored, so it is not counted twice.
+  Status: Method approved 3 Nov. Final run: under every treatment that uses both frequencies, all no-pilot weight is in the alternate configuration (UNCHECKED).
+
+(17) [Optional] Uncontrolled glide, normal configuration: a Boeing simulator run replayed from the path's own state.
+\mathbf{r}_{i}(t) = \mathbf{r}_{i}\left(t_{P}\right) + \mathbf{R}\left(\psi - \psi_{c}(0)\right) \mathbf{r}_{c}^{a}\left(\tau\left(t;\, \boldsymbol{\theta}\right)\right) + \int_{t_{P}}^{t} \mathbf{w}_{\mathrm{ERA5}}\left(\mathbf{r}_{i},\, h_{i},\, t'\right) \mathrm{d}t'
+  where:
+    \mathbf{r}_{i}(t)  —  Position of path i during the uncontrolled descent [m]; End-of-flight output
+    \mathbf{r}_{c}^{a}  —  Air-relative history of Boeing run c (simulator wind removed) [m]; Boeing runs 1–10 (April 2016 scenarios)
+    \mathbf{R}(\cdot)  —  Rotation from the run's start heading to the path heading [—]; —
+    \tau(t;\boldsymbol{\theta})  —  Perturbed time map of the run [s]; θ ~ N(0, k²Σ_c) on log scale; k = 1.5 (revised spread)
+    \mathbf{w}_{\mathrm{ERA5}}  —  ERA5 wind at the path position and height [m/s]; ERA5
+    c  —  Analogue run chosen by remaining left-tank fuel [—]; Normal-configuration runs 1, 2, 5, 7, 8, 9
+  One-sentence version: Each normal-configuration glide replays one of Boeing's six normal-power simulator runs, rotated to the path's heading, perturbed in timing and moved by the ERA5 wind; a late steep ending hands over to the dive model.
+  Status: Used only for normal-configuration glides before any steep ending (pre-registered spread k = 1.5). Alternate-configuration dives and late steep endings now use the case-informed dive model, (A9)–(A15), because the replay failed the leave-one-out check for dives.
+
+(18) [Essential] Kinetic energy at impact.
+E_{K} = \tfrac{1}{2}\, m \left\| \mathbf{v}_{I} \right\|^{2}
+  where:
+    E_{K}  —  Kinetic energy at impact [J]; End-of-flight output; a range class above Mach 0.9
+    m  —  Aircraft mass at impact [kg]; Zero-fuel weight 174,196 kg plus remaining fuel
+    \mathbf{v}_{I}  —  Velocity at impact, over the ground, three-dimensional [m/s]; Final seconds of the dive model, the replayed glide or the piloted path
+  One-sentence version: Impact kinetic energy is half the mass times the square of the impact speed; 174 t at Mach 1 gives about 10 GJ and a 70 m/s ditching about 0.4 GJ.
+  Status: Final run: median 9.2 GJ when both frequencies are used, 1.0–1.2 GJ when they are not. No-pilot dive energies are at or above the top of the Boeing range (6.4–9.0 GJ); declared sensitivity.
+
+(19) [Essential] Drift likelihood for one ocean model, with object and transport parameters integrated out.
+L_{\mathrm{Debris} \mid m}\left(x_{\mathrm{Impact}}\right) = \int p\left(z_{\mathrm{Debris}} \mid x_{\mathrm{Impact}},\, m,\, \theta\right) p\left(\theta \mid m\right) \mathrm{d}\theta
+  where:
+    z_{\mathrm{Debris}}  —  Recovered debris: what was found, where and when [—]; Drift module evidence table
+    m  —  Ocean model: GLORYS12V1 + ERA5, or GlobCurrent + ERA5 [—]; Equal prior weight; OSCAR comparison only
+    \theta  —  Object and transport parameters: windage or leeway, Stokes drift, orientation, error terms [—]; Sampled in the drift module
+    p(\theta \mid m)  —  Prior of those parameters [—]; Drift module
+  One-sentence version: For each ocean model, the debris likelihood of an impact point is averaged over the uncertain object and transport parameters.
+  Status: Modification of Davey ch. 11 (forward simulation through the 2014–16 ocean, many items).
+
+(20) [Essential] Ocean-model average of all terms that share the ocean model.
+L_{\mathrm{Ocean}}\left(x\right) = \frac{1}{2} \sum_{m \in \{\mathrm{G},\, \mathrm{C}\}} \prod_{k \in \mathcal{K}_{\mathrm{Ocean}}} L_{k \mid m}\left(x\right)
+  where:
+    \mathcal{K}_{\mathrm{Ocean}}  —  Evidence terms that use the ocean model: debris finds, Australian non-finds, Pléiades (conditional only) [—]; Composer
+    \mathrm{G},\ \mathrm{C}  —  GLORYS12V1 and Copernicus GlobCurrent, each with ERA5 wind [—]; Equal prior weight
+  One-sentence version: Terms that share an ocean model are multiplied inside each model and then averaged over the two models, so the ocean model is not counted twice.
+  Status: Implemented in composer v3.2. UNCHECKED.
+
+(21) [Optional] Debris finds and non-finds with the unknown number of floating pieces integrated out (sensitivity).
+L_{\mathrm{DNF}}\left(x\right) \propto \int_{0}^{\infty} \lambda^{n} \prod_{i=1}^{n} q_{i}(x)\, e^{-\lambda Q(x)}\, \frac{\mathrm{d}\lambda}{\lambda} = \Gamma(n)\, \frac{\prod_{i=1}^{n} q_{i}(x)}{Q(x)^{n}}
+  where:
+    n  —  Number of identified recovered pieces [—]; Drift evidence table
+    q_{i}(x)  —  Detection-weighted arrival density for find i at its place and beaching window [—]; Drift module, remoteness weights (city 1, outer regional 0.3, remote 0.05)
+    Q(x)  —  Total detection-weighted arrival on all watched coasts, including populated Western Australia [—]; Drift module
+    \lambda  —  Unknown scale of floating debris [—]; Prior p(λ) ∝ 1/λ, so λ cancels
+  One-sentence version: With a scale-free prior on the amount of floating debris, the finds and the absence of finds on watched Australian coasts enter only through the arrival pattern.
+  Status: CHECK AGAINST THE DRIFT MODULE CODE BEFORE USE. The Australian term is a labelled sensitivity, not in the headline.
+
+(22) [Optional] Settling: displacement east while a piece sinks.
+\Delta E = \int_{0}^{d_{\mathrm{Final}}} \left(\frac{u_{\mathrm{E}}(z)+\varepsilon_{\mathrm{E}}(z,t)}{w(z)} + G\sin\beta(z)\right)\mathrm{d}z
+  where:
+    \Delta E  —  Distance east that one piece of wreckage moves while it sinks [m]; Settling output
+    z  —  Depth below the sea surface, positive down [m]; Steps of 50 m
+    d_{\mathrm{Final}}  —  Seabed depth where the piece first touches the seabed (upper limit; found during the integration) [m]; AusSeabed 150 m, else GEBCO
+    u_{\mathrm{E}}(z)  —  Ocean current east at depth z [m/s]; GLORYS12V1, one column taken where and when the piece starts to sink
+    \varepsilon_{\mathrm{E}}(z,t)  —  Random error of the ocean model's east current; changes with depth, position and time [m/s]; One sample per draw; sd 0.10 (top 100 m), 0.05 (to 1,000 m), 0.02 (deeper), 0.03 (within 200 m of seabed)
+    t  —  Time when the piece is at depth z, $t=t_{\mathrm{Release}}+\int_{0}^{z}\mathrm{d}z'/w$ [s]; —
+    w(z)  —  Sinking speed of the piece, relative to the ground [m/s]; Equation (25)
+    G  —  Glide ratio: sideways speed through the water divided by sinking speed [—]; Drawn for each piece class (breakup.toml, provisional)
+    \beta(z)  —  Bearing of the glide, clockwise from north [rad]; Random start; random walk with depth, correlation $\exp(-\Delta z/l)$, memory length $l$
+  Status: Canonical v2. Settled offsets about 0.35 km at p50 and 2–4 km at p90.
+
+(23) [Optional] Settling: displacement north while a piece sinks.
+\Delta N = \int_{0}^{d_{\mathrm{Final}}} \left(\frac{u_{\mathrm{N}}(z)+\varepsilon_{\mathrm{N}}(z,t)}{w(z)} + G\cos\beta(z)\right)\mathrm{d}z
+  where:
+    \Delta N  —  Distance north that one piece moves while it sinks [m]; Settling output
+    u_{\mathrm{N}}(z)  —  Ocean current north at depth z [m/s]; GLORYS12V1, as in equation (22)
+    \varepsilon_{\mathrm{N}}(z,t)  —  Random error of the ocean model's north current [m/s]; As in equation (22)
+    z,\ d_{\mathrm{Final}},\ t,\ w,\ G,\ \beta  —  As in equation (22) [—]; —
+  Status: Canonical v2. Settled offsets about 0.35 km at p50 and 2–4 km at p90.
+
+(24) [Essential] Seabed latitude and longitude of a piece: offsets added in metres from the impact point.
+\varphi_{\mathrm{Final}} = \varphi_{\mathrm{Impact}} + \frac{N_{\mathrm{Release}}+\Delta N}{R}, \qquad \lambda_{\mathrm{Final}} = \lambda_{\mathrm{Impact}} + \frac{E_{\mathrm{Release}}+\Delta E}{R\cos\bar{\varphi}}
+  where:
+    \varphi_{\mathrm{Final}},\ \lambda_{\mathrm{Final}}  —  Latitude and longitude where the piece rests on the seabed [rad]; Settling output
+    \varphi_{\mathrm{Impact}},\ \lambda_{\mathrm{Impact}}  —  Latitude and longitude of the impact [rad]; End-of-flight output
+    E_{\mathrm{Release}},\ N_{\mathrm{Release}}  —  Distance east and north from the impact to where the piece starts to sink: carry along the track at impact, plus surface drift (current and wind leeway, up to 48 h) for pieces that float first [m]; Settling, float phase through the shared ocean integrator
+    \Delta E,\ \Delta N  —  Distance moved while sinking [m]; Equations (22) and (23)
+    R  —  Mean radius of the Earth, 6 371 008.8 [m]; crates/ocean
+    \bar{\varphi}  —  Mean of the impact and seabed latitudes [rad]; crates/ocean displace
+  Status: As used in the project; see source column.
+
+(25) [Essential] Sinking speed of a piece relative to the ground.
+w = k\sqrt{\frac{2g\rho_{A}\left(1-\rho_{\mathrm{w}}/\rho_{\mathrm{m}}\right)}{\rho_{\mathrm{w}}C_{\mathrm{D}}}} - w_{\mathrm{up}}
+  where:
+    w  —  Sinking speed of the piece relative to the ground [m/s]; Settling physics
+    k  —  Descent factor, 1 or more; allows for pieces that flutter or tumble [—]; Drawn per class (provisional)
+    g  —  Standard gravity, 9.806 65 [m/s²]; —
+    \rho_{A}  —  Areal density: mass of the piece per unit of the area it presents as it falls [kg/m²]; Drawn per class (provisional)
+    \rho_{\mathrm{m}}  —  Density of the flooded material of the piece [kg/m³]; Drawn per class (provisional)
+    \rho_{\mathrm{w}}  —  Density of sea water at depth z [kg/m³]; TEOS-10 at the impact point
+    C_{\mathrm{D}}  —  Drag coefficient [—]; Drawn per class (provisional)
+    w_{\mathrm{up}}  —  Upward speed of the water, used only where the ocean data gives it; otherwise zero [m/s]; Ocean column
+  Status: As used in the project; see source column.
+
+(26) [Essential] Probability of no find for a settled wreck field, over all search campaigns.
+P\left(\text{no find} \mid W\right) = \rho + (1-\rho) \prod_{k} \left[ 1 - q_{k}\, f_{k}\, \bar{c}_{k}(W) \right]
+  where:
+    W  —  One settled wreck field (all pieces of one draw) [—]; Settling output
+    \rho  —  Probability that the field cannot be found by any search (buried, terrain shadow, small pieces) [—]; Reference 0.05 (Pete ruling 8 Oct), swept 0–0.5; per cell: eq. (28)
+    k  —  Search campaign [—]; ATSB Phase 2; Bluefin-21; Ocean Infinity 2018; Ocean Infinity 2025–26 (inferred, grade C)
+    q_{k}  —  Probability of recognition, given valid data over a findable field [—]; Phase 2 0.945; others 0.9 (Stone et al. cap)
+    f_{k}  —  Coverage fraction for an inferred Ocean Infinity layer [—]; 0.889 (2018), 0.7808 (2025–26); 1 otherwise
+    \bar{c}_{k}(W)  —  Mass-weighted mean covered fraction over the pieces of W [—]; Eq. (27)
+  One-sentence version: A field escapes detection either because it cannot be found at all, or because every campaign that covered it failed to recognise it.
+  Status: Inputs RULED (8 and 13 Oct). Results UNCHECKED.
+
+(27) [Optional] Covered fraction of a settled field for one campaign.
+\bar{c}_{k}(W) = \frac{\sum_{j \in W} \mu_{j}\, c_{k}\left(x_{\mathrm{Final},j}\right)}{\sum_{j \in W} \mu_{j}}
+  where:
+    j  —  Piece of the field [—]; Settling output
+    \mu_{j}  —  Mass of piece j [kg]; Breakup model (provisional)
+    c_{k}(x)  —  Covered fraction of campaign k at x, from a 0.01° raster, bilinear [—]; GA mosaics; community tracings for Ocean Infinity
+  One-sentence version: The covered fraction of a field is the mass-weighted mean of the coverage at each of its settled pieces.
+  Status: As implemented.
+
+(28) [Optional] Per-cell recognition and unfindable fraction (model V1).
+q(x) = 0.95\left[1 - f_{\mathrm{lc}}(x)\right] + 0.70\, f_{\mathrm{lc}}(x), \qquad \rho(x) = \min\left[0.05\, w(x),\ 0.95\right]
+  where:
+    f_{\mathrm{lc}}(x)  —  Lower-confidence fraction of Phase 2 data at x [—]; ATSB (2017) Fig. 73
+    w(x)  —  Terrain weight from slope and roughness, mean 1 over Phase 2 ground [—]; Bathymetry
+  One-sentence version: Terrain shapes the unfindable fraction ρ; the ATSB lower-confidence areas set the recognition probability q.
+  Status: In the composer. Note for draft §3.6: terrain shapes ρ, not q.
+
+(29) [Essential] Search update in the project notation (extends Davey et al. 2016, eq. 11.1).
+p\left(x_{\mathrm{Final}} \mid z_{\mathrm{Search}},\, z\right) \propto P\left(\text{no find} \mid x_{\mathrm{Final}}\right) p\left(x_{\mathrm{Final}} \mid z\right)
+  where:
+    z_{\mathrm{Search}}  —  Evidence: the wreckage was not found in the searched areas [—]; Searched-areas module
+    P(\text{no find} \mid x_{\mathrm{Final}})  —  Eq. (26) evaluated for the settled field from x_Final [—]; Reduces to 1 − P_D(x) for ρ = 0, a point target and one campaign (unit test passes to 1e−15)
+    z  —  All other evidence [—]; Core and other modules
+  One-sentence version: The posterior after the searches is the posterior before them times the probability of no find at each location.
+  Status: Reduction test passes.
+
+(30) [Essential] Probability of success of a new search of area A (Davey et al. 2016, eq. 11.2).
+P\left(\text{success in } A\right) = P_{D,\mathrm{new}} \int_{A} p\left(x_{\mathrm{Final}} \mid z,\, z_{\mathrm{Search}}\right) \mathrm{d}x_{\mathrm{Final}}
+  where:
+    A  —  Candidate search block [—]; Decision table
+    P_{D,\mathrm{new}}  —  Detection probability of the new search [—]; 0.9 planning cap (Stone et al.); a repeat search of searched ground needs a second-pass value (option B, not designed)
+  One-sentence version: The chance a new search succeeds is its detection probability times the posterior mass inside the block.
+  Status: Decision-table values are a pipeline test, not for release.
+
+(31) [Optional] Acoustic coupling inferred from the F-35A recording (one anchor point).
+\eta = \frac{SE_{\mathrm{obs}}}{E\, \frac{\rho_{\mathrm{w}} c}{2\pi} \sum_{b} w_{b}\, S_{b}(\tau)\, 10^{-TL_{b}/10}}
+  where:
+    \eta  —  Coupling: share of impact energy radiated as sound [—]; 2.26×10⁻³ (older chain) or 3.16×10⁻³ (frozen chain) at 10 m depth
+    SE_{\mathrm{obs}}  —  Observed sound exposure of the F-35A at Wake Island [Pa² s]; Metz et al. (2023)
+    E  —  F-35A impact energy [J]; 900 ± 200 MJ (Brown et al. 2026)
+    \rho_{\mathrm{w}} c  —  Acoustic impedance of sea water [kg m⁻² s⁻¹]; —
+    w_{b},\ S_{b}(\tau),\ TL_{b}  —  Band weight, source spectral share in band b for duration τ, and transmission loss in band b [—, —, dB]; As defined in results/hydroacoustics-metz-f35a-anchor.md (check definitions before use)
+  One-sentence version: Coupling is inferred by dividing the sound energy received from the F-35A by the energy the model would deliver per joule of impact energy.
+  Status: UNCHECKED. One event, other water, other ocean.
+
+(32) [Essential] Predicted signal-to-noise ratio at Cape Leeuwin, scaled from the F-35A recording (coupling cancels).
+SNR_{\mathrm{CL}} = SE^{\mathrm{obs}}_{\mathrm{Wake}} + 10 \log_{10} \frac{E_{\mathrm{MH}}}{E_{\mathrm{F35}}} + \left[ TL^{w}_{\mathrm{Wake}} - TL^{w}_{\mathrm{CL}} \right] + B_{\mathrm{CL}} - NL_{\mathrm{CL}}
+  where:
+    SE^{\mathrm{obs}}_{\mathrm{Wake}}  —  Observed F-35A sound exposure level at Wake Island [dB re 1 μPa² s]; Metz et al. (2023)
+    E_{\mathrm{MH}},\ E_{\mathrm{F35}}  —  Kinetic energy of the MH370 impact case and of the F-35A [J]; 0.4–10 GJ; 900 MJ
+    TL^{w}  —  f⁻²-weighted 5–40 Hz transmission loss on each path [dB]; RAM (frozen chain), GEBCO 2026, WOA23 or GLORYS12
+    B_{\mathrm{CL}}  —  Cape Leeuwin model bias [dB]; +7 (sd 3), a judgement from six held-out paths
+    NL_{\mathrm{CL}}  —  Noise level, 5–40 Hz, same window [dB re 1 μPa]; 103.68
+  One-sentence version: The MH370 signal at Cape Leeuwin is predicted from the F-35A recording, scaled by energy and by the difference in path loss, so the unknown coupling cancels.
+  Status: UNCHECKED. 10 GJ: median −2.6 dB over the arc (90 % band −12.2 to +6.9 dB at the median point).
+
+(33) [Essential] Detection probability against predicted margin (logistic fit to 53 known Indian Ocean sources).
+\operatorname{logit} P\left(\text{heard}\right) = a + b\, m, \qquad m_{50} = -\frac{a}{b}, \qquad \sigma_{\mathrm{eq}} = \frac{\pi}{\sqrt{3}\, b}
+  where:
+    m  —  Predicted level minus noise [dB]; Sound model
+    a,\ b  —  Fitted intercept and slope [—, dB⁻¹]; Held-out AUC 0.80 (0.66–0.91)
+    m_{50}  —  Margin at which P(heard) = 0.5 [dB]; +1.0 (−7.4 to +7.5)
+    \sigma_{\mathrm{eq}}  —  Equivalent normal spread of the curve [dB]; 17.9 (10.0–40.8)
+  One-sentence version: The chance a station hears a source rises as an S-shaped curve of the predicted margin above noise.
+  Status: UNCHECKED, not pushed (artifact ddca9332). No aircraft impact in the labelled set.
+
+(34) [Optional] Arrival time at a station.
+t_{\mathrm{arr}} = t_{\mathrm{Impact}} + \frac{d_{\mathrm{water}}}{c} + \frac{d_{\mathrm{rock}}}{v_{\mathrm{rock}}}
+  where:
+    d_{\mathrm{water}},\ d_{\mathrm{rock}}  —  Path length in water and across land or seabed rock [km]; Path geometry
+    c  —  Effective sound speed in water [km/s]; 1.40–1.56
+    v_{\mathrm{rock}}  —  Seismic speed on a land leg [km/s]; 3.5–8
+  One-sentence version: A signal reaches a station after the impact time plus the travel time in water and, where the path crosses land, in rock.
+  Status: Reverse sensing CHECKED by review; rulings pending.
+
+(35) [Essential] Hydroacoustic non-detection likelihood (proposed; not applied).
+L_{\mathrm{Hydro}}\left(x_{\mathrm{Impact}},\, E_{K}\right) = \prod_{s} \left[ 1 - P_{s}\left(\text{heard} \mid m_{s}\left(x_{\mathrm{Impact}},\, E_{K}\right)\right) \right]
+  where:
+    s  —  Station with a usable record: Cape Leeuwin (H01W), Diego Garcia South (H08S) [—]; IMS
+    P_{s}(\text{heard} \mid m_{s})  —  Eq. (33) at the margin predicted for that impact [—]; Logistic fit
+    m_{s}  —  Predicted margin at station s for the impact position and energy [dB]; Eq. (32) form
+  One-sentence version: If no station heard the impact, each impact is weighted by the chance that every station missed it; louder impacts lose more weight.
+  Status: PROPOSED, NOT APPLIED. Stations share the source term, so the product overstates the effect; a shared-coupling integral is needed. Illustration: one station, 1 GJ against 10 GJ, factor about 1.6.
+
+(36) [Optional] Expected information from a possible detection (value of information).
+\mathrm{E}\left[\Delta I\right] = \sum_{o} P(o)\, D_{\mathrm{KL}}\left( p\left(x \mid z,\, o\right) \,\Vert\, p\left(x \mid z\right) \right)
+  where:
+    o  —  Possible outcome: detection at one or more stations, or none [—]; Synthetic composer test
+    P(o)  —  Probability of that outcome [—]; From eq. (33)
+    D_{\mathrm{KL}}  —  Information gained, in bits [bit]; Two-station detection 1.7 (time) to 2.2 (with bearing) bits, 8 Oct test
+  One-sentence version: The expected value of a hydroacoustic record is the information each outcome would give, weighted by the chance of that outcome.
+  Status: The 8 Oct test is PROVISIONAL (older prior, 3.3° bearing error, assumes detection).
+
+(37) [Essential] Composed weight of each shared impact sample.
+\tilde{w}_{n} \propto w_{n}\, L_{\mathrm{Ocean}}\left(x_{\mathrm{Impact},n}\right) P\left(\text{no find} \mid W_{n}\right) \prod_{k \in \mathcal{K}_{\mathrm{Other}}} L_{k}\left(x_{\mathrm{Impact},n}\right)
+  where:
+    n  —  Shared impact sample [—]; End-of-flight output, scored by every module
+    w_{n}  —  Weight of the sample from core and end of flight [—]; Eqs. (3) and (12)
+    W_{n}  —  Settled wreck field of sample n [—]; Settling, eqs. (22)–(25)
+    \mathcal{K}_{\mathrm{Other}}  —  Other impact-level terms switched on in a view [—]; None in the headline; hydroacoustics adds no factor
+  One-sentence version: The composer multiplies each impact sample's flight weight by the likelihood of each other evidence type, so every module scores the same samples.
+  Status: UNCHECKED.
+
+(38) [Essential] Evidence of a set of evidence types, and the Bayes factor between two hypotheses.
+Z_{S} = \sum_{n} w_{n} \prod_{k \in S} L_{k}\left(x_{n}\right), \qquad B_{12} = \frac{Z_{S}\left(H_{1}\right)}{Z_{S}\left(H_{2}\right)} = \frac{P\left(H_{1} \mid z\right)}{P\left(H_{2} \mid z\right)} \bigg/ \frac{P\left(H_{1}\right)}{P\left(H_{2}\right)}
+  where:
+    Z_{S}  —  Evidence: probability of the data in set S under the model [—]; Reported as ln Z in nats
+    B_{12}  —  Bayes factor of H₁ against H₂ on the same data [—]; ln B = 1 nat ≈ factor 2.7; compare only within one data treatment
+  One-sentence version: Evidence is the average likelihood of the data under the prior; the Bayes factor is the ratio of evidences and converts prior odds into posterior odds.
+  Status: Standard.
+
+(39) [Essential] Information along the arc for a set S of evidence types.
+I_{S} = \log_{2} N - H\left(p^{S}\right) = D_{\mathrm{KL}}\left(p^{S} \,\Vert\, u\right), \qquad H(p) = -\sum_{i=1}^{N} p_{i} \log_{2} p_{i}
+  where:
+    p^{S}_{i}  —  Probability in along-arc bin i after the evidence in S [—]; 10 NM bins on the impact arc
+    N  —  Number of bins [—]; 159 (40.25 S to 19.9 S)
+    u  —  Flat distribution over the bins [—]; Reference
+    I_{S}  —  Information in bits; one bit halves the arc length that holds the probability [bit]; Evidence ledger
+  One-sentence version: Information along the arc is the entropy of a flat arc minus the entropy of the posterior, in bits.
+  Status: Exploratory, NOT RULED.
+
+(40) [Optional] Shapley share of the information for evidence type k.
+\phi_{k} = \sum_{S \subseteq \mathcal{K} \setminus \{k\}} \frac{|S|!\, \left(|\mathcal{K}| - |S| - 1\right)!}{|\mathcal{K}|!} \left[ I_{S \cup \{k\}} - I_{S} \right]
+  where:
+    \mathcal{K}  —  Set of evidence types: core, drift, searched areas [—]; Ledger headline
+    \phi_{k}  —  Average gain from adding type k over every order of addition [bit]; Core +1.51, drift −0.18, searches −0.20 (00:19 held out)
+  One-sentence version: Each evidence type is credited with its average contribution over every order in which the types could be added.
+  Status: Exploratory, NOT RULED.
+
+(41) [Essential] Agreement between two sets of evidence (suspiciousness; Handley and Lemos 2019).
+R = \frac{Z_{AB}}{Z_{A} Z_{B}}, \qquad \ln S = \ln R - \left(D_{A} + D_{B} - D_{AB}\right), \qquad p = \Pr\left(\chi^{2}_{d} > d - 2 \ln S\right)
+  where:
+    Z_{A},\ Z_{B},\ Z_{AB}  —  Evidence of set A, set B and both, relative to a flat arc [—]; Ledger
+    D_{X}  —  KL divergence of the posterior of X from the flat arc [nat]; Ledger
+    d  —  Effective number of constrained dimensions, d_A + d_B − d_AB, with d_X = 2 Var[ln(p_i/u_i)] [—]; Ledger
+    p  —  Probability of a disagreement this large by chance [—]; Core against drift + searches: 0.043 (about 2σ)
+  One-sentence version: Suspiciousness asks whether two sets of evidence point to the same place, after removing the effect of the prior width.
+  Status: Exploratory, NOT RULED.
+
+(42) [Essential] Why the wreck has not been found: three exclusive explanations.
+P_{\mathrm{Missed}} = \sum_{n:\, x_{n} \in \mathcal{S}} \tilde{w}_{n}, \qquad P_{\mathrm{Length}} = \sum_{n:\, x_{n} \notin \mathcal{S},\ a(x_{n}) \notin \mathcal{S}} \tilde{w}_{n}, \qquad P_{\mathrm{Width}} = \sum_{n:\, x_{n} \notin \mathcal{S},\ a(x_{n}) \in \mathcal{S}} \tilde{w}_{n}
+  where:
+    \mathcal{S}  —  Union of searched seabed (all campaigns, covered fraction above zero) [—]; Searched-areas module
+    x_{n}  —  Settled position of sample n (field centroid or each piece, mass-weighted) [—]; Settling
+    a(x)  —  Nearest point on the 7th arc to x [—]; Arc geometry
+    \tilde{w}_{n}  —  Composed weight after the searches [—]; Eq. (37)
+    P_{\mathrm{Missed}} + P_{\mathrm{Length}} + P_{\mathrm{Width}}  —  Equals 1 [—]; —
+  One-sentence version: The posterior mass is split into three parts: on searched ground and missed, beyond the searched length of the arc, and beyond the searched width where the arc itself was searched.
+  Status: PROPOSED, NOT COMPUTED. First part known: 0.298 on searched ground after the searches (00:19 held out, model V0).
+
+(43) [Essential] Odds of the dive family against the non-dive family, defined by outcome.
+F(x) = \begin{cases} \text{Dive}, & t_{\mathrm{Impact}} - t_{\mathrm{Logon}} \le T^{*}\ \text{and}\ E_{K} \ge E^{*} \\ \text{Non-dive}, & \text{otherwise} \end{cases}, \qquad O_{\mathrm{D:N}} = \frac{\sum_{n:\, F=\mathrm{Dive}} \tilde{w}_{n}}{\sum_{n:\, F=\text{Non-dive}} \tilde{w}_{n}}
+  where:
+    T^{*},\ E^{*}  —  Thresholds that define the dive family [s, J]; End-of-flight labels (final run): E* = 4 GJ (gap between Boeing normal-power 0.8–3.1 GJ and alternate-power 6.4–9.0 GJ); fast descent is labelled by ≥ 10,000 ft/min at 00:19:37 instead of T*. Pete's family table not yet ruled
+    O_{\mathrm{D:N}}  —  Posterior odds, dive against non-dive [—]; Composer
+    B_{k}  —  Per-evidence Bayes factor: mean of L_k over dive samples divided by mean over non-dive samples (diagnostic) [—]; Eq. (38) restricted to each family
+  One-sentence version: Each sample is classed as dive or non-dive by its impact time and energy, and the odds are the ratio of composed weights in the two classes.
+  Status: PROPOSED, NOT COMPUTED. Existing piece: searched areas alone favour B over A1 by 2.63 (Run J families; Run J end-of-flight products withdrawn 1 Nov).
+
+(44) [Optional] Emergency locator transmitter: no signal received (outcome-level factor).
+L_{\mathrm{ELT}}(F) = P\left(\text{no ELT signal} \mid F\right) \approx \begin{cases} 1, & F = \text{Dive} \\ p_{\mathrm{E}}, & F = \text{Non-dive} \end{cases}
+  where:
+    p_{\mathrm{E}}  —  Probability that no ELT signal is received after a non-dive ending [—]; Pete's dissertation value 0.5 (source to cite)
+  One-sentence version: A high-energy impact almost certainly destroys or submerges the ELT before it transmits; after a non-dive ending, no signal is only partly expected.
+  Status: PROPOSED. Check the 406 MHz first-burst delay and the SIR ELT findings before use.
+
+(A1) [Appendix] Trajectory, latitude. M is the WGS-84 meridian radius of curvature.
+\varphi(t) = \varphi_{0} + \int_{t_{0}}^{t} \frac{V(t')\cos\chi(t')}{M+h(t')}\,\mathrm{d}t'
+  where:
+    \varphi(t)  —  Latitude of the aircraft at time t, WGS-84 [rad]; Core filter and end of flight
+    \varphi_{0}  —  Latitude at the start time [rad]; Drawn from the 18:01 radar prior
+    t  —  Time [s]; UTC
+    t_{0}  —  Start time of the trajectory [s]; 18:01:49 UTC, the radar point that sets the prior
+    t'  —  Integration variable (time); no other meaning [s]; —
+    V  —  Ground speed: horizontal speed over the ground [m/s]; True airspeed along heading or track, plus ERA5 wind and wind error
+    \chi  —  Ground track: direction of travel over the ground, clockwise from true north [rad]; Set by the autopilot mode and turns
+    M  —  Meridian (north–south) radius of curvature of the ellipsoid, $M=a(1-e^{2})/(1-e^{2}\sin^{2}\varphi)^{3/2}$ [m]; crates/geo
+    h(t)  —  Altitude of the aircraft [m]; Pressure altitude in the engine
+    a  —  WGS-84 semi-major axis, 6 378 137 [m]; crates/geo
+    e^{2}  —  WGS-84 first eccentricity squared, $e^{2}=f(2-f)$ with $f=1/298.257\,223\,563$ [—]; crates/geo
+  Status: As used in the project; see source column.
+
+(A2) [Appendix] Trajectory, longitude. N is the WGS-84 prime-vertical radius of curvature.
+\lambda(t) = \lambda_{0} + \int_{t_{0}}^{t} \frac{V(t')\sin\chi(t')}{\left(N+h(t')\right)\cos\varphi(t')}\,\mathrm{d}t'
+  where:
+    \lambda(t)  —  Longitude of the aircraft at time t, WGS-84, east positive [rad]; Core filter and end of flight
+    \lambda_{0}  —  Longitude at the start time [rad]; Drawn from the 18:01 radar prior
+    N  —  Prime-vertical (east–west) radius of curvature, $N=a/(1-e^{2}\sin^{2}\varphi)^{1/2}$ [m]; crates/geo
+    \cos\varphi  —  Reduces east–west distance to a change of longitude; the circles of latitude get smaller towards the poles [—]; —
+    V,\ \chi,\ h,\ t,\ t_{0},\ t'  —  As in equation (A1) [—]; —
+  Status: As used in the project; see source column.
+
+(A3) [Appendix] Trajectory, altitude.
+h(t) = h_{0} + \int_{t_{0}}^{t} \dot{h}(t')\,\mathrm{d}t'
+  where:
+    h(t)  —  Altitude at time t [m]; Pressure altitude in the engine
+    h_{0}  —  Altitude at the start time [m]; Drawn from the 18:01 radar prior
+    \dot{h}  —  Vertical rate (climb positive, descent negative) [m/s]; Fixed climb or descent rate in the core; $\dot{h}=V\tan\gamma$ in end of flight, with $\gamma$ the flight-path angle
+    t,\ t_{0},\ t'  —  As in equation (A1) [—]; —
+  Status: As used in the project; see source column.
+
+(A4) [Appendix] Davey et al. (2016), eq. (11.1), p. 101, in Davey's notation (for reference).
+p\left(x_{\mathrm{final}} \mid S, Z_{K}\right) \propto \left[1 - P_{D}\left(x_{\mathrm{final}}\right)\right] p\left(x_{\mathrm{final}} \mid Z_{K}\right)
+  where:
+    p(\cdot\mid\cdot)  —  Probability density, conditioned on the terms after the bar [—]; —
+    x_{\mathrm{final}}  —  Davey's final location of the aircraft [—]; Davey et al. (2016), ch. 11
+    S  —  Davey's symbol for the search effort [—]; Davey et al. (2016), p. 101
+    Z_{K}  —  All measurements, up to the last one [—]; Davey et al. (2016), p. 13
+    P_{D}(x)  —  Probability that all the searching would have found the aircraft at location x [—]; Davey; AF447 used 0.9 (p. 102)
+    \propto  —  Is proportional to (the right side is normalised to integrate to one) [—]; —
+  Status: As used in the project; see source column.
+
+(A5) [Appendix] Davey's measurement history, p. 13 (for reference).
+Z_{k} \triangleq \left\{z_{1}, \ldots, z_{k}\right\}
+  where:
+    Z_{k}  —  Davey's measurement history: all measurements up to time $t_{k}$ [—]; Davey et al. (2016), p. 13
+    z_{k}  —  One measurement at time $t_{k}$ [—]; Davey
+    k  —  Index of the measurement time [—]; —
+    \triangleq  —  Is defined as [—]; —
+  Status: As used in the project; see source column.
+
+(A6) [Appendix] Optional factor for the 00:21:06 ground-to-air message that was not answered.
+L_{\mathrm{IFE}} = 1 - p_{\mathrm{on}}\, I_{\mathrm{link}}\left(x_{00{:}21{:}06}\right)
+  where:
+    p_{\mathrm{on}}  —  Probability the in-flight entertainment system was still selected on after 18:25 [—]; 0.5; bounds 0 and 1
+    I_{\mathrm{link}}  —  1 if at 00:21:06 the aircraft is airborne, the APU powers the main buses and the satellite is in high-gain coverage (gain ≥ 7 dBic) [—]; End-of-flight state
+  One-sentence version: Paths that could still have answered the 00:21:06 message lose weight in proportion to the chance the system was switched on.
+  Status: Not in the headline.
+
+(A7) [Appendix] Joining the planned-descent arms from the 22:41 and 00:11 hand-offs.
+\ln w_{i} = \ln w_{i}^{\mathrm{stored}} + \ln \frac{\pi_{\mathrm{V2}}\left(m_{i},\, \tau_{i}\right)}{\pi_{\mathrm{run}}\left(m_{i},\, \tau_{i}\right)} + \ln L_{0019,i}^{D} + \mathbb{1}\left\{i \in S_{2}\right\} \Delta \ln Z_{\mathrm{filter}}
+  where:
+    \pi_{\mathrm{V2}},\ \pi_{\mathrm{run}}  —  Target onset prior and the prior used in the run, by mechanism m and onset time τ [—]; Onset model (anticipatory, fuel cue)
+    S_{2}  —  Rows from the 00:11 arm [—]; —
+    \Delta \ln Z_{\mathrm{filter}}  —  ln Z(00:11) − ln Z(22:41) from the core hand-offs [nat]; Core
+  One-sentence version: Rows from the two hand-offs are put on one prior and one evidence scale before they are pooled.
+  Status: The planned-descent Bayes factors (0.138; 0.025–0.032) could not be reproduced on 5 Nov; confirm first.
+
+(A8) [Appendix] Re-weighting stored piloted rows to the configuration-dependent power-loss time.
+w_{i}' = w_{i} \frac{f_{\mathrm{Lag}}\left(t_{\mathrm{Logon}} - t_{P,i}\left(K_{i}\right)\right) + \frac{q}{W} I_{\mathrm{Silent},i}}{f_{\mathrm{Lag}}\left(t_{\mathrm{Logon}} - t_{\mathrm{FO2},i}\right) + \frac{q}{W} I_{\mathrm{Silent},i}}
+  where:
+    K_{i}  —  Stored configuration draw of row i [—]; ap_loss_config
+  One-sentence version: Stored piloted rows keep their paths; only the log-on factor is corrected for the configuration.
+  Status: Used in the fast route.
+
+(A9) [Appendix] No-pilot dive: point-mass equations of motion.
+\dot{V} = \frac{T - D}{m} - g\sin\gamma, \qquad \dot{\gamma} = \frac{g}{V}\left(n\cos\phi - \cos\gamma\right), \qquad \dot{\psi} = \frac{g\, n\sin\phi}{V\cos\gamma}
+  where:
+    V  —  True airspeed [m/s]; State; ISA atmosphere
+    \gamma  —  Flight-path angle relative to the air, positive up [rad]; State
+    \psi  —  Heading [rad]; State
+    n  —  Load factor normal to the flight path [—]; Eq. (A10) in the build-up, frozen afterwards, eq. (A12) in an arrest; limits in eq. (A11)
+    \phi  —  Bank angle [rad]; Eq. (A10); eq. (A12)
+    T  —  Thrust [N]; Left engine about 55 kN until its flame-out (alternate configuration), then zero; approximate
+    D  —  Drag [N]; Eq. (A11)
+    m  —  Aircraft mass [kg]; Zero-fuel mass 174,196 kg plus the fuel at the hand-off
+    g  —  Gravitational acceleration [m/s²]; 9.80665
+  One-sentence version: The no-pilot dive is flown as a point mass: thrust, drag and gravity change the speed, and the load factor and bank turn the flight path. Ground velocity adds the ERA5 wind for the path; the step is 0.5 s; the impact is the first crossing of sea level.
+  Status: Pre-registered check against the four Boeing alternate-power simulations passed (15 of 16 values inside the central 90 %); UNCHECKED by an independent verifier.
+
+(A10) [Appendix] No-pilot dive: build-up from descent onset to 15,000 ft/min.
+a(\tau) = a_{8}\, g\, e^{(\tau - T_{15})/\tau_{e}}, \quad \tau_{e}\left(1 - e^{-T_{15}/\tau_{e}}\right) = \frac{\Delta v}{a_{8}\, g}, \quad \phi(\tau) = \pm\phi_{m}\frac{a(\tau)}{a_{8}\, g}, \quad n(\tau) = \frac{1 - a(\tau)/g}{\cos\gamma\cos\phi}, \qquad 0 \le \tau < T_{15}
+  where:
+    \tau  —  Time since descent onset [s]; Onset at the drawn delay after the first flame-out (eq. A14)
+    a  —  Target downward acceleration [m/s²]; Grows exponentially to a8 g at T15
+    a_{8}  —  Build-up acceleration [g]; Drawn from the case predictive of the largest 8-s mean downward acceleration, eq. (A14); used as the value reached at T15, so the realised 8-s mean is slightly lower (recorded)
+    T_{15}  —  Time from onset to a descent rate of 15,000 ft/min [s]; Case predictive, eq. (A14)
+    \tau_{e}  —  Growth time constant [s]; Solved so that the descent rate reaches 15,000 ft/min at T15
+    \Delta v  —  Rise in descent rate from the pre-onset value to 15,000 ft/min [m/s]; Pre-onset descent U[1,165, 1,465] ft/min (Boeing alternate-power simulations)
+    \phi_{m}  —  Bank at the end of the build-up [rad]; U[35°, 100°], random sign (Boeing 39–44°; Adam Air 574 90–100°)
+  One-sentence version: The downward acceleration grows exponentially from onset and reaches its drawn value when the descent reaches 15,000 ft/min; the bank grows with it, and the load factor follows. After T15 the load factor and bank stay frozen, because nobody is flying.
+  Status: Form chosen to carry the two case quantities a8 and T15; checked by the pre-registered Boeing test.
+
+(A11) [Appendix] No-pilot dive: drag, manoeuvre limits and stall limit.
+C_{D} = C_{D0} + k\, C_{L}^{2} + 20\left(M - 0.76\right)^{4}\, \mathbb{1}\{M > 0.76\}, \qquad C_{L} = \frac{n\, m\, g}{\tfrac{1}{2}\rho V^{2} S}, \qquad -1 \le n \le 2.5, \qquad \left|n\right| \le \frac{C_{L,\max}(M)\, \tfrac{1}{2}\rho V^{2} S}{m\, g}
+  where:
+    C_{D}  —  Drag coefficient; D = ½ρV²S C_D [—]; —
+    C_{D0}  —  Zero-lift drag coefficient [—]; 0.018
+    k  —  Induced-drag factor [—]; 0.046
+    M  —  Mach number [—]; ISA speed of sound
+    \rho  —  Air density [kg/m³]; ISA
+    S  —  Wing reference area [m²]; 427.8
+    C_{L,\max}  —  Clean-wing maximum lift coefficient [—]; 1.4 below Mach 0.5, falling linearly to 0.9 at Mach 0.8 and above
+    -1 \le n \le 2.5  —  Limit manoeuvring load factors [—]; CS 25.337 (clean configuration)
+  One-sentence version: Drag rises steeply above Mach 0.76; the load factor is held inside the structural limits and cannot exceed what the wing can lift at the current speed.
+  Status: Drag rise not calibrated against Boeing data; dive energies at or above the top of the Boeing range are a declared consequence.
+
+(A12) [Appendix] No-pilot dive: start of an arrest (pull-out) without crew input.
+h \le h_{\mathrm{bot}} + \frac{V^{2}\left(1 - \cos\gamma\right)}{g\left(n_{\mathrm{rec}}\cos\phi_{\mathrm{arr}} - 1\right)}, \qquad P_{\mathrm{arrest}} \sim \mathrm{Beta}(5,\ 2)
+  where:
+    h  —  Height above sea level [m]; State
+    h_{\mathrm{bot}}  —  Lowest height of the arrest [m]; U[3,751, 18,895] ft
+    n_{\mathrm{rec}}  —  Load factor during the pull-out [—]; U[1.62, 2.55], capped at 2.5
+    \phi_{\mathrm{arr}}  —  Bank during the pull-out [rad]; U[37.7°, 51.8°]; bank changes at 15°/s
+    P_{\mathrm{arrest}}  —  Probability that the first dive is arrested [—]; Beta(5, 2): Boeing 4 of 4 arrested, Adam Air 574 0 of 1, uniform prior
+    \gamma_{\mathrm{top}}  —  Climb angle at which the pull-out ends (not in the equation) [rad]; U[1.8°, 57.7°]; then the bank and load factor return to their frozen values; at most one arrest
+  One-sentence version: If an arrest is drawn, the pull-out starts at the height that brings the bottom of the pull-out to the drawn arrest altitude; after the climb, the nose drops again.
+  Status: Ranges from the four Boeing alternate-power simulations; arrest probability prior Beta(5, 2) with variants 0.2 and 0.9.
+
+(A13) [Appendix] Hierarchical prior for the dive build-up, fitted to the real cases and the Boeing simulations.
+\ln y_{i} \sim \mathcal{N}\left(\mu_{c(i)},\ \tau_{q}^{2} + s_{i}^{2}\right), \qquad \mu_{c} \sim \mathcal{N}\left(\mu_{0},\ \omega^{2}\right), \qquad \mu_{0} \sim \mathcal{N}\left(0,\ 3^{2}\right), \qquad \omega,\ \tau_{q} \sim \mathcal{N}^{+}\left(0,\ 1\right)
+  where:
+    y_{i}  —  Value of one build-up quantity for case i [g or s]; Largest 8-s mean downward acceleration (15 values), time from onset to 15,000 ft/min (11), delay from first flame-out to onset (6)
+    c(i)  —  Class of case i [—]; No effective crew input (Adam Air 574, China Airlines 006, Boeing simulations 3, 4, 6, 10) or crew input during the build-up
+    s_{i}  —  Measurement uncertainty of case i on the log scale [—]; 0.10–0.20 by data grade
+    \mu_{c}  —  Mean of class c on the log scale [—]; Fitted
+    \mu_{0},\ \omega  —  Overall mean and spread between classes [—]; Fitted
+    \tau_{q}  —  Spread between cases within a class [—]; Fitted
+    \mathcal{N}^{+}  —  Half-normal distribution [—]; Prior on the two spreads
+  One-sentence version: Each build-up quantity is lognormal about a class mean, the class means share an overall mean, and each case carries its own measurement uncertainty; the model is fitted by random-walk Metropolis sampling.
+  Status: Pre-registered leave-one-out test passed (eq. A14). Declared deviation: the pre-registration lists 10 values of T15; 11 were used.
+
+(A14) [Appendix] Predictive distribution of a build-up quantity, and the leave-one-out check.
+p\left(y^{*} \mid c,\ \mathcal{D}\right) = \int \mathrm{LN}\left(y^{*};\ \mu_{c},\ \tau_{q}^{2}\right) p\left(\mu_{c},\ \tau_{q} \mid \mathcal{D}\right) \mathrm{d}\mu_{c}\, \mathrm{d}\tau_{q}, \qquad u_{i} = F\left(y_{i} \mid c(i),\ \mathcal{D}_{-i}\right)
+  where:
+    y^{*}  —  Value for a new dive of class c [g or s]; Drawn for each no-pilot path (class: no effective crew input)
+    \mathcal{D}  —  All case values [—]; Eq. (A13) data
+    \mathrm{LN}  —  Lognormal density [—]; —
+    u_{i}  —  Probability integral transform of case i [—]; Predictive fitted without case i
+    \mathcal{D}_{-i}  —  Case values without case i [—]; —
+  One-sentence version: New dives are drawn from the fitted predictive distribution; each case is checked by refitting without it and asking where it falls in the prediction.
+  Status: Test A: 0 of 15, 1 of 11 and 0 of 6 values outside the central 95 % (pass limit 2 for each quantity).
+
+(A15) [Appendix] Importance weight of a no-pilot path aimed at the 00:19 data.
+w_{i} = \frac{1}{M}\, \frac{p_{d}\left(d_{i}\right)}{q\left(d_{i} \mid T_{15,i}\right)}\, \frac{P_{F}\left(T_{15,i},\ v_{\mathrm{pre},i}\right)}{Z_{F}}\, \frac{p\left(a_{8,i} \mid a_{8,i} > x_{i}\right)}{q\left(a_{8,i} \mid T_{15,i}\right)}, \qquad q\left(d \mid T_{15}\right) = \pi_{0}\, p_{d}(d) + \left(1 - \pi_{0}\right) \mathcal{U}\left(d;\ \mathcal{W}\left(T_{15}\right)\right)
+  where:
+    M  —  Number of dives drawn for each core path [—]; 16
+    d  —  Delay from first flame-out to descent onset [s]; Prior p_d: case predictive, eq. (A14)
+    \mathcal{W}(T_{15})  —  Window of delays that put 00:19:29 between T15 − 20 s and T15 + 2 s after onset [s]; Proposal only
+    \pi_{0}  —  Share of delays drawn from the prior [—]; 0.15
+    x_{i}  —  Smallest a8 that reaches 15,000 ft/min within T15 [g]; Δv / (0.98 g T15)
+    P_{F}  —  Prior probability that a8 exceeds x_i [—]; From the predictive
+    Z_{F}  —  Prior probability that a drawn (a8, T15) pair is feasible [—]; Monte Carlo, 2 million draws
+    q\left(a_{8} \mid T_{15}\right)  —  Proposal for a8 [—]; 0.4 truncated prior + 0.3 lognormal (median 0.85 g) + 0.3 lognormal (median 1.3 g), log-sd 0.2, truncated at x_i
+  One-sentence version: Dives are aimed at the 00:19 data by drawing the onset delay and the acceleration from wider proposals; the weight restores the prior exactly, so no case is selected by its fit.
+  Status: Exact weights; mean weight per core path 0.994–1.003 in all 40 seeds (expected 1).
+
+(A16) [Appendix] Evidence of a data treatment, pooled over seeds.
+\hat{Z}_{D} = \frac{1}{S} \sum_{s=1}^{S} \hat{Z}_{\mathrm{Core},s} \sum_{n \in s} w_{n}\, L_{0019,n}^{D}, \qquad \Delta \ln Z_{D:D'} = \ln \hat{Z}_{D} - \ln \hat{Z}_{D'}
+  where:
+    S  —  Number of independent seeds [—]; 16 (Davey model with the fuel model); 24 (waypoints)
+    \hat{Z}_{\mathrm{Core},s}  —  Core evidence at the hand-off for seed s [—]; Core estimator
+    w_{n}  —  Prior weight of end-of-flight path n within its seed [—]; Sums to one over the seed; includes eq. (A15)
+    L_{0019,n}^{D}  —  00:19 likelihood of path n under treatment D [—]; Eq. (13)
+    \Delta \ln Z_{D:D'}  —  Log Bayes factor of treatment D against D' [nat]; Only for D and D′ in the same data group
+  One-sentence version: The evidence of a treatment is the core evidence times the mean 00:19 likelihood over the paths, averaged over the seeds; only treatments that use the same data are compared.
+  Status: Differences reported only between treatments that use the same 00:19 data; 90 % intervals from 200 bootstrap resamples of the seeds.

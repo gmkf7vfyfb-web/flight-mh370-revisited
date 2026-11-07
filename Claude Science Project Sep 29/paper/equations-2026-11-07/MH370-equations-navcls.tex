@@ -1,0 +1,379 @@
+% MH370 equations, version 4 (7 Nov 2026), hybrid manuscript order, for nav.cls.
+% nav.cls loads amsmath, amssymb, amsthm, natbib and hyperref itself. Equations number (1), (2), ...
+% Appendix block: \appendix in nav.cls numbers A.1; the Journal style is A1 -- the \renewcommand below gives A1.
+% Structural check only; this fragment has not been compiled.
+
+% ---- Section 1. Introduction ----
+% (1) [Essential] Seabed location of the wreckage (the quantity of interest).
+\begin{equation}
+  x_{\mathrm{Final}} = \left(\varphi_{\mathrm{Final}},\ \lambda_{\mathrm{Final}},\ d_{\mathrm{Final}}\right)
+  \label{eq:1}
+\end{equation}
+
+% (2) [Essential] Surface impact location. The impact time t_Impact stays in the text.
+\begin{equation}
+  x_{\mathrm{Impact}} = \left(\varphi_{\mathrm{Impact}},\ \lambda_{\mathrm{Impact}}\right)
+  \label{eq:2}
+\end{equation}
+
+% ---- Section 3.1. Core particle filter ----
+% (3) [Essential] Core posterior for one model configuration H (the master equation).
+\begin{equation}
+  p\left(x_{0:K},\, a,\, \theta_{\mathrm{Core}} \mid z_{\mathrm{Core}},\, H\right) \propto p\left(x_{0}\right) P\left(a \mid H\right) p\left(\theta_{\mathrm{Core}} \mid H\right) \prod_{k=1}^{K} p\left(x_{k} \mid x_{k-1},\, a,\, \theta_{\mathrm{Core}},\, H\right)\, L\left(z_{\mathrm{Core}} \mid x_{0:K}\right)
+  \label{eq:3}
+\end{equation}
+
+% (4) [Essential] Core likelihood: the factors that each configuration switches on or off.
+\begin{equation}
+  L\left(z_{\mathrm{Core}} \mid x_{0:K}\right) = L_{\mathrm{BTO}}\, L_{\mathrm{BFO}}\, L_{\mathrm{Radar}}\, I_{\mathrm{Power}}
+  \label{eq:4}
+\end{equation}
+
+% (5) [Essential] BTO likelihood.
+\begin{equation}
+  L_{\mathrm{BTO}} = \prod_{j=1}^{10} \mathcal{N}\left(z_{\mathrm{BTO},j};\ F_{\mathrm{BTO}}\left(x_{j}\right),\ \sigma_{\mathrm{BTO},j}^{2}\right)
+  \label{eq:5}
+\end{equation}
+
+% (6) [Essential] BFO likelihood with the bias integrated out, written as a product of one-step prediction errors.
+\begin{equation}
+  L_{\mathrm{BFO}} = \int \prod_{i=1}^{9} \mathcal{N}\left(z_{\mathrm{BFO},i};\ F_{\mathrm{BFO}}\left(x_{i}\right) + b,\ \sigma_{\mathrm{BFO}}^{2}\right) \mathcal{N}\left(b;\ \bar{b}_{0},\ P_{0}\right) \mathrm{d}b = \prod_{i=1}^{9} \mathcal{N}\left(\nu_{i};\ 0,\ s_{i}^{2}\right)
+  \label{eq:6}
+\end{equation}
+
+% (7) [Optional] Radar likelihood after 18:01:49 UTC.
+\begin{equation}
+  L_{\mathrm{Radar}} = \prod_{r=1}^{5} \left[ (1-\epsilon)\, \mathcal{N}_{2}\left(d_{r};\ \sigma_{r}\right) + \epsilon\, \mathcal{N}_{2}\left(d_{r};\ \sigma_{\mathrm{Outlier}}\right) \right] \prod_{c=1}^{4} \mathcal{N}\left(e_{c};\ 0,\ \sigma_{c}^{2}\right)
+  \label{eq:7}
+\end{equation}
+
+% (8) [Essential] Engine power at 00:10:59 UTC.
+\begin{equation}
+  I_{\mathrm{Power}} = \begin{cases} 1, & m_{\mathrm{Left}}\left(t_{0011}\right) > 0 \ \text{or}\ m_{\mathrm{Right}}\left(t_{0011}\right) > 0 \\ 0, & \text{otherwise} \end{cases}
+  \label{eq:8}
+\end{equation}
+
+% (9) [Essential] Fuel burn by tank (both engines running; one engine after the first tank is empty).
+\begin{equation}
+  \dot{m}_{\mathrm{Left}} = -\frac{\kappa\, \kappa_{x}^{\delta_{x}}\, f_{T}\, Q_{\mathrm{Twin}}}{1+r}, \qquad \dot{m}_{\mathrm{Right}} = -\frac{r\, \kappa\, \kappa_{x}^{\delta_{x}}\, f_{T}\, Q_{\mathrm{Twin}}}{1+r}, \qquad \dot{m}_{\mathrm{Live}} = -\kappa\, f_{T}\, Q_{\mathrm{One}}
+  \label{eq:9}
+\end{equation}
+
+% (10) [Optional] Combination over autopilot modes within one configuration H.
+\begin{equation}
+  p\left(x_{K} \mid z_{\mathrm{Core}},\, H\right) = \sum_{a} P\left(a \mid z_{\mathrm{Core}},\, H\right) p\left(x_{K} \mid z_{\mathrm{Core}},\, a,\, H\right), \qquad P\left(a \mid z_{\mathrm{Core}},\, H\right) \propto P\left(a \mid H\right) p\left(z_{\mathrm{Core}} \mid a,\, H\right)
+  \label{eq:10}
+\end{equation}
+
+% (11) [Essential] Goodness-of-fit statistic for one path, and its smallest value in a latitude band.
+\begin{equation}
+  \chi^{2}\left(x_{0:K}\right) = \sum_{j=1}^{10} \left(\frac{z_{\mathrm{BTO},j} - F_{\mathrm{BTO}}\left(x_{j}\right)}{\sigma_{\mathrm{BTO},j}}\right)^{2} + \sum_{i=1}^{9} \frac{\nu_{i}^{2}}{s_{i}^{2}}, \qquad \chi_{\min}^{2}(\Phi) = \min_{n:\ \varphi_{K}^{(n)} \in \Phi} \chi^{2}\left(x_{0:K}^{(n)}\right)
+  \label{eq:11}
+\end{equation}
+
+% ---- Section 3.2. End of flight ----
+% (12) [Essential] End-of-flight path posterior, with a hand-off epoch s that depends on the descent family.
+\begin{equation}
+  p\left(x_{s:I} \mid z,\, H,\, H_{\mathrm{E}},\, D,\, K\right) \propto p\left(x_{s} \mid z_{\le s},\, H\right) P(K)\, p\left(x_{s:I} \mid x_{s},\, H_{\mathrm{E}},\, K\right) L_{>s}\left(z_{>s} \mid x_{s:I},\, D\right)
+  \label{eq:12}
+\end{equation}
+
+% (13) [Essential] Likelihood of the 00:19 log-on and transmissions for one path.
+\begin{equation}
+  L_{0019} = \ell_{D}\left(z_{0019} \mid x_{0019}\right) I_{\mathrm{Air}} \left[ f_{\mathrm{Lag}}\left(t_{\mathrm{Logon}} - t_{P}\right) + \frac{q}{W}\, I_{\mathrm{Silent}} \right]
+  \label{eq:13}
+\end{equation}
+
+% (14) [Essential] Time of loss of main AC power, by electrical configuration.
+\begin{equation}
+  t_{P} = \begin{cases} t_{\mathrm{FO1}} + \delta_{G}, & K = \text{alternate} \\ t_{\mathrm{FO2}} + \delta_{G}, & K = \text{normal} \end{cases}
+  \label{eq:14}
+\end{equation}
+
+% (15) [Essential] Likelihood of the 00:19 values under data treatment D.
+\begin{equation}
+  \ell_{D} = \prod_{j \in J_{D}} \mathcal{N}\left(z_{j} - h_{j}\left(x_{j}\right) - \beta_{j}^{D};\ 0,\ \sigma_{j}^{2}\right)
+  \label{eq:15}
+\end{equation}
+
+% (16) [Optional] Posterior probability of the electrical configuration, and its Bayes factor.
+\begin{equation}
+  P\left(K \mid z,\, D,\, H_{\mathrm{E}}\right) = \frac{P(K)\, \hat{Z}\left(K,\, D,\, H_{\mathrm{E}}\right)}{\sum_{K'} P(K')\, \hat{Z}\left(K',\, D,\, H_{\mathrm{E}}\right)}, \qquad B_{\mathrm{alt:norm}} = \frac{\hat{Z}\left(\mathrm{alt},\, D,\, H_{\mathrm{E}}\right)}{\hat{Z}\left(\mathrm{norm},\, D,\, H_{\mathrm{E}}\right)}
+  \label{eq:16}
+\end{equation}
+
+% (17) [Optional] Uncontrolled glide, normal configuration: a Boeing simulator run replayed from the path's own state.
+\begin{equation}
+  \mathbf{r}_{i}(t) = \mathbf{r}_{i}\left(t_{P}\right) + \mathbf{R}\left(\psi - \psi_{c}(0)\right) \mathbf{r}_{c}^{a}\left(\tau\left(t;\, \boldsymbol{\theta}\right)\right) + \int_{t_{P}}^{t} \mathbf{w}_{\mathrm{ERA5}}\left(\mathbf{r}_{i},\, h_{i},\, t'\right) \mathrm{d}t'
+  \label{eq:17}
+\end{equation}
+
+% (18) [Essential] Kinetic energy at impact.
+\begin{equation}
+  E_{K} = \tfrac{1}{2}\, m \left\| \mathbf{v}_{I} \right\|^{2}
+  \label{eq:18}
+\end{equation}
+
+% ---- Section 3.3. Ocean surface transport (debris drift) ----
+% (19) [Essential] Drift likelihood for one ocean model, with object and transport parameters integrated out.
+\begin{equation}
+  L_{\mathrm{Debris} \mid m}\left(x_{\mathrm{Impact}}\right) = \int p\left(z_{\mathrm{Debris}} \mid x_{\mathrm{Impact}},\, m,\, \theta\right) p\left(\theta \mid m\right) \mathrm{d}\theta
+  \label{eq:19}
+\end{equation}
+
+% (20) [Essential] Ocean-model average of all terms that share the ocean model.
+\begin{equation}
+  L_{\mathrm{Ocean}}\left(x\right) = \frac{1}{2} \sum_{m \in \{\mathrm{G},\, \mathrm{C}\}} \prod_{k \in \mathcal{K}_{\mathrm{Ocean}}} L_{k \mid m}\left(x\right)
+  \label{eq:20}
+\end{equation}
+
+% (21) [Optional] Debris finds and non-finds with the unknown number of floating pieces integrated out (sensitivity).
+\begin{equation}
+  L_{\mathrm{DNF}}\left(x\right) \propto \int_{0}^{\infty} \lambda^{n} \prod_{i=1}^{n} q_{i}(x)\, e^{-\lambda Q(x)}\, \frac{\mathrm{d}\lambda}{\lambda} = \Gamma(n)\, \frac{\prod_{i=1}^{n} q_{i}(x)}{Q(x)^{n}}
+  \label{eq:21}
+\end{equation}
+
+% ---- Section 3.4. Settling to the seabed ----
+% (22) [Optional] Settling: displacement east while a piece sinks.
+\begin{equation}
+  \Delta E = \int_{0}^{d_{\mathrm{Final}}} \left(\frac{u_{\mathrm{E}}(z)+\varepsilon_{\mathrm{E}}(z,t)}{w(z)} + G\sin\beta(z)\right)\mathrm{d}z
+  \label{eq:22}
+\end{equation}
+
+% (23) [Optional] Settling: displacement north while a piece sinks.
+\begin{equation}
+  \Delta N = \int_{0}^{d_{\mathrm{Final}}} \left(\frac{u_{\mathrm{N}}(z)+\varepsilon_{\mathrm{N}}(z,t)}{w(z)} + G\cos\beta(z)\right)\mathrm{d}z
+  \label{eq:23}
+\end{equation}
+
+% (24) [Essential] Seabed latitude and longitude of a piece: offsets added in metres from the impact point.
+\begin{equation}
+  \varphi_{\mathrm{Final}} = \varphi_{\mathrm{Impact}} + \frac{N_{\mathrm{Release}}+\Delta N}{R}, \qquad \lambda_{\mathrm{Final}} = \lambda_{\mathrm{Impact}} + \frac{E_{\mathrm{Release}}+\Delta E}{R\cos\bar{\varphi}}
+  \label{eq:24}
+\end{equation}
+
+% (25) [Essential] Sinking speed of a piece relative to the ground.
+\begin{equation}
+  w = k\sqrt{\frac{2g\rho_{A}\left(1-\rho_{\mathrm{w}}/\rho_{\mathrm{m}}\right)}{\rho_{\mathrm{w}}C_{\mathrm{D}}}} - w_{\mathrm{up}}
+  \label{eq:25}
+\end{equation}
+
+% ---- Section 3.5. Searched areas ----
+% (26) [Essential] Probability of no find for a settled wreck field, over all search campaigns.
+\begin{equation}
+  P\left(\text{no find} \mid W\right) = \rho + (1-\rho) \prod_{k} \left[ 1 - q_{k}\, f_{k}\, \bar{c}_{k}(W) \right]
+  \label{eq:26}
+\end{equation}
+
+% (27) [Optional] Covered fraction of a settled field for one campaign.
+\begin{equation}
+  \bar{c}_{k}(W) = \frac{\sum_{j \in W} \mu_{j}\, c_{k}\left(x_{\mathrm{Final},j}\right)}{\sum_{j \in W} \mu_{j}}
+  \label{eq:27}
+\end{equation}
+
+% (28) [Optional] Per-cell recognition and unfindable fraction (model V1).
+\begin{equation}
+  q(x) = 0.95\left[1 - f_{\mathrm{lc}}(x)\right] + 0.70\, f_{\mathrm{lc}}(x), \qquad \rho(x) = \min\left[0.05\, w(x),\ 0.95\right]
+  \label{eq:28}
+\end{equation}
+
+% (29) [Essential] Search update in the project notation (extends Davey et al. 2016, eq. 11.1).
+\begin{equation}
+  p\left(x_{\mathrm{Final}} \mid z_{\mathrm{Search}},\, z\right) \propto P\left(\text{no find} \mid x_{\mathrm{Final}}\right) p\left(x_{\mathrm{Final}} \mid z\right)
+  \label{eq:29}
+\end{equation}
+
+% (30) [Essential] Probability of success of a new search of area A (Davey et al. 2016, eq. 11.2).
+\begin{equation}
+  P\left(\text{success in } A\right) = P_{D,\mathrm{new}} \int_{A} p\left(x_{\mathrm{Final}} \mid z,\, z_{\mathrm{Search}}\right) \mathrm{d}x_{\mathrm{Final}}
+  \label{eq:30}
+\end{equation}
+
+% ---- Section 3.6. Hydroacoustics ----
+% (31) [Optional] Acoustic coupling inferred from the F-35A recording (one anchor point).
+\begin{equation}
+  \eta = \frac{SE_{\mathrm{obs}}}{E\, \frac{\rho_{\mathrm{w}} c}{2\pi} \sum_{b} w_{b}\, S_{b}(\tau)\, 10^{-TL_{b}/10}}
+  \label{eq:31}
+\end{equation}
+
+% (32) [Essential] Predicted signal-to-noise ratio at Cape Leeuwin, scaled from the F-35A recording (coupling cancels).
+\begin{equation}
+  SNR_{\mathrm{CL}} = SE^{\mathrm{obs}}_{\mathrm{Wake}} + 10 \log_{10} \frac{E_{\mathrm{MH}}}{E_{\mathrm{F35}}} + \left[ TL^{w}_{\mathrm{Wake}} - TL^{w}_{\mathrm{CL}} \right] + B_{\mathrm{CL}} - NL_{\mathrm{CL}}
+  \label{eq:32}
+\end{equation}
+
+% (33) [Essential] Detection probability against predicted margin (logistic fit to 53 known Indian Ocean sources).
+\begin{equation}
+  \operatorname{logit} P\left(\text{heard}\right) = a + b\, m, \qquad m_{50} = -\frac{a}{b}, \qquad \sigma_{\mathrm{eq}} = \frac{\pi}{\sqrt{3}\, b}
+  \label{eq:33}
+\end{equation}
+
+% (34) [Optional] Arrival time at a station.
+\begin{equation}
+  t_{\mathrm{arr}} = t_{\mathrm{Impact}} + \frac{d_{\mathrm{water}}}{c} + \frac{d_{\mathrm{rock}}}{v_{\mathrm{rock}}}
+  \label{eq:34}
+\end{equation}
+
+% (35) [Essential] Hydroacoustic non-detection likelihood (proposed; not applied).
+\begin{equation}
+  L_{\mathrm{Hydro}}\left(x_{\mathrm{Impact}},\, E_{K}\right) = \prod_{s} \left[ 1 - P_{s}\left(\text{heard} \mid m_{s}\left(x_{\mathrm{Impact}},\, E_{K}\right)\right) \right]
+  \label{eq:35}
+\end{equation}
+
+% (36) [Optional] Expected information from a possible detection (value of information).
+\begin{equation}
+  \mathrm{E}\left[\Delta I\right] = \sum_{o} P(o)\, D_{\mathrm{KL}}\left( p\left(x \mid z,\, o\right) \,\Vert\, p\left(x \mid z\right) \right)
+  \label{eq:36}
+\end{equation}
+
+% ---- Section 3.7. Composer, evidence accounting and the three explanations ----
+% (37) [Essential] Composed weight of each shared impact sample.
+\begin{equation}
+  \tilde{w}_{n} \propto w_{n}\, L_{\mathrm{Ocean}}\left(x_{\mathrm{Impact},n}\right) P\left(\text{no find} \mid W_{n}\right) \prod_{k \in \mathcal{K}_{\mathrm{Other}}} L_{k}\left(x_{\mathrm{Impact},n}\right)
+  \label{eq:37}
+\end{equation}
+
+% (38) [Essential] Evidence of a set of evidence types, and the Bayes factor between two hypotheses.
+\begin{equation}
+  Z_{S} = \sum_{n} w_{n} \prod_{k \in S} L_{k}\left(x_{n}\right), \qquad B_{12} = \frac{Z_{S}\left(H_{1}\right)}{Z_{S}\left(H_{2}\right)} = \frac{P\left(H_{1} \mid z\right)}{P\left(H_{2} \mid z\right)} \bigg/ \frac{P\left(H_{1}\right)}{P\left(H_{2}\right)}
+  \label{eq:38}
+\end{equation}
+
+% (39) [Essential] Information along the arc for a set S of evidence types.
+\begin{equation}
+  I_{S} = \log_{2} N - H\left(p^{S}\right) = D_{\mathrm{KL}}\left(p^{S} \,\Vert\, u\right), \qquad H(p) = -\sum_{i=1}^{N} p_{i} \log_{2} p_{i}
+  \label{eq:39}
+\end{equation}
+
+% (40) [Optional] Shapley share of the information for evidence type k.
+\begin{equation}
+  \phi_{k} = \sum_{S \subseteq \mathcal{K} \setminus \{k\}} \frac{|S|!\, \left(|\mathcal{K}| - |S| - 1\right)!}{|\mathcal{K}|!} \left[ I_{S \cup \{k\}} - I_{S} \right]
+  \label{eq:40}
+\end{equation}
+
+% (41) [Essential] Agreement between two sets of evidence (suspiciousness; Handley and Lemos 2019).
+\begin{equation}
+  R = \frac{Z_{AB}}{Z_{A} Z_{B}}, \qquad \ln S = \ln R - \left(D_{A} + D_{B} - D_{AB}\right), \qquad p = \Pr\left(\chi^{2}_{d} > d - 2 \ln S\right)
+  \label{eq:41}
+\end{equation}
+
+% (42) [Essential] Why the wreck has not been found: three exclusive explanations.
+\begin{equation}
+  P_{\mathrm{Missed}} = \sum_{n:\, x_{n} \in \mathcal{S}} \tilde{w}_{n}, \qquad P_{\mathrm{Length}} = \sum_{n:\, x_{n} \notin \mathcal{S},\ a(x_{n}) \notin \mathcal{S}} \tilde{w}_{n}, \qquad P_{\mathrm{Width}} = \sum_{n:\, x_{n} \notin \mathcal{S},\ a(x_{n}) \in \mathcal{S}} \tilde{w}_{n}
+  \label{eq:42}
+\end{equation}
+
+% (43) [Essential] Odds of the dive family against the non-dive family, defined by outcome.
+\begin{equation}
+  F(x) = \begin{cases} \text{Dive}, & t_{\mathrm{Impact}} - t_{\mathrm{Logon}} \le T^{*}\ \text{and}\ E_{K} \ge E^{*} \\ \text{Non-dive}, & \text{otherwise} \end{cases}, \qquad O_{\mathrm{D:N}} = \frac{\sum_{n:\, F=\mathrm{Dive}} \tilde{w}_{n}}{\sum_{n:\, F=\text{Non-dive}} \tilde{w}_{n}}
+  \label{eq:43}
+\end{equation}
+
+% (44) [Optional] Emergency locator transmitter: no signal received (outcome-level factor).
+\begin{equation}
+  L_{\mathrm{ELT}}(F) = P\left(\text{no ELT signal} \mid F\right) \approx \begin{cases} 1, & F = \text{Dive} \\ p_{\mathrm{E}}, & F = \text{Non-dive} \end{cases}
+  \label{eq:44}
+\end{equation}
+
+
+\appendix
+\section{Supporting equations}
+\setcounter{equation}{0}
+\renewcommand{\theequation}{A\arabic{equation}}
+
+% ---- Appendix A. Supporting equations ----
+% (A1) [Appendix] Trajectory, latitude. M is the WGS-84 meridian radius of curvature.
+\begin{equation}
+  \varphi(t) = \varphi_{0} + \int_{t_{0}}^{t} \frac{V(t')\cos\chi(t')}{M+h(t')}\,\mathrm{d}t'
+  \label{eq:A1}
+\end{equation}
+
+% (A2) [Appendix] Trajectory, longitude. N is the WGS-84 prime-vertical radius of curvature.
+\begin{equation}
+  \lambda(t) = \lambda_{0} + \int_{t_{0}}^{t} \frac{V(t')\sin\chi(t')}{\left(N+h(t')\right)\cos\varphi(t')}\,\mathrm{d}t'
+  \label{eq:A2}
+\end{equation}
+
+% (A3) [Appendix] Trajectory, altitude.
+\begin{equation}
+  h(t) = h_{0} + \int_{t_{0}}^{t} \dot{h}(t')\,\mathrm{d}t'
+  \label{eq:A3}
+\end{equation}
+
+% (A4) [Appendix] Davey et al. (2016), eq. (11.1), p. 101, in Davey's notation (for reference).
+\begin{equation}
+  p\left(x_{\mathrm{final}} \mid S, Z_{K}\right) \propto \left[1 - P_{D}\left(x_{\mathrm{final}}\right)\right] p\left(x_{\mathrm{final}} \mid Z_{K}\right)
+  \label{eq:A4}
+\end{equation}
+
+% (A5) [Appendix] Davey's measurement history, p. 13 (for reference).
+\begin{equation}
+  Z_{k} \triangleq \left\{z_{1}, \ldots, z_{k}\right\}
+  \label{eq:A5}
+\end{equation}
+
+% (A6) [Appendix] Optional factor for the 00:21:06 ground-to-air message that was not answered.
+\begin{equation}
+  L_{\mathrm{IFE}} = 1 - p_{\mathrm{on}}\, I_{\mathrm{link}}\left(x_{00{:}21{:}06}\right)
+  \label{eq:A6}
+\end{equation}
+
+% (A7) [Appendix] Joining the planned-descent arms from the 22:41 and 00:11 hand-offs.
+\begin{equation}
+  \ln w_{i} = \ln w_{i}^{\mathrm{stored}} + \ln \frac{\pi_{\mathrm{V2}}\left(m_{i},\, \tau_{i}\right)}{\pi_{\mathrm{run}}\left(m_{i},\, \tau_{i}\right)} + \ln L_{0019,i}^{D} + \mathbb{1}\left\{i \in S_{2}\right\} \Delta \ln Z_{\mathrm{filter}}
+  \label{eq:A7}
+\end{equation}
+
+% (A8) [Appendix] Re-weighting stored piloted rows to the configuration-dependent power-loss time.
+\begin{equation}
+  w_{i}' = w_{i} \frac{f_{\mathrm{Lag}}\left(t_{\mathrm{Logon}} - t_{P,i}\left(K_{i}\right)\right) + \frac{q}{W} I_{\mathrm{Silent},i}}{f_{\mathrm{Lag}}\left(t_{\mathrm{Logon}} - t_{\mathrm{FO2},i}\right) + \frac{q}{W} I_{\mathrm{Silent},i}}
+  \label{eq:A8}
+\end{equation}
+
+% (A9) [Appendix] No-pilot dive: point-mass equations of motion.
+\begin{equation}
+  \dot{V} = \frac{T - D}{m} - g\sin\gamma, \qquad \dot{\gamma} = \frac{g}{V}\left(n\cos\phi - \cos\gamma\right), \qquad \dot{\psi} = \frac{g\, n\sin\phi}{V\cos\gamma}
+  \label{eq:A9}
+\end{equation}
+
+% (A10) [Appendix] No-pilot dive: build-up from descent onset to 15,000 ft/min.
+\begin{equation}
+  a(\tau) = a_{8}\, g\, e^{(\tau - T_{15})/\tau_{e}}, \quad \tau_{e}\left(1 - e^{-T_{15}/\tau_{e}}\right) = \frac{\Delta v}{a_{8}\, g}, \quad \phi(\tau) = \pm\phi_{m}\frac{a(\tau)}{a_{8}\, g}, \quad n(\tau) = \frac{1 - a(\tau)/g}{\cos\gamma\cos\phi}, \qquad 0 \le \tau < T_{15}
+  \label{eq:A10}
+\end{equation}
+
+% (A11) [Appendix] No-pilot dive: drag, manoeuvre limits and stall limit.
+\begin{equation}
+  C_{D} = C_{D0} + k\, C_{L}^{2} + 20\left(M - 0.76\right)^{4}\, \mathbb{1}\{M > 0.76\}, \qquad C_{L} = \frac{n\, m\, g}{\tfrac{1}{2}\rho V^{2} S}, \qquad -1 \le n \le 2.5, \qquad \left|n\right| \le \frac{C_{L,\max}(M)\, \tfrac{1}{2}\rho V^{2} S}{m\, g}
+  \label{eq:A11}
+\end{equation}
+
+% (A12) [Appendix] No-pilot dive: start of an arrest (pull-out) without crew input.
+\begin{equation}
+  h \le h_{\mathrm{bot}} + \frac{V^{2}\left(1 - \cos\gamma\right)}{g\left(n_{\mathrm{rec}}\cos\phi_{\mathrm{arr}} - 1\right)}, \qquad P_{\mathrm{arrest}} \sim \mathrm{Beta}(5,\ 2)
+  \label{eq:A12}
+\end{equation}
+
+% (A13) [Appendix] Hierarchical prior for the dive build-up, fitted to the real cases and the Boeing simulations.
+\begin{equation}
+  \ln y_{i} \sim \mathcal{N}\left(\mu_{c(i)},\ \tau_{q}^{2} + s_{i}^{2}\right), \qquad \mu_{c} \sim \mathcal{N}\left(\mu_{0},\ \omega^{2}\right), \qquad \mu_{0} \sim \mathcal{N}\left(0,\ 3^{2}\right), \qquad \omega,\ \tau_{q} \sim \mathcal{N}^{+}\left(0,\ 1\right)
+  \label{eq:A13}
+\end{equation}
+
+% (A14) [Appendix] Predictive distribution of a build-up quantity, and the leave-one-out check.
+\begin{equation}
+  p\left(y^{*} \mid c,\ \mathcal{D}\right) = \int \mathrm{LN}\left(y^{*};\ \mu_{c},\ \tau_{q}^{2}\right) p\left(\mu_{c},\ \tau_{q} \mid \mathcal{D}\right) \mathrm{d}\mu_{c}\, \mathrm{d}\tau_{q}, \qquad u_{i} = F\left(y_{i} \mid c(i),\ \mathcal{D}_{-i}\right)
+  \label{eq:A14}
+\end{equation}
+
+% (A15) [Appendix] Importance weight of a no-pilot path aimed at the 00:19 data.
+\begin{equation}
+  w_{i} = \frac{1}{M}\, \frac{p_{d}\left(d_{i}\right)}{q\left(d_{i} \mid T_{15,i}\right)}\, \frac{P_{F}\left(T_{15,i},\ v_{\mathrm{pre},i}\right)}{Z_{F}}\, \frac{p\left(a_{8,i} \mid a_{8,i} > x_{i}\right)}{q\left(a_{8,i} \mid T_{15,i}\right)}, \qquad q\left(d \mid T_{15}\right) = \pi_{0}\, p_{d}(d) + \left(1 - \pi_{0}\right) \mathcal{U}\left(d;\ \mathcal{W}\left(T_{15}\right)\right)
+  \label{eq:A15}
+\end{equation}
+
+% (A16) [Appendix] Evidence of a data treatment, pooled over seeds.
+\begin{equation}
+  \hat{Z}_{D} = \frac{1}{S} \sum_{s=1}^{S} \hat{Z}_{\mathrm{Core},s} \sum_{n \in s} w_{n}\, L_{0019,n}^{D}, \qquad \Delta \ln Z_{D:D'} = \ln \hat{Z}_{D} - \ln \hat{Z}_{D'}
+  \label{eq:A16}
+\end{equation}

@@ -1,0 +1,311 @@
+{
+ "manifest_version": 1,
+ "run_id": "eof-paper-figures-2026-11-07",
+ "module": "end-of-flight",
+ "commit": {
+  "branch": "claude-science-sep29",
+  "sha": "e356a6ca7235f8af4e6d0c9dfb2ac45ad83f18e2",
+  "dirty": false,
+  "note": "Figure code: figures_final.py, figures_maps.py, figures_paper.py in the run folder EX:end-of-flight/final-2026-11-07 (also in the code bundle of results/end-of-flight/eof-publication-run-2026-11-07)."
+ },
+ "configuration": {
+  "values": {
+   "style": "Journal of Navigation: greyscale, 127 mm wide, no title or notes on the image, letter panel labels, caption beneath (proof and caption text)",
+   "hpd_density": "weighted 0.05 deg histogram of the hand-off rows, Gaussian smoothing 2 cells (0.1 deg); bands 50/90/99 %",
+   "arcs": "7th arc 00:19:29 at sea level (BTO 18,400 us); 6th arc 00:10:58 at 35,000 ft (BTO 18,040 us)"
+  }
+ },
+ "inputs": [
+  {
+   "registry_id": "core.ex.core-run-j",
+   "role": "core hand-offs (via the end-of-flight run)"
+  }
+ ],
+ "source_result": "results/end-of-flight/eof-publication-run-2026-11-07",
+ "outputs": [
+  {
+   "path": "eof-case-prior-caption.txt",
+   "bytes": 445,
+   "sha256": "abb559966bf0cbb24580858e56829b0afc574cec924ece03c302cdce1d4b40be",
+   "artifact_version_id": "65fd479e-946e-4f14-88a6-8c0320a8f509"
+  },
+  {
+   "path": "eof-case-prior-proof.png",
+   "bytes": 187811,
+   "sha256": "5a0d9778a3073a38f6e0c1c13792b7d8d0ba0adfe9bd729db1a08bfe5a1cca0a",
+   "artifact_version_id": "084adb6c-6989-451b-8db5-b607c10db22e"
+  },
+  {
+   "path": "eof-case-prior-word.png",
+   "bytes": 334874,
+   "sha256": "2b08c8094b19631f0d96dccad4d8bc00c27ed4dcc671e4dff633828cacb1e774",
+   "artifact_version_id": "1d9a45d5-7a1c-4eef-9203-adb40b9ffd85"
+  },
+  {
+   "path": "eof-case-prior.pdf",
+   "bytes": 27269,
+   "sha256": "c72de1d2a6390bc6ece02fcd181b4ddf89ed3d4166c32b0ce416eecf1bd9328d",
+   "artifact_version_id": "b366ef3c-de99-41cb-86ca-dcf7b71c0784"
+  },
+  {
+   "path": "eof-descent-0037-caption.txt",
+   "bytes": 170,
+   "sha256": "97433395b79283d2e4308e0c97ac0ee35379177ab3b5c79eafc3b5565b1035a1",
+   "artifact_version_id": "86209bdb-65f4-4f32-85eb-d65ac3a551b4"
+  },
+  {
+   "path": "eof-descent-0037-proof.png",
+   "bytes": 93290,
+   "sha256": "4df0bee4f2ee18696e11adc9bd90151ebd71a0952eb2858e45d3b325278fd19f",
+   "artifact_version_id": "2f828b6c-230c-4953-9fd6-938df926cfd7"
+  },
+  {
+   "path": "eof-descent-0037-word.png",
+   "bytes": 169996,
+   "sha256": "874ad4868e65ddfc5e6634aecc8b9962c132759f5df551dcabe5e934211d6d59",
+   "artifact_version_id": "fb0d07e6-c450-45cb-ad2c-53ee678b3bcd"
+  },
+  {
+   "path": "eof-descent-0037.pdf",
+   "bytes": 27467,
+   "sha256": "0ad3a68905038104a39cf23c7bb8829894a3e8d4449e3ac74b9e0bc5e28633c2",
+   "artifact_version_id": "3917eff8-1433-4e12-90aa-3b88c3a66916"
+  },
+  {
+   "path": "eof-evidence-caption.txt",
+   "bytes": 220,
+   "sha256": "7830fd299ba96156a965c45dc0b3a4adf82d5770462dedb43037151110f4a98e",
+   "artifact_version_id": "e4a79e91-45ca-4467-ae88-a7803ddcb3ea"
+  },
+  {
+   "path": "eof-evidence-proof.png",
+   "bytes": 72152,
+   "sha256": "3ed38a98f4f85240f1cefef17c944c004d5c1e1cfe6f61bf9d42c0b89823bdec",
+   "artifact_version_id": "06b6b939-bfc3-4a43-b1e1-f368a664b1a8"
+  },
+  {
+   "path": "eof-evidence-word.png",
+   "bytes": 120817,
+   "sha256": "bcae39b1ef477a1556fe79125715dc5de2b1fd0ada4c3702b77c0df9b5570812",
+   "artifact_version_id": "cb43aa71-53dc-4465-9164-8b9d01ffcd9e"
+  },
+  {
+   "path": "eof-evidence.pdf",
+   "bytes": 22830,
+   "sha256": "97319db8b07c5abc6e0422d988c7e1b1558c051792c20456a6ce6661fa3e7335",
+   "artifact_version_id": "f82a94fb-6124-4324-94b5-d765d3a65cc5"
+  },
+  {
+   "path": "eof-arc-distance-proof.png",
+   "bytes": 159017,
+   "sha256": "71f110edb8a1bd65af0ea0559c4c9b8c5fba70b2dc983d6d5505e99c74bf2595",
+   "artifact_version_id": "b8a38a92-cb37-46df-ae00-872356dc9db3"
+  },
+  {
+   "path": "eof-arc-distance-word.png",
+   "bytes": 302159,
+   "sha256": "decd7ee792c38b5bf1405916af77ec82766cb76bf1948b2054d3eb5662713c59",
+   "artifact_version_id": "108c0401-2663-4e71-814f-2b4bc83126b4"
+  },
+  {
+   "path": "eof-arc-distance.pdf",
+   "bytes": 44936,
+   "sha256": "64cebbdd74d405d08f2578b8561107c15164b03a98f8b7b2fbf9925f30f026ca",
+   "artifact_version_id": "8ac9ee68-0863-4073-844d-e815bdb05136"
+  },
+  {
+   "path": "eof-family-split-caption.txt",
+   "bytes": 363,
+   "sha256": "a75405f8ed309d86acd8796b77298f25c2b5a3931e19428a628b3064f00faa2a",
+   "artifact_version_id": "45a2284e-5e8d-41a8-969f-56fd15448f13"
+  },
+  {
+   "path": "eof-family-split-proof.png",
+   "bytes": 107340,
+   "sha256": "70f988bc886748f47f6cff22449ea7f454d60f6047734e28f4c35823d92336a4",
+   "artifact_version_id": "4a86c2b2-116c-43b9-bf80-7c977ea2fcfb"
+  },
+  {
+   "path": "eof-family-split-word.png",
+   "bytes": 169405,
+   "sha256": "988142b96208da03aa5f7a413e2180794f9730a437ff8fc1bd38c629889b4296",
+   "artifact_version_id": "79d7e0c1-31fb-459d-94dd-72b8db43215f"
+  },
+  {
+   "path": "eof-family-split.pdf",
+   "bytes": 22655,
+   "sha256": "1cbf44d021e1b1bc2d4cde00ba0c2baa3ad9968c3b7953eab957231a91ff63b5",
+   "artifact_version_id": "77be046b-c99e-4b39-8eeb-a211ea1c02da"
+  },
+  {
+   "path": "eof-impact-hpd-all-scenarios.zip",
+   "bytes": 645689,
+   "sha256": "b9d586a7c5984ffd65d0d1f89fdc155e2d6402f27434cac8bee012ad1b86cc2a",
+   "artifact_version_id": "344ab974-1aaf-4b9e-845c-22e5fc2e0994"
+  },
+  {
+   "path": "eof-impact-hpd-df-caption.txt",
+   "bytes": 536,
+   "sha256": "ad299481500007760ce444d49e59de3420c9ade5d56307e522f2d0b8af11243e",
+   "artifact_version_id": "bb39e1ac-fc6a-455d-8c02-0b5c30bd5080"
+  },
+  {
+   "path": "eof-impact-hpd-df-proof.png",
+   "bytes": 313451,
+   "sha256": "aeba641c73ab5504852850e96523b9e4aef4b184c21a8cdd85d527f4a778266e",
+   "artifact_version_id": "2b03f0a7-23a1-4c6f-a0d5-17555f331908"
+  },
+  {
+   "path": "eof-impact-hpd-df-word.png",
+   "bytes": 626307,
+   "sha256": "2f78f488999f052c4a2cd29f46ee3e77f847adfb8fbfa631787b177cf2d1fe35",
+   "artifact_version_id": "8ae974db-62d2-48b3-b9ae-60cf1b5ddb23"
+  },
+  {
+   "path": "eof-impact-hpd-df.pdf",
+   "bytes": 201225,
+   "sha256": "1bdcef3d05b97739e2749800e60f1e769fdf51914bb1fa684891f6630a48a179",
+   "artifact_version_id": "864d5c1f-28f4-4863-bf80-df033b2f1a07"
+  },
+  {
+   "path": "eof-impact-hpd-index.csv",
+   "bytes": 2358,
+   "sha256": "401509f4e1a4879d6395655f1c55896ec060afe9e77f382ea45fc162d368b0dd",
+   "artifact_version_id": "e64e1a38-8e3b-4298-8cf6-26ee72c5d9a4"
+  },
+  {
+   "path": "eof-impact-hpd-overlay-df-caption.txt",
+   "bytes": 207,
+   "sha256": "1de5d80b4393daefb2e17e7f48fe8a148684a3cb50c16abb5a3d9db5eb7525ed",
+   "artifact_version_id": "6be1304b-e7c4-49d7-af59-1369e484aef8"
+  },
+  {
+   "path": "eof-impact-hpd-overlay-df-proof.png",
+   "bytes": 196176,
+   "sha256": "26df9a27bd2931a9ac2d480ee95804b218f4ab05ee6ce022dd41233d186a781e",
+   "artifact_version_id": "19a2a1d6-8476-4415-9770-833cece9f680"
+  },
+  {
+   "path": "eof-impact-hpd-overlay-df-word.png",
+   "bytes": 263111,
+   "sha256": "6253fcdf48714dc6a503bcb53e6dcd70867b0982629f1054058fa185d099e2c3",
+   "artifact_version_id": "4b9c037e-3ad2-41dc-af75-ace7f70182ba"
+  },
+  {
+   "path": "eof-impact-hpd-overlay-df.pdf",
+   "bytes": 56483,
+   "sha256": "71efa2cdcefe0e7143ea6e2a80bcf6587d1f20f37047843e9bbc36cb741c0e4a",
+   "artifact_version_id": "c2de879a-c7b9-4948-831c-6cf7348e45aa"
+  },
+  {
+   "path": "eof-impact-hpd-overlay-wp-caption.txt",
+   "bytes": 190,
+   "sha256": "c0d5513d5f552998fb6eb37a907718428a69a24314e4f8abf7055b07a573f34e",
+   "artifact_version_id": "e4d7dceb-459c-49e0-897c-9b51d3f548d6"
+  },
+  {
+   "path": "eof-impact-hpd-overlay-wp-proof.png",
+   "bytes": 173226,
+   "sha256": "292ebc0f2ab69907540b15b71993f5bcef15b8fd3b4cee10df18812c1724a349",
+   "artifact_version_id": "8f71d9ee-1c7b-4f57-a066-63b9673a231a"
+  },
+  {
+   "path": "eof-impact-hpd-overlay-wp-word.png",
+   "bytes": 234339,
+   "sha256": "df8f44394afeef05ae00f85cbe7c8121bc17d6cf50f5915788e1f8fcab4c3508",
+   "artifact_version_id": "13794a15-9b14-44c3-9267-1fcac199dd2b"
+  },
+  {
+   "path": "eof-impact-hpd-overlay-wp.pdf",
+   "bytes": 48094,
+   "sha256": "780cd8152445388b7df340e3a7fa7ec08fb1b21fa104c0f59a3302e3a82b3550",
+   "artifact_version_id": "2542e1cf-38b7-42ab-88e1-2d808364e050"
+  },
+  {
+   "path": "eof-impact-hpd-wp-caption.txt",
+   "bytes": 519,
+   "sha256": "ad8dc85b1f3cfe549fb0d3ff13b2c3bd3a11f984eaceae8917cd0a61f661c28c",
+   "artifact_version_id": "264a6349-34f5-4061-9ea9-cb1acfba1237"
+  },
+  {
+   "path": "eof-impact-hpd-wp-proof.png",
+   "bytes": 292694,
+   "sha256": "d89ff6c831fea01245982c48a3cc9888ba98a04e426312d7d681291aa19664a9",
+   "artifact_version_id": "c3462260-e865-4119-b4ab-a4f4ec933ab7"
+  },
+  {
+   "path": "eof-impact-hpd-wp-word.png",
+   "bytes": 578863,
+   "sha256": "d1e8a83d211c5eb8b0ebd34c9863b9fd4d96aa7da2fd2468429294e637e68f46",
+   "artifact_version_id": "1fffb7f1-6aa9-41ac-9419-373912eab2d4"
+  },
+  {
+   "path": "eof-impact-hpd-wp.pdf",
+   "bytes": 143002,
+   "sha256": "facef743884a6186e085483d66ec62010771c6135d240e0854890fdd5ac54db1",
+   "artifact_version_id": "3dc76bdc-775f-4afd-b15c-6266ad595872"
+  },
+  {
+   "path": "eof-latitude-intervals-caption.txt",
+   "bytes": 171,
+   "sha256": "b7a97e30fac29d76e1694761b1005e2b684faf1f45d8f0d857780e2c5143ff09",
+   "artifact_version_id": "7fc1950e-e36b-466d-918f-31a87954e4f3"
+  },
+  {
+   "path": "eof-latitude-intervals-proof.png",
+   "bytes": 92614,
+   "sha256": "1431d036a01a53b37e8a0a40f1ba32b86f998cbfc9596ce988376b5e006f3502",
+   "artifact_version_id": "770766d1-be58-4234-b188-f36a5cd30b45"
+  },
+  {
+   "path": "eof-latitude-intervals-word.png",
+   "bytes": 171465,
+   "sha256": "578356319926ac767995e341407926448c8f290d22a9b5959e025c88ff1766d7",
+   "artifact_version_id": "d702922c-9571-4493-9c37-1e2ea2de12a5"
+  },
+  {
+   "path": "eof-latitude-intervals.pdf",
+   "bytes": 25632,
+   "sha256": "c36616ccdbcc05efec35a0ae01acd06b84b780ec33f4e5cc15294810a4f9b507",
+   "artifact_version_id": "088ef15b-d8e9-4d3a-9e90-e632e09aa4fe"
+  },
+  {
+   "path": "eof-test-b-caption.txt",
+   "bytes": 416,
+   "sha256": "69cd598cb78490c06fe1bfce730bc3b50299ef9bf04825eaf1ffe1c44424b003",
+   "artifact_version_id": "79d4d06b-6eca-4e7c-bb6f-a0d0168d0d14"
+  },
+  {
+   "path": "eof-test-b-proof.png",
+   "bytes": 105196,
+   "sha256": "db0d686ca5f4ec8624576028163c8ab8f2efdaaa97b6c43122aedf0e2cab1377",
+   "artifact_version_id": "1cd96dca-01f7-4e54-bb45-c2d39dff0d0e"
+  },
+  {
+   "path": "eof-test-b-word.png",
+   "bytes": 153963,
+   "sha256": "a93566d45fea6a55d3cd60d182d2b440c09ac2f5d90f461af042b6ea7a14ef28",
+   "artifact_version_id": "9e98533f-c799-4db3-b6c8-a698fd59317c"
+  },
+  {
+   "path": "eof-test-b.pdf",
+   "bytes": 21451,
+   "sha256": "3c255db7bb83cd99be00418aa3d600654ea9983303eac60b310b4d398de42de1",
+   "artifact_version_id": "81bc6a43-7076-4a03-a78a-1c1f1766304e"
+  },
+  {
+   "path": "eof-arc-distance-caption.txt",
+   "bytes": 260,
+   "sha256": "2dae6ad3e12316419285a7d22ff246b468daa01e717eeb8796600c7f3cd5f926",
+   "artifact_version_id": "936b29d2-c074-4ed0-9945-7977ff2cf672"
+  }
+ ],
+ "thread_id": "a7d0bbfc-01e1-46d3-8e88-6e53a430ec88",
+ "status": "UNCHECKED",
+ "created_utc": "2026-11-07T19:33:01Z",
+ "description": "Journal of Navigation figures for the end-of-flight sections: impact regions holding 50, 90 and 99 % of the probability, case prior, dive-model check, latitude, evidence and descent rate.",
+ "defects": [
+  "Areas of the 50/90/99 % regions depend on the 0.1 deg smoothing.",
+  "Panels using both frequencies as recorded rest on few effective no-pilot paths (provisional)."
+ ]
+}
