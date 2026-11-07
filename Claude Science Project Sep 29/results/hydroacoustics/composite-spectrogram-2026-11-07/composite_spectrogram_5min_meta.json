@@ -1,0 +1,104 @@
+{
+ "noise_logger": "IMOS3376",
+ "noise_record": "53147DED.DAT",
+ "noise_utc": "2014-03-03 13:05:02",
+ "noise_spl_8_40": 98.06337222270244,
+ "dist_km": 1840.9951429894859,
+ "imp": {
+  "slope": 3.08,
+  "f0": 2.5,
+  "tilt": 0.0,
+  "rise": 1.15,
+  "decay": 11.5,
+  "dist_km": 1840.9951429894859
+ },
+ "seed": 20261107,
+ "median_shift_db_max": 7.115936815468914,
+ "noise_1s_p99_db": 1.3665696182298654,
+ "fc_times_tau": {
+  "R1": 0.1953263378902343,
+  "R2": 0.18983103965138065,
+  "R3": 0.191692728569033
+ },
+ "inband_vs_F35A_db": {
+  "R1": 0.2355983261630505,
+  "R3": -63.03555443153667
+ },
+ "gain_db_at": {
+  "5": -10.513013780396864,
+  "7": -7.637765859159834,
+  "8": -5.956744874608896,
+  "10": -3.8432841351601206,
+  "20": -1.0688430257334895,
+  "40": 0.3466337747799463,
+  "60": 0.8600699475391982
+ },
+ "events": [
+  {
+   "key": "zcall",
+   "label": "Antarctic blue whale Z-call",
+   "start_s": 4.0,
+   "dur_s": 19.5,
+   "freq": "26.05 Hz for 9 s, 1.5 s down-sweep, then 18.8 to 18.3 Hz for 9 s; no harmonics",
+   "level_rule": "source level 189 dB re 1 uPa at 1 m, range 1000 km, TL = 60 + 10 log10(R/1 km) dB",
+   "rl_call": 99.0,
+   "src": "Gavrilov, McCauley & Gedamke 2012 JASA 131:4476 (call shape; 0.135 Hz/yr decline); Leroy et al. 2016 PLoS ONE 11:e0163587 (unit A 26.05 Hz for 2014; units 7-12 s); Sirovic et al. 2007 JASA 122:1208 (source level 189 dB)"
+  },
+  {
+   "key": "pygmy",
+   "label": "Pygmy blue whale song unit II",
+   "start_s": 31.0,
+   "dur_s": 23.0,
+   "freq": "fundamental up-sweep 19.5 to 25.5 Hz over 23 s; harmonics 2 and 3 at -3 and -6 dB (to 76.5 Hz)",
+   "level_rule": "source level 179 dB re 1 uPa at 1 m, range 100 km, TL = 60 + 10 log10(R/1 km) dB",
+   "rl_call": 99.0,
+   "src": "Jolliffe et al. 2019 PLoS ONE 14:e0208619 (unit II 20 to 26 Hz over 23 s in 2010, harmonics to 72 Hz); Gavrilov et al. 2011 JASA 130:3651 (0.12 Hz/yr decline, so 2014 values 0.5 Hz lower); McCauley et al. 2001 Mar. Mamm. Sci. 17:235 (source level 179 dB)"
+  },
+  {
+   "key": "eq",
+   "label": "Earthquake T-phase (recorded)",
+   "start_s": 30.0,
+   "dur_s": 150.0,
+   "freq": "broadband; recorded at Cape Leeuwin IMS H01W1 (flat 1-100 Hz), IMOS gain shape then applied",
+   "level_rule": "scaled to SNR +10 dB; 150 s segment with the peak at chart 90 s; Hann^0.25 taper",
+   "rl_call": NaN,
+   "src": "USGS event us20009xz4: 2017-07-19 12:16:23.56 UTC, Mww 6.0, Mauritius-Reunion region, 17.415 S 66.484 E, depth 10 km; epicentre to H01W 5,087 km; record IM.H01W1..EDH (EarthScope FDSN); band SNR at H01W 43.2 dB (30 s, 5-40 Hz)"
+  },
+  {
+   "key": "ice",
+   "label": "Iceberg harmonic tremor",
+   "start_s": 125.0,
+   "dur_s": 50.0,
+   "freq": "fundamental 7.0 Hz with +-3 % slow wander (40 s period); 7 harmonics to 49 Hz, amplitude k^-0.5; 50 s excerpt with 5 s ramps",
+   "level_rule": "scaled to SNR +6 dB; deep-channel transfer sigdet.channel (f0 2.5 Hz, R 3,800 km)",
+   "rl_call": NaN,
+   "src": "Chapp et al. 2005 G-cubed 6:Q06003 (Indian Ocean sound-channel variable harmonic tremor: fundamental 4-10 Hz, up to 10 harmonic bands); Talandier et al. 2002 EPSL 203:519; MacAyeal et al. 2008 JGR 113:F03011"
+  },
+  {
+   "key": "r1",
+   "label": "Steep-dive impact (R1)",
+   "start_s": 190.0,
+   "dur_s": NaN,
+   "freq": "flat to corner 1.592 Hz then f^-3.08; deep-channel transfer (f0 2.5 Hz, Thorp absorption over 1841 km); IMOS gain shape",
+   "level_rule": "scaled to SNR 0 dB; envelope env_gamma rise 1.15 s, decay 11.5 s (power e-fold); spectral tilt 0.0",
+   "rl_call": NaN,
+   "fc_hz": 1.5919302746870048,
+   "KE_J": 11153659602.940264,
+   "tau_s": 0.1226977971309944,
+   "src": "source_model_family_quantiles.csv family R1: median fc 1.5919 Hz, median KE 11.2 GJ, median tau 0.1227 s, median slope n 3.076; method imos_inject.synth with sigdet.src_shape and sigdet.channel"
+  },
+  {
+   "key": "r3",
+   "label": "Ditching-like impact (R3)",
+   "start_s": 250.0,
+   "dur_s": NaN,
+   "freq": "flat to corner 0.372 Hz then f^-3.08; deep-channel transfer (f0 2.5 Hz, Thorp absorption over 1841 km); IMOS gain shape",
+   "level_rule": "scaled to SNR 0 dB; envelope env_gamma rise 1.15 s, decay 11.5 s (power e-fold); spectral tilt 0.0",
+   "rl_call": NaN,
+   "fc_hz": 0.3724604207732208,
+   "KE_J": 553008631.8794407,
+   "tau_s": 0.5146660366518475,
+   "src": "source_model_family_quantiles.csv family R3: median fc 0.3725 Hz, median KE 0.553 GJ, median tau 0.5147 s, median slope n 3.075; method imos_inject.synth with sigdet.src_shape and sigdet.channel"
+  }
+ ]
+}
