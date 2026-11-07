@@ -1,0 +1,47 @@
+# source: Sci Rep 9:8840 (2019) fin whale
+# source_sha256: cf15e3d5043bbe94668f74befe25e670fffc6d3000d3ed9f67e7b488c083269a
+# source_files: artifact:14e12fa2-48b4-4213-b482-ea941cef4027 (10.1038_s41598-019-45321-w.pdf)
+# page: 8
+# table: 1
+# caption: Table 1. Details of deployments of the passive acoustic USR of the Australian Integrated Marine Observing System (IMOS), Curtin University and the CTBTO station
+# method: PyMuPDF page.find_tables() on the text layer (lines strategy, or text strategy where the table has no rules). Cells are copied as printed; no values typed by hand. Column alignment of text-strategy tables must be checked against the page before use.
+# n_rows: 37
+# n_cols: 9
+# extracted: 2026-11-07, source-vector-extraction-2026-11-07
+Location & set,Latitude,Longitude,Start time,End time,Days,Depth (m),Distance from shore (km),Total Pulses
+"Perth Canyon, WA",,,,,,,,
+2823,31 54.466,114 59.080,25-Feb-2009,12-Oct-2009,229,465,50,"177,328"
+2884,31 55.039,115 1.863,13-Nov-2009,22-Jul-2010,251,—,—,
+2962,31 54.139,115 1.607,06-Aug-2010,08-May-2011,275,—,—,
+3004,31 54.350,115 1.538,14-Jul-2011,20-Jun-2012,341,—,—,
+3154,31 53.053,115 0.813,10-Aug-2012,14-Jun-2013,307,—,—,
+3376,31 50.530,115 0.824,28-Nov-2013,04-Nov-2014,340,—,—,
+3445,31 52.656,115 0.656,17-Dec-2015,30-Dec-2016,380,—,—,
+"Onslow, WA",,,,,,,,
+2842,21 25.00,114 49.960,22-Jul-2009,04-Nov-2009,106,45,36,0
+2925,21 45.969,114 49.924,26-Mar-2010,04-Nov-2010,223,—,—,
+"Montebello Islands, WA",,,,,,,,
+2919,20 11.284,115 23.566,24-Mar-2010,26-Oct-2010,216,45,22,0
+"Dampier, WA",,,,,,,,
+3188,19 23.291,115 54.896,20-Nov-2012,27-Sep-2013,216,216,150,749
+3334,19 22.514,115 56.054,11-Aug-2014,13-Jun-2015,205,—,—,
+"Scott Reef, WA",,,,,,,,
+3187,15 29.002,121 15.056,20-Nov-2012,29-Sep-2013,216,216,200,0
+3250,15 29.002,121 15.060,01-Oct-2013,02-Jun-2014,216,—,—,
+3335,15 29.000,121 15.060,19-Aug-2014,08-May-2015,216,—,—,
+"Cape Leeuwin, WA",,,,,,,,
+,34 0.89,114 0.13,01-Jan-2009,31-Dec-2011,"1,094",1050,90,"59,098"
+"Portland, VIC",,,,,,,,
+2846,38 32.981,141 15.235,06-May-2009,22-Dec-2009,229,168,10,390
+2926,38 33.031,141 15.232,07-Feb-2010,25-Sep-2010,229,—,—,
+3102,38 33.604,141 15.125,30-Dec-2010,03-Dec-2011,338,—,—,
+3073,38 32.559,141 13.047,15-Feb-2012,06-Nov-2012,264,—,—,
+3184,38 32.034,141 14.589,07-Nov-2012,17-May-2013,190,—,—,
+3274,38 32.218,141 14.854,30-Dec-2013,27-Nov-2014,331,—,—,
+3381,38 32.521,141 13.263,03-Feb-2015,26-Jan-2016,357,—,—,
+3446,38 32.749,141 13.269,01-Mar-2016,21-Feb-2017,357,—,—,
+"Tuncurry, NSW",,,,,,,,
+2947,32 19.362,152 56.672,10-Feb-2010,04-Oct-2010,236,190,34,"8,024"
+3142,32 19.128,152 56.721,06-Apr-2011,26-Apr-2012,386,—,—,
+3128,32 17.396,152 54.612,05-Jun-2012,30-May-2013,358,—,—,
+3428,32 18.590,152 55.839,21-Feb-2016,08-Feb-2017,353,—,—,
