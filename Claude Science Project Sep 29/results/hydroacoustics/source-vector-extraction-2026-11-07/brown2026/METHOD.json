@@ -1,0 +1,62 @@
+{
+ "folder": "brown2026",
+ "created": "2026-11-07",
+ "task": "PDF vector recovery for all hydroacoustic sources (source-vector-extraction-2026-11-07)",
+ "tool": "PyMuPDF 1.28.0; RapidOCR (rapidocr-onnxruntime 1.4.4) for tick labels drawn as glyph outlines; extractor module vecx.py in the parent folder",
+ "method": "Vector panels: page.get_drawings() gives every path; panels are found from numeric tick-label rows and columns (text layer, or OCR of glyph outlines) anchored to the axis lines; each axis transform is a least-squares fit of label value against position (tick-mark positions where they lower the residual; linear or log10, whichever fits better); every vertex of every path inside the axes is written (border frame, tick and grid strokes on the border are dropped; Bezier control points are kept and marked); text words inside the axes are written as rows with item_type text; small closed paths also get a marker_centre row (bounding-box centre). Multipliers printed as glyph outlines (for example x10^6) were read from the rendered page and are stated in each header. Tables: page.find_tables() or a word/line dump of the text layer; no values typed by hand. Raster items: colour mask per pixel column, stated in the header.",
+ "acceptance": "calibration_status ok when both axes have relative residual (max abs residual / label span) <= 3e-3; flagged up to 2e-2; failed above that",
+ "statement_status": "re-run: every file in this folder was produced by code in this session; numbers in the note are read back from these files",
+ "files": [
+  {
+   "file": "brown2026_p026_table1.csv",
+   "sha256": "ebc781d0c5f4f5e8c816b7b80b446527b430cd9b899ac92617a134e147753f59",
+   "header": {
+    "source": "Brown et al. 2026 Icarus",
+    "source_sha256": "4b45d454bba9e563b568e81c7e64d28ba92e6195650cb028a97230a417a967f8",
+    "source_files": "/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/17430b68-c20c-4581-a242-6201351dacac/sve/repopdf/brown2026.pdf; artifact:93cbdc3b-5d13-4d3a-833a-b3288713505a (brown2026.pdf)",
+    "page": "26",
+    "table": "1",
+    "caption": "Table 1: A summary of the most energetic fireballs occurring over open ocean and the associated hydroacoustic stations for",
+    "method": "Line-level dump of the text layer for a table printed rotated 90 degrees (landscape): one row per printed text line with PDF position; printed_row groups lines on the same rotated baseline (2 pt tolerance), ordered along the reading direction. No values typed by hand.",
+    "rotated": "true",
+    "n_lines": "134",
+    "n_printed_rows": "28",
+    "extracted": "2026-11-07, source-vector-extraction-2026-11-07"
+   }
+  },
+  {
+   "file": "brown2026_p027_table2.csv",
+   "sha256": "c847bb0f97d432b18fc2ef75da59cf91a2c0bdbd2849bd8086ea575e5888ccb2",
+   "header": {
+    "source": "Brown et al. 2026 Icarus",
+    "source_sha256": "4b45d454bba9e563b568e81c7e64d28ba92e6195650cb028a97230a417a967f8",
+    "source_files": "/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/17430b68-c20c-4581-a242-6201351dacac/sve/repopdf/brown2026.pdf; artifact:93cbdc3b-5d13-4d3a-833a-b3288713505a (brown2026.pdf)",
+    "page": "27",
+    "table": "2",
+    "caption": "Table 2: A summary of fireballs occurring within 500 km range of hydroacoustic stations where data and a direct propagation",
+    "method": "Line-level dump of the text layer for a table printed rotated 90 degrees (landscape): one row per printed text line with PDF position; printed_row groups lines on the same rotated baseline (2 pt tolerance), ordered along the reading direction. No values typed by hand.",
+    "rotated": "true",
+    "n_lines": "113",
+    "n_printed_rows": "13",
+    "extracted": "2026-11-07, source-vector-extraction-2026-11-07"
+   }
+  },
+  {
+   "file": "brown2026_p028_table3.csv",
+   "sha256": "515ebd640829b4fdf79012b7e9873008b1b1489580e84f3d5c720c97b538a1b9",
+   "header": {
+    "source": "Brown et al. 2026 Icarus",
+    "source_sha256": "4b45d454bba9e563b568e81c7e64d28ba92e6195650cb028a97230a417a967f8",
+    "source_files": "/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/17430b68-c20c-4581-a242-6201351dacac/sve/repopdf/brown2026.pdf; artifact:93cbdc3b-5d13-4d3a-833a-b3288713505a (brown2026.pdf)",
+    "page": "28",
+    "table": "3",
+    "caption": "Table 3: A summary of fireballs occurring over open ocean where the SOFAR channel depth is predicted to be less than 500m",
+    "method": "Line-level dump of the text layer for a table printed rotated 90 degrees (landscape): one row per printed text line with PDF position; printed_row groups lines on the same rotated baseline (2 pt tolerance), ordered along the reading direction. No values typed by hand.",
+    "rotated": "true",
+    "n_lines": "320",
+    "n_printed_rows": "33",
+    "extracted": "2026-11-07, source-vector-extraction-2026-11-07"
+   }
+  }
+ ]
+}
