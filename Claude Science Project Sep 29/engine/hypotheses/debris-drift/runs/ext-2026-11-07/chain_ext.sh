@@ -1,7 +1,8 @@
 set -u
 # Extended-window drift run (window to 30 Jan 2017, six shadow finds). Stage 1: 84 points x 16 environments (seeds 201-216).
+# Every beaching is written to $C/runs/<leg>/arrivals.bin (about 30 MB per node; kept on deskstar, not copied to out/).
 # Stage 2: 42 southern points x 16 more environments (217-232). Same pattern as the run of 7 Nov (jobs 91ee26ce, 272016f7).
-C=$HOME/mh370/drift/coef; ENG=$C/engine; BIN=$C/bin-shadow-fresh
+C=$HOME/mh370/drift/coef; ENG=$C/engine; BIN=$C/bin-arr
 OUT=$PWD/out; mkdir -p $OUT $C/runs $C/ext; LOG=$C/runs/ext-chain.log
 cp $PWD/ext-*.toml $PWD/ext2-*.toml $PWD/legs.txt $PWD/legs2.txt $C/ext/
 echo "gate wait $(date -u +%FT%TZ)" >> $LOG

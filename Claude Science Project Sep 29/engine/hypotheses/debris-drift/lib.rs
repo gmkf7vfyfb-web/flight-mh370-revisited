@@ -333,6 +333,12 @@ pub(crate) struct Params {
     /// (never to ln L): later finds, disputed dates. Any subset is then an exact offline choice. Needs write_coefficients.
     #[serde(default)]
     shadow_finds: Vec<ShadowFind>,
+    /// Write every beaching of every scored class, node and environment to `arrivals.bin`, and the class
+    /// response draws to `responses.json`, so that the recovery layer (segments, delay and freshness models,
+    /// identity weights, windage reweighting inside the sampled range, kernel, periods) can be re-run offline.
+    /// Output only: node table unchanged. Needs output_dir.
+    #[serde(default)]
+    write_arrivals: bool,
     /// Importance splitting for finds that forward release alone cannot resolve (off by default).
     #[serde(default)]
     splitting: Option<SplittingParams>,
@@ -714,6 +720,36 @@ fn shadow_coefficients(rr: &Recovery, sobs: &[&Observation], fresh: &[Option<f64
     recovery::Coefficients { a, big_a, n_eff, hits }
 }
 
+/// One block of `arrivals.bin` (little-endian). Header 60 bytes: b"ARV1", node u32, lat f64, lon f64,
+/// environment seed u64, class u32, released u32, n_arrivals u32, model_error f64, left_domain f64.
+/// Then n_arrivals records of 52 bytes: particle u32, weight f32, t_days f64, t_leave_days f32 (inf = no
+/// refloat), lon f64, lat f64, coast line i32 (-1 none), chainage_km f64, segment i32 (-1 = no segment).
+fn write_arrival_block(w: &mut impl std::io::Write, node: usize, lat: f64, lon: f64, env_seed: u64, class: usize, released: usize, e: &Ensemble) -> Result<(), String> {
+    let mut b: Vec<u8> = Vec::with_capacity(60 + 52 * e.arrivals.len());
+    b.extend_from_slice(b"ARV1");
+    b.extend_from_slice(&(node as u32).to_le_bytes());
+    b.extend_from_slice(&lat.to_le_bytes());
+    b.extend_from_slice(&lon.to_le_bytes());
+    b.extend_from_slice(&env_seed.to_le_bytes());
+    b.extend_from_slice(&(class as u32).to_le_bytes());
+    b.extend_from_slice(&(released as u32).to_le_bytes());
+    b.extend_from_slice(&(e.arrivals.len() as u32).to_le_bytes());
+    b.extend_from_slice(&e.model_error.to_le_bytes());
+    b.extend_from_slice(&e.left_domain.to_le_bytes());
+    for (i, a) in &e.arrivals {
+        b.extend_from_slice(&(*i as u32).to_le_bytes());
+        b.extend_from_slice(&(a.w as f32).to_le_bytes());
+        b.extend_from_slice(&a.t_days.to_le_bytes());
+        b.extend_from_slice(&(a.t_leave_days as f32).to_le_bytes());
+        b.extend_from_slice(&a.place.lonlat[0].to_le_bytes());
+        b.extend_from_slice(&a.place.lonlat[1].to_le_bytes());
+        b.extend_from_slice(&a.place.line.map_or(-1i32, |l| l as i32).to_le_bytes());
+        b.extend_from_slice(&a.place.s_km.to_le_bytes());
+        b.extend_from_slice(&a.segment.map_or(-1i32, |g| g as i32).to_le_bytes());
+    }
+    w.write_all(&b).map_err(|e| e.to_string())
+}
+
 /// Synthetic finds from an INDEPENDENT ensemble at the declared source (no inverse crime): a
 /// beached particle is discovered after a delay from the declared model, reported at a locality
 /// displaced along the coast by the bandwidth (chainage mode; no displacement without chainage),
@@ -820,6 +856,19 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
         coef_out = Some(std::io::BufWriter::new(std::fs::File::create(format!("{dir}/coefficients.jsonl")).map_err(|e| e.to_string())?));
         std::fs::write(format!("{dir}/coefficients-meta.json"), coefficients_meta(p, &rec, &segnames, &observations, &shadows, &envs)?).map_err(|e| e.to_string())?;
     }
+    let mut arr_out: Option<std::io::BufWriter<std::fs::File>> = None;
+    if p.write_arrivals {
+        let dir = p.output_dir.as_ref().ok_or("debris-drift: write_arrivals needs output_dir")?;
+        std::fs::create_dir_all(dir).map_err(|e| format!("debris-drift: {dir}: {e}"))?;
+        arr_out = Some(std::io::BufWriter::new(std::fs::File::create(format!("{dir}/arrivals.bin")).map_err(|e| e.to_string())?));
+        let cls: Vec<String> = (0..nc)
+            .map(|c| {
+                let r: Vec<String> = responses[c].iter().map(|o| format!("[{:e},{:e},{:e},{:e},{:e}]", o.a_stokes, o.c_wind, o.wind_angle_deg, o.leeway_angle_deg, o.leeway_speed_mps)).collect();
+                format!("{{\"name\":\"{}\",\"responses\":[{}]}}", p.classes[c].name, r.join(","))
+            })
+            .collect();
+        std::fs::write(format!("{dir}/responses.json"), format!("{{\"fields\":[\"a_stokes\",\"c_wind\",\"wind_angle_deg\",\"leeway_angle_deg\",\"leeway_speed_mps\"],\"release_unix_s\":{:e},\"window_end_days\":{:e},\"classes\":[{}]}}", p.release_unix_s, rec.window_end_days, cls.join(","))).map_err(|e| e.to_string())?;
+    }
 
     let mut nodes = vec![Node::NotComputed; grid.nlat * grid.nlon];
     let mut rows: Vec<String> = Vec::new();
@@ -894,6 +943,9 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
                 }
                 let split = p.splitting.as_ref().filter(|s| s.classes.is_empty() || s.classes.iter().any(|n| *n == p.classes[c].name));
                 let (e, steps) = run_ensemble(&setup, &loc, [lo, la], p.release_unix_s, t_end, &responses[c], seed, diffusion, split)?;
+                if let Some(w) = arr_out.as_mut() {
+                    write_arrival_block(w, k, la, lo, seed, c, n, &e)?;
+                }
                 split_total += e.split;
                 children_total += e.children;
                 steps_total += steps;
@@ -958,6 +1010,9 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
             for (k2, v) in she.into_iter().enumerate() {
                 sh[k2].push(v);
             }
+        }
+        if let Some(w) = arr_out.as_mut() {
+            std::io::Write::flush(w).map_err(|e| e.to_string())?;
         }
         if let Some(w) = coef_out.as_mut() {
             use std::io::Write;

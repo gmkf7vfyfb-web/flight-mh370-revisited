@@ -1,7 +1,9 @@
 # EXTENDED-WINDOW RUN, 7-8 Nov 2026 (ocean drift; Pete 7 Nov: use all usable data). Derived from conv-globcurrent-1.toml (run of 7 Nov) except:
 # window_end 2017-01-30 (forcing ends 2017-01-31; was 2016-06-30), new seeds (seed 21, env_seeds 201-216),
-# output_dir, and eleven shadow finds written to the coefficient file only: alternative dates (4), Linga Linga, Nautilus Bay,
+# output_dir, and sixteen shadow finds written to the coefficient file only: alternative dates (4), Linga Linga, Nautilus Bay,
 # and fresh-arrival marks (biofouling or observed arrival; time-ashore scale F) for the flaperon (3 d, 10 d), Mossel Bay (3 d, 10 d), Paindane (14 d).
+# write_arrivals: every beaching to arrivals.bin (offline recovery layer: all coasts, all items).
+# Five in-segment items whose identity relied on earlier drift work are shadows (sensitivity only).
 # The third detection period now runs 1 Mar 2016 to 30 Jan 2017 (assumption). Module ln_l (nine finds) is not the headline:
 # with the longer window the headline adds Linga Linga offline (else its non-find is implied).
 # OVERNIGHT CONVERGENCE AND COEFFICIENT RUN, 7 Nov 2026 (ocean drift; Pete's GO 6 Nov evening). Chunk 1 of 6, globcurrent.
@@ -58,6 +60,7 @@ explicit_residual = false
 env_seeds = [201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216]
 output_dir = "/home/pete/mh370/drift/coef/runs/ext-globcurrent-1"
 write_coefficients = true
+write_arrivals = true
 node_subset = [13604, 11933, 12769, 15580, 13345, 14462, 17280, 15044, 16162, 19255, 16454, 17854, 20948, 18146]
 node_subset_outside_extent = true
 c_wind_product_offset_range = [-0.0075, -0.0060]
@@ -415,3 +418,25 @@ fresh_days = 14.0
 name = "flaperon-fresh-10d"
 object_id = "reunion-right-flaperon"
 fresh_days = 10.0
+
+# Items whose identity relied in part on earlier drift work (circular for a drift likelihood): sensitivity only.
+
+[[hypotheses.debris-drift.shadow_finds]]
+name = "identity-from-drift-gris-gris-flap-fairing-tail-cone"
+object_id = "gris-gris-flap-fairing-tail-cone"
+
+[[hypotheses.debris-drift.shadow_finds]]
+name = "identity-from-drift-riake-seat-back-trim"
+object_id = "riake-seat-back-trim"
+
+[[hypotheses.debris-drift.shadow_finds]]
+name = "identity-from-drift-riake-bottom-panel"
+object_id = "riake-bottom-panel"
+
+[[hypotheses.debris-drift.shadow_finds]]
+name = "identity-from-drift-riake-right-trailing-edge-panel"
+object_id = "riake-right-trailing-edge-panel"
+
+[[hypotheses.debris-drift.shadow_finds]]
+name = "identity-from-drift-antsiraka-nose-gear-door"
+object_id = "antsiraka-nose-gear-door"
