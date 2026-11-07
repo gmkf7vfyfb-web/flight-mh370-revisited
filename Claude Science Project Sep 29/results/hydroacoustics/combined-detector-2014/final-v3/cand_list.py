@@ -85,8 +85,9 @@ for r in E.itertuples():
     # speeds (7 Nov 2026): union of per-path physical bounds (WOA23, 5 % detour) and Kadri's 1.45-1.57 km/s
     pb = PBND.reindex(list(zip([r.station] * len(g), g.point_id)))
     vlo = np.minimum(np.nan_to_num(pb.v_lo_2sd.values / 1000 / 1.05, nan=1.45), 1.45); vhi = np.maximum(np.nan_to_num(pb.v_hi_2sd.values / 1000, nan=1.57), 1.57)
-    g['t_imp_lo'] = r.t_a - g.dist_km.values / vlo; g['t_imp_hi'] = r.t_b - g.dist_km.values / vhi
-    g = g[(g.t_imp_hi >= T_IMP[0]) & (g.t_imp_lo <= T_IMP[1])]
+    g['t_imp_lo'] = np.maximum(r.t_a - g.dist_km.values / vlo, 19 * 60 + 29.0 + np.maximum(np.abs(g.offset_nm.values) - 12.5, 0) / 500.0 * 3600)   # reachability: 500 kt after 00:19:29
+    g['t_imp_hi'] = r.t_b - g.dist_km.values / vhi
+    g = g[(g.t_imp_hi >= T_IMP[0]) & (g.t_imp_lo <= T_IMP[1]) & (g.t_imp_hi >= g.t_imp_lo)]
     if len(g) == 0:
         out.append(dict(n_points=0)); continue
     g0 = g[g.offset_nm == 0] if (g.offset_nm == 0).any() else g

@@ -20,6 +20,7 @@ rows = []
 PBND = pd.read_csv('path_speed_bounds_woa23.csv').set_index(['station', 'point_id'])
 KMIN, KMAX = 1.45, 1.57            # Kadri (2024) speed window, used as given (no detour term)
 DETP = 0.05                        # path detour allowance on the physical bounds (slows only)
+T_ARC = 19 * 60 + 29.0; VGS = 500.0  # 7th arc time; maximum ground speed after it (kt)
 def vphys(st, pts):
     lo = np.array([PBND.v_lo_2sd.get((st, p), np.nan) for p in pts]) / 1000 / (1 + DETP)
     hi = np.array([PBND.v_hi_2sd.get((st, p), np.nan) for p in pts]) / 1000
@@ -30,6 +31,9 @@ def model_spans(r, st, pts):
     l0, h0 = vphys(r.station, pts); l1, h1 = vphys(st, pts)
     lo_p = np.maximum(r.t_a - d0 / l0, N.H2[0]); hi_p = np.minimum(r.t_b - d0 / h0, N.H2[1])
     lo_k = np.maximum(r.t_a - d0 / KMIN, N.H2[0]); hi_k = np.minimum(r.t_b - d0 / KMAX, N.H2[1])
+    off = G.loc[r.station].loc[pts].offset_nm.values
+    reach = T_ARC + np.maximum(np.abs(off) - 12.5, 0) / VGS * 3600      # earliest impact a 500 kt aircraft could reach this point
+    lo_p = np.maximum(lo_p, reach); lo_k = np.maximum(lo_k, reach)
     okp = hi_p >= lo_p; okk = hi_k >= lo_k
     return (lo_p + d / h1, hi_p + d / l1, okp), (lo_k + d / KMAX, hi_k + d / KMIN, okk)
 def site_windows(r):
@@ -67,10 +71,10 @@ def lat_spans(r, st):
     return res
 def foot(fig, txt):
     fig.text(0.02, 0.01, "\n".join(textwrap.wrap(txt, 190)), fontsize=5.3, va='bottom', color='#374151')
-FOOT = ("Speeds. Blue: Kadri (2024) window 1.45 to 1.57 km/s, as published. Grey and dotted lines: physical bounds for sound carried in the water on each path. "
+FOOT = ("Speeds. Blue: Kadri (2024) window 1.45 to 1.57 km/s, as published. Grey shading and wide grey bars: physical bounds for sound carried in the water on each path; blue dashed lines and thin blue bars: Kadri's window. "
         "Slowest = path mean of the sound-channel axis speed minus 2 standard deviations, then 5 % longer path for detours; fastest = path mean of the fastest speed in the water column (surface or seabed) plus 2 standard deviations. "
         "Sound speed: WOA23 March climatology 2005-2014, 1 degree, sampled every 25 km on the great circle. Above about 1.55 km/s only a leg through rock could explain an arrival. "
-        "Both spans cover every impact point and time consistent with the candidate (corrected bearing within its tolerance when one is published; impact 00:19:38 to 00:55:00 UTC; 7th arc 15° S to 43° S within 150 NM, 20° S to 41° S when there is no bearing; "
+        "Both spans cover every impact point and time consistent with the candidate and reachable by the aircraft (no more than 500 kt over ground after the 7th arc at 00:19:29, plus 12.5 NM for the grid spacing; corrected bearing within its tolerance when one is published; impact 00:19:38 to 00:55:00 UTC; 7th arc 15° S to 43° S within 150 NM, 20° S to 41° S when there is no bearing; "
         "arrival span from the onset minus 20 s to the envelope peak). Window shown: both spans together, widened by 20 % at each end. Sites shown: every site with an unblocked path (GEBCO 2026 screen) from at least one consistent point. "
         "IMOS loggers record 307 s in every 15 min; grey gaps have no data. Spectrogram: 2 s segments, power over the median of the same record at each frequency (dB). "
         "Lower panels: chance that noise alone scores this high at one 5 s look (−log10), from 14 days of noise (1 to 15 March 2014) or, for 3275 and 3315, 8 March records outside 00:15 to 02:00; "
@@ -136,18 +140,18 @@ with PdfPages(os.environ.get('PDFOUT', 'candidate_views_cl_dg.pdf')) as pdf:
                              best_corr_p=(s.p_cimp.min() if wc_n and 'p_cimp' in s and s.p_cimp.notna().any() else np.nan)))
             if not wc_n: continue
             fig = plt.figure(figsize=(11, 8.5))
-            gs = fig.add_gridspec(5, 1, height_ratios=[0.9, 1.6, 1, 1, 1], hspace=0.25, left=0.08, right=0.9, top=0.88, bottom=0.2)
+            gs = fig.add_gridspec(5, 1, height_ratios=[0.9, 1.6, 1, 1, 1], hspace=0.25, left=0.08, right=0.9, top=0.88, bottom=0.235)
             axs = [fig.add_subplot(gs[k]) for k in range(5)]; ax0 = axs[0]; axs = axs[1:]
             tmin, tmax = w['a'], w['b']
             LS = lat_spans(r, st)
             for L, a_, b_, ac_, bc_ in LS:
-                if np.isfinite(a_): ax0.plot([a_, b_], [L, L], color='#9ca3af', lw=2.2, solid_capstyle='butt')
-                if np.isfinite(ac_): ax0.plot([ac_, bc_], [L, L], color='#1d4ed8', lw=2.2, solid_capstyle='butt')
+                if np.isfinite(a_): ax0.plot([a_, b_], [L, L], color='#9ca3af', lw=4.5, solid_capstyle='butt')
+                if np.isfinite(ac_): ax0.plot([ac_, bc_], [L, L], color='#1d4ed8', lw=1.3, solid_capstyle='butt')
             ax0.set_ylabel('Arc latitude\n(° S)', fontsize=7); ax0.invert_yaxis()
             if len(LS) == 1: ax0.set_ylim(LS[0][0] + 1, LS[0][0] - 1)
             elif len(LS) > 1:
                 Ls = [x[0] for x in LS]; ax0.set_ylim(max(Ls) + 0.6, min(Ls) - 0.6); ax0.set_yticks(Ls if len(Ls) <= 8 else Ls[::2]); ax0.tick_params(axis='y', labelsize=6)
-            ax0.text(1.005, 0.95, 'grey: physical\nbounds\nblue: Kadri', transform=ax0.transAxes, fontsize=6, va='top')
+            ax0.text(1.005, 0.95, 'wide grey: physical\nbounds\nthin blue: Kadri', transform=ax0.transAxes, fontsize=6, va='top')
             if st in N.LOGGERS:
                 X, nn, t0 = CA[st]
                 for j in np.where((t0 + 307 >= tmin) & (t0 <= tmax))[0]:
@@ -173,8 +177,8 @@ with PdfPages(os.environ.get('PDFOUT', 'candidate_views_cl_dg.pdf')) as pdf:
                 axs[3].plot(s.t_s, -np.log10(s.p_F), color='#111827'); axs[3].set_ylabel('Combined\n(band energy +\npersistence)', fontsize=7)
             for a_ in [ax0] + axs:
                 a_.set_xlim(tmin, tmax)
-                if np.isfinite(w['ac']): a_.axvspan(w['ac'], w['bc'], color='#bfdbfe', alpha=0.35, zorder=0)
-                [a_.axvline(w[q], color='k', ls=':', lw=0.7) for q in ('a0', 'b0') if np.isfinite(w[q])]
+                if np.isfinite(w['a0']): a_.axvspan(w['a0'], w['b0'], color='#d1d5db', alpha=0.45, zorder=0)
+                [a_.axvline(w[q], color='#1d4ed8', ls='--', lw=0.9) for q in ('ac', 'bc') if np.isfinite(w[q])]
             for a_ in axs[1:]:
                 a_.axhline(-np.log10(0.05), color='#9ca3af', ls='--', lw=0.6); a_.set_ylim(bottom=0)
             span = tmax - tmin; step = 60 if span < 1200 else (300 if span < 5400 else 900)
@@ -185,7 +189,7 @@ with PdfPages(os.environ.get('PDFOUT', 'candidate_views_cl_dg.pdf')) as pdf:
             fig.suptitle(f"Candidate {i + 1}: {NAMES[r.station]} {r.t_utc[:8]} ({src}). Implied impact {r.t_imp_first[:8]}–{r.t_imp_last[:8]} UTC, " + (f"arc {r.arc_lat_S_on_arc}° S" if np.isfinite(r.bearing) else "arc latitude from timing only"),
                          x=0.08, ha='left', fontsize=9)
             exp_c = f"{N.hms(w['ac'])[:8]}–{N.hms(w['bc'])[:8]}" if np.isfinite(w['ac']) else 'none'
-            ax0.set_title(f"{NAMES[st]}. Expected arrival: physical bounds {(N.hms(w['a0'])[:8] + '–' + N.hms(w['b0'])[:8]) if np.isfinite(w['a0']) else 'none'} (dotted lines, grey bars); Kadri 1.45–1.57 km/s {exp_c} (shaded, blue bars).\n"
+            ax0.set_title(f"{NAMES[st]}. Expected arrival: physical bounds {(N.hms(w['a0'])[:8] + '–' + N.hms(w['b0'])[:8]) if np.isfinite(w['a0']) else 'none'} (grey shading, wide grey bars); Kadri 1.45–1.57 km/s {exp_c} (blue dashed lines, thin blue bars).\n"
                           f"Window shown {N.hms(tmin)[:8]}–{N.hms(tmax)[:8]} (20 % margin). Paths {w['classes']} ({w['n_open']} of {w['n_pts']} points); {wc_n} looks; window p (combined) = {pw:.3g}", loc='left', fontsize=7.5)
             foot(fig, FOOT); pdf.savefig(fig); plt.close(fig)
 R = pd.DataFrame(rows); R.to_csv(os.environ.get('SITESOUT', 'candidate_views_sites.csv'), index=False)
