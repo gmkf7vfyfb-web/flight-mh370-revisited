@@ -141,5 +141,5 @@ The test was a keyword search of 270 text files in the 32 hydroacoustic result f
 - Finder `.DS_Store` files are excluded from the hash list and are not counted as differences. *(agent choice)*
 - "Openly re-downloadable" rests on single-minute probes at sample dates, not on a full re-download. *(agent choice)*
 - The task's "ioretest" is taken to be the held-out retest files. *(agent choice; it can be our error)*
-- The backup drive cannot be read from sessions. Its contents come from the archive scripts, the one local verification list and the registry `XDRIVE` entries. *(project record)*
+- The backup drive cannot be read from sessions. Its contents come from the archive scripts, the one local verification list and the registry `XDRIVE` entries. Pete stated on 26 Oct 2026 that the drive holds the items listed in `~/Downloads/archive-tools/`; this audit could not confirm the individual copies. *(project record; Pete's statement)*
 - "Unused" means a keyword absent from recent run texts. *(agent choice, proxy)*
