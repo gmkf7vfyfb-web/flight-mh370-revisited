@@ -1,0 +1,27 @@
+{
+ "folder": "aulich2019",
+ "created": "2026-11-07",
+ "task": "PDF vector recovery for all hydroacoustic sources (source-vector-extraction-2026-11-07)",
+ "tool": "PyMuPDF 1.28.0; RapidOCR (rapidocr-onnxruntime 1.4.4) for tick labels drawn as glyph outlines; extractor module vecx.py in the parent folder",
+ "method": "Vector panels: page.get_drawings() gives every path; panels are found from numeric tick-label rows and columns (text layer, or OCR of glyph outlines) anchored to the axis lines; each axis transform is a least-squares fit of label value against position (tick-mark positions where they lower the residual; linear or log10, whichever fits better); every vertex of every path inside the axes is written (border frame, tick and grid strokes on the border are dropped; Bezier control points are kept and marked); text words inside the axes are written as rows with item_type text; small closed paths also get a marker_centre row (bounding-box centre). Multipliers printed as glyph outlines (for example x10^6) were read from the rendered page and are stated in each header. Tables: page.find_tables() or a word/line dump of the text layer; no values typed by hand. Raster items: colour mask per pixel column, stated in the header.",
+ "acceptance": "calibration_status ok when both axes have relative residual (max abs residual / label span) <= 3e-3; flagged up to 2e-2; failed above that",
+ "statement_status": "re-run: every file in this folder was produced by code in this session; numbers in the note are read back from these files",
+ "files": [
+  {
+   "file": "aulich2019_p008_table1.csv",
+   "sha256": "0f975964abb79d2d5ca6c76a7994c6c0be46e4e20135de692c2707ae17ae0288",
+   "header": {
+    "source": "Sci Rep 9:8840 (2019) fin whale",
+    "source_sha256": "cf15e3d5043bbe94668f74befe25e670fffc6d3000d3ed9f67e7b488c083269a",
+    "source_files": "artifact:14e12fa2-48b4-4213-b482-ea941cef4027 (10.1038_s41598-019-45321-w.pdf)",
+    "page": "8",
+    "table": "1",
+    "caption": "Table 1. Details of deployments of the passive acoustic USR of the Australian Integrated Marine Observing System (IMOS), Curtin University and the CTBTO station",
+    "method": "PyMuPDF page.find_tables() on the text layer (lines strategy, or text strategy where the table has no rules). Cells are copied as printed; no values typed by hand. Column alignment of text-strategy tables must be checked against the page before use.",
+    "n_rows": "37",
+    "n_cols": "9",
+    "extracted": "2026-11-07, source-vector-extraction-2026-11-07"
+   }
+  }
+ ]
+}
