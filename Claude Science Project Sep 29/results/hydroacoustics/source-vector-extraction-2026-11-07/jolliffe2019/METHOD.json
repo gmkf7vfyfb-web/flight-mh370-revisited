@@ -1,0 +1,27 @@
+{
+ "folder": "jolliffe2019",
+ "created": "2026-11-07",
+ "task": "PDF vector recovery for all hydroacoustic sources (source-vector-extraction-2026-11-07)",
+ "tool": "PyMuPDF 1.28.0; RapidOCR (rapidocr-onnxruntime 1.4.4) for tick labels drawn as glyph outlines; extractor module vecx.py in the parent folder",
+ "method": "Vector panels: page.get_drawings() gives every path; panels are found from numeric tick-label rows and columns (text layer, or OCR of glyph outlines) anchored to the axis lines; each axis transform is a least-squares fit of label value against position (tick-mark positions where they lower the residual; linear or log10, whichever fits better); every vertex of every path inside the axes is written (border frame, tick and grid strokes on the border are dropped; Bezier control points are kept and marked); text words inside the axes are written as rows with item_type text; small closed paths also get a marker_centre row (bounding-box centre). Multipliers printed as glyph outlines (for example x10^6) were read from the rendered page and are stated in each header. Tables: page.find_tables() or a word/line dump of the text layer; no values typed by hand. Raster items: colour mask per pixel column, stated in the header.",
+ "acceptance": "calibration_status ok when both axes have relative residual (max abs residual / label span) <= 3e-3; flagged up to 2e-2; failed above that",
+ "statement_status": "re-run: every file in this folder was produced by code in this session; numbers in the note are read back from these files",
+ "files": [
+  {
+   "file": "jolliffe2019_p004_table1.csv",
+   "sha256": "0fefb9bcca4103163b0ea0af0f8ca55b2b90693ca0626239f63460ae0d483e18",
+   "header": {
+    "source": "Jolliffe et al. 2019 PLoS ONE (pygmy blue whale)",
+    "source_sha256": "c6c82a6589fe36b17e007707101930ebb17970fb99cafca3d0f5b2255c80b4ec",
+    "source_files": "artifact:66d92441-9fa5-42f5-bcec-b112e1e4cb39 (10.1371_journal.pone.0208619.pdf)",
+    "page": "4",
+    "table": "1",
+    "caption": "Table 1. Details of sea noise logger primary deployments.",
+    "method": "PyMuPDF page.find_tables() on the text layer (lines strategy, or text strategy where the table has no rules). Cells are copied as printed; no values typed by hand. Column alignment of text-strategy tables must be checked against the page before use.",
+    "n_rows": "16",
+    "n_cols": "6",
+    "extracted": "2026-11-07, source-vector-extraction-2026-11-07"
+   }
+  }
+ ]
+}
