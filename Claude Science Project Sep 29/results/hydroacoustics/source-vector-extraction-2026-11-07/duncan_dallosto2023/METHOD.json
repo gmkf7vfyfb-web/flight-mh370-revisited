@@ -1,0 +1,37 @@
+{
+ "folder": "duncan_dallosto2023",
+ "created": "2026-11-07",
+ "task": "PDF vector recovery for all hydroacoustic sources (source-vector-extraction-2026-11-07)",
+ "tool": "PyMuPDF 1.28.0; RapidOCR (rapidocr-onnxruntime 1.4.4) for tick labels drawn as glyph outlines; extractor module vecx.py in the parent folder",
+ "method": "Vector panels: page.get_drawings() gives every path; panels are found from numeric tick-label rows and columns (text layer, or OCR of glyph outlines) anchored to the axis lines; each axis transform is a least-squares fit of label value against position (tick-mark positions where they lower the residual; linear or log10, whichever fits better); every vertex of every path inside the axes is written (border frame, tick and grid strokes on the border are dropped; Bezier control points are kept and marked); text words inside the axes are written as rows with item_type text; small closed paths also get a marker_centre row (bounding-box centre). Multipliers printed as glyph outlines (for example x10^6) were read from the rendered page and are stated in each header. Tables: page.find_tables() or a word/line dump of the text layer; no values typed by hand. Raster items: colour mask per pixel column, stated in the header.",
+ "acceptance": "calibration_status ok when both axes have relative residual (max abs residual / label span) <= 3e-3; flagged up to 2e-2; failed above that",
+ "statement_status": "re-run: every file in this folder was produced by code in this session; numbers in the note are read back from these files",
+ "files": [
+  {
+   "file": "duncan_dallosto2023_fig5_raster_profile.csv",
+   "sha256": "f648696112ce7c9f57eb87acd2c00d7e91e46338998f3aa617bb76e0dec9a12e",
+   "header": {
+    "source": "Duncan and Dall'Osto 2023, JASA Express Letters, doi 10.1121/10.0022761 (article PDF: not retrieved \u2014 ask Pete); figure image held in the repository",
+    "source_sha256": "19633ad42a7b8786ad604f4b917453964d80fdad52f5f826cd04ee49440654ed",
+    "source_files": "repo claude-science-sep29: ISO Sept 28 Status/inputs/papers/hydroacoustics/duncan-fig5.png",
+    "figure": "5 (as named in the repository file)",
+    "panel": "single",
+    "content": "Sound-speed section with seabed (dark fill) and deep-sound-channel axis (white dashed line) against distance from the hydrophones",
+    "time_span": "model section (path for the 8 Mar 2014 case as drawn by the authors)",
+    "x_units": "km (distance from hydrophones)",
+    "y_units": "m (depth)",
+    "image": "PNG 1580 x 868 px",
+    "x_transform": "distance_km = -1423.53*px_col + 7.3311 (least squares on 8 OCR-located tick labels 1000-8000)",
+    "y_transform": "depth_m = -554.692*px_row + 8.23036 (least squares on 5 tick labels 1000-5000)",
+    "x_residual_max_abs_km": "6.5415597627552415",
+    "y_residual_max_abs_m": "7.4073221057260525",
+    "resolution": "1423.53 km per pixel column; 554.69 m per pixel row",
+    "method": "Raster: seabed = top of the dark-navy run (R<15, G<15, 100<B<160) that reaches the bottom of the plot, per pixel column; sound-channel axis = mean row of white pixels (min channel > 235) per column where the white run is under 8 px tall (dashes leave gaps, left empty). Tick-label centres located by OCR (RapidOCR) on the PNG; values not typed by hand.",
+    "caveat": "The repository note for Fig. 3 of this paper states that the authors' MH370 path is the Curtin 301.6 deg HA01 bearing; the same may apply here (not checked).",
+    "calibration_status": "ok",
+    "n_rows": "1145",
+    "extracted": "2026-11-07, source-vector-extraction-2026-11-07"
+   }
+  }
+ ]
+}
