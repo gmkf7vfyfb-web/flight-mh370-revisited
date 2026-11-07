@@ -219,6 +219,20 @@ struct SyntheticParams {
 
 #[derive(Deserialize, Clone, Debug)]
 #[serde(deny_unknown_fields)]
+struct ShadowFind {
+    /// Label in the coefficient file (`shadow:<name>`).
+    name: String,
+    /// Row of the evidence table (any row, not only the stringent set).
+    object_id: String,
+    /// Discovery interval; defaults to the table's dates. An end without a start is refused.
+    #[serde(default)]
+    discovery_start: Option<String>,
+    #[serde(default)]
+    discovery_end: Option<String>,
+}
+
+#[derive(Deserialize, Clone, Debug)]
+#[serde(deny_unknown_fields)]
 struct DateOverride {
     object_id: String,
     discovery_start: String,
@@ -309,6 +323,10 @@ pub(crate) struct Params {
     /// default (node table byte-identical either way).
     #[serde(default)]
     write_coefficients: bool,
+    /// Extra finds or alternative dates scored from the SAME ensembles and written to the coefficient file only
+    /// (never to ln L): later finds, disputed dates. Any subset is then an exact offline choice. Needs write_coefficients.
+    #[serde(default)]
+    shadow_finds: Vec<ShadowFind>,
     /// Importance splitting for finds that forward release alone cannot resolve (off by default).
     #[serde(default)]
     splitting: Option<SplittingParams>,
@@ -622,6 +640,34 @@ fn evidence_observations(p: &Params, rec: &Recovery, loc: &Locator) -> Result<Ve
     Ok(out)
 }
 
+/// Shadow finds (coefficient output only): the same construction as `evidence_observations`, for named table rows.
+fn shadow_observations(p: &Params, rec: &Recovery, loc: &Locator) -> Result<Vec<Observation>, String> {
+    if p.shadow_finds.is_empty() {
+        return Ok(Vec::new());
+    }
+    let map = loc.map.as_ref().ok_or("debris-drift: shadow finds need geographic `segments`")?;
+    let table = evidence::parse(evidence::TABLE)?;
+    let mut out = Vec::new();
+    for s in &p.shadow_finds {
+        let r = table.iter().find(|r| r.object_id == s.object_id).ok_or(format!("debris-drift: shadow find `{}`: no table row `{}`", s.name, s.object_id))?;
+        let (ds, de) = match (&s.discovery_start, &s.discovery_end) {
+            (Some(a), Some(b)) => (a.clone(), b.clone()),
+            (Some(a), None) => (a.clone(), a.clone()),
+            (None, None) => (r.discovery_start.clone(), r.discovery_end.clone()),
+            (None, Some(_)) => return Err(format!("debris-drift: shadow find `{}` has an end date without a start date", s.name)),
+        };
+        let class = p.classes.iter().position(|c| c.motion_classes.contains(&r.motion_class)).ok_or(format!("debris-drift: no class serves motion_class `{}`", r.motion_class))?;
+        let at = [r.longitude_deg, r.latitude_deg];
+        let segment = map.locate(at).ok_or(format!("debris-drift: shadow find `{}` lies in no declared segment", s.name))?;
+        let (a, b) = (day_of(p.release_unix_s, &ds)?, day_of(p.release_unix_s, &de)? + 1.0);
+        if b > rec.window_end_days {
+            return Err(format!("debris-drift: shadow find `{}` is discovered after the window end", s.name));
+        }
+        out.push(Observation { id: format!("shadow:{}", s.name), class, place: Place::at(at), segment, t_start_days: a, t_end_days: b });
+    }
+    Ok(out)
+}
+
 /// Synthetic finds from an INDEPENDENT ensemble at the declared source (no inverse crime): a
 /// beached particle is discovered after a delay from the declared model, reported at a locality
 /// displaced along the coast by the bandwidth (chainage mode; no displacement without chainage),
@@ -710,12 +756,22 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
     let t_end = p.release_unix_s + rec.window_end_days * 86_400.0;
     let n = p.particles_per_class;
     let half = n / 2;
+    let shadows = if p.mode == "evidence" { shadow_observations(p, &rec, &loc)? } else { Vec::new() };
+    let shadow_by_class: Vec<Vec<usize>> = (0..nc).map(|c| (0..shadows.len()).filter(|&j| shadows[j].class == c).collect()).collect();
+    if !shadows.is_empty() && !p.write_coefficients {
+        return Err("debris-drift: shadow_finds need write_coefficients = true".into());
+    }
+    for c in 0..nc {
+        if !shadow_by_class[c].is_empty() && by_class[c].is_empty() {
+            return Err(format!("debris-drift: shadow finds of class `{}` need at least one scored find of that class", p.classes[c].name));
+        }
+    }
     let mut coef_out: Option<std::io::BufWriter<std::fs::File>> = None;
     if p.write_coefficients {
         let dir = p.output_dir.as_ref().ok_or("debris-drift: write_coefficients needs output_dir")?;
         std::fs::create_dir_all(dir).map_err(|e| format!("debris-drift: {dir}: {e}"))?;
         coef_out = Some(std::io::BufWriter::new(std::fs::File::create(format!("{dir}/coefficients.jsonl")).map_err(|e| e.to_string())?));
-        std::fs::write(format!("{dir}/coefficients-meta.json"), coefficients_meta(p, &rec, &segnames, &observations, &envs)?).map_err(|e| e.to_string())?;
+        std::fs::write(format!("{dir}/coefficients-meta.json"), coefficients_meta(p, &rec, &segnames, &observations, &shadows, &envs)?).map_err(|e| e.to_string())?;
     }
 
     let mut nodes = vec![Node::NotComputed; grid.nlat * grid.nlon];
@@ -770,7 +826,10 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
         let mut coef_hb: Vec<Vec<Vec<Option<recovery::Coefficients>>>> = vec![Vec::new(); nh];
         let mut hits = vec![0usize; observations.len()];
         let mut n_eff_h = vec![vec![f64::NAN; observations.len()]; nh];
+        // shadow coefficients: index 3*set + part (set 0 = primary bandwidth, 1.. = extra; part full, half a, half b) -> [env][class]
+        let mut sh: Vec<Vec<Vec<Option<recovery::Coefficients>>>> = vec![Vec::new(); 3 * (1 + nh)];
         for &(seed, diffusion) in &envs {
+            let mut she: Vec<Vec<Option<recovery::Coefficients>>> = vec![Vec::new(); 3 * (1 + nh)];
             let (mut full, mut ha, mut hb) = (Vec::new(), Vec::new(), Vec::new());
             let mut fh: Vec<Vec<Option<recovery::Coefficients>>> = vec![Vec::new(); nh];
             let mut fha: Vec<Vec<Option<recovery::Coefficients>>> = vec![Vec::new(); nh];
@@ -783,6 +842,7 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
                     fh.iter_mut().for_each(|v| v.push(None));
                     fha.iter_mut().for_each(|v| v.push(None));
                     fhb.iter_mut().for_each(|v| v.push(None));
+                    she.iter_mut().for_each(|v| v.push(None));
                     continue;
                 }
                 let split = p.splitting.as_ref().filter(|s| s.classes.is_empty() || s.classes.iter().any(|n| *n == p.classes[c].name));
@@ -821,6 +881,16 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
                     fha[hi].push(Some(rh.coefficients(&obs, &a_half, half)));
                     fhb[hi].push(Some(rh.coefficients(&obs, &b_half, n - half)));
                 }
+                if shadow_by_class[c].is_empty() {
+                    she.iter_mut().for_each(|v| v.push(None));
+                } else {
+                    let sobs: Vec<&Observation> = shadow_by_class[c].iter().map(|&j| &shadows[j]).collect();
+                    for (si, rr) in std::iter::once(rec.clone()).chain(p.recovery.extra_bandwidths_km.iter().map(|&h| Recovery { bandwidth_km: h, ..rec.clone() })).enumerate() {
+                        she[3 * si].push(Some(rr.coefficients(&sobs, &all, n)));
+                        she[3 * si + 1].push(Some(rr.coefficients(&sobs, &a_half, half)));
+                        she[3 * si + 2].push(Some(rr.coefficients(&sobs, &b_half, n - half)));
+                    }
+                }
                 full.push(Some(kf));
                 ha.push(Some(rec.coefficients(&obs, &a_half, half)));
                 hb.push(Some(rec.coefficients(&obs, &b_half, n - half)));
@@ -837,6 +907,9 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
             }
             coef_a.push(ha);
             coef_b.push(hb);
+            for (k2, v) in she.into_iter().enumerate() {
+                sh[k2].push(v);
+            }
         }
         if let Some(w) = coef_out.as_mut() {
             use std::io::Write;
@@ -847,7 +920,13 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
             for hi in 0..nh {
                 sets.push([&coef_h[hi], &coef_ha[hi], &coef_hb[hi]]);
             }
-            line += &sets.iter().map(|s| format!("{{\"full\":{},\"half_a\":{},\"half_b\":{}}}", coef_json(s[0], &by_class, &observations, rec.n_periods()), coef_json(s[1], &by_class, &observations, rec.n_periods()), coef_json(s[2], &by_class, &observations, rec.n_periods()))).collect::<Vec<_>>().join(",");
+            line += &sets.iter().enumerate().map(|(si, s)| {
+                let mut t = format!("{{\"full\":{},\"half_a\":{},\"half_b\":{}", coef_json(s[0], &by_class, &observations, rec.n_periods()), coef_json(s[1], &by_class, &observations, rec.n_periods()), coef_json(s[2], &by_class, &observations, rec.n_periods()));
+                if !shadows.is_empty() {
+                    t += &format!(",\"shadow_full\":{},\"shadow_half_a\":{},\"shadow_half_b\":{}", coef_json(&sh[3 * si], &shadow_by_class, &shadows, rec.n_periods()), coef_json(&sh[3 * si + 1], &shadow_by_class, &shadows, rec.n_periods()), coef_json(&sh[3 * si + 2], &shadow_by_class, &shadows, rec.n_periods()));
+                }
+                t + "}"
+            }).collect::<Vec<_>>().join(",");
             line += "]}\n";
             w.write_all(line.as_bytes()).map_err(|e| e.to_string())?;
             w.flush().map_err(|e| e.to_string())?;
@@ -974,7 +1053,7 @@ fn coef_json(coef: &[Vec<Option<recovery::Coefficients>>], by_class: &[Vec<usize
 
 /// Metadata for `coefficients.jsonl`: block layout, finds, environments, level priors and the standard
 /// normal level draws z (draws x blocks), so that nu = exp(mu + sigma z) reproduces the module's draws exactly.
-fn coefficients_meta(p: &Params, rec: &Recovery, segnames: &[String], obs: &[Observation], envs: &[(u64, Diffusion)]) -> Result<String, String> {
+fn coefficients_meta(p: &Params, rec: &Recovery, segnames: &[String], obs: &[Observation], shadows: &[Observation], envs: &[(u64, Diffusion)]) -> Result<String, String> {
     let q = |s: &str| format!("\"{}\"", s.replace('\\', "\\\\").replace('"', "\\\""));
     let f = |v: &[f64]| v.iter().map(|x| format!("{x:e}")).collect::<Vec<_>>().join(",");
     let nb = rec.n_blocks();
@@ -986,7 +1065,8 @@ fn coefficients_meta(p: &Params, rec: &Recovery, segnames: &[String], obs: &[Obs
         alts.push(format!("{{\"name\":{},\"mu\":[{}]}}", q(&a.name), f(&block_means(&p.levels.ln_mean_by_period, &a.segment_ln_mean_by_period, segnames)?)));
     }
     Ok(format!(
-        "{{\"segments\":[{}],\"n_periods\":{},\"period_breaks_days\":[{}],\"window_end_days\":{:e},\"classes\":[{}],\"finds\":[{}],\"envs\":[{}],\"particles_per_class\":{},\"levels\":{{\"ln_mean_by_period\":[{}],\"sigma\":{:e},\"draws\":{},\"seed\":{},\"mu_primary\":[{}],\"alternatives\":[{}],\"z\":[{}]}}}}\n",
+        "{{\"shadow_finds\":[{}],\"segments\":[{}],\"n_periods\":{},\"period_breaks_days\":[{}],\"window_end_days\":{:e},\"classes\":[{}],\"finds\":[{}],\"envs\":[{}],\"particles_per_class\":{},\"levels\":{{\"ln_mean_by_period\":[{}],\"sigma\":{:e},\"draws\":{},\"seed\":{},\"mu_primary\":[{}],\"alternatives\":[{}],\"z\":[{}]}}}}\n",
+        shadows.iter().map(|o| format!("{{\"id\":{},\"class\":{},\"segment\":{},\"t_start_days\":{:e},\"t_end_days\":{:e}}}", q(&o.id), o.class, o.segment, o.t_start_days, o.t_end_days)).collect::<Vec<_>>().join(","),
         segnames.iter().map(|s| q(s)).collect::<Vec<_>>().join(","),
         rec.n_periods(),
         f(&rec.breaks_days),

@@ -52,3 +52,34 @@ def ln_l(coefset, meta, mu, finds=None, return_zero_fraction=False):
 
 def read_nodes(path):
     return [json.loads(l) for l in open(path)]
+
+# ---- shadow finds (alternative dates, later finds): written only to the coefficient file -------------
+def find_table(meta):
+    """id -> (source, class, segment, index): source 'p' = scored find, 's' = shadow find."""
+    t = {f['id']: ('p', f['class'], f['segment'], jj) for c in range(meta.ncls) for jj, j in enumerate(meta.by_class[c]) for f in [meta.finds[j]]}
+    sh = meta.m.get('shadow_finds', [])
+    for c in range(meta.ncls):
+        for jj, f in enumerate([f for f in sh if f['class'] == c]):
+            t[f['id']] = ('s', f['class'], f['segment'], jj)
+    return t
+
+def ln_l_sel(setd, part, meta, mu, sel, return_zero_fraction=False):
+    """setd: node['sets'][k]; part: 'full' | 'half_a' | 'half_b'; sel: list of find ids, scored ('<object_id>')
+    or shadow ('shadow:<name>'), in any mix. Same estimator as ln_l; A (class total) from the scored set."""
+    tab = find_table(meta); P = setd[part]; S = setd.get('shadow_' + part)
+    nu = np.exp(mu[None, :] + meta.sigma * meta.z)
+    terms = []; zero_env = 0
+    for e, env in enumerate(P):
+        s = np.zeros(nu.shape[0]); dead = False
+        for fid in sel:
+            src, c, sg, jj = tab[fid]
+            k = env[c]; ks = k if src == 'p' else S[e][c]
+            q = nu[:, sg * meta.np:(sg + 1) * meta.np] @ np.asarray(ks['a'][jj]); qtot = nu @ np.asarray(k['A'])
+            if not (np.all(q > 0) and np.all(qtot > 0)):
+                dead = True; break
+            s += np.log(q) - np.log(qtot)
+        zero_env += dead
+        terms.append(np.full(nu.shape[0], -np.inf) if dead else s)
+    t = np.concatenate(terms); mx = t.max()
+    v = np.nan if not np.isfinite(mx) else mx + np.log(np.mean(np.exp(t - mx)))
+    return (v, zero_env / max(len(P), 1)) if return_zero_fraction else v
