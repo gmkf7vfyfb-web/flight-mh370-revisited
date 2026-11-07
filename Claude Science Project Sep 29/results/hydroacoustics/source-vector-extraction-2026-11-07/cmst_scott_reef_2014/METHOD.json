@@ -1,0 +1,27 @@
+{
+ "folder": "cmst_scott_reef_2014",
+ "created": "2026-11-07",
+ "task": "PDF vector recovery for all hydroacoustic sources (source-vector-extraction-2026-11-07)",
+ "tool": "PyMuPDF 1.28.0; RapidOCR (rapidocr-onnxruntime 1.4.4) for tick labels drawn as glyph outlines; extractor module vecx.py in the parent folder",
+ "method": "Vector panels: page.get_drawings() gives every path; panels are found from numeric tick-label rows and columns (text layer, or OCR of glyph outlines) anchored to the axis lines; each axis transform is a least-squares fit of label value against position (tick-mark positions where they lower the residual; linear or log10, whichever fits better); every vertex of every path inside the axes is written (border frame, tick and grid strokes on the border are dropped; Bezier control points are kept and marked); text words inside the axes are written as rows with item_type text; small closed paths also get a marker_centre row (bounding-box centre). Multipliers printed as glyph outlines (for example x10^6) were read from the rendered page and are stated in each header. Tables: page.find_tables() or a word/line dump of the text layer; no values typed by hand. Raster items: colour mask per pixel column, stated in the header.",
+ "acceptance": "calibration_status ok when both axes have relative residual (max abs residual / label span) <= 3e-3; flagged up to 2e-2; failed above that",
+ "statement_status": "re-run: every file in this folder was produced by code in this session; numbers in the note are read back from these files",
+ "files": [
+  {
+   "file": "cmst_scott_reef_2014_p003_table1.csv",
+   "sha256": "67ca4c630a6492031b6a120fec6a04140e01bf182ced2879d61521a9e76358be",
+   "header": {
+    "source": "Scott Reef IMOS logger analysis 8 Mar 2014 (CMST release)",
+    "source_sha256": "b1005667072c6f5f0521131e99f54b5b7f1512cd8e7d5e74a1ca3c62529974ff",
+    "source_files": "/Users/pete/Downloads/mh370-inputs/hydroacoustics/imos/MH370/Scott Reef IMOS logger data analysis for 2014_03_08_Release.pdf",
+    "page": "3",
+    "table": "1",
+    "caption": "Table 1. Least squares fix results Estimated event position (WGS84)",
+    "method": "PyMuPDF page.find_tables() on the text layer (lines strategy, or text strategy where the table has no rules). Cells are copied as printed; no values typed by hand. Column alignment of text-strategy tables must be checked against the page before use.",
+    "n_rows": "9",
+    "n_cols": "2",
+    "extracted": "2026-11-07, source-vector-extraction-2026-11-07"
+   }
+  }
+ ]
+}
