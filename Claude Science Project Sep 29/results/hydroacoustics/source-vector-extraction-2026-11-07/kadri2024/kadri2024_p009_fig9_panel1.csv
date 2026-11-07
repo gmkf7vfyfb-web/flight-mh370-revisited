@@ -1,0 +1,52 @@
+# source: Kadri 2024 Sci Rep 14:10102
+# source_sha256: b4f8f37ad1577a0f4726e6acdbfeea295b89197c88fac4ab5546d80bd9eb9db4
+# source_files: /Users/pete/Downloads/s41598-024-60529-1.pdf
+# page: 9
+# figure: 9
+# panel: a spectrogram overlay (vectors only)
+# content: Fig. 9a spectrogram panel: vector overlay only (marked rectangles); spectrogram raster
+# time_span: 2014-03-08 00:27+10 min UTC
+# x_units: min after 00:27 UTC (8 Mar 2014)
+# y_units: Hz
+# axes_region_pt: [113.477, 61.695, 295.854, 126.382]
+# x_transform: -6.18660806 + 0.0546481472*x_pt
+# y_transform: 76.2575468 + -0.587602735*y_pt
+# x_labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+# y_labels: ["40", "30", "20", "10"]
+# x_label_source: ocr_num
+# y_label_source: ocr_num
+# x_positions: tick marks where found, else label centres
+# y_positions: tick marks where found, else label centres
+# x_residual_max_abs: 2.4867621782664884e-05
+# x_residual_rms: 1.551033449776984e-05
+# x_residual_relative: 3.1084527228331105e-06
+# y_residual_max_abs: 0.00023356809567687264
+# y_residual_rms: 0.00016042660465705232
+# y_residual_relative: 7.785603189229089e-06
+# x_units_per_pt: 0.05464814723716081
+# y_units_per_pt: 0.5876027352048966
+# vertex_coordinate_quantum_pt: 1.356999999999971
+# median_x_step_of_main_path: null
+# calibration_status: ok
+# n_vertices: 16
+# n_paths: 4
+# n_text_words: 0
+# method: PyMuPDF page.get_drawings(): every vertex of every path inside the axes (frame, tick and grid strokes on the border removed); Bezier control points kept as vertex_kind ctrl1/ctrl2. Axis transform: least squares on tick labels (text layer, or OCR of glyph-outline labels where marked), positions snapped to tick marks where that lowers the residual.
+# extracted: 2026-11-07, source-vector-extraction-2026-11-07
+path_id,item_idx,vertex_idx,item_type,vertex_kind,x_pt,y_pt,x_data,y_data,inside_axes,stroke,fill,width,path_type
+198,0,0,re,re_ul,210.467,67.915,5.315023540077569,36.350507055624874,1,#ffffff,,0.621999979019165,s
+198,0,1,re,re_lr,239.212,125.761,6.885884532409755,2.3600392349624286,1,#ffffff,,0.621999979019165,s
+198,1,0,re,re_ul,265.242,67.915,8.308375804993052,36.350507055624874,1,#ffffff,,0.621999979019165,s
+198,1,1,re,re_lr,293.987,125.761,9.879236797325241,2.3600392349624286,1,#ffffff,,0.621999979019165,s
+198,2,0,re,re_ul,188.059,273.173,4.090467856787268,-84.25965516706178,0,#ffffff,,0.621999979019165,s
+198,2,1,re,re_lr,216.803,331.018,5.661274200972218,-118.24953538498902,0,#ffffff,,0.621999979019165,s
+198,3,0,re,re_ul,237.855,273.173,6.811726996608928,-84.25965516706178,0,#ffffff,,0.621999979019165,s
+198,3,1,re,re_lr,266.599,331.018,8.382533340793877,-118.24953538498902,0,#ffffff,,0.621999979019165,s
+202,0,0,re,re_ul,173.742,67.915,3.3080703327928367,36.350507055624874,1,#ffffff,,0.621999979019165,s
+202,0,1,re,re_lr,202.487,125.7599,4.878931325125024,2.3606855979711554,1,#ffffff,,0.621999979019165,s
+202,1,0,re,re_ul,132.661,67.915,1.0630697961430338,36.350507055624874,1,#ffffff,,0.621999979019165,s
+202,1,1,re,re_lr,161.406,125.7599,2.6339307884752214,2.3606855979711554,1,#ffffff,,0.621999979019165,s
+203,0,0,re,re_ul,91.691,51.121,-1.1758647961634443,46.21870739065591,0,#808080,,1.24399995803833,s
+203,0,1,re,re_lr,553.548,147.53,24.063764542349936,-10.431484707712968,0,#808080,,1.24399995803833,s
+232,0,0,re,re_ul,98.319,36.843,-0.8136568762755427,54.608499243911425,0,#808080,,1.687000036239624,s
+232,0,1,re,re_lr,539.303,165.39,23.285301684956583,-20.926069558472406,0,#808080,,1.687000036239624,s
