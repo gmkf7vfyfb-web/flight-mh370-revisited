@@ -1,0 +1,52 @@
+{
+ "folder": "esr2018_37_289",
+ "created": "2026-11-07",
+ "task": "PDF vector recovery for all hydroacoustic sources (source-vector-extraction-2026-11-07)",
+ "tool": "PyMuPDF 1.28.0; RapidOCR (rapidocr-onnxruntime 1.4.4) for tick labels drawn as glyph outlines; extractor module vecx.py in the parent folder",
+ "method": "Vector panels: page.get_drawings() gives every path; panels are found from numeric tick-label rows and columns (text layer, or OCR of glyph outlines) anchored to the axis lines; each axis transform is a least-squares fit of label value against position (tick-mark positions where they lower the residual; linear or log10, whichever fits better); every vertex of every path inside the axes is written (border frame, tick and grid strokes on the border are dropped; Bezier control points are kept and marked); text words inside the axes are written as rows with item_type text; small closed paths also get a marker_centre row (bounding-box centre). Multipliers printed as glyph outlines (for example x10^6) were read from the rendered page and are stated in each header. Tables: page.find_tables() or a word/line dump of the text layer; no values typed by hand. Raster items: colour mask per pixel column, stated in the header.",
+ "acceptance": "calibration_status ok when both axes have relative residual (max abs residual / label span) <= 3e-3; flagged up to 2e-2; failed above that",
+ "statement_status": "re-run: every file in this folder was produced by code in this session; numbers in the note are read back from these files",
+ "files": [
+  {
+   "file": "esr2018_37_289_p005_fig4_panel1.csv",
+   "sha256": "5eb508b119a1b58f2c71107f4533c1ad35dc023afc66bd3c240255d6015cea5f",
+   "header": {
+    "source": "ESR 37:289 (2018) whale acoustics",
+    "source_sha256": "ce3b2ca81b79632d32d37d32a389c70ff41d80130c2750caa61b5f3b0cdb702c",
+    "source_files": "artifact:9278cb3c-7ff7-4712-b604-0210416ac2ee (10.3354_esr00927.pdf)",
+    "page": "5",
+    "figure": "4",
+    "panel": "panel 1 on page (top-left to bottom-right detection order)",
+    "content": "50 | caption: Fig. 4. Power spectral density of the data for sites NEAMS and SWAMS (see Fig. 1) for April 2015 (mean level and stan- dard deviation). The letters refer to the selected frequencies for the Antarctic ",
+    "time_span": "see caption",
+    "x_units": "Frequency (Hz)",
+    "y_units": "",
+    "axes_region_pt": "[85.115, 256.097, 282.757, 418.097]",
+    "x_transform": "-50.3926895 + 0.602613847*x_pt",
+    "y_transform": "230.658969 + -0.432097565*y_pt",
+    "x_labels": "[\"10\", \"20\", \"30\", \"40\", \"50\", \"60\", \"70\", \"80\", \"90\", \"100\", \"110\", \"120\"]",
+    "y_labels": "[\"120\", \"110\", \"100\", \"90\", \"80\", \"70\", \"60\", \"50\"]",
+    "x_label_source": "num",
+    "y_label_source": "num",
+    "x_positions": "tick marks where found, else label centres",
+    "y_positions": "tick marks where found, else label centres",
+    "x_residual_max_abs": "0.00039067614685706076",
+    "x_residual_rms": "0.00019753995800483276",
+    "x_residual_relative": "3.551601335064189e-06",
+    "y_residual_max_abs": "0.0002538424159226338",
+    "y_residual_rms": "0.0001175057793139399",
+    "y_residual_relative": "3.626320227466197e-06",
+    "x_units_per_pt": "0.6026138473040471",
+    "y_units_per_pt": "0.4320975647915669",
+    "vertex_coordinate_quantum_pt": "0.0010000000000047748",
+    "median_x_step_of_main_path": "0.10003389865246959",
+    "calibration_status": "ok",
+    "n_vertices": "3369",
+    "n_paths": "3",
+    "n_text_words": "5",
+    "method": "PyMuPDF page.get_drawings(): every vertex of every path inside the axes (frame, tick and grid strokes on the border removed); Bezier control points kept as vertex_kind ctrl1/ctrl2. Axis transform: least squares on tick labels (text layer, or OCR of glyph-outline labels where marked), positions snapped to tick marks where that lowers the residual.",
+    "extracted": "2026-11-07, source-vector-extraction-2026-11-07"
+   }
+  }
+ ]
+}
