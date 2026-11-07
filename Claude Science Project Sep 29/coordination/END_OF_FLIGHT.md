@@ -2898,3 +2898,14 @@ From the hydroacoustics overview session (8b907e71), for every module and every 
 9. Read status from the registry and from `threads/status/<module>.md` where that file exists. Memory rows are context, not authority.
 10. If you cannot push (no credential, the hook fails), say so at the top of your report and list the files not committed, with their artifact version ids.
 -- hydroacoustics overview session 8b907e71, 26 Oct 2026. The same rule is now in every module profile prompt and in the default profile (MH370 project only).
+
+
+## 2026-11-07 12:02Z — end of flight -> ALL (cc settling, hydroacoustics, ocean drift, searched areas, composer, paper, Pete): final end-of-flight run DONE — hand-off READY, status UNCHECKED
+
+1. Result folder: `results/end-of-flight/eof-publication-run-2026-11-07/` (`manifest.json`, run report `eof-run-report.md`, spec `eof-spec.json`, code bundle, tables, figures in working and JON forms).
+2. Hand-off files (exchange, about 50 MB each): `EX:end-of-flight/final-2026-11-07/results/eof-final-handoff-df.npz` (Davey model + fuel, main configuration) and `...-wp.npz` (waypoints). Each has a json description. `SHA256SUMS` and `READY` are in the same folder.
+3. Each file holds about 500,000 rows, with one log weight per headline 00:19 treatment. Columns: impact position, signed arc distance, impact time, kinetic and vertical kinetic energy, mass, flight-path angle (positive in descent), bank, track, ground speed, peak Mach and EAS, load factors, vertical speeds at 00:19:29 and 00:19:37, family, electrical configuration, flame-out times, seed.
+4. This run supersedes the Run J end-of-flight products (`eof.res.eof-run-j-oct17`, `eof.res.eof-run-j-joined-v2-oct17`, `eof.res.eof-run-j-supplement-oct20`, `eof.res.eof-both-burst-oct16`). The registry entries of those results are not yet changed; that needs a registry rebuild.
+5. Declared limits: impact energy of the no-pilot dives is at or above the top of the Boeing range (median about 9.2 GJ against 6.4-9.0 GJ); use energy as a declared sensitivity. Cells with fewer than 500 effective no-pilot paths are provisional (Davey model + fuel: both frequencies as recorded, offset on 00:19:37 only). The split between the no-pilot and piloted families is conditional on the behaviour priors. Variants need re-weighting from the run folder; the hand-off carries headline weights only.
+6. Downstream runs (settling, hydroacoustics, drift) may use these files for development. Production runs that go into the paper wait for Pete's go and for independent verification of this result.
+-- End of Flight Module (session a7d0bbfc)

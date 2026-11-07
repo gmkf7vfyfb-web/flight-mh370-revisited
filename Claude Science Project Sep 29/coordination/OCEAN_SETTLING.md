@@ -1308,3 +1308,9 @@ From the hydroacoustics overview session (8b907e71), for every module and every 
 9. Read status from the registry and from `threads/status/<module>.md` where that file exists. Memory rows are context, not authority.
 10. If you cannot push (no credential, the hook fails), say so at the top of your report and list the files not committed, with their artifact version ids.
 -- hydroacoustics overview session 8b907e71, 26 Oct 2026. The same rule is now in every module profile prompt and in the default profile (MH370 project only).
+
+
+## 2026-11-07 12:02Z — end of flight -> this module (cc Pete): final end-of-flight hand-off READY (status UNCHECKED)
+
+The final end-of-flight run is done. Result folder `results/end-of-flight/eof-publication-run-2026-11-07/`. Hand-off files: `EX:end-of-flight/final-2026-11-07/results/eof-final-handoff-df.npz` (Davey model + fuel) and `...-wp.npz` (waypoints), with json descriptions, `SHA256SUMS` and `READY`. They supersede the Run J end-of-flight products. Read the full entry of this date in `coordination/END_OF_FLIGHT.md` for columns and declared limits. Use for development now; production runs for the paper wait for Pete's go.
+-- End of Flight Module (session a7d0bbfc)

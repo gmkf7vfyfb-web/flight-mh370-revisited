@@ -1,0 +1,273 @@
+{
+ "manifest_version": 1,
+ "run_id": "eof-publication-run-2026-11-07",
+ "module": "end-of-flight",
+ "commit": {
+  "branch": "claude-science-sep29",
+  "sha": "6fc8367aa02c78c95bca6b38cd5364736afa4369",
+  "dirty": false,
+  "note": "Run code is not in the engine tree; it is the bundle eof-code-2026-11-07.tar.gz in this folder (run folder EX:end-of-flight/final-2026-11-07). Platform artifact copies keep the names eof-final-*."
+ },
+ "configuration": {
+  "file": "eof-spec.json",
+  "sha256": "98747680c741601c7ae52966145d31fa6a82482bfe87cb5c556d71e381cea798"
+ },
+ "inputs": [
+  {
+   "registry_id": "core.ex.core-run-j",
+   "role": "Run J core hand-offs at 00:10:59 (run-j-repro-radar = Davey model + fuel; run-j-waypoints)"
+  }
+ ],
+ "inputs_unregistered": [
+  {
+   "name": "prior-airliner-dives-all-cases.csv",
+   "artifact_version_id": "76db848a-4a05-4bf9-8fb5-bc225cb57f48",
+   "sha256": "24dd64878ed190bbbd004890c05fe8bed5eeae7b3cad6e0f9d724b6478f7d8a0",
+   "role": "case data"
+  },
+  {
+   "name": "boeing-end-of-flight-runs-table.csv",
+   "artifact_version_id": "23f70536-b765-489b-abb7-cfe0e1089f7e",
+   "sha256": "dba93f87cc9b7f80cd72cc4e101b967863df77734216ff158be07e58be11d348",
+   "role": "Boeing 777 simulator runs"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "case-prior.json",
+   "bytes": 235225,
+   "sha256": "c2fbea7debeac62e0132463a77cf489fec204a0782c27181c0b7235054714a70",
+   "artifact_version_id": "23536c22-4cdd-473f-8462-b34af052c8b6"
+  },
+  {
+   "path": "eof-arc-distance-caption.txt",
+   "bytes": 260,
+   "sha256": "2dae6ad3e12316419285a7d22ff246b468daa01e717eeb8796600c7f3cd5f926",
+   "artifact_version_id": "936b29d2-c074-4ed0-9945-7977ff2cf672"
+  },
+  {
+   "path": "eof-arc-distance-proof.png",
+   "bytes": 164726,
+   "sha256": "c8237ee2d588e780ea5df7bc23ae81ed4dddb9e3915c2076e7f277c4a1c8b7a5",
+   "artifact_version_id": "59ec060a-941d-4fe1-91ff-615ffb2cccbf"
+  },
+  {
+   "path": "eof-arc-distance-word.png",
+   "bytes": 315265,
+   "sha256": "16539ecdedd88e25c33dafaee8f5c41212f2f6f3074757a18bae0112fa81a8b5",
+   "artifact_version_id": "eca8f906-5c6b-4f09-866a-a76a1c8c4766"
+  },
+  {
+   "path": "eof-arc-distance-working.png",
+   "bytes": 139360,
+   "sha256": "31dff1037a7b99ca8748f449939eb7c722ff51b8e257dcd1d221584550d8b422",
+   "artifact_version_id": "950ba7f2-efec-4c6f-a3e9-795f4dff4740"
+  },
+  {
+   "path": "eof-arc-distance.pdf",
+   "bytes": 45537,
+   "sha256": "02c18d3647e8cbd6eb639071ed60404b78c22580c473c76c5be92068087cd48b",
+   "artifact_version_id": "ea49771a-8256-4265-804f-04ceed7e3e3a"
+  },
+  {
+   "path": "eof-code-2026-11-07.tar.gz",
+   "bytes": 545641,
+   "sha256": "ad5abc8ea572970864a0bf09d2334d75ccf1c042199b6327552646177c35d820",
+   "artifact_version_id": "529ba938-bb61-46d4-bb5b-e20865f785d9"
+  },
+  {
+   "path": "eof-energy-caption.txt",
+   "bytes": 302,
+   "sha256": "87e1cc3460f5c478648724516de1d571fc7c99f8faf38926fc18e00a7bb415c7",
+   "artifact_version_id": "e0081507-4d87-45f6-ac20-f777af2ce723"
+  },
+  {
+   "path": "eof-energy-proof.png",
+   "bytes": 134249,
+   "sha256": "8d0319dfbfac3e6852c92777a884f16007c227fe9525abc390d55019422df3bb",
+   "artifact_version_id": "3ceb3c1c-3c25-4406-8c84-049c6b39b357"
+  },
+  {
+   "path": "eof-energy-word.png",
+   "bytes": 211205,
+   "sha256": "02846af85e89e3f114bdbaccf1a749423aadfd7b5c2a3eeef50b7c4a74387dea",
+   "artifact_version_id": "ccdad021-a89b-4110-88d2-7f3b61149737"
+  },
+  {
+   "path": "eof-energy-working.png",
+   "bytes": 113038,
+   "sha256": "00475fdcaf3e4147bcf95cd65cba12b2243c4b021ca2426c94f64ec1c2960bb7",
+   "artifact_version_id": "ae69c077-dfb7-4331-9897-d14c0afa9964"
+  },
+  {
+   "path": "eof-energy.pdf",
+   "bytes": 37160,
+   "sha256": "7501afd80da5a026b690816c32cd4f4a21ec1e15c64dc2a6f56f5e257a85c5b2",
+   "artifact_version_id": "ce539771-ebcc-47ef-a7f4-b76230dd6cf4"
+  },
+  {
+   "path": "eof-family-split-caption.txt",
+   "bytes": 252,
+   "sha256": "24484e3aa50c78c8fa70e040ba04c8e34a0713ffd7b4609031a51be3968b2c50",
+   "artifact_version_id": "e9aee0b0-eedf-4d98-8d3d-27252ce3762e"
+  },
+  {
+   "path": "eof-family-split-proof.png",
+   "bytes": 110562,
+   "sha256": "c3d30cc00d23002e4d416e1d20d4cf038f728ee11dbab93fc0569eb582777b02",
+   "artifact_version_id": "f0fa0903-1389-497c-9de2-1f977b340525"
+  },
+  {
+   "path": "eof-family-split-word.png",
+   "bytes": 200570,
+   "sha256": "dcb71e172db13657f0cb3d29cec81b4d7a4ffb3ea33a9d1d3c48442c22e3c9d6",
+   "artifact_version_id": "8f5a2d99-29f8-4a46-8b60-32fe024f98c4"
+  },
+  {
+   "path": "eof-family-split-working.png",
+   "bytes": 104564,
+   "sha256": "40c6a4fc5cf0b6f3f25aa221cce6c07a4ec365f88a6711752d34f24640a14ab1",
+   "artifact_version_id": "b83fc334-06a8-4af3-ba4a-bd2ac86d8b98"
+  },
+  {
+   "path": "eof-family-split.pdf",
+   "bytes": 23822,
+   "sha256": "80db8ddb968240431f6d373405020a5e1a0980cac431959009614d4574c0d41f",
+   "artifact_version_id": "4d1d829e-f15b-4ecf-af3c-0b553256ae8a"
+  },
+  {
+   "path": "eof-handoff-df.json",
+   "bytes": 2648,
+   "sha256": "453696e3ec99731e9ceba5e1270117e6032102cd3ef5dc987d913c1ba6b6e0e5",
+   "artifact_version_id": "62bbd6f4-362f-4a84-b2c2-738809eb42fb"
+  },
+  {
+   "path": "eof-handoff-wp.json",
+   "bytes": 2639,
+   "sha256": "2f7934ac04c4a9d3b61e2ddd80ffedd9d72e96db9d9fcca321583ec6edf22381",
+   "artifact_version_id": "1bc6f4cf-10c0-4874-9b2a-bfabfd5878c3"
+  },
+  {
+   "path": "eof-impact-maps-caption.txt",
+   "bytes": 416,
+   "sha256": "92cd05adf5a064e22076bda81d01a3732d53aa0970e8890e43848cfff6ff2aa1",
+   "artifact_version_id": "290cd637-1953-4498-95a3-434504f68134"
+  },
+  {
+   "path": "eof-impact-maps-proof.png",
+   "bytes": 161112,
+   "sha256": "ab557ba812fe020c9991ee83b04b88a2fa85cc2cd39f9ac47335ce42e1b7f29d",
+   "artifact_version_id": "8151a4a0-ef3d-4990-acd3-b04a5a2b7d82"
+  },
+  {
+   "path": "eof-impact-maps-word.png",
+   "bytes": 263354,
+   "sha256": "1e12360b79272eebf7387dcd83ae4aa7b7442a113efee264867e2df0c119d8bd",
+   "artifact_version_id": "a99a155e-d5a0-458d-b7ba-ccfb29e522b6"
+  },
+  {
+   "path": "eof-impact-maps-working.png",
+   "bytes": 151550,
+   "sha256": "f5eeb9cef7330fe445861754c97f72eea651029f3c1b819a59517faea92cc827",
+   "artifact_version_id": "98ce3c6d-053b-419d-bb53-0eb197884c4f"
+  },
+  {
+   "path": "eof-impact-maps.pdf",
+   "bytes": 71234,
+   "sha256": "560e11576e986bf39cfe8facc799a3c6ea0ecb45ec05fa3e47128f646604f32c",
+   "artifact_version_id": "281659a7-1901-4a47-a558-6c77795c05af"
+  },
+  {
+   "path": "eof-latitude-and-time-caption.txt",
+   "bytes": 173,
+   "sha256": "cee6c4023126fb73f3ee5dd7b5b09589db5ddb015a320fb40ed2a5a8d077d222",
+   "artifact_version_id": "f5f58d4c-fb15-42f2-badc-df247084358f"
+  },
+  {
+   "path": "eof-latitude-and-time-proof.png",
+   "bytes": 126845,
+   "sha256": "d6c6aaec3abc3ac7b918258c589857a41585562fabb30abc880f3968185aea52",
+   "artifact_version_id": "f019c9ac-ed4d-42c5-83f0-4e7713a1fdc4"
+  },
+  {
+   "path": "eof-latitude-and-time-word.png",
+   "bytes": 241141,
+   "sha256": "f38467b4b7a5e4b92cafd689b6090f127acd79f5d4e879646e9a932ab8022807",
+   "artifact_version_id": "187bffe2-1081-43b6-88b3-47438d5b1547"
+  },
+  {
+   "path": "eof-latitude-and-time-working.png",
+   "bytes": 123238,
+   "sha256": "f12f5ecdbabb455ddb2fd9a5845fe7b97f0380e1339f5ccc4c423b47d2d16715",
+   "artifact_version_id": "72ebf880-3ea1-439e-913c-7c8edcb37078"
+  },
+  {
+   "path": "eof-latitude-and-time.pdf",
+   "bytes": 38854,
+   "sha256": "73c2d19b9f92b47e6c25be581e36906cc69093cae8db442211e6fe6340d55c09",
+   "artifact_version_id": "f13c1450-79e2-476b-a77a-c1536c258868"
+  },
+  {
+   "path": "eof-run-report.md",
+   "bytes": 20142,
+   "sha256": "a4e2aeae996b137ef23f5e4c5dc0c59fa381a9eae7ff43398ae51779627e2e09",
+   "artifact_version_id": "2e47e6de-4a84-4a73-9d8a-65f48df2d61e"
+  },
+  {
+   "path": "eof-spec.json",
+   "bytes": 10306,
+   "sha256": "98747680c741601c7ae52966145d31fa6a82482bfe87cb5c556d71e381cea798",
+   "artifact_version_id": "0a1e7103-a72b-478c-af7f-c902c9b6f7dd"
+  },
+  {
+   "path": "eof-treatments.csv",
+   "bytes": 13973,
+   "sha256": "306f3a14df0eb8a778706f5e8ce5c3373822bbf3d45b77e3e25b00d69001dcb1",
+   "artifact_version_id": "797dc0e1-b25c-4584-9cf6-a1393e4523b4"
+  },
+  {
+   "path": "eof-variants.csv",
+   "bytes": 24450,
+   "sha256": "88ee761ef60b6a881fc0e024cc91afc14d5dcadec0c2b21355bd5bd28bf3b029",
+   "artifact_version_id": "ef162227-dd43-4e7f-8d42-c35ed71f75f0"
+  },
+  {
+   "path": "EX:end-of-flight/final-2026-11-07/results/eof-final-handoff-df.npz",
+   "bytes": 50526218,
+   "sha256": "11c4753e3bc43356c77793917cdf9344998256c936fff500a67c652782cc7d39",
+   "artifact_version_id": "4d45eed1-578b-46d8-90d9-0d5d87fbbd04"
+  },
+  {
+   "path": "EX:end-of-flight/final-2026-11-07/results/eof-final-handoff-wp.npz",
+   "bytes": 50631745,
+   "sha256": "c7db0bbf68c0b2ad1872c402dfe0c155b0ab93cc04b0ed21bebe2f027d089acb",
+   "artifact_version_id": "b919b696-b0da-4041-9364-accf33a71f6f"
+  }
+ ],
+ "thread_id": "a7d0bbfc-01e1-46d3-8e88-6e53a430ec88",
+ "status": "UNCHECKED",
+ "created_utc": "2026-11-07T12:00:37Z",
+ "description": "Final end-of-flight run from the Run J state at 00:10:59 to the sea. No-pilot dives come from a case-informed dive model (Tests A and B passed). Impact samples and hand-off files for settling, hydroacoustics and drift.",
+ "supersedes": [
+  "eof.res.eof-run-j-oct17",
+  "eof.res.eof-run-j-joined-v2-oct17",
+  "eof.res.eof-run-j-supplement-oct20",
+  "eof.res.eof-both-burst-oct16"
+ ],
+ "defects": [
+  "Energy of no-pilot dives at or above the top of the Boeing range (median about 9.2 GJ against 6.4-9.0 GJ).",
+  "Test B: pre-onset peak descent biased high.",
+  "Cells with fewer than 500 effective no-pilot paths are provisional (Davey model + fuel: both frequencies as recorded, ESS 156; offset on 00:19:37 only, ESS 489).",
+  "Pre-registration lists 10 T15 values; 11 were used; not re-tested with 10.",
+  "Case classes and the dive/non-dive family table are drafts, not yet ruled by Pete.",
+  "Hand-off carries headline log weights only; variants need re-weighting from the run folder."
+ ],
+ "footnote": {
+  "prior_track": "Run J core, Davey model + fuel (main) and waypoints",
+  "data_option": "00:19 treatments D0-D14 (spec)",
+  "logon_cause_prior": "0.75 fuel exhaustion (0.5 variant)",
+  "bfo_sd_hz": 4.32,
+  "exclusions": "piloted paths flown by the withdrawn uncontrolled law, and family 6, excluded in the headline (variant includes them)",
+  "physics": "case-informed 3-DOF dive kernel; energy declared sensitivity"
+ }
+}

@@ -79,3 +79,9 @@ From session d38353da (hydro review), 7 Nov 2026. Read before any new hydro run,
 4. **Reachability is not a ruling.** The 500 kt cap in `cand_list.py`/`cand_views.py` (thread 9838ff36, PDF version ba416536) came from an illustrative figure in Pete's question. Do not apply a hard cap. Report the error region of the source and the mean ground speed needed from the 7th arc, with the unconstrained grid as the reference case.
 5. **Candidate 6 (CL 00:49:58 + DGS 01:10:15), off-grid Monte Carlo:** with the corrected bearing (246.8 deg, ruling B1) the source lies 122-202 NM from the arc (95 % ellipse 116 x 57 NM) and needs at least 849 kt mean ground speed in every draw; the earlier '125-150 NM' was clipped by the 150 NM grid edge. With the published bearing (260.4 deg, sensitivity) the source is 35.9 S 92.7 E, 4-78 NM from the arc, impact 00:26:36-00:28:49 UTC; Perth Canyon 1 (window p 0.73) and Portland 1 (window p 0.79) show nothing above noise in the expected windows. Files: `results/hydroacoustics/cand6-source-error-region-2026-11-07/`, `results/hydroacoustics/published-bearing-cl004958-dgs011015-2026-11-07/`.
 -- session d38353da, 7 Nov 2026
+
+
+## 2026-11-07 12:02Z — end of flight -> this module (cc Pete): final end-of-flight hand-off READY (status UNCHECKED)
+
+The final end-of-flight run is done. Result folder `results/end-of-flight/eof-publication-run-2026-11-07/`. Hand-off files: `EX:end-of-flight/final-2026-11-07/results/eof-final-handoff-df.npz` (Davey model + fuel) and `...-wp.npz` (waypoints), with json descriptions, `SHA256SUMS` and `READY`. They supersede the Run J end-of-flight products. Read the full entry of this date in `coordination/END_OF_FLIGHT.md` for columns and declared limits. Use for development now; production runs for the paper wait for Pete's go.
+-- End of Flight Module (session a7d0bbfc)

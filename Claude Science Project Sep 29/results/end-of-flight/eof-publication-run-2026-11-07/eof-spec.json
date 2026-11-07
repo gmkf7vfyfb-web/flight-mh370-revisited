@@ -1,0 +1,223 @@
+{
+ "title": "End-of-flight final run specification (7 November 2026)",
+ "status": "Production specification. Every treatment, prior and comparison rule used by a1gen_final.py and pool_final.py is listed here.",
+ "route_families": {
+  "df": {
+   "name": "Davey model + fuel (main Results configuration, Pete's ruling 31 Oct)",
+   "seeds": 16,
+   "families": [
+    "no pilot after fuel exhaustion",
+    "piloted after fuel exhaustion"
+   ]
+  },
+  "wp": {
+   "name": "Waypoints (planned descent shown only here, Pete's ruling 3 Nov)",
+   "seeds": 24,
+   "families": [
+    "no pilot after fuel exhaustion",
+    "piloted after fuel exhaustion",
+    "planned descent"
+   ]
+  }
+ },
+ "treatments": {
+  "D13": {
+   "label": "Nothing used after 00:11",
+   "data": [],
+   "logon_term": false,
+   "group": "reference",
+   "headline": true
+  },
+  "D0": {
+   "label": "Log-on event only (cause term, airborne at 00:19:37; no 00:19 measurement)",
+   "data": [],
+   "logon_term": true,
+   "group": "log-on event only",
+   "headline": true
+  },
+  "D7": {
+   "label": "Both 00:19 timings (Davey)",
+   "data": [
+    "BTO 00:19:29",
+    "BTO 00:19:37"
+   ],
+   "logon_term": true,
+   "group": "both timings",
+   "headline": true
+  },
+  "D8": {
+   "label": "Both timings + 00:19:29 frequency",
+   "data": [
+    "BTO 00:19:29",
+    "BTO 00:19:37",
+    "BFO 00:19:29 as recorded"
+   ],
+   "logon_term": true,
+   "group": "both timings + one frequency",
+   "headline": true
+  },
+  "D9": {
+   "label": "Both timings + both frequencies as recorded",
+   "data": [
+    "BTO 00:19:29",
+    "BTO 00:19:37",
+    "BFO 00:19:29 as recorded",
+    "BFO 00:19:37 as recorded"
+   ],
+   "logon_term": true,
+   "group": "both timings + both frequencies",
+   "headline": true
+  },
+  "D10": {
+   "label": "Both timings + both frequencies, Holland start-up offset (17 Hz floor)",
+   "data": [
+    "BTO 00:19:29",
+    "BTO 00:19:37",
+    "BFO both, offset U[17,136]/U[17,130] Hz"
+   ],
+   "logon_term": true,
+   "group": "both timings + both frequencies",
+   "headline": true
+  },
+  "D14": {
+   "label": "Both timings + both frequencies, Holland start-up offset (zero floor)",
+   "data": [
+    "BTO 00:19:29",
+    "BTO 00:19:37",
+    "BFO both, offset U[0,136]/U[0,130] Hz"
+   ],
+   "logon_term": true,
+   "group": "both timings + both frequencies",
+   "headline": true
+  },
+  "D11": {
+   "label": "Both timings + 00:19:29 frequency as recorded + offset on 00:19:37 only, 17 Hz floor (Ashton premise with Holland's acknowledge bounds)",
+   "data": [
+    "BTO 00:19:29",
+    "BTO 00:19:37",
+    "BFO 00:19:29 as recorded",
+    "BFO 00:19:37 offset U[17,130] Hz"
+   ],
+   "logon_term": true,
+   "group": "both timings + both frequencies",
+   "headline": true
+  },
+  "D12": {
+   "label": "Both timings + 00:19:29 frequency as recorded + offset on 00:19:37 only, zero floor (Ashton premise with Holland's acknowledge bounds)",
+   "data": [
+    "BTO 00:19:29",
+    "BTO 00:19:37",
+    "BFO 00:19:29 as recorded",
+    "BFO 00:19:37 offset U[0,130] Hz"
+   ],
+   "logon_term": true,
+   "group": "both timings + both frequencies",
+   "headline": true
+  },
+  "D1": {
+   "label": "Sensitivity: 00:19:29 timing only",
+   "data": [
+    "BTO 00:19:29"
+   ],
+   "logon_term": true,
+   "group": "one timing",
+   "headline": false
+  },
+  "D2": {
+   "label": "Sensitivity: 00:19:29 timing + frequency (Ashton)",
+   "data": [
+    "BTO 00:19:29",
+    "BFO 00:19:29 as recorded"
+   ],
+   "logon_term": true,
+   "group": "one timing + one frequency",
+   "headline": false
+  },
+  "D3": {
+   "label": "Sensitivity: 00:19:29 timing + both frequencies as recorded",
+   "data": [
+    "BTO 00:19:29",
+    "BFO both as recorded"
+   ],
+   "logon_term": true,
+   "group": "one timing + both frequencies",
+   "headline": false
+  },
+  "D4": {
+   "label": "Sensitivity: 00:19:29 timing + both frequencies, Holland offset",
+   "data": [
+    "BTO 00:19:29",
+    "BFO both, offset"
+   ],
+   "logon_term": true,
+   "group": "one timing + both frequencies",
+   "headline": false
+  },
+  "D5": {
+   "label": "Sensitivity: 00:19:29 timing + offset on 00:19:37 only (17 Hz floor)",
+   "data": [
+    "BTO 00:19:29",
+    "BFO 00:19:29 as recorded",
+    "BFO 00:19:37 offset"
+   ],
+   "logon_term": true,
+   "group": "one timing + both frequencies",
+   "headline": false
+  },
+  "D6": {
+   "label": "Sensitivity: 00:19:29 timing + offset on 00:19:37 only (zero floor)",
+   "data": [
+    "BTO 00:19:29",
+    "BFO 00:19:29 as recorded",
+    "BFO 00:19:37 offset, zero floor"
+   ],
+   "logon_term": true,
+   "group": "one timing + both frequencies",
+   "headline": false
+  }
+ },
+ "comparison_rule": "Log evidence is compared only between treatments of the same group (same data). Across groups the differences are not Bayes factors.",
+ "observations": {
+  "BTO 00:19:29": "18,400 us, sd 63 us (Ashton Table 6; Davey Table 10.1)",
+  "BTO 00:19:37": "18,380 us = 49,660 - 4 x 7,820 us (project derivation of Davey's correction), sd 43 us",
+  "BFO 00:19:29": "182 Hz",
+  "BFO 00:19:37": "-2 Hz",
+  "BFO sd": "4.32 Hz, same as the core (Pete's ruling 6 Nov); 7 Hz is a whole-chain sensitivity, not run here"
+ },
+ "priors": {
+  "logon_cause_fuel_exhaustion": 0.75,
+  "logon_cause_note": "Fuel exhaustion vs other cause = 0.75 / 0.25 (q = 1/3, agreed 3.2 wording, 1 Nov). Sensitivity 0.5 (engine configuration value).",
+  "logon_lag": "Gamma(8, 14.875 s), mean 119 s (ATSB 3 Dec 2015: APU about 60 s + terminal about 60 s); sd 42 s has no source. Sensitivity: two-stage APU N(60,15) + terminal N(60,10) s.",
+  "breakup_factor": "Removed from all weights (Pete's ruling: break-up belongs to settling). Peak speed and load columns are kept for settling.",
+  "piloted_pushover": "Engine prior kept as headline (Pete's 11 Oct ruling: rate U[6,500, 40,000] ft/min, load-factor floor U[-1.0, 0.8] g, hold U[0, 300] s). Variant: load-factor floor re-weighted to the case-informed crew-active downward acceleration.",
+  "lost_control_piloted": "Headline excludes piloted paths whose remainder was flown by the withdrawn uncontrolled law (finite latent:free_dynamics_started_s); variant includes them.",
+  "no_pilot_dive_kernel": "Case-informed three-degree-of-freedom kernel (dive_kernel.py) for alternate-power no-pilot descents and for late steep endings of normal-power glides. Normal-power glides before a steep ending replay Boeing simulations with the pre-registered v2 spread (k 1.5).",
+  "case_prior": "case-prior.json: hierarchical lognormal fit (case_prior.py) of the 8-s downward acceleration, time from onset to 15,000 ft/min and onset delay; class 'no effective crew input'. Test A passed (pre-registered).",
+  "kernel_evidence_ranges": "kernel_params.py: pre-onset descent 1,165-1,465 ft/min; arrest bottom 3,751-18,895 ft; pull-out load factor 1.62-2.55 g (capped at the CS-25.337 limit 2.5 g); climb angle 1.8-57.7 deg; bank in the pull 37.7-51.8 deg (all from Boeing alternate-power simulations); bank at the end of the build-up U[35, 100] deg (Boeing 39-44 deg; Adam Air 574 90-100 deg); arrest probability Beta(5, 2) (Boeing 4/4 arrested, Adam Air 0/1).",
+  "kernel_test_B": "Passed 15/16 (pre-registered); peak descent before the arrest is high for Boeing simulations 4, 6 and 10 (PIT 0.004-0.083).",
+  "thrust": "Left engine about 55 kN until its flame-out (alternate configuration); approximate.",
+  "importance_sampling": "No-pilot alternate-configuration rows with power loss before 00:19:29: M = 16 replicates. T15 from the prior; onset delay from 0.15 prior + 0.85 uniform window placing 00:19:29 between 20 s before and 2 s after the 15,000 ft/min point; a8 given T15 from a mixture (0.4 truncated prior, 0.3 lognormal median 0.85 g, 0.3 lognormal median 1.3 g, log-sd 0.2). Exact weights prior/proposal/M with the truncation terms; checked: mean weight per row 0.998-1.003.",
+  "other_family_code_6": "Paths whose descent began before fuel exhaustion with no intervention (anticipatory or fuel-cue onset, family code 6) are flown by the withdrawn uncontrolled law. Headline: excluded with the other withdrawn-law paths. Variant 'include lost-control piloted paths' includes them and reports their share.",
+  "kernel_fixes_after_review": "Review 7 Nov (review/review-2026-11-07.md): stall limit (clean-wing CLmax 1.4 falling to 0.9 above Mach 0.8), start at or below the sea handled, arrest before the end of the build-up freezes the planned plateau, first sea crossing searched on a 10-s grid in the glide replay, no arrest for steep endings starting within 2,000 ft of the arrest bottom. Test B re-run after the fixes: 15/16 (unchanged).",
+  "energy_caveat": "No-pilot alternate-configuration dives reach about Mach 1.0 and 9.1-9.3 GJ (median), at or above the top of the Boeing range (6.4-9.0 GJ, maximum EAS 573-623 kt). Pre-onset peak descent in Test B is biased high (PIT 0.008-0.083 in three of four simulations). Energy and the 4 GJ label are declared sensitivities.",
+  "prereg_deviation": "The pre-registration text says 10 T15 values; the test used 11. The cause of the difference is not established, and Test A was not re-run with a 10-case subset. With 11 cases, 1 value is outside the central 95 %. The deviation is declared and stays open."
+ },
+ "variants": [
+  "cause prior 0.5",
+  "two-stage log-on delay",
+  "include lost-control piloted paths",
+  "00:21:06 in-flight entertainment factor",
+  "piloted push-over from cases",
+  "onset delay log-uniform 10-300 s",
+  "arrest probability 0.2",
+  "arrest probability 0.9"
+ ],
+ "outcome_families": {
+  "high_energy_dive": "kinetic energy at impact >= 4 GJ (gap between Boeing normal 0.8-3.1 GJ and alternate 6.4-9.0 GJ)",
+  "fast_descent_at_00:19:37": "descent rate >= 10,000 ft/min at 00:19:37",
+  "note": "Labels only; Pete's family table (574a4caf) is not yet ruled."
+ },
+ "thinning": "Russian roulette on the largest normalised weight over all treatments and variants; rows below epsilon are kept with probability w/epsilon and their weight is divided by that probability (unbiased).",
+ "flight_path_angle_convention": "Hand-off: ground-relative flight-path angle at impact, positive in descent, from the kinetic energies (all rows one convention).",
+ "review": "Independent review 7 Nov: verdict no-go with one blocker (kernel paths not reaching the sea) and six majors; all addressed or declared before production."
+}
