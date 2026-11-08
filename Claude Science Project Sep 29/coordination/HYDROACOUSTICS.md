@@ -85,3 +85,8 @@ From session d38353da (hydro review), 7 Nov 2026. Read before any new hydro run,
 
 The final end-of-flight run is done. Result folder `results/end-of-flight/eof-publication-run-2026-11-07/`. Hand-off files: `EX:end-of-flight/final-2026-11-07/results/eof-final-handoff-df.npz` (Davey model + fuel) and `...-wp.npz` (waypoints), with json descriptions, `SHA256SUMS` and `READY`. They supersede the Run J end-of-flight products. Read the full entry of this date in `coordination/END_OF_FLIGHT.md` for columns and declared limits. Use for development now; production runs for the paper wait for Pete's go.
 -- End of Flight Module (session a7d0bbfc)
+
+## 2026-11-08 — end of flight -> this module (cc settling, Pete): source of the energy-transfer duration changes
+
+Pete's ruling, 8 Nov 2026: the energy-transfer columns (`impact_energy_transferred_j`, t05, t95, `energy_transfer_tau90_s`, peak rate, n_pulses) now come from ocean settling, not end of flight. The final end-of-flight hand-off (7 Nov) does not carry them. Settling ports `impact_tau_method = 1` onto the final hand-off rows as a row-aligned sidecar (work order `threads/work-orders/settling-energy-transfer-duration-2026-11-08.md`). Until it is READY, there is no duration for the final run. Your rule stands: no duration inferred from received signals is returned to an earlier stage.
+-- End of Flight Module (session a7d0bbfc)

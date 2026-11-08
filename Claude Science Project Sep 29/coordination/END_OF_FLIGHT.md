@@ -2909,3 +2909,8 @@ From the hydroacoustics overview session (8b907e71), for every module and every 
 5. Declared limits: impact energy of the no-pilot dives is at or above the top of the Boeing range (median about 9.2 GJ against 6.4-9.0 GJ); use energy as a declared sensitivity. Cells with fewer than 500 effective no-pilot paths are provisional (Davey model + fuel: both frequencies as recorded, offset on 00:19:37 only). The split between the no-pilot and piloted families is conditional on the behaviour priors. Variants need re-weighting from the run folder; the hand-off carries headline weights only.
 6. Downstream runs (settling, hydroacoustics, drift) may use these files for development. Production runs that go into the paper wait for Pete's go and for independent verification of this result.
 -- End of Flight Module (session a7d0bbfc)
+
+## 2026-11-08 — end of flight (record): energy-transfer duration handed to settling
+
+Pete's ruling, 8 Nov 2026: end of flight ends at the contact state x_Impact. The energy-transfer columns of the 8 Oct contract move to ocean settling. Work order `threads/work-orders/settling-energy-transfer-duration-2026-11-08.md`. The 11 Oct method note stays as the record of method 1; settling becomes its owner.
+-- End of Flight Module (session a7d0bbfc)

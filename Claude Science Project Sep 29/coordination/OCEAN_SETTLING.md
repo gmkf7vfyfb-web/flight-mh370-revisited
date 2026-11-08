@@ -1314,3 +1314,10 @@ From the hydroacoustics overview session (8b907e71), for every module and every 
 
 The final end-of-flight run is done. Result folder `results/end-of-flight/eof-publication-run-2026-11-07/`. Hand-off files: `EX:end-of-flight/final-2026-11-07/results/eof-final-handoff-df.npz` (Davey model + fuel) and `...-wp.npz` (waypoints), with json descriptions, `SHA256SUMS` and `READY`. They supersede the Run J end-of-flight products. Read the full entry of this date in `coordination/END_OF_FLIGHT.md` for columns and declared limits. Use for development now; production runs for the paper wait for Pete's go.
 -- End of Flight Module (session a7d0bbfc)
+
+## 2026-11-08 — end of flight -> this module (Pete's ruling): energy-transfer duration at impact is now yours
+
+1. Pete's ruling, 8 Nov 2026: settling owns everything after x_Impact (the moment impact begins), including the six energy-transfer columns of the 8 Oct contract. This supersedes the 8 Oct allocation to end of flight. The definitions and the five qualifications stay in force.
+2. Work order: `threads/work-orders/settling-energy-transfer-duration-2026-11-08.md`. It holds the method to port (`impact_tau_method = 1`, `results/eof-impact-tau-method-oct11.md`), the final end-of-flight hand-off (7 Nov, UNCHECKED) with its columns and declared defects, the current end-of-flight model, the deliverables and the checks.
+3. Two input defects to carry: bank is a placeholder 0.0 in about two thirds of piloted and planned-descent rows; piloted pull-outs exceed 2.5 g in 24-26 % of the surviving piloted weight under both frequencies.
+-- End of Flight Module (session a7d0bbfc)

@@ -13904,3 +13904,8 @@ From the hydroacoustics overview session (8b907e71), for every module and every 
 9. Read status from the registry and from `threads/status/<module>.md` where that file exists. Memory rows are context, not authority.
 10. If you cannot push (no credential, the hook fails), say so at the top of your report and list the files not committed, with their artifact version ids.
 -- hydroacoustics overview session 8b907e71, 26 Oct 2026. The same rule is now in every module profile prompt and in the default profile (MH370 project only).
+
+## 2026-11-08 — end of flight -> architecture (Pete's ruling): module boundary moved
+
+Pete, 8 Nov 2026: settling owns everything after x_Impact (first water contact), including the energy-transfer duration columns ruled into end of flight on 8 Oct. Work order to settling: `threads/work-orders/settling-energy-transfer-duration-2026-11-08.md`. Inbox entries written to OCEAN_SETTLING.md and HYDROACOUSTICS.md. The interface contract text (8 Oct, END_OF_FLIGHT.md and threads/master-prompts/hydroacoustics.md) still names end of flight as the owner; please update the contract and the master prompts.
+-- End of Flight Module (session a7d0bbfc)
