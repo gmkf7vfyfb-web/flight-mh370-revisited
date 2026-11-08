@@ -1,0 +1,270 @@
+{
+ "manifest_version": 1,
+ "run_id": "drift-extended-window-2026-11-08",
+ "module": "drift",
+ "commit": {
+  "branch": "hypothesis/debris-drift",
+  "sha": "6f75971ed034cb8f0056410c5ec12448c638c3e2",
+  "dirty": false,
+  "note": "Particle run with bin-arr (SHA-256 f86b14178c00df8b) at e56a39d; rescore with bin-rescore (e92dede5d8af397e) built from this commit. Arrivals (8.0 GB) on deskstar ~/mh370/drift/coef/runs/ext*-<model>-<k>/arrivals.bin."
+ },
+ "configuration": {
+  "values": {
+   "release_points": 84,
+   "ocean_models": "GLORYS12V1 0.494 m + ERA5; Copernicus GlobCurrent 0 m + ERA5; equal weight",
+   "ocean_samples": "16 per point, 32 south of 33.25 S (seeds 201-232)",
+   "particles_per_class": 6250,
+   "finds_window_end": "2017-01-30",
+   "detection_periods_headline": "before 2015-07-29; to 2016-02-29; to 2016-06-30; to 2017-01-30",
+   "level_draws": 16384,
+   "level_draw_seed": 31,
+   "level_sigma": 1.0,
+   "coast_segments": "6 find coasts + 10 Australian + 9 new western Indian Ocean",
+   "level_tiers": "find coasts and populated new SA/Mozambique coasts 1; other new coasts 0.3; Australia off unless stated",
+   "items_headline": "nine finds + Linga Linga, Nautilus Bay, Mpame; identity weights confirmed 1, almost certain 0.98, highly likely 0.9, likely 0.7",
+   "kernel_km": 50,
+   "delay": "exponential, mean 60 d"
+  }
+ },
+ "inputs": [
+  {
+   "registry_id": "core.ex.core-run-j",
+   "role": "core posterior accumulators (run-j-maps-accumulators.npz, D0/D1/D2)"
+  },
+  {
+   "registry_id": "drift.home.mh370-ocean-data",
+   "role": "ocean and wind forcing"
+  },
+  {
+   "registry_id": "drift.code.branch-hypothesis-debris-drift",
+   "role": "drift module code (e56a39d run, 6f75971 rescore)"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "README.md",
+   "bytes": 10830,
+   "sha256": "577d3a236bf9564eac60ad38c9e036a1f2eadab0261d0cc7fa8cfb12cc079dca",
+   "artifact_version_id": "7dc0e541-d913-4edd-898c-a95d0c1f8c78"
+  },
+  {
+   "path": "arrivals.py",
+   "bytes": 1300,
+   "sha256": "ec55f3840e86bf4e73ca7b215a189107df112056d447573c9e722a21dbbaffc8"
+  },
+  {
+   "path": "chain.log",
+   "bytes": 3627,
+   "sha256": "6198f7763d31a14a9f9a5d6bdc665cac6ae5ce8f3a0e9b00e10e3766ba031171"
+  },
+  {
+   "path": "check_scorer.py",
+   "bytes": 1641,
+   "sha256": "62a1025ec79e79bbc69b9c5b16ede1589337e1e88040581cdb37a9ead790eab1"
+  },
+  {
+   "path": "convergence-summary.csv",
+   "bytes": 530,
+   "sha256": "b64225cf2bb752b869de64f5fcd6f67ed9a6b2dbcd6895ba4c83d01ed42c9e8d"
+  },
+  {
+   "path": "draw_study.py",
+   "bytes": 1730,
+   "sha256": "8119d214b30aa8f8a480a76a7a3eaf05fb9f2b782a33f1a230b2d164ab8c8a7b"
+  },
+  {
+   "path": "drift-impact-latitude-density-2026-11-08-jon-caption.txt",
+   "bytes": 597,
+   "sha256": "a3649ea40d8c364882f05f22c60c75e4ea9db3964b64b52f5f9be188049e2ae0",
+   "artifact_version_id": "62fb1c79-4525-4301-84aa-ab047af69c76"
+  },
+  {
+   "path": "drift-impact-latitude-density-2026-11-08-jon-proof.pdf",
+   "bytes": 36068,
+   "sha256": "2f0f3f54d2dfb71d1cf3276f6acf50122c59fea242b8915308c1ad9050c9b6ba",
+   "artifact_version_id": "66cf9ed4-5ed0-475c-95a0-5c89a4ab19af"
+  },
+  {
+   "path": "drift-impact-latitude-density-2026-11-08-jon-word.png",
+   "bytes": 229676,
+   "sha256": "6e88dcddfefffb93e77b80ac17257a9e0797a182706cd6e823c295650fa1821c",
+   "artifact_version_id": "dbe6d7c0-203a-4201-965d-3e79ebdb96b5"
+  },
+  {
+   "path": "drift-impact-latitude-density-2026-11-08-jon.pdf",
+   "bytes": 19955,
+   "sha256": "ca557ede0fdbf3b30a6307b9f5f65c18886ed5a76af77cea45804a2749ff1d6d",
+   "artifact_version_id": "e83bbfc8-eab7-4f48-ac9b-8725ab4b6ad7"
+  },
+  {
+   "path": "drift-impact-latitude-density-2026-11-08.pdf",
+   "bytes": 26890,
+   "sha256": "93afa237d3dbf19cca1895cea921ea679505f8c1ef37499ae2703664e7cd915e",
+   "artifact_version_id": "655140bf-3d08-497b-8ec8-77c9e5c0c11c"
+  },
+  {
+   "path": "drift-impact-latitude-density-2026-11-08.png",
+   "bytes": 178009,
+   "sha256": "80c0bd1529871674ce893cd98e84a23b28a5e25851c61ebc753673922de3c795",
+   "artifact_version_id": "a36458b6-e6dd-4106-aad4-2ae5383f1154"
+  },
+  {
+   "path": "drift-impact-latitude-sensitivity-2026-11-08-jon-caption.txt",
+   "bytes": 518,
+   "sha256": "99b3316e6ded740ec9cdbc776dc58d6a14051f97cfb590f94330a5fff8221300",
+   "artifact_version_id": "916514c0-9f46-4e42-8e32-0373c49cd808"
+  },
+  {
+   "path": "drift-impact-latitude-sensitivity-2026-11-08-jon-proof.pdf",
+   "bytes": 49305,
+   "sha256": "12a751c97be507d8f7264f4496067f9152114acc9a1d9b4aac1508dea301fb1c",
+   "artifact_version_id": "090e87a0-c784-41a2-816f-f4cab06fa3d6"
+  },
+  {
+   "path": "drift-impact-latitude-sensitivity-2026-11-08-jon-word.png",
+   "bytes": 414069,
+   "sha256": "5fe564d320037884a95fc9f753d347bf90f8a9d1be538558eef54d0d310a2775",
+   "artifact_version_id": "54821d74-235e-4bf3-841f-20990c1d41c5"
+  },
+  {
+   "path": "drift-impact-latitude-sensitivity-2026-11-08-jon.pdf",
+   "bytes": 38413,
+   "sha256": "2774e72326ef43c851de895af51cf33be6057f4a998bb76bb73620c216e8f8ba",
+   "artifact_version_id": "d23faa9e-f1a0-435a-a453-cb040a6e5523"
+  },
+  {
+   "path": "drift-impact-latitude-sensitivity-2026-11-08.pdf",
+   "bytes": 43226,
+   "sha256": "42d62b2bbff6f8163fbf15f8c0b18796a5064613537de3742fcac912fa67a3c2",
+   "artifact_version_id": "1d07a75e-50b2-4355-84a0-6e534d048b16"
+  },
+  {
+   "path": "drift-impact-latitude-sensitivity-2026-11-08.png",
+   "bytes": 231344,
+   "sha256": "b3b6413f212db8093a4f1423533c328dcc8967be47197f1ad103cc89557d0f9b",
+   "artifact_version_id": "30e2270e-1c57-4d3e-9de3-9adc8a8d9ac0"
+  },
+  {
+   "path": "drift_coef.py",
+   "bytes": 4626,
+   "sha256": "9ad2caa2f641209d9c173605e4cdaf64751890b875e89af155221573d92985c3"
+  },
+  {
+   "path": "ext_analysis.py",
+   "bytes": 14100,
+   "sha256": "29fed5284ab73444b87f1e0083ccd41ae90199b1c36263b26e193fa67c867b86"
+  },
+  {
+   "path": "final-posterior-summaries.csv",
+   "bytes": 13546,
+   "sha256": "be52bd4dbf73f1ee6f8fe857a33fcc3b708bb167b5ec4e71f3b4c6968ecc8295",
+   "artifact_version_id": "0025c719-8366-4c53-a2ed-d77184256b6c"
+  },
+  {
+   "path": "final_analysis.py",
+   "bytes": 8049,
+   "sha256": "9178ef95c846cd5a1e548190d8457578ca1e99b117df609a98feb44461de73a4",
+   "artifact_version_id": "d4685459-64b1-4b67-9026-92064702f425"
+  },
+  {
+   "path": "final_figures.py",
+   "bytes": 10939,
+   "sha256": "3ae80bfbf9c0f81dbc888d1f4645b0263190d7d9291ca620e45f6d9ccadf1ab0",
+   "artifact_version_id": "29e4005e-cc31-4ee1-9815-3170b4f74735"
+  },
+  {
+   "path": "latitude-densities.csv",
+   "bytes": 11051,
+   "sha256": "adf2b620e6706e71a90cae94715051cb78d69d789c8725c76a97fcbfd46857d7"
+  },
+  {
+   "path": "level-draw-convergence.csv",
+   "bytes": 1179,
+   "sha256": "7712150a0c01403d6488dde0a03f2508ebb30ae7f0c8a2f8dde83dd4a5ffc07f",
+   "artifact_version_id": "a206fa09-17c3-4564-bbb4-5bb4ca731c92"
+  },
+  {
+   "path": "module-coefficients-256-draws-posterior-summaries.csv",
+   "bytes": 37589,
+   "sha256": "3e4a9fa0701959cf6d3fcbf75fab5910746fba22ff73ef3cf882b3927075ed84"
+  },
+  {
+   "path": "node-diagnostics.csv",
+   "bytes": 22089,
+   "sha256": "06fb0b3346380d40edc14215d0ab906220c4deb9daab58e4ef5fec11d9116f01"
+  },
+  {
+   "path": "old-window-two-runs.csv",
+   "bytes": 1325,
+   "sha256": "db859f3c2e3bfd37e1d6e2ea196f22487231e26528ac2249e933f159f1c6d8df",
+   "artifact_version_id": "58d40589-bd53-4f42-b90c-73809dd70dbe"
+  },
+  {
+   "path": "pool_compare.py",
+   "bytes": 3088,
+   "sha256": "dd2269e997a13ff6cd0b6a08cf80e0182ec1553d076451bcf4c28008e208cbc4"
+  },
+  {
+   "path": "posterior-predictive-finds.csv",
+   "bytes": 4051,
+   "sha256": "b8d92965d296199256038ffdadc7bdf05425de4217e12b25547e6cd6c0196d8d"
+  },
+  {
+   "path": "rescore-configurations.tgz",
+   "bytes": 769514,
+   "sha256": "b111b417f42f30924ee86695a01dde4a15dc50da7ed4972c74c90881a3f61fd9"
+  },
+  {
+   "path": "rescore_analysis.py",
+   "bytes": 10785,
+   "sha256": "29423ec5355842af7699ca6f6116a0aed44c2d14025d52a0c0bcafc458e47ee2",
+   "artifact_version_id": "29b0f647-f60b-4313-912b-ac08082cd14b"
+  },
+  {
+   "path": "rescore_block.rs",
+   "bytes": 8772,
+   "sha256": "fc3fa58d400f6824a4927a5cf97902d48bb8595744d4cc679871909913042ceb"
+  },
+  {
+   "path": "rescore_cfg.py",
+   "bytes": 2952,
+   "sha256": "934e5ae591b855674cade4489b9ef071c5c913211b30146597957cd880bf67b5"
+  },
+  {
+   "path": "run-to-run-node-differences.csv",
+   "bytes": 5863,
+   "sha256": "c8ebce59758b00684e6f674edb7f13936ff306c31fd9440cd6002e84d56965ec"
+  },
+  {
+   "path": "validation-offline-vs-module.csv",
+   "bytes": 484,
+   "sha256": "6b5941c2ef6e5f4b28381c438704a60e984695ceffc23dff5148bb267502ccf6"
+  },
+  {
+   "path": "validation-rescore-vs-module.csv",
+   "bytes": 263,
+   "sha256": "3be212171ea0f53bd39a6fdad8aa265363318d0040fa1fd84108cffd2e109934",
+   "artifact_version_id": "cd94c71c-be56-4fe9-843d-cf201a56b298"
+  },
+  {
+   "path": "EX:drift/extended-window-2026-11-08/ext-run-coefficients.tgz",
+   "bytes": 121842599,
+   "sha256": "88a862ec0b16a3910477f0ac11218eebed8696f5974cd916d6d869d12c97da68"
+  },
+  {
+   "path": "EX:drift/extended-window-2026-11-08/rescore-coefficients.tgz",
+   "bytes": 368714489,
+   "sha256": "caf0df1fb3bdc920dba650d1da33404bf348c68c8639322ad88a322861f3471f"
+  }
+ ],
+ "thread_id": "9b745c65-d925-4513-bd0c-13910d873e06",
+ "status": "CURRENT_WITH_CAVEATS",
+ "supersedes": [
+  "results/drift-convergence-2026-11-07 (drift shifts at 256 level draws)"
+ ],
+ "defects": [
+  "Monte Carlo uncertainty of the mean about 0.2 deg (particle halves); GLORYS12 alone +0.50 deg versus GlobCurrent alone -0.16 deg"
+ ],
+ "created_utc": "2026-11-08T22:38:50Z",
+ "description": "Extended-window drift run (finds to 30 Jan 2017) with every beaching stored, offline rescoring on all western Indian Ocean coasts with four detection periods and twelve identity-weighted items, 16384 level draws. Headline: drift moves the core mean 0.15 deg south."
+}
