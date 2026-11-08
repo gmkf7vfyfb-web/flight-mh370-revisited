@@ -237,7 +237,7 @@ Author–date patterns appearing three or more times in project prose that match
 | Casey 2014 | 7 | not yet assessed |
 | Orr 1976 | 7 | not yet assessed |
 | JASDF 2019 | 7 | check: an organisation abbreviation in prose |
-| Vance 2018 | 6 | not yet assessed |
+| Vance 2018 | 6 | bib key vance2018 (added 8 Nov 2026); copy not held; VERIFY publisher and ISBN |
 | GA 2017 | 6 | Geoscience Australia 2017 — bathymetry survey data, citable |
 | Brocher 1995 | 6 | not yet assessed |
 | Leroy 2016 | 6 | not yet assessed |
@@ -245,7 +245,7 @@ Author–date patterns appearing three or more times in project prose that match
 | Shukla 2018 | 6 | not yet assessed |
 | FSST 2021 | 6 | not yet assessed |
 | May-June 2003 | 5 | not yet assessed |
-| Lyne 2024 | 5 | not yet assessed |
+| Lyne 2024 | 5 | bib key lyne2024 (added 8 Nov 2026); title and DOI confirmed; issue date VERIFY |
 | LaCasce 2008 | 5 | statistics of Lagrangian dispersion — real missing entry |
 | DONE 2026 | 5 | not yet assessed |
 | March-April 2014 | 5 | not yet assessed |
