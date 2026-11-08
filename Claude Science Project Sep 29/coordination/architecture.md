@@ -13909,3 +13909,13 @@ From the hydroacoustics overview session (8b907e71), for every module and every 
 
 Pete, 8 Nov 2026: settling owns everything after x_Impact (first water contact), including the energy-transfer duration columns ruled into end of flight on 8 Oct. Work order to settling: `threads/work-orders/settling-energy-transfer-duration-2026-11-08.md`. Inbox entries written to OCEAN_SETTLING.md and HYDROACOUSTICS.md. The interface contract text (8 Oct, END_OF_FLIGHT.md and threads/master-prompts/hydroacoustics.md) still names end of flight as the owner; please update the contract and the master prompts.
 -- End of Flight Module (session a7d0bbfc)
+
+## 2026-11-08 22:30Z — ocean settling -> architecture (cc end of flight, hydroacoustics, Pete): ownership change of the energy-transfer duration DONE (work order settling-energy-transfer-duration-2026-11-08)
+
+1. Done: `impact_tau_method = 1` ported unchanged from `results/eof-impact-tau-method-oct11.md` and computed for all 501,102 + 500,198 rows of the final end-of-flight hand-off (SHA-256 and READY checked). Sidecars on the exchange: `EX:settling/energy-transfer-m1-2026-11-08/`. Result folder `results/settling/energy-transfer-m1-2026-11-08/` (manifest UNCHECKED; independent verifier wanted). Unit tests 11 pass (note magnitudes, formulas, NaN rule, reproducible draws, row alignment on both full sidecars).
+2. Path note: the work order named `results/ocean-settling/<run id>/`; `registry/check_project.py` accepts only module names from `modules.json`, so the folder is `results/settling/`.
+3. One ambiguity in the 11 Oct note, settled inside the module: tau90 = t95 - t05 (contract definition), with the note's literal log-blend of tau90 kept as a column; the two differ by at most 0.13 %.
+4. Source check (work order section 2 item 3): NACA Report 1347, RM SL9H05a, RM SL8K18 and NASA TM X-2445 retrieved from NTRS and read. Upper edge 3.0 g supported; lower edge 0.75 g narrower than the Report 1347 transport range (recomputed averages 0.45-2.64 g; 10 % of damaged-model runs and 49 % of undamaged-model runs below 0.75 g). Range NOT changed; sensitivity with 0.45 g reported; decision put to Pete. The 11 Oct note's "1.7 g" for RM SL9H05a is "about 1 1/2 g" in the report. RM SL55K08 (Boeing 707): not retrieved — ask Pete (ledger row S01).
+5. Coverage gap declared: shallow entries above the ditching-test speeds carry 9-26 % of the weight (theta <= 10 deg and v > 100 m/s, by treatment).
+6. No core change. Nothing touches filter.rs, config.rs, main.rs or crates/hypothesis. The Rust columns in hypotheses/settling can follow with the same formulas and the same counter-based draw rule.
+-- Ocean Settling Module (session a7d0bbfc), 8 Nov 2026

@@ -1,0 +1,64 @@
+{
+ "description": "Row-aligned sidecar to the final end-of-flight hand-off: mechanical energy-transfer duration at water entry, impact_tau_method = 1.",
+ "owner": "ocean settling (Pete's ruling 8 Nov 2026)",
+ "route_model": "Davey model + fuel",
+ "route_code": 1,
+ "rows": 501102,
+ "row_order": "identical to the hand-off file; row_index = 0-based hand-off row",
+ "handoff_file": "EX:end-of-flight/final-2026-11-07/results/eof-final-handoff-df.npz",
+ "handoff_sha256": "11c4753e3bc43356c77793917cdf9344998256c936fff500a67c652782cc7d39",
+ "method_note": "results/settling/energy-transfer-m1-2026-11-08/settling-energy-transfer-method.md (supersedes as owner's note results/eof-impact-tau-method-oct11.md, which is unchanged)",
+ "columns": {
+  "row_index": "int32",
+  "seed": "int16",
+  "impact_energy_transferred_j": "float64",
+  "energy_transfer_t05_s": "float32",
+  "energy_transfer_t95_s": "float32",
+  "energy_transfer_tau90_s": "float32",
+  "energy_transfer_peak_rate_w": "float32",
+  "energy_transfer_n_pulses": "float32",
+  "kinetic_energy_at_contact_j": "float64",
+  "impact_tau_method": "int8",
+  "w_steep": "float32",
+  "a_bar_mps2": "float64",
+  "l_eff_m": "float64",
+  "bank_assigned": "int8",
+  "contact_speed_mps": "float32",
+  "energy_transfer_tau90_logblend_s": "float32",
+  "w_steep_band5_45": "float32",
+  "energy_transfer_t05_s_band5_45": "float32",
+  "energy_transfer_t95_s_band5_45": "float32",
+  "energy_transfer_tau90_s_band5_45": "float32",
+  "energy_transfer_peak_rate_w_band5_45": "float32"
+ },
+ "parameters": {
+  "a_bar_g": [
+   0.75,
+   3.0
+  ],
+  "l_eff_fraction_of_63.7_m": [
+   0.5,
+   1.0
+  ],
+  "blend_band_deg": [
+   10.0,
+   30.0
+  ],
+  "sensitivity_band_deg": [
+   5.0,
+   45.0
+  ],
+  "rng": "splitmix64 counter hash of (salt 0x5E771E0000000001, route_code, seed, row_index, k)"
+ },
+ "conventions": [
+  "energy_transfer_tau90_s = t95 - t05 (contract of 8 Oct). energy_transfer_tau90_logblend_s is the note's literal log-linear blend of tau90; it differs from t95 - t05 only for 10 < theta < 30 deg.",
+  "impact_energy_transferred_j = contact kinetic energy (declared upper bound).",
+  "energy_transfer_n_pulses = 1 (declared single-pulse model); stored as float so that NaN can mark a row not computed.",
+  "NaN means not computed. No value is filled.",
+  "bank_assigned = 1: family_code 2 or 3 with bank_deg == 0.0 (placeholder bank). Method 1 does not use bank.",
+  "Columns with suffix _band5_45: band-edge sensitivity, same draws, blend band 5-45 deg.",
+  "Contact speed v = sqrt(2 KE / m): ground-relative, wind included, ocean current not subtracted; surface is ISA sea level."
+ ],
+ "weights": "Not carried. Use log_weight_<treatment> from the hand-off row of the same index.",
+ "status": "UNCHECKED"
+}

@@ -1,0 +1,277 @@
+{
+ "manifest_version": 1,
+ "run_id": "energy-transfer-m1-2026-11-08",
+ "module": "settling",
+ "commit": {
+  "branch": "claude-science-sep29",
+  "sha": "6baa90525881ae9a90e75f357de43a5f79d7e8c6",
+  "dirty": true,
+  "note": "Run code is in code/ of this folder (committed with the result); sha is the branch head when the run started."
+ },
+ "configuration": {
+  "values": {
+   "impact_tau_method": 1,
+   "a_bar_g": [
+    0.75,
+    3.0
+   ],
+   "l_eff_fraction_of_63_7_m": [
+    0.5,
+    1.0
+   ],
+   "blend_band_deg": [
+    10,
+    30
+   ],
+   "sensitivity_band_deg": [
+    5,
+    45
+   ],
+   "sensitivity_a_bar_lower_g": 0.45,
+   "rng": "splitmix64 counter hash of (salt 0x5E771E0000000001, route_code, seed, row_index, k)",
+   "route_codes": {
+    "df": 1,
+    "wp": 2
+   },
+   "tau90_definition": "t95 - t05 (contract of 8 Oct); log-blend of tau90 in energy_transfer_tau90_logblend_s",
+   "treatments_summarised": [
+    "D7",
+    "D9",
+    "D10",
+    "D13",
+    "D0",
+    "D8",
+    "D14",
+    "D11",
+    "D12"
+   ]
+  }
+ },
+ "inputs": [
+  {
+   "registry_id": "eof.res.eof-impact-tau-method-oct11_md",
+   "role": "method authority (11 Oct note), ported unchanged"
+  }
+ ],
+ "inputs_unregistered": [
+  {
+   "path": "EX:end-of-flight/final-2026-11-07/results/eof-final-handoff-df.npz",
+   "sha256": "11c4753e3bc43356c77793917cdf9344998256c936fff500a67c652782cc7d39",
+   "role": "final end-of-flight hand-off, Davey model + fuel (501,102 rows); result folder results/end-of-flight/eof-publication-run-2026-11-07/ (UNCHECKED, no registry entry yet)"
+  },
+  {
+   "path": "EX:end-of-flight/final-2026-11-07/results/eof-final-handoff-wp.npz",
+   "sha256": "c7db0bbf68c0b2ad1872c402dfe0c155b0ab93cc04b0ed21bebe2f027d089acb",
+   "role": "final end-of-flight hand-off, waypoints (500,198 rows)"
+  },
+  {
+   "path": "EX:settling/energy-transfer-m1-2026-11-08/sources/",
+   "role": "NACA Report 1347, RM SL9H05a, RM SL8K18, NASA TM X-2445 (NTRS public copies) for the a_bar source check"
+  }
+ ],
+ "thread_id": "a7d0bbfc-01e1-46d3-8e88-6e53a430ec88",
+ "status": "UNCHECKED",
+ "created_utc": "2026-11-08T22:20Z",
+ "description": "Settling: energy-transfer duration at water entry (impact_tau_method 1) for all rows of both final end-of-flight hand-offs; summaries D7/D9/D10; NACA source check of a_bar.",
+ "defects": [
+  "a_bar lower edge 0.75 g is narrower than the NACA Report 1347 transport range (0.45-2.64 g); open for Pete; sensitivity reported",
+  "shallow regime extrapolated above the ditching-test speeds (29-84 m/s): 9-26 % of weight has theta <= 10 deg and v > 100 m/s",
+  "NACA RM SL55K08 (Boeing 707) not retrieved \u2014 ask Pete"
+ ],
+ "footnote": {
+  "source": "final end-of-flight hand-off 7 Nov 2026 (UNCHECKED)",
+  "treatments": "D7, D9, D10 headline; all nine in summary CSV",
+  "provisional_cells": "D9 no pilot ESS 156 (df), 261 (wp); D11 no pilot 490 (df)",
+  "breakup": "not applied"
+ },
+ "outputs": [
+  {
+   "path": "code/abar_sensitivity.py",
+   "bytes": 2252,
+   "sha256": "44b91c257a7e868e006cdf063c9352c433b8f3d3cb18e596400f5870277a1024",
+   "artifact_version_id": "9efb1a5c-11a1-460a-94c5-e09bd5af23a5"
+  },
+  {
+   "path": "code/build_sidecars.py",
+   "bytes": 3904,
+   "sha256": "3d9e2f9c1d9fd83f4e8d451e68767e1b07b4b87f21400a85b844940c4d1c1da7",
+   "artifact_version_id": "f0ba5d64-88b1-4645-9315-62a120844556"
+  },
+  {
+   "path": "code/make_figures.py",
+   "bytes": 10412,
+   "sha256": "aeb95168813779bae5b2903abec51c1de7c899a0a3e134a43b323eb757009238",
+   "artifact_version_id": "5d81a035-8407-4279-a438-157a8c3b295d"
+  },
+  {
+   "path": "code/naca_tr1347_transport_runs.py",
+   "bytes": 8011,
+   "sha256": "458c363486afc9f2d07d734e607c6310c9c16c51b274ea95fe2deab28466fe0f",
+   "artifact_version_id": "d58e3b44-35af-4258-a2a7-4331dd816bcc"
+  },
+  {
+   "path": "code/settling_energy_transfer_m1.py",
+   "bytes": 9077,
+   "sha256": "462e9a363c100ec6aafce73a8a043860e753e7060de2e1c0620afd1c70d12bb0",
+   "artifact_version_id": "2f9cd3a5-9245-4eb0-8b62-cbc391b1cc24"
+  },
+  {
+   "path": "code/summarise.py",
+   "bytes": 3718,
+   "sha256": "da095e88b570573bb01cd2e5f52d3390a61ced2735ed139ab9c852675dde48e4",
+   "artifact_version_id": "99d72fe9-a3a2-40e2-b382-a14637219df3"
+  },
+  {
+   "path": "code/test_settling_energy_transfer_m1.py",
+   "bytes": 6722,
+   "sha256": "470697a072f1e88fdaf52430d35b76d6d44d81e08e05f2afceffe92474de02c1",
+   "artifact_version_id": "32d511b2-b6a1-4f47-9fc9-32a7889b71c5"
+  },
+  {
+   "path": "naca-ditching-average-deceleration.csv",
+   "bytes": 8718,
+   "sha256": "8bb83e8adf50da1a47c3b3777b2e0bbe279fec42d568b351b353717e7cafe67f",
+   "artifact_version_id": "bba1bf99-abd7-442c-a775-c62b9bd4099e"
+  },
+  {
+   "path": "settling-abar-source-check-caption.txt",
+   "bytes": 654,
+   "sha256": "b585cf21238a000f7eeed5d51f98d8a33cb6c06c371aff1dbf35b531d28ae27f",
+   "artifact_version_id": "4b34c7a1-dc2a-4f11-ba9d-5935ca8b8b58"
+  },
+  {
+   "path": "settling-abar-source-check-proof.png",
+   "bytes": 226183,
+   "sha256": "cb558d9a4b4a2de5e741910a4dbd39e6280913e463778dcbe7bdd9615c3a8d8d",
+   "artifact_version_id": "fefed0d0-dbc8-4cdc-9681-9440338c3e80"
+  },
+  {
+   "path": "settling-abar-source-check-word.png",
+   "bytes": 197955,
+   "sha256": "80721c4b596b10f66281c537bd79c38956522081e4a0a137f5513c2471e217b9",
+   "artifact_version_id": "5b17aad8-37fb-4300-a981-fc5c90f34250"
+  },
+  {
+   "path": "settling-abar-source-check-working.png",
+   "bytes": 89640,
+   "sha256": "dbdc5543df85ea400b65f2a9a4c5433c2c8832f1be2bf706e236e9cbc216d42f",
+   "artifact_version_id": "7e5fdad2-7e09-45ba-a325-b512b93a3fa8"
+  },
+  {
+   "path": "settling-abar-source-check.pdf",
+   "bytes": 19147,
+   "sha256": "492cc49381955c797cce94907f165a874757f99adcdb24662ea32fdaf4dc5212",
+   "artifact_version_id": "3a117eaa-b466-436f-982d-0e5434d54f75"
+  },
+  {
+   "path": "settling-energy-transfer-abar-sensitivity.csv",
+   "bytes": 1386,
+   "sha256": "dde55ecd69f30843c8a98bba297cf18d6a8d026907861f48ea5952c384589fba",
+   "artifact_version_id": "e0a33a6b-ac0c-4efe-b87d-10c562673d9d"
+  },
+  {
+   "path": "settling-energy-transfer-m1-df.json",
+   "bytes": 2743,
+   "sha256": "85aaad7cba3ac64a087ec6e6dc1dea8ae3d0775bc590e24427a322684685726b",
+   "artifact_version_id": "5a39cb30-7fe3-4678-bcd8-cf0b5cd274dd"
+  },
+  {
+   "path": "settling-energy-transfer-m1-wp.json",
+   "bytes": 2734,
+   "sha256": "027417e88595eea0e9275be59a5cbbd4801a86bccbf325cb1fcb5d4f105d88f9",
+   "artifact_version_id": "11c5ee59-8225-46d8-b45d-376b36c4f7f2"
+  },
+  {
+   "path": "settling-energy-transfer-method.md",
+   "bytes": 22417,
+   "sha256": "6e03c397b25828875c8282e57499b0461cff9f6165b1797e40ae1763a00ba93f",
+   "artifact_version_id": "346af404-bbe0-4de3-9a38-f87bd5272ac8"
+  },
+  {
+   "path": "settling-energy-transfer-summary.csv",
+   "bytes": 29741,
+   "sha256": "c37699796c55e399481af238da645e57dfa8043b80091e08db7455675c4f1516",
+   "artifact_version_id": "f4672d03-a815-4d60-91b0-69f77177598f"
+  },
+  {
+   "path": "settling-tau90-cdf-caption.txt",
+   "bytes": 813,
+   "sha256": "dc97abccc687c19d94970028e1446e784a50b92f3451fd24c442888c92fe01ef",
+   "artifact_version_id": "6fe03835-2424-408c-8ba7-c5c6783d4de1"
+  },
+  {
+   "path": "settling-tau90-cdf-proof.png",
+   "bytes": 304451,
+   "sha256": "d82c8dc906454cf3e3c5d21aeb4c10e5a066f44a96aab18a1c7066e9b9c367c7",
+   "artifact_version_id": "e059e0b0-046a-4738-a3e8-a0aa11f2d89d"
+  },
+  {
+   "path": "settling-tau90-cdf-word.png",
+   "bytes": 313028,
+   "sha256": "8f8799516dd956133ea5a3dae49f0aa676176479944200cf2d55baa703917c1f",
+   "artifact_version_id": "a4c0acbb-28e3-4581-b323-79133b2df957"
+  },
+  {
+   "path": "settling-tau90-cdf-working.png",
+   "bytes": 141086,
+   "sha256": "3a74729ea4264501d7abee0a45592e0b925bd48b5b2610bc499257f93ee9dff3",
+   "artifact_version_id": "eac15eb5-39b8-4a9a-81e4-0616bff44666"
+  },
+  {
+   "path": "settling-tau90-cdf.pdf",
+   "bytes": 32391,
+   "sha256": "6588eccdfc83b2a7d2353f84645cd28b33fe2aa47c83b30182039c9bdec8e4c0",
+   "artifact_version_id": "48bbcfc2-ffb4-4bed-8709-6ae5e86a03e6"
+  },
+  {
+   "path": "EX:settling/energy-transfer-m1-2026-11-08/settling-energy-transfer-m1-df.npz",
+   "bytes": 31811734,
+   "sha256": "e72e393aa47e53b816d629b1bb6d500cd5aeee8cc3c565f527e538e61077da59"
+  },
+  {
+   "path": "EX:settling/energy-transfer-m1-2026-11-08/settling-energy-transfer-m1-wp.npz",
+   "bytes": 31908841,
+   "sha256": "2dc17b01b58a8f0c7bc81788905ed12a73a4e72fa4aecf1158b9d91bab6bf6bb"
+  },
+  {
+   "path": "EX:settling/energy-transfer-m1-2026-11-08/settling-energy-transfer-m1-df.json",
+   "bytes": 2743,
+   "sha256": "85aaad7cba3ac64a087ec6e6dc1dea8ae3d0775bc590e24427a322684685726b"
+  },
+  {
+   "path": "EX:settling/energy-transfer-m1-2026-11-08/settling-energy-transfer-m1-wp.json",
+   "bytes": 2734,
+   "sha256": "027417e88595eea0e9275be59a5cbbd4801a86bccbf325cb1fcb5d4f105d88f9"
+  },
+  {
+   "path": "EX:settling/energy-transfer-m1-2026-11-08/sources/NACA-RM-SL8K18_Fisher-Morris-1948.pdf",
+   "bytes": 1325903,
+   "sha256": "3bc0b64f90801661ef92804e93b8e293acf265f780f8243bca213c10e082771c"
+  },
+  {
+   "path": "EX:settling/energy-transfer-m1-2026-11-08/sources/NACA-RM-SL9H05a_Fisher-Thompson-1949.pdf",
+   "bytes": 6709014,
+   "sha256": "1b322fedc3b88a1c9b8b7ed0ec76a340ff4732da07fd62b3e4c313645ddb381e"
+  },
+  {
+   "path": "EX:settling/energy-transfer-m1-2026-11-08/sources/NACA-TR-1347_Fisher-Hoffman-1958.pdf",
+   "bytes": 21945022,
+   "sha256": "c5ce92f91ff889576fc627b937b08fedb673dfa51318108cdeef228c0a1d6a49"
+  },
+  {
+   "path": "EX:settling/energy-transfer-m1-2026-11-08/sources/NASA-TM-X-2445_Thompson-1972.pdf",
+   "bytes": 33997234,
+   "sha256": "c0b107caaa37b6ae2658098dcfafb4627eb02741c034fd4800a6197119b13968"
+  },
+  {
+   "path": "EX:settling/energy-transfer-m1-2026-11-08/READY",
+   "bytes": 312,
+   "sha256": "2a48b4f0edb8d5e68c7b7dce3815a71e88ad27a2806c7bcfc225961429fe8933"
+  },
+  {
+   "path": "EX:settling/energy-transfer-m1-2026-11-08/SHA256SUMS",
+   "bytes": 851,
+   "sha256": "edc00146861c510da058d995dea69b4320b3288220e168c9e91eeff75ab071e0"
+  }
+ ]
+}
