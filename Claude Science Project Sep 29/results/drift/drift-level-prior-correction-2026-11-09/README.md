@@ -139,3 +139,21 @@ Review report: reviewer artifact eb3de6fb (own scorer written from the Rust sour
   0.4–1.0°); the tension table clips d ≤ 0 and then reports p ≈ 0 (5.35 / 5.47 σ) or p = 1 — such rows are undefined; the 1-D drift curve interpolates
   over node latitude with 14 tied latitudes (on-arc and ±50 NM points), so results depend on tie order; the unrelated-debris background uses the core
   posterior, so drift alone is not fully independent of the core; Nautilus Bay and Mpame each move the mean north (+0.13°, +0.22° singly).
+
+## 6. Wrong core distribution in all drift work to date (found 9 Nov 2026)
+
+Every drift combination and tension statistic so far, from October to section 5 above, used the end-of-flight accumulator
+`run-j-maps-accumulators.npz` key `H_D0_all` (17 Oct end of flight). That is the **evidence-combined Run J mixture: 99.87 % waypoint/airway family**
+(strata weights 0.99868 / 0.00094 / 0.00023 / 0.00015). Pete ruled on 31 Oct 2026 that Results do not use the evidence-combined families; the main
+configuration is the Davey model + fuel model. The ruled input is the final 7 Nov end of flight, `end-of-flight/final-2026-11-07/results/eof-final-handoff-df.npz`.
+
+Eight level-draw seeds of 16384 (`drift-vs-three-cores-eight-seeds.csv`; impact latitudes, treatment D0 = log-on event only, no 00:19 measurement):
+
+| Core | Core mean | Combined mean (range) | Shift (range) | Combined N of 33° S | ln S | p (σ) |
+|---|---|---|---|---|---|---|
+| **Davey model + fuel, final end of flight** | −35.94 | −34.52 (−34.78 to −34.26) | +1.43 (+1.17 to +1.68) | 23 % | −0.82 | 0.134 (1.5) |
+| Waypoint/airway, final end of flight | −36.47 | −35.45 | +1.01 (+0.84 to +1.19) | 14 % | −1.38 | 0.104 (1.6) |
+| Evidence-combined Run J (used so far) | −36.72 | −35.81 | +0.91 (+0.75 to +1.08) | 9 % | −1.45 | 0.089 (1.7) |
+
+Drift alone is nearly unchanged (median −30.2 to −30.25 for all three; the core enters only through the unrelated-debris background).
+The 1-D drift curve now averages the on-arc and ±50 NM points at each latitude (no tie-order dependence). Ocean-sample error is not included.
