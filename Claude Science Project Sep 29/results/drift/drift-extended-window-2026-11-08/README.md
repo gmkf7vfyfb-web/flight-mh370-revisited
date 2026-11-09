@@ -1,3 +1,7 @@
+> **Superseded in part (9 Nov 2026).** The transport run, arrivals and rescore coefficients in this folder are valid. All rescored results, the
+> headline (−0.15°), both figures and the conclusions about earlier northward shifts are superseded: the offline rescoring used detection levels
+> constant in time instead of the module prior (0.1 / 0.5 / 1). See `../drift-level-prior-correction-2026-11-09/README.md`. Corrected headline: +0.82°.
+
 # Ocean drift: extended-window run and offline rescoring (8 November 2026)
 
 ## Summary
