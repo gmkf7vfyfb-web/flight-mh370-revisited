@@ -208,3 +208,22 @@ B = A plus the combined density; C = satellite and flight data, drift standalone
 
 The shift of the mean from this smoothed one-dimensional product is +1.15° (+0.23° without Mossel Bay). The per-point reweighting of the two-dimensional core samples in section 6 gives +1.43° (eight draw seeds +1.17° to +1.68°),
 N of 33° S 23 %; the two methods differ by 0.28°, inside the seed range. The jagged outline of the combined curve north of 33° S is sampling noise in the core (few samples there), multiplied by the smooth drift likelihood.
+
+### 8a. Update (9 Nov 2026, later): legend order, dash key, figure F, Mossel Bay mode shift
+
+- Legend order in figures A, B and E: satellite and flight data; GlobCurrent only; GLORYS12 only; two ocean models; two ocean models with no finds on Australian coasts; two ocean models excluding Mossel Bay.
+  The long-dash key (excluding Mossel Bay) is now drawn with legend handles of 5.5 font heights so that two full dashes show; the earlier key looked like a dash-dot line.
+- The curve excluding Mossel Bay uses no Australian term (Australian coasts off, as in the headline). Only the dotted curve uses the absence of finds on Australian coasts (detection on populated Australian coasts 0.25 of that on the find coasts). Captions now say so.
+- New scoring pass (`smooth_stage1.py au025nomb`, 16 seeds × 16384 draws): excluding Mossel Bay together with the Australian term. The five earlier cases reproduce identically after adding it (same bootstrap stream).
+- Figure F: drift curves with and without the Mossel Bay item, each with and without the Australian term.
+
+| Drift model (two ocean models) | Median (° S) | 5–95 % | Mean | North of 33° S | Tension σ (5–95 %) |
+|---|---|---|---|---|---|
+| Standalone | 30.0 | 29.6–30.4 | 30.3 | 74 % | 1.6 (1.5–1.7) |
+| No finds on Australian coasts | 29.5 | 29.1–29.8 | 29.7 | 80 % | 1.8 (1.7–1.8) |
+| Excluding Mossel Bay | 32.9 | 32.1–33.6 | 32.4 | 51 % | 0.8 (0.0–1.2) |
+| Excluding Mossel Bay, no finds on Australian coasts | 31.4 | 30.8–32.0 | 31.3 | 63 % | 1.4 (1.3–1.6) |
+
+Position of the highest point: standalone 29.5° S (0.109 per degree; second maximum 34.0° S, 0.068); excluding Mossel Bay 34.8° S (0.104; the northern part becomes a plateau of 0.068 at 29.7° S);
+excluding Mossel Bay with the Australian term 34.3° S (0.101). The highest point therefore moves 5.3° south when the single item is removed, while the median moves 2.9° and the mean 2.1°,
+because without that item the distribution is broad (density ratio 35° S : 30° S is 1.52 without it and 0.57 with it). The Australian term moves the median north by 0.5° with the item and 1.5° without it.

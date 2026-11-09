@@ -2,7 +2,7 @@
 per ocean sample (environment) the value lm = ln mean_over_draws exp(sum over items of ln term), for each ocean model. The drift log-likelihood at a point is
 then ln mean_over_environments exp(lm), so bootstrap over environments, halves and any number of seeds need no further scoring.
 Items: twelve identity-weighted non-circular items (mixture with unrelated debris whose background uses the Davey model + fuel core, D0). Ramp prior 0.1/0.5/1/1.
-Usage: LEVELS=ramp python smooth_stage1.py CONFIG SEED [SEED ...]   CONFIG in head | au025 | butmb ; VALIDATE=1 compares with rescore_analysis.score."""
+Usage: LEVELS=ramp python smooth_stage1.py CONFIG SEED [SEED ...]   CONFIG in head | au025 | butmb | au025nomb ; VALIDATE=1 compares with rescore_analysis.score."""
 import sys, os, time, resource, numpy as np
 CFG = sys.argv[1]; SEEDS = [int(s) for s in sys.argv[2:]]
 sys.argv = ['x', 'rescore/x', '/Users/pete/Downloads/mh370-exchange/end-of-flight/run-j/summary/run-j-maps-accumulators.npz', 'arcm.npz', 'audit.csv', 'res-smooth']
@@ -14,7 +14,8 @@ ids = [f['id'] for f in meta.finds]
 NINE = [f for f in ids if f.startswith('item:') and aud.loc[f.split(':')[1], 'stringent_nine'] == 'yes']
 HI = NINE + [f'item:{o}' for o in ('linga-linga-vertical-stabilizer', 'nautilus-bay-right-aileron', 'mpame-right-flap-fairing') if f'item:{o}' in ids]
 PW = {f: GRADE_P[aud.loc[f.split(':')[1], 'official_classification']] for f in HI}; MB = 'item:mossel-bay-engine-cowling-roy'
-CONF = {'head': (HI, mu_tiers(meta)), 'au025': (HI, mu_tiers(meta, au=ruled_au(0.25))), 'butmb': ([x for x in HI if x != MB], mu_tiers(meta))}
+CONF = {'head': (HI, mu_tiers(meta)), 'au025': (HI, mu_tiers(meta, au=ruled_au(0.25))), 'butmb': ([x for x in HI if x != MB], mu_tiers(meta)),
+        'au025nomb': ([x for x in HI if x != MB], mu_tiers(meta, au=ruled_au(0.25)))}
 sel, mu = CONF[CFG]; wnode = np.load('res-smooth/wnode_df.npy'); assert len(wnode) == len(common) == 84, (len(wnode), len(common))
 p = np.array([PW.get(f, 1.0) for f in sel])
 print('loaded', round(time.time() - t0), 's; items', len(sel), flush=True)

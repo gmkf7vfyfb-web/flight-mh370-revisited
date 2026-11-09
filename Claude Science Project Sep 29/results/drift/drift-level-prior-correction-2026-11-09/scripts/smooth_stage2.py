@@ -66,7 +66,7 @@ def load_lm(cfg):
     return out['globcurrent'], out['glorys12'], Z[0]['lat'], len(fs)
 def curve_stats(f, inside):
     LB = np.where(inside, np.exp(f - f[inside].max()), 0.0); p = pi * LB; p = p / p.sum(); return LB, p
-CASES = [('Two ocean models', 'head', 'both'), ('GlobCurrent only', 'head', 'gc'), ('GLORYS12 only', 'head', 'gl'), ('No finds on Australian coasts (0.25)', 'au025', 'both'), ('Without Mossel Bay', 'butmb', 'both')]
+CASES = [('Two ocean models', 'head', 'both'), ('GlobCurrent only', 'head', 'gc'), ('GLORYS12 only', 'head', 'gl'), ('No finds on Australian coasts (0.25)', 'au025', 'both'), ('Without Mossel Bay', 'butmb', 'both'), ('No finds on Australian coasts (0.25), without Mossel Bay', 'au025nomb', 'both')]
 rows, curves, nodetab, halves = [], {'lat': la, 'core': pc, 'prior': pi}, [], []
 for name, cfg, which in CASES:
     lG, lY, lat, ns = load_lm(cfg); x = lat; inside = (la >= lat.min()) & (la <= lat.max())
