@@ -26,7 +26,14 @@ Per-environment log likelihood from 262,144 draws, Matérn 3/2 Gaussian process 
 | Without Mossel Bay | 32.9 (32.1–33.6) | 32.4 | 51 % | 0.8 |
 | No finds on Australian coasts (0.25), without Mossel Bay | 31.4 (30.8–32.0) | 31.3 | 63 % | 1.4 |
 
-Highest point of the curve: 29.5° S (0.109 per degree) with the item; 34.8° S (0.104) without it (5.3° south; median 2.9°, mean 2.1°). Description: moderate tension, not significant at 5 %.
+Highest point of the curve: 29.5° S (0.109 per degree) with the item; 34.8° S (0.104) without it (5.3° south; median 2.9°, mean 2.1°). Tension: quote ln S, p and σ only (no adjective; see the Mossel Bay section).
+
+## Mossel Bay item (README section 9)
+- Not ruled by Pete: the date, the identity weights and the tension wording. Earlier "Pete's ruling" labels were wrong. Pete's position: follow the evidence.
+- ATSB Update 2 gives the find date as 22 Mar 2016. 23 Dec 2015 is the date of a photograph supplied to the ATSB on 17 May 2016 (added by addendum 23 May 2016); the report does not say how the photograph was matched to the part or dated.
+- Date alternatives (drift alone, two ocean models): 23 Dec 2015 median 30.0° S, p 0.109; 22 Mar 2016 median 30.8° S, p 0.151; item excluded 32.9° S, p 0.407. Identity weights all 1 or 1 / 0.9 / 0.7: median 30.0 or 30.1° S (no effect).
+- The item alone prefers 30° S to 36° S by 6.7 : 1 (December) or 3.3 : 1 (March). The full drift likelihood prefers 30° S to 36° S by 2.4 : 1 (headline), 1.6 : 1 (March), 0.85 : 1 (item excluded): the drift likelihood is broad, so the highest point is unstable.
+- Tension: quote ln S, d, p and the dependence on the item; no adjective. A simulation-based calibration of p has not been done.
 
 ## Combined with the ruled core (two ocean models, headline)
 - One-dimensional (core × smoothed likelihood, 0.1° bins): median 35.7° S, mean 34.79° S, 18 % north of 33° S. Without Mossel Bay: median 36.1, mean 35.71, 7.5 %.
@@ -41,7 +48,7 @@ Highest point of the curve: 29.5° S (0.109 per degree) with the item; 34.8° S 
 ## Open items
 1. Detection-level prior in time (ramp, provisional): Pete's decision; first-order lever (about 1° on the combined mean). Headline Australian ratio: Pete's decision.
 2. Figure choice for the paper: reduced chart C with chart D beside it (recommended, not ruled).
-3. Mossel Bay: explanation (early date needs fast northern paths; late finds carry less latitude information) not yet checked against arrival-time distributions (needs the 8 GB arrivals file on deskstar).
+3. Mossel Bay model checks (README 9.5): arrival-time distribution by release latitude (8 GB arrivals file on deskstar); windage class of the item; Agulhas leakage and tail sampling; identity of the photographed object with Part No. 3 (original photograph and metadata); simulation-based calibration of the p-value. Date: Pete to follow the evidence, not rule.
 4. Ocean-sample error beyond the bootstrap; more ocean samples in the south; the headline has not been subset-tested.
 5. Pléiades and surface-search coverage test: needs the AMSA daily search polygons (ATSB 2017, Tables 13 and 14).
 6. Combined density for the other drift cases; second independent review of the new core input and the smoothing; Australian tiers as ramp offsets.

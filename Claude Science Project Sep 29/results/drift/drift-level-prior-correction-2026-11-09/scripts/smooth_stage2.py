@@ -66,8 +66,10 @@ def load_lm(cfg):
     return out['globcurrent'], out['glorys12'], Z[0]['lat'], len(fs)
 def curve_stats(f, inside):
     LB = np.where(inside, np.exp(f - f[inside].max()), 0.0); p = pi * LB; p = p / p.sum(); return LB, p
-CASES = [('Two ocean models', 'head', 'both'), ('GlobCurrent only', 'head', 'gc'), ('GLORYS12 only', 'head', 'gl'), ('No finds on Australian coasts (0.25)', 'au025', 'both'), ('Without Mossel Bay', 'butmb', 'both'), ('No finds on Australian coasts (0.25), without Mossel Bay', 'au025nomb', 'both')]
-rows, curves, nodetab, halves = [], {'lat': la, 'core': pc, 'prior': pi}, [], []
+CASES = [('Two ocean models', 'head', 'both'), ('GlobCurrent only', 'head', 'gc'), ('GLORYS12 only', 'head', 'gl'), ('No finds on Australian coasts (0.25)', 'au025', 'both'), ('Without Mossel Bay', 'butmb', 'both'), ('No finds on Australian coasts (0.25), without Mossel Bay', 'au025nomb', 'both'),
+         ('Mossel Bay at the ATSB find date (21-23 Mar 2016)', 'mar', 'both'), ('Mossel Bay arrival within 10 days of 23 Dec 2015', 'fresh10', 'both'),
+         ('Identity weights all 1', 'pw1', 'both'), ('Identity weights 1 / 0.9 / 0.7', 'pwlow', 'both')]
+F0 = {}; rows, curves, nodetab, halves = [], {'lat': la, 'core': pc, 'prior': pi}, [], []
 for name, cfg, which in CASES:
     lG, lY, lat, ns = load_lm(cfg); x = lat; inside = (la >= lat.min()) & (la <= lat.max())
     blocks = [np.arange(0, 16), np.arange(16, 32)]; valid = np.isfinite(lG)
@@ -81,6 +83,7 @@ for name, cfg, which in CASES:
     ul = np.unique(x); yr = np.array([np.log(np.mean(np.exp(y0[x == u] - y0.max()))) + y0.max() for u in ul]); fr = np.interp(la, ul, yr)
     def stat(f):
         LB, p = curve_stats(f, inside); return dict(**summ(p), **tension(np.where(inside, LB, 1e-300))), p
+    F0[name] = f0
     s0, p0 = stat(f0); sr, pr = stat(fr); sb = [stat(fb[b])[0] for b in range(B)]; pbs = np.array([curve_stats(fb[b], inside)[1] for b in range(B)])
     SB = pd.DataFrame(sb); pct = lambda c: np.nanpercentile(SB[c], [5, 50, 95])
     r = dict(case=name, config=cfg, models=which, seeds=ns, draws=16384 * ns, gp_amp=g['amp'], gp_length_deg=g['ell'], gp_nugget=g['tau'])
@@ -93,6 +96,13 @@ for name, cfg, which in CASES:
         idx = np.concatenate(hs); yh = comb(lnl(lG, idx), lnl(lY, idx), which); gh = fit_gp(x, yh, v * 2); fh = gh['mu'] + smoother(gh, x, la) @ (yh - gh['mu']); sh, ph = stat(fh)
         halves.append(dict(case=name, half=hn, gp_length_deg=gh['ell'], **{c: sh[c] for c in ('median', 'mean', 'N33', 'lnS', 'p', 'sigma')}, max_abs_density_diff_vs_full=float(np.abs(ph - p0).max() / p0.max())))
     print(name, {k: (round(v_, 3) if isinstance(v_, float) else v_) for k, v_ in r.items() if k in ('median', 'median_b05', 'median_b95', 'N33', 'lnS', 'p', 'p_b05', 'p_b95', 'gp_length_deg', 'gp_nugget', 'raw_median')}, flush=True)
+# date-uncertainty mixture for the Mossel Bay item: L = w L(23 Dec 2015) + (1 - w) L(ATSB find date, 21-23 Mar 2016), other items unchanged (point estimates, no bootstrap)
+mixrows = []
+for w in (0.0, 0.1, 0.25, 0.5, 0.75, 0.9, 1.0):
+    fD, fM = F0['Two ocean models'], F0['Mossel Bay at the ATSB find date (21-23 Mar 2016)']
+    f = fM if w == 0 else (fD if w == 1 else np.logaddexp(np.log(w) + fD, np.log(1 - w) + fM)); s_, p_ = stat(f)
+    mixrows.append(dict(w_photograph_date_correct=w, **{c: s_[c] for c in ('median', 'mean', 'N33', 'lnS', 'p', 'sigma', 'd')}, posterior_weight_on_dec=float(w * np.exp(np.logaddexp.reduce(np.log(pi[inside]) + fD[inside])) / (w * np.exp(np.logaddexp.reduce(np.log(pi[inside]) + fD[inside])) + (1 - w) * np.exp(np.logaddexp.reduce(np.log(pi[inside]) + fM[inside])))) if 0 < w < 1 else float(w)))
+pd.DataFrame(mixrows).to_csv(f'res-smooth/smoothed{SUF}-date-mixture.csv', index=False); print(pd.DataFrame(mixrows).round(3).to_string(index=False))
 T = pd.DataFrame(rows); T.to_csv(f'res-smooth/smoothed{SUF}-drift-alone-summary.csv', index=False); pd.DataFrame(halves).to_csv(f'res-smooth/smoothed{SUF}-split-halves.csv', index=False)
 pd.DataFrame(curves).to_csv(f'res-smooth/smoothed{SUF}-drift-alone-curves.csv', index=False); pd.concat(nodetab).to_csv(f'res-smooth/smoothed{SUF}-node-table.csv', index=False)
 print(pd.DataFrame(halves).round(3).to_string(index=False))

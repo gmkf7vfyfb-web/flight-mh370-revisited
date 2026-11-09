@@ -105,7 +105,9 @@ The 8 Nov statement that the earlier northward shifts were mostly that scatter d
 | Detection level prior | log-normal, σ 1, period medians 0.1 / 0.5 / 1 (/ 1) | Provisional, pre-registered in the module; not ruled |
 | Detection constant in time | Sensitivity only | Own choice |
 | Headline drift model | All WIO coasts, four periods, twelve identity-weighted items | Own choice (8 Nov), unchanged |
-| Mossel Bay date | 23 Dec 2015 (first beaching); March 2016 as sensitivity | Pete's ruling |
+| Mossel Bay date | Headline 23 Dec 2015 (date of the photograph supplied to the ATSB); alternative 22 Mar 2016 (ATSB find date); see section 9 | Not ruled. Own default, under review (corrected 9 Nov: earlier labelled "Pete's ruling" in error) |
+| Identity weights | 1 / 0.98 / 0.9 by official grade (0.7 for 'likely'), mixture with unrelated debris | Own choice (Pete's instruction was to use all graded items); no effect on the result, section 9 |
+| Description of tension | Statistic and p-value, no adjective | Own choice; not ruled (corrected 9 Nov), section 9 |
 | Australian coasts | Off unless stated | Pending Pete's ruling on the ratio |
 | Ocean models | GLORYS12V1 0.494 m + ERA5; GlobCurrent + ERA5; equal prior weight, likelihood average | Project convention |
 | Core | Run J, 00:19 data held out (D0) | Project convention |
@@ -234,3 +236,48 @@ because without that item the distribution is broad (density ratio 35° S : 30°
 3. The interrupted GlobCurrent run lasted about 32 minutes (start 01:03 UTC, power cycle about 01:35 UTC), not about 20.
 4. The six-seed range of the shift at 256 draws (+0.69° to +1.25°) has no saved table. `level-draw-convergence.csv` holds two seeds (+0.69°, +0.91°). The range is withdrawn.
 5. In the independent review report, the table row for 7 November, 16,384 draws has ln S −0.76 (CSV: −0.7646), not −0.77. The report text has not yet been corrected (see the closing note of 9 Nov).
+
+## 9. Mossel Bay item: evidence on the date, date alternatives, and corrected labels (9 Nov 2026, evening)
+
+### 9.1 Corrected labels
+1. Mossel Bay date. The earlier files called 23 Dec 2015 "Pete's ruling". That was wrong. On 7 Nov Pete pasted an external text and asked whether it was known. He made no ruling. The statements "a March date is only a sensitivity" and "a short arrival-to-find delay is correct for this item" came from that text.
+   Pete's position (9 Nov): follow the evidence. This one item has a large effect on the peak, so either the date or the photograph is misleading, or the model is wrong.
+2. Identity weights. Pete instructed that all graded items are used. The weight values (1 / 0.98 / 0.9; 0.7 for 'likely') are my own choice and were untested. Pete made no ruling on them. Sensitivity is in 9.3.
+3. Description of tension. Pete asked whether 1.8 σ can be called "mild". The words "moderate" and "not significant at 5 %" were mine. The statistic is described in 9.4.
+
+### 9.2 What the primary documents say
+Source: ATSB Technical Examination Report AE-2014-054, Debris examination update 2 (12 May 2016; amended 24 May 2016 and 17 Aug 2017), local copy.
+- Page 1: "On 22 and 30 March 2016, two items of debris were independently found on beaches at Mossel Bay, South Africa and Rodrigues Island in Mauritius." The ATSB find date of the cowling segment (Part No. 3) is therefore 22 March 2016.
+- Page 1: on 17 May 2016 the ATSB "was provided with an earlier photograph of the item, taken on 23 December 2015". The addendum table records the inclusion of this text and photograph on 23 May 2016. The ATSB reads the photograph as showing the part "significantly colonised by barnacles at the time it arrived on the beach". Figure 3 is credited to Schalk Lückhoff.
+- The report does not say how the photographed object was matched to Part No. 3, or how the date of the photograph was verified. It does not state where the photograph was taken.
+- Page 1: after arrival in Australia "visible marine ecology was present on both parts". The ATSB therefore reports marine growth on the March find. Press accounts that the March find was bare are not ATSB statements.
+- Figure 3 (my reading of the image, no specialist assessment): the fragment lies flat and partly covered by sand. Part of a stencil (the serifs of an "R") is visible. A ring of barnacle shells lies along its edge. Whether this is the same fragment as in the March photograph (Figure 1) is not established by the report.
+
+### 9.3 Date alternatives and weight sensitivity (drift alone, two ocean models, ruled core; 16 seeds × 16,384 draws each)
+| Case | Median (° S, 5–95 %) | Mean | North of 33° S | ln S | p (5–95 %) | σ |
+|---|---|---|---|---|---|---|
+| Item dated 23 Dec 2015 (photograph date; headline) | 30.0 (29.6–30.4) | 30.3 | 74 % | −0.71 | 0.109 (0.093–0.126) | 1.6 |
+| Item dated 21–23 Mar 2016 (ATSB find date) | 30.8 (30.3–31.7) | 31.1 | 66 % | −0.34 | 0.151 (0.119–0.211) | 1.4 |
+| Item arrival within 10 days of 23 Dec 2015 | 30.8 (30.3–31.7) | 31.1 | 67 % | −0.39 | 0.151 (0.118–0.218) | 1.4 |
+| Item excluded | 32.9 (32.1–33.6) | 32.4 | 51 % | +0.16 | 0.407 (0.226–1.000) | 0.8 |
+| All identity weights 1 | 30.0 (29.5–30.4) | 30.3 | 74 % | −0.71 | 0.110 (0.090–0.135) | 1.6 |
+| Identity weights 1 / 0.9 / 0.7 | 30.1 (29.7–30.5) | 30.5 | 72 % | −0.60 | 0.118 (0.100–0.137) | 1.6 |
+
+The weights have no material effect. The date moves the median by 0.8° and the exclusion of the item by 2.9°: the date explains about a quarter of the effect of the item.
+Mixture over the two dates, L = w L(23 Dec 2015) + (1 − w) L(21–23 Mar 2016), other items unchanged (`tables/smoothed-date-mixture.csv`): median 30.0 (w = 1), 30.1 (0.9), 30.3 (0.75), 30.5 (0.5), 30.7 (0.25), 30.8 (0 and 0.1).
+The marginal likelihood of the March date is higher than that of the December date: at w = 0.5 the posterior weight on December is 0.32.
+
+### 9.4 What the item contributes, and the statistic for the tension
+- The item alone (identity weight 0.98, two ocean models, four seeds; `tables/mossel-bay-item-only-lnL-by-latitude.csv`): ln L(36° S) − ln L(30° S) = −1.9 (ratio 1 : 6.7) with the December date and −1.2 (1 : 3.3) with the March date. The preference for the north is soft and the same sign for both dates.
+- All twelve items (smoothed likelihood, 29–31° S against 35–37° S; `tables/drift-likelihood-ratio-30-vs-36S.csv`): likelihood ratio 2.4 : 1 (headline), 1.6 : 1 (March date), 0.85 : 1 (item excluded), 9.2 : 1 (GLORYS12 alone), 2.2 : 1 (GlobCurrent alone).
+  The drift likelihood is therefore broad. The highest point of the curve moves by 5.3° when the item is removed because the curve is nearly flat between 30° S and 36° S, not because the item is individually strong.
+- Statistic: suspiciousness ln S (Handley and Lemos 2019) with model dimension d (here 0.86). The reference is χ² with d degrees of freedom for d − 2 ln S. Headline: ln S = −0.71, p = 0.109 (bootstrap 5–95 %: 0.093–0.126). Under agreement of the two data sets, a conflict at least this large would arise in about 11 % of repeated experiments. The agreement is not rejected at the 5 % level.
+  Limits: the χ² reference is exact only for Gaussian posteriors, and these likelihoods are broad and truncated by the arc. d is estimated from the variance of ln L and is undefined in some variants. The p-value changes from 0.109 to 0.151 (March date) and 0.407 (item excluded), so one item determines it. A simulation-based calibration has not been done.
+  No descriptive adjective is justified by the statistic. Quote the statistic, its p-value and the dependence on the item.
+
+### 9.5 What has not been tested (model question)
+1. Arrival-time distribution at the Mossel Bay coast by release latitude, to show how often particles from 34–38° S arrive by day 655 and by day 745. Needs the 8 GB arrivals file on deskstar.
+2. Windage class of the item (a thin cowling segment; the run uses the generic exterior-panel class 1.2 ± 0.3 %). Needs a rescore from arrivals with another class.
+3. Representation of the Agulhas leakage and eddies at the ocean-model resolution, and the 6250 particles per class in the far tail.
+4. Identity of the photographed object with Part No. 3: original photograph with metadata, and comparison of the outline with the March find.
+5. Simulation-based calibration of the p-value (finds simulated from the drift model for impact latitudes drawn from the core).

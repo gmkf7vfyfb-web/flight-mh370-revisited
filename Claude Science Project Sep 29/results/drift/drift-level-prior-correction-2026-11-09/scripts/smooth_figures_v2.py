@@ -14,14 +14,15 @@ dens = lambda p: p / DX
 def stats(p):
     p = p / p.sum(); c = np.cumsum(p); q = lambda f: float(X[np.searchsorted(c, f)]); return dict(mean=float((p * X).sum()), median=q(.5), N33=100 * float(p[X >= -33].sum()))
 def combined(case): LB = np.where(pi > 0, C[case].values / pi, 0.0); p = pc * LB; return p / p.sum()
-CASE = {'head': 'Two ocean models', 'au': 'No finds on Australian coasts (0.25)', 'gc': 'GlobCurrent only', 'gl': 'GLORYS12 only', 'nomb': 'Without Mossel Bay', 'aunomb': 'No finds on Australian coasts (0.25), without Mossel Bay'}
+CASE = {'head': 'Two ocean models', 'au': 'No finds on Australian coasts (0.25)', 'gc': 'GlobCurrent only', 'gl': 'GLORYS12 only', 'nomb': 'Without Mossel Bay', 'aunomb': 'No finds on Australian coasts (0.25), without Mossel Bay', 'mar': 'Mossel Bay at the ATSB find date (21-23 Mar 2016)'}
 Y = {k: dens(C[v].values) for k, v in CASE.items()}; Y['core'] = dens(pc); Y['comb'] = dens(combined(CASE['head'])); Y['comb_nomb'] = dens(combined(CASE['nomb']))
 ST = {k: stats(Y[k] * DX) for k in Y}; sg = lambda k: float(S.loc[CASE[k], 'sigma']); sg5 = float(S.loc['Two ocean models', 'sigma_b05']); sg95 = float(S.loc['Two ocean models', 'sigma_b95'])
 LAB = {'core': 'Satellite and flight data only', 'head': 'Drift model standalone (two ocean models)', 'au': 'Two ocean models and no finds on Australian coasts', 'gc': 'Drift model: GlobCurrent only',
        'gl': 'Drift model: GLORYS12 only', 'nomb': 'Two ocean models excluding Mossel Bay item', 'aunomb': 'Two ocean models, no finds on Australian coasts, excluding Mossel Bay item', 'comb': 'Satellite and flight data combined with drift model (two ocean models)',
-       'comb_nomb': 'Combined, excluding Mossel Bay item'}
+       'comb_nomb': 'Combined, excluding Mossel Bay item', 'mar': 'Two ocean models, Mossel Bay item dated at the ATSB find date (22 March 2016)',
+       'head23': 'Two ocean models, Mossel Bay item dated at the photograph date (23 December 2015)'}
 LN = {'head': (dict(color='0.0', lw=2.0, ls='-'), '#C44E52'), 'au': (dict(color='0.0', lw=1.2, ls=':'), '#55A868'), 'gc': (dict(color='0.3', lw=1.1, ls='--'), '#4C72B0'),
-      'gl': (dict(color='0.3', lw=1.1, ls='-.'), '#8172B2'), 'nomb': (dict(color='0.5', lw=1.5, ls=(0, (8, 3))), '#DD8452'), 'aunomb': (dict(color='0.25', lw=1.5, ls=(0, (8, 2.5, 1.5, 2.5, 1.5, 2.5))), '#17BECF')}
+      'gl': (dict(color='0.3', lw=1.1, ls='-.'), '#8172B2'), 'nomb': (dict(color='0.5', lw=1.5, ls=(0, (8, 3))), '#DD8452'), 'aunomb': (dict(color='0.25', lw=1.5, ls=(0, (8, 2.5, 1.5, 2.5, 1.5, 2.5))), '#17BECF'), 'mar': (dict(color='0.2', lw=1.7, ls='-.'), '#8172B2')}
 CBC, CBC2 = '#8C564B', '#C7A087'
 def handles_core(ax, grey):
     ax.fill_between(-X, 0, Y['core'], color='0.86' if grey else '#d9d9d9', lw=0, zorder=0); ax.plot(-X, Y['core'], color='0.55', lw=0.6, zorder=1)
@@ -60,9 +61,14 @@ CAP['F'] = ("Probability density of the impact latitude on the 7th arc from the 
             f"Medians (degrees south): satellite and flight data {m('core'):.1f}; drift model {m('head'):.1f}; with no finds on Australian coasts {m('au'):.1f}; excluding Mossel Bay {m('nomb'):.1f}; "
             f"excluding Mossel Bay with no finds on Australian coasts {m('aunomb'):.1f}. "
             f"Disagreement with the satellite and flight data (standard deviations): {sg('head'):.1f}; {sg('au'):.1f}; {sg('nomb'):.1f}; {sg('aunomb'):.1f}.")
+CAP['G'] = ("Probability density of the impact latitude on the 7th arc from the drift model alone (twelve items, two ocean models with equal weight, prior uniform along the arc, smoothed along the arc), "
+            "for three treatments of the Mossel Bay engine cowling item, against the satellite communication and flight data (grey area; Davey model with the fuel model; no measurement at 00:19 used). "
+            "The Australian Transport Safety Bureau gives 22 March 2016 as the date on which the item was found; a photograph supplied to the Bureau in May 2016 is dated 23 December 2015. The absence of finds on Australian coasts is not used. "
+            f"Medians (degrees south): satellite and flight data {m('core'):.1f}; item dated 23 December 2015 {m('head'):.1f}; item dated 22 March 2016 {m('mar'):.1f}; item excluded {m('nomb'):.1f}. "
+            f"Disagreement with the satellite and flight data (standard deviations): {sg('head'):.1f}; {sg('mar'):.1f}; {sg('nomb'):.1f}.")
 CAP['E'] = BASE + "(a) Drift model with two ocean models, and with no finds on Australian coasts. (b) Drift model by ocean model, and excluding the Mossel Bay item. " + MEDS + TEN
 NOTE = ("Notes. Drift: GLORYS12V1 currents at 0.494 m with ERA5 wind; Copernicus GlobCurrent with ERA5 wind, wind factor reduced for built-in wind drift; 84 release points from 40.25 to 19.92 S; finds scored to 30 Jan 2017; "
-        "Mossel Bay dated at its first beaching (23 Dec 2015); detection levels log-normal (sigma 1) per coast and period, prior median 0.1 before 29 Jul 2015, 0.5 to 1 Mar 2016, then 1 (provisional); 262144 level draws; "
+        "Mossel Bay item dated 23 Dec 2015, the date of the photograph supplied to the ATSB, unless stated; detection levels log-normal (sigma 1) per coast and period, prior median 0.1 before 29 Jul 2015, 0.5 to 1 Mar 2016, then 1 (provisional); 262144 level draws; "
         "16 ocean samples (32 south of 33.25 S); items weighted by identification grade (1 / 0.98 / 0.9). Smoothing: Matern 3/2 Gaussian process, results unchanged for fixed length scales of 2, 4 and 8 degrees; "
         "0.1-degree latitude bins. Combined density: core x smoothed drift likelihood (one-dimensional, along the arc); the per-point reweighting of the two-dimensional core samples gives a shift of the mean of +1.43 degrees "
         "(eight draw seeds +1.17 to +1.68) against +%.2f here. Core: end of flight, Davey model + fuel, log-on event only. Provisional physics." % (ST['comb']['mean'] - ST['core']['mean']))
@@ -84,6 +90,9 @@ def mk(kind, grey):
         elif kind == 'F':
             for k in ('head', 'au', 'nomb', 'aunomb'): hs.append(handles_line(ax, k, grey))
             axes_cfg(ax, 0.50, hs, 5.8)
+        elif kind == 'G':
+            hs.append(handles_line(ax, 'head', grey, label=LAB['head23'])); hs.append(handles_line(ax, 'mar', grey)); hs.append(handles_line(ax, 'nomb', grey, label='Two ocean models excluding Mossel Bay item'))
+            axes_cfg(ax, 0.50, hs, 5.8)
         elif kind == 'C':
             hs.append(handles_line(ax, 'head', grey)); hs.append(handles_comb(ax, 'comb', grey)); axes_cfg(ax, 0.46, hs, 6.2)
         else:
@@ -94,11 +103,11 @@ def mk(kind, grey):
     if not grey:
         ttl = {'A': f'Drift model alone favours about {m("head"):.0f} degrees south; satellite and flight data about {m("core"):.0f}', 'B': f'Combined density: median {m("comb"):.1f} degrees south (satellite and flight data alone {m("core"):.1f})',
                'C': f'Combined density: median {m("comb"):.1f} degrees south (satellite and flight data alone {m("core"):.1f})', 'D': f'Excluding Mossel Bay moves the combined median from {m("comb"):.1f} to {m("comb_nomb"):.1f} degrees south',
-               'F': f'Excluding Mossel Bay: drift median {m("nomb") - m("head"):.1f} degrees south. Australian term: {m("head") - m("au"):.1f} to {m("nomb") - m("aunomb"):.1f} degrees north', 'E': f'Drift model alone favours about {m("head"):.0f} degrees south; satellite and flight data about {m("core"):.0f}'}[kind]
+               'G': f'Mossel Bay item at the ATSB find date: drift median {m("mar") - m("head"):.1f} degrees south; item excluded: {m("nomb") - m("head"):.1f}', 'F': f'Excluding Mossel Bay: drift median {m("nomb") - m("head"):.1f} degrees south. Australian term: {m("head") - m("au"):.1f} to {m("nomb") - m("aunomb"):.1f} degrees north', 'E': f'Drift model alone favours about {m("head"):.0f} degrees south; satellite and flight data about {m("core"):.0f}'}[kind]
         (f.suptitle(ttl, x=0.01, ha='left', fontsize=8) if kind == 'E' else ax_.set_title(ttl, loc='left', fontsize=8)); f.text(0.01, 0.01, '\n'.join(textwrap.wrap(NOTE, 170)), fontsize=5.2, va='bottom')
     return f
-NAMES = {'F': 'drift-with-and-without-mossel-bay-and-australian-finds', 'A': 'drift-standalone-and-satellite-flight-one-panel', 'B': 'drift-standalone-satellite-flight-and-combined-one-panel', 'C': 'satellite-flight-drift-standalone-and-combined-reduced',
+NAMES = {'G': 'drift-mossel-bay-find-date-alternatives', 'F': 'drift-with-and-without-mossel-bay-and-australian-finds', 'A': 'drift-standalone-and-satellite-flight-one-panel', 'B': 'drift-standalone-satellite-flight-and-combined-one-panel', 'C': 'satellite-flight-drift-standalone-and-combined-reduced',
          'D': 'combined-with-and-without-mossel-bay', 'E': 'drift-standalone-and-satellite-flight-two-panel'}
-for k in 'ABCDEF':
+for k in (os.environ.get('KINDS') or 'ABCDEFG'):
     for g in (False, True): finish(mk(k, g), NAMES[k] + '-2026-11-09', g, CAP[k])
 print({k: {a: round(b, 2) for a, b in v.items()} for k, v in ST.items()}); print(CAP['B'])
