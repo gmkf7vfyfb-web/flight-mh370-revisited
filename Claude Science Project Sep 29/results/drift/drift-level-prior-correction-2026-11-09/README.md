@@ -193,3 +193,18 @@ densities within 10–12 % of the peak of the full-data curve (`smoothed-split-h
 Limits. Smoothing removes scatter, not bias: ln of a mean over few heavy-tailed ocean samples is biased low where the spread is large (south), and 16/32 samples may not remove it.
 The bootstrap range is conditional on the smoothness assumption and on the samples drawn. The earlier statement that the tension is 1.5σ (8 seeds, ledger bins) is replaced by 1.6σ here.
 The combined (drift × core) shift of section 6 uses the per-point inverse-distance method, not this smoothing, and is unchanged (+1.43°, eight seeds +1.17° to +1.68°).
+
+## 8. Figure set with the requested legend wording and the combined density (9 Nov 2026)
+
+Script `smooth_figures_v2.py`. Combined density = satellite and flight density (final end of flight, Davey model + fuel, D0, 0.1° bins) × smoothed drift likelihood (headline, two ocean models), normalised.
+This is the one-dimensional product used in the tension statistic (p_AB = p_core × L_drift). Figures: A drift standalone curves with the satellite and flight data (legend wording as requested);
+B = A plus the combined density; C = satellite and flight data, drift standalone (two ocean models) and combined; D = combined with and without the Mossel Bay item; E = two-panel version of A.
+
+| Density | Mean (° S) | Median (° S) | North of 33° S |
+|---|---|---|---|
+| Satellite and flight data | 35.95 | 36.4 | 8.1 % |
+| Combined (two ocean models) | 34.79 | 35.7 | 18 % |
+| Combined, excluding Mossel Bay | 35.71 | 36.1 | 7.5 % |
+
+The shift of the mean from this smoothed one-dimensional product is +1.15° (+0.23° without Mossel Bay). The per-point reweighting of the two-dimensional core samples in section 6 gives +1.43° (eight draw seeds +1.17° to +1.68°),
+N of 33° S 23 %; the two methods differ by 0.28°, inside the seed range. The jagged outline of the combined curve north of 33° S is sampling noise in the core (few samples there), multiplied by the smooth drift likelihood.
