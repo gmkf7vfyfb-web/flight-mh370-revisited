@@ -1,0 +1,6 @@
+18:25 treatment,ln p (BFO sd 4.32 Hz),ln p (BFO sd 7 Hz),Reading
+Both bursts as recorded; no start-up offset,-349.2,-137.7,Fails. The R1200 is 130.6 Hz above the settled level (about 30 sigma).
+"Holland's offset added to both bursts, as he applies it at 00:19 (R1200 offset 17-130 Hz; R600 offset 0-6 Hz above that)",-240.4,-97.6,Fails. The model needs the R600 near 273-279 Hz; it reads 142 Hz.
+"Holland's own reading: R600 set aside as untrustworthy (any value in a 300 Hz window), offset on R1200",-11.2,-11.2,"Consistent, but 3.1 nat below the next row: the R600 lands within 0.4 Hz of the settled level, which a corrupted value would rarely do."
+R600 as recorded; Holland offset on R1200 only,-8.1,-8.6,"Best of the rows. But the R1200 needs 130.6 Hz, at the top of Holland's range, and that top was set by this same log-on."
+R600 as recorded; R1200 offset of any size from 0 to 300 Hz (no calibration from 18:25),-8.3,-8.8,"Only 0.16 nat below the row above, so Holland's range adds almost nothing at 18:25."

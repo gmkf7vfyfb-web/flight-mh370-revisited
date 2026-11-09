@@ -1,0 +1,62 @@
+{
+ "route_family": "Davey model + fuel",
+ "rows": 501102,
+ "treatments": {
+  "D13": "Nothing used after 00:11",
+  "D0": "Log-on event only (cause term, airborne at 00:19:37; no 00:19 measurement)",
+  "D7": "Both 00:19 timings (Davey)",
+  "D8": "Both timings + 00:19:29 frequency",
+  "D9": "Both timings + both frequencies as recorded",
+  "D10": "Both timings + both frequencies, Holland start-up offset (17 Hz floor)",
+  "D14": "Both timings + both frequencies, Holland start-up offset (zero floor)",
+  "D11": "Both timings + 00:19:29 frequency as recorded + offset on 00:19:37 only, 17 Hz floor (Ashton premise with Holland's acknowledge bounds)",
+  "D12": "Both timings + 00:19:29 frequency as recorded + offset on 00:19:37 only, zero floor (Ashton premise with Holland's acknowledge bounds)"
+ },
+ "columns": [
+  "latitude_deg",
+  "longitude_deg",
+  "arc_distance_nm_signed",
+  "impact_s_after_001929",
+  "kinetic_energy_j",
+  "vertical_kinetic_energy_j",
+  "mass_kg",
+  "flight_path_angle_deg_descent_positive",
+  "bank_deg",
+  "ground_track_deg",
+  "ground_speed_mps",
+  "reached_sea",
+  "max_mach",
+  "max_eas_kt",
+  "max_load_factor_g",
+  "min_load_factor_g",
+  "vertical_speed_001929_fpm",
+  "vertical_speed_001937_fpm",
+  "family_code",
+  "electrical_configuration_code",
+  "first_flameout_s_after_001929",
+  "final_flameout_s_after_001929",
+  "seed",
+  "arrested_dive",
+  "late_steep_ending"
+ ],
+ "family_codes": {
+  "1": "No pilot after fuel exhaustion",
+  "2": "Piloted after fuel exhaustion",
+  "3": "Planned descent"
+ },
+ "electrical_configuration_codes": {
+  "0": "mixture (planned descent, no draw)",
+  "1": "normal",
+  "2": "alternate"
+ },
+ "use": "Weights: w = exp(log_weight_<treatment>), normalise to sum 1. Every downstream module scores these same rows (composition rule 3).",
+ "caveats": [
+  "Impact energy, attitude and angle of the no-pilot dives come from the case-informed kernel; dives above about Mach 0.99 have no recorded transport precedent.",
+  "Piloted rows keep the engine trajectories; their impact attitude is the engine's.",
+  "Break-up is not applied; settling applies it.",
+  "Energy-transfer duration is not computed (declared absence).",
+  "Flight-path angle: ground-relative, positive in descent, from the kinetic energies. Speed: ground speed. Track: ground track. Bank: kernel or engine value; normal-configuration glides use the Boeing donor bank.",
+  "Impact energy of no-pilot alternate-configuration dives is at or above the top of the Boeing range; treat the 4 GJ label as a sensitivity.",
+  "Only headline-treatment weights are carried; variants need the per-seed component files (out/*.npz)."
+ ]
+}
