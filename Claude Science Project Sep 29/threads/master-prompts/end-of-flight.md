@@ -4,6 +4,13 @@
 > 2. Pete holds the right to use everything stored in the repo, the Google Drive and the project source folders. A publisher's access status is not a reason to avoid, discount or leave out a source.
 > 3. If a source cannot be fetched: search the artifact store (filenames can be raw DOIs, such as `art%3A10.1007%2F...pdf`), the repo papers folders on both branches, ~/Downloads and the Drive; then write exactly **"not retrieved — ask Pete"**, record where you searched in `results/source-access-ledger-2026-10-22.csv`, tell Pete, and carry on. Nothing is left out of an analysis or a note because of it.
 > 4. To use any other label of this kind, ask Pete first and wait for his answer. Caveats Pete has already required (for example "PREDICTIVE, NOT CALIBRATED", C1/C2, "digitised", chart footnotes, provenance records) stay as written.
+>
+> **STANDING RULE ON MEMORY (Pete, 9 Nov 2026). Applies to every agent, thread, track and sub-agent.**
+> Parallel launches on the Mac have crashed it twice (3-4 Nov, 8-9 Nov). Before launching more than one heavy job,
+> measure one job's peak memory and set the number of parallel jobs to floor((available - 10 GB) / peak), capped at
+> the core count; use `tools/memguard.py run` which does this and watches memory. `ps`/`pgrep`/`top` are blocked in
+> the sandbox and show zero processes: never use them to verify a launch. Use the processors fully, but never
+> overcommit memory. Details: `coordination/COMPUTE-RULES.md`.
 
 
 **Version 7.1, 13 October 2026** (7.1 adds only the expertise paragraph in §1, at Pete's instruction). **Version 7, 13 October 2026.** Revises version 4 of 7 October against the audit of run I and

@@ -1,3 +1,10 @@
+> **STANDING RULE ON MEMORY (Pete, 9 Nov 2026). Applies to every agent, thread, track and sub-agent.**
+> Parallel launches on the Mac have crashed it twice (3-4 Nov, 8-9 Nov). Before launching more than one heavy job,
+> measure one job's peak memory and set the number of parallel jobs to floor((available - 10 GB) / peak), capped at
+> the core count; use `tools/memguard.py run` which does this and watches memory. `ps`/`pgrep`/`top` are blocked in
+> the sandbox and show zero processes: never use them to verify a launch. Use the processors fully, but never
+> overcommit memory. Details: `coordination/COMPUTE-RULES.md`.
+
 # Architecture inbox
 
 Module sessions append here. Newest last.
