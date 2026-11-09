@@ -34,6 +34,9 @@ Highest point of the curve: 29.5° S (0.109 per degree) with the item; 34.8° S 
 - Date alternatives (drift alone, two ocean models): 23 Dec 2015 median 30.0° S, p 0.109; 22 Mar 2016 median 30.8° S, p 0.151; item excluded 32.9° S, p 0.407. Identity weights all 1 or 1 / 0.9 / 0.7: median 30.0 or 30.1° S (no effect).
 - The item alone prefers 30° S to 36° S by 6.7 : 1 (December) or 3.3 : 1 (March). The full drift likelihood prefers 30° S to 36° S by 2.4 : 1 (headline), 1.6 : 1 (March), 0.85 : 1 (item excluded): the drift likelihood is broad, so the highest point is unstable.
 - Tension: quote ln S, d, p and the dependence on the item; no adjective. A simulation-based calibration of p has not been done.
+- Logic of the date (README 10.1): ATSB and the Malaysian team both give 22 Mar 2016 as the date found; 23 Dec 2015 is a photograph that appears to show the same part. If the photograph is accepted, arrival is on or before 23 Dec 2015 and the March date has no role; the March case is the hypothesis that the photograph is not this item. Photograph accepted: median 30.0° S (delay 60 d), 30.8° S (barnacle mark).
+- Arrival timing from all 164.8 million stored beachings (README 10.2, validated against 35,851 module coefficients to 2.2e-8): the model predicts late arrival at Mossel Bay from every source latitude. Core-weighted, the probability that the predicted find date is as early as the cowling's is 0.04 (equal detection levels) or 0.02 (provisional ramp). The Paindane flap fairing is also early (0.07 / 0.03). Early arrivals come from the upper part of the sampled windage range; eddy diffusivity does not explain them.
+- The production run has no refloat (no beaching has a departure time).
 
 ## Combined with the ruled core (two ocean models, headline)
 - One-dimensional (core × smoothed likelihood, 0.1° bins): median 35.7° S, mean 34.79° S, 18 % north of 33° S. Without Mossel Bay: median 36.1, mean 35.71, 7.5 %.
@@ -48,7 +51,7 @@ Highest point of the curve: 29.5° S (0.109 per degree) with the item; 34.8° S 
 ## Open items
 1. Detection-level prior in time (ramp, provisional): Pete's decision; first-order lever (about 1° on the combined mean). Headline Australian ratio: Pete's decision.
 2. Figure choice for the paper: reduced chart C with chart D beside it (recommended, not ruled).
-3. Mossel Bay model checks (README 9.5): arrival-time distribution by release latitude (8 GB arrivals file on deskstar); windage class of the item; Agulhas leakage and tail sampling; identity of the photographed object with Part No. 3 (original photograph and metadata); simulation-based calibration of the p-value. Date: Pete to follow the evidence, not rule.
+3. Mossel Bay model checks (README 9.5, 10.4): arrival-time distribution done (10.2). Open: wide-windage class run (windage above the sampled range; needs a small module change and Pete's approval of the run time); explicit Stokes drift; Agulhas leakage and tail sampling; identity of the photographed object with Part No. 3 (original photograph and metadata); two-episode treatment (photograph and March find as two stays of one item, refloat on); simulation-based calibration of the p-value. Date: Pete follows the evidence and does not rule.
 4. Ocean-sample error beyond the bootstrap; more ocean samples in the south; the headline has not been subset-tested.
 5. Pléiades and surface-search coverage test: needs the AMSA daily search polygons (ATSB 2017, Tables 13 and 14).
 6. Combined density for the other drift cases; second independent review of the new core input and the smoothing; Australian tiers as ramp offsets.

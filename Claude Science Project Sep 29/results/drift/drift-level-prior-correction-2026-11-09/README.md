@@ -263,7 +263,7 @@ Source: ATSB Technical Examination Report AE-2014-054, Debris examination update
 | All identity weights 1 | 30.0 (29.5–30.4) | 30.3 | 74 % | −0.71 | 0.110 (0.090–0.135) | 1.6 |
 | Identity weights 1 / 0.9 / 0.7 | 30.1 (29.7–30.5) | 30.5 | 72 % | −0.60 | 0.118 (0.100–0.137) | 1.6 |
 
-The weights have no material effect. The date moves the median by 0.8° and the exclusion of the item by 2.9°: the date explains about a quarter of the effect of the item.
+The weights have no material effect. The date moves the median by 0.8° and the exclusion of the item by 2.9°. [Withdrawn 9 Nov, later: "the date explains about a quarter of the effect" mixed two hypotheses; see section 10.1. The March case is the hypothesis that the photograph does not show this item.]
 Mixture over the two dates, L = w L(23 Dec 2015) + (1 − w) L(21–23 Mar 2016), other items unchanged (`tables/smoothed-date-mixture.csv`): median 30.0 (w = 1), 30.1 (0.9), 30.3 (0.75), 30.5 (0.5), 30.7 (0.25), 30.8 (0 and 0.1).
 The marginal likelihood of the March date is higher than that of the December date: at w = 0.5 the posterior weight on December is 0.32.
 
@@ -281,3 +281,59 @@ The marginal likelihood of the March date is higher than that of the December da
 3. Representation of the Agulhas leakage and eddies at the ocean-model resolution, and the 6250 particles per class in the far tail.
 4. Identity of the photographed object with Part No. 3: original photograph with metadata, and comparison of the outline with the March find.
 5. Simulation-based calibration of the p-value (finds simulated from the drift model for impact latitudes drawn from the core).
+
+## 10. Mossel Bay item: logic of the date, arrival timing from the stored beachings, windage, literature (9 Nov 2026, night)
+
+### 10.1 The date: what follows if the photograph is accepted
+- Both official documents give 22 March 2016 as the date on which the item was found: ATSB Update 2 (page 1) and the Malaysian ICAO Annex 13 team's "Summary of possible MH370 debris recovered" (30 April 2017, Item 4, "Date found"). 23 December 2015 is the date of a photograph supplied to the ATSB on 17 May 2016.
+- The part in the photograph (ATSB Figure 3) appears to be the same part as the one in ATSB Figure 1 (my reading of the two images, after rotating Figure 1 by a half-turn): the same stencil letters (the serifs of the Rolls-Royce "R") and the same pale wedge with a notch beside them. The report itself does not state the match. I accept it as the most probable reading.
+- Logic. If the photograph shows this item and is dated correctly, the item was ashore on 23 December 2015 or earlier. The arrival date is then at most 23 December 2015, and the March date is only the date on which the item was handed in. No arrival date later than 23 December 2015 is consistent with the photograph. The ATSB reads the photograph as showing barnacle colonisation at the time of arrival; press reports describe the barnacles as decaying (not stated by the ATSB). Barnacles that were still on the part suggest an arrival not long before the photograph; days to a few weeks is my inference, not a figure from a source. Press reports in the text pasted on 7 Nov (not verified by me) say the part was left on the beach and found again in March; the Durgadoo footnote reads "first sighted Dec 2015, reported 22 Mar 2016" (as held in memory; not re-read this session).
+- Consequence. The March case of section 9.3 is not a second treatment of the same evidence. It is the hypothesis that the photograph does not show this item, or is wrongly dated. The statement in section 9.3 that "the date explains about a quarter of the effect" is withdrawn.
+  With the photograph accepted, the two treatments are: delay from arrival to discovery of mean 60 days (headline), median 30.0° S; and a barnacle mark (mean 8.6 days), median 30.8° S. Excluding the item gives 32.9° S.
+
+### 10.2 Arrival times from the stored beachings (deskstar job c2e050e4, 24 s on 12 processes)
+- Method: `scripts/arrivals_timing.py` re-computes the module's own find coefficient (recovery.rs: Gaussian kernel 50 km on the great-circle distance, exponential delay of mean 60 days, window of the find, arrival counted until the particle leaves the coast) from all 164.8 million stored beachings (83,404,391 GlobCurrent, 81,376,748 GLORYS12; 18 legs, 84 release points, 16 ocean samples and 32 south of 33.25° S), and writes the kernel-weighted arrival time in 5-day bins.
+- Validation: against `coefficients.jsonl` of the same legs, for the nine stringent finds, every release point and every ocean sample: 35,851 comparisons, largest relative difference 2.2e-8, and every coefficient that the module gives as zero is zero in the re-computation. The code was also checked on synthetic files against a plain transcription of the formula (difference 6e-16).
+- No refloat: none of the 164.8 million beachings has a departure time (every beaching is final in the production run).
+- Result for the Mossel Bay kernel (`tables/mossel-bay-timing-by-latitude-band.csv`, two ocean models equal weight):
+
+| Release latitude (° S) | Weight in the core | Kernel arrivals before day 655 (23 Dec 2015) | before day 745 (22 Mar 2016) | Median arrival day | P(find date this early), photograph, rising levels / equal levels | P, 22 Mar 2016, rising / equal |
+|---|---|---|---|---|---|---|
+| 36 to 40.25 | 0.544 | 2.6 % | 8.0 % | 951 | 0.006 / 0.011 | 0.037 / 0.058 |
+| 33 to 36 | 0.372 | 6.4 % | 13.8 % | 946 | 0.018 / 0.038 | 0.068 / 0.113 |
+| 30 to 33 | 0.035 | 14.1 % | 23.7 % | 915 | 0.047 / 0.099 | 0.125 / 0.213 |
+| 27 to 30 | 0.031 | 20.9 % | 31.1 % | 877 | 0.074 / 0.149 | 0.170 / 0.286 |
+| 24 to 27 | 0.015 | 27.3 % | 38.0 % | 835 | 0.102 / 0.212 | 0.209 / 0.354 |
+| 19.9 to 24 | 0.003 | 47.8 % | 57.6 % | 681 | 0.202 / 0.389 | 0.338 / 0.545 |
+
+  P is the probability that the model's date of discovery is not later than the observed date (delay of mean 60 days; "rising levels" = the provisional detection ramp; "equal levels" = no ramp). The arrival columns come from `tables/mossel-bay-timing-by-latitude-band.csv` (the median arrival day is the mass-weighted mean of the median of each release point); the P columns come from `tables/mossel-bay-pit-by-band-ramp-versus-flat.csv` (summed arrival histogram of the band).
+- Weighted by the satellite and flight data (ruled core), the model's date of discovery has a median of day 955 (equal levels; 962 with the ramp) and a 5 % quantile of day 665 (727 with the ramp). The cowling was found at day 655. For the photograph date P = 0.043 with equal levels and 0.020 with the ramp; with the barnacle mark 0.060 (equal levels) and 0.028 (ramp); for the March date 0.114 (equal levels) and 0.068 (ramp).
+- Over the whole South Africa south coast segment, the fraction of released particles that arrive by day 655 is 0.004 % (release 36 to 40° S), 0.019 % (33 to 36), 0.049 % (30 to 33), 0.08 % (27 to 30), 0.12 % (24 to 27), 0.21 % (20 to 24): `tables/coast-segment-arrival-fractions-by-band.csv`.
+
+### 10.3 Timing check of every find (`tables/timing-pit-ramp-versus-flat-levels.csv`)
+Same quantity, weighted by the core, for all twelve items (delay 60 days):
+
+| Find | Day of find | P, rising levels | P, equal levels |
+|---|---|---|---|
+| Réunion flaperon | 508 | 0.039 | 0.211 |
+| Mossel Bay engine cowling | 655 | 0.020 | 0.043 |
+| Paindane flap fairing | 659 | 0.028 | 0.070 |
+| Vilanculos stabiliser panel | 722 | 0.091 | 0.188 |
+| Rodrigues cabin panel | 753 | 0.637 | 0.846 |
+| Chidenguele fan cowling | 778 | 0.169 | 0.229 |
+| Mauritius flap | 794 | 0.411 | 0.545 |
+| Antsiraka cabin panel | 827 | 0.668 | 0.825 |
+| Pemba flap | 838 | 0.439 | 0.576 |
+| Linga Linga stabiliser | 902 | 0.618 | 0.652 |
+| Nautilus Bay aileron | 1021 | 0.763 | 0.774 |
+| Mpame flap fairing | 1056 | 0.986 | 0.987 |
+
+- The flaperon is early only because of the provisional ramp (0.04 with, 0.21 without). The cowling (0.02 / 0.04) and the Paindane flap fairing (0.03 / 0.07), both in the low-exposure class and found in December 2015, are early under both assumptions. The two interior-class items and the later low-exposure finds are not.
+- Limits: twelve values from shared release latitudes and ocean samples are not independent, so no combined p-value is quoted. Finds near the end of the window (Nautilus Bay, Mpame) are pushed towards 1 by the window end. The result depends on the delay model (mean 60 days) and on the kernel.
+
+### 10.4 Windage and other possible causes, tested on the stored arrivals (`tables/windage-of-mossel-bay-arrivals.csv`)
+- Windage draws in the run: GLORYS12 class mean 1.20 %, standard deviation 0.28 %, range 0.5 to 2.0 % (the assumed N(1.2 %, 0.3 %) truncated at 0.5 and 2 %). GlobCurrent (0 m current, which already carries part of the wind drift): extra windage after the product offset, mean 0.53 %, range 0 to 1.39 %.
+- Arrivals at Mossel Bay lean to the high-windage part of each range, and the earliest arrivals from southern release points lean more. Arrivals before day 655 from release points south of 33° S: mean 0.77 % (GlobCurrent; 0.24 percentage points above the class mean, 0.9 standard deviations) and 1.40 % (GLORYS12; 0.20 points above; 94 % of the mass above 1.0 %). The early arrivals come from the upper part of the sampled range, and the range stops at 2.0 % (GLORYS12) and 1.39 % (GlobCurrent).
+- Eddy diffusivity of the ocean sample does not explain early arrival: Spearman correlation between the sample's diffusivity and its early-arrival mass −0.39 (p 0.03) for GlobCurrent and +0.14 (p 0.43) for GLORYS12, no common sign.
+- The early-arrival mass differs between ocean samples by a factor of 4 (maximum over median) and by a factor of 31 (maximum over minimum): `tables/early-arrival-by-ocean-sample.csv`.
+- Not tested: windage above the sampled range (needs a new class; the module transports only classes that have a scored find); explicit Stokes drift; ocean-model bias in the Agulhas region; the number of particles in the early tail.
