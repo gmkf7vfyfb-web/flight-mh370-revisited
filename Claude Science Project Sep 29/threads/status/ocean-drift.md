@@ -1,7 +1,7 @@
-# Ocean drift: status (updated 9 November 2026, evening)
+# Ocean drift: status (updated 9 November 2026, night)
 
 Read after `threads/master-prompts/ocean-drift.md`. Replace entries when they change; history is in git and in `coordination/OCEAN_DRIFT.md`.
-Details: `results/drift/drift-level-prior-correction-2026-11-09/README.md` (sections 1 to 8b).
+Details: `results/drift/drift-level-prior-correction-2026-11-09/README.md` (sections 1 to 11) and `windage-wide-run-and-sbc-smoke-2026-11-09.md` (same folder).
 
 ## Current base
 - **Core (satellite and flight data): the ruled input** is the final 7 November end-of-flight Davey model with fuel, log-on event only (treatment D0, no 00:19 measurement):
@@ -13,6 +13,11 @@ Details: `results/drift/drift-level-prior-correction-2026-11-09/README.md` (sect
   The offline scorer now equals the module at all 84 points to 5e-7.
 - Level marginalisation: 16,384 draws per seed, 16 seeds (262,144 draws). The module default of 256 draws is too few. Saved two-seed check (`level-draw-convergence.csv`): shifts of +0.69° and +0.91° at 256 draws.
   The six-seed range quoted on 8 November has no saved table and is withdrawn.
+
+## Run in progress
+- **Wide-windage run** (Pete approved the design 9 Nov): deskstar job 27b6e292, started 9 Nov 2026 23:44 UTC, estimate 4 to 5 h (not 3 h). Exterior class only, `c_wind` log-normal median 1.2 %, σ(log) 0.5, truncated 0.3 to 5 %; 84 + 42 release points × 16 + 16 ocean samples, both ocean models.
+  Binary `bin-wide` (module option `restrict_to_classes`, default off; byte-identical to the previous binary on the smoke set). Output on deskstar `~/mh370/drift/coef/runs/wide-*`; log `runs/wide-chain.log`; resumable.
+  After the run: rescore the six stringent exterior items and the exterior shadows, combine with the production run for the flaperon and interior classes, rerun smoothing and tension; report Mossel Bay with and without the wide class.
 
 ## Smoothed drift alone (final method; headline model, Australia off, twelve identity-weighted items)
 Per-environment log likelihood from 262,144 draws, Matérn 3/2 Gaussian process (length scale at its 15° bound; fixed 2, 4 and 8° give the same answer), joint bootstrap over ocean samples (400), 0.1° latitude bins, arc prior from a cubic fit.
@@ -33,7 +38,7 @@ Highest point of the curve: 29.5° S (0.109 per degree) with the item; 34.8° S 
 - ATSB Update 2 gives the find date as 22 Mar 2016. 23 Dec 2015 is the date of a photograph supplied to the ATSB on 17 May 2016 (added by addendum 23 May 2016); the report does not say how the photograph was matched to the part or dated.
 - Date alternatives (drift alone, two ocean models): 23 Dec 2015 median 30.0° S, p 0.109; 22 Mar 2016 median 30.8° S, p 0.151; item excluded 32.9° S, p 0.407. Identity weights all 1 or 1 / 0.9 / 0.7: median 30.0 or 30.1° S (no effect).
 - The item alone prefers 30° S to 36° S by 6.7 : 1 (December) or 3.3 : 1 (March). The full drift likelihood prefers 30° S to 36° S by 2.4 : 1 (headline), 1.6 : 1 (March), 0.85 : 1 (item excluded): the drift likelihood is broad, so the highest point is unstable.
-- Tension: quote ln S, d, p and the dependence on the item; no adjective. A simulation-based calibration of p has not been done.
+- Tension: quote ln S, d, p and the dependence on the item; no adjective. Simulation-based calibration of p: smoke test only (Gaussian toy worlds: nominal p 0.1091 corresponds to a false-alarm rate of 0.10 to 0.18; code-path check, not evidence); not yet done with the real generator.
 - Logic of the date (README 10.1): ATSB and the Malaysian team both give 22 Mar 2016 as the date found; 23 Dec 2015 is a photograph that appears to show the same part. If the photograph is accepted, arrival is on or before 23 Dec 2015 and the March date has no role; the March case is the hypothesis that the photograph is not this item. Photograph accepted: median 30.0° S (delay 60 d), 30.8° S (barnacle mark).
 - Arrival timing from all 164.8 million stored beachings (README 10.2, validated against 35,851 module coefficients to 2.2e-8): the model predicts late arrival at Mossel Bay from every source latitude. Core-weighted, the probability that the predicted find date is as early as the cowling's is 0.04 (equal detection levels) or 0.02 (provisional ramp). The Paindane flap fairing is also early (0.07 / 0.03). Early arrivals come from the upper part of the sampled windage range; eddy diffusivity does not explain them.
 - The production run has no refloat (no beaching has a departure time).
@@ -51,10 +56,10 @@ Highest point of the curve: 29.5° S (0.109 per degree) with the item; 34.8° S 
 ## Open items
 1. Detection-level prior in time (ramp, provisional): Pete's decision; first-order lever (about 1° on the combined mean). Headline Australian ratio: Pete's decision.
 2. Figure choice for the paper: reduced chart C with chart D beside it (recommended, not ruled).
-3. Mossel Bay model checks (README 9.5, 10.4): arrival-time distribution done (10.2). Open: wide-windage class run (windage above the sampled range; needs a small module change and Pete's approval of the run time); explicit Stokes drift; Agulhas leakage and tail sampling; identity of the photographed object with Part No. 3 (original photograph and metadata); two-episode treatment (photograph and March find as two stays of one item, refloat on); simulation-based calibration of the p-value. Date: Pete follows the evidence and does not rule.
+3. Mossel Bay model checks (README 9.5, 10.4, 11): arrival-time distribution done (10.2); wide-windage class run launched (section 11). Open: its rescoring; sensitivity to the ocean-error length scale (50, 200 km) and σ; explicit Stokes drift; Agulhas leakage; effectiveness of the importance splitting in the tail; identity of the photographed object with Part No. 3 (original photograph and metadata); two-episode treatment (photograph and March find as two stays of one item, refloat on); simulation-based calibration of the p-value (smoke test done, README 11; real-generator test not built). Date: Pete follows the evidence and does not rule.
 4. Ocean-sample error beyond the bootstrap; more ocean samples in the south; the headline has not been subset-tested.
 5. Pléiades and surface-search coverage test: needs the AMSA daily search polygons (ATSB 2017, Tables 13 and 14).
 6. Combined density for the other drift cases; second independent review of the new core input and the smoothing; Australian tiers as ramp offsets.
-7. Nautilus Bay and Mpame identity basis; wide-windage class; Sandravinany and later finds (needs ocean and wind data after 31 Jan 2017).
+7. Nautilus Bay and Mpame identity basis; Sandravinany and later finds (needs ocean and wind data after 31 Jan 2017).
 8. Evidence-ledger and suspiciousness figures: recompute with these surfaces. Biofouling temperature term: needs per-particle temperature.
 9. Copy GlobCurrent to a third drive before 24 Nov 2026.
