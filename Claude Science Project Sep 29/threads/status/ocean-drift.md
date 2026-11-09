@@ -23,6 +23,10 @@ Read after `threads/master-prompts/ocean-drift.md`. Replace entries when they ch
 | GlobCurrent alone / GLORYS12 alone | +0.78° / +2.35° |
 | Satellite fit only (best χ² per band, uniform prior) | median −31.25°; Δχ² ≤ 2.5 from 37.75° to 23.75° S: the core's 36–38° S peak is prior volume and fuel |
 
+## Independent review 9 Nov (overrides the table above where they differ)
+- Combined shift about +0.9 ± 0.1° (eight draw seeds +0.75 to +1.09); tension about 1.6–2.0 σ (draws, mapping), 1.2–2.3 σ (ocean samples); drift-alone median robust at −30.1 to −30.5.
+- 'Prior volume' attribution and October agreement withdrawn; see the correction README section 5.
+
 ## Open items
 1. Drift-alone median: four-sample subsets of the nine-find, old-window configuration give 30.4–36.5° S; the headline is not yet subset-tested (possibly ±2°). Needs more ocean samples, or more particles per sample, in the north.
 2. Detection-level prior in time is a first-order lever (about 1° on the combined mean): state it as a provisional prior; consider a hierarchical period level.

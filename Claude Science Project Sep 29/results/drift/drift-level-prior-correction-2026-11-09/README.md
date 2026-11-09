@@ -112,3 +112,30 @@ The 8 Nov statement that the earlier northward shifts were mostly that scatter d
 | Satellite fit profile | Run J four families, best χ² per 0.5° band | Diagnostic only |
 | Tension statistics | Handley and Lemos (2019), ledger bins | Evidence-ledger method |
 | Physics | Provisional (windage classes, 60-day delay, kernel 50 km) | Provisional |
+
+## 5. Independent review (9 Nov 2026) — corrections that override sections 2–4
+
+Review report: reviewer artifact eb3de6fb (own scorer written from the Rust source; 84 points, both ocean models). Verdicts and corrections:
+
+- **C1 defect** — confirmed with qualification. The ramp 0.1 / 0.5 / 1 is the module's configured prior since 8 Oct 2026 (commit 4993171), but its
+  config comment marks it PROVISIONAL pending the architect's values. It is **not** a pre-registered prior; "pre-registered" refers to Australian option B.
+- **C2 scorer = module** — confirmed: max |deviation| 4.98e-7 (GlobCurrent), 4.90e-7 (GLORYS12), equal to the node-table rounding.
+- **C3 drift alone** — median robust (−30.1 to −30.5 over ten draw seeds); the share north of 33° S (73–86 %) and the tension are not.
+  Tension over draw seeds and curve-mapping choices: p 0.049–0.105 (about 1.6–2.0 σ); over disjoint ocean-sample quarters: median −29.1 to −31.6,
+  p 0.019–0.23 (about 1.2–2.3 σ). Quote as a range, provisional.
+- **C4 combined shift** — the seed-31 value +0.82° lies at the low end. Eight seeds at 16384 draws: +0.75° to +1.09° (mean +0.92°, SD 0.12);
+  65536 draws: +0.98°, +0.90°. Best estimate **about +0.9° ± 0.1° (level draws only; ocean-sample error not assessed)**. The 8 Nov statement that
+  16384 draws converge to 0.05° is wrong (effective draws per point median about 400, minimum 39). Detection constant in time: −0.13°.
+- **C5 satellite fit** — arithmetic confirmed; inference not sound. The posterior-to-profile ratio contains the Occam factor of the satellite likelihood
+  (width of the well-fitting region), not prior volume alone, and the fuel limit is physical. The "fit only" curve in section 3 was normalised within each
+  family; best χ² per band across families gives median −30.58° S, mean −29.73° S, 66 % north of 33° S. A marginal likelihood per band under an
+  alternative prior is needed before attributing the core's peak.
+- **C6 October agreement** — wrong as stated. Like-for-like (7 Nov run, same window, nine finds): drift-alone median −30.78 (256 draws) / −31.35
+  (16384 draws, one seed) against October −29.97; correlation per point 0.81 / 0.58. Section 2 compared October with a different configuration.
+- **C7 interpretation** — not supported as stated: "mild" and "agrees with most published drift studies" are withdrawn; the principal official drift
+  work (CSIRO) places the impact at 32.5–36° S, most likely 35.6° S. The result depends on unruled choices (provisional ramp, Australia off,
+  Nautilus Bay and Mpame identity basis 'unclear').
+- Further defects to fix: Australian ruled tiers are absolute and constant in time (section 1 said all tiers are ramp offsets; Australia rows differ by
+  0.4–1.0°); the tension table clips d ≤ 0 and then reports p ≈ 0 (5.35 / 5.47 σ) or p = 1 — such rows are undefined; the 1-D drift curve interpolates
+  over node latitude with 14 tied latitudes (on-arc and ±50 NM points), so results depend on tie order; the unrelated-debris background uses the core
+  posterior, so drift alone is not fully independent of the core; Nautilus Bay and Mpame each move the mean north (+0.13°, +0.22° singly).
