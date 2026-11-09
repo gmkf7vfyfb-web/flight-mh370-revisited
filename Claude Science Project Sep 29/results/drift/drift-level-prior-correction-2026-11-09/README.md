@@ -157,3 +157,39 @@ Eight level-draw seeds of 16384 (`drift-vs-three-cores-eight-seeds.csv`; impact 
 
 Drift alone is nearly unchanged (median −30.2 to −30.25 for all three; the core enters only through the unrelated-debris background).
 The 1-D drift curve now averages the on-arc and ±50 NM points at each latitude (no tie-order dependence). Ocean-sample error is not included.
+
+## 7. Smoothed drift-alone curves against the ruled core (9 Nov 2026)
+
+Method (scripts `smooth_stage1.py`, `smooth_stage2.py`, `smooth_figures.py`; table folder `tables/`):
+
+1. Stage 1: for each configuration (headline, Australia 0.25, without Mossel Bay) and each of 16 level-draw seeds of 16384 draws (262,144 draws in all),
+   the module-equivalent likelihood is reduced to one number per release point, ocean sample and ocean model: lm = ln mean over draws of exp(sum over items).
+   The drift log-likelihood at a point is ln mean over ocean samples of exp(lm). Check: equal to `rescore_analysis.score` to 3e-14 (seed 31, headline).
+   The unrelated-debris background uses the ruled core (final end of flight, Davey model + fuel, D0).
+2. Stage 2: a Gaussian process (Matérn 3/2, constant mean, amplitude, length scale and nugget by restricted marginal likelihood) smooths ln L along the arc.
+   Per-point noise is the bootstrap variance over ocean samples. The fitted length scale reaches its 15° limit and the nugget is about 0.3–0.5 ln units;
+   fixed length scales of 2, 4 and 8° give the same result (`smoothed-fixed-length-scale-sensitivity.csv`).
+3. Ocean-sample uncertainty: 400 bootstrap resamples of the ocean samples, the same samples at every release point and in both ocean models, because the
+   ocean-error realisation is common to all points (samples 1–16 at every point, 17–32 south of 33.25° S, resampled as two blocks). Each replicate is smoothed with the fitted hyperparameters.
+4. Grid: uniform 0.1° latitude bins, 40.25–19.9° S. The arc prior (uniform per unit arc length) is the derivative of a cubic fit to the ledger's equal-mass bin count against bin latitude.
+   A first run on the ledger's own bins gave jagged curves: the ledger bin latitudes are mass-weighted means over sparse core samples and jitter; that run is discarded.
+5. Tension statistic as in the ledger; p and σ are undefined (NaN) where the effective dimension d ≤ 0 (not occurring in these cases).
+
+Results (`smoothed-drift-alone-summary.csv`; medians in degrees south; 5–95 % from the bootstrap):
+
+| Case | Median (range) | North of 33° S | ln S | p | σ (range) |
+|---|---|---|---|---|---|
+| Two ocean models | 30.0 (29.6–30.4) | 74 % | −0.71 | 0.109 | 1.6 (1.5–1.7) |
+| GlobCurrent only | 30.0 (29.5–30.5) | 73 % | −0.63 | 0.112 | 1.6 (1.5–1.7) |
+| GLORYS12 only | 29.4 (29.1–29.6) | 89 % | −1.86 | 0.061 | 1.9 (1.8–1.9) |
+| Australia ratio 0.25 | 29.5 (29.1–29.8) | 80 % | −1.17 | 0.078 | 1.8 (1.7–1.8) |
+| Without Mossel Bay | 32.9 (32.1–33.6) | 51 % | +0.16 | 0.407 | 0.8 (0.0–1.2) |
+
+Satellite and flight data (final end of flight, Davey model + fuel, D0): median 36.4° S. Unsmoothed (tie-averaged) values for comparison: median 30.1° S, p 0.129.
+
+Checks of the smoothing: (a) split halves (even and odd ocean samples within each block) give medians 30.1° S and 29.8° S, p 0.104 and 0.113, and
+densities within 10–12 % of the peak of the full-data curve (`smoothed-split-halves.csv`); (b) fixed length scales 2/4/8° give median 30.0/29.9/30.0° S and p 0.119/0.116/0.112.
+
+Limits. Smoothing removes scatter, not bias: ln of a mean over few heavy-tailed ocean samples is biased low where the spread is large (south), and 16/32 samples may not remove it.
+The bootstrap range is conditional on the smoothness assumption and on the samples drawn. The earlier statement that the tension is 1.5σ (8 seeds, ledger bins) is replaced by 1.6σ here.
+The combined (drift × core) shift of section 6 uses the per-point inverse-distance method, not this smoothing, and is unchanged (+1.43°, eight seeds +1.17° to +1.68°).
