@@ -24,7 +24,7 @@ Read after `threads/master-prompts/ocean-drift.md`. Replace entries when they ch
 | Satellite fit only (best χ² per band, uniform prior) | median −31.25°; Δχ² ≤ 2.5 from 37.75° to 23.75° S: the core's 36–38° S peak is prior volume and fuel |
 
 ## Open items
-1. Drift-alone median is uncertain by about ±2° (four-sample subsets 30.4–36.5° S): more ocean samples, or more particles per sample, in the north.
+1. Drift-alone median: four-sample subsets of the nine-find, old-window configuration give 30.4–36.5° S; the headline is not yet subset-tested (possibly ±2°). Needs more ocean samples, or more particles per sample, in the north.
 2. Detection-level prior in time is a first-order lever (about 1° on the combined mean): state it as a provisional prior; consider a hierarchical period level.
 3. Ocean-model disagreement (GLORYS12 alone further north) and Mossel Bay leverage.
 4. Mossel Bay early arrival still under-predicted; wide exterior-panel windage needs a new particle run (separate wide-windage class).

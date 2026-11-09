@@ -49,8 +49,9 @@ Tension: Handley and Lemos (2019) statistics on the evidence-ledger bins, core =
 
 Release points span 40.25–19.92° S; the drift likelihood is not computed outside this span. The two-model curve is an average of likelihoods,
 so the ocean model that gives the finds the higher likelihood carries more weight; here the curve lies close to GlobCurrent.
-Monte Carlo: four-ocean-sample subsets of the same configuration give drift-alone medians from 30.4 to 36.5° S
-(`diag/drift-alone-four-environment-subsets.csv`); the drift-alone median is uncertain by about ±2° and the peaks at 35.7 and 30.7° S are point noise.
+Monte Carlo: in the nine-find, old-window configuration (finds to 30 Jun 2016), disjoint four-ocean-sample subsets give drift-alone medians
+from 30.4 to 36.5° S (`diag/drift-alone-four-environment-subsets.csv`). The headline configuration has not been subset-tested; by analogy its
+drift-alone median may be uncertain by about ±2°. The peaks at 35.7 and 30.7° S are point-to-point noise.
 
 ## 3. Why the core dominates: fit or prior volume?
 
