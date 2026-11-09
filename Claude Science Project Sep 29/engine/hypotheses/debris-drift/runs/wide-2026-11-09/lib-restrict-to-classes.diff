@@ -1,0 +1,36 @@
+--- /tmp/lib_orig.rs	2026-11-09 16:32:13
++++ /tmp/lib_new.rs	2026-11-09 16:32:13
+@@ -297,6 +297,11 @@
+     synthetic: Option<SyntheticParams>,
+     #[serde(default)]
+     date_overrides: Vec<DateOverride>,
++    /// Keep only the scored finds of the named classes (evidence mode). A class without a scored find is not
++    /// transported, so a run for one class costs about that class's share. Empty (default) keeps every class:
++    /// byte-identical. Shadow finds of a dropped class must be removed from the configuration.
++    #[serde(default)]
++    restrict_to_classes: Vec<String>,
+     /// Restrict release to these node indices (smoke tests); empty means every active node.
+     #[serde(default)]
+     node_subset: Vec<usize>,
+@@ -641,6 +646,9 @@
+             None => (r.discovery_start.clone(), r.discovery_end.clone()),
+         };
+         let class = p.classes.iter().position(|c| c.motion_classes.contains(&r.motion_class)).ok_or(format!("debris-drift: no class serves motion_class `{}`", r.motion_class))?;
++        if !p.restrict_to_classes.is_empty() && !p.restrict_to_classes.contains(&p.classes[class].name) {
++            continue;
++        }
+         let at = [r.longitude_deg, r.latitude_deg];
+         let segment = map.locate(at).ok_or(format!("debris-drift: find `{}` lies in no declared segment", r.object_id))?;
+         let (a, b) = (day_of(p.release_unix_s, &ds)?, day_of(p.release_unix_s, &de)? + 1.0);
+@@ -1228,6 +1236,11 @@
+     }
+     if p.classes.is_empty() || p.env_seeds.is_empty() {
+         return Err("debris-drift: need at least one object class and one environment realisation".into());
++    }
++    for n in &p.restrict_to_classes {
++        if !p.classes.iter().any(|c| &c.name == n) {
++            return Err(format!("debris-drift: restrict_to_classes names unknown class `{n}`"));
++        }
+     }
+     for c in &p.classes {
+         for d in [&c.a_stokes, &c.c_wind, &c.wind_angle_deg, &c.leeway_angle_deg, &c.leeway_speed_mps] {
