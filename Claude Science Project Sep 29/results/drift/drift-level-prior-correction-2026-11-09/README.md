@@ -227,3 +227,10 @@ N of 33° S 23 %; the two methods differ by 0.28°, inside the seed range. The j
 Position of the highest point: standalone 29.5° S (0.109 per degree; second maximum 34.0° S, 0.068); excluding Mossel Bay 34.8° S (0.104; the northern part becomes a plateau of 0.068 at 29.7° S);
 excluding Mossel Bay with the Australian term 34.3° S (0.101). The highest point therefore moves 5.3° south when the single item is removed, while the median moves 2.9° and the mean 2.1°,
 because without that item the distribution is broad (density ratio 35° S : 30° S is 1.52 without it and 0.57 with it). The Australian term moves the median north by 0.5° with the item and 1.5° without it.
+
+### 8b. Corrections to statements made in conversation (reviewer warnings, 9 Nov)
+1. The debris audit lists five South African items, not four. The fifth is the northern KwaZulu panel (unidentified; excluded).
+2. Pete's figure labels the core modes 37.2° S and 36.1° S. The statement of 37.4° S was wrong.
+3. The interrupted GlobCurrent run lasted about 32 minutes (start 01:03 UTC, power cycle about 01:35 UTC), not about 20.
+4. The six-seed range of the shift at 256 draws (+0.69° to +1.25°) has no saved table. `level-draw-convergence.csv` holds two seeds (+0.69°, +0.91°). The range is withdrawn.
+5. In the independent review report, the table row for 7 November, 16,384 draws has ln S −0.76 (CSV: −0.7646), not −0.77. The report text has not yet been corrected (see the closing note of 9 Nov).

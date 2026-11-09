@@ -1,39 +1,50 @@
-# Ocean drift: status (updated 9 November 2026)
+# Ocean drift: status (updated 9 November 2026, evening)
 
 Read after `threads/master-prompts/ocean-drift.md`. Replace entries when they change; history is in git and in `coordination/OCEAN_DRIFT.md`.
+Details: `results/drift/drift-level-prior-correction-2026-11-09/README.md` (sections 1 to 8b).
 
 ## Current base
-- Impact samples: core run J, end of flight run J, families pooled; 00:19 data held out unless stated.
-- Drift code: `hypothesis/debris-drift` at 6f75971 (adds `write_arrivals`, shadow finds with freshness marks, and the offline `rescore` entry; node tables byte-identical).
-- Drift run: 84 arc-latitude release points, both ocean models, 16 ocean samples (32 south of 33.25° S), finds window to 30 Jan 2017, every beaching stored (8.0 GB on deskstar).
-  Transport and coefficients: `results/drift/drift-extended-window-2026-11-08/` (valid). Scoring, tables and figures: `results/drift/drift-level-prior-correction-2026-11-09/`.
-- **9 Nov correction:** the 8 Nov offline rescoring used detection levels constant in time (a default in `rescore_cfg.meta_for`). The module prior
-  (period medians 0.1 / 0.5 / 1) is restored; the offline scorer now reproduces module ln L at all 84 points to 1e-6. All 8 Nov rescored numbers are superseded.
-- Level marginalisation: use 16,384 draws. The module default of 256 scatters the shift by up to about 0.6°.
+- **Core (satellite and flight data): the ruled input** is the final 7 November end-of-flight Davey model with fuel, log-on event only (treatment D0, no 00:19 measurement):
+  `end-of-flight/final-2026-11-07/results/eof-final-handoff-df.npz`. Median 36.4° S, mean 35.95° S, 8.1 % north of 33° S.
+  The evidence-combined Run J accumulator (99.87 % waypoint family) was used by mistake in all earlier drift work; it is now a sensitivity only (README section 6).
+- Drift code: `hypothesis/debris-drift` at 6f75971. Run: 84 arc-latitude release points, two ocean models, 16 ocean samples (32 south of 33.25° S), finds to 30 Jan 2017, 6250 particles per class.
+  Transport and coefficients: `results/drift/drift-extended-window-2026-11-08/`. Scoring, smoothing, tables and figures: `results/drift/drift-level-prior-correction-2026-11-09/`.
+- Detection prior in time (provisional, not pre-registered): period medians 0.1 / 0.5 / 1 / 1, log-normal sigma 1. The 8 November offline scoring used constant levels (defect, withdrawn).
+  The offline scorer now equals the module at all 84 points to 5e-7.
+- Level marginalisation: 16,384 draws per seed, 16 seeds (262,144 draws). The module default of 256 draws is too few. Saved two-seed check (`level-draw-convergence.csv`): shifts of +0.69° and +0.91° at 256 draws.
+  The six-seed range quoted on 8 November has no saved table and is withdrawn.
 
-## Headline numbers (two ocean models, 50 km kernel, 16,384 level draws)
-| Quantity | Value |
-|---|---|
-| Drift alone, uniform prior along the arc (headline) | median −30.29°, mean −30.57°, 5–95 % −36.37° to −25.15°, 75 % north of 33° S |
-| Drift alone vs core: ln R / ln S / p | −0.57 / −1.39 / 0.078 (1.8 σ) |
-| Shift of the core mean, headline (twelve identity-weighted items) | +0.82° (mean −35.90°, median −36.69°, north of 33° S 8.5 %) |
-| Same, detection constant in time (sensitivity; the 8 Nov defect) | −0.15° |
-| Mossel Bay alone; all but Mossel Bay; all but Mossel Bay and Paindane | +1.61°; +0.22°; −0.07° |
-| Headline and Australian non-finds, ratio 0.05 / 0.25 / 1 | +1.10° / +1.72° / +2.68° |
-| GlobCurrent alone / GLORYS12 alone | +0.78° / +2.35° |
-| Satellite fit only (best χ² per band, uniform prior) | median −31.25°; Δχ² ≤ 2.5 from 37.75° to 23.75° S: the core's 36–38° S peak is prior volume and fuel |
+## Smoothed drift alone (final method; headline model, Australia off, twelve identity-weighted items)
+Per-environment log likelihood from 262,144 draws, Matérn 3/2 Gaussian process (length scale at its 15° bound; fixed 2, 4 and 8° give the same answer), joint bootstrap over ocean samples (400), 0.1° latitude bins, arc prior from a cubic fit.
 
-## Independent review 9 Nov (overrides the table above where they differ)
-- Combined shift about +0.9 ± 0.1° (eight draw seeds +0.75 to +1.09); tension about 1.6–2.0 σ (draws, mapping), 1.2–2.3 σ (ocean samples); drift-alone median robust at −30.1 to −30.5.
-- 'Prior volume' attribution and October agreement withdrawn; see the correction README section 5.
+| Case | Median (° S, 5–95 %) | Mean | North of 33° S | Tension σ (5–95 %) |
+|---|---|---|---|---|
+| Two ocean models (headline) | 30.0 (29.6–30.4) | 30.3 | 74 % | 1.6 (1.5–1.7) |
+| GlobCurrent only | 30.0 | 30.4 | 73 % | 1.6 |
+| GLORYS12 only | 29.4 | 29.2 | 89 % | 1.9 |
+| No finds on Australian coasts (0.25) | 29.5 (29.1–29.8) | 29.7 | 80 % | 1.8 |
+| Without Mossel Bay | 32.9 (32.1–33.6) | 32.4 | 51 % | 0.8 |
+| No finds on Australian coasts (0.25), without Mossel Bay | 31.4 (30.8–32.0) | 31.3 | 63 % | 1.4 |
+
+Highest point of the curve: 29.5° S (0.109 per degree) with the item; 34.8° S (0.104) without it (5.3° south; median 2.9°, mean 2.1°). Description: moderate tension, not significant at 5 %.
+
+## Combined with the ruled core (two ocean models, headline)
+- One-dimensional (core × smoothed likelihood, 0.1° bins): median 35.7° S, mean 34.79° S, 18 % north of 33° S. Without Mossel Bay: median 36.1, mean 35.71, 7.5 %.
+- Per-point reweighting of the two-dimensional core samples (eight draw seeds): mean shift +1.43° (+1.17° to +1.68°), 23 % north of 33° S. Waypoint family final: +1.01°; evidence-combined: +0.91° (sensitivities).
+
+## Withdrawn or corrected
+- All 8 November rescored numbers, and the 9 November numbers on the evidence-combined core (+0.82° and others).
+- "Prior volume" attribution of the core peak (an Occam factor, not a prior-volume effect), and the October agreement. "Mild" tension and "agrees with the literature" are not supported (README section 5).
+- Reviewer warnings corrected 9 November: the debris audit lists five South African items (the fifth, the northern KwaZulu panel, is unidentified and excluded); Pete's figure labels the core modes 37.2° S and 36.1° S (not 37.4° S);
+  the interrupted GlobCurrent run lasted about 32 minutes (not 20).
 
 ## Open items
-1. Drift-alone median: four-sample subsets of the nine-find, old-window configuration give 30.4–36.5° S; the headline is not yet subset-tested (possibly ±2°). Needs more ocean samples, or more particles per sample, in the north.
-2. Detection-level prior in time is a first-order lever (about 1° on the combined mean): state it as a provisional prior; consider a hierarchical period level.
-3. Ocean-model disagreement (GLORYS12 alone further north) and Mossel Bay leverage.
-4. Mossel Bay early arrival still under-predicted; wide exterior-panel windage needs a new particle run (separate wide-windage class).
-5. Sandravinany and later finds need ocean and wind data after 31 Jan 2017 (GLORYS12, WAVERYS, ERA5) and a new run; GlobCurrent is already downloaded to 31 Dec 2018 (Mac and deskstar).
-6. Clean-item time-ashore model: delay-binned rescore (no new particles); fresh-arrival marks reduce the headline shift to +0.22° to +0.32°.
-7. Evidence-ledger and suspiciousness figures: recompute with these surfaces, the corrected prior and 16,384 draws.
-8. Headline Australian detection ratio: Pete's decision.
-9. Biofouling temperature term: needs per-particle temperature along paths (not stored).
+1. Detection-level prior in time (ramp, provisional): Pete's decision; first-order lever (about 1° on the combined mean). Headline Australian ratio: Pete's decision.
+2. Figure choice for the paper: reduced chart C with chart D beside it (recommended, not ruled).
+3. Mossel Bay: explanation (early date needs fast northern paths; late finds carry less latitude information) not yet checked against arrival-time distributions (needs the 8 GB arrivals file on deskstar).
+4. Ocean-sample error beyond the bootstrap; more ocean samples in the south; the headline has not been subset-tested.
+5. Pléiades and surface-search coverage test: needs the AMSA daily search polygons (ATSB 2017, Tables 13 and 14).
+6. Combined density for the other drift cases; second independent review of the new core input and the smoothing; Australian tiers as ramp offsets.
+7. Nautilus Bay and Mpame identity basis; wide-windage class; Sandravinany and later finds (needs ocean and wind data after 31 Jan 2017).
+8. Evidence-ledger and suspiciousness figures: recompute with these surfaces. Biofouling temperature term: needs per-particle temperature.
+9. Copy GlobCurrent to a third drive before 24 Nov 2026.
