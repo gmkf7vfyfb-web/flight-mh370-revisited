@@ -1,4 +1,4 @@
-# Ocean drift: status (updated 10 November 2026, morning)
+# Ocean drift: status (updated 10 November 2026, evening)
 
 Read after `threads/master-prompts/ocean-drift.md`. Replace entries when they change; history is in git and in `coordination/OCEAN_DRIFT.md`.
 Details: `results/drift/drift-level-prior-correction-2026-11-09/README.md` (sections 1 to 11) and `windage-wide-run-and-sbc-smoke-2026-11-09.md` (same folder).
@@ -18,10 +18,15 @@ Details: `results/drift/drift-level-prior-correction-2026-11-09/README.md` (sect
 - Exterior-class windage log-normal (median 1.2 %, σ(log) 0.5, truncated 0.3 to 5 %) instead of N(1.2 %, 0.3 %) truncated 0.5 to 2 %. Drift alone (two ocean models): median 33.2° S (was 30.0), 48 % north of 33° S (was 74 %); tension ln S +0.03, d 0.83, p 0.320 (1.0σ) (was p 0.109, 1.6σ). Combined with the core: median 35.9° S, mean 35.58° S, 7.7 % north of 33° S (core alone 36.4, 35.95, 8.1 %).
 - The tension depends on the windage prior (provisional, my choice). Early Mossel Bay arrivals come from windage near 2.5 %. Headline choice of windage prior: Pete's decision after the overnight runs.
 
+## Windage prior and the tension (10 Nov 2026; README sections 13 and 14)
+- Drift alone, two ocean models, by exterior-class windage prior (production N(1.2 %, 0.3 %) / wide log-normal median 1.2 % / higher log-normal median 2.4 %): median 30.0 / 33.2 / 34.6° S; north of 33° S 74 / 48 / 30 %; tension p 0.109 / 0.320 / 0.566. Combined with the core: north of 33° S 18.0 / 7.7 / 3.8 % (core alone 8.1 %).
+- The data prefer the higher prior (ln Z +5.2 against production; rough). Windage is the dominant nuisance parameter. Headline windage prior: Pete's decision; my recommendation is to infer the windage distribution from the stored particles and report all three priors.
+- Ocean-error length scale: 200 km raises early Mossel Bay arrivals by about 40 % (9.7 % to 13.9 % by day 655); 50 km no change; particle noise negligible.
+
 ## Run in progress
-- **Overnight chain** (job 6496b915; gate opened 05:00 UTC; run 0 started 05:08 UTC; about 13 h; approved by Pete): run 0 higher-windage scenario (exterior median 2.4 %, σ(log) 0.35; 84 + 42 points; 18 legs); run 1 ocean-error length scale 50 and 200 km (12 legs); run 2 particle-noise check, master seed 23 (4 legs); run 3 extra ocean samples, seeds 233–248, three classes (6 legs). Stops if free disk space is below 3 GB or two legs fail in a row; deletes nothing. Output `~/mh370/drift/coef/runs/{whigh2,whigh,wls50,wls200,wseed23,wide3}-*`; log `runs/overnight2-chain.log`.
-- **After each run:** rescore (`run_rescore_wide.sh` pattern; module rescorer), hybrid coefficients (`offline/build_hybrid.py`), smoothing (`smooth_stage1_wide.py`, `smooth_stage2_wide.py`), arrival tables (`arrivals_timing_wide.py`, `arrivals_analysis_wide.py`).
-- **Stokes drift:** implicit treatment kept (judgement, README section 12): WAVERYS gives 1.23 to 1.30 % of the 10 m wind, against 1.2 % assumed.
+- **Overnight chain** (job 6496b915): runs 0 to 2 finished (18 + 12 + 4 legs, all exit 0). Run 3 (extra ocean samples, seeds 233–248, three classes, 6 legs) is at leg 3 of 6 at 16:19 UTC; expected end about 17:45 UTC. Deskstar disk: 4.6 GB free at 16:19 UTC; the chain stops below 3 GB and deletes nothing.
+- **After run 3:** rescore (`cfgs/rescore-overnight/run3`), hybrid, smoothing with 48 ocean samples in the south.
+- **Stokes drift:** implicit treatment kept (README section 12).
 
 ## Smoothed drift alone (final method; headline model, Australia off, twelve identity-weighted items)
 Per-environment log likelihood from 262,144 draws, Matérn 3/2 Gaussian process (length scale at its 15° bound; fixed 2, 4 and 8° give the same answer), joint bootstrap over ocean samples (400), 0.1° latitude bins, arc prior from a cubic fit.
@@ -60,7 +65,7 @@ Highest point of the curve: 29.5° S (0.109 per degree) with the item; 34.8° S 
 ## Open items
 1. Detection-level prior in time (ramp, provisional): Pete's decision; first-order lever (about 1° on the combined mean). Headline Australian ratio: Pete's decision.
 2. Figure choice for the paper: reduced chart C with chart D beside it (recommended, not ruled).
-3. Mossel Bay model checks (README 9.5, 10.4, 11): arrival-time distribution done (10.2); wide-windage class run done (README 13). Open: higher-windage scenario (running first overnight); ocean-error length scale 50 and 200 km (queued); particle-noise check (queued); extra ocean samples (queued); effectiveness of the importance splitting in the tail; Agulhas leakage; identity of the photographed object with Part No. 3 (original photograph and metadata); two-episode treatment (photograph and March find as two stays of one item, refloat on); simulation-based calibration of the p-value (smoke test done, README 11; real-generator test not built). Date: Pete follows the evidence and does not rule.
+3. Mossel Bay model checks (README 9.5, 10.4, 11): arrival-time distribution done (10.2); wide-windage class run done (README 13). Open: inference of the windage distribution from the stored particles; length scale measured from drifter data; extra ocean samples (running); effectiveness of the importance splitting in the tail; Agulhas leakage; identity of the photographed object with Part No. 3 (original photograph and metadata); two-episode treatment (photograph and March find as two stays of one item, refloat on); simulation-based calibration of the p-value (smoke test done, README 11; real-generator test not built). Date: Pete follows the evidence and does not rule.
 4. Ocean-sample error beyond the bootstrap; more ocean samples in the south; the headline has not been subset-tested.
 5. Pléiades and surface-search coverage test: needs the AMSA daily search polygons (ATSB 2017, Tables 13 and 14).
 6. Combined density for the other drift cases; second independent review of the new core input and the smoothing; Australian tiers as ramp offsets.

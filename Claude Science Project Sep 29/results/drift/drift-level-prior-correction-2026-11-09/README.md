@@ -366,3 +366,12 @@ Full record: `wide-windage-results-2026-11-10.md` (same folder). Short form:
 - Combined with the core: median 35.9° S, mean 35.58° S, 7.7 % north of 33° S (core alone 36.4° S, 35.95° S, 8.1 %; earlier headline 35.7° S, 34.79° S, 18.0 %).
 - Early Mossel Bay arrivals now come from windage near 2.5 % (GLORYS12 leg: mean 2.63 %, 70 % of the mass above 2 %). Timing check: probability of a find date as early as observed 0.020 → 0.039 (Mossel Bay), 0.028 → 0.054 (Paindane); the two earliest finds stay in the lower tail.
 - Reading: the tension depends on the windage prior; with a prior that includes values above 2 %, drift and core agree. The prior is provisional. The higher-windage scenario, ocean-error length scale, particle-noise and extra-sample runs are running overnight (job 6496b915).
+
+## 14. Overnight runs: higher-windage scenario, ocean-error length scale, particle noise (10 Nov 2026)
+
+Full record: `overnight-results-2026-11-10.md` (same folder). Short form:
+
+- Higher-windage scenario (exterior class log-normal, median 2.4 %, σ(log) 0.35): drift alone median 34.6° S, 30 % north of 33° S; ln S +0.34, d 1.07, p 0.566 (0.6σ). Combined with the core: 36.1° S, mean 35.98° S, 3.8 % north of 33° S.
+- Tension against the windage prior: p = 0.109 (production N(1.2 %, 0.3 %)), 0.320 (wide), 0.566 (higher). The core-weighted marginal likelihood favours the higher prior (ln Z +5.2 against production, +3.0 against wide; rough). Mean timing PIT of eight exterior finds: 0.32, 0.36, 0.48 (0.5 expected).
+- Ocean-error length scale: 50 km no change; 200 km raises the early Mossel Bay arrival fraction from 9.7 % to 13.9 %. Particle noise (seed 23): negligible (-0.26 ± 0.31 points).
+- Reading: the exterior-class windage is the dominant nuisance parameter for the drift latitude and the tension. Run 3 (extra ocean samples) ends about 17:45 UTC. Next: infer the windage distribution from the stored particles, not choose it.
