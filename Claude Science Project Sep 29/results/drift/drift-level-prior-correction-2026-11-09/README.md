@@ -385,3 +385,14 @@ Full record: `fresh-arrival-marks-sensitivity-2026-11-10.md`; table `tables/fres
 - Drift alone, production windage prior, 3 seeds: flaperon mark alone moves the median from 30.1° S to 31.8–31.9° S (p 0.114 to 0.20–0.21), Mossel Bay mark alone to 30.9–31.0° S (p 0.159), Paindane 14 d alone to 30.8° S (p 0.144). All three marks: 33.5–33.6° S, p 0.41–0.46. Wide prior: 33.3° S to 34.6–34.8° S, p 0.33 to 0.61–0.62. Higher prior: 34.6° S to 35.4–35.5° S, p 0.57 to 0.67–0.76.
 - 3 d against 10 d for the flaperon makes no material difference. The ln Z differences are not evidence for the marks (the data differ between cases).
 - Recommendation: keep the 60-day delay in the headline until Pete decides; never use the Paindane mark in a headline; report the flaperon and Mossel Bay marks as an evidence-informed variant, decided together with the Mossel Bay date.
+
+## 16. Windage hyperparameters inferred from the stored particles; run 3 (10 Nov 2026)
+
+Full record: `windage-hyperparameter-inference-2026-11-10.md`; tables `tables/windage-hyperparameter-grid.csv`, `tables/windage-hyperparameter-posterior.csv`, `tables/wide-48-vs-32-samples.csv`. Short form:
+
+- Method: every particle of the wide run and of the higher-windage run is reweighted by its windage (importance sampling), rescored offline and scored with the headline configuration. Validated: production prior ln Z −182.87 (reweighted) against −182.82 (run), higher prior −177.74 against −177.65; identity weights reproduce the rescoring exactly.
+- The data prefer median windages of 2.4 to 3.6 % (maximum ln Z −177.0 at m = 3.0–3.6 %, σ 0.25–0.35); the production prior (1.2 %, σ 0.25) is disfavoured by about 5.5 ln units. σ is not constrained. Posterior geometric mean of m: 2.45 % (hyperprior bound 3.0 %), 2.87 % (3.6 %), 3.15 % (4.5 %).
+- With the hyperparameters marginalised: drift alone median 34.5–35.1° S, 24–31 % north of 33° S, tension p 0.65–0.75; combined with the core median 36.1–36.2° S, mean 35.99–36.14° S, 2.6–3.6 % north of 33° S (core alone 36.4° S, 35.95° S, 8.1 %). The tension is weak by construction (the windage floats).
+- The inferred windage is an effective windage (it absorbs missing transport); the replica trial of the cowling gives about 1.2 %.
+- Run 3 (48 ocean samples in the south), wide prior: median 33.2° S, 47.9 % north of 33° S, p 0.342 (32 samples: 33.2° S, 48.4 %, 0.320); ln Z −180.59 (−180.58).
+- Recommendation: hierarchical model with a stated hyperprior as the paper's windage treatment; the three fixed priors as sensitivity cases.
