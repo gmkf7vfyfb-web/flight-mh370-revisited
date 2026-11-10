@@ -25,7 +25,7 @@ Details: `results/drift/drift-level-prior-correction-2026-11-09/README.md` (sect
 
 ## Fresh-arrival marks (10 Nov 2026; README section 15)
 - The marks (flaperon 3/10 d, Mossel Bay 3/10 d, Paindane 14 d) are shadow finds, not in the headline (60-day delay for every find). The numbers of days are my choices; the evidence is qualitative (flaperon in the surf, Mossel Bay dying barnacles on 23 Dec 2015, Paindane waterlogged: weak).
-- Sensitivity (3 seeds, drift alone): all three marks move the median 3.3–3.5° south (production prior: 30.1° S to 33.5–33.6° S, p 0.114 to 0.41–0.46; wide 33.3 to 34.6–34.8° S; higher 34.6 to 35.4–35.5° S). Flaperon 3 d against 10 d: no material difference. Paindane alone: small (30.8° S, p 0.144).
+- Sensitivity (3 seeds, drift alone), all three marks together: production prior 30.1° S to 33.5–33.6° S (3.4–3.5° south), p 0.114 to 0.41–0.46; wide prior 33.3° S to 34.6–34.8° S (1.3–1.5° south), p 0.33 to 0.61–0.62; higher prior 34.6° S to 35.4–35.5° S (0.8–0.9° south), p 0.57 to 0.67–0.76. Flaperon 3 d against 10 d: no material difference. Paindane alone: small (30.8° S, p 0.144).
 - Open: other Paindane values (3, 7, 30 d) and a Mpame mark need a rescoring on deskstar after run 3. Decision for Pete: headline with or without evidence-based marks, together with the Mossel Bay date.
 
 ## Run in progress
