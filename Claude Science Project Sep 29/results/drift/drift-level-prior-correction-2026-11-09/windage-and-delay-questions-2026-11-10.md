@@ -44,6 +44,7 @@ How to test it without a new run: reweight the stored particles with an item-spe
 | Wide and higher priors | log-normal, medians 1.2 % and 2.4 % | My scenarios | Scenarios only |
 
 - Literature. CSIRO Part III uses 0 %, 1.2 % and 3 %. CSIRO Part I quotes earlier studies at 0–5 %. Jansen et al. (2016) use 0–2.5 % in steps of 0.5 % and weight the members by the data (as our hierarchical inference does). Nesterov (2018) gives a physical model: the leeway factor follows from the ratio of exposed to submerged area, with a log-normal area ratio (σ of the log ratio = 1) and a draught factor. DGA's flaperon model gives 2.8–3.3 %.
+- CSIRO's own later view (Griffin, 10 Aug 2018 web post "MH370 - drift analysis", one scanned page, file "V IMPORTANT GRIFFIN CSIRO AUG 2018.pdf" in the dissertation folder, read this turn): the African items are described as low-windage debris. The post lists, among its limitations, that drifters are not fit for modelling items at the surface (Stokes drift, wave forcing and wind forcing all differ) and that better Stokes-drift models and better treatment of an item's response to waves may change the picture. This supports a wider windage prior as a stated uncertainty. It gives no new windage value.
 - The CSIRO replica trial supports "close to drifters" in strong wind (15–25 kt). It has no barnacles, damage or waterlogging, and the weak-wind behaviour of Roy and the fairing was not tested in the open ocean.
 - The central value is defensible only as a drifter-equivalent for low-exposure items. The 0.5–2 % truncation is not defensible as a bound, because the data prefer 2.4–3.6 %.
 - Flat-plate physics (3.3 %, equal exposed and submerged area) did not match CSIRO's flaperon measurements. Treat any area-ratio prior with care.
@@ -104,6 +105,7 @@ Probability that the predicted find date is no later than observed (constant det
 
 - The best case (no delay at all) raises the probability by a factor of about 1.5. The change from the production to the wide windage prior raises it by about 2.
 - Calibration evidence on the time ashore: flaperon (carried out of the surf, hours), Mossel Bay on 23 Dec 2015 (dying barnacles, days), Mpame (seen floating the day before, under a day), Mauritius flap (about 14 days of storage before the report), Paindane (weak), Madagascar hand-ins (months). The rest is unknown. The documented cases are biased towards short times, because someone had to see the arrival.
+- CSIRO treats non-reporting explicitly (Griffin, 10 Aug 2018): for crash sites north of 33° S, arrivals before December 2015 would have to remain undiscovered, and the post says the required non-reporting interval is longest (more than a year) for sites between 23° S and 21° S. For sites south of 24° S, it reports that the 10th percentile of the modelled beaching date is no more than 6 months before the earliest find. The post also states that the dates of first arrival on African shores are uncertain and that it is unclear whether items came ashore unnoticed in 2015. This agrees with our delay model in principle (a delay between arrival and discovery exists and is unknown). It gives no calibrated delay distribution.
 - Recommendation: replace the global 60-day delay by an evidence class for each item: fresh (3–10 d) for the flaperon, Mossel Bay and Mpame; unknown (60 d, or a 30 d and 90 d mixture) for the rest; months for items held by finders. This needs offline rescoring only, no new run.
 
 ## 7. CSIRO windage classes and citations
@@ -114,6 +116,8 @@ CSIRO does not define formal classes. It uses these values:
 - Windage factors of 0 %, 1.2 % and 3 %: deep-drafted items, items floating flat at the surface, items with substantial wind exposure. Part III, section 3.1, printed p. 8. Part IV uses 1.2 % and 3 % ("low" and "high").
 - Flaperon: 1.2 % plus an extra 10 cm/s, 10–20° left of the wind. Part II, sections 2.3 and 3.
 - Earlier studies: 0–5 %. Part I, printed p. 2.
+
+- Later CSIRO statement (Griffin, D., 10 August 2018, "MH370 - drift analysis", web post; the cached copy is a single scanned page): the debris on African shores is called low-windage debris; the flaperon is the item for which drift tests exist. I found no new windage class in it.
 
 Citations:
 - Griffin, D.A., Oke, P.R. and Jones, E.M. (2016). The search for MH370 and ocean surface drift. CSIRO Oceans and Atmosphere, report EP167888, 8 Dec 2016, doi 10.4225/08/5892224dec08c (Part I).
