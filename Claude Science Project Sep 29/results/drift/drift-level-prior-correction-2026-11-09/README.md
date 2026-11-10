@@ -375,3 +375,13 @@ Full record: `overnight-results-2026-11-10.md` (same folder). Short form:
 - Tension against the windage prior: p = 0.109 (production N(1.2 %, 0.3 %)), 0.320 (wide), 0.566 (higher). The core-weighted marginal likelihood favours the higher prior (ln Z +5.2 against production, +3.0 against wide; rough). Mean timing PIT of eight exterior finds: 0.32, 0.36, 0.48 (0.5 expected).
 - Ocean-error length scale: 50 km no change; 200 km raises the early Mossel Bay arrival fraction from 9.7 % to 13.9 %. Particle noise (seed 23): negligible (-0.26 ± 0.31 points).
 - Reading: the exterior-class windage is the dominant nuisance parameter for the drift latitude and the tension. Run 3 (extra ocean samples) ends about 17:45 UTC. Next: infer the windage distribution from the stored particles, not choose it.
+
+## 15. Fresh-arrival marks: evidence and sensitivity (10 Nov 2026)
+
+Full record: `fresh-arrival-marks-sensitivity-2026-11-10.md`; table `tables/fresh-arrival-marks-sensitivity.csv`. Short form:
+
+- The marks (flaperon 3 d and 10 d, Mossel Bay 3 d and 10 d, Paindane 14 d) are shadow finds added on 7 Nov 2026. The headline does not use them (60-day exponential delay for every find).
+- Evidence: flaperon carried out of the surf; Mossel Bay cowling photographed on 23 Dec 2015 with dying barnacles; Paindane fairing waterlogged (weak, one inference). The numbers of days are my choices, not source values.
+- Drift alone, production windage prior, 3 seeds: flaperon mark alone moves the median from 30.1° S to 31.8–31.9° S (p 0.114 to 0.20–0.21), Mossel Bay mark alone to 30.9–31.0° S (p 0.159), Paindane 14 d alone to 30.8° S (p 0.144). All three marks: 33.5–33.6° S, p 0.41–0.46. Wide prior: 33.3° S to 34.6–34.8° S, p 0.33 to 0.61–0.62. Higher prior: 34.6° S to 35.4–35.5° S, p 0.57 to 0.67–0.76.
+- 3 d against 10 d for the flaperon makes no material difference. The ln Z differences are not evidence for the marks (the data differ between cases).
+- Recommendation: keep the 60-day delay in the headline until Pete decides; never use the Paindane mark in a headline; report the flaperon and Mossel Bay marks as an evidence-informed variant, decided together with the Mossel Bay date.

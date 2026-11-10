@@ -23,6 +23,11 @@ Details: `results/drift/drift-level-prior-correction-2026-11-09/README.md` (sect
 - The data prefer the higher prior (ln Z +5.2 against production; rough). Windage is the dominant nuisance parameter. Headline windage prior: Pete's decision; my recommendation is to infer the windage distribution from the stored particles and report all three priors.
 - Ocean-error length scale: 200 km raises early Mossel Bay arrivals by about 40 % (9.7 % to 13.9 % by day 655); 50 km no change; particle noise negligible.
 
+## Fresh-arrival marks (10 Nov 2026; README section 15)
+- The marks (flaperon 3/10 d, Mossel Bay 3/10 d, Paindane 14 d) are shadow finds, not in the headline (60-day delay for every find). The numbers of days are my choices; the evidence is qualitative (flaperon in the surf, Mossel Bay dying barnacles on 23 Dec 2015, Paindane waterlogged: weak).
+- Sensitivity (3 seeds, drift alone): all three marks move the median 3.3–3.5° south (production prior: 30.1° S to 33.5–33.6° S, p 0.114 to 0.41–0.46; wide 33.3 to 34.6–34.8° S; higher 34.6 to 35.4–35.5° S). Flaperon 3 d against 10 d: no material difference. Paindane alone: small (30.8° S, p 0.144).
+- Open: other Paindane values (3, 7, 30 d) and a Mpame mark need a rescoring on deskstar after run 3. Decision for Pete: headline with or without evidence-based marks, together with the Mossel Bay date.
+
 ## Run in progress
 - **Overnight chain** (job 6496b915): runs 0 to 2 finished (18 + 12 + 4 legs, all exit 0). Run 3 (extra ocean samples, seeds 233–248, three classes, 6 legs) is at leg 3 of 6 at 16:19 UTC; expected end about 17:45 UTC. Deskstar disk: 4.6 GB free at 16:19 UTC; the chain stops below 3 GB and deletes nothing.
 - **After run 3:** rescore (`cfgs/rescore-overnight/run3`), hybrid, smoothing with 48 ocean samples in the south.
