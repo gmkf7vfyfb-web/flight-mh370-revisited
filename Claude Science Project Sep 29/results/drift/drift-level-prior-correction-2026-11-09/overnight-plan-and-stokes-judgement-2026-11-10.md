@@ -17,7 +17,7 @@ Author: Claude Science (ocean drift thread). Pete approved all overnight stages 
 |---|---|---|---|
 | 27b6e292 | wide-windage chain (stage 2 in progress) | running | ends about 05:00 UTC |
 | ce85be22 | rescoring of the 18 wide legs (module rescorer, R3 configuration: 25 segments, 4 periods, bandwidths 50/25/100/200 km, 23 exterior finds and shadows), 6 processes | when `ALL-DONE` appears in `wide-chain.log` | 15 to 40 min (not measured) |
-| 6496b915 | overnight chain v2: 5 start-up tests, then run 0, run 1, run 2, run 3 (replaces job 5159a954, cancelled before it started) | same gate | about 13 h |
+| 6496b915 | overnight chain v2: 5 start-up tests, then run 0, run 1, run 2, run 3 (replaces job 5159a954, which was cancelled while it waited at its start gate; no leg had run) | same gate | about 13 h |
 
 Overnight chain: runs under the shared lock, one leg at a time. A leg with `nodes.csv` is skipped (resumable). It stops, and deletes nothing, if free disk space falls below 3 GB or two legs fail in a row. The four start-up tests (one node, two ocean samples, 100 particles each) must pass or the chain stops before any long leg.
 
