@@ -7,7 +7,7 @@
 - You are right about Paindane. The finder describes a waterlogged, heavy piece lying on the sand. This points to a recent beaching at the time of the find, not at the time of the report.
 - The three early finds (Mossel Bay, Paindane, Vilanculos) carry almost all of the evidence for higher windage. Together at 3.0 % they give 4.8 of the 5.6 ln units of the class-wide gain.
 - The two flap pieces (Mauritius, Pemba) prefer low windage. The exterior items do not share one windage level. A long right tail with most items near 1.2 % fits the data better than a shifted median.
-- Mossel Bay alone, in the fast attitude half of the time, gains 1.7 ln units. Paindane and Mpame together gain 1.8 to 2.7. Neither explains the tension alone.
+- Mossel Bay alone, with a 50 % chance of the fast attitude for the whole drift, gains 1.7 ln units. Paindane and Mpame together gain 1.8 to 2.7. Neither explains the tension alone.
 - The 8.6-day delay came from a 10-day "fresh" mark that I chose, combined with the 60-day delay. It is not a measured value.
 - The delay data are too sparse to fix the mean. Two items were found within 2 days and two within about 3 weeks of arrival, out of twelve. The mean is 6 to 52 days, depending on how often a fresh arrival goes undocumented.
 - The three widened log-normal targets (mean 1.2 %) were rescored. Their scoring was started, and the results were not read. See section 4.4.
@@ -115,22 +115,22 @@ Scenarios:
 | Mossel Bay, Paindane, Vilanculos at 3.0 % | 4.84 | 34.5 | 31.9 | 0.67 (0.50–0.94) | 36.1 / 35.93 | 3.8 |
 | Mossel Bay, Paindane, Vilanculos at 2.4 % | 4.24 | 34.0 | 39.7 | 0.55 (0.38–0.82) | 36.0 / 35.81 | 5.3 |
 | Those three and Mpame at 3.0 % | 5.24 | 34.5 | 30.4 | 0.59 (0.47–0.73) | 36.0 / 35.90 | 3.6 |
-| Mossel Bay, Paindane, Mpame: 50 % of the time at 3.0 % | 3.32 | 33.9 | 40.5 | 0.46 (0.33–0.56) | 35.9 / 35.66 | 5.6 |
+| Mossel Bay, Paindane, Mpame: 50 % chance of 3.0 % each | 3.32 | 33.9 | 40.5 | 0.46 (0.33–0.56) | 35.9 / 35.66 | 5.6 |
 | Paindane and Mpame at 3.0 % | 2.68 | 32.2 | 57.3 | 0.20 (0.13–0.29) | 35.7 / 35.28 | 10.2 |
-| Paindane and Mpame: 50 % of the time at 3.0 % | 1.81 | 31.8 | 60.8 | 0.17 (0.12–0.23) | 35.7 / 35.18 | 11.8 |
+| Paindane and Mpame: 50 % chance of 3.0 % each | 1.81 | 31.8 | 60.8 | 0.17 (0.12–0.23) | 35.7 / 35.18 | 11.8 |
 | Mossel Bay alone at 3.0 % | 2.28 | 32.1 | 58.4 | 0.19 (0.15–0.27) | 35.8 / 35.35 | 11.2 |
 | Mossel Bay alone at 2.4 % | 1.94 | 31.7 | 61.7 | 0.16 (0.13–0.22) | 35.7 / 35.19 | 12.8 |
-| Mossel Bay alone: 50 % of the time at 3.0 % | 1.69 | 32.1 | 58.5 | 0.19 (0.15–0.28) | 35.8 / 35.30 | 11.5 |
+| Mossel Bay alone: 50 % chance of 3.0 % | 1.69 | 32.1 | 58.5 | 0.19 (0.15–0.28) | 35.8 / 35.30 | 11.5 |
 | Paindane alone at 3.0 % | 1.69 | 31.6 | 62.0 | 0.15 (0.12–0.21) | 35.7 / 35.16 | 12.2 |
-| Paindane alone: 50 % of the time at 3.0 % | 1.19 | 31.5 | 63.7 | 0.15 (0.12–0.20) | 35.7 / 35.08 | 13.4 |
+| Paindane alone: 50 % chance of 3.0 % | 1.19 | 31.5 | 63.7 | 0.15 (0.12–0.20) | 35.7 / 35.08 | 13.4 |
 | All nine at 3.0 % except the three early finds | 0.15 | 32.7 | 53.9 | 0.22 (0.17–0.32) | 35.8 / 35.35 | 10.0 |
 | Production-equivalent (all at 1.2 %) | 0.0 | 30.3 | 76.3 | 0.10 (0.08–0.10) | 35.4 / 34.36 | 23.5 |
 
 - The production-equivalent case (wide-run particles reweighted to the production prior) gives a drift-alone median of 30.3° S and p = 0.095. The headline production run gives 30.1° S and p = 0.114. The difference comes from the 48-sample ocean ensemble of the wide run.
 - The three early finds give 87 % of the class-wide gain (4.84 of 5.57). Without them the other six items gain 0.15 in total. Chidenguele (+1.04), Mpame (+0.53), Nautilus Bay (+0.48) and Linga-Linga (+0.19) gain a little. Mauritius (−1.22) and Pemba (−0.73) lose. The three early finds alone gain +2.28 (Mossel Bay), +1.69 (Paindane) and +0.76 (Vilanculos).
-- Mossel Bay alone: a fast attitude for half of the time gives +1.69 (a fast median of 3.0 %) and p = 0.19. The tension stays at about the production value. Mossel Bay alone cannot remove the tension.
+- Mossel Bay alone: a 50 % chance of the fast attitude for the whole drift gives +1.69 (a fast median of 3.0 %) and p = 0.19. The tension stays at about the production value. Mossel Bay alone cannot remove the tension.
 - Paindane and Mpame together at 3.0 % give +2.68 and p = 0.20.
-- Mossel Bay, Paindane and Mpame, half the time at 3.0 %, give +3.32 and p = 0.46. This is the largest gain among the attitude-only hypotheses that I tested. It rests on the CSIRO fairing result for Paindane and Mpame. For the cowling the attitude evidence is weaker: CSIRO reports two stable orientations for the replica and no measured difference in drift.
+- Mossel Bay, Paindane and Mpame, each with a 50 % chance of 3.0 %, give +3.32 and p = 0.46. This is the largest gain among the attitude-only hypotheses that I tested. It rests on the CSIRO fairing result for Paindane and Mpame. For the cowling the attitude evidence is weaker: CSIRO reports two stable orientations for the replica and no measured difference in drift.
 - The gains are not strictly additive, because the detection level is shared between items. The sum of the single-item gains at 3.0 % is 5.02, against 5.57 for all items together.
 - Not run: the three widened log-normal targets with mean 1.2 % (sigma 0.85, 1.0, 1.2; medians 0.84, 0.73, 0.58 %). The reweighting and rescoring of the wide run on the deskstar finished without failure (73 s; the job log gives an effective sample size of 2,108 of 6,250 particles for the widest target). The Mac scoring of the three targets was started. I could not read its results, because the check on the log was not run. These results are not reported here.
 - Not run: the class-wide two-component mixture (fraction pi at 3.0 % or 2.4 %, rest at 1.2 %, for all nine exterior items). The scan of ten scenarios was not started, because the launch was not run.
@@ -230,7 +230,7 @@ Exponential delays for comparison (days):
 |---|---|---|
 | Item-specific windage targets | log-normal, sigma 0.35, medians 1.5, 1.9, 2.4, 3.0 %; mixtures with the production-equivalent target | my choice |
 | Fast attitude median | 3.0 % | my choice; not measured |
-| Time fraction x versus mixture | 50 % mixture used for "half of the time" | my choice (a persistent attitude); a time average would shift the median instead |
+| Attitude hypotheses | a mixture: 50 % chance that the item is in the fast attitude for the whole drift | my choice; a time average over the drift would shift the median instead (panel a) |
 | Draught-factor distribution (Nesterov) | uniform on [0, 1] | my assumption; not in the text I read |
 | Delay classes | A at most 2 d; B 2 to 21 d; C unknown | my choice |
 | Documentation probabilities | qA, qB: 1/1, 0.9/0.5, 0.7/0.3, 0.5/0.25 | my assumption; not measured |
