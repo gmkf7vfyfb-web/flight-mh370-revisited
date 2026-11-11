@@ -10,7 +10,7 @@
 - Mossel Bay alone, with a 50 % chance of the fast attitude for the whole drift, gains 1.7 ln units. Paindane and Mpame together gain 1.8 to 2.7. Neither explains the tension alone.
 - The 8.6-day delay came from a 10-day "fresh" mark that I chose, combined with the 60-day delay. It is not a measured value.
 - The delay data are too sparse to fix the mean. Two items were found within 2 days and two within about 3 weeks of arrival, out of twelve. The mean is 6 to 52 days, depending on how often a fresh arrival goes undocumented.
-- The three widened log-normal targets (mean 1.2 %) were rescored. Their scoring was started, and the results were not read. See section 4.4.
+- Widening a log-normal at a fixed 1.2 % mean gains about 2.0 to 2.1 ln units (sigma 0.85, 1.0 and 1.2) and then stops. The gain does not grow with sigma. It stays about 4 ln units below the best cell.
 - The class-wide two-component mixture scan was not started. See section 4.4.
 
 ## 1. What "Roy" is
@@ -132,7 +132,15 @@ Scenarios:
 - Paindane and Mpame together at 3.0 % give +2.68 and p = 0.20.
 - Mossel Bay, Paindane and Mpame, each with a 50 % chance of 3.0 %, give +3.32 and p = 0.46. This is the largest gain among the attitude-only hypotheses that I tested. It rests on the CSIRO fairing result for Paindane and Mpame. For the cowling the attitude evidence is weaker: CSIRO reports two stable orientations for the replica and no measured difference in drift.
 - The gains are not strictly additive, because the detection level is shared between items. The sum of the single-item gains at 3.0 % is 5.02, against 5.57 for all items together.
-- Not run: the three widened log-normal targets with mean 1.2 % (sigma 0.85, 1.0, 1.2; medians 0.84, 0.73, 0.58 %). The reweighting and rescoring of the wide run on the deskstar finished without failure (73 s; the job log gives an effective sample size of 2,108 of 6,250 particles for the widest target). The Mac scoring of the three targets was started. I could not read its results, because the check on the log was not run. These results are not reported here.
+- Widened log-normal targets with a mean of 1.2 % (medians 0.84, 0.73 and 0.58 %; truncated to 0.3–5 % by the particle set). Reweighting and rescoring on the deskstar finished without failure (73 s; effective sample size 2,108 of 6,250 particles for the widest target). Stage 1 scoring, four seeds, same method as above:
+
+| log standard deviation | ln Z | gain against production-equivalent (−182.91) |
+|---|---|---|
+| 0.85 | -180.92 | 1.99 |
+| 1.0 | -180.86 | 2.05 |
+| 1.2 | -180.82 | 2.09 |
+
+  The gain saturates at about 2.0 to 2.1, the value found for the earlier sigma 0.7 cell (−180.78). The best cell is −176.84. After truncation at 0.3 % the mean of these targets on the particle set is about 1.0 %, not 1.2 %. The smoothing and tension step (stage 2) was not run for these three targets.
 - Not run: the class-wide two-component mixture (fraction pi at 3.0 % or 2.4 %, rest at 1.2 %, for all nine exterior items). The scan of ten scenarios was not started, because the launch was not run.
 
 ### 4.5 Reading
@@ -246,4 +254,4 @@ Exponential delays for comparison (days):
 1. Paindane class. Shall I classify Paindane as class B (2 to 21 days) in the delay model? My recommendation is yes. The finder's account supports it, and the effect on the result is small.
 2. Delay model. Shall the headline use item-level evidence classes with a 20-day general mean, with 10 to 40 days as the sensitivity? My recommendation is yes. It matches the data better than 60 days and keeps the choice visible.
 3. Windage treatment. Shall the main treatment be a skewed, untruncated distribution with item-level heterogeneity (Form A), with the extra-leeway form (Form B) as a sensitivity run on a new particle run? My recommendation is yes. A new particle run is a later decision for you.
-4. Approval to read the results of the widened-target scoring and to run the class-wide mixture scan (about 20 minutes on the Mac, 8 GB per process). Both were not run in this turn, because the safety check on the commands did not run.
+4. Approval to run the class-wide mixture scan (about 20 minutes on the Mac, 8 GB per process). It was not started, because the safety check on the launch command did not run.
