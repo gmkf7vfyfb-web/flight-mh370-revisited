@@ -6,12 +6,12 @@
 - Nesterov (2018) gives windage as a function of the ratio of exposed to submerged area. His random model has a long upper tail. With my assumption on its draught factor, the median is 1.75 % and the 5–95 % range is 0.5–4.2 %.
 - You are right about Paindane. The finder describes a waterlogged, heavy piece lying on the sand. This points to a recent beaching at the time of the find, not at the time of the report.
 - The three early finds (Mossel Bay, Paindane, Vilanculos) carry almost all of the evidence for higher windage. Together at 3.0 % they give 4.8 of the 5.6 ln units of the class-wide gain.
-- The two flap pieces (Mauritius, Pemba) prefer low windage. The exterior items do not share one windage level. A long right tail with most items near 1.2 % fits the data better than a shifted median.
+- The two flap pieces (Mauritius, Pemba) prefer low windage. The exterior items do not share one windage level. A class-wide mixture with most items near 1.2 % and a few high scores lower than a high level for all items (section 4.4).
 - Mossel Bay alone, with a 50 % chance of the fast attitude for the whole drift, gains 1.7 ln units. Paindane and Mpame together gain 1.8 to 2.7. Neither explains the tension alone.
 - The 8.6-day delay came from a 10-day "fresh" mark that I chose, combined with the 60-day delay. It is not a measured value.
 - The delay data are too sparse to fix the mean. Two items were found within 2 days and two within about 3 weeks of arrival, out of twelve. The mean is 6 to 52 days, depending on how often a fresh arrival goes undocumented.
 - Widening a log-normal at a fixed 1.2 % mean gains about 2.0 to 2.1 ln units (sigma 0.85, 1.0 and 1.2) and then stops. The gain does not grow with sigma. It stays about 4 ln units below the best cell.
-- The class-wide two-component mixture scan was not started. See section 4.4.
+- The class-wide two-component mixture scan is done. The evidence rises with the fraction of fast items and is largest when all nine are fast (gain 5.04 at 0.8, 5.57 at 1.0). A few fast items among many low ones scores lower.
 
 ## 1. What "Roy" is
 
@@ -52,7 +52,7 @@
 
 - Your proposal is sound. Keep the 1.2 % centre for low-exposure items. Widen the distribution. Do not truncate it. Allow a right tail.
 - Stokes drift is part of the effective windage. It is in the wind-factor distribution and in any additional term (ruling D-b).
-- The data support a long right tail with heterogeneity between items. They do not support one common shifted median.
+- The data show heterogeneity between items: the early finds want high windage and the two flap pieces want low windage. An exchangeable two-component mixture does not describe this better than one high class-wide level.
 - A mean-1.2 % log-normal widened to sigma 0.7 gains about 2 ln units. The best cell of the grid gains about 6.1.
 
 ### 4.2 Structure I suggest
@@ -130,7 +130,7 @@ Scenarios:
 - The three early finds give 87 % of the class-wide gain (4.84 of 5.57). Without them the other six items gain 0.15 in total. Chidenguele (+1.04), Mpame (+0.53), Nautilus Bay (+0.48) and Linga-Linga (+0.19) gain a little. Mauritius (−1.22) and Pemba (−0.73) lose. The three early finds alone gain +2.28 (Mossel Bay), +1.69 (Paindane) and +0.76 (Vilanculos).
 - Mossel Bay alone: a 50 % chance of the fast attitude for the whole drift gives +1.69 (a fast median of 3.0 %) and p = 0.19. The tension stays at about the production value. Mossel Bay alone cannot remove the tension.
 - Paindane and Mpame together at 3.0 % give +2.68 and p = 0.20.
-- Mossel Bay, Paindane and Mpame, each with a 50 % chance of 3.0 %, give +3.32 and p = 0.46. This is the largest gain among the attitude-only hypotheses that I tested. It rests on the CSIRO fairing result for Paindane and Mpame. For the cowling the attitude evidence is weaker: CSIRO reports two stable orientations for the replica and no measured difference in drift.
+- Mossel Bay, Paindane and Mpame, each with a 50 % chance of 3.0 %, give +3.32 and p = 0.46. This is the largest gain among the attitude-only hypotheses that I tested. It rests on the CSIRO fairing result for Paindane and Mpame. For the cowling there is no attitude evidence: CSIRO states that all its replicas have two stable orientations but reports no attitude test for Roy. In the open ocean (4 Oct 2016) the Roy replica drifted slightly less than undrogued drifters, and the orientation is not stated.
 - The gains are not strictly additive, because the detection level is shared between items. The sum of the single-item gains at 3.0 % is 5.02, against 5.57 for all items together.
 - Widened log-normal targets with a mean of 1.2 % (medians 0.84, 0.73 and 0.58 %; truncated to 0.3–5 % by the particle set). Reweighting and rescoring on the deskstar finished without failure (73 s; effective sample size 2,108 of 6,250 particles for the widest target). Stage 1 scoring, four seeds, same method as above:
 
@@ -141,12 +141,26 @@ Scenarios:
 | 1.2 | -180.82 | 2.09 |
 
   The gain saturates at about 2.0 to 2.1, the value found for the earlier sigma 0.7 cell (−180.78). The best cell is −176.84. After truncation at 0.3 % the mean of these targets on the particle set is about 1.0 %, not 1.2 %. The smoothing and tension step (stage 2) was not run for these three targets.
-- Not run: the class-wide two-component mixture (fraction pi at 3.0 % or 2.4 %, rest at 1.2 %, for all nine exterior items). The scan of ten scenarios was not started, because the launch was not run.
+- Class-wide two-component mixture (done, four seeds): each of the nine exterior items is independently in the fast state with probability pi (fast median 3.0 % or 2.4 %, log standard deviation 0.35) and otherwise in the production-equivalent state.
+
+| pi | Gain in ln Z, fast = 3.0 % | Gain in ln Z, fast = 2.4 % |
+|---|---|---|
+| 0.1 | 1.35 | |
+| 0.2 | 2.26 | 2.04 |
+| 0.3 | 2.94 | |
+| 0.4 | 3.50 | 3.23 |
+| 0.5 | 3.96 | |
+| 0.6 | 4.37 | 4.07 |
+| 0.8 | 5.04 | |
+| 1.0 (all items fast) | 5.57 | 5.24 |
+
+  Drift alone for pi = 0.5 (fast 3.0 %): median 34.4° S, 32 % north of 33° S, tension p = 0.58 (0.47–0.66); with the core, median 36.0° S, mean 35.92° S, 3.5 % north of 33° S. For pi = 0.8: median 34.7° S, 27 % north, p = 0.64 (0.54–0.72); with the core, median 36.1° S, mean 36.05° S, 2.7 % north of 33° S. The evidence increases with pi and is largest at pi = 1. The data do not favour a small fraction of fast items.
+
 
 ### 4.5 Reading
 
 - The preference for high windage is item-specific. It appears for the early finds and reverses for the later flap pieces. A hierarchical model with item-level heterogeneity is the correct frame. The earlier class-level result (median 2.4 to 3.6 %) mixes two groups.
-- This weakens the argument for one shifted class-wide distribution. It supports a skewed distribution with a long right tail, or a two-component mixture, with most items near the drifter-equivalent 1.2 %.
+- The two-component mixture scan (section 4.4) shows that the evidence rises with the fraction of fast items and is largest when all items are fast. A model in which each item is independently fast with a probability below 0.8 scores below the class-wide level. The item-specific description (early finds high, flaps low) scores 4.84, about the same as a mixture with a fraction of 0.7. It was chosen after seeing the data, so it carries no extra weight.
 - A caution: with nine items and flexible item-level windage, the data can be fitted by many hypotheses. Each early item has a gain of 1 to 2.3 ln units, which is moderate evidence. A tension p of 0.46 to 0.70 in the scenarios that free the early items does not independently confirm windage. It shows that windage can absorb the early arrivals.
 - Alternatives that the same data cannot reject: shorter delay (small effect), nearshore transport, a source farther north on the arc, a different date for Mossel Bay.
 
@@ -239,6 +253,7 @@ Exponential delays for comparison (days):
 | Item-specific windage targets | log-normal, sigma 0.35, medians 1.5, 1.9, 2.4, 3.0 %; mixtures with the production-equivalent target | my choice |
 | Fast attitude median | 3.0 % | my choice; not measured |
 | Attitude hypotheses | a mixture: 50 % chance that the item is in the fast attitude for the whole drift | my choice; a time average over the drift would shift the median instead (panel a) |
+| Mixture fractions pi | 0.1 to 0.8; fast median 3.0 % or 2.4 %, log standard deviation 0.35 | my choice |
 | Draught-factor distribution (Nesterov) | uniform on [0, 1] | my assumption; not in the text I read |
 | Delay classes | A at most 2 d; B 2 to 21 d; C unknown | my choice |
 | Documentation probabilities | qA, qB: 1/1, 0.9/0.5, 0.7/0.3, 0.5/0.25 | my assumption; not measured |
@@ -254,4 +269,4 @@ Exponential delays for comparison (days):
 1. Paindane class. Shall I classify Paindane as class B (2 to 21 days) in the delay model? My recommendation is yes. The finder's account supports it, and the effect on the result is small.
 2. Delay model. Shall the headline use item-level evidence classes with a 20-day general mean, with 10 to 40 days as the sensitivity? My recommendation is yes. It matches the data better than 60 days and keeps the choice visible.
 3. Windage treatment. Shall the main treatment be a skewed, untruncated distribution with item-level heterogeneity (Form A), with the extra-leeway form (Form B) as a sensitivity run on a new particle run? My recommendation is yes. A new particle run is a later decision for you.
-4. Approval to run the class-wide mixture scan (about 20 minutes on the Mac, 8 GB per process). It was not started, because the safety check on the launch command did not run.
+4. None open on the mixture scan: you approved it and it is done (section 4.4).
